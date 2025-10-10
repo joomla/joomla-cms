@@ -52,7 +52,7 @@ class AdministratorService
 
             // Get the associated contact items
             $db    = Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select(
                     [
                         $db->quoteName('c.id'),
@@ -83,7 +83,7 @@ class AdministratorService
                 $content_languages = array_column($languages, 'lang_code');
 
                 foreach ($items as &$item) {
-                    if (in_array($item->lang_code, $content_languages)) {
+                    if (\in_array($item->lang_code, $content_languages)) {
                         $text    = $item->lang_code;
                         $url     = Route::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id);
                         $tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'

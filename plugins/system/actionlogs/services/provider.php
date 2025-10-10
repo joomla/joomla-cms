@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
@@ -17,7 +17,6 @@ use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\System\ActionLogs\Extension\ActionLogs;
 
 return new class () implements ServiceProviderInterface {
@@ -28,7 +27,7 @@ return new class () implements ServiceProviderInterface {
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function register(Container $container): void
     {
@@ -36,7 +35,6 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $plugin = new ActionLogs(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('system', 'actionlogs')
                 );
                 $plugin->setApplication(Factory::getApplication());

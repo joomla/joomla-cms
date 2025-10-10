@@ -15,7 +15,6 @@ use Joomla\CMS\Component\Router\RouterView;
 use Joomla\CMS\Component\Router\RouterViewConfiguration;
 use Joomla\CMS\Component\Router\Rules\MenuRules;
 use Joomla\CMS\Component\Router\Rules\NomenuRules;
-use Joomla\CMS\Component\Router\Rules\StandardRules;
 use Joomla\CMS\Menu\AbstractMenu;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -43,7 +42,37 @@ class Router extends RouterView
         parent::__construct($app, $menu);
 
         $this->attachRule(new MenuRules($this));
-        $this->attachRule(new StandardRules($this));
         $this->attachRule(new NomenuRules($this));
+    }
+
+    /**
+     * Build method for URLs
+     *
+     * @param   array  &$query  Array of query elements
+     *
+     * @return  array  Array of URL segments
+     *
+     * @since   5.2.4
+     */
+    public function build(&$query)
+    {
+        $segments = [];
+
+        // Process the parsed variables based on custom defined rules
+        foreach ($this->rules as $rule) {
+            $rule->build($query, $segments);
+        }
+
+        if (isset($query['Itemid'])) {
+            $item = $this->menu->getItem($query['Itemid']);
+
+            if ($query['option'] == 'com_finder' && isset($query['f'], $item->query['f']) && $query['f'] == $item->query['f']) {
+                unset($query['f']);
+            }
+        }
+
+        unset($query['view']);
+
+        return $segments;
     }
 }

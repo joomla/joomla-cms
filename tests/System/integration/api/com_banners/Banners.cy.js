@@ -9,6 +9,14 @@ describe('Test that banners API endpoint', () => {
         .should('include', 'automated test banner'));
   });
 
+  it('can deliver a single banner', () => {
+    cy.db_createBanner({ name: 'automated test banner' })
+      .then((banner) => cy.api_get(`/banners/${banner.id}`))
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
+        .its('name')
+        .should('include', 'automated test banner'));
+  });
+
   it('can create a banner', () => {
     cy.db_createCategory({ extension: 'com_banners' })
       .then((categoryId) => cy.api_post('/banners', {
@@ -30,7 +38,7 @@ describe('Test that banners API endpoint', () => {
 
   it('can update a banner', () => {
     cy.db_createBanner({ name: 'automated test banner' })
-      .then((id) => cy.api_patch(`/banners/${id}`, { name: 'updated automated test banner' }))
+      .then((banner) => cy.api_patch(`/banners/${banner.id}`, { name: 'updated automated test banner' }))
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
         .its('name')
         .should('include', 'updated automated test banner'));
@@ -38,6 +46,30 @@ describe('Test that banners API endpoint', () => {
 
   it('can delete a banner', () => {
     cy.db_createBanner({ name: 'automated test banner', state: -2 })
-      .then((id) => cy.api_delete(`/banners/${id}`));
+      .then((banner) => cy.api_delete(`/banners/${banner.id}`));
+  });
+
+  it('check correct response for delete a not existent contact', () => {
+     cy.api_delete('/banners/9999')
+      .then((result) => expect(result.status).to.eq(204));
+  });
+
+  it('cannot delete a banner that is not trashed', () => {
+    cy.db_createBanner({ name: 'automated test banner' })
+      .then((banner) => {
+        cy.api_getBearerToken().then((token) => {
+          cy.request({
+            method: 'DELETE',
+            url: `/api/index.php/v1/banners/${banner.id}`,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            failOnStatusCode: false
+          }).then((response) => {
+            expect(response.status).to.equal(409);
+            expect(response.body.data.message).to.include('must be trashed before it can be deleted');
+          });
+        });
+      });
   });
 });

@@ -15,6 +15,8 @@ use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
+use Joomla\CMS\Mail\MailerFactoryAwareInterface;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\MVC\Model\ModelInterface;
 use Joomla\CMS\Router\SiteRouterAwareInterface;
 use Joomla\CMS\Router\SiteRouterAwareTrait;
@@ -27,9 +29,11 @@ use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Input\Input;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -37,7 +41,7 @@ use Joomla\Input\Input;
  *
  * @since  3.10.0
  */
-class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, SiteRouterAwareInterface, UserFactoryAwareInterface
+class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, SiteRouterAwareInterface, UserFactoryAwareInterface, MailerFactoryAwareInterface
 {
     use FormFactoryAwareTrait;
     use DispatcherAwareTrait;
@@ -45,6 +49,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
     use SiteRouterAwareTrait;
     use CacheControllerFactoryAwareTrait;
     use UserFactoryAwareTrait;
+    use MailerFactoryAwareTrait;
 
     /**
      * The namespace to create the objects from.
@@ -55,16 +60,26 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
     private $namespace;
 
     /**
+     * The namespace to create the objects from.
+     *
+     * @var    LoggerInterface
+     * @since  4.0.0
+     */
+    private $logger;
+
+    /**
      * The namespace must be like:
      * Joomla\Component\Content
      *
-     * @param   string  $namespace  The namespace
+     * @param   string            $namespace  The namespace
+     * @param   ?LoggerInterface  $logger     A logging instance to inject into the controller if required
      *
      * @since   4.0.0
      */
-    public function __construct($namespace)
+    public function __construct($namespace, ?LoggerInterface $logger = null)
     {
         $this->namespace = $namespace;
+        $this->logger    = $logger;
     }
 
     /**
@@ -76,7 +91,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
      * @param   CMSApplicationInterface  $app     The app
      * @param   Input                    $input   The input
      *
-     * @return  \Joomla\CMS\MVC\Controller\ControllerInterface
+     * @return  \Joomla\CMS\MVC\Controller\ControllerInterface|null
      *
      * @since   3.10.0
      * @throws  \Exception
@@ -99,6 +114,11 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
         $this->setRouterOnObject($controller);
         $this->setCacheControllerOnObject($controller);
         $this->setUserFactoryOnObject($controller);
+        $this->setMailerFactoryOnObject($controller);
+
+        if ($controller instanceof LoggerAwareInterface && $this->logger !== null) {
+            $controller->setLogger($this->logger);
+        }
 
         return $controller;
     }
@@ -123,7 +143,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         if (!$prefix) {
             @trigger_error(
-                sprintf(
+                \sprintf(
                     'Calling %s() without a prefix is deprecated.',
                     __METHOD__
                 ),
@@ -145,12 +165,13 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
         $this->setRouterOnObject($model);
         $this->setCacheControllerOnObject($model);
         $this->setUserFactoryOnObject($model);
+        $this->setMailerFactoryOnObject($model);
 
         if ($model instanceof DatabaseAwareInterface) {
             try {
                 $model->setDatabase($this->getDatabase());
-            } catch (DatabaseNotFoundException $e) {
-                @trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+            } catch (DatabaseNotFoundException) {
+                @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
                 $model->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
             }
         }
@@ -180,7 +201,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         if (!$prefix) {
             @trigger_error(
-                sprintf(
+                \sprintf(
                     'Calling %s() without a prefix is deprecated.',
                     __METHOD__
                 ),
@@ -226,7 +247,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         if (!$prefix) {
             @trigger_error(
-                sprintf(
+                \sprintf(
                     'Calling %s() without a prefix is deprecated.',
                     __METHOD__
                 ),
@@ -245,8 +266,8 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $db = \array_key_exists('dbo', $config) ? $config['dbo'] : $this->getDatabase();
-        } catch (DatabaseNotFoundException $e) {
-            @trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+        } catch (DatabaseNotFoundException) {
+            @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
@@ -299,7 +320,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $object->setFormFactory($this->getFormFactory());
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             // Ignore it
         }
     }
@@ -321,7 +342,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $object->setDispatcher($this->getDispatcher());
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             // Ignore it
         }
     }
@@ -343,7 +364,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $object->setSiteRouter($this->getSiteRouter());
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             // Ignore it
         }
     }
@@ -365,7 +386,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $object->setCacheControllerFactory($this->getCacheControllerFactory());
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             // Ignore it
         }
     }
@@ -377,7 +398,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     private function setUserFactoryOnObject($object): void
     {
@@ -387,7 +408,29 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $object->setUserFactory($this->getUserFactory());
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
+            // Ignore it
+        }
+    }
+
+    /**
+     * Sets the internal mailer factory on the given object.
+     *
+     * @param   object  $object  The object
+     *
+     * @return  void
+     *
+     * @since   4.4.0
+     */
+    private function setMailerFactoryOnObject($object): void
+    {
+        if (!$object instanceof MailerFactoryAwareInterface) {
+            return;
+        }
+
+        try {
+            $object->setMailerFactory($this->getMailerFactory());
+        } catch (\UnexpectedValueException) {
             // Ignore it
         }
     }

@@ -11,8 +11,11 @@
 namespace Joomla\Component\Newsfeeds\Administrator\Helper;
 
 use Joomla\CMS\Association\AssociationExtensionHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Table\Category;
 use Joomla\CMS\Table\Table;
+use Joomla\Component\Newsfeeds\Administrator\Table\NewsfeedTable;
 use Joomla\Component\Newsfeeds\Site\Helper\AssociationHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -124,11 +127,11 @@ class AssociationsHelper extends AssociationExtensionHelper
 
         switch ($typeName) {
             case 'newsfeed':
-                $table = Table::getInstance('NewsfeedTable', 'Joomla\\Component\\Newsfeeds\\Administrator\\Table\\');
+                $table = new NewsfeedTable(Factory::getDbo());
                 break;
 
             case 'category':
-                $table = Table::getInstance('Category');
+                $table = new Category(Factory::getDbo());
                 break;
         }
 
@@ -158,7 +161,7 @@ class AssociationsHelper extends AssociationExtensionHelper
         $support = $this->getSupportTemplate();
         $title   = '';
 
-        if (in_array($typeName, $this->itemTypes)) {
+        if (\in_array($typeName, $this->itemTypes)) {
             switch ($typeName) {
                 case 'newsfeed':
                     $fields['title'] = 'a.name';

@@ -10,10 +10,12 @@
 
 namespace Joomla\Plugin\User\Profile\Extension;
 
-use Exception;
-use InvalidArgumentException;
 use Joomla\CMS\Date\Date;
-use Joomla\CMS\Form\Form;
+use Joomla\CMS\Event\Model\PrepareDataEvent;
+use Joomla\CMS\Event\Model\PrepareFormEvent;
+use Joomla\CMS\Event\User\AfterDeleteEvent;
+use Joomla\CMS\Event\User\AfterSaveEvent;
+use Joomla\CMS\Event\User\BeforeSaveEvent;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -21,6 +23,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -32,18 +35,9 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-final class Profile extends CMSPlugin
+final class Profile extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
-
-    /**
-     * Load the language file on instantiation.
-     *
-     * @var    boolean
-     *
-     * @since  3.1
-     */
-    protected $autoloadLanguage = true;
 
     /**
      * Date of birth.
@@ -55,29 +49,52 @@ final class Profile extends CMSPlugin
     private $date = '';
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   5.3.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onContentPrepareData' => 'onContentPrepareData',
+            'onContentPrepareForm' => 'onContentPrepareForm',
+            'onUserBeforeSave'     => 'onUserBeforeSave',
+            'onUserAfterSave'      => 'onUserAfterSave',
+            'onUserAfterDelete'    => 'onUserAfterDelete',
+        ];
+    }
+
+    /**
      * Runs on content preparation
      *
-     * @param   string  $context  The context for the data
-     * @param   object  $data     An object containing the data for the form.
+     * @param   PrepareDataEvent $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   1.6
      */
-    public function onContentPrepareData($context, $data)
+    public function onContentPrepareData(PrepareDataEvent $event)
     {
+        $context = $event->getContext();
+        $data    = $event->getData();
+
         // Check we are manipulating a valid form.
-        if (!in_array($context, ['com_users.profile', 'com_users.user', 'com_users.registration'])) {
-            return true;
+        if (!\in_array($context, ['com_users.profile', 'com_users.user', 'com_users.registration'])) {
+            return;
         }
 
-        if (is_object($data)) {
+        // Load plugin language files
+        $this->loadLanguage();
+
+        if (\is_object($data)) {
             $userId = $data->id ?? 0;
 
             if (!isset($data->profile) && $userId > 0) {
                 // Load the profile data from the database.
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select(
                         [
                             $db->quoteName('profile_key'),
@@ -122,8 +139,6 @@ final class Profile extends CMSPlugin
                 HTMLHelper::register('users.dob', [__CLASS__, 'dob']);
             }
         }
-
-        return true;
     }
 
     /**
@@ -137,16 +152,16 @@ final class Profile extends CMSPlugin
     {
         if (empty($value)) {
             return HTMLHelper::_('users.value', $value);
-        } else {
-            // Convert website URL to utf8 for display
-            $value = PunycodeHelper::urlToUTF8(htmlspecialchars($value));
-
-            if (strpos($value, 'http') === 0) {
-                return '<a href="' . $value . '">' . $value . '</a>';
-            } else {
-                return '<a href="http://' . $value . '">' . $value . '</a>';
-            }
         }
+
+        // Convert website URL to utf8 for display
+        $value = htmlspecialchars(PunycodeHelper::urlToUTF8($value), ENT_QUOTES, 'UTF-8');
+
+        if (str_starts_with($value, 'http')) {
+            return '<a href="' . $value . '">' . $value . '</a>';
+        }
+
+        return '<a href="http://' . $value . '">' . $value . '</a>';
     }
 
     /**
@@ -160,9 +175,9 @@ final class Profile extends CMSPlugin
     {
         if (empty($value)) {
             return HTMLHelper::_('users.value', $value);
-        } else {
-            return HTMLHelper::_('date', $value, null, null);
         }
+
+        return HTMLHelper::_('date', $value, null, null);
     }
 
     /**
@@ -192,29 +207,32 @@ final class Profile extends CMSPlugin
     {
         if ($value) {
             return Text::_('JYES');
-        } else {
-            return Text::_('JNO');
         }
+
+        return Text::_('JNO');
     }
 
     /**
      * Adds additional fields to the user editing form
      *
-     * @param   Form   $form  The form to be altered.
-     * @param   mixed  $data  The associated data for the form.
+     * @param   PrepareFormEvent $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   1.6
      */
-    public function onContentPrepareForm(Form $form, $data)
+    public function onContentPrepareForm(PrepareFormEvent $event)
     {
+        $form = $event->getForm();
         // Check we are manipulating a valid form.
         $name = $form->getName();
 
-        if (!in_array($name, ['com_users.user', 'com_users.profile', 'com_users.registration'])) {
-            return true;
+        if (!\in_array($name, ['com_users.user', 'com_users.profile', 'com_users.registration'])) {
+            return;
         }
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         // Add the registration fields to the form.
         FormHelper::addFieldPrefix('Joomla\\Plugin\\User\\Profile\\Field');
@@ -283,40 +301,41 @@ final class Profile extends CMSPlugin
         // Drop the profile form entirely if there aren't any fields to display.
         $remainingfields = $form->getGroup('profile');
 
-        if (!count($remainingfields)) {
+        if (!\count($remainingfields)) {
             $form->removeGroup('profile');
         }
-
-        return true;
     }
 
     /**
      * Method is called before user data is stored in the database
      *
-     * @param   array    $user   Holds the old user data.
-     * @param   boolean  $isnew  True if a new user is stored.
-     * @param   array    $data   Holds the new user data.
+     * @param   BeforeSaveEvent $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   3.1
-     * @throws  InvalidArgumentException on invalid date.
+     * @throws  \InvalidArgumentException on invalid date.
      */
-    public function onUserBeforeSave($user, $isnew, $data)
+    public function onUserBeforeSave(BeforeSaveEvent $event)
     {
+        $data = $event->getData();
+
+        // Load plugin language files
+        $this->loadLanguage();
+
         // Check that the date is valid.
         if (!empty($data['profile']['dob'])) {
             try {
                 $date       = new Date($data['profile']['dob']);
                 $this->date = $date->format('Y-m-d H:i:s');
-            } catch (Exception $e) {
+            } catch (\Exception) {
                 // Throw an exception if date is not valid.
-                throw new InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
+                throw new \InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
             }
 
             if (Date::getInstance('now') < $date) {
                 // Throw an exception if dob is greater than now.
-                throw new InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_PROFILE_ERROR_INVALID_DOB_FUTURE_DATE'));
+                throw new \InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_PROFILE_ERROR_INVALID_DOB_FUTURE_DATE'));
             }
         }
 
@@ -327,27 +346,24 @@ final class Profile extends CMSPlugin
 
         // Check that the tos is checked.
         if ($task === 'register' && $tosEnabled && $option === 'com_users' && !$data['profile']['tos']) {
-            throw new InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
+            throw new \InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
         }
-
-        return true;
     }
 
     /**
      * Saves user profile data
      *
-     * @param   array    $data    entered user data
-     * @param   boolean  $isNew   true if this is a new user
-     * @param   boolean  $result  true if saving the user worked
-     * @param   string   $error   error message
+     * @param   AfterSaveEvent $event  The event instance.
      *
      * @return  void
      */
-    public function onUserAfterSave($data, $isNew, $result, $error): void
+    public function onUserAfterSave(AfterSaveEvent $event): void
     {
+        $data   = $event->getUser();
+        $result = $event->getSavingResult();
         $userId = ArrayHelper::getValue($data, 'id', 0, 'int');
 
-        if ($userId && $result && isset($data['profile']) && count($data['profile'])) {
+        if ($userId && $result && isset($data['profile']) && \count($data['profile'])) {
             $db = $this->getDatabase();
 
             // Sanitize the date
@@ -361,7 +377,7 @@ final class Profile extends CMSPlugin
                 $key = 'profile.' . $key;
             }
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__user_profiles'))
                 ->where($db->quoteName('user_id') . ' = :userid')
                 ->whereIn($db->quoteName('profile_key'), $keys, ParameterType::STRING)
@@ -382,7 +398,7 @@ final class Profile extends CMSPlugin
                 ->insert($db->quoteName('#__user_profiles'));
 
             foreach ($data['profile'] as $k => $v) {
-                while (in_array($order, $usedOrdering)) {
+                while (\in_array($order, $usedOrdering)) {
                     $order++;
                 }
 
@@ -417,14 +433,15 @@ final class Profile extends CMSPlugin
      *
      * Method is called after user data is deleted from the database
      *
-     * @param   array    $user     Holds the user data
-     * @param   boolean  $success  True if user was successfully stored in the database
-     * @param   string   $msg      Message
+     * @param   AfterDeleteEvent $event  The event instance.
      *
      * @return  void
      */
-    public function onUserAfterDelete($user, $success, $msg): void
+    public function onUserAfterDelete(AfterDeleteEvent $event): void
     {
+        $user    = $event->getUser();
+        $success = $event->getDeletingResult();
+
         if (!$success) {
             return;
         }
@@ -433,7 +450,7 @@ final class Profile extends CMSPlugin
 
         if ($userId) {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__user_profiles'))
                 ->where($db->quoteName('user_id') . ' = :userid')
                 ->where($db->quoteName('profile_key') . ' LIKE ' . $db->quote('profile.%'))

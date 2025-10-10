@@ -38,7 +38,7 @@ class UsersLatestHelper implements DatabaseAwareInterface
      *
      * @return  array  The array of users
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function getLatestUsers(Registry $params, SiteApplication $app): array
     {
@@ -46,7 +46,7 @@ class UsersLatestHelper implements DatabaseAwareInterface
         $db   = $this->getDatabase();
         $user = $app->getIdentity();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['a.id', 'a.name', 'a.username', 'a.registerDate']))
             ->order($db->quoteName('a.registerDate') . ' DESC')
             ->from($db->quoteName('#__users', 'a'));
@@ -69,7 +69,7 @@ class UsersLatestHelper implements DatabaseAwareInterface
 
         try {
             return (array) $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
             return [];
@@ -85,7 +85,7 @@ class UsersLatestHelper implements DatabaseAwareInterface
      *
      * @since   1.6
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 6.0
      *             Use the non-static method getLatestUsers
      *             Example: Factory::getApplication()->bootModule('mod_users_latest', 'site')
      *                          ->getHelper('UsersLatestHelper')

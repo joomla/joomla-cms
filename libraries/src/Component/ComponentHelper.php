@@ -23,7 +23,7 @@ use Joomla\CMS\Profiler\Profiler;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -131,7 +131,7 @@ class ComponentHelper
         // Filter settings
         $config     = static::getParams('com_config');
         $user       = Factory::getUser();
-        $userGroups = Access::getGroupsByUser($user->get('id'));
+        $userGroups = Access::getGroupsByUser($user->id);
 
         $filters = $config->get('filters');
 
@@ -382,7 +382,7 @@ class ComponentHelper
     {
         $loader = function () {
             $db    = Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName(['extension_id', 'element', 'params', 'enabled'], ['id', 'option', null, null]))
                 ->from($db->quoteName('#__extensions'))
                 ->where(
@@ -408,7 +408,7 @@ class ComponentHelper
 
         try {
             static::$components = $cache->get($loader, [], __METHOD__);
-        } catch (CacheExceptionInterface $e) {
+        } catch (CacheExceptionInterface) {
             static::$components = $loader();
         }
 

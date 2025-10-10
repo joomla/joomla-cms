@@ -163,10 +163,6 @@ class DateTest extends UnitTestCase
         $this->assertSame('th', $date->ordinal);
         $this->assertSame('10', $date->week);
         $this->assertSame('1978', $date->year);
-
-        // Test that a notice is generated when accessing something that the magic getter cannot provide.
-        $this->expectNotice();
-        $date->noSuchProperty;
     }
 
     /**

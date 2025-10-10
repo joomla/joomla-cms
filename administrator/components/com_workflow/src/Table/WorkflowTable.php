@@ -14,8 +14,11 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
-use Joomla\Database\DatabaseDriver;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -26,8 +29,10 @@ use Joomla\Database\ParameterType;
  *
  * @since  4.0.0
  */
-class WorkflowTable extends Table
+class WorkflowTable extends Table implements CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * Indicates that columns fully support the NULL value in the database
      *
@@ -38,15 +43,16 @@ class WorkflowTable extends Table
     protected $_supportNullValue = true;
 
     /**
-     * @param   DatabaseDriver  $db  Database connector object
+     * @param   DatabaseInterface     $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since  4.0.0
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = '{extension}.workflow';
 
-        parent::__construct('#__workflows', 'id', $db);
+        parent::__construct('#__workflows', 'id', $db, $dispatcher);
     }
 
     /**
@@ -62,12 +68,12 @@ class WorkflowTable extends Table
      */
     public function delete($pk = null)
     {
-        $db  = $this->getDbo();
+        $db  = $this->getDatabase();
         $app = Factory::getApplication();
         $pk  = (int) $pk;
 
         // Gets the workflow information that is going to be deleted.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('default'))
             ->from($db->quoteName('#__workflows'))
             ->where($db->quoteName('id') . ' = :id')
@@ -76,21 +82,21 @@ class WorkflowTable extends Table
         $isDefault = $db->setQuery($query)->loadResult();
 
         if ($isDefault) {
-            $app->enqueueMessage(Text::_('COM_WORKFLOW_MSG_DELETE_DEFAULT'), 'error');
+            $app->enqueueMessage(Text::_('COM_WORKFLOW_MSG_DELETE_IS_DEFAULT'), 'error');
 
             return false;
         }
 
         // Delete the workflow states, then transitions from all tables.
         try {
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__workflow_stages'))
                 ->where($db->quoteName('workflow_id') . ' = :id')
                 ->bind(':id', $pk, ParameterType::INTEGER);
 
             $db->setQuery($query)->execute();
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__workflow_transitions'))
                 ->where($db->quoteName('workflow_id') . ' = :id')
                 ->bind(':id', $pk, ParameterType::INTEGER);
@@ -136,8 +142,8 @@ class WorkflowTable extends Table
                 return false;
             }
         } else {
-            $db    = $this->getDbo();
-            $query = $db->getQuery(true);
+            $db    = $this->getDatabase();
+            $query = $db->createQuery();
 
             $query
                 ->select($db->quoteName('id'))
@@ -173,9 +179,9 @@ class WorkflowTable extends Table
     public function store($updateNulls = true)
     {
         $date = Factory::getDate();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
-        $table = new WorkflowTable($this->getDbo());
+        $table = new self($this->getDatabase(), $this->getDispatcher());
 
         if ($this->id) {
             // Existing item
@@ -206,7 +212,7 @@ class WorkflowTable extends Table
             if (
                 $table->load(
                     [
-                    'default' => '1',
+                    'default'   => '1',
                     'extension' => $this->extension,
                     ]
                 )
@@ -278,14 +284,14 @@ class WorkflowTable extends Table
     /**
      * Get the parent asset id for the record
      *
-     * @param   Table    $table  A Table object for the asset parent.
-     * @param   integer  $id     The id for the asset
+     * @param   ?Table    $table  A Table object for the asset parent.
+     * @param   ?integer  $id     The id for the asset
      *
      * @return  integer  The id of the asset's parent
      *
      * @since  4.0.0
      */
-    protected function _getAssetParentId(Table $table = null, $id = null)
+    protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         $assetId = null;
 
@@ -294,24 +300,25 @@ class WorkflowTable extends Table
         $extension = array_shift($parts);
 
         // Build the query to get the asset id for the parent category.
-        $query = $this->getDbo()->getQuery(true)
-            ->select($this->getDbo()->quoteName('id'))
-            ->from($this->getDbo()->quoteName('#__assets'))
-            ->where($this->getDbo()->quoteName('name') . ' = :extension')
+        $db    = $this->getDatabase();
+        $query = $db->createQuery()
+            ->select($db->quoteName('id'))
+            ->from($db->quoteName('#__assets'))
+            ->where($db->quoteName('name') . ' = :extension')
             ->bind(':extension', $extension);
 
         // Get the asset id from the database.
-        $this->getDbo()->setQuery($query);
+        $db->setQuery($query);
 
-        if ($result = $this->getDbo()->loadResult()) {
+        if ($result = $db->loadResult()) {
             $assetId = (int) $result;
         }
 
         // Return the asset id.
         if ($assetId) {
             return $assetId;
-        } else {
-            return parent::_getAssetParentId($table, $id);
         }
+
+        return parent::_getAssetParentId($table, $id);
     }
 }

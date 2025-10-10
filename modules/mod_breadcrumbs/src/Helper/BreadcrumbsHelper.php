@@ -13,7 +13,6 @@ namespace Joomla\Module\Breadcrumbs\Site\Helper;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\Registry\Registry;
 
@@ -36,7 +35,7 @@ class BreadcrumbsHelper
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function getBreadcrumbs(Registry $params, SiteApplication $app): array
     {
@@ -69,7 +68,7 @@ class BreadcrumbsHelper
      *
      * @return  object
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function getHomeItem(Registry $params, SiteApplication $app): object
     {
@@ -89,36 +88,6 @@ class BreadcrumbsHelper
     }
 
     /**
-     * Set the breadcrumbs separator for the breadcrumbs display.
-     *
-     * @param   string  $custom  Custom xhtml compliant string to separate the items of the breadcrumbs
-     *
-     * @return  string  Separator string
-     *
-     * @since   1.5
-     *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0 as this function is not used anymore
-     */
-    public static function setSeparator($custom = null)
-    {
-        $lang = Factory::getApplication()->getLanguage();
-
-        // If a custom separator has not been provided we try to load a template
-        // specific one first, and if that is not present we load the default separator
-        if ($custom === null) {
-            if ($lang->isRtl()) {
-                $_separator = HTMLHelper::_('image', 'system/arrow_rtl.png', null, null, true);
-            } else {
-                $_separator = HTMLHelper::_('image', 'system/arrow.png', null, null, true);
-            }
-        } else {
-            $_separator = htmlspecialchars($custom, ENT_COMPAT, 'UTF-8');
-        }
-
-        return $_separator;
-    }
-
-    /**
      * Retrieve breadcrumb items
      *
      * @param   Registry        $params  The module parameters
@@ -128,7 +97,7 @@ class BreadcrumbsHelper
      *
      * @since   1.5
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 6.0
      *             Use the non-static method getBreadcrumbs
      *             Example: Factory::getApplication()->bootModule('mod_breadcrumbs', 'site')
      *                          ->getHelper('BreadcrumbsHelper')
@@ -149,7 +118,7 @@ class BreadcrumbsHelper
      *
      * @since   4.2.0
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 6.0
      *             Use the non-static method getHomeItem
      *             Example: Factory::getApplication()->bootModule('mod_breadcrumbs', 'site')
      *                          ->getHelper('BreadcrumbsHelper')

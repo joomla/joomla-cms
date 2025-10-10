@@ -8,10 +8,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 // Define the base path and require the other defines
-define('JPATH_BASE', dirname(__DIR__));
+\define('JPATH_BASE', \dirname(__DIR__));
 
 require_once __DIR__ . '/defines.php';
 
@@ -19,7 +19,7 @@ require_once __DIR__ . '/defines.php';
 if (!file_exists(JPATH_LIBRARIES . '/vendor/autoload.php') || !is_dir(JPATH_ROOT . '/media/vendor')) {
     echo 'It looks like you are trying to run Joomla! from our git repository.' . PHP_EOL;
     echo 'To do so requires you complete a couple of extra steps first.' . PHP_EOL;
-    echo 'Please see https://docs.joomla.org/Special:MyLanguage/J4.x:Setting_Up_Your_Local_Environment for further details.' . PHP_EOL;
+    echo 'Please see https://docs.joomla.org/Special:MyLanguage/J5.x:Setting_Up_Your_Local_Environment for further details.' . PHP_EOL;
 
     exit;
 }
@@ -59,5 +59,10 @@ $container->alias('session', 'session.cli')
     ->alias(\Joomla\Session\Session::class, 'session.cli')
     ->alias(\Joomla\Session\SessionInterface::class, 'session.cli');
 
+/** @var \Joomla\CMS\Installation\Application\CliInstallationApplication $app */
+$app = $container->get(\Joomla\CMS\Installation\Application\CliInstallationApplication::class);
+
+\Joomla\CMS\Factory::$application = $app;
+
 // Instantiate and execute the application
-$container->get(\Joomla\CMS\Installation\Application\CliInstallationApplication::class)->execute();
+$app->execute();

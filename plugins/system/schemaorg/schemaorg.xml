@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="system" method="upgrade">
+	<name>plg_system_schemaorg</name>
+	<author>Joomla! Project</author>
+	<creationDate>2023-07</creationDate>
+	<copyright>(C) 2023 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>5.0.0</version>
+	<description>PLG_SYSTEM_SCHEMAORG_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\Schemaorg</namespace>
+	<files>
+		<folder plugin="schemaorg">services</folder>
+		<folder>src</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_system_schemaorg.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_schemaorg.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="baseType"
+					type="list"
+					label="PLG_SYSTEM_SCHEMAORG_BASETYPE_LABEL"
+					description="PLG_SYSTEM_SCHEMAORG_BASETYPE_DESCRIPTION"
+					default="organization"
+					validate="options"
+					required="true"
+					>
+					<option value="organization">PLG_SYSTEM_SCHEMAORG_BASETYPE_OPTION_ORGANIZATION</option>
+					<option value="person">PLG_SYSTEM_SCHEMAORG_BASETYPE_OPTION_PERSON</option>
+				</field>
+
+				<field
+					name="user"
+					type="user"
+					label="PLG_SYSTEM_SCHEMAORG_USER_LABEL"
+					showon="baseType:person"
+					default="0"
+				/>
+
+				<field
+					name="name"
+					type="text"
+					label="PLG_SYSTEM_SCHEMAORG_NAME_LABEL"
+					showon="baseType:organization[OR]user:0"
+				/>
+
+				<field
+					name="image"
+					type="media"
+					schemes="http,https,ftp,ftps,data,file"
+					validate="url"
+					relative="true"
+					label="PLG_SYSTEM_SCHEMAORG_IMAGE_LABEL"
+				/>
+				<field
+					name="socialmedia"
+					type="subform"
+					label="PLG_SYSTEM_SCHEMAORG_SOCIALMEDIA_LABEL"
+					multiple="true"
+				>
+					<form>
+						<field
+							name="url"
+							type="url"
+							label="PLG_SYSTEM_SCHEMAORG_SOCIALMEDIA_URL_LABEL"
+							required="true"
+							hint="https://"
+							validate="url"
+						/>
+					</form>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

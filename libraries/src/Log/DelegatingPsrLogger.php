@@ -14,7 +14,7 @@ use Psr\Log\InvalidArgumentException;
 use Psr\Log\LogLevel;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -97,6 +97,6 @@ final class DelegatingPsrLogger extends AbstractLogger
             $date = $context['date'];
         }
 
-        $this->logger->add((string) $message, $priority, $category, $date, $context);
+        $this->logger::add((string) $message, $priority, $category, $date, $context);
     }
 }

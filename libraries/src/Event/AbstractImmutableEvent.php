@@ -9,10 +9,8 @@
 
 namespace Joomla\CMS\Event;
 
-use BadMethodCallException;
-
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -38,13 +36,13 @@ class AbstractImmutableEvent extends AbstractEvent
      * @param   array   $arguments  The event arguments.
      *
      * @since   4.0.0
-     * @throws  BadMethodCallException
+     * @throws  \BadMethodCallException
      */
     public function __construct(string $name, array $arguments = [])
     {
         if ($this->constructed) {
-            throw new BadMethodCallException(
-                sprintf('Cannot reconstruct the AbstractImmutableEvent %s.', $this->name)
+            throw new \BadMethodCallException(
+                \sprintf('Cannot reconstruct the AbstractImmutableEvent %s.', $this->name)
             );
         }
 
@@ -62,12 +60,24 @@ class AbstractImmutableEvent extends AbstractEvent
      * @return  void
      *
      * @since   4.0.0
-     * @throws  BadMethodCallException
+     * @throws  \BadMethodCallException
      */
-    public function offsetSet($name, $value)
+    public function offsetSet($name, $value): void
     {
-        throw new BadMethodCallException(
-            sprintf(
+        // B/C check for plugins which use $event['result'] = $result;
+        if ($name === 'result') {
+            parent::offsetSet($name, $value);
+
+            @trigger_error(
+                'Setting a result in an immutable event is deprecated, and will not work in Joomla 7. Event ' . $this->getName(),
+                E_USER_DEPRECATED
+            );
+
+            return;
+        }
+
+        throw new \BadMethodCallException(
+            \sprintf(
                 'Cannot set the argument %s of the immutable event %s.',
                 $name,
                 $this->name
@@ -83,12 +93,12 @@ class AbstractImmutableEvent extends AbstractEvent
      * @return  void
      *
      * @since   4.0.0
-     * @throws  BadMethodCallException
+     * @throws  \BadMethodCallException
      */
-    public function offsetUnset($name)
+    public function offsetUnset($name): void
     {
-        throw new BadMethodCallException(
-            sprintf(
+        throw new \BadMethodCallException(
+            \sprintf(
                 'Cannot remove the argument %s of the immutable event %s.',
                 $name,
                 $this->name

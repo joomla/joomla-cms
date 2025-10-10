@@ -2,6 +2,7 @@
 
 // Atum Variables
 @import "../../variables";
+@import "../../variables-dark";
 
 @import "../../../../../../../../media/vendor/bootstrap/scss/variables";
 @import "../../../../../../../../media/vendor/bootstrap/scss/mixins";
@@ -10,7 +11,7 @@
 @import "../../../../../../../../media/vendor/choicesjs/scss/choices";
 
 .choices {
-  border: $form-select-border-width solid $form-select-border-color;
+  border: $form-select-border; //$form-select-border-width solid $form-select-border-color;
   @include border-radius($form-select-border-radius, 0);
   @include box-shadow($form-select-box-shadow);
 
@@ -27,9 +28,9 @@
 }
 
 .choices__inner {
-  min-height: 42px;
+  min-block-size: 42px;
   padding: .1rem 1rem;
-  margin-bottom: 0;
+  margin-block-end: 0;
   font-size: 1rem;
   border: none;
   border-radius: 0;
@@ -37,12 +38,12 @@
 
 .choices__input {
   padding: 0;
-  margin-bottom: 0;
+  margin-block-end: 0;
   font-size: 1rem;
   background-color: transparent;
 
   &::placeholder {
-    color: $gray-700;
+    color: $choices-input-placeholder; // $gray-700; // var(--gray-200);
     opacity: 1;
   }
 }
@@ -58,7 +59,8 @@
 .choices__list--multiple .choices__item {
   position: relative;
   margin: 2px;
-  background-color: var(--template-bg-dark);
+  color: $choices-list-multiple-item; //$white;
+  background-color: $choices-list-multiple-item-bg !important; // var(--template-bg-dark);
   margin-inline-end: 2px;
   border: 0;
   border-radius: $border-radius;
@@ -69,13 +71,39 @@
   }
 }
 
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .choices__list--multiple .choices__item {
+      &.is-highlighted {
+        background-color: var(--gray-800);
+      }
+    }
+  }
+}
+
 .choices .choices__list--dropdown {
+  background-color: var(--body-bg);
+
   .choices__item {
     padding-inline-end: 10px;
   }
 
-  .choices__item--selectable::after {
-    display: none;
+  .choices__item--selectable {
+    &::after {
+      display: none;
+    }
+  }
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .choices .choices__list--dropdown {
+      .choices__item--selectable {
+        &.is-highlighted {
+          background-color: var(--gray-800);
+        }
+      }
+    }
   }
 }
 
@@ -92,10 +120,7 @@
 
   &::before {
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
     display: block;
     text-align: center;
     text-indent: 0;
@@ -127,7 +152,40 @@
   }
 }
 
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .choices[data-type*="select-one"],
+    .choices[data-type*="select-multiple"] {
+      .choices__inner {
+        background: url("../../../images/select-bg-dark.svg") no-repeat 100%/116rem;
+        background-color: $form-select-bg-dark;
+
+        [dir="rtl"] & {
+          background: url("../../../images/select-bg-rtl-dark.svg") no-repeat 0/116rem;
+          background-color: $form-select-bg-dark;
+        }
+      }
+    }
+  }
+}
+
+@if $enable-dark-mode {
+  [dir="rtl"][data-bs-theme="dark"] {
+    .choices[data-type*="select-one"],
+    .choices[data-type*="select-multiple"] {
+      .choices__inner {
+        background: url("../../../images/select-bg-rtl-dark.svg") no-repeat 0/116rem;
+        background-color: $form-select-bg-dark;
+      }
+    }
+  }
+}
+
 .choices[data-type*="select-one"] {
+  .choices__input {
+    background-color: $choices-input-bg; // var(--body-bg)/var(--gray-600)
+  }
+
   .choices__item {
     display: flex;
     justify-content: space-between;
@@ -135,10 +193,10 @@
 
   .choices__button_joomla {
     position: absolute;
-    top: 50%;
+    inset-block-start: 50%;
     inset-inline-end: 0;
-    width: 20px;
-    height: 20px;
+    inline-size: 20px;
+    block-size: 20px;
     padding: 0;
     margin-block-start: -10px;
     margin-inline-end: 50px;
@@ -151,7 +209,7 @@
     }
 
     &:focus {
-      box-shadow: 0 0 0 2px #00bcd4;
+      box-shadow: $choices__button_joomla-focus-box-shadow;
     }
   }
 
@@ -169,4 +227,12 @@
 
 .choices__heading {
   font-size: 1.2rem;
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .choices__heading {
+      color: var(--gray-500);
+    }
+  }
 }

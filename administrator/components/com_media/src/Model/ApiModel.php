@@ -12,10 +12,8 @@ namespace Joomla\Component\Media\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Event\FetchMediaItemEvent;
 use Joomla\Component\Media\Administrator\Event\FetchMediaItemsEvent;
@@ -24,6 +22,7 @@ use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
 use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
+use Joomla\Filesystem\File;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -170,7 +169,7 @@ class ApiModel extends BaseDatabaseModel
     {
         try {
             $file = $this->getFile($adapter, $path . '/' . $name);
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             // Do nothing
         }
 
@@ -180,7 +179,7 @@ class ApiModel extends BaseDatabaseModel
         }
 
         $app               = Factory::getApplication();
-        $object            = new CMSObject();
+        $object            = new \stdClass();
         $object->adapter   = $adapter;
         $object->name      = $name;
         $object->path      = $path;
@@ -189,7 +188,7 @@ class ApiModel extends BaseDatabaseModel
 
         $result = $app->triggerEvent('onContentBeforeSave', ['com_media.folder', $object, true, $object]);
 
-        if (in_array(false, $result, true)) {
+        if (\in_array(false, $result, true)) {
             throw new \Exception($object->getError());
         }
 
@@ -220,7 +219,7 @@ class ApiModel extends BaseDatabaseModel
     {
         try {
             $file = $this->getFile($adapter, $path . '/' . $name);
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             // Do nothing
         }
 
@@ -235,7 +234,7 @@ class ApiModel extends BaseDatabaseModel
         }
 
         $app               = Factory::getApplication();
-        $object            = new CMSObject();
+        $object            = new \stdClass();
         $object->adapter   = $adapter;
         $object->name      = $name;
         $object->path      = $path;
@@ -249,7 +248,7 @@ class ApiModel extends BaseDatabaseModel
 
         $result = $app->triggerEvent('onContentBeforeSave', ['com_media.file', $object, true, $object]);
 
-        if (in_array(false, $result, true)) {
+        if (\in_array(false, $result, true)) {
             throw new \Exception($object->getError());
         }
 
@@ -283,7 +282,7 @@ class ApiModel extends BaseDatabaseModel
         }
 
         $app               = Factory::getApplication();
-        $object            = new CMSObject();
+        $object            = new \stdClass();
         $object->adapter   = $adapter;
         $object->name      = $name;
         $object->path      = $path;
@@ -297,7 +296,7 @@ class ApiModel extends BaseDatabaseModel
 
         $result = $app->triggerEvent('onContentBeforeSave', ['com_media.file', $object, false, $object]);
 
-        if (in_array(false, $result, true)) {
+        if (\in_array(false, $result, true)) {
             throw new \Exception($object->getError());
         }
 
@@ -330,7 +329,7 @@ class ApiModel extends BaseDatabaseModel
 
         $type              = $file->type === 'file' ? 'file' : 'folder';
         $app               = Factory::getApplication();
-        $object            = new CMSObject();
+        $object            = new \stdClass();
         $object->adapter   = $adapter;
         $object->path      = $path;
 
@@ -341,7 +340,7 @@ class ApiModel extends BaseDatabaseModel
 
         $result = $app->triggerEvent('onContentBeforeDelete', ['com_media.' . $type, $object]);
 
-        if (in_array(false, $result, true)) {
+        if (\in_array(false, $result, true)) {
             throw new \Exception($object->getError());
         }
 
@@ -457,7 +456,7 @@ class ApiModel extends BaseDatabaseModel
             $extensions = [];
 
             // Default to showing all supported formats
-            if (count($mediaTypes) === 0) {
+            if (\count($mediaTypes) === 0) {
                 $mediaTypes = ['0', '1', '2', '3'];
             }
 
@@ -489,7 +488,7 @@ class ApiModel extends BaseDatabaseModel
                     ',',
                     ComponentHelper::getParams('com_media')->get(
                         'image_extensions',
-                        'bmp,gif,jpg,jpeg,png,webp'
+                        'bmp,gif,jpg,jpeg,png,webp,avif'
                     )
                 )
             );
@@ -525,7 +524,7 @@ class ApiModel extends BaseDatabaseModel
             );
 
             foreach ($types as $type) {
-                if (in_array($type, ['images', 'audios', 'videos', 'documents'])) {
+                if (\in_array($type, ['images', 'audios', 'videos', 'documents'])) {
                     $extensions = array_merge($extensions, ${$type});
                 }
             }
@@ -538,6 +537,6 @@ class ApiModel extends BaseDatabaseModel
         $extension = strtolower(substr($path, strrpos($path, '.') + 1));
 
         // Check if the extension exists in the allowed extensions
-        return in_array($extension, $this->allowedExtensions);
+        return \in_array($extension, $this->allowedExtensions);
     }
 }

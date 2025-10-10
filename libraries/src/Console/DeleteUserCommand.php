@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -119,7 +119,7 @@ class DeleteUserCommand extends AbstractCommand
         if ($user->block == 0) {
             foreach ($groups as $groupId) {
                 if (Access::checkGroup($groupId, 'core.admin')) {
-                    $queryUser = $db->getQuery(true);
+                    $queryUser = $db->createQuery();
                     $queryUser->select('COUNT(*)')
                         ->from($db->quoteName('#__users', 'u'))
                         ->leftJoin(

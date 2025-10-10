@@ -13,9 +13,9 @@ namespace Joomla\Component\Banners\Site\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -56,16 +56,16 @@ class BannersModel extends ListModel
     }
 
     /**
-     * Method to get a DatabaseQuery object for retrieving the data set from a database.
+     * Method to get a QueryInterface object for retrieving the data set from a database.
      *
-     * @return  DatabaseQuery   A DatabaseQuery object to retrieve the data set.
+     * @return  QueryInterface   An object implementing QueryInterface to retrieve the data set.
      *
      * @since   1.6
      */
     protected function getListQuery()
     {
         $db         = $this->getDatabase();
-        $query      = $db->getQuery(true);
+        $query      = $db->createQuery();
         $ordering   = $this->getState('filter.ordering');
         $tagSearch  = $this->getState('filter.tag_search');
         $cid        = (int) $this->getState('filter.client_id');
@@ -138,7 +138,7 @@ class BannersModel extends ListModel
                 $levels = (int) $this->getState('filter.max_category_levels', '1');
 
                 // Create a subquery for the subcategory list
-                $subQuery = $db->getQuery(true);
+                $subQuery = $db->createQuery();
                 $subQuery->select($db->quoteName('sub.id'))
                     ->from($db->quoteName('#__categories', 'sub'))
                     ->join(
@@ -169,7 +169,7 @@ class BannersModel extends ListModel
                 $query->where($db->quoteName('a.catid') . $type . ':categoryId')
                     ->bind(':categoryId', $categoryId, ParameterType::INTEGER);
             }
-        } elseif (is_array($categoryId) && (count($categoryId) > 0)) {
+        } elseif (\is_array($categoryId) && (\count($categoryId) > 0)) {
             $categoryId = ArrayHelper::toInteger($categoryId);
 
             if ($this->getState('filter.category_id.include', true)) {
@@ -216,7 +216,7 @@ class BannersModel extends ListModel
                         . ' = SUBSTRING(' . $bounded[1] . ',1,LENGTH(' . $db->quoteName('cl.metakey_prefix') . '))'
                         . ' OR ' . $db->quoteName('a.own_prefix') . ' = 0'
                         . ' AND ' . $db->quoteName('cl.own_prefix') . ' = 0'
-                        . ' AND ' . ($prefix == substr($keyword, 0, strlen($prefix)) ? '0 = 0' : '0 != 0');
+                        . ' AND ' . (str_starts_with($keyword, $prefix) ? '0 = 0' : '0 != 0');
 
                     $condition2 = $db->quoteName('a.metakey') . ' ' . $query->regexp($bounded[2]);
 
@@ -296,7 +296,7 @@ class BannersModel extends ListModel
         $db        = $this->getDatabase();
         $bid       = [];
 
-        if (!count($items)) {
+        if (!\count($items)) {
             return;
         }
 
@@ -305,7 +305,7 @@ class BannersModel extends ListModel
         }
 
         // Increment impression made
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->update($db->quoteName('#__banners'))
             ->set($db->quoteName('impmade') . ' = ' . $db->quoteName('impmade') . ' + 1')
             ->whereIn($db->quoteName('id'), $bid);
@@ -333,7 +333,7 @@ class BannersModel extends ListModel
             if ($trackImpressions > 0) {
                 // Is track already created?
                 // Update count
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
                 $query->update($db->quoteName('#__banner_tracks'))
                     ->set($db->quoteName('count') . ' = ' . $db->quoteName('count') . ' + 1')
                     ->where(
@@ -356,7 +356,7 @@ class BannersModel extends ListModel
 
                 if ($db->getAffectedRows() === 0) {
                     // Insert new count
-                    $query = $db->getQuery(true);
+                    $query = $db->createQuery();
                     $query->insert($db->quoteName('#__banner_tracks'))
                         ->columns(
                             [

@@ -27,10 +27,19 @@
 	/>
 
 	<field
+		name="uid"
+		type="text"
+		label="COM_GUIDEDTOURS_TOUR_UID_LABEL"
+		description="COM_GUIDEDTOURS_TOUR_UID_DESC"
+		hint="COM_GUIDEDTOURS_TOUR_UID_HINT"
+		required="false"
+	/>
+
+	<field
 		name="description"
 		type="editor"
 		label="JGLOBAL_DESCRIPTION"
-		filter="JComponentHelper::filterText"
+		filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 		buttons="true"
 		hide="readmore,pagebreak,module,menu,fields,contact,article"
 	/>
@@ -39,7 +48,7 @@
 		name="description_translation"
 		type="editor"
 		label="JGLOBAL_DESCRIPTION"
-		filter="JComponentHelper::filterText"
+		filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 		buttons="false"
 		readonly="true"
 	/>
@@ -150,5 +159,17 @@
 		default="*"
 		>
 		<option value="*">JALL</option>
+	</field>
+
+	<field
+		name="autostart"
+		type="radio"
+		label="COM_GUIDEDTOURS_AUTOSTART_LABEL"
+		description="COM_GUIDEDTOURS_AUTOSTART_DESC"
+		layout="joomla.form.field.radio.switcher"
+		default="0"
+		>
+		<option value="0">JNO</option>
+		<option value="1">JYES</option>
 	</field>
 </form>

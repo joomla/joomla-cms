@@ -13,8 +13,7 @@ namespace Joomla\Component\Menus\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\MVC\Model\FormModel;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
@@ -29,7 +28,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class MenuModel extends FormModel
+class MenuModel extends AdminModel
 {
     /**
      * The prefix to use with controller messages.
@@ -85,7 +84,7 @@ class MenuModel extends FormModel
      *
      * @since   1.6
      */
-    public function getTable($type = 'MenuType', $prefix = '\JTable', $config = [])
+    public function getTable($type = 'MenuType', $prefix = '\\Joomla\\CMS\\Table\\', $config = [])
     {
         return Table::getInstance($type, $prefix, $config);
     }
@@ -121,11 +120,11 @@ class MenuModel extends FormModel
      *
      * @param   integer  $itemId  The id of the menu item to get.
      *
-     * @return  mixed  Menu item data object on success, false on failure.
+     * @return  \stdClass|false  Menu item data object on success, false on failure.
      *
      * @since   1.6
      */
-    public function &getItem($itemId = null)
+    public function getItem($itemId = null)
     {
         $itemId = (!empty($itemId)) ? $itemId : (int) $this->getState('menu.id');
 
@@ -143,7 +142,7 @@ class MenuModel extends FormModel
         }
 
         $properties = $table->getProperties(1);
-        $value      = ArrayHelper::toObject($properties, CMSObject::class);
+        $value      = ArrayHelper::toObject($properties);
 
         return $value;
     }
@@ -210,8 +209,8 @@ class MenuModel extends FormModel
      *
      * @return  array|boolean  Array of filtered data if valid, false otherwise.
      *
-     * @see     JFormRule
-     * @see     JFilterInput
+     * @see     \Joomla\CMS\Form\FormRule
+     * @see     \Joomla\CMS\Filter\InputFilter
      * @since   3.9.23
      */
     public function validate($form, $data, $group = null)
@@ -269,7 +268,7 @@ class MenuModel extends FormModel
         $result = Factory::getApplication()->triggerEvent('onContentBeforeSave', [$this->_context, &$table, $isNew, $data]);
 
         // Store the data.
-        if (in_array(false, $result, true) || !$table->store()) {
+        if (\in_array(false, $result, true) || !$table->store()) {
             $this->setError($table->getError());
 
             return false;
@@ -295,10 +294,10 @@ class MenuModel extends FormModel
      *
      * @since   1.6
      */
-    public function delete($itemIds)
+    public function delete(&$pks)
     {
         // Sanitize the ids.
-        $itemIds = ArrayHelper::toInteger((array) $itemIds);
+        $itemIds = ArrayHelper::toInteger((array) $pks);
 
         // Get a group row instance.
         $table = $this->getTable();
@@ -312,7 +311,7 @@ class MenuModel extends FormModel
                 // Trigger the before delete event.
                 $result = Factory::getApplication()->triggerEvent('onContentBeforeDelete', [$this->_context, $table]);
 
-                if (in_array(false, $result, true) || !$table->delete($itemId)) {
+                if (\in_array(false, $result, true) || !$table->delete($itemId)) {
                     $this->setError($table->getError());
 
                     return false;
@@ -342,7 +341,7 @@ class MenuModel extends FormModel
     {
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('a.id'),
@@ -388,7 +387,7 @@ class MenuModel extends FormModel
     public function getExtensionElementsForMenuItems(array $itemIds): array
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query
             ->select($db->quoteName('e.element'))
@@ -402,15 +401,13 @@ class MenuModel extends FormModel
     /**
      * Custom clean the cache
      *
-     * @param   string   $group     Cache group name.
-     * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              @deprecated   4.3 will be removed in 6.0
+     * @param  string  $group  Cache group name.
      *
      * @return  void
      *
      * @since   1.6
      */
-    protected function cleanCache($group = null, $clientId = 0)
+    protected function cleanCache($group = null)
     {
         parent::cleanCache('com_menus');
         parent::cleanCache('com_modules');

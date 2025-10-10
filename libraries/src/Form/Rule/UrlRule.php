@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Form\Rule;
 
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
 use Joomla\CMS\Language\Text;
@@ -17,7 +18,7 @@ use Joomla\String\StringHelper;
 use Joomla\Uri\UriHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -44,13 +45,19 @@ class UrlRule extends FormRule
      * @link    https://www.w3.org/Addressing/URL/url-spec.txt
      * @see     \Joomla\String\StringHelper
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         // If the field is empty and not required, the field is valid.
         $required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
 
         if (!$required && empty($value)) {
             return true;
+        }
+
+        // Check the value for XSS payloads
+        if ((string) $element['disableXssCheck'] !== 'true' && InputFilter::checkAttribute(['href', $value])) {
+            $element->addAttribute('message', Text::sprintf('JLIB_FORM_VALIDATE_FIELD_URL_INJECTION_DETECTED', $element['name']));
+            return false;
         }
 
         $urlParts = UriHelper::parse_url($value);
@@ -94,11 +101,11 @@ class UrlRule extends FormRule
         $urlScheme = (string) $urlParts['scheme'];
         $urlScheme = strtolower($urlScheme);
 
-        if (\in_array($urlScheme, $scheme) == false) {
+        if (!\in_array($urlScheme, $scheme)) {
             return false;
         }
 
-        // For some schemes here must be two slashes.
+        // For some schemes there must be two slashes.
         $scheme = ['http', 'https', 'ftp', 'ftps', 'gopher', 'wais', 'prospero', 'sftp', 'telnet', 'git'];
 
         if (\in_array($urlScheme, $scheme) && substr($value, \strlen($urlScheme), 3) !== '://') {

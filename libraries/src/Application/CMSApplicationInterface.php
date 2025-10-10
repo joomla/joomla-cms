@@ -23,7 +23,7 @@ use Joomla\Input\Input;
  * Interface defining a Joomla! CMS Application class
  *
  * @since  4.0.0
- * @note   In Joomla 5 this interface will no longer extend EventAwareInterface
+ * @note   In Joomla 6 this interface will no longer extend EventAwareInterface
  * @property-read   Input  $input  {@deprecated 4.0 will be removed in 6.0} The Joomla Input property. Deprecated in favour of getInput()
  */
 interface CMSApplicationInterface extends ExtensionManagerInterface, ConfigurationAwareApplicationInterface, EventAwareInterface
@@ -125,20 +125,6 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
     public function isClient($identifier);
 
     /**
-     * Flag if the application instance is a CLI or web based application.
-     *
-     * Helper function, you should use the native PHP functions to detect if it is a CLI application.
-     *
-     * @return  boolean
-     *
-     * @since       4.0.0
-     *
-     * @deprecated  4.0 will be removed in 6.0
-     *              Will be removed without replacement. CLI will be handled by the joomla/console package instead
-     */
-    public function isCli();
-
-    /**
      * Get the application identity.
      *
      * @return  User|null  A User object or null if not set.
@@ -177,11 +163,11 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
     /**
      * Allows the application to load a custom or default identity.
      *
-     * @param   User  $identity  An optional identity object. If omitted, the factory user is created.
+     * @param   ?User  $identity  An optional identity object. If omitted, the factory user is created.
      *
      * @return  $this
      *
      * @since   4.0.0
      */
-    public function loadIdentity(User $identity = null);
+    public function loadIdentity(?User $identity = null);
 }

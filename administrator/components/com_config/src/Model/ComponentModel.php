@@ -14,12 +14,13 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Asset;
+use Joomla\CMS\Table\Extension;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -64,7 +65,7 @@ class ComponentModel extends FormModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  mixed  A JForm object on success, false on failure
+     * @return  mixed  A Form object on success, false on failure
      *
      * @since   3.2
      */
@@ -156,7 +157,7 @@ class ComponentModel extends FormModel
      */
     public function save($data)
     {
-        $table      = Table::getInstance('extension');
+        $table      = new Extension($this->getDatabase());
         $context    = $this->option . '.' . $this->name;
         PluginHelper::importPlugin('extension');
 
@@ -178,16 +179,16 @@ class ComponentModel extends FormModel
         }
 
         // Save the rules.
-        if (isset($data['params']) && isset($data['params']['rules'])) {
+        if (isset($data['params']['rules'])) {
             if (!$this->getCurrentUser()->authorise('core.admin', $data['option'])) {
                 throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
             }
 
             $rules = new Rules($data['params']['rules']);
-            $asset = Table::getInstance('asset');
+            $asset = new Asset($this->getDatabase());
 
             if (!$asset->loadByName($data['option'])) {
-                $root = Table::getInstance('asset');
+                $root = new Asset($this->getDatabase());
                 $root->loadByName('root.1');
                 $asset->name  = $data['option'];
                 $asset->title = $data['option'];
@@ -201,8 +202,7 @@ class ComponentModel extends FormModel
             }
 
             // We don't need this anymore
-            unset($data['option']);
-            unset($data['params']['rules']);
+            unset($data['option'], $data['params']['rules']);
         }
 
         // Load the previous Data
@@ -225,7 +225,7 @@ class ComponentModel extends FormModel
         $result = Factory::getApplication()->triggerEvent('onExtensionBeforeSave', [$context, $table, false]);
 
         // Store the data.
-        if (in_array(false, $result, true) || !$table->store()) {
+        if (\in_array(false, $result, true) || !$table->store()) {
             throw new \RuntimeException($table->getError());
         }
 

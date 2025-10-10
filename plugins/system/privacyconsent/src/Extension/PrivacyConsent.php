@@ -10,29 +10,21 @@
 
 namespace Joomla\Plugin\System\PrivacyConsent\Extension;
 
-use Exception;
-use InvalidArgumentException;
-use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Event\Application\AfterRouteEvent;
+use Joomla\CMS\Event\Model;
+use Joomla\CMS\Event\Privacy\CheckPrivacyPolicyPublishedEvent;
+use Joomla\CMS\Event\User;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Mail\Exception\MailDisabledException;
-use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
-use Joomla\Component\Messages\Administrator\Model\MessageModel;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
-use PHPMailer\PHPMailer\Exception as phpmailerException;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -43,43 +35,59 @@ use RuntimeException;
  *
  * @since  3.9.0
  */
-final class PrivacyConsent extends CMSPlugin
+final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
 
     /**
-     * Load the language file on instantiation.
+     * Returns an array of events this subscriber will listen to.
      *
-     * @var    boolean
-     * @since  3.9.0
+     * @return array
+     *
+     * @since   5.3.0
      */
-    protected $autoloadLanguage = true;
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onContentPrepareForm'                 => 'onContentPrepareForm',
+            'onUserBeforeSave'                     => 'onUserBeforeSave',
+            'onUserAfterSave'                      => 'onUserAfterSave',
+            'onUserAfterDelete'                    => 'onUserAfterDelete',
+            'onAfterRoute'                         => 'onAfterRoute',
+            'onPrivacyCheckPrivacyPolicyPublished' => 'onPrivacyCheckPrivacyPolicyPublished',
+        ];
+    }
 
     /**
      * Adds additional fields to the user editing form
      *
-     * @param   Form   $form  The form to be altered.
-     * @param   mixed  $data  The associated data for the form.
+     * @param   Model\PrepareFormEvent  $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   3.9.0
      */
-    public function onContentPrepareForm(Form $form, $data)
+    public function onContentPrepareForm(Model\PrepareFormEvent $event): void
     {
+        $form = $event->getForm();
+        $data = $event->getData();
+
         // Check we are manipulating a valid form - we only display this on user registration form and user profile form.
         $name = $form->getName();
 
-        if (!in_array($name, ['com_users.profile', 'com_users.registration'])) {
-            return true;
+        if (!\in_array($name, ['com_users.profile', 'com_users.registration'])) {
+            return;
         }
 
+        // Load plugin language files
+        $this->loadLanguage();
+
         // We only display this if user has not consented before
-        if (is_object($data)) {
+        if (\is_object($data)) {
             $userId = $data->id ?? 0;
 
             if ($userId > 0 && $this->isUserConsented($userId)) {
-                return true;
+                return;
             }
         }
 
@@ -100,27 +108,29 @@ final class PrivacyConsent extends CMSPlugin
     /**
      * Method is called before user data is stored in the database
      *
-     * @param   array    $user   Holds the old user data.
-     * @param   boolean  $isNew  True if a new user is stored.
-     * @param   array    $data   Holds the new user data.
+     * @param   User\BeforeSaveEvent  $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   3.9.0
-     * @throws  InvalidArgumentException on missing required data.
+     * @throws  \InvalidArgumentException on missing required data.
      */
-    public function onUserBeforeSave($user, $isNew, $data)
+    public function onUserBeforeSave(User\BeforeSaveEvent $event): void
     {
         // // Only check for front-end user creation/update profile
         if ($this->getApplication()->isClient('administrator')) {
-            return true;
+            return;
         }
 
+        $user   = $event->getUser();
         $userId = ArrayHelper::getValue($user, 'id', 0, 'int');
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         // User already consented before, no need to check it further
         if ($userId > 0 && $this->isUserConsented($userId)) {
-            return true;
+            return;
         }
 
         // Check that the privacy is checked if required ie only in registration from frontend.
@@ -130,28 +140,23 @@ final class PrivacyConsent extends CMSPlugin
         $form   = $input->post->get('jform', [], 'array');
 
         if (
-            $option == 'com_users' && in_array($task, ['registration.register', 'profile.save'])
+            $option == 'com_users' && \in_array($task, ['registration.register', 'profile.save'])
             && empty($form['privacyconsent']['privacy'])
         ) {
-            throw new InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_SYSTEM_PRIVACYCONSENT_FIELD_ERROR'));
+            throw new \InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_SYSTEM_PRIVACYCONSENT_FIELD_ERROR'));
         }
-
-        return true;
     }
 
     /**
      * Saves user privacy confirmation
      *
-     * @param   array    $data    entered user data
-     * @param   boolean  $isNew   true if this is a new user
-     * @param   boolean  $result  true if saving the user worked
-     * @param   string   $error   error message
+     * @param   User\AfterSaveEvent  $event  The event instance.
      *
      * @return  void
      *
      * @since   3.9.0
      */
-    public function onUserAfterSave($data, $isNew, $result, $error): void
+    public function onUserAfterSave(User\AfterSaveEvent $event): void
     {
         // Only create an entry on front-end user creation/update profile
         if ($this->getApplication()->isClient('administrator')) {
@@ -159,6 +164,7 @@ final class PrivacyConsent extends CMSPlugin
         }
 
         // Get the user's ID
+        $data   = $event->getUser();
         $userId = ArrayHelper::getValue($data, 'id', 0, 'int');
 
         // If user already consented before, no need to check it further
@@ -173,7 +179,7 @@ final class PrivacyConsent extends CMSPlugin
 
         if (
             $option == 'com_users'
-            && in_array($task, ['registration.register', 'profile.save'])
+            && \in_array($task, ['registration.register', 'profile.save'])
             && !empty($form['privacyconsent']['privacy'])
         ) {
             $userId = ArrayHelper::getValue($data, 'id', 0, 'int');
@@ -194,7 +200,7 @@ final class PrivacyConsent extends CMSPlugin
 
             try {
                 $this->getDatabase()->insertObject('#__privacy_consents', $userNote);
-            } catch (Exception $e) {
+            } catch (\Exception) {
                 // Do nothing if the save fails
             }
 
@@ -221,25 +227,24 @@ final class PrivacyConsent extends CMSPlugin
      *
      * Method is called after user data is deleted from the database
      *
-     * @param   array    $user     Holds the user data
-     * @param   boolean  $success  True if user was successfully stored in the database
-     * @param   string   $msg      Message
+     * @param   User\AfterDeleteEvent  $event  The event instance.
      *
      * @return  void
      *
      * @since   3.9.0
      */
-    public function onUserAfterDelete($user, $success, $msg): void
+    public function onUserAfterDelete(User\AfterDeleteEvent $event): void
     {
-        if (!$success) {
+        if (!$event->getDeletingResult()) {
             return;
         }
 
+        $user   = $event->getUser();
         $userId = ArrayHelper::getValue($user, 'id', 0, 'int');
 
         if ($userId) {
             // Remove user's consent
-            $query = $this->getDatabase()->getQuery(true)
+            $query = $this->getDatabase()->createQuery()
                 ->delete($this->getDatabase()->quoteName('#__privacy_consents'))
                 ->where($this->getDatabase()->quoteName('user_id') . ' = :userid')
                 ->bind(':userid', $userId, ParameterType::INTEGER);
@@ -252,27 +257,33 @@ final class PrivacyConsent extends CMSPlugin
      * If logged in users haven't agreed to privacy consent, redirect them to profile edit page, ask them to agree to
      * privacy consent before allowing access to any other pages
      *
+     * @param   AfterRouteEvent  $event  The event instance.
+     *
      * @return  void
      *
      * @since   3.9.0
      */
-    public function onAfterRoute()
+    public function onAfterRoute(AfterRouteEvent $event): void
     {
         // Run this in frontend only
         if (!$this->getApplication()->isClient('site')) {
             return;
         }
 
-        $userId = $this->getApplication()->getIdentity()->id;
+        $app    = $this->getApplication();
+        $userId = $app->getIdentity()->id;
 
         // Check to see whether user already consented, if not, redirect to user profile page
         if ($userId > 0) {
+            // Load plugin language files
+            $this->loadLanguage();
+
             // If user consented before, no need to check it further
             if ($this->isUserConsented($userId)) {
                 return;
             }
 
-            $input  = $this->getApplication()->getInput();
+            $input  = $app->getInput();
             $option = $input->getCmd('option');
             $task   = $input->get('task', '');
             $view   = $input->getString('view', '');
@@ -289,38 +300,42 @@ final class PrivacyConsent extends CMSPlugin
                 'profile.save', 'profile.apply', 'user.logout', 'user.menulogout',
                 'method', 'methods', 'captive', 'callback',
             ];
-            $isAllowedUserTask = in_array($task, $allowedUserTasks)
-                || substr($task, 0, 8) === 'captive.'
-                || substr($task, 0, 8) === 'methods.'
-                || substr($task, 0, 7) === 'method.'
-                || substr($task, 0, 9) === 'callback.';
+            $isAllowedUserTask = \in_array($task, $allowedUserTasks)
+                || str_starts_with($task, 'captive.')
+                || str_starts_with($task, 'methods.')
+                || str_starts_with($task, 'method.')
+                || str_starts_with($task, 'callback.');
 
             if (
                 ($option == 'com_users' && $isAllowedUserTask)
                 || ($option == 'com_content' && $view == 'article' && $id == $privacyArticleId)
                 || ($option == 'com_users' && $view == 'profile' && $layout == 'edit')
+                || ($option == 'com_users' && $view == 'captive')
             ) {
                 return;
             }
 
             // Redirect to com_users profile edit
-            $this->getApplication()->enqueueMessage($this->getRedirectMessage(), 'notice');
+            $app->enqueueMessage($this->getRedirectMessage(), 'notice');
             $link = 'index.php?option=com_users&view=profile&layout=edit';
-            $this->getApplication()->redirect(Route::_($link, false));
+            $app->redirect(Route::_($link, false));
         }
     }
 
     /**
      * Event to specify whether a privacy policy has been published.
      *
-     * @param   array  &$policy  The privacy policy status data, passed by reference, with keys "published", "editLink" and "articlePublished".
+     * @param   CheckPrivacyPolicyPublishedEvent  $event  The privacy policy status event.
      *
      * @return  void
      *
      * @since   3.9.0
      */
-    public function onPrivacyCheckPrivacyPolicyPublished(&$policy)
+    public function onPrivacyCheckPrivacyPolicyPublished(CheckPrivacyPolicyPublishedEvent $event)
     {
+        // Data, with keys "published", "editLink" and "articlePublished".
+        $policy = $event->getPolicyInfo();
+
         // If another plugin has already indicated a policy is published, we won't change anything here
         if ($policy['published']) {
             return;
@@ -333,7 +348,7 @@ final class PrivacyConsent extends CMSPlugin
         }
 
         // Check if the article exists in database and is published
-        $query = $this->getDatabase()->getQuery(true)
+        $query = $this->getDatabase()->createQuery()
             ->select($this->getDatabase()->quoteName(['id', 'state']))
             ->from($this->getDatabase()->quoteName('#__content'))
             ->where($this->getDatabase()->quoteName('id') . ' = :id')
@@ -354,6 +369,8 @@ final class PrivacyConsent extends CMSPlugin
 
         $policy['published'] = true;
         $policy['editLink']  = Route::_('index.php?option=com_content&task=article.edit&id=' . $articleId);
+
+        $event->updatePolicyInfo($policy);
     }
 
     /**
@@ -387,7 +404,7 @@ final class PrivacyConsent extends CMSPlugin
     {
         $userId = (int) $userId;
         $db     = $this->getDatabase();
-        $query  = $db->getQuery(true);
+        $query  = $db->createQuery();
 
         $query->select('COUNT(*)')
             ->from($db->quoteName('#__privacy_consents'))
@@ -438,7 +455,7 @@ final class PrivacyConsent extends CMSPlugin
 
         if ($itemId > 0 && Associations::isEnabled()) {
             $privacyAssociated = Associations::getAssociations('com_menus', '#__menu', 'com_menus.item', $itemId, 'id', '', '');
-            $currentLang       = $this->getApplication()->getTag();
+            $currentLang       = $this->getApplication()->getLanguage()->getTag();
 
             if (isset($privacyAssociated[$currentLang])) {
                 $itemId = $privacyAssociated[$currentLang]->id;
@@ -446,253 +463,5 @@ final class PrivacyConsent extends CMSPlugin
         }
 
         return $itemId;
-    }
-
-    /**
-     * The privacy consent expiration check code is triggered after the page has fully rendered.
-     *
-     * @return  void
-     *
-     * @since   3.9.0
-     */
-    public function onAfterRender()
-    {
-        if (!$this->params->get('enabled', 0)) {
-            return;
-        }
-
-        $cacheTimeout = (int) $this->params->get('cachetimeout', 30);
-        $cacheTimeout = 24 * 3600 * $cacheTimeout;
-
-        // Do we need to run? Compare the last run timestamp stored in the plugin's options with the current
-        // timestamp. If the difference is greater than the cache timeout we shall not execute again.
-        $now  = time();
-        $last = (int) $this->params->get('lastrun', 0);
-
-        if ((abs($now - $last) < $cacheTimeout)) {
-            return;
-        }
-
-        // Update last run status
-        $this->params->set('lastrun', $now);
-
-        $paramsJson = $this->params->toString('JSON');
-        $db         = $this->getDatabase();
-        $query      = $db->getQuery(true)
-            ->update($db->quoteName('#__extensions'))
-            ->set($db->quoteName('params') . ' = :params')
-            ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-            ->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
-            ->where($db->quoteName('element') . ' = ' . $db->quote('privacyconsent'))
-            ->bind(':params', $paramsJson);
-
-        try {
-            // Lock the tables to prevent multiple plugin executions causing a race condition
-            $db->lockTable('#__extensions');
-        } catch (Exception $e) {
-            // If we can't lock the tables it's too risky to continue execution
-            return;
-        }
-
-        try {
-            // Update the plugin parameters
-            $result = $db->setQuery($query)->execute();
-            $this->clearCacheGroups(['com_plugins'], [0, 1]);
-        } catch (Exception $exc) {
-            // If we failed to execute
-            $db->unlockTables();
-            $result = false;
-        }
-
-        try {
-            // Unlock the tables after writing
-            $db->unlockTables();
-        } catch (Exception $e) {
-            // If we can't lock the tables assume we have somehow failed
-            $result = false;
-        }
-
-        // Abort on failure
-        if (!$result) {
-            return;
-        }
-
-        // Delete the expired privacy consents
-        $this->invalidateExpiredConsents();
-
-        // Remind for privacy consents near to expire
-        $this->remindExpiringConsents();
-    }
-
-    /**
-     * Method to send the remind for privacy consents renew
-     *
-     * @return  integer
-     *
-     * @since   3.9.0
-     */
-    private function remindExpiringConsents()
-    {
-        // Load the parameters.
-        $expire   = (int) $this->params->get('consentexpiration', 365);
-        $remind   = (int) $this->params->get('remind', 30);
-        $now      = Factory::getDate()->toSql();
-        $period   = '-' . ($expire - $remind);
-        $db       = $this->getDatabase();
-        $query    = $db->getQuery(true);
-
-        $query->select($db->quoteName(['r.id', 'r.user_id', 'u.email']))
-            ->from($db->quoteName('#__privacy_consents', 'r'))
-            ->join('LEFT', $db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('r.user_id'))
-            ->where($db->quoteName('subject') . ' = ' . $db->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
-            ->where($db->quoteName('remind') . ' = 0')
-            ->where($query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('created'));
-
-        try {
-            $users = $db->setQuery($query)->loadObjectList();
-        } catch (ExecutionFailureException $exception) {
-            return false;
-        }
-
-        $app      = $this->getApplication();
-        $linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
-
-        foreach ($users as $user) {
-            $token       = ApplicationHelper::getHash(UserHelper::genRandomPassword());
-            $hashedToken = UserHelper::hashPassword($token);
-
-            // The mail
-            try {
-                $templateData = [
-                    'sitename' => $app->get('sitename'),
-                    'url'      => Uri::root(),
-                    'tokenurl' => Route::link('site', 'index.php?option=com_privacy&view=remind&remind_token=' . $token, false, $linkMode, true),
-                    'formurl'  => Route::link('site', 'index.php?option=com_privacy&view=remind', false, $linkMode, true),
-                    'token'    => $token,
-                ];
-
-                $mailer = new MailTemplate('plg_system_privacyconsent.request.reminder', $app->getLanguage()->getTag());
-                $mailer->addTemplateData($templateData);
-                $mailer->addRecipient($user->email);
-
-                $mailResult = $mailer->send();
-
-                if ($mailResult === false) {
-                    return false;
-                }
-
-                $userId = (int) $user->id;
-
-                // Update the privacy_consents item to not send the reminder again
-                $query->clear()
-                    ->update($db->quoteName('#__privacy_consents'))
-                    ->set($db->quoteName('remind') . ' = 1')
-                    ->set($db->quoteName('token') . ' = :token')
-                    ->where($db->quoteName('id') . ' = :userid')
-                    ->bind(':token', $hashedToken)
-                    ->bind(':userid', $userId, ParameterType::INTEGER);
-                $db->setQuery($query);
-
-                try {
-                    $db->execute();
-                } catch (RuntimeException $e) {
-                    return false;
-                }
-            } catch (MailDisabledException | phpmailerException $exception) {
-                return false;
-            }
-        }
-    }
-
-    /**
-     * Method to delete the expired privacy consents
-     *
-     * @return  boolean
-     *
-     * @since   3.9.0
-     */
-    private function invalidateExpiredConsents()
-    {
-        // Load the parameters.
-        $expire = (int) $this->params->get('consentexpiration', 365);
-        $now    = Factory::getDate()->toSql();
-        $period = '-' . $expire;
-        $db     = $this->getDatabase();
-        $query  = $db->getQuery(true);
-
-        $query->select($db->quoteName(['id', 'user_id']))
-            ->from($db->quoteName('#__privacy_consents'))
-            ->where($query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('created'))
-            ->where($db->quoteName('subject') . ' = ' . $db->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
-            ->where($db->quoteName('state') . ' = 1');
-
-        $db->setQuery($query);
-
-        try {
-            $users = $db->loadObjectList();
-        } catch (RuntimeException $e) {
-            return false;
-        }
-
-        // Do not process further if no expired consents found
-        if (empty($users)) {
-            return true;
-        }
-
-        // Push a notification to the site's super users
-        /** @var MessageModel $messageModel */
-        $messageModel = $this->getApplication()->bootComponent('com_messages')->getMVCFactory()->createModel('Message', 'Administrator');
-
-        foreach ($users as $user) {
-            $userId = (int) $user->id;
-            $query  = $db->getQuery(true)
-                ->update($db->quoteName('#__privacy_consents'))
-                ->set($db->quoteName('state') . ' = 0')
-                ->where($db->quoteName('id') . ' = :userid')
-                ->bind(':userid', $userId, ParameterType::INTEGER);
-            $db->setQuery($query);
-
-            try {
-                $db->execute();
-            } catch (RuntimeException $e) {
-                return false;
-            }
-
-            $messageModel->notifySuperUsers(
-                $this->getApplication()->getLanguage()->_('PLG_SYSTEM_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_SUBJECT'),
-                Text::sprintf('PLG_SYSTEM_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_MESSAGE', Factory::getUser($user->user_id)->username)
-            );
-        }
-
-        return true;
-    }
-    /**
-     * Clears cache groups. We use it to clear the plugins cache after we update the last run timestamp.
-     *
-     * @param   array  $clearGroups   The cache groups to clean
-     * @param   array  $cacheClients  The cache clients (site, admin) to clean
-     *
-     * @return  void
-     *
-     * @since    3.9.0
-     */
-    private function clearCacheGroups(array $clearGroups, array $cacheClients = [0, 1])
-    {
-        foreach ($clearGroups as $group) {
-            foreach ($cacheClients as $client_id) {
-                try {
-                    $options = [
-                        'defaultgroup' => $group,
-                        'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' :
-                            $this->getApplication()->get('cache_path', JPATH_SITE . '/cache'),
-                    ];
-
-                    $cache = Cache::getInstance('callback', $options);
-                    $cache->clean();
-                } catch (Exception $e) {
-                    // Ignore it
-                }
-            }
-        }
     }
 }

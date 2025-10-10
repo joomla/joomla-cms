@@ -22,8 +22,9 @@ use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Asset;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Database\ParameterType;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
 
@@ -36,8 +37,10 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
  *
  * @since  1.6
  */
-class MessageModel extends AdminModel
+class MessageModel extends AdminModel implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * Message
      *
@@ -65,7 +68,7 @@ class MessageModel extends AdminModel
         $input = Factory::getApplication()->getInput();
 
         $user  = $this->getCurrentUser();
-        $this->setState('user.id', $user->get('id'));
+        $this->setState('user.id', $user->id);
 
         $messageId = (int) $input->getInt('message_id');
         $this->setState('message.id', $messageId);
@@ -98,7 +101,7 @@ class MessageModel extends AdminModel
 
                     try {
                         Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-                    } catch (\RuntimeException $exception) {
+                    } catch (\RuntimeException) {
                         Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
                     }
 
@@ -140,7 +143,7 @@ class MessageModel extends AdminModel
                     if ($replyId = (int) $this->getState('reply.id')) {
                         // If replying to a message, preload some data.
                         $db    = $this->getDatabase();
-                        $query = $db->getQuery(true)
+                        $query = $db->createQuery()
                             ->select($db->quoteName(['subject', 'user_id_from', 'user_id_to']))
                             ->from($db->quoteName('#__messages'))
                             ->where($db->quoteName('message_id') . ' = :messageid')
@@ -160,11 +163,12 @@ class MessageModel extends AdminModel
                             return false;
                         }
 
-                        $this->item->set('user_id_to', $message->user_id_from);
+                        $this->item->user_id_to = $message->user_id_from;
+
                         $re = Text::_('COM_MESSAGES_RE');
 
                         if (stripos($message->subject, $re) !== 0) {
-                            $this->item->set('subject', $re . ' ' . $message->subject);
+                            $this->item->subject = $re . ' ' . $message->subject;
                         }
                     }
                 } elseif ($this->item->user_id_to != $this->getCurrentUser()->id) {
@@ -174,7 +178,7 @@ class MessageModel extends AdminModel
                 } else {
                     // Mark message read
                     $db    = $this->getDatabase();
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->update($db->quoteName('#__messages'))
                         ->set($db->quoteName('state') . ' = 1')
                         ->where($db->quoteName('message_id') . ' = :messageid')
@@ -185,7 +189,7 @@ class MessageModel extends AdminModel
 
             // Get the user name for an existing message.
             if ($this->item->user_id_from && $fromUser = new User($this->item->user_id_from)) {
-                $this->item->set('from_user_name', $fromUser->name);
+                $this->item->from_user_name = $fromUser->name;
             }
         }
 
@@ -262,7 +266,7 @@ class MessageModel extends AdminModel
 
                     try {
                         Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-                    } catch (\RuntimeException $exception) {
+                    } catch (\RuntimeException) {
                         Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'warning');
                     }
 
@@ -296,7 +300,7 @@ class MessageModel extends AdminModel
 
         // Assign empty values.
         if (empty($table->user_id_from)) {
-            $table->user_id_from = $this->getCurrentUser()->get('id');
+            $table->user_id_from = $this->getCurrentUser()->id;
         }
 
         if ((int) $table->date_time == 0) {
@@ -311,7 +315,7 @@ class MessageModel extends AdminModel
         }
 
         // Load the user details (already valid from table check).
-        $toUser = User::getInstance($table->user_id_to);
+        $toUser = $this->getUserFactory()->loadUserById($table->user_id_to);
 
         // Check if recipient can access com_messages.
         if (!$toUser->authorise('core.login.admin') || !$toUser->authorise('core.manage', 'com_messages')) {
@@ -352,7 +356,7 @@ class MessageModel extends AdminModel
         }
 
         if ($config->get('mail_on_new', true)) {
-            $fromUser         = User::getInstance($table->user_id_from);
+            $fromUser         = $this->getUserFactory()->loadUserById($table->user_id_from);
             $debug            = Factory::getApplication()->get('debug_lang');
             $default_language = ComponentHelper::getParams('com_languages')->get('administrator');
             $lang             = Language::getInstance($toUser->getParam('admin_language', $default_language), $debug);
@@ -362,7 +366,7 @@ class MessageModel extends AdminModel
             $app      = Factory::getApplication();
             $linkMode = $app->get('force_ssl', 0) >= 1 ? Route::TLS_FORCE : Route::TLS_IGNORE;
             $sitename = $app->get('sitename');
-            $fromName = $fromUser->get('name');
+            $fromName = $fromUser->name;
             $siteURL  = Route::link(
                 'administrator',
                 'index.php?option=com_messages&view=message&message_id=' . $table->message_id,
@@ -426,8 +430,7 @@ class MessageModel extends AdminModel
         $db = $this->getDatabase();
 
         try {
-            /** @var Asset $table */
-            $table  = Table::getInstance('Asset');
+            $table  = new Asset($db);
             $rootId = $table->getRootId();
 
             /** @var Rule[] $rules */
@@ -454,7 +457,7 @@ class MessageModel extends AdminModel
                 return false;
             }
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('map.user_id'))
                 ->from($db->quoteName('#__user_usergroup_map', 'map'))
                 ->join(

@@ -15,9 +15,6 @@ use Joomla\CMS\Feed\FeedEntry;
 use Joomla\CMS\Feed\FeedLink;
 use Joomla\CMS\Feed\Parser\AtomParser;
 use Joomla\Tests\Unit\UnitTestCase;
-use ReflectionClass;
-use SimpleXMLElement;
-use XMLReader;
 
 /**
  * Test class for AtomParser.
@@ -45,8 +42,8 @@ class AtomParserTest extends UnitTestCase
         ];
 
         // It's currently not possible to mock simple xml element
-        // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement        = new SimpleXMLElement('<author/>');
+        // @link https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
+        $xmlElement        = new \SimpleXMLElement('<author/>');
         $xmlElement->name  = $author['name'];
         $xmlElement->email = $author['email'];
         $xmlElement->uri   = $author['uri'];
@@ -59,7 +56,7 @@ class AtomParserTest extends UnitTestCase
 
         // Use reflection to test protected method
         $atomParser      = new AtomParser(new \XMLReader());
-        $reflectionClass = new ReflectionClass($atomParser);
+        $reflectionClass = new \ReflectionClass($atomParser);
         $method          = $reflectionClass->getMethod('handleAuthor');
         $method->setAccessible(true);
         $method->invoke($atomParser, $feedMock, $xmlElement);
@@ -82,8 +79,8 @@ class AtomParserTest extends UnitTestCase
         ];
 
         // It's currently not possible to mock simple xml element
-        // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement        = new SimpleXMLElement('<contributor />');
+        // @link https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
+        $xmlElement        = new \SimpleXMLElement('<contributor />');
         $xmlElement->name  = $contributor['name'];
         $xmlElement->email = $contributor['email'];
         $xmlElement->uri   = $contributor['uri'];
@@ -96,7 +93,7 @@ class AtomParserTest extends UnitTestCase
 
         // Use reflection to test protected method
         $atomParser      = new AtomParser(new \XMLReader());
-        $reflectionClass = new ReflectionClass($atomParser);
+        $reflectionClass = new \ReflectionClass($atomParser);
         $method          = $reflectionClass->getMethod('handleContributor');
         $method->setAccessible(true);
         $method->invoke($atomParser, $feedMock, $xmlElement);
@@ -115,8 +112,8 @@ class AtomParserTest extends UnitTestCase
         $generator = 'Joomla';
 
         // It's currently not possible to mock simple xml element
-        // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new SimpleXMLElement('<generator>' . $generator . '</generator>');
+        // @link https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
+        $xmlElement = new \SimpleXMLElement('<generator>' . $generator . '</generator>');
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -126,7 +123,7 @@ class AtomParserTest extends UnitTestCase
 
         // Use reflection to test protected method
         $atomParser      = new AtomParser(new \XMLReader());
-        $reflectionClass = new ReflectionClass($atomParser);
+        $reflectionClass = new \ReflectionClass($atomParser);
         $method          = $reflectionClass->getMethod('handleGenerator');
         $method->setAccessible(true);
         $method->invoke($atomParser, $feedMock, $xmlElement);
@@ -145,8 +142,8 @@ class AtomParserTest extends UnitTestCase
         $id = 'http://domain.com/path/to/resource';
 
         // It's currently not possible to mock simple xml element
-        // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new SimpleXMLElement('<id>' . $id . '</id>');
+        // @link https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
+        $xmlElement = new \SimpleXMLElement('<id>' . $id . '</id>');
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -156,7 +153,7 @@ class AtomParserTest extends UnitTestCase
 
         // Use reflection to test protected method
         $atomParser      = new AtomParser(new \XMLReader());
-        $reflectionClass = new ReflectionClass($atomParser);
+        $reflectionClass = new \ReflectionClass($atomParser);
         $method          = $reflectionClass->getMethod('handleId');
         $method->setAccessible(true);
         $method->invoke($atomParser, $feedMock, $xmlElement);
@@ -175,8 +172,8 @@ class AtomParserTest extends UnitTestCase
         $href = 'http://domain.com/path/to/resource';
 
         // It's currently not possible to mock simple xml element
-        // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new SimpleXMLElement('<link href="' . $href . '" />');
+        // @link https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
+        $xmlElement = new \SimpleXMLElement('<link href="' . $href . '" />');
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -193,7 +190,7 @@ class AtomParserTest extends UnitTestCase
 
         // Use reflection to test protected method
         $atomParser      = new AtomParser(new \XMLReader());
-        $reflectionClass = new ReflectionClass($atomParser);
+        $reflectionClass = new \ReflectionClass($atomParser);
         $method          = $reflectionClass->getMethod('handleLink');
         $method->setAccessible(true);
         $method->invoke($atomParser, $feedMock, $xmlElement);
@@ -212,8 +209,8 @@ class AtomParserTest extends UnitTestCase
         $copyright = 'All Rights Reserved.';
 
         // It's currently not possible to mock simple xml element
-        // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new SimpleXMLElement('<rights>' . $copyright . '</rights>');
+        // @link https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
+        $xmlElement = new \SimpleXMLElement('<rights>' . $copyright . '</rights>');
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -223,7 +220,7 @@ class AtomParserTest extends UnitTestCase
 
         // Use reflection to test protected method
         $atomParser      = new AtomParser(new \XMLReader());
-        $reflectionClass = new ReflectionClass($atomParser);
+        $reflectionClass = new \ReflectionClass($atomParser);
         $method          = $reflectionClass->getMethod('handleRights');
         $method->setAccessible(true);
         $method->invoke($atomParser, $feedMock, $xmlElement);
@@ -242,8 +239,8 @@ class AtomParserTest extends UnitTestCase
         $subtitle = 'Lorem Ipsum ...';
 
         // It's currently not possible to mock simple xml element
-        // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new SimpleXMLElement('<subtitle>' . $subtitle . '</subtitle>');
+        // @link https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
+        $xmlElement = new \SimpleXMLElement('<subtitle>' . $subtitle . '</subtitle>');
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -253,7 +250,7 @@ class AtomParserTest extends UnitTestCase
 
         // Use reflection to test protected method
         $atomParser      = new AtomParser(new \XMLReader());
-        $reflectionClass = new ReflectionClass($atomParser);
+        $reflectionClass = new \ReflectionClass($atomParser);
         $method          = $reflectionClass->getMethod('handleSubtitle');
         $method->setAccessible(true);
         $method->invoke($atomParser, $feedMock, $xmlElement);
@@ -272,8 +269,8 @@ class AtomParserTest extends UnitTestCase
         $title = 'My Title.';
 
         // It's currently not possible to mock simple xml element
-        // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new SimpleXMLElement('<title>' . $title . '</title>');
+        // @link https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
+        $xmlElement = new \SimpleXMLElement('<title>' . $title . '</title>');
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -283,7 +280,7 @@ class AtomParserTest extends UnitTestCase
 
         // Use reflection to test protected method
         $atomParser      = new AtomParser(new \XMLReader());
-        $reflectionClass = new ReflectionClass($atomParser);
+        $reflectionClass = new \ReflectionClass($atomParser);
         $method          = $reflectionClass->getMethod('handleTitle');
         $method->setAccessible(true);
         $method->invoke($atomParser, $feedMock, $xmlElement);
@@ -302,8 +299,8 @@ class AtomParserTest extends UnitTestCase
         $date = '2019-01-01T00:00:00Z';
 
         // It's currently not possible to mock simple xml element
-        // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new SimpleXMLElement('<updated>' . $date . '</updated>');
+        // @link https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
+        $xmlElement = new \SimpleXMLElement('<updated>' . $date . '</updated>');
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -313,7 +310,7 @@ class AtomParserTest extends UnitTestCase
 
         // Use reflection to test protected method
         $atomParser      = new AtomParser(new \XMLReader());
-        $reflectionClass = new ReflectionClass($atomParser);
+        $reflectionClass = new \ReflectionClass($atomParser);
         $method          = $reflectionClass->getMethod('handleUpdated');
         $method->setAccessible(true);
         $method->invoke($atomParser, $feedMock, $xmlElement);
@@ -330,13 +327,13 @@ class AtomParserTest extends UnitTestCase
     {
         $dummyXml   = '<?xml version="1.0" encoding="utf-8" ?>
 <feed xmlns="http://www.w3.org/2005/Atom" />';
-        $reader = new XMLReader();
+        $reader = new \XMLReader();
         $reader->xml($dummyXml);
         $atomParser = new AtomParser($reader);
         $atomParser->parse();
 
         // Use reflection to check the value
-        $reflectionClass = new ReflectionClass($atomParser);
+        $reflectionClass = new \ReflectionClass($atomParser);
         $attribute       = $reflectionClass->getProperty('version');
         $attribute->setAccessible(true);
 
@@ -357,7 +354,7 @@ class AtomParserTest extends UnitTestCase
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title type="text">Joomla! Unit test</title>
 </feed>';
-        $reader   = new XMLReader();
+        $reader   = new \XMLReader();
         $reader->xml($dummyXml);
         $atomParser = new AtomParser($reader);
 
@@ -376,7 +373,7 @@ class AtomParserTest extends UnitTestCase
         $atomParser->parse();
 
         // Use reflection to check the value
-        $reflectionClass = new ReflectionClass($atomParser);
+        $reflectionClass = new \ReflectionClass($atomParser);
         $attribute       = $reflectionClass->getProperty('version');
         $attribute->setAccessible(true);
 
@@ -397,7 +394,7 @@ class AtomParserTest extends UnitTestCase
 <feed  version="0.3" xmlns="http://www.w3.org/2005/Atom">
 <title type="text">Joomla! Unit test</title>
 </feed>';
-        $reader   = new XMLReader();
+        $reader   = new \XMLReader();
         $reader->xml($dummyXml);
         $atomParser = new AtomParser($reader);
 
@@ -416,7 +413,7 @@ class AtomParserTest extends UnitTestCase
         $atomParser->parse();
 
         // Use reflection to check the value
-        $reflectionClass = new ReflectionClass($atomParser);
+        $reflectionClass = new \ReflectionClass($atomParser);
         $attribute       = $reflectionClass->getProperty('version');
         $attribute->setAccessible(true);
 
@@ -434,8 +431,8 @@ class AtomParserTest extends UnitTestCase
     public function testProcessFeedEntry()
     {
         // It's currently not possible to mock simple xml element
-        // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new SimpleXMLElement('<entry><id>http://example.com/id</id>
+        // @link https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
+        $xmlElement = new \SimpleXMLElement('<entry><id>http://example.com/id</id>
 			<title>title</title><updated>August 25, 1991</updated><summary>summary</summary></entry>');
 
         $feedEntryMock = $this->createMock(FeedEntry::class);
@@ -464,7 +461,7 @@ class AtomParserTest extends UnitTestCase
 
         // Use reflection to test protected method
         $atomParser      = new AtomParser(new \XMLReader());
-        $reflectionClass = new ReflectionClass($atomParser);
+        $reflectionClass = new \ReflectionClass($atomParser);
         $method          = $reflectionClass->getMethod('processFeedEntry');
         $method->setAccessible(true);
         $method->invoke($atomParser, $feedEntryMock, $xmlElement);

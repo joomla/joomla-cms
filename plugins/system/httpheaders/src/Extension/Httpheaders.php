@@ -14,7 +14,6 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
@@ -119,15 +118,14 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
     ];
 
     /**
-     * @param   DispatcherInterface      $dispatcher  The object to observe -- event dispatcher.
      * @param   array                    $config      An optional associative array of configuration settings.
      * @param   CMSApplicationInterface  $app         The app
      *
      * @since   4.0.0
      */
-    public function __construct(DispatcherInterface $dispatcher, $config, CMSApplicationInterface $app)
+    public function __construct(array $config, CMSApplicationInterface $app)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->setApplication($app);
 
@@ -160,6 +158,8 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
     /**
      * The `applyHashesToCspRule` method makes sure the csp hashes are added to the csp header when enabled
      *
+     * @param   Event  $event
+     *
      * @return  void
      *
      * @since   4.0.0
@@ -185,7 +185,7 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
 
         if ($scriptHashesEnabled) {
             // Generate the hashes for the script-src
-            $inlineScripts = is_array($headData['script']) ? $headData['script'] : [];
+            $inlineScripts = \is_array($headData['script']) ? $headData['script'] : [];
 
             foreach ($inlineScripts as $type => $scripts) {
                 foreach ($scripts as $hash => $scriptContent) {
@@ -196,7 +196,7 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
 
         if ($styleHashesEnabled) {
             // Generate the hashes for the style-src
-            $inlineStyles = is_array($headData['style']) ? $headData['style'] : [];
+            $inlineStyles = \is_array($headData['style']) ? $headData['style'] : [];
 
             foreach ($inlineStyles as $type => $styles) {
                 foreach ($styles as $hash => $styleContent) {
@@ -234,6 +234,8 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
 
     /**
      * The `setHttpHeaders` method handle the setting of the configured HTTP Headers
+     *
+     * @param   Event  $event
      *
      * @return  void
      *
@@ -282,7 +284,7 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
             }
 
             // Handle non value directives
-            if (in_array($cspValue->directive, $this->noValueDirectives)) {
+            if (\in_array($cspValue->directive, $this->noValueDirectives)) {
                 $newCspValues[] = trim($cspValue->directive);
 
                 continue;
@@ -290,10 +292,10 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
 
             // We can only use this if this is a valid entry
             if (
-                in_array($cspValue->directive, $this->validDirectives)
+                \in_array($cspValue->directive, $this->validDirectives)
                 && !empty($cspValue->value)
             ) {
-                if (in_array($cspValue->directive, $this->nonceDirectives) && $nonceEnabled) {
+                if (\in_array($cspValue->directive, $this->nonceDirectives) && $nonceEnabled) {
                     /**
                      * That line is for B/C we do no longer require to add the nonce tag
                      * but add it once the setting is enabled so this line here is needed
@@ -306,12 +308,12 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
                 }
 
                 // Append the script hashes placeholder
-                if ($scriptHashesEnabled && strpos($cspValue->directive, 'script-src') === 0) {
+                if ($scriptHashesEnabled && str_starts_with($cspValue->directive, 'script-src')) {
                     $cspValue->value = '{script-hashes} ' . $cspValue->value;
                 }
 
                 // Append the style hashes placeholder
-                if ($styleHashesEnabled && strpos($cspValue->directive, 'style-src') === 0) {
+                if ($styleHashesEnabled && str_starts_with($cspValue->directive, 'style-src')) {
                     $cspValue->value = '{style-hashes} ' . $cspValue->value;
                 }
 
@@ -323,7 +325,7 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
                 if (
                     $strictDynamicEnabled
                     && $cspValue->directive === 'script-src'
-                    && strpos($cspValue->value, 'strict-dynamic') === false
+                    && !str_contains($cspValue->value, 'strict-dynamic')
                 ) {
                     $cspValue->value = "'strict-dynamic' " . $cspValue->value;
                 }
@@ -399,7 +401,7 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
             }
 
             // Make sure the header is a valid and supported header
-            if (!in_array(strtolower($additionalHttpHeader->key), $this->supportedHttpHeaders)) {
+            if (!\in_array(strtolower($additionalHttpHeader->key), $this->supportedHttpHeaders)) {
                 continue;
             }
 
@@ -412,7 +414,7 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
             }
 
             // Allow the custom csp headers to use the random $cspNonce in the rules
-            if (in_array(strtolower($additionalHttpHeader->key), ['content-security-policy', 'content-security-policy-report-only'])) {
+            if (\in_array(strtolower($additionalHttpHeader->key), ['content-security-policy', 'content-security-policy-report-only'])) {
                 $additionalHttpHeader->value = str_replace('{nonce}', "'nonce-" . $this->cspNonce . "'", $additionalHttpHeader->value);
             }
 

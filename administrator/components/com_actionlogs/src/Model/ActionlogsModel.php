@@ -10,19 +10,18 @@
 
 namespace Joomla\Component\Actionlogs\Administrator\Model;
 
-use DateTimeZone;
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Event\ActionLog\AfterLogPurgeEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\DatabaseIterator;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -38,13 +37,14 @@ class ActionlogsModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   3.9.0
      *
-     * @throws  Exception
+     * @throws  \Exception
      */
-    public function __construct($config = [])
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -58,7 +58,7 @@ class ActionlogsModel extends ListModel
             ];
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -71,7 +71,7 @@ class ActionlogsModel extends ListModel
      *
      * @since   3.9.0
      *
-     * @throws  Exception
+     * @throws  \Exception
      */
     protected function populateState($ordering = 'a.id', $direction = 'desc')
     {
@@ -81,16 +81,16 @@ class ActionlogsModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   3.9.0
      *
-     * @throws  Exception
+     * @throws  \Exception
      */
     protected function getListQuery()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('a.*')
             ->select($db->quoteName('u.name'))
             ->from($db->quoteName('#__action_logs', 'a'))
@@ -119,7 +119,7 @@ class ActionlogsModel extends ListModel
 
         // Apply filter by extension
         if (!empty($extension)) {
-            $extension = $extension . '%';
+            $extension .= '%';
             $query->where($db->quoteName('a.extension') . ' LIKE :extension')
                 ->bind(':extension', $extension);
         }
@@ -174,7 +174,7 @@ class ActionlogsModel extends ListModel
      *
      * @since   3.9.0
      *
-     * @throws  Exception
+     * @throws  \Exception
      */
     private function buildDateRange($range)
     {
@@ -212,7 +212,7 @@ class ActionlogsModel extends ListModel
                 $dStart->setTime(0, 0, 0);
 
                 // Now change the timezone back to UTC.
-                $tz = new DateTimeZone('GMT');
+                $tz = new \DateTimeZone('UTC');
                 $dStart->setTimezone($tz);
                 break;
         }
@@ -234,7 +234,7 @@ class ActionlogsModel extends ListModel
     {
         $itemId = (int) $itemId;
         $db     = $this->getDatabase();
-        $query  = $db->getQuery(true)
+        $query  = $db->createQuery()
             ->select('a.*')
             ->select($db->quoteName('u.name'))
             ->from($db->quoteName('#__action_logs', 'a'))
@@ -300,14 +300,14 @@ class ActionlogsModel extends ListModel
      *
      * @param   integer[]|null  $pks  An optional array of log record IDs to load
      *
-     * @return  DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   3.9.0
      */
     private function getLogDataQuery($pks = null)
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('a.*')
             ->select($db->quoteName('u.name'))
             ->from($db->quoteName('#__action_logs', 'a'))
@@ -334,20 +334,20 @@ class ActionlogsModel extends ListModel
     {
         $keys  = ArrayHelper::toInteger($pks);
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__action_logs'))
             ->whereIn($db->quoteName('id'), $keys);
         $db->setQuery($query);
 
         try {
             $db->execute();
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             $this->setError($e->getMessage());
 
             return false;
         }
 
-        Factory::getApplication()->triggerEvent('onAfterLogPurge', []);
+        $this->getDispatcher()->dispatch('onAfterLogPurge', new AfterLogPurgeEvent('onAfterLogPurge'));
 
         return true;
     }
@@ -363,11 +363,11 @@ class ActionlogsModel extends ListModel
     {
         try {
             $this->getDatabase()->truncateTable('#__action_logs');
-        } catch (Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 
-        Factory::getApplication()->triggerEvent('onAfterLogPurge', []);
+        $this->getDispatcher()->dispatch('onAfterLogPurge', new AfterLogPurgeEvent('onAfterLogPurge'));
 
         return true;
     }

@@ -21,7 +21,7 @@ use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Field to load a list of all users that have logged actions
+ * Field to load a list of all extensions that have logged actions
  *
  * @since  3.9.0
  */
@@ -45,7 +45,7 @@ class LogtypeField extends ListField
     public function getOptions()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('extension'))
             ->from($db->quoteName('#__action_logs_extensions'));
 

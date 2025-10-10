@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -57,7 +57,7 @@ abstract class Menu
         if (!isset(static::$menus[$key])) {
             $db = Factory::getDbo();
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select(
                     [
                         $db->quoteName('id'),
@@ -70,7 +70,7 @@ abstract class Menu
                 ->order(
                     [
                         $db->quoteName('client_id'),
-                        $db->quoteName('title'),
+                        $db->quoteName('ordering'),
                     ]
                 );
 
@@ -101,11 +101,11 @@ abstract class Menu
 
         if (empty(static::$items[$key])) {
             // B/C - not passed  = 0, null can be passed for both clients
-            $clientId = array_key_exists('clientid', $config) ? $config['clientid'] : 0;
+            $clientId = \array_key_exists('clientid', $config) ? $config['clientid'] : 0;
             $menus    = static::menus($clientId);
 
             $db    = Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select(
                     [
                         $db->quoteName('a.id', 'value'),
@@ -245,7 +245,7 @@ abstract class Menu
     {
         if ($id) {
             $db    = Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select(
                     [
                         $db->quoteName('ordering', 'value'),
@@ -293,7 +293,7 @@ abstract class Menu
         $db = Factory::getDbo();
 
         // Get a list of the menu items
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('m.id'),
@@ -399,7 +399,7 @@ abstract class Menu
      */
     public static function treerecurse($id, $indent, $list, &$children, $maxlevel = 9999, $level = 0, $type = 1)
     {
-        if ($level <= $maxlevel && isset($children[$id]) && is_array($children[$id])) {
+        if ($level <= $maxlevel && isset($children[$id]) && \is_array($children[$id])) {
             if ($type) {
                 $pre    = '<sup>|_</sup>&#160;';
                 $spacer = '.&#160;&#160;&#160;&#160;&#160;&#160;';
@@ -420,8 +420,8 @@ abstract class Menu
                 $list[$id]           = $v;
                 $list[$id]->treename = $indent . $txt;
 
-                if (isset($children[$id]) && is_array($children[$id])) {
-                    $list[$id]->children = count($children[$id]);
+                if (isset($children[$id]) && \is_array($children[$id])) {
+                    $list[$id]->children = \count($children[$id]);
                     $list                = static::treerecurse($id, $indent . $spacer, $list, $children, $maxlevel, $level + 1, $type);
                 } else {
                     $list[$id]->children = 0;

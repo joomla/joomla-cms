@@ -62,7 +62,7 @@ class TosField extends RadioField
 
         // Build the class for the label.
         $class = !empty($this->description) ? 'hasPopover' : '';
-        $class = $class . ' required';
+        $class .= ' required';
         $class = !empty($this->labelClass) ? $class . ' ' . $this->labelClass : $class;
 
         // Add the opening label tag and main attributes attributes.
@@ -90,7 +90,7 @@ class TosField extends RadioField
             $attribs['data-bs-target'] = '#tosModal';
 
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             $query->select($db->quoteName(['id', 'alias', 'catid', 'language']))
                 ->from($db->quoteName('#__content'))

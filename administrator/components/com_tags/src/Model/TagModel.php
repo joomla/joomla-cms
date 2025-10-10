@@ -239,9 +239,9 @@ class TagModel extends AdminModel
                 $origTable->load($input->getInt('id'));
 
                 if ($data['title'] == $origTable->title) {
-                    list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
-                    $data['title']       = $title;
-                    $data['alias']       = $alias;
+                    [$title, $alias] = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
+                    $data['title']   = $title;
+                    $data['alias']   = $alias;
                 } elseif ($data['alias'] == $origTable->alias) {
                     $data['alias'] = '';
                 }
@@ -269,7 +269,7 @@ class TagModel extends AdminModel
             // Trigger the before save event.
             $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, $table, $isNew, $data]);
 
-            if (in_array(false, $result, true)) {
+            if (\in_array(false, $result, true)) {
                 $this->setError($table->getError());
 
                 return false;
@@ -325,7 +325,7 @@ class TagModel extends AdminModel
     protected function prepareTable($table)
     {
         // Increment the content version number.
-        $table->version++;
+        $table->version = empty($table->version) ? 1 : $table->version + 1;
     }
 
     /**

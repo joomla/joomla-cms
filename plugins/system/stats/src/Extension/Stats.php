@@ -10,16 +10,18 @@
 
 namespace Joomla\Plugin\System\Stats\Extension;
 
-use Exception;
 use Joomla\CMS\Cache\Cache;
-use Joomla\CMS\Http\HttpFactory;
+use Joomla\CMS\Event\Application\AfterDispatchEvent;
+use Joomla\CMS\Event\Application\AfterInitialiseEvent;
+use Joomla\CMS\Event\Plugin\AjaxEvent;
+use Joomla\CMS\Event\Plugin\System\Stats\GetStatsDataEvent;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseAwareTrait;
-use RuntimeException;
-use UnexpectedValueException;
+use Joomla\Event\SubscriberInterface;
+use Joomla\Http\HttpFactory;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -34,7 +36,7 @@ use UnexpectedValueException;
  *
  * @since  3.5
  */
-final class Stats extends CMSPlugin
+final class Stats extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
 
@@ -75,13 +77,34 @@ final class Stats extends CMSPlugin
     protected $uniqueId;
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   5.3.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onAfterInitialise' => 'onAfterInitialise',
+            'onAfterDispatch'   => 'onAfterDispatch',
+            'onAjaxSendAlways'  => 'onAjaxSendAlways',
+            'onAjaxSendNever'   => 'onAjaxSendNever',
+            'onAjaxSendStats'   => 'onAjaxSendStats',
+            'onGetStatsData'    => 'onGetStatsData',
+        ];
+    }
+
+    /**
      * Listener for the `onAfterInitialise` event
+     *
+     * @param   AfterInitialiseEvent  $event  The event instance.
      *
      * @return  void
      *
      * @since   3.5
      */
-    public function onAfterInitialise()
+    public function onAfterInitialise(AfterInitialiseEvent $event): void
     {
         if (!$this->getApplication()->isClient('administrator') || !$this->isAllowedUser()) {
             return;
@@ -106,11 +129,13 @@ final class Stats extends CMSPlugin
     /**
      * Listener for the `onAfterDispatch` event
      *
+     * @param   AfterDispatchEvent  $event  The event instance.
+     *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function onAfterDispatch()
+    public function onAfterDispatch(AfterDispatchEvent $event): void
     {
         if (!$this->getApplication()->isClient('administrator') || !$this->isAllowedUser()) {
             return;
@@ -139,72 +164,78 @@ final class Stats extends CMSPlugin
     /**
      * User selected to always send data
      *
+     * @param   AjaxEvent  $event  The event instance.
+     *
      * @return  void
      *
      * @since   3.5
      *
-     * @throws  Exception         If user is not allowed.
-     * @throws  RuntimeException  If there is an error saving the params or sending the data.
+     * @throws  \Exception         If user is not allowed.
+     * @throws  \RuntimeException  If there is an error saving the params or sending the data.
      */
-    public function onAjaxSendAlways()
+    public function onAjaxSendAlways(AjaxEvent $event): void
     {
         if (!$this->isAllowedUser() || !$this->isAjaxRequest()) {
-            throw new Exception($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
+            throw new \Exception($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
         }
 
         $this->params->set('mode', static::MODE_ALLOW_ALWAYS);
 
         if (!$this->saveParams()) {
-            throw new RuntimeException('Unable to save plugin settings', 500);
+            throw new \RuntimeException('Unable to save plugin settings', 500);
         }
 
-        echo json_encode(['sent' => (int) $this->sendStats()]);
+        $event->updateEventResult(json_encode(['sent' => (int) $this->sendStats()]));
     }
 
     /**
      * User selected to never send data.
      *
+     * @param   AjaxEvent  $event  The event instance.
+     *
      * @return  void
      *
      * @since   3.5
      *
-     * @throws  Exception         If user is not allowed.
-     * @throws  RuntimeException  If there is an error saving the params.
+     * @throws  \Exception         If user is not allowed.
+     * @throws  \RuntimeException  If there is an error saving the params.
      */
-    public function onAjaxSendNever()
+    public function onAjaxSendNever(AjaxEvent $event): void
     {
         if (!$this->isAllowedUser() || !$this->isAjaxRequest()) {
-            throw new Exception($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
+            throw new \Exception($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
         }
 
         $this->params->set('mode', static::MODE_ALLOW_NEVER);
 
         if (!$this->saveParams()) {
-            throw new RuntimeException('Unable to save plugin settings', 500);
+            throw new \RuntimeException('Unable to save plugin settings', 500);
         }
 
         if (!$this->disablePlugin()) {
-            throw new RuntimeException('Unable to disable the statistics plugin', 500);
+            throw new \RuntimeException('Unable to disable the statistics plugin', 500);
         }
 
-        echo json_encode(['sent' => 0]);
+        $event->updateEventResult(json_encode(['sent' => 0]));
     }
 
     /**
      * Send the stats to the server.
      * On first load | on demand mode it will show a message asking users to select mode.
      *
+     * @param   AjaxEvent  $event  The event instance.
+     *
      * @return  void
      *
      * @since   3.5
      *
-     * @throws  Exception         If user is not allowed.
-     * @throws  RuntimeException  If there is an error saving the params, disabling the plugin or sending the data.
+     * @throws  \Exception         If user is not allowed.
+     * @throws  \RuntimeException  If there is an error saving the params, disabling the plugin or sending the data.
      */
-    public function onAjaxSendStats()
+    public function onAjaxSendStats(AjaxEvent $event): void
     {
         if (!$this->isAllowedUser() || !$this->isAjaxRequest()) {
-            throw new Exception($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
+            throw new \Exception($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
         }
 
         // User has not selected the mode. Show message.
@@ -214,30 +245,30 @@ final class Stats extends CMSPlugin
                 'html' => $this->getRenderer('message')->render($this->getLayoutData()),
             ];
 
-            echo json_encode($data);
+            $event->updateEventResult(json_encode($data));
 
             return;
         }
 
         if (!$this->saveParams()) {
-            throw new RuntimeException('Unable to save plugin settings', 500);
+            throw new \RuntimeException('Unable to save plugin settings', 500);
         }
 
-        echo json_encode(['sent' => (int) $this->sendStats()]);
+        $event->updateEventResult(json_encode(['sent' => (int) $this->sendStats()]));
     }
 
     /**
      * Get the data through events
      *
-     * @param   string  $context  Context where this will be called from
+     * @param   GetStatsDataEvent $event  The event instance.
      *
-     * @return  array
+     * @return  void
      *
      * @since   3.5
      */
-    public function onGetStatsData($context)
+    public function onGetStatsData(GetStatsDataEvent $event): void
     {
-        return $this->getStatsData();
+        $event->addResult($this->getStatsData());
     }
 
     /**
@@ -371,7 +402,7 @@ final class Stats extends CMSPlugin
      */
     private function isDebugEnabled()
     {
-        return defined('PLG_SYSTEM_STATS_DEBUG');
+        return \defined('PLG_SYSTEM_STATS_DEBUG');
     }
 
     /**
@@ -446,7 +477,7 @@ final class Stats extends CMSPlugin
         $paramsJson = $this->params->toString('JSON');
         $db         = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__extensions'))
             ->set($db->quoteName('params') . ' = :params')
             ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -457,7 +488,7 @@ final class Stats extends CMSPlugin
         try {
             // Lock the tables to prevent multiple plugin executions causing a race condition
             $db->lockTable('#__extensions');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // If we can't lock the tables it's too risky to continue execution
             return false;
         }
@@ -467,7 +498,7 @@ final class Stats extends CMSPlugin
             $result = $db->setQuery($query)->execute();
 
             $this->clearCacheGroups(['com_plugins']);
-        } catch (Exception $exc) {
+        } catch (\Exception) {
             // If we failed to execute
             $db->unlockTables();
             $result = false;
@@ -476,7 +507,7 @@ final class Stats extends CMSPlugin
         try {
             // Unlock the tables after writing
             $db->unlockTables();
-        } catch (Exception $e) {
+        } catch (\Exception) {
             // If we can't lock the tables assume we have somehow failed
             $result = false;
         }
@@ -491,7 +522,7 @@ final class Stats extends CMSPlugin
      *
      * @since   3.5
      *
-     * @throws  RuntimeException  If there is an error sending the data and debug mode enabled.
+     * @throws  \RuntimeException  If there is an error sending the data and debug mode enabled.
      */
     private function sendStats()
     {
@@ -499,22 +530,22 @@ final class Stats extends CMSPlugin
 
         try {
             // Don't let the request take longer than 2 seconds to avoid page timeout issues
-            $response = HttpFactory::getHttp()->post($this->serverUrl, $this->getStatsData(), [], 2);
+            $response = (new HttpFactory())->getHttp()->post($this->serverUrl, $this->getStatsData(), [], 2);
 
             if (!$response) {
                 $error = 'Could not send site statistics to remote server: No response';
-            } elseif ($response->code !== 200) {
-                $data = json_decode($response->body);
+            } elseif ($response->getStatusCode() !== 200) {
+                $data = json_decode((string) $response->getBody());
 
                 $error = 'Could not send site statistics to remote server: ' . $data->message;
             }
-        } catch (UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException $e) {
             // There was an error sending stats. Should we do anything?
             $error = 'Could not send site statistics to remote server: ' . $e->getMessage();
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             // There was an error connecting to the server or in the post request
             $error = 'Could not connect to statistics server: ' . $e->getMessage();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // An unexpected error in processing; don't let this failure kill the site
             $error = 'Unexpected error connecting to statistics server: ' . $e->getMessage();
         }
@@ -525,7 +556,7 @@ final class Stats extends CMSPlugin
 
             // If Stats debug mode enabled, or Global Debug mode enabled, show error to the user.
             if ($this->isDebugEnabled() || $this->getApplication()->get('debug')) {
-                throw new RuntimeException($error, 500);
+                throw new \RuntimeException($error, 500);
             }
 
             return false;
@@ -554,7 +585,7 @@ final class Stats extends CMSPlugin
 
                 $cache = Cache::getInstance('callback', $options);
                 $cache->clean();
-            } catch (Exception $e) {
+            } catch (\Exception) {
                 // Ignore it
             }
         }
@@ -572,7 +603,7 @@ final class Stats extends CMSPlugin
     {
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__extensions'))
             ->set($db->quoteName('enabled') . ' = 0')
             ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -582,7 +613,7 @@ final class Stats extends CMSPlugin
         try {
             // Lock the tables to prevent multiple plugin executions causing a race condition
             $db->lockTable('#__extensions');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // If we can't lock the tables it's too risky to continue execution
             return false;
         }
@@ -592,7 +623,7 @@ final class Stats extends CMSPlugin
             $result = $db->setQuery($query)->execute();
 
             $this->clearCacheGroups(['com_plugins']);
-        } catch (Exception $exc) {
+        } catch (\Exception) {
             // If we failed to execute
             $db->unlockTables();
             $result = false;
@@ -601,7 +632,7 @@ final class Stats extends CMSPlugin
         try {
             // Unlock the tables after writing
             $db->unlockTables();
-        } catch (Exception $e) {
+        } catch (\Exception) {
             // If we can't lock the tables assume we have somehow failed
             $result = false;
         }

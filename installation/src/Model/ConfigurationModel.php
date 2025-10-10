@@ -99,7 +99,7 @@ class ConfigurationModel extends BaseInstallationModel
             }
         }
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('extension_id')
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('name') . ' = ' . $db->quote('files_joomla'));
@@ -141,8 +141,10 @@ class ConfigurationModel extends BaseInstallationModel
         }
 
         // This is needed because the installer loads the extension table in constructor, needs to be refactored in 5.0
-        Factory::$database = $db;
-        $installer         = Installer::getInstance();
+        // It doesn't honor the DatabaseAware interface
+        Factory::getContainer()->set('\Joomla\CMS\Table\Extension', new \Joomla\CMS\Table\Extension($db));
+
+        $installer = Installer::getInstance();
 
         foreach ($extensions as $extension) {
             if (!$installer->refreshManifestCache($extension->extension_id)) {
@@ -158,7 +160,7 @@ class ConfigurationModel extends BaseInstallationModel
         // Handle default backend language setting. This feature is available for localized versions of Joomla.
         $languages = Factory::getApplication()->getLocaliseAdmin($db);
 
-        if (in_array($options->language, $languages['admin']) || in_array($options->language, $languages['site'])) {
+        if (\in_array($options->language, $languages['admin']) || \in_array($options->language, $languages['site'])) {
             // Build the language parameters for the language manager.
             $params = [];
 
@@ -166,11 +168,11 @@ class ConfigurationModel extends BaseInstallationModel
             $params['administrator'] = 'en-GB';
             $params['site']          = 'en-GB';
 
-            if (in_array($options->language, $languages['admin'])) {
+            if (\in_array($options->language, $languages['admin'])) {
                 $params['administrator'] = $options->language;
             }
 
-            if (in_array($options->language, $languages['site'])) {
+            if (\in_array($options->language, $languages['site'])) {
                 $params['site'] = $options->language;
             }
 
@@ -275,14 +277,17 @@ class ConfigurationModel extends BaseInstallationModel
 
         // Update all core tables created_by fields of the tables with the random user id.
         $updatesArray = [
-            '#__categories' => ['created_user_id', 'modified_user_id'],
-            '#__tags'       => ['created_user_id', 'modified_user_id'],
-            '#__workflows'  => ['created_by', 'modified_by'],
+            '#__categories'       => ['created_user_id', 'modified_user_id'],
+            '#__guidedtours'      => ['created_by', 'modified_by'],
+            '#__guidedtour_steps' => ['created_by', 'modified_by'],
+            '#__scheduler_tasks'  => ['created_by'],
+            '#__tags'             => ['created_user_id', 'modified_user_id'],
+            '#__workflows'        => ['created_by', 'modified_by'],
         ];
 
         foreach ($updatesArray as $table => $fields) {
             foreach ($fields as $field) {
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->update($db->quoteName($table))
                     ->set($db->quoteName($field) . ' = ' . $db->quote($userId))
                     ->where($db->quoteName($field) . ' != 0')
@@ -366,6 +371,7 @@ class ConfigurationModel extends BaseInstallationModel
         $registry->set('captcha', '0');
         $registry->set('list_limit', 20);
         $registry->set('access', 1);
+        $registry->set('frontediting', 1);
 
         // Debug settings.
         $registry->set('debug', false);
@@ -396,6 +402,12 @@ class ConfigurationModel extends BaseInstallationModel
 
         // Locale settings.
         $registry->set('offset', 'UTC');
+
+        // CORS settings.
+        $registry->set('cors', false);
+        $registry->set('cors_allow_origin', '*');
+        $registry->set('cors_allow_methods', '');
+        $registry->set('cors_allow_headers', 'Content-Type,X-Joomla-Token');
 
         // Mail settings.
         $registry->set('mailonline', true);
@@ -458,7 +470,7 @@ class ConfigurationModel extends BaseInstallationModel
          * If the file exists but isn't writable OR if the file doesn't exist and the parent directory
          * is not writable the user needs to fix this.
          */
-        if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path) . '/'))) {
+        if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(\dirname($path) . '/'))) {
             return false;
         }
 
@@ -497,7 +509,7 @@ class ConfigurationModel extends BaseInstallationModel
         date_default_timezone_set('UTC');
         $installdate = date('Y-m-d H:i:s');
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('id') . ' = ' . $db->quote($userId));
@@ -555,6 +567,18 @@ class ConfigurationModel extends BaseInstallationModel
 
         try {
             $db->execute();
+
+            // Synch the sequence if pgsql
+            if (($db->getServerType() === 'postgresql') && (!$result)) {
+                $query = $db->createQuery()
+                    ->select('MAX(' . $db->quoteName('id') . ') + 1 AS ' . $db->quoteName('id'))
+                    ->from($db->quoteName('#__users'));
+                $db->setQuery($query);
+                $result = $db->loadResult();
+
+                $db->setQuery('SELECT setval(' . $db->quote('#__users_id_seq') . ', ' .  $result . ', false)')
+                    ->execute();
+            }
         } catch (\RuntimeException $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 

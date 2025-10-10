@@ -11,7 +11,7 @@
 	<description>MOD_TAGS_SIMILAR_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\TagsSimilar</namespace>
 	<files>
-		<filename module="mod_tags_similar">mod_tags_similar.php</filename>
+		<folder module="mod_tags_similar">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>

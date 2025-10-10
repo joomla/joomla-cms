@@ -48,7 +48,7 @@ class ComponentsWorkflowField extends ListField
         // Initialise variable.
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('DISTINCT a.name AS text, a.element AS value')
             ->from('#__extensions as a')
             ->where('a.enabled >= 1')
@@ -58,7 +58,7 @@ class ComponentsWorkflowField extends ListField
 
         $options = [];
 
-        if (count($items)) {
+        if (\count($items)) {
             $lang = Factory::getLanguage();
 
             $components = [];

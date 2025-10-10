@@ -11,7 +11,6 @@
 namespace Joomla\Component\Media\Administrator\Controller;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -63,7 +62,7 @@ class ApiController extends BaseController
             // Record the actual task being fired
             $this->doTask = $doTask;
 
-            if (!in_array($this->doTask, $this->taskMap)) {
+            if (!\in_array($this->doTask, $this->taskMap)) {
                 throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_TASK_NOT_FOUND', $task), 405);
             }
 
@@ -199,7 +198,7 @@ class ApiController extends BaseController
         $override     = $content->get('override', false);
 
         if ($mediaContent) {
-            $this->checkContent();
+            $this->checkFileSize(\strlen($mediaContent));
 
             // A file needs to be created
             $name = $this->getModel()->createFile($adapter, $name, $path, $mediaContent, $override);
@@ -271,13 +270,13 @@ class ApiController extends BaseController
         $move         = $content->get('move', true);
 
         if ($mediaContent != null) {
-            $this->checkContent();
+            $this->checkFileSize(\strlen($mediaContent));
 
             $this->getModel()->updateFile($adapter, $name, str_replace($name, '', $path), $mediaContent);
         }
 
         if ($newPath != null && $newPath !== $adapter . ':' . $path) {
-            list($destinationAdapter, $destinationPath) = explode(':', $newPath, 2);
+            [$destinationAdapter, $destinationPath] = explode(':', $newPath, 2);
 
             if ($move) {
                 $destinationPath = $this->getModel()->move($adapter, $path, $destinationPath, false);
@@ -334,29 +333,21 @@ class ApiController extends BaseController
     }
 
     /**
-     * Performs various checks if it is allowed to save the content.
+     * Performs file size checks if it is allowed to be saved.
+     *
+     * @param  integer $fileSize  The size of submitted file
      *
      * @return  void
      *
-     * @since   4.0.0
+     * @since   4.4.9
      * @throws  \Exception
      */
-    private function checkContent()
+    private function checkFileSize(int $fileSize)
     {
-        $helper              = new MediaHelper();
-        $contentLength       = $this->input->server->getInt('CONTENT_LENGTH');
         $params              = ComponentHelper::getParams('com_media');
         $paramsUploadMaxsize = $params->get('upload_maxsize', 0) * 1024 * 1024;
-        $uploadMaxFilesize   = $helper->toBytes(ini_get('upload_max_filesize'));
-        $postMaxSize         = $helper->toBytes(ini_get('post_max_size'));
-        $memoryLimit         = $helper->toBytes(ini_get('memory_limit'));
 
-        if (
-            ($paramsUploadMaxsize > 0 && $contentLength > $paramsUploadMaxsize)
-            || ($uploadMaxFilesize > 0 && $contentLength > $uploadMaxFilesize)
-            || ($postMaxSize > 0 && $contentLength > $postMaxSize)
-            || ($memoryLimit > -1 && $contentLength > $memoryLimit)
-        ) {
+        if ($paramsUploadMaxsize > 0 && $fileSize > $paramsUploadMaxsize) {
             $link   = 'index.php?option=com_config&view=component&component=com_media';
             $output = HTMLHelper::_('link', Route::_($link), Text::_('JOPTIONS'));
             throw new \Exception(Text::sprintf('COM_MEDIA_ERROR_WARNFILETOOLARGE', $output), 403);
@@ -374,7 +365,7 @@ class ApiController extends BaseController
     {
         $parts = explode(':', $this->input->getString('path', ''), 2);
 
-        if (count($parts) < 1) {
+        if (\count($parts) < 1) {
             return null;
         }
 
@@ -392,7 +383,7 @@ class ApiController extends BaseController
     {
         $parts = explode(':', $this->input->getString('path', ''), 2);
 
-        if (count($parts) < 2) {
+        if (\count($parts) < 2) {
             return null;
         }
 

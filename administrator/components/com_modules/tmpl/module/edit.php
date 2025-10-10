@@ -16,9 +16,9 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.combobox');
+/** @var \Joomla\Component\Modules\Administrator\View\Module\HtmlView $this */
 
-$hasContent = isset($this->item->xml->customContent);
+$hasContent          = isset($this->item->xml->customContent);
 $hasContentFieldName = 'content';
 
 // For a later improvement
@@ -35,13 +35,12 @@ Text::script('JNO');
 Text::script('JALL');
 Text::script('JTRASHED');
 
-$this->document->addScriptOptions('module-edit', ['itemId' => $this->item->id, 'state' => (int) $this->item->id == 0 ? 'Add' : 'Edit']);
+$this->getDocument()->addScriptOptions('module-edit', ['itemId' => $this->item->id, 'state' => (int) $this->item->id == 0 ? 'Add' : 'Edit']);
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
-$wa->useScript('keepalive')
+$this->getDocument()->getWebAssetManager()
+    ->useScript('keepalive')
     ->useScript('form.validate')
-    ->useScript('com_modules.admin-module-edit');
+    ->useScript('awesomplete');
 
 $input = Factory::getApplication()->getInput();
 
@@ -188,10 +187,9 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
         <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
-        <input type="hidden" name="task" value="">
-        <input type="hidden" name="return" value="<?php echo $input->get('return', null, 'BASE64'); ?>">
-        <?php echo HTMLHelper::_('form.token'); ?>
         <?php echo $this->form->getInput('module'); ?>
         <?php echo $this->form->getInput('client_id'); ?>
+
+        <?php echo $this->form->renderControlFields(); ?>
     </div>
 </form>

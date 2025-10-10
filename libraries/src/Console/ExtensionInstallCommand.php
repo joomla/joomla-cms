@@ -12,13 +12,15 @@ namespace Joomla\CMS\Console;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -28,6 +30,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ExtensionInstallCommand extends AbstractCommand
 {
+    use DatabaseAwareTrait;
+
     /**
      * The default command name
      *
@@ -61,6 +65,20 @@ class ExtensionInstallCommand extends AbstractCommand
      * @since 4.0.0
      */
     public const INSTALLATION_SUCCESSFUL = 0;
+
+    /**
+     * Command constructor.
+     *
+     * @param   DatabaseInterface  $db  The database
+     *
+     * @since   6.0.0
+     */
+    public function __construct(DatabaseInterface $db)
+    {
+        parent::__construct();
+
+        $this->setDatabase($db);
+    }
 
     /**
      * Configures the IO
@@ -123,14 +141,15 @@ class ExtensionInstallCommand extends AbstractCommand
         }
 
         $tmpPath  = $this->getApplication()->get('tmp_path');
-        $tmpPath  = $tmpPath . '/' . basename($path);
+        $tmpPath .= '/' . basename($path);
         $package  = InstallerHelper::unpack($path, true);
 
         if ($package['type'] === false) {
             return false;
         }
 
-        $jInstaller = Installer::getInstance();
+        $jInstaller = new Installer();
+        $jInstaller->setDatabase($this->getDatabase());
         $result     = $jInstaller->install($package['extractdir']);
         InstallerHelper::cleanupInstall($tmpPath, $package['extractdir']);
 
@@ -163,6 +182,7 @@ class ExtensionInstallCommand extends AbstractCommand
         }
 
         $jInstaller = new Installer();
+        $jInstaller->setDatabase($this->getDatabase());
         $result     = $jInstaller->install($package['extractdir']);
         InstallerHelper::cleanupInstall($path, $package['extractdir']);
 
@@ -197,7 +217,9 @@ class ExtensionInstallCommand extends AbstractCommand
             $this->ioStyle->success('Extension installed successfully.');
 
             return self::INSTALLATION_SUCCESSFUL;
-        } elseif ($url = $this->cliInput->getOption('url')) {
+        }
+
+        if ($url = $this->cliInput->getOption('url')) {
             $result = $this->processUrlInstallation($url);
 
             if (!$result) {

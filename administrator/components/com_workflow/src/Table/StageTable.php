@@ -13,9 +13,11 @@ namespace Joomla\Component\Workflow\Administrator\Table;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Table;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -38,13 +40,14 @@ class StageTable extends Table
     protected $_supportNullValue = true;
 
     /**
-     * @param   DatabaseDriver  $db  Database connector object
+     * @param   DatabaseInterface     $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since  4.0.0
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__workflow_stages', 'id', $db);
+        parent::__construct('#__workflow_stages', 'id', $db, $dispatcher);
     }
 
     /**
@@ -60,11 +63,11 @@ class StageTable extends Table
      */
     public function delete($pk = null)
     {
-        $db  = $this->getDbo();
+        $db  = $this->getDatabase();
         $app = Factory::getApplication();
         $pk  = (int) $pk;
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('default'))
             ->from($db->quoteName('#__workflow_stages'))
             ->where($db->quoteName('id') . ' = :id')
@@ -79,7 +82,7 @@ class StageTable extends Table
         }
 
         try {
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__workflow_transitions'))
                 ->where(
                     [
@@ -131,8 +134,8 @@ class StageTable extends Table
                 return false;
             }
         } else {
-            $db    = $this->getDbo();
-            $query = $db->getQuery(true);
+            $db    = $this->getDatabase();
+            $query = $db->createQuery();
 
             $query
                 ->select($db->quoteName('id'))
@@ -173,7 +176,7 @@ class StageTable extends Table
      */
     public function store($updateNulls = true)
     {
-        $table = new StageTable($this->getDbo());
+        $table = new StageTable($this->getDatabase(), $this->getDispatcher());
 
         if ($this->default == '1') {
             // Verify that the default is unique for this workflow
@@ -222,7 +225,7 @@ class StageTable extends Table
     protected function _getAssetName()
     {
         $k        = $this->_tbl_key;
-        $workflow = new WorkflowTable($this->getDbo());
+        $workflow = new WorkflowTable($this->getDatabase(), $this->getDispatcher());
         $workflow->load($this->workflow_id);
 
         $parts = explode('.', $workflow->extension);
@@ -247,18 +250,19 @@ class StageTable extends Table
     /**
      * Get the parent asset id for the record
      *
-     * @param   Table|null    $table  A Table object for the asset parent.
-     * @param   integer|null  $id     The id for the asset
+     * @param   ?Table    $table  A Table object for the asset parent.
+     * @param   ?integer  $id     The id for the asset
      *
      * @return  integer  The id of the asset's parent
      *
      * @since  4.0.0
      */
-    protected function _getAssetParentId(Table $table = null, $id = null)
+    protected function _getAssetParentId(?Table $table = null, $id = null)
     {
-        $asset = self::getInstance('Asset', 'JTable', ['dbo' => $this->getDbo()]);
+        $db    = $this->getDatabase();
+        $asset = new Asset($db, $this->getDispatcher());
 
-        $workflow = new WorkflowTable($this->getDbo());
+        $workflow = new WorkflowTable($db, $this->getDispatcher());
         $workflow->load($this->workflow_id);
 
         $parts = explode('.', $workflow->extension);

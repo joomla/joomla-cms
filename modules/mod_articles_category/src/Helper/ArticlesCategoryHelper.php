@@ -10,16 +10,16 @@
 
 namespace Joomla\Module\ArticlesCategory\Site\Helper;
 
-use Joomla\Component\Content\Administrator\Extension\ContentComponent;
-use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
@@ -46,7 +46,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
      *
      * @return  object[]
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function getArticles(Registry $params, SiteApplication $app)
     {
@@ -69,7 +69,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
 
         // Access filter
         $access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
-        $authorised = Access::getAuthorisedViewLevels($app->getIdentity()->get('id'));
+        $authorised = Access::getAuthorisedViewLevels($app->getIdentity()->id);
         $articles->setState('filter.access', $access);
 
         // Prep for Normal or Dynamic Modes
@@ -165,7 +165,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
 
         switch ($ordering) {
             case 'random':
-                $articles->setState('list.ordering', $this->getDatabase()->getQuery(true)->rand());
+                $articles->setState('list.ordering', $this->getDatabase()->createQuery()->rand());
                 break;
 
             case 'rating_count':
@@ -325,7 +325,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
      *
      * @since   1.6
      *
-     * @deprecated  __DEPLOY_VERSION__  will be removed in 6.0
+     * @deprecated  4.4.0  will be removed in 6.0
      *              Use the non-static method getArticles
      *              Example: Factory::getApplication()->bootModule('mod_articles_category', 'site')
      *                           ->getHelper('ArticlesCategoryHelper')
@@ -352,6 +352,8 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
     {
         $introtext = str_replace(['<p>', '</p>'], ' ', $introtext);
         $introtext = strip_tags($introtext, '<a><em><strong><joomla-hidden-mail>');
+        // Remove empty links
+        $introtext = preg_replace('/<a[^>]*><\\/a>/', '', $introtext);
 
         return trim($introtext);
     }

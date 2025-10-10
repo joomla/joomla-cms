@@ -12,7 +12,7 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Factory;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -42,7 +42,7 @@ class FrontendlanguageField extends ListField
     {
         // Get the database object and a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select('a.lang_code AS value, a.title AS text')
             ->from($db->quoteName('#__languages') . ' AS a')
@@ -64,7 +64,7 @@ class FrontendlanguageField extends ListField
         } catch (\RuntimeException $e) {
             $languages = [];
 
-            if (Factory::getUser()->authorise('core.admin')) {
+            if ($this->getCurrentUser()->authorise('core.admin')) {
                 Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
             }
         }

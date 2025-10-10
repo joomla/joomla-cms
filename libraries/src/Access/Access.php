@@ -20,7 +20,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -283,7 +283,7 @@ class Access
         $assetKey = $extensionName . '.%';
 
         // Get a fresh query object.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['id', 'name', 'rules', 'parent_id']))
             ->from($db->quoteName('#__assets'))
             ->where(
@@ -348,7 +348,7 @@ class Access
         $db = Factory::getDbo();
 
         // Get the asset info for all assets in asset names list.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['id', 'name', 'rules', 'parent_id']))
             ->from($db->quoteName('#__assets'))
             ->whereIn($db->quoteName('name'), $components, ParameterType::STRING);
@@ -569,7 +569,7 @@ class Access
         $db = Factory::getDbo();
 
         // Build the database query to get the rules for the asset.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName($recursive ? 'b.rules' : 'a.rules', 'rules'))
             ->from($db->quoteName('#__assets', 'a'));
 
@@ -679,10 +679,10 @@ class Access
                 if (isset($preloadedAssetsByName[$assetKey])) {
                     $loaded[$assetKey] = $preloadedAssetsByName[$assetKey];
                 } else {
-                    // Else we have to do an extra db query to fetch it from the table fetch it from table.
+                    // Else we have to do an extra db query to fetch it from the table.
                     $table = new Asset(Factory::getDbo());
                     $table->load(['name' => $assetKey]);
-                    $loaded[$assetKey] = $table->id;
+                    $loaded[$assetKey] = $table->id ?? 0;
                 }
             }
         }
@@ -798,7 +798,7 @@ class Access
 
         // Fetch the group title from the database
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select($db->quoteName('title'))
             ->from($db->quoteName('#__usergroups'))
             ->where($db->quoteName('id') . ' = :groupId')
@@ -840,7 +840,7 @@ class Access
                 $db = Factory::getDbo();
 
                 // Build the database query to get the rules for the asset.
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName($recursive ? 'b.id' : 'a.id'));
 
                 if (empty($userId)) {
@@ -905,7 +905,7 @@ class Access
         $test = $recursive ? ' >= ' : ' = ';
 
         // First find the users contained in the group
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('DISTINCT(' . $db->quoteName('user_id') . ')')
             ->from($db->quoteName('#__usergroups', 'ug1'))
             ->join(
@@ -944,7 +944,7 @@ class Access
             $db = Factory::getDbo();
 
             // Build the base query.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName(['id', 'rules']))
                 ->from($db->quoteName('#__viewlevels'));
 
@@ -987,7 +987,9 @@ class Access
                 if (($id < 0) && (($id * -1) == $userId)) {
                     $authorised[] = $level;
                     break;
-                } elseif (($id >= 0) && \in_array($id, $groups)) {
+                }
+
+                if (($id >= 0) && \in_array($id, $groups)) {
                     // Check to see if the group is mapped to the level.
                     $authorised[] = $level;
                     break;
@@ -1013,12 +1015,12 @@ class Access
         if (!is_file($file) || !is_readable($file)) {
             // If unable to find the file return false.
             return false;
-        } else {
-            // Else return the actions from the xml.
-            $xml = simplexml_load_file($file);
-
-            return self::getActionsFromData($xml, $xpath);
         }
+
+        // Else return the actions from the xml.
+        $xml = simplexml_load_file($file);
+
+        return self::getActionsFromData($xml, $xpath);
     }
 
     /**
@@ -1042,7 +1044,7 @@ class Access
         if (\is_string($data)) {
             try {
                 $data = new \SimpleXMLElement($data);
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 return false;
             }
 

@@ -12,7 +12,7 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -31,7 +31,7 @@ abstract class PredefinedlistField extends ListField
     protected $type = 'Predefinedlist';
 
     /**
-     * Cached array of the category items.
+     * Cached array of the predefined items.
      *
      * @var    array[]
      * @since  3.2
@@ -98,7 +98,7 @@ abstract class PredefinedlistField extends ListField
     protected function getOptions()
     {
         // Hash for caching
-        $hash = md5($this->element);
+        $hash = md5($this->element->asXML());
         $type = strtolower($this->type);
 
         if (!isset(static::$options[$type][$hash]) && !empty($this->predefinedOptions)) {
@@ -109,7 +109,7 @@ abstract class PredefinedlistField extends ListField
             foreach ($this->predefinedOptions as $value => $text) {
                 $val = (string) $value;
 
-                if (empty($this->optionsFilter) || in_array($val, $this->optionsFilter, true)) {
+                if (empty($this->optionsFilter) || \in_array($val, $this->optionsFilter, true)) {
                     $text = $this->translate ? Text::_($text) : $text;
 
                     $options[] = (object) [

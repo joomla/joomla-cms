@@ -9,16 +9,15 @@
 
 namespace Joomla\CMS\Changelog;
 
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Version;
+use Joomla\Http\HttpFactory;
 use Joomla\Registry\Registry;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -26,8 +25,10 @@ use RuntimeException;
  *
  * @since  4.0.0
  */
-class Changelog extends CMSObject
+class Changelog
 {
+    use LegacyPropertyManagementTrait;
+
     /**
      * Update manifest `<element>` element
      *
@@ -119,7 +120,7 @@ class Changelog extends CMSObject
     /**
      * Resource handle for the XML Parser
      *
-     * @var    resource
+     * @var    \XMLParser
      * @since  4.0.0
      */
     protected $xmlParser;
@@ -155,6 +156,14 @@ class Changelog extends CMSObject
      * @since  4.0.0
      */
     protected $latest;
+
+    /**
+     * Update manifest `<folder>` element
+     *
+     * @var    string
+     * @since  5.1.1
+     */
+    protected $folder;
 
     /**
      * Gets the reference to the current direct parent
@@ -216,6 +225,11 @@ class Changelog extends CMSObject
             $this->$tag->data = '';
         }
 
+        // Skip technical elements
+        if ($name === 'CHANGELOGS' || $name === 'CHANGELOG' || $name === 'ITEM') {
+            return;
+        }
+
         $name = strtolower($name);
 
         if (!isset($this->currentChangelog->$name)) {
@@ -272,8 +286,7 @@ class Changelog extends CMSObject
                         $this->$key = $val;
                     }
 
-                    unset($this->latest);
-                    unset($this->currentChangelog);
+                    unset($this->latest, $this->currentChangelog);
                 } elseif (isset($this->currentChangelog)) {
                     // The update might be for an older version of j!
                     unset($this->currentChangelog);
@@ -336,13 +349,13 @@ class Changelog extends CMSObject
         $httpOption->set('userAgent', $version->getUserAgent('Joomla', true, false));
 
         try {
-            $http     = HttpFactory::getHttp($httpOption);
+            $http     = (new HttpFactory())->getHttp($httpOption);
             $response = $http->get($url);
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException) {
             $response = null;
         }
 
-        if ($response === null || $response->code !== 200) {
+        if ($response === null || $response->getStatusCode() !== 200) {
             // @todo: Add a 'mark bad' setting here somehow
             Log::add(Text::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), Log::WARNING, 'jerror');
 
@@ -352,13 +365,12 @@ class Changelog extends CMSObject
         $this->currentChangelog = new \stdClass();
 
         $this->xmlParser = xml_parser_create('');
-        xml_set_object($this->xmlParser, $this);
-        xml_set_element_handler($this->xmlParser, 'startElement', 'endElement');
-        xml_set_character_data_handler($this->xmlParser, 'characterData');
+        xml_set_element_handler($this->xmlParser, [$this, 'startElement'], [$this, 'endElement']);
+        xml_set_character_data_handler($this->xmlParser, [$this, 'characterData']);
 
-        if (!xml_parse($this->xmlParser, $response->body)) {
+        if (!xml_parse($this->xmlParser, (string) $response->getBody())) {
             Log::add(
-                sprintf(
+                \sprintf(
                     'XML error: %s at line %d',
                     xml_error_string(xml_get_error_code($this->xmlParser)),
                     xml_get_current_line_number($this->xmlParser)

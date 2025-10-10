@@ -43,8 +43,8 @@ extract($displayData);
  * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
  * @var   array    $checked         Is this field checked?
- * @var   array    $position        Is this field checked?
- * @var   array    $control         Is this field checked?
+ * @var   array    $position        Position of input.
+ * @var   string   $control         The forms control.
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
@@ -66,6 +66,7 @@ $validate     = $validate ? ' data-validate="' . $validate . '"' : '';
 $disabled     = $disabled ? ' disabled' : '';
 $readonly     = $readonly ? ' readonly' : '';
 $hint         = strlen($hint) ? ' placeholder="' . $this->escape($hint) . '"' : ' placeholder="' . $placeholder . '"';
+$onchange     = $onchange ? ' onchange="' . $onchange . '"' : '';
 $required     = $required ? ' required' : '';
 $autocomplete = !empty($autocomplete) ? ' autocomplete="' . $autocomplete . '"' : '';
 

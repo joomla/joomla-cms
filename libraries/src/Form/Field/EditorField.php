@@ -13,7 +13,7 @@ use Joomla\CMS\Editor\Editor;
 use Joomla\CMS\Factory;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -283,7 +283,7 @@ class EditorField extends TextareaField
                 $db = $this->getDatabase();
 
                 // Build the query.
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName('element'))
                     ->from($db->quoteName('#__extensions'))
                     ->where(

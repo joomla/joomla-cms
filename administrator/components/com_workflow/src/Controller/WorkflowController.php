@@ -48,15 +48,15 @@ class WorkflowController extends FormController
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
-     * @param   CMSApplication       $app      The Application for the dispatcher
-     * @param   Input                $input    Input
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The Application for the dispatcher
+     * @param   ?Input                $input    Input
      *
      * @since   4.0.0
      * @throws  \InvalidArgumentException when no extension is set
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -184,7 +184,7 @@ class WorkflowController extends FormController
 
             // @todo Moves queries out of the controller.
             $db    = $model->getDbo();
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             $query->select('*')
                 ->from($db->quoteName('#__workflow_stages'))
@@ -214,7 +214,7 @@ class WorkflowController extends FormController
                 $mapping[$oldID] = (int) $table->id;
             }
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select('*')
                 ->from($db->quoteName('#__workflow_transitions'))
                 ->where($db->quoteName('workflow_id') . ' = :id')

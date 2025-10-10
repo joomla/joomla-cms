@@ -11,12 +11,12 @@
 namespace Joomla\Component\Fields\Administrator\Model;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -120,14 +120,13 @@ class GroupModel extends AdminModel
             return false;
         }
 
-        // Modify the form based on Edit State access controls.
-        if (empty($data['context'])) {
-            $data['context'] = $context;
-        }
+        $record          = new \stdClass();
+        $record->context = $context;
+        $record->id      = $jinput->get('id');
 
         $user = $this->getCurrentUser();
 
-        if (!$user->authorise('core.edit.state', $context . '.fieldgroup.' . $jinput->get('id'))) {
+        if (!$this->canEditState($record)) {
             // Disable fields for display.
             $form->setFieldAttribute('ordering', 'disabled', 'true');
             $form->setFieldAttribute('state', 'disabled', 'true');
@@ -160,7 +159,9 @@ class GroupModel extends AdminModel
             return false;
         }
 
-        return $this->getCurrentUser()->authorise('core.delete', $record->context . '.fieldgroup.' . (int) $record->id);
+        $component = explode('.', $record->context)[0];
+
+        return $this->getCurrentUser()->authorise('core.delete', $component . '.fieldgroup.' . (int) $record->id);
     }
 
     /**
@@ -177,13 +178,15 @@ class GroupModel extends AdminModel
     {
         $user = $this->getCurrentUser();
 
+        $component = explode('.', $record->context)[0];
+
         // Check for existing fieldgroup.
         if (!empty($record->id)) {
-            return $user->authorise('core.edit.state', $record->context . '.fieldgroup.' . (int) $record->id);
+            return $user->authorise('core.edit.state', $component . '.fieldgroup.' . (int) $record->id);
         }
 
         // Default to component settings.
-        return $user->authorise('core.edit.state', $record->context);
+        return $user->authorise('core.edit.state', $component);
     }
 
     /**
@@ -240,29 +243,30 @@ class GroupModel extends AdminModel
 
         $parts = FieldsHelper::extract($this->state->get('filter.context'));
 
+        // If we don't have a valid context then return early
+        if (!$parts) {
+            return;
+        }
+
         // Extract the component name
         $component = $parts[0];
 
-        // Extract the optional section name
-        $section = (count($parts) > 1) ? $parts[1] : null;
+        // Extract the section name
+        $section = $parts[1];
 
-        if ($parts) {
-            // Set the access control rules field component value.
-            $form->setFieldAttribute('rules', 'component', $component);
-        }
+        // Set the access control rules field component value.
+        $form->setFieldAttribute('rules', 'component', $component);
 
-        if ($section !== null) {
-            // Looking first in the component models/forms folder
-            $path = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fieldgroup/' . $section . '.xml');
+        // Looking first in the component models/forms folder
+        $path = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fieldgroup/' . $section . '.xml');
 
-            if (file_exists($path)) {
-                $lang = Factory::getLanguage();
-                $lang->load($component, JPATH_BASE);
-                $lang->load($component, JPATH_BASE . '/components/' . $component);
+        if (file_exists($path)) {
+            $lang = Factory::getLanguage();
+            $lang->load($component, JPATH_BASE);
+            $lang->load($component, JPATH_BASE . '/components/' . $component);
 
-                if (!$form->loadFile($path, false)) {
-                    throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
-                }
+            if (!$form->loadFile($path, false)) {
+                throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
             }
         }
     }
@@ -276,8 +280,8 @@ class GroupModel extends AdminModel
      *
      * @return  array|boolean  Array of filtered data if valid, false otherwise.
      *
-     * @see     JFormRule
-     * @see     JFilterInput
+     * @see     \Joomla\CMS\Form\FormRule
+     * @see     \Joomla\CMS\Filter\InputFilter
      * @since   3.9.23
      */
     public function validate($form, $data, $group = null)
@@ -314,18 +318,9 @@ class GroupModel extends AdminModel
                 $context = substr($app->getUserState('com_fields.groups.filter.context', ''), 4);
                 $filters = (array) $app->getUserState('com_fields.groups.' . $context . '.filter');
 
-                $data->set(
-                    'state',
-                    $input->getInt('state', (!empty($filters['state']) ? $filters['state'] : null))
-                );
-                $data->set(
-                    'language',
-                    $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null))
-                );
-                $data->set(
-                    'access',
-                    $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
-                );
+                $data->state    = $input->getInt('state', (!empty($filters['state']) ? $filters['state'] : null));
+                $data->language = $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null));
+                $data->access   = $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')));
             }
         }
 
@@ -362,15 +357,13 @@ class GroupModel extends AdminModel
     /**
      * Clean the cache
      *
-     * @param   string   $group     The cache group
-     * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              @deprecated   4.3 will be removed in 6.0
+     * @param  string  $group  Cache group name.
      *
      * @return  void
      *
      * @since   3.7.0
      */
-    protected function cleanCache($group = null, $clientId = 0)
+    protected function cleanCache($group = null)
     {
         $context = Factory::getApplication()->getInput()->get('context');
 

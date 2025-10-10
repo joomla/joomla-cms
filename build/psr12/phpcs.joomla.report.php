@@ -104,7 +104,6 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
 
                 if (
                     strpos($fileContent, "defined('_JEXEC')") !== false
-                    || strpos($fileContent, "defined('JPATH_PLATFORM')") !== false
                     || strpos($fileContent, "defined('JPATH_BASE')") !== false
                 ) {
                     $this->preProcessing[] = [
@@ -145,14 +144,11 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
                 break;
 
             case 'Squiz.Classes.ValidClassName.NotCamelCaps':
-                if (
-                    strpos($file, 'localise') !== false
-                    || strpos($file, 'recaptcha_invisible') !== false
-                ) {
+                if (strpos($file, 'localise') !== false) {
                     $this->preProcessing[] = [
-                        'file' => $file,
-                        'line' => $line,
-                        'column' => $column,
+                        'file'    => $file,
+                        'line'    => $line,
+                        'column'  => $column,
                         'cleanup' => 'ValidClassNameNotCamelCaps',
                     ];
                 }

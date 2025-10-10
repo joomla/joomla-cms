@@ -11,14 +11,14 @@ namespace Joomla\CMS\MVC\Model;
 
 use Joomla\CMS\Extension\LegacyComponent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -62,12 +62,12 @@ trait LegacyModelLoaderTrait
      *
      * @deprecated  4.3 will be removed in 6.0
      *              Will be removed without replacement. Get the model through the MVCFactory instead
-     *              Example: Factory::getApplication->bootComponent('com_xxx')->getMVCFactory()->createModel($type, $prefix, $config);
+     *              Example: Factory::getApplication()->bootComponent('com_xxx')->getMVCFactory()->createModel($type, $prefix, $config);
      */
     public static function getInstance($type, $prefix = '', $config = [])
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s::getInstance() is deprecated. Load it through the MVC factory.',
                 self::class
             ),
@@ -160,12 +160,12 @@ trait LegacyModelLoaderTrait
         $sitePath  = Path::clean(JPATH_SITE . '/components/' . $componentName);
 
         foreach (self::addIncludePath() as $path) {
-            if (strpos($path, $adminPath) !== false) {
+            if (str_contains($path, $adminPath)) {
                 $client = 'Administrator';
                 break;
             }
 
-            if (strpos($path, $sitePath) !== false) {
+            if (str_contains($path, $sitePath)) {
                 $client = 'Site';
                 break;
             }

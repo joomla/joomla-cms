@@ -11,7 +11,9 @@
 namespace Joomla\Component\Menus\Administrator\Helper;
 
 use Joomla\CMS\Association\AssociationExtensionHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Table\Menu;
 use Joomla\CMS\Table\Table;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -117,11 +119,11 @@ class AssociationsHelper extends AssociationExtensionHelper
 
         switch ($typeName) {
             case 'item':
-                $table = Table::getInstance('menu');
+                $table = new Menu(Factory::getDbo());
                 break;
         }
 
-        if (is_null($table)) {
+        if (\is_null($table)) {
             return null;
         }
 
@@ -147,7 +149,7 @@ class AssociationsHelper extends AssociationExtensionHelper
         $support = $this->getSupportTemplate();
         $title   = '';
 
-        if (in_array($typeName, $this->itemTypes)) {
+        if (\in_array($typeName, $this->itemTypes)) {
             switch ($typeName) {
                 case 'item':
                     $fields['ordering']        = 'a.lft';

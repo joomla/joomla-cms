@@ -17,16 +17,6 @@ trigger_error(
     E_USER_DEPRECATED
 );
 
-/**
- * Set the platform root path as a constant if necessary.
- *
- * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
- *             Use defined('_JEXEC') or die; to detect if the CMS is loaded correctly
- **/
-if (!defined('JPATH_PLATFORM')) {
-    define('JPATH_PLATFORM', __DIR__);
-}
-
 // Detect the native operating system type.
 $os = strtoupper(substr(PHP_OS, 0, 3));
 
@@ -40,7 +30,7 @@ if (!defined('IS_UNIX')) {
 
 // Import the library loader if necessary.
 if (!class_exists('JLoader')) {
-    require_once JPATH_PLATFORM . '/loader.php';
+    require_once JPATH_LIBRARIES . '/loader.php';
 }
 
 // Make sure that the Joomla Loader has been successfully loaded.
@@ -52,4 +42,4 @@ if (!class_exists('JLoader')) {
 JLoader::setup();
 
 // Register the PasswordHash lib
-JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
+JLoader::register('PasswordHash', JPATH_LIBRARIES . '/phpass/PasswordHash.php');

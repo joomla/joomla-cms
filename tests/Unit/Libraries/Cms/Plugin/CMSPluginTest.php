@@ -19,7 +19,6 @@ use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 use Joomla\Tests\Unit\UnitTestCase;
-use stdClass;
 
 /**
  * Test class for \Joomla\CMS\Plugin\CMSPlugin
@@ -379,7 +378,7 @@ class CMSPluginTest extends UnitTestCase
         $dispatcher = new Dispatcher();
 
         $plugin = new class ($dispatcher, []) extends CMSPlugin {
-            public function onTest(stdClass $event = null)
+            public function onTest(?\stdClass $event = null)
             {
             }
         };

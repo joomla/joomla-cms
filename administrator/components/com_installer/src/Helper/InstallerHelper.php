@@ -10,14 +10,11 @@
 
 namespace Joomla\Component\Installer\Administrator\Helper;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
-use SimpleXMLElement;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -40,7 +37,7 @@ class InstallerHelper
     public static function getExtensionTypes()
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('DISTINCT ' . $db->quoteName('type'))
             ->from($db->quoteName('#__extensions'));
         $db->setQuery($query);
@@ -66,7 +63,7 @@ class InstallerHelper
     {
         $nofolder = '';
         $db       = Factory::getDbo();
-        $query    = $db->getQuery(true)
+        $query    = $db->createQuery()
             ->select('DISTINCT ' . $db->quoteName('folder'))
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('folder') . ' != :folder')
@@ -131,9 +128,9 @@ class InstallerHelper
     {
         $options = [];
 
-        /** @var DatabaseDriver $db The application's database driver object */
-        $db         = Factory::getContainer()->get(DatabaseDriver::class);
-        $query      = $db->getQuery(true)
+        /** @var DatabaseInterface $db The application's database driver object */
+        $db         = Factory::getContainer()->get(DatabaseInterface::class);
+        $query      = $db->createQuery()
             ->select(
                 $db->quoteName(
                     [
@@ -180,12 +177,12 @@ class InstallerHelper
     /**
      * Get a list of filter options for the application statuses.
      *
-     * @param   string   $element   element of an extension
-     * @param   string   $type      type of an extension
-     * @param   integer  $clientId  client_id of an extension
-     * @param   string   $folder    folder of an extension
+     * @param   string    $element   element of an extension
+     * @param   string    $type      type of an extension
+     * @param   integer   $clientId  client_id of an extension
+     * @param   ?string   $folder    folder of an extension
      *
-     * @return  SimpleXMLElement
+     * @return  \SimpleXMLElement
      *
      * @since   4.0.0
      */
@@ -194,7 +191,7 @@ class InstallerHelper
         string $type,
         int $clientId = 1,
         ?string $folder = null
-    ): ?SimpleXMLElement {
+    ): ?\SimpleXMLElement {
         $path = [0 => JPATH_SITE, 1 => JPATH_ADMINISTRATOR, 3 => JPATH_API][$clientId] ?? JPATH_SITE;
 
         switch ($type) {
@@ -235,19 +232,19 @@ class InstallerHelper
     /**
      * Get the download key of an extension going through their installation xml
      *
-     * @param   CMSObject  $extension  element of an extension
+     * @param   \stdClass  $extension  element of an extension
      *
      * @return  array  An array with the prefix, suffix and value of the download key
      *
      * @since   4.0.0
      */
-    public static function getDownloadKey(CMSObject $extension): array
+    public static function getDownloadKey(\stdClass $extension): array
     {
         $installXmlFile = self::getInstallationXML(
-            $extension->get('element'),
-            $extension->get('type'),
-            $extension->get('client_id'),
-            $extension->get('folder')
+            $extension->element,
+            $extension->type,
+            $extension->client_id,
+            $extension->folder
         );
 
         if (!$installXmlFile) {
@@ -266,15 +263,15 @@ class InstallerHelper
 
         $prefix = (string) $installXmlFile->dlid['prefix'];
         $suffix = (string) $installXmlFile->dlid['suffix'];
-        $value  = substr($extension->get('extra_query'), strlen($prefix));
+        $value  = substr($extension->extra_query ?? '', \strlen($prefix));
 
         if ($suffix) {
-            $value = substr($value, 0, -strlen($suffix));
+            $value = substr($value, 0, -\strlen($suffix));
         }
 
         $downloadKey = [
             'supported' => true,
-            'valid'     => $value ? true : false,
+            'valid'     => (bool) $value,
             'prefix'    => $prefix,
             'suffix'    => $suffix,
             'value'     => $value,
@@ -304,15 +301,15 @@ class InstallerHelper
         // Get the database driver. If it fails we cannot report whether the extension supports download keys.
         try {
             $db = Factory::getDbo();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return [
                 'supported' => false,
                 'valid'     => false,
             ];
         }
 
-        // Try to retrieve the extension information as a CMSObject
-        $query = $db->getQuery(true)
+        // Try to retrieve the extension information
+        $query = $db->createQuery()
             ->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('type') . ' = :type')
@@ -325,8 +322,8 @@ class InstallerHelper
         $query->bind(':folder', $folder, ParameterType::STRING);
 
         try {
-            $extension = new CMSObject($db->setQuery($query)->loadAssoc());
-        } catch (Exception $e) {
+            $extension = $db->setQuery($query)->loadObject();
+        } catch (\Exception $e) {
             return [
                 'supported' => false,
                 'valid'     => false,
@@ -357,15 +354,15 @@ class InstallerHelper
 
         $extensions = self::getUpdateSitesInformation($onlyEnabled);
 
-        $filterClosure = function (CMSObject $extension) {
+        $filterClosure = function ($extension) {
             $dlidInfo = self::getDownloadKey($extension);
 
             return $dlidInfo['supported'];
         };
         $extensions = array_filter($extensions, $filterClosure);
 
-        $mapClosure = function (CMSObject $extension) {
-            return $extension->get('update_site_id');
+        $mapClosure = function ($extension) {
+            return $extension->update_site_id ?? null;
         };
 
         return array_map($mapClosure, $extensions);
@@ -393,7 +390,7 @@ class InstallerHelper
         $extensions = self::getUpdateSitesInformation($onlyEnabled);
 
         // Filter the extensions by what supports Download Keys
-        $filterClosure = function (CMSObject $extension) use ($exists) {
+        $filterClosure = function ($extension) use ($exists) {
             $dlidInfo = self::getDownloadKey($extension);
 
             if (!$dlidInfo['supported']) {
@@ -405,8 +402,8 @@ class InstallerHelper
         $extensions = array_filter($extensions, $filterClosure);
 
         // Return only the update site IDs
-        $mapClosure = function (CMSObject $extension) {
-            return $extension->get('update_site_id');
+        $mapClosure = function ($extension) {
+            return $extension->update_site_id ?? null;
         };
 
         return array_map($mapClosure, $extensions);
@@ -418,42 +415,42 @@ class InstallerHelper
      *
      * @param   bool  $onlyEnabled  Only return enabled update sites
      *
-     * @return  CMSObject[]  List of update site and linked extension information
+     * @return  \stdClass[]  List of update site and linked extension information
      * @since   4.0.0
      */
     protected static function getUpdateSitesInformation(bool $onlyEnabled): array
     {
         try {
             $db = Factory::getDbo();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return [];
         }
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 $db->quoteName(
                     [
-                                's.update_site_id',
-                                's.enabled',
-                                's.extra_query',
-                                'e.extension_id',
-                                'e.type',
-                                'e.element',
-                                'e.folder',
-                                'e.client_id',
-                                'e.manifest_cache',
-                            ],
+                        's.update_site_id',
+                        's.enabled',
+                        's.extra_query',
+                        'e.extension_id',
+                        'e.type',
+                        'e.element',
+                        'e.folder',
+                        'e.client_id',
+                        'e.manifest_cache',
+                    ],
                     [
-                                'update_site_id',
-                                'enabled',
-                                'extra_query',
-                                'extension_id',
-                                'type',
-                                'element',
-                                'folder',
-                                'client_id',
-                                'manifest_cache',
-                            ]
+                        'update_site_id',
+                        'enabled',
+                        'extra_query',
+                        'extension_id',
+                        'type',
+                        'element',
+                        'folder',
+                        'client_id',
+                        'manifest_cache',
+                    ]
                 )
             )
             ->from($db->quoteName('#__update_sites', 's'))
@@ -475,15 +472,10 @@ class InstallerHelper
 
         // Try to get all of the update sites, including related extension information
         try {
-            $items = [];
             $db->setQuery($query);
 
-            foreach ($db->getIterator() as $item) {
-                $items[] = new CMSObject($item);
-            }
-
-            return $items;
-        } catch (Exception $e) {
+            return $db->loadObjectList();
+        } catch (\Exception $e) {
             return [];
         }
     }

@@ -42,12 +42,12 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
      *
      * @return  \stdClass[]
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function getArticlesByMonths(Registry $moduleParams, SiteApplication $app): array
     {
         $db        = $this->getDatabase();
-        $query     = $db->getQuery(true);
+        $query     = $db->createQuery();
 
         $query->select($query->month($db->quoteName('created')) . ' AS created_month')
             ->select('MIN(' . $db->quoteName('created') . ') AS created')
@@ -67,7 +67,7 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
 
         try {
             $rows = (array) $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
             return [];
@@ -109,7 +109,7 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
      *
      * @since   1.5
      *
-     * @deprecated  __DEPLOY_VERSION__  will be removed in 6.0
+     * @deprecated  4.4.0  will be removed in 6.0
      *              Use the non-static method getArticlesByMonths
      *              Example: Factory::getApplication()->bootModule('mod_articles_archive', 'site')
      *                           ->getHelper('ArticlesArchiveHelper')

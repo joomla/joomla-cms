@@ -61,7 +61,7 @@ class HtmlView extends CategoryView
      */
     public function display($tpl = null)
     {
-        parent::commonCategoryDisplay();
+        $this->commonCategoryDisplay();
 
         // Flag indicates to not add limitstart=0 to URL
         $this->pagination->hideEmptyLimitstart = true;
@@ -97,7 +97,7 @@ class HtmlView extends CategoryView
     {
         parent::prepareDocument();
 
-        parent::addFeed();
+        $this->addFeed();
 
         if ($this->menuItemMatchCategory) {
             // If the active menu item is linked directly to the category being displayed, no further process is needed
@@ -109,7 +109,7 @@ class HtmlView extends CategoryView
 
         if (
             $menu && $menu->component == 'com_contact' && isset($menu->query['view'])
-            && in_array($menu->query['view'], ['categories', 'category'])
+            && \in_array($menu->query['view'], ['categories', 'category'])
         ) {
             $id = $menu->query['id'];
         } else {

@@ -15,7 +15,7 @@ use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Date\Date;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -39,7 +39,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const MAJOR_VERSION = 5;
+    public const MAJOR_VERSION = 6;
 
     /**
      * Minor release version.
@@ -47,7 +47,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const MINOR_VERSION = 0;
+    public const MINOR_VERSION = 1;
 
     /**
      * Patch release version.
@@ -66,7 +66,7 @@ final class Version
      * @var    string
      * @since  3.8.0
      */
-    public const EXTRA_VERSION = 'dev';
+    public const EXTRA_VERSION = 'alpha1-dev';
 
     /**
      * Development status.
@@ -82,7 +82,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const CODENAME = 'Schnitzel';
+    public const CODENAME = 'TBD';
 
     /**
      * Release date.
@@ -90,7 +90,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELDATE = '17-October-2023';
+    public const RELDATE = '31-August-2025';
 
     /**
      * Release time.
@@ -98,7 +98,8 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELTIME = '16:01';
+
+    public const RELTIME = '10:15';
 
     /**
      * Release timezone.
@@ -106,7 +107,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELTZ = 'GMT';
+    public const RELTZ = 'UTC';
 
     /**
      * Copyright Notice.
@@ -238,7 +239,7 @@ final class Version
      */
     public function generateMediaVersion(): string
     {
-        return md5($this->getLongVersion() . Factory::getApplication()->get('secret') . (new Date())->toSql());
+        return substr(md5($this->getLongVersion() . Factory::getApplication()->get('secret') . (new Date())->toSql()), 0, 6);
     }
 
     /**

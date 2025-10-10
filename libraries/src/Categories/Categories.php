@@ -18,7 +18,7 @@ use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -117,9 +117,9 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         $this->_key        = isset($options['key']) && $options['key'] ? $options['key'] : 'id';
         $this->_statefield = $options['statefield'] ?? 'state';
 
-        $options['access']      = $options['access'] ?? 'true';
-        $options['published']   = $options['published'] ?? 1;
-        $options['countItems']  = $options['countItems'] ?? 0;
+        $options['access']      ??= 'true';
+        $options['published']   ??= 1;
+        $options['countItems']  ??= 0;
         $options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
 
         $this->_options = $options;
@@ -157,7 +157,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
             if ($component instanceof CategoryServiceInterface) {
                 $categories = $component->getCategory($options, \count($parts) > 1 ? $parts[1] : '');
             }
-        } catch (SectionNotFoundException $e) {
+        } catch (SectionNotFoundException) {
             $categories = null;
         }
 
@@ -216,7 +216,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.2
      */
     public function getOptions()
     {
@@ -236,8 +236,8 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
     {
         try {
             $db = $this->getDatabase();
-        } catch (DatabaseNotFoundException $e) {
-            @trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+        } catch (DatabaseNotFoundException) {
+            @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
@@ -256,7 +256,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         // Record that has this $id has been checked
         $this->_checkedCategories[$id] = true;
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('c.id'),
@@ -292,7 +292,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         $case_when = ' CASE WHEN ';
         $case_when .= $query->charLength($db->quoteName('c.alias'), '!=', '0');
         $case_when .= ' THEN ';
-        $c_id = $query->castAsChar($db->quoteName('c.id'));
+        $c_id = $query->castAs('CHAR', $db->quoteName('c.id'));
         $case_when .= $query->concatenate([$c_id, $db->quoteName('c.alias')], ':');
         $case_when .= ' ELSE ';
         $case_when .= $c_id . ' END as ' . $db->quoteName('slug');
@@ -351,7 +351,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
 
         // Note: i for item
         if ($this->_options['countItems'] == 1) {
-            $subQuery = $db->getQuery(true)
+            $subQuery = $db->createQuery()
                 ->select('COUNT(' . $db->quoteName($db->escape('i.' . $this->_key)) . ')')
                 ->from($db->quoteName($db->escape($this->_table), 'i'))
                 ->where($db->quoteName($db->escape('i.' . $this->_field)) . ' = ' . $db->quoteName('c.id'));

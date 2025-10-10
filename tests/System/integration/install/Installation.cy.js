@@ -1,7 +1,5 @@
 describe('Install Joomla', () => {
   it('Install Joomla', () => {
-    cy.exec('rm configuration.php', { failOnNonZeroExit: false });
-
     const config = {
       sitename: Cypress.env('sitename'),
       name: Cypress.env('name'),
@@ -10,31 +8,30 @@ describe('Install Joomla', () => {
       email: Cypress.env('email'),
       db_type: Cypress.env('db_type'),
       db_host: Cypress.env('db_host'),
+      db_port: Cypress.env('db_port'),
       db_user: Cypress.env('db_user'),
       db_password: Cypress.env('db_password'),
       db_name: Cypress.env('db_name'),
       db_prefix: Cypress.env('db_prefix'),
     };
 
+    // If exists, delete PHP configuration file to force a new installation
+    cy.task('deleteRelativePath', 'configuration.php');
     cy.installJoomla(config);
 
+    // Disable compat plugin
+    cy.db_enableExtension(0, 'plg_behaviour_compat6');
+
     cy.doAdministratorLogin(config.username, config.password, false);
+    cy.cancelTour();
     cy.disableStatistics();
     cy.setErrorReportingToDevelopment();
     cy.doAdministratorLogout();
 
-    cy.readFile(`${Cypress.env('cmsPath')}/configuration.php`).then((fileContent) => {
-      // Update to the correct secret for the API tests because of the bearer token
-      let content = fileContent.replace(/^.*\$secret.*$/mg, "public $secret = 'tEstValue';");
-
-      // Setup mailing
-      content = content.replace(/^.*\$mailonline.*$/mg, 'public $mailonline = true;');
-      content = content.replace(/^.*\$mailer.*$/mg, 'public $mailer = \'smtp\';');
-      content = content.replace(/^.*\$smtphost.*$/mg, `public $smtphost = '${Cypress.env('smtp_host')}';`);
-      content = content.replace(/^.*\$smtpport.*$/mg, `public $smtpport = '${Cypress.env('smtp_port')}';`);
-
-      // Write the modified content back to the configuration file
-      cy.task('writeFile', { path: 'configuration.php', content });
-    });
+    // Setup mailing
+    cy.config_setParameter('mailonline', true);
+    cy.config_setParameter('mailer', 'smtp');
+    cy.config_setParameter('smtphost', Cypress.env('smtp_host'));
+    cy.config_setParameter('smtpport', Cypress.env('smtp_port'));
   });
 });

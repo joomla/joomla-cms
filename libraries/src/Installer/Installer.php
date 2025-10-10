@@ -9,27 +9,33 @@
 
 namespace Joomla\CMS\Installer;
 
-use Joomla\CMS\Adapter\Adapter;
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Event\Extension\AfterInstallEvent;
+use Joomla\CMS\Event\Extension\AfterUninstallEvent;
+use Joomla\CMS\Event\Extension\AfterUpdateEvent;
+use Joomla\CMS\Event\Extension\BeforeInstallEvent;
+use Joomla\CMS\Event\Extension\BeforeUninstallEvent;
+use Joomla\CMS\Event\Extension\BeforeUpdateEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -37,9 +43,35 @@ use Joomla\Filesystem\File;
  *
  * @since  3.1
  */
-class Installer extends Adapter implements DatabaseAwareInterface
+class Installer implements DatabaseAwareInterface
 {
     use DatabaseAwareTrait;
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
+
+    /**
+     * Array of installer adapters
+     *
+     * @var    string[]|InstallerAdapter[]
+     * @since  6.0.0
+     */
+    private $adapters = [];
+
+    /**
+     * Adapter Class Prefix
+     *
+     * @var    string
+     * @since  6.0.0
+     */
+    private $classprefix = '\\Joomla\\CMS\\Installer\\Adapter';
+
+    /**
+     * Base Path for the installer adapters
+     *
+     * @var    string
+     * @since  6.0.0
+     */
+    private $adapterfolder;
 
     /**
      * Array of paths needed by the installer
@@ -171,9 +203,11 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     public function __construct($basepath = __DIR__, $classprefix = '\\Joomla\\CMS\\Installer\\Adapter', $adapterfolder = 'Adapter')
     {
-        parent::__construct($basepath, $classprefix, $adapterfolder);
+        $this->adapterfolder = $basepath . '/' . $adapterfolder;
+        $this->classprefix   = $classprefix;
+        $this->loadAdapters();
 
-        $this->extension = Table::getInstance('extension');
+        $this->extension = Table::getInstance('Extension');
     }
 
     /**
@@ -526,12 +560,16 @@ class Installer extends Adapter implements DatabaseAwareInterface
             switch ($step['type']) {
                 case 'file':
                     // Remove the file
-                    $stepval = File::delete($step['path']);
+                    if (is_file($step['path']) && !($stepval = File::delete($step['path']))) {
+                        Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $step['path']), Log::WARNING, 'jerror');
+                    }
                     break;
 
                 case 'folder':
                     // Remove the folder
-                    $stepval = Folder::delete($step['path']);
+                    if (is_dir($step['path']) && !($stepval = Folder::delete($step['path']))) {
+                        Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $step['path']), Log::WARNING, 'jerror');
+                    }
                     break;
 
                 case 'query':
@@ -542,7 +580,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                 case 'extension':
                     // Get database connector object
                     $db     = $this->getDatabase();
-                    $query  = $db->getQuery(true);
+                    $query  = $db->createQuery();
                     $stepId = (int) $step['id'];
 
                     // Remove the entry from the #__extensions table
@@ -555,7 +593,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                         $db->execute();
 
                         $stepval = true;
-                    } catch (ExecutionFailureException $e) {
+                    } catch (ExecutionFailureException) {
                         // The database API will have already logged the error it caught, we just need to alert the user to the issue
                         Log::add(Text::_('JLIB_INSTALLER_ABORT_ERROR_DELETING_EXTENSIONS_RECORD'), Log::WARNING, 'jerror');
 
@@ -565,13 +603,20 @@ class Installer extends Adapter implements DatabaseAwareInterface
                     break;
 
                 default:
-                    if ($type && \is_object($this->_adapters[$type])) {
+                    if ($type) {
+                        try {
+                            $adapter = $this->getAdapter($type);
+                        } catch (\InvalidArgumentException $e) {
+                            $stepval = false;
+                            break;
+                        }
+
                         // Build the name of the custom rollback method for the type
                         $method = '_rollback_' . $step['type'];
 
                         // Custom rollback method handler
-                        if (method_exists($this->_adapters[$type], $method)) {
-                            $stepval = $this->_adapters[$type]->$method($step);
+                        if (method_exists($adapter, $method)) {
+                            $stepval = $adapter->$method($step);
                         }
                     } else {
                         // Set it to false
@@ -605,7 +650,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     public function install($path = null)
     {
-        if ($path && Folder::exists($path)) {
+        if ($path && is_dir(Path::clean($path))) {
             $this->setPath('source', $path);
         } else {
             $this->abort(Text::_('JLIB_INSTALLER_ABORT_NOINSTALLPATH'));
@@ -628,17 +673,16 @@ class Installer extends Adapter implements DatabaseAwareInterface
             $adapter->loadLanguage($path);
         }
 
+        $dispatcher = Factory::getApplication()->getDispatcher();
+
         // Fire the onExtensionBeforeInstall event.
-        PluginHelper::importPlugin('extension');
-        Factory::getApplication()->triggerEvent(
-            'onExtensionBeforeInstall',
-            [
-                'method'    => 'install',
-                'type'      => $this->manifest->attributes()->type,
-                'manifest'  => $this->manifest,
-                'extension' => 0,
-            ]
-        );
+        PluginHelper::importPlugin('extension', null, true, $dispatcher);
+        $dispatcher->dispatch('onExtensionBeforeInstall', new BeforeInstallEvent('onExtensionBeforeInstall', [
+            'method'    => 'install',
+            'type'      => $this->manifest->attributes()->type,
+            'manifest'  => $this->manifest,
+            'extension' => 0,
+        ]));
 
         // Run the install
         $result = $adapter->install();
@@ -647,10 +691,10 @@ class Installer extends Adapter implements DatabaseAwareInterface
         clearstatcache();
 
         // Fire the onExtensionAfterInstall
-        Factory::getApplication()->triggerEvent(
-            'onExtensionAfterInstall',
-            ['installer' => clone $this, 'eid' => $result]
-        );
+        $dispatcher->dispatch('onExtensionAfterInstall', new AfterInstallEvent('onExtensionAfterInstall', [
+            'installer' => clone $this,
+            'eid'       => $result,
+        ]));
 
         if ($result !== false) {
             // Refresh versionable assets cache
@@ -695,7 +739,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         $type   = $this->extension->type;
         $params = ['extension' => $this->extension, 'route' => 'discover_install'];
 
-        $adapter = $this->loadAdapter($type, $params);
+        $adapter = $this->getAdapter($type, $params);
 
         if (!\is_object($adapter)) {
             return false;
@@ -723,26 +767,25 @@ class Installer extends Adapter implements DatabaseAwareInterface
             $adapter->loadLanguage();
         }
 
+        $dispatcher = Factory::getApplication()->getDispatcher();
+
         // Fire the onExtensionBeforeInstall event.
-        PluginHelper::importPlugin('extension');
-        Factory::getApplication()->triggerEvent(
-            'onExtensionBeforeInstall',
-            [
-                'method'    => 'discover_install',
-                'type'      => $this->extension->get('type'),
-                'manifest'  => null,
-                'extension' => $this->extension->get('extension_id'),
-            ]
-        );
+        PluginHelper::importPlugin('extension', null, true, $dispatcher);
+        $dispatcher->dispatch('onExtensionBeforeInstall', new BeforeInstallEvent('onExtensionBeforeInstall', [
+            'method'    => 'discover_install',
+            'type'      => $this->extension->type,
+            'manifest'  => null,
+            'extension' => (int) $this->extension->extension_id,
+        ]));
 
         // Run the install
         $result = $adapter->discover_install();
 
         // Fire the onExtensionAfterInstall
-        Factory::getApplication()->triggerEvent(
-            'onExtensionAfterInstall',
-            ['installer' => clone $this, 'eid' => $result]
-        );
+        $dispatcher->dispatch('onExtensionAfterInstall', new AfterInstallEvent('onExtensionAfterInstall', [
+            'installer' => clone $this,
+            'eid'       => $result,
+        ]));
 
         if ($result !== false) {
             // Refresh versionable assets cache
@@ -768,7 +811,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         $results = [];
 
         foreach ($this->getAdapters() as $adapter) {
-            $instance = $this->loadAdapter($adapter);
+            $instance = $this->getAdapter($adapter);
 
             // Joomla! 1.5 installation adapter legacy support
             if (method_exists($instance, 'discover')) {
@@ -796,7 +839,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     public function update($path = null)
     {
-        if ($path && Folder::exists($path)) {
+        if ($path && is_dir(Path::clean($path))) {
             $this->setPath('source', $path);
         } else {
             $this->abort(Text::_('JLIB_INSTALLER_ABORT_NOUPDATEPATH'));
@@ -819,21 +862,23 @@ class Installer extends Adapter implements DatabaseAwareInterface
             $adapter->loadLanguage($path);
         }
 
+        $dispatcher = Factory::getApplication()->getDispatcher();
+
         // Fire the onExtensionBeforeUpdate event.
-        PluginHelper::importPlugin('extension');
-        Factory::getApplication()->triggerEvent(
-            'onExtensionBeforeUpdate',
-            ['type' => $this->manifest->attributes()->type, 'manifest' => $this->manifest]
-        );
+        PluginHelper::importPlugin('extension', null, true, $dispatcher);
+        $dispatcher->dispatch('onExtensionBeforeUpdate', new BeforeUpdateEvent('onExtensionBeforeUpdate', [
+            'type'     => $this->manifest->attributes()->type,
+            'manifest' => $this->manifest,
+        ]));
 
         // Run the update
         $result = $adapter->update();
 
         // Fire the onExtensionAfterUpdate
-        Factory::getApplication()->triggerEvent(
-            'onExtensionAfterUpdate',
-            ['installer' => clone $this, 'eid' => $result]
-        );
+        $dispatcher->dispatch('onExtensionAfterUpdate', new AfterUpdateEvent('onExtensionAfterUpdate', [
+            'installer' => clone $this,
+            'eid'       => $result,
+        ]));
 
         if ($result !== false) {
             return true;
@@ -856,28 +901,30 @@ class Installer extends Adapter implements DatabaseAwareInterface
     {
         $params = ['extension' => $this->extension, 'route' => 'uninstall'];
 
-        $adapter = $this->loadAdapter($type, $params);
+        $adapter = $this->getAdapter($type, $params);
 
         if (!\is_object($adapter)) {
             return false;
         }
 
+        $dispatcher = Factory::getApplication()->getDispatcher();
+
         // We don't load languages here, we get the extension adapter to work it out
         // Fire the onExtensionBeforeUninstall event.
-        PluginHelper::importPlugin('extension');
-        Factory::getApplication()->triggerEvent(
-            'onExtensionBeforeUninstall',
-            ['eid' => $identifier]
-        );
+        PluginHelper::importPlugin('extension', null, true, $dispatcher);
+        $dispatcher->dispatch('onExtensionBeforeUninstall', new BeforeUninstallEvent('onExtensionBeforeUninstall', [
+            'eid' => (int) $identifier,
+        ]));
 
         // Run the uninstall
         $result = $adapter->uninstall($identifier);
 
         // Fire the onExtensionAfterInstall
-        Factory::getApplication()->triggerEvent(
-            'onExtensionAfterUninstall',
-            ['installer' => clone $this, 'eid' => $identifier, 'removed' => $result]
-        );
+        $dispatcher->dispatch('onExtensionAfterUninstall', new AfterUninstallEvent('onExtensionAfterUninstall', [
+            'installer' => clone $this,
+            'eid'       => (int) $identifier,
+            'removed'   => $result,
+        ]));
 
         // Refresh versionable assets cache
         Factory::getApplication()->flushAssets();
@@ -910,7 +957,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             }
 
             // Fetch the adapter
-            $adapter = $this->loadAdapter($this->extension->type);
+            $adapter = $this->getAdapter($this->extension->type);
 
             if (!\is_object($adapter)) {
                 return false;
@@ -926,9 +973,9 @@ class Installer extends Adapter implements DatabaseAwareInterface
 
             if ($result !== false) {
                 return true;
-            } else {
-                return false;
             }
+
+            return false;
         }
 
         $this->abort(Text::_('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE_VALID'));
@@ -961,7 +1008,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         $params = ['route' => $route, 'manifest' => $this->getManifest()];
 
         // Load the adapter
-        $adapter = $this->loadAdapter($type, $params);
+        $adapter = $this->getAdapter($type, $params);
 
         if ($returnAdapter) {
             return $adapter;
@@ -983,7 +1030,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
     public function parseQueries(\SimpleXMLElement $element)
     {
         // Get the database connector object
-        $db = & $this->_db;
+        $db = $this->getDatabase();
 
         if (!$element || !\count($element->children())) {
             // Either the tag does not exist or has no children therefore we return zero files processed.
@@ -1032,7 +1079,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             return 0;
         }
 
-        $db          = &$this->_db;
+        $db          = $this->getDatabase();
         $dbDriver    = $db->getServerType();
         $updateCount = 0;
 
@@ -1079,7 +1126,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
 
             // Process each query in the $queries array (split out of sql file).
             foreach ($queries as $query) {
-                $canFail = strlen($query) > self::CAN_FAIL_MARKER_LENGTH + 1 &&
+                $canFail = \strlen($query) > self::CAN_FAIL_MARKER_LENGTH + 1 &&
                     strtoupper(substr($query, -self::CAN_FAIL_MARKER_LENGTH - 1)) === (self::CAN_FAIL_MARKER . ';');
                 $query   = $canFail ? (substr($query, 0, -self::CAN_FAIL_MARKER_LENGTH - 1) . ';') : $query;
 
@@ -1139,7 +1186,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                     usort($files, 'version_compare');
 
                     // Update the database
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->delete('#__schemas')
                         ->where('extension_id = :extension_id')
                         ->bind(':extension_id', $eid, ParameterType::INTEGER);
@@ -1225,7 +1272,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         $files = str_replace('.sql', '', $files);
         usort($files, 'version_compare');
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('version_id')
             ->from('#__schemas')
             ->where('extension_id = :extension_id')
@@ -1254,7 +1301,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                 continue;
             }
 
-            $buffer = file_get_contents(sprintf("%s/%s/%s.sql", $this->getPath('extension_root'), $schemapath, $file));
+            $buffer = file_get_contents(\sprintf("%s/%s/%s.sql", $this->getPath('extension_root'), $schemapath, $file));
 
             // Graceful exit and rollback if read not successful
             if ($buffer === false) {
@@ -1268,7 +1315,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
 
             // Process each query in the $queries array (split out of sql file).
             foreach ($queries as $query) {
-                $canFail = strlen($query) > self::CAN_FAIL_MARKER_LENGTH + 1 &&
+                $canFail = \strlen($query) > self::CAN_FAIL_MARKER_LENGTH + 1 &&
                     strtoupper(substr($query, -self::CAN_FAIL_MARKER_LENGTH - 1)) === (self::CAN_FAIL_MARKER . ';');
                 $query   = $canFail ? (substr($query, 0, -self::CAN_FAIL_MARKER_LENGTH - 1) . ';') : $query;
 
@@ -1327,8 +1374,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     protected function updateSchemaTable(int $eid, string $version, bool $update = false): void
     {
-        /** @var DatabaseDriver $db */
-        $db    = Factory::getContainer()->get('DatabaseDriver');
+        $db = $this->getDatabase();
 
         $o = (object) [
             'extension_id' => $eid,
@@ -1341,7 +1387,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             } else {
                 $db->insertObject('#__schemas', $o);
             }
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             /**
              * Safe fallback: delete any existing record and insert afresh.
              *
@@ -1355,7 +1401,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
              */
             $db->transactionStart();
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete('#__schemas')
                 ->where('extension_id = :extension_id')
                 ->bind(':extension_id', $eid, ParameterType::INTEGER);
@@ -1431,11 +1477,19 @@ class Installer extends Adapter implements DatabaseAwareInterface
                 $deletions = $this->findDeletedFiles($oldEntries, $element->children());
 
                 foreach ($deletions['folders'] as $deleted_folder) {
-                    Folder::delete($destination . '/' . $deleted_folder);
+                    $folder = $destination . '/' . $deleted_folder;
+
+                    if (is_dir($folder) && !Folder::delete($folder)) {
+                        Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $folder), Log::WARNING, 'jerror');
+                    }
                 }
 
                 foreach ($deletions['files'] as $deleted_file) {
-                    File::delete($destination . '/' . $deleted_file);
+                    $file = $destination . '/' . $deleted_file;
+
+                    if (is_file($file) && !File::delete($file)) {
+                        Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $file), Log::WARNING, 'jerror');
+                    }
                 }
             }
         }
@@ -1502,7 +1556,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     public function parseLanguages(\SimpleXMLElement $element, $cid = 0)
     {
-        // TODO: work out why the below line triggers 'node no longer exists' errors with files
+        // @todo: work out why the below line triggers 'node no longer exists' errors with files
         if (!$element || !\count($element->children())) {
             // Either the tag does not exist or has no children therefore we return zero files processed.
             return 0;
@@ -1561,7 +1615,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                 }
 
                 // If the language folder is not present, then the core pack hasn't been installed... ignore
-                if (!Folder::exists(\dirname($path['dest']))) {
+                if (!is_dir(Path::clean(\dirname($path['dest'])))) {
                     continue;
                 }
             } else {
@@ -1775,7 +1829,9 @@ class Installer extends Adapter implements DatabaseAwareInterface
                     Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_NO_FILE', $filesource), Log::WARNING, 'jerror');
 
                     return false;
-                } elseif (($exists = file_exists($filedest)) && !$overwrite) {
+                }
+
+                if (($exists = file_exists($filedest)) && !$overwrite) {
                     // It's okay if the manifest already exists
                     if ($this->getPath('manifest') === $filesource) {
                         continue;
@@ -1786,38 +1842,38 @@ class Installer extends Adapter implements DatabaseAwareInterface
                     Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FILE_EXISTS', $filedest), Log::WARNING, 'jerror');
 
                     return false;
+                }
+
+                // Copy the folder or file to the new location.
+                if ($filetype === 'folder') {
+                    if (!Folder::copy($filesource, $filedest, null, $overwrite)) {
+                        Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FOLDER', $filesource, $filedest), Log::WARNING, 'jerror');
+
+                        return false;
+                    }
+
+                    $step = ['type' => 'folder', 'path' => $filedest];
                 } else {
-                    // Copy the folder or file to the new location.
-                    if ($filetype === 'folder') {
-                        if (!Folder::copy($filesource, $filedest, null, $overwrite)) {
-                            Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FOLDER', $filesource, $filedest), Log::WARNING, 'jerror');
+                    if (!File::copy($filesource, $filedest, null)) {
+                        Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FILE', $filesource, $filedest), Log::WARNING, 'jerror');
 
-                            return false;
+                        // In 3.2, TinyMCE language handling changed.  Display a special notice in case an older language pack is installed.
+                        if (strpos($filedest, 'media/editors/tinymce/jscripts/tiny_mce/langs')) {
+                            Log::add(Text::_('JLIB_INSTALLER_NOT_ERROR'), Log::WARNING, 'jerror');
                         }
 
-                        $step = ['type' => 'folder', 'path' => $filedest];
-                    } else {
-                        if (!File::copy($filesource, $filedest, null)) {
-                            Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FILE', $filesource, $filedest), Log::WARNING, 'jerror');
-
-                            // In 3.2, TinyMCE language handling changed.  Display a special notice in case an older language pack is installed.
-                            if (strpos($filedest, 'media/editors/tinymce/jscripts/tiny_mce/langs')) {
-                                Log::add(Text::_('JLIB_INSTALLER_NOT_ERROR'), Log::WARNING, 'jerror');
-                            }
-
-                            return false;
-                        }
-
-                        $step = ['type' => 'file', 'path' => $filedest];
+                        return false;
                     }
 
-                    /*
-                     * Since we copied a file/folder, we want to add it to the installation step stack so that
-                     * in case we have to roll back the installation we can remove the files copied.
-                     */
-                    if (!$exists) {
-                        $this->stepStack[] = $step;
-                    }
+                    $step = ['type' => 'file', 'path' => $filedest];
+                }
+
+                /*
+                 * Since we copied a file/folder, we want to add it to the installation step stack so that
+                 * in case we have to roll back the installation we can remove the files copied.
+                 */
+                if (!$exists) {
+                    $this->stepStack[] = $step;
                 }
             }
         } else {
@@ -1927,7 +1983,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                 }
 
                 // If the language folder is not present, then the core pack hasn't been installed... ignore
-                if (!Folder::exists(\dirname($path))) {
+                if (!is_dir(Path::clean(\dirname($path)))) {
                     continue;
                 }
             } else {
@@ -1992,7 +2048,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
     public function findManifest()
     {
         // Do nothing if folder does not exist for some reason
-        if (!Folder::exists($this->getPath('source'))) {
+        if (!is_dir(Path::clean($this->getPath('source')))) {
             return false;
         }
 
@@ -2038,12 +2094,12 @@ class Installer extends Adapter implements DatabaseAwareInterface
             Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), Log::WARNING, 'jerror');
 
             return false;
-        } else {
-            // No XML files were found in the install folder
-            Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), Log::WARNING, 'jerror');
-
-            return false;
         }
+
+        // No XML files were found in the install folder
+        Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), Log::WARNING, 'jerror');
+
+        return false;
     }
 
     /**
@@ -2100,7 +2156,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
     public function cleanDiscoveredExtension($type, $element, $folder = '', $client = 0)
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__extensions'))
             ->where('type = :type')
             ->where('element = :element')
@@ -2291,12 +2347,13 @@ class Installer extends Adapter implements DatabaseAwareInterface
         $data['creationDate'] = ((string) $xml->creationDate) ?: Text::_('JLIB_UNKNOWN');
         $data['author']       = ((string) $xml->author) ?: Text::_('JLIB_UNKNOWN');
 
-        $data['copyright']   = (string) $xml->copyright;
-        $data['authorEmail'] = (string) $xml->authorEmail;
-        $data['authorUrl']   = (string) $xml->authorUrl;
-        $data['version']     = (string) $xml->version;
-        $data['description'] = (string) $xml->description;
-        $data['group']       = (string) $xml->group;
+        $data['copyright']    = (string) $xml->copyright;
+        $data['authorEmail']  = (string) $xml->authorEmail;
+        $data['authorUrl']    = (string) $xml->authorUrl;
+        $data['version']      = (string) $xml->version;
+        $data['description']  = (string) $xml->description;
+        $data['group']        = (string) $xml->group;
+        $data['changelogurl'] = (string) $xml->changelogurl;
 
         // Child template specific fields.
         if (isset($xml->inheritable)) {
@@ -2328,6 +2385,51 @@ class Installer extends Adapter implements DatabaseAwareInterface
     }
 
     /**
+     * Discover all adapters in the adapterfolder path
+     *
+     * @return  void
+     *
+     * @since  6.0.0
+     */
+    protected function loadAdapters()
+    {
+        $files    = new \DirectoryIterator($this->adapterfolder);
+
+        // Process the core adapters
+        foreach ($files as $file) {
+            $fileName = $file->getFilename();
+
+            // Only load php files.
+            if (!$file->isFile() || $file->getExtension() !== 'php') {
+                continue;
+            }
+
+            // Derive the class name from the filename.
+            $name  = str_ireplace('.php', '', trim($fileName));
+            $name  = str_ireplace('adapter', '', trim($name));
+            $class = rtrim($this->classprefix, '\\') . '\\' . ucfirst($name) . 'Adapter';
+
+            if (!class_exists($class)) {
+                // Not namespaced
+                $class = $this->classprefix . ucfirst($name);
+            }
+
+            // Core adapters should autoload based on classname, keep this fallback just in case
+            if (!class_exists($class)) {
+                // Try to load the adapter object
+                \JLoader::register($class, $this->adapterfolder . '/' . $fileName);
+
+                if (!class_exists($class)) {
+                    // Skip to next one
+                    continue;
+                }
+            }
+
+            $this->adapters[strtolower($name)] = $class;
+        }
+    }
+
+    /**
      * Gets a list of available install adapters.
      *
      * @param   array  $options  An array of options to inject into the adapter
@@ -2339,59 +2441,64 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     public function getAdapters($options = [], array $custom = [])
     {
-        $files    = new \DirectoryIterator($this->_basepath . '/' . $this->_adapterfolder);
-        $adapters = [];
-
-        // Process the core adapters
-        foreach ($files as $file) {
-            $fileName = $file->getFilename();
-
-            // Only load for php files.
-            if (!$file->isFile() || $file->getExtension() !== 'php') {
-                continue;
-            }
-
-            // Derive the class name from the filename.
-            $name  = str_ireplace('.php', '', trim($fileName));
-            $name  = str_ireplace('adapter', '', trim($name));
-            $class = rtrim($this->_classprefix, '\\') . '\\' . ucfirst($name) . 'Adapter';
-
-            if (!class_exists($class)) {
-                // Not namespaced
-                $class = $this->_classprefix . ucfirst($name);
-            }
-
-            // Core adapters should autoload based on classname, keep this fallback just in case
-            if (!class_exists($class)) {
-                // Try to load the adapter object
-                \JLoader::register($class, $this->_basepath . '/' . $this->_adapterfolder . '/' . $fileName);
-
-                if (!class_exists($class)) {
-                    // Skip to next one
-                    continue;
-                }
-            }
-
-            $adapters[] = $name;
-        }
-
-        // Add any custom adapters if specified
-        if (\count($custom) >= 1) {
+        if (\count($custom)) {
             foreach ($custom as $adapter) {
                 // Setup the class name
-                // TODO - Can we abstract this to not depend on the Joomla class namespace without PHP namespaces?
-                $class = $this->_classprefix . ucfirst(trim($adapter));
+                // @todo - Can we abstract this to not depend on the Joomla class namespace without PHP namespaces?
+                $class = $this->classprefix . ucfirst(trim($adapter));
 
                 // If the class doesn't exist we have nothing left to do but look at the next type. We did our best.
                 if (!class_exists($class)) {
                     continue;
                 }
 
-                $adapters[] = str_ireplace('.php', '', $fileName);
+                $this->adapters[$adapter] = $class;
             }
         }
 
-        return $adapters;
+        return array_keys($this->adapters);
+    }
+
+    /**
+     * Get an install adapter instance
+     *
+     * @param   string  $name     Adapter name
+     * @param   array   $options  Adapter options
+     *
+     * @return  InstallerAdapter
+     *
+     * @throws  \InvalidArgumentException
+     * @since   6.0.0
+     */
+    public function getAdapter($name, $options = [])
+    {
+        $name = strtolower($name);
+
+        if (!isset($this->adapters[$name])) {
+            throw new \InvalidArgumentException(\sprintf('The %s install adapter does not exist.', $name));
+        }
+
+        if (\is_string($this->adapters[$name])) {
+            $class = $this->adapters[$name];
+
+            // Ensure the adapter type is part of the options array
+            $options['type'] = $name;
+
+            // Check for a possible service from the container otherwise manually instantiate the class
+            if (Factory::getContainer()->has($class)) {
+                return Factory::getContainer()->get($class);
+            }
+
+            $adapter = new $class($this, $this->getDatabase(), $options);
+
+            if ($adapter instanceof ContainerAwareInterface) {
+                $adapter->setContainer(Factory::getContainer());
+            }
+
+            $this->adapters[$name] = $adapter;
+        }
+
+        return $this->adapters[$name];
     }
 
     /**
@@ -2402,36 +2509,40 @@ class Installer extends Adapter implements DatabaseAwareInterface
      *
      * @return  InstallerAdapter
      *
-     * @since   3.4
      * @throws  \InvalidArgumentException
+     * @since   3.4
+     * @deprecated  6.0.0 will be removed in 7.0
+     *              Use getAdapter() instead
      */
     public function loadAdapter($adapter, $options = [])
     {
-        $class = rtrim($this->_classprefix, '\\') . '\\' . ucfirst($adapter) . 'Adapter';
+        return $this->getAdapter($adapter, $options);
+    }
 
-        if (!class_exists($class)) {
-            // Not namespaced
-            $class = $this->_classprefix . ucfirst($adapter);
+    /**
+     * Set an adapter by name
+     *
+     * @param   string                   $name     Adapter name
+     * @param   InstallerAdapter|string  $adapter  Adapter object or class name
+     *
+     * @return  boolean  True if successful
+     *
+     * @since   6.0.0
+     */
+    public function setAdapter($name, $adapter)
+    {
+        if (\is_object($adapter)) {
+            $this->adapters[$name] = $adapter;
+
+            return true;
         }
 
-        if (!class_exists($class)) {
-            throw new \InvalidArgumentException(sprintf('The %s install adapter does not exist.', $adapter));
+        if (class_exists($adapter)) {
+            $this->adapters[$name] = $adapter;
+
+            return true;
         }
 
-        // Ensure the adapter type is part of the options array
-        $options['type'] = $adapter;
-
-        // Check for a possible service from the container otherwise manually instantiate the class
-        if (Factory::getContainer()->has($class)) {
-            return Factory::getContainer()->get($class);
-        }
-
-        $adapter = new $class($this, $this->getDatabase(), $options);
-
-        if ($adapter instanceof ContainerAwareInterface) {
-            $adapter->setContainer(Factory::getContainer());
-        }
-
-        return $adapter;
+        return false;
     }
 }

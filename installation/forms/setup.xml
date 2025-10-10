@@ -7,6 +7,7 @@
 			label="INSTL_SELECT_LANGUAGE_TITLE"
 			class="required"
 			default="en-GB"
+			labelclass="hidden"
 		/>
 		<field
 			name="site_name"
@@ -175,5 +176,15 @@
 			showon="db_type:mysql,mysqli[AND]db_encryption:2"
 		/>
 
+	</fieldset>
+
+	<fieldset name="expert">
+		<field
+			name="public_folder"
+			type="text"
+			label="INSTL_PUBLIC_FOLDER_DESC"
+			default=""
+			filter="string"
+		/>
 	</fieldset>
 </form>

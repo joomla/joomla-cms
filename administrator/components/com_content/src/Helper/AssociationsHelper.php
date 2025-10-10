@@ -11,7 +11,10 @@
 namespace Joomla\Component\Content\Administrator\Helper;
 
 use Joomla\CMS\Association\AssociationExtensionHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Table\Category;
+use Joomla\CMS\Table\Content;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 
@@ -124,15 +127,15 @@ class AssociationsHelper extends AssociationExtensionHelper
 
         switch ($typeName) {
             case 'article':
-                $table = Table::getInstance('Content');
+                $table = new Content(Factory::getDbo());
                 break;
 
             case 'category':
-                $table = Table::getInstance('Category');
+                $table = new Category(Factory::getDbo());
                 break;
         }
 
-        if (is_null($table)) {
+        if (\is_null($table)) {
             return null;
         }
 
@@ -158,7 +161,7 @@ class AssociationsHelper extends AssociationExtensionHelper
         $support = $this->getSupportTemplate();
         $title   = '';
 
-        if (in_array($typeName, $this->itemTypes)) {
+        if (\in_array($typeName, $this->itemTypes)) {
             switch ($typeName) {
                 case 'article':
                     $support['state']     = true;

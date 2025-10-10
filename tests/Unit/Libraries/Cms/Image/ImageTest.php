@@ -72,7 +72,7 @@ class ImageTest extends UnitTestCase
         parent::setUp();
 
         // Verify that GD support for PHP is available.
-        if (!extension_loaded('gd')) {
+        if (!\extension_loaded('gd')) {
             $this->markTestSkipped('No GD support so skipping Image tests.');
         }
 
@@ -884,19 +884,19 @@ class ImageTest extends UnitTestCase
     }
 
     /**
-     * Test the Image::createThumbs method without a loaded image.
+     * Test the Image::createThumbnails method without a loaded image.
      *
      * @return  void
      *
-     * @covers  \Joomla\CMS\Image\Image::createThumbs
+     * @covers  \Joomla\CMS\Image\Image::createThumbnails
      *
      * @since   1.1.3
      */
-    public function testCreateThumbsWithoutLoadedImage()
+    public function testcreateThumbnailsWithoutLoadedImage()
     {
         $this->expectException(\LogicException::class);
 
-        $thumbs = $this->instance->createThumbs('50x38');
+        $thumbs = $this->instance->createThumbnails('50x38');
     }
 
     /**
@@ -904,7 +904,7 @@ class ImageTest extends UnitTestCase
      *
      * @return  void
      *
-     * @covers  \Joomla\CMS\Image\Image::createThumbs
+     * @covers  \Joomla\CMS\Image\Image::createThumbnails
      *
      * @since   1.1.3
      */
@@ -913,23 +913,23 @@ class ImageTest extends UnitTestCase
         $this->expectException(\InvalidArgumentException::class);
 
         $this->instance->loadFile($this->testFile);
-        $this->instance->createThumbs('50x38', Image::SCALE_INSIDE, '/foo/bar');
+        $this->instance->createThumbnails('50x38', Image::SCALE_INSIDE, '/foo/bar');
     }
 
     /**
-     * Test the Image::createThumbs method.
+     * Test the Image::createThumbnails method.
      *
      * @return  void
      *
-     * @covers  \Joomla\CMS\Image\Image::createThumbs
+     * @covers  \Joomla\CMS\Image\Image::createThumbnails
      *
      * @since   1.1.3
      */
-    public function testCreateThumbs()
+    public function testcreateThumbnails()
     {
         $this->instance->loadFile($this->testFile);
 
-        $thumbs     = $this->instance->createThumbs('50x38', Image::CROP);
+        $thumbs     = $this->instance->createThumbnails('50x38', Image::CROP);
         $outFileGif = TestHelper::getValue($thumbs[0], 'path');
 
         $a = Image::getImageFileProperties($this->testFile);
@@ -1073,13 +1073,13 @@ class ImageTest extends UnitTestCase
 
         $actualCropTop = $cropTop;
 
-        if (is_null($cropTop)) {
+        if (\is_null($cropTop)) {
             $cropTop = round(($startHeight - $cropHeight) / 2);
         }
 
         $actualCropLeft = $cropLeft;
 
-        if (is_null($cropLeft)) {
+        if (\is_null($cropLeft)) {
             $cropLeft = round(($startWidth - $cropWidth) / 2);
         }
 

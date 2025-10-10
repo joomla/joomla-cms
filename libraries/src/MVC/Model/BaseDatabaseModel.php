@@ -14,6 +14,7 @@ use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Model\AfterCleanCacheEvent;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -24,7 +25,6 @@ use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
-use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\DatabaseQuery;
@@ -32,11 +32,10 @@ use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Event\Event;
 use Joomla\Event\EventInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -83,7 +82,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   3.0
      * @throws  \Exception
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         parent::__construct($config);
 
@@ -106,7 +105,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
         $db = \array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo();
 
         if ($db) {
-            @trigger_error(sprintf('Database is not available in constructor in 6.0.'), E_USER_DEPRECATED);
+            @trigger_error('Database is not available in constructor in 6.0.', E_USER_DEPRECATED);
             $this->setDatabase($db);
 
             // Is needed, when models use the deprecated MVC DatabaseAwareTrait, as the trait is overriding the local functions
@@ -115,10 +114,10 @@ abstract class BaseDatabaseModel extends BaseModel implements
 
         // Set the default view search path
         if (\array_key_exists('table_path', $config)) {
-            $this->addTablePath($config['table_path']);
+            static::addTablePath($config['table_path']);
         } elseif (\defined('JPATH_COMPONENT_ADMINISTRATOR')) {
-            $this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
-            $this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/table');
+            static::addTablePath(JPATH_ADMINISTRATOR . '/components/' . $this->option . '/tables');
+            static::addTablePath(JPATH_ADMINISTRATOR . '/components/' . $this->option . '/table');
         }
 
         // Set the clean cache event
@@ -156,7 +155,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
     protected function _getList($query, $limitstart = 0, $limit = 0)
     {
         if (\is_string($query)) {
-            $query = $this->getDatabase()->getQuery(true)->setQuery($query);
+            $query = $this->getDatabase()->createQuery()->setQuery($query);
         }
 
         $query->setLimit($limit, $limitstart);
@@ -222,7 +221,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @return  Table|boolean  Table object or boolean false if failed
      *
      * @since   3.0
-     * @see     \JTable::getInstance()
+     * @see     Table::getInstance()
      */
     protected function _createTable($name, $prefix = 'Table', $config = [])
     {
@@ -264,6 +263,10 @@ abstract class BaseDatabaseModel extends BaseModel implements
         }
 
         if ($table = $this->_createTable($name, $prefix, $options)) {
+            if ($this->shouldUseExceptions()) {
+                $table->setUseExceptions(true);
+            }
+
             return $table;
         }
 
@@ -312,12 +315,12 @@ abstract class BaseDatabaseModel extends BaseModel implements
             /** @var CallbackController $cache */
             $cache = $this->getCacheControllerFactory()->createCacheController('callback', $options);
             $cache->clean();
-        } catch (CacheExceptionInterface $exception) {
+        } catch (CacheExceptionInterface) {
             $options['result'] = false;
         }
 
         // Trigger the onContentCleanCache event.
-        $this->dispatchEvent(new Event($this->event_clean_cache, $options));
+        $this->getDispatcher()->dispatch($this->event_clean_cache, new AfterCleanCacheEvent($this->event_clean_cache, $options));
     }
 
     /**
@@ -335,6 +338,31 @@ abstract class BaseDatabaseModel extends BaseModel implements
     }
 
     /**
+     * Get the event dispatcher.
+     *
+     * The override was made to keep a backward compatibility for legacy component .
+     * TODO: Remove the override ONLY when support of Legacy components will be removed (components without Dispatcher and MVCFactory).
+     *
+     * @return  DispatcherInterface
+     *
+     * @since   4.4.0
+     * @throws  \UnexpectedValueException May be thrown if the dispatcher has not been set.
+     */
+    public function getDispatcher()
+    {
+        if (!$this->dispatcher) {
+            @trigger_error(
+                \sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 7.0', __CLASS__),
+                E_USER_DEPRECATED
+            );
+
+            return Factory::getContainer()->get(DispatcherInterface::class);
+        }
+
+        return $this->dispatcher;
+    }
+
+    /**
      * Dispatches the given event on the internal dispatcher, does a fallback to the global one.
      *
      * @param   EventInterface  $event  The event
@@ -342,14 +370,20 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @return  void
      *
      * @since   4.1.0
+     *
+     * @deprecated 4.4 will be removed in 7.0. Use $this->getDispatcher() directly.
      */
     protected function dispatchEvent(EventInterface $event)
     {
-        try {
-            $this->getDispatcher()->dispatch($event->getName(), $event);
-        } catch (\UnexpectedValueException $e) {
-            Factory::getContainer()->get(DispatcherInterface::class)->dispatch($event->getName(), $event);
-        }
+        $this->getDispatcher()->dispatch($event->getName(), $event);
+
+        @trigger_error(
+            \sprintf(
+                'Method %s is deprecated and will be removed in 7.0. Use getDispatcher()->dispatch() directly.',
+                __METHOD__
+            ),
+            E_USER_DEPRECATED
+        );
     }
 
     /**
@@ -368,7 +402,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
     {
         try {
             return $this->getDatabase();
-        } catch (DatabaseNotFoundException $e) {
+        } catch (DatabaseNotFoundException) {
             throw new \UnexpectedValueException('Database driver not set in ' . __CLASS__);
         }
     }
@@ -386,7 +420,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      *              Use setDatabase() instead
      *              Example: $model->setDatabase($db);
      */
-    public function setDbo(DatabaseInterface $db = null)
+    public function setDbo(?DatabaseInterface $db = null)
     {
         if ($db === null) {
             return;

@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
+use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Database\ParameterType;
@@ -29,7 +30,7 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.6
  */
-class BannerModel extends AdminModel
+class BannerModel extends AdminModel implements VersionableModelInterface
 {
     use VersionableModelTrait;
 
@@ -75,14 +76,14 @@ class BannerModel extends AdminModel
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.2
      */
     protected function cleanupPostBatchCopy(TableInterface $table, $newId, $oldId)
     {
         // Initialise clicks and impmade
         $db    = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
                 ->update($db->quoteName('#__banners'))
                 ->set($db->quoteName('clicks') . ' = 0')
                 ->set($db->quoteName('impmade') . ' = 0')
@@ -164,7 +165,7 @@ class BannerModel extends AdminModel
      * for alias and title to use the batch move and copy methods
      *
      * @param   integer  $categoryId  The target category id
-     * @param   Table    $table       The JTable within which move or copy is taking place
+     * @param   Table    $table       The \Joomla\CMS\Table\Table within which move or copy is taking place
      *
      * @return  void
      *
@@ -264,7 +265,7 @@ class BannerModel extends AdminModel
                 $filters     = (array) $app->getUserState('com_banners.banners.filter');
                 $filterCatId = $filters['category_id'] ?? null;
 
-                $data->set('catid', $app->getInput()->getInt('catid', $filterCatId));
+                $data->catid = $app->getInput()->getInt('catid', $filterCatId);
             }
         }
 
@@ -347,11 +348,12 @@ class BannerModel extends AdminModel
             // Set the values
             $table->created    = $date->toSql();
             $table->created_by = $user->id;
+            $table->version    = 1;
 
             // Set ordering to the last item if not set
             if (empty($table->ordering)) {
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select('MAX(' . $db->quoteName('ordering') . ')')
                     ->from($db->quoteName('#__banners'));
 
@@ -364,10 +366,8 @@ class BannerModel extends AdminModel
             // Set the values
             $table->modified    = $date->toSql();
             $table->modified_by = $user->id;
+            $table->version++;
         }
-
-        // Increment the content version number.
-        $table->version++;
     }
 
     /**
@@ -418,7 +418,7 @@ class BannerModel extends AdminModel
         if ($createCategory && $this->canCreateCategory()) {
             $category = [
                 // Remove #new# prefix, if exists.
-                'title'     => strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'],
+                'title'     => str_starts_with($data['catid'], '#new#') ? substr($data['catid'], 5) : $data['catid'],
                 'parent_id' => 1,
                 'extension' => 'com_banners',
                 'language'  => $data['language'],
@@ -443,13 +443,13 @@ class BannerModel extends AdminModel
         // Alter the name for save as copy
         if ($input->get('task') == 'save2copy') {
             /** @var \Joomla\Component\Banners\Administrator\Table\BannerTable $origTable */
-            $origTable = clone $this->getTable();
+            $origTable = $this->getTable();
             $origTable->load($input->getInt('id'));
 
             if ($data['name'] == $origTable->name) {
-                list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
-                $data['name']       = $name;
-                $data['alias']      = $alias;
+                [$name, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
+                $data['name']   = $name;
+                $data['alias']  = $alias;
             } else {
                 if ($data['alias'] == $origTable->alias) {
                     $data['alias'] = '';

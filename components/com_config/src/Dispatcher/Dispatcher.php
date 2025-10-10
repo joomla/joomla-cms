@@ -41,7 +41,7 @@ class Dispatcher extends ComponentDispatcher
         $view = $this->input->get('view');
         $user = $this->app->getIdentity();
 
-        if (substr($task, 0, 8) === 'modules.' || $view === 'modules') {
+        if (str_starts_with($task, 'modules.') || $view === 'modules') {
             if (!$user->authorise('module.edit.frontend', 'com_modules.module.' . $this->input->get('id'))) {
                 throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
             }

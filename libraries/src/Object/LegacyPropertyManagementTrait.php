@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Object;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -19,7 +19,7 @@ namespace Joomla\CMS\Object;
  *
  * @since       4.3.0
  *
- * @deprecated  4.3.0 will be removed in 6.0
+ * @deprecated  4.3.0 will be removed in 7.0
  *              Will be removed without replacement
  *              Create proper setter functions for the individual properties or use a \Joomla\Registry\Registry
  */
@@ -35,7 +35,7 @@ trait LegacyPropertyManagementTrait
      *
      * @since   1.7.0
      *
-     * @deprecated 4.3.0 will be removed in 6.0
+     * @deprecated 4.3.0 will be removed in 7.0
      *             Defining dynamic properties should not be used anymore
      */
     public function def($property, $default = null)
@@ -57,7 +57,7 @@ trait LegacyPropertyManagementTrait
      *
      * @see     CMSObject::getProperties()
      *
-     * @deprecated 4.3.0 will be removed in 6.0
+     * @deprecated 4.3.0 will be removed in 7.0
      *             Create a proper getter function for the property
      */
     public function get($property, $default = null)
@@ -80,7 +80,7 @@ trait LegacyPropertyManagementTrait
      *
      * @see     CMSObject::get()
      *
-     * @deprecated 4.3.0 will be removed in 6.0
+     * @deprecated 4.3.0 will be removed in 7.0
      *             Create a proper getter function for the property
      */
     public function getProperties($public = true)
@@ -89,8 +89,26 @@ trait LegacyPropertyManagementTrait
 
         if ($public) {
             foreach ($vars as $key => $value) {
-                if ('_' == substr($key, 0, 1)) {
+                if (str_starts_with($key, '_')) {
                     unset($vars[$key]);
+                }
+            }
+
+            // Collect all none public properties of the current class and it's parents
+            $nonePublicProperties = [];
+            $reflection           = new \ReflectionObject($this);
+            do {
+                $nonePublicProperties = array_merge(
+                    $reflection->getProperties(\ReflectionProperty::IS_PRIVATE | \ReflectionProperty::IS_PROTECTED),
+                    $nonePublicProperties
+                );
+            } while ($reflection = $reflection->getParentClass());
+
+            // Unset all none public properties, this is needed as get_object_vars returns now all vars
+            // from the current object and not only the CMSObject and the public ones from the inheriting classes
+            foreach ($nonePublicProperties as $prop) {
+                if (\array_key_exists($prop->getName(), $vars)) {
+                    unset($vars[$prop->getName()]);
                 }
             }
         }
@@ -108,7 +126,7 @@ trait LegacyPropertyManagementTrait
      *
      * @since   1.7.0
      *
-     * @deprecated 4.3.0 will be removed in 6.0
+     * @deprecated 4.3.0 will be removed in 7.0
      *             Create a proper setter function for the property
      */
     public function set($property, $value = null)
@@ -130,7 +148,7 @@ trait LegacyPropertyManagementTrait
      *
      * @see     CMSObject::set()
      *
-     * @deprecated 4.3.0 will be removed in 6.0
+     * @deprecated 4.3.0 will be removed in 7.0
      *             Create a proper setter function for the property
      */
     public function setProperties($properties)

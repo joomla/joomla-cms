@@ -17,8 +17,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Newsfeeds\Administrator\View\Newsfeed\HtmlView $this */
+
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
 
@@ -114,7 +116,6 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
         <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
     </div>
-    <input type="hidden" name="task" value="">
-    <input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>">
-    <?php echo HTMLHelper::_('form.token'); ?>
+
+    <?php echo $this->form->renderControlFields(); ?>
 </form>

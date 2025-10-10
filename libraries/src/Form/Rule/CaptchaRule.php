@@ -16,7 +16,7 @@ use Joomla\CMS\Form\FormRule;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -41,7 +41,7 @@ class CaptchaRule extends FormRule
      *
      * @since   2.5
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         $app     = Factory::getApplication();
         $default = $app->get('captcha');

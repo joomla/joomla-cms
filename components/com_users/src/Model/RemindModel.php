@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Users\Site\Model;
 
+use Joomla\CMS\Event\User\AfterRemindEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -132,7 +133,7 @@ class RemindModel extends FormModel
 
         // Find the user id for the given email address.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*')
             ->from($db->quoteName('#__users'))
             ->where('LOWER(' . $db->quoteName('email') . ') = LOWER(:email)')
@@ -201,7 +202,9 @@ class RemindModel extends FormModel
             return false;
         }
 
-        Factory::getApplication()->triggerEvent('onUserAfterRemind', [$user]);
+        $this->getDispatcher()->dispatch('onUserAfterRemind', new AfterRemindEvent('onUserAfterRemind', [
+            'subject' => $user,
+        ]));
 
         return true;
     }

@@ -188,6 +188,7 @@ export default {
       return api.canDelete && (typeof this.item.canDelete !== 'undefined' ? this.item.canDelete : true);
     },
     canOpenEditView() {
+      // @TODO pass the array of allowed to edit files from PHP
       return ['jpg', 'jpeg', 'png'].includes(this.item.extension.toLowerCase());
     },
   },

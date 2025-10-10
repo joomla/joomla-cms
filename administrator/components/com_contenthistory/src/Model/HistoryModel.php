@@ -21,7 +21,9 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -37,13 +39,13 @@ class HistoryModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -95,7 +97,7 @@ class HistoryModel extends ListModel
         $typeAlias        = implode('.', $typeAlias);
         $contentTypeTable->load(['type_alias' => $typeAlias]);
         $typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
-        $result        = in_array((int) $id, $typeEditables);
+        $result        = \in_array((int) $id, $typeEditables);
 
         return $result;
     }
@@ -151,20 +153,20 @@ class HistoryModel extends ListModel
                     if ($error) {
                         try {
                             Log::add($error, Log::WARNING, 'jerror');
-                        } catch (\RuntimeException $exception) {
+                        } catch (\RuntimeException) {
                             Factory::getApplication()->enqueueMessage($error, 'warning');
                         }
 
                         return false;
-                    } else {
-                        try {
-                            Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-                        } catch (\RuntimeException $exception) {
-                            Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
-                        }
-
-                        return false;
                     }
+
+                    try {
+                        Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
+                    } catch (\RuntimeException) {
+                        Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
+                    }
+
+                    return false;
                 }
             } else {
                 $this->setError($table->getError());
@@ -198,7 +200,7 @@ class HistoryModel extends ListModel
         }
 
         // This should be an array with at least one element
-        if (!is_array($items) || !isset($items[0])) {
+        if (!\is_array($items) || !isset($items[0])) {
             return $items;
         }
 
@@ -258,20 +260,20 @@ class HistoryModel extends ListModel
                     if ($error) {
                         try {
                             Log::add($error, Log::WARNING, 'jerror');
-                        } catch (\RuntimeException $exception) {
+                        } catch (\RuntimeException) {
                             Factory::getApplication()->enqueueMessage($error, 'warning');
                         }
 
                         return false;
-                    } else {
-                        try {
-                            Log::add(Text::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), Log::WARNING, 'jerror');
-                        } catch (\RuntimeException $exception) {
-                            Factory::getApplication()->enqueueMessage(Text::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), 'warning');
-                        }
-
-                        return false;
                     }
+
+                    try {
+                        Log::add(Text::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), Log::WARNING, 'jerror');
+                    } catch (\RuntimeException) {
+                        Factory::getApplication()->enqueueMessage(Text::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), 'warning');
+                    }
+
+                    return false;
                 }
             } else {
                 $this->setError($table->getError());
@@ -317,7 +319,7 @@ class HistoryModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   3.2
      */
@@ -325,7 +327,7 @@ class HistoryModel extends ListModel
     {
         // Create a new query object.
         $db     = $this->getDatabase();
-        $query  = $db->getQuery(true);
+        $query  = $db->createQuery();
         $itemId = $this->getState('item_id');
 
         // Select the required fields from the table.
@@ -376,13 +378,27 @@ class HistoryModel extends ListModel
     {
         $result    = false;
         $item_id   = Factory::getApplication()->getInput()->getCmd('item_id', '');
-        $typeAlias = explode('.', $item_id);
-        Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $typeAlias[0] . '/tables');
+
+        [$extension, $type, $id] = explode('.', $item_id);
+
+        $app = Factory::getApplication();
+
+        $model = $app->bootComponent($extension)->getMVCFactory()->createModel($type, 'Administrator');
+
+        if ($model instanceof VersionableModelInterface) {
+            $item   = $model->getItem($id);
+            $result = $model->getSha1($item);
+
+            return $result;
+        }
+
+        // Legacy code for history concept before 6.0.0, deprecated 6.0.0 will be removed with 8.0.0
+        Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $extension . '/tables');
         $typeTable = $this->getTable('ContentType');
-        $typeTable->load(['type_alias' => $typeAlias[0] . '.' . $typeAlias[1]]);
+        $typeTable->load(['type_alias' => $extension . '.' . $type]);
         $contentTable = $typeTable->getContentTable();
 
-        if ($contentTable && $contentTable->load($typeAlias[2])) {
+        if ($contentTable && $contentTable->load($id)) {
             $helper = new CMSHelper();
 
             $dataObject = $helper->getDataObject($contentTable);

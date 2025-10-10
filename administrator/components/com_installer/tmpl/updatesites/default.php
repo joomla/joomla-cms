@@ -10,19 +10,20 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Installer\Administrator\View\Updatesites\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
-$user      = Factory::getApplication()->getIdentity();
-$userId    = $user->get('id');
+$user      = $this->getCurrentUser();
+$userId    = $user->id;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
@@ -157,9 +158,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                         <?php echo $this->pagination->getListFooter(); ?>
 
                     <?php endif; ?>
-                    <input type="hidden" name="task" value="">
-                    <input type="hidden" name="boxchecked" value="0">
-                    <?php echo HTMLHelper::_('form.token'); ?>
+
+                    <?php echo $this->filterForm->renderControlFields(); ?>
                 </div>
             </div>
         </div>

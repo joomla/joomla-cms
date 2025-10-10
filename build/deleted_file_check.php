@@ -59,18 +59,14 @@ if (empty($options['to'])) {
     exit(1);
 }
 
-// Directories to skip for the check (needs to include anything from J3 we want to keep)
+// Directories to skip for the check (needs to include anything from previous versions which we want to keep)
 $previousReleaseExclude = [
-    $options['from'] . '/administrator/components/com_search',
-    $options['from'] . '/components/com_search',
     $options['from'] . '/images/sampledata',
     $options['from'] . '/installation',
-    $options['from'] . '/media/plg_quickicon_eos310',
-    $options['from'] . '/media/system/images',
-    $options['from'] . '/modules/mod_search',
-    $options['from'] . '/plugins/fields/repeatable',
-    $options['from'] . '/plugins/quickicon/eos310',
-    $options['from'] . '/plugins/search',
+    $options['from'] . '/media/plg_captcha_recaptcha',
+    $options['from'] . '/media/plg_captcha_recaptcha_invisible',
+    $options['from'] . '/media/plg_behaviour_compat',
+    $options['from'] . '/plugins/behaviour/compat',
 ];
 
 /**
@@ -81,7 +77,7 @@ $previousReleaseExclude = [
  * @return bool True if you need to recurse or if the item is acceptable
  */
 $previousReleaseFilter = function ($file, $key, $iterator) use ($previousReleaseExclude) {
-    if ($iterator->hasChildren() && !in_array($file->getPathname(), $previousReleaseExclude)) {
+    if ($iterator->hasChildren() && !\in_array($file->getPathname(), $previousReleaseExclude)) {
         return true;
     }
 
@@ -101,7 +97,7 @@ $newReleaseExclude = [
  * @return bool True if you need to recurse or if the item is acceptable
  */
 $newReleaseFilter = function ($file, $key, $iterator) use ($newReleaseExclude) {
-    if ($iterator->hasChildren() && !in_array($file->getPathname(), $newReleaseExclude)) {
+    if ($iterator->hasChildren() && !\in_array($file->getPathname(), $newReleaseExclude)) {
         return true;
     }
 
@@ -148,36 +144,14 @@ $foldersDifference = array_diff($previousReleaseFolders, $newReleaseFolders);
 
 // Specific files (e.g. language files) that we want to keep on upgrade
 $filesToKeep = [
-    "'/administrator/language/en-GB/en-GB.com_search.ini',",
-    "'/administrator/language/en-GB/en-GB.com_search.sys.ini',",
-    "'/administrator/language/en-GB/en-GB.plg_editors-xtd_weblink.ini',",
-    "'/administrator/language/en-GB/en-GB.plg_editors-xtd_weblink.sys.ini',",
-    "'/administrator/language/en-GB/en-GB.plg_fields_repeatable.ini',",
-    "'/administrator/language/en-GB/en-GB.plg_fields_repeatable.sys.ini',",
-    "'/administrator/language/en-GB/en-GB.plg_quickicon_eos310.ini',",
-    "'/administrator/language/en-GB/en-GB.plg_quickicon_eos310.sys.ini',",
-    "'/administrator/language/en-GB/en-GB.plg_search_categories.ini',",
-    "'/administrator/language/en-GB/en-GB.plg_search_categories.sys.ini',",
-    "'/administrator/language/en-GB/en-GB.plg_search_contacts.ini',",
-    "'/administrator/language/en-GB/en-GB.plg_search_contacts.sys.ini',",
-    "'/administrator/language/en-GB/en-GB.plg_search_content.ini',",
-    "'/administrator/language/en-GB/en-GB.plg_search_content.sys.ini',",
-    "'/administrator/language/en-GB/en-GB.plg_search_newsfeeds.ini',",
-    "'/administrator/language/en-GB/en-GB.plg_search_newsfeeds.sys.ini',",
-    "'/administrator/language/en-GB/en-GB.plg_search_tags.ini',",
-    "'/administrator/language/en-GB/en-GB.plg_search_tags.sys.ini',",
-    "'/administrator/language/en-GB/en-GB.plg_search_weblinks.ini',",
-    "'/administrator/language/en-GB/en-GB.plg_search_weblinks.sys.ini',",
-    "'/administrator/language/en-GB/en-GB.plg_system_weblinks.ini',",
-    "'/administrator/language/en-GB/en-GB.plg_system_weblinks.sys.ini',",
-    "'/language/en-GB/en-GB.com_search.ini',",
-    "'/language/en-GB/en-GB.mod_search.ini',",
-    "'/language/en-GB/en-GB.mod_search.sys.ini',",
+    // Example: "'/administrator/language/en-GB/en-GB.com_search.ini',",
+    "'/administrator/language/en-GB/plg_behaviour_compat.ini',",
+    "'/administrator/language/en-GB/plg_behaviour_compat.sys.ini',",
 ];
 
 // Specific folders that we want to keep on upgrade
 $foldersToKeep = [
-    "'/bin',",
+    // Example: "'/bin',",
 ];
 
 // Remove folders from the results which we want to keep on upgrade
@@ -204,7 +178,7 @@ foreach ($filesDifference as $file) {
 
     if ($matches !== false) {
         foreach ($matches as $match) {
-            if (dirname($match) === dirname($file) && strtolower(basename($match)) === strtolower(basename($file))) {
+            if (\dirname($match) === \dirname($file) && strtolower(basename($match)) === strtolower(basename($file))) {
                 // File has been renamed only: Add to renamed files list
                 $renamedFiles[] = substr($file, 0, -1) . ' => ' . $match;
 
@@ -224,4 +198,4 @@ file_put_contents(__DIR__ . '/deleted_folders.txt', implode("\n", $foldersDiffer
 file_put_contents(__DIR__ . '/renamed_files.txt', implode("\n", $renamedFiles));
 
 echo PHP_EOL;
-echo 'There are ' . count($deletedFiles) . ' deleted files, ' . count($foldersDifference) .  ' deleted folders and ' . count($renamedFiles) .  ' renamed files in comparison to "' . $options['from'] . '"' . PHP_EOL;
+echo 'There are ' . \count($deletedFiles) . ' deleted files, ' . \count($foldersDifference) .  ' deleted folders and ' . \count($renamedFiles) .  ' renamed files in comparison to "' . $options['from'] . '"' . PHP_EOL;

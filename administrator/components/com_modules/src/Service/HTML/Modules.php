@@ -162,7 +162,7 @@ class Modules
 
             $positions = TemplatesHelper::getPositions($clientId, $template);
 
-            if (is_array($positions)) {
+            if (\is_array($positions)) {
                 foreach ($positions as $position) {
                     $text      = ModulesHelper::getTranslatedModulePosition($clientId, $template, $position) . ' [' . $position . ']';
                     $options[] = ModulesHelper::createOption($position, $text);
@@ -230,7 +230,7 @@ class Modules
     {
         $clientId = (int) $clientId;
         $db       = Factory::getDbo();
-        $query    = $db->getQuery(true)
+        $query    = $db->createQuery()
             ->select('DISTINCT ' . $db->quoteName('position', 'value'))
             ->select($db->quoteName('position', 'text'))
             ->from($db->quoteName('#__modules'))
@@ -248,8 +248,8 @@ class Modules
         }
 
         // Pop the first item off the array if it's blank
-        if (count($options)) {
-            if (strlen($options[0]->text) < 1) {
+        if (\count($options)) {
+            if (\strlen($options[0]->text) < 1) {
                 array_shift($options);
             }
         }

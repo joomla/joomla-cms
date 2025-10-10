@@ -20,7 +20,7 @@ use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -156,7 +156,7 @@ trait ExtensionManagerTrait
                     $container->set($type, new Module(new ModuleDispatcherFactory(''), new HelperFactory('')));
                     break;
                 case PluginInterface::class:
-                    list($pluginName, $pluginType) = explode(':', $extensionName);
+                    [$pluginName, $pluginType] = explode(':', $extensionName);
                     $container->set($type, $this->loadPluginFromFilesystem($pluginName, $pluginType));
             }
         }

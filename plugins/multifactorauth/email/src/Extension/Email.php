@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Multifactorauth\Email\Extension;
 
-use Exception;
 use Joomla\CMS\Encrypt\Totp;
 use Joomla\CMS\Event\MultiFactor\BeforeDisplayMethods;
 use Joomla\CMS\Event\MultiFactor\Captive;
@@ -19,7 +18,6 @@ use Joomla\CMS\Event\MultiFactor\GetSetup;
 use Joomla\CMS\Event\MultiFactor\SaveSetup;
 use Joomla\CMS\Event\MultiFactor\Validate;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
@@ -35,10 +33,8 @@ use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Input\Input;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
-use RuntimeException;
-
-use function count;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -177,7 +173,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 
         try {
             $this->sendCode($key, $user);
-        } catch (Exception $e) {
+        } catch (\Exception) {
             return;
         }
 
@@ -192,7 +188,7 @@ class Email extends CMSPlugin implements SubscriberInterface
                     'input_type' => 'text',
                     // The attributes for the HTML input box.
                     'input_attributes' => [
-                        'pattern' => "{0,9}", 'maxlength' => "6", 'inputmode' => "numeric",
+                        'pattern' => '[0-9]{6}', 'maxlength' => '6', 'inputmode' => 'numeric', 'required' => 'true', 'autocomplete' => 'one-time-code', 'aria-autocomplete' => 'none',
                     ],
                     // Placeholder text for the HTML input box. Leave empty if you don't need it.
                     'placeholder' => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_SETUP_PLACEHOLDER'),
@@ -219,7 +215,7 @@ class Email extends CMSPlugin implements SubscriberInterface
      * @param   GetSetup  $event  The event we are handling
      *
      * @return  void
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     public function onUserMultifactorGetSetup(GetSetup $event): void
@@ -266,7 +262,7 @@ class Email extends CMSPlugin implements SubscriberInterface
                         'field_type'       => 'input',
                         'input_type'       => 'text',
                         'input_attributes' => [
-                            'pattern' => "{0,9}", 'maxlength' => "6", 'inputmode' => "numeric",
+                            'pattern' => '[0-9]{6}', 'maxlength' => '6', 'inputmode' => 'numeric', 'required' => 'true', 'autocomplete' => 'one-time-code', 'aria-autocomplete' => 'none',
                         ],
                         'input_value' => '',
                         'placeholder' => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_SETUP_PLACEHOLDER'),
@@ -326,7 +322,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 
         // If there is still no key in the options throw an error
         if (empty($key)) {
-            throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         /**
@@ -347,7 +343,7 @@ class Email extends CMSPlugin implements SubscriberInterface
         $isValid  = $totp->checkCode((string) $key, (string) $code);
 
         if (!$isValid) {
-            throw new RuntimeException(Text::_('PLG_MULTIFACTORAUTH_EMAIL_ERR_INVALID_CODE'), 500);
+            throw new \RuntimeException(Text::_('PLG_MULTIFACTORAUTH_EMAIL_ERR_INVALID_CODE'), 500);
         }
 
         // The code is valid. Unset the key from the session.
@@ -415,7 +411,7 @@ class Email extends CMSPlugin implements SubscriberInterface
      * @param   BeforeDisplayMethods  $event  The event we are handling
      *
      * @return  void
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     public function onUserMultifactorBeforeDisplayMethods(BeforeDisplayMethods $event): void
@@ -432,12 +428,12 @@ class Email extends CMSPlugin implements SubscriberInterface
         $userMfaRecords = MfaHelper::getUserMfaRecords($user->id);
 
         // If there are no Methods go back
-        if (count($userMfaRecords) < 1) {
+        if (\count($userMfaRecords) < 1) {
             return;
         }
 
         // If the only Method is backup codes go back
-        if (count($userMfaRecords) == 1) {
+        if (\count($userMfaRecords) == 1) {
             /** @var MfaTable $record */
             $record = reset($userMfaRecords);
 
@@ -454,7 +450,7 @@ class Email extends CMSPlugin implements SubscriberInterface
             }
         );
 
-        if (count($emailRecords)) {
+        if (\count($emailRecords)) {
             return;
         }
 
@@ -480,7 +476,7 @@ class Email extends CMSPlugin implements SubscriberInterface
                     'user_id' => $user->id,
                 ]
             );
-        } catch (Exception $event) {
+        } catch (\Exception) {
             // Fail gracefully
         }
     }
@@ -515,7 +511,7 @@ class Email extends CMSPlugin implements SubscriberInterface
      * @param   User|null  $user  The Joomla! user to use
      *
      * @return  void
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     private function sendCode(string $key, ?User $user = null)
@@ -523,7 +519,7 @@ class Email extends CMSPlugin implements SubscriberInterface
         static $alreadySent = false;
 
         // Make sure we have a user
-        if (!is_object($user) || !($user instanceof User)) {
+        if (!\is_object($user) || !($user instanceof User)) {
             $user = $this->getApplication()->getIdentity() ?: $this->getUserFactory()->loadUserById(0);
         }
 
@@ -559,7 +555,7 @@ class Email extends CMSPlugin implements SubscriberInterface
         } catch (MailDisabledException | phpMailerException $exception) {
             try {
                 Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
-            } catch (RuntimeException $exception) {
+            } catch (\RuntimeException $exception) {
                 $this->getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
             }
         }
@@ -585,7 +581,7 @@ class Email extends CMSPlugin implements SubscriberInterface
         } catch (MailDisabledException | phpMailerException $exception) {
             try {
                 Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
-            } catch (RuntimeException $exception) {
+            } catch (\RuntimeException $exception) {
                 $this->getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
             }
         }

@@ -8,14 +8,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
+use Joomla\CMS\Event\Plugin\AjaxEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Response\JsonResponse;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\String\StringableInterface;
+use Joomla\CMS\Table\Extension;
 
 /*
  * References
@@ -56,7 +58,7 @@ if (!$format) {
      *
      */
     $module   = $input->get('module');
-    $table    = Table::getInstance('extension');
+    $table    = new Extension(Factory::getDbo());
     $moduleId = $table->find(['type' => 'module', 'element' => 'mod_' . $module]);
 
     if ($moduleId && $table->load($moduleId) && $table->enabled) {
@@ -99,7 +101,7 @@ if (!$format) {
                 || $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module);
 
                 try {
-                    $results = call_user_func($class . '::' . $method . 'Ajax');
+                    $results = \call_user_func($class . '::' . $method . 'Ajax');
                 } catch (Exception $e) {
                     $results = $e;
                 }
@@ -125,13 +127,15 @@ if (!$format) {
      * (i.e. index.php?option=com_ajax&plugin=foo)
      *
      */
-    $group      = $input->get('group', 'ajax');
-    PluginHelper::importPlugin($group);
-    $plugin     = ucfirst($input->get('plugin'));
-
     try {
-        $results = Factory::getApplication()->triggerEvent('onAjax' . $plugin);
-    } catch (Exception $e) {
+        $dispatcher = $app->getDispatcher();
+        $group      = $input->get('group', 'ajax');
+        $eventName  = 'onAjax' . ucfirst($input->get('plugin', ''));
+
+        PluginHelper::importPlugin($group, null, true, $dispatcher);
+
+        $results = $dispatcher->dispatch($eventName, new AjaxEvent($eventName, ['subject' => $app]))->getArgument('result', []);
+    } catch (Throwable $e) {
         $results = $e;
     }
 } elseif ($input->get('template')) {
@@ -144,7 +148,7 @@ if (!$format) {
      *
      */
     $template   = $input->get('template');
-    $table      = Table::getInstance('extension');
+    $table      = new Extension(Factory::getDbo());
     $templateId = $table->find(['type' => 'template', 'element' => $template]);
 
     if ($templateId && $table->load($templateId) && $table->enabled) {
@@ -181,7 +185,7 @@ if (!$format) {
                 || $lang->load('tpl_' . $template, $basePath . '/templates/' . $template);
 
                 try {
-                    $results = call_user_func($class . '::' . $method . 'Ajax');
+                    $results = \call_user_func($class . '::' . $method . 'Ajax');
                 } catch (Exception $e) {
                     $results = $e;
                 }
@@ -201,16 +205,27 @@ if (!$format) {
 
 // Return the results in the desired format
 switch ($format) {
-    // JSONinzed
     case 'json':
-        echo new JsonResponse($results, null, false, $input->get('ignoreMessages', true, 'bool'));
+        if (!($results instanceof Throwable) && $results instanceof StringableInterface) {
+            echo $results;
+        } else {
+            if (\is_object($results) && !($results instanceof Throwable) && $results instanceof \Stringable) {
+                @trigger_error(
+                    'Ajax result object (except Throwable) which implements Stringable interface (implicitly or explicitly), will be rendered directly. Starting from 7.0',
+                    \E_USER_DEPRECATED
+                );
+            }
+
+            // JSONized
+            echo new JsonResponse($results, null, false, $input->get('ignoreMessages', true, 'bool'));
+        }
 
         break;
 
-    // Handle as raw format
     default:
+        // Handle as raw format
         // Output exception
-        if ($results instanceof Exception) {
+        if ($results instanceof Throwable) {
             // Log an error
             Log::add($results->getMessage(), Log::ERROR);
 
@@ -218,8 +233,8 @@ switch ($format) {
             $app->setHeader('status', $results->getCode(), true);
 
             // Echo exception type and message
-            $out = get_class($results) . ': ' . $results->getMessage();
-        } elseif (is_scalar($results)) {
+            $out = \get_class($results) . ': ' . $results->getMessage();
+        } elseif (\is_scalar($results) || $results instanceof StringableInterface) {
             // Output string/ null
             $out = (string) $results;
         } else {

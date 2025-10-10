@@ -21,7 +21,6 @@ use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\SessionManager;
 use Joomla\CMS\Uri\Uri;
@@ -30,7 +29,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -171,7 +170,7 @@ abstract class UserHelper
         if (!\in_array($groupId, $user->groups)) {
             // Check whether the group exists.
             $db    = Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__usergroups'))
                 ->where($db->quoteName('id') . ' = :groupId')
@@ -287,7 +286,7 @@ abstract class UserHelper
 
         // Get the titles for the user groups.
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['id', 'title']))
             ->from($db->quoteName('#__usergroups'))
             ->whereIn($db->quoteName('id'), $user->groups);
@@ -295,8 +294,8 @@ abstract class UserHelper
         $results = $db->loadObjectList();
 
         // Set the titles for the user groups.
-        for ($i = 0, $n = \count($results); $i < $n; $i++) {
-            $user->groups[$results[$i]->id] = $results[$i]->id;
+        foreach ($results as $result) {
+            $user->groups[$result->id] = $result->id;
         }
 
         // Store the user object.
@@ -337,7 +336,7 @@ abstract class UserHelper
         // Get the dispatcher and load the user's plugins.
         PluginHelper::importPlugin('user');
 
-        $data     = new CMSObject();
+        $data     = new \stdClass();
         $data->id = $userId;
 
         // Trigger the data preparation event.
@@ -360,7 +359,7 @@ abstract class UserHelper
         $db       = Factory::getDbo();
 
         // Let's get the id of the user we want to activate
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('activation') . ' = :activation')
@@ -374,8 +373,8 @@ abstract class UserHelper
         if ($id) {
             $user = User::getInstance($id);
 
-            $user->set('block', '0');
-            $user->set('activation', '');
+            $user->block      = 0;
+            $user->activation = '';
 
             // Time to take care of business.... store the user.
             if (!$user->save()) {
@@ -405,7 +404,7 @@ abstract class UserHelper
     {
         // Initialise some variables
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('username') . ' = :username')
@@ -443,7 +442,7 @@ abstract class UserHelper
         }
 
         // Unsupported algorithm, sorry!
-        throw new \InvalidArgumentException(sprintf('The %s algorithm is not supported for hashing passwords.', $algorithm));
+        throw new \InvalidArgumentException(\sprintf('The %s algorithm is not supported for hashing passwords.', $algorithm));
     }
 
     /**
@@ -465,22 +464,22 @@ abstract class UserHelper
         $container         = Factory::getContainer();
 
         // Cheaply try to determine the algorithm in use otherwise fall back to the chained handler
-        if (strpos($hash, '$P$') === 0) {
+        if (str_starts_with($hash, '$P$')) {
             /** @var PHPassHandler $handler */
             $handler = $container->get(PHPassHandler::class);
-        } elseif (strpos($hash, '$argon2id') === 0) {
+        } elseif (str_starts_with($hash, '$argon2id')) {
             // Check for Argon2id hashes
             /** @var Argon2idHandler $handler */
             $handler = $container->get(Argon2idHandler::class);
 
             $passwordAlgorithm = self::HASH_ARGON2ID;
-        } elseif (strpos($hash, '$argon2i') === 0) {
+        } elseif (str_starts_with($hash, '$argon2i')) {
             // Check for Argon2i hashes
             /** @var Argon2iHandler $handler */
             $handler = $container->get(Argon2iHandler::class);
 
             $passwordAlgorithm = self::HASH_ARGON2I;
-        } elseif (strpos($hash, '$2') === 0) {
+        } elseif (str_starts_with($hash, '$2')) {
             // Check for bcrypt hashes
             /** @var BCryptHandler $handler */
             $handler = $container->get(BCryptHandler::class);
@@ -603,7 +602,7 @@ abstract class UserHelper
         try {
             $userId = (int) $userId;
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('session_id'))
                 ->from($db->quoteName('#__session'))
                 ->where($db->quoteName('userid') . ' = :userid')
@@ -623,7 +622,7 @@ abstract class UserHelper
 
         // Convert PostgreSQL Session IDs into strings (see GitHub #33822)
         foreach ($sessionIds as &$sessionId) {
-            if (is_resource($sessionId) && get_resource_type($sessionId) === 'stream') {
+            if (\is_resource($sessionId) && get_resource_type($sessionId) === 'stream') {
                 $sessionId = stream_get_contents($sessionId);
             }
         }
@@ -644,12 +643,14 @@ abstract class UserHelper
 
         try {
             $db->setQuery(
-                $db->getQuery(true)
+                $db->createQuery()
                     ->delete($db->quoteName('#__session'))
                     ->whereIn($db->quoteName('session_id'), $sessionIds, ParameterType::LARGE_OBJECT)
             )->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             // No issue, let things go
         }
+
+        return true;
     }
 }

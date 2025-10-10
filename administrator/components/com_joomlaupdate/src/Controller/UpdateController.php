@@ -10,12 +10,15 @@
 
 namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Updater\Updater;
+use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateRegisterState;
 use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -40,26 +43,42 @@ class UpdateController extends BaseController
     {
         $this->checkToken();
 
-        $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-        $options['text_file'] = 'joomla_update.php';
-        Log::addLogger($options, Log::INFO, ['Update', 'databasequery', 'jerror']);
-        $user = $this->app->getIdentity();
+        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+        $model = $this->getModel('Update');
+        $user  = $this->app->getIdentity();
 
+        // Make sure logging is working before continue
         try {
-            Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, \JVERSION), Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
-            // Informational log only
+            Log::add('Test logging', Log::INFO, 'Update');
+        } catch (\Throwable $e) {
+            $message = Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOGGING_TEST_FAIL', $e->getMessage());
+            $this->setRedirect('index.php?option=com_joomlaupdate', $message, 'error');
+            return;
         }
 
-        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
-        $model  = $this->getModel('Update');
+        Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, \JVERSION), Log::INFO, 'Update');
+
         $result = $model->download();
         $file   = $result['basename'];
 
         $message     = null;
         $messageType = null;
 
-        // The validation was not successful so abort.
+        // The versions mismatch (Use \JVERSION as target version when not set in case of reinstall core files)
+        if ($result['version'] !== $this->input->get('targetVersion', \JVERSION, 'string')) {
+            $message     = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_VERSION_WRONG');
+            $messageType = 'error';
+            $url         = 'index.php?option=com_joomlaupdate';
+
+            $this->app->setUserState('com_joomlaupdate.file', null);
+            $this->setRedirect($url, $message, $messageType);
+
+            Log::add($message, Log::ERROR, 'Update');
+
+            return;
+        }
+
+        // The validation was not successful so stop.
         if ($result['check'] === false) {
             $message     = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG');
             $messageType = 'error';
@@ -68,11 +87,7 @@ class UpdateController extends BaseController
             $this->app->setUserState('com_joomlaupdate.file', null);
             $this->setRedirect($url, $message, $messageType);
 
-            try {
-                Log::add($message, Log::ERROR, 'Update');
-            } catch (\RuntimeException $exception) {
-                // Informational log only
-            }
+            Log::add($message, Log::ERROR, 'Update');
 
             return;
         }
@@ -81,11 +96,7 @@ class UpdateController extends BaseController
             $this->app->setUserState('com_joomlaupdate.file', $file);
             $url = 'index.php?option=com_joomlaupdate&task=update.install&' . $this->app->getSession()->getFormToken() . '=1';
 
-            try {
-                Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $file), Log::INFO, 'Update');
-            } catch (\RuntimeException $exception) {
-                // Informational log only
-            }
+            Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $file), Log::INFO, 'Update');
         } else {
             $this->app->setUserState('com_joomlaupdate.file', null);
             $url         = 'index.php?option=com_joomlaupdate';
@@ -108,21 +119,13 @@ class UpdateController extends BaseController
         $this->checkToken('get');
         $this->app->setUserState('com_joomlaupdate.oldversion', JVERSION);
 
-        $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-        $options['text_file'] = 'joomla_update.php';
-        Log::addLogger($options, Log::INFO, ['Update', 'databasequery', 'jerror']);
-
-        try {
-            Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_INSTALL'), Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
-            // Informational log only
-        }
-
         /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
         $model = $this->getModel('Update');
 
+        Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_INSTALL'), Log::INFO, 'Update');
+
         $file = $this->app->getUserState('com_joomlaupdate.file', null);
-        $model->createRestorationFile($file);
+        $model->createUpdateFile($file);
 
         $this->display();
     }
@@ -146,20 +149,36 @@ class UpdateController extends BaseController
             return;
         }
 
-        $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-        $options['text_file'] = 'joomla_update.php';
-        Log::addLogger($options, Log::INFO, ['Update', 'databasequery', 'jerror']);
-
-        try {
-            Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_FINALISE'), Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
-            // Informational log only
-        }
-
         /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
         $model = $this->getModel('Update');
 
-        $model->finaliseUpgrade();
+        try {
+            $model->finaliseUpgrade();
+        } catch (\Throwable $e) {
+            $model->collectError('finaliseUpgrade', $e);
+        }
+
+        // Reset update source from "Joomla Next" to "Default"
+        $this->app->setUserState('com_joomlaupdate.update_channel_reset', $model->resetUpdateSource());
+
+        // Check for update errors
+        if ($model->getErrors()) {
+            // The errors already should be logged at this point
+            // Collect a messages to show them later in the complete page
+            $errors = [];
+            foreach ($model->getErrors() as $error) {
+                $errors[] = $error->getMessage();
+            }
+
+            $this->app->setUserState('com_joomlaupdate.update_finished_with_error', true);
+            $this->app->setUserState('com_joomlaupdate.update_errors', $errors);
+        }
+
+        // Check for captured output messages in the installer
+        $msg = Installer::getInstance()->get('extension_message');
+        if ($msg) {
+            $this->app->setUserState('com_joomlaupdate.installer_message', $msg);
+        }
 
         $url = 'index.php?option=com_joomlaupdate&task=update.cleanup&' . Session::getFormToken() . '=1';
         $this->setRedirect($url);
@@ -184,29 +203,36 @@ class UpdateController extends BaseController
             return;
         }
 
-        $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-        $options['text_file'] = 'joomla_update.php';
-        Log::addLogger($options, Log::INFO, ['Update', 'databasequery', 'jerror']);
-
-        try {
-            Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_CLEANUP'), Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
-            // Informational log only
-        }
-
         /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
         $model = $this->getModel('Update');
 
-        $model->cleanUp();
+        try {
+            $model->cleanUp();
+        } catch (\Throwable $e) {
+            $model->collectError('cleanUp', $e);
+        }
+
+        // Check for update errors
+        if ($model->getErrors()) {
+            // The errors already should be logged at this point
+            // Collect a messages to show them later in the complete page
+            $errors = $this->app->getUserState('com_joomlaupdate.update_errors', []);
+            foreach ($model->getErrors() as $error) {
+                $errors[] = $error->getMessage();
+            }
+
+            $this->app->setUserState('com_joomlaupdate.update_finished_with_error', true);
+            $this->app->setUserState('com_joomlaupdate.update_errors', $errors);
+        }
 
         $url = 'index.php?option=com_joomlaupdate&view=joomlaupdate&layout=complete';
-        $this->setRedirect($url);
 
-        try {
-            Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_COMPLETE', \JVERSION), Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
-            // Informational log only
+        // In case for errored update, redirect to component view
+        if ($this->app->getUserState('com_joomlaupdate.update_finished_with_error')) {
+            $url .= '&tmpl=component';
         }
+
+        $this->setRedirect($url);
     }
 
     /**
@@ -247,6 +273,17 @@ class UpdateController extends BaseController
 
         /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
         $model = $this->getModel('Update');
+
+        // Make sure logging is working before continue
+        try {
+            Log::add('Test logging', Log::INFO, 'Update');
+        } catch (\Throwable $e) {
+            $message = Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOGGING_TEST_FAIL', $e->getMessage());
+            $this->setRedirect('index.php?option=com_joomlaupdate', $message, 'error');
+            return;
+        }
+
+        Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_UPLOAD'), Log::INFO, 'Update');
 
         try {
             $model->upload();
@@ -340,7 +377,7 @@ class UpdateController extends BaseController
 
         try {
             Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $tempFile), Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
 
@@ -353,7 +390,8 @@ class UpdateController extends BaseController
      * Method to display a view.
      *
      * @param   boolean  $cachable   If true, the view output will be cached
-     * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+     * @param   array    $urlparams  An array of safe URL parameters and their variable types.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  static  This object to support chaining.
      *
@@ -430,114 +468,13 @@ class UpdateController extends BaseController
     }
 
     /**
-     * Fetch Extension update XML proxy. Used to prevent Access-Control-Allow-Origin errors.
-     * Prints a JSON string.
-     * Called from JS.
-     *
-     * @since       3.10.0
-     *
-     * @deprecated  4.3 will be removed in 6.0
-     *              Use batchextensioncompatibility instead.
-     *              Example: $updateController->batchextensioncompatibility();
-     *
-     * @return void
-     */
-    public function fetchExtensionCompatibility()
-    {
-        $extensionID          = $this->input->get('extension-id', '', 'DEFAULT');
-        $joomlaTargetVersion  = $this->input->get('joomla-target-version', '', 'DEFAULT');
-        $joomlaCurrentVersion = $this->input->get('joomla-current-version', '', JVERSION);
-        $extensionVersion     = $this->input->get('extension-version', '', 'DEFAULT');
-
-        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
-        $model                      = $this->getModel('Update');
-        $upgradeCompatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
-        $currentCompatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaCurrentVersion);
-        $upgradeUpdateVersion       = false;
-        $currentUpdateVersion       = false;
-
-        $upgradeWarning = 0;
-
-        if ($upgradeCompatibilityStatus->state == 1 && !empty($upgradeCompatibilityStatus->compatibleVersions)) {
-            $upgradeUpdateVersion = end($upgradeCompatibilityStatus->compatibleVersions);
-        }
-
-        if ($currentCompatibilityStatus->state == 1 && !empty($currentCompatibilityStatus->compatibleVersions)) {
-            $currentUpdateVersion = end($currentCompatibilityStatus->compatibleVersions);
-        }
-
-        if ($upgradeUpdateVersion !== false) {
-            $upgradeOldestVersion = $upgradeCompatibilityStatus->compatibleVersions[0];
-
-            if ($currentUpdateVersion !== false) {
-                // If there are updates compatible with both CMS versions use these
-                $bothCompatibleVersions = array_values(
-                    array_intersect($upgradeCompatibilityStatus->compatibleVersions, $currentCompatibilityStatus->compatibleVersions)
-                );
-
-                if (!empty($bothCompatibleVersions)) {
-                    $upgradeOldestVersion = $bothCompatibleVersions[0];
-                    $upgradeUpdateVersion = end($bothCompatibleVersions);
-                }
-            }
-
-            if (version_compare($upgradeOldestVersion, $extensionVersion, '>')) {
-                // Installed version is empty or older than the oldest compatible update: Update required
-                $resultGroup = 2;
-            } else {
-                // Current version is compatible
-                $resultGroup = 3;
-            }
-
-            if ($currentUpdateVersion !== false && version_compare($upgradeUpdateVersion, $currentUpdateVersion, '<')) {
-                // Special case warning when version compatible with target is lower than current
-                $upgradeWarning = 2;
-            }
-        } elseif ($currentUpdateVersion !== false) {
-            // No compatible version for target version but there is a compatible version for current version
-            $resultGroup = 1;
-        } else {
-            // No update server available
-            $resultGroup = 1;
-        }
-
-        // Do we need to capture
-        $combinedCompatibilityStatus = [
-            'upgradeCompatibilityStatus' => (object) [
-                'state'             => $upgradeCompatibilityStatus->state,
-                'compatibleVersion' => $upgradeUpdateVersion,
-            ],
-            'currentCompatibilityStatus' => (object) [
-                'state'             => $currentCompatibilityStatus->state,
-                'compatibleVersion' => $currentUpdateVersion,
-            ],
-            'resultGroup'    => $resultGroup,
-            'upgradeWarning' => $upgradeWarning,
-        ];
-
-        $this->app           = Factory::getApplication();
-        $this->app->mimeType = 'application/json';
-        $this->app->charSet  = 'utf-8';
-        $this->app->setHeader('Content-Type', $this->app->mimeType . '; charset=' . $this->app->charSet);
-        $this->app->sendHeaders();
-
-        try {
-            echo new JsonResponse($combinedCompatibilityStatus);
-        } catch (\Exception $e) {
-            echo $e;
-        }
-
-        $this->app->close();
-    }
-
-    /**
      * Determines the compatibility information for a number of extensions.
      *
      * Called by the Joomla Update JavaScript (PreUpdateChecker.checkNextChunk).
      *
      * @return  void
-     * @since   4.2.0
      *
+     * @since   4.2.0
      */
     public function batchextensioncompatibility()
     {
@@ -673,6 +610,62 @@ class UpdateController extends BaseController
         $update[] = ['version' => $updateInfo['latest']];
 
         echo json_encode($update);
+
+        $this->app->close();
+    }
+
+    /**
+     * Fetch and report health status of the automated updates in \JSON format, for AJAX requests
+     *
+     * @return  void
+     *
+     * @since   5.4.0
+     */
+    public function healthstatus()
+    {
+        if (!Session::checkToken('get')) {
+            $this->app->setHeader('status', 403, true);
+            $this->app->sendHeaders();
+            echo Text::_('JINVALID_TOKEN_NOTICE');
+            $this->app->close();
+        }
+
+        $params = ComponentHelper::getParams('com_joomlaupdate');
+
+        // Edge case: the current state requires the registration, i.e. because it's a new installation
+        $registrationState = AutoupdateRegisterState::tryFrom($params->get('autoupdate_status', 0));
+
+        if (
+            $this->app->getIdentity()->authorise('core.admin', 'com_joomlaupdate')
+            && $registrationState === AutoupdateRegisterState::Subscribe
+        ) {
+            /** @var UpdateModel $model */
+            $model  = $this->getModel('Update');
+            $result = $model->changeAutoUpdateRegistration($registrationState);
+
+            $result = [
+                'active'  => true,
+                'healthy' => $result->value,
+            ];
+
+            echo json_encode($result);
+
+            $this->app->close();
+        }
+
+        // Default case: connection already configured, check update source and date
+        $lastCheck = date_create_from_format('Y-m-d H:i:s', $params->get('update_last_check', ''));
+
+        $result = [
+            'active' => (
+                (int) $params->get('autoupdate')
+                && $params->get('updatesource', 'default') === 'default'
+                && (int) $params->get('minimum_stability', Updater::STABILITY_STABLE) === Updater::STABILITY_STABLE
+            ),
+            'healthy' => (int) ($lastCheck !== false && $lastCheck->diff(new \DateTime())->days < 4),
+        ];
+
+        echo json_encode($result);
 
         $this->app->close();
     }

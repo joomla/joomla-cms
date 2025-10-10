@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -89,7 +89,7 @@ abstract class Grid
      */
     public static function checkall($name = 'checkall-toggle', $action = 'Joomla.checkAll(this)')
     {
-        HTMLHelper::_('behavior.core');
+        Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('core');
 
         return '<input class="form-check-input" autocomplete="off" type="checkbox" name="' . $name . '" value="" title="' . Text::_('JGLOBAL_CHECK_ALL') . '" onclick="' . $action . '">';
     }
@@ -111,17 +111,19 @@ abstract class Grid
      */
     public static function id($rowNum, $recId, $checkedOut = false, $name = 'cid', $stub = 'cb', $title = '', $formId = null)
     {
+        Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('list-view');
+
         if ($formId !== null) {
             return $checkedOut ? '' : '<label for="' . $stub . $rowNum . '"><span class="visually-hidden">' . Text::_('JSELECT')
             . ' ' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '</span></label>'
-            . '<input class="form-check-input" type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
-                . '" onclick="Joomla.isChecked(this.checked, \'' . $formId . '\');">';
+            . '<input class="form-check-input js-grid-item-is-checked" type="checkbox" id="' . $stub . $rowNum
+                . '" name="' . $name . '[]" value="' . $recId . '" >';
         }
 
         return $checkedOut ? '' : '<label for="' . $stub . $rowNum . '"><span class="visually-hidden">' . Text::_('JSELECT')
         . ' ' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '</span></label>'
-        . '<input class="form-check-input" autocomplete="off" type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
-            . '" onclick="Joomla.isChecked(this.checked);">';
+        . '<input class="form-check-input js-grid-item-is-checked" autocomplete="off" type="checkbox" id="' . $stub . $rowNum
+            . '" name="' . $name . '[]" value="' . $recId . '" >';
     }
 
     /**
@@ -138,7 +140,7 @@ abstract class Grid
     public static function checkedOut(&$row, $i, $identifier = 'id')
     {
         $user   = Factory::getUser();
-        $userid = $user->get('id');
+        $userid = $user->id;
 
         if ($row instanceof Table) {
             $result = $row->isCheckedOut($userid);
@@ -148,13 +150,13 @@ abstract class Grid
 
         if ($result) {
             return static::_checkedOut($row);
-        } else {
-            if ($identifier === 'id') {
-                return HTMLHelper::_('grid.id', $i, $row->$identifier);
-            } else {
-                return HTMLHelper::_('grid.id', $i, $row->$identifier, $result, $identifier);
-            }
         }
+
+        if ($identifier === 'id') {
+            return HTMLHelper::_('grid.id', $i, $row->$identifier);
+        }
+
+        return HTMLHelper::_('grid.id', $i, $row->$identifier, $result, $identifier);
     }
 
     /**
@@ -172,7 +174,7 @@ abstract class Grid
      */
     public static function published($value, $i, $img1 = 'tick.png', $img0 = 'publish_x.png', $prefix = '')
     {
-        if (is_object($value)) {
+        if (\is_object($value)) {
             $value = $value->published;
         }
 
@@ -237,7 +239,7 @@ abstract class Grid
     public static function order($rows, $image = 'filesave.png', $task = 'saveorder')
     {
         return '<a href="javascript:saveorder('
-            . (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-sm btn-secondary float-end" title="'
+            . (\count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-sm btn-secondary float-end" title="'
             . Text::_('JLIB_HTML_SAVE_ORDER') . '"><span class="icon-sort"></span></a>';
     }
 

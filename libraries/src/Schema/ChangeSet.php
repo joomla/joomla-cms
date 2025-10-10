@@ -9,11 +9,11 @@
 
 namespace Joomla\CMS\Schema;
 
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Filesystem\Folder;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -188,7 +188,7 @@ class ChangeSet
     {
         $updateFiles = $this->getUpdateFiles();
 
-        // No schema files found - abort and return empty string
+        // No schema files found - stop and return empty string
         if (empty($updateFiles)) {
             return '';
         }

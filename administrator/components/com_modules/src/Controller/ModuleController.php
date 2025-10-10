@@ -92,6 +92,13 @@ class ModuleController extends FormController
             }
 
             $this->app->redirect($return);
+        } elseif ($result && $this->input->get('layout') === 'modal') {
+            // When editing in modal then redirect to modalreturn layout
+            $id     = $this->input->get('id');
+            $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id)
+                . '&layout=modalreturn&from-task=cancel';
+
+            $this->setRedirect(Route::_($return, false));
         }
 
         return $result;
@@ -134,7 +141,7 @@ class ModuleController extends FormController
     protected function allowEdit($data = [], $key = 'id')
     {
         // Initialise variables.
-        $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
+        $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
 
         // Zero record (id:0), return component edit permission by calling parent controller method
         if (!$recordId) {
@@ -193,6 +200,15 @@ class ModuleController extends FormController
                 break;
 
             default:
+                if ($this->input->get('layout') === 'modal' && $this->task === 'save') {
+                    // When editing in modal then redirect to modalreturn layout
+                    $id     = $model->getState('module.id', '');
+                    $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id)
+                        . '&layout=modalreturn&from-task=save';
+
+                    $this->setRedirect(Route::_($return, false));
+                }
+
                 $this->app->setUserState('com_modules.add.module.extension_id', null);
                 break;
         }
@@ -216,7 +232,7 @@ class ModuleController extends FormController
             $model      = $this->getModel();
             $data       = $this->input->post->get('jform', [], 'array');
             $item       = $model->getItem($this->input->get('id'));
-            $properties = $item->getProperties();
+            $properties = get_object_vars($item);
 
             if (isset($data['params'])) {
                 unset($properties['params']);
@@ -242,7 +258,7 @@ class ModuleController extends FormController
     /**
      * Method to get the other modules in the same position
      *
-     * @return  string  The data for the Ajax request.
+     * @return  void
      *
      * @since   3.6.3
      */
@@ -287,23 +303,22 @@ class ModuleController extends FormController
         } catch (\RuntimeException $e) {
             $app->enqueueMessage($e->getMessage(), 'error');
 
-            return '';
+            return;
         }
 
         $orders2 = [];
-        $n       = count($orders);
 
-        if ($n > 0) {
-            for ($i = 0; $i < $n; $i++) {
-                if (!isset($orders2[$orders[$i]->position])) {
-                    $orders2[$orders[$i]->position] = 0;
+        if (\count($orders)) {
+            foreach ($orders as $order) {
+                if (!isset($orders2[$order->position])) {
+                    $orders2[$order->position] = 0;
                 }
 
-                $orders2[$orders[$i]->position]++;
-                $ord   = $orders2[$orders[$i]->position];
-                $title = Text::sprintf('COM_MODULES_OPTION_ORDER_POSITION', $ord, htmlspecialchars($orders[$i]->title, ENT_QUOTES, 'UTF-8'));
+                $orders2[$order->position]++;
+                $ord   = $orders2[$order->position];
+                $title = Text::sprintf('COM_MODULES_OPTION_ORDER_POSITION', $ord, htmlspecialchars($order->title, ENT_QUOTES, 'UTF-8'));
 
-                $html[] = $orders[$i]->position . ',' . $ord . ',' . $title;
+                $html[] = $order->position . ',' . $ord . ',' . $title;
             }
         } else {
             $html[] = $position . ',' . 1 . ',' . Text::_('JNONE');

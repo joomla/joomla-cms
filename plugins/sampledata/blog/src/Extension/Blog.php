@@ -10,9 +10,10 @@
 
 namespace Joomla\Plugin\SampleData\Blog\Extension;
 
-use Exception;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Plugin\AjaxEvent;
+use Joomla\CMS\Event\SampleData\GetOverviewEvent;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -22,7 +23,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
-use stdClass;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -33,7 +34,7 @@ use stdClass;
  *
  * @since  3.8.0
  */
-final class Blog extends CMSPlugin
+final class Blog extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
 
@@ -56,36 +57,58 @@ final class Blog extends CMSPlugin
     private $menuItemModel;
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since 5.3.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onSampledataGetOverview'    => 'onSampledataGetOverview',
+            'onAjaxSampledataApplyStep1' => 'onAjaxSampledataApplyStep1',
+            'onAjaxSampledataApplyStep2' => 'onAjaxSampledataApplyStep2',
+            'onAjaxSampledataApplyStep3' => 'onAjaxSampledataApplyStep3',
+            'onAjaxSampledataApplyStep4' => 'onAjaxSampledataApplyStep4',
+        ];
+    }
+
+    /**
      * Get an overview of the proposed sampledata.
      *
-     * @return  stdClass|void  Will be converted into the JSON response to the module.
+     * @param   GetOverviewEvent $event  Event instance
+     *
+     * @return  void
      *
      * @since  3.8.0
      */
-    public function onSampledataGetOverview()
+    public function onSampledataGetOverview(GetOverviewEvent $event): void
     {
         if (!$this->getApplication()->getIdentity()->authorise('core.create', 'com_content')) {
             return;
         }
 
-        $data              = new stdClass();
+        $data              = new \stdClass();
         $data->name        = $this->_name;
         $data->title       = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_OVERVIEW_TITLE');
         $data->description = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_OVERVIEW_DESC');
         $data->icon        = 'wifi';
         $data->steps       = 4;
 
-        return $data;
+        $event->addResult($data);
     }
 
     /**
      * First step to enter the sampledata. Content.
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @param   AjaxEvent $event  Event instance
+     *
+     * @return  void
      *
      * @since  3.8.0
      */
-    public function onAjaxSampledataApplyStep1()
+    public function onAjaxSampledataApplyStep1(AjaxEvent $event): void
     {
         if (!Session::checkToken('get') || $this->getApplication()->getInput()->get('type') != $this->_name) {
             return;
@@ -96,7 +119,8 @@ final class Blog extends CMSPlugin
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 1, 'com_tags');
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         // Get some metadata.
@@ -106,6 +130,9 @@ final class Blog extends CMSPlugin
         // Detect language to be used.
         $language   = Multilanguage::isEnabled() ? $this->getApplication()->getLanguage()->getTag() : '*';
         $langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
+
+        // Disable language debug to prevent debug_lang_const being added to the string
+        $this->getApplication()->getLanguage()->setDebug(false);
 
         /** @var \Joomla\Component\Tags\Administrator\Model\TagModel $model */
         $modelTag = $this->getApplication()->bootComponent('com_tags')->getMVCFactory()
@@ -133,14 +160,15 @@ final class Blog extends CMSPlugin
             try {
                 if (!$modelTag->save($tag)) {
                     $this->getApplication()->getLanguage()->load('com_tags');
-                    throw new Exception($this->getApplication()->getLanguage()->_($modelTag->getError()));
+                    throw new \Exception($this->getApplication()->getLanguage()->_($modelTag->getError()));
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $response            = [];
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
 
-                return $response;
+                $event->addResult($response);
+                return;
             }
 
             $tagIds[] = $modelTag->getItem()->id;
@@ -151,7 +179,8 @@ final class Blog extends CMSPlugin
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 1, 'com_content');
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         if (ComponentHelper::isEnabled('com_fields') && $user->authorise('core.create', 'com_fields')) {
@@ -178,14 +207,15 @@ final class Blog extends CMSPlugin
 
             try {
                 if (!$groupModel->save($group)) {
-                    throw new Exception($groupModel->getError());
+                    throw new \Exception($groupModel->getError());
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $response            = [];
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
 
-                return $response;
+                $event->addResult($response);
+                return;
             }
 
             $groupId = $groupModel->getItem()->id;
@@ -241,14 +271,15 @@ final class Blog extends CMSPlugin
 
                 try {
                     if (!$fieldModel->save($cf)) {
-                        throw new Exception($fieldModel->getError());
+                        throw new \Exception($fieldModel->getError());
                     }
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $response            = [];
                     $response['success'] = false;
                     $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
 
-                    return $response;
+                    $event->addResult($response);
+                    return;
                 }
 
                 // Get ID from the field we just added
@@ -275,7 +306,8 @@ final class Blog extends CMSPlugin
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $this->getApplication()->getLanguage()->_($workflowTable->getError()));
 
-                return $response;
+                $event->addResult($response);
+                return;
             }
 
             // Get ID from workflow we just added
@@ -301,12 +333,13 @@ final class Blog extends CMSPlugin
                     $response['success'] = false;
                     $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $this->getApplication()->getLanguage()->_($stageTable->getError()));
 
-                    return $response;
+                    $event->addResult($response);
+                    return;
                 }
             }
 
             // Get the stage Ids of the new stages
-            $query = $this->getDatabase()->getQuery(true);
+            $query = $this->getDatabase()->createQuery();
 
             $query->select([$this->getDatabase()->quoteName('title'), $this->getDatabase()->quoteName('id')])
                 ->from($this->getDatabase()->quoteName('#__workflow_stages'))
@@ -429,12 +462,12 @@ final class Blog extends CMSPlugin
             ];
 
             // Create Transitions.
-            for ($i = 0; $i < count($fromTo); $i++) {
+            foreach ($fromTo as $i => $item) {
                 $trTable = new \Joomla\Component\Workflow\Administrator\Table\TransitionTable($this->getDatabase());
 
-                $trTable->from_stage_id = $fromTo[$i]['from_stage_id'];
-                $trTable->to_stage_id   = $fromTo[$i]['to_stage_id'];
-                $trTable->options       = $fromTo[$i]['options'];
+                $trTable->from_stage_id = $item['from_stage_id'];
+                $trTable->to_stage_id   = $item['to_stage_id'];
+                $trTable->options       = $item['options'];
 
                 // Set values from language strings.
                 $trTable->title       = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_TRANSITION' . ($i + 1) . '_TITLE');
@@ -451,7 +484,8 @@ final class Blog extends CMSPlugin
                     $response['success'] = false;
                     $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $this->getApplication()->getLanguage()->_($trTable->getError()));
 
-                    return $response;
+                    $event->addResult($response);
+                    return;
                 }
             }
         }
@@ -495,14 +529,15 @@ final class Blog extends CMSPlugin
             try {
                 if (!$categoryModel->save($category)) {
                     $this->getApplication()->getLanguage()->load('com_categories');
-                    throw new Exception($categoryModel->getError());
+                    throw new \Exception($categoryModel->getError());
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $response            = [];
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
 
-                return $response;
+                $event->addResult($response);
+                return;
             }
 
             // Get ID from category we just added
@@ -720,7 +755,8 @@ final class Blog extends CMSPlugin
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $this->getApplication()->getLanguage()->_($articleModel->getError()));
 
-                return $response;
+                $event->addResult($response);
+                return;
             }
 
             // Get ID from article we just added
@@ -733,7 +769,7 @@ final class Blog extends CMSPlugin
                 && ComponentHelper::getParams('com_content')->get('workflow_enabled')
             ) {
                 // Set the article featured in #__content_frontpage
-                $this->getDatabase()->getQuery(true);
+                $this->getDatabase()->createQuery();
 
                 $featuredItem = (object) [
                     'content_id'    => $articleModel->getItem()->id,
@@ -768,17 +804,19 @@ final class Blog extends CMSPlugin
         $response['success'] = true;
         $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_STEP1_SUCCESS');
 
-        return $response;
+        $event->addResult($response);
     }
 
     /**
      * Second step to enter the sampledata. Menus.
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @param   AjaxEvent $event  Event instance
+     *
+     * @return  void
      *
      * @since  3.8.0
      */
-    public function onAjaxSampledataApplyStep2()
+    public function onAjaxSampledataApplyStep2(AjaxEvent $event): void
     {
         if (!Session::checkToken('get') || $this->getApplication()->getInput()->get('type') != $this->_name) {
             return;
@@ -789,28 +827,32 @@ final class Blog extends CMSPlugin
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 2, 'com_menus');
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         // Detect language to be used.
         $language   = Multilanguage::isEnabled() ? $this->getApplication()->getLanguage()->getTag() : '*';
         $langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
+        // Disable language debug to prevent debug_lang_const being added to the string
+        $this->getApplication()->getLanguage()->setDebug(false);
+
         // Create the menu types.
         $menuTable = new \Joomla\Component\Menus\Administrator\Table\MenuTypeTable($this->getDatabase());
         $menuTypes = [];
 
         for ($i = 0; $i <= 2; $i++) {
+            $title = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_MENU_' . $i . '_TITLE');
+
             $menu = [
                 'id'          => 0,
-                'title'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_MENU_' . $i . '_TITLE') . $langSuffix,
+                'title'       => $title . ' ' . $langSuffix,
                 'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_MENU_' . $i . '_DESCRIPTION'),
             ];
 
-            // Calculate menutype. The number of characters allowed is 24.
-            $type = HTMLHelper::_('string.truncate', $menu['title'], 23, true, false);
-
-            $menu['menutype'] = $i . $type;
+            // Calculate menutype. The maximum number of characters allowed is 24.
+            $menu['menutype'] = $i . HTMLHelper::_('string.truncate', $title, 16, true, false) . $langSuffix;
 
             try {
                 $menuTable->load();
@@ -818,16 +860,17 @@ final class Blog extends CMSPlugin
 
                 if (!$menuTable->check()) {
                     $this->getApplication()->getLanguage()->load('com_menu');
-                    throw new Exception($menuTable->getError());
+                    throw new \Exception($menuTable->getError());
                 }
 
                 $menuTable->store();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $response            = [];
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
 
-                return $response;
+                $event->addResult($response);
+                return;
             }
 
             $menuTypes[] = $menuTable->menutype;
@@ -1050,12 +1093,13 @@ final class Blog extends CMSPlugin
 
         try {
             $menuIdsLevel1 = $this->addMenuItems($menuItems, 1);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         // Insert level 1 (Link in the footer as alias)
@@ -1119,12 +1163,13 @@ final class Blog extends CMSPlugin
 
         try {
             $menuIdsLevel1 = array_merge($menuIdsLevel1, $this->addMenuItems($menuItems, 1));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         $this->getApplication()->setUserState('sampledata.blog.menuIdsLevel1', $menuIdsLevel1);
@@ -1256,12 +1301,13 @@ final class Blog extends CMSPlugin
 
         try {
             $menuIdsLevel2 = $this->addMenuItems($menuItems, 2);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         // Add a third level of menuItems - use article title also for menuItem title
@@ -1303,29 +1349,32 @@ final class Blog extends CMSPlugin
 
         try {
             $this->addMenuItems($menuItems, 3);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         $response            = [];
         $response['success'] = true;
         $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_STEP2_SUCCESS');
 
-        return $response;
+        $event->addResult($response);
     }
 
     /**
      * Third step to enter the sampledata. Modules.
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @param   AjaxEvent $event  Event instance
+     *
+     * @return  void
      *
      * @since  3.8.0
      */
-    public function onAjaxSampledataApplyStep3()
+    public function onAjaxSampledataApplyStep3(AjaxEvent $event): void
     {
         if (!Session::checkToken('get') || $this->getApplication()->getInput()->get('type') != $this->_name) {
             return;
@@ -1338,12 +1387,16 @@ final class Blog extends CMSPlugin
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 3, 'com_modules');
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         // Detect language to be used.
         $language   = Multilanguage::isEnabled() ? $this->getApplication()->getLanguage()->getTag() : '*';
         $langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
+
+        // Disable language debug to prevent debug_lang_const being added to the string
+        $this->getApplication()->getLanguage()->setDebug(false);
 
         // Add Include Paths.
         /** @var \Joomla\Component\Modules\Administrator\Model\ModuleModel $model */
@@ -1432,14 +1485,65 @@ final class Blog extends CMSPlugin
                 'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_3_TITLE'),
                 'ordering' => 4,
                 'position' => 'sidebar-right',
-                'module'   => 'mod_articles_archive',
+                'module'   => 'mod_articles',
                 'params'   => [
-                    'count'      => 10,
-                    'layout'     => '_:default',
-                    'cache'      => 1,
-                    'cache_time' => 900,
-                    'module_tag' => 'div',
-                    'cachemode'  => 'static',
+                    'mode'                         => 'normal',
+                    'show_on_article_page'         => 1,
+                    'count'                        => 10,
+                    'category_filtering_type'      => 1,
+                    'show_child_category_articles' => 0,
+                    'levels'                       => 1,
+                    'ex_or_include_articles'       => 0,
+                    'exclude_current'              => 1,
+                    'excluded_articles'            => '',
+                    'included_articles'            => '',
+                    'title_only'                   => 1,
+                    'articles_layout'              => 0,
+                    'layout_columns'               => 3,
+                    'item_title'                   => 0,
+                    'item_heading'                 => 'h4',
+                    'link_titles'                  => 1,
+                    'show_author'                  => 0,
+                    'show_category'                => 0,
+                    'show_category_link'           => 0,
+                    'show_date'                    => 0,
+                    'show_date_field'              => 'created',
+                    'show_date_format'             => $this->getApplication()->getLanguage()->_('DATE_FORMAT_LC5'),
+                    'show_hits'                    => 0,
+                    'info_layout'                  => 0,
+                    'show_tags'                    => 0,
+                    'trigger_events'               => 0,
+                    'show_introtext'               => 0,
+                    'introtext_limit'              => 100,
+                    'image'                        => 0,
+                    'img_intro_full'               => 'none',
+                    'show_readmore'                => 0,
+                    'show_readmore_title'          => 1,
+                    'readmore_limit'               => 15,
+                    'show_featured'                => 'show',
+                    'show_archived'                => 'show',
+                    'author_filtering_type'        => 1,
+                    'author_alias_filtering_type'  => 1,
+                    'date_filtering'               => 'off',
+                    'date_field'                   => 'a.created',
+                    'start_date_range'             => '',
+                    'end_date_range'               => '',
+                    'relative_date'                => 30,
+                    'article_ordering'             => 'a.title',
+                    'article_ordering_direction'   => 'ASC',
+                    'article_grouping'             => 'month_year',
+                    'date_grouping_field'          => 'created',
+                    'month_year_format'            => 'F Y',
+                    'article_grouping_direction'   => 'ksort',
+                    'layout'                       => '_:default',
+                    'moduleclass_sfx'              => '',
+                    'owncache'                     => 1,
+                    'cache_time'                   => 900,
+                    'module_tag'                   => 'div',
+                    'bootstrap_size'               => 0,
+                    'header_tag'                   => 'h3',
+                    'header_class'                 => '',
+                    'style'                        => 0,
                 ],
             ],
             [
@@ -1447,36 +1551,69 @@ final class Blog extends CMSPlugin
                 'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_4_TITLE'),
                 'ordering' => 6,
                 'position' => 'top-a',
-                'module'   => 'mod_articles_news',
+                'module'   => 'mod_articles',
                 // Assignment 1 means here - only on the homepage
                 'assignment' => 1,
                 'showtitle'  => 0,
                 'params'     => [
-                    'catid'             => $catIds[2],
-                    'image'             => 1,
-                    'img_intro_full'    => 'intro',
-                    'item_title'        => 0,
-                    'link_titles'       => '',
-                    'item_heading'      => 'h4',
-                    'triggerevents'     => 1,
-                    'showLastSeparator' => 1,
-                    'show_introtext'    => 1,
-                    'readmore'          => 1,
-                    'count'             => 3,
-                    'show_featured'     => '',
-                    'exclude_current'   => 0,
-                    'ordering'          => 'a.publish_up',
-                    'direction'         => 1,
-                    'layout'            => '_:horizontal',
-                    'moduleclass_sfx'   => '',
-                    'cache'             => 1,
-                    'cache_time'        => 900,
-                    'cachemode'         => 'itemid',
-                    'style'             => 'Cassiopeia-noCard',
-                    'module_tag'        => 'div',
-                    'bootstrap_size'    => '0',
-                    'header_tag'        => 'h3',
-                    'header_class'      => '',
+                    'mode'                         => 'normal',
+                    'show_on_article_page'         => 1,
+                    'count'                        => 3,
+                    'category_filtering_type'      => 1,
+                    'catid'                        => $catIds[2],
+                    'show_child_category_articles' => 0,
+                    'levels'                       => 1,
+                    'ex_or_include_articles'       => 0,
+                    'exclude_current'              => 1,
+                    'excluded_articles'            => '',
+                    'included_articles'            => '',
+                    'title_only'                   => 0,
+                    'articles_layout'              => 1,
+                    'layout_columns'               => 3,
+                    'item_title'                   => 1,
+                    'item_heading'                 => 'h3',
+                    'link_titles'                  => 1,
+                    'show_author'                  => 0,
+                    'show_category'                => 0,
+                    'show_category_link'           => 1,
+                    'show_date'                    => 0,
+                    'show_date_field'              => 'created',
+                    'show_date_format'             => $this->getApplication()->getLanguage()->_('DATE_FORMAT_LC5'),
+                    'show_hits'                    => 0,
+                    'info_layout'                  => 1,
+                    'show_tags'                    => 0,
+                    'trigger_events'               => 0,
+                    'show_introtext'               => 1,
+                    'introtext_limit'              => 0,
+                    'image'                        => 0,
+                    'img_intro_full'               => 'intro',
+                    'show_readmore'                => 1,
+                    'show_readmore_title'          => 1,
+                    'readmore_limit'               => 100,
+                    'show_featured'                => 'show',
+                    'show_archived'                => 'hide',
+                    'author_filtering_type'        => 1,
+                    'author_alias_filtering_type'  => 1,
+                    'date_filtering'               => 'off',
+                    'date_field'                   => 'a.created',
+                    'start_date_range'             => '',
+                    'end_date_range'               => '',
+                    'relative_date'                => 30,
+                    'article_ordering'             => 'a.title',
+                    'article_ordering_direction'   => 'ASC',
+                    'article_grouping'             => 'none',
+                    'date_grouping_field'          => 'created',
+                    'month_year_format'            => 'F Y',
+                    'article_grouping_direction'   => 'ksort',
+                    'layout'                       => '_:default',
+                    'moduleclass_sfx'              => '',
+                    'owncache'                     => 1,
+                    'cache_time'                   => 900,
+                    'module_tag'                   => 'div',
+                    'bootstrap_size'               => 0,
+                    'header_tag'                   => 'h3',
+                    'header_class'                 => '',
+                    'style'                        => 'Cassiopeia-noCard',
                 ],
             ],
             [
@@ -1484,45 +1621,65 @@ final class Blog extends CMSPlugin
                 'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_5_TITLE'),
                 'ordering' => 2,
                 'position' => 'bottom-b',
-                'module'   => 'mod_articles_category',
+                'module'   => 'mod_articles',
                 'params'   => [
                     'mode'                         => 'normal',
-                    'show_on_article_page'         => 0,
-                    'show_front'                   => 'show',
+                    'show_on_article_page'         => 1,
                     'count'                        => 6,
                     'category_filtering_type'      => 1,
                     'catid'                        => $catIds[0],
                     'show_child_category_articles' => 0,
                     'levels'                       => 1,
+                    'ex_or_include_articles'       => 0,
+                    'exclude_current'              => 1,
+                    'excluded_articles'            => '',
+                    'included_articles'            => '',
+                    'title_only'                   => 1,
+                    'articles_layout'              => 0,
+                    'layout_columns'               => 3,
+                    'item_title'                   => 0,
+                    'item_heading'                 => 'h4',
+                    'link_titles'                  => 1,
+                    'show_author'                  => 0,
+                    'show_category'                => 0,
+                    'show_category_link'           => 0,
+                    'show_date'                    => 0,
+                    'show_date_field'              => 'created',
+                    'show_date_format'             => $this->getApplication()->getLanguage()->_('DATE_FORMAT_LC5'),
+                    'show_hits'                    => 0,
+                    'info_layout'                  => 0,
+                    'show_tags'                    => 0,
+                    'trigger_events'               => 0,
+                    'show_introtext'               => 0,
+                    'introtext_limit'              => 100,
+                    'image'                        => 0,
+                    'img_intro_full'               => 'none',
+                    'show_readmore'                => 0,
+                    'show_readmore_title'          => 1,
+                    'readmore_limit'               => 15,
+                    'show_featured'                => 'show',
+                    'show_archived'                => 'hide',
                     'author_filtering_type'        => 1,
                     'author_alias_filtering_type'  => 1,
                     'date_filtering'               => 'off',
                     'date_field'                   => 'a.created',
+                    'start_date_range'             => '',
+                    'end_date_range'               => '',
                     'relative_date'                => 30,
                     'article_ordering'             => 'a.created',
-                    'article_ordering_direction'   => 'DESC',
+                    'article_ordering_direction'   => 'ASC',
                     'article_grouping'             => 'none',
-                    'article_grouping_direction'   => 'krsort',
+                    'date_grouping_field'          => 'created',
                     'month_year_format'            => 'F Y',
-                    'item_heading'                 => 5,
-                    'link_titles'                  => 1,
-                    'show_date'                    => 0,
-                    'show_date_field'              => 'created',
-                    'show_date_format'             => $this->getApplication()->getLanguage()->_('DATE_FORMAT_LC5'),
-                    'show_category'                => 0,
-                    'show_hits'                    => 0,
-                    'show_author'                  => 0,
-                    'show_introtext'               => 0,
-                    'introtext_limit'              => 100,
-                    'show_readmore'                => 0,
-                    'show_readmore_title'          => 1,
-                    'readmore_limit'               => 15,
+                    'article_grouping_direction'   => 'ksort',
                     'layout'                       => '_:default',
+                    'moduleclass_sfx'              => '',
                     'owncache'                     => 1,
                     'cache_time'                   => 900,
                     'module_tag'                   => 'div',
-                    'bootstrap_size'               => 4,
+                    'bootstrap_size'               => 0,
                     'header_tag'                   => 'h3',
+                    'header_class'                 => '',
                     'style'                        => 0,
                 ],
             ],
@@ -1652,8 +1809,8 @@ final class Blog extends CMSPlugin
                     'cache_time'     => 900,
                     'cachemode'      => 'static',
                     'module_tag'     => 'div',
-                    'bootstrap_size' => 0,
-                    'header_tag'     => 'h3',
+                    'bootstrap_size' => 12,
+                    'header_tag'     => 'h2',
                     'style'          => 0,
                 ],
             ],
@@ -1710,7 +1867,8 @@ final class Blog extends CMSPlugin
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 3, $this->getApplication()->getLanguage()->_($model->getError()));
 
-                return $response;
+                $event->addResult($response);
+                return;
             }
         }
 
@@ -1742,7 +1900,8 @@ final class Blog extends CMSPlugin
                     $response['success'] = false;
                     $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 3, $this->getApplication()->getLanguage()->_($model->getError()));
 
-                    return $response;
+                    $event->addResult($response);
+                    return;
                 }
             }
         }
@@ -1751,17 +1910,19 @@ final class Blog extends CMSPlugin
         $response['success'] = true;
         $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_STEP3_SUCCESS');
 
-        return $response;
+        $event->addResult($response);
     }
 
     /**
      * Final step to show completion of sampledata.
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @param   AjaxEvent $event  Event instance
+     *
+     * @return  void
      *
      * @since  4.0.0
      */
-    public function onAjaxSampledataApplyStep4()
+    public function onAjaxSampledataApplyStep4(AjaxEvent $event): void
     {
         if ($this->getApplication()->getInput()->get('type') != $this->_name) {
             return;
@@ -1770,7 +1931,7 @@ final class Blog extends CMSPlugin
         $response['success'] = true;
         $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_STEP4_SUCCESS');
 
-        return $response;
+        $event->addResult($response);
     }
 
     /**
@@ -1783,7 +1944,7 @@ final class Blog extends CMSPlugin
      *
      * @since  3.8.0
      *
-     * @throws  Exception
+     * @throws  \Exception
      */
     private function addMenuItems(array $menuItems, $level)
     {
@@ -1794,6 +1955,9 @@ final class Blog extends CMSPlugin
         // Detect language to be used.
         $language   = Multilanguage::isEnabled() ? $this->getApplication()->getLanguage()->getTag() : '*';
         $langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
+
+        // Disable language debug to prevent debug_lang_const being added to the string
+        $this->getApplication()->getLanguage()->setDebug(false);
 
         foreach ($menuItems as $menuItem) {
             // Reset item.id in model state.
@@ -1856,7 +2020,7 @@ final class Blog extends CMSPlugin
                     $menuItem['alias'] = substr_replace($menuItem['alias'], '2', -1);
 
                     if (!$this->menuItemModel->save($menuItem)) {
-                        throw new Exception($menuItem['title'] . ' => ' . $menuItem['alias'] . ' : ' . $this->menuItemModel->getError());
+                        throw new \Exception($menuItem['title'] . ' => ' . $menuItem['alias'] . ' : ' . $this->menuItemModel->getError());
                     }
                 }
             }

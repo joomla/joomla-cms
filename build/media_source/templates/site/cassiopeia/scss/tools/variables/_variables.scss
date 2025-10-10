@@ -1,3 +1,11 @@
+@use "sass:color";
+
+// Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
+$prefix: "";
+
+// Disable dark mode in J4.4 - it's going to cause major b/c breaks to introduce. We will enable it in 5.0
+$enable-dark-mode: false;
+
 // Global
 $cassiopeia-container-main-bg:        hsl(0, 0%, 95%) !default;
 $cassiopeia-border-color:             hsl(210, 14%, 89%) !default;
@@ -104,18 +112,18 @@ $colors: (
   white-offset:                    #fefefe,
   focus:                           #39f,
   focus-shadow:                    0 0 0 .2rem #eaeaea,
-  toggle-color:                    $white, //used in sidebar
+  toggle-color:                    $white, // used in sidebar
 ) !default;
 
 $cassiopeia-colors: (
   template-sidebar-bg:                 var(--template-bg-dark-80),
   template-sidebar-font-color:         $white,
   template-sidebar-link-color:         $white,
-  template-bg-light:                   #f0f4fb, //light background color, frontend dashboard background
+  template-bg-light:                   #f0f4fb, // light background color, frontend dashboard background
   template-text-light:                 $white,
   template-special-color:              #132f53,
   template-link-color:                 #2a69b8,
-  template-link-hover-color:           darken(#2a69b8, 20%),
+  template-link-hover-color:           color.adjust(#2a69b8, $lightness: -20%),
   template-contrast:                   #2a69b8,
   template-bg-dark:                    hsl(var(--hue), 40%, 20%),
   template-bg-dark-3:                  hsl(var(--hue), 40%, 97%),
@@ -136,8 +144,8 @@ $cassiopeia-colors: (
 ) !default;
 
 // Links
-$link-color:                          var(--cassiopeia-color-link) !default;
-$link-hover-color:                    var(--cassiopeia-color-hover) !default;
+$link-color:                          $standard-color-link !default;
+$link-hover-color:                    $standard-color-hover !default;
 
 // Breadcrumbs
 $breadcrumb-active-color:             $gray-700 !default;
@@ -204,7 +212,7 @@ $form-select-multiple-padding-y:    .3rem !default;
 
 $form-range-thumb-active-bg:        tint-color($standard-color-primary, 70%) !default;
 
-// Z-index master list
+// Z-index source list
 $zindex-negative:                     -1 !default;
 $zindex-actions:                      auto !default;
 $zindex-toolbar:                      1000 !default;

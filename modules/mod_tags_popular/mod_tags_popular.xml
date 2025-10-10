@@ -11,7 +11,7 @@
 	<description>MOD_TAGS_POPULAR_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\TagsPopular</namespace>
 	<files>
-		<filename module="mod_tags_popular">mod_tags_popular.php</filename>
+		<folder module="mod_tags_popular">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>

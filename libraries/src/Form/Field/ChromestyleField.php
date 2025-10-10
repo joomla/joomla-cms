@@ -10,14 +10,15 @@
 namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Folder;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -154,8 +155,6 @@ class ChromestyleField extends GroupedlistField
             }
         }
 
-        reset($groups);
-
         return $groups;
     }
 
@@ -189,7 +188,7 @@ class ChromestyleField extends GroupedlistField
         foreach ($templates as $template) {
             $chromeLayoutPath = $path . '/templates/' . $template->element . '/html/layouts/chromes';
 
-            if (!Folder::exists($chromeLayoutPath)) {
+            if (!is_dir(Path::clean($chromeLayoutPath))) {
                 continue;
             }
 
@@ -219,7 +218,7 @@ class ChromestyleField extends GroupedlistField
         $db = $this->getDatabase();
 
         // Get the database object and a new query object.
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Build the query.
         $query->select(

@@ -19,7 +19,7 @@ use Joomla\CMS\Table\TableInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -79,7 +79,7 @@ class CMSHelper
     public function getLanguageId($langCode)
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('lang_id'))
             ->from($db->quoteName('#__languages'))
             ->where($db->quoteName('lang_code') . ' = :language')

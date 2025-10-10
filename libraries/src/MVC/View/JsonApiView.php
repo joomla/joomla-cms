@@ -104,13 +104,13 @@ abstract class JsonApiView extends JsonView
     /**
      * Execute and display a template script.
      *
-     * @param   array|null  $items  Array of items
+     * @param   ?array  $items  Array of items
      *
      * @return  string
      *
      * @since   4.0.0
      */
-    public function displayList(array $items = null)
+    public function displayList(?array $items = null)
     {
         /** @var \Joomla\CMS\MVC\Model\ListModel $model */
         $model = $this->getModel();
@@ -142,7 +142,7 @@ abstract class JsonApiView extends JsonView
         // Set up links for pagination
         $totalItemsCount = ($pagination->pagesTotal * $pagination->limit);
 
-        $this->document->addMeta('total-pages', $pagination->pagesTotal)
+        $this->getDocument()->addMeta('total-pages', $pagination->pagesTotal)
             ->addLink('self', (string) $currentUrl);
 
         // Check for first and previous pages
@@ -158,7 +158,7 @@ abstract class JsonApiView extends JsonView
             $previousPageQuery['offset'] = $previousOffset >= 0 ? $previousOffset : 0;
             $previousPage->setVar('page', $previousPageQuery);
 
-            $this->document->addLink('first', $this->queryEncode((string) $firstPage))
+            $this->getDocument()->addLink('first', $this->queryEncode((string) $firstPage))
                 ->addLink('previous', $this->queryEncode((string) $previousPage));
         }
 
@@ -175,7 +175,7 @@ abstract class JsonApiView extends JsonView
             $lastPageQuery['offset'] = ($pagination->pagesTotal - 1) * $pagination->limit;
             $lastPage->setVar('page', $lastPageQuery);
 
-            $this->document->addLink('next', $this->queryEncode((string) $nextPage))
+            $this->getDocument()->addLink('next', $this->queryEncode((string) $nextPage))
                 ->addLink('last', $this->queryEncode((string) $lastPage));
         }
 
@@ -193,9 +193,9 @@ abstract class JsonApiView extends JsonView
         }
 
         // Set the data into the document and render it
-        $this->document->setData($collection);
+        $this->getDocument()->setData($collection);
 
-        return $this->document->render();
+        return $this->getDocument()->render();
     }
 
     /**
@@ -215,7 +215,7 @@ abstract class JsonApiView extends JsonView
             $item  = $this->prepareItem($model->getItem());
         }
 
-        if ($item->id === null) {
+        if (!$item || $item->id === null) {
             throw new RouteNotFoundException('Item does not exist');
         }
 
@@ -246,10 +246,10 @@ abstract class JsonApiView extends JsonView
             $element->with($eventResult->getAllRelationsToRender());
         }
 
-        $this->document->setData($element);
-        $this->document->addLink('self', Uri::current());
+        $this->getDocument()->setData($element);
+        $this->getDocument()->addLink('self', Uri::current());
 
-        return $this->document->render();
+        return $this->getDocument()->render();
     }
 
     /**

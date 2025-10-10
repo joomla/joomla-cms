@@ -18,7 +18,7 @@ use Joomla\CMS\Router\Route;
 /** @var \Joomla\Component\Banners\Administrator\View\Client\HtmlView $this */
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
 
@@ -65,6 +65,5 @@ $wa->useScript('keepalive')
         <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
     </div>
 
-    <input type="hidden" name="task" value="">
-    <?php echo HTMLHelper::_('form.token'); ?>
+    <?php echo $this->form->renderControlFields(); ?>
 </form>

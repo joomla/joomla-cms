@@ -37,7 +37,8 @@ class DisplayController extends BaseController
      * Method to display a view.
      *
      * @param   boolean  $cachable   If true, the view output will be cached
-     * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+     * @param   array    $urlparams  An array of safe URL parameters and their variable types.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  BaseController|boolean  This object to support chaining.
      *
@@ -58,6 +59,11 @@ class DisplayController extends BaseController
 
             $this->setRedirect(Route::_('index.php?option=com_content&view=articles', false));
 
+            return false;
+        }
+
+        if ($view === 'featured' || $this->input->getInt('featured')) {
+            $this->setRedirect(Route::_('index.php?option=com_content&view=articles&filter[featured]=1', false));
             return false;
         }
 

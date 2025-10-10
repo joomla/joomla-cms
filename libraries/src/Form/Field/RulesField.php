@@ -16,7 +16,7 @@ use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -253,7 +253,7 @@ class RulesField extends FormField
         if (empty($this->assetId)) {
             // Get the component asset id as fallback.
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__assets'))
                 ->where($db->quoteName('name') . ' = :component')
@@ -276,7 +276,7 @@ class RulesField extends FormField
             // In this case we need to get the component rules too.
             $db = $this->getDatabase();
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('parent_id'))
                 ->from($db->quoteName('#__assets'))
                 ->where($db->quoteName('id') . ' = :assetId')
@@ -294,7 +294,7 @@ class RulesField extends FormField
         $this->groups = $this->getUserGroups();
 
         // Trim the trailing line in the layout file
-        return trim($this->getRenderer($this->layout)->render($this->getLayoutData()));
+        return trim($this->getRenderer($this->layout)->render($this->collectLayoutData()));
     }
 
     /**

@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Media\Api\Controller;
 
+use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filter\InputFilter;
@@ -19,7 +20,6 @@ use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
 use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
 use Joomla\Component\Media\Api\Model\MediumModel;
-use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -212,7 +212,7 @@ class MediaController extends ApiController
         }
 
         // Content is only required when it is a file
-        if (empty($content) && strpos($path, '.') !== false) {
+        if (empty($content) && str_contains($path, '.')) {
             $missingParameters[] = 'content';
         }
 
@@ -314,7 +314,8 @@ class MediaController extends ApiController
     protected function save($recordKey = null)
     {
         // Explicitly get the single item model name.
-        $modelName = $this->input->get('model', Inflector::singularize($this->contentType));
+        $inflector = InflectorFactory::create()->build();
+        $modelName = $this->input->get('model', $inflector->singularize($this->contentType));
 
         /** @var MediumModel $model */
         $model = $this->getModel($modelName, '', ['ignore_request' => true, 'state' => $this->modelState]);
@@ -350,9 +351,9 @@ class MediaController extends ApiController
         // Check if the size of the request body does not exceed various server imposed limits.
         if (
             ($params->get('upload_maxsize', 0) > 0 && $serverlength > ($params->get('upload_maxsize', 0) * 1024 * 1024))
-            || $serverlength > $helper->toBytes(ini_get('upload_max_filesize'))
-            || $serverlength > $helper->toBytes(ini_get('post_max_size'))
-            || $serverlength > $helper->toBytes(ini_get('memory_limit'))
+            || $serverlength > $helper->toBytes(\ini_get('upload_max_filesize'))
+            || $serverlength > $helper->toBytes(\ini_get('post_max_size'))
+            || $serverlength > $helper->toBytes(\ini_get('memory_limit'))
         ) {
             throw new \RuntimeException(Text::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 400);
         }
@@ -377,7 +378,8 @@ class MediaController extends ApiController
 
         $this->modelState->set('path', $this->input->get('path', '', 'STRING'));
 
-        $modelName = $this->input->get('model', Inflector::singularize($this->contentType));
+        $inflector = InflectorFactory::create()->build();
+        $modelName = $this->input->get('model', $inflector->singularize($this->contentType));
         $model     = $this->getModel($modelName, '', ['ignore_request' => true, 'state' => $this->modelState]);
 
         $model->delete();

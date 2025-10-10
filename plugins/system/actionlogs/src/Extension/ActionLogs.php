@@ -10,9 +10,10 @@
 
 namespace Joomla\Plugin\System\ActionLogs\Extension;
 
-use Exception;
-use Joomla\CMS\Cache\Cache;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Application\AfterInitialiseEvent;
+use Joomla\CMS\Event\Model;
+use Joomla\CMS\Event\User;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -23,9 +24,8 @@ use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
-use Joomla\Event\DispatcherInterface;
-use RuntimeException;
-use stdClass;
+use Joomla\Event\Priority;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -36,54 +36,60 @@ use stdClass;
  *
  * @since  3.9.0
  */
-final class ActionLogs extends CMSPlugin
+final class ActionLogs extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
     use UserFactoryAwareTrait;
 
     /**
-     * Constructor.
+     * Returns an array of events this subscriber will listen to.
      *
-     * @param   DispatcherInterface  $dispatcher   The dispatcher
-     * @param   array                $config       An optional associative array of configuration settings
+     * @return array
      *
-     * @since   3.9.0
+     * @since   5.3.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config)
+    public static function getSubscribedEvents(): array
     {
-        parent::__construct($dispatcher, $config);
-
-        // Import actionlog plugin group so that these plugins will be triggered for events
-        PluginHelper::importPlugin('actionlog');
+        return [
+            'onAfterInitialise'    => ['onAfterInitialise', Priority::ABOVE_NORMAL],
+            'onContentPrepareForm' => 'onContentPrepareForm',
+            'onContentPrepareData' => 'onContentPrepareData',
+            'onUserAfterSave'      => 'onUserAfterSave',
+            'onUserAfterDelete'    => 'onUserAfterDelete',
+            'onExtensionAfterSave' => 'onExtensionAfterSave',
+        ];
     }
 
     /**
-     * Listener for the `onAfterInitialise` event
+     * After initialise listener.
+     *
+     * @param   AfterInitialiseEvent $event  The event instance.
      *
      * @return  void
      *
-     * @since   4.0.0
+     * @since   5.3.0
      */
-    public function onAfterInitialise()
+    public function onAfterInitialise(AfterInitialiseEvent $event): void
     {
-        // Load plugin language files.
-        $this->loadLanguage();
+        // Import actionlog plugin group so that these plugins will be triggered for events
+        PluginHelper::importPlugin('actionlog', null, true, $event->getApplication()->getDispatcher());
     }
 
     /**
      * Adds additional fields to the user editing form for logs e-mail notifications
      *
-     * @param   Form   $form  The form to be altered.
-     * @param   mixed  $data  The associated data for the form.
+     * @param   Model\PrepareFormEvent $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   3.9.0
      *
-     * @throws  Exception
+     * @throws  \Exception
      */
-    public function onContentPrepareForm(Form $form, $data)
+    public function onContentPrepareForm(Model\PrepareFormEvent $event): void
     {
+        $form     = $event->getForm();
+        $data     = $event->getData();
         $formName = $form->getName();
 
         $allowedFormNames = [
@@ -91,8 +97,8 @@ final class ActionLogs extends CMSPlugin
             'com_users.user',
         ];
 
-        if (!in_array($formName, $allowedFormNames, true)) {
-            return true;
+        if (!\in_array($formName, $allowedFormNames, true)) {
+            return;
         }
 
         /**
@@ -102,8 +108,11 @@ final class ActionLogs extends CMSPlugin
         $user = $this->getApplication()->getIdentity();
 
         if (!$user || !$user->authorise('core.admin')) {
-            return true;
+            return;
         }
+
+        // Load plugin language files.
+        $this->loadLanguage();
 
         // If we are on the save command, no data is passed to $data variable, we need to get it directly from request
         $jformData = $this->getApplication()->getInput()->get('jform', [], 'array');
@@ -112,12 +121,12 @@ final class ActionLogs extends CMSPlugin
             $data = $jformData;
         }
 
-        if (is_array($data)) {
+        if (\is_array($data)) {
             $data = (object) $data;
         }
 
         if (empty($data->id) || !$this->getUserFactory()->loadUserById($data->id)->authorise('core.admin')) {
-            return true;
+            return;
         }
 
         Form::addFormPath(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms');
@@ -125,46 +134,47 @@ final class ActionLogs extends CMSPlugin
         if ((!PluginHelper::isEnabled('actionlog', 'joomla')) && ($this->getApplication()->isClient('administrator'))) {
             $form->loadFile('information', false);
 
-            return true;
+            return;
         }
 
         if (!PluginHelper::isEnabled('actionlog', 'joomla')) {
-            return true;
+            return;
         }
 
         $form->loadFile('actionlogs', false);
-
-        return true;
     }
 
     /**
      * Runs on content preparation
      *
-     * @param   string  $context  The context for the data
-     * @param   object  $data     An object containing the data for the form.
+     * @param   Model\PrepareDataEvent $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   3.9.0
      */
-    public function onContentPrepareData($context, $data)
+    public function onContentPrepareData(Model\PrepareDataEvent $event): void
     {
-        if (!in_array($context, ['com_users.profile', 'com_users.user'])) {
-            return true;
+        $context = $event->getContext();
+
+        if (!\in_array($context, ['com_users.profile', 'com_users.user'])) {
+            return;
         }
 
-        if (is_array($data)) {
+        $data = $event->getData();
+
+        if (\is_array($data)) {
             $data = (object) $data;
         }
 
-        if (!$this->getUserFactory()->loadUserById($data->id)->authorise('core.admin')) {
-            return true;
+        if (empty($data->id) || !$this->getUserFactory()->loadUserById($data->id)->authorise('core.admin')) {
+            return;
         }
 
         $db = $this->getDatabase();
         $id = (int) $data->id;
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['notify', 'extensions']))
             ->from($db->quoteName('#__action_logs_users'))
             ->where($db->quoteName('user_id') . ' = :userid')
@@ -172,15 +182,18 @@ final class ActionLogs extends CMSPlugin
 
         try {
             $values = $db->setQuery($query)->loadObject();
-        } catch (ExecutionFailureException $e) {
-            return false;
+        } catch (ExecutionFailureException) {
+            return;
         }
 
         if (!$values) {
-            return true;
+            return;
         }
 
-        $data->actionlogs                       = new stdClass();
+        // Load plugin language files.
+        $this->loadLanguage();
+
+        $data->actionlogs                       = new \stdClass();
         $data->actionlogs->actionlogsNotify     = $values->notify;
         $data->actionlogs->actionlogsExtensions = $values->extensions;
 
@@ -191,150 +204,24 @@ final class ActionLogs extends CMSPlugin
         if (!HTMLHelper::isRegistered('users.actionlogsExtensions')) {
             HTMLHelper::register('users.actionlogsExtensions', [__CLASS__, 'renderActionlogsExtensions']);
         }
-
-        return true;
-    }
-
-    /**
-     * Runs after the HTTP response has been sent to the client and delete log records older than certain days
-     *
-     * @return  void
-     *
-     * @since   3.9.0
-     */
-    public function onAfterRespond()
-    {
-        $daysToDeleteAfter = (int) $this->params->get('logDeletePeriod', 0);
-
-        if ($daysToDeleteAfter <= 0) {
-            return;
-        }
-
-        // The delete frequency will be once per day
-        $deleteFrequency = 3600 * 24;
-
-        // Do we need to run? Compare the last run timestamp stored in the plugin's options with the current
-        // timestamp. If the difference is greater than the cache timeout we shall not execute again.
-        $now  = time();
-        $last = (int) $this->params->get('lastrun', 0);
-
-        if (abs($now - $last) < $deleteFrequency) {
-            return;
-        }
-
-        // Update last run status
-        $this->params->set('lastrun', $now);
-
-        $db     = $this->getDatabase();
-        $params = $this->params->toString('JSON');
-        $query  = $db->getQuery(true)
-            ->update($db->quoteName('#__extensions'))
-            ->set($db->quoteName('params') . ' = :params')
-            ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-            ->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
-            ->where($db->quoteName('element') . ' = ' . $db->quote('actionlogs'))
-            ->bind(':params', $params);
-
-        try {
-            // Lock the tables to prevent multiple plugin executions causing a race condition
-            $db->lockTable('#__extensions');
-        } catch (Exception $e) {
-            // If we can't lock the tables it's too risky to continue execution
-            return;
-        }
-
-        try {
-            // Update the plugin parameters
-            $result = $db->setQuery($query)->execute();
-
-            $this->clearCacheGroups(['com_plugins'], [0, 1]);
-        } catch (Exception $exc) {
-            // If we failed to execute
-            $db->unlockTables();
-            $result = false;
-        }
-
-        try {
-            // Unlock the tables after writing
-            $db->unlockTables();
-        } catch (Exception $e) {
-            // If we can't lock the tables assume we have somehow failed
-            $result = false;
-        }
-
-        // Abort on failure
-        if (!$result) {
-            return;
-        }
-
-        $daysToDeleteAfter = (int) $this->params->get('logDeletePeriod', 0);
-        $now               = Factory::getDate()->toSql();
-
-        if ($daysToDeleteAfter > 0) {
-            $days = -1 * $daysToDeleteAfter;
-
-            $query->clear()
-                ->delete($db->quoteName('#__action_logs'))
-                ->where($db->quoteName('log_date') . ' < ' . $query->dateAdd($db->quote($now), $days, 'DAY'));
-
-            $db->setQuery($query);
-
-            try {
-                $db->execute();
-            } catch (RuntimeException $e) {
-                // Ignore it
-                return;
-            }
-        }
-    }
-
-    /**
-     * Clears cache groups. We use it to clear the plugins cache after we update the last run timestamp.
-     *
-     * @param   array  $clearGroups   The cache groups to clean
-     * @param   array  $cacheClients  The cache clients (site, admin) to clean
-     *
-     * @return  void
-     *
-     * @since   3.9.0
-     */
-    private function clearCacheGroups(array $clearGroups, array $cacheClients = [0, 1])
-    {
-        foreach ($clearGroups as $group) {
-            foreach ($cacheClients as $clientId) {
-                try {
-                    $options = [
-                        'defaultgroup' => $group,
-                        'cachebase'    => $clientId ? JPATH_ADMINISTRATOR . '/cache' :
-                            $this->getApplication()->get('cache_path', JPATH_SITE . '/cache'),
-                    ];
-
-                    $cache = Cache::getInstance('callback', $options);
-                    $cache->clean();
-                } catch (Exception $e) {
-                    // Ignore it
-                }
-            }
-        }
     }
 
     /**
      * Utility method to act on a user after it has been saved.
      *
-     * @param   array    $user     Holds the new user data.
-     * @param   boolean  $isNew    True if a new user is stored.
-     * @param   boolean  $success  True if user was successfully stored in the database.
-     * @param   string   $msg      Message.
+     * @param   User\AfterSaveEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   3.9.0
      */
-    public function onUserAfterSave($user, $isNew, $success, $msg): void
+    public function onUserAfterSave(User\AfterSaveEvent $event): void
     {
-        if (!$success) {
+        if (!$event->getSavingResult()) {
             return;
         }
+
+        $user = $event->getUser();
 
         // Clear access rights in case user groups were changed.
         $userObject = $this->getUserFactory()->loadUserById($user['id']);
@@ -344,7 +231,7 @@ final class ActionLogs extends CMSPlugin
         $userid     = (int) $user['id'];
         $db         = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('COUNT(*)')
             ->from($db->quoteName('#__action_logs_users'))
             ->where($db->quoteName('user_id') . ' = :userid')
@@ -405,7 +292,7 @@ final class ActionLogs extends CMSPlugin
 
         try {
             $db->setQuery($query)->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             // Do nothing.
         }
     }
@@ -415,31 +302,30 @@ final class ActionLogs extends CMSPlugin
      *
      * Method is called after user data is deleted from the database
      *
-     * @param   array    $user     Holds the user data
-     * @param   boolean  $success  True if user was successfully stored in the database
-     * @param   string   $msg      Message
+     * @param   User\AfterDeleteEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   3.9.0
      */
-    public function onUserAfterDelete($user, $success, $msg): void
+    public function onUserAfterDelete(User\AfterDeleteEvent $event): void
     {
-        if (!$success) {
+        if (!$event->getDeletingResult()) {
             return;
         }
 
+        $user   = $event->getUser();
         $db     = $this->getDatabase();
         $userid = (int) $user['id'];
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__action_logs_users'))
             ->where($db->quoteName('user_id') . ' = :userid')
             ->bind(':userid', $userid, ParameterType::INTEGER);
 
         try {
             $db->setQuery($query)->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             // Do nothing.
         }
     }
@@ -481,5 +367,62 @@ final class ActionLogs extends CMSPlugin
         }
 
         return implode(', ', $extensions);
+    }
+
+    /**
+     * On Saving extensions logging method.
+     * Method is called when an extension is being saved
+     *
+     * @param   Model\AfterSaveEvent $event  The event instance.
+     *
+     * @return  void
+     *
+     * @since   5.1.0
+     */
+    public function onExtensionAfterSave(Model\AfterSaveEvent $event): void
+    {
+        $context = $event->getContext();
+        $table   = $event->getItem();
+
+        if ($context !== 'com_config.component' || $table->name !== 'com_actionlogs') {
+            return;
+        }
+
+        $params    = ComponentHelper::getParams('com_actionlogs');
+        $globalExt = (array) $params->get('loggable_extensions', []);
+
+        $db = $this->getDatabase();
+
+        $query = $db->createQuery()
+            ->select($db->quoteName(['user_id', 'notify', 'extensions']))
+            ->from($db->quoteName('#__action_logs_users'));
+
+        try {
+            $values = $db->setQuery($query)->loadObjectList();
+        } catch (ExecutionFailureException) {
+            return;
+        }
+
+        foreach ($values as $item) {
+            $userExt = substr($item->extensions, 2);
+            $userExt = substr($userExt, 0, -2);
+            $user    = explode('","', $userExt);
+            $common  = array_intersect($globalExt, $user);
+
+            $extension = json_encode(array_values($common));
+
+            $query->clear()
+                ->update($db->quoteName('#__action_logs_users'))
+                ->set($db->quoteName('extensions') . ' = :extension')
+                ->where($db->quoteName('user_id') . ' = :userid')
+                ->bind(':userid', $item->user_id, ParameterType::INTEGER)
+                ->bind(':extension', $extension);
+
+            try {
+                $db->setQuery($query)->execute();
+            } catch (ExecutionFailureException) {
+                // Do nothing.
+            }
+        }
     }
 }

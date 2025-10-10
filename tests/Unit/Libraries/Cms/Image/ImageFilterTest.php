@@ -30,7 +30,7 @@ class ImageFilterTest extends UnitTestCase
         parent::setUp();
 
         // Verify that GD support for PHP is available.
-        if (!extension_loaded('gd')) {
+        if (!\extension_loaded('gd')) {
             $this->markTestSkipped('No GD support so skipping Image tests.');
         }
     }

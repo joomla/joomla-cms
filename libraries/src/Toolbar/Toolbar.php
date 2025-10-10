@@ -25,7 +25,7 @@ use Joomla\CMS\Toolbar\Button\SeparatorButton;
 use Joomla\CMS\Toolbar\Button\StandardButton;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -77,6 +77,10 @@ class Toolbar
      *
      * @var    Toolbar[]
      * @since  2.5
+     *
+     * @deprecated  5.0 will be removed in 7.0
+     *              Toolbars instances will be stored in the \Joomla\CMS\Document\HTMLDocument object
+     *              Request the instance from Factory::getApplication()->getDocument()->getToolbar('name');
      */
     protected static $instances = [];
 
@@ -91,19 +95,19 @@ class Toolbar
     /**
      * Constructor
      *
-     * @param   string                   $name     The toolbar name.
-     * @param   ToolbarFactoryInterface  $factory  The toolbar factory.
+     * @param   string                    $name     The toolbar name.
+     * @param   ?ToolbarFactoryInterface  $factory  The toolbar factory.
      *
      * @since   1.5
      */
-    public function __construct($name = 'toolbar', ToolbarFactoryInterface $factory = null)
+    public function __construct($name = 'toolbar', ?ToolbarFactoryInterface $factory = null)
     {
         $this->_name = $name;
 
         // At 5.0, require the factory to be injected
         if (!$factory) {
             @trigger_error(
-                sprintf(
+                \sprintf(
                     'As of Joomla! 5.0, a %1$s must be provided to a %2$s object when creating it.',
                     ToolbarFactoryInterface::class,
                     \get_class($this)
@@ -141,11 +145,14 @@ class Toolbar
      */
     public static function getInstance($name = 'toolbar')
     {
+        $toolbar = Factory::getApplication()->getDocument()->getToolbar($name);
+
+        // @todo b/c remove with Joomla 7.0 or removed in 6.0 with this function
         if (empty(self::$instances[$name])) {
-            self::$instances[$name] = Factory::getContainer()->get(ToolbarFactoryInterface::class)->createToolbar($name);
+            self::$instances[$name] = $toolbar;
         }
 
-        return self::$instances[$name];
+        return $toolbar;
     }
 
     /**
@@ -190,8 +197,8 @@ class Toolbar
         $this->_bar[] = $args;
 
         @trigger_error(
-            sprintf(
-                '%s::appendButton() should only accept %s instance in Joomla 5.0.',
+            \sprintf(
+                '%s::appendButton() should only accept %s instance in Joomla 6.0.',
                 static::class,
                 ToolbarButton::class
             ),
@@ -267,8 +274,8 @@ class Toolbar
         array_unshift($this->_bar, $args);
 
         @trigger_error(
-            sprintf(
-                '%s::prependButton() should only accept %s instance in Joomla 5.0.',
+            \sprintf(
+                '%s::prependButton() should only accept %s instance in Joomla 6.0.',
                 static::class,
                 ToolbarButton::class
             ),
@@ -290,6 +297,10 @@ class Toolbar
      */
     public function render(array $options = [])
     {
+        if (!$this->_bar) {
+            return '';
+        }
+
         $html = [];
 
         $isChild = !empty($options['is_child']);
@@ -301,7 +312,7 @@ class Toolbar
             $html[] = $layout->render(['id' => $this->_name]);
         }
 
-        $len = count($this->_bar);
+        $len = \count($this->_bar);
 
         // Render each button in the toolbar.
         foreach ($this->_bar as $i => $button) {
@@ -397,8 +408,8 @@ class Toolbar
     public function addButtonPath($path)
     {
         @trigger_error(
-            sprintf(
-                'Registering lookup paths for toolbar buttons is deprecated and will be removed in Joomla 5.0.'
+            \sprintf(
+                'Registering lookup paths for toolbar buttons is deprecated and will be removed in Joomla 6.0.'
                     . ' %1$s objects should be autoloaded or a custom %2$s implementation supporting path lookups provided.',
                 ToolbarButton::class,
                 ToolbarFactoryInterface::class
@@ -434,8 +445,8 @@ class Toolbar
     public function getButtonPath(): array
     {
         @trigger_error(
-            sprintf(
-                'Lookup paths for %s objects is deprecated and will be removed in Joomla 5.0.',
+            \sprintf(
+                'Lookup paths for %s objects is deprecated and will be removed in Joomla 6.0.',
                 ToolbarButton::class
             ),
             E_USER_DEPRECATED
@@ -485,7 +496,7 @@ class Toolbar
         }
 
         throw new \BadMethodCallException(
-            sprintf(
+            \sprintf(
                 'Method %s() not found in class: %s',
                 $name,
                 static::class

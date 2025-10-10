@@ -11,10 +11,11 @@
 namespace Joomla\Component\Privacy\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -31,11 +32,12 @@ class ConsentsModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   3.9.0
      */
-    public function __construct($config = [])
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -49,13 +51,13 @@ class ConsentsModel extends ListModel
             ];
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
-     * Method to get a DatabaseQuery object for retrieving the data set from a database.
+     * Method to get a QueryInterface object for retrieving the data set from a database.
      *
-     * @return  DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   3.9.0
      */
@@ -63,7 +65,7 @@ class ConsentsModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the required fields from the table.
         $query->select($this->getState('list.select', 'a.*'));
@@ -103,6 +105,13 @@ class ConsentsModel extends ListModel
             $state = (int) $state;
             $query->where($db->quoteName('a.state') . ' = :state')
                 ->bind(':state', $state, ParameterType::INTEGER);
+        }
+
+        $subject = $this->getState('filter.subject');
+
+        if (!empty($subject)) {
+            $query->where($db->quoteName('a.subject') . ' = :subject')
+                ->bind(':subject', $subject, ParameterType::STRING);
         }
 
         // Handle the list ordering.
@@ -151,22 +160,6 @@ class ConsentsModel extends ListModel
      */
     protected function populateState($ordering = 'a.id', $direction = 'desc')
     {
-        // Load the filter state.
-        $this->setState(
-            'filter.search',
-            $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search')
-        );
-
-        $this->setState(
-            'filter.subject',
-            $this->getUserStateFromRequest($this->context . '.filter.subject', 'filter_subject')
-        );
-
-        $this->setState(
-            'filter.state',
-            $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state')
-        );
-
         // Load the parameters.
         $this->setState('params', ComponentHelper::getParams('com_privacy'));
 
@@ -189,7 +182,7 @@ class ConsentsModel extends ListModel
 
         try {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->update($db->quoteName('#__privacy_consents'))
                 ->set($db->quoteName('state') . ' = -1')
                 ->whereIn($db->quoteName('id'), $pks)
@@ -216,7 +209,7 @@ class ConsentsModel extends ListModel
     {
         try {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->update($db->quoteName('#__privacy_consents'))
                 ->set($db->quoteName('state') . ' = -1')
                 ->where($db->quoteName('subject') . ' = :subject')

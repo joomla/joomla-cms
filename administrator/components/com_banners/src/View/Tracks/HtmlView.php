@@ -10,16 +10,12 @@
 
 namespace Joomla\Component\Banners\Administrator\View\Tracks;
 
-use Exception;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Banners\Administrator\Model\TracksModel;
 
@@ -69,7 +65,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      * @since  1.6
      */
     protected $state;
@@ -90,28 +86,30 @@ class HtmlView extends BaseHtmlView
      * @return  void
      *
      * @since   1.6
-     * @throws  Exception
+     * @throws  \Exception
      */
     public function display($tpl = null): void
     {
         /** @var TracksModel $model */
-        $model               = $this->getModel();
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
+
         $this->items         = $model->getItems();
         $this->pagination    = $model->getPagination();
         $this->state         = $model->getState();
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
 
-        if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
+        if (!\count($this->items) && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
         }
 
-        // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
-
         $this->addToolbar();
+
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
 
         parent::display($tpl);
     }
@@ -126,7 +124,7 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar(): void
     {
         $canDo   = ContentHelper::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_BANNERS_MANAGER_TRACKS'), 'bookmark banners-tracks');
 

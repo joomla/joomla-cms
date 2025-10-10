@@ -18,19 +18,9 @@ trigger_error(
     E_USER_DEPRECATED
 );
 
-/**
- * Set the platform root path as a constant if necessary.
- *
- * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
- *             Use defined('_JEXEC') or die; to detect if the CMS is loaded correctly
- **/
-if (!defined('JPATH_PLATFORM')) {
-    define('JPATH_PLATFORM', __DIR__);
-}
-
 // Import the library loader if necessary
 if (!class_exists('JLoader')) {
-    require_once JPATH_PLATFORM . '/loader.php';
+    require_once JPATH_LIBRARIES . '/loader.php';
 }
 
 // Make sure that the Joomla Platform has been successfully loaded
@@ -49,20 +39,6 @@ $loader->unregister();
 // Decorate Composer autoloader
 spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
 
-// Register the class aliases for Framework classes that have replaced their Platform equivalents
-require_once JPATH_LIBRARIES . '/classmap.php';
-
-// Suppress phar stream wrapper for non .phar files
-$behavior = new \TYPO3\PharStreamWrapper\Behavior();
-\TYPO3\PharStreamWrapper\Manager::initialize(
-    $behavior->withAssertion(new \TYPO3\PharStreamWrapper\Interceptor\PharExtensionInterceptor())
-);
-
-if (in_array('phar', stream_get_wrappers())) {
-    stream_wrapper_unregister('phar');
-    stream_wrapper_register('phar', 'TYPO3\\PharStreamWrapper\\PharStreamWrapper');
-}
-
 // Define the Joomla version if not already defined
 if (!defined('JVERSION')) {
     define('JVERSION', (new \Joomla\CMS\Version())->getShortVersion());
@@ -77,4 +53,4 @@ if (array_key_exists('REQUEST_METHOD', $_SERVER)) {
 }
 
 // Register the Crypto lib
-JLoader::register('Crypto', JPATH_PLATFORM . '/php-encryption/Crypto.php');
+JLoader::register('Crypto', JPATH_LIBRARIES . '/php-encryption/Crypto.php');

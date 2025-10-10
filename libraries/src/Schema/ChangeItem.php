@@ -14,7 +14,7 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\ExecutionFailureException;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -156,7 +156,7 @@ abstract class ChangeItem
             return new $class($db, $file, $query);
         }
 
-        throw new \RuntimeException(sprintf('ChangeItem child class not found for the %s database driver', $serverType), 500);
+        throw new \RuntimeException(\sprintf('ChangeItem child class not found for the %s database driver', $serverType), 500);
     }
 
     /**
@@ -236,7 +236,7 @@ abstract class ChangeItem
                 } else {
                     $this->rerunStatus = -2;
                 }
-            } catch (ExecutionFailureException | \RuntimeException $e) {
+            } catch (ExecutionFailureException | \RuntimeException) {
                 $this->rerunStatus = -2;
             }
         }

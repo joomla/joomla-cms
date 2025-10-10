@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ItemModel;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Content;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -95,7 +95,7 @@ class ArticleModel extends ItemModel
         if (!isset($this->_item[$pk])) {
             try {
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
 
                 $query->select(
                     $this->getState(
@@ -232,8 +232,8 @@ class ArticleModel extends ItemModel
                 $data->metadata = new Registry($data->metadata);
 
                 // Technically guest could edit an article, but lets not check that to improve performance a little.
-                if (!$user->get('guest')) {
-                    $userId = $user->get('id');
+                if (!$user->guest) {
+                    $userId = $user->id;
                     $asset  = 'com_content.article.' . $data->id;
 
                     // Check general edit permission first.
@@ -249,7 +249,7 @@ class ArticleModel extends ItemModel
                 }
 
                 // Compute view access permissions.
-                if ($access = $this->getState('filter.access')) {
+                if ($this->getState('filter.access')) {
                     // If the access filter has been set, we already know this user can view.
                     $data->params->set('access-view', true);
                 } else {
@@ -258,9 +258,9 @@ class ArticleModel extends ItemModel
                     $groups = $user->getAuthorisedViewLevels();
 
                     if ($data->catid == 0 || $data->category_access === null) {
-                        $data->params->set('access-view', in_array($data->access, $groups));
+                        $data->params->set('access-view', \in_array($data->access, $groups));
                     } else {
-                        $data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
+                        $data->params->set('access-view', \in_array($data->access, $groups) && \in_array($data->category_access, $groups));
                     }
                 }
 
@@ -269,10 +269,10 @@ class ArticleModel extends ItemModel
                 if ($e->getCode() == 404) {
                     // Need to go through the error handler to allow Redirect to work.
                     throw $e;
-                } else {
-                    $this->setError($e);
-                    $this->_item[$pk] = false;
                 }
+
+                $this->setError($e);
+                $this->_item[$pk] = false;
             }
         }
 
@@ -294,7 +294,7 @@ class ArticleModel extends ItemModel
         if ($hitcount) {
             $pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
-            $table = Table::getInstance('Content', 'JTable');
+            $table = new Content($this->getDatabase());
             $table->hit($pk);
         }
 
@@ -319,7 +319,7 @@ class ArticleModel extends ItemModel
 
             // Initialize variables.
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             // Create the base select statement.
             $query->select('*')
@@ -341,7 +341,7 @@ class ArticleModel extends ItemModel
 
             // There are no ratings yet, so lets insert our rating
             if (!$rating) {
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
 
                 // Create the base insert statement.
                 $query->insert($db->quoteName('#__content_rating'))
@@ -370,7 +370,7 @@ class ArticleModel extends ItemModel
                 }
             } else {
                 if ($userIP != $rating->lastip) {
-                    $query = $db->getQuery(true);
+                    $query = $db->createQuery();
 
                     // Create the base update statement.
                     $query->update($db->quoteName('#__content_rating'))
@@ -414,15 +414,13 @@ class ArticleModel extends ItemModel
     /**
      * Cleans the cache of com_content and content modules
      *
-     * @param   string   $group     The cache group
-     * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              @deprecated   4.3 will be removed in 6.0
+     * @param  string  $group  Cache group name.
      *
      * @return  void
      *
      * @since   3.9.9
      */
-    protected function cleanCache($group = null, $clientId = 0)
+    protected function cleanCache($group = null)
     {
         parent::cleanCache('com_content');
         parent::cleanCache('mod_articles_archive');

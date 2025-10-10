@@ -13,6 +13,7 @@ namespace Joomla\Component\Users\Administrator\Controller;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
@@ -118,8 +119,8 @@ class UserController extends FormController
         }
 
         // If a user has to renew a password but has no permission for users
-        if (!$this->app->getIdentity()->authorise('core.admin', 'com_users')) {
-            $this->setRedirect('index.php');
+        if ($task === 'save' && !$this->app->getIdentity()->authorise('core.manage', 'com_users')) {
+            $this->setRedirect(Uri::base());
         }
 
         return $result;
@@ -159,5 +160,35 @@ class UserController extends FormController
      */
     protected function postSaveHook(BaseDatabaseModel $model, $validData = [])
     {
+    }
+
+    /**
+     * Get the XHR request to activate a user
+     * js: media/com_users/js/activate-user-send-email
+     *
+     * @return void
+     *
+     * @since  6.0.0
+     */
+    public function active(): void
+    {
+        // Get the ID of the user
+        $userId = $this->input->getString('userid', '');
+
+        // Prepare the default response
+        $responseError   = false;
+        $responseMessage = null;
+
+        // Set the model
+        $model = $this->getModel('User', 'Administrator', []);
+
+        // Activate the user and send the email
+        if (!$model->activate($userId)) {
+            $responseError = true;
+        }
+
+        $responseMessage = \Joomla\CMS\Factory::getApplication()->getMessageQueue();
+
+        echo new JsonResponse(null, $responseMessage, $responseError);
     }
 }

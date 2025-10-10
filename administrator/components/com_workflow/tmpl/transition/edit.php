@@ -16,8 +16,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Workflow\Administrator\View\Transition\HtmlView $this */
+
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
 
@@ -66,6 +68,6 @@ $tmpl    = $isModal || $this->input->get('tmpl', '', 'cmd') === 'component' ? '&
         <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
     </div>
     <?php echo $this->form->getInput('workflow_id'); ?>
-    <input type="hidden" name="task" value="transition.edit" />
-    <?php echo HTMLHelper::_('form.token'); ?>
+
+    <?php echo $this->form->renderControlFields(); ?>
 </form>

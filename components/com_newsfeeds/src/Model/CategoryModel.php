@@ -17,8 +17,9 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Category;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -84,13 +85,13 @@ class CategoryModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see    \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -133,7 +134,7 @@ class CategoryModel extends ListModel
         // Load tags of all items.
         if ($taggedItems) {
             $tagsHelper = new TagsHelper();
-            $itemIds    = \array_keys($taggedItems);
+            $itemIds    = array_keys($taggedItems);
 
             foreach ($tagsHelper->getMultipleItemTags('com_newsfeeds.newsfeed', $itemIds) as $id => $tags) {
                 $taggedItems[$id]->tags->itemTags = $tags;
@@ -146,7 +147,7 @@ class CategoryModel extends ListModel
     /**
      * Method to build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery    An SQL query
+     * @return  QueryInterface    An SQL query
      *
      * @since   1.6
      */
@@ -158,8 +159,7 @@ class CategoryModel extends ListModel
         // Create a new query object.
         $db = $this->getDatabase();
 
-        /** @var \Joomla\Database\DatabaseQuery $query */
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select required fields from the categories.
         $query->select($this->getState('list.select', $db->quoteName('a') . '.*'))
@@ -260,7 +260,7 @@ class CategoryModel extends ListModel
 
         $orderCol = $input->get('filter_order', 'ordering');
 
-        if (!in_array($orderCol, $this->filter_fields)) {
+        if (!\in_array($orderCol, $this->filter_fields)) {
             $orderCol = 'ordering';
         }
 
@@ -268,7 +268,7 @@ class CategoryModel extends ListModel
 
         $listOrder = $input->get('filter_order_Dir', 'ASC');
 
-        if (!in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
+        if (!\in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
         }
 
@@ -299,7 +299,7 @@ class CategoryModel extends ListModel
      */
     public function getCategory()
     {
-        if (!is_object($this->_item)) {
+        if (!\is_object($this->_item)) {
             $app    = Factory::getApplication();
             $menu   = $app->getMenu();
             $active = $menu->getActive();
@@ -315,7 +315,7 @@ class CategoryModel extends ListModel
             $categories            = Categories::getInstance('Newsfeeds', $options);
             $this->_item           = $categories->get($this->getState('category.id', 'root'));
 
-            if (is_object($this->_item)) {
+            if (\is_object($this->_item)) {
                 $this->_children = $this->_item->getChildren();
                 $this->_parent   = false;
 
@@ -341,7 +341,7 @@ class CategoryModel extends ListModel
      */
     public function getParent()
     {
-        if (!is_object($this->_item)) {
+        if (!\is_object($this->_item)) {
             $this->getCategory();
         }
 
@@ -355,7 +355,7 @@ class CategoryModel extends ListModel
      */
     public function &getLeftSibling()
     {
-        if (!is_object($this->_item)) {
+        if (!\is_object($this->_item)) {
             $this->getCategory();
         }
 
@@ -369,7 +369,7 @@ class CategoryModel extends ListModel
      */
     public function &getRightSibling()
     {
-        if (!is_object($this->_item)) {
+        if (!\is_object($this->_item)) {
             $this->getCategory();
         }
 
@@ -383,7 +383,7 @@ class CategoryModel extends ListModel
      */
     public function &getChildren()
     {
-        if (!is_object($this->_item)) {
+        if (!\is_object($this->_item)) {
             $this->getCategory();
         }
 
@@ -404,7 +404,7 @@ class CategoryModel extends ListModel
 
         if ($hitcount) {
             $pk    = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
-            $table = Table::getInstance('Category', 'JTable');
+            $table = new Category($this->getDatabase());
             $table->hit($pk);
         }
 

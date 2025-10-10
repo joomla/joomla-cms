@@ -77,6 +77,14 @@ final class CliInstallationApplication extends Application implements CMSApplica
     protected $session;
 
     /**
+     * The client application Id
+     *
+     * @var Integer
+     * @since 5.0.2
+     */
+    protected $clientId;
+
+    /**
      * Class constructor.
      *
      * @param   Input|null      $input      An optional argument to provide dependency injection for the application's input
@@ -112,10 +120,6 @@ final class CliInstallationApplication extends Application implements CMSApplica
 
         // Store the debug value to config based on the JDEBUG flag.
         $this->config->set('debug', JDEBUG);
-
-        \define('JPATH_COMPONENT', JPATH_BASE);
-        \define('JPATH_COMPONENT_SITE', JPATH_SITE);
-        \define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR);
 
         // Register the config to Factory.
         Factory::$config   = $this->config;
@@ -205,19 +209,19 @@ final class CliInstallationApplication extends Application implements CMSApplica
     /**
      * Returns the installed language files in the administrative and frontend area.
      *
-     * @param   DatabaseInterface|null  $db  Database driver.
+     * @param   ?DatabaseInterface  $db  Database driver.
      *
      * @return  array  Array with installed language packs in admin and site area.
      *
      * @since   4.3.0
      */
-    public function getLocaliseAdmin(DatabaseInterface $db = null)
+    public function getLocaliseAdmin(?DatabaseInterface $db = null)
     {
         $langfiles = [];
 
         // If db connection, fetch them from the database.
         if ($db) {
-            foreach (LanguageHelper::getInstalledLanguages() as $clientId => $language) {
+            foreach (LanguageHelper::getInstalledLanguages(null, null, null, null, null, null, $db) as $clientId => $language) {
                 $clientName = $clientId === 0 ? 'site' : 'admin';
 
                 foreach ($language as $languageCode => $lang) {
@@ -302,22 +306,5 @@ final class CliInstallationApplication extends Application implements CMSApplica
     public function isClient($identifier)
     {
         return 'cli_installation' === $identifier;
-    }
-
-    /**
-     * Flag if the application instance is a CLI or web based application.
-     *
-     * Helper function, you should use the native PHP functions to detect if it is a CLI application.
-     *
-     * @return  boolean
-     *
-     * @since       4.3.0
-     *
-     * @deprecated   4.3 will be removed in 5.0
-     *               Use $app->isClient('cli_installation') instead
-     */
-    public function isCli()
-    {
-        return $this->isClient('cli_installation');
     }
 }

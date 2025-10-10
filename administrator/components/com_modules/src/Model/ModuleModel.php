@@ -13,18 +13,18 @@ namespace Joomla\Component\Modules\Administrator\Model;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Folder;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -87,9 +87,12 @@ class ModuleModel extends AdminModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     *
+     * @since   1.6
      */
-    public function __construct($config = [])
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         $config = array_merge(
             [
@@ -105,7 +108,7 @@ class ModuleModel extends AdminModel
             $config
         );
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -191,14 +194,14 @@ class ModuleModel extends AdminModel
                 }
 
                 // Get the new item ID
-                $newId = $table->get('id');
+                $newId = $table->id;
 
                 // Add the new ID to the array
                 $newIds[$pk] = $newId;
 
                 // Now we need to handle the module assignments
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName('menuid'))
                     ->from($db->quoteName('#__modules_menu'))
                     ->where($db->quoteName('moduleid') . ' = :moduleid')
@@ -345,22 +348,22 @@ class ModuleModel extends AdminModel
                 // Trigger the before delete event.
                 $result = $app->triggerEvent($this->event_before_delete, [$context, $table]);
 
-                if (in_array(false, $result, true) || !$table->delete($pk)) {
+                if (\in_array(false, $result, true) || !$table->delete($pk)) {
                     throw new \Exception($table->getError());
-                } else {
-                    // Delete the menu assignments
-                    $pk    = (int) $pk;
-                    $db    = $this->getDatabase();
-                    $query = $db->getQuery(true)
-                        ->delete($db->quoteName('#__modules_menu'))
-                        ->where($db->quoteName('moduleid') . ' = :moduleid')
-                        ->bind(':moduleid', $pk, ParameterType::INTEGER);
-                    $db->setQuery($query);
-                    $db->execute();
-
-                    // Trigger the after delete event.
-                    $app->triggerEvent($this->event_after_delete, [$context, $table]);
                 }
+
+                // Delete the menu assignments
+                $pk    = (int) $pk;
+                $db    = $this->getDatabase();
+                $query = $db->createQuery()
+                    ->delete($db->quoteName('#__modules_menu'))
+                    ->where($db->quoteName('moduleid') . ' = :moduleid')
+                    ->bind(':moduleid', $pk, ParameterType::INTEGER);
+                $db->setQuery($query);
+                $db->execute();
+
+                // Trigger the after delete event.
+                $app->triggerEvent($this->event_after_delete, [$context, $table]);
 
                 // Clear module cache
                 parent::cleanCache($table->module);
@@ -397,6 +400,8 @@ class ModuleModel extends AdminModel
 
         $table = $this->getTable();
 
+        $tuples = [];
+
         foreach ($pks as $pk) {
             if ($table->load($pk, true)) {
                 // Reset the id to create a new record.
@@ -420,7 +425,7 @@ class ModuleModel extends AdminModel
                 }
 
                 $pk    = (int) $pk;
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName('menuid'))
                     ->from($db->quoteName('#__modules_menu'))
                     ->where($db->quoteName('moduleid') . ' = :moduleid')
@@ -439,7 +444,7 @@ class ModuleModel extends AdminModel
 
         if (!empty($tuples)) {
             // Module-Menu Mapping: Do it in one query
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->insert($db->quoteName('#__modules_menu'))
                 ->columns($db->quoteName(['moduleid', 'menuid']))
                 ->values($tuples);
@@ -591,12 +596,12 @@ class ModuleModel extends AdminModel
 
             // Pre-select some filters (Status, Module Position, Language, Access Level) in edit form if those have been selected in Module Manager
             if (!$data->id) {
-                $clientId = $input->getInt('client_id', 0);
-                $filters  = (array) $app->getUserState('com_modules.modules.' . $clientId . '.filter');
-                $data->set('published', $input->getInt('published', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
-                $data->set('position', $input->getInt('position', (!empty($filters['position']) ? $filters['position'] : null)));
-                $data->set('language', $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
-                $data->set('access', $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access'))));
+                $clientId        = $input->getInt('client_id', 0);
+                $filters         = (array) $app->getUserState('com_modules.modules.' . $clientId . '.filter');
+                $data->published = $input->getInt('published', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null));
+                $data->position  = $input->getInt('position', (!empty($filters['position']) ? $filters['position'] : null));
+                $data->language  = $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null));
+                $data->access    = $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')));
             }
 
             // Avoid to delete params of a second module opened in a new browser tab while new one is not saved yet.
@@ -604,8 +609,8 @@ class ModuleModel extends AdminModel
                 // This allows us to inject parameter settings into a new module.
                 $params = $app->getUserState('com_modules.add.module.params');
 
-                if (is_array($params)) {
-                    $data->set('params', $params);
+                if (\is_array($params)) {
+                    $data->params = $params;
                 }
             }
         }
@@ -620,7 +625,7 @@ class ModuleModel extends AdminModel
      *
      * @param   integer  $pk  The id of the primary key.
      *
-     * @return  mixed  Object on success, false on failure.
+     * @return  \stdClass|false  Object on success, false on failure.
      *
      * @since   1.6
      */
@@ -646,7 +651,7 @@ class ModuleModel extends AdminModel
             // Check if we are creating a new extension.
             if (empty($pk)) {
                 if ($extensionId = (int) $this->getState('extension.id')) {
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->select($db->quoteName(['element', 'client_id']))
                         ->from($db->quoteName('#__extensions'))
                         ->where($db->quoteName('extension_id') . ' = :extensionid')
@@ -678,16 +683,16 @@ class ModuleModel extends AdminModel
                 }
             }
 
-            // Convert to the \Joomla\CMS\Object\CMSObject before adding other data.
+            // Convert to an object before adding other data.
             $properties        = $table->getProperties(1);
-            $this->_cache[$pk] = ArrayHelper::toObject($properties, CMSObject::class);
+            $this->_cache[$pk] = ArrayHelper::toObject($properties);
 
             // Convert the params field to an array.
             $registry                  = new Registry($table->params);
             $this->_cache[$pk]->params = $registry->toArray();
 
             // Determine the page assignment mode.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('menuid'))
                 ->from($db->quoteName('#__modules_menu'))
                 ->where($db->quoteName('moduleid') . ' = :moduleid')
@@ -751,7 +756,7 @@ class ModuleModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getTable($type = 'Module', $prefix = 'JTable', $config = [])
+    public function getTable($type = 'Module', $prefix = '\\Joomla\\CMS\\Table\\', $config = [])
     {
         return Table::getInstance($type, $prefix, $config);
     }
@@ -940,7 +945,7 @@ class ModuleModel extends AdminModel
         // Trigger the before save event.
         $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, $isNew]);
 
-        if (in_array(false, $result, true)) {
+        if (\in_array(false, $result, true)) {
             $this->setError($table->getError());
 
             return false;
@@ -960,7 +965,7 @@ class ModuleModel extends AdminModel
 
         // Delete old module to menu item associations
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__modules_menu'))
             ->where($db->quoteName('moduleid') . ' = :moduleid')
             ->bind(':moduleid', $table->id, ParameterType::INTEGER);
@@ -1084,15 +1089,13 @@ class ModuleModel extends AdminModel
     /**
      * Custom clean cache method for different clients
      *
-     * @param   string   $group     The name of the plugin group to import (defaults to null).
-     * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              @deprecated   4.3 will be removed in 6.0
+     * @param  string  $group  Cache group name.
      *
      * @return  void
      *
      * @since   1.6
      */
-    protected function cleanCache($group = null, $clientId = 0)
+    protected function cleanCache($group = null)
     {
         parent::cleanCache('com_modules');
     }
