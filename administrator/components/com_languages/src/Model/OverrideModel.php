@@ -11,11 +11,11 @@
 namespace Joomla\Component\Languages\Administrator\Model;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -38,10 +38,10 @@ class OverrideModel extends AdminModel
      *
      * @since   2.5
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_languages.override', 'override', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_languages.override', 'override', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -59,7 +59,7 @@ class OverrideModel extends AdminModel
 
         $form->setValue('client', null, Text::_('COM_LANGUAGES_VIEW_OVERRIDE_CLIENT_' . strtoupper($client)));
         $form->setValue('language', null, Text::sprintf('COM_LANGUAGES_VIEW_OVERRIDE_LANGUAGE', $langName, $language));
-        $form->setValue('file', null, Path::clean(constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $language . '.override.ini'));
+        $form->setValue('file', null, Path::clean(\constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $language . '.override.ini'));
 
         return $form;
     }
@@ -74,7 +74,7 @@ class OverrideModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_languages.edit.override.data', array());
+        $data = Factory::getApplication()->getUserState('com_languages.edit.override.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -96,13 +96,13 @@ class OverrideModel extends AdminModel
      */
     public function getItem($pk = null)
     {
-        $input    = Factory::getApplication()->input;
+        $input    = Factory::getApplication()->getInput();
         $pk       = !empty($pk) ? $pk : $input->get('id');
-        $fileName = constant('JPATH_' . strtoupper($this->getState('filter.client')))
+        $fileName = \constant('JPATH_' . strtoupper($this->getState('filter.client')))
             . '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
         $strings  = LanguageHelper::parseIniFile($fileName);
 
-        $result = new \stdClass();
+        $result           = new \stdClass();
         $result->key      = '';
         $result->override = '';
 
@@ -111,10 +111,10 @@ class OverrideModel extends AdminModel
             $result->override = $strings[$pk];
         }
 
-        $oppositeFileName = constant('JPATH_' . strtoupper($this->getState('filter.client') == 'site' ? 'administrator' : 'site'))
+        $oppositeFileName = \constant('JPATH_' . strtoupper($this->getState('filter.client') == 'site' ? 'administrator' : 'site'))
             . '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
         $oppositeStrings  = LanguageHelper::parseIniFile($oppositeFileName);
-        $result->both = isset($oppositeStrings[$pk]) && ($oppositeStrings[$pk] == $strings[$pk]);
+        $result->both     = isset($oppositeStrings[$pk]) && ($oppositeStrings[$pk] == $strings[$pk]);
 
         return $result;
     }
@@ -147,9 +147,9 @@ class OverrideModel extends AdminModel
         }
 
         // Return false if the constant is a reserved word, i.e. YES, NO, NULL, FALSE, ON, OFF, NONE, TRUE
-        $reservedWords = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
+        $reservedWords = ['YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE'];
 
-        if (in_array($data['key'], $reservedWords)) {
+        if (\in_array($data['key'], $reservedWords)) {
             $this->setError(Text::_('COM_LANGUAGES_OVERRIDE_ERROR_RESERVED_WORDS'));
 
             return false;
@@ -158,7 +158,7 @@ class OverrideModel extends AdminModel
         $client = $client ? 'administrator' : 'site';
 
         // Parse the override.ini file in order to get the keys and strings.
-        $fileName = constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $language . '.override.ini';
+        $fileName = \constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $language . '.override.ini';
         $strings  = LanguageHelper::parseIniFile($fileName);
 
         if (isset($strings[$data['id']])) {
@@ -170,11 +170,11 @@ class OverrideModel extends AdminModel
             } else {
                 // If no, delete the old string and prepend the new one.
                 unset($strings[$data['id']]);
-                $strings = array($data['key'] => $data['override']) + $strings;
+                $strings = [$data['key'] => $data['override']] + $strings;
             }
         } else {
             // If it is a new override simply prepend it.
-            $strings = array($data['key'] => $data['override']) + $strings;
+            $strings = [$data['key'] => $data['override']] + $strings;
         }
 
         // Write override.ini file with the strings.

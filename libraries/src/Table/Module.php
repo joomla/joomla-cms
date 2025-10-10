@@ -12,11 +12,12 @@ namespace Joomla\CMS\Table;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -37,13 +38,14 @@ class Module extends Table
     /**
      * Constructor.
      *
-     * @param   DatabaseDriver  $db  Database driver object.
+     * @param   DatabaseInterface     $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.5
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__modules', 'id', $db);
+        parent::__construct('#__modules', 'id', $db, $dispatcher);
 
         $this->access = (int) Factory::getApplication()->get('access');
     }
@@ -79,29 +81,30 @@ class Module extends Table
     /**
      * Method to get the parent asset id for the record
      *
-     * @param   Table    $table  A Table object (optional) for the asset parent
-     * @param   integer  $id     The id (optional) of the content.
+     * @param   ?Table    $table  A Table object (optional) for the asset parent
+     * @param   ?integer  $id     The id (optional) of the content.
      *
      * @return  integer
      *
      * @since   3.2
      */
-    protected function _getAssetParentId(Table $table = null, $id = null)
+    protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         $assetId = null;
 
         // This is a module that needs to parent with the extension.
         if ($assetId === null) {
             // Build the query to get the asset id of the parent component.
-            $query = $this->_db->getQuery(true)
-                ->select($this->_db->quoteName('id'))
-                ->from($this->_db->quoteName('#__assets'))
-                ->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote('com_modules'));
+            $db    = $this->getDatabase();
+            $query = $db->createQuery()
+                ->select($db->quoteName('id'))
+                ->from($db->quoteName('#__assets'))
+                ->where($db->quoteName('name') . ' = ' . $db->quote('com_modules'));
 
             // Get the asset id from the database.
-            $this->_db->setQuery($query);
+            $db->setQuery($query);
 
-            if ($result = $this->_db->loadResult()) {
+            if ($result = $db->loadResult()) {
                 $assetId = (int) $result;
             }
         }
@@ -109,9 +112,9 @@ class Module extends Table
         // Return the asset id.
         if ($assetId) {
             return $assetId;
-        } else {
-            return parent::_getAssetParentId($table, $id);
         }
+
+        return parent::_getAssetParentId($table, $id);
     }
 
     /**
@@ -149,7 +152,7 @@ class Module extends Table
         }
 
         // Prevent to save too large content > 65535
-        if ((\strlen($this->content) > 65535) || (\strlen($this->params) > 65535)) {
+        if ((!empty($this->content) && \strlen($this->content) > 65535) || (!empty($this->params) && \strlen($this->params) > 65535)) {
             $this->setError(Text::_('COM_MODULES_FIELD_CONTENT_TOO_LARGE'));
 
             return false;
@@ -158,8 +161,8 @@ class Module extends Table
         // Check the publish down date is not earlier than publish up.
         if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up) {
             // Swap the dates.
-            $temp = $this->publish_up;
-            $this->publish_up = $this->publish_down;
+            $temp               = $this->publish_up;
+            $this->publish_up   = $this->publish_down;
             $this->publish_down = $temp;
         }
 
@@ -180,7 +183,7 @@ class Module extends Table
     public function bind($array, $ignore = '')
     {
         if (isset($array['params']) && \is_array($array['params'])) {
-            $registry = new Registry($array['params']);
+            $registry        = new Registry($array['params']);
             $array['params'] = (string) $registry;
         }
 
@@ -205,7 +208,9 @@ class Module extends Table
     public function store($updateNulls = true)
     {
         if (!$this->ordering) {
-            $this->ordering = $this->getNextOrder($this->_db->quoteName('position') . ' = ' . $this->_db->quote($this->position));
+            $this->ordering = $this->getNextOrder(
+                $this->getDatabase()->quoteName('position') . ' = ' . $this->getDatabase()->quote($this->position)
+            );
         }
 
         return parent::store($updateNulls);

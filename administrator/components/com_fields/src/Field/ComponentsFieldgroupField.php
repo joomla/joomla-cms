@@ -48,7 +48,7 @@ class ComponentsFieldgroupField extends ListField
         // Initialise variable.
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('DISTINCT a.name AS text, a.element AS value')
             ->from('#__extensions as a')
             ->where('a.enabled >= 1')
@@ -58,7 +58,7 @@ class ComponentsFieldgroupField extends ListField
 
         $options = [];
 
-        if (count($items)) {
+        if (\count($items)) {
             $lang = Factory::getLanguage();
 
             $components = [];
@@ -94,11 +94,11 @@ class ComponentsFieldgroupField extends ListField
                 if ($c instanceof FieldsServiceInterface) {
                     $contexts = $c->getContexts();
 
-                    foreach ($contexts as $context) {
-                        $newOption = new \stdClass();
-                        $newOption->value = strtolower($component->value . '.' . $context);
-                        $newOption->text = $component->text . ' - ' . Text::_($context);
-                        $options[] = $newOption;
+                    foreach ($contexts as $contextKey => $contextName) {
+                        $newOption        = new \stdClass();
+                        $newOption->value = $contextKey;
+                        $newOption->text  = $component->text . ' - ' . Text::_($contextName);
+                        $options[]        = $newOption;
                     }
                 } else {
                     $options[] = $component;

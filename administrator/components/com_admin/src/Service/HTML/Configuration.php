@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_admin
@@ -9,7 +10,9 @@
 
 namespace Joomla\Component\Admin\Administrator\Service\HTML;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Class for rendering configuration values
@@ -29,13 +32,11 @@ class Configuration
      */
     public function value($value): string
     {
-        if (\is_bool($value))
-        {
+        if (\is_bool($value)) {
             return $value ? 'true' : 'false';
         }
 
-        if (\is_array($value))
-        {
+        if (\is_array($value)) {
             $value = implode(', ', $value);
         }
 

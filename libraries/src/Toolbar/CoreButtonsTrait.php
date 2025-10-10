@@ -15,6 +15,7 @@ use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Toolbar\Button\ConfirmButton;
 use Joomla\CMS\Toolbar\Button\CustomButton;
 use Joomla\CMS\Toolbar\Button\HelpButton;
+use Joomla\CMS\Toolbar\Button\InlinehelpButton;
 use Joomla\CMS\Toolbar\Button\LinkButton;
 use Joomla\CMS\Toolbar\Button\PopupButton;
 use Joomla\CMS\Toolbar\Button\SeparatorButton;
@@ -126,6 +127,22 @@ trait CoreButtonsTrait
     }
 
     /**
+     * Writes a help button for a given option (opens a popup window).
+     *
+     * @param   string  $class   The class used by the inline help items.
+     *
+     * @return  InlinehelpButton
+     *
+     * @since   4.3.0
+     */
+    public function inlinehelp(string $class = 'hide-aware-inline-help'): InlinehelpButton
+    {
+        return $this->inlinehelpButton('inlinehelp')
+            ->targetclass($class)
+            ->icon('fa fa-question-circle');
+    }
+
+    /**
      * Writes a cancel button that will go back to the previous page without doing
      * any other operation.
      *
@@ -137,8 +154,7 @@ trait CoreButtonsTrait
      */
     public function back(string $text = 'JTOOLBAR_BACK'): LinkButton
     {
-        return $this->link('back', $text)
-            ->url('javascript:history.back();');
+        return $this->link($text, 'javascript:history.back();');
     }
 
     /**
@@ -187,8 +203,7 @@ trait CoreButtonsTrait
      */
     public function makeDefault(string $task, string $text = 'JTOOLBAR_DEFAULT'): StandardButton
     {
-        return $this->standardButton('default', $text)
-            ->task($task);
+        return $this->standardButton('default', $text, $task);
     }
 
     /**
@@ -203,8 +218,7 @@ trait CoreButtonsTrait
      */
     public function assign(string $task, string $text = 'JTOOLBAR_ASSIGN'): StandardButton
     {
-        return $this->standardButton('assign', $text)
-            ->task($task);
+        return $this->standardButton('assign', $text, $task);
     }
 
     /**
@@ -219,8 +233,7 @@ trait CoreButtonsTrait
      */
     public function addNew(string $task, string $text = 'JTOOLBAR_NEW'): StandardButton
     {
-        return $this->standardButton('new', $text)
-            ->task($task);
+        return $this->standardButton('new', $text, $task);
     }
 
     /**
@@ -235,8 +248,7 @@ trait CoreButtonsTrait
      */
     public function publish(string $task, string $text = 'JTOOLBAR_PUBLISH'): StandardButton
     {
-        return $this->standardButton('publish', $text)
-            ->task($task);
+        return $this->standardButton('publish', $text, $task);
     }
 
     /**
@@ -251,8 +263,7 @@ trait CoreButtonsTrait
      */
     public function unpublish(string $task, string $text = 'JTOOLBAR_UNPUBLISH'): StandardButton
     {
-        return $this->standardButton('unpublish', $text)
-            ->task($task);
+        return $this->standardButton('unpublish', $text, $task);
     }
 
     /**
@@ -267,8 +278,7 @@ trait CoreButtonsTrait
      */
     public function archive(string $task, string $text = 'JTOOLBAR_ARCHIVE'): StandardButton
     {
-        return $this->standardButton('archive', $text)
-            ->task($task);
+        return $this->standardButton('archive', $text, $task);
     }
 
     /**
@@ -283,8 +293,7 @@ trait CoreButtonsTrait
      */
     public function unarchive(string $task, string $text = 'JTOOLBAR_UNARCHIVE'): StandardButton
     {
-        return $this->standardButton('unarchive', $text)
-            ->task($task);
+        return $this->standardButton('unarchive', $text, $task);
     }
 
     /**
@@ -299,8 +308,7 @@ trait CoreButtonsTrait
      */
     public function edit(string $task, string $text = 'JTOOLBAR_EDIT'): StandardButton
     {
-        return $this->standardButton('edit', $text)
-            ->task($task);
+        return $this->standardButton('edit', $text, $task);
     }
 
     /**
@@ -315,8 +323,7 @@ trait CoreButtonsTrait
      */
     public function editHtml(string $task, string $text = 'JTOOLBAR_EDIT_HTML'): StandardButton
     {
-        return $this->standardButton('edithtml', $text)
-            ->task($task);
+        return $this->standardButton('edithtml', $text, $task);
     }
 
     /**
@@ -331,8 +338,7 @@ trait CoreButtonsTrait
      */
     public function editCss(string $task, string $text = 'JTOOLBAR_EDIT_CSS'): StandardButton
     {
-        return $this->standardButton('editcss', $text)
-            ->task($task);
+        return $this->standardButton('editcss', $text, $task);
     }
 
     /**
@@ -347,8 +353,7 @@ trait CoreButtonsTrait
      */
     public function delete(string $task, string $text = 'JTOOLBAR_DELETE'): ConfirmButton
     {
-        return $this->confirmButton('delete', $text)
-            ->task($task);
+        return $this->confirmButton('delete', $text, $task);
     }
 
     /**
@@ -363,8 +368,7 @@ trait CoreButtonsTrait
      */
     public function trash(string $task, string $text = 'JTOOLBAR_TRASH'): StandardButton
     {
-        return $this->standardButton('trash', $text)
-            ->task($task);
+        return $this->standardButton('trash', $text, $task);
     }
 
     /**
@@ -380,8 +384,7 @@ trait CoreButtonsTrait
      */
     public function apply(string $task, string $text = 'JTOOLBAR_APPLY'): StandardButton
     {
-        return $this->standardButton('apply', $text)
-            ->task($task)
+        return $this->standardButton('apply', $text, $task)
             ->formValidation(true);
     }
 
@@ -398,8 +401,7 @@ trait CoreButtonsTrait
      */
     public function save(string $task, string $text = 'JTOOLBAR_SAVE'): StandardButton
     {
-        return $this->standardButton('save', $text)
-            ->task($task)
+        return $this->standardButton('save', $text, $task)
             ->formValidation(true);
     }
 
@@ -416,8 +418,7 @@ trait CoreButtonsTrait
      */
     public function save2new(string $task, string $text = 'JTOOLBAR_SAVE_AND_NEW'): StandardButton
     {
-        return $this->standardButton('save-new', $text)
-            ->task($task)
+        return $this->standardButton('save-new', $text, $task)
             ->formValidation(true);
     }
 
@@ -435,8 +436,7 @@ trait CoreButtonsTrait
      */
     public function save2copy(string $task, string $text = 'JTOOLBAR_SAVE_AS_COPY'): StandardButton
     {
-        return $this->standardButton('save-copy', $text)
-            ->task($task)
+        return $this->standardButton('save-copy', $text, $task)
             ->formValidation(true);
     }
 
@@ -452,8 +452,8 @@ trait CoreButtonsTrait
      */
     public function checkin(string $task, string $text = 'JTOOLBAR_CHECKIN'): StandardButton
     {
-        return $this->standardButton('checkin', $text)
-            ->task($task);
+        return $this->standardButton('checkin', $text, $task)
+            ->listCheck(true);
     }
 
     /**
@@ -468,8 +468,7 @@ trait CoreButtonsTrait
      */
     public function cancel(string $task, string $text = 'JTOOLBAR_CLOSE'): StandardButton
     {
-        return $this->standardButton('cancel', $text)
-            ->task($task);
+        return $this->standardButton('cancel', $text, $task);
     }
 
     /**
@@ -486,9 +485,9 @@ trait CoreButtonsTrait
     public function preferences(string $component, string $text = 'JTOOLBAR_OPTIONS', string $path = ''): LinkButton
     {
         $component = urlencode($component);
-        $path = urlencode($path);
+        $path      = urlencode($path);
 
-        $uri = (string) Uri::getInstance();
+        $uri    = (string) Uri::getInstance();
         $return = urlencode(base64_encode($uri));
 
         return $this->linkButton('options', $text)
@@ -519,7 +518,7 @@ trait CoreButtonsTrait
         $lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);
 
         // Options array for Layout
-        $options              = array();
+        $options              = [];
         $options['title']     = Text::_($text);
         $options['height']    = $height;
         $options['width']     = $width;

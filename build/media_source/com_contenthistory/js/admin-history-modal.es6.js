@@ -21,8 +21,9 @@
             window.parent.location = url;
           }
         } else {
-          // @todo use the CE Modal here
-          alert(Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_ONE_VERSION'));
+          Joomla.renderMessages({
+            error: [Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_ONE_VERSION')],
+          });
         }
       }
       return false;
@@ -40,8 +41,9 @@
             window.open(url, '', windowSizeArray.toString());
           }
         } else {
-          // @todo use the CE Modal here
-          alert(Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_ONE_VERSION'));
+          Joomla.renderMessages({
+            error: [Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_ONE_VERSION')],
+          });
         }
       }
       return false;
@@ -53,8 +55,9 @@
         const windowSizeArray = ['width=1000, height=600, resizable=yes, scrollbars=yes'];
         const ids = document.querySelectorAll('input[id*="cb"]:checked');
         if (ids.length === 0) {
-          // @todo use the CE Modal here
-          alert(Joomla.Text._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));
+          Joomla.renderMessages({
+            error: [Joomla.Text._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')],
+          });
         } else if (ids.length === 2) {
           // Add version item ids to URL
           const url = `${toolbarCompare.childNodes[1].getAttribute('data-url')}&id1=${ids[0].value}&id2=${ids[1].value}`;
@@ -62,8 +65,9 @@
             window.open(url, '', windowSizeArray.toString());
           }
         } else {
-          // @todo use the CE Modal here
-          alert(Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_TWO_VERSIONS'));
+          Joomla.renderMessages({
+            error: [Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_TWO_VERSIONS')],
+          });
         }
       }
       return false;

@@ -11,6 +11,7 @@
 namespace Joomla\Module\Submenu\Administrator\Menu;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Menu\PreprocessMenuItemsEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
@@ -41,20 +42,26 @@ abstract class Menu
      */
     public static function preprocess($parent)
     {
-        $app      = Factory::getApplication();
-        $user     = $app->getIdentity();
-        $children = $parent->getChildren();
-        $language = Factory::getLanguage();
+        $app        = Factory::getApplication();
+        $user       = $app->getIdentity();
+        $children   = $parent->getChildren();
+        $language   = $app->getLanguage();
+        $dispatcher = $app->getDispatcher();
 
         /**
          * Trigger onPreprocessMenuItems for the current level of backend menu items.
          * $children is an array of MenuItem objects. A plugin can traverse the whole tree,
          * but new nodes will only be run through this method if their parents have not been processed yet.
          */
-        $app->triggerEvent('onPreprocessMenuItems', array('administrator.module.mod_submenu', $children));
+        $children = $dispatcher->dispatch('onPreprocessMenuItems', new PreprocessMenuItemsEvent('onPreprocessMenuItems', [
+            'context' => 'administrator.module.mod_submenu',
+            'subject' => &$children, // @todo: Remove reference in Joomla 6, see PreprocessMenuItemsEvent::__constructor()
+            'params'  => null,
+            'enabled' => true,
+        ]))->getArgument('subject', $children);
 
         foreach ($children as $item) {
-            if (substr($item->link, 0, 8) === 'special:') {
+            if (str_starts_with($item->link, 'special:')) {
                 $special = substr($item->link, 8);
 
                 if ($special === 'language-forum') {
@@ -93,7 +100,9 @@ abstract class Menu
 
             // Exclude item with menu item option set to exclude from menu modules
             if ($itemParams->get('menu-permission')) {
-                @list($action, $asset) = explode(';', $itemParams->get('menu-permission'));
+                $parts  = explode(';', $itemParams->get('menu-permission'));
+                $action = $parts[0];
+                $asset  = $parts[1] ?? null;
 
                 if (!$user->authorise($action, $asset)) {
                     $parent->removeChild($item);
@@ -103,7 +112,7 @@ abstract class Menu
 
             // Populate automatic children for container items
             if ($item->type === 'container') {
-                $exclude    = (array) $itemParams->get('hideitems') ?: array();
+                $exclude    = (array) $itemParams->get('hideitems') ?: [];
                 $components = MenusHelper::getMenuItems('main', false, $exclude);
 
                 // We are adding the nodes first to preprocess them, then sort them and add them again.
@@ -133,7 +142,12 @@ abstract class Menu
                 continue;
             }
 
-            if ($item->element === 'com_fields') {
+            // Exclude item if the component is not authorised
+            $assetName = $item->element;
+
+            if ($item->element === 'com_categories') {
+                $assetName = $query['extension'] ?? 'com_content';
+            } elseif ($item->element === 'com_fields') {
                 parse_str($item->link, $query);
 
                 // Only display Fields menus when enabled in the component
@@ -156,7 +170,7 @@ abstract class Menu
                 if (isset($query['extension'])) {
                     $parts = explode('.', $query['extension']);
 
-                    $workflow = ComponentHelper::getParams($parts[0])->get('workflow_enabled');
+                    $workflow = ComponentHelper::getParams($parts[0])->get('workflow_enabled') && $user->authorise('core.manage.workflow', $parts[0]);
                 }
 
                 if (!$workflow) {
@@ -164,8 +178,8 @@ abstract class Menu
                     continue;
                 }
 
-                [$assetName] = isset($query['extension']) ? explode('.', $query['extension'], 2) : array('com_workflow');
-            } elseif (\in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin')) {
+                [$assetName] = isset($query['extension']) ? explode('.', $query['extension'], 2) : ['com_workflow'];
+            } elseif (\in_array($item->element, ['com_config', 'com_privacy', 'com_actionlogs'], true) && !$user->authorise('core.admin')) {
                 // Special case for components which only allow super user access
                 $parent->removeChild($item);
                 continue;
@@ -184,23 +198,25 @@ abstract class Menu
                     $parent->removeChild($item);
                     continue;
                 }
-            } elseif ($item->element && !$user->authorise(($item->scope === 'edit') ? 'core.create' : 'core.manage', $item->element)) {
-                $parent->removeChild($item);
-                continue;
             } elseif ($item->element === 'com_menus') {
                 // Get badges for Menus containing a Home page.
                 $iconImage = $item->icon;
 
                 if ($iconImage) {
-                    if (substr($iconImage, 0, 6) === 'class:' && substr($iconImage, 6) === 'icon-home') {
+                    if (str_starts_with($iconImage, 'class:') && substr($iconImage, 6) === 'icon-home') {
                         $iconImage = '<span class="home-image icon-home" aria-hidden="true"></span>';
                         $iconImage .= '<span class="visually-hidden">' . Text::_('JDEFAULT') . '</span>';
-                    } elseif (substr($iconImage, 0, 6) === 'image:') {
+                    } elseif (str_starts_with($iconImage, 'image:')) {
                         $iconImage = '&nbsp;<span class="badge bg-secondary">' . substr($iconImage, 6) . '</span>';
                     }
 
                     $item->iconImage = $iconImage;
                 }
+            }
+
+            if ($assetName && !$user->authorise(($item->scope === 'edit') ? 'core.create' : 'core.manage', $assetName)) {
+                $parent->removeChild($item);
+                continue;
             }
 
             if ($item->hasChildren()) {

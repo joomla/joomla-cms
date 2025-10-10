@@ -76,15 +76,14 @@ class JsonapiView extends BaseApiView
      */
     public function displayItem($item = null)
     {
-        $id = $this->get('state')->get($this->getName() . '.id');
+        /** @var \Joomla\CMS\MVC\Model\ListModel $model */
+        $model       = $this->getModel();
+        $displayItem = null;
+        $id          = $model->getState()->get($this->getName() . '.id');
 
         if ($id === null) {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_ITEMID_MISSING'));
         }
-
-        /** @var \Joomla\CMS\MVC\Model\ListModel $model */
-        $model       = $this->getModel();
-        $displayItem = null;
 
         foreach ($model->getItems() as $item) {
             $item = $this->prepareItem($item);
@@ -100,7 +99,7 @@ class JsonapiView extends BaseApiView
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -109,12 +108,12 @@ class JsonapiView extends BaseApiView
         }
 
         $serializer = new JoomlaSerializer($this->type);
-        $element = (new Resource($displayItem, $serializer))
+        $element    = (new Resource($displayItem, $serializer))
             ->fields([$this->type => $this->fieldsToRenderItem]);
 
-        $this->document->setData($element);
-        $this->document->addLink('self', Uri::current());
+        $this->getDocument()->setData($element);
+        $this->getDocument()->addLink('self', Uri::current());
 
-        return $this->document->render();
+        return $this->getDocument()->render();
     }
 }

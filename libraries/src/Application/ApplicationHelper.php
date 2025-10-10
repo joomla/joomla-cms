@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -30,7 +30,7 @@ class ApplicationHelper
      * @var    array
      * @since  1.6
      */
-    protected static $_clients = array();
+    protected static $_clients = [];
 
     /**
      * Return the name of the request component [main component]
@@ -49,7 +49,7 @@ class ApplicationHelper
             return $option;
         }
 
-        $input = Factory::getApplication()->input;
+        $input  = Factory::getApplication()->getInput();
         $option = strtolower($input->get('option', ''));
 
         if (empty($option)) {
@@ -94,7 +94,7 @@ class ApplicationHelper
         } else {
             if ($language === '*' || $language === '') {
                 $languageParams = ComponentHelper::getParams('com_languages');
-                $language = $languageParams->get('site');
+                $language       = $languageParams->get('site');
             }
 
             $output = OutputFilter::stringURLSafe($string, $language);
@@ -113,7 +113,7 @@ class ApplicationHelper
      * @param   integer|string|null   $id      A client identifier
      * @param   boolean               $byName  If true, find the client by its name
      *
-     * @return  \stdClass|array|void  Object describing the client, array containing all the clients or void if $id not known
+     * @return  \stdClass|\stdClass[]|null  Object describing the client, array containing all the clients or null if $id not known
      *
      * @since   1.5
      */
@@ -124,33 +124,33 @@ class ApplicationHelper
             $obj = new \stdClass();
 
             // Site Client
-            $obj->id = 0;
-            $obj->name = 'site';
-            $obj->path = JPATH_SITE;
+            $obj->id           = 0;
+            $obj->name         = 'site';
+            $obj->path         = JPATH_SITE;
             self::$_clients[0] = clone $obj;
 
             // Administrator Client
-            $obj->id = 1;
-            $obj->name = 'administrator';
-            $obj->path = JPATH_ADMINISTRATOR;
+            $obj->id           = 1;
+            $obj->name         = 'administrator';
+            $obj->path         = JPATH_ADMINISTRATOR;
             self::$_clients[1] = clone $obj;
 
             // Installation Client
-            $obj->id = 2;
-            $obj->name = 'installation';
-            $obj->path = JPATH_INSTALLATION;
+            $obj->id           = 2;
+            $obj->name         = 'installation';
+            $obj->path         = JPATH_INSTALLATION;
             self::$_clients[2] = clone $obj;
 
             // API Client
-            $obj->id = 3;
-            $obj->name = 'api';
-            $obj->path = JPATH_API;
+            $obj->id           = 3;
+            $obj->name         = 'api';
+            $obj->path         = JPATH_API;
             self::$_clients[3] = clone $obj;
 
             // CLI Client
-            $obj->id = 4;
-            $obj->name = 'cli';
-            $obj->path = JPATH_CLI;
+            $obj->id           = 4;
+            $obj->name         = 'cli';
+            $obj->path         = JPATH_CLI;
             self::$_clients[4] = clone $obj;
         }
 
@@ -171,6 +171,8 @@ class ApplicationHelper
                 }
             }
         }
+
+        return null;
     }
 
     /**

@@ -45,7 +45,7 @@ class SelectModel extends ListModel
      * @throws \Exception
      * @since  4.1.0
      */
-    public function __construct($config = array(), ?MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         $this->app = Factory::getApplication();
 

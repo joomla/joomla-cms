@@ -42,15 +42,15 @@ class PluginorderingField extends OrderingField
         $folder = $this->form->getValue('folder');
 
         // Build the query for the ordering list.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
-                array(
+                [
                     $db->quoteName('ordering', 'value'),
                     $db->quoteName('name', 'text'),
                     $db->quoteName('type'),
                     $db->quote('folder'),
-                    $db->quote('extension_id')
-                )
+                    $db->quote('extension_id'),
+                ]
             )
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))

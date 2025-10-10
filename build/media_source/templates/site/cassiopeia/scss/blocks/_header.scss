@@ -1,3 +1,5 @@
+@use "sass:color";
+
 // Header
 
 .container-header {
@@ -29,9 +31,11 @@
   .navbar-brand {
     position: relative;
     display: inline-block;
-    margin-inline-end: auto;
+    padding-top: .3125rem;
+    padding-bottom: .3125rem;
     font-size: 2rem;
     color: $white;
+    margin-inline-end: auto;
 
     a {
       color: $white;
@@ -79,6 +83,34 @@
       display: flex;
       flex: 1 1 0%;
       flex-direction: row;
+      :where(.mod-menu__sub:not(.mod-menu__sub *)) {
+        position: absolute;
+        top: 100%;
+        z-index: 1001;
+        display: block;
+        min-width: 12rem;
+        padding: 0;
+        margin: 0;
+        background-color: #fff;
+      }
+    }
+
+    @include media-breakpoint-down(lg) {
+      &.mod-list > li > a:hover {
+        text-decoration: underline;
+      }
+      .mod-menu__sub {
+        a,
+        span {
+          color: $white;
+        }
+      }
+    }
+
+    .mod-menu__sub {
+      a:hover {
+        text-decoration: underline;
+      }
     }
 
     > li {
@@ -134,6 +166,9 @@
         display: none;
         color: $gray-900;
       }
+      > [aria-hidden="false"] {
+        display: block;
+      }
     }
   }
 
@@ -174,11 +209,6 @@
       &.active > button.mm-toggler-link::before {
         right: 0;
         left: .5em;
-
-        [dir="rtl"] & {
-          right: .5em;
-          left: 0;
-        }
       }
     }
 
@@ -207,6 +237,10 @@
     .fas {
       font-size: 1.5rem;
     }
+
+    > * {
+      pointer-events: none;
+    }
   }
 
   .container-search {
@@ -216,11 +250,11 @@
   .mod-finder {
     color: $white;
 
-    a {
+    a:not(.jmodedit) {
       color: $white;
 
       &:hover, &:focus {
-        color: darken($white, 10%);
+        color: color.adjust($white, $lightness: -10%);
       }
     }
 

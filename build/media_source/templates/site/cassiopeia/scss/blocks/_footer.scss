@@ -4,7 +4,7 @@
   margin-top: $cassiopeia-grid-gutter;
   color: $white;
   background-color: var(--cassiopeia-color-primary);
-  background-image: $cassiopeia-header-grad;
+  background-image: $cassiopeia-header-grad #{"/* rtl:"}$cassiopeia-header-grad-rtl #{"*/"};
 
   .grid-child {
     align-items: center;
@@ -12,12 +12,13 @@
     padding: 2.5rem ($cassiopeia-grid-gutter * .5);
   }
 
-  a {
+  a:not(.btn), .btn-link {
     color: currentColor;
-  }
 
-  [dir=rtl] & {
-    background-image: $cassiopeia-header-grad-rtl;
+    &:hover,
+    &:focus {
+      color: var(--gray-200);
+    }
   }
 
   .mod-menu {

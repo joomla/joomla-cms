@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" client="site" method="upgrade">
 	<name>mod_articles_news</name>
 	<author>Joomla! Project</author>
@@ -11,8 +11,8 @@
 	<description>MOD_ARTICLES_NEWS_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\ArticlesNews</namespace>
 	<files>
-		<folder module="mod_articles_news">src</folder>
-		<folder>services</folder>
+		<folder module="mod_articles_news">services</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
@@ -156,6 +156,19 @@
 					default="0"
 					filter="integer"
 					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="readmore_title"
+					type="list"
+					label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
+					default=""
+					showon="readmore:1"
+					validate="options"
+					>
+					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>

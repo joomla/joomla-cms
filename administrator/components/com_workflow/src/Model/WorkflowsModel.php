@@ -12,8 +12,10 @@
 namespace Joomla\Component\Workflow\Administrator\Model;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -29,15 +31,16 @@ class WorkflowsModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     JController
      * @since  4.0.0
      */
-    public function __construct($config = array())
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'w.id',
                 'title', 'w.title',
                 'published', 'w.published',
@@ -45,11 +48,11 @@ class WorkflowsModel extends ListModel
                 'created', 'w.created',
                 'ordering', 'w.ordering',
                 'modified', 'w.modified',
-                'description', 'w.description'
-            );
+                'description', 'w.description',
+            ];
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -70,7 +73,7 @@ class WorkflowsModel extends ListModel
      */
     protected function populateState($ordering = 'w.ordering', $direction = 'asc')
     {
-        $app = Factory::getApplication();
+        $app       = Factory::getApplication();
         $extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
 
         $this->setState('filter.extension', $extension);
@@ -80,7 +83,7 @@ class WorkflowsModel extends ListModel
         $this->setState('filter.component', $parts[0]);
 
         // Extract the optional section name
-        $this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
+        $this->setState('filter.section', (\count($parts) > 1) ? $parts[1] : null);
 
         parent::populateState($ordering, $direction);
     }
@@ -96,7 +99,7 @@ class WorkflowsModel extends ListModel
      *
      * @since  4.0.0
      */
-    public function getTable($type = 'Workflow', $prefix = 'Administrator', $config = array())
+    public function getTable($type = 'Workflow', $prefix = 'Administrator', $config = [])
     {
         return parent::getTable($type, $prefix, $config);
     }
@@ -129,7 +132,7 @@ class WorkflowsModel extends ListModel
      *
      * @since   4.0.0
      */
-    public function getFilterForm($data = array(), $loadData = true)
+    public function getFilterForm($data = [], $loadData = true)
     {
         $form = parent::getFilterForm($data, $loadData);
 
@@ -145,7 +148,7 @@ class WorkflowsModel extends ListModel
      *
      * @param   array  $items  The workflow items
      *
-     * @return  mixed  An array of data items on success, false on failure.
+     * @return  void
      *
      * @since  4.0.0
      */
@@ -158,11 +161,11 @@ class WorkflowsModel extends ListModel
         foreach ($items as $item) {
             $ids[] = (int) $item->id;
 
-            $item->count_states = 0;
+            $item->count_states      = 0;
             $item->count_transitions = 0;
         }
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select(
             [
@@ -177,7 +180,7 @@ class WorkflowsModel extends ListModel
 
         $status = $db->setQuery($query)->loadObjectList('workflow_id');
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select(
             [
@@ -206,14 +209,14 @@ class WorkflowsModel extends ListModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  string  The query to database.
+     * @return  QueryInterface  The query to database.
      *
      * @since  4.0.0
      */
     public function getListQuery()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select(
             [

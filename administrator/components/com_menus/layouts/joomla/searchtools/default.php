@@ -15,10 +15,12 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
+/** @var \Joomla\CMS\Layout\FileLayout $this */
+
 $data = $displayData;
 
 // Receive overridable options
-$data['options'] = !empty($data['options']) ? $data['options'] : array();
+$data['options'] = !empty($data['options']) ? $data['options'] : [];
 
 $noResultsText     = '';
 $hideActiveFilters = false;
@@ -62,7 +64,7 @@ if (isset($data['view']->filterForm) && !empty($data['view']->filterForm)) {
 }
 
 // Set some basic options.
-$customOptions = array(
+$customOptions = [
     'filtersHidden'       => isset($data['options']['filtersHidden']) && $data['options']['filtersHidden'] ? $data['options']['filtersHidden'] : $hideActiveFilters,
     'filterButton'        => isset($data['options']['filterButton']) && $data['options']['filterButton'] ? $data['options']['filterButton'] : $showFilterButton,
     'defaultLimit'        => $data['options']['defaultLimit'] ?? Factory::getApplication()->get('list_limit', 20),
@@ -73,7 +75,7 @@ $customOptions = array(
     'showNoResults'       => !empty($noResultsText),
     'noResultsText'       => !empty($noResultsText) ? $noResultsText : '',
     'formSelector'        => !empty($data['options']['formSelector']) ? $data['options']['formSelector'] : '#adminForm',
-);
+];
 
 // Merge custom options in the options array.
 $data['options'] = array_merge($customOptions, $data['options']);
@@ -86,7 +88,7 @@ HTMLHelper::_('searchtools.form', $data['options']['formSelector'], $data['optio
 ?>
 <div class="js-stools" role="search">
     <?php if ($data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Items\HtmlView) : ?>
-        <?php // Add the itemtype and language selectors before the form filters. Do not display in modal. ?>
+        <?php // Add the itemtype and language selectors before the form filters. Do not display in modal.?>
         <?php $app = Factory::getApplication(); ?>
         <?php $clientIdField = $data['view']->filterForm->getField('client_id'); ?>
         <?php if ($clientIdField) : ?>

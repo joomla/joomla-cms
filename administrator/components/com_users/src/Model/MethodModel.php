@@ -10,13 +10,11 @@
 
 namespace Joomla\Component\Users\Administrator\Model;
 
-use Exception;
 use Joomla\CMS\Event\MultiFactor\GetSetup;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
@@ -74,7 +72,7 @@ class MethodModel extends BaseDatabaseModel
      */
     public function methodExists(string $method): bool
     {
-        if (!is_array($this->mfaMethods)) {
+        if (!\is_array($this->mfaMethods)) {
             $this->populateMfaMethods();
         }
 
@@ -85,20 +83,20 @@ class MethodModel extends BaseDatabaseModel
      * @param   User|null  $user  The user record. Null to use the currently logged in user.
      *
      * @return  array
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */
     public function getRenderOptions(?User $user = null): SetupRenderOptions
     {
-        if (is_null($user)) {
-            $user = Factory::getApplication()->getIdentity() ?: Factory::getUser();
+        if (\is_null($user)) {
+            $user = $this->getCurrentUser();
         }
 
         $renderOptions = new SetupRenderOptions();
 
         $event    = new GetSetup($this->getRecord($user));
-        $results = Factory::getApplication()
+        $results  = Factory::getApplication()
             ->getDispatcher()
             ->dispatch($event->getName(), $event)
             ->getArgument('result', []);
@@ -121,18 +119,17 @@ class MethodModel extends BaseDatabaseModel
     /**
      * Get the specified MFA record. It will return a fake default record when no record ID is specified.
      *
-     * @param   User|null  $user  The user record. Null to use the currently logged in user.
+     * @param   ?User  $user  The user record. Null to use the currently logged in user.
      *
      * @return  MfaTable
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */
-    public function getRecord(User $user = null): MfaTable
+    public function getRecord(?User $user = null): MfaTable
     {
-        if (is_null($user)) {
-            $user = Factory::getApplication()->getIdentity()
-                ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+        if (\is_null($user)) {
+            $user = $this->getCurrentUser();
         }
 
         $defaultRecord = $this->getDefaultRecord($user);
@@ -179,7 +176,7 @@ class MethodModel extends BaseDatabaseModel
                 break;
 
             default:
-                $key = sprintf('COM_USERS_MFA_%s_PAGE_HEAD', $task);
+                $key = \sprintf('COM_USERS_MFA_%s_PAGE_HEAD', $task);
                 break;
         }
 
@@ -190,21 +187,20 @@ class MethodModel extends BaseDatabaseModel
      * @param   User|null  $user  The user record. Null to use the current user.
      *
      * @return  MfaTable
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */
     protected function getDefaultRecord(?User $user = null): MfaTable
     {
-        if (is_null($user)) {
-            $user = Factory::getApplication()->getIdentity()
-                ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+        if (\is_null($user)) {
+            $user = $this->getCurrentUser();
         }
 
         $method = $this->getState('method');
         $title  = '';
 
-        if (is_null($this->mfaMethods)) {
+        if (\is_null($this->mfaMethods)) {
             $this->populateMfaMethods();
         }
 

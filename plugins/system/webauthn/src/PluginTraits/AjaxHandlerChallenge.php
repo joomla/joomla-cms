@@ -10,14 +10,12 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Exception;
 use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxChallenge;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\CMS\User\UserHelper;
-use Joomla\Event\Event;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -41,14 +39,17 @@ trait AjaxHandlerChallenge
      *
      * @return  void
      *
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.0.0
      */
     public function onAjaxWebauthnChallenge(AjaxChallenge $event): void
     {
         // Initialize objects
         $session    = $this->getApplication()->getSession();
-        $input      = $this->getApplication()->input;
+        $input      = $this->getApplication()->getInput();
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         // Retrieve data from the request
         $username  = $input->getUsername('username', '');
@@ -75,27 +76,11 @@ trait AjaxHandlerChallenge
 
         // Is the username valid?
         try {
-            $userId = UserHelper::getUserId($username);
-        } catch (Exception $e) {
-            $userId = 0;
-        }
-
-        if ($userId <= 0) {
-            $event->addResult(false);
-
-            return;
-        }
-
-        try {
-            $myUser = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
-        } catch (Exception $e) {
+            $userId = UserHelper::getUserId($username) ?: 0;
+            $myUser = $userId ? Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId) : new User();
+        } catch (\Exception $e) {
             $myUser = new User();
-        }
-
-        if ($myUser->id != $userId || $myUser->guest) {
-            $event->addResult(false);
-
-            return;
+            $userId = 0;
         }
 
         $publicKeyCredentialRequestOptions = $this->authenticationHelper->getPubkeyRequestOptions($myUser);

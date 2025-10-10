@@ -16,6 +16,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Config\Administrator\View\Component\HtmlView $this */
+
 $app = Factory::getApplication();
 $template = $app->getTemplate();
 
@@ -25,7 +27,7 @@ Text::script('NOTICE');
 Text::script('MESSAGE');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('form.validate')
     ->useScript('keepalive');
 
@@ -133,10 +135,6 @@ $xml = $this->form->getXml();
             <?php endif; ?>
         </div>
 
-        <input type="hidden" name="id" value="<?php echo $this->component->id; ?>">
-        <input type="hidden" name="component" value="<?php echo $this->component->option; ?>">
-        <input type="hidden" name="return" value="<?php echo $this->return; ?>">
-        <input type="hidden" name="task" value="">
-        <?php echo HTMLHelper::_('form.token'); ?>
+        <?php echo $this->form->renderControlFields(); ?>
     </div>
 </form>

@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -36,14 +36,14 @@ class Multilanguage
      * Method to determine if the language filter plugin is enabled.
      * This works for both site and administrator.
      *
-     * @param   CMSApplication     $app  The application
-     * @param   DatabaseInterface  $db   The database
+     * @param   ?CMSApplication     $app  The application
+     * @param   ?DatabaseInterface  $db   The database
      *
      * @return  boolean  True if site is supporting multiple languages; false otherwise.
      *
      * @since   2.5.4
      */
-    public static function isEnabled(CMSApplication $app = null, DatabaseInterface $db = null)
+    public static function isEnabled(?CMSApplication $app = null, ?DatabaseInterface $db = null)
     {
         // Flag to avoid doing multiple database queries.
         static $tested = false;
@@ -67,7 +67,7 @@ class Multilanguage
         if (!$tested) {
             // Determine status of language filter plugin.
             $db    = $db ?: Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('enabled'))
                 ->from($db->quoteName('#__extensions'))
                 ->where(
@@ -80,7 +80,7 @@ class Multilanguage
             $db->setQuery($query);
 
             static::$enabled = (bool) $db->loadResult();
-            $tested = true;
+            $tested          = true;
         }
 
         return static::$enabled;
@@ -89,13 +89,13 @@ class Multilanguage
     /**
      * Method to return a list of language home page menu items.
      *
-     * @param   DatabaseInterface  $db  The database
+     * @param   ?DatabaseInterface  $db  The database
      *
      * @return  array of menu objects.
      *
      * @since   3.5
      */
-    public static function getSiteHomePages(DatabaseInterface $db = null)
+    public static function getSiteHomePages(?DatabaseInterface $db = null)
     {
         // To avoid doing duplicate database queries.
         static $multilangSiteHomePages = null;
@@ -103,7 +103,7 @@ class Multilanguage
         if (!isset($multilangSiteHomePages)) {
             // Check for Home pages languages.
             $db    = $db ?: Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select(
                     [
                         $db->quoteName('language'),

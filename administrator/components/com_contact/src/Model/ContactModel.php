@@ -18,6 +18,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Database\ParameterType;
@@ -33,7 +34,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class ContactModel extends AdminModel
+class ContactModel extends AdminModel implements VersionableModelInterface
 {
     use VersionableModelTrait;
 
@@ -65,12 +66,12 @@ class ContactModel extends AdminModel
      *
      * @var array
      */
-    protected $batch_commands = array(
+    protected $batch_commands = [
         'assetgroup_id' => 'batchAccess',
         'language_id'   => 'batchLanguage',
         'tag'           => 'batchTag',
         'user_id'       => 'batchUser',
-    );
+    ];
 
     /**
      * Name of the form
@@ -132,7 +133,7 @@ class ContactModel extends AdminModel
             return false;
         }
 
-        return Factory::getUser()->authorise('core.delete', 'com_contact.category.' . (int) $record->catid);
+        return $this->getCurrentUser()->authorise('core.delete', 'com_contact.category.' . (int) $record->catid);
     }
 
     /**
@@ -148,7 +149,7 @@ class ContactModel extends AdminModel
     {
         // Check against the category.
         if (!empty($record->catid)) {
-            return Factory::getUser()->authorise('core.edit.state', 'com_contact.category.' . (int) $record->catid);
+            return $this->getCurrentUser()->authorise('core.edit.state', 'com_contact.category.' . (int) $record->catid);
         }
 
         // Default to component settings if category not known.
@@ -165,12 +166,12 @@ class ContactModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         Form::addFieldPath(JPATH_ADMINISTRATOR . '/components/com_users/models/fields');
 
         // Get the form.
-        $form = $this->loadForm('com_contact.' . $this->formName, $this->formName, array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_contact.' . $this->formName, $this->formName, ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -191,7 +192,7 @@ class ContactModel extends AdminModel
         }
 
         // Don't allow to change the created_by user if not allowed to access com_users.
-        if (!Factory::getUser()->authorise('core.manage', 'com_users')) {
+        if (!$this->getCurrentUser()->authorise('core.manage', 'com_users')) {
             $form->setFieldAttribute('created_by', 'filter', 'unset');
         }
 
@@ -211,7 +212,7 @@ class ContactModel extends AdminModel
     {
         if ($item = parent::getItem($pk)) {
             // Convert the metadata field to an array.
-            $registry = new Registry($item->metadata);
+            $registry       = new Registry($item->metadata);
             $item->metadata = $registry->toArray();
         }
 
@@ -219,7 +220,7 @@ class ContactModel extends AdminModel
         $assoc = Associations::isEnabled();
 
         if ($assoc) {
-            $item->associations = array();
+            $item->associations = [];
 
             if ($item->id != null) {
                 $associations = Associations::getAssociations('com_contact', '#__contact_details', 'com_contact.item', $item->id);
@@ -251,14 +252,14 @@ class ContactModel extends AdminModel
         $app = Factory::getApplication();
 
         // Check the session for previously entered form data.
-        $data = $app->getUserState('com_contact.edit.contact.data', array());
+        $data = $app->getUserState('com_contact.edit.contact.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
 
             // Prime some default values.
             if ($this->getState('contact.id') == 0) {
-                $data->set('catid', $app->input->get('catid', $app->getUserState('com_contact.contacts.filter.category_id'), 'int'));
+                $data->catid = $app->getInput()->get('catid', $app->getUserState('com_contact.contacts.filter.category_id'), 'int');
             }
         }
 
@@ -278,7 +279,7 @@ class ContactModel extends AdminModel
      */
     public function save($data)
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         // Create new category, if needed.
         $createCategory = true;
@@ -292,7 +293,7 @@ class ContactModel extends AdminModel
         if ($createCategory && $this->canCreateCategory()) {
             $category = [
                 // Remove #new# prefix, if exists.
-                'title'     => strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'],
+                'title'     => str_starts_with($data['catid'], '#new#') ? substr($data['catid'], 5) : $data['catid'],
                 'parent_id' => 1,
                 'extension' => 'com_contact',
                 'language'  => $data['language'],
@@ -316,13 +317,13 @@ class ContactModel extends AdminModel
 
         // Alter the name for save as copy
         if ($input->get('task') == 'save2copy') {
-            $origTable = clone $this->getTable();
+            $origTable = $this->getTable();
             $origTable->load($input->getInt('id'));
 
             if ($data['name'] == $origTable->name) {
-                list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
-                $data['name'] = $name;
-                $data['alias'] = $alias;
+                [$name, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
+                $data['name']   = $name;
+                $data['alias']  = $alias;
             } else {
                 if ($data['alias'] == $origTable->alias) {
                     $data['alias'] = '';
@@ -332,7 +333,7 @@ class ContactModel extends AdminModel
             $data['published'] = 0;
         }
 
-        $links = array('linka', 'linkb', 'linkc', 'linkd', 'linke');
+        $links = ['linka', 'linkb', 'linkc', 'linkd', 'linke'];
 
         foreach ($links as $link) {
             if (!empty($data['params'][$link])) {
@@ -363,11 +364,12 @@ class ContactModel extends AdminModel
         if (empty($table->id)) {
             // Set the values
             $table->created = $date;
+            $table->version = 1;
 
             // Set ordering to the last item if not set
             if (empty($table->ordering)) {
-                $db = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $db    = $this->getDatabase();
+                $query = $db->createQuery()
                     ->select('MAX(ordering)')
                     ->from($db->quoteName('#__contact_details'));
                 $db->setQuery($query);
@@ -377,12 +379,10 @@ class ContactModel extends AdminModel
             }
         } else {
             // Set the values
-            $table->modified = $date;
-            $table->modified_by = Factory::getUser()->id;
+            $table->modified    = $date;
+            $table->modified_by = $this->getCurrentUser()->id;
+            $table->version++;
         }
-
-        // Increment the content version number.
-        $table->version++;
     }
 
     /**
@@ -425,9 +425,9 @@ class ContactModel extends AdminModel
         if (Associations::isEnabled()) {
             $languages = LanguageHelper::getContentLanguages(false, false, null, 'ordering', 'asc');
 
-            if (count($languages) > 1) {
+            if (\count($languages) > 1) {
                 $addform = new \SimpleXMLElement('<form />');
-                $fields = $addform->addChild('fields');
+                $fields  = $addform->addChild('fields');
                 $fields->addAttribute('name', 'associations');
                 $fieldset = $fields->addChild('fieldset');
                 $fieldset->addAttribute('name', 'item_associations');
@@ -479,7 +479,7 @@ class ContactModel extends AdminModel
         try {
             $db = $this->getDatabase();
 
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
             $query->update($db->quoteName('#__contact_details'));
             $query->set($db->quoteName('featured') . ' = :featured');
             $query->whereIn($db->quoteName('id'), $pks);
@@ -511,6 +511,6 @@ class ContactModel extends AdminModel
      */
     private function canCreateCategory()
     {
-        return Factory::getUser()->authorise('core.create', 'com_contact');
+        return $this->getCurrentUser()->authorise('core.create', 'com_contact');
     }
 }

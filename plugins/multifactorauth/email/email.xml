@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="multifactorauth" method="upgrade">
 	<name>plg_multifactorauth_email</name>
 	<author>Joomla! Project</author>
@@ -11,8 +11,8 @@
 	<description>PLG_MULTIFACTORAUTH_EMAIL_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\Multifactorauth\Email</namespace>
 	<files>
-		<folder>services</folder>
-		<folder plugin="email">src</folder>
+		<folder plugin="email">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_multifactorauth_email.ini</language>

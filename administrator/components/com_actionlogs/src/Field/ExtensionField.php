@@ -44,7 +44,7 @@ class ExtensionField extends ListField
     public function getOptions()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('DISTINCT ' . $db->quoteName('extension'))
             ->from($db->quoteName('#__action_logs'))
             ->order($db->quoteName('extension'));
@@ -52,7 +52,7 @@ class ExtensionField extends ListField
         $db->setQuery($query);
         $context = $db->loadColumn();
 
-        $options = array();
+        $options = [];
 
         if (\count($context) > 0) {
             foreach ($context as $item) {

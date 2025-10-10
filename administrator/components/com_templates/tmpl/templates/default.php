@@ -10,18 +10,19 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Templates\Administrator\View\Templates\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
-$user      = Factory::getUser();
+$user      = $this->getCurrentUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
@@ -30,7 +31,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
-                <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'client_id'))); ?>
+                <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => ['selectorFieldName' => 'client_id']]); ?>
                 <?php if ($this->total > 0) : ?>
                     <table class="table" id="templateList">
                         <caption class="visually-hidden">
@@ -97,21 +98,21 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                     <?php endif; ?>
                                 </th>
                                 <td class="small d-none d-md-table-cell text-center">
-                                    <?php echo $this->escape($item->xmldata->get('version')); ?>
+                                    <?php echo $this->escape($item->xmldata->version); ?>
                                 </td>
                                 <td class="small d-none d-md-table-cell text-center">
-                                    <?php echo $this->escape($item->xmldata->get('creationDate')); ?>
+                                    <?php echo $this->escape($item->xmldata->creationDate); ?>
                                 </td>
                                 <td class="d-none d-md-table-cell text-center">
-                                    <?php if ($author = $item->xmldata->get('author')) : ?>
+                                    <?php if ($author = $item->xmldata->author) : ?>
                                         <div><?php echo $this->escape($author); ?></div>
                                     <?php else : ?>
                                         &mdash;
                                     <?php endif; ?>
-                                    <?php if ($email = $item->xmldata->get('authorEmail')) : ?>
+                                    <?php if ($email = $item->xmldata->authorEmail) : ?>
                                         <div><?php echo $this->escape($email); ?></div>
                                     <?php endif; ?>
-                                    <?php if ($url = $item->xmldata->get('authorUrl')) : ?>
+                                    <?php if ($url = $item->xmldata->authorUrl) : ?>
                                         <div><a href="<?php echo $this->escape($url); ?>"><?php echo $this->escape($url); ?></a></div>
                                     <?php endif; ?>
                                 </td>
@@ -119,7 +120,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                     <td class="d-none d-md-table-cell text-center">
                                         <?php if (!empty($item->updated)) : ?>
                                             <a href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $item->extension_id . '#files'); ?>">
-                                                <span class="badge bg-warning text-dark"><?php echo Text::plural('COM_TEMPLATES_N_CONFLICT', $item->updated); ?></span>
+                                                <span class="badge bg-warning"><?php echo Text::plural('COM_TEMPLATES_N_CONFLICT', $item->updated); ?></span>
                                             </a>
                                         <?php else : ?>
                                             <span class="badge bg-success"><?php echo Text::_('COM_TEMPLATES_UPTODATE'); ?></span>
@@ -136,9 +137,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
                 <?php endif; ?>
 
-                <input type="hidden" name="task" value="">
-                <input type="hidden" name="boxchecked" value="0">
-                <?php echo HTMLHelper::_('form.token'); ?>
+                <?php echo $this->filterForm->renderControlFields(); ?>
             </div>
         </div>
     </div>

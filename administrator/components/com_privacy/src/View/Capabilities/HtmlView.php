@@ -11,10 +11,9 @@
 namespace Joomla\Component\Privacy\Administrator\View\Capabilities;
 
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Privacy\Administrator\Model\CapabilitiesModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -38,7 +37,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The state information
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      * @since  3.9.0
      */
     protected $state;
@@ -56,14 +55,13 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        // Initialise variables
-        $this->capabilities = $this->get('Capabilities');
-        $this->state        = $this->get('State');
+        /** @var CapabilitiesModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-        // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
-            throw new Genericdataexception(implode("\n", $errors), 500);
-        }
+        // Initialise variables
+        $this->capabilities = $model->getCapabilities();
+        $this->state        = $model->getState();
 
         $this->addToolbar();
 
@@ -79,10 +77,11 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
+        $toolbar = $this->getDocument()->getToolbar();
+
         ToolbarHelper::title(Text::_('COM_PRIVACY_VIEW_CAPABILITIES'), 'lock');
 
-        ToolbarHelper::preferences('com_privacy');
-
-        ToolbarHelper::help('Privacy:_Extension_Capabilities');
+        $toolbar->preferences('com_privacy');
+        $toolbar->help('Privacy:_Extension_Capabilities');
     }
 }

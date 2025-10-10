@@ -7,7 +7,7 @@
  * @license GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -21,9 +21,7 @@ $this->getWebAssetManager()
     ->useScript('core')
     ->useScript('keepalive')
     ->useScript('form.validate')
-    ->registerAndUseScript('template.installation', 'installation/template/js/template.js', ['version' => 'auto'], ['defer' => true], ['core', 'form.validate']);
-
-$this->getWebAssetManager()
+    ->registerAndUseScript('template.installation', 'installation/template/js/template.js', ['version' => 'auto'], ['defer' => true], ['core', 'form.validate'])
     ->useStyle('webcomponent.joomla-alert')
     ->useScript('messages')
     ->useScript('webcomponent.core-loader')
@@ -32,7 +30,7 @@ $this->getWebAssetManager()
 		--template-bg-light: #f0f4fb;
 		--template-text-dark: #495057;
 		--template-text-light: #ffffff;
-		--template-link-color: #2a69b8;
+		--link-color: #2a69b8;
 		--template-special-color: #001b4c;
 	}');
 
@@ -53,11 +51,15 @@ Text::script('JLIB_JS_AJAX_ERROR_PARSE');
 Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 Text::script('INSTL_DATABASE_RESPONSE_ERROR');
 
-// Load the JavaScript translated messages
+// Add strings for installation progress
+Text::script('INSTL');
+Text::script('INSTL_FINISHED');
+Text::script('INSTL_IN_PROGRESS');
 Text::script('INSTL_PROCESS_BUSY');
 
 // Load strings for translated messages (directory removal)
 Text::script('INSTL_REMOVE_INST_FOLDER');
+Text::script('INSTL_DISABLE_AUTOUPDATE');
 Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
 ?>
 <!DOCTYPE html>
@@ -69,7 +71,7 @@ Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
     </head>
     <body data-basepath="<?php echo Uri::root(true); ?>">
         <div class="j-install">
-            <?php // Header ?>
+            <?php // Header?>
             <header id="header" class="header">
                 <div class="row me-0">
                     <div class="col">
@@ -97,7 +99,7 @@ Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
                     </div>
                 </div>
             </header>
-            <?php // Container ?>
+            <?php // Container?>
             <div id="wrapper" class="d-flex wrapper flex-wrap">
                 <div class="container-fluid container-main">
                     <div id="content" class="content h-100">

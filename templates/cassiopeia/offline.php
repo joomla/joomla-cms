@@ -11,8 +11,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Helper\AuthenticationHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
@@ -25,13 +25,10 @@ $wa               = $this->getWebAssetManager();
 
 $fullWidth = 1;
 
-// Template path
-$templatePath = 'media/templates/site/cassiopeia';
-
 // Color Theme
 $paramsColorName = $this->params->get('colorName', 'colors_standard');
 $assetColorName  = 'theme.' . $paramsColorName;
-$wa->registerAndUseStyle($assetColorName, $templatePath . '/css/global/' . $paramsColorName . '.css');
+$wa->registerAndUseStyle($assetColorName, 'global/' . $paramsColorName . '.css');
 
 // Use a font scheme if set in the template style options
 $paramsFontScheme = $this->params->get('useFontScheme', false);
@@ -42,16 +39,16 @@ if ($paramsFontScheme) {
         $this->getPreloadManager()->preconnect('https://fonts.googleapis.com/', ['crossorigin' => 'anonymous']);
         $this->getPreloadManager()->preconnect('https://fonts.gstatic.com/', ['crossorigin' => 'anonymous']);
         $this->getPreloadManager()->preload($paramsFontScheme, ['as' => 'style', 'crossorigin' => 'anonymous']);
-        $wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, [], ['media' => 'print', 'rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'', 'crossorigin' => 'anonymous']);
+        $wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, [], ['rel' => 'lazy-stylesheet', 'crossorigin' => 'anonymous']);
 
         if (preg_match_all('/family=([^?:]*):/i', $paramsFontScheme, $matches) > 0) {
             $fontStyles = '--cassiopeia-font-family-body: "' . str_replace('+', ' ', $matches[1][0]) . '", sans-serif;
-			--cassiopeia-font-family-headings: "' . str_replace('+', ' ', isset($matches[1][1]) ? $matches[1][1] : $matches[1][0]) . '", sans-serif;
+			--cassiopeia-font-family-headings: "' . str_replace('+', ' ', $matches[1][1] ?? $matches[1][0]) . '", sans-serif;
 			--cassiopeia-font-weight-normal: 400;
 			--cassiopeia-font-weight-headings: 700;';
         }
     } else {
-        $wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, ['version' => 'auto'], ['media' => 'print', 'rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'']);
+        $wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, ['version' => 'auto'], ['rel' => 'lazy-stylesheet']);
         $this->getPreloadManager()->preload($wa->getAsset('style', 'fontscheme.current')->getUri() . '?' . $this->getMediaVersion(), ['as' => 'style']);
     }
 }
@@ -67,7 +64,7 @@ $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'l
 		--template-bg-light: #f0f4fb;
 		--template-text-dark: #495057;
 		--template-text-light: #ffffff;
-		--template-link-color: #2a69b8;
+		--link-color: var(--link-color);
 		--template-special-color: #001B4C;
 		$fontStyles
 	}");
@@ -84,11 +81,11 @@ $this->addHeadLink(HTMLHelper::_('image', 'favicon.ico', '', [], true, 1), 'alte
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], true, 1), 'mask-icon', 'rel', ['color' => '#000']);
 
 if ($this->params->get('logoFile')) {
-    $logo = '<img src="' . htmlspecialchars(Uri::root() . $this->params->get('logoFile'), ENT_QUOTES, 'UTF-8') . '" alt="' . $sitename . '">';
+    $logo = HTMLHelper::_('image', Uri::root(false) . htmlspecialchars($this->params->get('logoFile'), ENT_QUOTES), $sitename, ['loading' => 'eager', 'decoding' => 'async'], false, 0);
 } elseif ($this->params->get('siteTitle')) {
     $logo = '<span title="' . $sitename . '">' . htmlspecialchars($this->params->get('siteTitle'), ENT_COMPAT, 'UTF-8') . '</span>';
 } else {
-    $logo = '<img src="' . $templatePath . '/images/logo.svg" class="logo d-inline-block" alt="' . $sitename . '">';
+    $logo = HTMLHelper::_('image', 'logo.svg', $sitename, ['class' => 'logo d-inline-block', 'loading' => 'eager', 'decoding' => 'async'], true, 0);
 }
 
 // Defer font awesome

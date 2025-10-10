@@ -10,12 +10,10 @@
 
 namespace Joomla\Plugin\Task\Requests\Extension;
 
-use Exception;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status as TaskStatus;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
@@ -88,16 +86,15 @@ final class Requests extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor.
      *
-     * @param   DispatcherInterface  $dispatcher     The dispatcher
      * @param   array                $config         An optional associative array of configuration settings
      * @param   HttpFactory          $httpFactory    The http factory
      * @param   string               $rootDirectory  The root directory to store the output file in
      *
      * @since   4.2.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, HttpFactory $httpFactory, string $rootDirectory)
+    public function __construct(array $config, HttpFactory $httpFactory, string $rootDirectory)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->httpFactory   = $httpFactory;
         $this->rootDirectory = $rootDirectory;
@@ -111,7 +108,7 @@ final class Requests extends CMSPlugin implements SubscriberInterface
      * @return integer  The exit code
      *
      * @since 4.1.0
-     * @throws Exception
+     * @throws \Exception
      */
     protected function makeGetRequest(ExecuteTaskEvent $event): int
     {
@@ -126,19 +123,19 @@ final class Requests extends CMSPlugin implements SubscriberInterface
         $headers  = [];
 
         if ($auth && $authType && $authKey) {
-            $headers = [$authType => $authKey];
+            $headers = ['Authorization' => $authType . ' ' . $authKey];
         }
 
         try {
             $response = $this->httpFactory->getHttp([])->get($url, $headers, $timeout);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_TIMEOUT'));
 
             return TaskStatus::TIMEOUT;
         }
 
-        $responseCode = $response->code;
-        $responseBody = $response->body;
+        $responseCode = $response->getStatusCode();
+        $responseBody = (string) $response->getBody();
 
         // @todo this handling must be rethought and made safe. stands as a good demo right now.
         $responseFilename = Path::clean($this->rootDirectory . "/task_{$id}_response.html");
@@ -146,8 +143,8 @@ final class Requests extends CMSPlugin implements SubscriberInterface
         try {
             File::write($responseFilename, $responseBody);
             $this->snapshot['output_file'] = $responseFilename;
-            $responseStatus = 'SAVED';
-        } catch (Exception $e) {
+            $responseStatus                = 'SAVED';
+        } catch (\Exception) {
             $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_UNWRITEABLE_OUTPUT'), 'error');
             $responseStatus = 'NOT_SAVED';
         }
@@ -159,9 +156,9 @@ final class Requests extends CMSPlugin implements SubscriberInterface
 > Response: $responseStatus
 EOF;
 
-        $this->logTask(sprintf($this->getApplication()->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_RESPONSE'), $responseCode));
+        $this->logTask(\sprintf($this->getApplication()->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_RESPONSE'), $responseCode));
 
-        if ($response->code !== 200) {
+        if ($response->getStatusCode() !== 200) {
             return TaskStatus::KNOCKOUT;
         }
 

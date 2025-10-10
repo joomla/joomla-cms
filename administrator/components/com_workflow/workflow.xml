@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="component" method="upgrade">
 	<name>com_workflow</name>
 	<author>Joomla! Project</author>
@@ -13,7 +13,6 @@
 	<administration>
 		<menu>COM_WORKFLOW</menu>
 		<files folder="admin">
-			<filename>access.xml</filename>
 			<filename>workflow.xml</filename>
 			<folder>forms</folder>
 			<folder>services</folder>

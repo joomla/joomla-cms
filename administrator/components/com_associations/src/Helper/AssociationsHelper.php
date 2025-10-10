@@ -46,7 +46,7 @@ class AssociationsHelper extends ContentHelper
      * @var    array
      * @since  3.7.0
      */
-    public static $supportedExtensionsList = array();
+    public static $supportedExtensionsList = [];
 
     /**
      * Get the associated items for an item
@@ -62,7 +62,7 @@ class AssociationsHelper extends ContentHelper
     public static function getAssociationList($extensionName, $typeName, $itemId)
     {
         if (!self::hasSupport($extensionName)) {
-            return array();
+            return [];
         }
 
         // Get the extension specific helper method
@@ -72,7 +72,7 @@ class AssociationsHelper extends ContentHelper
     }
 
     /**
-     * Get the the instance of the extension helper class
+     * Get the instance of the extension helper class
      *
      * @param   string  $extensionName  The extension name with com_
      *
@@ -193,7 +193,7 @@ class AssociationsHelper extends ContentHelper
      */
     private static function getExtensionRealName($extensionName)
     {
-        return strpos($extensionName, 'com_') === false ? $extensionName : substr($extensionName, 4);
+        return !str_starts_with($extensionName, 'com_') ? $extensionName : substr($extensionName, 4);
     }
 
     /**
@@ -218,7 +218,7 @@ class AssociationsHelper extends ContentHelper
         $titleFieldName = self::getTypeFieldName($extensionName, $typeName, 'title');
 
         // Get all content languages.
-        $languages = LanguageHelper::getContentLanguages(array(0, 1), false);
+        $languages         = LanguageHelper::getContentLanguages([0, 1], false);
         $content_languages = array_column($languages, 'lang_code');
 
         // Display warning if Content Language is trashed or deleted
@@ -258,7 +258,7 @@ class AssociationsHelper extends ContentHelper
                     $db = Factory::getDbo();
 
                     // Get the category name
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->select($db->quoteName('title'))
                         ->from($db->quoteName('#__categories'))
                         ->where($db->quoteName('id') . ' = :id')
@@ -272,7 +272,7 @@ class AssociationsHelper extends ContentHelper
                     $db = Factory::getDbo();
 
                     // Get the menutype name
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->select($db->quoteName('title'))
                         ->from($db->quoteName('#__menu_types'))
                         ->where($db->quoteName('menutype') . ' = :menutype')
@@ -292,17 +292,17 @@ class AssociationsHelper extends ContentHelper
 
                 $additional .= $addLink && $allow ? Text::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
             } else {
-                $items[$langCode] = array();
+                $items[$langCode] = [];
 
                 $title      = Text::_('COM_ASSOCIATIONS_NO_ASSOCIATION');
                 $additional = $addLink ? Text::_('COM_ASSOCIATIONS_ADD_NEW_ASSOCIATION') : '';
-                $labelClass = 'bg-warning text-dark';
+                $labelClass = 'bg-warning';
                 $target     = $langCode . ':0:add';
                 $allow      = $canCreate;
             }
 
             // Generate item Html.
-            $options   = array(
+            $options   = [
                 'option'   => 'com_associations',
                 'view'     => 'association',
                 'layout'   => 'edit',
@@ -310,7 +310,7 @@ class AssociationsHelper extends ContentHelper
                 'task'     => 'association.edit',
                 'id'       => $itemId,
                 'target'   => $target,
-            );
+            ];
 
             $url     = Route::_('index.php?' . http_build_query($options));
             $url     = $allow && $addLink ? $url : '';
@@ -340,7 +340,7 @@ class AssociationsHelper extends ContentHelper
             return self::$extensionsSupport;
         }
 
-        self::$extensionsSupport = array();
+        self::$extensionsSupport = [];
 
         $extensions = self::getEnabledExtensions();
 
@@ -401,7 +401,7 @@ class AssociationsHelper extends ContentHelper
 
         // Get the supported types
         $types  = $helper->getItemTypes();
-        $rTypes = array();
+        $rTypes = [];
 
         foreach ($types as $typeName) {
             $details     = $helper->getType($typeName);
@@ -448,7 +448,7 @@ class AssociationsHelper extends ContentHelper
     {
         $db = Factory::getDbo();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*')
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('type') . ' = ' . $db->quote('component'))
@@ -468,7 +468,7 @@ class AssociationsHelper extends ContentHelper
      */
     public static function getContentLanguages()
     {
-        return LanguageHelper::getContentLanguages(array(0, 1));
+        return LanguageHelper::getContentLanguages([0, 1]);
     }
 
     /**
@@ -593,7 +593,7 @@ class AssociationsHelper extends ContentHelper
 
         $userId = Factory::getUser()->id;
 
-        return ($item->{$checkedOutFieldName} == $userId || $item->{$checkedOutFieldName} == 0);
+        return $item->{$checkedOutFieldName} == $userId || $item->{$checkedOutFieldName} == 0;
     }
 
     /**
@@ -653,7 +653,7 @@ class AssociationsHelper extends ContentHelper
     public static function getLanguagefilterPluginId()
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('folder') . ' = ' . $db->quote('system'))

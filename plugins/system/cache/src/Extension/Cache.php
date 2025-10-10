@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.cache
@@ -9,30 +10,38 @@
 
 namespace Joomla\Plugin\System\Cache\Extension;
 
-defined('_JEXEC') or die;
-
-use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Cache\CacheController;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Document\FactoryInterface as DocumentFactoryInterface;
+use Joomla\CMS\Event\Application\AfterRenderEvent;
+use Joomla\CMS\Event\Application\AfterRespondEvent;
+use Joomla\CMS\Event\Application\AfterRouteEvent;
+use Joomla\CMS\Event\PageCache\GetKeyEvent;
+use Joomla\CMS\Event\PageCache\IsExcludedEvent;
+use Joomla\CMS\Event\PageCache\SetCachingEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Router\SiteRouter;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Event\DispatcherInterface;
-use Joomla\Event\Event;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! Page Cache Plugin.
  *
  * @since  1.5
  */
-final class Cache extends CMSPlugin implements SubscriberInterface
+final class Cache extends CMSPlugin implements SubscriberInterface, DispatcherAwareInterface
 {
+    use DispatcherAwareTrait;
+
     /**
      * Cache instance.
      *
@@ -76,33 +85,30 @@ final class Cache extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor
      *
-     * @param   DispatcherInterface              $subject                 The object to observe
-     * @param   array                            $config                  An optional associative
-     *                                                                    array of configuration
-     *                                                                    settings. Recognized key
-     *                                                                    values include 'name',
-     *                                                                    'group', 'params',
-     *                                                                    'language'
-     *                                                                    (this list is not meant
-     *                                                                    to be comprehensive).
-     * @param   DocumentFactoryInterface         $documentFactory         The application's
-     *                                                                    document factory
-     * @param   CacheControllerFactoryInterface  $cacheControllerFactory  Cache controller factory
-     * @param   Profiler|null                    $profiler                The application profiler
-     * @param   SiteRouter|null                  $router                  The frontend router
+     * @param   array                            $config                     An optional associative
+     *                                                                       array of configuration
+     *                                                                       settings. Recognized key
+     *                                                                       values include 'name',
+     *                                                                       'group', 'params',
+     *                                                                       'language'
+     *                                                                       (this list is not meant
+     *                                                                       to be comprehensive).
+     * @param   DocumentFactoryInterface         $documentFactory            The application's
+     *                                                                       document factory
+     * @param   CacheControllerFactoryInterface  $cacheControllerFactory     Cache controller factory
+     * @param   Profiler|null                    $profiler                   The application profiler
+     * @param   SiteRouter|null                  $router                     The frontend router
      *
      * @since   4.2.0
      */
     public function __construct(
-        &$subject,
-        $config,
+        array $config,
         DocumentFactoryInterface $documentFactory,
         CacheControllerFactoryInterface $cacheControllerFactory,
         ?Profiler $profiler,
         ?SiteRouter $router
-    )
-    {
-        parent::__construct($subject, $config);
+    ) {
+        parent::__construct($config);
 
         $this->documentFactory        = $documentFactory;
         $this->cacheControllerFactory = $cacheControllerFactory;
@@ -135,57 +141,63 @@ final class Cache extends CMSPlugin implements SubscriberInterface
     /**
      * Returns a cached page if the current URL exists in the cache.
      *
-     * @param   Event  $event  The Joomla event being handled
+     * @param   AfterRouteEvent  $event  The Joomla event being handled
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function onAfterRoute(Event $event)
+    public function onAfterRoute(AfterRouteEvent $event): void
     {
-        if (!$this->appStateSupportsCaching())
-        {
+        if (!$this->appStateSupportsCaching()) {
             return;
         }
 
-        // If any `pagecache` plugins return false for onPageCacheSetCaching, do not use the cache.
-        PluginHelper::importPlugin('pagecache');
+        $app = $this->getApplication();
 
-        $results = $this->getApplication()->triggerEvent('onPageCacheSetCaching');
+        // Import "pagecache" plugins
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('pagecache', null, true, $dispatcher);
 
-        $this->getCacheController()->setCaching(!in_array(false, $results, true));
+        // If any onPageCacheSetCaching listener return false, do not use the cache.
+        $results = $dispatcher->dispatch('onPageCacheSetCaching', new SetCachingEvent('onPageCacheSetCaching'))
+            ->getArgument('result', []);
+
+        $this->getCacheController()->setCaching(!\in_array(false, $results, true));
 
         $data = $this->getCacheController()->get($this->getCacheKey());
 
-        if ($data === false)
-        {
+        if ($data === false) {
             // No cached data.
             return;
         }
 
         // Set the page content from the cache and output it to the browser.
-        $this->getApplication()->setBody($data);
+        $app->setBody($data);
 
-        echo $this->getApplication()->toString((bool) $this->getApplication()->get('gzip'));
+        echo $app->toString((bool) $app->get('gzip'));
 
         // Mark afterCache in debug and run debug onAfterRespond events, e.g. show Joomla Debug Console if debug is active.
-        if (JDEBUG)
-        {
+        if (JDEBUG) {
             // Create a document instance and load it into the application.
             $document = $this->documentFactory
-                ->createDocument($this->getApplication()->input->get('format', 'html'));
-            $this->getApplication()->loadDocument($document);
+                ->createDocument($app->getInput()->get('format', 'html'));
+            $app->loadDocument($document);
 
-            if ($this->profiler)
-            {
+            if ($this->profiler) {
                 $this->profiler->mark('afterCache');
             }
 
-            $this->getApplication()->triggerEvent('onAfterRespond');
+            $this->getDispatcher()->dispatch('onAfterRespond', new AfterRespondEvent(
+                'onAfterRespond',
+                [
+                    'subject' => $app,
+                ]
+            ));
         }
 
         // Closes the application.
-        $this->getApplication()->close();
+        $app->close();
     }
 
     /**
@@ -210,19 +222,20 @@ final class Cache extends CMSPlugin implements SubscriberInterface
     private function appStateSupportsCaching(): bool
     {
         static $isSite = null;
-        static $isGET = null;
+        static $isGET  = null;
 
-        if ($isSite === null)
-        {
-            $isSite = $this->getApplication()->isClient('site');
-            $isGET  = $this->getApplication()->input->getMethod() === 'GET';
+        $app = $this->getApplication();
+
+        if ($isSite === null) {
+            $isSite = $app->isClient('site');
+            $isGET  = $app->getInput()->getMethod() === 'GET';
         }
 
         // Boolean short–circuit evaluation means this returns fast false when $isSite is false.
         return $isSite
             && $isGET
-            && $this->getApplication()->getIdentity()->guest
-            && empty($this->getApplication()->getMessageQueue());
+            && $app->getIdentity()->guest
+            && empty($app->getMessageQueue());
     }
 
     /**
@@ -233,8 +246,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
      */
     private function getCacheController(): CacheController
     {
-        if (!empty($this->cache))
-        {
+        if (!empty($this->cache)) {
             return $this->cache;
         }
 
@@ -262,11 +274,10 @@ final class Cache extends CMSPlugin implements SubscriberInterface
     {
         static $key;
 
-        if (!$key)
-        {
-            PluginHelper::importPlugin('pagecache');
+        if (!$key) {
+            $parts = $this->getDispatcher()->dispatch('onPageCacheGetKey', new GetKeyEvent('onPageCacheGetKey'))
+                ->getArgument('result', []);
 
-            $parts   = $this->getApplication()->triggerEvent('onPageCacheGetKey');
             $parts[] = Uri::getInstance()->toString();
 
             $key = md5(serialize($parts));
@@ -278,21 +289,19 @@ final class Cache extends CMSPlugin implements SubscriberInterface
     /**
      * After Render Event. Check whether the current page is excluded from cache.
      *
-     * @param   Event  $event  The CMS event we are handling.
+     * @param   AfterRenderEvent  $event  The CMS event we are handling.
      *
      * @return  void
      *
      * @since   3.9.12
      */
-    public function onAfterRender(Event $event)
+    public function onAfterRender(AfterRenderEvent $event): void
     {
-        if (!$this->appStateSupportsCaching() || $this->getCacheController()->getCaching() === false)
-        {
+        if (!$this->appStateSupportsCaching() || $this->getCacheController()->getCaching() === false) {
             return;
         }
 
-        if ($this->isExcluded() === true)
-        {
+        if ($this->isExcluded() === true) {
             $this->getCacheController()->setCaching(false);
 
             return;
@@ -314,13 +323,11 @@ final class Cache extends CMSPlugin implements SubscriberInterface
         // Check if menu items have been excluded.
         $excludedMenuItems = $this->params->get('exclude_menu_items', []);
 
-        if ($excludedMenuItems)
-        {
+        if ($excludedMenuItems) {
             // Get the current menu item.
             $active = $this->getApplication()->getMenu()->getActive();
 
-            if ($active && $active->id && in_array((int) $active->id, (array) $excludedMenuItems))
-            {
+            if ($active && $active->id && \in_array((int) $active->id, (array) $excludedMenuItems)) {
                 return true;
             }
         }
@@ -328,13 +335,12 @@ final class Cache extends CMSPlugin implements SubscriberInterface
         // Check if regular expressions are being used.
         $exclusions = $this->params->get('exclude', '');
 
-        if ($exclusions)
-        {
+        if ($exclusions) {
             // Convert the exclusions into a normalised array
             $exclusions       = str_replace(["\r\n", "\r"], "\n", $exclusions);
             $exclusions       = explode("\n", $exclusions);
-            $filterExpression = function ($x)
-            {
+            $exclusions       = array_map('trim', $exclusions);
+            $filterExpression = function ($x) {
                 return $x !== '';
             };
             $exclusions       = array_filter($exclusions, $filterExpression);
@@ -344,44 +350,36 @@ final class Cache extends CMSPlugin implements SubscriberInterface
                 . Uri::getInstance()->buildQuery($this->router->getVars());
             $externalUrl = Uri::getInstance()->toString();
 
-            $reduceCallback
-                = function (bool $carry, string $exclusion) use ($internalUrl, $externalUrl)
-                {
-                    // Test both external and internal URIs
-                    return $carry && preg_match(
-                        '#' . $exclusion . '#i',
-                        $externalUrl . ' ' . $internalUrl, $match
-                    );
-                };
-            $excluded       = array_reduce($exclusions, $reduceCallback, false);
-
-            if ($excluded)
-            {
-                return true;
+            // Loop through each pattern.
+            if ($exclusions) {
+                foreach ($exclusions as $exclusion) {
+                    // Test both external and internal URI
+                    if (preg_match('#' . $exclusion . '#i', $externalUrl . ' ' . $internalUrl, $match)) {
+                        return true;
+                    }
+                }
             }
         }
 
-        // If any pagecache plugins return true for onPageCacheIsExcluded, exclude.
-        PluginHelper::importPlugin('pagecache');
+        // If any onPageCacheIsExcluded listener return true, exclude.
+        $results = $this->getDispatcher()->dispatch('onPageCacheIsExcluded', new IsExcludedEvent('onPageCacheIsExcluded'))
+            ->getArgument('result', []);
 
-        $results = $this->getApplication()->triggerEvent('onPageCacheIsExcluded');
-
-        return in_array(true, $results, true);
+        return \in_array(true, $results, true);
     }
 
     /**
      * After Respond Event. Stores page in cache.
      *
-     * @param   Event  $event  The application event we are handling.
+     * @param   AfterRespondEvent  $event  The application event we are handling.
      *
      * @return  void
      *
      * @since   1.5
      */
-    public function onAfterRespond(Event $event)
+    public function onAfterRespond(AfterRespondEvent $event): void
     {
-        if (!$this->appStateSupportsCaching() || $this->getCacheController()->getCaching() === false)
-        {
+        if (!$this->appStateSupportsCaching() || $this->getCacheController()->getCaching() === false) {
             return;
         }
 

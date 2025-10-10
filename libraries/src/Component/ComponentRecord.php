@@ -12,7 +12,7 @@ namespace Joomla\CMS\Component;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -52,6 +52,8 @@ class ComponentRecord
      *
      * @var    string
      * @since  4.0.0
+     *
+     * @deprecated  5.3.0 will be removed in 7.0 as it was never used
      */
     public $namespace;
 
@@ -70,7 +72,7 @@ class ComponentRecord
      *
      * @since   3.7.0
      */
-    public function __construct($data = array())
+    public function __construct($data = [])
     {
         foreach ((array) $data as $key => $value) {
             $this->$key = $value;
@@ -85,7 +87,11 @@ class ComponentRecord
      * @return  mixed  The property value or null.
      *
      * @since   3.7.0
-     * @deprecated  5.0  Access the item parameters through the `getParams()` method
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Access the item parameters through the `getParams()` method
+     *              Example:
+     *              $componentRecord->getParams();
      */
     public function __get($name)
     {
@@ -105,7 +111,11 @@ class ComponentRecord
      * @return  void
      *
      * @since   3.7.0
-     * @deprecated  5.0  Set the item parameters through the `setParams()` method
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Set the item parameters through the `setParams()` method
+     *              Example:
+     *              $componentRecord->setParams($value);
      */
     public function __set($name, $value)
     {

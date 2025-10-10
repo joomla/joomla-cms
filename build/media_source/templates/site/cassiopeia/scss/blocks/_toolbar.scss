@@ -7,7 +7,7 @@
   width: auto;
   min-height: 43px;
   padding: .25rem;
-  color: #495057; //#0c192e;
+  color: #495057; // #0c192e;
   background: $white;
   box-shadow: -3px -2px 22px #ddd;
 
@@ -93,7 +93,7 @@
 
       &::after {
         width: 2.375rem;
-        font-family: "Font Awesome 5 Free";
+        font-family: "Font Awesome 6 Free";
         font-weight: 900;
         content: "\f078";
         border: 0;
@@ -119,19 +119,16 @@
     &.btn {
       padding-inline-end: 0;
     }
+
+    > * {
+      pointer-events: none;
+    }
   }
 
   .btn-group:not(:last-child) > .dropdown-toggle-split {
     order: 1;
     margin-inline-start: -$border-radius;
-
-    [dir="ltr"] & {
-      border-radius: 0 $border-radius $border-radius 0;
-    }
-
-    [dir="rtl"] & {
-      border-radius: $border-radius 0 0 $border-radius;
-    }
+    border-radius: 0 $border-radius $border-radius 0;
   }
 
   .dropdown-menu joomla-toolbar-button,

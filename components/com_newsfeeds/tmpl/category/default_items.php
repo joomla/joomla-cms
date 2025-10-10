@@ -16,6 +16,7 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Newsfeeds\Site\View\Category\HtmlView $this */
 $n         = count($this->items);
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -71,7 +72,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                         <?php $link = PunycodeHelper::urlToUTF8($item->link); ?>
                         <span class="list float-start">
                             <a href="<?php echo $item->link; ?>">
-                                <?php echo $link; ?>
+                                <?php echo $this->escape($link); ?>
                             </a>
                         </span>
                         <br>

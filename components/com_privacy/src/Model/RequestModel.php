@@ -85,11 +85,11 @@ class RequestModel extends AdminModel
             return false;
         }
 
-        $data['email'] = Factory::getUser()->email;
+        $data['email'] = $this->getCurrentUser()->email;
 
         // Search for an open information request matching the email and type
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('COUNT(id)')
             ->from($db->quoteName('#__privacy_requests'))
             ->where($db->quoteName('email') . ' = :email')

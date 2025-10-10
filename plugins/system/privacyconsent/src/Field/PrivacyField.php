@@ -18,7 +18,7 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -78,13 +78,13 @@ class PrivacyField extends RadioField
     {
         $data = parent::getLayoutData();
 
-        $article = false;
-        $link = false;
+        $article        = false;
+        $link           = false;
         $privacyArticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
 
         if ($privacyArticle && Factory::getApplication()->isClient('site')) {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName(['id', 'alias', 'catid', 'language']))
                 ->from($db->quoteName('#__content'))
                 ->where($db->quoteName('id') . ' = :id')
@@ -92,9 +92,9 @@ class PrivacyField extends RadioField
             $db->setQuery($query);
             $article = $db->loadObject();
 
-            $slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
+            $slug           = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
             $article->link  = RouteHelper::getArticleRoute($slug, $article->catid, $article->language);
-            $link = $article->link;
+            $link           = $article->link;
         }
 
         $privacyMenuItem = $this->element['menu_item'] > 0 ? (int) $this->element['menu_item'] : 0;
@@ -104,7 +104,7 @@ class PrivacyField extends RadioField
 
             if (Multilanguage::isEnabled()) {
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName(['id', 'language']))
                     ->from($db->quoteName('#__menu'))
                     ->where($db->quoteName('id') . ' = :id')
@@ -117,15 +117,15 @@ class PrivacyField extends RadioField
         }
 
         $extraData = [
-            'privacynote' => !empty($this->element['note']) ? $this->element['note'] : Text::_('PLG_SYSTEM_PRIVACYCONSENT_NOTE_FIELD_DEFAULT'),
-            'options' => $this->getOptions(),
-            'value'   => (string) $this->value,
-            'translateLabel' => $this->translateLabel,
+            'privacynote'          => !empty($this->element['note']) ? $this->element['note'] : Text::_('PLG_SYSTEM_PRIVACYCONSENT_NOTE_FIELD_DEFAULT'),
+            'options'              => $this->getOptions(),
+            'value'                => (string) $this->value,
+            'translateLabel'       => $this->translateLabel,
             'translateDescription' => $this->translateDescription,
-            'translateHint' => $this->translateHint,
-            'privacyArticle' => $privacyArticle,
-            'article' => $article,
-            'privacyLink' => $link,
+            'translateHint'        => $this->translateHint,
+            'privacyArticle'       => $privacyArticle,
+            'article'              => $article,
+            'privacyLink'          => $link,
         ];
 
         return array_merge($data, $extraData);

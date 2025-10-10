@@ -22,7 +22,6 @@ use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\Table\TaskTable;
-use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -142,7 +141,7 @@ class Task implements LoggerAwareInterface
 
         $this->set('taskOption', $taskOption);
         $this->app = Factory::getApplication();
-        $this->db  = Factory::getContainer()->get(DatabaseDriver::class);
+        $this->db  = Factory::getContainer()->get(DatabaseInterface::class);
         $this->setLogger(Log::createDelegatedLogger());
         $this->logCategory = 'task' . $this->get('id');
 
@@ -208,7 +207,7 @@ class Task implements LoggerAwareInterface
         }
 
         $this->snapshot['status']      = Status::RUNNING;
-        $this->snapshot['taskStart']   = $this->snapshot['taskStart'] ?? microtime(true);
+        $this->snapshot['taskStart']   ??= microtime(true);
         $this->snapshot['netDuration'] = 0;
 
         /** @var ExecuteTaskEvent $event */
@@ -231,7 +230,7 @@ class Task implements LoggerAwareInterface
             // Suppress the exception for now, we'll throw it again once it's safe
             $this->log(Text::sprintf('COM_SCHEDULER_TASK_ROUTINE_EXCEPTION', $e->getMessage()), 'error');
             $this->snapshot['exception'] = $e;
-            $this->snapshot['status'] = Status::KNOCKOUT;
+            $this->snapshot['status']    = Status::KNOCKOUT;
         }
 
         $resultSnapshot = $event->getResultSnapshot();
@@ -262,7 +261,7 @@ class Task implements LoggerAwareInterface
         }
 
         // The only acceptable "successful" statuses are either clean exit or resuming execution.
-        if (!in_array($this->snapshot['status'], [Status::WILL_RESUME, Status::OK])) {
+        if (!\in_array($this->snapshot['status'], [Status::WILL_RESUME, Status::OK])) {
             $this->set('times_failed', $this->get('times_failed') + 1);
         }
 
@@ -306,24 +305,24 @@ class Task implements LoggerAwareInterface
     public function acquireLock(): bool
     {
         $db    = $this->db;
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $id    = $this->get('id');
-        $now   = Factory::getDate('now', 'GMT');
+        $now   = Factory::getDate('now', 'UTC');
 
         $timeout          = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
-        $timeout          = new \DateInterval(sprintf('PT%dS', $timeout));
+        $timeout          = new \DateInterval(\sprintf('PT%dS', $timeout));
         $timeoutThreshold = (clone $now)->sub($timeout)->toSql();
         $now              = $now->toSql();
 
         // @todo update or remove this method
-        $query->update($db->qn('#__scheduler_tasks'))
+        $query->update($db->quoteName('#__scheduler_tasks'))
             ->set('locked = :now')
-            ->where($db->qn('id') . ' = :taskId')
+            ->where($db->quoteName('id') . ' = :taskId')
             ->extendWhere(
                 'AND',
                 [
-                    $db->qn('locked') . ' < :threshold',
-                    $db->qn('locked') . 'IS NULL',
+                    $db->quoteName('locked') . ' < :threshold',
+                    $db->quoteName('locked') . 'IS NULL',
                 ],
                 'OR'
             )
@@ -334,7 +333,7 @@ class Task implements LoggerAwareInterface
         try {
             $db->lockTable('#__scheduler_tasks');
             $db->setQuery($query)->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         } finally {
             $db->unlockTables();
@@ -362,13 +361,13 @@ class Task implements LoggerAwareInterface
     public function releaseLock(bool $update = true): bool
     {
         $db    = $this->db;
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $id    = $this->get('id');
 
-        $query->update($db->qn('#__scheduler_tasks', 't'))
+        $query->update($db->quoteName('#__scheduler_tasks', 't'))
             ->set('locked = NULL')
-            ->where($db->qn('id') . ' = :taskId')
-            ->where($db->qn('locked') . ' IS NOT NULL')
+            ->where($db->quoteName('id') . ' = :taskId')
+            ->where($db->quoteName('locked') . ' IS NOT NULL')
             ->bind(':taskId', $id, ParameterType::INTEGER);
 
         if ($update) {
@@ -396,7 +395,7 @@ class Task implements LoggerAwareInterface
 
         try {
             $db->setQuery($query)->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
 
@@ -434,12 +433,12 @@ class Task implements LoggerAwareInterface
     public function skipExecution(): void
     {
         $db    = $this->db;
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $id       = $this->get('id');
         $nextExec = (new ExecRuleHelper($this->taskRegistry->toObject()))->nextExec(true, true);
 
-        $query->update($db->qn('#__scheduler_tasks', 't'))
+        $query->update($db->quoteName('#__scheduler_tasks', 't'))
             ->set('t.next_execution = :nextExec')
             ->where('t.id = :id')
             ->bind(':nextExec', $nextExec)
@@ -447,7 +446,7 @@ class Task implements LoggerAwareInterface
 
         try {
             $db->setQuery($query)->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
         }
 
         $this->set('next_execution', $nextExec);
@@ -485,7 +484,7 @@ class Task implements LoggerAwareInterface
      */
     public function isSuccess(): bool
     {
-        return in_array(($this->snapshot['status'] ?? null), [Status::OK, Status::WILL_RESUME]);
+        return \in_array(($this->snapshot['status'] ?? null), [Status::OK, Status::WILL_RESUME]);
     }
 
     /**
@@ -499,7 +498,7 @@ class Task implements LoggerAwareInterface
      *
      * @since 4.1.0
      */
-    protected function set(string $path, $value, string $separator = null)
+    protected function set(string $path, $value, ?string $separator = null)
     {
         return $this->taskRegistry->set($path, $value, $separator);
     }
@@ -535,7 +534,7 @@ class Task implements LoggerAwareInterface
         }
 
         // Takes care of interpreting as float/int
-        $state = $state + 0;
+        $state += 0;
 
         return ArrayHelper::getValue(self::STATE_MAP, $state) !== null;
     }

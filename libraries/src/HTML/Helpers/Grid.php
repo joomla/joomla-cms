@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -43,12 +43,11 @@ abstract class Grid
      */
     public static function sort($title, $order, $direction = 'asc', $selected = '', $task = null, $newDirection = 'asc', $tip = '', $form = null)
     {
-        HTMLHelper::_('behavior.core');
-        HTMLHelper::_('bootstrap.popover', '.hasPopover', ['trigger' => 'hover focus']);
+        HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
         $direction = strtolower($direction);
-        $icon = array('arrow-up-3', 'arrow-down-3');
-        $index = (int) ($direction === 'desc');
+        $icon      = ['arrow-up-3', 'arrow-down-3'];
+        $index     = (int) ($direction === 'desc');
 
         if ($order != $selected) {
             $direction = $newDirection;
@@ -61,8 +60,7 @@ abstract class Grid
         }
 
         $html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\'' . $form . ');return false;"'
-            . ' class="hasPopover" title="' . htmlspecialchars(Text::_($tip ?: $title)) . '"'
-            . ' data-bs-content="' . htmlspecialchars(Text::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')) . '" data-bs-placement="top">';
+        . ' class="hasTooltip" title="' . htmlspecialchars(Text::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')) . '" data-bs-placement="top">';
 
         if (isset($title['0']) && $title['0'] === '<') {
             $html .= $title;
@@ -91,7 +89,7 @@ abstract class Grid
      */
     public static function checkall($name = 'checkall-toggle', $action = 'Joomla.checkAll(this)')
     {
-        HTMLHelper::_('behavior.core');
+        Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('core');
 
         return '<input class="form-check-input" autocomplete="off" type="checkbox" name="' . $name . '" value="" title="' . Text::_('JGLOBAL_CHECK_ALL') . '" onclick="' . $action . '">';
     }
@@ -113,17 +111,19 @@ abstract class Grid
      */
     public static function id($rowNum, $recId, $checkedOut = false, $name = 'cid', $stub = 'cb', $title = '', $formId = null)
     {
+        Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('list-view');
+
         if ($formId !== null) {
             return $checkedOut ? '' : '<label for="' . $stub . $rowNum . '"><span class="visually-hidden">' . Text::_('JSELECT')
-                . ' ' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '</span></label>'
-                . '<input class="form-check-input" type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
-                . '" onclick="Joomla.isChecked(this.checked, \'' . $formId . '\');">';
+            . ' ' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '</span></label>'
+            . '<input class="form-check-input js-grid-item-is-checked" type="checkbox" id="' . $stub . $rowNum
+                . '" name="' . $name . '[]" value="' . $recId . '" >';
         }
 
         return $checkedOut ? '' : '<label for="' . $stub . $rowNum . '"><span class="visually-hidden">' . Text::_('JSELECT')
-            . ' ' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '</span></label>'
-            . '<input class="form-check-input" autocomplete="off" type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
-            . '" onclick="Joomla.isChecked(this.checked);">';
+        . ' ' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '</span></label>'
+        . '<input class="form-check-input js-grid-item-is-checked" autocomplete="off" type="checkbox" id="' . $stub . $rowNum
+            . '" name="' . $name . '[]" value="' . $recId . '" >';
     }
 
     /**
@@ -139,8 +139,8 @@ abstract class Grid
      */
     public static function checkedOut(&$row, $i, $identifier = 'id')
     {
-        $user = Factory::getUser();
-        $userid = $user->get('id');
+        $user   = Factory::getUser();
+        $userid = $user->id;
 
         if ($row instanceof Table) {
             $result = $row->isCheckedOut($userid);
@@ -150,13 +150,13 @@ abstract class Grid
 
         if ($result) {
             return static::_checkedOut($row);
-        } else {
-            if ($identifier === 'id') {
-                return HTMLHelper::_('grid.id', $i, $row->$identifier);
-            } else {
-                return HTMLHelper::_('grid.id', $i, $row->$identifier, $result, $identifier);
-            }
         }
+
+        if ($identifier === 'id') {
+            return HTMLHelper::_('grid.id', $i, $row->$identifier);
+        }
+
+        return HTMLHelper::_('grid.id', $i, $row->$identifier, $result, $identifier);
     }
 
     /**
@@ -174,13 +174,13 @@ abstract class Grid
      */
     public static function published($value, $i, $img1 = 'tick.png', $img0 = 'publish_x.png', $prefix = '')
     {
-        if (is_object($value)) {
+        if (\is_object($value)) {
             $value = $value->published;
         }
 
-        $img = $value ? $img1 : $img0;
-        $task = $value ? 'unpublish' : 'publish';
-        $alt = $value ? Text::_('JPUBLISHED') : Text::_('JUNPUBLISHED');
+        $img    = $value ? $img1 : $img0;
+        $task   = $value ? 'unpublish' : 'publish';
+        $alt    = $value ? Text::_('JPUBLISHED') : Text::_('JUNPUBLISHED');
         $action = $value ? Text::_('JLIB_HTML_UNPUBLISH_ITEM') : Text::_('JLIB_HTML_PUBLISH_ITEM');
 
         return '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $prefix . $task . '\')" title="' . $action . '">'
@@ -203,7 +203,7 @@ abstract class Grid
      */
     public static function state($filterState = '*', $published = 'JPUBLISHED', $unpublished = 'JUNPUBLISHED', $archived = null, $trashed = null)
     {
-        $state = array('' => '- ' . Text::_('JLIB_HTML_SELECT_STATE') . ' -', 'P' => Text::_($published), 'U' => Text::_($unpublished));
+        $state = ['' => '- ' . Text::_('JLIB_HTML_SELECT_STATE') . ' -', 'P' => Text::_($published), 'U' => Text::_($unpublished)];
 
         if ($archived) {
             $state['A'] = Text::_($archived);
@@ -217,11 +217,11 @@ abstract class Grid
             'select.genericlist',
             $state,
             'filter_state',
-            array(
-                'list.attr' => 'class="form-select" size="1" onchange="Joomla.submitform();"',
+            [
+                'list.attr'   => 'class="form-select" size="1" onchange="Joomla.submitform();"',
                 'list.select' => $filterState,
-                'option.key' => null,
-            )
+                'option.key'  => null,
+            ]
         );
     }
 
@@ -239,7 +239,7 @@ abstract class Grid
     public static function order($rows, $image = 'filesave.png', $task = 'saveorder')
     {
         return '<a href="javascript:saveorder('
-            . (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-sm btn-secondary float-end" title="'
+            . (\count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-sm btn-secondary float-end" title="'
             . Text::_('JLIB_HTML_SAVE_ORDER') . '"><span class="icon-sort"></span></a>';
     }
 

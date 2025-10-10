@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="privacy" method="upgrade">
 	<name>plg_privacy_user</name>
 	<author>Joomla! Project</author>
@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.9.0</version>
 	<description>PLG_PRIVACY_USER_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Privacy\User</namespace>
 	<files>
-		<filename plugin="user">user.php</filename>
+		<folder plugin="user">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_privacy_user.ini</language>

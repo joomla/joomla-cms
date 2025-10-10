@@ -48,13 +48,13 @@ trait FormFactoryAwareTrait
     /**
      * Set the form factory to use.
      *
-     * @param   FormFactoryInterface  $formFactory  The form factory to use.
+     * @param   ?FormFactoryInterface  $formFactory  The form factory to use.
      *
      * @return  $this
      *
      * @since   4.0.0
      */
-    public function setFormFactory(FormFactoryInterface $formFactory = null)
+    public function setFormFactory(?FormFactoryInterface $formFactory = null)
     {
         $this->formFactory = $formFactory;
 

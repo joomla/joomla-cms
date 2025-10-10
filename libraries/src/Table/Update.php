@@ -10,10 +10,11 @@
 namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -25,7 +26,7 @@ use Joomla\Database\DatabaseDriver;
 class Update extends Table
 {
     /**
-     * Ensure the params in json encoded in the bind method
+     * Ensure the params are json encoded in the bind method
      *
      * @var    array
      * @since  4.0.0
@@ -35,13 +36,14 @@ class Update extends Table
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  Database driver object.
+     * @param   DatabaseInterface     $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.7.0
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__updates', 'update_id', $db);
+        parent::__construct('#__updates', 'update_id', $db, $dispatcher);
     }
 
     /**
@@ -90,20 +92,22 @@ class Update extends Table
      *
      * @since   1.7.0
      */
-    public function find($options = array())
+    public function find($options = [])
     {
-        $where = array();
+        $where = [];
+
+        $db = $this->getDatabase();
 
         foreach ($options as $col => $val) {
-            $where[] = $col . ' = ' . $this->_db->quote($val);
+            $where[] = $col . ' = ' . $db->quote($val);
         }
 
-        $query = $this->_db->getQuery(true)
-            ->select($this->_db->quoteName($this->_tbl_key))
-            ->from($this->_db->quoteName($this->_tbl))
+        $query = $db->createQuery()
+            ->select($db->quoteName($this->_tbl_key))
+            ->from($db->quoteName($this->_tbl))
             ->where(implode(' AND ', $where));
-        $this->_db->setQuery($query);
+        $db->setQuery($query);
 
-        return $this->_db->loadResult();
+        return $db->loadResult();
     }
 }

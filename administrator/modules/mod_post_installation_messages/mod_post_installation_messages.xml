@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" client="administrator" method="upgrade">
 	<name>mod_post_installation_messages</name>
 	<author>Joomla! Project</author>
@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>MOD_POST_INSTALLATION_MESSAGES_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Module\PostInstallationMessages</namespace>
 	<files>
-		<filename module="mod_post_installation_messages">mod_post_installation_messages.php</filename>
+		<folder module="mod_post_installation_messages">services</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>

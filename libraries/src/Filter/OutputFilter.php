@@ -15,7 +15,7 @@ use Joomla\Filter\OutputFilter as BaseOutputFilter;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -38,7 +38,7 @@ class OutputFilter extends BaseOutputFilter
     {
         $regex = 'href="([^"]*(&(amp;){0})[^"]*)*?"';
 
-        return preg_replace_callback("#$regex#i", array('\\Joomla\\CMS\\Filter\\OutputFilter', 'ampReplaceCallback'), $input);
+        return preg_replace_callback("#$regex#i", ['\\Joomla\\CMS\\Filter\\OutputFilter', 'ampReplaceCallback'], $input);
     }
 
     /**
@@ -50,13 +50,13 @@ class OutputFilter extends BaseOutputFilter
      */
     public static function stringJSSafe($string)
     {
-        $chars = preg_split('//u', $string, -1, PREG_SPLIT_NO_EMPTY);
+        $chars   = preg_split('//u', $string, -1, PREG_SPLIT_NO_EMPTY);
         $new_str = '';
 
         foreach ($chars as $chr) {
             $code = str_pad(dechex(StringHelper::ord($chr)), 4, '0', STR_PAD_LEFT);
 
-            if (strlen($code) < 5) {
+            if (\strlen($code) < 5) {
                 $new_str .= '\\u' . $code;
             } else {
                 $new_str .= '\\u{' . $code . '}';
@@ -84,7 +84,7 @@ class OutputFilter extends BaseOutputFilter
 
         // Transliterate on the language requested (fallback to current language if not specified)
         $lang = $language == '' || $language == '*' ? Factory::getLanguage() : Language::getInstance($language);
-        $str = $lang->transliterate($str);
+        $str  = $lang->transliterate($str);
 
         // Trim white spaces at beginning and end of alias and make lowercase
         $str = trim(StringHelper::strtolower($str));

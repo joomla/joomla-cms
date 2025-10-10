@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Installer;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Installer\Manifest\PackageManifest;
 use Joomla\CMS\Language\Text;
@@ -21,14 +20,16 @@ use Joomla\CMS\Table\TableInterface;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\DI\Exception\ContainerNotFoundException;
 use Joomla\DI\ServiceProviderInterface;
+use Joomla\Filesystem\Folder;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -150,7 +151,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
      *
      * @since   3.4
      */
-    public function __construct(Installer $parent, DatabaseDriver $db, array $options = array())
+    public function __construct(Installer $parent, DatabaseDriver $db, array $options = [])
     {
         $this->parent = $parent;
         $this->setDatabase($db);
@@ -163,7 +164,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         // Get a generic TableExtension instance for use if not already loaded
         if (!($this->extension instanceof TableInterface)) {
-            $this->extension = Table::getInstance('extension');
+            $this->extension = Table::getInstance('Extension');
         }
 
         // Sanity check, make sure the type is set by taking the adapter name from the class name
@@ -189,7 +190,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
      */
     protected function canUninstallPackageChild($packageId)
     {
-        $package = Table::getInstance('extension');
+        $package = new Extension(Factory::getDbo());
 
         // If we can't load this package ID, we have a corrupt database
         if (!$package->load((int) $packageId)) {
@@ -222,12 +223,12 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
     {
         try {
             $this->currentExtensionId = $this->extension->find(
-                array('element' => $this->element, 'type' => $this->type)
+                ['element' => $this->element, 'type' => $this->type]
             );
 
             // If it does exist, load it
             if ($this->currentExtensionId) {
-                $this->extension->load(array('element' => $this->element, 'type' => $this->type));
+                $this->extension->load(['element' => $this->element, 'type' => $this->type]);
             }
         } catch (\RuntimeException $e) {
             // Install failed, roll back changes
@@ -327,10 +328,10 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         if ($created) {
             $this->parent->pushStep(
-                array(
+                [
                     'type' => 'folder',
                     'path' => $this->parent->getPath('extension_root'),
-                )
+                ]
             );
         }
     }
@@ -479,7 +480,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
             // If installing with success and there is an uninstall script, add an installer rollback step to rollback if needed
             if ($route === 'install' && isset($this->getManifest()->uninstall->sql)) {
-                $this->parent->pushStep(array('type' => 'query', 'script' => $this->getManifest()->uninstall->sql));
+                $this->parent->pushStep(['type' => 'query', 'script' => $this->getManifest()->uninstall->sql]);
             }
         }
 
@@ -820,7 +821,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
     protected function parseQueries()
     {
         // Let's run the queries for the extension
-        if (\in_array($this->route, array('install', 'discover_install', 'uninstall'))) {
+        if (\in_array($this->route, ['install', 'discover_install', 'uninstall'])) {
             // This method may throw an exception, but it is caught by the parent caller
             if (!$this->doDatabaseTransactions()) {
                 throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_INSTALL_ABORTED'));
@@ -996,6 +997,15 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // Create a new instance
         $this->parent->manifestClass = $container->get(InstallerScriptInterface::class);
 
+        if (method_exists($this->parent->manifestClass, 'setApplication')) {
+            $this->parent->manifestClass->setApplication(Factory::getApplication());
+        }
+
+        // Set the database
+        if ($this->parent->manifestClass instanceof DatabaseAwareInterface) {
+            $this->parent->manifestClass->setDatabase($container->get(DatabaseInterface::class));
+        }
+
         // And set this so we can copy it later
         $this->manifest_script = $manifestScript;
     }
@@ -1048,9 +1058,9 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, $method)) {
             switch ($method) {
-                // The preflight and postflight take the route as a param
                 case 'preflight':
                 case 'postflight':
+                    // The preflight and postflight take the route as a param
                     if ($this->parent->manifestClass->$method($this->route, $this) === false) {
                         if ($method !== 'postflight') {
                             // Clean and close the output buffer
@@ -1067,10 +1077,10 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
                     }
                     break;
 
-                // The install, uninstall, and update methods only pass this object as a param
                 case 'install':
                 case 'uninstall':
                 case 'update':
+                    // The install, uninstall, and update methods only pass this object as a param
                     if ($this->parent->manifestClass->$method($this) === false) {
                         if ($method !== 'uninstall') {
                             // Clean and close the output buffer
@@ -1122,7 +1132,9 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
             Log::add(Text::_('JLIB_INSTALLER_ERROR_UNINSTALL_LOCKED_EXTENSION'), Log::WARNING, 'jerror');
 
             return false;
-        } elseif (!isset($this->extension->locked) && $this->extension->protected) {
+        }
+
+        if (!isset($this->extension->locked) && $this->extension->protected) {
             // Joomla 3 ('locked' property does not exist yet): Protected extensions cannot be removed.
             Log::add(Text::_('JLIB_INSTALLER_ERROR_UNINSTALL_PROTECTED_EXTENSION'), Log::WARNING, 'jerror');
 
@@ -1135,7 +1147,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
          */
         if ($this->extension->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($this->extension->package_id)) {
             Log::add(
-                Text::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $this->extension->name),
+                Text::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $this->extension->name, $this->extension->package_id),
                 Log::WARNING,
                 'jerror'
             );
@@ -1264,7 +1276,8 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
      *
      * @since   4.2.0
      *
-     * @deprecated  5.0 Use getDatabase() instead of directly accessing db
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use getDatabase() instead of directly accessing _db
      */
     public function __get($name)
     {

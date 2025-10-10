@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Profiler;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -61,7 +61,7 @@ class Profiler
      * @var    array  JProfiler instances container.
      * @since  1.7.3
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * Constructor
@@ -72,10 +72,10 @@ class Profiler
      */
     public function __construct($prefix = '')
     {
-        $this->start = microtime(1);
+        $this->start  = microtime(1);
         $this->prefix = $prefix;
-        $this->marks = array();
-        $this->buffer = array();
+        $this->marks  = [];
+        $this->buffer = [];
     }
 
     /**
@@ -108,20 +108,20 @@ class Profiler
      */
     public function mark($label)
     {
-        $current = microtime(1) - $this->start;
+        $current    = microtime(1) - $this->start;
         $currentMem = memory_get_usage() / 1048576;
 
-        $m = (object) array(
-            'prefix' => $this->prefix,
-            'time' => ($current - $this->previousTime) * 1000,
-            'totalTime' => ($current * 1000),
-            'memory' => $currentMem - $this->previousMem,
+        $m = (object) [
+            'prefix'      => $this->prefix,
+            'time'        => ($current - $this->previousTime) * 1000,
+            'totalTime'   => ($current * 1000),
+            'memory'      => $currentMem - $this->previousMem,
             'totalMemory' => $currentMem,
-            'label' => $label,
-        );
+            'label'       => $label,
+        ];
         $this->marks[] = $m;
 
-        $mark = sprintf(
+        $mark = \sprintf(
             '%s %.3f seconds (%.3f); %0.2f MB (%0.3f) - %s',
             $m->prefix,
             $m->totalTime / 1000,
@@ -133,7 +133,7 @@ class Profiler
         $this->buffer[] = $mark;
 
         $this->previousTime = $current;
-        $this->previousMem = $currentMem;
+        $this->previousMem  = $currentMem;
 
         return $mark;
     }
@@ -180,7 +180,7 @@ class Profiler
      */
     public function setStart($startTime = 0.0, $startMem = 0)
     {
-        $this->start       = (double) $startTime;
+        $this->start       = (float) $startTime;
         $this->previousMem = (int) $startMem / 1048576;
 
         return $this;

@@ -17,7 +17,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -81,12 +81,12 @@ class TagField extends ListField
      */
     protected function getInput()
     {
-        $data = $this->getLayoutData();
+        $data = $this->collectLayoutData();
 
         if (!\is_array($this->value) && !empty($this->value)) {
             if ($this->value instanceof TagsHelper) {
                 if (empty($this->value->tags)) {
-                    $this->value = array();
+                    $this->value = [];
                 } else {
                     $this->value = $this->value->tags;
                 }
@@ -99,7 +99,7 @@ class TagField extends ListField
 
             // Integer is given
             if (\is_int($this->value)) {
-                $this->value = array($this->value);
+                $this->value = [$this->value];
             }
 
             $data['value'] = $this->value;
@@ -117,13 +117,13 @@ class TagField extends ListField
     /**
      * Method to get a list of tags
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   3.1
      */
     protected function getOptions()
     {
-        $published = (string) $this->element['published'] ?: array(0, 1);
+        $published = (string) $this->element['published'] ?: [0, 1];
         $app       = Factory::getApplication();
         $language  = null;
         $options   = [];
@@ -133,7 +133,7 @@ class TagField extends ListField
         $isRemoteSearch = $this->isRemoteSearch();
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('a.id', 'value'),
@@ -153,7 +153,7 @@ class TagField extends ListField
             }
         } elseif (!empty($this->element['language'])) {
             // Filter language
-            if (strpos($this->element['language'], ',') !== false) {
+            if (str_contains($this->element['language'], ',')) {
                 $language = explode(',', $this->element['language']);
             } else {
                 $language = [$this->element['language']];
@@ -181,7 +181,7 @@ class TagField extends ListField
         // Preload only active values and 30 most used tags or fill up
         if ($isRemoteSearch) {
             // Load the most $prefillLimit used tags
-            $topQuery = $db->getQuery(true)
+            $topQuery = $db->createQuery()
                 ->select($db->quoteName('tag_id'))
                 ->from($db->quoteName('#__contentitem_tag_map'))
                 ->group($db->quoteName('tag_id'))
@@ -192,9 +192,8 @@ class TagField extends ListField
             $topIds = $db->loadColumn();
 
             // Merge the used values into the most used tags
-            if (!empty($this->value) && is_array($this->value)) {
-                $topIds = array_merge($topIds, $this->value);
-                $topIds = array_keys(array_flip($topIds));
+            if (!empty($this->value) && \is_array($this->value)) {
+                $topIds = array_unique(array_merge($topIds, $this->value));
             }
 
             // Set the default limit for the main query
@@ -203,19 +202,20 @@ class TagField extends ListField
             if (!empty($topIds)) {
                 // Filter the ids to the most used tags and the selected tags
                 $preQuery = clone $query;
-                $preQuery->whereIn($db->quoteName('a.id'), $topIds);
+                $preQuery->clear('limit')
+                    ->whereIn($db->quoteName('a.id'), $topIds);
 
                 $db->setQuery($preQuery);
 
                 try {
                     $options = $db->loadObjectList();
-                } catch (\RuntimeException $e) {
-                    return array();
+                } catch (\RuntimeException) {
+                    return [];
                 }
 
                 // Limit the main query to the missing amount of tags
-                $count = count($options);
-                $prefillLimit = $prefillLimit - $count;
+                $count        = \count($options);
+                $prefillLimit -= $count;
                 $query->setLimit($prefillLimit);
 
                 // Exclude the already loaded tags from the main query
@@ -232,14 +232,14 @@ class TagField extends ListField
 
             try {
                 $options = array_merge($options, $db->loadObjectList());
-            } catch (\RuntimeException $e) {
-                return array();
+            } catch (\RuntimeException) {
+                return [];
             }
         }
 
         // Block the possibility to set a tag as it own parent
         if ($this->form->getName() === 'com_tags.tag') {
-            $id   = (int) $this->form->getValue('id', 0);
+            $id   = (int) $this->form->getValue('id', null, 0);
 
             foreach ($options as $option) {
                 if ($option->value == $id) {
@@ -264,9 +264,9 @@ class TagField extends ListField
     /**
      * Add "-" before nested tags, depending on level
      *
-     * @param   array  &$options  Array of tags
+     * @param   object[]  &$options  Array of tags
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   3.1
      */
@@ -274,7 +274,7 @@ class TagField extends ListField
     {
         if ($options) {
             foreach ($options as &$option) {
-                $repeat = (isset($option->level) && $option->level - 1 >= 0) ? $option->level - 1 : 0;
+                $repeat       = (isset($option->level) && $option->level - 1 >= 0) ? $option->level - 1 : 0;
                 $option->text = str_repeat('- ', $repeat) . $option->text;
             }
         }
@@ -311,11 +311,11 @@ class TagField extends ListField
      */
     public function allowCustom()
     {
-        if ($this->element['custom'] && \in_array((string) $this->element['custom'], array('0', 'false', 'deny'))) {
+        if ($this->element['custom'] && \in_array((string) $this->element['custom'], ['0', 'false', 'deny'])) {
             return false;
         }
 
-        return Factory::getUser()->authorise('core.create', 'com_tags');
+        return $this->getCurrentUser()->authorise('core.create', 'com_tags');
     }
 
     /**
@@ -328,7 +328,7 @@ class TagField extends ListField
     public function isRemoteSearch()
     {
         if ($this->element['remote-search']) {
-            return !\in_array((string) $this->element['remote-search'], array('0', 'false', ''));
+            return !\in_array((string) $this->element['remote-search'], ['0', 'false', '']);
         }
 
         return $this->comParams->get('tag_field_ajax_mode', 1) == 1;

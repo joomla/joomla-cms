@@ -8,7 +8,7 @@
       style="display: flex"
       @click.stop
     >
-      <tab-lock>
+      <Lock>
         <div
           class="modal-dialog"
           :class="modalClass"
@@ -35,14 +35,19 @@
             </div>
           </div>
         </div>
-      </tab-lock>
+      </Lock>
     </div>
   </div>
 </template>
 
 <script>
+import Lock from 'vue-focus-lock/src/Lock.vue';
+
 export default {
   name: 'MediaModal',
+  components: {
+    Lock,
+  },
   props: {
     /* Whether or not the close button in the header should be shown */
     showClose: {
@@ -50,9 +55,9 @@ export default {
       default: true,
     },
     /* The size of the modal */
-    // eslint-disable-next-line vue/require-default-prop
     size: {
       type: String,
+      default: '',
     },
     labelElement: {
       type: String,

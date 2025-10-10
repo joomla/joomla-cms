@@ -54,15 +54,15 @@ class TransitionController extends FormController
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
-     * @param   CMSApplication       $app      The Application for the dispatcher
-     * @param   Input                $input    Input
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The Application for the dispatcher
+     * @param   ?Input                $input    Input
      *
      * @since   4.0.0
      * @throws  \InvalidArgumentException when no extension or workflow id is set
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -102,7 +102,7 @@ class TransitionController extends FormController
      *
      * @since   4.0.0
      */
-    protected function allowAdd($data = array())
+    protected function allowAdd($data = [])
     {
         return $this->app->getIdentity()->authorise('core.create', $this->extension . '.workflow.' . (int) $this->workflowId);
     }
@@ -117,10 +117,10 @@ class TransitionController extends FormController
      *
      * @since   4.0.0
      */
-    protected function allowEdit($data = array(), $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
-        $user = $this->app->getIdentity();
+        $user     = $this->app->getIdentity();
 
         $model = $this->getModel();
 

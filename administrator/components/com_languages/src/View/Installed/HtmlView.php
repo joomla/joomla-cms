@@ -12,10 +12,9 @@ namespace Joomla\Component\Languages\Administrator\View\Installed;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Languages\Administrator\Model\InstalledModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -52,7 +51,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var   \Joomla\Registry\Registry
      *
      * @since  4.0.0
      */
@@ -84,18 +83,22 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->option        = $this->get('Option');
-        $this->pagination    = $this->get('Pagination');
-        $this->rows          = $this->get('Data');
-        $this->total         = $this->get('Total');
-        $this->state         = $this->get('State');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
+        /** @var InstalledModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-        // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        $this->option        = $model->getOption();
+        $this->pagination    = $model->getPagination();
+        $this->rows          = $model->getData();
+        $this->total         = $model->getTotal();
+        $this->state         = $model->getState();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
+
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
 
         $this->addToolbar();
 
@@ -111,7 +114,8 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo = ContentHelper::getActions('com_languages');
+        $canDo   = ContentHelper::getActions('com_languages');
+        $toolbar = $this->getDocument()->getToolbar();
 
         if ((int) $this->state->get('client_id') === 1) {
             ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_INSTALLED_ADMIN_TITLE'), 'comments langmanager');
@@ -120,27 +124,27 @@ class HtmlView extends BaseHtmlView
         }
 
         if ($canDo->get('core.edit.state')) {
-            ToolbarHelper::makeDefault('installed.setDefault');
-            ToolbarHelper::divider();
+            $toolbar->makeDefault('installed.setDefault');
+            $toolbar->divider();
         }
 
         if ($canDo->get('core.admin')) {
-            // Add install languages link to the lang installer component.
-            $bar = Toolbar::getInstance('toolbar');
-
             // Switch administrator language
             if ($this->state->get('client_id', 0) == 1) {
-                ToolbarHelper::custom('installed.switchadminlanguage', 'refresh', '', 'COM_LANGUAGES_SWITCH_ADMIN', true);
-                ToolbarHelper::divider();
+                $toolbar->standardButton('switch', 'COM_LANGUAGES_SWITCH_ADMIN', 'installed.switchadminlanguage')
+                    ->icon('icon-refresh')
+                    ->listCheck(true);
+                $toolbar->divider();
             }
 
-            $bar->appendButton('Link', 'upload', 'COM_LANGUAGES_INSTALL', 'index.php?option=com_installer&view=languages');
-            ToolbarHelper::divider();
+            $toolbar->link('COM_LANGUAGES_INSTALL', 'index.php?option=com_installer&view=languages')
+                ->icon('icon-upload');
+            $toolbar->divider();
 
-            ToolbarHelper::preferences('com_languages');
-            ToolbarHelper::divider();
+            $toolbar->preferences('com_languages');
+            $toolbar->divider();
         }
 
-        ToolbarHelper::help('Languages:_Installed');
+        $toolbar->help('Languages:_Installed');
     }
 }

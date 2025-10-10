@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="library">
 	<name>lib_joomla</name>
 	<libraryname>joomla</libraryname>
@@ -13,9 +13,7 @@
 	<packager>Joomla!</packager>
 	<packagerurl>https://www.joomla.org</packagerurl>
 	<files folder="libraries">
-		<folder>compat</folder>
-		<folder>joomla</folder>
-		<folder>legacy</folder>
+		<folder>src</folder>
 		<file>import.legacy.php</file>
 		<file>import.php</file>
 		<file>loader.php</file>

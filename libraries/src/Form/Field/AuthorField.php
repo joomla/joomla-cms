@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Form\Field;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -29,9 +29,9 @@ class AuthorField extends ListField
     public $type = 'Author';
 
     /**
-     * Cached array of the category items.
+     * Cached array of the user items.
      *
-     * @var    array
+     * @var    array[]
      * @since  3.2
      */
     protected static $options = [];
@@ -39,7 +39,7 @@ class AuthorField extends ListField
     /**
      * Method to get the options to populate list
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   3.2
      */
@@ -54,7 +54,7 @@ class AuthorField extends ListField
             $db = $this->getDatabase();
 
             // Construct the query
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select(
                     [
                         $db->quoteName('u.id', 'value'),

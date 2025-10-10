@@ -10,15 +10,12 @@
 
 namespace Joomla\Component\Users\Administrator\View\Users;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Component\Users\Administrator\Model\UsersModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -50,7 +47,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state.
      *
-     * @var   CMSObject
+     * @var   \Joomla\Registry\Registry
      * @since 1.6
      */
     protected $state;
@@ -75,20 +72,10 @@ class HtmlView extends BaseHtmlView
     /**
      * An ACL object to verify user rights.
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      * @since  3.6.3
      */
     protected $canDo;
-
-    /**
-     * An instance of DatabaseDriver.
-     *
-     * @var    DatabaseDriver
-     * @since  3.6.3
-     *
-     * @deprecated 5.0 Will be removed without replacement
-     */
-    protected $db;
 
     /**
      * Display the view
@@ -99,18 +86,21 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->items         = $this->get('Items');
-        $this->pagination    = $this->get('Pagination');
-        $this->state         = $this->get('State');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
-        $this->canDo         = ContentHelper::getActions('com_users');
-        $this->db            = Factory::getDbo();
+        /** @var UsersModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-        // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        $this->items         = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->state         = $model->getState();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
+        $this->canDo         = ContentHelper::getActions('com_users');
+
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
 
         $this->addToolbar();
         parent::display($tpl);
@@ -129,7 +119,7 @@ class HtmlView extends BaseHtmlView
         $user  = $this->getCurrentUser();
 
         // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance('toolbar');
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_USERS_VIEW_USERS_TITLE'), 'users user');
 
@@ -138,8 +128,8 @@ class HtmlView extends BaseHtmlView
         }
 
         if ($canDo->get('core.edit.state') || $canDo->get('core.admin')) {
-            $dropdown = $toolbar->dropdownButton('status-group')
-                ->text('JTOOLBAR_CHANGE_STATUS')
+            /** @var DropdownButton $dropdown */
+            $dropdown = $toolbar->dropdownButton('status-group', 'JTOOLBAR_CHANGE_STATUS')
                 ->toggleSplit(false)
                 ->icon('icon-ellipsis-h')
                 ->buttonClass('btn btn-action')
@@ -147,11 +137,9 @@ class HtmlView extends BaseHtmlView
 
             $childBar = $dropdown->getChildToolbar();
 
-            $childBar->publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE', true);
-            $childBar->unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK', true);
-            $childBar->standardButton('unblock')
-                ->text('COM_USERS_TOOLBAR_UNBLOCK')
-                ->task('users.unblock')
+            $childBar->publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE');
+            $childBar->unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK');
+            $childBar->standardButton('unblock', 'COM_USERS_TOOLBAR_UNBLOCK', 'users.unblock')
                 ->listCheck(true);
 
             // Add a batch button
@@ -160,15 +148,17 @@ class HtmlView extends BaseHtmlView
                 && $user->authorise('core.edit', 'com_users')
                 && $user->authorise('core.edit.state', 'com_users')
             ) {
-                $childBar->popupButton('batch')
-                    ->text('JTOOLBAR_BATCH')
-                    ->selector('collapseModal')
+                $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
+                    ->popupType('inline')
+                    ->textHeader(Text::_('COM_USERS_BATCH_OPTIONS'))
+                    ->url('#joomla-dialog-batch')
+                    ->modalWidth('800px')
+                    ->modalHeight('fit-content')
                     ->listCheck(true);
             }
 
             if ($canDo->get('core.delete')) {
-                $childBar->delete('users.delete')
-                    ->text('JTOOLBAR_DELETE')
+                $childBar->delete('users.delete', 'JTOOLBAR_DELETE')
                     ->message('JGLOBAL_CONFIRM_DELETE')
                     ->listCheck(true);
             }

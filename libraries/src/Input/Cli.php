@@ -10,16 +10,19 @@
 namespace Joomla\CMS\Input;
 
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\Input\Input;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! Input CLI Class
  *
  * @since       1.7.0
- * @deprecated  5.0  Use the `joomla/console` package instead
+ *
+ * @deprecated  4.3 will be removed in 6.0
+ *              Use the `joomla/console` package instead
  */
 class Cli extends Input
 {
@@ -28,7 +31,9 @@ class Cli extends Input
      *
      * @var    string
      * @since  1.7.0
-     * @deprecated  5.0  Use the `joomla/console` package instead
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use the `joomla/console` package instead
      */
     public $executable;
 
@@ -38,20 +43,24 @@ class Cli extends Input
      *
      * @var    array
      * @since  1.7.0
-     * @deprecated  5.0  Use the `joomla/console` package instead
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use the `joomla/console` package instead
      */
-    public $args = array();
+    public $args = [];
 
     /**
      * Constructor.
      *
-     * @param   array  $source   Source data (Optional, default is $_REQUEST)
-     * @param   array  $options  Array of configuration parameters (Optional)
+     * @param   ?array  $source   Source data (Optional, default is $_REQUEST)
+     * @param   array   $options  Array of configuration parameters (Optional)
      *
      * @since   1.7.0
-     * @deprecated  5.0  Use the `joomla/console` package instead
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use the `joomla/console` package instead
      */
-    public function __construct(array $source = null, array $options = array())
+    public function __construct(?array $source = null, array $options = [])
     {
         if (isset($options['filter'])) {
             $this->filter = $options['filter'];
@@ -72,7 +81,9 @@ class Cli extends Input
      * @return  string  The serialized input.
      *
      * @since   3.0.0
-     * @deprecated  5.0  Use the `joomla/console` package instead
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use the `joomla/console` package instead
      */
     public function serialize()
     {
@@ -81,11 +92,10 @@ class Cli extends Input
 
         // Remove $_ENV and $_SERVER from the inputs.
         $inputs = $this->inputs;
-        unset($inputs['env']);
-        unset($inputs['server']);
+        unset($inputs['env'], $inputs['server']);
 
         // Serialize the executable, args, options, data, and inputs.
-        return serialize(array($this->executable, $this->args, $this->options, $this->data, $inputs));
+        return serialize([$this->executable, $this->args, $this->options, $this->data, $inputs]);
     }
 
     /**
@@ -93,15 +103,17 @@ class Cli extends Input
      *
      * @param   string  $input  The serialized input.
      *
-     * @return  Input  The input object.
+     * @return  void
      *
      * @since   3.0.0
-     * @deprecated  5.0  Use the `joomla/console` package instead
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use the `joomla/console` package instead
      */
     public function unserialize($input)
     {
         // Unserialize the executable, args, options, data, and inputs.
-        list($this->executable, $this->args, $this->options, $this->data, $this->inputs) = unserialize($input);
+        [$this->executable, $this->args, $this->options, $this->data, $this->inputs] = unserialize($input);
 
         // Load the filter.
         if (isset($this->options['filter'])) {
@@ -119,7 +131,9 @@ class Cli extends Input
      * @return  void
      *
      * @since   1.7.0
-     * @deprecated  5.0  Use the `joomla/console` package instead
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use the `joomla/console` package instead
      */
     protected function parseArguments()
     {
@@ -127,13 +141,13 @@ class Cli extends Input
 
         $this->executable = array_shift($argv);
 
-        $out = array();
+        $out = [];
 
         for ($i = 0, $j = \count($argv); $i < $j; $i++) {
             $arg = $argv[$i];
 
             // --foo --bar=baz
-            if (substr($arg, 0, 2) === '--') {
+            if (str_starts_with($arg, '--')) {
                 $eqPos = strpos($arg, '=');
 
                 // --foo
@@ -151,24 +165,23 @@ class Cli extends Input
                     $out[$key] = $value;
                 } else {
                     // --bar=baz
-                    $key = substr($arg, 2, $eqPos - 2);
-                    $value = substr($arg, $eqPos + 1);
+                    $key       = substr($arg, 2, $eqPos - 2);
+                    $value     = substr($arg, $eqPos + 1);
                     $out[$key] = $value;
                 }
-            } elseif (substr($arg, 0, 1) === '-') {
-            // -k=value -abc
-            // -k=value
+            } elseif (str_starts_with($arg, '-')) {
+                // -k=value -abc
+                // -k=value
                 if (substr($arg, 2, 1) === '=') {
-                    $key = substr($arg, 1, 1);
-                    $value = substr($arg, 3);
+                    $key       = substr($arg, 1, 1);
+                    $value     = substr($arg, 3);
                     $out[$key] = $value;
-                } else // -abc
-                {
+                } else { // -abc
                     $chars = str_split(substr($arg, 1));
 
                     foreach ($chars as $char) {
-                        $key = $char;
-                        $value = $out[$key] ?? true;
+                        $key       = $char;
+                        $value     = $out[$key] ?? true;
                         $out[$key] = $value;
                     }
 

@@ -10,14 +10,15 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 /** @var \Joomla\Component\Privacy\Site\View\Request\HtmlView $this */
 
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('behavior.formvalidator');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->getDocument()->getWebAssetManager();
+$wa->useScript('keepalive')
+    ->useScript('form.validate');
 
 ?>
 <div class="request-form<?php echo $this->pageclass_sfx; ?>">
@@ -29,7 +30,7 @@ HTMLHelper::_('behavior.formvalidator');
         </div>
     <?php endif; ?>
     <?php if ($this->sendMailEnabled) : ?>
-        <form action="<?php echo Route::_('index.php?option=com_privacy&task=request.submit'); ?>" method="post" class="form-validate form-horizontal well">
+        <form action="<?php echo Route::_('index.php?task=request.submit'); ?>" method="post" class="form-validate form-horizontal well">
             <?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
                 <fieldset>
                     <?php if (!empty($fieldset->label)) : ?>
@@ -45,7 +46,7 @@ HTMLHelper::_('behavior.formvalidator');
                     </button>
                 </div>
             </div>
-            <?php echo HTMLHelper::_('form.token'); ?>
+            <?php echo $this->form->renderControlFields(); ?>
         </form>
     <?php else : ?>
         <div class="alert alert-warning">

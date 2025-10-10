@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Content\Site\Model\FormModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -53,7 +54,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -113,19 +114,20 @@ class HtmlView extends BaseHtmlView
         $app  = Factory::getApplication();
         $user = $app->getIdentity();
 
-        // Get model data.
-        $this->state       = $this->get('State');
-        $this->item        = $this->get('Item');
-        $this->form        = $this->get('Form');
-        $this->return_page = $this->get('ReturnPage');
+        /** @var FormModel $model */
+        $model             = $this->getModel();
+        $this->state       = $model->getState();
+        $this->item        = $model->getItem();
+        $this->form        = $model->getForm();
+        $this->return_page = $model->getReturnPage();
 
         if (empty($this->item->id)) {
-            $catid = $this->state->params->get('catid');
+            $catid = $this->state->get('params')->get('catid');
 
-            if ($this->state->params->get('enable_category') == 1 && $catid) {
+            if ($this->state->get('params')->get('enable_category') == 1 && $catid) {
                 $authorised = $user->authorise('core.create', 'com_content.category.' . $catid);
             } else {
-                $authorised = $user->authorise('core.create', 'com_content') || count($user->getAuthorisedCategories('com_content', 'core.create'));
+                $authorised = $user->authorise('core.create', 'com_content') || \count($user->getAuthorisedCategories('com_content', 'core.create'));
             }
         } else {
             $authorised = $this->item->params->get('access-edit');
@@ -144,21 +146,21 @@ class HtmlView extends BaseHtmlView
             $this->item->tags->getItemTags('com_content.article', $this->item->id);
 
             $this->item->images = json_decode($this->item->images);
-            $this->item->urls = json_decode($this->item->urls);
+            $this->item->urls   = json_decode($this->item->urls);
 
-            $tmp = new \stdClass();
+            $tmp         = new \stdClass();
             $tmp->images = $this->item->images;
-            $tmp->urls = $this->item->urls;
+            $tmp->urls   = $this->item->urls;
             $this->form->bind($tmp);
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Create a shortcut to the parameters.
-        $params = &$this->state->params;
+        $params = $this->state->get('params');
 
         // Escape strings for HTML output
         $this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
@@ -171,7 +173,7 @@ class HtmlView extends BaseHtmlView
 
         // Propose current language as default when creating new article
         if (empty($this->item->id) && Multilanguage::isEnabled() && $params->get('enable_category') != 1) {
-            $lang = Factory::getLanguage()->getTag();
+            $lang = $this->getLanguage()->getTag();
             $this->form->setFieldAttribute('language', 'default', $lang);
         }
 
@@ -191,6 +193,11 @@ class HtmlView extends BaseHtmlView
         ) {
             $this->showSaveAsCopy = true;
         }
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '')
+            ->addControlField('return', $this->return_page ?? '');
 
         $this->_prepareDocument();
 
@@ -223,11 +230,11 @@ class HtmlView extends BaseHtmlView
         $app->getPathway()->addItem($title);
 
         if ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
     }
 }

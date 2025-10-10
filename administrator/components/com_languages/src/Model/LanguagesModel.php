@@ -13,8 +13,9 @@ namespace Joomla\Component\Languages\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Language;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -30,16 +31,16 @@ class LanguagesModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'lang_id', 'a.lang_id',
                 'lang_code', 'a.lang_code',
                 'title', 'a.title',
@@ -50,7 +51,7 @@ class LanguagesModel extends ListModel
                 'ordering', 'a.ordering',
                 'access', 'a.access', 'access_level',
                 'home', 'l.home',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -104,15 +105,15 @@ class LanguagesModel extends ListModel
     /**
      * Method to build an SQL query to load the list data.
      *
-     * @return  string    An SQL query
+     * @return  QueryInterface    An SQL query
      *
      * @since   1.6
      */
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $db    = $this->getDatabase();
+        $query = $db->createQuery();
 
         // Select all fields from the languages table.
         $query->select(
@@ -181,7 +182,9 @@ class LanguagesModel extends ListModel
      */
     public function setPublished($cid, $value = 0)
     {
-        return Table::getInstance('Language', 'Joomla\\CMS\\Table\\')->publish($cid, $value);
+        $table = new Language($this->getDatabase());
+
+        return $table->publish($cid, $value);
     }
 
     /**
@@ -199,7 +202,7 @@ class LanguagesModel extends ListModel
         $pks = (array) $pks;
 
         // Get a row instance.
-        $table = Table::getInstance('Language', 'Joomla\\CMS\\Table\\');
+        $table = new Language($this->getDatabase());
 
         // Iterate the items to delete each one.
         foreach ($pks as $itemId) {
@@ -219,14 +222,13 @@ class LanguagesModel extends ListModel
     /**
      * Custom clean cache method, 2 places for 2 clients.
      *
-     * @param   string   $group     Optional cache group name.
-     * @param   integer  $clientId  @deprecated   5.0   No longer used.
+     * @param  string  $group  Cache group name.
      *
      * @return  void
      *
      * @since   1.6
      */
-    protected function cleanCache($group = null, $clientId = 0)
+    protected function cleanCache($group = null)
     {
         parent::cleanCache('_system');
         parent::cleanCache('com_languages');

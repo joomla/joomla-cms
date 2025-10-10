@@ -18,7 +18,8 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Extension;
+use Joomla\CMS\Table\Update as UpdateTable;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
 use Joomla\Database\DatabaseAwareInterface;
@@ -94,7 +95,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
     {
         // Get the extension_id of the en-GB package.
         $db        = $this->getDatabase();
-        $extQuery  = $db->getQuery(true);
+        $extQuery  = $db->createQuery();
 
         $extQuery->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions'))
@@ -114,12 +115,12 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
              * In #__update_sites_extensions you should have this extension_id linked
              * to the Accredited Translations Repo.
              */
-            $updater->findUpdates(array($extId), 0);
+            $updater->findUpdates([$extId], 0);
 
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             // Select the required fields from the updates table.
-            $query->select($db->quoteName(array('update_id', 'name', 'element', 'version')))
+            $query->select($db->quoteName(['update_id', 'name', 'element', 'version']))
                 ->from($db->quoteName('#__updates'))
                 ->order($db->quoteName('name'));
 
@@ -127,10 +128,10 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
             $list = $db->loadObjectList();
 
             if (!$list || $list instanceof \Exception) {
-                $list = array();
+                $list = [];
             }
         } else {
-            $list = array();
+            $list = [];
         }
 
         return $list;
@@ -145,7 +146,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
      */
     public function install($lids)
     {
-        $app = Factory::getApplication();
+        $app           = Factory::getApplication();
         $installerBase = new Installer();
         $installerBase->setDatabase($this->getDatabase());
 
@@ -154,7 +155,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
             $installer = clone $installerBase;
 
             // Loads the update database object that represents the language.
-            $language = Table::getInstance('update');
+            $language = new UpdateTable($this->getDatabase());
             $language->load($id);
 
             // Get the URL to the XML manifest file of the selected language.
@@ -228,7 +229,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
      */
     protected function getLanguageManifest($uid)
     {
-        $instance = Table::getInstance('update');
+        $instance = new UpdateTable($this->getDatabase());
         $instance->load($uid);
 
         return trim($instance->detailsurl);
@@ -249,7 +250,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
         $update->loadFromXml($remoteManifest);
 
         // Get the download url from the remote manifest
-        $downloadUrl = $update->get('downloadurl', false);
+        $downloadUrl = $update->downloadurl ?? false;
 
         // Check if the download url exist, otherwise return empty value
         if ($downloadUrl === false) {
@@ -327,7 +328,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
         $langlist = $this->getLanguageList($client->id);
 
         // Compute all the languages.
-        $data = array();
+        $data = [];
 
         foreach ($langlist as $lang) {
             $file = $path . '/' . $lang . '/langmetadata.xml';
@@ -336,11 +337,11 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
                 $file = $path . '/' . $lang . '/' . $lang . '.xml';
             }
 
-            $info = Installer::parseXMLInstallFile($file);
-            $row  = new \stdClass();
+            $info          = Installer::parseXMLInstallFile($file);
+            $row           = new \stdClass();
             $row->language = $lang;
 
-            if (!is_array($info)) {
+            if (!\is_array($info)) {
                 continue;
             }
 
@@ -361,7 +362,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
             $data[]           = $row;
         }
 
-        usort($data, array($this, 'compareLanguages'));
+        usort($data, [$this, 'compareLanguages']);
 
         return $data;
     }
@@ -379,10 +380,10 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
     {
         // Create a new db object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select field element from the extensions table.
-        $query->select($db->quoteName(array('element', 'name')))
+        $query->select($db->quoteName(['element', 'name']))
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('type') . ' = ' . $db->quote('language'))
             ->where($db->quoteName('state') . ' = 0')
@@ -461,8 +462,8 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
         $params = ComponentHelper::getParams('com_languages');
         $params->set($client->name, $language);
 
-        $table = Table::getInstance('extension');
-        $id    = $table->find(array('element' => 'com_languages'));
+        $table = new Extension($this->getDatabase());
+        $id    = $table->find(['element' => 'com_languages']);
 
         // Load
         if (!$table->load($id)) {
@@ -491,18 +492,6 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
     }
 
     /**
-     * Get the current setup options from the session.
-     *
-     * @return  array
-     *
-     * @since   3.1
-     */
-    public function getOptions()
-    {
-        return Factory::getSession()->get('setup.options', array());
-    }
-
-    /**
      * Get the model form.
      *
      * @param   string|null $view  The view being processed.
@@ -514,16 +503,14 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
     public function getForm($view = null)
     {
         if (!$view) {
-            $view = Factory::getApplication()->input->getWord('view', 'defaultlanguage');
+            $view = Factory::getApplication()->getInput()->getWord('view', 'defaultlanguage');
         }
 
         // Get the form.
-        Form::addFormPath(JPATH_COMPONENT . '/forms');
-        Form::addFieldPath(JPATH_COMPONENT . '/model/fields');
-        Form::addRulePath(JPATH_COMPONENT . '/model/rules');
+        Form::addFormPath(JPATH_BASE . '/forms');
 
         try {
-            $form = Form::getInstance('jform', $view, array('control' => 'jform'));
+            $form = Form::getInstance('jform', $view, ['control' => 'jform']);
         } catch (\Exception $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 

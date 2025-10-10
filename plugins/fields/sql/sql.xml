@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="fields" method="upgrade">
 	<name>plg_fields_sql</name>
 	<author>Joomla! Project</author>
@@ -9,9 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.7.0</version>
 	<description>PLG_FIELDS_SQL_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Fields\SQL</namespace>
 	<files>
-		<filename plugin="sql">sql.php</filename>
 		<folder>params</folder>
+		<folder plugin="sql">services</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
@@ -32,6 +34,14 @@
 				/>
 
 				<field
+					name="header"
+					type="text"
+					label="PLG_FIELDS_SQL_PARAMS_HEADER_LABEL"
+					description="PLG_FIELDS_SQL_PARAMS_HEADER_DESC"
+					filter="string"
+				/>
+
+				<field
 					name="multiple"
 					type="radio"
 					layout="joomla.form.field.radio.switcher"
@@ -42,6 +52,18 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
+
+				<field
+					name="form_layout"
+					type="list"
+					label="JLIB_FORM_FIELD_PARAM_LAYOUT_LABEL"
+					class="form-select"
+					default="joomla.form.field.list"				      
+					>
+					<option value="joomla.form.field.list">JLIB_FORM_FIELD_PARAM_LAYOUT_BASIC_SELECT</option>
+					<option value="joomla.form.field.list-fancy-select">JLIB_FORM_FIELD_PARAM_LAYOUT_FANCY_SELECT</option>
+				</field>
+				
 			</fieldset>
 		</fields>
 	</config>

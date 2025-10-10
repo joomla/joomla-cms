@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="webservices" method="upgrade">
 	<name>plg_webservices_templates</name>
 	<author>Joomla! Project</author>
@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>PLG_WEBSERVICES_TEMPLATES_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\WebServices\Templates</namespace>
 	<files>
-		<filename plugin="templates">templates.php</filename>
+		<folder plugin="templates">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_webservices_templates.ini</language>

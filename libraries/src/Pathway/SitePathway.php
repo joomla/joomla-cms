@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -27,13 +27,13 @@ class SitePathway extends Pathway
     /**
      * Class constructor.
      *
-     * @param   SiteApplication  $app  Application Object
+     * @param   ?SiteApplication  $app  Application Object
      *
      * @since   1.5
      */
-    public function __construct(SiteApplication $app = null)
+    public function __construct(?SiteApplication $app = null)
     {
-        $this->pathway = array();
+        $this->pathway = [];
 
         $app  = $app ?: Factory::getContainer()->get(SiteApplication::class);
         $menu = $app->getMenu();
@@ -60,7 +60,7 @@ class SitePathway extends Pathway
                             break;
 
                         case 'url':
-                            if ((strpos($link->link, 'index.php?') === 0) && (strpos($link->link, 'Itemid=') === false)) {
+                            if ((str_starts_with($link->link, 'index.php?')) && (!str_contains($link->link, 'Itemid='))) {
                                 // If this is an internal Joomla link, ensure the Itemid is set.
                                 $url = $link->link . '&Itemid=' . $link->id;
                             } else {

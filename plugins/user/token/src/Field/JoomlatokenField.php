@@ -62,7 +62,7 @@ class JoomlatokenField extends TextField
          */
         $userId = $this->form->getData()->get('id');
 
-        if ($userId != Factory::getUser()->id) {
+        if ($userId != $this->getCurrentUser()->id) {
             $this->hidden = true;
         }
 
@@ -104,7 +104,7 @@ class JoomlatokenField extends TextField
 
         try {
             $siteSecret = Factory::getApplication()->get('secret');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $siteSecret = '';
         }
 
@@ -118,7 +118,7 @@ class JoomlatokenField extends TextField
         $userId    = $this->form->getData()->get('id');
         $message   = base64_encode("$algorithm:$userId:$tokenHash");
 
-        if ($userId != Factory::getUser()->id) {
+        if ($userId != $this->getCurrentUser()->id) {
             $message = '';
         }
 
@@ -138,22 +138,5 @@ class JoomlatokenField extends TextField
         $data['value'] = $this->getTokenForDisplay($this->value);
 
         return $data;
-    }
-
-    /**
-     * Get the layout paths
-     *
-     * @return  array
-     *
-     * @since   4.0.0
-     */
-    protected function getLayoutPaths()
-    {
-        $template = Factory::getApplication()->getTemplate();
-
-        return [
-            JPATH_THEMES . '/' . $template . '/html/layouts',
-            JPATH_SITE . '/layouts',
-        ];
     }
 }

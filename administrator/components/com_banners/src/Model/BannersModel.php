@@ -11,9 +11,11 @@
 namespace Joomla\Component\Banners\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -29,14 +31,15 @@ class BannersModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'cid', 'a.cid', 'client_name',
                 'name', 'a.name',
@@ -58,10 +61,10 @@ class BannersModel extends ListModel
                 'category_id',
                 'published',
                 'level', 'c.level',
-            );
+            ];
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -74,8 +77,8 @@ class BannersModel extends ListModel
     public function &getCategoryOrders()
     {
         if (!isset($this->cache['categoryorders'])) {
-            $db = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $db    = $this->getDatabase();
+            $query = $db->createQuery()
                 ->select(
                     [
                         'MAX(' . $db->quoteName('ordering') . ') AS ' . $db->quoteName('max'),
@@ -94,14 +97,14 @@ class BannersModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   1.6
      */
     protected function getListQuery()
     {
-        $db = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $db    = $this->getDatabase();
+        $query = $db->createQuery();
 
         // Select the required fields from the table.
         $query->select(
@@ -257,7 +260,7 @@ class BannersModel extends ListModel
      *
      * @since   1.6
      */
-    public function getTable($type = 'Banner', $prefix = 'Administrator', $config = array())
+    public function getTable($type = 'Banner', $prefix = 'Administrator', $config = [])
     {
         return parent::getTable($type, $prefix, $config);
     }

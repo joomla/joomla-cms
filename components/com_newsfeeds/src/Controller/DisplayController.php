@@ -27,7 +27,8 @@ class DisplayController extends BaseController
      * Method to show a newsfeeds view
      *
      * @param   boolean  $cachable   If true, the view output will be cached
-     * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+     * @param   array    $urlparams  An array of safe URL parameters and their variable types.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  static  This object to support chaining.
      *
@@ -41,12 +42,18 @@ class DisplayController extends BaseController
         $vName = $this->input->get('view', 'categories');
         $this->input->set('view', $vName);
 
-        if ($this->app->getIdentity()->get('id') || ($this->input->getMethod() === 'POST' && $vName === 'category' )) {
+        if ($this->app->getIdentity()->id || ($this->input->getMethod() === 'POST' && $vName === 'category')) {
             $cachable = false;
         }
 
-        $safeurlparams = array('id' => 'INT', 'limit' => 'UINT', 'limitstart' => 'UINT',
-                                'filter_order' => 'CMD', 'filter_order_Dir' => 'CMD', 'lang' => 'CMD');
+        $safeurlparams = [
+            'id'               => 'INT',
+            'limit'            => 'UINT',
+            'limitstart'       => 'UINT',
+            'filter_order'     => 'CMD',
+            'filter_order_Dir' => 'CMD',
+            'lang'             => 'CMD',
+        ];
 
         return parent::display($cachable, $safeurlparams);
     }

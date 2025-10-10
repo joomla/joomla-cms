@@ -12,7 +12,7 @@ namespace Joomla\CMS\Toolbar\Button;
 use Joomla\CMS\Toolbar\ToolbarButton;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -50,7 +50,8 @@ class CustomButton extends ToolbarButton
      *
      * @since   3.0
      *
-     * @deprecated  5.0 Use render() instead.
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use render() instead.
      */
     public function fetchButton($type = 'Custom', $html = '', $id = 'custom')
     {

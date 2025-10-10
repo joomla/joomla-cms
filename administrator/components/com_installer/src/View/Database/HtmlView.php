@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Pagination\Pagination;
-use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\Model\DatabaseModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
@@ -35,7 +34,7 @@ class HtmlView extends InstallerViewDefault
      * @var    array
      * @since  4.0.0
      */
-    protected $changeSet = array();
+    protected $changeSet = [];
 
     /**
      * The number of errors found
@@ -67,7 +66,7 @@ class HtmlView extends InstallerViewDefault
      * @var    array
      * @since  4.0.0
      */
-    public $activeFilters = array();
+    public $activeFilters = [];
 
     /**
      * Display the view.
@@ -106,6 +105,11 @@ class HtmlView extends InstallerViewDefault
             : $app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DATABASE_CORE_ERRORS'), 'warning');
         }
 
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
+
         parent::display($tpl);
     }
 
@@ -118,12 +122,15 @@ class HtmlView extends InstallerViewDefault
      */
     protected function addToolbar()
     {
-        /*
-         * Set toolbar items for the page.
-         */
-        ToolbarHelper::custom('database.fix', 'refresh', '', 'COM_INSTALLER_TOOLBAR_DATABASE_FIX', true);
-        ToolbarHelper::divider();
+        $toolbar = $this->getDocument()->getToolbar();
+
+        $toolbar->standardButton('fix', 'COM_INSTALLER_TOOLBAR_DATABASE_FIX', 'database.fix')
+            ->listCheck(true)
+            ->icon('icon-refresh');
+        $toolbar->divider();
+
         parent::addToolbar();
-        ToolbarHelper::help('Information:_Database');
+
+        $toolbar->help('Information:_Database');
     }
 }

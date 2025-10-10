@@ -13,10 +13,9 @@ namespace Joomla\Component\Plugins\Administrator\View\Plugin;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Plugins\Administrator\Model\PluginModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -32,7 +31,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The item object for the newsfeed
      *
-     * @var   CMSObject
+     * @var   \stdClass
      */
     protected $item;
 
@@ -46,9 +45,18 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state of the newsfeed
      *
-     * @var   CMSObject
+     * @var   \Joomla\Registry\Registry
      */
     protected $state;
+
+    /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
 
     /**
      * Display the view.
@@ -59,16 +67,30 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state = $this->get('State');
-        $this->item  = $this->get('Item');
-        $this->form  = $this->get('Form');
+        /** @var PluginModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-        // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
+        $this->state = $model->getState();
+        $this->item  = $model->getItem();
+        $this->form  = $model->getForm();
+
+        if ($this->getLayout() === 'modalreturn') {
+            parent::display($tpl);
+
+            return;
         }
 
-        $this->addToolbar();
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '');
+
+        if ($this->getLayout() !== 'modal') {
+            $this->addToolbar();
+        } else {
+            $this->addModalToolbar();
+        }
+
         parent::display($tpl);
     }
 
@@ -81,36 +103,67 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-        $canDo = ContentHelper::getActions('com_plugins');
+        $canDo   = ContentHelper::getActions('com_plugins');
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::sprintf('COM_PLUGINS_MANAGER_PLUGIN', Text::_($this->item->name)), 'plug plugin');
 
         // If not checked out, can save the item.
         if ($canDo->get('core.edit')) {
-            ToolbarHelper::apply('plugin.apply');
+            $toolbar->apply('plugin.apply');
 
-            ToolbarHelper::save('plugin.save');
+            $toolbar->save('plugin.save');
         }
 
-        ToolbarHelper::cancel('plugin.cancel', 'JTOOLBAR_CLOSE');
-        ToolbarHelper::divider();
+        $toolbar->cancel('plugin.cancel');
+        $toolbar->divider();
 
         // Get the help information for the plugin item.
-        $lang = Factory::getLanguage();
+        $lang = $this->getLanguage();
 
-        $help = $this->get('Help');
+        /** @var PluginModel $model */
+        $model = $this->getModel();
+        $help  = $model->getHelp();
 
         if ($help->url && $lang->hasKey($help->url)) {
             $debug = $lang->setDebug(false);
-            $url = Text::_($help->url);
+            $url   = Text::_($help->url);
             $lang->setDebug($debug);
         } else {
             $url = null;
         }
 
-        ToolbarHelper::inlinehelp();
-        ToolbarHelper::help($help->key, false, $url);
+        $toolbar->inlinehelp();
+        $toolbar->help($help->key, false, $url);
+    }
+
+    /**
+     * Add the modal toolbar.
+     *
+     * @return  void
+     *
+     * @since   5.1.0
+     *
+     * @throws  \Exception
+     */
+    protected function addModalToolbar()
+    {
+        $canDo   = ContentHelper::getActions('com_plugins');
+        $toolbar = $this->getDocument()->getToolbar();
+
+        ToolbarHelper::title(Text::sprintf('COM_PLUGINS_MANAGER_PLUGIN', Text::_($this->item->name)), 'plug plugin');
+
+        // If not checked out, can save the item.
+        if ($canDo->get('core.edit')) {
+            $toolbar->apply('plugin.apply');
+
+            $toolbar->save('plugin.save');
+        }
+
+        $toolbar->cancel('plugin.cancel');
+
+        $toolbar->inlinehelp();
     }
 }

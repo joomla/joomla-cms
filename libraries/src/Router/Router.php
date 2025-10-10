@@ -15,7 +15,7 @@ use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -55,7 +55,7 @@ class Router
      * @var     array
      * @since   1.5
      */
-    protected $vars = array();
+    protected $vars = [];
 
     /**
      * An array of rules
@@ -63,14 +63,14 @@ class Router
      * @var    array
      * @since  1.5
      */
-    protected $rules = array(
-        'buildpreprocess' => array(),
-        'build' => array(),
-        'buildpostprocess' => array(),
-        'parsepreprocess' => array(),
-        'parse' => array(),
-        'parsepostprocess' => array(),
-    );
+    protected $rules = [
+        'buildpreprocess'  => [],
+        'build'            => [],
+        'buildpostprocess' => [],
+        'parsepreprocess'  => [],
+        'parse'            => [],
+        'parsepostprocess' => [],
+    ];
 
     /**
      * Caching of processed URIs
@@ -78,7 +78,17 @@ class Router
      * @var    array
      * @since  3.3
      */
-    protected $cache = array();
+    protected $cache = [];
+
+    /**
+     * Flag to mark the last parsed URL as tainted
+     * If a URL could be read, but has errors, this
+     * flag can be set to true to mark the URL as erroneous.
+     *
+     * @var    bool
+     * @since  5.3.0
+     */
+    protected $tainted = false;
 
     /**
      * Router instances container.
@@ -86,7 +96,7 @@ class Router
      * @var    Router[]
      * @since  1.7
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * Returns the global Router object, only creating it if it
@@ -101,23 +111,23 @@ class Router
      *
      * @throws     \RuntimeException
      *
-     * @deprecated 5.0 Inject the router or load it from the dependency injection container
+     * @deprecated  4.0 will be removed in 6.0
+     *              Inject the router or load it from the dependency injection container
+     *              Example: Factory::getContainer()->get(SiteRouter::class);
      */
-    public static function getInstance($client, $options = array())
+    public static function getInstance($client, $options = [])
     {
         if (empty(self::$instances[$client])) {
             // Create a Router object
             $classname = 'JRouter' . ucfirst($client);
 
-            if (!class_exists($classname)) {
-                throw new \RuntimeException(Text::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
-            }
-
-            // Check for a possible service from the container otherwise manually instantiate the class
+            // Check for a possible service from the container, otherwise manually instantiate the class if it exists
             if (Factory::getContainer()->has($classname)) {
                 self::$instances[$client] = Factory::getContainer()->get($classname);
-            } else {
+            } elseif (class_exists($classname)) {
                 self::$instances[$client] = new $classname();
+            } else {
+                throw new \RuntimeException(Text::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
             }
         }
 
@@ -138,6 +148,9 @@ class Router
      */
     public function parse(&$uri, $setVars = false)
     {
+        // Reset the tainted flag
+        $this->tainted = false;
+
         // Do the preprocess stage of the URL parse process
         $this->processParseRules($uri, self::PROCESS_BEFORE);
 
@@ -227,7 +240,7 @@ class Router
      *
      * @since   1.5
      */
-    public function setVars($vars = array(), $merge = true)
+    public function setVars($vars = [], $merge = true)
     {
         if ($merge) {
             $this->vars = array_merge($this->vars, $vars);
@@ -284,7 +297,7 @@ class Router
     public function attachBuildRule(callable $callback, $stage = self::PROCESS_DURING)
     {
         if (!\array_key_exists('build' . $stage, $this->rules)) {
-            throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
+            throw new \InvalidArgumentException(\sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
         }
 
         $this->rules['build' . $stage][] = $callback;
@@ -306,7 +319,7 @@ class Router
     public function attachParseRule(callable $callback, $stage = self::PROCESS_DURING)
     {
         if (!\array_key_exists('parse' . $stage, $this->rules)) {
-            throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
+            throw new \InvalidArgumentException(\sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
         }
 
         $this->rules['parse' . $stage][] = $callback;
@@ -329,12 +342,12 @@ class Router
      */
     public function detachRule($type, $rule, $stage = self::PROCESS_DURING)
     {
-        if (!\in_array($type, array('parse', 'build'))) {
-            throw new \InvalidArgumentException(sprintf('The %s type is not supported. (%s)', $type, __METHOD__));
+        if (!\in_array($type, ['parse', 'build'])) {
+            throw new \InvalidArgumentException(\sprintf('The %s type is not supported. (%s)', $type, __METHOD__));
         }
 
         if (!\array_key_exists($type . $stage, $this->rules)) {
-            throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
+            throw new \InvalidArgumentException(\sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
         }
 
         foreach ($this->rules[$type . $stage] as $id => $r) {
@@ -361,6 +374,34 @@ class Router
     }
 
     /**
+     * Set the currently parsed URL as tainted
+     * If a URL can be parsed, but not all parts were correct,
+     * (for example an ID was found, but the alias was wrong) the parsing
+     * can be marked as tainted. When the URL is marked as tainted, the router
+     * has to have returned correct data to create the right URL afterwards and
+     * can later do additional processing, like redirecting to the right URL.
+     * If the URL is demonstrably wrong, it should still throw a 404 exception.
+     *
+     * @since  5.3.0
+     */
+    public function setTainted()
+    {
+        $this->tainted = true;
+    }
+
+    /**
+     * Return if the last parsed URL was tainted.
+     *
+     * @return  bool
+     *
+     * @since  5.3.0
+     */
+    public function isTainted()
+    {
+        return $this->tainted;
+    }
+
+    /**
      * Process the parsed router variables based on custom defined rules
      *
      * @param   \Joomla\CMS\Uri\Uri  &$uri   The URI to parse
@@ -375,7 +416,7 @@ class Router
     protected function processParseRules(&$uri, $stage = self::PROCESS_DURING)
     {
         if (!\array_key_exists('parse' . $stage, $this->rules)) {
-            throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
+            throw new \InvalidArgumentException(\sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
         }
 
         foreach ($this->rules['parse' . $stage] as $rule) {
@@ -398,11 +439,11 @@ class Router
     protected function processBuildRules(&$uri, $stage = self::PROCESS_DURING)
     {
         if (!\array_key_exists('build' . $stage, $this->rules)) {
-            throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
+            throw new \InvalidArgumentException(\sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
         }
 
         foreach ($this->rules['build' . $stage] as $rule) {
-            \call_user_func_array($rule, array(&$this, &$uri));
+            \call_user_func_array($rule, [&$this, &$uri]);
         }
     }
 
@@ -417,16 +458,16 @@ class Router
      */
     protected function createUri($url)
     {
-        if (!\is_array($url) && substr($url, 0, 1) !== '&') {
+        if (!\is_array($url) && !str_starts_with($url, '&')) {
             return new Uri($url);
         }
 
         $uri = new Uri('index.php');
 
         if (\is_string($url)) {
-            $vars = array();
+            $vars = [];
 
-            if (strpos($url, '&amp;') !== false) {
+            if (str_contains($url, '&amp;')) {
                 $url = str_replace('&amp;', '&', $url);
             }
 

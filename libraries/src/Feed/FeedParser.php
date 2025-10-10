@@ -13,7 +13,7 @@ use Joomla\CMS\Feed\Parser\NamespaceParserInterface;
 use Joomla\CMS\Filter\InputFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -37,7 +37,7 @@ abstract class FeedParser
      * @var    array
      * @since  3.1.4
      */
-    protected $namespaces = array();
+    protected $namespaces = [];
 
     /**
      * The XMLReader stream object for the feed.
@@ -58,12 +58,12 @@ abstract class FeedParser
     /**
      * Constructor.
      *
-     * @param   \XMLReader   $stream       The XMLReader stream object for the feed.
-     * @param   InputFilter  $inputFilter  The InputFilter object to be used
+     * @param   \XMLReader    $stream       The XMLReader stream object for the feed.
+     * @param   ?InputFilter  $inputFilter  The InputFilter object to be used
      *
      * @since   3.1.4
      */
-    public function __construct(\XMLReader $stream, InputFilter $inputFilter = null)
+    public function __construct(\XMLReader $stream, ?InputFilter $inputFilter = null)
     {
         $this->stream      = $stream;
         $this->inputFilter = $inputFilter ?: InputFilter::getInstance([], [], 1, 1);
@@ -92,7 +92,7 @@ abstract class FeedParser
             $ns = $el->getNamespaces(true);
 
             // Get an array of available namespace objects for the element.
-            $namespaces = array();
+            $namespaces = [];
 
             foreach ($ns as $prefix => $uri) {
                 // Ignore the empty namespace prefix.
@@ -184,7 +184,7 @@ abstract class FeedParser
         // Otherwise we treat it like any other element.
 
         // First call the internal method.
-        if (\is_callable(array($this, $method))) {
+        if (\is_callable([$this, $method])) {
             $this->$method($feed, $el);
         }
 

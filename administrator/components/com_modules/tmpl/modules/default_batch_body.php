@@ -16,6 +16,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 
+/** @var \Joomla\Component\Modules\Administrator\View\Modules\HtmlView $this */
+
 $clientId  = $this->state->get('client_id');
 
 // Show only Module Positions of published Templates
@@ -25,14 +27,14 @@ $positions['']['items'][] = ModulesHelper::createOption('nochange', Text::_('COM
 $positions['']['items'][] = ModulesHelper::createOption('noposition', Text::_('COM_MODULES_BATCH_POSITION_NOPOSITION'));
 
 // Build field
-$attr = array(
+$attr = [
     'id' => 'batch-position-id',
-);
+];
 
 Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
 
-$this->document->getWebAssetManager()
+$this->getDocument()->getWebAssetManager()
     ->usePreset('choicesjs')
     ->useScript('webcomponent.field-fancy-select')
     ->useScript('joomla.batch-copymove');
@@ -45,13 +47,13 @@ $this->document->getWebAssetManager()
         <?php if ($clientId != 1) : ?>
             <div class="form-group col-md-6">
                 <div class="controls">
-                    <?php echo LayoutHelper::render('joomla.html.batch.language', array()); ?>
+                    <?php echo LayoutHelper::render('joomla.html.batch.language', []); ?>
                 </div>
             </div>
         <?php elseif ($clientId == 1 && ModuleHelper::isAdminMultilang()) : ?>
             <div class="form-group col-md-6">
                 <div class="controls">
-                    <?php echo LayoutHelper::render('joomla.html.batch.adminlanguage', array()); ?>
+                    <?php echo LayoutHelper::render('joomla.html.batch.adminlanguage', []); ?>
                 </div>
             </div>
         <?php endif; ?>
@@ -80,4 +82,9 @@ $this->document->getWebAssetManager()
         <?php endif; ?>
         </div>
     </div>
+</div>
+<div class="btn-toolbar p-3">
+    <joomla-toolbar-button task="module.batch" class="ms-auto">
+        <button type="button" class="btn btn-success"><?php echo Text::_('JGLOBAL_BATCH_PROCESS'); ?></button>
+    </joomla-toolbar-button>
 </div>

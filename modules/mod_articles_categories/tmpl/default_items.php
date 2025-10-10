@@ -15,15 +15,15 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
-$input  = $app->input;
+$input  = $app->getInput();
 $option = $input->getCmd('option');
 $view   = $input->getCmd('view');
 $id     = $input->getInt('id');
 
 foreach ($list as $item) : ?>
-    <li<?php if ($id == $item->id && in_array($view, array('category', 'categories')) && $option == 'com_content') {
+    <li<?php if ($id == $item->id && in_array($view, ['category', 'categories']) && $option == 'com_content') {
         echo ' class="active"';
-       } ?>> <?php $levelup = $item->level - $startLevel - 1; ?>
+       } ?>>
         <a href="<?php echo Route::_(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>">
         <?php echo $item->title; ?>
             <?php if ($params->get('numitems')) : ?>

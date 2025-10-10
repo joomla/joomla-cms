@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="component" method="upgrade">
 	<name>com_messages</name>
 	<author>Joomla! Project</author>
@@ -10,9 +10,6 @@
 	<version>4.0.0</version>
 	<description>COM_MESSAGES_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Component\Messages</namespace>
-	<languages folder="site">
-		<language tag="en-GB">language/en-GB/com_messages.ini</language>
-	</languages>
 	<administration>
 		<files folder="admin">
 			<filename>access.xml</filename>

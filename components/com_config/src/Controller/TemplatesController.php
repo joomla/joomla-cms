@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Input\Input;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -30,16 +31,16 @@ use Joomla\CMS\Uri\Uri;
 class TemplatesController extends BaseController
 {
     /**
-     * @param   array                         $config   An optional associative array of configuration settings.
-     *                                                  Recognized key values include 'name', 'default_task', 'model_path', and
-     *                                                  'view_path' (this list is not meant to be comprehensive).
-     * @param   MVCFactoryInterface|null      $factory  The factory.
-     * @param   CMSApplication|null           $app      The Application for the dispatcher
-     * @param   \Joomla\CMS\Input\Input|null  $input    The Input object for the request
+     * @param   array                 $config   An optional associative array of configuration settings.
+     *                                          Recognized key values include 'name', 'default_task', 'model_path', and
+     *                                          'view_path' (this list is not meant to be comprehensive).
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The Application for the dispatcher
+     * @param   ?Input                $input    The Input object for the request
      *
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -50,7 +51,7 @@ class TemplatesController extends BaseController
     /**
      * Method to handle cancel
      *
-     * @return  boolean  True on success.
+     * @return  void
      *
      * @since   3.2
      */
@@ -86,7 +87,7 @@ class TemplatesController extends BaseController
 
         // Access backend com_templates
         $controllerClass = $app->bootComponent('com_templates')
-            ->getMVCFactory()->createController('Style', 'Administrator', [], $app, $app->input);
+            ->getMVCFactory()->createController('Style', 'Administrator', [], $app, $app->getInput());
 
         // Get a document object
         $document = $app->getDocument();

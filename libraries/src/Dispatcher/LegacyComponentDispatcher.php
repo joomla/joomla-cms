@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Dispatcher;
@@ -54,7 +54,7 @@ class LegacyComponentDispatcher implements DispatcherInterface
      */
     public function dispatch()
     {
-        $path = JPATH_COMPONENT . '/' . substr($this->app->scope, 4) . '.php';
+        $path = JPATH_BASE . '/components/' . $this->app->scope . '/' . substr($this->app->scope, 4) . '.php';
 
         // If component file doesn't exist throw error
         if (!is_file($path)) {
@@ -64,7 +64,7 @@ class LegacyComponentDispatcher implements DispatcherInterface
         $lang = $this->app->getLanguage();
 
         // Load common and local language files.
-        $lang->load($this->app->scope, JPATH_BASE) || $lang->load($this->app->scope, JPATH_COMPONENT);
+        $lang->load($this->app->scope, JPATH_BASE) || $lang->load($this->app->scope, JPATH_BASE . '/components/' . $this->app->scope);
 
         // Execute the component
         $loader = static function ($path) {

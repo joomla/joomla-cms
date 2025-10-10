@@ -11,11 +11,12 @@ namespace Joomla\CMS\Exception;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Error\AbstractRenderer;
+use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -43,7 +44,7 @@ class ExceptionHandler
         if ($errorNumber === E_USER_DEPRECATED) {
             try {
                 Log::add("$errorMessage - $errorFile - Line $errorLine", Log::WARNING, 'deprecated');
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // Silence
             }
 
@@ -86,12 +87,20 @@ class ExceptionHandler
         try {
             $app = Factory::getApplication();
 
-            // Flag if we are on cli
+            // Flag if we are on cli or api
             $isCli = $app->isClient('cli');
+            $isAPI = $app->isClient('api');
 
             // If site is offline and it's a 404 error, just go to index (to see offline message, instead of 404)
-            if (!$isCli && $error->getCode() == '404' && $app->get('offline') == 1) {
+            if ($isCli || $isAPI) {
+                // Do nothing.
+            } elseif ($error->getCode() == '404' && $app->get('offline') == 1) {
                 $app->redirect('index.php');
+            }
+
+            // Clear all opened Output buffers to prevent misrendering
+            for ($i = 0, $l = ob_get_level(); $i < $l; $i++) {
+                ob_end_clean();
             }
 
             /*
@@ -104,12 +113,12 @@ class ExceptionHandler
             if (Factory::$document) {
                 $format = Factory::$document->getType();
             } else {
-                $format = $app->input->getString('format', 'html');
+                $format = $app->getInput()->getString('format', 'html');
             }
 
             try {
                 $renderer = AbstractRenderer::getRenderer($format);
-            } catch (\InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException) {
                 // Default to the HTML renderer
                 $renderer = AbstractRenderer::getRenderer('html');
             }
@@ -117,6 +126,15 @@ class ExceptionHandler
             // Reset the document object in the factory, this gives us a clean slate and lets everything render properly
             Factory::$document = $renderer->getDocument();
             Factory::getApplication()->loadDocument(Factory::$document);
+
+            // Trigger the onAfterInitialiseDocument event.
+            $app->getDispatcher()->dispatch(
+                'onAfterInitialiseDocument',
+                new AfterInitialiseDocumentEvent('onAfterInitialiseDocument', [
+                    'subject'  => $app,
+                    'document' => $renderer->getDocument(),
+                ])
+            );
 
             $data = $renderer->render($error);
 
@@ -126,6 +144,11 @@ class ExceptionHandler
             }
 
             if ($isCli) {
+                echo $data;
+            } elseif ($isAPI) {
+                $app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
+                $app->sendHeaders();
+
                 echo $data;
             } else {
                 /** @var CMSApplication $app */
@@ -201,7 +224,7 @@ class ExceptionHandler
         // Try to log the error, but don't let the logging cause a fatal error
         try {
             Log::add(
-                sprintf(
+                \sprintf(
                     'Uncaught Throwable of type %1$s thrown with message "%2$s". Stack trace: %3$s',
                     \get_class($error),
                     $error->getMessage(),
@@ -210,7 +233,7 @@ class ExceptionHandler
                 Log::CRITICAL,
                 'error'
             );
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             // Logging failed, don't make a stink about it though
         }
     }

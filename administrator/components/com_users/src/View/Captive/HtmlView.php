@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\View\Captive;
 
-use Exception;
 use Joomla\CMS\Event\MultiFactor\BeforeDisplayMethods;
 use Joomla\CMS\Event\MultiFactor\NotifyActionLog;
 use Joomla\CMS\Factory;
@@ -18,14 +17,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\Button\BasicButton;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\CaptiveModel;
 use Joomla\Component\Users\Administrator\View\SiteTemplateTrait;
-use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -51,7 +47,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The currently selected MFA Method record against which we'll be authenticating
      *
-     * @var   null|stdClass
+     * @var   null|\stdClass
      * @since 4.2.0
      */
     public $record = null;
@@ -103,7 +99,7 @@ class HtmlView extends BaseHtmlView
      *
      * @return  void  A string if successful, otherwise an Error object.
      *
-     * @throws  Exception
+     * @throws  \Exception
      * @since 4.2.0
      */
     public function display($tpl = null)
@@ -111,8 +107,7 @@ class HtmlView extends BaseHtmlView
         $this->setSiteTemplateStyle();
 
         $app  = Factory::getApplication();
-        $user = Factory::getApplication()->getIdentity()
-            ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+        $user = $this->getCurrentUser();
 
         PluginHelper::importPlugin('multifactorauth');
         $event = new BeforeDisplayMethods($user);
@@ -123,8 +118,8 @@ class HtmlView extends BaseHtmlView
 
         // Load data from the model
         $this->isAdmin    = $app->isClient('administrator');
-        $this->records    = $this->get('records');
-        $this->record     = $this->get('record');
+        $this->records    = $model->getRecords();
+        $this->record     = $model->getRecord();
         $this->mfaMethods = MfaHelper::getMfaMethods();
 
         if (!empty($this->records)) {
@@ -132,7 +127,7 @@ class HtmlView extends BaseHtmlView
             $codesModel        = $this->getModel('Backupcodes');
             $backupCodesRecord = $codesModel->getBackupCodesRecord();
 
-            if (!is_null($backupCodesRecord)) {
+            if (!\is_null($backupCodesRecord)) {
                 $backupCodesRecord->title = Text::_('COM_USERS_USER_BACKUPCODES');
                 $this->records[]          = $backupCodesRecord;
             }
@@ -144,7 +139,7 @@ class HtmlView extends BaseHtmlView
             $this->record = reset($this->records);
 
             // If we have multiple records try to make this record the default
-            if (count($this->records) > 1) {
+            if (\count($this->records) > 1) {
                 foreach ($this->records as $record) {
                     if ($record->default) {
                         $this->record = $record;
@@ -159,7 +154,7 @@ class HtmlView extends BaseHtmlView
         $this->setLayout('default');
 
         // If we have no record selected or explicitly asked to run the 'select' task use the correct layout
-        if (is_null($this->record) || ($model->getState('task') == 'select')) {
+        if (\is_null($this->record) || ($model->getState('task') == 'select')) {
             $this->setLayout('select');
         }
 
@@ -187,7 +182,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Which title should I use for the page?
-        $this->title = $this->get('PageTitle');
+        $this->title = $model->getPageTitle();
 
         // Back-end: always show a title in the 'title' module position, not in the page body
         if ($this->isAdmin) {
@@ -196,7 +191,7 @@ class HtmlView extends BaseHtmlView
         }
 
         if ($this->isAdmin && $this->getLayout() === 'default') {
-            $bar = Toolbar::getInstance();
+            $bar    = $this->getDocument()->getToolbar();
             $button = (new BasicButton('user-mfa-submit'))
                 ->text($this->renderOptions['submit_text'])
                 ->icon($this->renderOptions['submit_icon']);
@@ -208,7 +203,7 @@ class HtmlView extends BaseHtmlView
                 ->icon('icon icon-lock');
             $bar->appendButton($button);
 
-            if (count($this->records) > 1) {
+            if (\count($this->records) > 1) {
                 $arrow  = Factory::getApplication()->getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
                 $button = (new BasicButton('user-mfa-choose-another'))
                     ->text('COM_USERS_MFA_USE_DIFFERENT_METHOD')

@@ -45,9 +45,9 @@ class ComponentsCategoryField extends ListField
     {
         // Initialise variable.
         $db      = $this->getDatabase();
-        $options = array();
+        $options = [];
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select('DISTINCT ' . $db->quoteName('extension'))
             ->from($db->quoteName('#__categories'))
             ->where($db->quoteName('extension') . ' != ' . $db->quote('system'));
@@ -72,8 +72,7 @@ class ComponentsCategoryField extends ListField
             // If the component section string exists, let's use it
             if ($lang->hasKey($component_section_key = strtoupper($component . ($section ? "_$section" : '')))) {
                 $option->text = Text::_($component_section_key);
-            } else // Else use the component title
-            {
+            } else { // Else use the component title
                 $option->text = Text::_(strtoupper($component));
             }
 

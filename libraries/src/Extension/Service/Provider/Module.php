@@ -16,7 +16,7 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -42,7 +42,7 @@ class Module implements ServiceProviderInterface
             function (Container $container) {
                 return new \Joomla\CMS\Extension\Module(
                     $container->get(ModuleDispatcherFactoryInterface::class),
-                    $container->get(HelperFactoryInterface::class)
+                    $container->has(HelperFactoryInterface::class) ? $container->get(HelperFactoryInterface::class) : null
                 );
             }
         );

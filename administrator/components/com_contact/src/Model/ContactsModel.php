@@ -12,9 +12,11 @@ namespace Joomla\Component\Contact\Administrator\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Category;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -31,14 +33,15 @@ class ContactsModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'name', 'a.name',
                 'alias', 'a.alias',
@@ -58,14 +61,14 @@ class ContactsModel extends ListModel
                 'ul.name', 'linked_user',
                 'tag',
                 'level', 'c.level',
-            );
+            ];
 
             if (Associations::isEnabled()) {
                 $config['filter_fields'][] = 'association';
             }
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -84,10 +87,10 @@ class ContactsModel extends ListModel
     {
         $app = Factory::getApplication();
 
-        $forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
+        $forcedLanguage = $app->getInput()->get('forcedLanguage', '', 'cmd');
 
         // Adjust the context to support modal layouts.
-        if ($layout = $app->input->get('layout')) {
+        if ($layout = $app->getInput()->get('layout')) {
             $this->context .= '.' . $layout;
         }
 
@@ -135,16 +138,16 @@ class ContactsModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   1.6
      */
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
-        $query = $db->getQuery(true);
-        $user = Factory::getUser();
+        $db    = $this->getDatabase();
+        $query = $db->createQuery();
+        $user  = $this->getCurrentUser();
 
         // Select the required fields from the table.
         $query->select(
@@ -155,7 +158,7 @@ class ContactsModel extends ListModel
                         'list.select',
                         'a.id, a.name, a.alias, a.checked_out, a.checked_out_time, a.catid, a.user_id' .
                         ', a.published, a.access, a.created, a.created_by, a.ordering, a.featured, a.language' .
-                        ', a.publish_up, a.publish_down'
+                        ', a.publish_up, a.publish_down, a.modified_by'
                     )
                 )
             )
@@ -164,10 +167,10 @@ class ContactsModel extends ListModel
 
         // Join over the users for the linked user.
         $query->select(
-            array(
+            [
                 $db->quoteName('ul.name', 'linked_user'),
-                $db->quoteName('ul.email')
-            )
+                $db->quoteName('ul.email'),
+            ]
         )
             ->join(
                 'LEFT',
@@ -205,7 +208,7 @@ class ContactsModel extends ListModel
 
         // Join over the associations.
         if (Associations::isEnabled()) {
-            $subQuery = $db->getQuery(true)
+            $subQuery = $db->createQuery()
                 ->select('COUNT(' . $db->quoteName('asso1.id') . ') > 1')
                 ->from($db->quoteName('#__associations', 'asso1'))
                 ->join('INNER', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
@@ -222,7 +225,7 @@ class ContactsModel extends ListModel
         // Filter by featured.
         $featured = (string) $this->getState('filter.featured');
 
-        if (in_array($featured, ['0','1'])) {
+        if (\in_array($featured, ['0','1'])) {
             $query->where($db->quoteName('a.featured') . ' = ' . (int) $featured);
         }
 
@@ -280,9 +283,15 @@ class ContactsModel extends ListModel
         }
 
         if ($tag && \is_array($tag)) {
-            $tag = ArrayHelper::toInteger($tag);
+            $tag         = ArrayHelper::toInteger($tag);
+            $includeNone = false;
 
-            $subQuery = $db->getQuery(true)
+            if (\in_array(0, $tag)) {
+                $tag         = array_filter($tag);
+                $includeNone = true;
+            }
+
+            $subQuery = $db->createQuery()
                 ->select('DISTINCT ' . $db->quoteName('content_item_id'))
                 ->from($db->quoteName('#__contentitem_tag_map'))
                 ->where(
@@ -293,16 +302,48 @@ class ContactsModel extends ListModel
                 );
 
             $query->join(
-                'INNER',
+                $includeNone ? 'LEFT' : 'INNER',
                 '(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
                 $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
             );
-        } elseif ($tag = (int) $tag) {
-            $query->join(
-                'INNER',
-                $db->quoteName('#__contentitem_tag_map', 'tagmap'),
-                $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-            )
+
+            if ($includeNone) {
+                $subQuery2 = $db->createQuery()
+                    ->select('DISTINCT ' . $db->quoteName('content_item_id'))
+                    ->from($db->quoteName('#__contentitem_tag_map'))
+                    ->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_contact.contact'));
+                $query->join(
+                    'LEFT',
+                    '(' . $subQuery2 . ') AS ' . $db->quoteName('tagmap2'),
+                    $db->quoteName('tagmap2.content_item_id') . ' = ' . $db->quoteName('a.id')
+                )
+                ->where(
+                    '(' . $db->quoteName('tagmap.content_item_id') . ' IS NOT NULL OR '
+                    . $db->quoteName('tagmap2.content_item_id') . ' IS NULL)'
+                );
+            }
+        } elseif (is_numeric($tag)) {
+            $tag = (int) $tag;
+
+            if ($tag === 0) {
+                $subQuery = $db->createQuery()
+                    ->select('DISTINCT ' . $db->quoteName('content_item_id'))
+                    ->from($db->quoteName('#__contentitem_tag_map'))
+                    ->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_contact.contact'));
+
+                // Only show contacts without tags
+                $query->join(
+                    'LEFT',
+                    '(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
+                    $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+                )
+                ->where($db->quoteName('tagmap.content_item_id') . ' IS NULL');
+            } else {
+                $query->join(
+                    'INNER',
+                    $db->quoteName('#__contentitem_tag_map', 'tagmap'),
+                    $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+                )
                 ->where(
                     [
                         $db->quoteName('tagmap.tag_id') . ' = :tag',
@@ -310,21 +351,22 @@ class ContactsModel extends ListModel
                     ]
                 )
                 ->bind(':tag', $tag, ParameterType::INTEGER);
+            }
         }
 
         // Filter by categories and by level
-        $categoryId = $this->getState('filter.category_id', array());
-        $level = $this->getState('filter.level');
+        $categoryId = $this->getState('filter.category_id', []);
+        $level      = $this->getState('filter.level');
 
-        if (!is_array($categoryId)) {
-            $categoryId = $categoryId ? array($categoryId) : array();
+        if (!\is_array($categoryId)) {
+            $categoryId = $categoryId ? [$categoryId] : [];
         }
 
         // Case: Using both categories filter and by level filter
-        if (count($categoryId)) {
-            $categoryId = ArrayHelper::toInteger($categoryId);
-            $categoryTable = Table::getInstance('Category', 'JTable');
-            $subCatItemsWhere = array();
+        if (\count($categoryId)) {
+            $categoryId       = ArrayHelper::toInteger($categoryId);
+            $categoryTable    = new Category($db);
+            $subCatItemsWhere = [];
 
             // @todo: Convert to prepared statement
             foreach ($categoryId as $filter_catid) {
@@ -343,7 +385,7 @@ class ContactsModel extends ListModel
         }
 
         // Add the list ordering clause.
-        $orderCol = $this->state->get('list.ordering', 'a.name');
+        $orderCol  = $this->state->get('list.ordering', 'a.name');
         $orderDirn = $this->state->get('list.direction', 'asc');
 
         if ($orderCol == 'a.ordering' || $orderCol == 'category_title') {

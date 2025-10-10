@@ -35,7 +35,7 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
         // Set the toolbar information.
         ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'sync install');

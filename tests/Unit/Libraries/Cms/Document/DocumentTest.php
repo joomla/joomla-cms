@@ -37,44 +37,44 @@ class DocumentTest extends UnitTestCase
             [
                 ['lineend' => "\12"],
                 [
-                    'lineend' => "\12",
-                    'charset' => 'utf-8',
-                    'language' => 'en-gb',
+                    'lineend'   => "\12",
+                    'charset'   => 'utf-8',
+                    'language'  => 'en-gb',
                     'direction' => 'ltr',
-                    'tab' => "\11",
-                    'link' => '',
-                    'base' => ''
-                ]
+                    'tab'       => "\11",
+                    'link'      => '',
+                    'base'      => '',
+                ],
             ],
             [
                 ['charset' => "euc-jp", 'mediaversion' => '1a2b3c4d'],
                 [
-                    'lineend' => "\12",
-                    'charset' => 'euc-jp',
-                    'language' => 'en-gb',
-                    'direction' => 'ltr',
-                    'tab' => "\11",
-                    'link' => '',
-                    'base' => '',
-                    'mediaversion' => '1a2b3c4d'
-                ]
+                    'lineend'      => "\12",
+                    'charset'      => 'euc-jp',
+                    'language'     => 'en-gb',
+                    'direction'    => 'ltr',
+                    'tab'          => "\11",
+                    'link'         => '',
+                    'base'         => '',
+                    'mediaversion' => '1a2b3c4d',
+                ],
             ],
             [
                 [
                     'language' => "de-de", 'direction' => 'rtl',
                     'tab'      => 'Crazy Tab', 'link' => 'http://joomla.org',
-                    'base'     => 'http://base.joomla.org/dir'
+                    'base'     => 'http://base.joomla.org/dir',
                 ],
                 [
-                    'lineend' => "\12",
-                    'charset' => 'utf-8',
-                    'language' => 'de-de',
+                    'lineend'   => "\12",
+                    'charset'   => 'utf-8',
+                    'language'  => 'de-de',
                     'direction' => 'rtl',
-                    'tab' => "Crazy Tab",
-                    'link' => 'http://joomla.org',
-                    'base' => 'http://base.joomla.org/dir'
-                ]
-            ]
+                    'tab'       => "Crazy Tab",
+                    'link'      => 'http://joomla.org',
+                    'base'      => 'http://base.joomla.org/dir',
+                ],
+            ],
         ];
     }
 
@@ -772,7 +772,7 @@ class DocumentTest extends UnitTestCase
     protected function getDocumentDependencyMocks(): array
     {
         return [
-            'factory' => $this->createMock(FactoryInterface::class),
+            'factory'         => $this->createMock(FactoryInterface::class),
             'webAssetManager' => $this->createMock(WebAssetManager::class),
         ];
     }

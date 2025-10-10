@@ -16,11 +16,13 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -34,8 +36,10 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class UserModel extends AdminModel
+class UserModel extends AdminModel implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * An item.
      *
@@ -46,22 +50,22 @@ class UserModel extends AdminModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         $config = array_merge(
-            array(
+            [
                 'event_after_delete'  => 'onUserAfterDelete',
                 'event_after_save'    => 'onUserAfterSave',
                 'event_before_delete' => 'onUserBeforeDelete',
                 'event_before_save'   => 'onUserBeforeSave',
-                'events_map'          => array('save' => 'user', 'delete' => 'user', 'validate' => 'user')
-            ),
+                'events_map'          => ['save' => 'user', 'delete' => 'user', 'validate' => 'user'],
+            ],
             $config
         );
 
@@ -79,7 +83,7 @@ class UserModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getTable($type = 'User', $prefix = 'Joomla\\CMS\\Table\\', $config = array())
+    public function getTable($type = 'User', $prefix = 'Joomla\\CMS\\Table\\', $config = [])
     {
         $table = Table::getInstance($type, $prefix, $config);
 
@@ -100,7 +104,7 @@ class UserModel extends AdminModel
         $pk = (!empty($pk)) ? $pk : (int) $this->getState('user.id');
 
         if ($this->_item === null) {
-            $this->_item = array();
+            $this->_item = [];
         }
 
         if (!isset($this->_item[$pk])) {
@@ -120,16 +124,16 @@ class UserModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.user', 'user', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_users.user', 'user', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
         }
 
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // If the user needs to change their password, mark the password fields as required
         if ($user->requireReset) {
@@ -139,7 +143,7 @@ class UserModel extends AdminModel
 
         // When multilanguage is set, a user's default site language should also be a Content Language
         if (Multilanguage::isEnabled()) {
-            $form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
+            $form->setFieldAttribute('language', 'type', 'frontendlanguage', 'params');
         }
 
         $userId = (int) $form->getValue('id');
@@ -180,7 +184,7 @@ class UserModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_users.edit.user.data', array());
+        $data = Factory::getApplication()->getUserState('com_users.edit.user.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -221,10 +225,9 @@ class UserModel extends AdminModel
      */
     public function save($data)
     {
-        $pk   = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
-        $user = User::getInstance($pk);
-
-        $my = Factory::getUser();
+        $pk            = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
+        $user          = $this->getUserFactory()->loadUserById($pk);
+        $my            = $this->getCurrentUser();
         $iAmSuperAdmin = $my->authorise('core.admin');
 
         // User cannot modify own user groups
@@ -249,10 +252,10 @@ class UserModel extends AdminModel
         }
 
         // Make sure that we are not removing ourself from Super Admin group
-        if ($iAmSuperAdmin && $my->get('id') == $pk) {
+        if ($iAmSuperAdmin && $my->id == $pk) {
             // Check that at least one of our new groups is Super Admin
             $stillSuperAdmin = false;
-            $myNewGroups = $data['groups'];
+            $myNewGroups     = $data['groups'];
 
             foreach ($myNewGroups as $group) {
                 $stillSuperAdmin = $stillSuperAdmin ?: Access::checkGroup($group, 'core.admin');
@@ -263,6 +266,15 @@ class UserModel extends AdminModel
 
                 return false;
             }
+        }
+
+        // Unset the username if it should not be overwritten
+        if (
+            !$my->authorise('core.manage', 'com_users')
+            && (int) $user->id === (int) $my->id
+            && !ComponentHelper::getParams('com_users')->get('change_login_name')
+        ) {
+            unset($data['username']);
         }
 
         // Bind the data.
@@ -280,7 +292,7 @@ class UserModel extends AdminModel
         }
 
         // Destroy all active sessions for the user after changing the password or blocking him
-        if ($data['password2'] || $data['block']) {
+        if (!empty($data['password2']) || !empty($data['block'])) {
             UserHelper::destroyUserSessions($user->id, true);
         }
 
@@ -301,7 +313,7 @@ class UserModel extends AdminModel
      */
     public function delete(&$pks)
     {
-        $user  = Factory::getUser();
+        $user  = $this->getCurrentUser();
         $table = $this->getTable();
         $pks   = (array) $pks;
 
@@ -310,7 +322,7 @@ class UserModel extends AdminModel
 
         PluginHelper::importPlugin($this->events_map['delete']);
 
-        if (in_array($user->id, $pks)) {
+        if (\in_array($user->id, $pks)) {
             $this->setError(Text::_('COM_USERS_USERS_ERROR_CANNOT_DELETE_SELF'));
 
             return false;
@@ -327,19 +339,19 @@ class UserModel extends AdminModel
 
                 if ($allow) {
                     // Get users data for the users to delete.
-                    $user_to_delete = Factory::getUser($pk);
+                    $user_to_delete = $this->getUserFactory()->loadUserById($pk);
 
                     // Fire the before delete event.
-                    Factory::getApplication()->triggerEvent($this->event_before_delete, array($table->getProperties()));
+                    Factory::getApplication()->triggerEvent($this->event_before_delete, [$table->getProperties()]);
 
                     if (!$table->delete($pk)) {
                         $this->setError($table->getError());
 
                         return false;
-                    } else {
-                        // Trigger the after delete event.
-                        Factory::getApplication()->triggerEvent($this->event_after_delete, array($user_to_delete->getProperties(), true, $this->getError()));
                     }
+
+                    // Trigger the after delete event.
+                    Factory::getApplication()->triggerEvent($this->event_after_delete, [ArrayHelper::fromObject($user_to_delete, false), true, $this->getError()]);
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);
@@ -368,8 +380,8 @@ class UserModel extends AdminModel
      */
     public function block(&$pks, $value = 1)
     {
-        $app        = Factory::getApplication();
-        $user       = Factory::getUser();
+        $app  = Factory::getApplication();
+        $user = $this->getCurrentUser();
 
         // Check if I am a Super Admin
         $iAmSuperAdmin = $user->authorise('core.admin');
@@ -379,13 +391,13 @@ class UserModel extends AdminModel
         PluginHelper::importPlugin($this->events_map['save']);
 
         // Prepare the logout options.
-        $options = array(
+        $options = [
             'clientid' => $app->get('shared_session', '0') ? null : 0,
-        );
+        ];
 
         // Access checks.
         foreach ($pks as $i => $pk) {
-            if ($value == 1 && $pk == $user->get('id')) {
+            if ($value == 1 && $pk == $user->id) {
                 // Cannot block yourself.
                 unset($pks[$i]);
                 Factory::getApplication()->enqueueMessage(Text::_('COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF'), 'error');
@@ -419,9 +431,9 @@ class UserModel extends AdminModel
                         }
 
                         // Trigger the before save event.
-                        $result = Factory::getApplication()->triggerEvent($this->event_before_save, array($old, false, $table->getProperties()));
+                        $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$old, false, $table->getProperties()]);
 
-                        if (in_array(false, $result, true)) {
+                        if (\in_array(false, $result, true)) {
                             // Plugin will have to raise its own error or throw an exception.
                             return false;
                         }
@@ -472,26 +484,80 @@ class UserModel extends AdminModel
      */
     public function activate(&$pks)
     {
-        $user = Factory::getUser();
+        $app  = Factory::getApplication();
+        $user = $app->getIdentity();
 
-        // Check if I am a Super Admin
+        // Check if I am a super admin
         $iAmSuperAdmin = $user->authorise('core.admin');
-        $table         = $this->getTable();
-        $pks           = (array) $pks;
+
+        // Load user table
+        $table = $this->getTable();
+        $pks   = (array) $pks;
+
+        // Compile the user activated notification mail default values.
+        $mailData             = [];
+        $mailData['siteurl']  = \Joomla\CMS\Uri\Uri::root();
+        $mailData['fromname'] = $app->get('fromname');
+        $mailData['mailfrom'] = $app->get('mailfrom');
+        $mailData['sitename'] = $app->get('sitename');
+
+        // Load com_users site language strings, the mail template use it
+        $app->getLanguage()->load('com_users', JPATH_SITE);
+
+        $sendMailTo = function ($userData) use ($app, $mailData) {
+            $mailData['name']     = $userData['name'];
+            $mailData['username'] = $userData['username'];
+
+            // Use the default language
+            $langTag = ComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+
+            $mailer = new MailTemplate('com_users.registration.user.admin_activated', $langTag);
+            $mailer->addTemplateData($mailData);
+            $mailer->addRecipient($userData['email']);
+
+            try {
+                $return = $mailer->send();
+            } catch (\Exception $exception) {
+                try {
+                    \Joomla\CMS\Log\Log::add(Text::_($exception->getMessage()), \Joomla\CMS\Log\Log::WARNING, 'jerror');
+
+                    $return = false;
+                } catch (\RuntimeException $exception) {
+                    $app->enqueueMessage(Text::_($exception->errorMessage()), $app::MSG_WARNING);
+
+                    $return = false;
+                }
+            }
+
+            // Check for an error.
+            if ($return !== true) {
+                $app->enqueueMessage(Text::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'), $app::MSG_WARNING);
+
+                return false;
+            }
+
+            $app->enqueueMessage(Text::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_SUCCESS'), $app::MSG_INFO);
+            return true;
+        };
 
         PluginHelper::importPlugin($this->events_map['save']);
 
-        // Access checks.
+        // Activate and send the notification email
         foreach ($pks as $i => $pk) {
             if ($table->load($pk)) {
-                $old   = $table->getProperties();
-                $allow = $user->authorise('core.edit.state', 'com_users');
+                $prevUserData = $table->getProperties();
+                $allow        = $user->authorise('core.edit.state', 'com_users');
 
-                // Don't allow non-super-admin to delete a super admin
+                // Don't allow non-super-admin to edit the active status of a super admin
                 $allow = (!$iAmSuperAdmin && Access::check($pk, 'core.admin')) ? false : $allow;
 
+                // Ignore activated accounts but check if we can still
+                // resend the notification email
                 if (empty($table->activation)) {
-                    // Ignore activated accounts.
+                    if (\is_null($table->lastvisitDate)) {
+                        $sendMailTo($prevUserData);
+                    }
+
                     unset($pks[$i]);
                 } elseif ($allow) {
                     $table->block      = 0;
@@ -506,9 +572,9 @@ class UserModel extends AdminModel
                         }
 
                         // Trigger the before save event.
-                        $result = Factory::getApplication()->triggerEvent($this->event_before_save, array($old, false, $table->getProperties()));
+                        $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$prevUserData, false, $table->getProperties()]);
 
-                        if (in_array(false, $result, true)) {
+                        if (\in_array(false, $result, true)) {
                             // Plugin will have to raise it's own error or throw an exception.
                             return false;
                         }
@@ -522,6 +588,11 @@ class UserModel extends AdminModel
 
                         // Fire the after save event
                         Factory::getApplication()->triggerEvent($this->event_after_save, [$table->getProperties(), false, true, null]);
+
+                        // Send the email
+                        if (!$sendMailTo($prevUserData)) {
+                            return false;
+                        }
                     } catch (\Exception $e) {
                         $this->setError($e->getMessage());
 
@@ -530,7 +601,7 @@ class UserModel extends AdminModel
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);
-                    Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
+                    $app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
                 }
             }
         }
@@ -613,7 +684,7 @@ class UserModel extends AdminModel
         $userIds = ArrayHelper::toInteger($userIds);
 
         // Check if I am a Super Admin
-        $iAmSuperAdmin = Factory::getUser()->authorise('core.admin');
+        $iAmSuperAdmin = $this->getCurrentUser()->authorise('core.admin');
 
         // Non-super super user cannot work with super-admin user.
         if (!$iAmSuperAdmin && UserHelper::checkSuperUserInUsers($userIds)) {
@@ -630,7 +701,7 @@ class UserModel extends AdminModel
         }
 
         // Prune out the current user if they are in the supplied user ID array
-        $userIds = array_diff($userIds, array(Factory::getUser()->id));
+        $userIds = array_diff($userIds, [$this->getCurrentUser()->id]);
 
         if (empty($userIds)) {
             $this->setError(Text::_('COM_USERS_USERS_ERROR_CANNOT_REQUIRERESET_SELF'));
@@ -643,7 +714,7 @@ class UserModel extends AdminModel
 
         $userIds = ArrayHelper::toInteger($userIds);
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Update the reset flag
         $query->update($db->quoteName('#__users'))
@@ -680,7 +751,7 @@ class UserModel extends AdminModel
         $userIds = ArrayHelper::toInteger($userIds);
 
         // Check if I am a Super Admin
-        $iAmSuperAdmin = Factory::getUser()->authorise('core.admin');
+        $iAmSuperAdmin = $this->getCurrentUser()->authorise('core.admin');
 
         // Non-super super user cannot work with super-admin user.
         if (!$iAmSuperAdmin && UserHelper::checkSuperUserInUsers($userIds)) {
@@ -700,20 +771,20 @@ class UserModel extends AdminModel
         $db = $this->getDatabase();
 
         switch ($action) {
-            // Sets users to a selected group
             case 'set':
+                // Sets users to a selected group
                 $doDelete = 'all';
                 $doAssign = true;
                 break;
 
-            // Remove users from a selected group
             case 'del':
+                // Remove users from a selected group
                 $doDelete = 'group';
                 break;
 
-            // Add users to a selected group
             case 'add':
             default:
+                // Add users to a selected group
                 $doAssign = true;
                 break;
         }
@@ -721,12 +792,12 @@ class UserModel extends AdminModel
         // Remove the users from the group if requested.
         if (isset($doDelete)) {
             /*
-            * First we need to check that the user is part of more than one group
-            * otherwise we will end up with a user that is not part of any group
-            * unless we are moving the user to a new group.
-            */
+             * First we need to check that the user is part of more than one group
+             * otherwise we will end up with a user that is not part of any group
+             * unless we are moving the user to a new group.
+             */
             if ($doDelete === 'group') {
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
                 $query->select($db->quoteName('user_id'))
                     ->from($db->quoteName('#__user_usergroup_map'))
                     ->whereIn($db->quoteName('user_id'), $userIds);
@@ -769,9 +840,9 @@ class UserModel extends AdminModel
                     ->bind(':group_id', $groupId, ParameterType::INTEGER);
                 $db->setQuery($query);
             } elseif ($doDelete === 'all') {
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
                 $query->delete($db->quoteName('#__user_usergroup_map'))
-                    ->whereIn($db->quoteName('user_id'), $users);
+                    ->whereIn($db->quoteName('user_id'), $userIds);
             }
             $db->setQuery($query);
 
@@ -786,7 +857,7 @@ class UserModel extends AdminModel
 
         // Assign the users to the group if requested.
         if (isset($doAssign)) {
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             // First, we need to check if the user is already assigned to a group
             $query->select($db->quoteName('user_id'))
@@ -801,7 +872,7 @@ class UserModel extends AdminModel
             $groups = false;
 
             foreach ($userIds as $id) {
-                if (!in_array($id, $users)) {
+                if (!\in_array($id, $users)) {
                     $query->values($id . ',' . $groupId);
                     $groups = true;
                 }
@@ -815,7 +886,7 @@ class UserModel extends AdminModel
             }
 
             $query->insert($db->quoteName('#__user_usergroup_map'))
-                ->columns(array($db->quoteName('user_id'), $db->quoteName('group_id')));
+                ->columns([$db->quoteName('user_id'), $db->quoteName('group_id')]);
             $db->setQuery($query);
 
             try {
@@ -839,16 +910,16 @@ class UserModel extends AdminModel
      */
     public function getGroups()
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         if ($user->authorise('core.edit', 'com_users') && $user->authorise('core.manage', 'com_users')) {
             $model = $this->bootComponent('com_users')
                 ->getMVCFactory()->createModel('Groups', 'Administrator', ['ignore_request' => true]);
 
             return $model->getItems();
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**
@@ -865,8 +936,8 @@ class UserModel extends AdminModel
         $userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
 
         if (empty($userId)) {
-            $result   = array();
-            $form     = $this->getForm();
+            $result = [];
+            $form   = $this->getForm();
 
             if ($form) {
                 $groupsIDs = $form->getValue('groups');
@@ -896,12 +967,14 @@ class UserModel extends AdminModel
      * @return  \stdClass
      *
      * @since   3.2
-     * @deprecated 4.2.0 Will be removed in 5.0
+     *
+     * @deprecated   4.2 will be removed in 6.0.
+     *               Will be removed without replacement
      */
     public function getOtpConfig($userId = null)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. Use \Joomla\Component\Users\Administrator\Helper\Mfa::getUserMfaRecords() instead.',
                 __METHOD__
             ),
@@ -909,11 +982,11 @@ class UserModel extends AdminModel
         );
 
         // Return the configuration object
-        return (object) array(
+        return (object) [
             'method' => 'none',
-            'config' => array(),
-            'otep'   => array()
-        );
+            'config' => [],
+            'otep'   => [],
+        ];
     }
 
     /**
@@ -925,12 +998,14 @@ class UserModel extends AdminModel
      * @return  boolean  True on success
      *
      * @since   3.2
-     * @deprecated 4.2.0 Will be removed in 5.0
+     *
+     * @deprecated   4.2 will be removed in 5.0.
+     *               Will be removed without replacement
      */
     public function setOtpConfig($userId, $otpConfig)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. Multi-factor Authentication actions are handled by plugins in the multifactorauth folder.',
                 __METHOD__
             ),
@@ -946,12 +1021,14 @@ class UserModel extends AdminModel
      * @return  string
      *
      * @since   3.2
-     * @deprecated 4.2.0 Will be removed in 5.0
+     *
+     * @deprecated   4.2 will be removed in 6.0.
+     *               Use \Joomla\CMS\Factory::getApplication()->get('secret') instead'
      */
     public function getOtpConfigEncryptionKey()
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. Use \Joomla\CMS\Factory::getApplication()->get(\'secret\') instead',
                 __METHOD__
             ),
@@ -971,12 +1048,13 @@ class UserModel extends AdminModel
      * @since   3.2
      * @throws  \Exception
      *
-     * @deprecated 4.2.0 Will be removed in 5.0.
+     * @deprecated   4.2 will be removed in 5.0.
+     *               Will be removed without replacement
      */
     public function getTwofactorform($userId = null)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. Use \Joomla\Component\Users\Administrator\Helper\Mfa::getConfigurationInterface()',
                 __METHOD__
             ),
@@ -995,12 +1073,14 @@ class UserModel extends AdminModel
      * @return  array  Empty array
      *
      * @since   3.2
-     * @deprecated 4.2.0 Will be removed in 5.0.
+     *
+     * @deprecated   4.2 will be removed in 5.0
+     *               Will be removed without replacement
      */
     public function generateOteps($userId, $count = 10)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. See \Joomla\Component\Users\Administrator\Model\BackupcodesModel::saveBackupCodes()',
                 __METHOD__
             ),
@@ -1022,12 +1102,13 @@ class UserModel extends AdminModel
      * @since   3.2
      * @throws  \Exception
      *
-     * @deprecated 4.2.0 Will be removed in 5.0. MFA validation is done in the captive login.
+     * @deprecated   4.2 will be removed in 5.0
+     *               Will be removed without replacement
      */
-    public function isValidSecretKey($userId, $secretKey, $options = array())
+    public function isValidSecretKey($userId, $secretKey, $options = [])
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. Multi-factor Authentication actions are handled by plugins in the multifactorauth folder.',
                 __METHOD__
             ),
@@ -1047,12 +1128,14 @@ class UserModel extends AdminModel
      * @return  boolean  Always true
      *
      * @since   3.2
-     * @deprecated 4.2.0 Will be removed in 5.0
+     *
+     * @deprecated   4.2 will be removed in 5.0
+     *               Will be removed without replacement
      */
     public function isValidOtep($userId, $otep, $otpConfig = null)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. Multi-factor Authentication actions are handled by plugins in the multifactorauth folder.',
                 __METHOD__
             ),

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="fields" method="upgrade">
 	<name>plg_fields_media</name>
 	<author>Joomla! Project</author>
@@ -9,9 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.7.0</version>
 	<description>PLG_FIELDS_MEDIA_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Fields\Media</namespace>
 	<files>
-		<filename plugin="media">media.php</filename>
 		<folder>params</folder>
+		<folder plugin="media">services</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
@@ -23,11 +25,10 @@
 			<fieldset name="basic">
 				<field
 					name="directory"
-					type="folderlist"
+					type="media"
 					label="PLG_FIELDS_MEDIA_PARAMS_DIRECTORY_LABEL"
-					directory="images"
-					hide_none="true"
-					recursive="true"
+					preview="false"
+					types="directories"
 				/>
 
 				<field

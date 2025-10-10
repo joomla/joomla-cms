@@ -10,15 +10,16 @@
 namespace Joomla\CMS\Log\Logger;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
 use Joomla\CMS\Version;
+use Joomla\Filesystem\Exception\FilesystemException;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\Utilities\IpHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -47,7 +48,7 @@ class FormattedtextLogger extends Logger
      * @var    array
      * @since  1.7.0
      */
-    protected $fields = array();
+    protected $fields = [];
 
     /**
      * The full filesystem path for the log file.
@@ -72,7 +73,7 @@ class FormattedtextLogger extends Logger
      * @var    array
      * @since  3.9.0
      */
-    protected $deferredEntries = array();
+    protected $deferredEntries = [];
 
     /**
      * Constructor.
@@ -134,10 +135,26 @@ class FormattedtextLogger extends Logger
         $this->initFile();
 
         // Format all lines and write to file.
-        $lines = array_map(array($this, 'formatLine'), $this->deferredEntries);
+        $lines = array_map([$this, 'formatLine'], $this->deferredEntries);
 
-        if (!File::append($this->path, implode("\n", $lines) . "\n")) {
-            throw new \RuntimeException('Cannot write to log file.');
+        try {
+            File::write($this->path, implode("\n", $lines) . "\n", false, true);
+        } catch (FilesystemException $exception) {
+            throw new \RuntimeException('Cannot write to log file.', 500, $exception);
+        }
+    }
+
+    /**
+     * Prevent object injection attacks by suppressing unserialization of instance with deferred rows
+     *
+     * @since  5.2.2
+     *
+     * @throws \Exception
+     */
+    public function __wakeup()
+    {
+        if ($this->defer && !empty($this->deferredEntries)) {
+            throw new \RuntimeException('Can not unserialize in defer mode');
         }
     }
 
@@ -165,8 +182,10 @@ class FormattedtextLogger extends Logger
             $line = $this->formatLine($entry);
             $line .= "\n";
 
-            if (!File::append($this->path, $line)) {
-                throw new \RuntimeException('Cannot write to log file.');
+            try {
+                File::write($this->path, $line, false, true);
+            } catch (FilesystemException $exception) {
+                throw new \RuntimeException('Cannot write to log file.', 500, $exception);
             }
         }
     }
@@ -195,8 +214,8 @@ class FormattedtextLogger extends Logger
         if ((\strlen($entry->date) != 10) || !isset($entry->time)) {
             // Get the date and time strings in GMT.
             $entry->datetime = $entry->date->toISO8601();
-            $entry->time = $entry->date->format('H:i:s', false);
-            $entry->date = $entry->date->format('Y-m-d', false);
+            $entry->time     = $entry->date->format('H:i:s', false);
+            $entry->date     = $entry->date->format('Y-m-d', false);
         }
 
         // Get a list of all the entry keys and make sure they are upper case.
@@ -224,7 +243,7 @@ class FormattedtextLogger extends Logger
      */
     protected function generateFileHeader()
     {
-        $head = array();
+        $head = [];
 
         // Build the log file header.
 
@@ -259,7 +278,7 @@ class FormattedtextLogger extends Logger
     protected function initFile()
     {
         // We only need to make sure the file exists
-        if (File::exists($this->path)) {
+        if (is_file($this->path)) {
             return;
         }
 
@@ -269,8 +288,10 @@ class FormattedtextLogger extends Logger
         // Build the log file header.
         $head = $this->generateFileHeader();
 
-        if (!File::write($this->path, $head)) {
-            throw new \RuntimeException('Cannot write to log file.');
+        try {
+            File::write($this->path, $head);
+        } catch (FilesystemException $exception) {
+            throw new \RuntimeException('Cannot write to log file.', 500, $exception);
         }
     }
 
@@ -283,8 +304,8 @@ class FormattedtextLogger extends Logger
      */
     protected function parseFields()
     {
-        $this->fields = array();
-        $matches = array();
+        $this->fields = [];
+        $matches      = [];
 
         // Get all of the available fields in the format string.
         preg_match_all('/{(.*?)}/i', $this->format, $matches);

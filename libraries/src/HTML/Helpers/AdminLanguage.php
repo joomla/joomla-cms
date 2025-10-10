@@ -11,10 +11,9 @@ namespace Joomla\CMS\HTML\Helpers;
 
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -45,7 +44,7 @@ abstract class AdminLanguage
     public static function existing($all = false, $translate = false)
     {
         if (empty(static::$items)) {
-            $languages       = array();
+            $languages       = [];
             $admin_languages = LanguageHelper::getKnownLanguages(JPATH_ADMINISTRATOR);
 
             foreach ($admin_languages as $tag => $language) {
@@ -58,11 +57,11 @@ abstract class AdminLanguage
         }
 
         if ($all) {
-            $all_option = array(new CMSObject(array('value' => '*', 'text' => $translate ? Text::alt('JALL', 'language') : 'JALL_LANGUAGE')));
+            $all_option = [(object) ['value' => '*', 'text' => $translate ? Text::alt('JALL', 'language') : 'JALL_LANGUAGE']];
 
             return array_merge($all_option, static::$items);
-        } else {
-            return static::$items;
         }
+
+        return static::$items;
     }
 }

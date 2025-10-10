@@ -64,6 +64,10 @@ if (!empty($autofocus)) {
     $attribs[] = 'autofocus';
 }
 
+if ($required) {
+    $attribs[] = 'class="required radio"';
+}
+
 if ($readonly || $disabled) {
     $attribs[] = 'style="pointer-events: none"';
 }
@@ -108,7 +112,7 @@ if ($dataAttribute) {
                 $onchange   = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
                 $oid        = $id . $i;
                 $ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-                $attributes = array_filter(array($checked, $disabled, ltrim($style), $onchange, $onclick));
+                $attributes = array_filter([$checked, $disabled, ltrim($style), $onchange, $onclick]);
                 ?>
                 <?php if ($required) : ?>
                     <?php $attributes[] = 'required'; ?>

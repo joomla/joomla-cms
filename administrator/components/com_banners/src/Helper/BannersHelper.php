@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -38,12 +37,12 @@ class BannersHelper extends ContentHelper
      */
     public static function updateReset()
     {
-        $db   = Factory::getDbo();
-        $date = Factory::getDate();
-        $app  = Factory::getApplication();
-        $user = $app->getIdentity();
+        $db      = Factory::getDbo();
+        $nowDate = Factory::getDate()->toSql();
+        $app     = Factory::getApplication();
+        $user    = $app->getIdentity();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*')
             ->from($db->quoteName('#__banners'))
             ->where(
@@ -52,7 +51,7 @@ class BannersHelper extends ContentHelper
                     $db->quoteName('reset') . ' IS NOT NULL',
                 ]
             )
-            ->bind(':date', $date)
+            ->bind(':date', $nowDate)
             ->extendWhere(
                 'AND',
                 [
@@ -78,13 +77,13 @@ class BannersHelper extends ContentHelper
 
             if ($purchaseType < 0 && $row->cid) {
                 /** @var \Joomla\Component\Banners\Administrator\Table\ClientTable $client */
-                $client = Table::getInstance('ClientTable', '\\Joomla\\Component\\Banners\\Administrator\\Table\\');
+                $client = $app->bootComponent('com_banners')->getMVCFactory()->createTable('Client', 'Administrator');
                 $client->load($row->cid);
                 $purchaseType = $client->purchase_type;
             }
 
             if ($purchaseType < 0) {
-                $params = ComponentHelper::getParams('com_banners');
+                $params       = ComponentHelper::getParams('com_banners');
                 $purchaseType = $params->get('purchase_type');
             }
 
@@ -93,25 +92,25 @@ class BannersHelper extends ContentHelper
                     $reset = null;
                     break;
                 case 2:
-                    $date = Factory::getDate('+1 year ' . date('Y-m-d'));
+                    $date  = Factory::getDate('+1 year ' . date('Y-m-d'));
                     $reset = $date->toSql();
                     break;
                 case 3:
-                    $date = Factory::getDate('+1 month ' . date('Y-m-d'));
+                    $date  = Factory::getDate('+1 month ' . date('Y-m-d'));
                     $reset = $date->toSql();
                     break;
                 case 4:
-                    $date = Factory::getDate('+7 day ' . date('Y-m-d'));
+                    $date  = Factory::getDate('+7 day ' . date('Y-m-d'));
                     $reset = $date->toSql();
                     break;
                 case 5:
-                    $date = Factory::getDate('+1 day ' . date('Y-m-d'));
+                    $date  = Factory::getDate('+1 day ' . date('Y-m-d'));
                     $reset = $date->toSql();
                     break;
             }
 
             // Update the row ordering field.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->update($db->quoteName('#__banners'))
                 ->set(
                     [
@@ -145,10 +144,10 @@ class BannersHelper extends ContentHelper
      */
     public static function getClientOptions()
     {
-        $options = array();
+        $options = [];
 
-        $db = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $db    = Factory::getDbo();
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('id', 'value'),

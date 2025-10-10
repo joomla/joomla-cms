@@ -36,7 +36,7 @@ class DisplayController extends BaseController
 
         if ($id) {
             /** @var \Joomla\Component\Banners\Site\Model\BannerModel $model */
-            $model = $this->getModel('Banner', 'Site', array('ignore_request' => true));
+            $model = $this->getModel('Banner', 'Site', ['ignore_request' => true]);
             $model->setState('banner.id', $id);
             $model->click();
             $this->setRedirect($model->getUrl());

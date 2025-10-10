@@ -13,7 +13,7 @@ use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Session\Session;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -38,6 +38,14 @@ class ModuleorderField extends FormField
      * @since  3.6.3
      */
     protected $layout = 'joomla.form.field.moduleorder';
+
+    /**
+     * The linked property
+     *
+     * @var    string
+     * @since  4.2.7
+     */
+    protected $linked;
 
     /**
      * Method to get certain otherwise inaccessible properties from the form field object.
@@ -113,7 +121,7 @@ class ModuleorderField extends FormField
      */
     protected function getInput()
     {
-        return $this->getRenderer($this->layout)->render($this->getLayoutData());
+        return $this->getRenderer($this->layout)->render($this->collectLayoutData());
     }
 
     /**
@@ -127,14 +135,14 @@ class ModuleorderField extends FormField
     {
         $data = parent::getLayoutData();
 
-        $extraData = array(
+        $extraData = [
             'ordering' => $this->form->getValue('ordering'),
             'clientId' => $this->form->getValue('client_id'),
             'moduleId' => $this->form->getValue('id'),
             'name'     => $this->name,
             'token'    => Session::getFormToken() . '=1',
-            'element'  => $this->form->getName() . '_' . $this->linked
-        );
+            'element'  => $this->form->getName() . '_' . $this->linked,
+        ];
 
         return array_merge($data, $extraData);
     }

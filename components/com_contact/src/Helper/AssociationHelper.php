@@ -37,15 +37,15 @@ abstract class AssociationHelper extends CategoryAssociationHelper
      */
     public static function getAssociations($id = 0, $view = null)
     {
-        $jinput = Factory::getApplication()->input;
-        $view   = $view ?? $jinput->get('view');
+        $jinput = Factory::getApplication()->getInput();
+        $view   ??= $jinput->get('view');
         $id     = empty($id) ? $jinput->getInt('id') : $id;
 
         if ($view === 'contact') {
             if ($id) {
                 $associations = Associations::getAssociations('com_contact', '#__contact_details', 'com_contact.item', $id);
 
-                $return = array();
+                $return = [];
 
                 foreach ($associations as $tag => $item) {
                     $return[$tag] = RouteHelper::getContactRoute($item->id, (int) $item->catid, $item->language);
@@ -59,6 +59,6 @@ abstract class AssociationHelper extends CategoryAssociationHelper
             return self::getCategoryAssociations($id, 'com_contact');
         }
 
-        return array();
+        return [];
     }
 }

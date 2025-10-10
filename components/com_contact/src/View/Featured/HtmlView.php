@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\Component\Contact\Site\Model\FeaturedModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -40,7 +41,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The item details
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var    array
      *
      * @since  1.6.0
      */
@@ -87,28 +88,28 @@ class HtmlView extends BaseHtmlView
         $app    = Factory::getApplication();
         $params = $app->getParams();
 
-        // Get some data from the models
-        $state      = $this->get('State');
-        $items      = $this->get('Items');
+        /** @var FeaturedModel $model */
+        $model      = $this->getModel();
+        $state      = $model->getState();
+        $items      = $model->getItems();
         $category   = $this->get('Category');
         $children   = $this->get('Children');
         $parent     = $this->get('Parent');
-        $pagination = $this->get('Pagination');
+        $pagination = $model->getPagination();
 
         // Flag indicates to not add limitstart=0 to URL
         $pagination->hideEmptyLimitstart = true;
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Prepare the data.
         // Compute the contact slug.
-        for ($i = 0, $n = count($items); $i < $n; $i++) {
-            $item       = &$items[$i];
-            $item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-            $temp       = $item->params;
+        foreach ($items as $item) {
+            $item->slug   = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
+            $temp         = $item->params;
             $item->params = clone $params;
             $item->params->merge($temp);
 
@@ -163,11 +164,11 @@ class HtmlView extends BaseHtmlView
         $this->setDocumentTitle($this->params->get('page_title', ''));
 
         if ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
     }
 }

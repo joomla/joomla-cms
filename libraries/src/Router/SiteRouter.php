@@ -19,7 +19,7 @@ use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -57,43 +57,43 @@ class SiteRouter extends Router
     /**
      * Class constructor
      *
-     * @param   CMSApplication  $app   Application Object
-     * @param   AbstractMenu    $menu  Menu object
+     * @param   ?CMSApplication  $app   Application Object
+     * @param   ?AbstractMenu    $menu  Menu object
      *
      * @since   3.4
      */
-    public function __construct(CMSApplication $app = null, AbstractMenu $menu = null)
+    public function __construct(?CMSApplication $app = null, ?AbstractMenu $menu = null)
     {
         $this->app  = $app ?: Factory::getContainer()->get(SiteApplication::class);
         $this->menu = $menu ?: $this->app->getMenu();
 
         // Add core rules
-        if ($this->app->get('force_ssl') === 2) {
-            $this->attachParseRule(array($this, 'parseCheckSSL'), self::PROCESS_BEFORE);
+        if ((int) $this->app->get('force_ssl') === 2) {
+            $this->attachParseRule([$this, 'parseCheckSSL'], self::PROCESS_BEFORE);
         }
 
-        $this->attachParseRule(array($this, 'parseInit'), self::PROCESS_BEFORE);
-        $this->attachBuildRule(array($this, 'buildInit'), self::PROCESS_BEFORE);
-        $this->attachBuildRule(array($this, 'buildComponentPreprocess'), self::PROCESS_BEFORE);
+        $this->attachParseRule([$this, 'parseInit'], self::PROCESS_BEFORE);
+        $this->attachBuildRule([$this, 'buildInit'], self::PROCESS_BEFORE);
+        $this->attachBuildRule([$this, 'buildComponentPreprocess'], self::PROCESS_BEFORE);
 
         if ($this->app->get('sef', 1)) {
             if ($this->app->get('sef_suffix')) {
-                $this->attachParseRule(array($this, 'parseFormat'), self::PROCESS_BEFORE);
-                $this->attachBuildRule(array($this, 'buildFormat'), self::PROCESS_AFTER);
+                $this->attachParseRule([$this, 'parseFormat'], self::PROCESS_BEFORE);
+                $this->attachBuildRule([$this, 'buildFormat'], self::PROCESS_AFTER);
             }
 
-            $this->attachParseRule(array($this, 'parseSefRoute'), self::PROCESS_DURING);
-            $this->attachBuildRule(array($this, 'buildSefRoute'), self::PROCESS_DURING);
-            $this->attachParseRule(array($this, 'parsePaginationData'), self::PROCESS_AFTER);
-            $this->attachBuildRule(array($this, 'buildPaginationData'), self::PROCESS_AFTER);
+            $this->attachParseRule([$this, 'parseSefRoute'], self::PROCESS_DURING);
+            $this->attachBuildRule([$this, 'buildSefRoute'], self::PROCESS_DURING);
+            $this->attachParseRule([$this, 'parsePaginationData'], self::PROCESS_AFTER);
+            $this->attachBuildRule([$this, 'buildPaginationData'], self::PROCESS_AFTER);
 
             if ($this->app->get('sef_rewrite')) {
-                $this->attachBuildRule(array($this, 'buildRewrite'), self::PROCESS_AFTER);
+                $this->attachBuildRule([$this, 'buildRewrite'], self::PROCESS_AFTER);
             }
         }
 
-        $this->attachParseRule(array($this, 'parseRawRoute'), self::PROCESS_DURING);
-        $this->attachBuildRule(array($this, 'buildBase'), self::PROCESS_AFTER);
+        $this->attachParseRule([$this, 'parseRawRoute'], self::PROCESS_DURING);
+        $this->attachBuildRule([$this, 'buildBase'], self::PROCESS_AFTER);
     }
 
     /**
@@ -138,7 +138,7 @@ class SiteRouter extends Router
          */
         try {
             $baseUri = Uri::base(true);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $baseUri = '';
         }
 
@@ -149,11 +149,11 @@ class SiteRouter extends Router
         if (preg_match("#.*?\.php#u", $path, $matches)) {
             // Get the current entry point path relative to the site path.
             $scriptPath         = realpath($_SERVER['SCRIPT_FILENAME'] ?: str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']));
-            $relativeScriptPath = str_replace('\\', '/', str_replace(JPATH_SITE, '', $scriptPath));
+            $relativeScriptPath = str_replace('\\', '/', str_replace(JPATH_PUBLIC, '', $scriptPath));
 
             // If a php file has been found in the request path, check to see if it is a valid file.
             // Also verify that it represents the same file from the server variable for entry script.
-            if (is_file(JPATH_SITE . $matches[0]) && ($matches[0] === $relativeScriptPath)) {
+            if (is_file(JPATH_PUBLIC . $matches[0]) && ($matches[0] === $relativeScriptPath)) {
                 // Remove the entry point segments from the request path for proper routing.
                 $path = str_replace($matches[0], '', $path);
             }
@@ -178,7 +178,7 @@ class SiteRouter extends Router
         $route = $uri->getPath();
 
         // Identify format
-        if (!(substr($route, -9) === 'index.php' || substr($route, -1) === '/') && $suffix = pathinfo($route, PATHINFO_EXTENSION)) {
+        if (!(str_ends_with($route, 'index.php') || str_ends_with($route, '/')) && $suffix = pathinfo($route, PATHINFO_EXTENSION)) {
             $uri->setVar('format', $suffix);
             $route = str_replace('.' . $suffix, '', $route);
             $uri->setPath($route);
@@ -215,7 +215,7 @@ class SiteRouter extends Router
             // Get menu items.
             $items    = $this->menu->getItems(['parent_id', 'access'], [1, null]);
             $lang_tag = $this->app->getLanguage()->getTag();
-            $found   = null;
+            $found    = null;
 
             foreach ($segments as $segment) {
                 $matched = false;
@@ -227,9 +227,9 @@ class SiteRouter extends Router
                         || ($item->language === '*'
                         || $item->language === $lang_tag))
                     ) {
-                        $found = $item;
+                        $found   = $item;
                         $matched = true;
-                        $items = $item->getChildren();
+                        $items   = $item->getChildren();
                         break;
                     }
                 }
@@ -283,7 +283,7 @@ class SiteRouter extends Router
             if (\count($segments)) {
                 // Handle component route
                 $component = preg_replace('/[^A-Z0-9_\.-]/i', '', $uri->getVar('option'));
-                $crouter = $this->getComponentRouter($component);
+                $crouter   = $this->getComponentRouter($component);
                 $uri->setQuery(array_merge($uri->getQuery(true), $crouter->parse($segments)));
             }
 
@@ -309,6 +309,12 @@ class SiteRouter extends Router
             $item = $this->menu->getItem($uri->getVar('Itemid'));
         } else {
             $item = $this->menu->getDefault($this->app->getLanguage()->getTag());
+
+            if ($item->query['option'] !== $uri->getVar('option', $item->query['option'])) {
+                // Set the active menu item
+                $this->menu->setActive($item->id);
+                $item = false;
+            }
         }
 
         if ($item && $item->type === 'alias') {
@@ -407,7 +413,10 @@ class SiteRouter extends Router
         ) {
             // Get the active menu item
             $item = $this->menu->getItem($query['Itemid']);
-            $query = array_merge($item->query, $query);
+
+            if ($item !== null) {
+                $query = array_merge($item->query, $query);
+            }
         }
 
         $uri->setQuery($query);
@@ -478,10 +487,11 @@ class SiteRouter extends Router
     {
         $limitstart = $uri->getVar('limitstart');
 
-        if ($limitstart !== null) {
-            $uri->setVar('start', (int) $uri->getVar('limitstart'));
-            $uri->delVar('limitstart');
+        if ($limitstart !== null && $limitstart !== '') {
+            $uri->setVar('start', (int) $limitstart);
         }
+
+        $uri->delVar('limitstart');
     }
 
     /**
@@ -499,7 +509,7 @@ class SiteRouter extends Router
         $route = $uri->getPath();
 
         // Identify format
-        if (!(substr($route, -9) === 'index.php' || substr($route, -1) === '/') && $format = $uri->getVar('format', 'html')) {
+        if (!(str_ends_with($route, 'index.php') || str_ends_with($route, '/')) && $format = $uri->getVar('format', 'html')) {
             $route .= '.' . $format;
             $uri->setPath($route);
             $uri->delVar('format');
@@ -585,14 +595,12 @@ class SiteRouter extends Router
      */
     public function setComponentRouter($component, $router)
     {
-        $reflection = new \ReflectionClass($router);
-
-        if (\in_array('Joomla\\CMS\\Component\\Router\\RouterInterface', $reflection->getInterfaceNames())) {
+        if ($router instanceof RouterInterface) {
             $this->componentRouters[$component] = $router;
 
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 }

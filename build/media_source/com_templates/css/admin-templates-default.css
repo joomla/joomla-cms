@@ -4,14 +4,14 @@
  */
 
 .selected {
-  background: #08c;
   color: #fff;
+  background: #08c;
 }
 
 .selected:hover,
 .selected:focus {
-  background: #08c !important;
   color: #fff;
+  background: #08c !important;
 }
 
 #deleteFolder {
@@ -19,8 +19,8 @@
 }
 
 #image-crop {
-  max-width: 100% !important;
   width: auto;
+  max-width: 100% !important;
   height: auto;
 }
 
@@ -44,8 +44,8 @@
   }
   .modal-body .col-md-4,
   .modal-body .col-md-8 {
-    padding-left: 0;
     padding-right: 0;
+    padding-left: 0;
   }
   .card-body .mt-2 {
     font-size: 12px;
@@ -54,30 +54,6 @@
 
 .treeselect a {
   display: block;
-}
-
-.diffview {
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  display: inline;
-  padding: 4px;
-  border-radius: .2em;
-}
-
-.diff-pane {
-  height: 350px;
-  border: 0.5px solid grey;
-  overflow: auto;
-  padding: 10px;
-  background-color: #FFF;
-}
-
-#diff-main.active {
-  display: block;
-}
-
-#diff-main {
-  display: none;
 }
 
 #core-pane.active {
@@ -89,28 +65,172 @@
 }
 
 #core-pane .CodeMirror-code {
-  background-color: #F0F0EE;
+  background-color: #f0f0ee;
 }
 
 .switcher-label-0, .switcher-label-1 {
   white-space: nowrap;
 }
 
-/* RTL overrides for templates editing*/
-[dir=rtl] .diff-pane {
-  text-align: left;
-}
-
 [dir=rtl] #core-pane textarea,
 #override-pane textarea {
-  text-align: left;
+  direction: ltr;
 }
 
 [dir=rtl] #core-pane joomla-editor-codemirror,
 #override-pane joomla-editor-codemirror {
-  text-align: left;
+  direction: ltr;
 }
 
 [dir=rtl] #toggle-buttons {
   text-align: right !important;
+}
+
+.diff-pane {
+  min-height: 100px;
+  max-height: 350px;
+  overflow: auto;
+  border: 1px solid #dfdfdf;
+}
+
+#diff-main.active {
+  display: block;
+}
+
+#diff-main {
+  display: none;
+}
+
+.diff-wrapper.diff {
+  width: 100%;
+  font-family: monospace;
+  font-size: 13px;
+  --tab-size: 4;
+  color: #000;
+  empty-cells: show;
+  border-spacing: 0;
+  border-collapse: collapse;
+  background: repeating-linear-gradient(-45deg, #f5f5f5, #f5f5f5 .5em, #e8e8e8 .5em, #e8e8e8 1em);
+}
+.diff-wrapper.diff th {
+  font-weight: 700;
+  cursor: default;
+  /* stylelint-disable */
+  -webkit-user-select: none;
+  /* stylelint-enable */
+  user-select: none;
+}
+.diff-wrapper.diff td {
+  vertical-align: baseline;
+}
+.diff-wrapper.diff td,
+.diff-wrapper.diff th {
+  padding: 1px 2px;
+  border-collapse: separate;
+  background: #fff;
+  border: none;
+}
+.diff-wrapper.diff td:empty:after,
+.diff-wrapper.diff th:empty:after {
+  visibility: hidden;
+  content: " ";
+}
+.diff-wrapper.diff td a,
+.diff-wrapper.diff th a {
+  color: #000;
+  pointer-events: none;
+  cursor: inherit;
+}
+.diff-wrapper.diff thead th {
+  position: sticky;
+  top: 0;
+  padding: 4px;
+  text-align: left;
+  background: #f7f7f7;
+  border-bottom: 1px solid #ddd;
+}
+.diff-wrapper.diff tbody.skipped {
+  border-top: 1px solid #ddd;
+}
+.diff-wrapper.diff tbody.skipped td,
+.diff-wrapper.diff tbody.skipped th {
+  display: none;
+}
+.diff-wrapper.diff tbody th {
+  width: 4em;
+  padding-right: 2em;
+  font-weight: 400;
+  color: #999;
+  text-align: right;
+  vertical-align: top;
+  background: #f7f7f7;
+  border-right: 1px solid #ddd;
+}
+.diff-wrapper.diff th.n-new {
+  border-left: 1px solid #ddd;
+}
+.diff-wrapper.diff tbody th.sign {
+  width: 1em;
+  padding: 1px 0;
+  text-align: center;
+  background: #fff;
+  border-left: 1px solid #ddd;
+}
+.diff-wrapper.diff tbody th.sign.del {
+  background: #fbe1e1;
+}
+.diff-wrapper.diff tbody th.sign.ins {
+  background: #e1fbe1;
+}
+.diff-wrapper.diff.diff-html {
+  tab-size: var(--tab-size);
+  white-space: pre-wrap;
+}
+.diff-wrapper.diff.diff-html .ch {
+  line-height: 1em;
+  background-repeat: repeat-x;
+  background-position: left center;
+  background-clip: border-box;
+}
+.diff-wrapper.diff.diff-html .ch.sp {
+  background-image: url('data:image/svg+xml,%3Csvg preserveAspectRatio="xMinYMid meet" viewBox="0 0 12 24" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M4.5 11C4.5 10.1716 5.17157 9.5 6 9.5C6.82843 9.5 7.5 10.1716 7.5 11C7.5 11.8284 6.82843 12.5 6 12.5C5.17157 12.5 4.5 11.8284 4.5 11Z" fill="rgba%2860, 60, 60, 50%25%29"/%3E%3C/svg%3E');
+  background-size: 1ch 1.25em;
+}
+.diff-wrapper.diff.diff-html .ch.tab {
+  background-image: url('data:image/svg+xml,%3Csvg preserveAspectRatio="xMinYMid meet" viewBox="0 0 12 24" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M9.5 10.44L6.62 8.12L7.32 7.26L12.04 11V11.44L7.28 14.9L6.62 13.9L9.48 11.78H0V10.44H9.5Z" fill="rgba%2860, 60, 60, 50%25%29"/%3E%3C/svg%3E');
+  background-position: 2px center;
+  background-size: calc(var(--tab-size) * 1ch) 1.25em;
+}
+.diff-wrapper.diff.diff-html.diff-combined .change.change-rep .rep {
+  white-space: normal;
+}
+.diff-wrapper.diff.diff-html .change.change-eq .old,
+.diff-wrapper.diff.diff-html .change.change-eq .new {
+  background: #fff;
+}
+.diff-wrapper.diff.diff-html .change .old {
+  background: #fbe1e1;
+}
+.diff-wrapper.diff.diff-html .change .new {
+  background: #e1fbe1;
+}
+.diff-wrapper.diff.diff-html .change .rep {
+  background: #fef6d9;
+}
+.diff-wrapper.diff.diff-html .change .old.none,
+.diff-wrapper.diff.diff-html .change .new.none,
+.diff-wrapper.diff.diff-html .change .rep.none {
+  cursor: not-allowed;
+  background: transparent;
+}
+.diff-wrapper.diff.diff-html .change ins,
+.diff-wrapper.diff.diff-html .change del {
+  font-weight: bold;
+  text-decoration: none;
+}
+.diff-wrapper.diff.diff-html .change ins {
+  background: #94f094;
+}
+.diff-wrapper.diff.diff-html .change del {
+  background: #f09494;
 }

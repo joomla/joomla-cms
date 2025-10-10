@@ -18,7 +18,7 @@ use Joomla\CMS\Router\Route;
 $textPrefix = $displayData['textPrefix'] ?? '';
 
 if (!$textPrefix) {
-    $textPrefix = strtoupper(Factory::getApplication()->input->get('option'));
+    $textPrefix = strtoupper(Factory::getApplication()->getInput()->get('option'));
 }
 
 $formURL    = $displayData['formURL'] ?? '';
@@ -29,6 +29,8 @@ $content    = $displayData['content'] ?? Text::_($textPrefix . '_EMPTYSTATE_CONT
 $icon       = $displayData['icon'] ?? 'icon-copy article';
 $append     = $displayData['formAppend'] ?? '';
 $btnadd     = $displayData['btnadd'] ?? Text::_($textPrefix . '_EMPTYSTATE_BUTTON_ADD');
+
+$controlFields = $displayData['controlFields'] ?? '';
 ?>
 
 <form action="<?php echo Route::_($formURL); ?>" method="post" name="adminForm" id="adminForm">
@@ -41,7 +43,7 @@ $btnadd     = $displayData['btnadd'] ?? Text::_($textPrefix . '_EMPTYSTATE_BUTTO
                 <?php echo $content; ?>
             </p>
             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                <?php if ($createURL && Factory::getApplication()->input->get('tmpl') !== 'component') : ?>
+                <?php if ($createURL && Factory::getApplication()->getInput()->get('tmpl') !== 'component') : ?>
                     <a href="<?php echo Route::_($createURL); ?>"
                      id="confirmButton" class="btn btn-primary btn-lg px-4 me-sm-3 emptystate-btnadd"><?php echo $btnadd; ?></a>
                 <?php endif; ?>
@@ -58,7 +60,11 @@ $btnadd     = $displayData['btnadd'] ?? Text::_($textPrefix . '_EMPTYSTATE_BUTTO
         echo $append;
     ?>
 
-    <input type="hidden" name="task" value="">
-    <input type="hidden" name="boxchecked" value="0">
-    <?php echo HTMLHelper::_('form.token'); ?>
+    <?php if ($controlFields) : ?>
+        <?php echo $controlFields; ?>
+    <?php else : ?>
+        <input type="hidden" name="task" value="">
+        <input type="hidden" name="boxchecked" value="0">
+        <?php echo HTMLHelper::_('form.token'); ?>
+    <?php endif; ?>
 </form>

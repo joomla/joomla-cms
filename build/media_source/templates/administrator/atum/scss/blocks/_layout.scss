@@ -1,16 +1,19 @@
 .options-form {
-  width: 100%;
+  inline-size: 100%;
   padding: 1vw 2vw;
-  margin-bottom: 1rem;
-  color: var(--template-text-dark);
-  border: 1px solid var(--template-bg-dark-20);
+  margin-block-end: 1rem;
+  color: $options-form-color;
+  background: $options-form-bg;
+  border: $options-form-border;
 
   > legend {
     float: none;
-    width: auto;
+    inline-size: auto;
     padding: 0 1rem;
     font-weight: $font-weight-bold;
-    color: var(--template-text-dark);
-    background-color: $white;
+    color: $options-form-legend-color;
+    background-color: $options-form-legend-bg;
   }
 }
+
+

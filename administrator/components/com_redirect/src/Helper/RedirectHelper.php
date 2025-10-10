@@ -43,7 +43,7 @@ class RedirectHelper
     public static function publishedOptions()
     {
         // Build the active state filter options.
-        $options   = array();
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', '*', 'JALL');
         $options[] = HTMLHelper::_('select.option', '1', 'JENABLED');
         $options[] = HTMLHelper::_('select.option', '0', 'JDISABLED');
@@ -63,7 +63,7 @@ class RedirectHelper
     public static function getRedirectPluginId()
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('folder') . ' = ' . $db->quote('system'))

@@ -76,12 +76,7 @@
 
         &:not(.level-1) > ul,
         &:not(.level-2) > ul {
-          margin-right: -1em;
-
-          [dir="rtl"] & {
-            margin-right: 0;
-            margin-left: -1em;
-          }
+          margin-inline-end: -1em;
         }
 
         &.divider:not(.parent) {

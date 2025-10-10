@@ -7,29 +7,36 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
+use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
 use Joomla\Utilities\IpHelper;
 
 // System includes
 require_once JPATH_LIBRARIES . '/bootstrap.php';
 
-// Installation check, and check on removal of the install directory.
+// Installation check, and check on removal of the install directory
 if (
     !file_exists(JPATH_CONFIGURATION . '/configuration.php')
     || (filesize(JPATH_CONFIGURATION . '/configuration.php') < 10)
     || (file_exists(JPATH_INSTALLATION . '/index.php') && (false === (new Version())->isInDevelopmentState()))
 ) {
-    if (file_exists(JPATH_INSTALLATION . '/index.php')) {
-        header('Location: ' . substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], 'index.php')) . 'installation/index.php');
-
-        exit;
-    } else {
+    if (!file_exists(JPATH_INSTALLATION . '/index.php')) {
         echo 'No configuration file found and no installation code available. Exiting...';
 
         exit;
     }
+
+    if (JPATH_ROOT === JPATH_PUBLIC) {
+        header('Location: ' . Uri::base() . 'installation/index.php');
+
+        exit;
+    }
+
+    echo 'Installation from a public folder is not supported, revert your Server configuration to point at Joomla\'s root folder to continue.';
+
+    exit;
 }
 
 // Pre-Load configuration. Don't remove the Output Buffering due to BOM issues, see JCode 26026
@@ -59,7 +66,6 @@ switch ($config->error_reporting) {
         break;
 
     case 'maximum':
-    case 'development': // <= Stays for backward compatibility, @TODO: can be removed in 5.0
         error_reporting(E_ALL);
         ini_set('display_errors', 1);
 
@@ -72,8 +78,8 @@ switch ($config->error_reporting) {
         break;
 }
 
-if (!defined('JDEBUG')) {
-    define('JDEBUG', $config->debug);
+if (!\defined('JDEBUG')) {
+    \define('JDEBUG', $config->debug);
 }
 
 // Check deprecation logging
@@ -90,7 +96,7 @@ if (JDEBUG || $config->error_reporting === 'maximum') {
     $errorHandler->setExceptionHandler(
         [
             new \Symfony\Component\ErrorHandler\ErrorHandler(null, true),
-            'renderException'
+            'renderException',
         ]
     );
 }

@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 extract($displayData);
@@ -50,6 +51,7 @@ extract($displayData);
  * @var   string   $dirname         The directory name
  * @var   string   $addonBefore     The text to use in a bootstrap input group prepend
  * @var   string   $addonAfter      The text to use in a bootstrap input group append
+ * @var   boolean  $charcounter     Does this field support a character counter?
  */
 
 $list = '';
@@ -58,8 +60,23 @@ if ($options) {
     $list = 'list="' . $id . '_datalist"';
 }
 
-$attributes = array(
-    !empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
+$charcounterclass = '';
+
+if ($charcounter) {
+    // Load the js file
+    /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+    $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+    $wa->useScript('short-and-sweet');
+
+    // Set the css class to be used as the trigger
+    $charcounterclass = ' charcount';
+
+    // Set the text
+    $counterlabel = 'data-counter-label="' . $this->escape(Text::_('JFIELD_META_DESCRIPTION_COUNTER')) . '"';
+}
+
+$attributes = [
+    !empty($class) ? 'class="form-control ' . $class . $charcounterclass . '"' : 'class="form-control' . $charcounterclass . '"',
     !empty($size) ? 'size="' . $size . '"' : '',
     !empty($description) ? 'aria-describedby="' . ($id ?: $name) . '-desc"' : '',
     $disabled ? 'disabled' : '',
@@ -67,18 +84,19 @@ $attributes = array(
     $dataAttribute,
     $list,
     strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
-    $onchange ? ' onchange="' . $onchange . '"' : '',
+    $onchange ? 'onchange="' . $onchange . '"' : '',
     !empty($maxLength) ? $maxLength : '',
     $required ? 'required' : '',
     !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
-    $autofocus ? ' autofocus' : '',
+    $autofocus ? 'autofocus' : '',
     $spellcheck ? '' : 'spellcheck="false"',
     !empty($inputmode) ? $inputmode : '',
+    !empty($counterlabel) ? $counterlabel : '',
     !empty($pattern) ? 'pattern="' . $pattern . '"' : '',
 
     // @TODO add a proper string here!!!
-    !empty($validationtext) ? 'data-validation-text="' . $validationtext . '"' : '',
-);
+    !empty($validationtext) ? 'data-validation-text="' . $this->escape(Text::_($validationtext)) . '"' : '',
+];
 
 $addonBeforeHtml = '<span class="input-group-text">' . Text::_($addonBefore) . '</span>';
 $addonAfterHtml  = '<span class="input-group-text">' . Text::_($addonAfter) . '</span>';

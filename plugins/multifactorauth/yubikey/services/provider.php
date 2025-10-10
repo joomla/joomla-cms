@@ -8,18 +8,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') || die;
+\defined('_JEXEC') || die;
 
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Multifactorauth\Yubikey\Extension\Yubikey;
 
-return new class implements ServiceProviderInterface
-{
+return new class () implements ServiceProviderInterface {
     /**
      * Registers the service provider with a DI container.
      *
@@ -34,10 +32,7 @@ return new class implements ServiceProviderInterface
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $config  = (array) PluginHelper::getPlugin('multifactorauth', 'yubikey');
-                $subject = $container->get(DispatcherInterface::class);
-
-                $plugin = new Yubikey($subject, $config);
+                $plugin = new Yubikey((array) PluginHelper::getPlugin('multifactorauth', 'yubikey'));
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;

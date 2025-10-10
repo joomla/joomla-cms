@@ -46,7 +46,7 @@ class AssociationsController extends AdminController
      *
      * @since  3.7.0
      */
-    public function getModel($name = 'Associations', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Associations', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -94,7 +94,7 @@ class AssociationsController extends AdminController
         $this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 
         // Figure out if the item supports checking and check it in
-        list($extensionName, $typeName) = explode('.', $this->input->get('itemtype'));
+        [$extensionName, $typeName] = explode('.', $this->input->get('itemtype'));
 
         $extension = AssociationsHelper::getSupportedExtension($extensionName);
         $types     = $extension->get('types');
@@ -108,7 +108,7 @@ class AssociationsController extends AdminController
             return;
         }
 
-        $cid = (array) $this->input->get('cid', array(), 'int');
+        $cid = (array) $this->input->get('cid', [], 'int');
 
         if (empty($cid)) {
             // Seems we don't have an id to work with.

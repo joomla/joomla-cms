@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" client="administrator" method="upgrade">
 	<name>mod_latest</name>
 	<author>Joomla! Project</author>
@@ -11,7 +11,7 @@
 	<description>MOD_LATEST_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\Latest</namespace>
 	<files>
-		<filename module="mod_latest">mod_latest.php</filename>
+		<folder module="mod_latest">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>

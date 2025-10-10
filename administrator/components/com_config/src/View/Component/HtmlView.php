@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
+use Joomla\Component\Config\Administrator\Model\ComponentModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -30,7 +31,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var   \Joomla\Registry\Registry
      * @since  3.2
      */
     public $state;
@@ -52,6 +53,33 @@ class HtmlView extends BaseHtmlView
     public $component;
 
     /**
+     * List of fieldset objects
+     *
+     * @var    object[]
+     *
+     * @since  5.2.0
+     */
+    public $fieldsets;
+
+    /**
+     * Form control
+     *
+     * @var    string
+     *
+     * @since  5.2.0
+     */
+    public $formControl;
+
+    /**
+     * Base64 encoded return URL
+     *
+     * @var    string
+     *
+     * @since  5.2.0
+     */
+    public $return;
+
+    /**
      * Execute and display a template script.
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -64,38 +92,45 @@ class HtmlView extends BaseHtmlView
     public function display($tpl = null)
     {
         try {
-            $component = $this->get('component');
+            /** @var ComponentModel $model */
+            $model = $this->getModel();
 
-            if (!$component->enabled) {
+            $this->component = $model->getComponent();
+
+            if (!$this->component->enabled) {
                 return;
             }
 
-            $form = $this->get('form');
-            $user = $this->getCurrentUser();
+            $this->form = $model->getForm();
+            $user       = $this->getCurrentUser();
         } catch (\Exception $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
             return;
         }
 
-        $this->fieldsets   = $form ? $form->getFieldsets() : null;
-        $this->formControl = $form ? $form->getFormControl() : null;
+        $this->fieldsets   = $this->form ? $this->form->getFieldsets() : null;
+        $this->formControl = $this->form ? $this->form->getFormControl() : null;
 
         // Don't show permissions fieldset if not authorised.
-        if (!$user->authorise('core.admin', $component->option) && isset($this->fieldsets['permissions'])) {
+        if (!$user->authorise('core.admin', $this->component->option) && isset($this->fieldsets['permissions'])) {
             unset($this->fieldsets['permissions']);
         }
-
-        $this->form = &$form;
-        $this->component = &$component;
 
         $this->components = ConfigHelper::getComponentsWithConfig();
 
         $this->userIsSuperAdmin = $user->authorise('core.admin');
-        $this->currentComponent = Factory::getApplication()->input->get('component');
-        $this->return = Factory::getApplication()->input->get('return', '', 'base64');
+        $this->currentComponent = Factory::getApplication()->getInput()->get('component');
+        $this->return           = Factory::getApplication()->getInput()->get('return', '', 'base64');
 
         $this->addToolbar();
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '')
+            ->addControlField('id', $this->component->id)
+            ->addControlField('component', $this->component->option)
+            ->addControlField('return', $this->return);
 
         parent::display($tpl);
     }
@@ -109,19 +144,21 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        ToolbarHelper::title(Text::_($this->component->option . '_configuration'), 'cog config');
-        ToolbarHelper::apply('component.apply');
-        ToolbarHelper::divider();
-        ToolbarHelper::save('component.save');
-        ToolbarHelper::divider();
-        ToolbarHelper::cancel('component.cancel', 'JTOOLBAR_CLOSE');
-        ToolbarHelper::divider();
+        $toolbar    = $this->getDocument()->getToolbar();
 
-        $inlinehelp  = (string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false;
+        ToolbarHelper::title(Text::_($this->component->option . '_configuration'), 'cog config');
+        $toolbar->apply('component.apply');
+        $toolbar->divider();
+        $toolbar->save('component.save');
+        $toolbar->divider();
+        $toolbar->cancel('component.cancel');
+        $toolbar->divider();
+
+        $inlinehelp  = (string) $this->form->getXml()->config->inlinehelp['button'] === 'show';
         $targetClass = (string) $this->form->getXml()->config->inlinehelp['targetclass'] ?: 'hide-aware-inline-help';
 
         if ($inlinehelp) {
-            ToolbarHelper::inlinehelp($targetClass);
+            $toolbar->inlinehelp($targetClass);
         }
 
         $helpUrl = $this->form->getData()->get('helpURL');
@@ -137,6 +174,6 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        ToolbarHelper::help($helpKey, (bool) $helpUrl, null, $this->currentComponent);
+        $toolbar->help($helpKey, (bool) $helpUrl, null, $this->currentComponent);
     }
 }

@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
@@ -17,11 +17,9 @@ use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\ApiAuthentication\Basic\Extension\Basic;
 
-return new class implements ServiceProviderInterface
-{
+return new class () implements ServiceProviderInterface {
     /**
      * Registers the service provider with a DI container.
      *
@@ -36,13 +34,12 @@ return new class implements ServiceProviderInterface
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $plugin = new Basic(
-                    $container->get(DispatcherInterface::class),
+                $plugin     = new Basic(
                     (array) PluginHelper::getPlugin('api-authentication', 'basic'),
-                    $container->get(UserFactoryInterface::class)
                 );
                 $plugin->setApplication(Factory::getApplication());
                 $plugin->setDatabase($container->get(DatabaseInterface::class));
+                $plugin->setUserFactory($container->get(UserFactoryInterface::class));
 
                 return $plugin;
             }

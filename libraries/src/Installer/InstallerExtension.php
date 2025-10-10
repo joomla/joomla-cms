@@ -12,10 +12,11 @@ namespace Joomla\CMS\Installer;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -23,8 +24,19 @@ use Joomla\CMS\Object\CMSObject;
  *
  * @since  3.1
  */
-class InstallerExtension extends CMSObject
+class InstallerExtension
 {
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
+
+    /**
+     * Client ID of the extension
+     *
+     * @var    int
+     * @since  4.3.0
+     */
+    public $client_id;
+
     /**
      * Filename of the extension
      *
@@ -101,15 +113,15 @@ class InstallerExtension extends CMSObject
     /**
      * Constructor
      *
-     * @param   \SimpleXMLElement  $element  A SimpleXMLElement from which to load data from
+     * @param   ?\SimpleXMLElement  $element  A SimpleXMLElement from which to load data from
      *
      * @since  3.1
      */
-    public function __construct(\SimpleXMLElement $element = null)
+    public function __construct(?\SimpleXMLElement $element = null)
     {
         if ($element) {
             $this->type = (string) $element->attributes()->type;
-            $this->id = (string) $element->attributes()->id;
+            $this->id   = (string) $element->attributes()->id;
 
             switch ($this->type) {
                 case 'component':
@@ -119,7 +131,7 @@ class InstallerExtension extends CMSObject
                 case 'module':
                 case 'template':
                 case 'language':
-                    $this->client = (string) $element->attributes()->client;
+                    $this->client  = (string) $element->attributes()->client;
                     $tmp_client_id = ApplicationHelper::getClientInfo($this->client, 1);
 
                     if ($tmp_client_id == null) {

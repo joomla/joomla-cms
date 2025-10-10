@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Feed;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -69,6 +69,38 @@ class FeedLink
     public $length;
 
     /**
+     * The link of the image.
+     *
+     * @var    integer
+     * @since  4.4.0
+     */
+    public $link;
+
+    /**
+     * The description of the image.
+     *
+     * @var    integer
+     * @since  4.4.0
+     */
+    public $description;
+
+    /**
+     * The height of the image.
+     *
+     * @var    integer
+     * @since  4.4.0
+     */
+    public $height;
+
+    /**
+     * The width of the image.
+     *
+     * @var    integer
+     * @since  4.4.0
+     */
+    public $width;
+
+    /**
      * Constructor.
      *
      * @param   string   $uri       The URI to the linked resource.
@@ -83,11 +115,11 @@ class FeedLink
      */
     public function __construct($uri = null, $relation = null, $type = null, $language = null, $title = null, $length = null)
     {
-        $this->uri = $uri;
+        $this->uri      = $uri;
         $this->relation = $relation;
-        $this->type = $type;
+        $this->type     = $type;
         $this->language = $language;
-        $this->title = $title;
+        $this->title    = $title;
 
         // Validate the length input.
         if (isset($length) && !is_numeric($length)) {

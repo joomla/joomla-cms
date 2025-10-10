@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Content\Site\View\Category\HtmlView $this */
 ?>
 
 <ol class="com-content-blog__links">

@@ -12,7 +12,7 @@ namespace Joomla\CMS\Client;
 use Joomla\CMS\Factory;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -36,7 +36,7 @@ class ClientHelper
      */
     public static function getCredentials($client, $force = false)
     {
-        static $credentials = array();
+        static $credentials = [];
 
         $client = strtolower($client);
 
@@ -46,24 +46,24 @@ class ClientHelper
             // Fetch the client layer configuration options for the specific client
             switch ($client) {
                 case 'ftp':
-                    $options = array(
+                    $options = [
                         'enabled' => $app->get('ftp_enable'),
                         'host'    => $app->get('ftp_host'),
                         'port'    => $app->get('ftp_port'),
                         'user'    => $app->get('ftp_user'),
                         'pass'    => $app->get('ftp_pass'),
                         'root'    => $app->get('ftp_root'),
-                    );
+                    ];
                     break;
 
                 default:
-                    $options = array('enabled' => false, 'host' => '', 'port' => '', 'user' => '', 'pass' => '', 'root' => '');
+                    $options = ['enabled' => false, 'host' => '', 'port' => '', 'user' => '', 'pass' => '', 'root' => ''];
                     break;
             }
 
             // If user and pass are not set in global config lets see if they are in the session
-            if ($options['enabled'] == true && ($options['user'] == '' || $options['pass'] == '')) {
-                $session = Factory::getSession();
+            if ($options['enabled'] && ($options['user'] == '' || $options['pass'] == '')) {
+                $session         = Factory::getSession();
                 $options['user'] = $session->get($client . '.user', null, 'JClientHelper');
                 $options['pass'] = $session->get($client . '.pass', null, 'JClientHelper');
             }
@@ -99,8 +99,8 @@ class ClientHelper
         // Test if the given credentials are valid
         switch ($client) {
             case 'ftp':
-                $app = Factory::getApplication();
-                $options = array('enabled' => $app->get('ftp_enable'), 'host' => $app->get('ftp_host'), 'port' => $app->get('ftp_port'));
+                $app     = Factory::getApplication();
+                $options = ['enabled' => $app->get('ftp_enable'), 'host' => $app->get('ftp_host'), 'port' => $app->get('ftp_port')];
 
                 if ($options['enabled']) {
                     $ftp = FtpClient::getInstance($options['host'], $options['port']);
@@ -150,16 +150,16 @@ class ClientHelper
         // Get (unmodified) credentials for this client
         switch ($client) {
             case 'ftp':
-                $app = Factory::getApplication();
-                $options = array('enabled' => $app->get('ftp_enable'), 'user' => $app->get('ftp_user'), 'pass' => $app->get('ftp_pass'));
+                $app     = Factory::getApplication();
+                $options = ['enabled' => $app->get('ftp_enable'), 'user' => $app->get('ftp_user'), 'pass' => $app->get('ftp_pass')];
                 break;
 
             default:
-                $options = array('enabled' => false, 'user' => '', 'pass' => '');
+                $options = ['enabled' => false, 'user' => '', 'pass' => ''];
                 break;
         }
 
-        if ($options['enabled'] == false) {
+        if (!$options['enabled']) {
             // The client is disabled in global config, so let's pretend we are OK
             $return = true;
         } elseif ($options['user'] != '' && $options['pass'] != '') {
@@ -168,8 +168,8 @@ class ClientHelper
         } else {
             // Check if login credentials are available in the session
             $session = Factory::getSession();
-            $user = $session->get($client . '.user', null, 'JClientHelper');
-            $pass = $session->get($client . '.pass', null, 'JClientHelper');
+            $user    = $session->get($client . '.user', null, 'JClientHelper');
+            $pass    = $session->get($client . '.pass', null, 'JClientHelper');
 
             if ($user != '' && $pass != '') {
                 $return = true;
@@ -196,9 +196,9 @@ class ClientHelper
     public static function setCredentialsFromRequest($client)
     {
         // Determine whether FTP credentials have been passed along with the current request
-        $input = Factory::getApplication()->input;
-        $user = $input->post->getString('username', null);
-        $pass = $input->post->getString('password', null);
+        $input = Factory::getApplication()->getInput();
+        $user  = $input->post->getString('username', null);
+        $pass  = $input->post->getString('password', null);
 
         if ($user != '' && $pass != '') {
             // Add credentials to the session

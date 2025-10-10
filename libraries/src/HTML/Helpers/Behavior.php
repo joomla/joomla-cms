@@ -13,7 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -29,7 +29,7 @@ abstract class Behavior
      * @var    array
      * @since  2.5
      */
-    protected static $loaded = array();
+    protected static $loaded = [];
 
     /**
      * Method to load core.js into the document head.
@@ -40,7 +40,9 @@ abstract class Behavior
      *
      * @since   3.3
      *
-     * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::enable();
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the webasset manager instead
+     *              Example: Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('core');
      */
     public static function core()
     {
@@ -58,7 +60,10 @@ abstract class Behavior
      * @return  void
      *
      * @since   3.4
-     * @deprecated 5.0 Use the script directly
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the webasset manager instead
+     *              Example: Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('form.validate');
      */
     public static function formvalidator()
     {
@@ -81,7 +86,10 @@ abstract class Behavior
      * @return  void
      *
      * @since   1.5
-     * @deprecated 5.0 Use the script directly
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the webasset manager instead
+     *              Example: Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('awesomeplete');
      */
     public static function combobox()
     {
@@ -96,7 +104,12 @@ abstract class Behavior
      * @return  void
      *
      * @since   1.7
-     * @deprecated 5.0 Use the script directly
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the webasset manager instead
+     *              Example:
+     *              Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('multiselect');
+     *              Factory::getDocument()->addScriptOptions('js-multiselect', ['formName' => $id]);
      */
     public static function multiselect($id = 'adminForm')
     {
@@ -121,7 +134,9 @@ abstract class Behavior
      *
      * @since   1.5
      *
-     * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::enable();
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the webasset manager instead
+     *              Example: Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('keepalive');
      */
     public static function keepalive()
     {
@@ -143,7 +158,8 @@ abstract class Behavior
      *
      * @since   2.5
      *
-     * @deprecated 5.0 Use the script directly
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the script directly
      */
     public static function highlighter(array $terms, $start = 'highlighter-start', $end = 'highlighter-end', $className = 'highlight', $tag = 'span')
     {
@@ -183,7 +199,7 @@ abstract class Behavior
         }
 
         foreach ((array) $polyfillTypes as $polyfillType) {
-            $sig = md5(serialize(array($polyfillType, $conditionalBrowser)));
+            $sig = md5(serialize([$polyfillType, $conditionalBrowser]));
 
             // Only load once
             if (isset(static::$loaded[__METHOD__][$sig])) {
@@ -191,8 +207,8 @@ abstract class Behavior
             }
 
             // If include according to browser.
-            $scriptOptions = array('version' => 'auto', 'relative' => true);
-            $scriptOptions = $conditionalBrowser !== null ? array_replace($scriptOptions, array('conditional' => $conditionalBrowser)) : $scriptOptions;
+            $scriptOptions = ['version' => 'auto', 'relative' => true];
+            $scriptOptions = $conditionalBrowser !== null ? array_replace($scriptOptions, ['conditional' => $conditionalBrowser]) : $scriptOptions;
 
             /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
             $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
@@ -222,39 +238,39 @@ abstract class Behavior
         $jsscript = 1;
 
         // To keep the code simple here, run strings through Text::_() using array_map()
-        $callback = array('Text', '_');
+        $callback      = ['Text', '_'];
         $weekdays_full = array_map(
             $callback,
-            array(
+            [
                 'SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY',
-            )
+            ]
         );
         $weekdays_short = array_map(
             $callback,
-            array(
+            [
                 'SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN',
-            )
+            ]
         );
         $months_long = array_map(
             $callback,
-            array(
+            [
                 'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
                 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER',
-            )
+            ]
         );
         $months_short = array_map(
             $callback,
-            array(
+            [
                 'JANUARY_SHORT', 'FEBRUARY_SHORT', 'MARCH_SHORT', 'APRIL_SHORT', 'MAY_SHORT', 'JUNE_SHORT',
                 'JULY_SHORT', 'AUGUST_SHORT', 'SEPTEMBER_SHORT', 'OCTOBER_SHORT', 'NOVEMBER_SHORT', 'DECEMBER_SHORT',
-            )
+            ]
         );
 
         // This will become an object in Javascript but define it first in PHP for readability
         $today = " " . Text::_('JLIB_HTML_BEHAVIOR_TODAY') . " ";
-        $text = array(
-            'INFO'           => Text::_('JLIB_HTML_BEHAVIOR_ABOUT_THE_CALENDAR'),
-            'ABOUT'          => "DHTML Date/Time Selector\n"
+        $text  = [
+            'INFO'  => Text::_('JLIB_HTML_BEHAVIOR_ABOUT_THE_CALENDAR'),
+            'ABOUT' => "DHTML Date/Time Selector\n"
                 . "(c) dynarch.com 20022005 / Author: Mihai Bazon\n"
                 . "For latest version visit: http://www.dynarch.com/projects/calendar/\n"
                 . "Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details."
@@ -263,7 +279,7 @@ abstract class Behavior
                 . Text::_('JLIB_HTML_BEHAVIOR_YEAR_SELECT')
                 . Text::_('JLIB_HTML_BEHAVIOR_MONTH_SELECT')
                 . Text::_('JLIB_HTML_BEHAVIOR_HOLD_MOUSE'),
-            'ABOUT_TIME'      => "\n\n"
+            'ABOUT_TIME' => "\n\n"
                 . "Time selection:\n"
                 . " Click on any of the time parts to increase it\n"
                 . " or Shiftclick to decrease it\n"
@@ -284,7 +300,7 @@ abstract class Behavior
             'TT_DATE_FORMAT'  => Text::_('JLIB_HTML_BEHAVIOR_TT_DATE_FORMAT'),
             'WK'              => Text::_('JLIB_HTML_BEHAVIOR_WK'),
             'TIME'            => Text::_('JLIB_HTML_BEHAVIOR_TIME'),
-        );
+        ];
 
         return 'Calendar._DN = ' . json_encode($weekdays_full) . ';'
             . ' Calendar._SDN = ' . json_encode($weekdays_short) . ';'

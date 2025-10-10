@@ -11,6 +11,7 @@
 namespace Joomla\Component\Content\Api\View\Articles;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -137,13 +138,13 @@ class JsonapiView extends BaseApiView
     /**
      * Execute and display a template script.
      *
-     * @param   array|null  $items  Array of items
+     * @param   ?array  $items  Array of items
      *
      * @return  string
      *
      * @since   4.0.0
      */
-    public function displayList(array $items = null)
+    public function displayList(?array $items = null)
     {
         foreach (FieldsHelper::getFields('com_content.article') as $field) {
             $this->fieldsToRenderList[] = $field->name;
@@ -188,6 +189,10 @@ class JsonapiView extends BaseApiView
      */
     protected function prepareItem($item)
     {
+        if (!$item) {
+            return $item;
+        }
+
         $item->text = $item->introtext . ' ' . $item->fulltext;
 
         // Process the content plugins.
@@ -214,16 +219,21 @@ class JsonapiView extends BaseApiView
         }
 
         if (!empty($item->tags->tags)) {
-            $tagsIds   = explode(',', $item->tags->tags);
-            $tagsNames = $item->tagsHelper->getTagNames($tagsIds);
-
-            $item->tags = array_combine($tagsIds, $tagsNames);
+            $tagsIds    = explode(',', $item->tags->tags);
+            $item->tags = $item->tagsHelper->getTags($tagsIds);
         } else {
             $item->tags = [];
+            $tags       = new TagsHelper();
+            $tagsIds    = $tags->getTagIds($item->id, 'com_content.article');
+
+            if (!empty($tagsIds)) {
+                $tagsIds    = explode(',', $tagsIds);
+                $item->tags = $tags->getTags($tagsIds);
+            }
         }
 
         if (isset($item->images)) {
-            $registry = new Registry($item->images);
+            $registry     = new Registry($item->images);
             $item->images = $registry->toArray();
 
             if (!empty($item->images['image_intro'])) {

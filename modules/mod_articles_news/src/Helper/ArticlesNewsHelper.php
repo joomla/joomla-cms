@@ -70,13 +70,13 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
         $model->setState('filter.access', $access);
 
         // Category filter
-        $model->setState('filter.category_id', $params->get('catid', array()));
+        $model->setState('filter.category_id', $params->get('catid', []));
 
         // Filter by language
         $model->setState('filter.language', $app->getLanguageFilter());
 
         // Filter by tag
-        $model->setState('filter.tag', $params->get('tag', array()));
+        $model->setState('filter.tag', $params->get('tag', []));
 
         // Featured switch
         $featured = $params->get('show_featured', '');
@@ -89,14 +89,16 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
             $model->setState('filter.featured', 'hide');
         }
 
+        $input = $app->getInput();
+
         // Filter by id in case it should be excluded
         if (
             $params->get('exclude_current', true)
-            && $app->input->get('option') === 'com_content'
-            && $app->input->get('view') === 'article'
+            && $input->get('option') === 'com_content'
+            && $input->get('view') === 'article'
         ) {
             // Exclude the current article from displaying in this module
-            $model->setState('filter.article_id', $app->input->get('id', 0, 'UINT'));
+            $model->setState('filter.article_id', $input->get('id', 0, 'UINT'));
             $model->setState('filter.article_id.include', false);
         }
 
@@ -105,7 +107,7 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
         $model->setState('list.ordering', $ordering);
 
         if (trim($ordering) === 'rand()') {
-            $model->setState('list.ordering', $this->getDatabase()->getQuery(true)->rand());
+            $model->setState('list.ordering', $this->getDatabase()->createQuery()->rand());
         } else {
             $direction = $params->get('direction', 1) ? 'DESC' : 'ASC';
             $model->setState('list.direction', $direction);
@@ -136,14 +138,15 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
 
             // Remove any images belongs to the text
             if (!$params->get('image')) {
-                $item->introtext = preg_replace('/<img[^>]*>/', '', $item->introtext);
+                // Remove any images and empty links from the intro text
+                $item->introtext = preg_replace(['/\\<img[^>]*>/', '/<a[^>]*><\\/a>/'], '', $item->introtext);
             }
 
             // Show the Intro/Full image field of the article
             if ($params->get('img_intro_full') !== 'none') {
-                $images = json_decode($item->images);
-                $item->imageSrc = '';
-                $item->imageAlt = '';
+                $images             = json_decode($item->images);
+                $item->imageSrc     = '';
+                $item->imageAlt     = '';
                 $item->imageCaption = '';
 
                 if ($params->get('img_intro_full') === 'intro' && !empty($images->image_intro)) {
@@ -165,15 +168,15 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
 
             if ($triggerEvents) {
                 $item->text = '';
-                $app->triggerEvent('onContentPrepare', array('com_content.article', &$item, &$params, 0));
+                $app->triggerEvent('onContentPrepare', ['com_content.article', &$item, &$params, 0]);
 
-                $results                 = $app->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$params, 0));
+                $results                 = $app->triggerEvent('onContentAfterTitle', ['com_content.article', &$item, &$params, 0]);
                 $item->afterDisplayTitle = trim(implode("\n", $results));
 
-                $results                    = $app->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$params, 0));
+                $results                    = $app->triggerEvent('onContentBeforeDisplay', ['com_content.article', &$item, &$params, 0]);
                 $item->beforeDisplayContent = trim(implode("\n", $results));
 
-                $results                   = $app->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$params, 0));
+                $results                   = $app->triggerEvent('onContentAfterDisplay', ['com_content.article', &$item, &$params, 0]);
                 $item->afterDisplayContent = trim(implode("\n", $results));
             } else {
                 $item->afterDisplayTitle    = '';
@@ -194,7 +197,11 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
      *
      * @since 1.6
      *
-     * @deprecated 5.0 Use the none static function getArticles
+     * @deprecated 4.3 will be removed in 6.0
+     *             Use the non-static method getArticles
+     *             Example: Factory::getApplication()->bootModule('mod_articles_news', 'site')
+     *                          ->getHelper('ArticlesNewsHelper')
+     *                          ->getArticles($params, Factory::getApplication())
      */
     public static function getList(&$params)
     {
