@@ -154,16 +154,16 @@ class FileStorage extends CacheStorage
         $data    = [];
 
         foreach ($folders as $folder) {
-            $files = $this->_filesInFolder($path . '/' . $folder);
+            $files = $this->_filesInFolder($path . '/' . $folder, '.', true, true);
             $item  = new CacheStorageHelper($folder);
 
             foreach ($files as $file) {
                 // Do not include index.html with the Number of Files
-                if ($file === 'index.html') {
+                if (basename($file) === 'index.html') {
                     continue;
                 }
 
-                $item->updateSize(filesize($path . '/' . $folder . '/' . $file));
+                $item->updateSize(filesize($file));
             }
 
             $data[$folder] = $item;

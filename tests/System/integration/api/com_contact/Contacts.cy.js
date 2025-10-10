@@ -42,7 +42,13 @@ describe('Test that contacts API endpoint', () => {
 
   it('can delete a contact', () => {
     cy.db_createContact({ name: 'automated test contact', published: -2 })
-      .then((contact) => cy.api_delete(`/contacts/${contact.id}`));
+      .then((contact) => cy.api_delete(`/contacts/${contact.id}`))
+      .then((result) => expect(result.status).to.eq(204));
+  });
+
+  it('check correct response for delete a not existent contact', () => {
+    cy.api_delete('/contacts/9999')
+      .then((result) => expect(result.status).to.eq(204));
   });
 
   it('can submit a contact form', () => {

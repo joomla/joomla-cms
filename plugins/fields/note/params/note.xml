@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="params" label="COM_FIELDS_FIELD_BASIC_LABEL">
+		<fieldset name="renderoptions">
+			<field
+				name="display_frontend"
+				type="radio"
+				label="PLG_FIELDS_NOTE_PARAMS_DISPLAY_FRONTEND_LABEL"
+				layout="joomla.form.field.radio.switcher"
+				default="0"
+				filter="integer"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+		</fieldset>
+	</fields>
+	<fields name="fieldparams">
+		<fieldset name="fieldparams">
+			<field
+				name="label"
+				type="text"
+				label="PLG_FIELDS_NOTE_PARAMS_LABEL_LABEL"
+			/>
+
+			<field
+				name="description"
+				type="editor"
+				label="PLG_FIELDS_NOTE_PARAMS_DESCRIPTION_LABEL"
+				filter="\Joomla\CMS\Component\ComponentHelper::filterText"
+				buttons="false"
+			/>
+
+			<field
+				name="class"
+				type="text"
+				label="PLG_FIELDS_NOTE_PARAMS_CLASS_LABEL"
+				description="PLG_FIELDS_NOTE_PARAMS_CLASS_DESC"
+				default="alert alert-info"
+			/>
+
+			<field
+				name="heading"
+				type="list"
+				label="PLG_FIELDS_NOTE_PARAMS_HEADING_LABEL"
+				default="h4"
+				>
+				<option value="h1">JH1</option>
+				<option value="h2">JH2</option>
+				<option value="h3">JH3</option>
+				<option value="h4">JH4</option>
+				<option value="h5">JH5</option>
+				<option value="h6">JH6</option>
+			</field>
+
+			<field
+				name="close"
+				type="text"
+				label="PLG_FIELDS_NOTE_PARAMS_CLOSE_LABEL"
+				description="PLG_FIELDS_NOTE_PARAMS_CLOSE_DESC"
+				default="true"
+			/>
+		</fieldset>
+	</fields>
+</form>

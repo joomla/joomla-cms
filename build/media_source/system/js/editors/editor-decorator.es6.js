@@ -78,7 +78,6 @@ export default class JoomlaEditorDecorator {
    *
    * @returns {string}
    */
-  // eslint-disable-next-line class-methods-use-this
   getValue() {
     throw new Error('Not implemented');
   }
@@ -91,7 +90,6 @@ export default class JoomlaEditorDecorator {
    *
    * @returns {JoomlaEditorDecorator}
    */
-  // eslint-disable-next-line class-methods-use-this, no-unused-vars
   setValue(value) {
     throw new Error('Not implemented');
   }
@@ -102,7 +100,6 @@ export default class JoomlaEditorDecorator {
    *
    * @returns {string}
    */
-  // eslint-disable-next-line class-methods-use-this
   getSelection() {
     throw new Error('Not implemented');
   }
@@ -115,7 +112,6 @@ export default class JoomlaEditorDecorator {
    *
    * @returns {JoomlaEditorDecorator}
    */
-  // eslint-disable-next-line class-methods-use-this, no-unused-vars
   replaceSelection(value) {
     throw new Error('Not implemented');
   }
@@ -129,7 +125,6 @@ export default class JoomlaEditorDecorator {
    *
    * @returns {JoomlaEditorDecorator}
    */
-  // eslint-disable-next-line class-methods-use-this, no-unused-vars
   disable(enable) {
     throw new Error('Not implemented');
   }

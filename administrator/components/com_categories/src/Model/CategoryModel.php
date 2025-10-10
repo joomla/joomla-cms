@@ -26,6 +26,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Category;
 use Joomla\CMS\UCM\UCMType;
+use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Database\ParameterType;
@@ -43,7 +44,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class CategoryModel extends AdminModel
+class CategoryModel extends AdminModel implements VersionableModelInterface
 {
     use VersionableModelTrait;
 
@@ -605,7 +606,7 @@ class CategoryModel extends AdminModel
             // Get associationskey for edited item
             $db    = $this->getDatabase();
             $id    = (int) $table->id;
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('key'))
                 ->from($db->quoteName('#__associations'))
                 ->where($db->quoteName('context') . ' = :associationscontext')
@@ -619,7 +620,7 @@ class CategoryModel extends AdminModel
                 $where = [];
 
                 // Deleting old associations for the associated items
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->delete($db->quoteName('#__associations'))
                     ->where($db->quoteName('context') . ' = :associationscontext')
                     ->bind(':associationscontext', $this->associationsContext);
@@ -819,7 +820,7 @@ class CategoryModel extends AdminModel
         $successful = [];
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         /**
          * For each category get the max ordering value
@@ -928,7 +929,7 @@ class CategoryModel extends AdminModel
         $parents = [];
 
         // Calculate the emergency stop count as a precaution against a runaway loop bug
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('COUNT(' . $db->quoteName('id') . ')')
             ->from($db->quoteName('#__categories'));
         $db->setQuery($query);
@@ -1079,7 +1080,7 @@ class CategoryModel extends AdminModel
         $this->type = $type->getTypeByAlias($this->typeAlias);
 
         $db        = $this->getDatabase();
-        $query     = $db->getQuery(true);
+        $query     = $db->createQuery();
         $extension = Factory::getApplication()->getInput()->get('extension', '', 'word');
 
         // Check that the parent exists.

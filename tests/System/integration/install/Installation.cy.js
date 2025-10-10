@@ -20,17 +20,13 @@ describe('Install Joomla', () => {
     cy.installJoomla(config);
 
     // Disable compat plugin
-    // TODO: Uncomment below code line if filesystem class is migrated to framework in 6.0-dev
-    // cy.db_enableExtension(0, 'plg_behaviour_compat');
+    cy.db_enableExtension(0, 'plg_behaviour_compat6');
 
     cy.doAdministratorLogin(config.username, config.password, false);
     cy.cancelTour();
     cy.disableStatistics();
     cy.setErrorReportingToDevelopment();
     cy.doAdministratorLogout();
-
-    // Update to the correct secret for the API tests because of the bearer token
-    cy.config_setParameter('secret', 'tEstValue');
 
     // Setup mailing
     cy.config_setParameter('mailonline', true);

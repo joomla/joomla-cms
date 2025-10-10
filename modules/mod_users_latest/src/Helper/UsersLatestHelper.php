@@ -46,7 +46,7 @@ class UsersLatestHelper implements DatabaseAwareInterface
         $db   = $this->getDatabase();
         $user = $app->getIdentity();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['a.id', 'a.name', 'a.username', 'a.registerDate']))
             ->order($db->quoteName('a.registerDate') . ' DESC')
             ->from($db->quoteName('#__users', 'a'));
