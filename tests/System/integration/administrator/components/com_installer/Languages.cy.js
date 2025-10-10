@@ -9,8 +9,15 @@ describe('Test in backend that the Installer', () => {
   });
 
   it('has Afrikaans Language installable', () => {
-    cy.get('tr.row0').should('contain.text', 'Afrikaans').then(() => {
-      cy.get('input.btn.btn-primary.btn-sm').should('exist');
+    cy.get('body').then((body) => {
+      if (body.find('#installer-languages table').length === 0) {
+        cy.get('#installer-languages .alert.alert-info').should('contain.text', 'No Matching Results');
+        cy.checkForSystemMessage(`Can't connect to https://update.joomla.org/language/translationlist`);
+      } else {
+        cy.get('tr.row0').should('contain.text', 'Afrikaans').then(() => {
+          cy.get('input.btn.btn-primary.btn-sm').should('exist');
+        });
+      }
     });
   });
 });
