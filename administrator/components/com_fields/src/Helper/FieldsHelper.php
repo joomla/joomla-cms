@@ -100,7 +100,7 @@ class FieldsHelper
      * @param   string             $context              The context of the content passed to the helper
      * @param   object|array|null  $item                 The item being edited in the form
      * @param   int|bool           $prepareValue         (if int is display event): 1 - AfterTitle, 2 - BeforeDisplay, 3 - AfterDisplay, 0 - OFF
-     * @param   array|null         $valuesToOverride     The values to override
+     * @param   ?array             $valuesToOverride     The values to override
      * @param   bool               $includeSubformFields Should I include fields marked as Only Use In Subform?
      *
      * @return  array
@@ -112,7 +112,7 @@ class FieldsHelper
         $context,
         $item = null,
         $prepareValue = false,
-        array $valuesToOverride = null,
+        ?array $valuesToOverride = null,
         bool $includeSubformFields = false
     ) {
         if (self::$fieldsCache === null) {
@@ -591,7 +591,7 @@ class FieldsHelper
         }
 
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select($db->quoteName('a.category_id'))
             ->from($db->quoteName('#__fields_categories', 'a'))
@@ -620,7 +620,7 @@ class FieldsHelper
         }
 
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select($db->quoteName('c.title'))
             ->from($db->quoteName('#__fields_categories', 'a'))
@@ -643,7 +643,7 @@ class FieldsHelper
     public static function getFieldsPluginId()
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('folder') . ' = ' . $db->quote('system'))

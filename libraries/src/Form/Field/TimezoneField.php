@@ -128,12 +128,12 @@ class TimezoneField extends GroupedlistField
         // Build the group lists.
         foreach ($zones as $zone) {
             // Time zones not in a group we will ignore.
-            if (strpos($zone, '/') === false) {
+            if (!str_contains($zone, '/')) {
                 continue;
             }
 
             // Get the group/locale from the timezone.
-            list($group, $locale) = explode('/', $zone, 2);
+            [$group, $locale] = explode('/', $zone, 2);
 
             // Only use known groups.
             if (\in_array($group, self::$zones)) {

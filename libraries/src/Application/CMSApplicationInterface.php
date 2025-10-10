@@ -125,20 +125,6 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
     public function isClient($identifier);
 
     /**
-     * Flag if the application instance is a CLI or web based application.
-     *
-     * Helper function, you should use the native PHP functions to detect if it is a CLI application.
-     *
-     * @return  boolean
-     *
-     * @since       4.0.0
-     *
-     * @deprecated  4.0 will be removed in 6.0
-     *              Will be removed without replacement. CLI will be handled by the joomla/console package instead
-     */
-    public function isCli();
-
-    /**
      * Get the application identity.
      *
      * @return  User|null  A User object or null if not set.
@@ -183,5 +169,5 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
      *
      * @since   4.0.0
      */
-    public function loadIdentity(User $identity = null);
+    public function loadIdentity(?User $identity = null);
 }

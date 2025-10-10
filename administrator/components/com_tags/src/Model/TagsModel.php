@@ -32,13 +32,12 @@ class TagsModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   MVCFactoryInterface  $factory  The factory.
-     *
-     * @param   array                $config   An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   1.6
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -148,7 +147,7 @@ class TagsModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $user  = $this->getCurrentUser();
 
         // Select the required fields from the table.
@@ -184,7 +183,7 @@ class TagsModel extends ListModel
             ->join('LEFT', $db->quoteName('#__viewlevels', 'ug'), $db->quoteName('ug.id') . ' = ' . $db->quoteName('a.access'));
 
         // Count Items
-        $subQueryCountTaggedItems = $db->getQuery(true);
+        $subQueryCountTaggedItems = $db->createQuery();
         $subQueryCountTaggedItems
             ->select('COUNT(' . $db->quoteName('tag_map.content_item_id') . ')')
             ->from($db->quoteName('#__contentitem_tag_map', 'tag_map'))
@@ -276,8 +275,8 @@ class TagsModel extends ListModel
     {
         $items = parent::getItems();
 
-        if ($items != false) {
-            $extension = $this->getState('filter.extension');
+        if ($items) {
+            $extension = $this->getState('filter.extension', '');
 
             $this->countItems($items, $extension);
         }

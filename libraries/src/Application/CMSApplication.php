@@ -17,6 +17,7 @@ use Joomla\CMS\Event\Application\AfterInitialiseEvent;
 use Joomla\CMS\Event\Application\AfterRenderEvent;
 use Joomla\CMS\Event\Application\AfterRespondEvent;
 use Joomla\CMS\Event\Application\AfterRouteEvent;
+use Joomla\CMS\Event\Application\BeforeExecuteEvent;
 use Joomla\CMS\Event\Application\BeforeRenderEvent;
 use Joomla\CMS\Event\Application\BeforeRespondEvent;
 use Joomla\CMS\Event\ErrorEvent;
@@ -31,7 +32,6 @@ use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -48,6 +48,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
+use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -168,7 +169,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * Class constructor.
      *
      * @param   ?Input      $input      An optional argument to provide dependency injection for the application's input
-     *                                  object.  If the argument is a JInput object that object will become the
+     *                                  object.  If the argument is a Input object that object will become the
      *                                  application's input object, otherwise a default input object is created.
      * @param   ?Registry   $config     An optional argument to provide dependency injection for the application's config
      *                                  object.  If the argument is a Registry object that object will become the
@@ -180,7 +181,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since   3.2
      */
-    public function __construct(Input $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
+    public function __construct(?Input $input = null, ?Registry $config = null, ?WebClient $client = null, ?Container $container = null)
     {
         $container = $container ?: new Container();
         $this->setContainer($container);
@@ -249,10 +250,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             'type'    => $inputFilter->clean(strtolower($type), 'cmd'),
         ];
 
-        // For empty queue, if messages exists in the session, enqueue them first.
-        $messages = $this->getMessageQueue();
-
-        if (!\in_array($message, $this->messageQueue)) {
+        // Get the messages of the session and add the new message if it is not already in the queue.
+        if (!\in_array($message, $this->getMessageQueue())) {
             // Enqueue the message.
             $this->messageQueue[] = $message;
         }
@@ -301,6 +300,16 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $this->sanityCheckSystemVariables();
             $this->setupLogging();
             $this->createExtensionNamespaceMap();
+
+            // Trigger the onBeforeExecute event
+            PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
+            $this->dispatchEvent(
+                'onBeforeExecute',
+                new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
+            );
+
+            // Mark beforeExecute in the profiler.
+            JDEBUG ? $this->profiler->mark('beforeExecute event dispatched') : null;
 
             // Perform application routines.
             $this->doExecute();
@@ -365,66 +374,115 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @return  void
      *
      * @throws  \Exception
+     * @deprecated  5.2.3  will be removed in 7.0
+     *              Use $this->checkUserRequiresReset() instead.
      */
     protected function checkUserRequireReset($option, $view, $layout, $tasks)
     {
-        if ($this->getIdentity()->requireReset) {
-            $redirect = false;
+        $name = $this->getName();
+        $urls = [];
 
-            /*
-             * By default user profile edit page is used.
-             * That page allows you to change more than just the password and might not be the desired behavior.
-             * This allows a developer to override the page that manage the password reset.
-             * (can be configured using the file: configuration.php, or if extended, through the global configuration form)
-             */
-            $name = $this->getName();
+        if ($this->get($name . '_reset_password_override', 0)) {
+            $tasks = $this->get($name . '_reset_password_tasks', '');
+        }
 
-            if ($this->get($name . '_reset_password_override', 0)) {
-                $option = $this->get($name . '_reset_password_option', '');
-                $view   = $this->get($name . '_reset_password_view', '');
-                $layout = $this->get($name . '_reset_password_layout', '');
-                $tasks  = $this->get($name . '_reset_password_tasks', '');
-            }
+        // Check task
+        if (!empty($tasks)) {
+            $tasks = explode(',', $tasks);
 
-            $task = $this->input->getCmd('task', '');
-
-            // Check task or option/view/layout
-            if (!empty($task)) {
-                $tasks = explode(',', $tasks);
-
-                // Check full task version "option/task"
-                if (array_search($this->input->getCmd('option', '') . '/' . $task, $tasks) === false) {
-                    // Check short task version, must be on the same option of the view
-                    if ($this->input->getCmd('option', '') !== $option || array_search($task, $tasks) === false) {
-                        // Not permitted task
-                        $redirect = true;
-                    }
-                }
-            } else {
-                if (
-                    $this->input->getCmd('option', '') !== $option || $this->input->getCmd('view', '') !== $view
-                    || $this->input->getCmd('layout', '') !== $layout
-                ) {
-                    // Requested a different option/view/layout
-                    $redirect = true;
-                }
-            }
-
-            if ($redirect) {
-                // Redirect to the profile edit page
-                $this->enqueueMessage(Text::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
-
-                $url = Route::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false);
-
-                // In the administrator we need a different URL
-                if (strtolower($name) === 'administrator') {
-                    $user = Factory::getApplication()->getIdentity();
-                    $url  = Route::_('index.php?option=' . $option . '&task=' . $view . '.' . $layout . '&id=' . $user->id, false);
-                }
-
-                $this->redirect($url);
+            foreach ($tasks as $task) {
+                [$option, $t] = explode('/', $task);
+                $urls[]       = ['option' => $option, 'task' => $t];
             }
         }
+
+        $this->checkUserRequiresReset($option, $view, $layout, $urls);
+    }
+
+    /**
+     * Check if the user is required to reset their password.
+     *
+     * If the user is required to reset their password will be redirected to the page that manage the password reset.
+     *
+     * @param   string  $option  The option that manage the password reset
+     * @param   string  $view    The view that manage the password reset
+     * @param   string  $layout  The layout of the view that manage the password reset
+     * @param   array   $urls    Multi-dimensional array of permitted urls. Ex: [['option' => 'com_users', 'view' => 'profile'],...]
+     *
+     * @return  void
+     *
+     * @throws  \Exception
+     */
+    protected function checkUserRequiresReset($option, $view, $layout, $urls = [])
+    {
+        // Password reset is not required for the user, no need to check it further
+        if (!$this->getIdentity()->requireReset) {
+            return;
+        }
+
+        /*
+         * By default user profile edit page is used.
+         * That page allows you to change more than just the password and might not be the desired behavior.
+         * This allows a developer to override the page that manage the password reset.
+         * (can be configured using the file: configuration.php, or if extended, through the global configuration form)
+         */
+        $name = $this->getName();
+
+        if ($this->get($name . '_reset_password_override', 0)) {
+            $option = $this->get($name . '_reset_password_option', '');
+            $view   = $this->get($name . '_reset_password_view', '');
+            $layout = $this->get($name . '_reset_password_layout', '');
+            $urls   = $this->get($name . '_reset_password_urls', $urls);
+        }
+
+        /**
+         * The page which manage password reset always need to accessible, so if the current page
+         * is managing password reset page, no need to check it further
+         */
+        if (
+            $this->input->getCmd('option', '') === $option
+            && $this->input->getCmd('view', '') === $view
+            && $this->input->getCmd('layout', '') == $layout
+        ) {
+            return;
+        }
+
+        // If the current URL matches an entry in $urls, we do not redirect
+        foreach ($urls as $url) {
+            $match = true;
+
+            foreach ($url as $key => $value) {
+                if ($this->input->getCmd($key) !== $value) {
+                    /**
+                     * The current URL does not meet this entry, get out of this loop
+                     * and check next entry
+                     */
+                    $match = false;
+                    break;
+                }
+            }
+
+            // The current URL meet the entry, no redirect is needed, just return early
+            if ($match) {
+                return;
+            }
+        }
+
+        // Redirect to the profile edit page
+        $this->enqueueMessage(Text::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
+
+        $url = Route::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false);
+
+        // In the administrator we need a different URL
+        if ($this->isClient('administrator')) {
+            $user = $this->getIdentity();
+            $url  = Route::_(
+                'index.php?option=' . $option . '&task=' . $view . '.' . $layout . '&id=' . $user->id,
+                false
+            );
+        }
+
+        $this->redirect($url);
     }
 
     /**
@@ -445,11 +503,11 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     {
         try {
             Log::add(
-                sprintf('%s() is deprecated and will be removed in 6.0. Use Factory->getApplication()->get() instead.', __METHOD__),
+                \sprintf('%s() is deprecated and will be removed in 6.0. Use Factory->getApplication()->get() instead.', __METHOD__),
                 Log::WARNING,
                 'deprecated'
             );
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
 
@@ -485,7 +543,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *              Use the application service from the DI container instead
      *              Example: Factory::getContainer()->get($name);
      */
-    public static function getInstance($name = null, $prefix = '\JApplication', Container $container = null)
+    public static function getInstance($name = null, $prefix = '\JApplication', ?Container $container = null)
     {
         if (empty(static::$instances[$name])) {
             // Create a CmsApplication object.
@@ -762,7 +820,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         PluginHelper::importPlugin('behaviour', null, true, $this->getDispatcher());
 
         // Trigger the onAfterInitialise event.
-        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
         $this->dispatchEvent(
             'onAfterInitialise',
             new AfterInitialiseEvent('onAfterInitialise', ['subject' => $this])
@@ -780,7 +837,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      */
     public function isHttpsForced($clientId = null)
     {
-        $clientId = (int) ($clientId !== null ? $clientId : $this->getClientId());
+        $clientId = (int) ($clientId ?? $this->getClientId());
         $forceSsl = (int) $this->get('force_ssl');
 
         if ($clientId === 0 && $forceSsl === 2) {
@@ -905,10 +962,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $user = Factory::getUser();
 
             if ($response->type === 'Cookie') {
-                $user->set('cookieLogin', true);
+                $user->cookieLogin = true;
             }
 
-            if (\in_array(false, $results, true) == false) {
+            if (!\in_array(false, $results, true)) {
                 $options['user']         = $user;
                 $options['responseType'] = $response->type;
 
@@ -1217,7 +1274,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         /** @var Session $session */
         $session = $this->getSession();
 
-        return $session->getFormToken($forceNew);
+        return $session::getFormToken($forceNew);
     }
 
     /**
@@ -1236,24 +1293,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         /** @var Session $session */
         $session = $this->getSession();
 
-        return $session->checkToken($method);
-    }
-
-    /**
-     * Flag if the application instance is a CLI or web based application.
-     *
-     * Helper function, you should use the native PHP functions to detect if it is a CLI application.
-     *
-     * @return  boolean
-     *
-     * @since       4.0.0
-     *
-     * @deprecated  4.0 will be removed in 6.0
-     *              Will be removed without replacements
-     */
-    public function isCli()
-    {
-        return false;
+        return $session::checkToken($method);
     }
 
     /**

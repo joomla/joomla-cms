@@ -179,8 +179,8 @@ class LegacyInstallerScript implements InstallerScriptInterface, DatabaseAwareIn
         if ($this->installerScript instanceof DatabaseAwareInterface) {
             try {
                 $this->installerScript->setDatabase($this->getDatabase());
-            } catch (DatabaseNotFoundException $e) {
-                @trigger_error(sprintf('Database must be set, this will not be caught anymore in 6.0 in %s.', __METHOD__), E_USER_DEPRECATED);
+            } catch (DatabaseNotFoundException) {
+                @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 6.0 in %s.', __METHOD__), E_USER_DEPRECATED);
                 $this->installerScript->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
             }
         }

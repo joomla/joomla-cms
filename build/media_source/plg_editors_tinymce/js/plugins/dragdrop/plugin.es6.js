@@ -26,9 +26,7 @@ function readFile(file, callback) {
 window.tinymce.PluginManager.add('jdragndrop', (editor) => {
   const registerOption = editor.options.register;
   registerOption('uploadUri', { processor: 'string' });
-  registerOption('comMediaAdapter', { processor: 'string' });
   registerOption('parentUploadFolder', { processor: 'string' });
-  registerOption('csrfToken', { processor: 'string' });
 
   // Reset the drop area border
   const dragleaveCallback = (e) => {
@@ -61,10 +59,9 @@ window.tinymce.PluginManager.add('jdragndrop', (editor) => {
     const settings = editor.options.get;
 
     Joomla.request({
-      url: `${settings('uploadUri')}&path=${settings('comMediaAdapter')}${settings('parentUploadFolder')}`,
+      url: `${settings('uploadUri')}&path=${settings('parentUploadFolder')}`,
       method: 'POST',
       data: JSON.stringify({
-        [settings('csrfToken')]: 1,
         name,
         content,
         parent: settings('parentUploadFolder'),
@@ -72,11 +69,13 @@ window.tinymce.PluginManager.add('jdragndrop', (editor) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      onSuccess: (resp) => {
+      promise: true,
+    })
+      .then((resp) => {
         let response;
 
         try {
-          response = JSON.parse(resp);
+          response = JSON.parse(resp.responseText);
         } catch (e) {
           editor.windowManager.alert(`${Joomla.Text._('ERROR')}: {${e}}`);
         }
@@ -145,9 +144,14 @@ window.tinymce.PluginManager.add('jdragndrop', (editor) => {
             onCancel: (api) => dialogClose(api),
           });
         }
-      },
-      onError: (xhr) => editor.windowManager.alert(`Error: ${xhr.statusText}`),
-    });
+      })
+      .catch((xhr) => {
+        let message = `Error: ${xhr.statusText}`;
+        if (xhr.status === 409) {
+          message = Joomla.Text._('PLG_TINY_DND_FILE_EXISTS_ERROR').replace('%s', `${settings('parentUploadFolder')}/${name}`);
+        }
+        editor.windowManager.alert(message);
+      });
   }
 
   // Logic for the dropped file

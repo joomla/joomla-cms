@@ -74,7 +74,7 @@ class RelatedItemsHelper implements DatabaseAwareInterface
 
         $now      = Factory::getDate()->toSql();
         $related  = [];
-        $query    = $db->getQuery(true);
+        $query    = $db->createQuery();
 
         if ($id) {
             // Select the meta keywords from the item
@@ -86,7 +86,7 @@ class RelatedItemsHelper implements DatabaseAwareInterface
 
             try {
                 $metakey = trim($db->loadResult());
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 $app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
                 return [];
@@ -150,7 +150,7 @@ class RelatedItemsHelper implements DatabaseAwareInterface
 
                 try {
                     $articleIds = $db->loadColumn();
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException) {
                     $app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
                     return [];

@@ -18,7 +18,6 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\String\StringHelper;
@@ -38,13 +37,13 @@ class GroupModel extends AdminModel
     /**
      * Override parent constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         $config = array_merge(
             [
@@ -136,7 +135,7 @@ class GroupModel extends AdminModel
      */
     protected function preprocessForm(Form $form, $data, $group = '')
     {
-        $obj = \is_array($data) ? ArrayHelper::toObject($data, CMSObject::class) : $data;
+        $obj = \is_array($data) ? ArrayHelper::toObject($data) : $data;
 
         if (isset($obj->parent_id) && $obj->parent_id == 0 && $obj->id > 0) {
             $form->setFieldAttribute('parent_id', 'type', 'hidden');

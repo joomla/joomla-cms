@@ -57,12 +57,12 @@ class SiteRouter extends Router
     /**
      * Class constructor
      *
-     * @param   CMSApplication  $app   Application Object
-     * @param   AbstractMenu    $menu  Menu object
+     * @param   ?CMSApplication  $app   Application Object
+     * @param   ?AbstractMenu    $menu  Menu object
      *
      * @since   3.4
      */
-    public function __construct(CMSApplication $app = null, AbstractMenu $menu = null)
+    public function __construct(?CMSApplication $app = null, ?AbstractMenu $menu = null)
     {
         $this->app  = $app ?: Factory::getContainer()->get(SiteApplication::class);
         $this->menu = $menu ?: $this->app->getMenu();
@@ -138,7 +138,7 @@ class SiteRouter extends Router
          */
         try {
             $baseUri = Uri::base(true);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $baseUri = '';
         }
 
@@ -178,7 +178,7 @@ class SiteRouter extends Router
         $route = $uri->getPath();
 
         // Identify format
-        if (!(substr($route, -9) === 'index.php' || substr($route, -1) === '/') && $suffix = pathinfo($route, PATHINFO_EXTENSION)) {
+        if (!(str_ends_with($route, 'index.php') || str_ends_with($route, '/')) && $suffix = pathinfo($route, PATHINFO_EXTENSION)) {
             $uri->setVar('format', $suffix);
             $route = str_replace('.' . $suffix, '', $route);
             $uri->setPath($route);
@@ -309,6 +309,12 @@ class SiteRouter extends Router
             $item = $this->menu->getItem($uri->getVar('Itemid'));
         } else {
             $item = $this->menu->getDefault($this->app->getLanguage()->getTag());
+
+            if ($item->query['option'] !== $uri->getVar('option', $item->query['option'])) {
+                // Set the active menu item
+                $this->menu->setActive($item->id);
+                $item = false;
+            }
         }
 
         if ($item && $item->type === 'alias') {
@@ -481,10 +487,11 @@ class SiteRouter extends Router
     {
         $limitstart = $uri->getVar('limitstart');
 
-        if ($limitstart !== null) {
-            $uri->setVar('start', (int) $uri->getVar('limitstart'));
-            $uri->delVar('limitstart');
+        if ($limitstart !== null && $limitstart !== '') {
+            $uri->setVar('start', (int) $limitstart);
         }
+
+        $uri->delVar('limitstart');
     }
 
     /**
@@ -502,7 +509,7 @@ class SiteRouter extends Router
         $route = $uri->getPath();
 
         // Identify format
-        if (!(substr($route, -9) === 'index.php' || substr($route, -1) === '/') && $format = $uri->getVar('format', 'html')) {
+        if (!(str_ends_with($route, 'index.php') || str_ends_with($route, '/')) && $format = $uri->getVar('format', 'html')) {
             $route .= '.' . $format;
             $uri->setPath($route);
             $uri->delVar('format');

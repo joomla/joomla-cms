@@ -41,7 +41,7 @@ class CaptchaRule extends FormRule
      *
      * @since   2.5
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         $app     = Factory::getApplication();
         $default = $app->get('captcha');

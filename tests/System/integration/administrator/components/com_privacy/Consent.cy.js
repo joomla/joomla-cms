@@ -1,4 +1,4 @@
-describe('Test in backend that privacy consent component', () => {
+describe('Test in backend that the privacy consent component', () => {
   beforeEach(() => cy.doAdministratorLogin());
   afterEach(() => {
     cy.task('queryDB', 'DELETE FROM #__privacy_consents');

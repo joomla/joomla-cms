@@ -2,7 +2,6 @@
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 import punycode from 'punycode';
 
 class JFormValidator {
@@ -32,7 +31,7 @@ class JFormValidator {
     });
     this.setHandler('email', (value) => {
       const newValue = punycode.toASCII(value);
-      const regex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
       return regex.test(newValue);
     });
 
@@ -60,7 +59,6 @@ class JFormValidator {
     };
   }
 
-  // eslint-disable-next-line class-methods-use-this
   markValid(element) {
     // Get a label
     const label = element.form.querySelector(`label[for="${element.id}"]`);
@@ -89,7 +87,6 @@ class JFormValidator {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
   markInvalid(element, empty) {
     // Get a label
     const label = element.form.querySelector(`label[for="${element.id}"]`);
@@ -130,7 +127,6 @@ class JFormValidator {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
   removeMarking(element) {
     // Get the associated label
     let message;
@@ -257,7 +253,7 @@ class JFormValidator {
 
     // Run custom form validators if present
     if (Object.keys(this.customValidators).length) {
-      Object.keys(this.customValidators).foreach((key) => {
+      Object.keys(this.customValidators).forEach((key) => {
         if (this.customValidators[key].exec() !== true) {
           valid = false;
         }
@@ -315,11 +311,11 @@ class JFormValidator {
   }
 }
 
-const initialize = () => {
-  document.formvalidator = new JFormValidator();
+document.formvalidator = new JFormValidator();
 
-  // Cleanup
-  document.removeEventListener('DOMContentLoaded', initialize);
-};
-
-document.addEventListener('DOMContentLoaded', initialize);
+/**
+ * Expose the classes to the global scope
+ * These will be removed in Joomla! 6.0
+ */
+window.JFormValidator = JFormValidator;
+window.punycode = punycode;

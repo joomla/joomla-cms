@@ -14,15 +14,24 @@ ul.media-tree {
 }
 
 .media-disk {
-  position: sticky;
-  top: 75px;
-  left: 0;
+  inset-inline-start: 0;
   display: block;
-  margin-bottom: 10px;
+  margin-block-end: 10px;
+  > details {
+    margin: initial;
+    h2 {
+      margin-block-end: 0;
+      display: inline-block;
+    }
+    summary ~ * {
+      margin-block-start: 0;
+    }
+  }
 }
 
 .media-drive {
-  overflow-x: auto;
+  max-height: 75vh;
+  overflow: auto;
   background-color: $sidebar-drive-bg;
   border: 1px solid $border-color;
   + .media-drive {
@@ -84,7 +93,8 @@ ul.media-tree {
   &::after {
     content: none;
   }
-  &:hover {
+  &:hover,
+  &:focus-visible {
     cursor: pointer;
   }
 }
@@ -92,14 +102,21 @@ ul.media-tree {
 .media-tree-item a {
   display: block;
   padding: 0 7px;
+  overflow: hidden;
   line-height: $sidebar-tree-line-height;
   text-decoration: none;
+  text-overflow: ellipsis;
   white-space: nowrap;
   cursor: pointer;
+  &:hover,
+  &:focus-visible {
+    background-color: $sidebar-tree-item-hover-bg;
+  }
 }
 
 .media-tree-item.active > a {
-  &:hover {
+  &:hover,
+  &:focus-visible {
     text-decoration: none;
     background-color: $sidebar-tree-item-hover-bg;
   }
@@ -119,11 +136,7 @@ ul.media-tree {
 }
 
 .item-name {
-  display: inline-block;
-  overflow: hidden;
   font-size: .9em;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   vertical-align: middle;
 }
 

@@ -99,7 +99,7 @@ class ModulesModel extends FormModel
             }
 
             // Attempt to load the xml file.
-            if (!$xml = simplexml_load_file($formFile)) {
+            if (!simplexml_load_file($formFile)) {
                 throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
             }
         }
@@ -177,7 +177,7 @@ class ModulesModel extends FormModel
     public static function getActivePositions($clientId, $editPositions = false)
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('DISTINCT position')
             ->from($db->quoteName('#__modules'))
             ->where($db->quoteName('client_id') . ' = ' . (int) $clientId)

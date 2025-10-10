@@ -17,7 +17,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\SiteRouter;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\System\LanguageFilter\Extension\LanguageFilter;
 
 return new class () implements ServiceProviderInterface {
@@ -36,7 +35,6 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $plugin = new LanguageFilter(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('system', 'languagefilter'),
                     Factory::getApplication(),
                     $container->get(LanguageFactoryInterface::class)

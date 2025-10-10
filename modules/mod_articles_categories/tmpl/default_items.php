@@ -23,7 +23,7 @@ $id     = $input->getInt('id');
 foreach ($list as $item) : ?>
     <li<?php if ($id == $item->id && in_array($view, ['category', 'categories']) && $option == 'com_content') {
         echo ' class="active"';
-       } ?>> <?php $levelup = $item->level - $startLevel - 1; ?>
+       } ?>>
         <a href="<?php echo Route::_(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>">
         <?php echo $item->title; ?>
             <?php if ($params->get('numitems')) : ?>

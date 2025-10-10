@@ -30,7 +30,7 @@ describe('Test in backend that the custom fields list', () => {
       cy.clickToolbarButton('Action');
       cy.contains('Publish').click();
 
-      cy.get('#system-message-container').contains('Field published').should('exist');
+      cy.checkForSystemMessage('Field published');
     });
   });
 
@@ -42,7 +42,7 @@ describe('Test in backend that the custom fields list', () => {
       cy.clickToolbarButton('Action');
       cy.contains('Unpublish').click();
 
-      cy.get('#system-message-container').contains('Field unpublished').should('exist');
+      cy.checkForSystemMessage('Field unpublished');
     });
   });
 
@@ -54,7 +54,7 @@ describe('Test in backend that the custom fields list', () => {
       cy.clickToolbarButton('Action');
       cy.contains('Trash').click();
 
-      cy.get('#system-message-container').contains('Field trashed').should('exist');
+      cy.checkForSystemMessage('Field trashed');
     });
   });
 
@@ -67,7 +67,7 @@ describe('Test in backend that the custom fields list', () => {
       cy.clickToolbarButton('empty trash');
       cy.clickDialogConfirm(true);
 
-      cy.get('#system-message-container').contains('Field deleted').should('exist');
+      cy.checkForSystemMessage('Field deleted');
     });
   });
 });

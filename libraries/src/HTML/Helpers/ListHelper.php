@@ -130,7 +130,7 @@ abstract class ListHelper
      * @param   string   $attribs   HTML tag attributes
      * @param   string   $selected  The selected item
      * @param   integer  $neworder  1 if new and first, -1 if new and last, 0  or null if existing item
-     * @param   string   $id        ID attribute for the resulting <select> element
+     * @param   ?string  $id        ID attribute for the resulting <select> element
      *
      * @return  string   HTML markup for the select list
      *
@@ -179,7 +179,7 @@ abstract class ListHelper
     public static function users($name, $active, $nouser = 0, $javascript = null, $order = 'name')
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('u.id', 'value'),

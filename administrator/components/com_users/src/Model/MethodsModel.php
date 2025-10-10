@@ -97,7 +97,7 @@ class MethodsModel extends BaseDatabaseModel
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__user_mfa'))
             ->where($db->quoteName('user_id') . ' = :user_id')
             ->bind(':user_id', $user->id, ParameterType::INTEGER);
@@ -110,7 +110,7 @@ class MethodsModel extends BaseDatabaseModel
      * Today, 08:33
      * January 1, 2015
      *
-     * @param   string  $dateTimeText  The database time string to use, e.g. "2017-01-13 13:25:36"
+     * @param   ?string  $dateTimeText  The database time string to use, e.g. "2017-01-13 13:25:36"
      *
      * @return  string  The formatted, human-readable date
      * @throws  \Exception
@@ -170,7 +170,7 @@ class MethodsModel extends BaseDatabaseModel
             }
         }
 
-        return sprintf($containerString, $jDate->format($formatString, true));
+        return \sprintf($containerString, $jDate->format($formatString, true));
     }
 
     /**
@@ -187,7 +187,7 @@ class MethodsModel extends BaseDatabaseModel
     {
         $db         = $this->getDatabase();
         $profileKey = 'mfa.dontshow';
-        $query      = $db->getQuery(true)
+        $query      = $db->createQuery()
             ->select($db->quoteName('profile_value'))
             ->from($db->quoteName('#__user_profiles'))
             ->where($db->quoteName('user_id') . ' = :user_id')
@@ -197,7 +197,7 @@ class MethodsModel extends BaseDatabaseModel
 
         try {
             $result = $db->setQuery($query)->loadResult();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return;
         }
 

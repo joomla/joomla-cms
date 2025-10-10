@@ -73,6 +73,7 @@ $wa->useScript('keepalive')
                         'access',
                         'language',
                         'extensions',
+                        'autostart',
                         'note',
                     ];
 
@@ -99,6 +100,5 @@ $wa->useScript('keepalive')
         <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
     </div>
 
-    <input type="hidden" name="task" value="">
-    <?php echo HTMLHelper::_('form.token'); ?>
+    <?php echo $this->form->renderControlFields(); ?>
 </form>

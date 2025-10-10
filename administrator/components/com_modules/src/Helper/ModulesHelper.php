@@ -71,7 +71,7 @@ abstract class ModulesHelper
     {
         $db       = Factory::getDbo();
         $clientId = (int) $clientId;
-        $query    = $db->getQuery(true)
+        $query    = $db->createQuery()
             ->select('DISTINCT ' . $db->quoteName('position'))
             ->from($db->quoteName('#__modules'))
             ->where($db->quoteName('client_id') . ' = :clientid')
@@ -120,7 +120,7 @@ abstract class ModulesHelper
         $clientId = (int) $clientId;
 
         // Get the database object and a new query object.
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Build the query.
         $query->select($db->quoteName(['element', 'name', 'enabled']))
@@ -157,7 +157,7 @@ abstract class ModulesHelper
     public static function getModules($clientId)
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('element AS value, name AS text')
             ->from('#__extensions as e')
             ->where('e.client_id = ' . (int) $clientId)
@@ -170,13 +170,13 @@ abstract class ModulesHelper
         $modules = $db->loadObjectList();
         $lang    = Factory::getLanguage();
 
-        foreach ($modules as $i => $module) {
+        foreach ($modules as $module) {
             $extension = $module->value;
             $path      = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
             $source    = $path . "/modules/$extension";
             $lang->load("$extension.sys", $path)
             || $lang->load("$extension.sys", $source);
-            $modules[$i]->text = Text::_($module->text);
+            $module->text = Text::_($module->text);
         }
 
         $modules = ArrayHelper::sortObjects($modules, 'text', 1, true, true);

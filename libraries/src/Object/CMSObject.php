@@ -21,7 +21,7 @@ namespace Joomla\CMS\Object;
  *
  * @since       1.7.0
  *
- * @deprecated  4.3 will be removed in 6.0
+ * @deprecated  4.0 will be removed in 7.0
  *              Use \stdClass or \Joomla\Registry\Registry instead.
  *              Example: new \Joomla\Registry\Registry();
  */
@@ -52,7 +52,7 @@ class CMSObject extends \stdClass
      *
      * @since   1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  3.1.4 will be removed in 7.0
      *              Classes should provide their own __toString() implementation.
      */
     public function __toString()

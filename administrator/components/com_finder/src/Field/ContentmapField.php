@@ -50,7 +50,7 @@ class ContentmapField extends GroupedlistField
         $db = $this->getDatabase();
 
         // Main query.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('a.title', 'text'))
             ->select($db->quoteName('a.id', 'value'))
             ->select($db->quoteName('a.parent_id'))
@@ -63,7 +63,7 @@ class ContentmapField extends GroupedlistField
 
         try {
             $contentMap = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return [];
         }
 

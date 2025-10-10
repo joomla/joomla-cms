@@ -43,7 +43,7 @@ class Multilanguage
      *
      * @since   2.5.4
      */
-    public static function isEnabled(CMSApplication $app = null, DatabaseInterface $db = null)
+    public static function isEnabled(?CMSApplication $app = null, ?DatabaseInterface $db = null)
     {
         // Flag to avoid doing multiple database queries.
         static $tested = false;
@@ -67,7 +67,7 @@ class Multilanguage
         if (!$tested) {
             // Determine status of language filter plugin.
             $db    = $db ?: Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('enabled'))
                 ->from($db->quoteName('#__extensions'))
                 ->where(
@@ -95,7 +95,7 @@ class Multilanguage
      *
      * @since   3.5
      */
-    public static function getSiteHomePages(DatabaseInterface $db = null)
+    public static function getSiteHomePages(?DatabaseInterface $db = null)
     {
         // To avoid doing duplicate database queries.
         static $multilangSiteHomePages = null;
@@ -103,7 +103,7 @@ class Multilanguage
         if (!isset($multilangSiteHomePages)) {
             // Check for Home pages languages.
             $db    = $db ?: Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select(
                     [
                         $db->quoteName('language'),

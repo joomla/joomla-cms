@@ -113,11 +113,11 @@ class InstallerExtension
     /**
      * Constructor
      *
-     * @param   \SimpleXMLElement  $element  A SimpleXMLElement from which to load data from
+     * @param   ?\SimpleXMLElement  $element  A SimpleXMLElement from which to load data from
      *
      * @since  3.1
      */
-    public function __construct(\SimpleXMLElement $element = null)
+    public function __construct(?\SimpleXMLElement $element = null)
     {
         if ($element) {
             $this->type = (string) $element->attributes()->type;
