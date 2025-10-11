@@ -13,7 +13,6 @@ namespace Joomla\Component\Contenthistory\Administrator\Model;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\CMSHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -22,7 +21,6 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 
@@ -345,6 +343,7 @@ class HistoryModel extends ListModel
                     $db->quoteName('h.sha1_hash'),
                     $db->quoteName('h.version_data'),
                     $db->quoteName('h.keep_forever'),
+                    $db->quoteName('h.is_current'),
                 ]
             )
         )
@@ -382,37 +381,17 @@ class HistoryModel extends ListModel
 
         [$extension, $type, $id] = explode('.', $item_id);
 
-        $app = Factory::getApplication();
+        /**
+         * From Joomla 6, we use is_current field to determine the current version, so no need to calculate sha1 hash
+         * if there is already a current version
+         */
 
-        $model = $app->bootComponent($extension)->getMVCFactory()->createModel($type, 'Administrator');
+        $items = $this->getItems();
 
-        if ($model instanceof VersionableModelInterface) {
-            $path = JPATH_BASE . '/components/' . $extension;
-
-            Form::addFormPath($path . '/forms');
-            Form::addFormPath($path . '/models/forms');
-            Form::addFieldPath($path . '/models/fields');
-            Form::addFormPath($path . '/model/form');
-            Form::addFieldPath($path . '/model/field');
-
-            // This is needed to make sure the model has called populateState
-            $tmp = $model->getState();
-
-            // Now we can set the article.id and it is not overwritten later by populateState
-            $model->setState('article.id', $id);
-
-            $item   = $model->getItem();
-            $form   = $model->getForm();
-
-            $cf = $form->getData()->get('com_fields', null);
-
-            if (!empty($cf)) {
-                $item->com_fields = $cf;
+        foreach ($items as $item) {
+            if ($item->is_current) {
+                return $item->sha1_hash;
             }
-
-            $result = $model->getSha1($item);
-
-            return $result;
         }
 
         // Legacy code for history concept before 6.0.0, deprecated 6.0.0 will be removed with 8.0.0
