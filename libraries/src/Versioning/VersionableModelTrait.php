@@ -412,7 +412,7 @@ trait VersionableModelTrait
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected function markVersionAsCurrent(int $versionId, string $itemId):void
+    protected function markVersionAsCurrent(int $versionId, string $itemId): void
     {
         $db = $this->getDatabase();
         $query = $db->getQuery(true)
