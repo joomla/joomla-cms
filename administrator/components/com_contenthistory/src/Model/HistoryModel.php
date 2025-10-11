@@ -393,7 +393,7 @@ class HistoryModel extends ListModel
         $item_id   = $this->state->get('item_id', '');
 
         [$extension, $type, $id] = explode('.', $item_id);
-        
+
         Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $extension . '/tables');
         $typeTable = $this->getTable('ContentType');
         $typeTable->load(['type_alias' => $extension . '.' . $type]);
