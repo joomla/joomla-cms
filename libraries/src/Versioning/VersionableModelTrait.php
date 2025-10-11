@@ -169,12 +169,43 @@ trait VersionableModelTrait
             $rowArray['ordering'] = 0;
         }
 
+        // Fix null note when restoring history
+        if (\array_key_exists('note', $rowArray) && $rowArray['note'] === null) {
+            $rowArray['note'] = '';
+        }
+
         $historyTable = $this->getHistoryTable($historyId);
 
         $this->setState('save_date', $historyTable->save_date);
         $this->setState('version_note', $historyTable->version_note);
 
-        $ret = $this->save($rowArray);
+        /**
+         * The version history is created prior to Joomla 6.0, so we can only restore item data, not a full
+         * restore like we can do with Joomla 6.0+ version history.
+         */
+        if ($historyTable->is_legacy) {
+            $key = $table->getKeyName();
+
+            /**
+             * Load data from current version before replacing it with data from history to avoid error
+             * if there are some required keys missing in the history data
+             */
+            if (isset($rowArray[$key])) {
+                $table->load($rowArray[$key]);
+            }
+
+            $table->bind($rowArray);
+
+            if (!$table->check() || !$table->store()) {
+                $this->setError($table->getError());
+
+                $ret = false;
+            } else {
+                $ret = true;
+            }
+        } else {
+            $ret = $this->save($rowArray);
+        }
 
         // Mark the restored version as current
         if ($ret) {
