@@ -197,8 +197,6 @@ trait VersionableModelTrait
             $table->bind($rowArray);
 
             if (!$table->check() || !$table->store()) {
-                $this->setError($table->getError());
-
                 $ret = false;
             } else {
                 $ret = true;
