@@ -367,6 +367,7 @@ CREATE TABLE IF NOT EXISTS `#__history` (
   `sha1_hash` varchar(50) NOT NULL DEFAULT '' COMMENT 'SHA1 hash of the version_data column.',
   `version_data` mediumtext NOT NULL COMMENT 'json-encoded string of version data',
   `keep_forever` tinyint NOT NULL DEFAULT 0 COMMENT '0=auto delete; 1=keep',
+  `is_current` tinyint NOT NULL DEFAULT 0,
   PRIMARY KEY (`version_id`),
   KEY `idx_ucm_item_id` (`item_id`),
   KEY `idx_save_date` (`save_date`)
