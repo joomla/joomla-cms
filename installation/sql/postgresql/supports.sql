@@ -374,6 +374,7 @@ CREATE TABLE IF NOT EXISTS "#__history" (
   "version_data" text NOT NULL,
   "keep_forever" smallint NOT NULL DEFAULT 0,
   "is_current" smallint NOT NULL DEFAULT 0,
+  "is_legacy" smallint NOT NULL DEFAULT 0,
   PRIMARY KEY ("version_id")
 );
 CREATE INDEX "#__history_idx_ucm_item_id" ON "#__history" ("item_id");
