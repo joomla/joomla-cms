@@ -444,7 +444,7 @@ trait VersionableModelTrait
     protected function markVersionAsCurrent(int $versionId, string $itemId): void
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__history'))
             ->set($db->quoteName('is_current') . ' = 0')
             ->where($db->quoteName('item_id') . ' = :item_id')
