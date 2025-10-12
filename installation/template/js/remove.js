@@ -13,6 +13,9 @@ if (document.getElementById('installAddFeatures')) {
     document.getElementById('installCongrat').classList.remove('active');
     document.getElementById('installFinal').classList.remove('active');
     document.getElementById('installRecommended').classList.remove('active');
+    if (document.getElementById('automatedUpdates')) {
+      document.getElementById('automatedUpdates').classList.remove('active');
+    }
   })
 }
 
@@ -23,6 +26,9 @@ if (document.getElementById('skipLanguages')) {
     document.getElementById('installFinal').classList.add('active');
     document.getElementById('installRecommended').classList.add('active');
     document.getElementById('installLanguages').classList.remove('active');
+    if (document.getElementById('automatedUpdates')) {
+      document.getElementById('automatedUpdates').classList.add('active');
+    }
 
     if (document.getElementById('installFinal')) {
       document.getElementById('installFinal').focus();
