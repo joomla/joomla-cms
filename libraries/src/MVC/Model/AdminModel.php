@@ -13,7 +13,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryInterface;
-use Joomla\CMS\Helper\CMSHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -1462,15 +1461,8 @@ abstract class AdminModel extends FormModel
         }
 
         if ($this instanceof VersionableModelInterface) {
-            /**
-             * Reload item data from database to have default data populated for fields which are not passed in $data,
-             * avoid error such as Column 'created_by_alias' cannot be null" when restore from version history
-             */
-            $itemTable = $this->getTable();
-            $itemTable->load($table->$key);
-
             // Merge table data and data so that we write all data to the history
-            $tableData = (new CMSHelper())->getRowData($itemTable);
+            $tableData = ArrayHelper::fromObject($table);
 
             $historyData = array_merge($data, $tableData);
 

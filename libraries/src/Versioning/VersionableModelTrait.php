@@ -44,11 +44,13 @@ trait VersionableModelTrait
         'modified_time',
         'checked_out',
         'checked_out_time',
+        'tagsHelper',
         'version',
         'articletext',
         'rules',
         'hits',
         'path',
+        'newTags',
     ];
 
     /**
