@@ -301,10 +301,20 @@ trait VersionableModelTrait
     {
         $id = $this->getState($this->getName() . '.id');
 
-        $versionNote =  '';
+        /**
+         * Merge item data and form data so that we write all data to the history. We have to rel
+         * from database to have default data populated for fields which are not passed in $data array,
+         * avoid error such as Column 'created_by_alias' cannot be null" when restore from version history
+         */
+        $table = $this->getTable();
+        $table->load($id);
+        $itemData = ArrayHelper::fromObject($table);
+        $data     = array_merge($data, $itemData);
+
+        $versionNote = '';
 
         if (\array_key_exists('version_note', $data)) {
-            $versionNote =  $data['version_note'];
+            $versionNote = $data['version_note'];
             unset($data['version_note']);
         }
 
