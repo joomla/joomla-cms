@@ -383,7 +383,7 @@ class HistoryModel extends ListModel
         $items = $this->getItems();
 
         foreach ($items as $item) {
-            if ($item->is_current) {
+            if ($item->is_current == 1) {
                 return $item->sha1_hash;
             }
         }
