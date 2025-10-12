@@ -69,7 +69,7 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
                                             <?php if (isset($value1['value'][$key])) : ?>
                                                 <?php $currentvalue1 = $value1['value'][$key]; ?>
                                                 <?php if (is_array($value1['value'][$key])) : ?>
-                                                    <?php $currentvalue1 = implode(' | ', $value1['value'][$key]); ?>
+                                                    <?php $currentvalue1 = ArrayHelper::isAssociative($value1['value'][$key]) ? json_encode($value1['value'][$key]) : implode(' | ', $value1['value'][$key]); ?>
                                                     <?php echo htmlspecialchars($key . ': ' . $currentvalue1, ENT_COMPAT, 'UTF-8'); ?>
                                                 <?php else : ?>
                                                     <?php echo htmlspecialchars($key . ': ' . $currentvalue1, ENT_COMPAT, 'UTF-8'); ?>
@@ -80,7 +80,7 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
                                             <?php if (isset($value2['value'][$key])) : ?>
                                                 <?php $currentvalue2 = $value2['value'][$key]; ?>
                                                 <?php if (is_array($value2['value'][$key])) : ?>
-                                                    <?php $currentvalue2 = implode(' | ', $value2['value'][$key]); ?>
+                                                    <?php $currentvalue2 = ArrayHelper::isAssociative($value2['value'][$key]) ? json_encode($value2['value'][$key]) : implode(' | ', $value2['value'][$key]); ?>
                                                     <?php echo htmlspecialchars($key . ': ' . $currentvalue2, ENT_COMPAT, 'UTF-8'); ?>
                                                 <?php else : ?>
                                                     <?php echo htmlspecialchars($key . ': ' . $currentvalue2, ENT_COMPAT, 'UTF-8'); ?>
