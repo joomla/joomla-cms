@@ -102,7 +102,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 // Get the error code
 $errorCode = $this->error->getCode();
 
-// The module renderer will not work properly due incomplete Application initialisation
+// The module renderer will not work properly due to incomplete Application initialisation
 $renderModules = $app->getIdentity() && $app->getLanguage();
 ?>
 <!DOCTYPE html>
