@@ -3,17 +3,17 @@
  * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-(function() {
+(function () {
   // Make sure that we have the Joomla object
   Joomla = window.Joomla || {};
   Joomla.installation = Joomla.installation || {};
 
-  Joomla.serialiseForm = function( form ) {
-    var i, l, obj = [], elements = form.querySelectorAll( "input, select, textarea" );
-    for(i = 0, l = elements.length; i < l; i++) {
+  Joomla.serialiseForm = function (form) {
+    var i, l, obj = [], elements = form.querySelectorAll("input, select, textarea");
+    for (i = 0, l = elements.length; i < l; i++) {
       var name = elements[i].name;
       var value = elements[i].value;
-      if(name) {
+      if (name) {
         if (((elements[i].type === 'checkbox' || elements[i].type === 'radio') && elements[i].checked === true) || (elements[i].type !== 'checkbox' && elements[i].type !== 'radio')) {
           obj.push(name.replace('[', '%5B').replace(']', '%5D') + '=' + encodeURIComponent(value));
         }
@@ -31,7 +31,7 @@
    *
    * @return {Boolean}
    */
-  Joomla.goToPage = function(page, fromSubmit) {
+  Joomla.goToPage = function (page, fromSubmit) {
     if (!fromSubmit) {
       Joomla.removeMessages();
       document.body.appendChild(document.createElement('joomla-core-loader'));
@@ -49,17 +49,17 @@
    *
    * @return {Boolean}
    */
-  Joomla.submitform = function(form) {
+  Joomla.submitform = function (form) {
     var data = Joomla.serialiseForm(form);
 
     document.body.appendChild(document.createElement('joomla-core-loader'));
     Joomla.removeMessages();
 
     Joomla.request({
-      type     : "POST",
-      url      : Joomla.baseUrl,
-      data     : data,
-      dataType : 'json',
+      type: "POST",
+      url: Joomla.baseUrl,
+      data: data,
+      dataType: 'json',
       onSuccess: function (response, xhr) {
         response = JSON.parse(response);
         var spinnerElement = document.querySelector('joomla-core-loader');
@@ -69,7 +69,7 @@
         }
 
         if (response.error) {
-          Joomla.renderMessages({'error': [response.message]});
+          Joomla.renderMessages({ 'error': [response.message] });
           spinnerElement.parentNode.removeChild(spinnerElement);
         } else {
           spinnerElement.parentNode.removeChild(spinnerElement);
@@ -78,7 +78,7 @@
           }
         }
       },
-      onError  : function (xhr) {
+      onError: function (xhr) {
         var spinnerElement = document.querySelector('joomla-core-loader');
         spinnerElement.parentNode.removeChild(spinnerElement);
         busy = false;
@@ -94,12 +94,10 @@
     return false;
   };
 
-  Joomla.scrollTo = function (elem, pos)
-  {
+  Joomla.scrollTo = function (elem, pos) {
     var y = elem.scrollTop;
     y += (pos - y) * 0.3;
-    if (Math.abs(y-pos) < 2)
-    {
+    if (Math.abs(y - pos) < 2) {
       elem.scrollTop = pos;
       return;
     }
@@ -107,9 +105,9 @@
     setTimeout(Joomla.scrollTo, 40, elem, pos);
   };
 
-  Joomla.checkFormField = function(fields) {
+  Joomla.checkFormField = function (fields) {
     var state = [];
-    fields.forEach(function(field) {
+    fields.forEach(function (field) {
       state.push(document.formvalidator.validate(document.querySelector(field)));
     });
 
@@ -120,11 +118,11 @@
   };
 
   // Init on dom content loaded event
-  Joomla.makeRandomDbPrefix = function() {
+  Joomla.makeRandomDbPrefix = function () {
     var numbers = '0123456789', letters = 'abcdefghijklmnopqrstuvwxyz', symbols = numbers + letters;
     var prefix = letters[Math.floor(Math.random() * 24)];
 
-    for (var i = 0; i < 4; i++ ) {
+    for (var i = 0; i < 4; i++) {
       prefix += symbols[Math.floor(Math.random() * 34)];
     }
 
@@ -136,9 +134,9 @@
   /**
    * Initializes JavaScript events on each request, required for AJAX
    */
-  Joomla.pageInit = function() {
+  Joomla.pageInit = function () {
     // Attach the validator
-    [].slice.call(document.querySelectorAll('form.form-validate')).forEach(function(form) {
+    [].slice.call(document.querySelectorAll('form.form-validate')).forEach(function (form) {
       document.formvalidator.attachToForm(form);
     });
 
@@ -153,7 +151,7 @@
    *
    * @param tasks       An array of install tasks to execute
    */
-  Joomla.install = function(tasks, form) {
+  Joomla.install = function (tasks, form) {
     const progress = document.getElementById('progressbar');
     const progress_text = document.getElementById('progress-text');
     if (!form) {
@@ -172,10 +170,10 @@
 
     Joomla.request({
       method: "POST",
-      url : Joomla.baseUrl + '?task=installation.' + task + '&format=json',
+      url: Joomla.baseUrl + '?task=installation.' + task + '&format=json',
       data: data,
       perform: true,
-      onSuccess: function(response, xhr){
+      onSuccess: function (response, xhr) {
         try {
           response = JSON.parse(response);
         } catch (e) {
@@ -186,15 +184,14 @@
           }
           console.error('Error in ' + task + ' Endpoint');
           console.error(response);
-          Joomla.renderMessages({'error': [Joomla.Text._('INSTL_DATABASE_RESPONSE_ERROR')]});
+          Joomla.renderMessages({ 'error': [Joomla.Text._('INSTL_DATABASE_RESPONSE_ERROR')] });
 
           return false;
         }
 
         Joomla.replaceTokens(response.token);
 
-        if (response.error === true)
-        {
+        if (response.error === true) {
           progress_text.setAttribute('role', 'alert');
           progress_text.classList.add('error');
           progress_text.innerText = response.message;
@@ -204,7 +201,7 @@
           }
 
           if (response.message) {
-            Joomla.renderMessages({"error": [response.message]});
+            Joomla.renderMessages({ "error": [response.message] });
           }
 
           // @todo: Add a delay and red background before removing the progress bar?
@@ -228,7 +225,7 @@
         }
         Joomla.install(tasks, form);
       },
-      onError: function(xhr){
+      onError: function (xhr) {
         if (progress_text) {
           progress_text.setAttribute('role', 'alert');
           progress_text.classList.add('error');
@@ -248,7 +245,7 @@
   };
 
   /* Load scripts async */
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     var page = document.getElementById('installer-view');
 
     // Set the base URL
