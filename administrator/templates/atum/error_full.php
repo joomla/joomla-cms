@@ -95,13 +95,13 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
         }
     }
 
-// The module renderer will not work properly due incomplete Application initialisation
-$renderModules = $app->getIdentity() && $app->getLanguage();
+    // The module renderer will not work properly due incomplete Application initialisation
+    $renderModules = $app->getIdentity() && $app->getLanguage();
 
-// @see administrator/templates/atum/html/layouts/status.php
-$statusModules = $renderModules ? LayoutHelper::render('status', ['modules' => 'status']) : '';
+    // @see administrator/templates/atum/html/layouts/status.php
+    $statusModules = $renderModules ? LayoutHelper::render('status', ['modules' => 'status']) : '';
 
-?>
+    ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $themeModeAttr; ?>>
 <head>
@@ -126,12 +126,12 @@ $statusModules = $renderModules ? LayoutHelper::render('status', ['modules' => '
                     <?php echo HTMLHelper::_('image', $logoBrandSmall, $logoBrandSmallAlt, ['class' => 'logo-collapsed', 'loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
                 </div>
             </div>
-            <?php if ($renderModules): ?>
-            <jdoc:include type="modules" name="title" />
+            <?php if ($renderModules) : ?>
+                <jdoc:include type="modules" name="title" />
             <?php endif; ?>
         </div>
-        <?php if ($renderModules): ?>
-        <?php echo $statusModules; ?>
+        <?php if ($renderModules) : ?>
+            <?php echo $statusModules; ?>
         <?php endif; ?>
     </header>
 
@@ -145,8 +145,8 @@ $statusModules = $renderModules ? LayoutHelper::render('status', ['modules' => '
                     <div id="container-collapse" class="container-collapse"></div>
                     <div class="row">
                         <div class="col-md-12">
-                            <?php if ($renderModules): ?>
-                            <jdoc:include type="modules" name="toolbar" style="none" />
+                            <?php if ($renderModules) : ?>
+                                <jdoc:include type="modules" name="toolbar" style="none" />
                             <?php endif; ?>
                         </div>
                     </div>
@@ -154,8 +154,8 @@ $statusModules = $renderModules ? LayoutHelper::render('status', ['modules' => '
             <?php endif; ?>
             <section id="content" class="content">
                 <jdoc:include type="message" />
-                <?php if ($renderModules): ?>
-                <jdoc:include type="modules" name="top" style="html5" />
+                <?php if ($renderModules) : ?>
+                    <jdoc:include type="modules" name="top" style="html5" />
                 <?php endif; ?>
                 <div class="row">
                     <div class="col-md-12">
@@ -216,8 +216,8 @@ $statusModules = $renderModules ? LayoutHelper::render('status', ['modules' => '
             </div>
         <?php endif; ?>
     </div>
-    <?php if ($renderModules): ?>
-    <jdoc:include type="modules" name="debug" style="none" />
+    <?php if ($renderModules) : ?>
+        <jdoc:include type="modules" name="debug" style="none" />
     <?php endif; ?>
 </body>
 </html>

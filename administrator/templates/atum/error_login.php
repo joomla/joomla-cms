@@ -129,8 +129,8 @@ $statusModules = $renderModules ? LayoutHelper::render('status', ['modules' => '
                     <?php echo HTMLHelper::_('image', $logoBrandSmall, $logoBrandSmallAlt, ['class' => 'logo-collapsed', 'loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
                 </div>
             </div>
-            <?php if ($renderModules): ?>
-            <jdoc:include type="modules" name="title" />
+            <?php if ($renderModules) : ?>
+                <jdoc:include type="modules" name="title" />
             <?php endif; ?>
         </div>
         <?php echo $statusModules; ?>
@@ -183,14 +183,14 @@ $statusModules = $renderModules ? LayoutHelper::render('status', ['modules' => '
                 <a href="<?php echo Uri::root(); ?>"><?php echo Text::_('TPL_ATUM_LOGIN_SIDEBAR_VIEW_WEBSITE'); ?></a>
             </div>
             <div id="sidebar">
-                <?php if ($renderModules): ?>
-                <jdoc:include type="modules" name="sidebar" style="body" />
+                <?php if ($renderModules) : ?>
+                    <jdoc:include type="modules" name="sidebar" style="body" />
                 <?php endif; ?>
             </div>
         </div>
     </div>
-    <?php if ($renderModules): ?>
-    <jdoc:include type="modules" name="debug" style="none" />
+    <?php if ($renderModules) : ?>
+        <jdoc:include type="modules" name="debug" style="none" />
     <?php endif; ?>
 </body>
 </html>

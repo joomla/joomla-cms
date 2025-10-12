@@ -213,8 +213,8 @@ $renderModules = $app->getIdentity() && $app->getLanguage();
     </footer>
     <?php endif; ?>
 
-    <?php if ($renderModules): ?>
-    <jdoc:include type="modules" name="debug" style="none" />
+    <?php if ($renderModules) : ?>
+        <jdoc:include type="modules" name="debug" style="none" />
     <?php endif; ?>
 </body>
 </html>
