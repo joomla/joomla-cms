@@ -1461,8 +1461,14 @@ abstract class AdminModel extends FormModel
         }
 
         if ($this instanceof VersionableModelInterface) {
-            // Merge table data and data so that we write all data to the history
-            $tableData = ArrayHelper::fromObject($table);
+            /**
+             * Merge table data and data so that we write all data to the history. Before doing that, we
+             * reload item data from database to have default data populated for fields which are not passed in $data,
+             * avoid error such as Column 'created_by_alias' cannot be null" when restore from version history
+             */
+            $itemTable = $this->getTable();
+            $itemTable->load($table->$key);
+            $tableData = ArrayHelper::fromObject($itemTable);
 
             $historyData = array_merge($data, $tableData);
 
