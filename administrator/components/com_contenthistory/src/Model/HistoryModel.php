@@ -13,6 +13,7 @@ namespace Joomla\Component\Contenthistory\Administrator\Model;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\CMSHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -386,7 +387,29 @@ class HistoryModel extends ListModel
         $model = $app->bootComponent($extension)->getMVCFactory()->createModel($type, 'Administrator');
 
         if ($model instanceof VersionableModelInterface) {
-            $item   = $model->getItem($id);
+            $path = JPATH_BASE . '/components/' . $extension;
+
+            Form::addFormPath($path . '/forms');
+            Form::addFormPath($path . '/models/forms');
+            Form::addFieldPath($path . '/models/fields');
+            Form::addFormPath($path . '/model/form');
+            Form::addFieldPath($path . '/model/field');
+
+            // This is needed to make sure the model has called populateState
+            $tmp = $model->getState();
+
+            // Now we can set the article.id and it is not overwritten later by populateState
+            $model->setState('article.id', $id);
+
+            $item   = $model->getItem();
+            $form   = $model->getForm();
+
+            $cf = $form->getData()->get('com_fields', null);
+
+            if (!empty($cf)) {
+                $item->com_fields = $cf;
+            }
+
             $result = $model->getSha1($item);
 
             return $result;
