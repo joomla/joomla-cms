@@ -95,7 +95,7 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
         }
     }
 
-    // The module renderer will not work properly due incomplete Application initialisation
+    // The module renderer will not work properly due to incomplete Application initialisation
     $renderModules = $app->getIdentity() && $app->getLanguage();
 
     // @see administrator/templates/atum/html/layouts/status.php
