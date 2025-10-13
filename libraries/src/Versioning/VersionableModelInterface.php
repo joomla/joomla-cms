@@ -43,4 +43,16 @@ interface VersionableModelInterface
      * @since   6.0.0
      */
     public function saveHistory(array $data, string $context);
+
+    /**
+     * Method to delete the history for an item.
+     *
+     * @param   string   $typeAlias  Typealias of the content type
+     * @param   integer  $id         ID of the content item to delete
+     *
+     * @return  boolean  true on success, otherwise false.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function deleteHistory($typeAlias, $id);
 }

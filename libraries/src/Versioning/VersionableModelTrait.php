@@ -299,6 +299,10 @@ trait VersionableModelTrait
      */
     public function saveHistory(array $data, string $context)
     {
+        if (!$this->versionHistoryEnabled($context)) {
+            return false;
+        }
+
         $id = $this->getState($this->getName() . '.id');
 
         /**
@@ -469,5 +473,21 @@ trait VersionableModelTrait
             ->bind(':version_id', $versionId, ParameterType::INTEGER);
         $db->setQuery($query);
         $db->execute();
+    }
+
+    /**
+     * Method to check if version history is enabled for a specific context.
+     *
+     * @param   string  $context  The model context.
+     *
+     * @return  boolean  True if version history is enabled, false otherwise.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function versionHistoryEnabled(string $context): bool
+    {
+        [$extension, $type] = explode('.', $context);
+
+        return (bool) ComponentHelper::getParams($extension)->get('save_history', 0);
     }
 }

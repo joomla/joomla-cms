@@ -936,6 +936,12 @@ abstract class AdminModel extends FormModel
                         return false;
                     }
 
+                    if ($this instanceof VersionableModelInterface) {
+                        $typeAlias = $this->typeAlias ?: $this->option . '.' . $this->name;
+
+                        $this->deleteHistory($typeAlias, $pk);
+                    }
+
                     // Trigger the after event.
                     $dispatcher->dispatch($this->event_after_delete, new Model\AfterDeleteEvent($this->event_after_delete, [
                         'context' => $context,
