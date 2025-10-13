@@ -453,7 +453,7 @@ trait VersionableModelTrait
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected function markVersionAsCurrent(int $versionId, string $itemId): void
     {
