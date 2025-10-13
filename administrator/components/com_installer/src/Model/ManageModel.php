@@ -269,7 +269,7 @@ class ManageModel extends InstallerModel
                 }
 
                 // Package uninstalled successfully
-                $msgs[] = Text::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $rowtype);
+                $msgs[] = Text::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $rowtype, $row->name);
                 $result = true;
 
                 continue;
