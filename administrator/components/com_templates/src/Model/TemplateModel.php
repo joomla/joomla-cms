@@ -824,7 +824,7 @@ class TemplateModel extends FormModel
         $oldName  = $template->element;
         $manifest = json_decode($template->manifest_cache);
 
-        // When copy a child template we need to prefix with the parent template
+        // When copying a child template we need to prefix it with the parent template name
         if (!empty($template->xmldata->parent)) {
             $newName = $template->xmldata->parent . '_' . $newName;
         }
