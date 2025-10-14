@@ -258,12 +258,12 @@ class ManageModel extends InstallerModel
             }
 
             if ($row->type) {
-                $result = $installer->uninstall($row->type, $id);
+ //               $result = $installer->uninstall($row->type, $id);
 
                 // Build an array of extensions that failed to uninstall
                 if ($result === false) {
                     // There was an error in uninstalling the package
-                    $msgs[] = Text::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
+                    $msgs[] = Text::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype, $row->name);
 
                     continue;
                 }
@@ -276,7 +276,7 @@ class ManageModel extends InstallerModel
             }
 
             // There was an error in uninstalling the package
-            $msgs[] = Text::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
+            $msgs[] = Text::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype, $row->name);
         }
 
         $msg = implode('<br>', $msgs);
