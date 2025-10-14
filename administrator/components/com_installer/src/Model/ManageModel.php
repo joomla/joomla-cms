@@ -258,7 +258,7 @@ class ManageModel extends InstallerModel
             }
 
             if ($row->type) {
-               $result = $installer->uninstall($row->type, $id);
+                $result = $installer->uninstall($row->type, $id);
 
                 // Build an array of extensions that failed to uninstall
                 if ($result === false) {
