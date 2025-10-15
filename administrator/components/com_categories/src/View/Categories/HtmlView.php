@@ -105,6 +105,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var CategoriesModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->state         = $model->getState();
         $this->items         = $model->getItems();
@@ -116,11 +117,6 @@ class HtmlView extends BaseHtmlView
         // Written this way because we only want to call IsEmptyState if no items, to prevent always calling it when not needed.
         if (!\count($this->items) && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Preprocess the list of items to find ordering divisions.
