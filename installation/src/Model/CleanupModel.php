@@ -56,7 +56,7 @@ class CleanupModel extends BaseInstallationModel
             }
         }
 
-        // Remove the file joomla.xml if in root folder if exists
+        // Remove file joomla.xml in root folder if it exists
         if (file_exists(JPATH_ROOT . '/joomla.xml')) {
             try {
                 File::delete(JPATH_ROOT . '/joomla.xml');
