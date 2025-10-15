@@ -13,7 +13,6 @@ namespace Joomla\Component\Templates\Administrator\View\Styles;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Templates\Administrator\Model\StylesModel;
@@ -86,6 +85,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var StylesModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->items         = $model->getItems();
         $this->pagination    = $model->getPagination();
@@ -99,11 +99,6 @@ class HtmlView extends BaseHtmlView
         if ((int) $this->state->get('client_id') !== 0) {
             unset($this->activeFilters['menuitem']);
             $this->filterForm->removeField('menuitem', 'filter');
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         $this->addToolbar();

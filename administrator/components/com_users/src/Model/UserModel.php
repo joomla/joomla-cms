@@ -351,7 +351,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
                     }
 
                     // Trigger the after delete event.
-                    Factory::getApplication()->triggerEvent($this->event_after_delete, [$user_to_delete->getProperties(), true, $this->getError()]);
+                    Factory::getApplication()->triggerEvent($this->event_after_delete, [ArrayHelper::fromObject($user_to_delete, false), true, $this->getError()]);
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);
