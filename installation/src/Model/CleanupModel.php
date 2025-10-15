@@ -44,7 +44,7 @@ class CleanupModel extends BaseInstallationModel
              * the request ends. If no subfolders and only that file is present,
              * we can assume the deletion effectively successful and continue cleanup.
              */
-            if (PHP_OS_FAMILY == 'Windows') {
+            if (PHP_OS_FAMILY === 'Windows') {
                 $files   = Folder::files(JPATH_INSTALLATION);
                 $folders = Folder::folders(JPATH_INSTALLATION);
 
