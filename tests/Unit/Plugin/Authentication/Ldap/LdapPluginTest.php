@@ -15,7 +15,6 @@ use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Authentication\AuthenticationResponse;
 use Joomla\CMS\Event\User\AuthenticationEvent;
 use Joomla\CMS\Language\Language;
-use Joomla\Event\Dispatcher;
 use Joomla\Plugin\Authentication\Ldap\Extension\Ldap;
 use Joomla\Plugin\Authentication\Ldap\Factory\LdapFactoryInterface;
 use Joomla\Tests\Unit\UnitTestCase;
@@ -47,7 +46,7 @@ class LdapPluginTest extends UnitTestCase
      */
     public function testNoHost()
     {
-        $plugin = new Ldap($this->createFactory(), new Dispatcher(), ['params' => []]);
+        $plugin = new Ldap($this->createFactory(), ['params' => []]);
         $plugin->setApplication($this->createStub(CMSApplicationInterface::class));
 
         $response = new AuthenticationResponse();
@@ -72,7 +71,7 @@ class LdapPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Ldap($this->createFactory(), new Dispatcher(), ['params' => ['host' => 'test']]);
+        $plugin = new Ldap($this->createFactory(), ['params' => ['host' => 'test']]);
         $plugin->setApplication($app);
 
         $response = new AuthenticationResponse();
@@ -97,7 +96,7 @@ class LdapPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Ldap($this->createFactory(), new Dispatcher(), ['params' => ['host' => 'test']]);
+        $plugin = new Ldap($this->createFactory(), ['params' => ['host' => 'test']]);
         $plugin->setApplication($app);
 
         $response    = new AuthenticationResponse();
@@ -117,7 +116,7 @@ class LdapPluginTest extends UnitTestCase
      */
     public function testSearchAuthenticationMethod()
     {
-        $plugin = new Ldap($this->createFactory(), new Dispatcher(), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
+        $plugin = new Ldap($this->createFactory(), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
 
         $response    = new AuthenticationResponse();
         $credentials = ['username' => 'unit', 'password' => 'test'];
@@ -142,7 +141,7 @@ class LdapPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Ldap($this->createFactory(false, false, false), new Dispatcher(), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
+        $plugin = new Ldap($this->createFactory(false, false, false), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
         $plugin->setApplication($app);
 
         $response    = new AuthenticationResponse();
@@ -168,7 +167,7 @@ class LdapPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Ldap($this->createFactory(true, false), new Dispatcher(), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
+        $plugin = new Ldap($this->createFactory(true, false), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
         $plugin->setApplication($app);
 
         $response    = new AuthenticationResponse();
@@ -194,7 +193,7 @@ class LdapPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Ldap($this->createFactory(false, true), new Dispatcher(), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
+        $plugin = new Ldap($this->createFactory(false, true), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
         $plugin->setApplication($app);
 
         $response    = new AuthenticationResponse();
@@ -214,7 +213,7 @@ class LdapPluginTest extends UnitTestCase
      */
     public function testBindAuthenticationMethod()
     {
-        $plugin = new Ldap($this->createFactory(), new Dispatcher(), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
+        $plugin = new Ldap($this->createFactory(), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
 
         $response    = new AuthenticationResponse();
         $credentials = ['username' => 'unit', 'password' => 'test'];
@@ -239,7 +238,7 @@ class LdapPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Ldap($this->createFactory(false, false, false), new Dispatcher(), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
+        $plugin = new Ldap($this->createFactory(false, false, false), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
         $plugin->setApplication($app);
 
         $response    = new AuthenticationResponse();
@@ -259,7 +258,7 @@ class LdapPluginTest extends UnitTestCase
      */
     public function testBindAuthenticationMethodWithDN()
     {
-        $plugin = new Ldap($this->createFactory(), new Dispatcher(), ['params' => ['auth_method' => 'bind', 'users_dn' => 'test', 'host' => 'test']]);
+        $plugin = new Ldap($this->createFactory(), ['params' => ['auth_method' => 'bind', 'users_dn' => 'test', 'host' => 'test']]);
 
         $response    = new AuthenticationResponse();
         $credentials = ['username' => 'unit', 'password' => 'test'];
@@ -284,7 +283,7 @@ class LdapPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Ldap($this->createFactory(true, false), new Dispatcher(), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
+        $plugin = new Ldap($this->createFactory(true, false), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
         $plugin->setApplication($app);
 
         $response    = new AuthenticationResponse();
@@ -310,7 +309,7 @@ class LdapPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Ldap($this->createFactory(false, true), new Dispatcher(), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
+        $plugin = new Ldap($this->createFactory(false, true), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
         $plugin->setApplication($app);
 
         $response    = new AuthenticationResponse();

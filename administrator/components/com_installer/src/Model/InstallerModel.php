@@ -126,7 +126,7 @@ class InstallerModel extends ListModel
                 $this->setState('list.limitstart', 0);
             }
 
-            return \array_slice($result, $limitstart, $limit ?: null);
+            return \array_slice($result, $limitstart ?: 0, $limit ?: null);
         }
 
         // Process searching, ordering and pagination for regular database fields.
