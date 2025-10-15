@@ -48,7 +48,7 @@ class CleanupModel extends BaseInstallationModel
                 $files   = Folder::files(JPATH_INSTALLATION);
                 $folders = Folder::folders(JPATH_INSTALLATION);
 
-                if (count($folders) > 0 || count($files) > 1) {
+                if (\count($folders) > 0 || \count($files) > 1) {
                     return false;
                 }
             } else {
