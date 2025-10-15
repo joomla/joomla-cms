@@ -528,7 +528,8 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
             return parent::$_buffer;
         }
 
-        $title = $attribs['title'] ?? null;
+        $name  ??= '';
+        $title = $attribs['title'] ?? '';
 
         if (isset(parent::$_buffer[$type][$name][$title])) {
             return parent::$_buffer[$type][$name][$title];
@@ -558,12 +559,14 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
                 return Cache::getWorkarounds($cbuffer[$hash], ['mergehead' => 1]);
             }
 
-            $options               = [];
-            $options['nopathway']  = 1;
-            $options['nomodules']  = 1;
-            $options['modulemode'] = 1;
+            $options = [
+                'nopathway'  => 1,
+                'nomodules'  => 1,
+                'modulemode' => 1,
+            ];
 
             $this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
+
             $data = parent::$_buffer[$type][$name][$title];
 
             $tmpdata = Cache::setWorkarounds($data, $options);
