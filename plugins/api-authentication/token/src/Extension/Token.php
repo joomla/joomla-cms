@@ -195,7 +195,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
         $referenceTokenData = $this->getTokenSeedForUser($userId);
         $referenceTokenData = empty($referenceTokenData) ? '' : $referenceTokenData;
         $referenceTokenData = base64_decode($referenceTokenData);
-        
+
         // If the reference token data is empty, user has no token configured.
         if (empty($referenceTokenData)) {
             return;
