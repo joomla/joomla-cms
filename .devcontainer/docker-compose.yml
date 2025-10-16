@@ -25,5 +25,11 @@ services:
     volumes:
       - "mysql-data:/var/lib/mysql"
 
+  mailpit:
+    image: axllent/mailpit:latest
+    restart: unless-stopped
+    ports:
+      - "8025:8025"
+
 volumes:
   mysql-data:
