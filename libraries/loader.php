@@ -567,16 +567,20 @@ abstract class JLoader
      *
      * @since   3.4
      */
-    public static function applyAliasFor($class)
-    {
-        $class = self::stripFirstBackslash($class);
+    
+   public static function applyAliasFor($class)
+{
+    $class = self::stripFirstBackslash($class);
 
-        if (isset(self::$classAliasesInverse[$class])) {
-            foreach (self::$classAliasesInverse[$class] as $alias) {
+    if (isset(self::$classAliasesInverse[$class])) {
+        foreach (self::$classAliasesInverse[$class] as $alias) {
+            if (!class_exists($alias, false) && !interface_exists($alias, false) && !trait_exists($alias, false)) {
                 class_alias($class, $alias);
             }
         }
     }
+}
+
 
     /**
      * Autoload a class based on name.
