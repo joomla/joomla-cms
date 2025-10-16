@@ -1141,7 +1141,13 @@ class Image
      */
     public function destroy()
     {
-        return $this->isLoaded();
+        if ($this->isLoaded()) {
+            $this->handle = null;
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
