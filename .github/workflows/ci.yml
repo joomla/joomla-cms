@@ -264,7 +264,7 @@ jobs:
     needs: [tests-system-prepare]
     strategy:
       matrix:
-        browser: ['chrome', 'edge']
+        browser: ['firefox']
         config:
           - php_version: '8.5'
             test_group: cmysqlmax
