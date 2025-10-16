@@ -10,12 +10,12 @@
 namespace Joomla\CMS\Exception;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\Exception\NotAcceptable;
 use Joomla\CMS\Error\AbstractRenderer;
 use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
-use Joomla\CMS\Application\Exception\NotAcceptable;
 use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
