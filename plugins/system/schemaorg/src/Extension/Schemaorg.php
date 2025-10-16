@@ -435,6 +435,10 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
                 $localSchema->set('isPartOf', ['@id' => $webPageId]);
 
                 $itemSchema = $localSchema->toArray();
+                if (!empty($itemSchema['image'])) {
+                    $itemSchema['image'] = Uri::root() . HTMLHelper::_('cleanImageUrl', $itemSchema['image'])->url;
+                }
+
 
                 $baseSchema['@graph'][] = $itemSchema;
             }
