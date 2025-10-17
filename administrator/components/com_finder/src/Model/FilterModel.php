@@ -199,7 +199,7 @@ class FilterModel extends AdminModel
      *
      * @return  array           Array with [newTitle, newAlias].
      *
-     * @since   5.3
+     * @since   __DEPLOY_VERSION__
      */
     protected function generateNewTitleAndAlias(string $title, string $alias): array
     {
