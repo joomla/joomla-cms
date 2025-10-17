@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Http\HttpFactory;
 use Joomla\Plugin\Task\Requests\Extension\Requests;
 
@@ -35,7 +34,6 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $plugin = new Requests(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('task', 'requests'),
                     new HttpFactory(),
                     JPATH_ROOT . '/tmp'

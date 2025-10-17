@@ -1146,7 +1146,7 @@ class ItemModel extends AdminModel
             // If an XML file was found in the component, load it first.
             // We need to qualify the full path to avoid collisions with component file names.
 
-            if ($form->loadFile($formFile, true, '/metadata') == false) {
+            if (!$form->loadFile($formFile, true, '/metadata')) {
                 throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
             }
 
