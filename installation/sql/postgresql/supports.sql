@@ -343,8 +343,7 @@ CREATE TABLE IF NOT EXISTS "#__ucm_content" (
   "core_metadesc" text,
   "core_catid" bigint DEFAULT 0 NOT NULL,
   "core_type_id" bigint DEFAULT 0 NOT NULL,
-  PRIMARY KEY ("core_content_id"),
-  CONSTRAINT "#__ucm_content_idx_type_alias_item_id" UNIQUE ("core_type_alias", "core_content_item_id")
+  PRIMARY KEY ("core_content_id")
 );
 CREATE INDEX "#__ucm_content_tag_idx" ON "#__ucm_content" ("core_state", "core_access");
 CREATE INDEX "#__ucm_content_idx_access" ON "#__ucm_content" ("core_access");
