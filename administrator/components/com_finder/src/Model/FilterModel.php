@@ -253,7 +253,7 @@ class FilterModel extends AdminModel
      *
      * @return  string         A unique alias.
      *
-     * @since   5.3
+     * @since   __DEPLOY_VERSION__
      */
     protected function getUniqueAlias(string $base): string
     {
