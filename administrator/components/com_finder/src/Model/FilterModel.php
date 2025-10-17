@@ -205,7 +205,6 @@ class FilterModel extends AdminModel
     {
         $db = $this->getDatabase();
 
-        // Strip existing numeric suffix from title (e.g., "Test (2)" => "Test")
         if (preg_match('/^(.*?)(?:\s\((\d+)\))?$/', $title, $matches)) {
             $baseTitle = trim($matches[1]);
         } else {
@@ -214,10 +213,8 @@ class FilterModel extends AdminModel
 
         $baseAlias = trim($alias ?: OutputFilter::stringURLSafe($title));
 
-        // Escape for LIKE
         $likeTitle = $db->quote($db->escape($baseTitle, true) . '%', false);
 
-        // Get all existing titles that start with the base title
         $query = $db->getQuery(true)
             ->select($db->quoteName('title'))
             ->from($db->quoteName('#__finder_filters'))
@@ -225,7 +222,6 @@ class FilterModel extends AdminModel
 
         $existingTitles = $db->setQuery($query)->loadColumn();
 
-        // Collect all numeric suffixes
         $maxNum = 0;
         foreach ($existingTitles as $existing) {
             if (preg_match('/^\Q' . $baseTitle . '\E(?:\s\((\d+)\))?$/', $existing, $matches)) {
@@ -236,10 +232,8 @@ class FilterModel extends AdminModel
             }
         }
 
-        // Next numeric suffix
         $nextNum = $maxNum + 1;
 
-        // Build the new title
         $newTitle = $baseTitle;
         if ($nextNum > 1) {
             $newTitle .= ' (' . $nextNum . ')';
