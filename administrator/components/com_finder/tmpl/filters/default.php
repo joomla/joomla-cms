@@ -108,7 +108,7 @@ $wa->useScript('com_finder.filters')
                             </th>
                             <td class="d-none d-md-table-cell">
                                 <?php echo $item->alias; ?>
-                            </td>							
+                            </td>
                             <td class="d-none d-md-table-cell">
                                 <?php echo $item->created_by_alias ?: $item->user_name; ?>
                             </td>
