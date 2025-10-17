@@ -35,7 +35,6 @@ const headerItemWidths = headerExpandedItems
 
 // Get the ellipsis button width
 headerCondensedItemContainer.classList.remove('d-none');
-// eslint-disable-next-line no-unused-expressions
 headerCondensedItemContainer.paddingTop;
 const ellipsisWidth = headerCondensedItemContainer.getBoundingClientRect().width;
 headerCondensedItemContainer.classList.add('d-none');
