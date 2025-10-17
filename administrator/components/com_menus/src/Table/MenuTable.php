@@ -41,7 +41,7 @@ class MenuTable extends Menu
 
         if ($return) {
             // Delete key from the #__modules_menu table
-            $db    = $this->getDbo();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->delete($db->quoteName('#__modules_menu'))
                 ->where($db->quoteName('menuid') . ' = :pk')

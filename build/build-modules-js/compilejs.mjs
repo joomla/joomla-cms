@@ -35,7 +35,6 @@ export const scripts = async (options, path) => {
     } else if (stats.isFile()) {
       files.push(`${RootPath}/${path}`);
     } else {
-      // eslint-disable-next-line no-console
       console.error(`Unknown path ${path}`);
       process.exitCode = 1;
     }
@@ -49,7 +48,6 @@ export const scripts = async (options, path) => {
   const folderPromises = [];
 
   // Loop to get the files that should be compiled via parameter
-  // eslint-disable-next-line no-restricted-syntax
   for (const folder of folders) {
     folderPromises.push(recursive(folder, ['!*.+(m|js)']));
   }
