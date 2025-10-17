@@ -273,7 +273,7 @@ class FilterModel extends AdminModel
      *
      * @return  boolean         True if it exists, false otherwise.
      *
-     * @since   5.3
+     * @since   __DEPLOY_VERSION__
      */
     protected function aliasExists(string $alias): bool
     {
