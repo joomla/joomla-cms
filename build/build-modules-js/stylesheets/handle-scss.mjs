@@ -62,6 +62,5 @@ ${css}`,
     { encoding: 'utf8', mode: 0o644 },
   );
 
-  // eslint-disable-next-line no-console
   console.log(`✅ SCSS File compiled: ${cssFile}`);
 };

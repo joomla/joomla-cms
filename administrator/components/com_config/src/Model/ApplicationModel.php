@@ -367,7 +367,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                 $response = HttpFactory::getHttp($options)->get('https://' . $host . Uri::root(true) . '/', ['Host' => $host], 10);
 
                 // If available in HTTPS check also the status code.
-                if (!\in_array($response->code, [200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 401], true)) {
+                if (!\in_array($response->getStatusCode(), [200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 401], true)) {
                     throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE_HTTP_CODE'));
                 }
             } catch (\RuntimeException $e) {
@@ -585,11 +585,11 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         // Give a warning if the cache-folder can not be opened
-        if ($data['caching'] > 0 && $data['cache_handler'] == 'file' && @opendir($path) == false) {
+        if ($data['caching'] > 0 && $data['cache_handler'] == 'file' && @opendir($path) === false) {
             $error = true;
 
             // If a custom path is in use, try using the system default instead of disabling cache
-            if ($path !== JPATH_CACHE && @opendir(JPATH_CACHE) != false) {
+            if ($path !== JPATH_CACHE && @opendir(JPATH_CACHE) !== false) {
                 try {
                     Log::add(
                         Text::sprintf('COM_CONFIG_ERROR_CUSTOM_CACHE_PATH_NOTWRITABLE_USING_DEFAULT', $path, JPATH_CACHE),

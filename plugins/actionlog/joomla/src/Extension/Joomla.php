@@ -24,7 +24,6 @@ use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Component\Actionlogs\Administrator\Plugin\ActionLogPlugin;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
@@ -78,14 +77,13 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
     /**
      * Constructor.
      *
-     * @param   DispatcherInterface  $dispatcher  The dispatcher
      * @param   array                $config      An optional associative array of configuration settings
      *
      * @since   3.9.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config)
+    public function __construct(array $config)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $params = ComponentHelper::getComponent('com_actionlogs')->getParams();
 
@@ -1186,7 +1184,10 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             'version'     => JVERSION,
             'oldversion'  => $oldVersion,
         ];
-        $this->addLog([$message], 'PLG_ACTIONLOG_JOOMLA_USER_UPDATE', $context, $user->id);
+
+        $messageKey = ($user->id) ? 'PLG_ACTIONLOG_JOOMLA_USER_UPDATE' : 'PLG_ACTIONLOG_JOOMLA_SYSTEM_UPDATE';
+
+        $this->addLog([$message], $messageKey, $context, $user->id);
     }
 
     /**
