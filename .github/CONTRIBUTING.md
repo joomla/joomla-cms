@@ -20,6 +20,6 @@ Bug fixing PRs should be made to the `5.4-dev` branch. Merged bugfixes will be u
 
 | Branch  | Purpose                                                                                 |
 |---------|-----------------------------------------------------------------------------------------|
-| 5.4-dev | Branch for the current 5.x Joomla version. Bugfix only for 5.x go into this branch.     |
-| 6.0-dev | Branch for the current 6.x Joomla version.                                              |
+| 5.4-dev | Branch for the current 5.x Joomla version.                                              |
+| 6.0-dev | Branch for the current 6.x Joomla version. Bugfixes only for 6.x go into this branch.   |
 | 6.1-dev | Branch for the next minor 6.x Joomla version. New features have to go into this branch. |
