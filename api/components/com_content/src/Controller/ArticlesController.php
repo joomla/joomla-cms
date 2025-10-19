@@ -76,6 +76,9 @@ class ArticlesController extends ApiController
 
         if (\array_key_exists('tag', $apiFilterInfo)) {
             $this->modelState->set('filter.tag', $filter->clean($apiFilterInfo['tag'], 'INT'));
+            if (\array_key_exists('tag_mode', $apiFilterInfo)) {
+                $this->modelState->set('filter.tag_mode', $filter->clean($apiFilterInfo['tag_mode'], 'STRING'));
+            }
         }
 
         if (\array_key_exists('language', $apiFilterInfo)) {

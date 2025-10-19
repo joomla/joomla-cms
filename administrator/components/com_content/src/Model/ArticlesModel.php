@@ -147,6 +147,8 @@ class ArticlesModel extends ListModel
         $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
         $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
         $this->getUserStateFromRequest($this->context . '.filter.checked_out', 'filter_checked_out', '');
+        $this->getUserStateFromRequest($this->context . '.filter.tag_mode', 'filter_tag_mode', 'any');
+
 
         // List state information.
         parent::populateState($ordering, $direction);
@@ -527,7 +529,26 @@ class ArticlesModel extends ListModel
                 $tag         = array_filter($tag);
                 $includeNone = true;
             }
-
+            $tagMode = $this->getState('filter.tag_mode', 'any');
+            if ($tagMode === 'all') {
+        // AND logic: article must have ALL tags
+        foreach ($tag as $tagId) {
+            $subQuery = $db->createQuery()
+                ->select('DISTINCT ' . $db->quoteName('content_item_id'))
+                ->from($db->quoteName('#__contentitem_tag_map'))
+                ->where([
+                    $db->quoteName('tag_id') . ' = ' . $db->quote($tagId),
+                    $db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'),
+                ]);
+            
+            $query->join(
+                'INNER',
+                '(' . $subQuery . ') AS ' . $db->quoteName('tagmap_' . $tagId),
+                $db->quoteName('tagmap_' . $tagId . '.content_item_id') . ' = ' . $db->quoteName('a.id')
+            );
+        }
+        } else {
+        // OR logic:
             $subQuery = $db->createQuery()
                 ->select('DISTINCT ' . $db->quoteName('content_item_id'))
                 ->from($db->quoteName('#__contentitem_tag_map'))
@@ -559,7 +580,8 @@ class ArticlesModel extends ListModel
                     . $db->quoteName('tagmap2.content_item_id') . ' IS NULL)'
                 );
             }
-        } elseif (is_numeric($tag)) {
+        } 
+        }  elseif (is_numeric($tag)) {
             $tag = (int) $tag;
 
             if ($tag === 0) {
