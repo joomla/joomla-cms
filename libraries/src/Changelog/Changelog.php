@@ -384,8 +384,6 @@ class Changelog
             return false;
         }
 
-        xml_parser_free($this->xmlParser);
-
         return true;
     }
 }
