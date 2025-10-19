@@ -1419,9 +1419,9 @@ ENDDATA;
             $this->translateExtensionName($plugin);
 
             $option         = new \stdClass();
-            $option->label  = Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_DISABLED_TITLE', $plugin->name);
+            $option->label  = Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_BC_DISABLED_TITLE', $plugin->name);
             $option->state  = !PluginHelper::isEnabled('behaviour', 'compat');
-            $option->notice = $option->state ? null : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_DISABLED_NOTICE', $plugin->folder, $plugin->element);
+            $option->notice = $option->state ? null : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_BC_DISABLED_NOTICE', $plugin->folder, $plugin->element);
             $options[]      = $option;
 
             // Check if the Joomla 6 backwards compatibility plugin is enabled
