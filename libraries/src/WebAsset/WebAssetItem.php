@@ -202,7 +202,7 @@ class WebAssetItem implements WebAssetItemInterface, WebAssetItemCrossDependenci
 
                     if (!$depType || !$depName) {
                         throw new \UnexpectedValueException(
-                            sprintf('Incomplete definition for cross dependency, for asset "%s"', $this->getName())
+                            \sprintf('Incomplete definition for cross dependency, for asset "%s"', $this->getName())
                         );
                     }
 
