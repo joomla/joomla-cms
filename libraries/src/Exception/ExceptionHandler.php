@@ -87,11 +87,14 @@ class ExceptionHandler
         try {
             $app = Factory::getApplication();
 
-            // Flag if we are on cli
+            // Flag if we are on cli or api
             $isCli = $app->isClient('cli');
+            $isAPI = $app->isClient('api');
 
             // If site is offline and it's a 404 error, just go to index (to see offline message, instead of 404)
-            if (!$isCli && $error->getCode() == '404' && $app->get('offline') == 1) {
+            if ($isCli || $isAPI) {
+                // Do nothing.
+            } elseif ($error->getCode() == '404' && $app->get('offline') == 1) {
                 $app->redirect('index.php');
             }
 
@@ -141,6 +144,11 @@ class ExceptionHandler
             }
 
             if ($isCli) {
+                echo $data;
+            } elseif ($isAPI) {
+                $app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
+                $app->sendHeaders();
+
                 echo $data;
             } else {
                 /** @var CMSApplication $app */

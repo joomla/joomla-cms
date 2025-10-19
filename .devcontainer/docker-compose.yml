@@ -1,0 +1,29 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/workspaces/joomla-cms:cached
+      - ./xdebug.ini:/usr/local/etc/php/conf.d/99-xdebug.ini
+    ports:
+      - "80:80"
+      - "443:443"
+      - "3306:3306"
+      - "6080:6080"
+    command: sleep infinity
+
+  mysql:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test_joomla
+      MYSQL_USER: joomla_ut
+      MYSQL_PASSWORD: joomla_ut
+    volumes:
+      - "mysql-data:/var/lib/mysql"
+
+volumes:
+  mysql-data:

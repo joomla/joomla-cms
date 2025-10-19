@@ -151,7 +151,7 @@ class UsersHelper extends ContentHelper
         }
 
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('title', 'text'))
             ->from($db->quoteName('#__usergroups'))
             ->whereIn($db->quoteName('id'), $rules);
