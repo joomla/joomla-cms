@@ -25,6 +25,8 @@ $displayData = [
     'formURL'    => 'index.php?option=com_redirect&view=links',
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help5.x:Redirects:_Links',
     'icon'       => 'icon-map-signs redirect',
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
 $app  = Factory::getApplication();
@@ -65,7 +67,7 @@ if ($pluginEnabled && $collectUrlsEnabled) {
         Text::_('COM_REDIRECT_SYSTEM_PLUGIN'),
         [
             'class'                 => 'alert-link',
-            'data-joomla-dialog'    => $this->escape(json_encode($popupOptions, JSON_UNESCAPED_SLASHES)),
+            'data-joomla-dialog'    => $this->escape(json_encode($popupOptions, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)),
             'data-checkin-url'      => Route::_('index.php?option=com_plugins&task=plugins.checkin&format=json&cid[]=' . $redirectPluginId),
             'data-close-on-message' => '',
             'data-reload-on-close'  => '',

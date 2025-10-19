@@ -207,7 +207,7 @@ class WebAssetManager implements WebAssetManagerInterface
     {
         $method = strtolower($method);
 
-        if (0 === strpos($method, 'use')) {
+        if (str_starts_with($method, 'use')) {
             $type = substr($method, 3);
 
             if (empty($arguments[0])) {
@@ -217,7 +217,7 @@ class WebAssetManager implements WebAssetManagerInterface
             return $this->useAsset($type, $arguments[0]);
         }
 
-        if (0 === strpos($method, 'addinline')) {
+        if (str_starts_with($method, 'addinline')) {
             $type = substr($method, 9);
 
             if (empty($arguments[0])) {
@@ -227,7 +227,7 @@ class WebAssetManager implements WebAssetManagerInterface
             return $this->addInline($type, ...$arguments);
         }
 
-        if (0 === strpos($method, 'disable')) {
+        if (str_starts_with($method, 'disable')) {
             $type = substr($method, 7);
 
             if (empty($arguments[0])) {
@@ -237,7 +237,7 @@ class WebAssetManager implements WebAssetManagerInterface
             return $this->disableAsset($type, $arguments[0]);
         }
 
-        if (0 === strpos($method, 'register')) {
+        if (str_starts_with($method, 'register')) {
             // Check for registerAndUse<Type>
             $andUse = substr($method, 8, 6) === 'anduse';
 
@@ -257,7 +257,7 @@ class WebAssetManager implements WebAssetManagerInterface
             return $this->registerAsset($type, ...$arguments);
         }
 
-        throw new \BadMethodCallException(sprintf('Undefined method %s in class %s', $method, \get_class($this)));
+        throw new \BadMethodCallException(\sprintf('Undefined method %s in class %s', $method, \get_class($this)));
     }
 
     /**
@@ -392,7 +392,7 @@ class WebAssetManager implements WebAssetManagerInterface
             // Make sure dependency exists
             if (!$this->registry->exists($depType, $depName)) {
                 throw new UnsatisfiedDependencyException(
-                    sprintf('Unsatisfied dependency "%s" for an asset "%s" of type "%s"', $dependency, $name, 'preset')
+                    \sprintf('Unsatisfied dependency "%s" for an asset "%s" of type "%s"', $dependency, $name, 'preset')
                 );
             }
 
@@ -456,7 +456,7 @@ class WebAssetManager implements WebAssetManagerInterface
             // Make sure dependency exists
             if (!$this->registry->exists($depType, $depName)) {
                 throw new UnsatisfiedDependencyException(
-                    sprintf('Unsatisfied dependency "%s" for an asset "%s" of type "%s"', $dependency, $name, 'preset')
+                    \sprintf('Unsatisfied dependency "%s" for an asset "%s" of type "%s"', $dependency, $name, 'preset')
                 );
             }
 
@@ -555,7 +555,7 @@ class WebAssetManager implements WebAssetManagerInterface
             $this->registry->add($type, $assetInstance);
         } else {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     '%s(): Argument #2 ($asset) must be a string or an instance of %s, %s given.',
                     __METHOD__,
                     WebAssetItemInterface::class,
@@ -726,7 +726,7 @@ class WebAssetManager implements WebAssetManagerInterface
             $assetInstance->setOption('content', $content);
         } else {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     '%s(): Argument #2 ($content) must be a string or an instance of %s, %s given.',
                     __METHOD__,
                     WebAssetItemInterface::class,
@@ -1062,7 +1062,7 @@ class WebAssetManager implements WebAssetManagerInterface
 
             if (!$this->registry->exists($depType, $depName)) {
                 throw new UnsatisfiedDependencyException(
-                    sprintf('Unsatisfied dependency "%s" for an asset "%s" of type "%s"', $depName, $asset->getName(), $depType)
+                    \sprintf('Unsatisfied dependency "%s" for an asset "%s" of type "%s"', $depName, $asset->getName(), $depType)
                 );
             }
 

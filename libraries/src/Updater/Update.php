@@ -11,7 +11,6 @@ namespace Joomla\CMS\Updater;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
@@ -20,6 +19,7 @@ use Joomla\CMS\Table\Tuf as TufMetadata;
 use Joomla\CMS\TUF\TufFetcher;
 use Joomla\CMS\Version;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Http\HttpFactory;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -32,6 +32,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.7.0
  */
+#[\AllowDynamicProperties]
 class Update
 {
     use LegacyErrorHandlingTrait;
@@ -486,8 +487,7 @@ class Update
                         $this->$key = $val;
                     }
 
-                    unset($this->latest);
-                    unset($this->currentUpdate);
+                    unset($this->latest, $this->currentUpdate);
                 } elseif (isset($this->currentUpdate)) {
                     // The update might be for an older version of j!
                     unset($this->currentUpdate);
@@ -562,6 +562,11 @@ class Update
         $constraintChecker = new ConstraintChecker();
 
         foreach ($data['signed']['targets'] as $target) {
+            // Check if this target is older than the currently installed version
+            if (version_compare($target['custom']['version'], JVERSION, '<')) {
+                continue;
+            }
+
             // Check if this target is newer than the current version
             if (isset($this->latest) && version_compare($target['custom']['version'], $this->latest->version, '<')) {
                 continue;
@@ -607,6 +612,19 @@ class Update
 
         // If the latest item is set then we transfer it to where we want to
         if (isset($this->latest)) {
+            // Set generic variables from latest update
+            foreach (get_object_vars($this->latest) as $key => $val) {
+                $this->$key = (object) ['_data' => $val];
+            }
+
+            // Convert infourl into legacy data structure
+            if (!empty($this->latest->infourl) && \is_array($this->latest->infourl)) {
+                $this->infourl = (object) [
+                    '_data' => $this->latest->infourl["url"],
+                    'title' => $this->latest->infourl["title"],
+                ];
+            }
+
             foreach ($this->downloadSources as $source) {
                 $this->downloadurl = (object) [
                     '_data'  => $source->url,
@@ -640,13 +658,13 @@ class Update
         $httpOption->set('userAgent', $version->getUserAgent('Joomla', true, false));
 
         try {
-            $http     = HttpFactory::getHttp($httpOption);
+            $http     = (new HttpFactory())->getHttp($httpOption);
             $response = $http->get($url);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $response = null;
         }
 
-        if ($response === null || $response->code !== 200) {
+        if ($response === null || $response->getStatusCode() !== 200) {
             // @todo: Add a 'mark bad' setting here somehow
             Log::add(Text::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), Log::WARNING, 'jerror');
 
@@ -657,13 +675,12 @@ class Update
         $this->channel           = $channel;
 
         $this->xmlParser = xml_parser_create('');
-        xml_set_object($this->xmlParser, $this);
-        xml_set_element_handler($this->xmlParser, '_startElement', '_endElement');
-        xml_set_character_data_handler($this->xmlParser, '_characterData');
+        xml_set_element_handler($this->xmlParser, [$this, '_startElement'], [$this, '_endElement']);
+        xml_set_character_data_handler($this->xmlParser, [$this, '_characterData']);
 
-        if (!xml_parse($this->xmlParser, $response->body)) {
+        if (!xml_parse($this->xmlParser, (string) $response->getBody())) {
             Log::add(
-                sprintf(
+                \sprintf(
                     'XML error: %s at line %d',
                     xml_error_string(xml_get_error_code($this->xmlParser)),
                     xml_get_current_line_number($this->xmlParser)

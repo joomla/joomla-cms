@@ -1,5 +1,5 @@
 /**
- * Imports commands fom files. The commands start with the folder name and an underscore as cypress doesn't support
+ * Imports commands from files. The commands start with the folder name and an underscore as Cypress doesn't support
  * namespaces for commands.
  *
  * https://github.com/cypress-io/cypress/issues/6575

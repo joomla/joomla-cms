@@ -242,7 +242,10 @@ class WebAssetItem implements WebAssetItemInterface, WebAssetItemCrossDependenci
                     break;
                 default:
                     // Asset for the ES modules may give us a folder for ESM import map
-                    if (str_ends_with($path, '/') && !str_starts_with($path, '.')) {
+                    if (
+                        $this->getOption('importmap') && !$this->isPathExternal($path) &&
+                        str_ends_with($path, '/') && !str_starts_with($path, '.')
+                    ) {
                         $path = Uri::root(true) . '/' . $path;
                     }
                     break;
@@ -366,15 +369,17 @@ class WebAssetItem implements WebAssetItemInterface, WebAssetItemCrossDependenci
 
         $file     = $path;
         $external = $this->isPathExternal($path);
+        $folders  = ['script' => 'js', 'stylesheet' => 'css'];
 
         if (!$external) {
             // Get the file path
             $file = HTMLHelper::_(
-                $type,
+                'mediaPath',
+                $folders[$type],
                 $path,
                 [
-                    'pathOnly' => true,
-                    'relative' => !$this->isPathAbsolute($path),
+                    'detectDebug' => $this->getOption('debug') ? 1 : true,
+                    'relative'    => !$this->isPathAbsolute($path),
                 ]
             );
         }
@@ -393,7 +398,7 @@ class WebAssetItem implements WebAssetItemInterface, WebAssetItemCrossDependenci
      */
     protected function isPathExternal(string $path): bool
     {
-        return strpos($path, 'http://') === 0 || strpos($path, 'https://') === 0 || strpos($path, '//') === 0;
+        return str_starts_with($path, 'http://') || str_starts_with($path, 'https://') || str_starts_with($path, '//');
     }
 
     /**
@@ -408,6 +413,6 @@ class WebAssetItem implements WebAssetItemInterface, WebAssetItemCrossDependenci
     protected function isPathAbsolute(string $path): bool
     {
         // We have a full path or not
-        return strpos($path, '/') !== false && is_file(JPATH_ROOT . '/' . $path);
+        return str_contains($path, '/') && is_file(JPATH_ROOT . '/' . $path);
     }
 }

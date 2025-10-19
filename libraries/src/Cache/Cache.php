@@ -94,7 +94,7 @@ class Cache
     public static function getInstance($type = 'output', $options = [])
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. The cache controller should be fetched from the factory.',
                 __METHOD__
             ),
@@ -380,7 +380,7 @@ class Cache
          */
         $handler = $this->_getStorage();
 
-        if ($this->_options['locking'] == true) {
+        if ($this->_options['locking']) {
             $locked = $handler->lock($id, $group, $locktime);
 
             if ($locked !== false) {
@@ -397,7 +397,7 @@ class Cache
         $looptime = $locktime * 10;
         $id2      = $id . '_lock';
 
-        if ($this->_options['locking'] == true) {
+        if ($this->_options['locking']) {
             $data_lock = $handler->get($id2, $group, $this->_options['checkTime']);
         } else {
             $data_lock         = false;
@@ -421,7 +421,7 @@ class Cache
             }
         }
 
-        if ($this->_options['locking'] == true) {
+        if ($this->_options['locking']) {
             $returning->locked = $handler->store($id2, $group, 1);
         }
 
@@ -682,12 +682,12 @@ class Cache
 
         // Platform defaults
         $defaulturlparams = [
-            'format' => 'WORD',
-            'option' => 'WORD',
-            'view'   => 'WORD',
-            'layout' => 'WORD',
+            'format' => 'CMD',
+            'option' => 'CMD',
+            'view'   => 'CMD',
+            'layout' => 'CMD',
             'tpl'    => 'CMD',
-            'id'     => 'INT',
+            'id'     => 'STRING',
         ];
 
         // Use platform defaults if parameter doesn't already exist.

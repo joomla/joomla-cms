@@ -152,7 +152,7 @@ class Response
             // Log the error
             try {
                 Log::add($state->getMessage(), Log::ERROR);
-            } catch (\RuntimeException $exception) {
+            } catch (\RuntimeException) {
                 // Informational log only
             }
 

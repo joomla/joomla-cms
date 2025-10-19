@@ -25,7 +25,7 @@ use Joomla\CMS\HTML\HTMLHelper;
  * @subpackage  Editors.tinymce
  * @since       3.7.0
  *
- * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
+ * @deprecated  5.2.0 will be removed in 7.0
  *               Use Joomla\CMS\Form\Field\FolderlistField.
  */
 class UploaddirsField extends FolderlistField
@@ -51,7 +51,7 @@ class UploaddirsField extends FolderlistField
         $return = parent::setup($element, $value, $group);
 
         // Get the path in which to search for file options.
-        $this->directory   = JPATH_ROOT . '/' . ComponentHelper::getParams('com_media')->get('image_path');
+        $this->directory   = JPATH_ROOT . '/' . ComponentHelper::getParams('com_media')->get('image_path', 'images');
         $this->recursive   = true;
         $this->hideDefault = true;
 

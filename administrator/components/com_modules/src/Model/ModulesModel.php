@@ -13,6 +13,7 @@ namespace Joomla\Component\Modules\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
@@ -33,12 +34,13 @@ class ModulesModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \JController
      * @since   1.6
      */
-    public function __construct($config = [])
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -63,7 +65,7 @@ class ModulesModel extends ListModel
             ];
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -247,7 +249,7 @@ class ModulesModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the required fields.
         $query->select(
@@ -313,7 +315,7 @@ class ModulesModel extends ListModel
         }
 
         // Filter by published state.
-        $state = $this->getState('filter.state');
+        $state = $this->getState('filter.state', '');
 
         if (is_numeric($state)) {
             $state = (int) $state;
@@ -344,7 +346,7 @@ class ModulesModel extends ListModel
             } else {
                 // If user selected the modules assigned to some particular page (menu item).
                 // Modules in "All" pages.
-                $subQuery1 = $db->getQuery(true);
+                $subQuery1 = $db->createQuery();
                 $subQuery1->select('MIN(' . $db->quoteName('menuid') . ')')
                     ->from($db->quoteName('#__modules_menu'))
                     ->where($db->quoteName('moduleid') . ' = ' . $db->quoteName('a.id'));
@@ -352,13 +354,13 @@ class ModulesModel extends ListModel
                 // Modules in "Selected" pages that have the chosen menu item id.
                 $menuItemId      = (int) $menuItemId;
                 $minusMenuItemId = $menuItemId * -1;
-                $subQuery2       = $db->getQuery(true);
+                $subQuery2       = $db->createQuery();
                 $subQuery2->select($db->quoteName('moduleid'))
                     ->from($db->quoteName('#__modules_menu'))
                     ->where($db->quoteName('menuid') . ' = :menuitemid2');
 
                 // Modules in "All except selected" pages that doesn't have the chosen menu item id.
-                $subQuery3 = $db->getQuery(true);
+                $subQuery3 = $db->createQuery();
                 $subQuery3->select($db->quoteName('moduleid'))
                     ->from($db->quoteName('#__modules_menu'))
                     ->where($db->quoteName('menuid') . ' = :menuitemid3');

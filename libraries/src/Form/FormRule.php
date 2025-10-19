@@ -5,30 +5,15 @@
  *
  * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
- *
- * Remove phpcs exception with deprecated constant JCOMPAT_UNICODE_PROPERTIES
- * @phpcs:disable PSR1.Files.SideEffects
  */
 
 namespace Joomla\CMS\Form;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\Registry\Registry;
-
-// Detect if we have full UTF-8 and unicode PCRE support.
-if (!\defined('JCOMPAT_UNICODE_PROPERTIES')) {
-    /**
-     * Flag indicating UTF-8 and PCRE support is present
-     *
-     * @const  boolean
-     * @since  1.6
-     *
-     * @deprecated  4.0 will be removed in 6.0
-     *              Will be removed without replacement (Also remove phpcs exception)
-     */
-    \define('JCOMPAT_UNICODE_PROPERTIES', (bool) @preg_match('/\pL/u', 'a'));
-}
 
 /**
  * Form Rule class for the Joomla Platform.
@@ -58,7 +43,7 @@ class FormRule
      *
      * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
      * @param   mixed              $value    The form field value to validate.
-     * @param   string             $group    The field name group control value. This acts as as an array container for the field.
+     * @param   string             $group    The field name group control value. This acts as an array container for the field.
      *                                       For example if the field has name="foo" and the group value is set to "bar" then the
      *                                       full field name would end up being "bar[foo]".
      * @param   ?Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
@@ -73,7 +58,7 @@ class FormRule
     {
         // Check for a valid regex.
         if (empty($this->regex)) {
-            throw new \UnexpectedValueException(sprintf('%s has invalid regex.', \get_class($this)));
+            throw new \UnexpectedValueException(\sprintf('%s has invalid regex.', \get_class($this)));
         }
 
         // Detect if we have full UTF-8 and unicode PCRE support.
@@ -85,7 +70,7 @@ class FormRule
 
         // Add unicode property support if available.
         if ($unicodePropertiesSupport) {
-            $this->modifiers = (strpos($this->modifiers, 'u') !== false) ? $this->modifiers : $this->modifiers . 'u';
+            $this->modifiers = (str_contains($this->modifiers, 'u')) ? $this->modifiers : $this->modifiers . 'u';
         }
 
         // Test the value against the regular expression.

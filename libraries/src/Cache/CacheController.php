@@ -94,7 +94,7 @@ class CacheController
     public static function getInstance($type = 'output', $options = [])
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. The cache controller should be fetched from the factory.',
                 __METHOD__
             ),
@@ -103,7 +103,7 @@ class CacheController
 
         try {
             return Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($type, $options);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $type  = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
             $class = 'JCacheController' . ucfirst($type);
 

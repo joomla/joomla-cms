@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\Actionlog\Joomla\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\Application;
 use Joomla\CMS\Event\Cache;
 use Joomla\CMS\Event\Checkin;
@@ -23,7 +24,6 @@ use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Component\Actionlogs\Administrator\Plugin\ActionLogPlugin;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
@@ -77,14 +77,13 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
     /**
      * Constructor.
      *
-     * @param   DispatcherInterface  $dispatcher  The dispatcher
      * @param   array                $config      An optional associative array of configuration settings
      *
      * @since   3.9.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config)
+    public function __construct(array $config)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $params = ComponentHelper::getComponent('com_actionlogs')->getParams();
 
@@ -100,7 +99,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @return array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -131,6 +130,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             'onUserAfterResetRequest'   => 'onUserAfterResetRequest',
             'onUserAfterResetComplete'  => 'onUserAfterResetComplete',
             'onUserBeforeSave'          => 'onUserBeforeSave',
+            'onBeforeTourSaveUserState' => 'onBeforeTourSaveUserState',
         ];
     }
 
@@ -162,7 +162,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             return;
         }
 
-        list($option, $contentType) = explode('.', $params->type_alias);
+        [$option, $contentType] = explode('.', $params->type_alias);
 
         if (!$this->checkLoggable($option)) {
             return;
@@ -181,13 +181,13 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             $messageLanguageKey = $defaultLanguageKey;
         }
 
-        $id = empty($params->id_holder) ? 0 : $article->get($params->id_holder);
+        $id = empty($params->id_holder) ? 0 : $article->{$params->id_holder};
 
         $message = [
             'action'   => $isNew ? 'add' : 'update',
             'type'     => $params->text_prefix . '_TYPE_' . $params->type_title,
             'id'       => $id,
-            'title'    => $article->get($params->title_holder),
+            'title'    => $article->{$params->title_holder} ?? '',
             'itemlink' => ActionlogsHelper::getContentTypeLink($option, $contentType, $id, $params->id_holder, $article),
         ];
 
@@ -229,13 +229,13 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             $messageLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_DELETED';
         }
 
-        $id = empty($params->id_holder) ? 0 : $article->get($params->id_holder);
+        $id = empty($params->id_holder) ? 0 : $article->{$params->id_holder};
 
         $message = [
             'action' => 'delete',
             'type'   => $params->text_prefix . '_TYPE_' . $params->type_title,
             'id'     => $id,
-            'title'  => $article->get($params->title_holder),
+            'title'  => $article->{$params->title_holder} ?? '',
         ];
 
         $this->addLog([$message], $messageLanguageKey, $context);
@@ -270,7 +270,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             return;
         }
 
-        list(, $contentType) = explode('.', $params->type_alias);
+        [, $contentType] = explode('.', $params->type_alias);
 
         switch ($value) {
             case 0:
@@ -306,7 +306,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName([$params->title_holder, $params->id_holder]))
             ->from($db->quoteName($params->table_name))
             ->whereIn($db->quoteName($params->id_holder), ArrayHelper::toInteger($pks));
@@ -314,7 +314,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
 
         try {
             $items = $db->loadObjectList($params->id_holder);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $items = [];
         }
 
@@ -529,11 +529,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
         $table   = $event->getItem();
         $isNew   = $event->getIsNew();
 
-        $option = $this->getApplication()->getInput()->getCmd('option');
-
-        if ($table->get('module') != null) {
-            $option = 'com_modules';
-        }
+        [$option] = explode('.', $context);
 
         if (!$this->checkLoggable($option)) {
             return;
@@ -546,7 +542,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             return;
         }
 
-        list(, $contentType) = explode('.', $params->type_alias);
+        [, $contentType] = explode('.', $params->type_alias);
 
         if ($isNew) {
             $messageLanguageKey = $params->text_prefix . '_' . $params->type_title . '_ADDED';
@@ -561,13 +557,15 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             $messageLanguageKey = $defaultLanguageKey;
         }
 
-        $message = [
+        $id_holder    = $params->id_holder;
+        $title_holder = $params->title_holder;
+        $message      = [
             'action'         => $isNew ? 'add' : 'update',
             'type'           => 'PLG_ACTIONLOG_JOOMLA_TYPE_' . $params->type_title,
-            'id'             => $table->get($params->id_holder),
-            'title'          => $table->get($params->title_holder),
-            'extension_name' => $table->get($params->title_holder),
-            'itemlink'       => ActionlogsHelper::getContentTypeLink($option, $contentType, $table->get($params->id_holder), $params->id_holder),
+            'id'             => $table->$id_holder,
+            'title'          => $table->$title_holder,
+            'extension_name' => $table->$title_holder,
+            'itemlink'       => ActionlogsHelper::getContentTypeLink($option, $contentType, $table->$id_holder, $id_holder),
         ];
 
         $this->addLog([$message], $messageLanguageKey, $context);
@@ -601,10 +599,11 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
 
         $messageLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_DELETED';
 
-        $message = [
+        $title_holder = $params->title_holder;
+        $message      = [
             'action' => 'delete',
             'type'   => 'PLG_ACTIONLOG_JOOMLA_TYPE_' . $params->type_title,
-            'title'  => $table->get($params->title_holder),
+            'title'  => $table->$title_holder,
         ];
 
         $this->addLog([$message], $messageLanguageKey, $context);
@@ -865,7 +864,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
 
         // Get the user id for the given username
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['id', 'username']))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('username') . ' = :username')
@@ -874,7 +873,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
 
         try {
             $loggedInUser = $db->loadObject();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return;
         }
 
@@ -1185,7 +1184,10 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             'version'     => JVERSION,
             'oldversion'  => $oldVersion,
         ];
-        $this->addLog([$message], 'PLG_ACTIONLOG_JOOMLA_USER_UPDATE', $context, $user->id);
+
+        $messageKey = ($user->id) ? 'PLG_ACTIONLOG_JOOMLA_USER_UPDATE' : 'PLG_ACTIONLOG_JOOMLA_SYSTEM_UPDATE';
+
+        $this->addLog([$message], $messageKey, $context, $user->id);
     }
 
     /**
@@ -1297,5 +1299,57 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             $blockunblock = $new['block'] === '1' ? 'block' : 'unblock';
             $session->set('block', $blockunblock);
         }
+    }
+
+    /**
+     * Method is called when a user cancels, completes or skips a tour
+     *
+     * @param   AbstractEvent $event The event instance.
+     *
+     * @return  void
+     *
+     * @since  5.2.0
+     */
+    public function onBeforeTourSaveUserState(AbstractEvent $event): void
+    {
+        $option = $this->getApplication()->getInput()->get('option');
+
+        if (!$this->checkLoggable($option)) {
+            return;
+        }
+
+        $tourId     = $event->getArgument('tourId');
+        $state      = $event->getArgument('actionState');
+        $stepNumber = $event->getArgument('stepNumber');
+
+        switch ($state) {
+            case 'skipped':
+                $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_GUIDEDTOURS_TOURSKIPPED';
+                break;
+            case 'completed':
+                $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_GUIDEDTOURS_TOURCOMPLETED';
+                break;
+            default:
+                $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_GUIDEDTOURS_TOURDELAYED';
+        }
+
+        // Get the tour from the model to fetch the translated title of the tour
+        $factory   = $this->getApplication()->bootComponent('com_guidedtours')->getMVCFactory();
+        $tourModel = $factory->createModel(
+            'Tour',
+            'Administrator',
+            ['ignore_request' => true]
+        );
+
+        $tour = $tourModel->getItem($tourId);
+
+        $message = [
+            'id'    => $tourId,
+            'title' => $tour->title_translation,
+            'state' => $state,
+            'step'  => $stepNumber,
+        ];
+
+        $this->addLog([$message], $messageLanguageKey, 'com_guidedtours.state');
     }
 }

@@ -176,7 +176,7 @@ class MethodModel extends BaseDatabaseModel
                 break;
 
             default:
-                $key = sprintf('COM_USERS_MFA_%s_PAGE_HEAD', $task);
+                $key = \sprintf('COM_USERS_MFA_%s_PAGE_HEAD', $task);
                 break;
         }
 

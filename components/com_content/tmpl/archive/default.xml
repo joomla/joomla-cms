@@ -68,6 +68,18 @@
 			</field>
 
 			<field
+				name="year_sort_order"
+				type="list"
+				label="COM_CONTENT_FIELD_YEAR_SORT_LABEL"
+				description="COM_CONTENT_FIELD_YEAR_SORT_DESC"
+				default="ASC"
+				validate="options"
+				>
+				<option value="ASC">JGLOBAL_OLDEST_FIRST</option>
+				<option value="DESC">JGLOBAL_MOST_RECENT_FIRST</option>
+			</field>
+
+			<field
 				name="display_num"
 				type="list"
 				label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL"

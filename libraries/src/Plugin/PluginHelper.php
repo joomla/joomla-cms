@@ -61,7 +61,7 @@ abstract class PluginHelper
         $defaultLayout = $layout;
         $template      = $templateObj->template;
 
-        if (strpos($layout, ':') !== false) {
+        if (str_contains($layout, ':')) {
             // Get the template and file name from the string
             $temp          = explode(':', $layout);
             $template      = $temp[0] === '_' ? $templateObj->template : $temp[0];
@@ -187,9 +187,9 @@ abstract class PluginHelper
             $plugins = static::load();
 
             // Get the specified plugin(s).
-            for ($i = 0, $t = \count($plugins); $i < $t; $i++) {
-                if ($plugins[$i]->type === $type && ($plugin === null || $plugins[$i]->name === $plugin)) {
-                    static::import($plugins[$i], $autocreate, $dispatcher);
+            foreach ($plugins as $value) {
+                if ($value->type === $type && ($plugin === null || $value->name === $plugin)) {
+                    static::import($value, $autocreate, $dispatcher);
                     $results = true;
                 }
             }
@@ -239,6 +239,7 @@ abstract class PluginHelper
             return;
         }
 
+        // @TODO: Starting from 7.0 it should use $dispatcher->addSubscriber($plugin); for plugins which implement SubscriberInterface.
         $plugin->registerListeners();
     }
 
@@ -262,7 +263,7 @@ abstract class PluginHelper
 
         $loader = function () use ($levels) {
             $db    = Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select(
                     $db->quoteName(
                         [
@@ -296,7 +297,7 @@ abstract class PluginHelper
 
         try {
             static::$plugins = $cache->get($loader, [], md5(implode(',', $levels)), false);
-        } catch (CacheExceptionInterface $cacheException) {
+        } catch (CacheExceptionInterface) {
             static::$plugins = $loader();
         }
 

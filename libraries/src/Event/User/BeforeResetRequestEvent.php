@@ -18,7 +18,7 @@ namespace Joomla\CMS\Event\User;
  * Example:
  *  new BeforeResetRequestEvent('onEventName', ['subject' => $user]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.2.0
  */
 class BeforeResetRequestEvent extends AbstractResetEvent
 {

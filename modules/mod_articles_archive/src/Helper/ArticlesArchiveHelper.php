@@ -47,7 +47,7 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
     public function getArticlesByMonths(Registry $moduleParams, SiteApplication $app): array
     {
         $db        = $this->getDatabase();
-        $query     = $db->getQuery(true);
+        $query     = $db->createQuery();
 
         $query->select($query->month($db->quoteName('created')) . ' AS created_month')
             ->select('MIN(' . $db->quoteName('created') . ') AS created')
@@ -67,7 +67,7 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
 
         try {
             $rows = (array) $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
             return [];
