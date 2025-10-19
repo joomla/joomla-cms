@@ -162,7 +162,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
                         </thead>
                         <tbody>
                         <?php foreach ($this->phpOptions as $option) : ?>
-                            <tr<?php echo ($option->state ? '' : ' class="table-danger"'); ?>>
+                            <tr<?php echo ($option->state ? '' : ' class="border-3 border-danger"'); ?>>
                                 <th scope="row">
                                     <?php echo $option->label; ?>
                                     <?php if ($option->notice) : ?>
