@@ -1362,6 +1362,7 @@ ENDDATA;
         $option         = new \stdClass();
         $option->label  = Text::sprintf('INSTL_PHP_VERSION_NEWER', $this->getTargetMinimumPHPVersion());
         $option->state  = $this->isPhpVersionSupported();
+        $option->text   = $option->state ? Text::_('JYES') : Text::_('JNO');
         $option->notice = null;
         $options[]      = $option;
 
@@ -1369,6 +1370,7 @@ ENDDATA;
         $option         = new \stdClass();
         $option->label  = Text::_('INSTL_ZLIB_COMPRESSION_SUPPORT');
         $option->state  = \extension_loaded('zlib');
+        $option->text   = $option->state ? Text::_('JYES') : Text::_('JNO');
         $option->notice = null;
         $options[]      = $option;
 
@@ -1376,6 +1378,7 @@ ENDDATA;
         $option         = new \stdClass();
         $option->label  = Text::_('INSTL_XML_SUPPORT');
         $option->state  = \extension_loaded('xml');
+        $option->text   = $option->state ? Text::_('JYES') : Text::_('JNO');
         $option->notice = null;
         $options[]      = $option;
 
@@ -1385,6 +1388,7 @@ ENDDATA;
             $option         = new \stdClass();
             $option->label  = Text::_('INSTL_MB_LANGUAGE_IS_DEFAULT');
             $option->state  = strtolower(\ini_get('mbstring.language')) === 'neutral';
+            $option->text   = $option->state ? Text::_('JYES') : Text::_('JNO');
             $option->notice = $option->state ? null : Text::_('INSTL_NOTICEMBLANGNOTDEFAULT');
             $options[]      = $option;
         }
@@ -1393,6 +1397,7 @@ ENDDATA;
         $option         = new \stdClass();
         $option->label  = Text::_('INSTL_PARSE_INI_FILE_AVAILABLE');
         $option->state  = $this->getIniParserAvailability();
+        $option->text   = $option->state ? Text::_('JYES') : Text::_('JNO');
         $option->notice = null;
         $options[]      = $option;
 
@@ -1400,6 +1405,7 @@ ENDDATA;
         $option            = new \stdClass();
         $option->label     = Text::_('INSTL_JSON_SUPPORT_AVAILABLE');
         $option->state     = \function_exists('json_encode') && \function_exists('json_decode');
+        $option->text      = $option->state ? Text::_('JYES') : Text::_('JNO');
         $option->notice    = null;
         $options[]         = $option;
         $updateInformation = $this->getUpdateInformation();
@@ -1410,6 +1416,7 @@ ENDDATA;
             $option         = new \stdClass();
             $option->label  = Text::sprintf('INSTL_DATABASE_SUPPORTED', $this->getConfiguredDatabaseType());
             $option->state  = $this->isDatabaseTypeSupported();
+            $option->text   = $option->state ? Text::_('JYES') : Text::_('JNO');
             $option->notice = null;
             $options[]      = $option;
 
@@ -1419,8 +1426,9 @@ ENDDATA;
             $this->translateExtensionName($plugin);
 
             $option         = new \stdClass();
-            $option->label  = Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_DISABLED_TITLE', $plugin->name);
+            $option->label  = $plugin->name;
             $option->state  = !PluginHelper::isEnabled('behaviour', 'compat');
+            $option->text   = $option->state ? Text::_('JDISABLED') : Text::_('JENABLED');
             $option->notice = $option->state ? null : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_DISABLED_NOTICE', $plugin->folder, $plugin->element);
             $options[]      = $option;
 
@@ -1430,8 +1438,9 @@ ENDDATA;
             $this->translateExtensionName($plugin);
 
             $option         = new \stdClass();
-            $option->label  = Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_ENABLED_TITLE', $plugin->name);
+            $option->label  = $plugin->name;
             $option->state  = PluginHelper::isEnabled('behaviour', 'compat6');
+            $option->text   = $option->state ? Text::_('JENABLED') : Text::_('JDISABLED');
             $option->notice = $option->state ? null : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_ENABLED_NOTICE', $plugin->folder, $plugin->element);
             $options[]      = $option;
         }
@@ -1440,6 +1449,7 @@ ENDDATA;
         $option         = new \stdClass();
         $option->label  = Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DATABASE_STRUCTURE_TITLE');
         $option->state  = $this->getDatabaseSchemaCheck();
+        $option->text   = $option->state ? Text::_('JYES') : Text::_('JNO');
         $option->notice = $option->state ? null : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DATABASE_STRUCTURE_NOTICE');
         $options[]      = $option;
 
