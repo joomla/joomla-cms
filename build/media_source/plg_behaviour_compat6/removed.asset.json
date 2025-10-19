@@ -5,5 +5,10 @@
   "description": "Joomla CMS Removed Assets b/c entries, the entries are only placeholders without functionality.",
   "license": "GPL-2.0-or-later",
   "assets": [
+    {
+      "name": "wcpolyfill",
+      "type": "script",
+      "uri": ""
+    }
   ]
 }

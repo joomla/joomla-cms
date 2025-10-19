@@ -178,7 +178,7 @@ class CoreContent extends Table implements CurrentUserInterface
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select($db->quoteName('core_content_id'))
             ->from($db->quoteName('#__ucm_content'))
             ->where(
@@ -258,13 +258,13 @@ class CoreContent extends Table implements CurrentUserInterface
      * @return  boolean  True on success.
      *
      * @since   3.1
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
+     * @deprecated  5.4.0 will be removed in 7.0 without replacement
      */
     protected function storeUcmBase($updateNulls = true, $isNew = false)
     {
         // Store the ucm_base row
         $db         = $this->getDatabase();
-        $query      = $db->getQuery(true);
+        $query      = $db->createQuery();
         $languageId = ContentHelper::getLanguageId($this->core_language);
 
         // Selecting "all languages" doesn't give a language id - we can't store a blank string in non mysql databases, so save 0 (the default value)

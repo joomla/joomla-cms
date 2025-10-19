@@ -13,7 +13,6 @@ export class Timer {
   stop() {
     const end = new Date();
     const time = end.getTime() - this.start.getTime();
-    // eslint-disable-next-line no-console
     console.log('Timer:', this.name, 'finished in', time, 'ms');
   }
 }

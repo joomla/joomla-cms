@@ -17,7 +17,6 @@ use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\Tag\TaggableTableTrait;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
-use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
@@ -32,7 +31,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-class Category extends Nested implements VersionableTableInterface, TaggableTableInterface, CurrentUserInterface
+class Category extends Nested implements TaggableTableInterface, CurrentUserInterface
 {
     use TaggableTableTrait;
     use CurrentUserTrait;
@@ -112,7 +111,7 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
 
         if ($this->parent_id > 1) {
             // Build the query to get the asset id for the parent category.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('asset_id'))
                 ->from($db->quoteName('#__categories'))
                 ->where($db->quoteName('id') . ' = :parentId')
@@ -127,7 +126,7 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
         } elseif ($assetId === null) {
             // This is a category that needs to parent with the extension.
             // Build the query to get the asset id for the parent category.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__assets'))
                 ->where($db->quoteName('name') . ' = :extension')
