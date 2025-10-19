@@ -173,9 +173,9 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
                                 </th>
                                 <td>
                                     <?php if ($option->state) : ?>
-                                        <span class="icon-checkmark-2 text-success" aria-hidden="true"></span> <span><?php echo Text::_('JOK'); ?></span>
+                                        <span class="badge text-bg-success"><span class="icon-checkmark" aria-hidden="true"></span><?php echo Text::_('JOK'); ?></span>
                                     <?php else : ?>
-                                        <span class="icon-cancel-circle text-danger" aria-hidden="true"></span> <span class="fw-bold"><?php echo Text::_('COM_JOOMLAUPDATE_ACTION_REQUIRED'); ?></span>
+                                        <span class="badge text-bg-danger"><span class="icon-cancel" aria-hidden="true"></span><?php echo Text::_('COM_JOOMLAUPDATE_ACTION_REQUIRED'); ?></span>
                                     <?php endif; ?>
                                 </td>
                             </tr>
