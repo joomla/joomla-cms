@@ -195,7 +195,7 @@ class ArticlesModel extends ListModel
         // Create a new query object.
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $nowDate = Factory::getDate()->toSql();
 
@@ -413,7 +413,7 @@ class ArticlesModel extends ListModel
                 $levels     = (int) $this->getState('filter.max_category_levels', 1);
 
                 // Create a subquery for the subcategory list
-                $subQuery = $db->getQuery(true)
+                $subQuery = $db->createQuery()
                     ->select($db->quoteName('sub.id'))
                     ->from($db->quoteName('#__categories', 'sub'))
                     ->join(
@@ -489,6 +489,24 @@ class ArticlesModel extends ListModel
         } elseif (!empty($authorWhere) || !empty($authorAliasWhere)) {
             // One of these is empty, the other is not so we just add both
             $query->where($authorWhere . $authorAliasWhere);
+        }
+
+        // Filter by checked_out status
+        $checkedOut = $this->getState('filter.checked_out', null);
+
+        if (is_numeric($checkedOut)) {
+            if ($checkedOut == -1) {
+                // Only checked out articles
+                $query->where($db->quoteName('a.checked_out') . ' > 0');
+            } elseif ($checkedOut == 0) {
+                // Only not checked out articles
+                $query->where('(' . $db->quoteName('a.checked_out') . ' = 0 OR ' . $db->quoteName('a.checked_out') . ' IS NULL)');
+            } else {
+                // Checked out by specific user
+                $checkedOut = (int) $checkedOut;
+                $query->where($db->quoteName('a.checked_out') . ' = :checkedOutUser')
+                    ->bind(':checkedOutUser', $checkedOut, ParameterType::INTEGER);
+            }
         }
 
         // Filter by start and end dates.
@@ -607,7 +625,7 @@ class ArticlesModel extends ListModel
             $tagId = ArrayHelper::toInteger($tagId);
 
             if ($tagId) {
-                $subQuery = $db->getQuery(true)
+                $subQuery = $db->createQuery()
                     ->select('DISTINCT ' . $db->quoteName('content_item_id'))
                     ->from($db->quoteName('#__contentitem_tag_map'))
                     ->where(
@@ -808,7 +826,7 @@ class ArticlesModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Get the list query.
         $listQuery = $this->getListQuery();

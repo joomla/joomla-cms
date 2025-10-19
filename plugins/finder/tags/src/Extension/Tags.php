@@ -321,7 +321,7 @@ final class Tags extends Adapter implements SubscriberInterface
         $db = $this->getDatabase();
 
         // Check if we can use the supplied SQL query.
-        $query = $query instanceof QueryInterface ? $query : $db->getQuery(true)
+        $query = $query instanceof QueryInterface ? $query : $db->createQuery()
             ->select('a.id, a.title, a.alias, a.description AS summary')
             ->select('a.created_time AS start_date, a.created_user_id AS created_by')
             ->select('a.metakey, a.metadesc, a.metadata, a.language, a.access')
@@ -332,7 +332,7 @@ final class Tags extends Adapter implements SubscriberInterface
         $case_when_item_alias = ' CASE WHEN ';
         $case_when_item_alias .= $query->charLength('a.alias', '!=', '0');
         $case_when_item_alias .= ' THEN ';
-        $a_id = $query->castAsChar('a.id');
+        $a_id = $query->castAs('CHAR', 'a.id');
         $case_when_item_alias .= $query->concatenate([$a_id, 'a.alias'], ':');
         $case_when_item_alias .= ' ELSE ';
         $case_when_item_alias .= $a_id . ' END as slug';
@@ -358,7 +358,7 @@ final class Tags extends Adapter implements SubscriberInterface
      */
     protected function getStateQuery()
     {
-        $query = $this->getDatabase()->getQuery(true);
+        $query = $this->getDatabase()->createQuery();
         $query->select($this->getDatabase()->quoteName('a.id'))
             ->select($this->getDatabase()->quoteName('a.' . $this->state_field, 'state') . ', ' . $this->getDatabase()->quoteName('a.access'))
             ->select('NULL AS cat_state, NULL AS cat_access')
@@ -379,7 +379,7 @@ final class Tags extends Adapter implements SubscriberInterface
     protected function getUpdateQueryByTime($time)
     {
         // Build an SQL query based on the modified time.
-        $query = $this->getDatabase()->getQuery(true)
+        $query = $this->getDatabase()->createQuery()
             ->where('a.date >= ' . $this->getDatabase()->quote($time));
 
         return $query;

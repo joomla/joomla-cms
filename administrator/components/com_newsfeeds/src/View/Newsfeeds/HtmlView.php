@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -94,6 +93,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var NewsfeedsModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->items         = $model->getItems();
         $this->pagination    = $model->getPagination();
@@ -105,10 +105,10 @@ class HtmlView extends BaseHtmlView
             $this->setLayout('emptystate');
         }
 
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
 
         // We don't need toolbar in the modal layout.
         if ($this->getLayout() !== 'modal') {
@@ -122,7 +122,9 @@ class HtmlView extends BaseHtmlView
         } else {
             // In article associations modal we need to remove language filter if forcing a language.
             // We also need to change the category filter to show show categories with All or the forced language.
-            if ($forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'CMD')) {
+            $forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'CMD');
+
+            if ($forcedLanguage) {
                 // If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
                 $languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
                 $this->filterForm->setField($languageXml, 'filter', true);
@@ -133,6 +135,8 @@ class HtmlView extends BaseHtmlView
                 // One last changes needed is to change the category filter to just show categories with All language or with the forced language.
                 $this->filterForm->setFieldAttribute('category_id', 'language', '*,' . $forcedLanguage, 'filter');
             }
+
+            $this->filterForm->addControlField('forcedLanguage', $forcedLanguage);
         }
 
         parent::display($tpl);
