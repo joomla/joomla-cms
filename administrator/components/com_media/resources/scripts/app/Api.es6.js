@@ -184,14 +184,14 @@ class Api {
    * Upload a file,
    * In opposite to other API calls the Upload call uses Content-type: application/x-www-form-urlencoded
    *
-   * @param {string}   name            File name
-   * @param {string}   parent          Parent folder path
-   * @param {File}     content         File instance
-   * @param {boolean}  override        whether we should override existing files or not
-   * @param {Function} progressCalback Progress callback
+   * @param {string}   name             File name
+   * @param {string}   parent           Parent folder path
+   * @param {File}     content          File instance
+   * @param {boolean}  override         whether we should override existing files or not
+   * @param {Function} progressCallback Progress callback
    * @return {Promise.<T>}
    */
-  upload(name, parent, content, override, progressCalback) {
+  upload(name, parent, content, override, progressCallback) {
     const url = `${this.baseUrl}&task=api.files&path=${encodeURIComponent(parent)}`;
     const data = new FormData();
     data.append('name', name);
@@ -208,13 +208,13 @@ class Api {
       data,
       promise: true,
       onBefore: (xhr) => {
-        if (progressCalback) {
+        if (progressCallback) {
           xhr.upload.addEventListener('progress', (event) => {
             let progress = 100;
             if (event.lengthComputable) {
               progress = Math.round((event.loaded / event.total) * 100);
             }
-            progressCalback(progress);
+            progressCallback(progress);
           });
         }
       },
