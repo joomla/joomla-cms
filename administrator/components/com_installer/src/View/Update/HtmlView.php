@@ -121,6 +121,11 @@ class HtmlView extends InstallerViewDefault
             Factory::getApplication()->enqueueMessage($msg, CMSApplication::MSG_WARNING);
         }
 
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
+
         parent::display($tpl);
     }
 

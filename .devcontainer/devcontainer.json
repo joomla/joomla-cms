@@ -1,0 +1,44 @@
+{
+    "name": "Joomla Dev Environment",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "app",
+    "workspaceFolder": "/workspaces/joomla-cms",
+    "features": {
+        "ghcr.io/devcontainers/features/desktop-lite:1": {}
+    },
+    "portsAttributes": {
+        "443" : {
+            "label": "Web Server (Joomla & phpmyadmin)",
+            "onAutoForward": "silent"
+        },
+        "6080": {
+            "label": "Cypress GUI",
+            "onAutoForward": "silent"
+        }
+    },
+    "postCreateCommand": "bash ./.devcontainer/post-create.sh",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "xdebug.php-debug",
+                "bmewburn.vscode-intelephense-client",
+                "esbenp.prettier-vscode"
+            ],
+            "settings": {
+                "launch": {
+                    "version": "0.2.0",
+                    "configurations": [
+                        {
+                            "name": "Listen for Xdebug",
+                            "type": "php",
+                            "request": "launch",
+                            "port": 9003,
+                            "log": false
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "remoteUser": "root"
+}

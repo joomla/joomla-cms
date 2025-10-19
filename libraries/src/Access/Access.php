@@ -336,7 +336,7 @@ class Access
         $assetKey = $extensionName . '.%';
 
         // Get a fresh query object.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['id', 'name', 'rules', 'parent_id']))
             ->from($db->quoteName('#__assets'))
             ->where(
@@ -401,7 +401,7 @@ class Access
         $db = Factory::getDbo();
 
         // Get the asset info for all assets in asset names list.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['id', 'name', 'rules', 'parent_id']))
             ->from($db->quoteName('#__assets'))
             ->whereIn($db->quoteName('name'), $components, ParameterType::STRING);
@@ -627,7 +627,7 @@ class Access
         $db = Factory::getDbo();
 
         // Build the database query to get the rules for the asset.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName($recursive ? 'b.rules' : 'a.rules', 'rules'))
             ->from($db->quoteName('#__assets', 'a'));
 
@@ -856,7 +856,7 @@ class Access
 
         // Fetch the group title from the database
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select($db->quoteName('title'))
             ->from($db->quoteName('#__usergroups'))
             ->where($db->quoteName('id') . ' = :groupId')
@@ -898,7 +898,7 @@ class Access
                 $db = Factory::getDbo();
 
                 // Build the database query to get the rules for the asset.
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName($recursive ? 'b.id' : 'a.id'));
 
                 if (empty($userId)) {
@@ -963,7 +963,7 @@ class Access
         $test = $recursive ? ' >= ' : ' = ';
 
         // First find the users contained in the group
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('DISTINCT(' . $db->quoteName('user_id') . ')')
             ->from($db->quoteName('#__usergroups', 'ug1'))
             ->join(
@@ -1002,7 +1002,7 @@ class Access
             $db = Factory::getDbo();
 
             // Build the base query.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName(['id', 'rules']))
                 ->from($db->quoteName('#__viewlevels'));
 

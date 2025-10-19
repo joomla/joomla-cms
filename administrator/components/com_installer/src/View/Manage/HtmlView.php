@@ -12,7 +12,6 @@ namespace Joomla\Component\Installer\Administrator\View\Manage;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\Component\Installer\Administrator\Model\ManageModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
@@ -76,6 +75,7 @@ class HtmlView extends InstallerViewDefault
     {
         /** @var ManageModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         // Get data from the model.
         $this->items         = $model->getItems();
@@ -83,10 +83,10 @@ class HtmlView extends InstallerViewDefault
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
 
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
 
         // Display the view.
         parent::display($tpl);
