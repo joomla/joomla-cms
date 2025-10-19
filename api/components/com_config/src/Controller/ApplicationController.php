@@ -113,7 +113,7 @@ class ApplicationController extends ApiController
         $data    = array_replace($oldData, $data);
 
         // @todo: Not the cleanest thing ever but it works...
-        Form::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . '/forms');
+        Form::addFormPath(JPATH_ADMINISTRATOR . '/components/com_config/forms');
 
         // Must load after serving service-requests
         $form = $model->getForm();

@@ -60,7 +60,7 @@
   position: relative;
   margin: 2px;
   color: $choices-list-multiple-item; //$white;
-  background-color: $choices-list-multiple-item-bg; // var(--template-bg-dark);
+  background-color: $choices-list-multiple-item-bg !important; // var(--template-bg-dark);
   margin-inline-end: 2px;
   border: 0;
   border-radius: $border-radius;
