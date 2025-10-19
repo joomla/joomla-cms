@@ -162,7 +162,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
                         </thead>
                         <tbody>
                         <?php foreach ($this->phpOptions as $option) : ?>
-                            <tr>
+                            <tr<?php echo ($option->state ? '' : ' class="table-danger"'); ?>>
                                 <th scope="row">
                                     <?php echo $option->label; ?>
                                     <?php if ($option->notice) : ?>
@@ -172,9 +172,11 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
                                     <?php endif; ?>
                                 </th>
                                 <td>
-                                    <span class="badge bg-<?php echo $option->state ? 'success' : 'danger'; ?>">
-                                        <?php echo $option->text; ?>
-                                    </span>
+                                    <?php if ($option->state) : ?>
+                                        <span class="icon-checkmark-2 text-success" aria-hidden="true"></span> <span><?php echo Text::_('JOK'); ?></span>
+                                    <?php else : ?>
+                                        <span class="icon-cancel-circle text-danger" aria-hidden="true"></span> <span class="fw-bold"><?php echo Text::_('ERROR'); ?></span>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
