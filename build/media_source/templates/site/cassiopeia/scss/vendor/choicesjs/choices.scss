@@ -165,3 +165,24 @@
 .choices__heading {
   font-size: 1.2rem;
 }
+
+// Mark already selected elements with checkmark
+.choices[data-type*="select-multiple"]{
+  .choices__item.is-selected {
+    &::before {
+      background: var(--body-bg);
+      border-radius: 2.5px;
+      color: green;
+      content: " ✓";
+      display: block;
+      font-size: 1.2em;
+      font-weight: bold;
+      opacity: 1;
+      padding: 0 0.2em;
+      position: absolute;
+      right: 0.2em;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+}
