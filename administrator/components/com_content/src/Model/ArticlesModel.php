@@ -174,7 +174,6 @@ class ArticlesModel extends ListModel
         $this->getUserStateFromRequest($this->context . '.filter.checked_out', 'filter_checked_out', '');
         $this->getUserStateFromRequest($this->context . '.filter.tag_mode', 'filter_tag_mode', 'any');
 
-
         // List state information.
         parent::populateState($ordering, $direction);
 
