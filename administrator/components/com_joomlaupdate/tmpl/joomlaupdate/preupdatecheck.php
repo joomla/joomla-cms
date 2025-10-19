@@ -173,7 +173,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
                                 </th>
                                 <td>
                                     <span class="badge bg-<?php echo $option->state ? 'success' : 'danger'; ?>">
-                                        <?php echo Text::_($option->state ? 'JYES' : 'JNO'); ?>
+                                        <?php echo $option->text; ?>
                                     </span>
                                 </td>
                             </tr>
