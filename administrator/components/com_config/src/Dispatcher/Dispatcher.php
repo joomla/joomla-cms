@@ -45,7 +45,7 @@ class Dispatcher extends ComponentDispatcher
         $view      = $this->input->getCmd('view');
         $component = $this->input->getCmd('component');
 
-        if ($component && (substr($task, 0, 10) === 'component.' || $view === 'component')) {
+        if ($component && (str_starts_with($task, 'component.') || $view === 'component')) {
             // User is changing component settings, check if he has permission to do that
             $canAccess = ConfigHelper::canChangeComponentConfig($component);
         } else {

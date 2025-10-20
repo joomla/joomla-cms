@@ -96,6 +96,7 @@ td .form-control {
 
   &[id^=id-skip-] {
     right: auto;
+    max-width: unset;
   }
 
   &[id^=cbunpublish] {
@@ -180,7 +181,7 @@ div.subform-repeatable-group {
       &.group-remove {
         top: -1px;
         right: -1px;
-        border-radius: 0 $border-radius 0 $border-radius;
+        border-radius: 0 $border-radius;
       }
       &.group-move {
         top: 50%;

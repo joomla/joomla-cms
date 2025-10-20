@@ -21,7 +21,6 @@ use Joomla\Component\Guidedtours\Administrator\Extension\GuidedtoursComponent;
 use Joomla\Component\Guidedtours\Administrator\Model\TourModel;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
@@ -77,17 +76,16 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor
      *
-     * @param   DispatcherInterface  $dispatcher  The object to observe
      * @param   array                $config      An optional associative array of configuration settings.
      * @param   boolean              $enabled     An internal flag whether plugin should listen any event.
      *
      * @since   4.3.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config = [], bool $enabled = false)
+    public function __construct(array $config = [], bool $enabled = false)
     {
         self::$enabled = $enabled;
 
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
     }
 
     /**
@@ -214,7 +212,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
 
                     try {
                         $result = $db->setQuery($query)->loadResult();
-                    } catch (\Exception $e) {
+                    } catch (\Exception) {
                         // Do not start the tour.
                         continue;
                     }

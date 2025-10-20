@@ -38,6 +38,16 @@ class Dispatcher extends ComponentDispatcher
 
         $view = $this->input->get('view');
         $user = $this->app->getIdentity();
+        $task = $this->input->get('task', 'display');
+
+        // Ignore any-non-"display" tasks
+        if (str_contains($task, '.')) {
+            $task = explode('.', $task)[1];
+        }
+
+        if ($task !== 'display') {
+            return;
+        }
 
         // Do any specific processing by view.
         switch ($view) {

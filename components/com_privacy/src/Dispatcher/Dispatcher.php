@@ -36,6 +36,16 @@ class Dispatcher extends ComponentDispatcher
         parent::checkAccess();
 
         $view = $this->input->get('view');
+        $task = $this->input->get('task', 'display');
+
+        // Ignore any-non-"display" tasks
+        if (str_contains($task, '.')) {
+            $task = explode('.', $task)[1];
+        }
+
+        if ($task !== 'display') {
+            return;
+        }
 
         // Submitting information requests and confirmation through the frontend is restricted to authenticated users at this time
         if (\in_array($view, ['confirm', 'request']) && $this->app->getIdentity()->guest) {
