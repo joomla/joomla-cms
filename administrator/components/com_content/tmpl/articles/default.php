@@ -154,7 +154,7 @@ $assoc = Associations::isEnabled();
                             </tr>
                         </thead>
                         <tbody<?php if ($saveOrder) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php
+                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" <?php echo $featured === '1' ? '' : ' data-nested="true"'; ?><?php
                               endif; ?>>
                         <?php foreach ($this->items as $i => $item) :
                             $item->max_ordering = 0;
