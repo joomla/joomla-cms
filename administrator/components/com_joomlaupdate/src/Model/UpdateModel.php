@@ -1426,14 +1426,16 @@ ENDDATA;
 
             // Check if the Joomla 6 backwards compatibility plugin is enabled
             $plugin = ExtensionHelper::getExtensionRecord('compat6', 'plugin', 0, 'behaviour');
+            if($plugin != null){
 
-            $this->translateExtensionName($plugin);
-
-            $option         = new \stdClass();
-            $option->label  = Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_ENABLED_TITLE', $plugin->name);
-            $option->state  = PluginHelper::isEnabled('behaviour', 'compat6');
-            $option->notice = $option->state ? null : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_ENABLED_NOTICE', $plugin->folder, $plugin->element);
-            $options[]      = $option;
+                $this->translateExtensionName($plugin);
+    
+                $option         = new \stdClass();
+                $option->label  = Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_ENABLED_TITLE', $plugin->name);
+                $option->state  = PluginHelper::isEnabled('behaviour', 'compat6');
+                $option->notice = $option->state ? null : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_ENABLED_NOTICE', $plugin->folder, $plugin->element);
+                $options[]      = $option;
+            }
         }
 
         // Check if database structure is up to date
