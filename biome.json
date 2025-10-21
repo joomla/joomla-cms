@@ -32,7 +32,12 @@
     }
   },
   "assist": {
-    "enabled": true
+    "enabled": true,
+    "actions": {
+      "source": {
+        "recommended": true
+      }
+    }
   },
   "formatter": {
     "enabled": true,

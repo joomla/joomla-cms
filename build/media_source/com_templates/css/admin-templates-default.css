@@ -72,13 +72,10 @@
   white-space: nowrap;
 }
 
-[dir=rtl] #core-pane textarea,
-#override-pane textarea {
-  direction: ltr;
-}
-
+#override-pane joomla-editor-codemirror,
+#override-pane textarea,
 [dir=rtl] #core-pane joomla-editor-codemirror,
-#override-pane joomla-editor-codemirror {
+[dir=rtl] #core-pane textarea {
   direction: ltr;
 }
 
@@ -102,10 +99,10 @@
 }
 
 .diff-wrapper.diff {
+  --tab-size: 4;
   width: 100%;
   font-family: monospace;
   font-size: 13px;
-  --tab-size: 4;
   color: #000;
   empty-cells: show;
   border-spacing: 0;
@@ -201,13 +198,6 @@
   background-position: 2px center;
   background-size: calc(var(--tab-size) * 1ch) 1.25em;
 }
-.diff-wrapper.diff.diff-html.diff-combined .change.change-rep .rep {
-  white-space: normal;
-}
-.diff-wrapper.diff.diff-html .change.change-eq .old,
-.diff-wrapper.diff.diff-html .change.change-eq .new {
-  background: #fff;
-}
 .diff-wrapper.diff.diff-html .change .old {
   background: #fbe1e1;
 }
@@ -222,6 +212,13 @@
 .diff-wrapper.diff.diff-html .change .rep.none {
   cursor: not-allowed;
   background: transparent;
+}
+.diff-wrapper.diff.diff-html.diff-combined .change.change-rep .rep {
+  white-space: normal;
+}
+.diff-wrapper.diff.diff-html .change.change-eq .old,
+.diff-wrapper.diff.diff-html .change.change-eq .new {
+  background: #fff;
 }
 .diff-wrapper.diff.diff-html .change ins,
 .diff-wrapper.diff.diff-html .change del {

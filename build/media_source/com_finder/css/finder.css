@@ -99,8 +99,8 @@
 }
 
 .result__taxonomy-item + .result__taxonomy-item:before {
-  content: "|";
   padding-inline-end: .5em;
+  content: "|";
 }
 
 /**

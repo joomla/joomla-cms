@@ -8,14 +8,6 @@
   width: 50%;
 }
 
-.sidebyside #left-panel .inner-panel {
-  padding-inline-end: 10px;
-}
-
-.sidebyside #right-panel .inner-panel {
-  padding-inline-end: 10px;
-}
-
 .sidebyside .full-width {
   float: none !important;
   width: 100% !important;
@@ -23,6 +15,14 @@
 
 .sidebyside .full-width .inner-panel {
   padding: 0 !important;
+}
+
+.sidebyside #left-panel .inner-panel {
+  padding-inline-end: 10px;
+}
+
+.sidebyside #right-panel .inner-panel {
+  padding-inline-end: 10px;
 }
 
 #reference-association, #target-association {
