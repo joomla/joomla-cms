@@ -246,7 +246,7 @@
     &::before {
       position: absolute;
       top: 50%;
-      right: .2em;
+      inset-inline-end: .2em;
       display: block;
       padding: 0 .2em;
       font-size: 1.2em;
