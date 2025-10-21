@@ -12,10 +12,7 @@ import { rollup } from 'rollup';
 
 const require = createRequire(import.meta.url);
 
-const {
-  resolvePackageFile,
-  getPackagesUnderScope,
-} = require('../init/common/resolve-package.cjs');
+const { resolvePackageFile, getPackagesUnderScope } = require('../init/common/resolve-package.cjs');
 
 // Build the module
 const buildModule = async (module, externalModules, destFile) => {

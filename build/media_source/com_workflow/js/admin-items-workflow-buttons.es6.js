@@ -62,9 +62,7 @@ Joomla.toggleAllNextElements = (element, className) => {
         while (transitionIds.length) {
           const compareTrans = transitionIds.shift();
 
-          availableTrans = availableTrans.filter(
-            (id) => compareTrans.indexOf(id) !== -1,
-          );
+          availableTrans = availableTrans.filter((id) => compareTrans.indexOf(id) !== -1);
         }
 
         if (availableTrans.length) {

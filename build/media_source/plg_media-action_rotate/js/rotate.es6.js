@@ -10,11 +10,7 @@ const rotate = (angle, image) => {
   let canvas = document.createElement('canvas');
 
   // Pseudo rectangle calculation
-  if (
-    (angle >= 0 && angle < 45) ||
-    (angle >= 135 && angle < 225) ||
-    (angle >= 315 && angle <= 360)
-  ) {
+  if ((angle >= 0 && angle < 45) || (angle >= 135 && angle < 225) || (angle >= 315 && angle <= 360)) {
     canvas.width = image.naturalWidth;
     canvas.height = image.naturalHeight;
   } else {
@@ -31,18 +27,13 @@ const rotate = (angle, image) => {
 
   // The format
   const format =
-    Joomla.MediaManager.Edit.original.extension.toLowerCase() === 'jpg'
-      ? 'jpeg'
-      : Joomla.MediaManager.Edit.original.extension.toLowerCase();
+    Joomla.MediaManager.Edit.original.extension.toLowerCase() === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension.toLowerCase();
 
   // The quality
   const quality = document.getElementById('jform_rotate_quality').value;
 
   // Creating the data from the canvas
-  Joomla.MediaManager.Edit.current.contents = canvas.toDataURL(
-    `image/${format}`,
-    quality,
-  );
+  Joomla.MediaManager.Edit.current.contents = canvas.toDataURL(`image/${format}`, quality);
 
   // Updating the preview element
   image.width = canvas.width;
@@ -65,35 +56,27 @@ const rotate = (angle, image) => {
 const initRotate = (image) => {
   if (!activated) {
     // The number input listener
-    document
-      .getElementById('jform_rotate_a')
-      .addEventListener('change', ({ target }) => {
-        rotate(parseInt(target.value, 10), image);
+    document.getElementById('jform_rotate_a').addEventListener('change', ({ target }) => {
+      rotate(parseInt(target.value, 10), image);
 
-        target.value = 0;
-        // Deselect all buttons
-        document
-          .querySelectorAll('#jform_rotate_distinct label')
-          .forEach((element) => {
-            element.classList.remove('active', 'focus');
-          });
+      target.value = 0;
+      // Deselect all buttons
+      document.querySelectorAll('#jform_rotate_distinct label').forEach((element) => {
+        element.classList.remove('active', 'focus');
       });
+    });
 
     // The 90 degree rotate buttons listeners
-    document
-      .querySelectorAll('#jform_rotate_distinct [type=radio]')
-      .forEach((element) => {
-        element.addEventListener('click', ({ target }) => {
-          rotate(parseInt(target.value, 10), image);
+    document.querySelectorAll('#jform_rotate_distinct [type=radio]').forEach((element) => {
+      element.addEventListener('click', ({ target }) => {
+        rotate(parseInt(target.value, 10), image);
 
-          // Deselect all buttons
-          document
-            .querySelectorAll('#jform_rotate_distinct label')
-            .forEach((el) => {
-              el.classList.remove('active', 'focus');
-            });
+        // Deselect all buttons
+        document.querySelectorAll('#jform_rotate_distinct label').forEach((el) => {
+          el.classList.remove('active', 'focus');
         });
       });
+    });
 
     activated = true;
   }

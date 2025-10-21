@@ -13,9 +13,7 @@ describe('Test in backend that the mails', () => {
   });
 
   it('check redirection to list view', () => {
-    cy.visit(
-      '/administrator/index.php?option=com_mails&task=template.edit&template_id=com_actionlogs.notification&language=en-GB',
-    );
+    cy.visit('/administrator/index.php?option=com_mails&task=template.edit&template_id=com_actionlogs.notification&language=en-GB');
     cy.intercept('index.php?option=com_mails&view=templates').as('listview');
     cy.clickToolbarButton('Cancel');
 

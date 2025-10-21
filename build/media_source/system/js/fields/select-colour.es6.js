@@ -19,28 +19,22 @@
   };
 
   const updateSelectboxColour = () => {
-    document
-      .querySelectorAll('.form-select-color-state')
-      .forEach((colourSelect) => {
-        const value = parseInt(colourSelect.value, 10);
+    document.querySelectorAll('.form-select-color-state').forEach((colourSelect) => {
+      const value = parseInt(colourSelect.value, 10);
 
-        // Add class on page load
-        if (value === 1) {
-          colourSelect.classList.add('form-select-success');
-        } else if (value === 0 || value === -2) {
-          colourSelect.classList.add('form-select-danger');
-        }
+      // Add class on page load
+      if (value === 1) {
+        colourSelect.classList.add('form-select-success');
+      } else if (value === 0 || value === -2) {
+        colourSelect.classList.add('form-select-danger');
+      }
 
-        // Add class when value is changed
-        colourSelect.addEventListener('change', onChange);
-      });
+      // Add class when value is changed
+      colourSelect.addEventListener('change', onChange);
+    });
 
     // Cleanup
-    document.removeEventListener(
-      'DOMContentLoaded',
-      updateSelectboxColour,
-      true,
-    );
+    document.removeEventListener('DOMContentLoaded', updateSelectboxColour, true);
   };
 
   // On document loaded

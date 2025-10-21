@@ -23,9 +23,7 @@ describe('Test that contenthistory for banners API endpoint', () => {
           },
         }),
       )
-      .then((banner) =>
-        cy.api_get(`/banners/${banner.body.data.attributes.id}/contenthistory`),
-      )
+      .then((banner) => cy.api_get(`/banners/${banner.body.data.attributes.id}/contenthistory`))
       .then((response) => {
         // Assert response status
         expect(response.status).to.eq(200);

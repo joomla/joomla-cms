@@ -83,13 +83,9 @@ function sortArray(array, by, direction) {
     // By name
     if (by === 'name') {
       if (direction === 'asc') {
-        return a.name
-          .toUpperCase()
-          .localeCompare(b.name.toUpperCase(), 'en', { sensitivity: 'base' });
+        return a.name.toUpperCase().localeCompare(b.name.toUpperCase(), 'en', { sensitivity: 'base' });
       }
-      return b.name
-        .toUpperCase()
-        .localeCompare(a.name.toUpperCase(), 'en', { sensitivity: 'base' });
+      return b.name.toUpperCase().localeCompare(a.name.toUpperCase(), 'en', { sensitivity: 'base' });
     }
     // By size
     if (by === 'size') {
@@ -101,15 +97,9 @@ function sortArray(array, by, direction) {
     // By dimension
     if (by === 'dimension') {
       if (direction === 'asc') {
-        return (
-          parseInt(a.width, 10) * parseInt(a.height, 10) -
-          parseInt(b.width, 10) * parseInt(b.height, 10)
-        );
+        return parseInt(a.width, 10) * parseInt(a.height, 10) - parseInt(b.width, 10) * parseInt(b.height, 10);
       }
-      return (
-        parseInt(b.width, 10) * parseInt(b.height, 10) -
-        parseInt(a.width, 10) * parseInt(a.height, 10)
-      );
+      return parseInt(b.width, 10) * parseInt(b.height, 10) - parseInt(a.width, 10) * parseInt(a.height, 10);
     }
     // By date created
     if (by === 'date_created') {
@@ -140,46 +130,24 @@ export default {
   computed: {
     /* Get the contents of the currently selected directory */
     localItems() {
-      const dirs = sortArray(
-        this.$store.getters.getSelectedDirectoryDirectories.slice(0),
-        this.$store.state.sortBy,
-        this.$store.state.sortDirection,
-      );
-      const files = sortArray(
-        this.$store.getters.getSelectedDirectoryFiles.slice(0),
-        this.$store.state.sortBy,
-        this.$store.state.sortDirection,
-      );
+      const dirs = sortArray(this.$store.getters.getSelectedDirectoryDirectories.slice(0), this.$store.state.sortBy, this.$store.state.sortDirection);
+      const files = sortArray(this.$store.getters.getSelectedDirectoryFiles.slice(0), this.$store.state.sortBy, this.$store.state.sortDirection);
 
       return [
-        ...dirs.filter((dir) =>
-          dir.name
-            .toLowerCase()
-            .includes(this.$store.state.search.toLowerCase()),
-        ),
-        ...files.filter((file) =>
-          file.name
-            .toLowerCase()
-            .includes(this.$store.state.search.toLowerCase()),
-        ),
+        ...dirs.filter((dir) => dir.name.toLowerCase().includes(this.$store.state.search.toLowerCase())),
+        ...files.filter((file) => file.name.toLowerCase().includes(this.$store.state.search.toLowerCase())),
       ];
     },
     /* The styles for the media-browser element */
     getHeight() {
       return {
-        height:
-          this.$store.state.listView === 'table' && !this.isEmpty
-            ? 'unset'
-            : '100%',
+        height: this.$store.state.listView === 'table' && !this.isEmpty ? 'unset' : '100%',
       };
     },
     mediaBrowserStyles() {
       return {
         width: this.$store.state.showInfoBar ? '75%' : '100%',
-        height:
-          this.$store.state.listView === 'table' && !this.isEmpty
-            ? 'unset'
-            : '100%',
+        height: this.$store.state.listView === 'table' && !this.isEmpty ? 'unset' : '100%',
       };
     },
     isEmptySearch() {
@@ -201,9 +169,7 @@ export default {
       return Joomla.getOptions('com_media', {}).isModal;
     },
     currentDirectory() {
-      const parts = this.$store.state.selectedDirectory
-        .split('/')
-        .filter((crumb) => crumb.length !== 0);
+      const parts = this.$store.state.selectedDirectory.split('/').filter((crumb) => crumb.length !== 0);
 
       // The first part is the name of the drive, so if we have a folder name display it. Else
       // find the filename
@@ -225,36 +191,21 @@ export default {
     },
   },
   created() {
-    document.body.addEventListener(
-      'click',
-      this.unselectAllBrowserItems,
-      false,
-    );
+    document.body.addEventListener('click', this.unselectAllBrowserItems, false);
   },
   beforeUnmount() {
-    document.body.removeEventListener(
-      'click',
-      this.unselectAllBrowserItems,
-      false,
-    );
+    document.body.removeEventListener('click', this.unselectAllBrowserItems, false);
   },
   methods: {
     /* Unselect all browser items */
     unselectAllBrowserItems(event) {
-      const clickedDelete = !!(
-        event.target.id !== undefined && event.target.id === 'mediaDelete'
-      );
+      const clickedDelete = !!(event.target.id !== undefined && event.target.id === 'mediaDelete');
       const notClickedBrowserItems =
-        (this.$refs.browserItems &&
-          !this.$refs.browserItems.contains(event.target)) ||
-        event.target === this.$refs.browserItems;
+        (this.$refs.browserItems && !this.$refs.browserItems.contains(event.target)) || event.target === this.$refs.browserItems;
 
-      const notClickedInfobar =
-        this.$refs.infobar !== undefined &&
-        !this.$refs.infobar.$el.contains(event.target);
+      const notClickedInfobar = this.$refs.infobar !== undefined && !this.$refs.infobar.$el.contains(event.target);
 
-      const clickedOutside =
-        notClickedBrowserItems && notClickedInfobar && !clickedDelete;
+      const clickedOutside = notClickedBrowserItems && notClickedInfobar && !clickedDelete;
       if (clickedOutside) {
         this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
 
@@ -317,9 +268,7 @@ export default {
       // Loop through array of files and upload each file
       if (e.dataTransfer?.files && e.dataTransfer.files.length > 0) {
         Array.from(e.dataTransfer.files).forEach((file) => {
-          document
-            .querySelector('.media-dragoutline')
-            .classList.remove('active');
+          document.querySelector('.media-dragoutline').classList.remove('active');
           this.upload(file);
         });
       }

@@ -34,34 +34,22 @@ export default {
       if (this.item.type === 'dir') return Directory;
 
       // Render image items
-      if (
-        this.item.extension &&
-        api.imagesExtensions.includes(this.item.extension.toLowerCase())
-      ) {
+      if (this.item.extension && api.imagesExtensions.includes(this.item.extension.toLowerCase())) {
         return Image;
       }
 
       // Render video items
-      if (
-        this.item.extension &&
-        api.videoExtensions.includes(this.item.extension.toLowerCase())
-      ) {
+      if (this.item.extension && api.videoExtensions.includes(this.item.extension.toLowerCase())) {
         return Video;
       }
 
       // Render audio items
-      if (
-        this.item.extension &&
-        api.audioExtensions.includes(this.item.extension.toLowerCase())
-      ) {
+      if (this.item.extension && api.audioExtensions.includes(this.item.extension.toLowerCase())) {
         return Audio;
       }
 
       // Render document items
-      if (
-        this.item.extension &&
-        api.documentExtensions.includes(this.item.extension.toLowerCase())
-      ) {
+      if (this.item.extension && api.documentExtensions.includes(this.item.extension.toLowerCase())) {
         return Doc;
       }
 
@@ -84,9 +72,7 @@ export default {
      * @returns {boolean}
      */
     isSelected() {
-      return this.$store.state.selectedItems.some(
-        (selected) => selected.path === this.item.path,
-      );
+      return this.$store.state.selectedItems.some((selected) => selected.path === this.item.path);
     },
 
     /**

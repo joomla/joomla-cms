@@ -29,12 +29,8 @@ function normalizeItem(item) {
  * @private
  */
 function normalizeArray(data) {
-  const directories = data
-    .filter((item) => item.type === 'dir')
-    .map((directory) => normalizeItem(directory));
-  const files = data
-    .filter((item) => item.type === 'file')
-    .map((file) => normalizeItem(file));
+  const directories = data.filter((item) => item.type === 'dir').map((directory) => normalizeItem(directory));
+  const files = data.filter((item) => item.type === 'file').map((file) => normalizeItem(file));
 
   return {
     directories,
@@ -129,9 +125,7 @@ class Api {
   getContents(dir, full = false, content = false) {
     // Wrap the ajax call into a real promise
     return new Promise((resolve, reject) => {
-      const url = new URL(
-        `${this.baseUrl}&task=api.files&path=${encodeURIComponent(dir)}`,
-      );
+      const url = new URL(`${this.baseUrl}&task=api.files&path=${encodeURIComponent(dir)}`);
 
       if (full) {
         url.searchParams.append('url', full);
@@ -164,9 +158,7 @@ class Api {
   createDirectory(name, parent) {
     // Wrap the ajax call into a real promise
     return new Promise((resolve, reject) => {
-      const url = new URL(
-        `${this.baseUrl}&task=api.files&path=${encodeURIComponent(parent)}`,
-      );
+      const url = new URL(`${this.baseUrl}&task=api.files&path=${encodeURIComponent(parent)}`);
       const data = { [this.csrfToken]: '1', name };
 
       Joomla.request({
@@ -197,9 +189,7 @@ class Api {
   upload(name, parent, content, override) {
     // Wrap the ajax call into a real promise
     return new Promise((resolve, reject) => {
-      const url = new URL(
-        `${this.baseUrl}&task=api.files&path=${encodeURIComponent(parent)}`,
-      );
+      const url = new URL(`${this.baseUrl}&task=api.files&path=${encodeURIComponent(parent)}`);
       const data = {
         [this.csrfToken]: '1',
         name,
@@ -236,9 +226,7 @@ class Api {
   rename(path, newPath) {
     // Wrap the ajax call into a real promise
     return new Promise((resolve, reject) => {
-      const url = new URL(
-        `${this.baseUrl}&task=api.files&path=${encodeURIComponent(path)}`,
-      );
+      const url = new URL(`${this.baseUrl}&task=api.files&path=${encodeURIComponent(path)}`);
       const data = {
         [this.csrfToken]: '1',
         newPath,
@@ -269,9 +257,7 @@ class Api {
   delete(path) {
     // Wrap the ajax call into a real promise
     return new Promise((resolve, reject) => {
-      const url = new URL(
-        `${this.baseUrl}&task=api.files&path=${encodeURIComponent(path)}`,
-      );
+      const url = new URL(`${this.baseUrl}&task=api.files&path=${encodeURIComponent(path)}`);
       const data = { [this.csrfToken]: '1' };
 
       Joomla.request({

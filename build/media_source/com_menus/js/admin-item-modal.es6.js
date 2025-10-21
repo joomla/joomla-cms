@@ -5,9 +5,7 @@
 window.Joomla = window.Joomla || {};
 
 Joomla.setMenuType = (type, tmpl) => {
-  console.warn(
-    'Method Joomla.setMenuType() is deprecated. Use "modal-content-select" asset and elements with [data-content-select] attribute.',
-  );
+  console.warn('Method Joomla.setMenuType() is deprecated. Use "modal-content-select" asset and elements with [data-content-select] attribute.');
 
   if (tmpl !== '') {
     window.parent.Joomla.submitbutton('item.setType', type);

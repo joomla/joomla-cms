@@ -97,11 +97,9 @@
         // Otherwise it is a new searchstring and we have to remove all previous results first
         this.moreResults.classList.remove('show');
 
-        document
-          .querySelectorAll('#results-container div.language-results')
-          .forEach((child) => {
-            child.parentNode.removeChild(child);
-          });
+        document.querySelectorAll('#results-container div.language-results').forEach((child) => {
+          child.parentNode.removeChild(child);
+        });
 
         this.resultsContainer.classList.add('show');
         this.spinner.classList.add('show');
@@ -167,27 +165,14 @@
       // Create a container into which all the results will be inserted
       const resultsDiv = document.createElement('div');
       resultsDiv.setAttribute('id', `language-results${this.states.counter}`);
-      resultsDiv.classList.add(
-        'language-results',
-        'list-group',
-        'mb-2',
-        'show',
-      );
+      resultsDiv.classList.add('language-results', 'list-group', 'mb-2', 'show');
 
       // Create some elements for each result and insert it into the container
       results.forEach((item, index) => {
         const a = document.createElement('a');
-        a.setAttribute(
-          'onclick',
-          `Joomla.overrider.selectString(${this.states.counter}${index});`,
-        );
+        a.setAttribute('onclick', `Joomla.overrider.selectString(${this.states.counter}${index});`);
         a.setAttribute('href', '#');
-        a.classList.add(
-          'list-group-item',
-          'list-group-item-action',
-          'flex-column',
-          'align-items-start',
-        );
+        a.classList.add('list-group-item', 'list-group-item-action', 'flex-column', 'align-items-start');
 
         const key = document.createElement('div');
         key.setAttribute('id', `override_key${this.states.counter}${index}`);
@@ -196,10 +181,7 @@
         key.innerHTML = Joomla.sanitizeHtml(item.constant);
 
         const string = document.createElement('div');
-        string.setAttribute(
-          'id',
-          `override_string${this.states.counter}${index}`,
-        );
+        string.setAttribute('id', `override_string${this.states.counter}${index}`);
         string.classList.add('result-string');
         string.innerHTML = Joomla.sanitizeHtml(item.string);
 
@@ -211,9 +193,7 @@
       // If there aren't any results display an appropriate message
       if (!results.length) {
         const noresult = document.createElement('div');
-        noresult.innerText = Joomla.Text._(
-          'COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS',
-        );
+        noresult.innerText = Joomla.Text._('COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS');
 
         resultsDiv.appendChild(noresult);
       }
@@ -233,12 +213,8 @@
      * @since   2.5
      */
     selectString(id) {
-      document.getElementById('jform_key').value = document.getElementById(
-        `override_key${id}`,
-      ).innerHTML;
-      document.getElementById('jform_override').value = document.getElementById(
-        `override_string${id}`,
-      ).innerHTML;
+      document.getElementById('jform_key').value = document.getElementById(`override_key${id}`).innerHTML;
+      document.getElementById('jform_override').value = document.getElementById(`override_string${id}`).innerHTML;
     }
   }
 

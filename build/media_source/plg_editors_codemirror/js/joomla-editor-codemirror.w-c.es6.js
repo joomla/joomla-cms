@@ -111,11 +111,7 @@ class CodemirrorEditor extends HTMLElement {
     // Create and register the Editor
     this.element = this.querySelector('textarea');
     this.instance = await createFromTextarea(this.element, options);
-    this.jEditor = new CodemirrorDecorator(
-      this.instance,
-      'codemirror',
-      this.element.id,
-    );
+    this.jEditor = new CodemirrorDecorator(this.instance, 'codemirror', this.element.id);
     JoomlaEditor.register(this.jEditor);
 
     // Find out when editor is interacted

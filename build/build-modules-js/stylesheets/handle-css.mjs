@@ -3,15 +3,10 @@ import pkg from 'fs-extra';
 import { composeVisitors, transform as transformCss } from 'lightningcss';
 import { urlVersioning } from './css-versioning.mjs';
 
-const {
-  readFile, writeFile, ensureDir,
-} = pkg;
+const { readFile, writeFile, ensureDir } = pkg;
 
 export const handleCssFile = async (file) => {
-  const outputFile = file.replace(
-    `${sep}build${sep}media_source${sep}`,
-    `${sep}media${sep}`,
-  );
+  const outputFile = file.replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
   try {
     // CSS file, we will process the file and then minify it in place
     // Ensure that the directories exist or create them

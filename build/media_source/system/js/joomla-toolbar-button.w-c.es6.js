@@ -64,9 +64,7 @@ window.customElements.define(
 
       if (this.listSelection) {
         if (!this.formElement) {
-          throw new Error(
-            `The form "${formSelector}" is required to perform the task, but the form was not found on the page.`,
-          );
+          throw new Error(`The form "${formSelector}" is required to perform the task, but the form was not found on the page.`);
         }
 
         // Watch on list selection
@@ -79,10 +77,7 @@ window.customElements.define(
      */
     disconnectedCallback() {
       if (this.formElement.boxchecked) {
-        this.formElement.boxchecked.removeEventListener(
-          'change',
-          this.onChange,
-        );
+        this.formElement.boxchecked.removeEventListener('change', this.onChange);
       }
 
       this.buttonElement.removeEventListener('click', this.executeTask);
@@ -122,12 +117,7 @@ window.customElements.define(
       // Ask for User confirmation when needed
       if (this.confirmMessage && !this.confirmationReceived) {
         import('joomla.dialog')
-          .then((m) =>
-            m.default.confirm(
-              this.confirmMessage,
-              Joomla.Text._('WARNING', 'Warning'),
-            ),
-          )
+          .then((m) => m.default.confirm(this.confirmMessage, Joomla.Text._('WARNING', 'Warning')))
           .then((confirmed) => {
             if (confirmed) {
               // Set confirmation flag, and emulate the click again

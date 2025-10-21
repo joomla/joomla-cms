@@ -1,16 +1,9 @@
 describe('Test in backend that the tasks list', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
-    cy.visit(
-      '/administrator/index.php?option=com_scheduler&view=tasks&filter=',
-    );
+    cy.visit('/administrator/index.php?option=com_scheduler&view=tasks&filter=');
   });
-  afterEach(() =>
-    cy.task(
-      'queryDB',
-      "DELETE FROM #__scheduler_tasks WHERE title = 'Test task'",
-    ),
-  );
+  afterEach(() => cy.task('queryDB', "DELETE FROM #__scheduler_tasks WHERE title = 'Test task'"));
 
   it('has a title', () => {
     cy.get('h1.page-title').should('contain.text', ' Scheduled Tasks');

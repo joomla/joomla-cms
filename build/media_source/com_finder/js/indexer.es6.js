@@ -32,9 +32,7 @@
 
       const progressBar = document.getElementById('progress-bar');
       const progressHeader = document.getElementById('finder-progress-header');
-      const progressMessage = document.getElementById(
-        'finder-progress-message',
-      );
+      const progressMessage = document.getElementById('finder-progress-message');
 
       if (progressHeader) {
         progressHeader.innerText = header;
@@ -67,9 +65,7 @@
 
     const handleResponse = (json, resp) => {
       const progressHeader = document.getElementById('finder-progress-header');
-      const progressMessage = document.getElementById(
-        'finder-progress-message',
-      );
+      const progressMessage = document.getElementById('finder-progress-message');
 
       try {
         if (json === null) {
@@ -99,9 +95,7 @@
         updateProgress(json.header, json.message);
         if (document.getElementById('finder-debug-data')) {
           Object.entries(json.pluginState).forEach((context) => {
-            document.getElementById(
-              `finder-${context[0].replace(/\s+/g, '-').toLowerCase()}`,
-            ).innerHTML = Joomla.sanitizeHtml(
+            document.getElementById(`finder-${context[0].replace(/\s+/g, '-').toLowerCase()}`).innerHTML = Joomla.sanitizeHtml(
               `${json.pluginState[context[0]].offset} of ${json.pluginState[context[0]].total}`,
             );
           });
@@ -131,9 +125,7 @@
             err = Joomla.Text._('COM_FINDER_NO_ERROR_RETURNED');
           }
           if (progressHeader) {
-            progressHeader.innerText = Joomla.Text._(
-              'COM_FINDER_AN_ERROR_HAS_OCCURRED',
-            );
+            progressHeader.innerText = Joomla.Text._('COM_FINDER_AN_ERROR_HAS_OCCURRED');
             progressHeader.classList.add('finder-error');
           }
           if (progressMessage) {
@@ -147,9 +139,7 @@
 
     const handleFailure = (error) => {
       const progressHeader = document.getElementById('finder-progress-header');
-      const progressMessage = document.getElementById(
-        'finder-progress-message',
-      );
+      const progressMessage = document.getElementById('finder-progress-message');
       let data;
 
       if (error instanceof Error) {
@@ -166,21 +156,14 @@
         try {
           data = JSON.parse(data);
         } catch (_e) {
-          data = Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace(
-            '%s',
-            error.status,
-          );
+          data = Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', error.status);
         }
       }
 
       removeElement('progress');
 
-      const header = data?.header
-        ? data.header
-        : Joomla.Text._('COM_FINDER_AN_ERROR_HAS_OCCURRED');
-      const message = data?.message
-        ? data.message
-        : `${Joomla.Text._('COM_FINDER_MESSAGE_RETURNED')}<br>${data}`;
+      const header = data?.header ? data.header : Joomla.Text._('COM_FINDER_AN_ERROR_HAS_OCCURRED');
+      const message = data?.message ? data.message : `${Joomla.Text._('COM_FINDER_MESSAGE_RETURNED')}<br>${data}`;
 
       if (progressHeader) {
         progressHeader.innerText = header;

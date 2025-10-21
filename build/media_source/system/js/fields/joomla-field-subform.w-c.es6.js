@@ -55,10 +55,7 @@ class JoomlaFieldSubform extends HTMLElement {
 
   set name(value) {
     // Update the template
-    this.template = this.template.replace(
-      new RegExp(` name="${this.name.replace(/[[\]]/g, '\\$&')}`, 'g'),
-      ` name="${value}`,
-    );
+    this.template = this.template.replace(new RegExp(` name="${this.name.replace(/[[\]]/g, '\\$&')}`, 'g'), ` name="${value}`);
 
     this.setAttribute('name', value);
   }
@@ -107,8 +104,7 @@ class JoomlaFieldSubform extends HTMLElement {
         // Check active, with extra check for nested joomla-field-subform
         if (btnAdd && btnAdd.closest('joomla-field-subform') === this) {
           let row = btnAdd.closest(this.repeatableElement);
-          row =
-            row && row.closest('joomla-field-subform') === this ? row : null;
+          row = row && row.closest('joomla-field-subform') === this ? row : null;
           this.addRow(row);
           event.preventDefault();
         } else if (btnRem && btnRem.closest('joomla-field-subform') === this) {
@@ -121,16 +117,11 @@ class JoomlaFieldSubform extends HTMLElement {
       this.addEventListener('keydown', (event) => {
         if (event.code !== KEYCODE.SPACE) return;
         const isAdd = this.buttonAdd && event.target.matches(this.buttonAdd);
-        const isRem =
-          this.buttonRemove && event.target.matches(this.buttonRemove);
+        const isRem = this.buttonRemove && event.target.matches(this.buttonRemove);
 
-        if (
-          (isAdd || isRem) &&
-          event.target.closest('joomla-field-subform') === this
-        ) {
+        if ((isAdd || isRem) && event.target.closest('joomla-field-subform') === this) {
           let row = event.target.closest(this.repeatableElement);
-          row =
-            row && row.closest('joomla-field-subform') === this ? row : null;
+          row = row && row.closest('joomla-field-subform') === this ? row : null;
 
           if (isRem && row) {
             this.removeRow(row);
@@ -170,20 +161,14 @@ class JoomlaFieldSubform extends HTMLElement {
    * Prepare a row template
    */
   prepareTemplate() {
-    const tmplElement = [].slice
-      .call(this.children)
-      .filter((el) =>
-        el.classList.contains('subform-repeatable-template-section'),
-      );
+    const tmplElement = [].slice.call(this.children).filter((el) => el.classList.contains('subform-repeatable-template-section'));
 
     if (tmplElement[0]) {
       this.template = tmplElement[0].innerHTML;
     }
 
     if (!this.template) {
-      throw new Error(
-        'The row template is required for the subform element to work',
-      );
+      throw new Error('The row template is required for the subform element to work');
     }
   }
 
@@ -201,10 +186,7 @@ class JoomlaFieldSubform extends HTMLElement {
 
     // Make a new row from the template
     let tmpEl;
-    if (
-      this.containerWithRows.nodeName === 'TBODY' ||
-      this.containerWithRows.nodeName === 'TABLE'
-    ) {
+    if (this.containerWithRows.nodeName === 'TBODY' || this.containerWithRows.nodeName === 'TABLE') {
       tmpEl = document.createElement('tbody');
     } else {
       tmpEl = document.createElement('div');
@@ -330,12 +312,7 @@ class JoomlaFieldSubform extends HTMLElement {
           // Look for <fieldset class="checkboxes"></fieldset> or <fieldset><div class="checkboxes"></div></fieldset>
           let fieldset = $el.closest('.checkboxes, fieldset');
           if (fieldset) {
-            fieldset =
-              fieldset.nodeName === 'FIELDSET'
-                ? fieldset
-                : fieldset.parentElement.nodeName === 'FIELDSET'
-                  ? fieldset.parentElement
-                  : false;
+            fieldset = fieldset.nodeName === 'FIELDSET' ? fieldset : fieldset.parentElement.nodeName === 'FIELDSET' ? fieldset.parentElement : false;
           }
 
           if (fieldset) {
@@ -369,12 +346,7 @@ class JoomlaFieldSubform extends HTMLElement {
            */
           let fieldset = $el.closest('.radio, .switcher, fieldset');
           if (fieldset) {
-            fieldset =
-              fieldset.nodeName === 'FIELDSET'
-                ? fieldset
-                : fieldset.parentElement.nodeName === 'FIELDSET'
-                  ? fieldset.parentElement
-                  : false;
+            fieldset = fieldset.nodeName === 'FIELDSET' ? fieldset : fieldset.parentElement.nodeName === 'FIELDSET' ? fieldset.parentElement : false;
           }
 
           if (fieldset) {
@@ -546,9 +518,7 @@ class JoomlaFieldSubform extends HTMLElement {
     // - "esc" to cancel selection
     this.addEventListener('keydown', (event) => {
       if (
-        (event.code !== KEYCODE.ESC &&
-          event.code !== KEYCODE.SPACE &&
-          event.code !== KEYCODE.ENTER) ||
+        (event.code !== KEYCODE.ESC && event.code !== KEYCODE.SPACE && event.code !== KEYCODE.ENTER) ||
         event.target.form ||
         !event.target.matches(that.repeatableElement)
       ) {
@@ -634,10 +604,7 @@ class JoomlaFieldSubform extends HTMLElement {
     // Handle drag action, move element to hovered position
     this.addEventListener('dragenter', ({ target }) => {
       // Make sure the target in the correct container
-      if (
-        !item ||
-        target.parentElement.closest('joomla-field-subform') !== that
-      ) {
+      if (!item || target.parentElement.closest('joomla-field-subform') !== that) {
         return;
       }
 

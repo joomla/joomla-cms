@@ -85,16 +85,11 @@ export default {
   },
   computed: {
     item() {
-      return this.$store.state.selectedItems[
-        this.$store.state.selectedItems.length - 1
-      ];
+      return this.$store.state.selectedItems[this.$store.state.selectedItems.length - 1];
     },
 
     url() {
-      return this.$store.state.previewItem &&
-        Object.hasOwn(this.$store.state.previewItem, 'url')
-        ? this.$store.state.previewItem.url
-        : null;
+      return this.$store.state.previewItem && Object.hasOwn(this.$store.state.previewItem, 'url') ? this.$store.state.previewItem.url : null;
     },
   },
   methods: {

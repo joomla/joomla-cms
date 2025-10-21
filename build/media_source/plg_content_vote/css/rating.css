@@ -1,6 +1,6 @@
 .content_rating ul {
   padding-inline-start: 0;
-  margin-bottom: .5em;
+  margin-bottom: 0.5em;
   list-style: none;
 }
 
@@ -27,7 +27,6 @@
   margin-inline-start: -1em;
 }
 
-[dir=rtl] .content_rating .vote-star-half {
+[dir="rtl"] .content_rating .vote-star-half {
   transform: scaleX(-1);
 }
-

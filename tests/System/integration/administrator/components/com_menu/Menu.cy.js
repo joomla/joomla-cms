@@ -1,8 +1,6 @@
 describe('Test in backend that the menu form', () => {
   beforeEach(() => cy.doAdministratorLogin());
-  afterEach(() =>
-    cy.task('queryDB', "DELETE FROM #__menu_types WHERE menutype = 'test'"),
-  );
+  afterEach(() => cy.task('queryDB', "DELETE FROM #__menu_types WHERE menutype = 'test'"));
 
   it('can create a new menu', () => {
     cy.visit('/administrator/index.php?option=com_menus&task=menu.add');

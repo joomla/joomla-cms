@@ -1,42 +1,21 @@
 describe('Test that menu items site API endpoint', () => {
-  beforeEach(() =>
-    cy.db_deleteMenuItem({ title: 'automated test site menu item' }),
-  );
+  beforeEach(() => cy.db_deleteMenuItem({ title: 'automated test site menu item' }));
 
   it('can deliver a list of site menu items types', () => {
-    cy.api_get('/menus/site/items/types').then((response) =>
-      cy
-        .wrap(response)
-        .its('body')
-        .its('data.0')
-        .its('type')
-        .should('include', 'menutypes'),
-    );
+    cy.api_get('/menus/site/items/types').then((response) => cy.wrap(response).its('body').its('data.0').its('type').should('include', 'menutypes'));
   });
 
   it('can deliver a list of site menu items', () => {
     cy.db_createMenuItem({ title: 'automated test site menu item' })
       .then(() => cy.api_get('/menus/site/items'))
-      .then((response) =>
-        cy.api_responseContains(
-          response,
-          'title',
-          'automated test site menu item',
-        ),
-      );
+      .then((response) => cy.api_responseContains(response, 'title', 'automated test site menu item'));
   });
 
   it('can deliver a single site menu item', () => {
     cy.db_createMenuItem({ title: 'automated test site menu item' })
       .then((id) => cy.api_get(`/menus/site/items/${id}`))
       .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('title')
-          .should('include', 'automated test site menu item'),
+        cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', 'automated test site menu item'),
       );
   });
 
@@ -56,13 +35,7 @@ describe('Test that menu items site API endpoint', () => {
       alias: '',
       link: '',
     }).then((response) =>
-      cy
-        .wrap(response)
-        .its('body')
-        .its('data')
-        .its('attributes')
-        .its('title')
-        .should('include', 'automated test site menu item'),
+      cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', 'automated test site menu item'),
     );
   });
 
@@ -79,13 +52,7 @@ describe('Test that menu items site API endpoint', () => {
         }),
       )
       .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('title')
-          .should('include', 'automated test site menu item'),
+        cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', 'automated test site menu item'),
       );
   });
 

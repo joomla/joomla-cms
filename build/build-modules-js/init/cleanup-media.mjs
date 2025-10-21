@@ -20,12 +20,7 @@ export const cleanVendors = async () => {
 
   console.log('Cleanup the Vendor ');
 
-  const mediaFolder = await stat(
-    join(
-      RootPath,
-      'libraries/vendor/php-debugbar/php-debugbar/src/DebugBar/Resources',
-    ),
-  );
+  const mediaFolder = await stat(join(RootPath, 'libraries/vendor/php-debugbar/php-debugbar/src/DebugBar/Resources'));
 
   if (await mediaFolder.isDirectory()) {
     // Remove the vendor folder
@@ -39,14 +34,9 @@ export const cleanVendors = async () => {
     });
 
     // Copy some assets from a PHP package
-    await copy(
-      join(
-        RootPath,
-        'libraries/vendor/php-debugbar/php-debugbar/src/DebugBar/Resources',
-      ),
-      join(RootPath, 'media/vendor/debugbar'),
-      { preserveTimestamps: true },
-    );
+    await copy(join(RootPath, 'libraries/vendor/php-debugbar/php-debugbar/src/DebugBar/Resources'), join(RootPath, 'media/vendor/debugbar'), {
+      preserveTimestamps: true,
+    });
     await remove(join(RootPath, 'media/vendor/debugbar/vendor/font-awesome'));
     await remove(join(RootPath, 'media/vendor/debugbar/vendor/jquery'));
   } else {

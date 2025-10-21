@@ -8,20 +8,11 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     const elCodeField = document.getElementById('users-mfa-code');
-    const elValidateButton = document.getElementById(
-      'users-mfa-captive-button-submit',
-    );
-    const elToolbarButton = document
-      .getElementById('toolbar-user-mfa-submit')
-      ?.querySelector('button');
+    const elValidateButton = document.getElementById('users-mfa-captive-button-submit');
+    const elToolbarButton = document.getElementById('toolbar-user-mfa-submit')?.querySelector('button');
 
     // Focus the code field. If the code field is hidden, focus the submit button (useful e.g. for WebAuthn)
-    if (
-      elCodeField &&
-      elCodeField.style.display !== 'none' &&
-      !elCodeField.classList.contains('visually-hidden') &&
-      elCodeField.type !== 'hidden'
-    ) {
+    if (elCodeField && elCodeField.style.display !== 'none' && !elCodeField.classList.contains('visually-hidden') && elCodeField.type !== 'hidden') {
       elCodeField.focus();
     } else {
       if (elValidateButton) {
@@ -45,9 +36,7 @@
       elButton.addEventListener('click', (e) => {
         e.preventDefault();
 
-        const elLogout = document.getElementById(
-          'users-mfa-captive-button-logout',
-        );
+        const elLogout = document.getElementById('users-mfa-captive-button-logout');
 
         if (elLogout) {
           elLogout.click();
@@ -55,20 +44,16 @@
       });
     });
 
-    document
-      .querySelectorAll('.button-user-mfa-choose-another')
-      .forEach((elButton) => {
-        elButton.addEventListener('click', (e) => {
-          e.preventDefault();
+    document.querySelectorAll('.button-user-mfa-choose-another').forEach((elButton) => {
+      elButton.addEventListener('click', (e) => {
+        e.preventDefault();
 
-          const elChooseAnother = document.getElementById(
-            'users-mfa-captive-form-choose-another',
-          );
+        const elChooseAnother = document.getElementById('users-mfa-captive-form-choose-another');
 
-          if (elChooseAnother) {
-            elChooseAnother.click();
-          }
-        });
+        if (elChooseAnother) {
+          elChooseAnother.click();
+        }
       });
+    });
   });
 })();

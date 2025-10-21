@@ -51,15 +51,11 @@ const init = (image) => {
       formElements.cropWidth.value = Math.round(e.detail.width);
       formElements.cropHeight.value = Math.round(e.detail.height);
       const format =
-        Joomla.MediaManager.Edit.original.extension.toLowerCase() === 'jpg'
-          ? 'jpeg'
-          : Joomla.MediaManager.Edit.original.extension.toLowerCase();
+        Joomla.MediaManager.Edit.original.extension.toLowerCase() === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension.toLowerCase();
       const quality = formElements.cropQuality.value;
 
       // Update the store
-      Joomla.MediaManager.Edit.current.contents = this.cropper
-        .getCroppedCanvas()
-        .toDataURL(`image/${format}`, quality);
+      Joomla.MediaManager.Edit.current.contents = this.cropper.getCroppedCanvas().toDataURL(`image/${format}`, quality);
 
       // Notify the app that a change has been made
       window.dispatchEvent(new Event('mediaManager.history.point'));
@@ -85,9 +81,7 @@ window.addEventListener(
       cropY: document.getElementById('jform_crop_y'),
       cropX: document.getElementById('jform_crop_x'),
       cropQuality: document.getElementById('jform_crop_quality'),
-      cropAspectRatioOption: document.querySelector(
-        '.crop-aspect-ratio-option',
-      ),
+      cropAspectRatioOption: document.querySelector('.crop-aspect-ratio-option'),
     };
     Joomla.MediaManager.Edit.plugins.crop = {
       Activate(image) {

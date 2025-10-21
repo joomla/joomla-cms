@@ -1,9 +1,7 @@
 describe('Test in backend that the newsfeeds list', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
-    cy.visit(
-      '/administrator/index.php?option=com_newsfeeds&view=newsfeeds&filter=',
-    );
+    cy.visit('/administrator/index.php?option=com_newsfeeds&view=newsfeeds&filter=');
   });
 
   it('has a title', () => {

@@ -18,16 +18,13 @@ customElements.define(
     }
 
     connectedCallback() {
-      this.linkedFieldSelector =
-        this.getAttribute('data-linked-field') || 'jform_position';
+      this.linkedFieldSelector = this.getAttribute('data-linked-field') || 'jform_position';
 
       if (!this.linkedFieldSelector) {
         throw new Error('No linked field defined!');
       }
 
-      this.linkedFieldElement = document.getElementById(
-        this.linkedFieldSelector,
-      );
+      this.linkedFieldElement = document.getElementById(this.linkedFieldSelector);
 
       if (!this.linkedFieldElement) {
         throw new Error('No linked field defined!');
@@ -44,12 +41,7 @@ customElements.define(
       });
     }
 
-    writeDynaList(
-      selectProperties,
-      source,
-      originalPositionName,
-      originalPositionValue,
-    ) {
+    writeDynaList(selectProperties, source, originalPositionName, originalPositionValue) {
       let i = 0;
       const selectNode = document.createElement('select');
       if (this.hasAttribute('disabled')) {
@@ -79,10 +71,7 @@ customElements.define(
         node.value = item[1];
         node.innerHTML = Joomla.sanitizeHtml(item[2]);
 
-        if (
-          (originalPositionName && originalPositionValue === item[1]) ||
-          (!originalPositionName && i === 0)
-        ) {
+        if ((originalPositionName && originalPositionValue === item[1]) || (!originalPositionName && i === 0)) {
           node.setAttribute('selected', 'selected');
         }
 
@@ -99,9 +88,7 @@ customElements.define(
       const clientId = this.getAttribute('data-client-id');
       const originalOrder = this.getAttribute('data-ordering');
       const name = this.getAttribute('data-name');
-      const attr = this.getAttribute('data-client-attr')
-        ? this.getAttribute('data-client-attr')
-        : 'form-select';
+      const attr = this.getAttribute('data-client-attr') ? this.getAttribute('data-client-attr') : 'form-select';
       const id = `${this.getAttribute('data-id')}`;
       const moduleId = `${this.getAttribute('data-module-id')}`;
       const orders = [];

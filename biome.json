@@ -48,7 +48,8 @@
     "globals": ["Joomla", "MediaManager", "bootstrap"],
     "formatter": {
       "quoteStyle": "single",
-      "bracketSameLine": true
+      "bracketSameLine": true,
+      "lineWidth": 150
     }
   },
   "json": {

@@ -21,8 +21,7 @@ const debounce =
 ((window, document, Joomla) => {
   Joomla.unpublishModule = (element) => {
     // Get variables
-    const baseUrl =
-      'index.php?option=com_modules&task=modules.unpublish&format=json';
+    const baseUrl = 'index.php?option=com_modules&task=modules.unpublish&format=json';
     const id = element.getAttribute('data-module-id');
 
     Joomla.request({
@@ -51,9 +50,7 @@ const debounce =
     const cpanelModules = document.getElementById('content');
     if (cpanelModules) {
       cpanelModules.querySelectorAll('.unpublish-module').forEach((link) => {
-        link.addEventListener('click', ({ target }) =>
-          Joomla.unpublishModule(target),
-        );
+        link.addEventListener('click', ({ target }) => Joomla.unpublishModule(target));
       });
     }
 
@@ -94,12 +91,8 @@ const debounce =
       this.$gridBox = document.querySelector('#cpanel-modules .card-columns');
 
       const gridStyle = window.getComputedStyle(this.$gridBox);
-      this.gridAutoRows =
-        parseInt(gridStyle.getPropertyValue('grid-auto-rows'), 10) ||
-        this.gridAutoRows;
-      this.gridRowGap =
-        parseInt(gridStyle.getPropertyValue('grid-row-gap'), 10) ||
-        this.gridRowGap;
+      this.gridAutoRows = parseInt(gridStyle.getPropertyValue('grid-auto-rows'), 10) || this.gridAutoRows;
+      this.gridRowGap = parseInt(gridStyle.getPropertyValue('grid-row-gap'), 10) || this.gridRowGap;
 
       this.resizeAllGridItems();
 

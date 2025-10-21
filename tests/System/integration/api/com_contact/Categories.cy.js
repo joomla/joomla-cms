@@ -1,27 +1,14 @@
 describe('Test that contact categories API endpoint', () => {
-  afterEach(() =>
-    cy.task(
-      'queryDB',
-      "DELETE FROM #__categories WHERE title = 'automated test contact category'",
-    ),
-  );
+  afterEach(() => cy.task('queryDB', "DELETE FROM #__categories WHERE title = 'automated test contact category'"));
 
   it('can deliver a list of categories', () => {
     cy.db_createCategory({
       title: 'automated test contact category',
       extension: 'com_contact',
     })
-      .then((id) =>
-        cy.db_createContact({ name: 'automated test contact', catid: id }),
-      )
+      .then((id) => cy.db_createContact({ name: 'automated test contact', catid: id }))
       .then(() => cy.api_get('/contacts/categories'))
-      .then((response) =>
-        cy.api_responseContains(
-          response,
-          'title',
-          'automated test contact category',
-        ),
-      );
+      .then((response) => cy.api_responseContains(response, 'title', 'automated test contact category'));
   });
 
   it('can deliver a single category', () => {
@@ -31,13 +18,7 @@ describe('Test that contact categories API endpoint', () => {
     })
       .then((id) => cy.api_get(`/contacts/categories/${id}`))
       .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('title')
-          .should('include', 'automated test contact category'),
+        cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', 'automated test contact category'),
       );
   });
 
@@ -48,18 +29,8 @@ describe('Test that contact categories API endpoint', () => {
       parent_id: 1,
       extension: 'com_contacts',
     }).then((response) => {
-      cy.wrap(response)
-        .its('body')
-        .its('data')
-        .its('attributes')
-        .its('title')
-        .should('include', 'automated test contact category');
-      cy.wrap(response)
-        .its('body')
-        .its('data')
-        .its('attributes')
-        .its('description')
-        .should('include', 'automated test contact category description');
+      cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', 'automated test contact category');
+      cy.wrap(response).its('body').its('data').its('attributes').its('description').should('include', 'automated test contact category description');
     });
   });
 
@@ -75,12 +46,7 @@ describe('Test that contact categories API endpoint', () => {
         }),
       )
       .then((response) => {
-        cy.wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('title')
-          .should('include', 'updated automated test contact category');
+        cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', 'updated automated test contact category');
         cy.wrap(response)
           .its('body')
           .its('data')

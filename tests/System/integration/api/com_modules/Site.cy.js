@@ -1,35 +1,16 @@
 describe('Test that modules site API endpoint', () => {
-  afterEach(() =>
-    cy.task(
-      'queryDB',
-      "DELETE FROM #__modules WHERE title = 'automated test site module'",
-    ),
-  );
+  afterEach(() => cy.task('queryDB', "DELETE FROM #__modules WHERE title = 'automated test site module'"));
 
   it('can deliver a list of site modules', () => {
     cy.api_get('/modules/site').then((response) =>
-      cy
-        .wrap(response)
-        .its('body')
-        .its('data.0')
-        .its('attributes')
-        .its('module')
-        .should('include', 'mod_breadcrumbs'),
+      cy.wrap(response).its('body').its('data.0').its('attributes').its('module').should('include', 'mod_breadcrumbs'),
     );
   });
 
   it('can deliver a single site module', () => {
     cy.db_createModule({ title: 'automated test site module' })
       .then((module) => cy.api_get(`/modules/site/${module}`))
-      .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('title')
-          .should('include', 'automated test site module'),
-      );
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', 'automated test site module'));
   });
 
   it('can create a site module', () => {
@@ -61,15 +42,7 @@ describe('Test that modules site API endpoint', () => {
       published: '1',
       showtitle: '1',
       title: 'automated test site module',
-    }).then((response) =>
-      cy
-        .wrap(response)
-        .its('body')
-        .its('data')
-        .its('attributes')
-        .its('title')
-        .should('include', 'automated test site module'),
-    );
+    }).then((response) => cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', 'automated test site module'));
   });
 
   it('can update a site module', () => {
@@ -80,15 +53,7 @@ describe('Test that modules site API endpoint', () => {
         };
         return cy.api_patch(`/modules/site/${id}`, updatedModuleData);
       })
-      .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('published')
-          .should('equal', -2),
-      );
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes').its('published').should('equal', -2));
   });
 
   it('can delete a site module', () => {

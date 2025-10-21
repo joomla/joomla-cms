@@ -5,28 +5,14 @@ describe('Test that banners clients API endpoint', () => {
     cy.db_createBannerClient({ name: 'automated test banner client' })
       .then(() => cy.api_get('/banners/clients'))
       .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data.0')
-          .its('attributes')
-          .its('name')
-          .should('include', 'automated test banner client'),
+        cy.wrap(response).its('body').its('data.0').its('attributes').its('name').should('include', 'automated test banner client'),
       );
   });
 
   it('can deliver a single client', () => {
     cy.db_createBannerClient({ name: 'automated test banner client' })
       .then((bannerclient) => cy.api_get(`/banners/clients/${bannerclient.id}`))
-      .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('name')
-          .should('include', 'automated test banner client'),
-      );
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes').its('name').should('include', 'automated test banner client'));
   });
 
   it('can create a client', () => {
@@ -35,15 +21,7 @@ describe('Test that banners clients API endpoint', () => {
       contact: 'automated test banner client',
       state: 1,
       extrainfo: '',
-    }).then((response) =>
-      cy
-        .wrap(response)
-        .its('body')
-        .its('data')
-        .its('attributes')
-        .its('name')
-        .should('include', 'automated test banner client'),
-    );
+    }).then((response) => cy.wrap(response).its('body').its('data').its('attributes').its('name').should('include', 'automated test banner client'));
   });
 
   it('can update a client', () => {
@@ -54,13 +32,7 @@ describe('Test that banners clients API endpoint', () => {
         }),
       )
       .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('name')
-          .should('include', 'updated automated test banner client'),
+        cy.wrap(response).its('body').its('data').its('attributes').its('name').should('include', 'updated automated test banner client'),
       );
   });
 
@@ -68,8 +40,6 @@ describe('Test that banners clients API endpoint', () => {
     cy.db_createBannerClient({
       name: 'automated test banner client',
       state: -2,
-    }).then((bannerclient) =>
-      cy.api_delete(`/banners/clients/${bannerclient.id}`),
-    );
+    }).then((bannerclient) => cy.api_delete(`/banners/clients/${bannerclient.id}`));
   });
 });

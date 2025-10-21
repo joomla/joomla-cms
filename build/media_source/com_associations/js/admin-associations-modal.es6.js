@@ -8,8 +8,7 @@ Joomla = window.Joomla || {};
   'use strict';
 
   document.addEventListener('DOMContentLoaded', () => {
-    const targetAssociation =
-      window.parent.document.getElementById('target-association');
+    const targetAssociation = window.parent.document.getElementById('target-association');
     const links = [].slice.call(document.querySelectorAll('.select-link'));
 
     links.forEach((item) => {

@@ -1,5 +1,9 @@
 html {
-  background: radial-gradient(ellipse at center, rgba(241, 241, 241, 1) 0, rgb(238, 42, 0) 100%);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(241, 241, 241, 1) 0,
+    rgb(238, 42, 0) 100%
+  );
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
@@ -12,7 +16,8 @@ body {
   background-color: transparent;
 }
 
-ol, ul {
+ol,
+ul {
   padding: 0;
   margin: 0;
   list-style: none;
@@ -23,7 +28,8 @@ a {
   text-decoration: none;
 }
 
-a:hover, a:focus {
+a:hover,
+a:focus {
   text-decoration: underline;
 }
 
@@ -49,9 +55,9 @@ p a {
   padding: 20px 60px;
   margin: 0 20px;
   background: #fff;
-  border: 1px solid rgba(0,0,0,0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
 }
 
 svg {
@@ -63,7 +69,8 @@ svg {
   transform: rotate(10deg);
 }
 
-h1, p {
+h1,
+p {
   position: relative;
   z-index: 10;
   text-align: center;
@@ -75,10 +82,11 @@ h1 {
   font-size: 40px;
   font-weight: 200;
   line-height: 1;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-p, label {
+p,
+label {
   margin: 10px 0 20px;
   font-size: 18px;
   font-weight: 300;
@@ -88,17 +96,17 @@ p, label {
 
 p a {
   font-weight: bold;
-  color: #1C3D5C;
+  color: #1c3d5c;
 }
 
 .link-help {
-  padding: .4rem .85rem;
+  padding: 0.4rem 0.85rem;
   font-size: 1rem;
   font-weight: normal;
   text-decoration: none;
   background-color: #f5f5f5;
-  border: 1px solid rgba(0,0,0,0.1);
-  border-radius: .25rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.25rem;
 }
 .link-help:hover {
   text-decoration: none;
@@ -121,12 +129,13 @@ p a {
   line-height: 20px;
 }
 
-.footer li, .footer a {
-  color: #1C3D5C;
+.footer li,
+.footer a {
+  color: #1c3d5c;
 }
 
 .footer a:hover {
-  color: #59B0FF;
+  color: #59b0ff;
 }
 
 .links {
@@ -142,7 +151,7 @@ p a {
   margin-top: 20px;
 }
 
-@media screen and (max-width:480px) {
+@media screen and (max-width: 480px) {
   .container {
     height: auto;
     padding-top: 20px;

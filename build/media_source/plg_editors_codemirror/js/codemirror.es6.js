@@ -4,17 +4,8 @@
  */
 
 import { closeBrackets } from '@codemirror/autocomplete';
-import {
-  defaultKeymap,
-  emacsStyleKeymap,
-  history,
-  historyKeymap,
-} from '@codemirror/commands';
-import {
-  defaultHighlightStyle,
-  foldGutter,
-  syntaxHighlighting,
-} from '@codemirror/language';
+import { defaultKeymap, emacsStyleKeymap, history, historyKeymap } from '@codemirror/commands';
+import { defaultHighlightStyle, foldGutter, syntaxHighlighting } from '@codemirror/language';
 import { highlightSelectionMatches, searchKeymap } from '@codemirror/search';
 import { Compartment, EditorState } from '@codemirror/state';
 import { oneDark } from '@codemirror/theme-one-dark';
@@ -28,12 +19,7 @@ import {
   lineNumbers,
 } from '@codemirror/view';
 
-const minimalSetup = () => [
-  highlightSpecialChars(),
-  history(),
-  drawSelection(),
-  syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
-];
+const minimalSetup = () => [highlightSpecialChars(), history(), drawSelection(), syntaxHighlighting(defaultHighlightStyle, { fallback: true })];
 
 /**
  * Configure and return list of extensions for given options
@@ -57,9 +43,7 @@ const optionsToExtensions = async (options) => {
           if (mode === 'php') {
             return import('@codemirror/lang-html').then(({ html }) => {
               const htmlOptions = options.html || { selfClosingTags: true };
-              extensions.push(
-                modeMod.php({ baseLanguage: html(htmlOptions).language }),
-              );
+              extensions.push(modeMod.php({ baseLanguage: html(htmlOptions).language }));
             });
           }
           if (mode === 'html') {
@@ -68,10 +52,7 @@ const optionsToExtensions = async (options) => {
           extensions.push(modeMod[options.mode](modeOptions));
         })
         .catch((error) => {
-          console.error(
-            `Cannot create an extension for "${options.mode}" syntax mode.`,
-            error,
-          );
+          console.error(`Cannot create an extension for "${options.mode}" syntax mode.`, error);
         }),
     );
   }
@@ -106,9 +87,7 @@ const optionsToExtensions = async (options) => {
       extensions.push(keymap.of([...emacsStyleKeymap, ...historyKeymap]));
       break;
     default:
-      extensions.push(
-        keymap.of([...defaultKeymap, ...searchKeymap, ...historyKeymap]),
-      );
+      extensions.push(keymap.of([...defaultKeymap, ...searchKeymap, ...historyKeymap]));
       break;
   }
 
@@ -121,8 +100,7 @@ const optionsToExtensions = async (options) => {
   // Check for a skin that suits best for the active color scheme
   // TODO: Use compartments to update on change of dark mode like: https://discuss.codemirror.net/t/dynamic-light-mode-dark-mode-how/4709
   if (
-    ('colorSchemeOs' in document.documentElement.dataset &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches) ||
+    ('colorSchemeOs' in document.documentElement.dataset && window.matchMedia('(prefers-color-scheme: dark)').matches) ||
     document.documentElement.dataset.colorScheme === 'dark'
   ) {
     extensions.push(oneDark);
@@ -186,11 +164,4 @@ async function createFromTextarea(textarea, options) {
   return view;
 }
 
-export {
-  minimalSetup,
-  createFromTextarea,
-  optionsToExtensions,
-  EditorState,
-  EditorView,
-  keymap,
-};
+export { minimalSetup, createFromTextarea, optionsToExtensions, EditorState, EditorView, keymap };

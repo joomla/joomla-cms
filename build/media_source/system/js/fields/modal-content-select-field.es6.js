@@ -20,9 +20,7 @@ const setValues = (data, inputValue, inputTitle) => {
     inputTitle.value = data.title || inputValue.value;
   }
   if (isChanged) {
-    inputValue.dispatchEvent(
-      new CustomEvent('change', { bubbles: true, cancelable: true }),
-    );
+    inputValue.dispatchEvent(new CustomEvent('change', { bubbles: true, cancelable: true }));
   }
 };
 
@@ -91,12 +89,8 @@ const updateView = (inputValue, container) => {
  * @param {HTMLElement} container
  */
 const setupField = (container) => {
-  const inputValue = container
-    ? container.querySelector('.js-input-value')
-    : null;
-  const inputTitle = container
-    ? container.querySelector('.js-input-title')
-    : null;
+  const inputValue = container ? container.querySelector('.js-input-value') : null;
+  const inputTitle = container ? container.querySelector('.js-input-title') : null;
 
   if (!container || !inputValue) {
     throw new Error('Incomplete markup of Content dialog field');
@@ -114,9 +108,7 @@ const setupField = (container) => {
 
     // Extract the data
     const action = button.dataset.buttonAction;
-    const dialogConfig = button.dataset.modalConfig
-      ? JSON.parse(button.dataset.modalConfig)
-      : {};
+    const dialogConfig = button.dataset.modalConfig ? JSON.parse(button.dataset.modalConfig) : {};
     const keyName = container.dataset.keyName || 'id';
     const token = Joomla.getOptions('csrf.token', '');
 
@@ -125,10 +117,7 @@ const setupField = (container) => {
     switch (action) {
       case 'select':
       case 'create': {
-        const url =
-          dialogConfig.src.indexOf('http') === 0
-            ? new URL(dialogConfig.src)
-            : new URL(dialogConfig.src, window.location.origin);
+        const url = dialogConfig.src.indexOf('http') === 0 ? new URL(dialogConfig.src) : new URL(dialogConfig.src, window.location.origin);
         url.searchParams.set(token, '1');
         dialogConfig.src = url.toString();
         handle = doSelect(inputValue, inputTitle, dialogConfig);
@@ -136,10 +125,7 @@ const setupField = (container) => {
       }
       case 'edit': {
         // Update current value in the URL
-        const url =
-          dialogConfig.src.indexOf('http') === 0
-            ? new URL(dialogConfig.src)
-            : new URL(dialogConfig.src, window.location.origin);
+        const url = dialogConfig.src.indexOf('http') === 0 ? new URL(dialogConfig.src) : new URL(dialogConfig.src, window.location.origin);
         url.searchParams.set(keyName, inputValue.value);
         url.searchParams.set(token, '1');
         dialogConfig.src = url.toString();
@@ -148,8 +134,7 @@ const setupField = (container) => {
         break;
       }
       case 'clear':
-        handle = (async () =>
-          setValues({ id: '', title: '' }, inputValue, inputTitle))();
+        handle = (async () => setValues({ id: '', title: '' }, inputValue, inputTitle))();
         break;
       default:
         throw new Error(`Unknown action ${action} for Modal select field`);
@@ -159,10 +144,7 @@ const setupField = (container) => {
       // Perform checkin when needed
       if (button.dataset.checkinUrl) {
         const chckUrl = button.dataset.checkinUrl;
-        const url =
-          chckUrl.indexOf('http') === 0
-            ? new URL(chckUrl)
-            : new URL(chckUrl, window.location.origin);
+        const url = chckUrl.indexOf('http') === 0 ? new URL(chckUrl) : new URL(chckUrl, window.location.origin);
         // Add value to request
         url.searchParams.set(keyName, inputValue.value);
         url.searchParams.set('cid[]', inputValue.value);

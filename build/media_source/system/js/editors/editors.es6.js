@@ -24,11 +24,7 @@ Joomla.editors.instances = new Proxy(
       if (!(editor instanceof JoomlaEditorDecorator)) {
         // Add missed method in Legacy editor
         editor.getId = () => p;
-        console.warn(
-          'Legacy editors is deprecated. Register the editor instance with JoomlaEditor.register().',
-          p,
-          editor,
-        );
+        console.warn('Legacy editors is deprecated. Register the editor instance with JoomlaEditor.register().', p, editor);
       }
       target[p] = editor;
       return true;
@@ -53,10 +49,7 @@ JoomlaEditorButton.registerAction('insert', (editor, options) => {
 JoomlaEditorButton.registerAction('modal', (editor, options) => {
   if (options.src && options.src[0] !== '#' && options.src[0] !== '.') {
     // Replace editor parameter to actual editor ID
-    const url =
-      options.src.indexOf('http') === 0
-        ? new URL(options.src)
-        : new URL(options.src, window.location.origin);
+    const url = options.src.indexOf('http') === 0 ? new URL(options.src) : new URL(options.src, window.location.origin);
     url.searchParams.set('editor', editor.getId());
     if (url.searchParams.has('e_name')) {
       url.searchParams.set('e_name', editor.getId());
@@ -105,9 +98,7 @@ document.addEventListener('click', (event) => {
   const btn = event.target.closest(btnDelegateSelector);
   if (!btn) return;
   const action = btn.dataset[btnActionDataAttr];
-  const options = btn.dataset[btnConfigDataAttr]
-    ? JSON.parse(btn.dataset[btnConfigDataAttr])
-    : {};
+  const options = btn.dataset[btnConfigDataAttr] ? JSON.parse(btn.dataset[btnConfigDataAttr]) : {};
 
   if (action) {
     JoomlaEditorButton.runAction(action, options, btn);

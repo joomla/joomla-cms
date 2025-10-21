@@ -135,9 +135,7 @@ const JoomlaEditorButton = {
       throw new Error('Missed values for Action registration');
     }
     if (!(handler instanceof Function)) {
-      throw new Error(
-        `Unexpected handler for action "${name}", expecting Function`,
-      );
+      throw new Error(`Unexpected handler for action "${name}", expecting Function`);
     }
 
     this.actions[name] = handler;
@@ -175,14 +173,9 @@ const JoomlaEditorButton = {
     if (!editor && button) {
       const parent = button.closest('fieldset, div:not(.editor-xtd-buttons)');
       const textarea = parent ? parent.querySelector('textarea[id]') : false;
-      editor =
-        textarea && Joomla.editors.instances[textarea.id]
-          ? Joomla.editors.instances[textarea.id]
-          : false;
+      editor = textarea && Joomla.editors.instances[textarea.id] ? Joomla.editors.instances[textarea.id] : false;
       if (editor) {
-        console.warn(
-          'Legacy editors is deprecated. Set active editor instance with JoomlaEditor.setActive().',
-        );
+        console.warn('Legacy editors is deprecated. Set active editor instance with JoomlaEditor.setActive().');
       }
     }
     if (!editor) {

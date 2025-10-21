@@ -15,10 +15,7 @@ describe('Test that group field contact API endpoint', () => {
             .its('data.0')
             .its('attributes')
             .its('title')
-            .should(
-              'include',
-              `automated test group field contacts ${context}`,
-            ),
+            .should('include', `automated test group field contacts ${context}`),
         );
     });
 
@@ -35,10 +32,7 @@ describe('Test that group field contact API endpoint', () => {
             .its('data')
             .its('attributes')
             .its('title')
-            .should(
-              'include',
-              `automated test group field contacts ${context}`,
-            ),
+            .should('include', `automated test group field contacts ${context}`),
         );
     });
 
@@ -72,13 +66,7 @@ describe('Test that group field contact API endpoint', () => {
         state: 1,
         type: 'text',
       }).then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('title')
-          .should('include', `automated test group field contacts ${context}`),
+        cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', `automated test group field contacts ${context}`),
       );
     });
 
@@ -94,13 +82,7 @@ describe('Test that group field contact API endpoint', () => {
           }),
         )
         .then((response) =>
-          cy
-            .wrap(response)
-            .its('body')
-            .its('data')
-            .its('attributes')
-            .its('title')
-            .should('include', `updated automated test group field ${context}`),
+          cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', `updated automated test group field ${context}`),
         );
     });
 
@@ -109,9 +91,7 @@ describe('Test that group field contact API endpoint', () => {
         title: 'automated test group field',
         context: `com_contact.${context}`,
         state: -2,
-      }).then((id) =>
-        cy.api_delete(`/fields/groups/contacts/${context}/${id}`),
-      );
+      }).then((id) => cy.api_delete(`/fields/groups/contacts/${context}/${id}`));
     });
   });
 });

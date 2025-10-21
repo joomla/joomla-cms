@@ -11,10 +11,7 @@ const variable = 'v';
 
 function version(urlString, fromFile) {
   // Skip external URLs
-  if (
-    skipExternal &&
-    (urlString.startsWith('http') || urlString.startsWith('//'))
-  ) {
+  if (skipExternal && (urlString.startsWith('http') || urlString.startsWith('//'))) {
     return `${urlString}`;
   }
   // Skip base64 URLs
@@ -65,9 +62,9 @@ const fixVersion = async (file) => {
     const firstLine = content.split(/\r?\n/)[0] || '';
     if (firstLine.includes('/*') && !firstLine.includes('/*!')) {
       const endCommentIdx = content.indexOf('*/');
-      if (endCommentIdx !== -1
-          && (content.substring(0, endCommentIdx).includes('license')
-          || content.substring(0, endCommentIdx).includes('copyright'))
+      if (
+        endCommentIdx !== -1 &&
+        (content.substring(0, endCommentIdx).includes('license') || content.substring(0, endCommentIdx).includes('copyright'))
       ) {
         content = firstLine.includes('/**') ? content.replace('/**', '/*!') : content.replace('/*', '/*!');
       }
@@ -78,14 +75,10 @@ const fixVersion = async (file) => {
       minify: file.endsWith('.min.css'),
       visitor: composeVisitors([urlVersioning(file)]),
     });
-    await writeFile(
-      file,
-      `@charset "UTF-8";${file.endsWith('.min.css') ? '' : '\n'}${code}`,
-      {
-        encoding: 'utf8',
-        mode: 0o644,
-      },
-    );
+    await writeFile(file, `@charset "UTF-8";${file.endsWith('.min.css') ? '' : '\n'}${code}`, {
+      encoding: 'utf8',
+      mode: 0o644,
+    });
   } catch (error) {
     throw new Error(error);
   }
@@ -100,12 +93,10 @@ const cssVersioningVendor = async () => {
   const bench = new Timer('Versioning');
 
   const cssFiles = (await readdir(`${RootPath}/media/vendor`, { withFileTypes: true, recursive: true }))
-    .filter((file) => (!file.isDirectory() && extname(file.name) === '.css'))
+    .filter((file) => !file.isDirectory() && extname(file.name) === '.css')
     .map((file) => `${file.parentPath}/${file.name}`);
 
-  Promise.all(cssFiles.map((file) => fixVersion(file))).then(() =>
-    bench.stop(),
-  );
+  Promise.all(cssFiles.map((file) => fixVersion(file))).then(() => bench.stop());
 };
 
 export { urlVersioning, cssVersioningVendor };

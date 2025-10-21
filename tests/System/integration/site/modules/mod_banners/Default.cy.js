@@ -1,15 +1,9 @@
 describe('Test in frontend that the banner module', () => {
   it('can display banners', () => {
     cy.db_createBanner({ custombannercode: 'automated test banner 1' })
-      .then(() =>
-        cy.db_createBanner({ custombannercode: 'automated test banner 2' }),
-      )
-      .then(() =>
-        cy.db_createBanner({ custombannercode: 'automated test banner 3' }),
-      )
-      .then(() =>
-        cy.db_createBanner({ custombannercode: 'automated test banner 4' }),
-      )
+      .then(() => cy.db_createBanner({ custombannercode: 'automated test banner 2' }))
+      .then(() => cy.db_createBanner({ custombannercode: 'automated test banner 3' }))
+      .then(() => cy.db_createBanner({ custombannercode: 'automated test banner 4' }))
       .then(() =>
         cy.db_createModule({
           title: 'automated test',

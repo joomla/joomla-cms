@@ -4,9 +4,7 @@ describe('Test in backend that the tag form', () => {
     // Clear the filter
     cy.visit('/administrator/index.php?option=com_tags&filter=');
   });
-  afterEach(() =>
-    cy.task('queryDB', "DELETE FROM #__tags WHERE title = 'Test tag'"),
-  );
+  afterEach(() => cy.task('queryDB', "DELETE FROM #__tags WHERE title = 'Test tag'"));
 
   it('can create a tag', () => {
     cy.visit('/administrator/index.php?option=com_tags&task=tag.add');
@@ -19,9 +17,7 @@ describe('Test in backend that the tag form', () => {
 
   it('can edit a tag', () => {
     cy.db_createTag({ title: 'Test tag' }).then((id) => {
-      cy.visit(
-        `/administrator/index.php?option=com_tags&task=tag.edit&id=${id}`,
-      );
+      cy.visit(`/administrator/index.php?option=com_tags&task=tag.edit&id=${id}`);
       cy.get('#jform_title').clear().type('Test tag edited');
       cy.clickToolbarButton('Save & Close');
 

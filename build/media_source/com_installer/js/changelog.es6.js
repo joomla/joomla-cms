@@ -13,10 +13,7 @@ Joomla = window.Joomla || {};
 
     Array.from(modals).forEach((element) => {
       element.addEventListener('click', (modal) => {
-        Joomla.loadChangelog(
-          modal.target.dataset.jsExtensionid,
-          modal.target.dataset.jsView,
-        );
+        Joomla.loadChangelog(modal.target.dataset.jsExtensionid, modal.target.dataset.jsView);
       });
     });
   });
@@ -31,9 +28,7 @@ Joomla = window.Joomla || {};
    * @since   4.0.0
    */
   Joomla.loadChangelog = (extensionId, view) => {
-    const modal = document.querySelector(
-      `#changelogModal${extensionId} .modal-body`,
-    );
+    const modal = document.querySelector(`#changelogModal${extensionId} .modal-body`);
 
     Joomla.request({
       url: `index.php?option=com_installer&task=manage.loadChangelog&eid=${extensionId}&source=${view}&format=json`,

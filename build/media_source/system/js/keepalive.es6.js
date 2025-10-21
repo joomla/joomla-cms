@@ -16,12 +16,8 @@ if (!window.Joomla) {
 }
 
 const keepAliveOptions = Joomla.getOptions('system.keepalive');
-const keepAliveInterval = keepAliveOptions?.interval
-  ? parseInt(keepAliveOptions.interval, 10)
-  : 45 * 1000;
-let keepAliveUri = keepAliveOptions?.uri
-  ? keepAliveOptions.uri.replace(/&amp;/g, '&')
-  : '';
+const keepAliveInterval = keepAliveOptions?.interval ? parseInt(keepAliveOptions.interval, 10) : 45 * 1000;
+let keepAliveUri = keepAliveOptions?.uri ? keepAliveOptions.uri.replace(/&amp;/g, '&') : '';
 
 // Fallback in case no keepalive uri was found.
 if (keepAliveUri === '') {

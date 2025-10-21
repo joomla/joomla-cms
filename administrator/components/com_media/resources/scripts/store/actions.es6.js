@@ -8,17 +8,9 @@ const updateUrlPath = (path) => {
   const url = new URL(window.location.href);
 
   if (url.searchParams.has('path')) {
-    window.history.pushState(
-      null,
-      '',
-      url.href.replace(/\b(path=).*?(&|$)/, `$1${currentPath}$2`),
-    );
+    window.history.pushState(null, '', url.href.replace(/\b(path=).*?(&|$)/, `$1${currentPath}$2`));
   } else {
-    window.history.pushState(
-      null,
-      '',
-      `${url.href + (url.href.indexOf('?') > 0 ? '&' : '?')}path=${currentPath}`,
-    );
+    window.history.pushState(null, '', `${url.href + (url.href.indexOf('?') > 0 ? '&' : '?')}path=${currentPath}`);
   }
 };
 
@@ -104,9 +96,7 @@ export const download = (_context, payload) => {
  */
 export const toggleBrowserItemSelect = (context, payload) => {
   const item = payload;
-  const isSelected = context.state.selectedItems.some(
-    (selected) => selected.path === item.path,
-  );
+  const isSelected = context.state.selectedItems.some((selected) => selected.path === item.path);
   if (!isSelected) {
     context.commit(types.SELECT_BROWSER_ITEM, item);
   } else {
@@ -149,12 +139,7 @@ export const uploadFile = (context, payload) => {
   }
   context.commit(types.SET_IS_LOADING, true);
   api
-    .upload(
-      payload.name,
-      payload.parent,
-      payload.content,
-      payload.override || false,
-    )
+    .upload(payload.name, payload.parent, payload.content, payload.override || false)
     .then((file) => {
       context.commit(types.UPLOAD_SUCCESS, file);
       context.commit(types.SET_IS_LOADING, false);
@@ -164,15 +149,7 @@ export const uploadFile = (context, payload) => {
 
       // Handle file exists
       if (error.status === 409) {
-        if (
-          notifications.ask(
-            translate.sprintf(
-              'COM_MEDIA_FILE_EXISTS_AND_OVERRIDE',
-              payload.name,
-            ),
-            {},
-          )
-        ) {
+        if (notifications.ask(translate.sprintf('COM_MEDIA_FILE_EXISTS_AND_OVERRIDE', payload.name), {})) {
           payload.override = true;
           uploadFile(context, payload);
         }
@@ -190,10 +167,7 @@ export const renameItem = (context, payload) => {
     return;
   }
 
-  if (
-    typeof payload.item.canEdit !== 'undefined' &&
-    payload.item.canEdit === false
-  ) {
+  if (typeof payload.item.canEdit !== 'undefined' && payload.item.canEdit === false) {
     return;
   }
   context.commit(types.SET_IS_LOADING, true);
@@ -257,5 +231,4 @@ export const deleteSelectedItems = (context) => {
  * @param context
  * @param payload object: the item, the width and the height
  */
-export const updateItemProperties = (context, payload) =>
-  context.commit(types.UPDATE_ITEM_PROPERTIES, payload);
+export const updateItemProperties = (context, payload) => context.commit(types.UPDATE_ITEM_PROPERTIES, payload);

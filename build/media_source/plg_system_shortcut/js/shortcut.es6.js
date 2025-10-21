@@ -55,20 +55,12 @@ const setShortcutFilter = () => {
 
     // Ignore TinyMCE joomlaHighlighter plugin,
     // @TODO: remove this when the joomlaHighlighter plugin will use JoomlaDialog
-    if (
-      target.classList.contains('tox-textarea-wrap') &&
-      target.closest('.joomla-highlighter-dialog')
-    ) {
+    if (target.classList.contains('tox-textarea-wrap') && target.closest('.joomla-highlighter-dialog')) {
       return false;
     }
 
     // Default hotkeys filter behavior
-    return !(
-      target.isContentEditable ||
-      tagName === 'INPUT' ||
-      tagName === 'SELECT' ||
-      tagName === 'TEXTAREA'
-    );
+    return !(target.isContentEditable || tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA');
   };
 };
 
@@ -100,10 +92,7 @@ const addOverviewHint = () => {
   if (mainContainer) {
     const containerElement = document.createElement('section');
     containerElement.className = 'content pt-4';
-    containerElement.insertAdjacentHTML(
-      'beforeend',
-      Joomla.Text._('PLG_SYSTEM_SHORTCUT_OVERVIEW_HINT'),
-    );
+    containerElement.insertAdjacentHTML('beforeend', Joomla.Text._('PLG_SYSTEM_SHORTCUT_OVERVIEW_HINT'));
     mainContainer.appendChild(containerElement);
   }
 };
@@ -158,9 +147,7 @@ const initOverviewModal = (options) => {
     dt.appendChild(createEl('kbd', 'J'));
 
     shortcut.split('+').forEach((key) => {
-      dt.appendChild(
-        createEl('span', Joomla.Text._('PLG_SYSTEM_SHORTCUT_THEN'), ['px-1']),
-      );
+      dt.appendChild(createEl('span', Joomla.Text._('PLG_SYSTEM_SHORTCUT_THEN'), ['px-1']));
       dt.appendChild(createEl('kbd', key));
     });
 
@@ -175,10 +162,7 @@ const initOverviewModal = (options) => {
 
   // Create the content for the dialog
   const intro = createEl('p');
-  intro.innerHTML = Joomla.sanitizeHtml(
-    Joomla.Text._('PLG_SYSTEM_SHORTCUT_OVERVIEW_DESC'),
-    { kbd: '*' },
-  );
+  intro.innerHTML = Joomla.sanitizeHtml(Joomla.Text._('PLG_SYSTEM_SHORTCUT_OVERVIEW_DESC'), { kbd: '*' });
   const info = createEl('div');
   info.appendChild(dl);
   const content = createEl('div', '', ['p-3']);
@@ -206,11 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!value.shortcut || !value.selector) {
       return;
     }
-    if (
-      value.selector.startsWith('/') ||
-      value.selector.startsWith('http://') ||
-      value.selector.startsWith('www.')
-    ) {
+    if (value.selector.startsWith('/') || value.selector.startsWith('http://') || value.selector.startsWith('www.')) {
       Joomla.addLinkShortcut(value.shortcut, value.selector);
     } else if (value.selector.includes('input')) {
       Joomla.addFocusShortcut(value.shortcut, value.selector);

@@ -70,10 +70,7 @@ window.customElements.define(
       // Set the icon while storing the values
       const icon = document.getElementById(`icon_${target.id}`);
       icon.removeAttribute('class');
-      icon.setAttribute(
-        'class',
-        'joomla-icon joomla-field-permissions__spinner',
-      );
+      icon.setAttribute('class', 'joomla-icon joomla-field-permissions__spinner');
 
       // Get values add prepare GET-Parameter
       const { value } = target;
@@ -136,37 +133,22 @@ window.customElements.define(
 
           // Check if everything is OK
           if (response.data?.result) {
-            icon.setAttribute(
-              'class',
-              'joomla-icon joomla-field-permissions__allowed',
-            );
+            icon.setAttribute('class', 'joomla-icon joomla-field-permissions__allowed');
 
-            const badgeSpan =
-              target.parentNode.parentNode.nextElementSibling.querySelector(
-                'span',
-              );
+            const badgeSpan = target.parentNode.parentNode.nextElementSibling.querySelector('span');
             badgeSpan.removeAttribute('class');
             badgeSpan.setAttribute('class', response.data.class);
             badgeSpan.innerHTML = Joomla.sanitizeHtml(response.data.text);
           }
 
           // Render messages, if any. There are only message in case of errors.
-          if (
-            typeof response.messages === 'object' &&
-            response.messages !== null
-          ) {
+          if (typeof response.messages === 'object' && response.messages !== null) {
             Joomla.renderMessages(response.messages);
 
             if (response.data?.result) {
-              icon.setAttribute(
-                'class',
-                'joomla-icon joomla-field-permissions__allowed',
-              );
+              icon.setAttribute('class', 'joomla-icon joomla-field-permissions__allowed');
             } else {
-              icon.setAttribute(
-                'class',
-                'joomla-icon joomla-field-permissions__denied',
-              );
+              icon.setAttribute('class', 'joomla-icon joomla-field-permissions__denied');
             }
           }
         },
@@ -175,10 +157,7 @@ window.customElements.define(
           icon.removeAttribute('style');
 
           Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr, xhr.statusText));
-          icon.setAttribute(
-            'class',
-            'joomla-icon joomla-field-permissions__denied',
-          );
+          icon.setAttribute('class', 'joomla-icon joomla-field-permissions__denied');
         },
       });
     }

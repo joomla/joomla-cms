@@ -27,18 +27,12 @@ describe('Test in frontend that the config config view', () => {
       cy.title().should('equal', 'automated test site configuration');
       cy.get('head meta[name=description]').should('not.exist');
       cy.get('#jform_MetaDesc').clear().type('test meta description');
-      cy.get(
-        '#application-form button[data-submit-task="config.apply"]',
-      ).click();
+      cy.get('#application-form button[data-submit-task="config.apply"]').click();
 
       cy.checkForSystemMessage('Configuration saved.');
-      cy.get('head meta[name=description]')
-        .should('have.attr', 'content')
-        .should('contain', 'test meta description');
+      cy.get('head meta[name=description]').should('have.attr', 'content').should('contain', 'test meta description');
       cy.get('#jform_MetaDesc').clear();
-      cy.get(
-        '#application-form button[data-submit-task="config.apply"]',
-      ).click();
+      cy.get('#application-form button[data-submit-task="config.apply"]').click();
 
       cy.checkForSystemMessage('Configuration saved.');
       cy.get('head meta[name=description]').should('not.exist');

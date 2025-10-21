@@ -8,9 +8,7 @@ const getColorScheme = () => {
   }
 
   if ('colorScheme' in document.documentElement.dataset) {
-    return document.documentElement.dataset.colorScheme === 'dark'
-      ? darkColor
-      : lightColor;
+    return document.documentElement.dataset.colorScheme === 'dark' ? darkColor : lightColor;
   }
 
   return darkModeMediaQuery.matches ? darkColor : lightColor;

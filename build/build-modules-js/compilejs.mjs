@@ -38,10 +38,7 @@ export const scripts = async (_options, path) => {
       process.exitCode = 1;
     }
   } else {
-    folders = [
-      `${RootPath}/build/media_source`,
-      `${RootPath}/templates/cassiopeia`,
-    ];
+    folders = [`${RootPath}/build/media_source`, `${RootPath}/templates/cassiopeia`];
   }
 
   const folderPromises = [];
@@ -58,20 +55,13 @@ export const scripts = async (_options, path) => {
 
   // Loop to get the files that should be compiled via parameter
   computedFilesFlat.forEach((file) => {
-    if (
-      file.includes(
-        `build${sep}media_source${sep}vendor${sep}bootstrap${sep}js`,
-      )
-    ) {
+    if (file.includes(`build${sep}media_source${sep}vendor${sep}bootstrap${sep}js`)) {
       return;
     }
 
     if (file.endsWith('.es5.js')) {
       jsFilesPromises.push(handleES5File(file));
-    } else if (
-      (file.endsWith('.es6.js') || file.endsWith('.w-c.es6.js')) &&
-      !file.startsWith('_')
-    ) {
+    } else if ((file.endsWith('.es6.js') || file.endsWith('.w-c.es6.js')) && !file.startsWith('_')) {
       esmFilesPromises.push(handleESMFile(file));
     }
   });

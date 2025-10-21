@@ -4,9 +4,7 @@ describe('Test in frontend that the newsfeeds categories view', () => {
       title: 'automated test category 1',
       extension: 'com_newsfeeds',
     })
-      .then((id) =>
-        cy.db_createNewsFeed({ name: 'automated test feed 1', catid: id }),
-      )
+      .then((id) => cy.db_createNewsFeed({ name: 'automated test feed 1', catid: id }))
       .then(() =>
         cy.db_createCategory({
           title: 'automated test category 2',
@@ -28,12 +26,8 @@ describe('Test in frontend that the newsfeeds categories view', () => {
 
         cy.contains('automated test category 1');
         cy.contains('automated test category 2');
-        cy.get(':nth-child(2) > .page-header > .badge').contains(
-          '# News feeds 1',
-        );
-        cy.get(':nth-child(3) > .page-header > .badge').contains(
-          '# News feeds 2',
-        );
+        cy.get(':nth-child(2) > .page-header > .badge').contains('# News feeds 1');
+        cy.get(':nth-child(3) > .page-header > .badge').contains('# News feeds 2');
       });
   });
 });

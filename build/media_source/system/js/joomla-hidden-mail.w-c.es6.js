@@ -38,11 +38,7 @@ window.customElements.define(
 
           if (nodeName) {
             // We do care for some attributes
-            if (
-              ['is-link', 'is-email', 'first', 'last', 'text'].indexOf(
-                nodeName,
-              ) === -1
-            ) {
+            if (['is-link', 'is-email', 'first', 'last', 'text'].indexOf(nodeName) === -1) {
               const { nodeValue } = this.attributes.item(index);
 
               this.newElement.setAttribute(nodeName, nodeValue);
@@ -54,13 +50,9 @@ window.customElements.define(
       }
 
       if (this.getAttribute('text')) {
-        let innerStr = this.constructor.b64DecodeUnicode(
-          this.getAttribute('text'),
-        );
+        let innerStr = this.constructor.b64DecodeUnicode(this.getAttribute('text'));
 
-        innerStr = innerStr
-          .replace('src="images/', `src="${this.base}images/`)
-          .replace('src="media/', `src="${this.base}media/`);
+        innerStr = innerStr.replace('src="images/', `src="${this.base}images/`).replace('src="media/', `src="${this.base}media/`);
         this.newElement.innerHTML = Joomla.sanitizeHtml(innerStr);
       } else {
         this.newElement.innerText = `${window.atob(this.getAttribute('first'))}@${window.atob(this.getAttribute('last'))}`;
@@ -78,14 +70,7 @@ window.customElements.define(
     }
 
     static b64DecodeUnicode(str) {
-      return decodeURIComponent(
-        Array.prototype.map
-          .call(
-            atob(str),
-            (c) => `%${(`00${c.charCodeAt(0).toString(16)}`).slice(-2)}`,
-          )
-          .join(''),
-      );
+      return decodeURIComponent(Array.prototype.map.call(atob(str), (c) => `%${(`00${c.charCodeAt(0).toString(16)}`).slice(-2)}`).join(''));
     }
   },
 );

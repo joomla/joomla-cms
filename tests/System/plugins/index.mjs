@@ -1,9 +1,5 @@
 import { deleteInsertedItems, queryTestDB } from './db.mjs';
-import {
-  copyRelativeFile,
-  deleteRelativePath,
-  writeRelativeFile,
-} from './fs.mjs';
+import { copyRelativeFile, deleteRelativePath, writeRelativeFile } from './fs.mjs';
 import { checkForLogs, clearLogs } from './logs.mjs';
 import { clearEmails, getMails, startMailServer } from './mail.mjs';
 
@@ -19,11 +15,9 @@ export default function setupPlugins(on, config) {
   on('task', {
     queryDB: (query) => queryTestDB(query, config),
     cleanupDB: () => deleteInsertedItems(config),
-    writeRelativeFile: ({ path, content, mode }) =>
-      writeRelativeFile(path, content, config, mode),
+    writeRelativeFile: ({ path, content, mode }) => writeRelativeFile(path, content, config, mode),
     deleteRelativePath: (path) => deleteRelativePath(path, config),
-    copyRelativeFile: ({ source, destination }) =>
-      copyRelativeFile(source, destination, config),
+    copyRelativeFile: ({ source, destination }) => copyRelativeFile(source, destination, config),
     checkForLogs: () => checkForLogs(config),
     clearLogs: () => clearLogs(config),
     getMails: () => getMails(),

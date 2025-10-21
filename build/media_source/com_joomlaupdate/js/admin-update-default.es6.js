@@ -23,15 +23,11 @@ Joomla.Update = window.Joomla.Update || {
     const progressDiv = document.getElementById('joomlaupdate-progress');
     const errorDiv = document.getElementById('joomlaupdate-error');
 
-    headerDiv.innerHTML = Joomla.Text._(
-      'COM_JOOMLAUPDATE_ERRORMODAL_HEAD_GENERIC',
-    );
+    headerDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_GENERIC');
     messageDiv.innerHTML = message;
 
     if (message.toLowerCase() === 'invalid login') {
-      messageDiv.innerHTML = Joomla.Text._(
-        'COM_JOOMLAUPDATE_ERRORMODAL_BODY_INVALIDLOGIN',
-      );
+      messageDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_BODY_INVALIDLOGIN');
     }
 
     progressDiv.classList.add('d-none');
@@ -46,19 +42,11 @@ Joomla.Update = window.Joomla.Update || {
     const errorDiv = document.getElementById('joomlaupdate-error');
 
     if (isForbidden) {
-      headerDiv.innerHTML = Joomla.Text._(
-        'COM_JOOMLAUPDATE_ERRORMODAL_HEAD_FORBIDDEN',
-      );
-      messageDiv.innerHTML = Joomla.Text._(
-        'COM_JOOMLAUPDATE_ERRORMODAL_BODY_FORBIDDEN',
-      );
+      headerDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_FORBIDDEN');
+      messageDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_BODY_FORBIDDEN');
     } else {
-      headerDiv.innerHTML = Joomla.Text._(
-        'COM_JOOMLAUPDATE_ERRORMODAL_HEAD_SERVERERROR',
-      );
-      messageDiv.innerHTML = Joomla.Text._(
-        'COM_JOOMLAUPDATE_ERRORMODAL_BODY_SERVERERROR',
-      );
+      headerDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_SERVERERROR');
+      messageDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_BODY_SERVERERROR');
     }
 
     progressDiv.classList.add('d-none');
@@ -71,14 +59,9 @@ Joomla.Update = window.Joomla.Update || {
     Joomla.Update.stat_outbytes = 0;
     Joomla.Update.cached_instance = null;
 
-    document.getElementById('extbytesin').innerText = Joomla.Update.formatBytes(
-      Joomla.Update.stat_inbytes,
-    );
-    document.getElementById('extbytesout').innerText =
-      Joomla.Update.formatBytes(Joomla.Update.stat_outbytes);
-    document.getElementById('extfiles').innerText = Joomla.Update.formatFiles(
-      Joomla.Update.stat_files,
-    );
+    document.getElementById('extbytesin').innerText = Joomla.Update.formatBytes(Joomla.Update.stat_inbytes);
+    document.getElementById('extbytesout').innerText = Joomla.Update.formatBytes(Joomla.Update.stat_outbytes);
+    document.getElementById('extfiles').innerText = Joomla.Update.formatFiles(Joomla.Update.stat_files);
 
     const postData = new FormData();
     postData.append('task', 'startExtract');
@@ -116,9 +99,7 @@ Joomla.Update = window.Joomla.Update || {
     // Add data to variables
     Joomla.Update.stat_inbytes = data.bytesIn;
     Joomla.Update.stat_percent = data.percent;
-    Joomla.Update.stat_percent =
-      Joomla.Update.stat_percent ||
-      80 * (Joomla.Update.stat_inbytes / Joomla.Update.totalsize);
+    Joomla.Update.stat_percent = Joomla.Update.stat_percent || 80 * (Joomla.Update.stat_inbytes / Joomla.Update.totalsize);
 
     // Update GUI
     Joomla.Update.stat_outbytes = data.bytesOut;
@@ -135,14 +116,9 @@ Joomla.Update = window.Joomla.Update || {
 
     progressDiv.innerText = `${Joomla.Update.stat_percent.toFixed(1)}%`;
 
-    document.getElementById('extbytesin').innerText = Joomla.Update.formatBytes(
-      Joomla.Update.stat_inbytes,
-    );
-    document.getElementById('extbytesout').innerText =
-      Joomla.Update.formatBytes(Joomla.Update.stat_outbytes);
-    document.getElementById('extfiles').innerText = Joomla.Update.formatFiles(
-      Joomla.Update.stat_files,
-    );
+    document.getElementById('extbytesin').innerText = Joomla.Update.formatBytes(Joomla.Update.stat_inbytes);
+    document.getElementById('extbytesout').innerText = Joomla.Update.formatBytes(Joomla.Update.stat_outbytes);
+    document.getElementById('extfiles').innerText = Joomla.Update.formatFiles(Joomla.Update.stat_files);
 
     // Are we done extracting?
     if (data.done) {
@@ -203,9 +179,7 @@ Joomla.Update = window.Joomla.Update || {
         progressDiv.style.width = '100%';
         progressDiv.innerText = '100%';
         progressDiv.setAttribute('aria-valuenow', 100);
-        titleDiv.innerText = Joomla.Text._(
-          'COM_JOOMLAUPDATE_UPDATING_COMPLETE',
-        );
+        titleDiv.innerText = Joomla.Text._('COM_JOOMLAUPDATE_UPDATING_COMPLETE');
 
         // Allow people to see the completion message
         window.setTimeout(() => {
@@ -236,8 +210,7 @@ Joomla.Update = window.Joomla.Update || {
 
     return `${parseFloat((bytes / k ** i).toFixed(dm))} ${sizes[i]}`;
   },
-  formatFiles: (files) =>
-    `${files} ${Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPDATE_ITEMS')}`,
+  formatFiles: (files) => `${files} ${Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPDATE_ITEMS')}`,
   resumeButtonHandler: (e) => {
     e.preventDefault();
 

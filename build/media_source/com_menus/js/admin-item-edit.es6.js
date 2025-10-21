@@ -10,35 +10,26 @@ if (!window.Joomla) {
 Joomla.submitbutton = (task, type) => {
   if (task === 'item.setType' || task === 'item.setMenuType') {
     if (task === 'item.setType') {
-      document
-        .querySelectorAll('#item-form input[name="jform[type]"]')
-        .forEach((item) => {
-          item.value = type;
-        });
+      document.querySelectorAll('#item-form input[name="jform[type]"]').forEach((item) => {
+        item.value = type;
+      });
 
       document.getElementById('fieldtype').value = 'type';
     } else {
-      document
-        .querySelectorAll('#item-form input[name="jform[menutype]"]')
-        .forEach((item) => {
-          item.value = type;
-        });
+      document.querySelectorAll('#item-form input[name="jform[menutype]"]').forEach((item) => {
+        item.value = type;
+      });
     }
 
     Joomla.submitform('item.setType', document.getElementById('item-form'));
-  } else if (
-    task === 'item.cancel' ||
-    document.formvalidator.isValid(document.getElementById('item-form'))
-  ) {
+  } else if (task === 'item.cancel' || document.formvalidator.isValid(document.getElementById('item-form'))) {
     Joomla.submitform(task, document.getElementById('item-form'));
   } else {
     // special case for modal popups validation response
     const list = document.querySelectorAll('#item-form .modal-value.invalid');
 
     list.forEach((field) => {
-      const textInput = field.parentElement.querySelector(
-        '.js-input-title, [type="text"]',
-      );
+      const textInput = field.parentElement.querySelector('.js-input-title, [type="text"]');
       textInput.classList.add('invalid');
     });
   }
@@ -64,9 +55,7 @@ const onChange = ({ target }) => {
 
     onSuccess(response) {
       const data = JSON.parse(response);
-      const fancySelect = document
-        .getElementById('jform_parent_id')
-        .closest('joomla-field-fancy-select');
+      const fancySelect = document.getElementById('jform_parent_id').closest('joomla-field-fancy-select');
 
       fancySelect.choicesInstance.clearChoices();
       fancySelect.choicesInstance.setChoices(
@@ -86,12 +75,7 @@ const onChange = ({ target }) => {
         option.innerText = value.title;
         option.id = value.id;
 
-        fancySelect.choicesInstance.setChoices(
-          [option],
-          'id',
-          'innerText',
-          false,
-        );
+        fancySelect.choicesInstance.setChoices([option], 'id', 'innerText', false);
       });
 
       fancySelect.choicesInstance.setChoiceByValue('1');
@@ -114,46 +98,20 @@ if (element) {
 
 // Menu type Login Form specific
 document.getElementById('item-form').addEventListener('submit', () => {
-  if (
-    document.getElementById('jform_params_login_redirect_url') &&
-    document.getElementById('jform_params_logout_redirect_url')
-  ) {
+  if (document.getElementById('jform_params_login_redirect_url') && document.getElementById('jform_params_logout_redirect_url')) {
     // Login
-    if (
-      !document
-        .getElementById('jform_params_login_redirect_url')
-        .closest('.control-group')
-        .classList.contains('hidden')
-    ) {
-      document.getElementById('jform_params_login_redirect_menuitem_id').value =
-        '';
+    if (!document.getElementById('jform_params_login_redirect_url').closest('.control-group').classList.contains('hidden')) {
+      document.getElementById('jform_params_login_redirect_menuitem_id').value = '';
     }
-    if (
-      !document
-        .getElementById('jform_params_login_redirect_menuitem_name')
-        .closest('.control-group')
-        .classList.contains('hidden')
-    ) {
+    if (!document.getElementById('jform_params_login_redirect_menuitem_name').closest('.control-group').classList.contains('hidden')) {
       document.getElementById('jform_params_login_redirect_url').value = '';
     }
 
     // Logout
-    if (
-      !document
-        .getElementById('jform_params_logout_redirect_url')
-        .closest('.control-group')
-        .classList.contains('hidden')
-    ) {
-      document.getElementById(
-        'jform_params_logout_redirect_menuitem_id',
-      ).value = '';
+    if (!document.getElementById('jform_params_logout_redirect_url').closest('.control-group').classList.contains('hidden')) {
+      document.getElementById('jform_params_logout_redirect_menuitem_id').value = '';
     }
-    if (
-      !document
-        .getElementById('jform_params_logout_redirect_menuitem_id')
-        .closest('.control-group')
-        .classList.contains('hidden')
-    ) {
+    if (!document.getElementById('jform_params_logout_redirect_menuitem_id').closest('.control-group').classList.contains('hidden')) {
       document.getElementById('jform_params_logout_redirect_url').value = '';
     }
   }

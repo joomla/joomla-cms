@@ -10,16 +10,4 @@ import Scrollspy from './scrollspy.es6.js';
 import Tab from './tab.es6.js';
 import Toast from './toast.es6.js';
 
-export {
-  Alert,
-  Button,
-  Collapse,
-  Carousel,
-  Dropdown,
-  Modal,
-  Offcanvas,
-  Popover,
-  Scrollspy,
-  Tab,
-  Toast,
-};
+export { Alert, Button, Collapse, Carousel, Dropdown, Modal, Offcanvas, Popover, Scrollspy, Tab, Toast };

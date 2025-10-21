@@ -25,11 +25,7 @@ describe('Test that contenthistory for content API endpoint', () => {
           metadata: '',
         }),
       )
-      .then((article) =>
-        cy.api_get(
-          `/content/articles/${article.body.data.attributes.id}/contenthistory`,
-        ),
-      )
+      .then((article) => cy.api_get(`/content/articles/${article.body.data.attributes.id}/contenthistory`))
       .then((response) => {
         // Assert response status
         expect(response.status).to.eq(200);
@@ -97,11 +93,7 @@ describe('Test that contenthistory for content API endpoint', () => {
           metadata: '',
         }),
       )
-      .then((article) =>
-        cy.api_get(
-          `/content/articles/${article.body.data.attributes.id}/contenthistory`,
-        ),
-      )
+      .then((article) => cy.api_get(`/content/articles/${article.body.data.attributes.id}/contenthistory`))
       .then((response) => {
         // Assert response status
         expect(response.status).to.eq(200);
@@ -115,9 +107,7 @@ describe('Test that contenthistory for content API endpoint', () => {
 
           // Access top-level attributes
           // const historyId = entry.id;
-          cy.api_delete(`/content/articles/${entry.id}/contenthistory`).then(
-            (result) => cy.wrap(result).its('status').should('equal', 204),
-          );
+          cy.api_delete(`/content/articles/${entry.id}/contenthistory`).then((result) => cy.wrap(result).its('status').should('equal', 204));
         });
       });
   });

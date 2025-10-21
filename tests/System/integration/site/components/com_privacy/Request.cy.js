@@ -17,10 +17,7 @@ describe('Test in frontend that the privacy request view', () => {
       );
       expect(mails.length).to.equal(2);
       cy.wrap(mails[0].sender).should('equal', Cypress.env('email'));
-      cy.wrap(mails[0].body).should(
-        'have.string',
-        `A new information request has been submitted by ${Cypress.env('email')}.`,
-      );
+      cy.wrap(mails[0].body).should('have.string', `A new information request has been submitted by ${Cypress.env('email')}.`);
       cy.wrap(mails[1].body).should(
         'have.string',
         'Someone has created a request to export all personal information related to this email address at ',
@@ -45,10 +42,7 @@ describe('Test in frontend that the privacy request view', () => {
         );
         expect(mails.length).to.equal(2);
         cy.wrap(mails[0].sender).should('equal', Cypress.env('email'));
-        cy.wrap(mails[0].body).should(
-          'have.string',
-          `A new information request has been submitted by ${Cypress.env('email')}.`,
-        );
+        cy.wrap(mails[0].body).should('have.string', `A new information request has been submitted by ${Cypress.env('email')}.`);
         cy.wrap(mails[1].body).should(
           'have.string',
           'Someone has created a request to export all personal information related to this email address at ',
@@ -69,10 +63,7 @@ describe('Test in frontend that the privacy request view', () => {
       );
       expect(mails.length).to.equal(2);
       cy.wrap(mails[0].sender).should('equal', Cypress.env('email'));
-      cy.wrap(mails[0].body).should(
-        'have.string',
-        `A new information request has been submitted by ${Cypress.env('email')}.`,
-      );
+      cy.wrap(mails[0].body).should('have.string', `A new information request has been submitted by ${Cypress.env('email')}.`);
       cy.wrap(mails[1].body).should(
         'have.string',
         'Someone has created a request to remove all personal information related to this email address at ',
@@ -97,10 +88,7 @@ describe('Test in frontend that the privacy request view', () => {
         );
         expect(mails.length).to.equal(2);
         cy.wrap(mails[0].sender).should('equal', Cypress.env('email'));
-        cy.wrap(mails[0].body).should(
-          'have.string',
-          `A new information request has been submitted by ${Cypress.env('email')}.`,
-        );
+        cy.wrap(mails[0].body).should('have.string', `A new information request has been submitted by ${Cypress.env('email')}.`);
         cy.wrap(mails[1].body).should(
           'have.string',
           'Someone has created a request to remove all personal information related to this email address at ',

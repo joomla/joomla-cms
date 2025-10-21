@@ -64,61 +64,54 @@ window.tinymce.PluginManager.add('joomlaHighlighter', (editor) => {
     };
 
     // Import codemirror and open the dialog
-    Promise.all([
-      import('codemirror'),
-      import('@codemirror/view'),
-      import('@codemirror/commands'),
-    ]).then(([{ createFromTextarea }, { keymap }, { indentMore }]) => {
-      editor.windowManager.open(dialogConfig);
+    Promise.all([import('codemirror'), import('@codemirror/view'), import('@codemirror/commands')]).then(
+      ([{ createFromTextarea }, { keymap }, { indentMore }]) => {
+        editor.windowManager.open(dialogConfig);
 
-      // Find textarea and move it to shadow DOM to isolate from TinyMCE styling
-      const textarea = document.querySelector(
-        '.joomla-highlighter-dialog textarea',
-      );
-      const wrapper = textarea.parentElement;
-      const shadow = wrapper.attachShadow({ mode: 'open' });
-      textarea.value = getContent();
-      shadow.appendChild(textarea);
+        // Find textarea and move it to shadow DOM to isolate from TinyMCE styling
+        const textarea = document.querySelector('.joomla-highlighter-dialog textarea');
+        const wrapper = textarea.parentElement;
+        const shadow = wrapper.attachShadow({ mode: 'open' });
+        textarea.value = getContent();
+        shadow.appendChild(textarea);
 
-      // Move focus out of the codemirror
-      const escapeTabTrap = (_view, event) => {
-        event.preventDefault();
-        // Find a Save button
-        const dialogEl = wrapper.closest('[role="dialog"]');
-        const btnEl = dialogEl.querySelector(
-          '.tox-dialog__footer [type="button"]:not(.tox-button--secondary)',
-        );
-        if (btnEl) {
-          btnEl.focus();
-        } else {
-          dialogEl.focus();
-        }
-      };
+        // Move focus out of the codemirror
+        const escapeTabTrap = (_view, event) => {
+          event.preventDefault();
+          // Find a Save button
+          const dialogEl = wrapper.closest('[role="dialog"]');
+          const btnEl = dialogEl.querySelector('.tox-dialog__footer [type="button"]:not(.tox-button--secondary)');
+          if (btnEl) {
+            btnEl.focus();
+          } else {
+            dialogEl.focus();
+          }
+        };
 
-      const cmOptions = {
-        mode: 'html',
-        lineNumbers: true,
-        lineWrapping: true,
-        activeLine: true,
-        highlightSelection: true,
-        foldGutter: true,
-        width: '100%',
-        height: '100%',
-        root: shadow,
-        customExtensions: [
-          // Enable Tab trapping
-          () =>
-            keymap.of([{ key: 'Tab', run: indentMore, shift: escapeTabTrap }]),
-        ],
-      };
-      const wrapperheight = wrapper.scrollHeight;
+        const cmOptions = {
+          mode: 'html',
+          lineNumbers: true,
+          lineWrapping: true,
+          activeLine: true,
+          highlightSelection: true,
+          foldGutter: true,
+          width: '100%',
+          height: '100%',
+          root: shadow,
+          customExtensions: [
+            // Enable Tab trapping
+            () => keymap.of([{ key: 'Tab', run: indentMore, shift: escapeTabTrap }]),
+          ],
+        };
+        const wrapperheight = wrapper.scrollHeight;
 
-      createFromTextarea(textarea, cmOptions).then((cmView) => {
-        cmEditor = cmView;
-        cmEditor.focus();
-        cmEditor.dom.style.maxHeight = `${wrapperheight}px`;
-      });
-    });
+        createFromTextarea(textarea, cmOptions).then((cmView) => {
+          cmEditor = cmView;
+          cmEditor.focus();
+          cmEditor.dom.style.maxHeight = `${wrapperheight}px`;
+        });
+      },
+    );
   };
 
   editor.ui.registry.addButton('code', {

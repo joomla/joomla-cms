@@ -2,16 +2,9 @@ describe('Test in backend that the banner clients form', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
     // Clear the filter
-    cy.visit(
-      '/administrator/index.php?option=com_banners&view=clients&filter=',
-    );
+    cy.visit('/administrator/index.php?option=com_banners&view=clients&filter=');
   });
-  afterEach(() =>
-    cy.task(
-      'queryDB',
-      "DELETE FROM #__banner_clients WHERE name = 'test banner client'",
-    ),
-  );
+  afterEach(() => cy.task('queryDB', "DELETE FROM #__banner_clients WHERE name = 'test banner client'"));
 
   it('can create a client', () => {
     cy.visit('/administrator/index.php?option=com_banners&task=client.add');
@@ -33,9 +26,7 @@ describe('Test in backend that the banner clients form', () => {
 
   it('can edit a client', () => {
     cy.db_createBannerClient({ name: 'test client' }).then((bannerClient) => {
-      cy.visit(
-        `/administrator/index.php?option=com_banners&task=client.edit&id=${bannerClient.id}`,
-      );
+      cy.visit(`/administrator/index.php?option=com_banners&task=client.edit&id=${bannerClient.id}`);
       cy.get('#jform_name').clear().type('test banner client');
       cy.get('#jform_contact').clear().type('test banner');
       cy.clickToolbarButton('Save & Close');

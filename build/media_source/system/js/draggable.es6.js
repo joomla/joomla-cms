@@ -91,9 +91,7 @@ if (container) {
     const parentId = $parent.dataset.itemId;
     // Get children list. Each child row should have
     // an attribute data-parents=" 1 2 3" where the number is id of parent
-    const $children = container.querySelectorAll(
-      `tr[data-parents~="${parentId}"]`,
-    );
+    const $children = container.querySelectorAll(`tr[data-parents~="${parentId}"]`);
 
     if ($children.length) {
       $parent.after(...$children);
@@ -167,21 +165,13 @@ if (container) {
     accepts(el, _target, _source, sibling) {
       if (isNested) {
         if (sibling !== null) {
-          return (
-            sibling.dataset.draggableGroup &&
-            sibling.dataset.draggableGroup === el.dataset.draggableGroup
-          );
+          return sibling.dataset.draggableGroup && sibling.dataset.draggableGroup === el.dataset.draggableGroup;
         }
 
-        return (
-          sibling === null ||
-          (sibling && sibling.tagName.toLowerCase() === 'tr')
-        );
+        return sibling === null || (sibling && sibling.tagName.toLowerCase() === 'tr');
       }
 
-      return (
-        sibling === null || (sibling && sibling.tagName.toLowerCase() === 'tr')
-      );
+      return sibling === null || (sibling && sibling.tagName.toLowerCase() === 'tr');
     },
 
     mirrorContainer: container,
@@ -196,9 +186,7 @@ if (container) {
         rowSelector = 'tr';
       }
 
-      const rowElements = [].slice.call(
-        container.querySelectorAll(rowSelector),
-      );
+      const rowElements = [].slice.call(container.querySelectorAll(rowSelector));
 
       dragElementIndex = rowElements.indexOf(el);
     })

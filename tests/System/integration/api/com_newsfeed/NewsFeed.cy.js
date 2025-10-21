@@ -7,15 +7,7 @@ describe('Test that newsfeed API endpoint', () => {
         link: `${Cypress.config('baseUrl')}/tests/System/data/com_newsfeeds/${file}.xml`,
       })
         .then(() => cy.api_get('/newsfeeds/feeds'))
-        .then((response) =>
-          cy
-            .wrap(response)
-            .its('body')
-            .its('data.0')
-            .its('attributes')
-            .its('name')
-            .should('include', 'automated test feed'),
-        );
+        .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes').its('name').should('include', 'automated test feed'));
     });
 
     it('can create a feed', () => {
@@ -60,15 +52,7 @@ describe('Test that newsfeed API endpoint', () => {
             },
           }),
         )
-        .then((response) =>
-          cy
-            .wrap(response)
-            .its('body')
-            .its('data')
-            .its('attributes')
-            .its('name')
-            .should('include', 'automated test feed'),
-        );
+        .then((response) => cy.wrap(response).its('body').its('data').its('attributes').its('name').should('include', 'automated test feed'));
     });
 
     it('can update a feed', () => {
@@ -82,15 +66,7 @@ describe('Test that newsfeed API endpoint', () => {
             name: 'updated automated test feed',
           }),
         )
-        .then((response) =>
-          cy
-            .wrap(response)
-            .its('body')
-            .its('data')
-            .its('attributes')
-            .its('name')
-            .should('include', 'updated automated test feed'),
-        );
+        .then((response) => cy.wrap(response).its('body').its('data').its('attributes').its('name').should('include', 'updated automated test feed'));
     });
 
     it('can delete a feed', () => {

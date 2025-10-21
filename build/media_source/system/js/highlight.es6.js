@@ -16,11 +16,7 @@ const defaultOptions = {
   compatibility: false,
 };
 
-if (
-  Joomla.getOptions &&
-  typeof Joomla.getOptions === 'function' &&
-  Joomla.getOptions('highlight')
-) {
+if (Joomla.getOptions && typeof Joomla.getOptions === 'function' && Joomla.getOptions('highlight')) {
   const scriptOptions = Joomla.getOptions('highlight');
   scriptOptions.forEach((currentOpts) => {
     const options = { ...defaultOptions, ...currentOpts };

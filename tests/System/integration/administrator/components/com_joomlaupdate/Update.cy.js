@@ -12,9 +12,7 @@ describe('Test the update retrieval logic', () => {
 
     cy.visit('/administrator/index.php?option=com_joomlaupdate');
 
-    cy.get(
-      '#toolbar joomla-toolbar-button[task="update.purge"] button',
-    ).click();
+    cy.get('#toolbar joomla-toolbar-button[task="update.purge"] button').click();
 
     cy.checkForSystemMessage('Checked for updates.');
   });
@@ -26,8 +24,6 @@ describe('Test the update retrieval logic', () => {
 
     cy.get('#confirmButton').click();
 
-    cy.checkForSystemMessage(
-      'Update not possible because the offered update does not have enough signatures.',
-    );
+    cy.checkForSystemMessage('Update not possible because the offered update does not have enough signatures.');
   });
 });

@@ -12,9 +12,7 @@
    * and closes the select frame.
    */
   window.jSelectMenuItem = (_id, title, uri, _object, _link, lang) => {
-    console.warn(
-      'Method jSelectMenuItem() is deprecated. Use postMessage() instead.',
-    );
+    console.warn('Method jSelectMenuItem() is deprecated. Use postMessage() instead.');
     let thislang = '';
 
     if (!Joomla.getOptions('xtd-menus')) {

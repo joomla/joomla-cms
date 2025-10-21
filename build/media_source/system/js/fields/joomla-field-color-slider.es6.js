@@ -18,15 +18,13 @@
    * Regex for rgb values e.g. rgba(255, 0, 24, 0.5);
    * @type {RegExp}
    */
-  const rgbRegex =
-    /^rgba?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)(?:[\D]+([0-9](?:.\d+)?))?\)$/i;
+  const rgbRegex = /^rgba?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)(?:[\D]+([0-9](?:.\d+)?))?\)$/i;
 
   /**
    * Regex for hsl values e.g. hsl(255,0,24);
    * @type {RegExp}
    */
-  const hslRegex =
-    /^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$/i;
+  const hslRegex = /^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$/i;
 
   /**
    * Regex for saturation and lightness of hsl - only accepts 1 or 0 or 0.4 or 40
@@ -259,9 +257,7 @@
      */
     setInitValue() {
       // The initial value can be also a color defined in css
-      const cssValue = window
-        .getComputedStyle(this.input)
-        .getPropertyValue(this.default);
+      const cssValue = window.getComputedStyle(this.input).getPropertyValue(this.default);
       this.default = cssValue || this.default;
 
       if (this.color === '' || typeof this.color === 'undefined') {
@@ -271,9 +267,7 @@
         return;
       }
 
-      const value = this.checkValue(this.color, this.saveFormat)
-        ? this.color
-        : this.default;
+      const value = this.checkValue(this.color, this.saveFormat) ? this.color : this.default;
 
       if (!value) {
         this.showError('JFIELD_COLOR_ERROR_NO_COLOUR');

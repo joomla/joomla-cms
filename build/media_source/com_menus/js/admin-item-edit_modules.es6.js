@@ -103,54 +103,35 @@ const updateView = (data) => {
 
   switch (assignedState) {
     case 1:
-      tmpMenu.innerHTML = createElement('span', Joomla.Text._('JYES'), [
-        'badge',
-        'bg-success',
-      ]).outerHTML;
+      tmpMenu.innerHTML = createElement('span', Joomla.Text._('JYES'), ['badge', 'bg-success']).outerHTML;
       tmpRow.classList.add('no');
       break;
 
     case 2:
-      tmpMenu.innerHTML = createElement('span', Joomla.Text._('JALL'), [
-        'badge',
-        'bg-info',
-      ]).outerHTML;
+      tmpMenu.innerHTML = createElement('span', Joomla.Text._('JALL'), ['badge', 'bg-info']).outerHTML;
       tmpRow.classList.add('no');
       break;
     default:
-      tmpMenu.innerHTML = createElement('span', Joomla.Text._('JNO'), [
-        'badge',
-        'bg-danger',
-      ]).outerHTML;
+      tmpMenu.innerHTML = createElement('span', Joomla.Text._('JNO'), ['badge', 'bg-danger']).outerHTML;
       tmpRow.classList.add('no');
   }
 
   // Update status
   if (updStatus === 1) {
-    tmpStatus.innerHTML = createElement('span', Joomla.Text._('JYES'), [
-      'badge',
-      'bg-success',
-    ]).outerHTML;
+    tmpStatus.innerHTML = createElement('span', Joomla.Text._('JYES'), ['badge', 'bg-success']).outerHTML;
     tmpRow.classList.remove('unpublished');
   } else if (updStatus === 0) {
-    tmpStatus.innerHTML = createElement('span', Joomla.Text._('JNO'), [
-      'badge',
-      'bg-danger',
-    ]).outerHTML;
+    tmpStatus.innerHTML = createElement('span', Joomla.Text._('JNO'), ['badge', 'bg-danger']).outerHTML;
     tmpRow.classList.add('unpublished');
   } else if (updStatus === -2) {
-    tmpStatus.innerHTML = createElement('span', Joomla.Text._('JTRASHED'), [
-      'badge',
-      'bg-secondary',
-    ]).outerHTML;
+    tmpStatus.innerHTML = createElement('span', Joomla.Text._('JTRASHED'), ['badge', 'bg-secondary']).outerHTML;
     tmpRow.classList.add('unpublished');
   }
 
   // Update Title, Position and Access
   document.querySelector(`#title-${modId}`).textContent = updTitle;
   document.querySelector(`#position-${modId}`).textContent = updPosition;
-  document.querySelector(`#access-${modId}`).textContent =
-    viewLevels[updAccess] || '';
+  document.querySelector(`#access-${modId}`).textContent = viewLevels[updAccess] || '';
 };
 
 /**
@@ -161,10 +142,7 @@ const msgListener = function (event) {
   // Avoid cross origins
   if (event.origin !== window.location.origin) return;
   // Check message
-  if (
-    event.data.messageType === 'joomla:content-select' &&
-    event.data.contentType === 'com_modules.module'
-  ) {
+  if (event.data.messageType === 'joomla:content-select' && event.data.contentType === 'com_modules.module') {
     // Update view, if there are any changes
     if (event.data.id) {
       updateView(event.data);

@@ -30,10 +30,7 @@ import { patchPackages } from './build-modules-js/init/patches.mjs';
 import { recreateMediaFolder } from './build-modules-js/init/recreate-media.mjs';
 import { bootstrapJs } from './build-modules-js/javascript/build-bootstrap-js.mjs';
 import { compileCodemirror } from './build-modules-js/javascript/build-codemirror.mjs';
-import {
-  mediaManager,
-  watchMediaManager,
-} from './build-modules-js/javascript/build-com_media-js.mjs';
+import { mediaManager, watchMediaManager } from './build-modules-js/javascript/build-com_media-js.mjs';
 import { cssVersioningVendor } from './build-modules-js/stylesheets/css-versioning.mjs';
 import { Timer } from './build-modules-js/utils/timer.mjs';
 import { versioning } from './build-modules-js/versioning.mjs';
@@ -50,12 +47,7 @@ const handleError = (err, terminateCode) => {
   process.exitCode = terminateCode;
 };
 
-if (
-  semver.gte(
-    semver.minVersion(options.engines.node),
-    semver.clean(process.version),
-  )
-) {
+if (semver.gte(semver.minVersion(options.engines.node), semver.clean(process.version))) {
   handleError(
     `Node version ${semver.clean(process.version)} is not supported, please upgrade to Node version ${semver.clean(options.engines.node)}`,
     1,
@@ -72,10 +64,7 @@ if ('settings' in settings) {
 
 const allowedVersion = () => {
   if (!semver.satisfies(process.version.substring(1), options.engines.node)) {
-    handleError(
-      `Command line tools require Node Version ${options.engines.node} but found ${process.version}`,
-      -1,
-    );
+    handleError(`Command line tools require Node Version ${options.engines.node} but found ${process.version}`, -1);
   }
 };
 
@@ -83,35 +72,17 @@ const allowedVersion = () => {
 Program.allowUnknownOption()
   .version(options.version)
   .option('--copy-assets', 'Moving files from node_modules to media folder')
-  .option(
-    '--build-pages',
-    'Creates the error pages for unsupported PHP version & incomplete environment',
-  )
-  .option(
-    '--compile-js, --compile-js path',
-    'Handles ES6, ES5 and web component scripts',
-  )
-  .option(
-    '--compile-css, --compile-css path',
-    'Compiles all the scss files to css',
-  )
+  .option('--build-pages', 'Creates the error pages for unsupported PHP version & incomplete environment')
+  .option('--compile-js, --compile-js path', 'Handles ES6, ES5 and web component scripts')
+  .option('--compile-css, --compile-css path', 'Compiles all the scss files to css')
   .option('--compile-bs', 'Compiles all the Bootstrap component scripts.')
   .option('--compile-codemirror', 'Compiles all the codemirror modules.')
-  .option(
-    '--watch',
-    'Watch file changes and re-compile (ATM only works for the js in the media_source).',
-  )
+  .option('--watch', 'Watch file changes and re-compile (ATM only works for the js in the media_source).')
   .option('--com-media', 'Compile the Media Manager client side App.')
-  .option(
-    '--watch-com-media',
-    'Watch and Compile the Media Manager client side App.',
-  )
+  .option('--watch-com-media', 'Watch and Compile the Media Manager client side App.')
   .option('--gzip', 'Compress all the minified stylesheets and scripts.')
   .option('--prepare', 'Run all the needed tasks to initialise the repo')
-  .option(
-    '--versioning',
-    'Update all the .js/.css versions on their relative joomla.assets.json',
-  )
+  .option('--versioning', 'Update all the .js/.css versions on their relative joomla.assets.json')
 
   .addHelpText(
     'after',

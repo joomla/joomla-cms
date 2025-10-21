@@ -18,9 +18,7 @@
    */
 
   window.jSelectContact = (_id, title, _catid, _object, link, lang) => {
-    console.warn(
-      'Method jSelectContact() is deprecated. Use postMessage() instead.',
-    );
+    console.warn('Method jSelectContact() is deprecated. Use postMessage() instead.');
 
     let hreflang = '';
 

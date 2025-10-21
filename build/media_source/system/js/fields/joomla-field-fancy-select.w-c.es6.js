@@ -117,9 +117,7 @@ window.customElements.define(
       this.select = this.querySelector('select');
 
       if (!this.select) {
-        throw new Error(
-          'JoomlaFieldFancySelect requires <select> element to work',
-        );
+        throw new Error('JoomlaFieldFancySelect requires <select> element to work');
       }
 
       // The element was already initialised previously and perhaps was detached from DOM
@@ -157,18 +155,9 @@ window.customElements.define(
         fuseOptions: {
           threshold: 0.3, // Strict search
         },
-        noResultsText: Joomla.Text._(
-          'JGLOBAL_SELECT_NO_RESULTS_MATCH',
-          'No results found',
-        ),
-        noChoicesText: Joomla.Text._(
-          'JGLOBAL_SELECT_NO_RESULTS_MATCH',
-          'No results found',
-        ),
-        itemSelectText: Joomla.Text._(
-          'JGLOBAL_SELECT_PRESS_TO_SELECT',
-          'Press to select',
-        ),
+        noResultsText: Joomla.Text._('JGLOBAL_SELECT_NO_RESULTS_MATCH', 'No results found'),
+        noChoicesText: Joomla.Text._('JGLOBAL_SELECT_NO_RESULTS_MATCH', 'No results found'),
+        itemSelectText: Joomla.Text._('JGLOBAL_SELECT_PRESS_TO_SELECT', 'Press to select'),
 
         // Redefine some classes
         classNames: {
@@ -201,15 +190,11 @@ window.customElements.define(
           }
 
           const highlighted = Array.from(
-            this.choicesInstance.dropdown.element.querySelectorAll(
-              `.${this.choicesInstance.config.classNames.highlightedState}`,
-            ),
+            this.choicesInstance.dropdown.element.querySelectorAll(`.${this.choicesInstance.config.classNames.highlightedState}`),
           );
 
           highlighted.forEach((choice) => {
-            choice.classList.remove(
-              this.choicesInstance.config.classNames.highlightedState,
-            );
+            choice.classList.remove(this.choicesInstance.config.classNames.highlightedState);
             choice.setAttribute('aria-selected', 'false');
           });
 
@@ -219,10 +204,7 @@ window.customElements.define(
 
         // Add custom term on ENTER keydown
         this.addEventListener('keydown', (event) => {
-          if (
-            event.keyCode !== this.keyCode.ENTER ||
-            event.target !== this.choicesInstance.input.element
-          ) {
+          if (event.keyCode !== this.keyCode.ENTER || event.target !== this.choicesInstance.input.element) {
             return;
           }
           event.preventDefault();
@@ -232,10 +214,7 @@ window.customElements.define(
           }
 
           // Make sure nothing is highlighted
-          const highlighted =
-            this.choicesInstance.dropdown.element.querySelector(
-              `.${this.choicesInstance.config.classNames.highlightedState}`,
-            );
+          const highlighted = this.choicesInstance.dropdown.element.querySelector(`.${this.choicesInstance.config.classNames.highlightedState}`);
 
           if (highlighted) {
             return;
@@ -247,10 +226,7 @@ window.customElements.define(
 
           // Check if value in existing choices
           this.choicesInstance.config.choices.some((choiceItem) => {
-            if (
-              choiceItem.value.toLowerCase() === lowerValue ||
-              choiceItem.label.toLowerCase() === lowerValue
-            ) {
+            if (choiceItem.value.toLowerCase() === lowerValue || choiceItem.label.toLowerCase() === lowerValue) {
               valueInCache = choiceItem.value;
               return true;
             }
@@ -260,10 +236,7 @@ window.customElements.define(
           if (valueInCache === false) {
             // Check if value in cache
             Object.keys(this.choicesCache).some((key) => {
-              if (
-                key.toLowerCase() === lowerValue ||
-                this.choicesCache[key].toLowerCase() === lowerValue
-              ) {
+              if (key.toLowerCase() === lowerValue || this.choicesCache[key].toLowerCase() === lowerValue) {
                 valueInCache = key;
                 return true;
               }
@@ -283,14 +256,8 @@ window.customElements.define(
           this.choicesInstance.setChoices(
             [
               {
-                value: new DOMParser().parseFromString(
-                  this.newItemPrefix + event.target.value,
-                  'text/html',
-                ).body.textContent,
-                label: new DOMParser().parseFromString(
-                  event.target.value,
-                  'text/html',
-                ).body.textContent,
+                value: new DOMParser().parseFromString(this.newItemPrefix + event.target.value, 'text/html').body.textContent,
+                label: new DOMParser().parseFromString(event.target.value, 'text/html').body.textContent,
                 selected: true,
                 customProperties: {
                   value: event.target.value, // Store real value, just in case
@@ -320,10 +287,7 @@ window.customElements.define(
         let lookupTimeout = null;
         this.select.addEventListener('search', () => {
           clearTimeout(lookupTimeout);
-          lookupTimeout = setTimeout(
-            this.requestLookup.bind(this),
-            lookupDelay,
-          );
+          lookupTimeout = setTimeout(this.requestLookup.bind(this), lookupDelay);
         });
       }
     }

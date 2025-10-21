@@ -16,7 +16,9 @@ describe('Test in backend that the Installer', () => {
       } else {
         cy.get('#installer-languages table').within(() => {
           cy.get('input[type="button"]').should('have.value', 'Install');
-          cy.get('a[target="_blank"]').invoke('attr', 'href').should('match', /^https:\/\/update\.joomla\.org\/language\/details/);
+          cy.get('a[target="_blank"]')
+            .invoke('attr', 'href')
+            .should('match', /^https:\/\/update\.joomla\.org\/language\/details/);
         });
       }
     });

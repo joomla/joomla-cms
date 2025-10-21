@@ -32,9 +32,7 @@ window.Joomla = window.Joomla || {};
         if (prefix === '') {
           encodedString += `${encodeURIComponent(prop)}=${encodeURIComponent(object[prop])}`;
         } else {
-          encodedString += `${encodeURIComponent(prefix)}[${encodeURIComponent(prop)}]=${encodeURIComponent(
-            object[prop],
-          )}`;
+          encodedString += `${encodeURIComponent(prefix)}[${encodeURIComponent(prop)}]=${encodeURIComponent(object[prop])}`;
         }
 
         return;
@@ -128,9 +126,7 @@ window.Joomla = window.Joomla || {};
       const pad = output.length % 4;
       if (pad) {
         if (pad === 1) {
-          throw new Error(
-            'InvalidLengthError: Input base64url string is the wrong length to determine padding',
-          );
+          throw new Error('InvalidLengthError: Input base64url string is the wrong length to determine padding');
         }
         output += new Array(5 - pad).join('=');
       }
@@ -138,23 +134,16 @@ window.Joomla = window.Joomla || {};
     };
 
     if (!publicKey.challenge) {
-      handleLoginError(
-        Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_INVALID_USERNAME'),
-      );
+      handleLoginError(Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_INVALID_USERNAME'));
 
       return;
     }
 
-    publicKey.challenge = Uint8Array.from(
-      window.atob(base64url2base64(publicKey.challenge)),
-      (c) => c.charCodeAt(0),
-    );
+    publicKey.challenge = Uint8Array.from(window.atob(base64url2base64(publicKey.challenge)), (c) => c.charCodeAt(0));
 
     if (publicKey.allowCredentials) {
       publicKey.allowCredentials = publicKey.allowCredentials.map((data) => {
-        data.id = Uint8Array.from(window.atob(base64url2base64(data.id)), (c) =>
-          c.charCodeAt(0),
-        );
+        data.id = Uint8Array.from(window.atob(base64url2base64(data.id)), (c) => c.charCodeAt(0));
         return data;
       });
     }
@@ -167,18 +156,10 @@ window.Joomla = window.Joomla || {};
           type: data.type,
           rawId: arrayToBase64String(new Uint8Array(data.rawId)),
           response: {
-            authenticatorData: arrayToBase64String(
-              new Uint8Array(data.response.authenticatorData),
-            ),
-            clientDataJSON: arrayToBase64String(
-              new Uint8Array(data.response.clientDataJSON),
-            ),
-            signature: arrayToBase64String(
-              new Uint8Array(data.response.signature),
-            ),
-            userHandle: data.response.userHandle
-              ? arrayToBase64String(new Uint8Array(data.response.userHandle))
-              : null,
+            authenticatorData: arrayToBase64String(new Uint8Array(data.response.authenticatorData)),
+            clientDataJSON: arrayToBase64String(new Uint8Array(data.response.clientDataJSON)),
+            signature: arrayToBase64String(new Uint8Array(data.response.signature)),
+            userHandle: data.response.userHandle ? arrayToBase64String(new Uint8Array(data.response.userHandle)) : null,
           },
         };
 
@@ -186,9 +167,7 @@ window.Joomla = window.Joomla || {};
         const paths = Joomla.getOptions('system.paths');
         window.location =
           `${paths ? `${paths.base}/index.php` : window.location.pathname}?${Joomla.getOptions('csrf.token')}=1&option=com_ajax&group=system&plugin=webauthn&` +
-          `format=raw&akaction=login&encoding=redirect&data=${btoa(
-            JSON.stringify(publicKeyCredential),
-          )}`;
+          `format=raw&akaction=login&encoding=redirect&data=${btoa(JSON.stringify(publicKeyCredential))}`;
       })
       .catch((error) => {
         // Example: timeout, interaction refused...
@@ -246,9 +225,7 @@ window.Joomla = window.Joomla || {};
     const paths = Joomla.getOptions('system.paths');
 
     Joomla.request({
-      url: `${paths ? `${paths.base}/index.php` : window.location.pathname}?${Joomla.getOptions(
-        'csrf.token',
-      )}=1`,
+      url: `${paths ? `${paths.base}/index.php` : window.location.pathname}?${Joomla.getOptions('csrf.token')}=1`,
       method: 'POST',
       data: interpolateParameters(postBackData),
       onSuccess(rawResponse) {
@@ -274,13 +251,7 @@ window.Joomla = window.Joomla || {};
   };
 
   // Initialization. Runs on DOM content loaded since this script is always loaded deferred.
-  document
-    .querySelectorAll('.plg_system_webauthn_login_button')
-    .forEach((button) => {
-      button.addEventListener('click', ({ currentTarget }) =>
-        Joomla.plgSystemWebauthnLogin(
-          currentTarget.getAttribute('data-webauthn-form'),
-        ),
-      );
-    });
+  document.querySelectorAll('.plg_system_webauthn_login_button').forEach((button) => {
+    button.addEventListener('click', ({ currentTarget }) => Joomla.plgSystemWebauthnLogin(currentTarget.getAttribute('data-webauthn-form')));
+  });
 })(Joomla, document);

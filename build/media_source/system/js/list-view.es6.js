@@ -6,10 +6,7 @@
 function gridItemAction(event) {
   let item = event.target;
 
-  if (
-    item.nodeName === 'SPAN' &&
-    ['A', 'BUTTON'].includes(item.parentNode.nodeName)
-  ) {
+  if (item.nodeName === 'SPAN' && ['A', 'BUTTON'].includes(item.parentNode.nodeName)) {
     item = item.parentNode;
   }
 
@@ -107,16 +104,12 @@ const setup = ({ target }) => {
   target.querySelectorAll('.js-grid-item-action').forEach((element) => {
     element.addEventListener('click', gridItemAction);
   });
-  target
-    .querySelectorAll('.js-grid-item-transition-action')
-    .forEach((element) => {
-      element.addEventListener('change', gridTransitionItemAction);
-    });
-  target
-    .querySelectorAll('.js-grid-button-transition-action')
-    .forEach((element) => {
-      element.addEventListener('click', gridTransitionButtonAction);
-    });
+  target.querySelectorAll('.js-grid-item-transition-action').forEach((element) => {
+    element.addEventListener('change', gridTransitionItemAction);
+  });
+  target.querySelectorAll('.js-grid-button-transition-action').forEach((element) => {
+    element.addEventListener('click', gridTransitionButtonAction);
+  });
 };
 
 setup({ target: document });

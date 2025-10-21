@@ -46,9 +46,7 @@ export const createErrorPages = async (options) => {
   jsContent = await transform(jsContent, { minify: true });
 
   const processIni = async (file) => {
-    const languageStrings = Ini.parse(
-      await readFile(file, { encoding: 'utf8' }),
-    );
+    const languageStrings = Ini.parse(await readFile(file, { encoding: 'utf8' }));
 
     // Build the variables into json for the unsupported page
     if (languageStrings.BUILD_MIN_PHP_ERROR_LANGUAGE) {
@@ -121,34 +119,17 @@ export const createErrorPages = async (options) => {
   });
 
   const processPage = async (name) => {
-    const sortedJson = Object.fromEntries(
-      Object.entries(global[`${name}Obj`]).sort(),
-    );
+    const sortedJson = Object.fromEntries(Object.entries(global[`${name}Obj`]).sort());
     const jsonContent = `window.errorLocale=${JSON.stringify(sortedJson)};`;
 
     let template = initTemplate;
 
     template = template.replace('{{jsonContents}}', jsonContent);
-    template = template.replace(
-      '{{Title}}',
-      options.settings.errorPages[name].title,
-    );
-    template = template.replace(
-      '{{Header}}',
-      options.settings.errorPages[name].header,
-    );
-    template = template.replace(
-      '{{Description}}',
-      options.settings.errorPages[name].text,
-    );
-    template = template.replace(
-      '{{Link}}',
-      options.settings.errorPages[name].link,
-    );
-    template = template.replace(
-      '{{LinkText}}',
-      options.settings.errorPages[name].linkText,
-    );
+    template = template.replace('{{Title}}', options.settings.errorPages[name].title);
+    template = template.replace('{{Header}}', options.settings.errorPages[name].header);
+    template = template.replace('{{Description}}', options.settings.errorPages[name].text);
+    template = template.replace('{{Link}}', options.settings.errorPages[name].link);
+    template = template.replace('{{LinkText}}', options.settings.errorPages[name].linkText);
 
     if (cssContent) {
       template = template.replace('{{cssContents}}', cssContent);

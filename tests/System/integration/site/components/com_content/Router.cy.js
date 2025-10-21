@@ -1,7 +1,5 @@
 describe('Test in frontend that the content site router', () => {
-  afterEach(() =>
-    cy.db_updateExtensionParameter('sef_ids', '1', 'com_content'),
-  );
+  afterEach(() => cy.db_updateExtensionParameter('sef_ids', '1', 'com_content'));
 
   it('can process article without a menu item', () => {
     const url = '/index.php/component/content/article/test-content-router';
@@ -33,9 +31,7 @@ describe('Test in frontend that the content site router', () => {
       cy.title().should('equal', 'Test Article');
       cy.get('main h1').contains('Home');
       cy.get('main h2').contains('Test Article');
-      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs')
-        .children()
-        .as('breadcrumb');
+      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs').children().as('breadcrumb');
       cy.get('@breadcrumb').should('have.length', 4);
       cy.get('@breadcrumb').eq(2).should('contain', 'Uncategorised');
       cy.get('@breadcrumb').eq(3).should('contain', 'Test Article');
@@ -87,9 +83,7 @@ describe('Test in frontend that the content site router', () => {
       cy.url().should('match', new RegExp(`${url}$`));
       cy.title().should('equal', 'Test Article');
       cy.get('main h1').contains('Test Article');
-      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs')
-        .children()
-        .as('breadcrumb');
+      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs').children().as('breadcrumb');
       cy.get('@breadcrumb').should('have.length', 3);
       cy.get('@breadcrumb').eq(2).should('contain', 'Test Menu Single Article');
     });
@@ -123,19 +117,12 @@ describe('Test in frontend that the content site router', () => {
       });
 
       cy.visit(url.split('/').slice(0, -1).join('/'));
-      cy.url().should(
-        'match',
-        new RegExp(`${url.split('/').slice(0, -1).join('/')}$`),
-      );
+      cy.url().should('match', new RegExp(`${url.split('/').slice(0, -1).join('/')}$`));
       cy.title().should('equal', 'Test Menu Article Category');
       cy.get('main h1').should('not.exist');
-      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs')
-        .children()
-        .as('breadcrumb');
+      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs').children().as('breadcrumb');
       cy.get('@breadcrumb').should('have.length', 3);
-      cy.get('@breadcrumb')
-        .eq(2)
-        .should('contain', 'Test Menu Article Category');
+      cy.get('@breadcrumb').eq(2).should('contain', 'Test Menu Article Category');
       cy.get('main div.com-content-category a')
         .contains('Test Article')
         .should('have.attr', 'href')
@@ -145,20 +132,15 @@ describe('Test in frontend that the content site router', () => {
       cy.url().should('match', new RegExp(`${url}$`));
       cy.title().should('equal', 'Test Article');
       cy.get('main h1').contains('Test Article');
-      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs')
-        .children()
-        .as('breadcrumb');
+      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs').children().as('breadcrumb');
       cy.get('@breadcrumb').should('have.length', 4);
-      cy.get('@breadcrumb')
-        .eq(2)
-        .should('contain', 'Test Menu Article Category');
+      cy.get('@breadcrumb').eq(2).should('contain', 'Test Menu Article Category');
       cy.get('@breadcrumb').eq(3).should('contain', 'Test Article');
     });
   });
 
   it('can process article with a categories list menu item', () => {
-    const url =
-      '/index.php/test-menu-categories-router/uncategorised/test-content-router';
+    const url = '/index.php/test-menu-categories-router/uncategorised/test-content-router';
     cy.db_createArticle({
       title: 'Test Article',
       alias: 'test-content-router',
@@ -178,37 +160,23 @@ describe('Test in frontend that the content site router', () => {
       });
 
       cy.visit(url.split('/').slice(0, -2).join('/'));
-      cy.url().should(
-        'match',
-        new RegExp(`${url.split('/').slice(0, -2).join('/')}$`),
-      );
+      cy.url().should('match', new RegExp(`${url.split('/').slice(0, -2).join('/')}$`));
       cy.title().should('equal', 'Test Menu Article Categories');
-      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs')
-        .children()
-        .as('breadcrumb');
+      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs').children().as('breadcrumb');
       cy.get('@breadcrumb').should('have.length', 3);
-      cy.get('@breadcrumb')
-        .eq(2)
-        .should('contain', 'Test Menu Article Categories');
+      cy.get('@breadcrumb').eq(2).should('contain', 'Test Menu Article Categories');
       cy.get('main div.com-content-categories div a')
         .contains('Uncategorised')
         .should('have.attr', 'href')
         .and('match', new RegExp(`${url.split('/').slice(0, -1).join('/')}$`));
 
       cy.visit(`${url.split('/').slice(0, -1).join('/')}`);
-      cy.url().should(
-        'match',
-        new RegExp(`${url.split('/').slice(0, -1).join('/')}$`),
-      );
+      cy.url().should('match', new RegExp(`${url.split('/').slice(0, -1).join('/')}$`));
       cy.title().should('equal', 'Uncategorised');
       cy.get('main h1').should('not.exist');
-      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs')
-        .children()
-        .as('breadcrumb');
+      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs').children().as('breadcrumb');
       cy.get('@breadcrumb').should('have.length', 4);
-      cy.get('@breadcrumb')
-        .eq(2)
-        .should('contain', 'Test Menu Article Categories');
+      cy.get('@breadcrumb').eq(2).should('contain', 'Test Menu Article Categories');
       cy.get('@breadcrumb').eq(3).should('contain', 'Uncategorised');
       cy.get('main div.com-content-category-blog h2 a')
         .contains('Test Article')
@@ -219,13 +187,9 @@ describe('Test in frontend that the content site router', () => {
       cy.url().should('match', new RegExp(`${url}$`));
       cy.title().should('equal', 'Test Article');
       cy.get('main h1').contains('Test Article');
-      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs')
-        .children()
-        .as('breadcrumb');
+      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs').children().as('breadcrumb');
       cy.get('@breadcrumb').should('have.length', 5);
-      cy.get('@breadcrumb')
-        .eq(2)
-        .should('contain', 'Test Menu Article Categories');
+      cy.get('@breadcrumb').eq(2).should('contain', 'Test Menu Article Categories');
       cy.get('@breadcrumb').eq(3).should('contain', 'Uncategorised');
       cy.get('@breadcrumb').eq(4).should('contain', 'Test Article');
     });

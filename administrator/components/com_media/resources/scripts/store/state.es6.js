@@ -26,23 +26,16 @@ const loadedDisks = options.providers.map((disk) => ({
   drives: getDrives(disk.adapterNames, disk.name),
 }));
 
-const defaultDisk = loadedDisks.find(
-  (disk) => disk.drives.length > 0 && disk.drives[0] !== undefined,
-);
+const defaultDisk = loadedDisks.find((disk) => disk.drives.length > 0 && disk.drives[0] !== undefined);
 
 if (!defaultDisk) {
   throw new TypeError('No default media drive was found');
 }
 
-const storedState = JSON.parse(
-  persistedStateOptions.storage.getItem(persistedStateOptions.key),
-);
+const storedState = JSON.parse(persistedStateOptions.storage.getItem(persistedStateOptions.key));
 
 function setSession(path) {
-  persistedStateOptions.storage.setItem(
-    persistedStateOptions.key,
-    JSON.stringify({ ...storedState, ...{ selectedDirectory: path } }),
-  );
+  persistedStateOptions.storage.setItem(persistedStateOptions.key, JSON.stringify({ ...storedState, ...{ selectedDirectory: path } }));
 }
 
 // Gracefully use the given path, the session storage state or fall back to sensible default

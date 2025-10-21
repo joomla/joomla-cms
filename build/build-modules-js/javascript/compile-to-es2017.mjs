@@ -14,15 +14,7 @@ const collectExternals = () => {
   }
 
   // Joomla and Vendor modules
-  externalModules.push(
-    'cropper-module',
-    'codemirror',
-    'joomla.dialog',
-    'editor-api',
-    'editor-decorator',
-    'sa11y',
-    'sa11y-lang',
-  );
+  externalModules.push('cropper-module', 'codemirror', 'joomla.dialog', 'editor-api', 'editor-decorator', 'sa11y', 'sa11y-lang');
 
   // Codemirror modules
   const cmModules = getPackagesUnderScope('@codemirror');
@@ -90,9 +82,7 @@ export const handleESMFile = async (file) => {
     })
     .then((value) => minifyCode(value.output[0].code))
     .then((content) => {
-      console.log(
-        `✅ ES2017 file: ${basename(file).replace('.es6.js', '.js')}: transpiled`,
-      );
+      console.log(`✅ ES2017 file: ${basename(file).replace('.es6.js', '.js')}: transpiled`);
 
       return writeFile(resolve(`${newPath}.min.js`), content.code, {
         encoding: 'utf8',

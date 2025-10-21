@@ -29,9 +29,7 @@ const copyFilesTo = async (files, srcDir, destDir) => {
 
   // Copy each file
   for (const srcFile in files) {
-    copyPromises.push(
-      doTheCopy(join(srcDir, srcFile), join(destDir, files[srcFile])),
-    );
+    copyPromises.push(doTheCopy(join(srcDir, srcFile), join(destDir, files[srcFile])));
   }
 
   return Promise.all(copyPromises);
@@ -42,13 +40,7 @@ const copyFilesTo = async (files, srcDir, destDir) => {
  *
  * @returns {Promise}
  */
-const resolvePackage = async (
-  vendor,
-  packageName,
-  mediaVendorPath,
-  options,
-  registry,
-) => {
+const resolvePackage = async (vendor, packageName, mediaVendorPath, options, registry) => {
   const vendorName = vendor.name || packageName;
   const modulePathJson = resolvePackageFile(`${packageName}/package.json`);
   const modulePathRoot = dirname(modulePathJson);
@@ -64,23 +56,14 @@ const resolvePackage = async (
     ['js', 'css', 'filesExtra'].forEach((type) => {
       if (!vendor[type]) return;
 
-      promises.push(
-        copyFilesTo(
-          vendor[type],
-          modulePathRoot,
-          join(mediaVendorPath, vendorName),
-          type,
-        ),
-      );
+      promises.push(copyFilesTo(vendor[type], modulePathRoot, join(mediaVendorPath, vendorName), type));
     });
   }
 
   // Copy the license if existsSync
   if (
     options.settings.vendors[packageName].licenseFilename &&
-    (await existsSync(
-      `${join(RootPath, `node_modules/${packageName}`)}/${options.settings.vendors[packageName].licenseFilename}`,
-    ))
+    (await existsSync(`${join(RootPath, `node_modules/${packageName}`)}/${options.settings.vendors[packageName].licenseFilename}`))
   ) {
     const dest = join(mediaVendorPath, vendorName);
     await copy(
@@ -105,20 +88,11 @@ const resolvePackage = async (
       const registryItem = Object.assign(assetInfo, registryItemBase);
 
       // Update path to file
-      if (
-        assetInfo.uri &&
-        (assetInfo.type === 'script' ||
-          assetInfo.type === 'style' ||
-          assetInfo.type === 'webcomponent')
-      ) {
+      if (assetInfo.uri && (assetInfo.type === 'script' || assetInfo.type === 'style' || assetInfo.type === 'webcomponent')) {
         let itemPath = assetInfo.uri;
 
         // Check for external path
-        if (
-          itemPath.indexOf('http://') !== 0 &&
-          itemPath.indexOf('https://') !== 0 &&
-          itemPath.indexOf('//') !== 0
-        ) {
+        if (itemPath.indexOf('http://') !== 0 && itemPath.indexOf('https://') !== 0 && itemPath.indexOf('//') !== 0) {
           itemPath = `vendor/${vendorName}/${itemPath}`;
         }
 
@@ -159,17 +133,11 @@ export const localisePackages = async (options) => {
   for (const packageName in options.settings.vendors) {
     const vendor = options.settings.vendors[packageName];
 
-    promises.push(
-      resolvePackage(vendor, packageName, mediaVendorPath, options, registry),
-    );
+    promises.push(resolvePackage(vendor, packageName, mediaVendorPath, options, registry));
   }
 
   await Promise.all(promises);
 
   // Write assets registry
-  await writeFile(
-    join(mediaVendorPath, 'joomla.asset.json'),
-    JSON.stringify(registry, null, 2),
-    { encoding: 'utf8', mode: 0o644 },
-  );
+  await writeFile(join(mediaVendorPath, 'joomla.asset.json'), JSON.stringify(registry, null, 2), { encoding: 'utf8', mode: 0o644 });
 };

@@ -71,9 +71,7 @@ export default {
         this.$store.state.directories
           .filter((directory) => directory.directory === this.root)
           // Sort alphabetically
-          .sort((a, b) =>
-            a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1,
-          )
+          .sort((a, b) => (a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1))
       );
     },
   },

@@ -15,18 +15,13 @@ const resize = (width, height, image) => {
 
   // The format
   const format =
-    Joomla.MediaManager.Edit.original.extension.toLowerCase() === 'jpg'
-      ? 'jpeg'
-      : Joomla.MediaManager.Edit.original.extension.toLowerCase();
+    Joomla.MediaManager.Edit.original.extension.toLowerCase() === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension.toLowerCase();
 
   // The quality
   const quality = formElements.resizeQuality.value;
 
   // Creating the data from the canvas
-  Joomla.MediaManager.Edit.current.contents = canvas.toDataURL(
-    `image/${format}`,
-    quality,
-  );
+  Joomla.MediaManager.Edit.current.contents = canvas.toDataURL(`image/${format}`, quality);
 
   // Updating the preview element
   image.width = width;
@@ -48,18 +43,10 @@ const resize = (width, height, image) => {
 const addListeners = (image) => {
   // The listeners
   formElements.resizeWidth.addEventListener('change', ({ target }) => {
-    resize(
-      parseInt(target.value, 10),
-      parseInt(target.value, 10) / (image.width / image.height),
-      image,
-    );
+    resize(parseInt(target.value, 10), parseInt(target.value, 10) / (image.width / image.height), image);
   });
   formElements.resizeHeight.addEventListener('change', ({ target }) => {
-    resize(
-      parseInt(target.value, 10) * (image.width / image.height),
-      parseInt(target.value, 10),
-      image,
-    );
+    resize(parseInt(target.value, 10) * (image.width / image.height), parseInt(target.value, 10), image);
   });
 };
 

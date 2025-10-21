@@ -8,73 +8,41 @@ describe('Test that redirect API endpoint', () => {
       old_url: '/content/art/12',
       published: 1,
       referer: '',
-    }).then((response) =>
-      cy
-        .wrap(response)
-        .its('body')
-        .its('data')
-        .its('attributes')
-        .its('comment')
-        .should('include', 'automated test redirect'),
-    );
+    }).then((response) => cy.wrap(response).its('body').its('data').its('attributes').its('comment').should('include', 'automated test redirect'));
   });
 
   it('can deliver a list of redirects', () => {
     cy.api_get('/redirects').then((response) =>
-      cy
-        .wrap(response)
-        .its('body')
-        .its('data.0')
-        .its('attributes')
-        .its('comment')
-        .should('equal', 'automated test redirect'),
+      cy.wrap(response).its('body').its('data.0').its('attributes').its('comment').should('equal', 'automated test redirect'),
     );
   });
 
   it('can deliver a single redirect', () => {
     cy.api_get('/redirects')
-      .then((response) =>
-        cy.wrap(response).its('body').its('data.0').its('attributes').its('id'),
-      )
+      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes').its('id'))
       .then((id) => {
         cy.api_get(`/redirects/${id}`).then((response) =>
-          cy
-            .wrap(response)
-            .its('body')
-            .its('data')
-            .its('attributes')
-            .its('new_url')
-            .should('include', '/content/art/99'),
+          cy.wrap(response).its('body').its('data').its('attributes').its('new_url').should('include', '/content/art/99'),
         );
       });
   });
 
   it('can modify a single redirect', () => {
     cy.api_get('/redirects')
-      .then((response) =>
-        cy.wrap(response).its('body').its('data.0').its('attributes').its('id'),
-      )
+      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes').its('id'))
       .then((id) => {
         const updateRedirect = {
           published: 0,
         };
         cy.api_patch(`/redirects/${id}`, updateRedirect).then((response) =>
-          cy
-            .wrap(response)
-            .its('body')
-            .its('data')
-            .its('attributes')
-            .its('published')
-            .should('equal', 0),
+          cy.wrap(response).its('body').its('data').its('attributes').its('published').should('equal', 0),
         );
       });
   });
 
   it('can delete a single redirect', () => {
     cy.api_get('/redirects')
-      .then((response) =>
-        cy.wrap(response).its('body').its('data.0').its('attributes').its('id'),
-      )
+      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes').its('id'))
       .then((id) => {
         const updateRedirect = {
           published: -2,
@@ -90,9 +58,7 @@ describe('Test that redirect API endpoint', () => {
         );
       })
       .then((id) => {
-        cy.api_delete(`/redirects/${id}`).then((response) =>
-          cy.wrap(response).its('status').should('equal', 204),
-        );
+        cy.api_delete(`/redirects/${id}`).then((response) => cy.wrap(response).its('status').should('equal', 204));
       });
   });
 });

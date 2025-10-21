@@ -19,16 +19,7 @@ class JoomlaFieldUser extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return [
-      'url',
-      'modal',
-      'modal-width',
-      'modal-height',
-      'modal-title',
-      'input',
-      'input-name',
-      'button-select',
-    ];
+    return ['url', 'modal', 'modal-width', 'modal-height', 'modal-title', 'input', 'input-name', 'button-select'];
   }
 
   get url() {

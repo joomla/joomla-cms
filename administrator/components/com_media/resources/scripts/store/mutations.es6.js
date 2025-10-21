@@ -52,16 +52,12 @@ export default {
      * @param path
      */
     function createDirectoryStructureFromPath(path) {
-      const exists = state.directories.some(
-        (existing) => existing.path === path,
-      );
+      const exists = state.directories.some((existing) => existing.path === path);
       if (!exists) {
         const directory = directoryFromPath(path);
 
         // Add the sub directories and files
-        directory.directories = state.directories
-          .filter((existing) => existing.directory === directory.path)
-          .map((existing) => existing.path);
+        directory.directories = state.directories.filter((existing) => existing.directory === directory.path).map((existing) => existing.path);
 
         // Add the directory
         state.directories.push(directory);
@@ -78,13 +74,9 @@ export default {
      * @param directory
      */
     function addDirectory(_unused, directory) {
-      const parentDirectory = state.directories.find(
-        (existing) => existing.path === directory.directory,
-      );
+      const parentDirectory = state.directories.find((existing) => existing.path === directory.directory);
       const parentDirectoryIndex = state.directories.indexOf(parentDirectory);
-      let index = state.directories.findIndex(
-        (existing) => existing.path === directory.path,
-      );
+      let index = state.directories.findIndex((existing) => existing.path === directory.path);
       if (index === -1) {
         index = state.directories.length;
       }
@@ -107,13 +99,9 @@ export default {
      * @param directory
      */
     function addFile(_unused, file) {
-      const parentDirectory = state.directories.find(
-        (directory) => directory.path === file.directory,
-      );
+      const parentDirectory = state.directories.find((directory) => directory.path === file.directory);
       const parentDirectoryIndex = state.directories.indexOf(parentDirectory);
-      let index = state.files.findIndex(
-        (existing) => existing.path === file.path,
-      );
+      let index = state.files.findIndex((existing) => existing.path === file.path);
       if (index === -1) {
         index = state.files.length;
       }
@@ -155,9 +143,7 @@ export default {
 
     // @todo handle file_exists
     if (isNew) {
-      const parentDirectory = state.directories.find(
-        (existing) => existing.path === file.directory,
-      );
+      const parentDirectory = state.directories.find((existing) => existing.path === file.directory);
       const parentDirectoryIndex = state.directories.indexOf(parentDirectory);
 
       // Add the new file to the files array
@@ -208,14 +194,10 @@ export default {
    */
   [types.CREATE_DIRECTORY_SUCCESS]: (state, payload) => {
     const directory = payload;
-    const isNew = !state.directories.some(
-      (existing) => existing.path === directory.path,
-    );
+    const isNew = !state.directories.some((existing) => existing.path === directory.path);
 
     if (isNew) {
-      const parentDirectory = state.directories.find(
-        (existing) => existing.path === directory.directory,
-      );
+      const parentDirectory = state.directories.find((existing) => existing.path === directory.directory);
       const parentDirectoryIndex = state.directories.indexOf(parentDirectory);
 
       // Add the new directory to the directory
@@ -242,9 +224,7 @@ export default {
       const index = state.files.findIndex((file) => file.path === oldPath);
       state.files.splice(index, 1, item);
     } else {
-      const index = state.directories.findIndex(
-        (directory) => directory.path === oldPath,
-      );
+      const index = state.directories.findIndex((directory) => directory.path === oldPath);
       state.directories.splice(index, 1, item);
     }
   },
@@ -268,9 +248,7 @@ export default {
     // Delete dir
     if (item.type === 'dir') {
       state.directories.splice(
-        state.directories.findIndex(
-          (directory) => directory.path === item.path,
-        ),
+        state.directories.findIndex((directory) => directory.path === item.path),
         1,
       );
     }
@@ -302,9 +280,7 @@ export default {
   [types.UNSELECT_BROWSER_ITEM]: (state, payload) => {
     const item = payload;
     state.selectedItems.splice(
-      state.selectedItems.findIndex(
-        (selectedItem) => selectedItem.path === item.path,
-      ),
+      state.selectedItems.findIndex((selectedItem) => selectedItem.path === item.path),
       1,
     );
   },

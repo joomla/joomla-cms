@@ -5,29 +5,13 @@ describe('Test that contacts API endpoint', () => {
   it('can deliver a list of contacts', () => {
     cy.db_createContact({ name: 'automated test contact' })
       .then(() => cy.api_get('/contacts'))
-      .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data.0')
-          .its('attributes')
-          .its('name')
-          .should('include', 'automated test contact'),
-      );
+      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes').its('name').should('include', 'automated test contact'));
   });
 
   it('can deliver a single contact', () => {
     cy.db_createContact({ name: 'automated test contact' })
       .then((contact) => cy.api_get(`/contacts/${contact.id}`))
-      .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('name')
-          .should('include', 'automated test contact'),
-      );
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes').its('name').should('include', 'automated test contact'));
   });
 
   it('can create a contact', () => {
@@ -41,15 +25,7 @@ describe('Test that contacts API endpoint', () => {
           language: '*',
         }),
       )
-      .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('name')
-          .should('include', 'automated test contact'),
-      );
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes').its('name').should('include', 'automated test contact'));
   });
 
   it('can update a contact', () => {
@@ -60,13 +36,7 @@ describe('Test that contacts API endpoint', () => {
         }),
       )
       .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('name')
-          .should('include', 'updated automated test contact'),
+        cy.wrap(response).its('body').its('data').its('attributes').its('name').should('include', 'updated automated test contact'),
       );
   });
 
@@ -77,9 +47,7 @@ describe('Test that contacts API endpoint', () => {
   });
 
   it('check correct response for delete a not existent contact', () => {
-    cy.api_delete('/contacts/9999').then((result) =>
-      expect(result.status).to.eq(204),
-    );
+    cy.api_delete('/contacts/9999').then((result) => expect(result.status).to.eq(204));
   });
 
   it('can submit a contact form', () => {
@@ -105,18 +73,9 @@ describe('Test that contacts API endpoint', () => {
       expect(mails.length).to.equal(1);
       cy.wrap(mails[0].sender).should('equal', Cypress.env('email'));
       cy.wrap(mails[0].receivers).should('have.property', Cypress.env('email'));
-      cy.wrap(mails[0].headers.subject).should(
-        'equal',
-        `${Cypress.env('sitename')}: automated test subject`,
-      );
-      cy.wrap(mails[0].body).should(
-        'have.string',
-        'This is an enquiry email via',
-      );
-      cy.wrap(mails[0].body).should(
-        'have.string',
-        `${Cypress.env('name')} ${Cypress.env('email')}`,
-      );
+      cy.wrap(mails[0].headers.subject).should('equal', `${Cypress.env('sitename')}: automated test subject`);
+      cy.wrap(mails[0].body).should('have.string', 'This is an enquiry email via');
+      cy.wrap(mails[0].body).should('have.string', `${Cypress.env('name')} ${Cypress.env('email')}`);
       cy.wrap(mails[0].body).should('have.string', 'automated test message');
     });
   });

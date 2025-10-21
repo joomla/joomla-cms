@@ -21,10 +21,7 @@ function getDefaultCategoryId(extension) {
   }
 
   return cy
-    .task(
-      'queryDB',
-      `SELECT id FROM #__categories where extension = '${extension}' AND title = 'Uncategorised' ORDER BY id ASC LIMIT 1`,
-    )
+    .task('queryDB', `SELECT id FROM #__categories where extension = '${extension}' AND title = 'Uncategorised' ORDER BY id ASC LIMIT 1`)
     .then(async (data) => {
       // Cache
       globalThis.joomlaCategories[extension] = data[0].id;
@@ -147,10 +144,7 @@ Cypress.Commands.add('db_createArticle', (articleData) => {
       article.id = info.insertId;
 
       if (article.featured === 1) {
-        await cy.task(
-          'queryDB',
-          `INSERT INTO #__content_frontpage (content_id, ordering) VALUES ('${article.id}', '1')`,
-        );
+        await cy.task('queryDB', `INSERT INTO #__content_frontpage (content_id, ordering) VALUES ('${article.id}', '1')`);
       }
       await cy.task(
         'queryDB',
@@ -257,13 +251,11 @@ Cypress.Commands.add('db_createBannerClient', (bannerClientData) => {
 
   const bannerclient = { ...defaultBannerClientOptions, ...bannerClientData };
 
-  return cy
-    .task('queryDB', createInsertQuery('banner_clients', bannerclient))
-    .then(async (info) => {
-      bannerclient.id = info.insertId;
+  return cy.task('queryDB', createInsertQuery('banner_clients', bannerclient)).then(async (info) => {
+    bannerclient.id = info.insertId;
 
-      return bannerclient;
-    });
+    return bannerclient;
+  });
 });
 
 /**
@@ -379,12 +371,7 @@ Cypress.Commands.add('db_createField', (field) => {
     fieldparams: '',
   };
 
-  return cy
-    .task(
-      'queryDB',
-      createInsertQuery('fields', { ...defaultFieldOptions, ...field }),
-    )
-    .then(async (info) => info.insertId);
+  return cy.task('queryDB', createInsertQuery('fields', { ...defaultFieldOptions, ...field })).then(async (info) => info.insertId);
 });
 
 /**
@@ -453,12 +440,7 @@ Cypress.Commands.add('db_createTag', (tag) => {
     images: '',
   };
 
-  return cy
-    .task(
-      'queryDB',
-      createInsertQuery('tags', { ...defaultTagOptions, ...tag }),
-    )
-    .then(async (info) => info.insertId);
+  return cy.task('queryDB', createInsertQuery('tags', { ...defaultTagOptions, ...tag })).then(async (info) => info.insertId);
 });
 
 Cypress.Commands.add('db_createMenuType', (menuTypeData) => {
@@ -516,31 +498,16 @@ Cypress.Commands.add('db_createMenuItem', (menuItemData) => {
 
     const menuItem = { ...defaultMenuItemOptions, ...menuItemData };
     // Extract the component from the link
-    const component = new URLSearchParams(
-      menuItem.link.replace('index.php', ''),
-    ).get('option');
-    return cy
-      .task(
-        'queryDB',
-        `SELECT extension_id FROM #__extensions WHERE name = '${component}'`,
-      )
-      .then((id) => {
-        // Get the correct component id from the extensions record
-        menuItem.component_id = id[0].extension_id;
-        return cy
-          .task(
-            'queryDB',
-            `UPDATE #__menu SET rgt = rgt + 2 WHERE rgt >= '${defaultMenuItemOptions.lft}'`,
-          )
-          .then(() =>
-            cy.task(
-              'queryDB',
-              `UPDATE #__menu SET lft = lft + 2 WHERE lft > '${defaultMenuItemOptions.rgt}'`,
-            ),
-          )
-          .then(() => cy.task('queryDB', createInsertQuery('menu', menuItem)))
-          .then(async (info) => info.insertId);
-      });
+    const component = new URLSearchParams(menuItem.link.replace('index.php', '')).get('option');
+    return cy.task('queryDB', `SELECT extension_id FROM #__extensions WHERE name = '${component}'`).then((id) => {
+      // Get the correct component id from the extensions record
+      menuItem.component_id = id[0].extension_id;
+      return cy
+        .task('queryDB', `UPDATE #__menu SET rgt = rgt + 2 WHERE rgt >= '${defaultMenuItemOptions.lft}'`)
+        .then(() => cy.task('queryDB', `UPDATE #__menu SET lft = lft + 2 WHERE lft > '${defaultMenuItemOptions.rgt}'`))
+        .then(() => cy.task('queryDB', createInsertQuery('menu', menuItem)))
+        .then(async (info) => info.insertId);
+    });
   });
 });
 
@@ -551,27 +518,11 @@ Cypress.Commands.add('db_createMenuItem', (menuItemData) => {
  *
  */
 Cypress.Commands.add('db_deleteMenuItem', (menuItemTitle) => {
-  cy.task(
-    'queryDB',
-    `SELECT lft, rgt, (rgt - lft) +1 AS width FROM #__menu WHERE title = '${menuItemTitle.title}'`,
-  ).then((record) => {
+  cy.task('queryDB', `SELECT lft, rgt, (rgt - lft) +1 AS width FROM #__menu WHERE title = '${menuItemTitle.title}'`).then((record) => {
     if (record.length > 0) {
-      cy.task(
-        'queryDB',
-        `DELETE FROM #__menu WHERE lft BETWEEN '${record[0].lft}' AND '${record[0].rgt}'`,
-      )
-        .then(() =>
-          cy.task(
-            'queryDB',
-            `UPDATE #__menu SET lft = lft - '${record[0].width}' WHERE lft > '${record[0].rgt}'`,
-          ),
-        )
-        .then(() =>
-          cy.task(
-            'queryDB',
-            `UPDATE #__menu SET rgt = rgt - '${record[0].width}' WHERE rgt > '${record[0].rgt}'`,
-          ),
-        );
+      cy.task('queryDB', `DELETE FROM #__menu WHERE lft BETWEEN '${record[0].lft}' AND '${record[0].rgt}'`)
+        .then(() => cy.task('queryDB', `UPDATE #__menu SET lft = lft - '${record[0].width}' WHERE lft > '${record[0].rgt}'`))
+        .then(() => cy.task('queryDB', `UPDATE #__menu SET rgt = rgt - '${record[0].width}' WHERE rgt > '${record[0].rgt}'`));
     }
   });
 });
@@ -596,19 +547,11 @@ Cypress.Commands.add('db_createModule', (module) => {
     params: '',
   };
 
-  return cy
-    .task(
-      'queryDB',
-      createInsertQuery('modules', { ...defaultModuleOptions, ...module }),
-    )
-    .then(async (info) => {
-      await cy.task(
-        'queryDB',
-        `INSERT INTO #__modules_menu (moduleid, menuid) VALUES ('${info.insertId}', '0')`,
-      );
+  return cy.task('queryDB', createInsertQuery('modules', { ...defaultModuleOptions, ...module })).then(async (info) => {
+    await cy.task('queryDB', `INSERT INTO #__modules_menu (moduleid, menuid) VALUES ('${info.insertId}', '0')`);
 
-      return info.insertId;
-    });
+    return info.insertId;
+  });
 });
 
 /**
@@ -634,16 +577,11 @@ Cypress.Commands.add('db_createUser', (userData) => {
   const groupId = user.group_id ?? 2; // Default the group id to registered
   delete user.group_id;
 
-  return cy
-    .task('queryDB', createInsertQuery('users', user))
-    .then(async (info) => {
-      await cy.task(
-        'queryDB',
-        `INSERT INTO #__user_usergroup_map (user_id, group_id) VALUES ('${info.insertId}', '${groupId}')`,
-      );
+  return cy.task('queryDB', createInsertQuery('users', user)).then(async (info) => {
+    await cy.task('queryDB', `INSERT INTO #__user_usergroup_map (user_id, group_id) VALUES ('${info.insertId}', '${groupId}')`);
 
-      return info.insertId;
-    });
+    return info.insertId;
+  });
 });
 
 /**
@@ -663,13 +601,11 @@ Cypress.Commands.add('db_createUserGroup', (groupData) => {
   };
   const group = { ...defaultGroupOptions, ...groupData };
 
-  return cy
-    .task('queryDB', createInsertQuery('usergroups', group))
-    .then(async (info) => {
-      group.id = info.insertId;
+  return cy.task('queryDB', createInsertQuery('usergroups', group)).then(async (info) => {
+    group.id = info.insertId;
 
-      return group;
-    });
+    return group;
+  });
 });
 
 /**
@@ -687,13 +623,11 @@ Cypress.Commands.add('db_createUserLevel', (levelData) => {
   };
   const level = { ...defaultLevelOptions, ...levelData };
 
-  return cy
-    .task('queryDB', createInsertQuery('viewlevels', level))
-    .then(async (info) => {
-      level.id = info.insertId;
+  return cy.task('queryDB', createInsertQuery('viewlevels', level)).then(async (info) => {
+    level.id = info.insertId;
 
-      return level;
-    });
+    return level;
+  });
 });
 
 /**
@@ -704,19 +638,11 @@ Cypress.Commands.add('db_createUserLevel', (levelData) => {
  * @param {string} extension The extension
  */
 Cypress.Commands.add('db_updateExtensionParameter', (key, value, extension) =>
-  cy
-    .task(
-      'queryDB',
-      `SELECT params FROM #__extensions WHERE name = '${extension}'`,
-    )
-    .then((paramsString) => {
-      const params = JSON.parse(paramsString[0].params);
-      params[key] = value;
-      return cy.task(
-        'queryDB',
-        `UPDATE #__extensions SET params = '${JSON.stringify(params)}' WHERE name = '${extension}'`,
-      );
-    }),
+  cy.task('queryDB', `SELECT params FROM #__extensions WHERE name = '${extension}'`).then((paramsString) => {
+    const params = JSON.parse(paramsString[0].params);
+    params[key] = value;
+    return cy.task('queryDB', `UPDATE #__extensions SET params = '${JSON.stringify(params)}' WHERE name = '${extension}'`);
+  }),
 );
 
 /**
@@ -726,10 +652,7 @@ Cypress.Commands.add('db_updateExtensionParameter', (key, value, extension) =>
  * @param {string} extension The extension
  */
 Cypress.Commands.add('db_enableExtension', (value, extension) =>
-  cy.task(
-    'queryDB',
-    `UPDATE #__extensions SET enabled ='${value}' WHERE name = '${extension}'`,
-  ),
+  cy.task('queryDB', `UPDATE #__extensions SET enabled ='${value}' WHERE name = '${extension}'`),
 );
 
 /**
@@ -738,10 +661,7 @@ Cypress.Commands.add('db_enableExtension', (value, extension) =>
  * @returns integer
  */
 Cypress.Commands.add('db_getUserId', () => {
-  cy.task(
-    'queryDB',
-    `SELECT id FROM #__users WHERE username = '${Cypress.env('username')}'`,
-  ).then((id) => {
+  cy.task('queryDB', `SELECT id FROM #__users WHERE username = '${Cypress.env('username')}'`).then((id) => {
     if (id.length === 0) {
       return 0;
     }

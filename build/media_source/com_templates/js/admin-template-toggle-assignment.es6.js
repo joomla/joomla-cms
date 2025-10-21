@@ -13,9 +13,7 @@ Joomla = window.Joomla || {};
   };
 
   Joomla.toggleMenutype = (a) => {
-    const checkBox = [].slice.call(
-      document.getElementsByClassName(`menutype-${a}`),
-    );
+    const checkBox = [].slice.call(document.getElementsByClassName(`menutype-${a}`));
     checkBox.forEach((element) => {
       element.checked = !element.checked;
     });

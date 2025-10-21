@@ -1,8 +1,6 @@
 export const dirname = (path) => {
   if (typeof path !== 'string') {
-    throw new TypeError(
-      `Path must be a string. Received ${JSON.stringify(path)}`,
-    );
+    throw new TypeError(`Path must be a string. Received ${JSON.stringify(path)}`);
   }
 
   if (path.length === 0) return '.';

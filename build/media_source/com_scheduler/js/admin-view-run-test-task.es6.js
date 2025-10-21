@@ -41,10 +41,7 @@ const runTheTask = (url, resultContainer) => {
   const complete = (success) => {
     progressBar.style.width = '100%';
     progressBar.classList.add(success ? 'bg-success' : 'bg-danger');
-    setTimeout(
-      () => progressBar.classList.remove('progress-bar-animated'),
-      500,
-    );
+    setTimeout(() => progressBar.classList.remove('progress-bar-animated'), 500);
   };
   progressBar.style.width = '15%';
 
@@ -53,11 +50,7 @@ const runTheTask = (url, resultContainer) => {
   })
     .then((response) => {
       if (!response.ok) {
-        throw new Error(
-          Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER')
-            .replace('%s', response.status)
-            .replace('%d', response.status),
-        );
+        throw new Error(Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', response.status).replace('%d', response.status));
       }
       return response.json();
     })
@@ -67,46 +60,23 @@ const runTheTask = (url, resultContainer) => {
         throw new Error(Joomla.Text._('JLIB_JS_AJAX_ERROR_NO_CONTENT'));
       }
 
-      statusHolder.textContent = Joomla.Text._(
-        'COM_SCHEDULER_TEST_RUN_STATUS_COMPLETED',
-      );
+      statusHolder.textContent = Joomla.Text._('COM_SCHEDULER_TEST_RUN_STATUS_COMPLETED');
 
       if (output.data.duration > 0) {
-        resultContainer.appendChild(
-          createEl(
-            'div',
-            Joomla.Text._('COM_SCHEDULER_TEST_RUN_DURATION').replace(
-              '%s',
-              output.data.duration.toFixed(2),
-            ),
-          ),
-        );
+        resultContainer.appendChild(createEl('div', Joomla.Text._('COM_SCHEDULER_TEST_RUN_DURATION').replace('%s', output.data.duration.toFixed(2))));
       }
 
       if (output.data.output) {
-        resultContainer.appendChild(
-          createEl(
-            'div',
-            Joomla.Text._('COM_SCHEDULER_TEST_RUN_OUTPUT')
-              .replace('%s', '')
-              .replace('<br>', ''),
-          ),
-        );
-        resultContainer.appendChild(
-          createEl('pre', output.data.output, ['bg-body', 'p-2']),
-        );
+        resultContainer.appendChild(createEl('div', Joomla.Text._('COM_SCHEDULER_TEST_RUN_OUTPUT').replace('%s', '').replace('<br>', '')));
+        resultContainer.appendChild(createEl('pre', output.data.output, ['bg-body', 'p-2']));
       }
 
       complete(true);
     })
     .catch((error) => {
       complete(false);
-      statusHolder.textContent = Joomla.Text._(
-        'COM_SCHEDULER_TEST_RUN_STATUS_TERMINATED',
-      );
-      resultContainer.appendChild(
-        createEl('div', error.message, ['text-danger']),
-      );
+      statusHolder.textContent = Joomla.Text._('COM_SCHEDULER_TEST_RUN_STATUS_TERMINATED');
+      resultContainer.appendChild(createEl('div', error.message, ['text-danger']));
     });
 };
 
@@ -128,23 +98,9 @@ document.addEventListener('click', (event) => {
   const content = (() => {
     const body = createEl('div', '', ['p-3']);
     const progress = createEl('div', '', ['progress', 'mb-2']);
-    const progressBar = createEl('div', '', [
-      'progress-bar',
-      'progress-bar-striped',
-      'progress-bar-animated',
-    ]);
-    body.appendChild(
-      createEl(
-        'h4',
-        Joomla.Text._('COM_SCHEDULER_TEST_RUN_TASK').replace('%s', title),
-      ),
-    );
-    body.appendChild(
-      createEl('div', Joomla.Text._('COM_SCHEDULER_TEST_RUN_STATUS_STARTED'), [
-        'mb-2',
-        'scheduler-status',
-      ]),
-    );
+    const progressBar = createEl('div', '', ['progress-bar', 'progress-bar-striped', 'progress-bar-animated']);
+    body.appendChild(createEl('h4', Joomla.Text._('COM_SCHEDULER_TEST_RUN_TASK').replace('%s', title)));
+    body.appendChild(createEl('div', Joomla.Text._('COM_SCHEDULER_TEST_RUN_STATUS_STARTED'), ['mb-2', 'scheduler-status']));
     progress.appendChild(progressBar);
     body.appendChild(progress);
     progressBar.style.width = '0%';

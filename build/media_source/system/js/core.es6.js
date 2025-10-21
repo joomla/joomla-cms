@@ -12,15 +12,7 @@ const DATA_ATTRIBUTE_PATTERN = /^data-[\w-]*$/i;
 
 const DefaultAllowlist = {
   // Global attributes allowed on any supplied element below.
-  '*': [
-    'class',
-    'dir',
-    'id',
-    'lang',
-    'role',
-    ARIA_ATTRIBUTE_PATTERN,
-    DATA_ATTRIBUTE_PATTERN,
-  ],
+  '*': ['class', 'dir', 'id', 'lang', 'role', ARIA_ATTRIBUTE_PATTERN, DATA_ATTRIBUTE_PATTERN],
   a: ['target', 'href', 'title', 'rel'],
   area: [],
   b: [],
@@ -219,9 +211,7 @@ Joomla.getOptions = (key, def) => {
     Joomla.loadOptions();
   }
 
-  return Joomla.optionsStorage[key] !== undefined
-    ? Joomla.optionsStorage[key]
-    : def;
+  return Joomla.optionsStorage[key] !== undefined ? Joomla.optionsStorage[key] : def;
 };
 
 /**
@@ -237,19 +227,17 @@ Joomla.loadOptions = (options) => {
   if (!options) {
     let counter = 0;
 
-    document
-      .querySelectorAll('.joomla-script-options.new')
-      .forEach((element) => {
-        const str = element.text || element.textContent;
-        const option = JSON.parse(str);
+    document.querySelectorAll('.joomla-script-options.new').forEach((element) => {
+      const str = element.text || element.textContent;
+      const option = JSON.parse(str);
 
-        if (option) {
-          Joomla.loadOptions(option);
-          counter += 1;
-        }
+      if (option) {
+        Joomla.loadOptions(option);
+        counter += 1;
+      }
 
-        element.className = element.className.replace(' new', ' loaded');
-      });
+      element.className = element.className.replace(' new', ' loaded');
+    });
 
     if (counter) {
       return;
@@ -269,15 +257,8 @@ Joomla.loadOptions = (options) => {
        *
        * Joomla.loadOptions({'joomla.jtext': null});
        */
-      if (
-        options[key] !== null &&
-        typeof Joomla.optionsStorage[key] === 'object' &&
-        typeof options[key] === 'object'
-      ) {
-        Joomla.optionsStorage[key] = Joomla.extend(
-          Joomla.optionsStorage[key],
-          options[key],
-        );
+      if (options[key] !== null && typeof Joomla.optionsStorage[key] === 'object' && typeof options[key] === 'object') {
+        Joomla.optionsStorage[key] = Joomla.extend(Joomla.optionsStorage[key], options[key]);
       } else {
         Joomla.optionsStorage[key] = options[key];
       }
@@ -319,9 +300,7 @@ Joomla.Text = {
     newDef = newDef === undefined ? newKey : newDef;
     newKey = newKey.toUpperCase();
 
-    return Joomla.Text.strings[newKey] !== undefined
-      ? Joomla.Text.strings[newKey]
-      : newDef;
+    return Joomla.Text.strings[newKey] !== undefined ? Joomla.Text.strings[newKey] : newDef;
   },
 
   /**
@@ -452,10 +431,7 @@ Joomla.checkAll = (checkbox, stub) => {
   let state = 0;
 
   elements.forEach((element) => {
-    if (
-      element.type === checkbox.type &&
-      element.id.indexOf(currentStab) === 0
-    ) {
+    if (element.type === checkbox.type && element.id.indexOf(currentStab) === 0) {
       element.checked = checkbox.checked;
       state += element.checked ? 1 : 0;
     }
@@ -494,9 +470,7 @@ Joomla.isChecked = (isitchecked, form) => {
     newForm = document.getElementById(form);
   }
 
-  newForm.boxchecked.value = isitchecked
-    ? parseInt(newForm.boxchecked.value, 10) + 1
-    : parseInt(newForm.boxchecked.value, 10) - 1;
+  newForm.boxchecked.value = isitchecked ? parseInt(newForm.boxchecked.value, 10) + 1 : parseInt(newForm.boxchecked.value, 10) - 1;
 
   newForm.boxchecked.dispatchEvent(
     new CustomEvent('change', {
@@ -678,21 +652,13 @@ Joomla.request = (options) => {
       // Use the CSRF only on the site's domain
       if (
         token &&
-        ((!newOptions.url.startsWith('http:') &&
-          !newOptions.url.startsWith('https:')) ||
-          newOptions.url.startsWith(window.location.origin))
+        ((!newOptions.url.startsWith('http:') && !newOptions.url.startsWith('https:')) || newOptions.url.startsWith(window.location.origin))
       ) {
         xhr.setRequestHeader('X-CSRF-Token', token);
       }
 
-      if (
-        typeof newOptions.data === 'string' &&
-        (!newOptions.headers || !newOptions.headers['Content-Type'])
-      ) {
-        xhr.setRequestHeader(
-          'Content-Type',
-          'application/x-www-form-urlencoded',
-        );
+      if (typeof newOptions.data === 'string' && (!newOptions.headers || !newOptions.headers['Content-Type'])) {
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
       }
     }
 
@@ -700,10 +666,7 @@ Joomla.request = (options) => {
     if (newOptions.headers) {
       Object.keys(newOptions.headers).forEach((key) => {
         // Allow request without Content-Type
-        if (
-          key === 'Content-Type' &&
-          newOptions.headers['Content-Type'] === 'false'
-        ) {
+        if (key === 'Content-Type' && newOptions.headers['Content-Type'] === 'false') {
         } else {
           xhr.setRequestHeader(key, newOptions.headers[key]);
         }
@@ -735,10 +698,7 @@ Joomla.request = (options) => {
 
     // Do request
     if (newOptions.perform) {
-      if (
-        newOptions.onBefore &&
-        newOptions.onBefore.call(window, xhr) === false
-      ) {
+      if (newOptions.onBefore && newOptions.onBefore.call(window, xhr) === false) {
         // Request interrupted
         if (newOptions.promise) {
           onSuccess.call(window, xhr);
@@ -762,10 +722,7 @@ Joomla.request = (options) => {
 
   // Return a Request
   try {
-    return createRequest(
-      newOptions.onSuccess || (() => {}),
-      newOptions.onError || (() => {}),
-    );
+    return createRequest(newOptions.onSuccess || (() => {}), newOptions.onError || (() => {}));
   } catch (error) {
     console.error(error);
     return false;
@@ -785,9 +742,7 @@ let lastRequestPromise;
  */
 Joomla.enqueueRequest = (options) => {
   if (!options.promise) {
-    throw new Error(
-      'Joomla.enqueueRequest supports only Joomla.request as Promise',
-    );
+    throw new Error('Joomla.enqueueRequest supports only Joomla.request as Promise');
   }
   if (!lastRequestPromise) {
     lastRequestPromise = Joomla.request(options);
@@ -806,10 +761,7 @@ Joomla.enqueueRequest = (options) => {
  * @return string
  */
 Joomla.sanitizeHtml = (unsafeHtml, allowList, sanitizeFn) => {
-  const allowed =
-    allowList === undefined || allowList === null
-      ? DefaultAllowlist
-      : { ...DefaultAllowlist, ...allowList };
+  const allowed = allowList === undefined || allowList === null ? DefaultAllowlist : { ...DefaultAllowlist, ...allowList };
   return sanitizeHtml(unsafeHtml, allowed, sanitizeFn);
 };
 
@@ -841,9 +793,7 @@ Joomla.ajaxErrorsMessages = (xhr, textStatus) => {
 
     encodedJson = buf.join('');
 
-    msg.error = [
-      Joomla.Text._('JLIB_JS_AJAX_ERROR_PARSE').replace('%s', encodedJson),
-    ];
+    msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_PARSE').replace('%s', encodedJson)];
   } else if (textStatus === 'nocontent') {
     msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_NO_CONTENT')];
   } else if (textStatus === 'timeout') {
@@ -852,17 +802,11 @@ Joomla.ajaxErrorsMessages = (xhr, textStatus) => {
     msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT')];
   } else if (xhr.responseJSON?.message) {
     // For vanilla XHR
-    msg.error = [
-      `${Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)} <em>${xhr.responseJSON.message}</em>`,
-    ];
+    msg.error = [`${Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)} <em>${xhr.responseJSON.message}</em>`];
   } else if (xhr.statusText) {
-    msg.error = [
-      `${Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)} <em>${xhr.statusText}</em>`,
-    ];
+    msg.error = [`${Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)} <em>${xhr.statusText}</em>`];
   } else {
-    msg.error = [
-      Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status),
-    ];
+    msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)];
   }
 
   return msg;

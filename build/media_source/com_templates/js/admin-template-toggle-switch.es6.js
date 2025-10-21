@@ -83,22 +83,14 @@
       JformShowCoreOff.addEventListener('click', showCoreChangedOff);
     }
 
-    if (
-      typeof Storage !== 'undefined' &&
-      localStorage.getItem('coreSwitchState') &&
-      JformShowCoreOn
-    ) {
+    if (typeof Storage !== 'undefined' && localStorage.getItem('coreSwitchState') && JformShowCoreOn) {
       JformShowCoreOn.checked = true;
       JformShowCoreOff.checked = false;
 
       showCoreChangedOn();
     }
 
-    if (
-      typeof Storage !== 'undefined' &&
-      localStorage.getItem('diffSwitchState') &&
-      JformShowDiffOn
-    ) {
+    if (typeof Storage !== 'undefined' && localStorage.getItem('diffSwitchState') && JformShowDiffOn) {
       JformShowDiffOn.checked = true;
       JformShowDiffOff.checked = false;
 

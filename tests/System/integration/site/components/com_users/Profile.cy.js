@@ -11,17 +11,11 @@ describe('Test in frontend that the users profile view', () => {
 
       cy.get('#users-profile-core').should('contain.text', 'Profile');
       cy.get('#users-profile-core').should('contain.text', 'Name');
-      cy.get('#users-profile-core').should(
-        'contain.text',
-        'automated test user',
-      );
+      cy.get('#users-profile-core').should('contain.text', 'automated test user');
       cy.get('#users-profile-core').should('contain.text', 'Username');
       cy.get('#users-profile-core').should('contain.text', 'automatedtestuser');
       cy.get('#users-profile-core').should('contain.text', 'Registered Date');
-      cy.get('#users-profile-core').should(
-        'contain.text',
-        'Wednesday, 01 March 2023',
-      );
+      cy.get('#users-profile-core').should('contain.text', 'Wednesday, 01 March 2023');
     });
   });
 
@@ -45,20 +39,11 @@ describe('Test in frontend that the users profile view', () => {
 
         cy.get('#users-profile-core').should('contain.text', 'Profile');
         cy.get('#users-profile-core').should('contain.text', 'Name');
-        cy.get('#users-profile-core').should(
-          'contain.text',
-          'automated test user',
-        );
+        cy.get('#users-profile-core').should('contain.text', 'automated test user');
         cy.get('#users-profile-core').should('contain.text', 'Username');
-        cy.get('#users-profile-core').should(
-          'contain.text',
-          'automatedtestuser',
-        );
+        cy.get('#users-profile-core').should('contain.text', 'automatedtestuser');
         cy.get('#users-profile-core').should('contain.text', 'Registered Date');
-        cy.get('#users-profile-core').should(
-          'contain.text',
-          'Wednesday, 01 March 2023',
-        );
+        cy.get('#users-profile-core').should('contain.text', 'Wednesday, 01 March 2023');
       });
   });
 });

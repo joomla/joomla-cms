@@ -34,13 +34,9 @@
  */
 // Make sure the element exists i.e. a template override has not removed it.
 const elSearch = document.getElementById('comSchedulerSelectSearch');
-const elSearchContainer = document.getElementById(
-  'comSchedulerSelectSearchContainer',
-);
+const elSearchContainer = document.getElementById('comSchedulerSelectSearchContainer');
 const elSearchHeader = document.getElementById('comSchedulerSelectTypeHeader');
-const elSearchResults = document.getElementById(
-  'comSchedulerSelectResultsContainer',
-);
+const elSearchResults = document.getElementById('comSchedulerSelectResultsContainer');
 const alertElement = document.querySelector('.tasks-alert');
 
 if (elSearch && elSearchContainer) {
@@ -102,8 +98,7 @@ if (elSearch && elSearchContainer) {
   try {
     if (typeof sessionStorage !== 'undefined') {
       // Load the search string from session storage
-      elSearch.value =
-        sessionStorage.getItem('Joomla.com_scheduler.new.search') || '';
+      elSearch.value = sessionStorage.getItem('Joomla.com_scheduler.new.search') || '';
 
       // Trigger the keyboard handler event manually to initiate the search
       elSearch.dispatchEvent(new KeyboardEvent('keyup'));

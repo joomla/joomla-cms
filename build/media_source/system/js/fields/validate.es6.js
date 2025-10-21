@@ -31,8 +31,7 @@ class JFormValidator {
     });
     this.setHandler('email', (value) => {
       const newValue = punycode.toASCII(value);
-      const regex =
-        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
       return regex.test(newValue);
     });
 
@@ -65,10 +64,7 @@ class JFormValidator {
     const label = element.form.querySelector(`label[for="${element.id}"]`);
     let message;
 
-    if (
-      element.classList.contains('required') ||
-      element.getAttribute('required')
-    ) {
+    if (element.classList.contains('required') || element.getAttribute('required')) {
       if (label) {
         message = label.querySelector('span.form-control-feedback');
       }
@@ -113,26 +109,11 @@ class JFormValidator {
       const elMsg = document.createElement('span');
       elMsg.classList.add('form-control-feedback');
       if (empty && empty === 'checkbox') {
-        elMsg.innerHTML =
-          message !== null
-            ? Joomla.sanitizeHtml(message)
-            : Joomla.sanitizeHtml(
-                Joomla.Text._('JLIB_FORM_FIELD_REQUIRED_CHECK'),
-              );
+        elMsg.innerHTML = message !== null ? Joomla.sanitizeHtml(message) : Joomla.sanitizeHtml(Joomla.Text._('JLIB_FORM_FIELD_REQUIRED_CHECK'));
       } else if (empty && empty === 'value') {
-        elMsg.innerHTML =
-          message !== null
-            ? Joomla.sanitizeHtml(message)
-            : Joomla.sanitizeHtml(
-                Joomla.Text._('JLIB_FORM_FIELD_REQUIRED_VALUE'),
-              );
+        elMsg.innerHTML = message !== null ? Joomla.sanitizeHtml(message) : Joomla.sanitizeHtml(Joomla.Text._('JLIB_FORM_FIELD_REQUIRED_VALUE'));
       } else {
-        elMsg.innerHTML =
-          message !== null
-            ? Joomla.sanitizeHtml(message)
-            : Joomla.sanitizeHtml(
-                Joomla.Text._('JLIB_FORM_FIELD_INVALID_VALUE'),
-              );
+        elMsg.innerHTML = message !== null ? Joomla.sanitizeHtml(message) : Joomla.sanitizeHtml(Joomla.Text._('JLIB_FORM_FIELD_INVALID_VALUE'));
       }
 
       if (label) {
@@ -155,11 +136,7 @@ class JFormValidator {
       message = label.querySelector('span.form-control-feedback');
     }
 
-    element.classList.remove(
-      'form-control-danger',
-      'form-control-success',
-      'remove',
-    );
+    element.classList.remove('form-control-danger', 'form-control-success', 'remove');
     element.classList.add('valid');
     element.parentNode.classList.remove('has-danger', 'has-success');
 
@@ -178,10 +155,7 @@ class JFormValidator {
     const tagName = element.tagName.toLowerCase();
 
     // Set the element and its label (if exists) invalid state
-    if (
-      (tagName !== 'button' && element.value !== undefined) ||
-      tagName === 'fieldset'
-    ) {
+    if ((tagName !== 'button' && element.value !== undefined) || tagName === 'fieldset') {
       if (state === false) {
         this.markInvalid(element, empty);
       } else {
@@ -196,34 +170,20 @@ class JFormValidator {
     // Ignore the element if its currently disabled,
     // because are not submitted for the http-request.
     // For those case return always true.
-    if (
-      element.getAttribute('disabled') === 'disabled' ||
-      element.getAttribute('display') === 'none'
-    ) {
+    if (element.getAttribute('disabled') === 'disabled' || element.getAttribute('display') === 'none') {
       this.handleResponse(true, element);
       return true;
     }
     // If the field is required make sure it has a value
-    if (
-      element.getAttribute('required') ||
-      element.classList.contains('required')
-    ) {
+    if (element.getAttribute('required') || element.classList.contains('required')) {
       tagName = element.tagName.toLowerCase();
-      if (
-        tagName === 'fieldset' &&
-        (element.classList.contains('radio') ||
-          element.classList.contains('checkboxes'))
-      ) {
+      if (tagName === 'fieldset' && (element.classList.contains('radio') || element.classList.contains('checkboxes'))) {
         // No options are checked.
         if (element.querySelector('input:checked') === null) {
           this.handleResponse(false, element, 'checkbox');
           return false;
         }
-      } else if (
-        (element.getAttribute('type') === 'checkbox' &&
-          element.checked !== true) ||
-        (tagName === 'select' && !element.value.length)
-      ) {
+      } else if ((element.getAttribute('type') === 'checkbox' && element.checked !== true) || (tagName === 'select' && !element.value.length)) {
         this.handleResponse(false, element, 'checkbox');
         return false;
       } else if (!element.value || element.classList.contains('placeholder')) {
@@ -234,28 +194,18 @@ class JFormValidator {
     }
 
     // Only validate the field if the validate class is set
-    const handler = element
-      .getAttribute('class')
-      ?.match(/validate-([a-zA-Z0-9_-]+)/)
+    const handler = element.getAttribute('class')?.match(/validate-([a-zA-Z0-9_-]+)/)
       ? element.getAttribute('class').match(/validate-([a-zA-Z0-9_-]+)/)[1]
       : '';
 
-    if (
-      element.getAttribute('pattern') &&
-      element.getAttribute('pattern') !== ''
-    ) {
+    if (element.getAttribute('pattern') && element.getAttribute('pattern') !== '') {
       if (element.value.length) {
-        const isValid = new RegExp(`^${element.getAttribute('pattern')}$`).test(
-          element.value,
-        );
+        const isValid = new RegExp(`^${element.getAttribute('pattern')}$`).test(element.value);
         this.handleResponse(isValid, element, 'empty');
         return isValid;
       }
 
-      if (
-        element.hasAttribute('required') ||
-        element.classList.contains('required')
-      ) {
+      if (element.hasAttribute('required') || element.classList.contains('required')) {
         this.handleResponse(false, element, 'empty');
         return false;
       }
@@ -270,12 +220,7 @@ class JFormValidator {
     }
 
     // Check the additional validation types
-    if (
-      handler &&
-      handler !== 'none' &&
-      this.handlers[handler] &&
-      element.value
-    ) {
+    if (handler && handler !== 'none' && this.handlers[handler] && element.value) {
       // Execute the validation handler and return result
       if (this.handlers[handler].exec(element.value, element) !== true) {
         this.handleResponse(false, element, 'invalid_value');
@@ -299,9 +244,7 @@ class JFormValidator {
     if (form.nodeName === 'FORM') {
       fields = [].slice.call(form.elements);
     } else {
-      fields = form.querySelectorAll(
-        'input, textarea, select, button, fieldset',
-      );
+      fields = form.querySelectorAll('input, textarea, select, button, fieldset');
     }
     fields.forEach((field) => {
       if (this.validate(field) === false) {
@@ -339,43 +282,27 @@ class JFormValidator {
     if (form.nodeName === 'FORM') {
       elements = [].slice.call(form.elements);
     } else {
-      elements = form.querySelectorAll(
-        'input, textarea, select, button, fieldset',
-      );
+      elements = form.querySelectorAll('input, textarea, select, button, fieldset');
     }
 
     // Iterate through the form object and attach the validate method to all input fields.
     elements.forEach((element) => {
       const tagName = element.tagName.toLowerCase();
 
-      if (
-        ['input', 'textarea', 'select', 'fieldset'].indexOf(tagName) > -1 &&
-        element.classList.contains('required')
-      ) {
+      if (['input', 'textarea', 'select', 'fieldset'].indexOf(tagName) > -1 && element.classList.contains('required')) {
         element.setAttribute('required', '');
       }
 
       // Attach isValid method to submit button
-      if (
-        (tagName === 'input' || tagName === 'button') &&
-        (element.getAttribute('type') === 'submit' ||
-          element.getAttribute('type') === 'image')
-      ) {
+      if ((tagName === 'input' || tagName === 'button') && (element.getAttribute('type') === 'submit' || element.getAttribute('type') === 'image')) {
         if (element.classList.contains('validate')) {
           element.addEventListener('click', () => this.isValid(form));
         }
-      } else if (
-        tagName !== 'button' &&
-        !(tagName === 'input' && element.getAttribute('type') === 'button')
-      ) {
+      } else if (tagName !== 'button' && !(tagName === 'input' && element.getAttribute('type') === 'button')) {
         // Attach validate method only to fields
         if (tagName !== 'fieldset') {
-          element.addEventListener('blur', ({ target }) =>
-            this.validate(target),
-          );
-          element.addEventListener('focus', ({ target }) =>
-            this.removeMarking(target),
-          );
+          element.addEventListener('blur', ({ target }) => this.validate(target));
+          element.addEventListener('focus', ({ target }) => this.removeMarking(target));
           if (element.classList.contains('validate-email') && this.inputEmail) {
             element.setAttribute('type', 'email');
           }

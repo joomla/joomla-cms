@@ -15,11 +15,9 @@ Joomla.submitbutton = (task) => {
     // Get id of selected action logs item and pass it to export form hidden input
     const cids = [];
 
-    document
-      .querySelectorAll("input[name='cid[]']:checked")
-      .forEach((element) => {
-        cids.push(element.value);
-      });
+    document.querySelectorAll("input[name='cid[]']:checked").forEach((element) => {
+      cids.push(element.value);
+    });
 
     document.exportForm.cids.value = cids.join(',');
     Joomla.submitform(task, document.getElementById('exportForm'));

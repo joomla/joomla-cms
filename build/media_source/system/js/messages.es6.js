@@ -19,10 +19,7 @@ const getMessageContainer = (container) => {
   if (container instanceof HTMLElement) {
     return container;
   }
-  if (
-    typeof container === 'undefined' ||
-    (container && container === '#system-message-container')
-  ) {
+  if (typeof container === 'undefined' || (container && container === '#system-message-container')) {
     messageContainer = document.getElementById('system-message-container');
   } else {
     messageContainer = document.querySelector(container);
@@ -95,9 +92,7 @@ Joomla.renderMessages = (messages, selector, keepOld, timeout) => {
     const messageWrapper = document.createElement('div');
     messageWrapper.className = 'alert-wrapper';
     typeMessages.forEach((typeMessage) => {
-      messageWrapper.innerHTML += Joomla.sanitizeHtml(
-        `<div class="alert-message">${typeMessage}</div>`,
-      );
+      messageWrapper.innerHTML += Joomla.sanitizeHtml(`<div class="alert-message">${typeMessage}</div>`);
     });
     messagesBox.appendChild(messageWrapper);
     messageContainer.appendChild(messagesBox);
@@ -122,8 +117,6 @@ Joomla.removeMessages = (container) => {
 document.addEventListener('DOMContentLoaded', () => {
   const messages = Joomla.getOptions('joomla.messages');
   if (messages) {
-    Object.keys(messages).map((message) =>
-      Joomla.renderMessages(messages[message], undefined, true, undefined),
-    );
+    Object.keys(messages).map((message) => Joomla.renderMessages(messages[message], undefined, true, undefined));
   }
 });

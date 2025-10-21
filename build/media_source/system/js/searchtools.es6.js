@@ -98,52 +98,32 @@ Joomla = window.Joomla || {};
       this.theForm = document.querySelector(this.options.formSelector);
 
       // Filters
-      this.filterButton = document.querySelector(
-        `${this.options.formSelector} ${this.options.filterBtnSelector}`,
-      );
-      this.filterContainer = document.querySelector(
-        `${this.options.formSelector} ${this.options.filterContainerSelector}`,
-      )
-        ? document.querySelector(
-            `${this.options.formSelector} ${this.options.filterContainerSelector}`,
-          )
+      this.filterButton = document.querySelector(`${this.options.formSelector} ${this.options.filterBtnSelector}`);
+      this.filterContainer = document.querySelector(`${this.options.formSelector} ${this.options.filterContainerSelector}`)
+        ? document.querySelector(`${this.options.formSelector} ${this.options.filterContainerSelector}`)
         : '';
       this.filtersHidden = this.options.filtersHidden;
 
       // List fields
       this.listButton = document.querySelector(this.options.listBtnSelector);
-      this.listContainer = document.querySelector(
-        `${this.options.formSelector} ${this.options.listContainerSelector}`,
-      );
+      this.listContainer = document.querySelector(`${this.options.formSelector} ${this.options.listContainerSelector}`);
       this.listHidden = this.options.listHidden;
 
       // Main container
-      this.mainContainer = document.querySelector(
-        this.options.mainContainerSelector,
-      );
+      this.mainContainer = document.querySelector(this.options.mainContainerSelector);
 
       // Search
-      this.searchButton = document.querySelector(
-        `${this.options.formSelector} ${this.options.searchBtnSelector}`,
-      );
-      this.searchField = document.querySelector(
-        `${this.options.formSelector} ${this.options.searchFieldSelector}`,
-      );
+      this.searchButton = document.querySelector(`${this.options.formSelector} ${this.options.searchBtnSelector}`);
+      this.searchField = document.querySelector(`${this.options.formSelector} ${this.options.searchFieldSelector}`);
       this.searchString = null;
       this.clearButton = document.querySelector(this.options.clearBtnSelector);
 
       // Ordering
-      this.orderCols = document.querySelectorAll(
-        `${this.options.formSelector} ${this.options.orderColumnSelector}`,
-      );
-      this.orderField = document.querySelector(
-        `${this.options.formSelector} ${this.options.orderFieldSelector}`,
-      );
+      this.orderCols = document.querySelectorAll(`${this.options.formSelector} ${this.options.orderColumnSelector}`);
+      this.orderField = document.querySelector(`${this.options.formSelector} ${this.options.orderFieldSelector}`);
 
       // Limit
-      this.limitField = document.querySelector(
-        `${this.options.formSelector} ${this.options.limitFieldSelector}`,
-      );
+      this.limitField = document.querySelector(`${this.options.formSelector} ${this.options.limitFieldSelector}`);
 
       // Init trackers
       this.activeColumn = null;
@@ -179,11 +159,7 @@ Joomla = window.Joomla || {};
       this.updateFieldValue = this.updateFieldValue.bind(this);
       this.findOption = this.findOption.bind(this);
 
-      if (
-        this.filterContainer?.classList.contains(
-          'js-stools-container-filters-visible',
-        )
-      ) {
+      if (this.filterContainer?.classList.contains('js-stools-container-filters-visible')) {
         this.showFilters();
         this.showList();
       } else {
@@ -210,23 +186,14 @@ Joomla = window.Joomla || {};
       // Do we need to add to mark filter as enabled?
       this.getFilterFields().forEach((i) => {
         const needsFormSubmit =
-          !i.classList.contains(this.options.listSelectAutoSubmit) &&
-          i.closest(
-            `joomla-field-fancy-select.${this.options.listSelectAutoSubmit}`,
-          );
+          !i.classList.contains(this.options.listSelectAutoSubmit) && i.closest(`joomla-field-fancy-select.${this.options.listSelectAutoSubmit}`);
         const needsFormReset =
-          !i.classList.contains(this.options.listSelectAutoReset) &&
-          i.closest(
-            `joomla-field-fancy-select.${this.options.listSelectAutoReset}`,
-          );
+          !i.classList.contains(this.options.listSelectAutoReset) && i.closest(`joomla-field-fancy-select.${this.options.listSelectAutoReset}`);
 
         this.checkFilter(i);
         i.addEventListener('change', () => {
           this.checkFilter(i);
-          if (
-            i.classList.contains(this.options.listSelectAutoSubmit) ||
-            needsFormSubmit
-          ) {
+          if (i.classList.contains(this.options.listSelectAutoSubmit) || needsFormSubmit) {
             if (i.form.requestSubmit) {
               i.form.requestSubmit();
             } else {
@@ -234,10 +201,7 @@ Joomla = window.Joomla || {};
               i.form.submit();
             }
           }
-          if (
-            i.classList.contains(this.options.listSelectAutoReset) ||
-            needsFormReset
-          ) {
+          if (i.classList.contains(this.options.listSelectAutoReset) || needsFormReset) {
             this.clear(i);
           }
         });
@@ -252,10 +216,7 @@ Joomla = window.Joomla || {};
 
       this.orderCols.forEach((item) => {
         item.addEventListener('click', ({ target }) => {
-          const element =
-            target.tagName.toLowerCase() === 'span'
-              ? target.parentNode
-              : target;
+          const element = target.tagName.toLowerCase() === 'span' ? target.parentNode : target;
 
           // Order to set
           const newOrderCol = element.getAttribute('data-order');
@@ -312,10 +273,7 @@ Joomla = window.Joomla || {};
       }
 
       this.getFilterFields().forEach((i) => {
-        if (
-          (exceptElement && i === exceptElement) ||
-          !i.closest(this.options.filterContainerSelector)
-        ) {
+        if ((exceptElement && i === exceptElement) || !i.closest(this.options.filterContainerSelector)) {
           return;
         }
 
@@ -373,8 +331,7 @@ Joomla = window.Joomla || {};
 
       // Disable clear button when no filter is active and search is empty
       if (this.clearButton) {
-        this.clearButton.disabled =
-          activeFilterCount === 0 && !this.searchString.length;
+        this.clearButton.disabled = activeFilterCount === 0 && !this.searchString.length;
       }
     }
 
@@ -388,9 +345,7 @@ Joomla = window.Joomla || {};
 
       // Add all active filters to the table caption for screen-readers
       const filteredByCaption = document.getElementById('filteredBy');
-      const isHidden =
-        Object.hasOwn(element.attributes, 'type') &&
-        element.attributes.type.value === 'hidden';
+      const isHidden = Object.hasOwn(element.attributes, 'type') && element.attributes.type.value === 'hidden';
 
       // The caption won't exist if no items match the filters so check for the element first
       if (filteredByCaption && !isHidden) {
@@ -399,9 +354,7 @@ Joomla = window.Joomla || {};
         if (element.tagName.toLowerCase() === 'select') {
           if (element.multiple === true) {
             const selectedOptions = element.querySelectorAll('option:checked');
-            const selectedTextValues = [].slice
-              .call(selectedOptions)
-              .map((el) => el.text);
+            const selectedTextValues = [].slice.call(selectedOptions).map((el) => el.text);
             captionContent = `${element.labels[0].textContent} - ${selectedTextValues.join()}`;
           } else {
             captionContent = `${element.labels[0].textContent} - ${element.options[element.selectedIndex].text}`;
@@ -505,10 +458,7 @@ Joomla = window.Joomla || {};
         this.orderField.setAttribute('id', 'js-stools-field-order');
         this.orderField.setAttribute('class', 'js-stools-field-order');
         this.orderField.setAttribute('name', this.options.orderFieldName);
-        this.orderField.setAttribute(
-          'value',
-          `${this.activeOrder} ${this.activeDirection}`,
-        );
+        this.orderField.setAttribute('value', `${this.activeOrder} ${this.activeDirection}`);
 
         this.theForm.append(this.orderField);
       }

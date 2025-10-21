@@ -39,9 +39,7 @@ window.tinymce.PluginManager.add('jdragndrop', (editor) => {
   window.tinyMCE.DOM.bind(document, 'dragleave', dragleaveCallback);
 
   // Remove listener when editor are removed
-  editor.on('remove', () =>
-    window.tinyMCE.DOM.unbind(document, 'dragleave', dragleaveCallback),
-  );
+  editor.on('remove', () => window.tinyMCE.DOM.unbind(document, 'dragleave', dragleaveCallback));
 
   // Fix for Chrome
   editor.on('dragenter', (e) => {
@@ -100,21 +98,11 @@ window.tinymce.PluginManager.add('jdragndrop', (editor) => {
           const dialogClose = function dialogClose(api) {
             const dialogData = api.getData();
             const altEmpty = dialogData.altEmpty ? ' alt=""' : '';
-            const altValue = dialogData.altText
-              ? ` alt="${dialogData.altText}"`
-              : altEmpty;
+            const altValue = dialogData.altText ? ` alt="${dialogData.altText}"` : altEmpty;
             const lazyValue = dialogData.isLazy ? ' loading="lazy"' : '';
-            const width = dialogData.isLazy
-              ? ` width="${responseData.width}"`
-              : '';
-            const height = dialogData.isLazy
-              ? ` height="${responseData.height}"`
-              : '';
-            editor.execCommand(
-              'mceInsertContent',
-              false,
-              `<img src="${urlPath}"${altValue}${lazyValue}${width}${height}/>`,
-            );
+            const width = dialogData.isLazy ? ` width="${responseData.width}"` : '';
+            const height = dialogData.isLazy ? ` height="${responseData.height}"` : '';
+            editor.execCommand('mceInsertContent', false, `<img src="${urlPath}"${altValue}${lazyValue}${width}${height}/>`);
           };
 
           editor.windowManager.open({
@@ -167,10 +155,7 @@ window.tinymce.PluginManager.add('jdragndrop', (editor) => {
       .catch((xhr) => {
         let message = `Error: ${xhr.statusText}`;
         if (xhr.status === 409) {
-          message = Joomla.Text._('PLG_TINY_DND_FILE_EXISTS_ERROR').replace(
-            '%s',
-            `${settings('parentUploadFolder')}/${name}`,
-          );
+          message = Joomla.Text._('PLG_TINY_DND_FILE_EXISTS_ERROR').replace('%s', `${settings('parentUploadFolder')}/${name}`);
         }
         editor.windowManager.alert(message);
       });

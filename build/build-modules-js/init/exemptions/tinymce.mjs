@@ -27,11 +27,9 @@ const copyArrayFiles = async (dirName, files, name, type) => {
 
     if (existsSync(`node_modules/${name}${folderName}${file}`)) {
       promises.push(
-        copy(
-          `node_modules/${name}${folderName}${file}`,
-          `media/vendor/${name.replace(/.+\//, '')}${type ? `/${type}` : ''}/${file}`,
-          { preserveTimestamps: true },
-        ),
+        copy(`node_modules/${name}${folderName}${file}`, `media/vendor/${name.replace(/.+\//, '')}${type ? `/${type}` : ''}/${file}`, {
+          preserveTimestamps: true,
+        }),
       );
     }
   }
@@ -62,19 +60,12 @@ export const tinyMCE = async (packageName, version) => {
   await copyAllFiles('themes', 'tinymce', 'themes');
   await copyAllFiles('models', 'tinymce', 'models');
 
-  await copyArrayFiles(
-    '',
-    ['tinymce.js', 'tinymce.min.js', 'changelog.txt', 'license.txt'],
-    'tinymce',
-    '',
-  );
+  await copyArrayFiles('', ['tinymce.js', 'tinymce.min.js', 'changelog.txt', 'license.txt'], 'tinymce', '');
 
   // Copy translation files
   const promises = [];
   const majorVersion = version.split('.')[0];
-  if (
-    existsSync(join(RootPath, `node_modules/tinymce-i18n/langs${majorVersion}`))
-  ) {
+  if (existsSync(join(RootPath, `node_modules/tinymce-i18n/langs${majorVersion}`))) {
     promises.push(
       copy(
         join(RootPath, `node_modules/tinymce-i18n/langs${majorVersion}`),
@@ -86,10 +77,7 @@ export const tinyMCE = async (packageName, version) => {
   await Promise.all(promises);
 
   // Update the XML file for tinyMCE
-  let tinyXml = await readFile(
-    `${RootPath}/plugins/editors/tinymce/tinymce.xml`,
-    { encoding: 'utf8' },
-  );
+  let tinyXml = await readFile(`${RootPath}/plugins/editors/tinymce/tinymce.xml`, { encoding: 'utf8' });
   tinyXml = tinyXml.replace(xmlVersionStr, `$1${version}$3`);
   await writeFile(`${RootPath}/plugins/editors/tinymce/tinymce.xml`, tinyXml, {
     encoding: 'utf8',
@@ -97,26 +85,14 @@ export const tinyMCE = async (packageName, version) => {
   });
 
   // Remove that sourcemap...
-  let tinyWrongMap = await readFile(
-    `${RootPath}/media/vendor/tinymce/skins/ui/oxide/skin.min.css`,
-    { encoding: 'utf8' },
-  );
-  tinyWrongMap = tinyWrongMap.replace(
-    '/*# sourceMappingURL=skin.min.css.map */',
-    '',
-  );
-  await writeFile(
-    `${RootPath}/media/vendor/tinymce/skins/ui/oxide/skin.min.css`,
-    tinyWrongMap,
-    { encoding: 'utf8', mode: 0o644 },
-  );
+  let tinyWrongMap = await readFile(`${RootPath}/media/vendor/tinymce/skins/ui/oxide/skin.min.css`, { encoding: 'utf8' });
+  tinyWrongMap = tinyWrongMap.replace('/*# sourceMappingURL=skin.min.css.map */', '');
+  await writeFile(`${RootPath}/media/vendor/tinymce/skins/ui/oxide/skin.min.css`, tinyWrongMap, { encoding: 'utf8', mode: 0o644 });
 
   // Restore our code on the vendor folders
-  await copy(
-    join(RootPath, 'build/media_source/vendor/tinymce/templates'),
-    join(RootPath, 'media/vendor/tinymce/templates'),
-    { preserveTimestamps: true },
-  );
+  await copy(join(RootPath, 'build/media_source/vendor/tinymce/templates'), join(RootPath, 'media/vendor/tinymce/templates'), {
+    preserveTimestamps: true,
+  });
   // Drop the template plugin
   if (existsSync(join(RootPath, 'media/vendor/tinymce/plugins/template'))) {
     removeSync(join(RootPath, 'media/vendor/tinymce/plugins/template'));

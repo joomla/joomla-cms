@@ -1,10 +1,5 @@
 describe('Test that users API endpoint', () => {
-  afterEach(() =>
-    cy.task(
-      'queryDB',
-      "DELETE FROM #__users WHERE name = 'automated test user'",
-    ),
-  );
+  afterEach(() => cy.task('queryDB', "DELETE FROM #__users WHERE name = 'automated test user'"));
 
   it('can deliver a list of users', () => {
     cy.db_createUser({
@@ -12,9 +7,7 @@ describe('Test that users API endpoint', () => {
       username: 'automated_test_username',
     })
       .then(() => cy.api_get('/users'))
-      .then((response) =>
-        cy.api_responseContains(response, 'name', 'automated test user'),
-      );
+      .then((response) => cy.api_responseContains(response, 'name', 'automated test user'));
   });
 
   it('can create a user', () => {
@@ -41,15 +34,7 @@ describe('Test that users API endpoint', () => {
       resetCount: '0',
       sendEmail: '0',
       username: 'automated_test_username',
-    }).then((response) =>
-      cy
-        .wrap(response)
-        .its('body')
-        .its('data')
-        .its('attributes')
-        .its('name')
-        .should('include', 'automated test user'),
-    );
+    }).then((response) => cy.wrap(response).its('body').its('data').its('attributes').its('name').should('include', 'automated test user'));
   });
 
   it('can update a user', () => {
@@ -61,21 +46,11 @@ describe('Test that users API endpoint', () => {
         };
         return cy.api_patch(`/users/${id}`, updatedUserData);
       })
-      .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('name')
-          .should('include', 'updated automated test user'),
-      );
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes').its('name').should('include', 'updated automated test user'));
   });
 
   it('can delete a user', () => {
-    cy.db_createUser({ name: 'automated test user' }).then((id) =>
-      cy.api_delete(`/users/${id}`),
-    );
+    cy.db_createUser({ name: 'automated test user' }).then((id) => cy.api_delete(`/users/${id}`));
   });
 
   it('can login after update a user', () => {
@@ -90,15 +65,7 @@ describe('Test that users API endpoint', () => {
         };
         return cy.api_patch(`/users/${id}`, updatedUserData);
       })
-      .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('name')
-          .should('include', 'test'),
-      )
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes').its('name').should('include', 'test'))
       .then(() => {
         // This here is an exception, we should not mix UI tests with API tests
         // Passwords can only be tested through the web interface

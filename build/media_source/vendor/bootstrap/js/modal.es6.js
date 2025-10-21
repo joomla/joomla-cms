@@ -59,18 +59,9 @@ Joomla.initialiseModal = (modal, options) => {
           el = document.getElementById(idFieldArr[1]).value;
         }
 
-        modalBody.insertAdjacentHTML(
-          'afterbegin',
-          Joomla.sanitizeHtml(
-            `${iframeTextArr[0]}${el}${iframeTextArr[2]}`,
-            allowed,
-          ),
-        );
+        modalBody.insertAdjacentHTML('afterbegin', Joomla.sanitizeHtml(`${iframeTextArr[0]}${el}${iframeTextArr[2]}`, allowed));
       } else {
-        modalBody.insertAdjacentHTML(
-          'afterbegin',
-          Joomla.sanitizeHtml(modal.dataset.iframe, allowed),
-        );
+        modalBody.insertAdjacentHTML('afterbegin', Joomla.sanitizeHtml(modal.dataset.iframe, allowed));
       }
     }
   });
@@ -92,31 +83,19 @@ Joomla.initialiseModal = (modal, options) => {
         modalBodyHeightOuter = modalBody.offsetHeight;
       }
       if (modalFooter) {
-        modalFooterHeight = parseFloat(
-          getComputedStyle(modalFooter, null).height.replace('px', ''),
-        );
+        modalFooterHeight = parseFloat(getComputedStyle(modalFooter, null).height.replace('px', ''));
       }
 
-      const modalBodyHeight = parseFloat(
-        getComputedStyle(modalBody, null).height.replace('px', ''),
-      );
+      const modalBodyHeight = parseFloat(getComputedStyle(modalBody, null).height.replace('px', ''));
       const padding = modalBody.offsetTop;
-      const maxModalHeight =
-        parseFloat(
-          getComputedStyle(document.body, null).height.replace('px', ''),
-        ) -
-        padding * 2;
+      const maxModalHeight = parseFloat(getComputedStyle(document.body, null).height.replace('px', '')) - padding * 2;
       modalBodyPadding = modalBodyHeightOuter - modalBodyHeight;
-      maxModalBodyHeight =
-        maxModalHeight -
-        (modalHeaderHeight + modalFooterHeight + modalBodyPadding);
+      maxModalBodyHeight = maxModalHeight - (modalHeaderHeight + modalFooterHeight + modalBodyPadding);
     }
 
     if (modal.dataset.url) {
       const iframeEl = modal.querySelector('iframe');
-      const iframeHeight = parseFloat(
-        getComputedStyle(iframeEl, null).height.replace('px', ''),
-      );
+      const iframeHeight = parseFloat(getComputedStyle(iframeEl, null).height.replace('px', ''));
       if (iframeHeight > maxModalBodyHeight) {
         modalBody.style.maxHeight = maxModalBodyHeight;
         modalBody.style.overflowY = 'auto';
@@ -160,9 +139,7 @@ Joomla.iframeButtonClick = (options) => {
 
   const iframe = document.querySelector(`${options.iframeSelector} iframe`);
   if (iframe) {
-    const selector = old2newBtn[options.buttonSelector]
-      ? old2newBtn[options.buttonSelector]
-      : options.buttonSelector;
+    const selector = old2newBtn[options.buttonSelector] ? old2newBtn[options.buttonSelector] : options.buttonSelector;
     const button = iframe.contentWindow.document.querySelector(selector);
     if (button) {
       button.click();

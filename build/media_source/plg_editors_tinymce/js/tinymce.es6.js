@@ -92,9 +92,7 @@ Joomla.JoomlaTinyMCE = {
     editors.forEach((editor) => {
       const currentEditor = editor.querySelector('textarea');
       const toggleButton = editor.querySelector('.js-tiny-toggler-button');
-      const toggleIcon = toggleButton
-        ? toggleButton.querySelector('.icon-eye')
-        : false;
+      const toggleIcon = toggleButton ? toggleButton.querySelector('.icon-eye') : false;
 
       // Set up the editor
       Joomla.JoomlaTinyMCE.setupEditor(currentEditor, pluginOptions);
@@ -115,10 +113,7 @@ Joomla.JoomlaTinyMCE = {
           const visible = ed.toggle();
 
           if (toggleIcon) {
-            toggleIcon.setAttribute(
-              'class',
-              visible ? 'icon-eye' : 'icon-eye-slash',
-            );
+            toggleIcon.setAttribute('class', visible ? 'icon-eye' : 'icon-eye-slash');
           }
         }
       });
@@ -260,6 +255,4 @@ document.addEventListener('DOMContentLoaded', () => {
 /**
  * Initialize when a part of the page was updated
  */
-document.addEventListener('joomla:updated', ({ target }) =>
-  Joomla.JoomlaTinyMCE.setupEditors(target),
-);
+document.addEventListener('joomla:updated', ({ target }) => Joomla.JoomlaTinyMCE.setupEditors(target));

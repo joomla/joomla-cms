@@ -15,9 +15,7 @@ const copyToClipboardFallback = (input) => {
     const copy = document.execCommand('copy');
     if (copy) {
       Joomla.renderMessages({
-        message: [
-          Joomla.Text._('COM_SCHEDULER_CONFIG_WEBCRON_LINK_COPY_SUCCESS'),
-        ],
+        message: [Joomla.Text._('COM_SCHEDULER_CONFIG_WEBCRON_LINK_COPY_SUCCESS')],
       });
     } else {
       Joomla.renderMessages({
@@ -43,9 +41,7 @@ const copyToClipboard = () => {
     navigator.clipboard.writeText(input.value).then(
       () => {
         Joomla.renderMessages({
-          message: [
-            Joomla.Text._('COM_SCHEDULER_CONFIG_WEBCRON_LINK_COPY_SUCCESS'),
-          ],
+          message: [Joomla.Text._('COM_SCHEDULER_CONFIG_WEBCRON_LINK_COPY_SUCCESS')],
         });
       },
       () => {

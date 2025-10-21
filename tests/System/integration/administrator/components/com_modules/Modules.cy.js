@@ -1,9 +1,7 @@
 describe('Test in backend that the module list', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
-    cy.visit(
-      '/administrator/index.php?option=com_modules&view=modules&filter=',
-    );
+    cy.visit('/administrator/index.php?option=com_modules&view=modules&filter=');
   });
 
   it('has a title', () => {
@@ -11,13 +9,11 @@ describe('Test in backend that the module list', () => {
   });
 
   it('can display a list of modules', () => {
-    cy.db_createModule({ title: 'Test module', module: 'mod_custom' }).then(
-      () => {
-        cy.reload();
+    cy.db_createModule({ title: 'Test module', module: 'mod_custom' }).then(() => {
+      cy.reload();
 
-        cy.contains('Test module');
-      },
-    );
+      cy.contains('Test module');
+    });
   });
 
   it('can open the module list', () => {
@@ -59,17 +55,15 @@ describe('Test in backend that the module list', () => {
   });
 
   it('can trash the test module', () => {
-    cy.db_createModule({ title: 'Test module', module: 'mod_custom' }).then(
-      () => {
-        cy.reload();
-        cy.searchForItem('Test module');
-        cy.checkAllResults();
-        cy.clickToolbarButton('Action');
-        cy.contains('Trash').click();
+    cy.db_createModule({ title: 'Test module', module: 'mod_custom' }).then(() => {
+      cy.reload();
+      cy.searchForItem('Test module');
+      cy.checkAllResults();
+      cy.clickToolbarButton('Action');
+      cy.contains('Trash').click();
 
-        cy.checkForSystemMessage('Module trashed');
-      },
-    );
+      cy.checkForSystemMessage('Module trashed');
+    });
   });
 
   it('can delete the test module', () => {

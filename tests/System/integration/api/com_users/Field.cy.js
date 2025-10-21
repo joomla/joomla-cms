@@ -7,15 +7,7 @@ describe('Test that field users API endpoint', () => {
       context: 'com_users.user',
     })
       .then(() => cy.api_get('/fields/users'))
-      .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data.0')
-          .its('attributes')
-          .its('title')
-          .should('include', 'automated test field'),
-      );
+      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes').its('title').should('include', 'automated test field'));
   });
 
   it('can deliver a single field', () => {
@@ -24,15 +16,7 @@ describe('Test that field users API endpoint', () => {
       context: 'com_users.user',
     })
       .then((id) => cy.api_get(`/fields/users/${id}`))
-      .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('title')
-          .should('include', 'automated test field user'),
-      );
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', 'automated test field user'));
   });
 
   it('can create a field', () => {
@@ -64,15 +48,7 @@ describe('Test that field users API endpoint', () => {
       required: 0,
       state: 1,
       type: 'text',
-    }).then((response) =>
-      cy
-        .wrap(response)
-        .its('body')
-        .its('data')
-        .its('attributes')
-        .its('title')
-        .should('include', 'automated test field'),
-    );
+    }).then((response) => cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', 'automated test field'));
   });
 
   it('can update a field', () => {
@@ -85,20 +61,10 @@ describe('Test that field users API endpoint', () => {
           title: 'updated automated test field',
         }),
       )
-      .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('title')
-          .should('include', 'updated automated test field'),
-      );
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', 'updated automated test field'));
   });
 
   it('can delete a field', () => {
-    cy.db_createField({ title: 'automated test field', state: -2 }).then((id) =>
-      cy.api_delete(`/fields/users/${id}`),
-    );
+    cy.db_createField({ title: 'automated test field', state: -2 }).then((id) => cy.api_delete(`/fields/users/${id}`));
   });
 });

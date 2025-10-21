@@ -67,8 +67,7 @@ export default {
       let path = this.item.thumb_path || '';
 
       if (path && this.item.modified_date) {
-        path =
-          path + (path.includes('?') ? '&' : '?') + this.item.modified_date;
+        path = path + (path.includes('?') ? '&' : '?') + this.item.modified_date;
       }
 
       return path;

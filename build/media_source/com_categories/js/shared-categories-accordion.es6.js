@@ -31,10 +31,7 @@ const handleCategoryToggleButtonClick = ({ currentTarget }) => {
       ? Joomla.Text._('JGLOBAL_COLLAPSE_CATEGORIES')
       : Joomla.Text._('JGLOBAL_EXPAND_CATEGORIES'),
   );
-  button.setAttribute(
-    'aria-expanded',
-    ariaExpanded === 'false' ? 'true' : 'false',
-  );
+  button.setAttribute('aria-expanded', ariaExpanded === 'false' ? 'true' : 'false');
 
   const { categoryId } = button.dataset;
   const target = document.getElementById(`category-${categoryId}`);

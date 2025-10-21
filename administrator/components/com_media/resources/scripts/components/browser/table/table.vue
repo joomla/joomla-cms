@@ -144,10 +144,7 @@ export default {
   methods: {
     changeOrder(name) {
       this.$store.commit(types.UPDATE_SORT_BY, name);
-      this.$store.commit(
-        types.UPDATE_SORT_DIRECTION,
-        this.$store.state.sortDirection === 'asc' ? 'desc' : 'asc',
-      );
+      this.$store.commit(types.UPDATE_SORT_DIRECTION, this.$store.state.sortDirection === 'asc' ? 'desc' : 'asc');
     },
   },
 };

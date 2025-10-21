@@ -57,9 +57,7 @@ describe('Test in frontend that the newsfeeds category view', () => {
         }),
       )
       .then((feed) => {
-        cy.visit(
-          `/index.php?option=com_newsfeeds&view=category&id=${feed.catid}`,
-        );
+        cy.visit(`/index.php?option=com_newsfeeds&view=category&id=${feed.catid}`);
 
         cy.contains('automated test feed 1');
         cy.contains('automated test feed 2');

@@ -5,18 +5,10 @@ describe('Test that the sef system plugin', () => {
       .then(() => cy.config_setParameter('sef', true))
       .then(() => cy.config_setParameter('sef_suffix', false))
       .then(() => cy.config_setParameter('sef_rewrite', false))
-      .then(() =>
-        cy.db_updateExtensionParameter('enforcesuffix', '1', 'plg_system_sef'),
-      )
-      .then(() =>
-        cy.db_updateExtensionParameter('indexphp', '1', 'plg_system_sef'),
-      )
-      .then(() =>
-        cy.db_updateExtensionParameter('trailingslash', '0', 'plg_system_sef'),
-      )
-      .then(() =>
-        cy.db_updateExtensionParameter('strictrouting', '1', 'plg_system_sef'),
-      );
+      .then(() => cy.db_updateExtensionParameter('enforcesuffix', '1', 'plg_system_sef'))
+      .then(() => cy.db_updateExtensionParameter('indexphp', '1', 'plg_system_sef'))
+      .then(() => cy.db_updateExtensionParameter('trailingslash', '0', 'plg_system_sef'))
+      .then(() => cy.db_updateExtensionParameter('strictrouting', '1', 'plg_system_sef'));
 
   // Ensure that we always start with a clean SEF default state
   beforeEach(setSefDefaults);
@@ -49,9 +41,7 @@ describe('Test that the sef system plugin', () => {
         followRedirect: false,
       }).then((response) => {
         expect(response.status).to.eq(301);
-        expect(response.redirectedToUrl).to.match(
-          /\/index\.php\/component\/users\/login\.html$/,
-        );
+        expect(response.redirectedToUrl).to.match(/\/index\.php\/component\/users\/login\.html$/);
       });
       cy.request({
         url: '/index.php/component/users/login.html',
@@ -64,9 +54,7 @@ describe('Test that the sef system plugin', () => {
 
   it("can process if option 'enforcesuffix' disabled", () => {
     cy.config_setParameter('sef_suffix', true)
-      .then(() =>
-        cy.db_updateExtensionParameter('enforcesuffix', '0', 'plg_system_sef'),
-      )
+      .then(() => cy.db_updateExtensionParameter('enforcesuffix', '0', 'plg_system_sef'))
       .then(() =>
         cy.request({
           url: '/index.php/component/users/login',
@@ -103,13 +91,9 @@ describe('Test that the sef system plugin', () => {
       )
       .then((response) => {
         expect(response.status).to.eq(301);
-        expect(response.redirectedToUrl).to.match(
-          /(?<!index\.php)\/component\/users\/login$/,
-        );
+        expect(response.redirectedToUrl).to.match(/(?<!index\.php)\/component\/users\/login$/);
       })
-      .then(() =>
-        cy.request({ url: '/component/users/login', followRedirect: false }),
-      )
+      .then(() => cy.request({ url: '/component/users/login', followRedirect: false }))
       .then((response) => {
         expect(response.status).to.eq(200);
       });
@@ -123,9 +107,7 @@ describe('Test that the sef system plugin', () => {
           destination: '.htaccess',
         }),
       )
-      .then(() =>
-        cy.db_updateExtensionParameter('indexphp', '0', 'plg_system_sef'),
-      )
+      .then(() => cy.db_updateExtensionParameter('indexphp', '0', 'plg_system_sef'))
       .then(() =>
         cy.request({
           url: '/index.php/component/users/login',
@@ -135,9 +117,7 @@ describe('Test that the sef system plugin', () => {
       .then((response) => {
         expect(response.status).to.eq(200);
       })
-      .then(() =>
-        cy.request({ url: '/component/users/login', followRedirect: false }),
-      )
+      .then(() => cy.request({ url: '/component/users/login', followRedirect: false }))
       .then((response) => {
         expect(response.status).to.eq(200);
       });
@@ -149,9 +129,7 @@ describe('Test that the sef system plugin', () => {
       followRedirect: false,
     }).then((response) => {
       expect(response.status).to.eq(301);
-      expect(response.redirectedToUrl).to.match(
-        /\/index\.php\/component\/users\/login$/,
-      );
+      expect(response.redirectedToUrl).to.match(/\/index\.php\/component\/users\/login$/);
     });
     cy.request({
       url: '/index.php/component/users/login',
@@ -176,9 +154,7 @@ describe('Test that the sef system plugin', () => {
       )
       .then((response) => {
         expect(response.status).to.eq(301);
-        expect(response.redirectedToUrl).to.match(
-          /\/index\.php\/component\/users\/login\/$/,
-        );
+        expect(response.redirectedToUrl).to.match(/\/index\.php\/component\/users\/login\/$/);
       })
       .then(() =>
         cy.request({
@@ -202,9 +178,7 @@ describe('Test that the sef system plugin', () => {
       followRedirect: false,
     }).then((response) => {
       expect(response.status).to.eq(301);
-      expect(response.redirectedToUrl).to.match(
-        /\/index\.php\/component\/users\/login$/,
-      );
+      expect(response.redirectedToUrl).to.match(/\/index\.php\/component\/users\/login$/);
     });
     cy.request({
       url: '/index.php/component/users/login',

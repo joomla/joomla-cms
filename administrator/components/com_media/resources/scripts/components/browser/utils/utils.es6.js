@@ -42,14 +42,7 @@ export default function onItemClick(event, ctx) {
   // Handle clicks when the item was not selected
   if (!ctx.isSelected()) {
     // Handle clicks when ctrl key was pressed
-    if (
-      event[
-        /Mac|Mac OS|MacIntel/gi.test(window.navigator.userAgent)
-          ? 'metaKey'
-          : 'ctrlKey'
-      ] ||
-      event.keyCode === 17
-    ) {
+    if (event[/Mac|Mac OS|MacIntel/gi.test(window.navigator.userAgent) ? 'metaKey' : 'ctrlKey'] || event.keyCode === 17) {
       ctx.$store.commit(types.SELECT_BROWSER_ITEM, ctx.item);
 
       return;
@@ -63,27 +56,21 @@ export default function onItemClick(event, ctx) {
       return;
     }
 
-    const currentIndex = ctx.localItems.indexOf(
-      ctx.$store.state.selectedItems[0],
-    );
+    const currentIndex = ctx.localItems.indexOf(ctx.$store.state.selectedItems[0]);
     const endIndex = ctx.localItems.indexOf(ctx.item);
     // Handle selections from up to down
     if (currentIndex < endIndex) {
-      ctx.localItems
-        .slice(currentIndex, endIndex + 1)
-        .forEach((element) => {
-          ctx.$store.commit(types.SELECT_BROWSER_ITEM, element);
-        });
+      ctx.localItems.slice(currentIndex, endIndex + 1).forEach((element) => {
+        ctx.$store.commit(types.SELECT_BROWSER_ITEM, element);
+      });
 
       return;
     }
 
     // Handle selections from down to up
-    ctx.localItems
-      .slice(endIndex, currentIndex)
-      .forEach((element) => {
-        ctx.$store.commit(types.SELECT_BROWSER_ITEM, element);
-      });
+    ctx.localItems.slice(endIndex, currentIndex).forEach((element) => {
+      ctx.$store.commit(types.SELECT_BROWSER_ITEM, element);
+    });
 
     return;
   }

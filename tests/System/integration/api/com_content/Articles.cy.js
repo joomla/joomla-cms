@@ -4,15 +4,7 @@ describe('Test that content API endpoint', () => {
   it('can deliver a list of articles', () => {
     cy.db_createArticle({ title: 'automated test article' })
       .then(() => cy.api_get('/content/articles'))
-      .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data.0')
-          .its('attributes')
-          .its('title')
-          .should('include', 'automated test article'),
-      );
+      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes').its('title').should('include', 'automated test article'));
   });
 
   it('can deliver a list of articles filtered by the modified start and end filter', () => {
@@ -32,11 +24,7 @@ describe('Test that content API endpoint', () => {
           modified: '2025-03-15 20:00:00',
         }),
       )
-      .then(() =>
-        cy.api_get(
-          '/content/articles?filter[modified_start]=2025-03-15 14:00:00&filter[modified_end]=2025-03-15 16:00:00',
-        ),
-      )
+      .then(() => cy.api_get('/content/articles?filter[modified_start]=2025-03-15 14:00:00&filter[modified_end]=2025-03-15 16:00:00'))
       .then((response) =>
         cy
           .wrap(response)
@@ -53,15 +41,7 @@ describe('Test that content API endpoint', () => {
   it('can deliver a single article', () => {
     cy.db_createArticle({ title: 'automated test article' })
       .then((article) => cy.api_get(`/content/articles/${article.id}`))
-      .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('title')
-          .should('include', 'automated test article'),
-      );
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', 'automated test article'));
   });
 
   it('can create an article', () => {
@@ -85,15 +65,7 @@ describe('Test that content API endpoint', () => {
           metadata: '',
         }),
       )
-      .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('title')
-          .should('include', 'automated test article'),
-      );
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', 'automated test article'));
   });
 
   it('can update an article', () => {
@@ -104,19 +76,11 @@ describe('Test that content API endpoint', () => {
         }),
       )
       .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('title')
-          .should('include', 'updated automated test article'),
+        cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', 'updated automated test article'),
       );
   });
 
   it('can delete an article', () => {
-    cy.db_createArticle({ title: 'automated test article', state: -2 }).then(
-      (article) => cy.api_delete(`/content/articles/${article.id}`),
-    );
+    cy.db_createArticle({ title: 'automated test article', state: -2 }).then((article) => cy.api_delete(`/content/articles/${article.id}`));
   });
 });

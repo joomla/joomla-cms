@@ -53,8 +53,7 @@
       };
 
       // Unique prefix for this nav instance - needed for the id of submenus and aria-controls
-      this.idPrefix =
-        this.nav?.id ?? `nav-${Math.floor(Math.random() * 100000)}`;
+      this.idPrefix = this.nav?.id ?? `nav-${Math.floor(Math.random() * 100000)}`;
 
       this.topLevelNodes = this.nav.querySelectorAll(':scope > li');
 
@@ -114,28 +113,16 @@
           }
           break;
         case 'Enter':
-          if (
-            event.target.nodeName === 'SPAN' &&
-            event.target.parentNode.nodeName !== 'A' &&
-            subLists.length > 0
-          ) {
+          if (event.target.nodeName === 'SPAN' && event.target.parentNode.nodeName !== 'A' && subLists.length > 0) {
             event.preventDefault();
-            this.toggleSubMenu(
-              target,
-              subLists,
-              subLists[0]?.getAttribute('aria-hidden') === 'true',
-            );
+            this.toggleSubMenu(target, subLists, subLists[0]?.getAttribute('aria-hidden') === 'true');
           }
           break;
         case ' ':
         case 'Spacebar':
           if (subLists.length > 0) {
             event.preventDefault();
-            this.toggleSubMenu(
-              target,
-              subLists,
-              subLists[0]?.getAttribute('aria-hidden') === 'true',
-            );
+            this.toggleSubMenu(target, subLists, subLists[0]?.getAttribute('aria-hidden') === 'true');
           }
           break;
         case 'Escape': {
@@ -144,36 +131,23 @@
           if (!currentTopLevelLi) {
             break;
           }
-          const allChildListsFromTopLevelLi =
-            currentTopLevelLi.querySelectorAll('ul');
+          const allChildListsFromTopLevelLi = currentTopLevelLi.querySelectorAll('ul');
           if (allChildListsFromTopLevelLi.length > 0) {
-            this.toggleSubMenu(
-              currentTopLevelLi,
-              allChildListsFromTopLevelLi,
-              false,
-            );
+            this.toggleSubMenu(currentTopLevelLi, allChildListsFromTopLevelLi, false);
           }
           // set focus on the top level li child with tabindex
-          currentTopLevelLi
-            .querySelectorAll(
-              ':scope > [tabindex]:not([tabindex="-1"]), a, button',
-            )
-            .forEach((tabElement) => {
-              if (tabElement.hasAttribute(['aria-expanded'])) {
-                tabElement.focus();
-              }
-            });
+          currentTopLevelLi.querySelectorAll(':scope > [tabindex]:not([tabindex="-1"]), a, button').forEach((tabElement) => {
+            if (tabElement.hasAttribute(['aria-expanded'])) {
+              tabElement.focus();
+            }
+          });
           break;
         }
         case 'End': {
           event.preventDefault();
-          const currentLiList = target
-            .closest('ul')
-            ?.querySelectorAll(':scope > li');
+          const currentLiList = target.closest('ul')?.querySelectorAll(':scope > li');
           for (let index = currentLiList.length - 1; index >= 0; index -= 1) {
-            const lastTabbable = currentLiList[index].querySelector(
-              ':scope > [tabindex]:not([tabindex="-1"]), a, button',
-            );
+            const lastTabbable = currentLiList[index].querySelector(':scope > [tabindex]:not([tabindex="-1"]), a, button');
             if (lastTabbable) {
               lastTabbable.focus();
               return;
@@ -183,16 +157,10 @@
         }
         case 'Home': {
           event.preventDefault();
-          const firstLi = target
-            .closest('ul')
-            ?.querySelector(':scope > li:first-child');
+          const firstLi = target.closest('ul')?.querySelector(':scope > li:first-child');
           if (firstLi) {
             // set focus on first li child with tabindex within current list
-            firstLi
-              .querySelector(
-                ':scope > [tabindex]:not([tabindex="-1"]), a, button',
-              )
-              ?.focus();
+            firstLi.querySelector(':scope > [tabindex]:not([tabindex="-1"]), a, button')?.focus();
           }
           break;
         }
@@ -202,66 +170,47 @@
     }
 
     onClick(event) {
-      if (
-        !event.target?.hasAttribute('aria-expanded') &&
-        !event.target?.closest('[aria-expanded')
-      ) {
+      if (!event.target?.hasAttribute('aria-expanded') && !event.target?.closest('[aria-expanded')) {
         return;
       }
       if (event.target?.nodeName === 'A') {
         return;
       }
-      if (
-        event.target?.nodeName === 'SPAN' &&
-        event.target.parentNode.nodeName === 'A'
-      ) {
+      if (event.target?.nodeName === 'SPAN' && event.target.parentNode.nodeName === 'A') {
         return;
       }
       const target = event.target.closest('li');
       const subLists = target?.querySelectorAll('ul');
       if (subLists && subLists.length > 0) {
         event.preventDefault();
-        this.toggleSubMenu(
-          target,
-          subLists,
-          subLists[0]?.getAttribute('aria-hidden') === 'true',
-        );
+        this.toggleSubMenu(target, subLists, subLists[0]?.getAttribute('aria-hidden') === 'true');
       }
     }
 
     toggleSubMenu(target, subLists, open = false) {
       if (open) {
         // close all opened submenus before opening the new one
-        const allSubMenus = this.nav.querySelectorAll(
-          'ul[aria-hidden="false"]',
-        );
+        const allSubMenus = this.nav.querySelectorAll('ul[aria-hidden="false"]');
         allSubMenus.forEach((ulChild) => {
           ulChild.setAttribute('aria-hidden', 'true');
           ulChild.classList.remove(this.settings.menuHoverClass);
-          this.getTopLevelParentLi(ulChild)
-            ?.querySelector(':scope > [aria-expanded]')
-            ?.setAttribute('aria-expanded', 'false');
+          this.getTopLevelParentLi(ulChild)?.querySelector(':scope > [aria-expanded]')?.setAttribute('aria-expanded', 'false');
         });
       }
       subLists.forEach((ulChild) => {
         ulChild.setAttribute('aria-hidden', open ? 'false' : 'true');
         ulChild.classList.toggle(this.settings.menuHoverClass, open);
       });
-      target
-        .querySelector(':scope > [aria-expanded]')
-        .setAttribute('aria-expanded', open ? 'true' : 'false');
+      target.querySelector(':scope > [aria-expanded]').setAttribute('aria-expanded', open ? 'true' : 'false');
     }
 
     focusTabbable(direction = 1) {
-      const tabbables = Array.from(
-        this.nav.querySelectorAll('[tabindex]:not([tabindex="-1"]), a, button'),
-      ).filter(
+      const tabbables = Array.from(this.nav.querySelectorAll('[tabindex]:not([tabindex="-1"]), a, button')).filter(
         (el) => !el.disabled && el.tabIndex >= 0 && el.offsetParent !== null,
       );
       const currentIndex = tabbables.indexOf(document.activeElement);
       if (tabbables.length === 0) return;
-      const nextIndex =
-        (currentIndex + direction + tabbables.length) % tabbables.length;
+      const nextIndex = (currentIndex + direction + tabbables.length) % tabbables.length;
       tabbables[nextIndex].focus();
     }
 

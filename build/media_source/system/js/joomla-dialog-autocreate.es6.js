@@ -28,9 +28,7 @@ document.addEventListener('click', (event) => {
     return;
   }
   // Parse config
-  const config = triggerEl.dataset[configDataAttr]
-    ? JSON.parse(triggerEl.dataset[configDataAttr])
-    : {};
+  const config = triggerEl.dataset[configDataAttr] ? JSON.parse(triggerEl.dataset[configDataAttr]) : {};
 
   // Check if the click is on anchor
   if (triggerEl.nodeName === 'A') {
@@ -74,13 +72,11 @@ document.addEventListener('click', (event) => {
     const { checkinUrl } = triggerEl.dataset;
     const reloadOnClose = 'reloadOnClose' in triggerEl.dataset;
     if (checkinUrl) {
-      Joomla.request({ url: checkinUrl, method: 'POST', promise: true }).then(
-        () => {
-          if (reloadOnClose) {
-            window.location.reload();
-          }
-        },
-      );
+      Joomla.request({ url: checkinUrl, method: 'POST', promise: true }).then(() => {
+        if (reloadOnClose) {
+          window.location.reload();
+        }
+      });
     } else if (reloadOnClose) {
       window.location.reload();
     }

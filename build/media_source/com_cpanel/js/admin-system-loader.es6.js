@@ -16,12 +16,7 @@
       elements.forEach((element) => {
         const badgeurl = element.getAttribute('data-url');
 
-        if (
-          badgeurl &&
-          Joomla &&
-          Joomla.request &&
-          typeof Joomla.request === 'function'
-        ) {
+        if (badgeurl && Joomla && Joomla.request && typeof Joomla.request === 'function') {
           Joomla.enqueueRequest({
             url: badgeurl,
             method: 'POST',
@@ -41,12 +36,7 @@
                 element.classList.add('text-danger', 'icon-remove');
               } else if (response.data) {
                 const elem = document.createElement('span');
-                elem.classList.add(
-                  'float-end',
-                  'badge',
-                  'bg-warning',
-                  'text-dark',
-                );
+                elem.classList.add('float-end', 'badge', 'bg-warning', 'text-dark');
                 elem.innerHTML = Joomla.sanitizeHtml(response.data);
 
                 element.parentNode.replaceChild(elem, element);

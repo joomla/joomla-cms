@@ -35,10 +35,7 @@ if (Joomla?.getOptions('js-joomla-update')) {
         if (Array.isArray(updateInfoList)) {
           if (updateInfoList.length === 0) {
             // No updates
-            update(
-              'success',
-              Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE'),
-            );
+            update('success', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE'));
           } else {
             const updateInfo = updateInfoList.shift();
 
@@ -51,10 +48,7 @@ if (Joomla?.getOptions('js-joomla-update')) {
                 ),
               );
             } else {
-              update(
-                'success',
-                Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE'),
-              );
+              update('success', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE'));
             }
           }
         } else {

@@ -60,9 +60,7 @@ export default {
   },
   created() {
     // Listen to the toolbar events
-    MediaManager.Event.listen('onClickCreateFolder', () =>
-      this.$store.commit(types.SHOW_CREATE_FOLDER_MODAL),
-    );
+    MediaManager.Event.listen('onClickCreateFolder', () => this.$store.commit(types.SHOW_CREATE_FOLDER_MODAL));
     MediaManager.Event.listen('onClickDelete', () => {
       if (this.$store.state.selectedItems.length > 0) {
         this.$store.commit(types.SHOW_CONFIRM_DELETE_MODAL);
@@ -80,12 +78,7 @@ export default {
     });
 
     // Initial load the data
-    this.$store.dispatch(
-      'getContents',
-      this.$store.state.selectedDirectory,
-      false,
-      false,
-    );
+    this.$store.dispatch('getContents', this.$store.state.selectedDirectory, false, false);
   },
   beforeUnmount() {
     // Remove the global resize event listener

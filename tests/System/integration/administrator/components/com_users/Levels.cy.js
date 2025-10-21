@@ -5,10 +5,7 @@ describe('Test in backend that the user access level list', () => {
   });
 
   it('has a title', () => {
-    cy.get('h1.page-title').should(
-      'contain.text',
-      'Users: Viewing Access Level',
-    );
+    cy.get('h1.page-title').should('contain.text', 'Users: Viewing Access Level');
   });
 
   it('can display a list of access levels', () => {

@@ -2,9 +2,7 @@ describe('Test in frontend that the users logout view', () => {
   it('can log out the user without a menu item', () => {
     // Make sure we are really logged in
     cy.doFrontendLogin(null, null, false);
-    cy.visit(
-      '/index.php?option=com_users&view=login&layout=logout&task=user.menulogout',
-    );
+    cy.visit('/index.php?option=com_users&view=login&layout=logout&task=user.menulogout');
 
     cy.contains(`Hi ${Cypress.env('name')}`).should('not.exist');
     // This is disabled for now as it looks like cypress has an issue after redirect with the session

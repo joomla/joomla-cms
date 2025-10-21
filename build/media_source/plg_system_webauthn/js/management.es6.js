@@ -32,9 +32,7 @@ window.Joomla = window.Joomla || {};
         if (prefix === '') {
           encodedString += `${encodeURIComponent(prop)}=${encodeURIComponent(object[prop])}`;
         } else {
-          encodedString += `${encodeURIComponent(prefix)}[${encodeURIComponent(prop)}]=${encodeURIComponent(
-            object[prop],
-          )}`;
+          encodedString += `${encodeURIComponent(prefix)}[${encodeURIComponent(prop)}]=${encodeURIComponent(object[prop])}`;
         }
 
         return;
@@ -96,9 +94,7 @@ window.Joomla = window.Joomla || {};
 
           Joomla.plgSystemWebauthnCreateCredentials(publicKey);
         } catch (_exception) {
-          handleCreationError(
-            Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_XHR_INITCREATE'),
-          );
+          handleCreationError(Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_XHR_INITCREATE'));
         }
       },
       onError: (xhr) => {
@@ -118,9 +114,7 @@ window.Joomla = window.Joomla || {};
       const pad = output.length % 4;
       if (pad) {
         if (pad === 1) {
-          throw new Error(
-            'InvalidLengthError: Input base64url string is the wrong length to determine padding',
-          );
+          throw new Error('InvalidLengthError: Input base64url string is the wrong length to determine padding');
         }
         output += new Array(5 - pad).join('=');
       }
@@ -128,25 +122,15 @@ window.Joomla = window.Joomla || {};
     };
 
     // Convert the public key information to a format usable by the browser's credentials manager
-    publicKey.challenge = Uint8Array.from(
-      window.atob(base64url2base64(publicKey.challenge)),
-      (c) => c.charCodeAt(0),
-    );
+    publicKey.challenge = Uint8Array.from(window.atob(base64url2base64(publicKey.challenge)), (c) => c.charCodeAt(0));
 
-    publicKey.user.id = Uint8Array.from(window.atob(publicKey.user.id), (c) =>
-      c.charCodeAt(0),
-    );
+    publicKey.user.id = Uint8Array.from(window.atob(publicKey.user.id), (c) => c.charCodeAt(0));
 
     if (publicKey.excludeCredentials) {
-      publicKey.excludeCredentials = publicKey.excludeCredentials.map(
-        (data) => {
-          data.id = Uint8Array.from(
-            window.atob(base64url2base64(data.id)),
-            (c) => c.charCodeAt(0),
-          );
-          return data;
-        },
-      );
+      publicKey.excludeCredentials = publicKey.excludeCredentials.map((data) => {
+        data.id = Uint8Array.from(window.atob(base64url2base64(data.id)), (c) => c.charCodeAt(0));
+        return data;
+      });
     }
 
     // Ask the browser to prompt the user for their authenticator
@@ -158,12 +142,8 @@ window.Joomla = window.Joomla || {};
           type: data.type,
           rawId: arrayToBase64String(new Uint8Array(data.rawId)),
           response: {
-            clientDataJSON: arrayToBase64String(
-              new Uint8Array(data.response.clientDataJSON),
-            ),
-            attestationObject: arrayToBase64String(
-              new Uint8Array(data.response.attestationObject),
-            ),
+            clientDataJSON: arrayToBase64String(new Uint8Array(data.response.clientDataJSON)),
+            attestationObject: arrayToBase64String(new Uint8Array(data.response.attestationObject)),
           },
         };
 
@@ -184,9 +164,7 @@ window.Joomla = window.Joomla || {};
           method: 'POST',
           data: interpolateParameters(postBackData),
           onSuccess(responseHTML) {
-            const elements = document.querySelectorAll(
-              '#plg_system_webauthn-management-interface',
-            );
+            const elements = document.querySelectorAll('#plg_system_webauthn-management-interface');
 
             if (!elements) {
               return;
@@ -247,9 +225,7 @@ window.Joomla = window.Joomla || {};
 
     const elSave = document.createElement('button');
     elSave.className = 'btn btn-success btn-sm';
-    elSave.innerText = Joomla.Text._(
-      'PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_SAVE_LABEL',
-    );
+    elSave.innerText = Joomla.Text._('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_SAVE_LABEL');
     elSave.addEventListener(
       'click',
       () => {
@@ -282,17 +258,11 @@ window.Joomla = window.Joomla || {};
               }
 
               if (result !== true) {
-                handleCreationError(
-                  Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED'),
-                );
+                handleCreationError(Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED'));
               }
             },
             onError: (xhr) => {
-              handleCreationError(
-                `${Joomla.Text._(
-                  'PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED',
-                )} -- ${xhr.status} ${xhr.statusText}`,
-              );
+              handleCreationError(`${Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED')} -- ${xhr.status} ${xhr.statusText}`);
             },
           });
         }
@@ -308,9 +278,7 @@ window.Joomla = window.Joomla || {};
 
     const elCancel = document.createElement('button');
     elCancel.className = 'btn btn-danger btn-sm';
-    elCancel.innerText = Joomla.Text._(
-      'PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_CANCEL_LABEL',
-    );
+    elCancel.innerText = Joomla.Text._('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_CANCEL_LABEL');
     elCancel.addEventListener(
       'click',
       () => {
@@ -386,9 +354,7 @@ window.Joomla = window.Joomla || {};
         }
 
         if (result !== true) {
-          handleCreationError(
-            Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED'),
-          );
+          handleCreationError(Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED'));
 
           return;
         }
@@ -398,11 +364,7 @@ window.Joomla = window.Joomla || {};
       onError: (xhr) => {
         elEdit.disabled = false;
         elDelete.disabled = false;
-        handleCreationError(
-          `${Joomla.Text._(
-            'PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED',
-          )} -- ${xhr.status} ${xhr.statusText}`,
-        );
+        handleCreationError(`${Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED')} -- ${xhr.status} ${xhr.statusText}`);
       },
     });
 
@@ -421,9 +383,7 @@ window.Joomla = window.Joomla || {};
           html: opt.html ? opt.html : false,
           selector: opt.selector ? opt.selector : false,
           trigger: opt.trigger ? opt.trigger : 'hover focus',
-          fallbackPlacement: opt.fallbackPlacement
-            ? opt.fallbackPlacement
-            : null,
+          fallbackPlacement: opt.fallbackPlacement ? opt.fallbackPlacement : null,
           boundary: opt.boundary ? opt.boundary : 'clippingParents',
           title: opt.title ? opt.title : '',
           customClass: opt.customClass ? opt.customClass : '',
@@ -504,16 +464,12 @@ window.Joomla = window.Joomla || {};
       addButton.addEventListener('click', Joomla.plgSystemWebauthnAddOnClick);
     }
 
-    document
-      .querySelectorAll('.plg_system_webauthn-manage-edit')
-      .forEach((button) => {
-        button.addEventListener('click', Joomla.plgSystemWebauthnEditOnClick);
-      });
-    document
-      .querySelectorAll('.plg_system_webauthn-manage-delete')
-      .forEach((button) => {
-        button.addEventListener('click', Joomla.plgSystemWebauthnDeleteOnClick);
-      });
+    document.querySelectorAll('.plg_system_webauthn-manage-edit').forEach((button) => {
+      button.addEventListener('click', Joomla.plgSystemWebauthnEditOnClick);
+    });
+    document.querySelectorAll('.plg_system_webauthn-manage-delete').forEach((button) => {
+      button.addEventListener('click', Joomla.plgSystemWebauthnDeleteOnClick);
+    });
   };
 
   // Initialization. Runs on DOM content loaded since this script is always loaded deferred.

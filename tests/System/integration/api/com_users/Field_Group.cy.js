@@ -8,13 +8,7 @@ describe('Test that group field user API endpoint', () => {
     })
       .then(() => cy.api_get('/fields/groups/users'))
       .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data.0')
-          .its('attributes')
-          .its('title')
-          .should('include', 'automated test group field users'),
+        cy.wrap(response).its('body').its('data.0').its('attributes').its('title').should('include', 'automated test group field users'),
       );
   });
 
@@ -25,13 +19,7 @@ describe('Test that group field user API endpoint', () => {
     })
       .then((id) => cy.api_get(`/fields/groups/users/${id}`))
       .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('title')
-          .should('include', 'automated test group field users'),
+        cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', 'automated test group field users'),
       );
   });
 
@@ -65,13 +53,7 @@ describe('Test that group field user API endpoint', () => {
       state: 1,
       type: 'text',
     }).then((response) =>
-      cy
-        .wrap(response)
-        .its('body')
-        .its('data')
-        .its('attributes')
-        .its('title')
-        .should('include', 'automated test group field users'),
+      cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', 'automated test group field users'),
     );
   });
 
@@ -87,13 +69,7 @@ describe('Test that group field user API endpoint', () => {
         }),
       )
       .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('title')
-          .should('include', 'updated automated test group field'),
+        cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', 'updated automated test group field'),
       );
   });
 

@@ -15,11 +15,7 @@ describe('Test that contenthistory for contact API endpoint', () => {
           language: '*',
         }),
       )
-      .then((contact) =>
-        cy.api_get(
-          `/contacts/${contact.body.data.attributes.id}/contenthistory`,
-        ),
-      )
+      .then((contact) => cy.api_get(`/contacts/${contact.body.data.attributes.id}/contenthistory`))
       .then((response) => {
         // Assert response status
         expect(response.status).to.eq(200);

@@ -20,7 +20,7 @@
     "watch": "node build/build.mjs --watch",
     "watch:com_media": "node build/build.mjs --watch-com-media",
     "lint:js": "npx @biomejs/biome check --formatter-enabled=false",
-    "lint:scss": "stylelint --config build/.stylelintrc.json \"administrator/components/com_media/resources/**/*.scss\" \"administrator/templates/**/*.scss\" \"build/media_source/**/*.scss\" \"build/media_source/**/*.css\" \"templates/**/*.scss\" \"installation/template/**/*.scss\"",
+    "lint:css": "stylelint --config build/.stylelintrc.json \"administrator/components/com_media/resources/**/*.scss\" \"administrator/templates/**/*.scss\" \"build/media_source/**/*.scss\" \"build/media_source/**/*.css\" \"templates/**/*.scss\" \"installation/template/**/*.scss\"",
     "install": "node build/build.mjs --prepare",
     "update": "node build/build.mjs --copy-assets && node build/build.mjs --build-pages && node build/build.mjs --compile-js && node build/build.mjs --compile-css && node build/build.mjs --compile-bs && node --env-file=./build/production.env build/build.mjs --com-media",
     "gzip": "node build/build.mjs --gzip",

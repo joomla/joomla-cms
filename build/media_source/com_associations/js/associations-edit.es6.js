@@ -8,23 +8,18 @@ Joomla = window.Joomla || {};
   'use strict';
 
   Joomla.hideAssociation = (formControl, languageCode) => {
-    document
-      .querySelectorAll('#associations .control-group')
-      .forEach((element) => {
-        // Current selected language. Hide it
-        const el = element.querySelector('.control-label label');
+    document.querySelectorAll('#associations .control-group').forEach((element) => {
+      // Current selected language. Hide it
+      const el = element.querySelector('.control-label label');
 
-        if (el) {
-          const attribute = el.getAttribute('for');
+      if (el) {
+        const attribute = el.getAttribute('for');
 
-          if (
-            attribute.replace(/_name$/, '') ===
-            `${formControl}_associations_${languageCode.replace('-', '_')}`
-          ) {
-            element.classList.add('hidden');
-          }
+        if (attribute.replace(/_name$/, '') === `${formControl}_associations_${languageCode.replace('-', '_')}`) {
+          element.classList.add('hidden');
         }
-      });
+      }
+    });
   };
 
   Joomla.showAssociationMessage = () => {
@@ -37,11 +32,9 @@ Joomla = window.Joomla || {};
       associations.insertAdjacentElement('afterbegin', html);
     }
 
-    document
-      .querySelectorAll('#associations .control-group')
-      .forEach((element) => {
-        element.classList.add('hidden');
-      });
+    document.querySelectorAll('#associations .control-group').forEach((element) => {
+      element.classList.add('hidden');
+    });
   };
 
   /**
@@ -73,14 +66,7 @@ Joomla = window.Joomla || {};
       if (result.data.length !== 0) {
         Object.keys(result.data).forEach((lang) => {
           functionName = callbackFunctionPrefix + lang.replace('-', '_');
-          window[functionName](
-            result.data[lang].id,
-            result.data[lang].title,
-            result.data[lang].catid,
-            null,
-            null,
-            lang,
-          );
+          window[functionName](result.data[lang].id, result.data[lang].title, result.data[lang].catid, null, null, lang);
         });
       }
 
@@ -124,8 +110,7 @@ Joomla = window.Joomla || {};
 
     // Find the language of the record being edited
     const languageField = document.getElementById('jform_language');
-    const currentLang =
-      languageField.options[languageField.selectedIndex].value;
+    const currentLang = languageField.options[languageField.selectedIndex].value;
 
     const data = {
       task: 'ajax.fetchAssociations',
@@ -162,13 +147,9 @@ Joomla = window.Joomla || {};
   };
 
   document.addEventListener('DOMContentLoaded', () => {
-    const associationsEditOptions = Joomla.getOptions(
-      'system.associations.edit',
-    );
+    const associationsEditOptions = Joomla.getOptions('system.associations.edit');
     const formControl = associationsEditOptions.formControl || 'jform';
-    const formControlLanguage = document.getElementById(
-      `${formControl}_language`,
-    );
+    const formControlLanguage = document.getElementById(`${formControl}_language`);
 
     // Hide the associations tab if needed
     if (parseInt(associationsEditOptions.hidden, 10) === 1) {
@@ -189,38 +170,24 @@ Joomla = window.Joomla || {};
         /** For each language, remove the associations, ie,
          *  empty the associations fields and reset the buttons to Select/Create
          */
-        document
-          .querySelectorAll('#associations .control-group')
-          .forEach((element) => {
-            const attribute = element
-              .querySelector('.control-label label')
-              .getAttribute('for');
-            const languageCode = attribute
-              .replace('_name', '')
-              .replace('jform_associations_', '');
+        document.querySelectorAll('#associations .control-group').forEach((element) => {
+          const attribute = element.querySelector('.control-label label').getAttribute('for');
+          const languageCode = attribute.replace('_name', '').replace('jform_associations_', '');
 
-            // Show the association fields
-            element.classList.remove('hidden');
+          // Show the association fields
+          element.classList.remove('hidden');
 
-            // Check if there was an association selected for this language
-            if (
-              !existsAssociations &&
-              document.getElementById(
-                `${formControl}_associations_${languageCode}_id`,
-              ).value !== ''
-            ) {
-              existsAssociations = true;
-            }
+          // Check if there was an association selected for this language
+          if (!existsAssociations && document.getElementById(`${formControl}_associations_${languageCode}_id`).value !== '') {
+            existsAssociations = true;
+          }
 
-            // Call the modal clear button
-            let clear = document.getElementById(
-              `${formControl}_associations_${languageCode}_clear`,
-            );
-            clear =
-              clear || element.querySelector('[data-button-action="clear"]');
+          // Call the modal clear button
+          let clear = document.getElementById(`${formControl}_associations_${languageCode}_clear`);
+          clear = clear || element.querySelector('[data-button-action="clear"]');
 
-            clear.click();
-          });
+          clear.click();
+        });
 
         // If associations existed, send a warning to the user
         if (existsAssociations) {

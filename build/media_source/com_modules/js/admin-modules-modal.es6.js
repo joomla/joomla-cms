@@ -17,13 +17,8 @@
       const editor = event.target.getAttribute('data-editor');
 
       // Use the API
-      if (
-        window.parent.Joomla?.editors?.instances &&
-        Object.hasOwn(window.parent.Joomla.editors.instances, editor)
-      ) {
-        window.parent.Joomla.editors.instances[editor].replaceSelection(
-          `{loadmoduleid ${modid}}`,
-        );
+      if (window.parent.Joomla?.editors?.instances && Object.hasOwn(window.parent.Joomla.editors.instances, editor)) {
+        window.parent.Joomla.editors.instances[editor].replaceSelection(`{loadmoduleid ${modid}}`);
       }
 
       if (window.parent.Joomla.Modal) {
@@ -40,14 +35,8 @@
       const editor = event.target.getAttribute('data-editor');
 
       // Use the API
-      if (
-        window.Joomla?.editors &&
-        Joomla.editors.instances &&
-        Object.hasOwn(window.parent.Joomla.editors.instances, editor)
-      ) {
-        window.parent.Joomla.editors.instances[editor].replaceSelection(
-          `{loadposition ${position}}`,
-        );
+      if (window.Joomla?.editors && Joomla.editors.instances && Object.hasOwn(window.parent.Joomla.editors.instances, editor)) {
+        window.parent.Joomla.editors.instances[editor].replaceSelection(`{loadposition ${position}}`);
       }
 
       if (window.parent.Joomla.Modal) {

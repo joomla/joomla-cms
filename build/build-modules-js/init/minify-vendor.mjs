@@ -18,10 +18,7 @@ let allFiles = [];
 
 const noMinified = ['accessibility.min.js'];
 
-const alreadyMinified = [
-  'media/vendor/webcomponentsjs/js/webcomponents-bundle.js',
-  'media/vendor/debugbar/vendor/highlightjs/highlight.pack.js',
-];
+const alreadyMinified = ['media/vendor/webcomponentsjs/js/webcomponents-bundle.js', 'media/vendor/debugbar/vendor/highlightjs/highlight.pack.js'];
 
 /**
  * Check if a file exists
@@ -58,9 +55,7 @@ const minifyJS = async (file) => {
   }
 
   const content = await readFile(file, { encoding: 'utf8' });
-  const isMinified = alreadyMinified.includes(
-    file.replace(`${RootPath}${sep}`, ''),
-  );
+  const isMinified = alreadyMinified.includes(file.replace(`${RootPath}${sep}`, ''));
 
   if (isMinified || needsDotJS) {
     minified = content;
@@ -68,9 +63,7 @@ const minifyJS = async (file) => {
     minified = (await transform(content, { minify: true })).code;
   }
 
-  const newFile = needsDotJS
-    ? file.replace('.min.js', '.js')
-    : file.replace('.js', '.min.js');
+  const newFile = needsDotJS ? file.replace('.min.js', '.js') : file.replace('.js', '.min.js');
   // Write the file
   await writeFile(newFile, minified, { encoding: 'utf8', mode: 0o644 });
 };

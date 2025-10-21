@@ -13,10 +13,7 @@
     let batchSelector;
 
     const onChange = () => {
-      if (
-        !batchSelector.value ||
-        (batchSelector.value && parseInt(batchSelector.value, 10) === 0)
-      ) {
+      if (!batchSelector.value || (batchSelector.value && parseInt(batchSelector.value, 10) === 0)) {
         batchCopyMove.classList.add('hidden');
       } else {
         batchCopyMove.classList.remove('hidden');

@@ -4,29 +4,13 @@ describe('Test that banners API endpoint', () => {
   it('can deliver a list of banners', () => {
     cy.db_createBanner({ name: 'automated test banner' })
       .then(() => cy.api_get('/banners'))
-      .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data.0')
-          .its('attributes')
-          .its('name')
-          .should('include', 'automated test banner'),
-      );
+      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes').its('name').should('include', 'automated test banner'));
   });
 
   it('can deliver a single banner', () => {
     cy.db_createBanner({ name: 'automated test banner' })
       .then((banner) => cy.api_get(`/banners/${banner.id}`))
-      .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('name')
-          .should('include', 'automated test banner'),
-      );
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes').its('name').should('include', 'automated test banner'));
   });
 
   it('can create a banner', () => {
@@ -48,15 +32,7 @@ describe('Test that banners API endpoint', () => {
           },
         }),
       )
-      .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('name')
-          .should('include', 'automated test banner'),
-      );
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes').its('name').should('include', 'automated test banner'));
   });
 
   it('can update a banner', () => {
@@ -66,27 +42,15 @@ describe('Test that banners API endpoint', () => {
           name: 'updated automated test banner',
         }),
       )
-      .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('name')
-          .should('include', 'updated automated test banner'),
-      );
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes').its('name').should('include', 'updated automated test banner'));
   });
 
   it('can delete a banner', () => {
-    cy.db_createBanner({ name: 'automated test banner', state: -2 }).then(
-      (banner) => cy.api_delete(`/banners/${banner.id}`),
-    );
+    cy.db_createBanner({ name: 'automated test banner', state: -2 }).then((banner) => cy.api_delete(`/banners/${banner.id}`));
   });
 
   it('check correct response for delete a not existent contact', () => {
-    cy.api_delete('/banners/9999').then((result) =>
-      expect(result.status).to.eq(204),
-    );
+    cy.api_delete('/banners/9999').then((result) => expect(result.status).to.eq(204));
   });
 
   it('cannot delete a banner that is not trashed', () => {
@@ -101,9 +65,7 @@ describe('Test that banners API endpoint', () => {
           failOnStatusCode: false,
         }).then((response) => {
           expect(response.status).to.equal(409);
-          expect(response.body.data.message).to.include(
-            'must be trashed before it can be deleted',
-          );
+          expect(response.body.data.message).to.include('must be trashed before it can be deleted');
         });
       });
     });

@@ -12,9 +12,7 @@ class JMultiSelect {
     this.formEl = container.closest('form');
     this.rowSelector = 'tr[class^="row"]';
     this.boxSelector = 'input[type="checkbox"][name="cid[]"]';
-    this.checkallToggle = this.tableEl.querySelector(
-      '[name="checkall-toggle"]',
-    );
+    this.checkallToggle = this.tableEl.querySelector('[name="checkall-toggle"]');
     this.prevRow = null;
 
     // Use delegation listener, to allow dynamic tables
@@ -48,26 +46,18 @@ class JMultiSelect {
   // Handle click on a row
   onRowClick({ target, shiftKey }) {
     // Do not interfere with links, buttons, inputs and other interactive elements
-    if (
-      !target.matches(this.boxSelector) &&
-      target.closest(
-        'a, button, input, select, textarea, details, dialog, audio, video',
-      )
-    ) {
+    if (!target.matches(this.boxSelector) && target.closest('a, button, input, select, textarea, details, dialog, audio, video')) {
       return;
     }
 
     // Get clicked row and checkbox in it
     const currentRow = target.closest(this.rowSelector);
-    const currentBox = target.matches(this.boxSelector)
-      ? target
-      : currentRow.querySelector(this.boxSelector);
+    const currentBox = target.matches(this.boxSelector) ? target : currentRow.querySelector(this.boxSelector);
     if (!currentBox) {
       return;
     }
 
-    const isChecked =
-      currentBox !== target ? !currentBox.checked : currentBox.checked;
+    const isChecked = currentBox !== target ? !currentBox.checked : currentBox.checked;
 
     if (isChecked !== currentBox.checked) {
       currentBox.checked = isChecked;
@@ -87,10 +77,7 @@ class JMultiSelect {
 
       // Check for more than 2 row selected
       if (idxStart >= 0 && idxEnd >= 0 && Math.abs(idxStart - idxEnd) > 1) {
-        const slice =
-          idxStart < idxEnd
-            ? rows.slice(idxStart, idxEnd + 1)
-            : rows.slice(idxEnd, idxStart + 1);
+        const slice = idxStart < idxEnd ? rows.slice(idxStart, idxEnd + 1) : rows.slice(idxEnd, idxStart + 1);
 
         slice.forEach((row) => {
           if (row === currentRow) {
@@ -112,9 +99,7 @@ class JMultiSelect {
 
 const onBoot = (container) => {
   let selector = '#adminForm';
-  const confSelector = window.Joomla
-    ? Joomla.getOptions('js-multiselect', {}).formName
-    : '';
+  const confSelector = window.Joomla ? Joomla.getOptions('js-multiselect', {}).formName : '';
 
   if (confSelector) {
     const pref = confSelector[0];

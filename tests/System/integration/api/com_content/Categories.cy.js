@@ -1,27 +1,14 @@
 describe('Test that content categories API endpoint', () => {
-  afterEach(() =>
-    cy.task(
-      'queryDB',
-      "DELETE FROM #__categories WHERE title = 'automated test content category'",
-    ),
-  );
+  afterEach(() => cy.task('queryDB', "DELETE FROM #__categories WHERE title = 'automated test content category'"));
 
   it('can deliver a list of categories', () => {
     cy.db_createCategory({
       title: 'automated test content category',
       extension: 'com_content',
     })
-      .then((id) =>
-        cy.db_createArticle({ title: 'automated test article', catid: id }),
-      )
+      .then((id) => cy.db_createArticle({ title: 'automated test article', catid: id }))
       .then(() => cy.api_get('/content/categories'))
-      .then((response) =>
-        cy.api_responseContains(
-          response,
-          'title',
-          'automated test content category',
-        ),
-      );
+      .then((response) => cy.api_responseContains(response, 'title', 'automated test content category'));
   });
 
   it('can deliver a single category', () => {
@@ -31,13 +18,7 @@ describe('Test that content categories API endpoint', () => {
     })
       .then((id) => cy.api_get(`/content/categories/${id}`))
       .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('title')
-          .should('include', 'automated test content category'),
+        cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', 'automated test content category'),
       );
   });
 
@@ -48,18 +29,8 @@ describe('Test that content categories API endpoint', () => {
       parent_id: 1,
       extension: 'com_content',
     }).then((response) => {
-      cy.wrap(response)
-        .its('body')
-        .its('data')
-        .its('attributes')
-        .its('title')
-        .should('include', 'automated test content category');
-      cy.wrap(response)
-        .its('body')
-        .its('data')
-        .its('attributes')
-        .its('description')
-        .should('include', 'automated test content category description');
+      cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', 'automated test content category');
+      cy.wrap(response).its('body').its('data').its('attributes').its('description').should('include', 'automated test content category description');
     });
   });
 
@@ -75,12 +46,7 @@ describe('Test that content categories API endpoint', () => {
         }),
       )
       .then((response) => {
-        cy.wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('title')
-          .should('include', 'updated automated test content category');
+        cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', 'updated automated test content category');
         cy.wrap(response)
           .its('body')
           .its('data')

@@ -28,10 +28,7 @@
             return;
           }
 
-          if (
-            Object.prototype.toString.call(response.suggestions) ===
-            '[object Array]'
-          ) {
+          if (Object.prototype.toString.call(response.suggestions) === '[object Array]') {
             target.awesomplete.list = response.suggestions;
           }
         })
@@ -69,31 +66,24 @@
 
   // The boot sequence
   const onBoot = () => {
-    document
-      .querySelectorAll('.js-finder-search-query')
-      .forEach((searchword) => {
-        // Handle the auto suggestion
-        if (Joomla.getOptions('finder-search')) {
-          searchword.awesomplete = new Awesomplete(searchword, {
-            listLabel: Joomla.Text._('COM_FINDER_SEARCH_FORM_LIST_LABEL'),
-          });
+    document.querySelectorAll('.js-finder-search-query').forEach((searchword) => {
+      // Handle the auto suggestion
+      if (Joomla.getOptions('finder-search')) {
+        searchword.awesomplete = new Awesomplete(searchword, {
+          listLabel: Joomla.Text._('COM_FINDER_SEARCH_FORM_LIST_LABEL'),
+        });
 
-          // If the current value is empty, set the previous value.
-          searchword.addEventListener('input', onInputChange);
+        // If the current value is empty, set the previous value.
+        searchword.addEventListener('input', onInputChange);
 
-          const advanced = searchword
-            .closest('form')
-            .querySelector('.js-finder-advanced');
+        const advanced = searchword.closest('form').querySelector('.js-finder-advanced');
 
-          // Do not submit the form on suggestion selection, in case of advanced form.
-          if (!advanced) {
-            searchword.addEventListener(
-              'awesomplete-selectcomplete',
-              submitForm,
-            );
-          }
+        // Do not submit the form on suggestion selection, in case of advanced form.
+        if (!advanced) {
+          searchword.addEventListener('awesomplete-selectcomplete', submitForm);
         }
-      });
+      }
+    });
 
     document.querySelectorAll('.js-finder-searchform').forEach((form) => {
       form.addEventListener('submit', onSubmit);

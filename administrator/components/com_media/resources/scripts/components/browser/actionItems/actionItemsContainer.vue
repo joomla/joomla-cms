@@ -181,18 +181,10 @@ export default {
   },
   computed: {
     canEdit() {
-      return (
-        api.canEdit &&
-        (typeof this.item.canEdit !== 'undefined' ? this.item.canEdit : true)
-      );
+      return api.canEdit && (typeof this.item.canEdit !== 'undefined' ? this.item.canEdit : true);
     },
     canDelete() {
-      return (
-        api.canDelete &&
-        (typeof this.item.canDelete !== 'undefined'
-          ? this.item.canDelete
-          : true)
-      );
+      return api.canDelete && (typeof this.item.canDelete !== 'undefined' ? this.item.canDelete : true);
     },
     canOpenEditView() {
       // @TODO pass the array of allowed to edit files from PHP
@@ -201,13 +193,7 @@ export default {
   },
   watch: {
     '$store.state.showRenameModal': function (show) {
-      if (
-        !show &&
-        this.$refs.actionToggle &&
-        this.$store.state.selectedItems.find(
-          (item) => item.name === this.item.name,
-        ) !== undefined
-      ) {
+      if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find((item) => item.name === this.item.name) !== undefined) {
         this.$refs.actionToggle.$el.focus();
       }
     },
@@ -248,11 +234,7 @@ export default {
     openActions() {
       this.showActions = true;
       this.$parent.$parent.$data.actionsActive = true;
-      const buttons = [
-        ...this.$el.parentElement.querySelectorAll(
-          '.media-browser-actions-list button',
-        ),
-      ];
+      const buttons = [...this.$el.parentElement.querySelectorAll('.media-browser-actions-list button')];
       if (buttons.length) {
         buttons.forEach((button, i) => {
           if (i === 0) {
@@ -268,11 +250,7 @@ export default {
     openLastActions() {
       this.showActions = true;
       this.$parent.$parent.$data.actionsActive = true;
-      const buttons = [
-        ...this.$el.parentElement.querySelectorAll(
-          '.media-browser-actions-list button',
-        ),
-      ];
+      const buttons = [...this.$el.parentElement.querySelectorAll('.media-browser-actions-list button')];
       if (buttons.length) {
         buttons.forEach((button, i) => {
           if (i === buttons.length) {

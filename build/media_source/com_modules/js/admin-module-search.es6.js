@@ -35,13 +35,9 @@
 
 // Make sure the element exists i.e. a template override has not removed it.
 const elSearch = document.getElementById('comModulesSelectSearch');
-const elSearchContainer = document.getElementById(
-  'comModulesSelectSearchContainer',
-);
+const elSearchContainer = document.getElementById('comModulesSelectSearchContainer');
 const elSearchHeader = document.getElementById('comModulesSelectTypeHeader');
-const elSearchResults = document.getElementById(
-  'comModulesSelectResultsContainer',
-);
+const elSearchResults = document.getElementById('comModulesSelectResultsContainer');
 const alertElement = document.querySelector('.modules-alert');
 
 if (elSearch && elSearchContainer) {
@@ -104,8 +100,7 @@ if (elSearch && elSearchContainer) {
   try {
     if (typeof sessionStorage !== 'undefined') {
       // Load the search string from session storage
-      elSearch.value =
-        sessionStorage.getItem('Joomla.com_modules.new.search') || '';
+      elSearch.value = sessionStorage.getItem('Joomla.com_modules.new.search') || '';
 
       // Trigger the keyboard handler event manually to initiate the search
       elSearch.dispatchEvent(new KeyboardEvent('keyup'));

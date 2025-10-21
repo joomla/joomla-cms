@@ -4,8 +4,7 @@ describe('Test in backend that the menu list', () => {
     cy.visit('/administrator/index.php?option=com_menus&view=menus&filter=');
   });
 
-  it('has a title', () =>
-    cy.get('h1.page-title').should('contain.text', 'Menus'));
+  it('has a title', () => cy.get('h1.page-title').should('contain.text', 'Menus'));
 
   it('can display a list of menus', () => cy.contains('Main Menu'));
 

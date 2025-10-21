@@ -5,8 +5,7 @@
 
 ((document) => {
   const isChecked = (element) => element.checked;
-  const getTreeElements = (element) =>
-    element.querySelectorAll('input[type="checkbox"]');
+  const getTreeElements = (element) => element.querySelectorAll('input[type="checkbox"]');
   const getTreeRoot = (element) => element.parentElement.nextElementSibling;
 
   const check = (element) => {
@@ -42,9 +41,7 @@
     }
   };
 
-  document
-    .querySelectorAll('.treeselect input[type="checkbox"]')
-    .forEach((checkbox) => {
-      checkbox.addEventListener('click', switchState);
-    });
+  document.querySelectorAll('.treeselect input[type="checkbox"]').forEach((checkbox) => {
+    checkbox.addEventListener('click', switchState);
+  });
 })(document);

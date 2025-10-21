@@ -1,20 +1,9 @@
 describe('Test that menus administrator API endpoint', () => {
-  afterEach(() =>
-    cy.task(
-      'queryDB',
-      "DELETE FROM #__menu_types WHERE title = 'automated test administrator menu' ",
-    ),
-  );
+  afterEach(() => cy.task('queryDB', "DELETE FROM #__menu_types WHERE title = 'automated test administrator menu' "));
 
   it('can deliver a list of administrator menus', () => {
     cy.api_get('/menus/administrator').then((response) =>
-      cy
-        .wrap(response)
-        .its('body')
-        .its('data.0')
-        .its('attributes')
-        .its('title')
-        .should('include', 'Main Menu'),
+      cy.wrap(response).its('body').its('data.0').its('attributes').its('title').should('include', 'Main Menu'),
     );
   });
 
@@ -25,13 +14,7 @@ describe('Test that menus administrator API endpoint', () => {
     })
       .then((id) => cy.api_get(`/menus/administrator/${id}`))
       .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('title')
-          .should('include', 'automated test administrator menu'),
+        cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', 'automated test administrator menu'),
       );
   });
 
@@ -42,13 +25,7 @@ describe('Test that menus administrator API endpoint', () => {
       menutype: 'menu',
       title: 'automated test administrator menu',
     }).then((response) =>
-      cy
-        .wrap(response)
-        .its('body')
-        .its('data')
-        .its('attributes')
-        .its('title')
-        .should('include', 'automated test administrator menu'),
+      cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', 'automated test administrator menu'),
     );
   });
 
@@ -63,13 +40,7 @@ describe('Test that menus administrator API endpoint', () => {
         }),
       )
       .then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('title')
-          .should('include', 'updated automated test administrator menu'),
+        cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', 'updated automated test administrator menu'),
       );
   });
 

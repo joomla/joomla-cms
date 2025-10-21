@@ -72,9 +72,7 @@ export default {
     /* Get the item to show in the modal */
     item() {
       // Use the currently selected directory as a fallback
-      return this.$store.state.selectedItem
-        ? this.$store.state.selectedItem
-        : this.$store.state.previewItem;
+      return this.$store.state.selectedItem ? this.$store.state.selectedItem : this.$store.state.previewItem;
     },
     /* Get the hashed URL */
     getHashedURL() {
@@ -84,9 +82,7 @@ export default {
       return this.item.url;
     },
     style() {
-      return this.item.mime_type !== 'image/svg+xml'
-        ? null
-        : 'width: clamp(300px, 1000px, 75vw)';
+      return this.item.mime_type !== 'image/svg+xml' ? null : 'width: clamp(300px, 1000px, 75vw)';
     },
   },
   methods: {

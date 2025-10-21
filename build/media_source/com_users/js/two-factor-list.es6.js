@@ -7,14 +7,12 @@
   'use strict';
 
   document.addEventListener('DOMContentLoaded', () => {
-    document
-      .querySelectorAll('.com-users-methods-list-method-record-delete')
-      .forEach((el) => {
-        el.addEventListener('click', (event) => {
-          if (!window.confirm(Joomla.Text._('JGLOBAL_CONFIRM_DELETE'))) {
-            event.preventDefault();
-          }
-        });
+    document.querySelectorAll('.com-users-methods-list-method-record-delete').forEach((el) => {
+      el.addEventListener('click', (event) => {
+        if (!window.confirm(Joomla.Text._('JGLOBAL_CONFIRM_DELETE'))) {
+          event.preventDefault();
+        }
       });
+    });
   });
 })(Joomla, window);

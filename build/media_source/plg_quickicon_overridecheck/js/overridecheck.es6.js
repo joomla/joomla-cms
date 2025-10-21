@@ -43,20 +43,14 @@
             if (Array.isArray(updateInfoList)) {
               if (updateInfoList.length === 0) {
                 // No overrides found
-                update(
-                  'success',
-                  Joomla.Text._('PLG_QUICKICON_OVERRIDECHECK_UPTODATE'),
-                  '',
-                );
+                update('success', Joomla.Text._('PLG_QUICKICON_OVERRIDECHECK_UPTODATE'), '');
               } else {
                 // Scroll to page top
                 window.scrollTo(0, 0);
 
                 update(
                   'danger',
-                  Joomla.Text._(
-                    'PLG_QUICKICON_OVERRIDECHECK_OVERRIDEFOUND',
-                  ).replace(
+                  Joomla.Text._('PLG_QUICKICON_OVERRIDECHECK_OVERRIDEFOUND').replace(
                     '%s',
                     `<span class="badge text-dark bg-light">${updateInfoList.length}</span>`,
                   ),
@@ -76,11 +70,7 @@
         })
         .catch(() => {
           // An error occurred
-          update(
-            'danger',
-            Joomla.Text._('PLG_QUICKICON_OVERRIDECHECK_ERROR'),
-            '',
-          );
+          update('danger', Joomla.Text._('PLG_QUICKICON_OVERRIDECHECK_ERROR'), '');
         });
     }
   };

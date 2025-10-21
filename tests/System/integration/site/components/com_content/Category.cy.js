@@ -2,15 +2,9 @@ describe('Test in frontend that the content category view', () => {
   ['default', 'blog'].forEach((layout) => {
     it(`can display a list of articles in the ${layout} layout in a menu item`, () => {
       cy.db_createArticle({ title: 'article 1' })
-        .then((article) =>
-          cy.db_createArticle({ title: 'article 2', catid: article.catid }),
-        )
-        .then((article) =>
-          cy.db_createArticle({ title: 'article 3', catid: article.catid }),
-        )
-        .then((article) =>
-          cy.db_createArticle({ title: 'article 4', catid: article.catid }),
-        )
+        .then((article) => cy.db_createArticle({ title: 'article 2', catid: article.catid }))
+        .then((article) => cy.db_createArticle({ title: 'article 3', catid: article.catid }))
+        .then((article) => cy.db_createArticle({ title: 'article 4', catid: article.catid }))
         .then((article) =>
           cy.db_createMenuItem({
             title: 'automated test',
@@ -32,19 +26,11 @@ describe('Test in frontend that the content category view', () => {
 
     it(`can display a list of articles in the ${layout} layout without a menu item`, () => {
       cy.db_createArticle({ title: 'article 1' })
-        .then((article) =>
-          cy.db_createArticle({ title: 'article 2', catid: article.catid }),
-        )
-        .then((article) =>
-          cy.db_createArticle({ title: 'article 3', catid: article.catid }),
-        )
-        .then((article) =>
-          cy.db_createArticle({ title: 'article 4', catid: article.catid }),
-        )
+        .then((article) => cy.db_createArticle({ title: 'article 2', catid: article.catid }))
+        .then((article) => cy.db_createArticle({ title: 'article 3', catid: article.catid }))
+        .then((article) => cy.db_createArticle({ title: 'article 4', catid: article.catid }))
         .then((article) => {
-          cy.visit(
-            `/index.php?option=com_content&view=category&id=${article.catid}&layout=${layout}`,
-          );
+          cy.visit(`/index.php?option=com_content&view=category&id=${article.catid}&layout=${layout}`);
 
           cy.contains('article 1');
           cy.contains('article 2');

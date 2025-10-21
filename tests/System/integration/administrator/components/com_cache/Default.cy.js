@@ -9,10 +9,7 @@ describe('Test in backend that the cache', () => {
   });
 
   it('can display message', () => {
-    cy.get('div.alert.alert-info').should(
-      'contain.text',
-      'Select the Clear Expired Cache button',
-    );
+    cy.get('div.alert.alert-info').should('contain.text', 'Select the Clear Expired Cache button');
   });
 
   it('can display a list of cached items', () => {

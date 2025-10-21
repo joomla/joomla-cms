@@ -20,35 +20,22 @@ const createMinified = async (file) => {
   const initial = await readFile(resolve(outputFolder, file), {
     encoding: 'utf8',
   });
-  const mini = await transform(
-    initial
-      .replace('./popper.js', `./popper.min.js?${bsVersion}`)
-      .replace('./dom.js', `./dom.min.js?${bsVersion}`),
-    { minify: true },
-  );
+  const mini = await transform(initial.replace('./popper.js', `./popper.min.js?${bsVersion}`).replace('./dom.js', `./dom.min.js?${bsVersion}`), {
+    minify: true,
+  });
   await writeFile(
     resolve(outputFolder, file),
-    initial
-      .replace('./popper.js', `./popper.js?${bsVersion}`)
-      .replace('./dom.js', `./dom.js?${bsVersion}`),
+    initial.replace('./popper.js', `./popper.js?${bsVersion}`).replace('./dom.js', `./dom.js?${bsVersion}`),
     { encoding: 'utf8', mode: 0o644 },
   );
-  await writeFile(
-    resolve(outputFolder, file.replace('.js', '.min.js')),
-    mini.code,
-    { encoding: 'utf8', mode: 0o644 },
-  );
+  await writeFile(resolve(outputFolder, file.replace('.js', '.min.js')), mini.code, { encoding: 'utf8', mode: 0o644 });
 };
 
 const build = async () => {
   console.log('Building ES6 Components...');
 
-  const domImports = await readdir(
-    resolve('node_modules/bootstrap', 'js/src/dom'),
-  );
-  const utilImports = await readdir(
-    resolve('node_modules/bootstrap', 'js/src/util'),
-  );
+  const domImports = await readdir(resolve('node_modules/bootstrap', 'js/src/dom'));
+  const utilImports = await readdir(resolve('node_modules/bootstrap', 'js/src/util'));
 
   const bundle = await rollup({
     input: resolve(inputFolder, 'index.es6.js'),
@@ -96,12 +83,8 @@ const build = async () => {
       popper: ['@popperjs/core'],
       dom: [
         'node_modules/bootstrap/js/src/base-component.js',
-        ...domImports.map(
-          (file) => `node_modules/bootstrap/js/src/dom/${file}`,
-        ),
-        ...utilImports.map(
-          (file) => `node_modules/bootstrap/js/src/util/${file}`,
-        ),
+        ...domImports.map((file) => `node_modules/bootstrap/js/src/dom/${file}`),
+        ...utilImports.map((file) => `node_modules/bootstrap/js/src/util/${file}`),
       ],
     },
   });

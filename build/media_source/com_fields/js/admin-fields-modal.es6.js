@@ -18,13 +18,9 @@
     if (window.parent.JoomlaExpectingPostMessage) {
       return;
     }
-    console.warn(
-      'Method Joomla.fieldIns() is deprecated. Use postMessage() instead.',
-    );
+    console.warn('Method Joomla.fieldIns() is deprecated. Use postMessage() instead.');
 
-    window.parent.Joomla.editors.instances[editor].replaceSelection(
-      `{field ${id}}`,
-    );
+    window.parent.Joomla.editors.instances[editor].replaceSelection(`{field ${id}}`);
 
     if (window.parent.Joomla.Modal) {
       window.parent.Joomla.Modal.getCurrent().close();
@@ -36,13 +32,9 @@
     if (window.parent.JoomlaExpectingPostMessage) {
       return;
     }
-    console.warn(
-      'Method Joomla.fieldgroupIns() is deprecated. Use postMessage() instead.',
-    );
+    console.warn('Method Joomla.fieldgroupIns() is deprecated. Use postMessage() instead.');
 
-    window.parent.Joomla.editors.instances[editor].replaceSelection(
-      `{fieldgroup ${id}}`,
-    );
+    window.parent.Joomla.editors.instances[editor].replaceSelection(`{fieldgroup ${id}}`);
 
     if (window.parent.Joomla.Modal) {
       window.parent.Joomla.Modal.getCurrent().close();

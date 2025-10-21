@@ -109,10 +109,7 @@ class JoomlaEditorNone extends HTMLElement {
    */
   getSelection() {
     if (this.editor.selectionStart || this.editor.selectionStart === 0) {
-      return this.editor.value.substring(
-        this.editor.selectionStart,
-        this.editor.selectionEnd,
-      );
+      return this.editor.value.substring(this.editor.selectionStart, this.editor.selectionEnd);
     }
     return this.editor.value;
   }
@@ -124,10 +121,7 @@ class JoomlaEditorNone extends HTMLElement {
   replaceSelection(text) {
     const ed = this.editor;
     if (ed.selectionStart || ed.selectionStart === 0) {
-      ed.value =
-        ed.value.substring(0, ed.selectionStart) +
-        text +
-        ed.value.substring(ed.selectionEnd, ed.value.length);
+      ed.value = ed.value.substring(0, ed.selectionStart) + text + ed.value.substring(ed.selectionEnd, ed.value.length);
     } else {
       ed.value += text;
     }
@@ -155,11 +149,7 @@ class JoomlaEditorNone extends HTMLElement {
    */
   childrenChange() {
     // Ensure the first child is an input with a textarea type.
-    if (
-      this.firstElementChild?.tagName &&
-      this.firstElementChild.tagName.toLowerCase() === 'textarea' &&
-      this.firstElementChild.getAttribute('id')
-    ) {
+    if (this.firstElementChild?.tagName && this.firstElementChild.tagName.toLowerCase() === 'textarea' && this.firstElementChild.getAttribute('id')) {
       this.editor = this.firstElementChild;
       this.unregisterEditor();
       this.registerEditor();

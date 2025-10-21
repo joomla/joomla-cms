@@ -36,27 +36,19 @@ describe('Test in backend that the user list', () => {
 
   it('can filter state', () => {
     cy.db_createUser({ name: 'Test user 1', username: 'test1', block: 0 })
-      .then(() =>
-        cy.db_createUser({ name: 'Test user 2', username: 'test2', block: 1 }),
-      )
+      .then(() => cy.db_createUser({ name: 'Test user 2', username: 'test2', block: 1 }))
       .then(() => {
         cy.reload();
 
-        cy.get('#userList')
-          .should('contain', 'Test user 1')
-          .should('contain', 'Test user 2');
+        cy.get('#userList').should('contain', 'Test user 1').should('contain', 'Test user 2');
 
         cy.setFilter('state', 'Enabled');
 
-        cy.get('#userList')
-          .should('contain', 'Test user 1')
-          .should('not.contain', 'Test user 2');
+        cy.get('#userList').should('contain', 'Test user 1').should('not.contain', 'Test user 2');
 
         cy.setFilter('state', 'Disabled');
 
-        cy.get('#userList')
-          .should('not.contain', 'Test user 1')
-          .should('contain', 'Test user 2');
+        cy.get('#userList').should('not.contain', 'Test user 1').should('contain', 'Test user 2');
       });
   });
 
@@ -72,27 +64,19 @@ describe('Test in backend that the user list', () => {
       .then(() => {
         cy.reload();
 
-        cy.get('#userList')
-          .should('contain', 'Test user 1')
-          .should('contain', 'Test user 2');
+        cy.get('#userList').should('contain', 'Test user 1').should('contain', 'Test user 2');
 
         cy.setFilter('group_id', '- Registered');
 
-        cy.get('#userList')
-          .should('contain', 'Test user 1')
-          .should('not.contain', 'Test user 2');
+        cy.get('#userList').should('contain', 'Test user 1').should('not.contain', 'Test user 2');
 
         cy.setFilter('group_id', '- Manager');
 
-        cy.get('#userList')
-          .should('not.contain', 'Test user 1')
-          .should('contain', 'Test user 2');
+        cy.get('#userList').should('not.contain', 'Test user 1').should('contain', 'Test user 2');
 
         cy.setFilter('group_id', '- Super Users');
 
-        cy.get('#userList')
-          .should('not.contain', 'Test user 1')
-          .should('not.contain', 'Test user 2');
+        cy.get('#userList').should('not.contain', 'Test user 1').should('not.contain', 'Test user 2');
       });
   });
 });

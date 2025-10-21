@@ -23,9 +23,7 @@ Joomla = window.Joomla || {};
   };
 
   const initStatsEvents = (callback) => {
-    const messageContainer = document.getElementById(
-      'system-message-container',
-    );
+    const messageContainer = document.getElementById('system-message-container');
     const joomlaAlert = messageContainer.querySelector('.js-pstats-alert');
 
     // Always allow
@@ -55,9 +53,7 @@ Joomla = window.Joomla || {};
 
   const getJson = ({ plugin = 'sendStats' } = {}) => {
     const url = `index.php?option=com_ajax&group=system&plugin=${plugin}&format=raw`;
-    const messageContainer = document.getElementById(
-      'system-message-container',
-    );
+    const messageContainer = document.getElementById('system-message-container');
     Joomla.request({
       url,
       headers: {
@@ -67,13 +63,8 @@ Joomla = window.Joomla || {};
         try {
           const json = JSON.parse(response);
           if (json?.html) {
-            messageContainer.insertAdjacentHTML(
-              'beforeend',
-              Joomla.sanitizeHtml(json.html, allowed),
-            );
-            messageContainer
-              .querySelector('.js-pstats-alert')
-              .classList.remove('hidden');
+            messageContainer.insertAdjacentHTML('beforeend', Joomla.sanitizeHtml(json.html, allowed));
+            messageContainer.querySelector('.js-pstats-alert').classList.remove('hidden');
             initStatsEvents(getJson);
           }
         } catch (e) {

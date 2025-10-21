@@ -4,10 +4,7 @@
  */
 
 function getText(translatableText, fallbackText) {
-  const translatedText =
-    typeof Joomla?.Text?._ === 'function'
-      ? Joomla.Text._(translatableText)
-      : '';
+  const translatedText = typeof Joomla?.Text?._ === 'function' ? Joomla.Text._(translatableText) : '';
 
   return translatedText !== translatableText ? translatedText : fallbackText;
 }
@@ -39,14 +36,7 @@ function getColorName(value) {
   if (newValue === 'none') return getText(texts.none[0], texts.none[1]);
   if (value.startsWith('#') && value.length === 4) {
     const tmpValue = value.split('');
-    newValue =
-      tmpValue[0] +
-      tmpValue[1] +
-      tmpValue[1] +
-      tmpValue[2] +
-      tmpValue[2] +
-      tmpValue[3] +
-      tmpValue[3];
+    newValue = tmpValue[0] + tmpValue[1] + tmpValue[1] + tmpValue[2] + tmpValue[2] + tmpValue[3] + tmpValue[3];
   }
 
   return newValue;
@@ -116,17 +106,13 @@ class JoomlaFieldSimpleColor extends HTMLElement {
     this.slotted = this.shadowRoot.querySelector('slot[name=colors]');
     this.addEventListener('keydown', this.keys);
     this.closeButton.addEventListener('click', this.hide);
-    this.closeButton.setAttribute(
-      'aria-label',
-      getText(texts.close[0], texts.close[1]),
-    );
+    this.closeButton.setAttribute('aria-label', getText(texts.close[0], texts.close[1]));
     this.slotted.assignedElements().forEach((element) => {
       if (!this.validateColor(element.value)) {
         element.remove();
       }
 
-      element.style.background =
-        element.value === 'none' ? checker : element.value;
+      element.style.background = element.value === 'none' ? checker : element.value;
       element.setAttribute('aria-label', getColorName(element.value));
       element.addEventListener('click', this.colorSelect);
       if (element.getAttribute('aria-pressed') === 'true') {
@@ -161,10 +147,7 @@ class JoomlaFieldSimpleColor extends HTMLElement {
 
   onDocumentClick(e) {
     if ([...this.internals.labels].includes(e.target)) return;
-    if (
-      e.target.closest('joomla-field-simple-color') !== this &&
-      this.panel.style.display === 'flex'
-    ) {
+    if (e.target.closest('joomla-field-simple-color') !== this && this.panel.style.display === 'flex') {
       this.hide();
     }
   }
@@ -172,13 +155,9 @@ class JoomlaFieldSimpleColor extends HTMLElement {
   colorSelect(event) {
     const { currentTarget } = event;
     this.slotted.assignedElements().forEach((element) => {
-      element.setAttribute(
-        'aria-pressed',
-        element !== currentTarget ? 'false' : 'true',
-      );
+      element.setAttribute('aria-pressed', element !== currentTarget ? 'false' : 'true');
     });
-    this.button.style.background =
-      currentTarget.value === 'none' ? checker : currentTarget.value;
+    this.button.style.background = currentTarget.value === 'none' ? checker : currentTarget.value;
     this.hide();
     this.internals.setFormValue(currentTarget.value);
     this.value = currentTarget.value;
@@ -192,10 +171,7 @@ class JoomlaFieldSimpleColor extends HTMLElement {
 
     // Trap the focus
     if (e.code === 'Tab') {
-      const focusableElements = [
-        ...this.slotted.assignedElements(),
-        this.closeButton,
-      ];
+      const focusableElements = [...this.slotted.assignedElements(), this.closeButton];
       const focusedIndex = focusableElements.indexOf(this.getActiveElement());
 
       if (e.shiftKey && focusedIndex === 0) {
@@ -215,9 +191,7 @@ class JoomlaFieldSimpleColor extends HTMLElement {
       return null;
     }
 
-    return activeEl.shadowRoot
-      ? this.getActiveElement(activeEl.shadowRoot)
-      : activeEl;
+    return activeEl.shadowRoot ? this.getActiveElement(activeEl.shadowRoot) : activeEl;
   }
 
   validateColor(color) {

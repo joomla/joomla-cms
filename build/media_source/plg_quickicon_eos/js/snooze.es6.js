@@ -8,9 +8,7 @@ if (!Joomla) {
   throw new Error('Joomla API is not properly initialised');
 }
 
-const url = new URL(
-  `${Joomla.getOptions('system.paths').baseFull}index.php?option=com_ajax&group=quickicon&plugin=eos&format=json`,
-);
+const url = new URL(`${Joomla.getOptions('system.paths').baseFull}index.php?option=com_ajax&group=quickicon&plugin=eos&format=json`);
 
 async function onMutatedMessagesContainer(mutationList, observer) {
   for (const mutation of mutationList) {
@@ -19,25 +17,21 @@ async function onMutatedMessagesContainer(mutationList, observer) {
       return;
     }
 
-    const alerts = nodes.filter((node) =>
-      node.querySelector('.eosnotify-snooze-btn'),
-    );
+    const alerts = nodes.filter((node) => node.querySelector('.eosnotify-snooze-btn'));
     if (!alerts.length) {
       return;
     }
 
     observer.disconnect();
-    alerts[0]
-      .querySelector('.eosnotify-snooze-btn')
-      .addEventListener('click', () =>
-        fetch(url, {
-          headers: { 'X-CSRF-Token': Joomla.getOptions('csrf.token') || '' },
-        }).then((response) => {
-          if (response.ok) {
-            alerts[0].closest('joomla-alert').close();
-          }
-        }),
-      );
+    alerts[0].querySelector('.eosnotify-snooze-btn').addEventListener('click', () =>
+      fetch(url, {
+        headers: { 'X-CSRF-Token': Joomla.getOptions('csrf.token') || '' },
+      }).then((response) => {
+        if (response.ok) {
+          alerts[0].closest('joomla-alert').close();
+        }
+      }),
+    );
   }
 }
 

@@ -36,8 +36,7 @@ const tinymce = {
     backcolor:
       '<svg width="24" height="24"><g fill-rule="evenodd"><path id="tox-icon-highlight-bg-color__color" d="M3 18h18v3H3z"/><path fill-rule="nonzero" d="M7.7 16.7H3l3.3-3.3-.7-.8L10.2 8l4 4.1-4 4.2c-.2.2-.6.2-.8 0l-.6-.7-1.1 1.1zm5-7.5L11 7.4l3-2.9a2 2 0 0 1 2.6 0L18 6c.7.7.7 2 0 2.7l-2.9 2.9-1.8-1.8-.5-.6"/></g></svg>',
     bold: '<svg width="24" height="24"><path d="M7.8 19c-.3 0-.5 0-.6-.2l-.2-.5V5.7c0-.2 0-.4.2-.5l.6-.2h5c1.5 0 2.7.3 3.5 1 .7.6 1.1 1.4 1.1 2.5a3 3 0 0 1-.6 1.9c-.4.6-1 1-1.6 1.2.4.1.9.3 1.3.6s.8.7 1 1.2c.4.4.5 1 .5 1.6 0 1.3-.4 2.3-1.3 3-.8.7-2.1 1-3.8 1H7.8zm5-8.3c.6 0 1.2-.1 1.6-.5.4-.3.6-.7.6-1.3 0-1.1-.8-1.7-2.3-1.7H9.3v3.5h3.4zm.5 6c.7 0 1.3-.1 1.7-.4.4-.4.6-.9.6-1.5s-.2-1-.7-1.4c-.4-.3-1-.4-2-.4H9.4v3.8h4z" fill-rule="evenodd"/></svg>',
-    bookmark:
-      '<svg width="24" height="24"><path d="M6 4v17l6-4 6 4V4c0-.6-.4-1-1-1H7a1 1 0 0 0-1 1z" fill-rule="nonzero"/></svg>',
+    bookmark: '<svg width="24" height="24"><path d="M6 4v17l6-4 6 4V4c0-.6-.4-1-1-1H7a1 1 0 0 0-1 1z" fill-rule="nonzero"/></svg>',
     'border-width':
       '<svg width="24" height="24"><path d="M5 14.8h14a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2zm-.5 3.7h15c.3 0 .5.2.5.5s-.2.5-.5.5h-15a.5.5 0 1 1 0-1zm.5-8.3h14c.6 0 1 .4 1 1v1c0 .5-.4 1-1 1H5a1 1 0 0 1-1-1v-1c0-.6.4-1 1-1zm0-5.7h14c.6 0 1 .4 1 1v2c0 .6-.4 1-1 1H5a1 1 0 0 1-1-1v-2c0-.6.4-1 1-1z" fill-rule="evenodd"/></svg>',
     brightness:
@@ -70,10 +69,8 @@ const tinymce = {
       '<svg width="24" height="24"><path d="M17.5 11.4A9 9 0 0 1 18 14c0 .5 0 1-.2 1.4 0 .4-.3.9-.5 1.3a6.2 6.2 0 0 1-3.7 3 5.7 5.7 0 0 1-3.2 0A5.9 5.9 0 0 1 7.6 18a6.2 6.2 0 0 1-1.4-2.6 6.7 6.7 0 0 1 0-2.8c0-.4.1-.9.3-1.3a13.6 13.6 0 0 1 2.3-4A20 20 0 0 1 12 4a26.4 26.4 0 0 1 3.2 3.4 18.2 18.2 0 0 1 2.3 4zm-2 4.5c.4-.7.5-1.4.5-2a7.3 7.3 0 0 0-1-3.2c.2.6.2 1.2.2 1.9a4.5 4.5 0 0 1-1.3 3 5.3 5.3 0 0 1-2.3 1.5 4.9 4.9 0 0 1-2 .1 4.3 4.3 0 0 0 2.4.8 4 4 0 0 0 2-.6 4 4 0 0 0 1.5-1.5z" fill-rule="evenodd"/></svg>',
     'color-picker':
       '<svg width="24" height="24"><path d="M12 3a9 9 0 0 0 0 18 1.5 1.5 0 0 0 1.1-2.5c-.2-.3-.4-.6-.4-1 0-.8.7-1.5 1.5-1.5H16a5 5 0 0 0 5-5c0-4.4-4-8-9-8zm-5.5 9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm3-4a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm3 4a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" fill-rule="nonzero"/></svg>',
-    'color-swatch-remove-color':
-      '<svg width="24" height="24"><path stroke="#000" stroke-width="2" d="M21 3L3 21" fill-rule="evenodd"/></svg>',
-    'color-swatch':
-      '<svg width="24" height="24"><rect x="3" y="3" width="18" height="18" rx="1" fill-rule="evenodd"/></svg>',
+    'color-swatch-remove-color': '<svg width="24" height="24"><path stroke="#000" stroke-width="2" d="M21 3L3 21" fill-rule="evenodd"/></svg>',
+    'color-swatch': '<svg width="24" height="24"><rect x="3" y="3" width="18" height="18" rx="1" fill-rule="evenodd"/></svg>',
     comment:
       '<svg width="24" height="24"><path d="M9 19l3-2h7c.6 0 1-.4 1-1V6c0-.6-.4-1-1-1H5a1 1 0 0 0-1 1v10c0 .6.4 1 1 1h4v2zm-2 4v-4H5a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3h-6.4L7 23z" fill-rule="nonzero"/></svg>',
     contrast:
@@ -109,8 +106,7 @@ const tinymce = {
       '<svg width="24" height="24"><path d="M4 3h16c.6 0 1 .4 1 1v16c0 .6-.4 1-1 1H4a1 1 0 0 1-1-1V4c0-.6.4-1 1-1zm1 2v14h14V5H5zm6.5 11.8V14L9.2 8.7a5.1 5.1 0 0 0-.4-.8l-.1-.2H8 8v-1l.3-.1.3-.1h.7a1 1 0 0 1 .6.5l.1.3a8.5 8.5 0 0 1 .3.6l1.9 4.6 2-5.2a1 1 0 0 1 1-.6.5.5 0 0 1 .5.6L13 14v2.8a.7.7 0 0 1-1.4 0z" fill-rule="nonzero"/></svg>',
     help: '<svg width="24" height="24"><g fill-rule="evenodd"><path d="M12 5.5a6.5 6.5 0 0 0-6 9 6.3 6.3 0 0 0 1.4 2l1 1a6.3 6.3 0 0 0 3.6 1 6.5 6.5 0 0 0 6-9 6.3 6.3 0 0 0-1.4-2l-1-1a6.3 6.3 0 0 0-3.6-1zM12 4a7.8 7.8 0 0 1 5.7 2.3A8 8 0 1 1 12 4z"/><path d="M9.6 9.7a.7.7 0 0 1-.7-.8c0-1.1 1.5-1.8 3.2-1.8 1.8 0 3.2.8 3.2 2.4 0 1.4-.4 2.1-1.5 2.8-.2 0-.3.1-.3.2a2 2 0 0 0-.8.8.8.8 0 0 1-1.4-.6c.3-.7.8-1 1.3-1.5l.4-.2c.7-.4.8-.6.8-1.5 0-.5-.6-.9-1.7-.9-.5 0-1 .1-1.4.3-.2 0-.3.1-.3.2v-.2c0 .4-.4.8-.8.8z" fill-rule="nonzero"/><circle cx="12" cy="16" r="1"/></g></svg>',
     home: '<svg width="24" height="24"><path fill-rule="nonzero" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>',
-    'horizontal-rule':
-      '<svg width="24" height="24"><path d="M4 11h16v2H4z" fill-rule="evenodd"/></svg>',
+    'horizontal-rule': '<svg width="24" height="24"><path d="M4 11h16v2H4z" fill-rule="evenodd"/></svg>',
     'image-options':
       '<svg width="24" height="24"><path d="M6 10a2 2 0 0 0-2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2 2 2 0 0 0-2-2zm12 0a2 2 0 0 0-2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2 2 2 0 0 0-2-2zm-6 0a2 2 0 0 0-2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2 2 2 0 0 0-2-2z" fill-rule="nonzero"/></svg>',
     image:
@@ -330,16 +326,10 @@ window.tinymce = tinymce;
 
 const TinyMCEBuilder = (container, options) => {
   const $sourceMenu = container.querySelector('.tinymce-builder-menu.source');
-  const $sourceToolbar = container.querySelector(
-    '.tinymce-builder-toolbar.source',
-  );
+  const $sourceToolbar = container.querySelector('.tinymce-builder-toolbar.source');
 
-  const $targetMenu = container.querySelectorAll(
-    '.tinymce-builder-menu.target',
-  );
-  const $targetToolbar = container.querySelectorAll(
-    '.tinymce-builder-toolbar.target',
-  );
+  const $targetMenu = container.querySelectorAll('.tinymce-builder-menu.target');
+  const $targetToolbar = container.querySelectorAll('.tinymce-builder-toolbar.target');
 
   /**
    * Append input to the button item
@@ -353,9 +343,7 @@ const TinyMCEBuilder = (container, options) => {
     const name = `${options.formControl}[${set}][${group}][]`;
     const value = element.getAttribute('data-name');
 
-    element.innerHTML += Joomla.sanitizeHtml(
-      `<input type="hidden" name="${name}" value="${value}">`,
-    );
+    element.innerHTML += Joomla.sanitizeHtml(`<input type="hidden" name="${name}" value="${value}">`);
   };
 
   /**
@@ -384,9 +372,7 @@ const TinyMCEBuilder = (container, options) => {
       const chevron = tinymce.showIcon('chevron-down');
 
       content =
-        info.text !== '|'
-          ? `<span class="tox-tbtn__select-label">${text}</span><div class="tox-tbtn__select-chevron">${chevron}</div>`
-          : text;
+        info.text !== '|' ? `<span class="tox-tbtn__select-label">${text}</span><div class="tox-tbtn__select-chevron">${chevron}</div>` : text;
     } else {
       content = tinymce.showIcon(name);
     }
@@ -474,19 +460,13 @@ const TinyMCEBuilder = (container, options) => {
       // Find correct container for current set
       if (group === 'menu') {
         $targetMenu.forEach((target) => {
-          if (
-            target.getAttribute('data-group') === group &&
-            target.getAttribute('data-set') === item
-          ) {
+          if (target.getAttribute('data-group') === group && target.getAttribute('data-set') === item) {
             renderBar(target, type, preset[group], true);
           }
         });
       } else {
         $targetToolbar.forEach((target) => {
-          if (
-            target.getAttribute('data-group') === group &&
-            target.getAttribute('data-set') === item
-          ) {
+          if (target.getAttribute('data-group') === group && target.getAttribute('data-set') === item) {
             renderBar(target, type, preset[group], true);
           }
         });
@@ -517,11 +497,7 @@ const TinyMCEBuilder = (container, options) => {
     })
     .on('drop', (el, target) => {
       if (target !== $sourceMenu) {
-        appendInput(
-          el,
-          target.getAttribute('data-group'),
-          target.getAttribute('data-set'),
-        );
+        appendInput(el, target.getAttribute('data-group'), target.getAttribute('data-set'));
       }
     });
 
@@ -547,11 +523,7 @@ const TinyMCEBuilder = (container, options) => {
     })
     .on('drop', (el, target) => {
       if (target !== $sourceToolbar) {
-        appendInput(
-          el,
-          target.getAttribute('data-group'),
-          target.getAttribute('data-set'),
-        );
+        appendInput(el, target.getAttribute('data-group'), target.getAttribute('data-set'));
       }
     });
 
@@ -594,15 +566,11 @@ const TinyMCEBuilder = (container, options) => {
   });
 };
 
-const options = Joomla.getOptions
-  ? Joomla.getOptions('plg_editors_tinymce_builder', {})
-  : Joomla.optionsStorage.plg_editors_tinymce_builder || {};
+const options = Joomla.getOptions ? Joomla.getOptions('plg_editors_tinymce_builder', {}) : Joomla.optionsStorage.plg_editors_tinymce_builder || {};
 
 const builder = document.getElementById('joomla-tinymce-builder');
 
-document.addEventListener('DOMContentLoaded', () =>
-  TinyMCEBuilder(builder, options),
-);
+document.addEventListener('DOMContentLoaded', () => TinyMCEBuilder(builder, options));
 
 const selects = builder.querySelectorAll('.access-select');
 

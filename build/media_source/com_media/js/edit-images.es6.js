@@ -17,9 +17,7 @@ class Edit {
     }
 
     this.extension = this.options.uploadPath.split('.').pop();
-    this.fileType = ['jpeg', 'jpg'].includes(this.extension)
-      ? 'jpeg'
-      : this.extension;
+    this.fileType = ['jpeg', 'jpg'].includes(this.extension) ? 'jpeg' : this.extension;
     this.options.currentUrl = new URL(window.location.href);
 
     // Initiate the registry
@@ -32,9 +30,7 @@ class Edit {
     this.history = {};
     this.current = this.original;
     this.plugins = {};
-    this.baseContainer = document.getElementById(
-      'media-manager-edit-container',
-    );
+    this.baseContainer = document.getElementById('media-manager-edit-container');
 
     if (!this.baseContainer) {
       throw new Error('The image preview container is missing');
@@ -51,51 +47,39 @@ class Edit {
       const tabsUlElement = tabContainer.firstElementChild;
 
       // Couple the tabs with the plugin objects
-      tabsUlElement
-        .querySelectorAll('button[aria-controls]')
-        .forEach((link, index) => {
-          const tab = document.getElementById(
-            link.getAttribute('aria-controls'),
-          );
-          if (index === 0) {
-            tab.insertAdjacentElement('beforeend', this.baseContainer);
+      tabsUlElement.querySelectorAll('button[aria-controls]').forEach((link, index) => {
+        const tab = document.getElementById(link.getAttribute('aria-controls'));
+        if (index === 0) {
+          tab.insertAdjacentElement('beforeend', this.baseContainer);
+        }
+
+        link.addEventListener('joomla.tab.hidden', ({ target }) => {
+          if (!target) {
+            this.previousPluginDeactivated = new Promise((resolve) => resolve);
+            return;
           }
 
-          link.addEventListener('joomla.tab.hidden', ({ target }) => {
-            if (!target) {
-              this.previousPluginDeactivated = new Promise(
-                (resolve) => resolve,
-              );
-              return;
-            }
-
-            this.previousPluginDeactivated = new Promise((resolve, reject) => {
-              this.plugins[
-                target.getAttribute('aria-controls').replace('attrib-', '')
-              ]
-                .Deactivate(this.imagePreview)
-                .then(resolve)
-                .catch((e) => {
-                  console.log(e);
-                  reject();
-                });
-            });
-          });
-
-          link.addEventListener('joomla.tab.shown', ({ target }) => {
-            // Move the image container to the correct tab
-            tab.insertAdjacentElement('beforeend', this.baseContainer);
-            this.previousPluginDeactivated
-              .then(() =>
-                this.plugins[
-                  target.getAttribute('aria-controls').replace('attrib-', '')
-                ].Activate(this.imagePreview),
-              )
+          this.previousPluginDeactivated = new Promise((resolve, reject) => {
+            this.plugins[target.getAttribute('aria-controls').replace('attrib-', '')]
+              .Deactivate(this.imagePreview)
+              .then(resolve)
               .catch((e) => {
                 console.log(e);
+                reject();
               });
           });
         });
+
+        link.addEventListener('joomla.tab.shown', ({ target }) => {
+          // Move the image container to the correct tab
+          tab.insertAdjacentElement('beforeend', this.baseContainer);
+          this.previousPluginDeactivated
+            .then(() => this.plugins[target.getAttribute('aria-controls').replace('attrib-', '')].Activate(this.imagePreview))
+            .catch((e) => {
+              console.log(e);
+            });
+        });
+      });
 
       tabContainer.activateTab(0, false);
     });
@@ -111,10 +95,7 @@ class Edit {
     this.upload = this.upload.bind(this);
 
     // Create history entry
-    window.addEventListener(
-      'mediaManager.history.point',
-      this.addHistoryPoint.bind(this),
-    );
+    window.addEventListener('mediaManager.history.point', this.addHistoryPoint.bind(this));
   }
 
   /**
@@ -124,11 +105,7 @@ class Edit {
   addHistoryPoint() {
     if (this.original !== this.current) {
       const key = Object.keys(this.history).length;
-      if (
-        this.history[key] &&
-        this.history[key - 1] &&
-        this.history[key] === this.history[key - 1]
-      ) {
+      if (this.history[key] && this.history[key - 1] && this.history[key] === this.history[key - 1]) {
         return;
       }
       this.history[key + 1] = this.current;
@@ -160,10 +137,7 @@ class Edit {
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         this.imagePreview.setAttribute('width', this.imagePreview.naturalWidth);
-        this.imagePreview.setAttribute(
-          'height',
-          this.imagePreview.naturalHeight,
-        );
+        this.imagePreview.setAttribute('height', this.imagePreview.naturalHeight);
       });
     });
   }
@@ -189,14 +163,10 @@ class Edit {
    */
   upload(url, stateChangeCallback) {
     let format =
-      Joomla.MediaManager.Edit.original.extension.toLowerCase() === 'jpg'
-        ? 'jpeg'
-        : Joomla.MediaManager.Edit.original.extension.toLowerCase();
+      Joomla.MediaManager.Edit.original.extension.toLowerCase() === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension.toLowerCase();
 
     if (!format) {
-      format = /data:image\/(.+);/gm.exec(
-        Joomla.MediaManager.Edit.original.contents,
-      )[1];
+      format = /data:image\/(.+);/gm.exec(Joomla.MediaManager.Edit.original.contents)[1];
     }
 
     if (!format) {
@@ -248,10 +218,7 @@ class Edit {
     this.xhr.send(
       JSON.stringify({
         name: Joomla.MediaManager.Edit.options.uploadPath.split('/').pop(),
-        content: Joomla.MediaManager.Edit.current.contents.replace(
-          `data:image/${format};base64,`,
-          '',
-        ),
+        content: Joomla.MediaManager.Edit.current.contents.replace(`data:image/${format};base64,`, ''),
         [Joomla.MediaManager.Edit.options.csrfToken]: 1,
       }),
     );
@@ -302,28 +269,19 @@ const getUrl = (isModal) => {
 
 // Customize the Toolbar buttons behavior
 Joomla.submitbutton = (task) => {
-  const url = new URL(
-    `${Joomla.MediaManager.Edit.options.apiBaseUrl}&task=api.files&path=${Joomla.MediaManager.Edit.options.uploadPath}`,
-  );
+  const url = new URL(`${Joomla.MediaManager.Edit.options.apiBaseUrl}&task=api.files&path=${Joomla.MediaManager.Edit.options.uploadPath}`);
   switch (task) {
     case 'apply':
       Joomla.MediaManager.Edit.upload(url, null);
-      Joomla.MediaManager.Edit.imagePreview.src =
-        Joomla.MediaManager.Edit.current.contents;
+      Joomla.MediaManager.Edit.imagePreview.src = Joomla.MediaManager.Edit.current.contents;
       Joomla.MediaManager.Edit.original = Joomla.MediaManager.Edit.current;
       Joomla.MediaManager.Edit.history = {};
 
       (async () => {
-        const activeTab = [].slice
-          .call(document.querySelectorAll('joomla-tab-element'))
-          .filter((tab) => tab.hasAttribute('active'));
+        const activeTab = [].slice.call(document.querySelectorAll('joomla-tab-element')).filter((tab) => tab.hasAttribute('active'));
         try {
-          await Joomla.MediaManager.Edit.plugins[
-            activeTab[0].id.replace('attrib-', '')
-          ].Deactivate(Joomla.MediaManager.Edit.imagePreview);
-          await Joomla.MediaManager.Edit.plugins[
-            activeTab[0].id.replace('attrib-', '')
-          ].Activate(Joomla.MediaManager.Edit.imagePreview);
+          await Joomla.MediaManager.Edit.plugins[activeTab[0].id.replace('attrib-', '')].Deactivate(Joomla.MediaManager.Edit.imagePreview);
+          await Joomla.MediaManager.Edit.plugins[activeTab[0].id.replace('attrib-', '')].Activate(Joomla.MediaManager.Edit.imagePreview);
         } catch (e) {
           console.log(e);
         }

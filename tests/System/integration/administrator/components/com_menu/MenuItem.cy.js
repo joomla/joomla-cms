@@ -1,13 +1,10 @@
 describe('Test in backend that the menu list', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
-    cy.visit(
-      '/administrator/index.php?option=com_menus&view=items&menutype=mainmenu',
-    );
+    cy.visit('/administrator/index.php?option=com_menus&view=items&menutype=mainmenu');
   });
 
-  it('has a title', () =>
-    cy.get('h1.page-title').should('contain.text', 'Menus: Items'));
+  it('has a title', () => cy.get('h1.page-title').should('contain.text', 'Menus: Items'));
 
   it('can display a list of menu items', () => {
     cy.db_createMenuItem({ title: 'Test menu item' }).then(() => {
@@ -36,10 +33,7 @@ describe('Test in backend that the menu list', () => {
     cy.get('iframe')
       .iframe()
       .then(($body) => {
-        cy.wrap($body)
-          .find('.accordion-button')
-          .contains('System Links')
-          .click();
+        cy.wrap($body).find('.accordion-button').contains('System Links').click();
         cy.wrap($body).find('a[data-type="url"]').click();
       });
 
@@ -48,9 +42,7 @@ describe('Test in backend that the menu list', () => {
 
     cy.clickToolbarButton('Save & Close');
 
-    cy.get('#system-message-container')
-      .contains('Menu item saved.')
-      .should('exist');
+    cy.get('#system-message-container').contains('Menu item saved.').should('exist');
   });
 
   it('can delete the test menu item', () => {

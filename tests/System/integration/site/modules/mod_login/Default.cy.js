@@ -17,10 +17,7 @@ describe('Test in frontend that the login module', () => {
       cy.get('input[name="remember"]').check();
       cy.get('button[name="Submit"]').click();
 
-      cy.get('.mod-login-logout').should(
-        'contain.text',
-        'Hi automated test user',
-      );
+      cy.get('.mod-login-logout').should('contain.text', 'Hi automated test user');
     });
   });
 });

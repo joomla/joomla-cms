@@ -1,9 +1,7 @@
 describe('Test in backend that the cpanel system dashboard', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
-    cy.visit(
-      '/administrator/index.php?option=com_cpanel&view=cpanel&dashboard=system',
-    );
+    cy.visit('/administrator/index.php?option=com_cpanel&view=cpanel&dashboard=system');
   });
 
   it('has a title', () => {

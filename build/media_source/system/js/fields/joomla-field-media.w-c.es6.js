@@ -364,11 +364,7 @@ class JoomlaFieldMedia extends HTMLElement {
   }
 
   updatePreview() {
-    if (
-      ['true', 'static'].indexOf(this.preview) === -1 ||
-      this.preview === 'false' ||
-      !this.previewElement
-    ) {
+    if (['true', 'static'].indexOf(this.preview) === -1 || this.preview === 'false' || !this.previewElement) {
       return;
     }
 
@@ -378,9 +374,7 @@ class JoomlaFieldMedia extends HTMLElement {
       const { supportedExtensions } = this;
       if (!value) {
         this.buttonClearEl.style.display = 'none';
-        this.previewElement.innerHTML = Joomla.sanitizeHtml(
-          '<span class="field-media-preview-icon"></span>',
-        );
+        this.previewElement.innerHTML = Joomla.sanitizeHtml('<span class="field-media-preview-icon"></span>');
       } else {
         let type;
         this.buttonClearEl.style.display = '';
@@ -397,18 +391,14 @@ class JoomlaFieldMedia extends HTMLElement {
           images: () => {
             if (supportedExtensions.images.includes(ext)) {
               previewElement = new Image();
-              previewElement.src = /http/.test(value)
-                ? value
-                : Joomla.getOptions('system.paths').rootFull + value;
+              previewElement.src = /http/.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
               previewElement.setAttribute('alt', '');
             }
           },
           audios: () => {
             if (supportedExtensions.audios.includes(ext)) {
               previewElement = document.createElement('audio');
-              previewElement.src = /http/.test(value)
-                ? value
-                : Joomla.getOptions('system.paths').rootFull + value;
+              previewElement.src = /http/.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
               previewElement.setAttribute('controls', '');
             }
           },
@@ -416,9 +406,7 @@ class JoomlaFieldMedia extends HTMLElement {
             if (supportedExtensions.videos.includes(ext)) {
               previewElement = document.createElement('video');
               const previewElementSource = document.createElement('source');
-              previewElementSource.src = /http/.test(value)
-                ? value
-                : Joomla.getOptions('system.paths').rootFull + value;
+              previewElementSource.src = /http/.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
               previewElementSource.type = this.mimeType;
               previewElement.setAttribute('controls', '');
               previewElement.setAttribute('width', this.previewWidth);
@@ -429,9 +417,7 @@ class JoomlaFieldMedia extends HTMLElement {
           documents: () => {
             if (supportedExtensions.documents.includes(ext)) {
               previewElement = document.createElement('object');
-              previewElement.data = /http/.test(value)
-                ? value
-                : Joomla.getOptions('system.paths').rootFull + value;
+              previewElement.data = /http/.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
               previewElement.type = this.mimeType;
               previewElement.setAttribute('width', this.previewWidth);
               previewElement.setAttribute('height', this.previewHeight);
@@ -440,15 +426,9 @@ class JoomlaFieldMedia extends HTMLElement {
         };
 
         // @todo more checks
-        if (
-          this.givenType &&
-          ['images', 'audios', 'videos', 'documents'].includes(this.givenType)
-        ) {
+        if (this.givenType && ['images', 'audios', 'videos', 'documents'].includes(this.givenType)) {
           mediaType[this.givenType]();
-        } else if (
-          type &&
-          ['images', 'audios', 'videos', 'documents'].includes(type)
-        ) {
+        } else if (type && ['images', 'audios', 'videos', 'documents'].includes(type)) {
           mediaType[type]();
         } else {
           return;

@@ -10,9 +10,7 @@ import { JoomlaEditor, JoomlaEditorButton } from 'editor-api';
 const pluginSetUp = (editor) => {
   editor.options.register('joomlaExtButtons', {
     // Check for Object with list of buttons, or empty list
-    processor: (val) =>
-      (typeof val === 'object' && Array.isArray(val.names)) ||
-      (Array.isArray(val) && val.length === 0),
+    processor: (val) => (typeof val === 'object' && Array.isArray(val.names)) || (Array.isArray(val) && val.length === 0),
   });
 
   // Get buttons list

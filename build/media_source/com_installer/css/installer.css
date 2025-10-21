@@ -6,11 +6,11 @@
 #loading {
   position: fixed;
   overflow: hidden;
-  background-color: rgba(255, 255, 255, .8);
+  background-color: rgba(255, 255, 255, 0.8);
   background-image: url("../../system/images/ajax-loader.gif");
   background-repeat: no-repeat;
   background-position: center center;
-  opacity: .8;
+  opacity: 0.8;
 }
 
 #dragarea {
@@ -19,7 +19,7 @@
   padding: 5% 0;
   background-color: var(--body-bg);
   border: 1px dashed #999;
-  transition: all .2s ease 0s;
+  transition: all 0.2s ease 0s;
 }
 
 #upload-icon {
@@ -29,7 +29,7 @@
   font-size: 48px;
   line-height: 175%;
   color: #999;
-  transition: all .2s;
+  transition: all 0.2s;
 }
 
 #dragarea.hover {
@@ -42,17 +42,18 @@
   color: #666;
 }
 
-[data-color-scheme=dark] #dragarea.hover #upload-icon,
-[data-color-scheme=dark] #dragarea p.lead {
+[data-color-scheme="dark"] #dragarea.hover #upload-icon,
+[data-color-scheme="dark"] #dragarea p.lead {
   color: #eee;
 }
 
-[data-color-scheme=dark] #dragarea.hover {
+[data-color-scheme="dark"] #dragarea.hover {
   background-color: #666;
   border-color: #eee;
 }
 
-.upload-progress, .install-progress {
+.upload-progress,
+.install-progress {
   width: 50%;
   margin: 5px auto;
 }
@@ -60,33 +61,33 @@
 /* Default transition (.3s) is too slow, progress will not run to 100% */
 .upload-progress .progress .bar {
   /* stylelint-disable */
-  -moz-transition: width .1s;
-  -o-transition: width .1s;
-  -webkit-transition: width .1s;
+  -moz-transition: width 0.1s;
+  -o-transition: width 0.1s;
+  -webkit-transition: width 0.1s;
   /* stylelint-enable */
-  transition: width .1s;
+  transition: width 0.1s;
 }
 
-#dragarea[data-state=pending] .upload-progress {
+#dragarea[data-state="pending"] .upload-progress {
   display: none;
 }
 
-#dragarea[data-state=pending] .install-progress {
+#dragarea[data-state="pending"] .install-progress {
   display: none;
 }
 
-#dragarea[data-state=uploading] .install-progress {
+#dragarea[data-state="uploading"] .install-progress {
   display: none;
 }
 
-#dragarea[data-state=uploading] .upload-actions {
+#dragarea[data-state="uploading"] .upload-actions {
   display: none;
 }
 
-#dragarea[data-state=installing] .upload-progress {
+#dragarea[data-state="installing"] .upload-progress {
   display: none;
 }
 
-#dragarea[data-state=installing] .upload-actions {
+#dragarea[data-state="installing"] .upload-actions {
   display: none;
 }

@@ -17,9 +17,7 @@ describe('Test in frontend that the newsfeeds details view', () => {
 
           cy.contains('automated test feed 1');
           cy.get('.com-newsfeeds-newsfeed__items').should('exist');
-          cy.get('.com-newsfeeds-newsfeed__items')
-            .children()
-            .should('have.length', 5);
+          cy.get('.com-newsfeeds-newsfeed__items').children().should('have.length', 5);
         });
     });
 
@@ -32,9 +30,7 @@ describe('Test in frontend that the newsfeeds details view', () => {
 
         cy.contains('automated test feed 1');
         cy.get('.com-newsfeeds-newsfeed__items').should('exist');
-        cy.get('.com-newsfeeds-newsfeed__items')
-          .children()
-          .should('have.length', 5);
+        cy.get('.com-newsfeeds-newsfeed__items').children().should('have.length', 5);
       });
     });
   });

@@ -12,10 +12,7 @@ describe('Test in backend that the action logs', () => {
   it('can display no results', () => {
     cy.task('queryDB', 'TRUNCATE #__action_logs');
     cy.reload();
-    cy.get('div.alert.alert-info').should(
-      'contain.text',
-      'No Matching Results',
-    );
+    cy.get('div.alert.alert-info').should('contain.text', 'No Matching Results');
   });
 
   it('can display a list of actions', () => {

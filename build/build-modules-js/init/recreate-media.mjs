@@ -16,11 +16,7 @@ const updateSettings = async (options) => {
     withFileTypes: true,
   });
   const extensions = [...extensionsScanned]
-    .filter(
-      (x) =>
-        !['.DS_Store', 'templates', 'vendor', 'cache'].includes(x.name) &&
-        x.isDirectory(),
-    )
+    .filter((x) => !['.DS_Store', 'templates', 'vendor', 'cache'].includes(x.name) && x.isDirectory())
     .map((x) => x.name);
 
   options.settings.cleanUpFolders = [...extensions, ...knownDirs];
@@ -35,45 +31,38 @@ const updateSettings = async (options) => {
  */
 export const recreateMediaFolder = async (options) => {
   await updateSettings(options);
-  const installedVendors = Object.keys(options.settings.vendors).map(
-    (vendor) => {
-      if (vendor === 'choices.js') {
-        return 'vendor/choicesjs';
-      }
-      if (vendor === '@fortawesome/fontawesome-free') {
-        return 'vendor/fontawesome-free';
-      }
-      if (vendor === '@claviska/jquery-minicolors') {
-        return 'vendor/minicolors';
-      }
-      if (vendor === '@webcomponents/webcomponentsjs') {
-        return 'vendor/webcomponentsjs';
-      }
-      if (vendor === 'joomla-ui-custom-elements') {
-        return 'vendor/joomla-custom-elements';
-      }
-      return `vendor/${vendor}`;
-    },
-  );
+  const installedVendors = Object.keys(options.settings.vendors).map((vendor) => {
+    if (vendor === 'choices.js') {
+      return 'vendor/choicesjs';
+    }
+    if (vendor === '@fortawesome/fontawesome-free') {
+      return 'vendor/fontawesome-free';
+    }
+    if (vendor === '@claviska/jquery-minicolors') {
+      return 'vendor/minicolors';
+    }
+    if (vendor === '@webcomponents/webcomponentsjs') {
+      return 'vendor/webcomponentsjs';
+    }
+    if (vendor === 'joomla-ui-custom-elements') {
+      return 'vendor/joomla-custom-elements';
+    }
+    return `vendor/${vendor}`;
+  });
 
   // Clean up existing folders
-  [...options.settings.cleanUpFolders, ...installedVendors].forEach(
-    (folder) => {
-      const folderPath = join(`${RootPath}/media`, folder);
-      if (existsSync(folderPath)) {
-        emptyDirSync(folderPath);
-      }
-    },
-  );
+  [...options.settings.cleanUpFolders, ...installedVendors].forEach((folder) => {
+    const folderPath = join(`${RootPath}/media`, folder);
+    if (existsSync(folderPath)) {
+      emptyDirSync(folderPath);
+    }
+  });
 
   console.log('Recreating the media folder...');
 
   const filterFunc = async (src) => {
     const fileStat = await stat(src);
-    if (
-      fileStat.isFile() &&
-      (extname(src) === '.js' || extname(src) === '.css')
-    ) {
+    if (fileStat.isFile() && (extname(src) === '.js' || extname(src) === '.css')) {
       return false;
     }
 
@@ -85,20 +74,12 @@ export const recreateMediaFolder = async (options) => {
     preserveTimestamps: true,
   });
 
-  const SCSSMediafolders = await recursive(join(RootPath, 'media/templates'), [
-    '!*.+(scss)',
-  ]);
+  const SCSSMediafolders = await recursive(join(RootPath, 'media/templates'), ['!*.+(scss)']);
 
   // Patch the scss files
   Object.keys(SCSSMediafolders).forEach(async (file) => {
     const contents = await readFile(SCSSMediafolders[file], 'utf8');
     // Transform this `../../../../../../media/` to `../../../../`
-    await writeFile(
-      SCSSMediafolders[file],
-      contents.replace(
-        /\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/media\//g,
-        '../../../../',
-      ),
-    );
+    await writeFile(SCSSMediafolders[file], contents.replace(/\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/media\//g, '../../../../'));
   });
 };

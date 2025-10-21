@@ -53,9 +53,7 @@ Cypress.Commands.add('api_getBearerToken', () => {
   cy.session('apiToken', () => {
     cy.db_getUserId().then((uid) => {
       cy.doAdministratorLogin();
-      cy.visit(
-        `/administrator/index.php?option=com_users&task=user.edit&id=${uid}#attrib-joomlatoken`,
-      );
+      cy.visit(`/administrator/index.php?option=com_users&task=user.edit&id=${uid}#attrib-joomlatoken`);
       cy.get('#fieldset-joomlatoken').then((fieldset) => {
         if (fieldset.find('#jform_joomlatoken_reset1').length > 0) {
           cy.get('#jform_joomlatoken_reset1').click();

@@ -1,7 +1,5 @@
 describe('Test in frontend that the contact site router', () => {
-  afterEach(() =>
-    cy.db_updateExtensionParameter('sef_ids', '1', 'com_contact'),
-  );
+  afterEach(() => cy.db_updateExtensionParameter('sef_ids', '1', 'com_contact'));
 
   it('can process contact without a menu item', () => {
     cy.db_createContact({
@@ -34,9 +32,7 @@ describe('Test in frontend that the contact site router', () => {
       cy.get('main h1').contains('Home');
       cy.get('main h2').contains('Test Contact');
       cy.get('main h3').contains('Contact');
-      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs')
-        .children()
-        .as('breadcrumb');
+      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs').children().as('breadcrumb');
       cy.get('@breadcrumb').should('have.length', 4);
       cy.get('@breadcrumb').eq(2).should('contain', 'Uncategorised');
       cy.get('@breadcrumb').eq(3).should('contain', 'Test Contact');
@@ -89,9 +85,7 @@ describe('Test in frontend that the contact site router', () => {
       cy.title().should('equal', 'Test Menu Single Contact');
       cy.get('main h1').contains('Test Contact');
       cy.get('main h2').contains('Contact');
-      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs')
-        .children()
-        .as('breadcrumb');
+      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs').children().as('breadcrumb');
       cy.get('@breadcrumb').should('have.length', 3);
       cy.get('@breadcrumb').eq(2).should('contain', 'Test Menu Single Contact');
     });
@@ -125,19 +119,12 @@ describe('Test in frontend that the contact site router', () => {
       });
 
       cy.visit(url.split('/').slice(0, -1).join('/'));
-      cy.url().should(
-        'match',
-        new RegExp(`${url.split('/').slice(0, -1).join('/')}$`),
-      );
+      cy.url().should('match', new RegExp(`${url.split('/').slice(0, -1).join('/')}$`));
       cy.title().should('equal', 'Test Menu Contact Category');
       cy.get('main h1').contains('Uncategorised');
-      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs')
-        .children()
-        .as('breadcrumb');
+      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs').children().as('breadcrumb');
       cy.get('@breadcrumb').should('have.length', 3);
-      cy.get('@breadcrumb')
-        .eq(2)
-        .should('contain', 'Test Menu Contact Category');
+      cy.get('@breadcrumb').eq(2).should('contain', 'Test Menu Contact Category');
       cy.get('main div.com-contact-category a')
         .contains('Test Contact')
         .should('have.attr', 'href')
@@ -148,20 +135,15 @@ describe('Test in frontend that the contact site router', () => {
       cy.title().should('equal', 'Test Contact');
       cy.get('main h1').contains('Test Contact');
       cy.get('main h2').contains('Contact');
-      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs')
-        .children()
-        .as('breadcrumb');
+      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs').children().as('breadcrumb');
       cy.get('@breadcrumb').should('have.length', 4);
-      cy.get('@breadcrumb')
-        .eq(2)
-        .should('contain', 'Test Menu Contact Category');
+      cy.get('@breadcrumb').eq(2).should('contain', 'Test Menu Contact Category');
       cy.get('@breadcrumb').eq(3).should('contain', 'Test Contact');
     });
   });
 
   it('can process contact with a categories list menu item', () => {
-    const url =
-      '/index.php/test-menu-categories-router/uncategorised/test-contact-router';
+    const url = '/index.php/test-menu-categories-router/uncategorised/test-contact-router';
     cy.db_createContact({
       name: 'Test Contact',
       alias: 'test-contact-router',
@@ -181,37 +163,23 @@ describe('Test in frontend that the contact site router', () => {
       });
 
       cy.visit(url.split('/').slice(0, -2).join('/'));
-      cy.url().should(
-        'match',
-        new RegExp(`${url.split('/').slice(0, -2).join('/')}$`),
-      );
+      cy.url().should('match', new RegExp(`${url.split('/').slice(0, -2).join('/')}$`));
       cy.title().should('equal', 'Test Menu Contact Categories');
-      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs')
-        .children()
-        .as('breadcrumb');
+      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs').children().as('breadcrumb');
       cy.get('@breadcrumb').should('have.length', 3);
-      cy.get('@breadcrumb')
-        .eq(2)
-        .should('contain', 'Test Menu Contact Categories');
+      cy.get('@breadcrumb').eq(2).should('contain', 'Test Menu Contact Categories');
       cy.get('main div.com-contact-categories h3 a')
         .contains('Uncategorised')
         .should('have.attr', 'href')
         .and('match', new RegExp(`${url.split('/').slice(0, -1).join('/')}$`));
 
       cy.visit(url.split('/').slice(0, -1).join('/'));
-      cy.url().should(
-        'match',
-        new RegExp(`${url.split('/').slice(0, -1).join('/')}$`),
-      );
+      cy.url().should('match', new RegExp(`${url.split('/').slice(0, -1).join('/')}$`));
       cy.title().should('equal', 'Test Menu Contact Categories');
       cy.get('main h1').contains('Uncategorised');
-      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs')
-        .children()
-        .as('breadcrumb');
+      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs').children().as('breadcrumb');
       cy.get('@breadcrumb').should('have.length', 4);
-      cy.get('@breadcrumb')
-        .eq(2)
-        .should('contain', 'Test Menu Contact Categories');
+      cy.get('@breadcrumb').eq(2).should('contain', 'Test Menu Contact Categories');
       cy.get('@breadcrumb').eq(3).should('contain', 'Uncategorised');
       cy.get('main div.com-contact-category a')
         .contains('Test Contact')
@@ -223,13 +191,9 @@ describe('Test in frontend that the contact site router', () => {
       cy.title().should('equal', 'Test Contact');
       cy.get('main h1').contains('Test Contact');
       cy.get('main h2').contains('Contact');
-      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs')
-        .children()
-        .as('breadcrumb');
+      cy.get('nav.mod-breadcrumbs__wrapper ol.mod-breadcrumbs').children().as('breadcrumb');
       cy.get('@breadcrumb').should('have.length', 5);
-      cy.get('@breadcrumb')
-        .eq(2)
-        .should('contain', 'Test Menu Contact Categories');
+      cy.get('@breadcrumb').eq(2).should('contain', 'Test Menu Contact Categories');
       cy.get('@breadcrumb').eq(3).should('contain', 'Uncategorised');
       cy.get('@breadcrumb').eq(4).should('contain', 'Test Contact');
     });

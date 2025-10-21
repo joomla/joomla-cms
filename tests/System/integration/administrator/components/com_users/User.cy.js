@@ -1,8 +1,6 @@
 describe('Test in backend that the user form', () => {
   beforeEach(() => cy.doAdministratorLogin());
-  afterEach(() =>
-    cy.task('queryDB', "DELETE FROM #__users WHERE username = 'test'"),
-  );
+  afterEach(() => cy.task('queryDB', "DELETE FROM #__users WHERE username = 'test'"));
 
   it('can create a new user', () => {
     cy.visit('/administrator/index.php?option=com_users&task=user.add');
@@ -20,9 +18,7 @@ describe('Test in backend that the user form', () => {
 
   it('can edit a user', () => {
     cy.db_createUser().then((id) => {
-      cy.visit(
-        `/administrator/index.php?option=com_users&task=user.edit&id=${id}`,
-      );
+      cy.visit(`/administrator/index.php?option=com_users&task=user.edit&id=${id}`);
 
       cy.get('#jform_name').clear().type('test edited');
       cy.get('#jform_username').clear().type('testedited');
@@ -54,9 +50,7 @@ describe('Test in backend that the user form', () => {
       cy.get('#mod-login-username').type('test');
       cy.get('#mod-login-password').type('test');
       cy.get('#btn-login-submit').click();
-      cy.contains(
-        'You are required to reset your password before proceeding.',
-      ).should('exist');
+      cy.contains('You are required to reset your password before proceeding.').should('exist');
       cy.get('#jform_password').clear().type('testresetpswd');
       cy.get('#jform_password2').clear().type('testresetpswd');
       cy.clickToolbarButton('Save & Close');

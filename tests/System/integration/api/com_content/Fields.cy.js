@@ -10,13 +10,7 @@ describe('Test that field content API endpoint', () => {
       })
         .then(() => cy.api_get(`/fields/content/${endpoint}`))
         .then((response) =>
-          cy
-            .wrap(response)
-            .its('body')
-            .its('data.0')
-            .its('attributes')
-            .its('title')
-            .should('include', `automated test field content ${context}`),
+          cy.wrap(response).its('body').its('data.0').its('attributes').its('title').should('include', `automated test field content ${context}`),
         );
     });
 
@@ -27,13 +21,7 @@ describe('Test that field content API endpoint', () => {
       })
         .then((id) => cy.api_get(`/fields/content/${endpoint}/${id}`))
         .then((response) =>
-          cy
-            .wrap(response)
-            .its('body')
-            .its('data')
-            .its('attributes')
-            .its('title')
-            .should('include', `automated test field content ${context}`),
+          cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', `automated test field content ${context}`),
         );
     });
 
@@ -67,13 +55,7 @@ describe('Test that field content API endpoint', () => {
         state: 1,
         type: 'text',
       }).then((response) =>
-        cy
-          .wrap(response)
-          .its('body')
-          .its('data')
-          .its('attributes')
-          .its('title')
-          .should('include', `automated test field content ${context}`),
+        cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', `automated test field content ${context}`),
       );
     });
 
@@ -89,13 +71,7 @@ describe('Test that field content API endpoint', () => {
           }),
         )
         .then((response) =>
-          cy
-            .wrap(response)
-            .its('body')
-            .its('data')
-            .its('attributes')
-            .its('title')
-            .should('include', `updated automated test field ${context}`),
+          cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', `updated automated test field ${context}`),
         );
     });
 
