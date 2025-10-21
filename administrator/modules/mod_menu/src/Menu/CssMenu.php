@@ -13,12 +13,15 @@ namespace Joomla\Module\Menu\Administrator\Menu;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Menu\PreprocessMenuItemsEvent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\AdministratorMenuItem;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -31,8 +34,10 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.5
  */
-class CssMenu
+class CssMenu implements DatabaseAwareInterface
 {
+    use DatabaseAwareTrait;
+
     /**
      * The root of the menu
      *
@@ -90,12 +95,24 @@ class CssMenu
     /**
      * CssMenu constructor.
      *
-     * @param   CMSApplication  $application  The application
+     * @param   CMSApplication      $application  The application
+     * @param   ?DatabaseInterface  $db           The database
      *
      * @since 4.0.0
      */
-    public function __construct(CMSApplication $application)
+    public function __construct(CMSApplication $application, ?DatabaseInterface $db = null)
     {
+        if ($db === null) {
+            @trigger_error(
+                __CLASS__ . ': The $db parameter must be set for the constructor.',
+                \E_USER_DEPRECATED
+            );
+
+            $db = Factory::getContainer()->get(DatabaseInterface::class);
+        }
+
+        $this->setDatabase($db);
+
         $this->application = $application;
         $this->root        = new AdministratorMenuItem();
     }
@@ -231,7 +248,7 @@ class CssMenu
             $uri = clone Uri::getInstance();
             $uri->setVar('recover_menu', 1);
 
-            $table    = Table::getInstance('MenuType');
+            $table    = new \Joomla\CMS\Table\MenuType($this->getDatabase());
             $menutype = $params->get('menutype');
 
             $table->load(['menutype' => $menutype]);

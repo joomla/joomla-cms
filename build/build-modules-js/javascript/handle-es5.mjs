@@ -13,7 +13,6 @@ export const handleES5File = async (file) => {
       file.replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`).replace('.es5.js', '.js'),
       { preserveTimestamps: true },
     );
-    // eslint-disable-next-line no-console
     console.log(`✅ Legacy js file: ${basename(file)}: copied`);
 
     minifyFile(file.replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`).replace('.es5.js', '.js'));

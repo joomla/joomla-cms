@@ -181,6 +181,36 @@ class Updater extends Adapter
     }
 
     /**
+     * Returns available updates
+     *
+     * @param integer $eid
+     * @param string $minimumStability
+     * @param boolean $includeCurrent
+     *
+     * @return array
+     */
+    public function getAvailableUpdates(int $eid, string $minimumStability = self::STABILITY_STABLE): array
+    {
+        $results = $this->getUpdateSites($eid);
+
+        if (empty($results)) {
+            return [];
+        }
+
+        $updateObjects = [];
+
+        foreach ($results as $result) {
+            $updateElements = $this->getUpdateObjectsForSite($result, $minimumStability);
+
+            foreach ($updateElements as $updateElement) {
+                $updateObjects[] = get_object_vars($updateElement);
+            }
+        }
+
+        return $updateObjects;
+    }
+
+    /**
      * Returns the update site records for an extension with ID $eid. If $eid is zero all enabled update sites records
      * will be returned.
      *
