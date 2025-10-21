@@ -1,7 +1,6 @@
 import { dirname, sep } from 'node:path';
-
 import pkg from 'fs-extra';
-import { transform as transformCss, composeVisitors } from 'lightningcss';
+import { composeVisitors, transform as transformCss } from 'lightningcss';
 import { urlVersioning } from './css-versioning.mjs';
 
 const {

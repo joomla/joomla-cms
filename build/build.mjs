@@ -22,20 +22,19 @@ import semver from 'semver';
 import { stylesheets } from './build-modules-js/compilecss.mjs';
 import { scripts } from './build-modules-js/compilejs.mjs';
 import { compressFiles } from './build-modules-js/compress.mjs';
-// Joomla Build modules
 import { createErrorPages } from './build-modules-js/error-pages.mjs';
 import { cleanVendors } from './build-modules-js/init/cleanup-media.mjs';
 import { localisePackages } from './build-modules-js/init/localise-packages.mjs';
 import { minifyVendor } from './build-modules-js/init/minify-vendor.mjs';
 import { patchPackages } from './build-modules-js/init/patches.mjs';
 import { recreateMediaFolder } from './build-modules-js/init/recreate-media.mjs';
-import { cssVersioningVendor } from './build-modules-js/stylesheets/css-versioning.mjs';
-import { compileCodemirror } from './build-modules-js/javascript/build-codemirror.mjs';
 import { bootstrapJs } from './build-modules-js/javascript/build-bootstrap-js.mjs';
+import { compileCodemirror } from './build-modules-js/javascript/build-codemirror.mjs';
 import {
   mediaManager,
   watchMediaManager,
 } from './build-modules-js/javascript/build-com_media-js.mjs';
+import { cssVersioningVendor } from './build-modules-js/stylesheets/css-versioning.mjs';
 import { Timer } from './build-modules-js/utils/timer.mjs';
 import { versioning } from './build-modules-js/versioning.mjs';
 import { watching } from './build-modules-js/watch.mjs';
