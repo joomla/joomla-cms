@@ -318,30 +318,6 @@ parameters:
 			path: administrator/components/com_banners/src/Model/BannerModel.php
 
 		-
-			message: '#^Call to static method getApplication\(\) on an unknown class Joomla\\CMS\\Versioning\\Factory\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_banners/src/Model/BannerModel.php
-
-		-
-			message: '#^Instantiated class Joomla\\CMS\\Versioning\\ContentHistory not found\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_banners/src/Model/BannerModel.php
-
-		-
-			message: '#^Call to static method getApplication\(\) on an unknown class Joomla\\CMS\\Versioning\\Factory\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_banners/src/Model/ClientModel.php
-
-		-
-			message: '#^Instantiated class Joomla\\CMS\\Versioning\\ContentHistory not found\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_banners/src/Model/ClientModel.php
-
-		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
@@ -662,18 +638,6 @@ parameters:
 				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
 			'''
 			identifier: method.deprecatedInterface
-			count: 2
-			path: administrator/components/com_categories/src/Model/CategoryModel.php
-
-		-
-			message: '#^Call to static method getApplication\(\) on an unknown class Joomla\\CMS\\Versioning\\Factory\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_categories/src/Model/CategoryModel.php
-
-		-
-			message: '#^Instantiated class Joomla\\CMS\\Versioning\\ContentHistory not found\.$#'
-			identifier: class.notFound
 			count: 2
 			path: administrator/components/com_categories/src/Model/CategoryModel.php
 
@@ -1047,18 +1011,6 @@ parameters:
 			path: administrator/components/com_contact/src/Model/ContactModel.php
 
 		-
-			message: '#^Call to static method getApplication\(\) on an unknown class Joomla\\CMS\\Versioning\\Factory\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_contact/src/Model/ContactModel.php
-
-		-
-			message: '#^Instantiated class Joomla\\CMS\\Versioning\\ContentHistory not found\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_contact/src/Model/ContactModel.php
-
-		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
@@ -1280,18 +1232,6 @@ parameters:
 				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
 			'''
 			identifier: method.deprecatedInterface
-			count: 2
-			path: administrator/components/com_content/src/Model/ArticleModel.php
-
-		-
-			message: '#^Call to static method getApplication\(\) on an unknown class Joomla\\CMS\\Versioning\\Factory\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_content/src/Model/ArticleModel.php
-
-		-
-			message: '#^Instantiated class Joomla\\CMS\\Versioning\\ContentHistory not found\.$#'
-			identifier: class.notFound
 			count: 2
 			path: administrator/components/com_content/src/Model/ArticleModel.php
 
@@ -4369,18 +4309,6 @@ parameters:
 			path: administrator/components/com_newsfeeds/src/Model/NewsfeedModel.php
 
 		-
-			message: '#^Call to static method getApplication\(\) on an unknown class Joomla\\CMS\\Versioning\\Factory\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_newsfeeds/src/Model/NewsfeedModel.php
-
-		-
-			message: '#^Instantiated class Joomla\\CMS\\Versioning\\ContentHistory not found\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_newsfeeds/src/Model/NewsfeedModel.php
-
-		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
@@ -5107,18 +5035,6 @@ parameters:
 			path: administrator/components/com_tags/src/Model/TagModel.php
 
 		-
-			message: '#^Call to static method getApplication\(\) on an unknown class Joomla\\CMS\\Versioning\\Factory\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_tags/src/Model/TagModel.php
-
-		-
-			message: '#^Instantiated class Joomla\\CMS\\Versioning\\ContentHistory not found\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_tags/src/Model/TagModel.php
-
-		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
@@ -5767,18 +5683,6 @@ parameters:
 			'''
 			identifier: method.deprecatedInterface
 			count: 1
-			path: administrator/components/com_users/src/Model/NoteModel.php
-
-		-
-			message: '#^Call to static method getApplication\(\) on an unknown class Joomla\\CMS\\Versioning\\Factory\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_users/src/Model/NoteModel.php
-
-		-
-			message: '#^Instantiated class Joomla\\CMS\\Versioning\\ContentHistory not found\.$#'
-			identifier: class.notFound
-			count: 2
 			path: administrator/components/com_users/src/Model/NoteModel.php
 
 		-
@@ -13895,28 +13799,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
-				             Use the database service in the DI container
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 4
-			path: libraries/src/Versioning/Versioning.php
-
-		-
-			message: '''
-				#^Call to method getDispatcher\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 1
-			path: libraries/src/Versioning/Versioning.php
-
-		-
-			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
 				             Load the user service from the dependency injection container or get from the application object
@@ -13992,6 +13874,16 @@ parameters:
 			identifier: method.staticCall
 			count: 2
 			path: plugins/behaviour/compat6/classes/Filesystem/Streams/StreamString.php
+
+		-
+			message: '''
+				#^Call to method delete\(\) of deprecated class Joomla\\CMS\\Versioning\\Versioning\:
+				6\.0\.0  will be removed in 8\.0 without direct replacement,
+				             use the new versioning concept \(LINK TO DOCUMENTATION\)$#
+			'''
+			identifier: staticMethod.deprecatedClass
+			count: 1
+			path: plugins/behaviour/versionable/src/Extension/Versionable.php
 
 		-
 			message: '''
@@ -14678,13 +14570,3 @@ parameters:
 			identifier: property.notFound
 			count: 2
 			path: plugins/workflow/publishing/src/Extension/Publishing.php
-
-		-
-			message: '''
-				#^Call to method delete\(\) of deprecated class Joomla\\CMS\\Versioning\\Versioning\:
-				6\.0\.0  will be removed in 8\.0 without direct replacement,
-				             use the new versioning concept \(LINK TO DOCUMENTATION\)$#
-			'''
-			identifier: staticMethod.deprecatedClass
-			count: 1
-			path: plugins/behaviour/versionable/src/Extension/Versionable.php

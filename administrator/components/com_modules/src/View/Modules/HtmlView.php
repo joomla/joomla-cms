@@ -130,11 +130,6 @@ class HtmlView extends ListView
                 unset($this->activeFilters['state'], $this->activeFilters['language']);
             }
         }
-
-        // Add form control fields
-        $this->filterForm
-            ->addControlField('task', '')
-            ->addControlField('boxchecked', '0');
     }
 
     /**
@@ -147,7 +142,6 @@ class HtmlView extends ListView
     protected function addToolbar()
     {
         $canDo = $this->canDo;
-        $user  = $this->getCurrentUser();
 
         $canCreate = $canDo->get('core.create');
 

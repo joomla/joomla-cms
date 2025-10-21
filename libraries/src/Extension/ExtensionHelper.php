@@ -406,7 +406,7 @@ class ExtensionHelper
         }
 
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions'));
 
@@ -482,7 +482,7 @@ class ExtensionHelper
 
         if (!\array_key_exists($key, self::$loadedExtensions)) {
             $db    = Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select('*')
                 ->from($db->quoteName('#__extensions'))
                 ->where(

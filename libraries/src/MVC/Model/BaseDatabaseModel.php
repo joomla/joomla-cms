@@ -155,7 +155,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
     protected function _getList($query, $limitstart = 0, $limit = 0)
     {
         if (\is_string($query)) {
-            $query = $this->getDatabase()->getQuery(true)->setQuery($query);
+            $query = $this->getDatabase()->createQuery()->setQuery($query);
         }
 
         $query->setLimit($limit, $limitstart);

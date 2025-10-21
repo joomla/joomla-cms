@@ -505,7 +505,7 @@ class Query
         $groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
 
         // Load the predefined filter.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('f.data, f.params')
             ->from($db->quoteName('#__finder_filters') . ' AS f')
             ->where('f.filter_id = ' . (int) $filterId);
@@ -609,7 +609,7 @@ class Query
         // Get the database object.
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         /*
          * Create the query to get filters from the database. We do this for
@@ -1242,7 +1242,7 @@ class Query
         $db = $this->getDatabase();
 
         // Create a database query to build match the token.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('t.term, t.term_id')
             ->from('#__finder_terms AS t');
 

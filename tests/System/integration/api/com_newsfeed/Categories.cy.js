@@ -1,4 +1,5 @@
 describe('Test that newsfeed categories API endpoint', () => {
+  afterEach(() => cy.task('queryDB', "DELETE FROM #__categories where title = 'automated test feed category'"));
   it('can deliver a list of categories', () => {
     cy.db_createCategory({
       title: 'automated test category',

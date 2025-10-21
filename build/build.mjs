@@ -13,7 +13,6 @@
  * node build.mjs --com-media        will compile the media manager Vue application
  * node build.mjs --watch-com-media  will watch and compile the media manager Vue application
  * node build.mjs --gzip             will create gzip files for all the minified stylesheets and scripts.
- * node build.mjs --cssversioning    will update all the url entries providing accurate versions for stylesheets.
  * node build.mjs --versioning       will update all the joomla.assets.json files providing accurate versions for stylesheets and scripts.
  */
 
@@ -23,7 +22,6 @@ import semver from 'semver';
 import { stylesheets } from './build-modules-js/compilecss.mjs';
 import { scripts } from './build-modules-js/compilejs.mjs';
 import { compressFiles } from './build-modules-js/compress.mjs';
-import { cssVersioning } from './build-modules-js/css-versioning.mjs';
 // Joomla Build modules
 import { createErrorPages } from './build-modules-js/error-pages.mjs';
 import { cleanVendors } from './build-modules-js/init/cleanup-media.mjs';
@@ -31,8 +29,9 @@ import { localisePackages } from './build-modules-js/init/localise-packages.mjs'
 import { minifyVendor } from './build-modules-js/init/minify-vendor.mjs';
 import { patchPackages } from './build-modules-js/init/patches.mjs';
 import { recreateMediaFolder } from './build-modules-js/init/recreate-media.mjs';
-import { bootstrapJs } from './build-modules-js/javascript/build-bootstrap-js.mjs';
+import { cssVersioningVendor } from './build-modules-js/stylesheets/css-versioning.mjs';
 import { compileCodemirror } from './build-modules-js/javascript/build-codemirror.mjs';
+import { bootstrapJs } from './build-modules-js/javascript/build-bootstrap-js.mjs';
 import {
   mediaManager,
   watchMediaManager,
@@ -111,10 +110,6 @@ Program.allowUnknownOption()
   .option('--gzip', 'Compress all the minified stylesheets and scripts.')
   .option('--prepare', 'Run all the needed tasks to initialise the repo')
   .option(
-    '--cssversioning',
-    'Update all the url() versions on their relative stylesheet files',
-  )
-  .option(
     '--versioning',
     'Update all the .js/.css versions on their relative joomla.assets.json',
   )
@@ -137,6 +132,7 @@ if (cliOptions.copyAssets) {
     .then(() => cleanVendors())
     .then(() => localisePackages(options))
     .then(() => patchPackages(options))
+    .then(() => cssVersioningVendor())
     .then(() => minifyVendor())
     .catch((error) => handleError(error, 1));
 }
@@ -192,11 +188,6 @@ if (cliOptions.versioning) {
   versioning().catch((err) => handleError(err, 1));
 }
 
-// Update the url() versions in the .css files
-if (cliOptions.cssversioning) {
-  cssVersioning().catch((err) => handleError(err, 1));
-}
-
 // Prepare the repo for dev work
 if (cliOptions.prepare) {
   const bench = new Timer('Build');
@@ -208,6 +199,7 @@ if (cliOptions.prepare) {
     .then(() => minifyVendor())
     .then(() => createErrorPages(options))
     .then(() => stylesheets(options, Program.args[0]))
+    .then(() => cssVersioningVendor())
     .then(() => scripts(options, Program.args[0]))
     .then(() => mediaManager())
     .then(() => bootstrapJs())

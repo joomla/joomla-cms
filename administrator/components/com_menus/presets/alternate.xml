@@ -581,6 +581,13 @@
 		/>
 
 		<menuitem
+			title="MOD_MENU_HELP_PROGRAMMERS"
+			type="url"
+			target="_blank"
+			link="https://manual.joomla.org"
+		/>
+
+		<menuitem
 			type="separator"
 		/>
 
