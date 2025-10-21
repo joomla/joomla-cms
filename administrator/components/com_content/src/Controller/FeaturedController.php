@@ -22,18 +22,18 @@ namespace Joomla\Component\Content\Administrator\Controller;
 class FeaturedController extends ArticlesController
 {
     /**
-     * Proxy for getModel.
+     * Method to get a model object, loading it if required.
      *
      * @param   string  $name    The model name. Optional.
      * @param   string  $prefix  The class prefix. Optional.
-     * @param   array   $config  The array of possible config values. Optional.
+     * @param   array   $config  Configuration array for model. Optional.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel
+     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
      *
-     * @since   __DEPLOYMENT_VERSION__
+     * @since   1.6
      */
     public function getModel($name = 'Feature', $prefix = 'Administrator', $config = ['ignore_request' => true])
-    { 
+    {
         return parent::getModel($name, $prefix, $config);
     }
 }
