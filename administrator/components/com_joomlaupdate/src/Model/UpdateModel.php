@@ -1447,8 +1447,10 @@ ENDDATA;
             $this->translateExtensionName($plugin);
 
             $option         = new \stdClass();
-            $option->label  = $plugin->name;
             $option->state  = PluginHelper::isEnabled('behaviour', 'compat6');
+            $option->label  = $option->state
+                ? $plugin->name
+                : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_BC_ENABLED_TITLE', $plugin->name);
             $option->notice = $option->state ? null : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_ENABLED_NOTICE', $plugin->folder, $plugin->element);
             $options[]      = $option;
         }
