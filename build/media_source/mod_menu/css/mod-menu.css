@@ -10,10 +10,8 @@
   }
 }
 :where(.mod-menu [class*="icon-"]) {
-  margin-inline-start: 0.5rem;
-  transition:
-    all 0.2s,
-    background-color 0.2s;
+  margin-inline-start: .5rem;
+  transition: all .2s, background-color .2s;
 }
 
 :where(.mod-menu__sub[aria-hidden="true"]) {

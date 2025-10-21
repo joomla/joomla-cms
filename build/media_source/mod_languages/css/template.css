@@ -5,7 +5,7 @@ div.mod-languages ul {
 }
 
 div.mod-languages li {
-  margin: 0 0.5rem;
+  margin: 0 .5rem;
 }
 
 div.mod-languages ul.lang-inline li {
@@ -13,12 +13,12 @@ div.mod-languages ul.lang-inline li {
 }
 
 div.mod-languages .dropdown-menu {
-  padding: 0.5rem 0;
+  padding: .5rem 0;
 }
 
 div.mod-languages ul.lang-block li {
   display: block;
-  padding: 0.5rem 0;
+  padding: .5rem 0;
   text-align: start;
 }
 
@@ -32,7 +32,7 @@ div.mod-languages img {
 }
 
 div.mod-languages a {
-  padding: 0.5rem;
+  padding: .5rem;
   text-decoration: none;
 }
 

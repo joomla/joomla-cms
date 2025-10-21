@@ -6,14 +6,14 @@
 .checkbox-toggle {
   display: none !important;
 }
-.checkbox-toggle ~ .btn-hide {
-  display: none;
-}
 .checkbox-toggle[disabled] ~ .btn-hide {
-  opacity: 0.5;
+  opacity: .5;
 }
 .checkbox-toggle ~ .btn-show {
   display: inline;
+}
+.checkbox-toggle ~ .btn-hide {
+  display: none;
 }
 .checkbox-toggle:checked ~ .btn-show {
   display: none;
