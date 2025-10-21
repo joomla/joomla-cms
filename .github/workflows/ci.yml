@@ -79,7 +79,7 @@ jobs:
     needs: [composer, npm]
     strategy:
       matrix:
-        check: ['lint']
+        check: ['lint:js', 'lint:css']
     steps:
       - uses: actions/setup-node@v4
         with:
