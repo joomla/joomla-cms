@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metafile client="installation">
-	<name>English (United Kingdom)</name>
+	<name>Urdu (ur-PK)</name>
 	<version>6.0.1</version>
 	<creationDate>2025-10</creationDate>
-	<author>عبدالوحید</author>
+	<author>Urdu Translation Team</author>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
@@ -11,9 +11,9 @@
 	</files>
 	<metadata>
 		<name/>
-		<nativeName>English (United Kingdom)</nativeName>
+		<nativeName>انگریزی (برطانیہ)</nativeName>
 		<tag>ur-PK</tag>
-		<rtl>0</rtl>
+		<rtl>1</rtl>
 	</metadata>
 	<params/>
 </metafile>
