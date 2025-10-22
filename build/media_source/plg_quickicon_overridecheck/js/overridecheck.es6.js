@@ -47,7 +47,7 @@
               // Scroll to page top
               window.scrollTo(0, 0);
 
-              update('danger', Joomla.Text._('PLG_QUICKICON_OVERRIDECHECK_OVERRIDEFOUND').replace('%s', `<span class="badge text-dark bg-light">${updateInfoList.length}</span>`), '');
+              update('warning', Joomla.Text._('PLG_QUICKICON_OVERRIDECHECK_OVERRIDEFOUND').replace('%s', `<span class="badge text-dark bg-light">${updateInfoList.length}</span>`), '');
             }
           } else {
             throw new Error('Override check: unexpected value type');
