@@ -142,6 +142,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
     . $hasClass
     . ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
+    <a class="visually-hidden-focusable m-1 px-3 py-2 focus-ring" href="#main-content"><?php echo Text::_('TPL_CASSIOPEIA_SKIP_TO_MAIN_CONTENT'); ?></a>
     <header class="header container-header full-width<?php echo $stickyHeader ? ' ' . $stickyHeader : ''; ?>">
 
         <?php if ($this->countModules('topbar')) : ?>
@@ -212,7 +213,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
             <jdoc:include type="modules" name="breadcrumbs" style="none" />
             <jdoc:include type="modules" name="main-top" style="card" />
             <jdoc:include type="message" />
-            <main>
+            <main id="main-content">
                 <jdoc:include type="component" />
             </main>
             <jdoc:include type="modules" name="main-bottom" style="card" />
