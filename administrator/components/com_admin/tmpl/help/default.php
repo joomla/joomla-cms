@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
-use Joomla\Component\Admin\Administrator\View\Help\ToC;
+use Joomla\Component\Admin\Administrator\View\Help\Toc;
 
 /** @var \Joomla\Component\Admin\Administrator\View\Help\HtmlView $this */
 
