@@ -10,10 +10,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Help\Help;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
+use Joomla\Component\Admin\Administrator\View\Help\ToC;
 
 /** @var \Joomla\Component\Admin\Administrator\View\Help\HtmlView $this */
 
@@ -57,7 +55,7 @@ $wa->addInlineStyle('
 
 // Get the HTML for the Table of Contents from a separate file.
 require_once 'toc-build.php';
-$tocBuilder =  new Toc;
+$tocBuilder =  new Toc();
 $toc = $tocBuilder->getToc();
 
 ?>

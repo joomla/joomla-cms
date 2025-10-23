@@ -8,6 +8,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Admin\Administrator\View\Help;
+
 use Joomla\CMS\Help\Help;
 use Joomla\CMS\Language\Text;
 
@@ -15,7 +17,8 @@ use Joomla\CMS\Language\Text;
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
-class Toc {
+class Toc
+{
     /**
      * The id of each ul submenu - incremented for each.
      *
@@ -49,7 +52,8 @@ class Toc {
         return $html;
     }
 
-    protected function buildMenu(array $items, $pass = false): string {
+    protected function buildMenu(array $items, $pass = false): string
+    {
         // don't set a ul on the first pass
         if ($pass) {
             $html = "";
