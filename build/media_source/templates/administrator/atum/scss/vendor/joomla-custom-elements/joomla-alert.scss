@@ -1,5 +1,7 @@
 @import "../../variables";
+@import "../../variables-dark";
 @import "../../../../../../../../media/vendor/joomla-custom-elements/css/joomla-alert";
+@import "../../../../../../../../media/vendor/bootstrap/scss/mixins/color-mode";
 
 // The following is a restyle for the system alerts
 
@@ -10,19 +12,85 @@
   min-width: 16rem;
   padding: 0;
   margin-bottom: 1rem;
-  color: var(--alert-accent-color, var(--template-bg-dark));
-  background-color: var(--alert-bg-color, var(--white));
-  border: 1px solid var(--alert-accent-color, var(--template-bg-dark));
-  border-radius: .25rem;
+  color: var(--alert-accent-color);
+  background-color: var(--alert-bg-color);
+  border: 1px solid;
+  border-color: var(--alert-border);
+  border-radius: $border-radius-sm;
   transition: opacity .15s linear;
+
+  .btn-primary {
+    color: var(--states-btn-primary-color);
+    background: var(--states-btn-primary-bg);
+    border-color: var(--states-btn-primary-bg-hover);
+    &:hover {
+      background: var(--states-btn-primary-bg-hover);
+    }
+  }
+
+  &[type="success"],
+  &[type="message"] {
+    --alert-accent-color: var(--state-success-text);
+    --alert-bg-color: var(--state-success-bg);
+    --alert-border: var(--state-success-bg-hvr);
+    --alert-heading-bg: var(--state-success-bg-hvr);
+    --alert-link-color: var(--state-success-link-color, var(--states-link-color));
+    a {
+      color: var(--state-success-text);
+      text-decoration: underline;
+    }
+  }
+
+  &[type="info"],
+  &[type="notice"] {
+    --alert-accent-color: var(--state-info-text);
+    --alert-bg-color: var(--state-info-bg);
+    --alert-border: var(--state-info-bg-hvr);
+    --alert-heading-bg: var(--state-info-bg-hvr);
+    --alert-link-color: var(--state-success-link-color, var(--states-link-color));
+    a {
+      color: var(--state-info-text);
+      text-decoration: underline;
+    }
+  }
+
+  &[type="warning"] {
+    .joomla-alert--close {
+      color: var(--state-warning-text);
+    }
+
+    --alert-accent-color: var(--state-warning-text);
+    --alert-bg-color: var(--state-warning-bg);
+    --alert-border: var(--state-warning-border);
+    --alert-heading-bg: var(--state-warning-heading-bg);
+    --alert-link-color: var(--state-success-link-color, var(--states-link-color));
+    a {
+      color: var(--state-warning-text);
+      text-decoration: underline;
+    }
+  }
+
+  &[type="error"],
+  &[type="danger"] {
+    --alert-accent-color: var(--state-danger-text);
+    --alert-bg-color: var(--state-danger-bg);
+    --alert-border: var(--state-danger-bg-hvr);
+    --alert-heading-bg: var(--state-danger-bg-hvr);
+    --alert-link-color: var(--state-success-link-color, var(--states-link-color));
+    a {
+      color: var(--state-danger-text);
+      text-decoration: underline;
+    }
+  }
 
   .alert-heading {
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: .8rem;
-    color: var(--white);
-    background: var(--alert-accent-color, var(--template-bg-dark));
+    line-height: normal;
+    color: #fff;
+    background: var(--alert-heading-bg);
     align-content: center;
 
     .message::before,
@@ -50,7 +118,7 @@
       width: 1em;
       height: 1em;
       content: "";
-      background-image: url('data:image/svg+xml;utf8,<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="rgba(255, 255, 255, .95)" d="M1024 1375v-190q0-14-9.5-23.5t-22.5-9.5h-192q-13 0-22.5 9.5t-9.5 23.5v190q0 14 9.5 23.5t22.5 9.5h192q13 0 22.5-9.5t9.5-23.5zm-2-374l18-459q0-12-10-19-13-11-24-11h-220q-11 0-24 11-10 7-10 21l17 457q0 10 10 16.5t24 6.5h185q14 0 23.5-6.5t10.5-16.5zm-14-934l768 1408q35 63-2 126-17 29-46.5 46t-63.5 17h-1536q-34 0-63.5-17t-46.5-46q-37-63-2-126l768-1408q17-31 47-49t65-18 65 18 47 49z"/></svg>');
+      background-image: url('data:image/svg+xml;utf8,<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="rgba(0, 0, 0, .95)" d="M1024 1375v-190q0-14-9.5-23.5t-22.5-9.5h-192q-13 0-22.5 9.5t-9.5 23.5v190q0 14 9.5 23.5t22.5 9.5h192q13 0 22.5-9.5t9.5-23.5zm-2-374l18-459q0-12-10-19-13-11-24-11h-220q-11 0-24 11-10 7-10 21l17 457q0 10 10 16.5t24 6.5h185q14 0 23.5-6.5t10.5-16.5zm-14-934l768 1408q35 63-2 126-17 29-46.5 46t-63.5 17h-1536q-34 0-63.5-17t-46.5-46q-37-63-2-126l768-1408q17-31 47-49t65-18 65 18 47 49z"/></svg>');
       background-size: 100%;
     }
 
@@ -70,36 +138,9 @@
   }
 
   .alert-link {
-    color: var(--template-link-color);
+    font-weight: normal;
+    color: var(--states-link-color);
     text-decoration: underline;
-  }
-
-  &[type="success"],
-  &[type="message"] {
-    --alert-accent-color: #{$state-success-text};
-    --alert-bg-color: #{$state-success-bg};
-  }
-
-  &[type="info"],
-  &[type="notice"] {
-    --alert-accent-color: #{$state-info-text};
-    --alert-bg-color: #{$state-info-bg};
-  }
-
-  &[type="warning"] {
-    .joomla-alert--close {
-      color: #{$state-warning-text};
-    }
-
-    color: #{$state-warning-text};
-    --alert-accent-color: #{$warning};
-    --alert-bg-color: #{$state-warning-bg};
-  }
-
-  &[type="error"],
-  &[type="danger"] {
-    --alert-accent-color: #{$state-danger-text};
-    --alert-bg-color: #{$state-danger-bg};
   }
 
   .joomla-alert--close,
@@ -111,6 +152,7 @@
     font-size: 2rem;
     line-height: 1rem;
     color: var(--alert-accent-color);
+    text-shadow: none;
     background: none;
     border: 0;
     opacity: 1;

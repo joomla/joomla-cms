@@ -1,7 +1,16 @@
+@use "sass:color";
+
 // Form
 
 label {
   margin-bottom: 0;
+}
+
+.form-control {
+  &::placeholder {
+    font-size: .8rem;
+    font-style: italic;
+  }
 }
 
 td .form-control {
@@ -35,7 +44,6 @@ legend {
 
 // Validation
 .invalid {
-  color: var(--danger);
   border-color: var(--danger);
 }
 
@@ -48,7 +56,7 @@ legend {
 }
 
 [aria-grabbed="true"] {
-  box-shadow: 0 0 2px 1px var(--template-bg-dark);
+  box-shadow: $form-aria-grabbed-box-shadow;
 }
 
 select.form-control {
@@ -66,11 +74,11 @@ select.form-control {
   }
 
   .button-select {
-    background-color: darken($success, 8%);
+    background-color: color.adjust($success, $lightness: -8%);
   }
 
   .button-clear {
-    background-color: darken($danger, 8%);
+    background-color: color.adjust($danger, $lightness: -8%);
   }
 
   .button-clear > .#{$fa-css-prefix}-check,

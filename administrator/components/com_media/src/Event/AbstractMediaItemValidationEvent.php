@@ -58,61 +58,61 @@ abstract class AbstractMediaItemValidationEvent extends AbstractImmutableEvent
         }
 
         // Non empty string
-        if (!isset($item->name) || !is_string($item->name) || trim($item->name) === '') {
+        if (!isset($item->name) || !\is_string($item->name) || trim($item->name) === '') {
             throw new \BadMethodCallException("Property 'name' of argument 'item' of event {$this->name} has a wrong item. Valid: non empty string");
         }
 
         // Non empty string
-        if (!isset($item->path) || !is_string($item->path) || trim($item->path) === '') {
+        if (!isset($item->path) || !\is_string($item->path) || trim($item->path) === '') {
             throw new \BadMethodCallException("Property 'path' of argument 'item' of event {$this->name} has a wrong item. Valid: non empty string");
         }
 
         // A string
-        if ($item->type === 'file' && (!isset($item->extension) || !is_string($item->extension))) {
+        if ($item->type === 'file' && (!isset($item->extension) || !\is_string($item->extension))) {
             throw new \BadMethodCallException("Property 'extension' of argument 'item' of event {$this->name} has a wrong item. Valid: string");
         }
 
         // An empty string or an integer
         if (
             !isset($item->size) ||
-            (!is_integer($item->size) && !is_string($item->size)) ||
-            (is_string($item->size) && $item->size !== '')
+            (!\is_int($item->size) && !\is_string($item->size)) ||
+            (\is_string($item->size) && $item->size !== '')
         ) {
             throw new \BadMethodCallException("Property 'size' of argument 'item' of event {$this->name} has a wrong item. Valid: empty string or integer");
         }
 
         // A string
-        if (!isset($item->mime_type) || !is_string($item->mime_type)) {
+        if (!isset($item->mime_type) || !\is_string($item->mime_type)) {
             throw new \BadMethodCallException("Property 'mime_type' of argument 'item' of event {$this->name} has a wrong item. Valid: string");
         }
 
         // An integer
-        if (!isset($item->width) || !is_integer($item->width)) {
+        if (!isset($item->width) || !\is_int($item->width)) {
             throw new \BadMethodCallException("Property 'width' of argument 'item' of event {$this->name} has a wrong item. Valid: integer");
         }
 
         // An integer
-        if (!isset($item->height) || !is_integer($item->height)) {
+        if (!isset($item->height) || !\is_int($item->height)) {
             throw new \BadMethodCallException("Property 'height' of argument 'item' of event {$this->name} has a wrong item. Valid: integer");
         }
 
         // A string
-        if (!isset($item->create_date) || !is_string($item->create_date)) {
+        if (!isset($item->create_date) || !\is_string($item->create_date)) {
             throw new \BadMethodCallException("Property 'create_date' of argument 'item' of event {$this->name} has a wrong item. Valid: string");
         }
 
         // A string
-        if (!isset($item->create_date_formatted) || !is_string($item->create_date_formatted)) {
+        if (!isset($item->create_date_formatted) || !\is_string($item->create_date_formatted)) {
             throw new \BadMethodCallException("Property 'create_date_formatted' of argument 'item' of event {$this->name} has a wrong item. Valid: string");
         }
 
         // A string
-        if (!isset($item->modified_date) || !is_string($item->modified_date)) {
+        if (!isset($item->modified_date) || !\is_string($item->modified_date)) {
             throw new \BadMethodCallException("Property 'modified_date' of argument 'item' of event {$this->name} has a wrong item. Valid: string");
         }
 
         // A string
-        if (!isset($item->modified_date_formatted) || !is_string($item->modified_date_formatted)) {
+        if (!isset($item->modified_date_formatted) || !\is_string($item->modified_date_formatted)) {
             throw new \BadMethodCallException("Property 'modified_date_formatted' of argument 'item' of event {$this->name} has a wrong item. Valid: string");
         }
     }

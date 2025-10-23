@@ -13,6 +13,7 @@ namespace Joomla\Component\Finder\Administrator\Helper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper as CMSLanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\PluginHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -58,8 +59,9 @@ class LanguageHelper
     {
         $return   = preg_replace('/[^a-zA-Z0-9]+/', '_', strtoupper($branchName));
         $language = Factory::getApplication()->getLanguage();
+        $debug    = Factory::getApplication()->get('debug_lang');
 
-        if ($language->hasKey('PLG_FINDER_QUERY_FILTER_BRANCH_S_' . $return) || JDEBUG) {
+        if ($language->hasKey('PLG_FINDER_QUERY_FILTER_BRANCH_S_' . $return) || $debug) {
             return 'PLG_FINDER_QUERY_FILTER_BRANCH_S_' . $return;
         }
 
@@ -122,16 +124,8 @@ class LanguageHelper
 
         $loaded = true;
 
-        // Get array of all the enabled Smart Search plugin names.
-        $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
-            ->select([$db->quoteName('name'), $db->quoteName('element')])
-            ->from($db->quoteName('#__extensions'))
-            ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-            ->where($db->quoteName('folder') . ' = ' . $db->quote('finder'))
-            ->where($db->quoteName('enabled') . ' = 1');
-        $db->setQuery($query);
-        $plugins = $db->loadObjectList();
+        // Get array of all the enabled Smart Search plugins.
+        $plugins = PluginHelper::getPlugin('finder');
 
         if (empty($plugins)) {
             return;
@@ -143,8 +137,9 @@ class LanguageHelper
 
         // Load language file for each plugin.
         foreach ($plugins as $plugin) {
-            $lang->load($plugin->name, JPATH_ADMINISTRATOR)
-                || $lang->load($plugin->name, JPATH_PLUGINS . '/finder/' . $plugin->element);
+            $extension = 'plg_finder_' . $plugin->name;
+            $lang->load($extension, JPATH_ADMINISTRATOR)
+                || $lang->load($extension, JPATH_PLUGINS . '/finder/' . $plugin->name);
         }
     }
 }

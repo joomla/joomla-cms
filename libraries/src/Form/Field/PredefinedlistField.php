@@ -12,7 +12,7 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -31,9 +31,9 @@ abstract class PredefinedlistField extends ListField
     protected $type = 'Predefinedlist';
 
     /**
-     * Cached array of the category items.
+     * Cached array of the predefined items.
      *
-     * @var    array
+     * @var    array[]
      * @since  3.2
      */
     protected static $options = [];
@@ -41,7 +41,7 @@ abstract class PredefinedlistField extends ListField
     /**
      * Available predefined options
      *
-     * @var  array
+     * @var  string[]
      * @since  3.2
      */
     protected $predefinedOptions = [];
@@ -57,7 +57,7 @@ abstract class PredefinedlistField extends ListField
     /**
      * Allows to use only specific values of the predefined list
      *
-     * @var  array
+     * @var  string[]
      * @since  4.0.0
      */
     protected $optionsFilter = [];
@@ -91,14 +91,14 @@ abstract class PredefinedlistField extends ListField
     /**
      * Method to get the options to populate list
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   3.2
      */
     protected function getOptions()
     {
         // Hash for caching
-        $hash = md5($this->element);
+        $hash = md5($this->element->asXML());
         $type = strtolower($this->type);
 
         if (!isset(static::$options[$type][$hash]) && !empty($this->predefinedOptions)) {
@@ -109,7 +109,7 @@ abstract class PredefinedlistField extends ListField
             foreach ($this->predefinedOptions as $value => $text) {
                 $val = (string) $value;
 
-                if (empty($this->optionsFilter) || in_array($val, $this->optionsFilter, true)) {
+                if (empty($this->optionsFilter) || \in_array($val, $this->optionsFilter, true)) {
                     $text = $this->translate ? Text::_($text) : $text;
 
                     $options[] = (object) [

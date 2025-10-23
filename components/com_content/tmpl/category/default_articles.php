@@ -22,8 +22,9 @@ use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Content\Site\View\Category\HtmlView $this */
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_content.articles-list');
 
 // Create some shortcuts.
@@ -256,7 +257,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                         <?php if (!empty($article->author) || !empty($article->created_by_alias)) : ?>
                             <?php $author = $article->author ?>
                             <?php $author = $article->created_by_alias ?: $author; ?>
-                            <?php if (!empty($article->contact_link) && $this->params->get('link_author') == true) : ?>
+                            <?php if (!empty($article->contact_link) && $this->params->get('link_author')) : ?>
                                 <?php if ($this->params->get('show_headings')) : ?>
                                     <?php echo HTMLHelper::_('link', $article->contact_link, $author); ?>
                                 <?php else : ?>

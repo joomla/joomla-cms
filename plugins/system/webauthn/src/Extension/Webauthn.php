@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @package         Joomla.Plugin
- * @subpackage      System.Webauthn
+ * @package     Joomla.Plugin
+ * @subpackage  System.Webauthn
  *
  * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Webauthn\Extension;
@@ -14,7 +14,6 @@ use Joomla\CMS\Event\CoreEventAware;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\System\Webauthn\Authentication;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AdditionalLoginButtons;
@@ -67,14 +66,6 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
     use UserDeletion;
 
     /**
-     * Autoload the language files
-     *
-     * @var    boolean
-     * @since  4.2.0
-     */
-    protected $autoloadLanguage = true;
-
-    /**
      * Should I try to detect and register legacy event listeners, i.e. methods which accept unwrapped arguments? While
      * this maintains a great degree of backwards compatibility to Joomla! 3.x-style plugins it is much slower. You are
      * advised to implement your plugins using proper Listeners, methods accepting an AbstractEvent as their sole
@@ -104,18 +95,17 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor. Loads the language files as well.
      *
-     * @param   DispatcherInterface  $subject    The object to observe
-     * @param   array                $config     An optional associative array of configuration
-     *                                           settings. Recognized key values include 'name',
-     *                                           'group', 'params', 'language (this list is not meant
-     *                                           to be comprehensive).
-     * @param   Authentication|null  $authHelper The WebAuthn helper object
+     * @param   array                $config        An optional associative array of configuration
+     *                                              settings. Recognized key values include 'name',
+     *                                              'group', 'params', 'language (this list is not meant
+     *                                              to be comprehensive).
+     * @param   ?Authentication      $authHelper    The WebAuthn helper object
      *
      * @since  4.0.0
      */
-    public function __construct(&$subject, array $config = [], Authentication $authHelper = null)
+    public function __construct(array $config = [], ?Authentication $authHelper = null)
     {
-        parent::__construct($subject, $config);
+        parent::__construct($config);
 
         /**
          * Note: Do NOT try to load the language in the constructor. This is called before Joomla initializes the
@@ -133,7 +123,7 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
 
         Log::addLogger([
             'text_file'         => "webauthn_system.php",
-            'text_entry_format' => '{DATETIME}	{PRIORITY} {CLIENTIP}	{MESSAGE}',
+            'text_entry_format' => '{DATETIME}	{PRIORITY}	{CLIENTIP}	{MESSAGE}',
         ], $logLevels, ["webauthn.system"]);
 
         $this->authenticationHelper = $authHelper ?? (new Authentication());
@@ -163,7 +153,7 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
     {
         try {
             $app = Factory::getApplication();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return [];
         }
 

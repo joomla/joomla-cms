@@ -12,7 +12,7 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\HTML\HTMLHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -33,7 +33,7 @@ class TimezoneField extends GroupedlistField
     /**
      * The list of available timezone groups to use.
      *
-     * @var    array
+     * @var    string[]
      * @since  1.7.0
      */
     protected static $zones = ['Africa', 'America', 'Antarctica', 'Arctic', 'Asia', 'Atlantic', 'Australia', 'Europe', 'Indian', 'Pacific'];
@@ -114,7 +114,7 @@ class TimezoneField extends GroupedlistField
     /**
      * Method to get the time zone field option groups.
      *
-     * @return  array  The field option objects as a nested array in groups.
+     * @return  array[]  The field option objects as a nested array in groups.
      *
      * @since   1.7.0
      */
@@ -128,12 +128,12 @@ class TimezoneField extends GroupedlistField
         // Build the group lists.
         foreach ($zones as $zone) {
             // Time zones not in a group we will ignore.
-            if (strpos($zone, '/') === false) {
+            if (!str_contains($zone, '/')) {
                 continue;
             }
 
             // Get the group/locale from the timezone.
-            list($group, $locale) = explode('/', $zone, 2);
+            [$group, $locale] = explode('/', $zone, 2);
 
             // Only use known groups.
             if (\in_array($group, self::$zones)) {

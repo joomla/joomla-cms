@@ -14,7 +14,6 @@ use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -314,7 +313,7 @@ class MessagesModel extends BaseDatabaseModel
 
         $extension = $db->loadObject();
 
-        if (!is_object($extension)) {
+        if (!\is_object($extension)) {
             return '';
         }
 
@@ -414,10 +413,10 @@ class MessagesModel extends BaseDatabaseModel
                 $helper = new PostinstallHelper();
                 $file   = $helper->parsePath($item->condition_file);
 
-                if (File::exists($file)) {
+                if (is_file($file)) {
                     require_once $file;
 
-                    $result = call_user_func($item->condition_method);
+                    $result = \call_user_func($item->condition_method);
 
                     if ($result === false) {
                         $unset_keys[] = $key;
@@ -429,7 +428,7 @@ class MessagesModel extends BaseDatabaseModel
             if (!empty($item->language_extension)) {
                 $hash = $item->language_client_id . '-' . $item->language_extension;
 
-                if (!in_array($hash, $language_extensions)) {
+                if (!\in_array($hash, $language_extensions)) {
                     $language_extensions[] = $hash;
                     Factory::getApplication()->getLanguage()->load($item->language_extension, $item->language_client_id == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR);
                 }
@@ -509,8 +508,7 @@ class MessagesModel extends BaseDatabaseModel
      * enabled             Must be 1 for this message to be enabled. If you omit it, it defaults to 1.
      *
      * condition_file      The RAD path to a PHP file containing a PHP function which determines whether this message should be shown to
-     *                     the user. @see FOFTemplateUtils::parsePath() for RAD path format. Joomla! will include this file before calling
-     *                     the condition_method.
+     *                     the user. Joomla! will include this file before calling the condition_method.
      *                     Example:   admin://components/com_foobar/helpers/postinstall.php
      *
      * condition_method    The name of a PHP function which will be used to determine whether to show this message to the user. This must be
@@ -544,7 +542,7 @@ class MessagesModel extends BaseDatabaseModel
     public function addPostInstallationMessage(array $options)
     {
         // Make sure there are options set
-        if (!is_array($options)) {
+        if (!\is_array($options)) {
             throw new \Exception('Post-installation message definitions must be of type array', 500);
         }
 
@@ -594,7 +592,7 @@ class MessagesModel extends BaseDatabaseModel
         }
 
         // Make sure there's a valid type
-        if (!in_array($options['type'], ['message', 'link', 'action'])) {
+        if (!\in_array($options['type'], ['message', 'link', 'action'])) {
             throw new \Exception('Post-installation message definitions need to declare a type of message, link or action', 500);
         }
 

@@ -15,7 +15,7 @@ use Joomla\CMS\User\User;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
- * Test class for \Joomla\CMS\MVC\Model\BaseDatabaseModel
+ * Test class for \Joomla\CMS\MVC\Model\BaseDatabaseModelUser\CurrentUserTrait
  *
  * @package     Joomla.UnitTest
  * @subpackage  MVC

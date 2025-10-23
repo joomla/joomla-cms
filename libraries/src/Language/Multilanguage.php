@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -43,7 +43,7 @@ class Multilanguage
      *
      * @since   2.5.4
      */
-    public static function isEnabled(CMSApplication $app = null, DatabaseInterface $db = null)
+    public static function isEnabled(?CMSApplication $app = null, ?DatabaseInterface $db = null)
     {
         // Flag to avoid doing multiple database queries.
         static $tested = false;
@@ -95,7 +95,7 @@ class Multilanguage
      *
      * @since   3.5
      */
-    public static function getSiteHomePages(DatabaseInterface $db = null)
+    public static function getSiteHomePages(?DatabaseInterface $db = null)
     {
         // To avoid doing duplicate database queries.
         static $multilangSiteHomePages = null;

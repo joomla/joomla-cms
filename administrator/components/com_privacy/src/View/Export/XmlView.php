@@ -33,7 +33,7 @@ class XmlView extends AbstractView
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  mixed  A string if successful, otherwise an Error object.
+     * @return  void
      *
      * @since   3.9.0
      * @throws  \Exception
@@ -46,15 +46,15 @@ class XmlView extends AbstractView
         $exportData = $model->collectDataForExportRequest();
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         $requestId = $model->getState($model->getName() . '.request_id');
 
         // This document should always be downloaded
-        $this->document->setDownload(true);
-        $this->document->setName('export-request-' . $requestId);
+        $this->getDocument()->setDownload(true);
+        $this->getDocument()->setName('export-request-' . $requestId);
 
         echo PrivacyHelper::renderDataAsXml($exportData);
     }

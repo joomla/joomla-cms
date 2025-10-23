@@ -1,5 +1,5 @@
 .task-title span.failure-indicator {
   position: relative;
-  bottom: 0.5em;
+  bottom: .5em;
   color: #ffb514;
 }

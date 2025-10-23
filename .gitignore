@@ -26,13 +26,9 @@
 
 # Test Related Files
 /phpunit.xml
-selenium.log
 composer.phar
 /test-install
 /.phpunit.result.cache
-/tests/Codeception/acceptance.suite.yml
-/tests/Codeception/_output/
-/tests/Codeception/api.suite.yml
 
 
 # Vendor directory handling
@@ -103,11 +99,11 @@ RoboFile.ini
 /media/com_media/css/mediamanager.min.css.map
 
 #cypress
-/tests/cypress/output/screenshots
-!/tests/cypress/output/screenshots/.gitkeep
-/tests/cypress/output/videos
-!/tests/cypress/output/videos/.gitkeep
-cypress.config.js
+/tests/System/output/screenshots
+!/tests/System/output/screenshots/.gitkeep
+/tests/System/output/videos
+!/tests/System/output/videos/.gitkeep
+cypress.config.mjs
 
 # WebAuthn FIDO metadata cache
 /plugins/system/webauthn/fido.jwt

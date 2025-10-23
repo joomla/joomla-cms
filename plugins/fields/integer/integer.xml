@@ -36,6 +36,17 @@
 				</field>
 
 				<field
+					name="form_layout"
+					type="list"
+					label="JLIB_FORM_FIELD_PARAM_LAYOUT_LABEL"
+					class="form-select"
+					default="joomla.form.field.list"				      
+					>
+					<option value="joomla.form.field.list">JLIB_FORM_FIELD_PARAM_LAYOUT_BASIC_SELECT</option>
+					<option value="joomla.form.field.list-fancy-select">JLIB_FORM_FIELD_PARAM_LAYOUT_FANCY_SELECT</option>
+				</field>
+
+				<field
 					name="first"
 					type="number"
 					label="PLG_FIELDS_INTEGER_PARAMS_FIRST_LABEL"

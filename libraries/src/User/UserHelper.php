@@ -30,7 +30,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -295,8 +295,8 @@ abstract class UserHelper
         $results = $db->loadObjectList();
 
         // Set the titles for the user groups.
-        for ($i = 0, $n = \count($results); $i < $n; $i++) {
-            $user->groups[$results[$i]->id] = $results[$i]->id;
+        foreach ($results as $result) {
+            $user->groups[$result->id] = $result->id;
         }
 
         // Store the user object.
@@ -374,8 +374,8 @@ abstract class UserHelper
         if ($id) {
             $user = User::getInstance($id);
 
-            $user->set('block', '0');
-            $user->set('activation', '');
+            $user->block      = 0;
+            $user->activation = '';
 
             // Time to take care of business.... store the user.
             if (!$user->save()) {
@@ -443,7 +443,7 @@ abstract class UserHelper
         }
 
         // Unsupported algorithm, sorry!
-        throw new \InvalidArgumentException(sprintf('The %s algorithm is not supported for hashing passwords.', $algorithm));
+        throw new \InvalidArgumentException(\sprintf('The %s algorithm is not supported for hashing passwords.', $algorithm));
     }
 
     /**
@@ -465,22 +465,22 @@ abstract class UserHelper
         $container         = Factory::getContainer();
 
         // Cheaply try to determine the algorithm in use otherwise fall back to the chained handler
-        if (strpos($hash, '$P$') === 0) {
+        if (str_starts_with($hash, '$P$')) {
             /** @var PHPassHandler $handler */
             $handler = $container->get(PHPassHandler::class);
-        } elseif (strpos($hash, '$argon2id') === 0) {
+        } elseif (str_starts_with($hash, '$argon2id')) {
             // Check for Argon2id hashes
             /** @var Argon2idHandler $handler */
             $handler = $container->get(Argon2idHandler::class);
 
             $passwordAlgorithm = self::HASH_ARGON2ID;
-        } elseif (strpos($hash, '$argon2i') === 0) {
+        } elseif (str_starts_with($hash, '$argon2i')) {
             // Check for Argon2i hashes
             /** @var Argon2iHandler $handler */
             $handler = $container->get(Argon2iHandler::class);
 
             $passwordAlgorithm = self::HASH_ARGON2I;
-        } elseif (strpos($hash, '$2') === 0) {
+        } elseif (str_starts_with($hash, '$2')) {
             // Check for bcrypt hashes
             /** @var BCryptHandler $handler */
             $handler = $container->get(BCryptHandler::class);
@@ -623,7 +623,7 @@ abstract class UserHelper
 
         // Convert PostgreSQL Session IDs into strings (see GitHub #33822)
         foreach ($sessionIds as &$sessionId) {
-            if (is_resource($sessionId) && get_resource_type($sessionId) === 'stream') {
+            if (\is_resource($sessionId) && get_resource_type($sessionId) === 'stream') {
                 $sessionId = stream_get_contents($sessionId);
             }
         }
@@ -648,8 +648,10 @@ abstract class UserHelper
                     ->delete($db->quoteName('#__session'))
                     ->whereIn($db->quoteName('session_id'), $sessionIds, ParameterType::LARGE_OBJECT)
             )->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             // No issue, let things go
         }
+
+        return true;
     }
 }

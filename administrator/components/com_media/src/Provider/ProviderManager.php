@@ -12,6 +12,9 @@ namespace Joomla\Component\Media\Administrator\Provider;
 
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
+use Joomla\Component\Media\Administrator\Exception\ProviderAccountIsEmptyException;
+use Joomla\Component\Media\Administrator\Exception\ProviderAccountNotFoundException;
+use Joomla\Component\Media\Administrator\Exception\ProviderNotFoundException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -63,20 +66,20 @@ class ProviderManager
      * Unregister a provider from the ProviderManager.
      * When no provider, or null is passed in, then all providers are cleared.
      *
-     * @param   ProviderInterface|null  $provider  The provider to be unregistered
+     * @param   ?ProviderInterface  $provider  The provider to be unregistered
      *
      * @return  void
      *
      * @since   4.0.6
      */
-    public function unregisterProvider(ProviderInterface $provider = null): void
+    public function unregisterProvider(?ProviderInterface $provider = null): void
     {
         if ($provider === null) {
             $this->providers = [];
             return;
         }
 
-        if (!array_key_exists($provider->getID(), $this->providers)) {
+        if (!\array_key_exists($provider->getID(), $this->providers)) {
             return;
         }
 
@@ -97,7 +100,7 @@ class ProviderManager
     public function getProvider($id)
     {
         if (!isset($this->providers[$id])) {
-            throw new \Exception(Text::_('COM_MEDIA_ERROR_MEDIA_PROVIDER_NOT_FOUND'));
+            throw new ProviderNotFoundException(Text::_('COM_MEDIA_ERROR_MEDIA_PROVIDER_NOT_FOUND'));
         }
 
         return $this->providers[$id];
@@ -116,16 +119,16 @@ class ProviderManager
      */
     public function getAdapter($name)
     {
-        list($provider, $account) = array_pad(explode('-', $name, 2), 2, null);
+        [$provider, $account] = array_pad(explode('-', $name, 2), 2, null);
 
         if ($account == null) {
-            throw new \Exception(Text::_('COM_MEDIA_ERROR_ACCOUNT_NOT_SET'));
+            throw new ProviderAccountIsEmptyException(Text::_('COM_MEDIA_ERROR_ACCOUNT_NOT_SET'));
         }
 
         $adapters = $this->getProvider($provider)->getAdapters();
 
         if (!isset($adapters[$account])) {
-            throw new \Exception(Text::_('COM_MEDIA_ERROR_ACCOUNT_NOT_FOUND'));
+            throw new ProviderAccountNotFoundException(Text::_('COM_MEDIA_ERROR_ACCOUNT_NOT_FOUND'));
         }
 
         return $adapters[$account];

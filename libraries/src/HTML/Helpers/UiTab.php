@@ -12,7 +12,7 @@ namespace Joomla\CMS\HTML\Helpers;
 use Joomla\CMS\Factory;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -56,7 +56,7 @@ abstract class UiTab
             static::$loaded[__METHOD__][$selector]['active'] = $opt['active'];
         }
 
-        $orientation = isset($params['orientation']) ? $params['orientation'] : 'horizontal';
+        $orientation = $params['orientation'] ?? 'horizontal';
         $recall      = isset($params['recall']) ? 'recall' : '';
         $breakpoint  = isset($params['breakpoint']) ? 'breakpoint="' . $params['breakpoint'] . '"' : '';
 

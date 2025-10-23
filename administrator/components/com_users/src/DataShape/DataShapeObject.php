@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\DataShape;
 
-use InvalidArgumentException;
-
 /**
  * Generic helper for handling data shapes in com_users
  *
@@ -28,8 +26,8 @@ abstract class DataShapeObject implements \ArrayAccess
      */
     public function __construct(array $array = [])
     {
-        if (!is_array($array) && !($array instanceof self)) {
-            throw new InvalidArgumentException(sprintf('%s needs an array or a %s object', __METHOD__, __CLASS__));
+        if (!\is_array($array) && !($array instanceof self)) {
+            throw new \InvalidArgumentException(\sprintf('%s needs an array or a %s object', __METHOD__, __CLASS__));
         }
 
         foreach (($array instanceof self) ? $array->asArray() : $array as $k => $v) {
@@ -60,8 +58,8 @@ abstract class DataShapeObject implements \ArrayAccess
      */
     public function merge($newValues): self
     {
-        if (!is_array($newValues) && !($newValues instanceof self)) {
-            throw new InvalidArgumentException(sprintf('%s needs an array or a %s object', __METHOD__, __CLASS__));
+        if (!\is_array($newValues) && !($newValues instanceof self)) {
+            throw new \InvalidArgumentException(\sprintf('%s needs an array or a %s object', __METHOD__, __CLASS__));
         }
 
         foreach (($newValues instanceof self) ? $newValues->asArray() : $newValues as $k => $v) {
@@ -96,7 +94,7 @@ abstract class DataShapeObject implements \ArrayAccess
             return $this->{$name};
         }
 
-        throw new InvalidArgumentException(sprintf('Property %s not found in %s', $name, __CLASS__));
+        throw new \InvalidArgumentException(\sprintf('Property %s not found in %s', $name, __CLASS__));
     }
 
     /**
@@ -120,7 +118,7 @@ abstract class DataShapeObject implements \ArrayAccess
             $this->{$name} = $value;
         }
 
-        throw new InvalidArgumentException(sprintf('Property %s not found in %s', $name, __CLASS__));
+        throw new \InvalidArgumentException(\sprintf('Property %s not found in %s', $name, __CLASS__));
     }
 
     /**
@@ -131,8 +129,7 @@ abstract class DataShapeObject implements \ArrayAccess
      * @return  boolean  Does it exist in the object?
      * @since 4.2.0
      */
-    #[\ReturnTypeWillChange]
-    public function __isset($name)
+    public function __isset($name): bool
     {
         $methodName = 'get' . ucfirst($name);
 
@@ -147,8 +144,7 @@ abstract class DataShapeObject implements \ArrayAccess
      * @return  boolean
      * @since 4.2.0
      */
-    #[\ReturnTypeWillChange]
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->{$offset});
     }
@@ -161,8 +157,7 @@ abstract class DataShapeObject implements \ArrayAccess
      * @return  mixed
      * @since 4.2.0
      */
-    #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->{$offset};
     }
@@ -176,8 +171,7 @@ abstract class DataShapeObject implements \ArrayAccess
      * @return void
      * @since 4.2.0
      */
-    #[\ReturnTypeWillChange]
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->{$offset} = $value;
     }
@@ -187,12 +181,11 @@ abstract class DataShapeObject implements \ArrayAccess
      *
      * @param   string  $offset  Property name
      *
-     * @return  mixed
+     * @return  void
      * @since 4.2.0
      */
-    #[\ReturnTypeWillChange]
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
-        throw new \LogicException(sprintf('You cannot unset members of %s', __CLASS__));
+        throw new \LogicException(\sprintf('You cannot unset members of %s', __CLASS__));
     }
 }

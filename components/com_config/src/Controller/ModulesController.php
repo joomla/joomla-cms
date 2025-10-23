@@ -34,16 +34,16 @@ use Joomla\Component\Modules\Administrator\Controller\ModuleController;
 class ModulesController extends BaseController
 {
     /**
-     * @param   array                         $config   An optional associative array of configuration settings.
-     *                                                  Recognized key values include 'name', 'default_task', 'model_path', and
-     *                                                  'view_path' (this list is not meant to be comprehensive).
-     * @param   MVCFactoryInterface|null      $factory  The factory.
-     * @param   CMSApplication|null           $app      The Application for the dispatcher
-     * @param   \Joomla\CMS\Input\Input|null  $input    The Input object for the request
+     * @param   array                     $config   An optional associative array of configuration settings.
+     *                                              Recognized key values include 'name', 'default_task', 'model_path', and
+     *                                              'view_path' (this list is not meant to be comprehensive).
+     * @param   ?MVCFactoryInterface      $factory  The factory.
+     * @param   ?CMSApplication           $app      The Application for the dispatcher
+     * @param   ?\Joomla\CMS\Input\Input  $input    The Input object for the request
      *
      * @since   1.6
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -59,8 +59,8 @@ class ModulesController extends BaseController
      */
     public function cancel()
     {
-        // Redirect back to home(base) page
-        $this->setRedirect(Uri::base());
+        // Redirect back to previous page
+        $this->setRedirect($this->getReturnUrl());
     }
 
     /**
@@ -150,19 +150,29 @@ class ModulesController extends BaseController
 
             case 'save':
             default:
-                if (!empty($returnUri)) {
-                    $redirect = base64_decode(urldecode($returnUri));
-
-                    // Don't redirect to an external URL.
-                    if (!Uri::isInternal($redirect)) {
-                        $redirect = Uri::base();
-                    }
-                } else {
-                    $redirect = Uri::base();
-                }
-
-                $this->setRedirect($redirect);
+                $this->setRedirect($this->getReturnUrl());
                 break;
         }
+    }
+
+    /**
+     * Method to get redirect URL after saving or cancel editing a module from frontend
+     *
+     * @return  string
+     *
+     * @since   5.1.0
+     */
+    private function getReturnUrl(): string
+    {
+        if ($return = $this->input->post->get('return', '', 'BASE64')) {
+            $return = base64_decode(urldecode($return));
+
+            // Only redirect to if it is an internal URL
+            if (Uri::isInternal($return)) {
+                return $return;
+            }
+        }
+
+        return Uri::base();
     }
 }

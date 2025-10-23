@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\Component\Users\Site\Model\RemindModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -44,7 +44,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -61,20 +61,21 @@ class HtmlView extends BaseHtmlView
      *
      * @param   string  $tpl  The template file to include
      *
-     * @return  mixed
+     * @return  void
      *
      * @since   1.5
      * @throws  \Exception
      */
     public function display($tpl = null)
     {
-        // Get the view data.
-        $this->form   = $this->get('Form');
-        $this->state  = $this->get('State');
-        $this->params = $this->state->params;
+        /** @var RemindModel $model */
+        $model        = $this->getModel();
+        $this->form   = $model->getForm();
+        $this->state  = $model->getState();
+        $this->params = $this->state->get('params');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -116,11 +117,11 @@ class HtmlView extends BaseHtmlView
         $this->setDocumentTitle($this->params->get('page_title', ''));
 
         if ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
     }
 }

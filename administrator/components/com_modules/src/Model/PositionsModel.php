@@ -13,10 +13,11 @@ namespace Joomla\Component\Modules\Administrator\Model;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -32,12 +33,13 @@ class PositionsModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \JController
      * @since   1.6
      */
-    public function __construct($config = [])
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -46,7 +48,7 @@ class PositionsModel extends ListModel
             ];
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -63,22 +65,9 @@ class PositionsModel extends ListModel
      */
     protected function populateState($ordering = 'ordering', $direction = 'asc')
     {
-        // Load the filter state.
-        $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-        $this->setState('filter.search', $search);
-
-        $state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
-        $this->setState('filter.state', $state);
-
-        $template = $this->getUserStateFromRequest($this->context . '.filter.template', 'filter_template', '', 'string');
-        $this->setState('filter.template', $template);
-
-        $type = $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string');
-        $this->setState('filter.type', $type);
-
         // Special case for the client id.
         $clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-        $clientId = (!in_array((int) $clientId, [0, 1])) ? 0 : (int) $clientId;
+        $clientId = (!\in_array((int) $clientId, [0, 1])) ? 0 : (int) $clientId;
         $this->setState('client_id', $clientId);
 
         // Load the parameters.
@@ -123,7 +112,7 @@ class PositionsModel extends ListModel
                     ->bind(':clientid', $clientId, ParameterType::INTEGER);
 
                 if ($search) {
-                    $search = '%' . str_replace(' ', '%', trim($search), true) . '%';
+                    $search = '%' . str_replace(' ', '%', trim($search)) . '%';
                     $query->where($db->quoteName('position') . ' LIKE :position')
                         ->bind(':position', $search);
                 }
@@ -172,7 +161,7 @@ class PositionsModel extends ListModel
 
                             if ($type == 'user' || ($state != '' && $state != $template->enabled)) {
                                 unset($positions[$value]);
-                            } elseif (preg_match(chr(1) . $search . chr(1) . 'i', $value) && ($filter_template == '' || $filter_template == $template->element)) {
+                            } elseif (preg_match(\chr(1) . $search . \chr(1) . 'i', $value) && ($filter_template == '' || $filter_template == $template->element)) {
                                 if (!isset($positions[$value])) {
                                     $positions[$value] = [];
                                 }
@@ -184,7 +173,7 @@ class PositionsModel extends ListModel
                 }
             }
 
-            $this->total = count($positions);
+            $this->total = \count($positions);
 
             if ($limitstart >= $this->total) {
                 $limitstart = $limitstart < $limit ? 0 : $limitstart - $limit;
@@ -205,7 +194,7 @@ class PositionsModel extends ListModel
                 }
             }
 
-            $this->items = array_slice($positions, $limitstart, $limit ?: null);
+            $this->items = \array_slice($positions, $limitstart, $limit ?: null);
         }
 
         return $this->items;

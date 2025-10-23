@@ -11,6 +11,7 @@
 namespace Joomla\Component\Content\Api\Controller;
 
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
@@ -81,13 +82,17 @@ class ArticlesController extends ApiController
             $this->modelState->set('filter.language', $filter->clean($apiFilterInfo['language'], 'STRING'));
         }
 
+        if (\array_key_exists('checked_out', $apiFilterInfo)) {
+            $this->modelState->set('filter.checked_out', $filter->clean($apiFilterInfo['checked_out'], 'INT'));
+        }
+
         $apiListInfo = $this->input->get('list', [], 'array');
 
-        if (array_key_exists('ordering', $apiListInfo)) {
+        if (\array_key_exists('ordering', $apiListInfo)) {
             $this->modelState->set('list.ordering', $filter->clean($apiListInfo['ordering'], 'STRING'));
         }
 
-        if (array_key_exists('direction', $apiListInfo)) {
+        if (\array_key_exists('direction', $apiListInfo)) {
             $this->modelState->set('list.direction', $filter->clean($apiListInfo['direction'], 'STRING'));
         }
 
@@ -112,6 +117,12 @@ class ArticlesController extends ApiController
                 $data['com_fields'][$field->name] = $data[$field->name];
                 unset($data[$field->name]);
             }
+        }
+
+        if (($this->input->getMethod() === 'PATCH') && !(\array_key_exists('tags', $data))) {
+            $tags = new TagsHelper();
+            $tags->getTagIds($data['id'], 'com_content.article');
+            $data['tags'] = explode(',', $tags->tags);
         }
 
         return $data;

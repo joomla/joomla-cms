@@ -138,7 +138,8 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
 
             // Remove any images belongs to the text
             if (!$params->get('image')) {
-                $item->introtext = preg_replace('/<img[^>]*>/', '', $item->introtext);
+                // Remove any images and empty links from the intro text
+                $item->introtext = preg_replace(['/\\<img[^>]*>/', '/<a[^>]*><\\/a>/'], '', $item->introtext);
             }
 
             // Show the Intro/Full image field of the article
@@ -196,9 +197,11 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
      *
      * @since 1.6
      *
-     * @deprecated  4.3 will be removed in 6.0
-     *              Use the none static function getArticles
-     *              Example: (new ArticlesNewsHelper())->getArticles($params, Factory::getApplication());
+     * @deprecated 4.3 will be removed in 6.0
+     *             Use the non-static method getArticles
+     *             Example: Factory::getApplication()->bootModule('mod_articles_news', 'site')
+     *                          ->getHelper('ArticlesNewsHelper')
+     *                          ->getArticles($params, Factory::getApplication())
      */
     public static function getList(&$params)
     {

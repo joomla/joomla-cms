@@ -9,11 +9,12 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.6.0</version>
 	<description>PLG_INSTALLER_FOLDERINSTALLER_PLUGIN_XML_DESCRIPTION</description>
-
+	<namespace path="src">Joomla\Plugin\Installer\Folder</namespace>
 	<files>
-		<filename plugin="folderinstaller">folderinstaller.php</filename>
+		<folder plugin="folderinstaller">services</folder>
+		<folder>src</folder>
+		<folder>tmpl</folder>
 	</files>
-
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_installer_folderinstaller.ini</language>
 		<language tag="en-GB">language/en-GB/plg_installer_folderinstaller.sys.ini</language>

@@ -50,7 +50,7 @@ class Finder
 
         try {
             $rows = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return [];
         }
 

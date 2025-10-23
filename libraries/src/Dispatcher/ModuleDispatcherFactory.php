@@ -49,13 +49,13 @@ class ModuleDispatcherFactory implements ModuleDispatcherFactoryInterface
      *
      * @param   \stdClass                $module       The module
      * @param   CMSApplicationInterface  $application  The application
-     * @param   Input                    $input        The input object, defaults to the one in the application
+     * @param   ?Input                   $input        The input object, defaults to the one in the application
      *
      * @return  DispatcherInterface
      *
      * @since   4.0.0
      */
-    public function createDispatcher(\stdClass $module, CMSApplicationInterface $application, Input $input = null): DispatcherInterface
+    public function createDispatcher(\stdClass $module, CMSApplicationInterface $application, ?Input $input = null): DispatcherInterface
     {
         $name = 'Site';
 
@@ -69,6 +69,6 @@ class ModuleDispatcherFactory implements ModuleDispatcherFactoryInterface
             $className = ModuleDispatcher::class;
         }
 
-        return new $className($module, $application, $input ?: $application->input);
+        return new $className($module, $application, $input ?: $application->getInput());
     }
 }

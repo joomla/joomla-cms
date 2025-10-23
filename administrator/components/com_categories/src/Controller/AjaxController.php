@@ -64,11 +64,11 @@ class AjaxController extends BaseController
 
             // Add the title to each of the associated records
             Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_categories/tables');
-            $categoryTable = Table::getInstance('Category', 'JTable');
+            $categoryTable = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\');
 
-            foreach ($associations as $lang => $association) {
+            foreach ($associations as $association) {
                 $categoryTable->load($association->id);
-                $associations[$lang]->title = $categoryTable->title;
+                $association->title = $categoryTable->title;
             }
 
             $countContentLanguages = \count(LanguageHelper::getContentLanguages([0, 1], false));

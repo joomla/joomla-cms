@@ -21,15 +21,21 @@
 
 .content {
   .card {
-    box-shadow: $atum-box-shadow;
+    background: var(--card-body-bg);
+    box-shadow: var(--atum-box-shadow);
   }
 
   .card-header {
     display: flex;
+    align-items: center;
     padding: 1rem 1rem .75rem;
     font-weight: $font-weight-bold;
-    color: var(--template-bg-dark);
-    background: var(--card-bg);
+    color: var(--card-header-color);
+    background-color: var(--card-bg);
+
+    a {
+      font-weight: normal;
+    }
 
     > [class^="icon-"],
     > img {

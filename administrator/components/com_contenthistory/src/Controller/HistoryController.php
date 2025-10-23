@@ -67,7 +67,7 @@ class HistoryController extends AdminController
 
             // Toggle keep forever status of the selected items.
             if ($model->keep($cid)) {
-                $this->setMessage(Text::plural('COM_CONTENTHISTORY_N_ITEMS_KEEP_TOGGLE', count($cid)));
+                $this->setMessage(Text::plural('COM_CONTENTHISTORY_N_ITEMS_KEEP_TOGGLE', \count($cid)));
             } else {
                 $this->setMessage($model->getError(), 'error');
             }

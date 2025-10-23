@@ -11,11 +11,12 @@
 namespace Joomla\Plugin\ApiAuthentication\Basic\Extension;
 
 use Joomla\CMS\Authentication\Authentication;
+use Joomla\CMS\Event\User\AuthenticationEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Event\DispatcherInterface;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -26,47 +27,36 @@ use Joomla\Event\DispatcherInterface;
  *
  * @since  4.0.0
  */
-final class Basic extends CMSPlugin
+final class Basic extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
+    use UserFactoryAwareTrait;
 
     /**
-     * The user factory
+     * Returns an array of events this subscriber will listen to.
      *
-     * @var    UserFactoryInterface
-     * @since  4.2.0
+     * @return  array
+     *
+     * @since   5.2.0
      */
-    private $userFactory;
-
-    /**
-     * Constructor.
-     *
-     * @param   DispatcherInterface   $dispatcher   The dispatcher
-     * @param   array                 $config       An optional associative array of configuration settings
-     * @param   UserFactoryInterface  $userFactory  The user factory
-     *
-     * @since   4.2.0
-     */
-    public function __construct(DispatcherInterface $dispatcher, array $config, UserFactoryInterface $userFactory)
+    public static function getSubscribedEvents(): array
     {
-        parent::__construct($dispatcher, $config);
-
-        $this->userFactory = $userFactory;
+        return ['onUserAuthenticate' => 'onUserAuthenticate'];
     }
 
     /**
      * This method should handle any authentication and report back to the subject
      *
-     * @param   array   $credentials  Array holding the user credentials
-     * @param   array   $options      Array of extra options
-     * @param   object  &$response    Authentication response object
+     * @param   AuthenticationEvent  $event    Authentication event
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function onUserAuthenticate($credentials, $options, &$response)
+    public function onUserAuthenticate(AuthenticationEvent $event): void
     {
+        $response = $event->getAuthenticationResponse();
+
         $response->type = 'Basic';
 
         $username = $this->getApplication()->getInput()->server->get('PHP_AUTH_USER', '', 'USERNAME');
@@ -94,7 +84,7 @@ final class Basic extends CMSPlugin
 
             if ($match === true) {
                 // Bring this in line with the rest of the system
-                $user               = $this->userFactory->loadUserById($result->id);
+                $user               = $this->getUserFactory()->loadUserById($result->id);
                 $response->email    = $user->email;
                 $response->fullname = $user->name;
                 $response->username = $username;

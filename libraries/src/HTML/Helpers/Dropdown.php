@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -90,7 +90,7 @@ abstract class Dropdown
     public static function start()
     {
         // Only start once
-        if (isset(static::$loaded[__METHOD__]) && static::$loaded[__METHOD__] == true) {
+        if (isset(static::$loaded[__METHOD__])) {
             return;
         }
 

@@ -13,7 +13,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Component\Router\Rules\RulesInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -89,7 +89,7 @@ abstract class RouterView extends RouterBase
         $result = [];
 
         // Get the right view object
-        if (isset($query['view']) && isset($views[$query['view']])) {
+        if (isset($query['view'], $views[$query['view']])) {
             $viewobj = $views[$query['view']];
         }
 

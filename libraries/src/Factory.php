@@ -19,19 +19,17 @@ use Joomla\CMS\Document\FactoryInterface;
 use Joomla\CMS\Filesystem\Stream;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageFactoryInterface;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Mail;
-use Joomla\CMS\Mail\MailHelper;
+use Joomla\CMS\Mail\MailerFactoryInterface;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\User\User;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
-use PHPMailer\PHPMailer\Exception as phpmailerException;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -180,12 +178,12 @@ abstract class Factory
      * @deprecated  4.3 will be removed in 6.0
      *              Use the configuration object within the application
      *              Example:
-     *              Factory::getApplication->getConfig();
+     *              Factory::getApplication()->getConfig();
      */
     public static function getConfig($file = null, $type = 'PHP', $namespace = '')
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. The configuration object should be read from the application.',
                 __METHOD__
             ),
@@ -230,8 +228,8 @@ abstract class Factory
      *   notify developers of changes needed in their code
      *
      * This method is not suggested for use as a one-for-one replacement of static calls, such as
-     * replacing calls to `Factory::getDbo()` with calls to `Factory::getContainer()->get('db')`, code
-     * should be refactored to support dependency injection instead of making this change.
+     * replacing calls to `Factory::getDbo()` with calls to `Factory::getContainer()->get(DatabaseInterface::class)`,
+     * code should be refactored to support dependency injection instead of making this change.
      *
      * @return  Container
      *
@@ -266,7 +264,7 @@ abstract class Factory
     public static function getSession(array $options = [])
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated. Load the session from the dependency injection container or via %2$s::getApplication()->getSession().',
                 __METHOD__,
                 __CLASS__
@@ -295,7 +293,7 @@ abstract class Factory
     public static function getLanguage()
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated. Load the language from the dependency injection container or via %2$s::getApplication()->getLanguage().',
                 __METHOD__,
                 __CLASS__
@@ -328,7 +326,7 @@ abstract class Factory
     public static function getDocument()
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated. Load the document from the dependency injection container or via %2$s::getApplication()->getDocument().',
                 __METHOD__,
                 __CLASS__
@@ -363,7 +361,7 @@ abstract class Factory
     public static function getUser($id = null)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated. Load the user from the dependency injection container or via %2$s::getApplication()->getIdentity().',
                 __METHOD__,
                 __CLASS__
@@ -407,7 +405,7 @@ abstract class Factory
     public static function getCache($group = '', $handler = 'callback', $storage = null)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. The cache controller should be fetched from the factory.',
                 __METHOD__
             ),
@@ -453,7 +451,7 @@ abstract class Factory
     public static function getDbo()
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated. Load the database from the dependency injection container.',
                 __METHOD__
             ),
@@ -461,8 +459,8 @@ abstract class Factory
         );
 
         if (!self::$database) {
-            if (self::getContainer()->has('DatabaseDriver')) {
-                self::$database = self::getContainer()->get('DatabaseDriver');
+            if (self::getContainer()->has(DatabaseInterface::class)) {
+                self::$database = self::getContainer()->get(DatabaseInterface::class);
             } else {
                 self::$database = self::createDbo();
             }
@@ -480,6 +478,11 @@ abstract class Factory
      *
      * @see     Mail
      * @since   1.7.0
+     *
+     * @deprecated  4.4.0 will be removed in 6.0
+     *              Use the mailer service in the DI container and create a mailer from there
+     *              Example:
+     *              Factory::getContainer()->get(MailerFactoryInterface::class)->createMailer();
      */
     public static function getMailer()
     {
@@ -553,12 +556,12 @@ abstract class Factory
      *
      * @deprecated  4.0 will be removed in 6.0
      *              Use the configuration object within the application.
-     *              Example: Factory::getApplication->getConfig();
+     *              Example: Factory::getApplication()->getConfig();
      */
     protected static function createConfig($file, $type = 'PHP', $namespace = '')
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. The configuration object should be read from the application.',
                 __METHOD__
             ),
@@ -603,14 +606,18 @@ abstract class Factory
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Application())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Authentication())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\CacheController())
+            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\CaptchaRegistry())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Config())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Console())
+            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\EditorsRegistry())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form())
+            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Input())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Logger())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Language())
+            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Mailer())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Menu())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Pathway())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\HTMLRegistry())
@@ -639,7 +646,7 @@ abstract class Factory
     protected static function createDbo()
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated, register a service provider to create a %2$s instance instead.',
                 __METHOD__,
                 DatabaseInterface::class
@@ -693,56 +700,20 @@ abstract class Factory
      *
      * @see     Mail
      * @since   1.7.0
+     *
+     * @deprecated  4.4.0 will be removed in 6.0
+     *              Use the mailer service in the DI container and create a mailer from there
+     *              Example:
+     *              Factory::getContainer()->get(MailerFactoryInterface::class)->createMailer();
      */
     protected static function createMailer()
     {
-        $conf = self::getConfig();
+        $mailer = self::getContainer()->get(MailerFactoryInterface::class)->createMailer(self::getConfig());
 
-        $smtpauth   = ($conf->get('smtpauth') == 0) ? null : 1;
-        $smtpuser   = $conf->get('smtpuser');
-        $smtppass   = $conf->get('smtppass');
-        $smtphost   = $conf->get('smtphost');
-        $smtpsecure = $conf->get('smtpsecure');
-        $smtpport   = $conf->get('smtpport');
-        $mailfrom   = $conf->get('mailfrom');
-        $fromname   = $conf->get('fromname');
-        $mailer     = $conf->get('mailer');
+        // This needs to be set here for backwards compatibility
+        Mail::$instances['Joomla'] = $mailer;
 
-        // Create a Mail object
-        $mail = Mail::getInstance();
-
-        // Clean the email address
-        $mailfrom = MailHelper::cleanLine($mailfrom);
-
-        // Set default sender without Reply-to if the mailfrom is a valid address
-        if (MailHelper::isEmailAddress($mailfrom)) {
-            // Wrap in try/catch to catch phpmailerExceptions if it is throwing them
-            try {
-                // Check for a false return value if exception throwing is disabled
-                if ($mail->setFrom($mailfrom, MailHelper::cleanLine($fromname), false) === false) {
-                    Log::add(__METHOD__ . '() could not set the sender data.', Log::WARNING, 'mail');
-                }
-            } catch (phpmailerException $e) {
-                Log::add(__METHOD__ . '() could not set the sender data.', Log::WARNING, 'mail');
-            }
-        }
-
-        // Default mailer is to use PHP's mail function
-        switch ($mailer) {
-            case 'smtp':
-                $mail->useSmtp($smtpauth, $smtphost, $smtpuser, $smtppass, $smtpsecure, $smtpport);
-                break;
-
-            case 'sendmail':
-                $mail->isSendmail();
-                break;
-
-            default:
-                $mail->isMail();
-                break;
-        }
-
-        return $mail;
+        return $mailer;
     }
 
     /**
@@ -760,7 +731,7 @@ abstract class Factory
     protected static function createLanguage()
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated. Load the language from the dependency injection container or via %2$s::getApplication()->getLanguage().',
                 __METHOD__,
                 __CLASS__
@@ -791,7 +762,7 @@ abstract class Factory
     protected static function createDocument()
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated. Load the document from the dependency injection container or via %2$s::getApplication()->getDocument().',
                 __METHOD__,
                 __CLASS__
@@ -801,7 +772,7 @@ abstract class Factory
 
         $lang = self::getLanguage();
 
-        $input = self::getApplication()->input;
+        $input = self::getApplication()->getInput();
         $type  = $input->get('format', 'html', 'cmd');
 
         $version = new Version();

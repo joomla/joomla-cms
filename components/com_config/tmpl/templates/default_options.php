@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
+/** @var \Joomla\Component\Config\Site\View\Templates\HtmlView $this */
 $fieldSets = $this->form->getFieldsets('params');
 ?>
 

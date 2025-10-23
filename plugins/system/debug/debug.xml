@@ -11,7 +11,7 @@
 	<description>PLG_DEBUG_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\System\Debug</namespace>
 	<files>
-		<filename plugin="debug">debug.php</filename>
+		<folder plugin="debug">services</folder>
 		<folder>src</folder>
 	</files>
 	<languages>

@@ -1,3 +1,5 @@
+@use "sass:color";
+
 // Header
 
 .container-header {
@@ -204,6 +206,10 @@
     .fas {
       font-size: 1.5rem;
     }
+
+    > * {
+      pointer-events: none;
+    }
   }
 
   .container-search {
@@ -213,11 +219,11 @@
   .mod-finder {
     color: $white;
 
-    a {
+    a:not(.jmodedit) {
       color: $white;
 
       &:hover, &:focus {
-        color: darken($white, 10%);
+        color: color.adjust($white, $lightness: -10%);
       }
     }
 

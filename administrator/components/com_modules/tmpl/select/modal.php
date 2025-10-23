@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+/** @var \Joomla\Component\Modules\Administrator\View\Select\HtmlView $this */
+
 $this->modalLink = '&tmpl=component&view=module&layout=modal';
 ?>
 <div class="container-popup">

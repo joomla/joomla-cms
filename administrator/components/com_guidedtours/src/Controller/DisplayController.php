@@ -12,6 +12,7 @@ namespace Joomla\Component\Guidedtours\Administrator\Controller;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -36,8 +37,9 @@ class DisplayController extends BaseController
     /**
      * Method to display a view.
      *
-     * @param   boolean $cachable  If true, the view output will be cached
-     * @param   array   $urlparams An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+     * @param   boolean $cachable   If true, the view output will be cached
+     * @param   array   $urlparams  An array of safe URL parameters and their variable types.
+     *                  @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  static |boolean  This object to support chaining. False on failure.
      *
@@ -48,6 +50,11 @@ class DisplayController extends BaseController
         $view   = $this->input->get('view', $this->default_view);
         $layout = $this->input->get('layout', 'default');
         $id     = $this->input->getInt('id');
+
+        // Show messages about the disabled plugin
+        if ($view === 'tours' && !PluginHelper::isEnabled('system', 'guidedtours')) {
+            $this->app->enqueueMessage(Text::_('COM_GUIDEDTOURS_PLUGIN_DISABLED'), 'error');
+        }
 
         if ($view === 'tour' && $layout === 'edit' && !$this->checkEditId('com_guidedtours.edit.tour', $id)) {
             $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');

@@ -11,7 +11,7 @@
 namespace Joomla\CMS\Encrypt;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -145,7 +145,7 @@ class Totp
 
         $hash   = hash_hmac('sha1', $time, $secret, true);
         $offset = \ord(substr($hash, -1));
-        $offset = $offset & 0xF;
+        $offset &= 0xF;
 
         $truncatedHash = $this->hashToInt($hash, $offset) & 0x7FFFFFFF;
         $pinValue      = str_pad($truncatedHash % $this->_pinModulo, $this->_passCodeLength, "0", STR_PAD_LEFT);
@@ -180,7 +180,7 @@ class Totp
      */
     public function getUrl($user, $hostname, $secret)
     {
-        $url        = sprintf("otpauth://totp/%s@%s?secret=%s", $user, $hostname, $secret);
+        $url        = \sprintf("otpauth://totp/%s@%s?secret=%s", $user, $hostname, $secret);
         $encoder    = "https://chart.googleapis.com/chart?chs=200x200&chld=Q|2&cht=qr&chl=";
         $encoderURL = $encoder . urlencode($url);
 

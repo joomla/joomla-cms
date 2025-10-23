@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Postinstall\Administrator\Controller;
 
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Postinstall\Administrator\Helper\PostinstallHelper;
 use Joomla\Component\Postinstall\Administrator\Model\MessagesModel;
@@ -158,10 +157,10 @@ class MessageController extends BaseController
                 $helper = new PostinstallHelper();
                 $file   = $helper->parsePath($item->action_file);
 
-                if (File::exists($file)) {
+                if (is_file($file)) {
                     require_once $file;
 
-                    call_user_func($item->action);
+                    \call_user_func($item->action);
                 }
                 break;
         }

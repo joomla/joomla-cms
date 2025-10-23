@@ -15,11 +15,10 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Modules\Administrator\Model\ModulesModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -49,7 +48,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -89,15 +88,19 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->items         = $this->get('Items');
-        $this->pagination    = $this->get('Pagination');
-        $this->state         = $this->get('State');
-        $this->total         = $this->get('Total');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
+        /** @var ModulesModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
+
+        $this->items         = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->state         = $model->getState();
+        $this->total         = $model->getTotal();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
         $this->clientId      = $this->state->get('client_id');
 
-        if (!count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
+        if (!\count($this->items) && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
         }
 
@@ -108,7 +111,7 @@ class HtmlView extends BaseHtmlView
          * 1. Edit the module, change it to new position, save it and come back to Modules Management Screen
          * 2. Or move that module to new position using Batch action
          */
-        if (count($this->items) === 0 && $this->state->get('filter.position')) {
+        if (\count($this->items) === 0 && $this->state->get('filter.position')) {
             $selectedPosition = $this->state->get('filter.position');
             $positionField    = $this->filterForm->getField('position', 'filter');
 
@@ -124,11 +127,6 @@ class HtmlView extends BaseHtmlView
             if ($positionExists === false) {
                 $positionField->addOption($selectedPosition, ['value' => $selectedPosition]);
             }
-        }
-
-        // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // We do not need the Language filter when modules are not filtered
@@ -153,8 +151,7 @@ class HtmlView extends BaseHtmlView
 
             // If in the frontend state and language should not activate the search tools.
             if (Factory::getApplication()->isClient('site')) {
-                unset($this->activeFilters['state']);
-                unset($this->activeFilters['language']);
+                unset($this->activeFilters['state'], $this->activeFilters['language']);
             }
         }
 
@@ -170,12 +167,12 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $state = $this->get('State');
+        $state = $this->state;
         $canDo = ContentHelper::getActions('com_modules');
         $user  = $this->getCurrentUser();
 
         // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         if ($state->get('client_id') == 1) {
             ToolbarHelper::title(Text::_('COM_MODULES_MANAGER_MODULES_ADMIN'), 'cube module');
@@ -218,7 +215,11 @@ class HtmlView extends BaseHtmlView
                 && $user->authorise('core.edit.state', 'com_modules')
             ) {
                 $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
-                    ->selector('collapseModal')
+                    ->popupType('inline')
+                    ->textHeader(Text::_('COM_MODULES_BATCH_OPTIONS'))
+                    ->url('#joomla-dialog-batch')
+                    ->modalWidth('800px')
+                    ->modalHeight('fit-content')
                     ->listCheck(true);
             }
 
@@ -229,7 +230,7 @@ class HtmlView extends BaseHtmlView
         }
 
         if (!$this->isEmptyState && ($state->get('filter.state') == -2 && $canDo->get('core.delete'))) {
-            $toolbar->delete('modules.delete', 'JTOOLBAR_EMPTY_TRASH')
+            $toolbar->delete('modules.delete', 'JTOOLBAR_DELETE_FROM_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }

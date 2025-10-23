@@ -7,7 +7,7 @@
  * @license GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -38,7 +38,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
         <jdoc:include type="metas" />
         <jdoc:include type="styles" />
     </head>
-    <body>
+    <body class="j-installation-error">
         <div class="j-install">
             <!-- Header -->
             <header class="j-header" role="banner">
