@@ -110,12 +110,6 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
         $typeAlias               = $table->getTypeAlias();
         [$component, $modelName] = explode('.', $typeAlias);
 
-        $model = $this->getApplication()->bootComponent($component)->getMVCFactory()->createModel($modelName, 'Administrator');
-
-        if ($model instanceof VersionableModelInterface) {
-            return;
-        }
-
         if (!$result) {
             return;
         }
