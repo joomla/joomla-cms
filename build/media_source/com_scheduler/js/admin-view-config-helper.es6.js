@@ -18,7 +18,7 @@ const elements = [
 ];
 
 function toggleRequired(process = 'add') {
-  if (!['add', 'remove'].contains(process)) {
+  if (!['add', 'remove'].includes(process)) {
     return;
   }
 
