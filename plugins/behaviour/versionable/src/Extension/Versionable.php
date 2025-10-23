@@ -15,7 +15,6 @@ use Joomla\CMS\Event\Table\AfterStoreEvent;
 use Joomla\CMS\Event\Table\BeforeDeleteEvent;
 use Joomla\CMS\Helper\CMSHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\CMS\Versioning\Versioning;
 use Joomla\Event\SubscriberInterface;
