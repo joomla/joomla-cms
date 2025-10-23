@@ -133,7 +133,7 @@ class HtmlView extends BaseHtmlView
         }
 
         /** @var \Joomla\Registry\Registry $params */
-        $params = $state->params;
+        $params = $state->get('params');
 
         // PREPARE THE DATA
 
