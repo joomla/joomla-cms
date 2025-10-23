@@ -43,14 +43,6 @@ class HtmlView extends BaseHtmlView
     protected $page = null;
 
     /**
-     * The iso language tag
-     *
-     * @var    string
-     * @since  1.6
-     */
-    protected $languageTag = null;
-
-    /**
      * Table of contents
      *
      * @var    array
@@ -73,10 +65,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var HelpModel $model */
         $model                    = $this->getModel();
-        $this->helpSearch         = $model->getHelpSearch();
         $this->page               = $model->getPage();
-        $this->toc                = $model->getToc();
-        $this->languageTag        = $model->getLangTag();
 
         $this->addToolbar();
 
