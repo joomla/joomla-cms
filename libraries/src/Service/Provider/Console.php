@@ -157,7 +157,7 @@ class Console implements ServiceProviderInterface
         $container->share(
             ExtensionInstallCommand::class,
             function (Container $container) {
-                return new ExtensionInstallCommand();
+                return new ExtensionInstallCommand($container->get(DatabaseInterface::class));
             },
             true
         );
