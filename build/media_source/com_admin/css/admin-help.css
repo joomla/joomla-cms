@@ -13,7 +13,7 @@
 #helpmenu .has-arrow .item-title {
   margin-inline-end: auto;
 }
-#helpmenu .has-arrow::after  {
+#helpmenu .has-arrow::after {
   display: flex;
 }
 .closed #helpmenu a:hover {
@@ -35,7 +35,7 @@
   display: block;
 }
 .sidebar-wrapper h2 {
-  margin: 0.75rem 0 0.25rem 0.75rem;
+  margin: .75rem 0 .25rem .75rem;
   font-weight: 400;
   color: var(--sidebar-item-color);
 }
