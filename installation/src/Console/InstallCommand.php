@@ -102,7 +102,7 @@ class InstallCommand extends AbstractCommand
         $cfg['db_pass_plain']        = $cfg['db_pass'];
         $cfg['admin_password_plain'] = $cfg['admin_password'];
         $cfg['language']             = 'en-GB';
-        $cfg['helpurl']              = 'https://help.joomla.org/proxy?keyref=Help{major}0:{keyref}&lang={langcode}';
+        $cfg['helpurl']              = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&lang={langcode}';
         $this->ioStyle->writeln('OK');
 
         /** @var SetupModel $setupModel */
