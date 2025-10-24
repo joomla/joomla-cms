@@ -63,7 +63,7 @@ $toc = $tocBuilder->getToc();
 
 ?>
 <div class="d-flex flex-column flex-md-row">
-    <div id="help-sidebar" class="flex-shrink-0">
+    <div id="help-sidebar" class="flex-shrink-0 mt-2">
         <!-- Left menu -->
         <button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#help-index" aria-controls="help-index" aria-expanded="false">
             <span class="icon-align-justify" aria-hidden="true"></span>
