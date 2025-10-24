@@ -111,7 +111,7 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
         }
 
         $typeAlias = $table->getTypeAlias();
-        $component = strtok($typeAlias);
+        $component = strtok($typeAlias, '.');
 
         // Do not store version if version history is not enabled for the component
         if ($component === '' || !ComponentHelper::getParams($component)->get('save_history', 0)) {
