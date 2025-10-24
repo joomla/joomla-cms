@@ -4,7 +4,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2025 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,7 @@
 $menu = [
     "START_HERE" => [
         "Start_Here" => "START_HERE",
+        "License" => "COM_ADMIN_HELP_LICENSE",
         "Glossary" => "GLOSSARY",
         "Home_Dashboard" => "HOME_DASHBOARD",
         "Site_Global_Configuration" => "SITE_GLOBAL_CONFIGURATION",
@@ -27,6 +28,11 @@ $menu = [
             "Articles:_Edit_Category" => "ARTICLES:_EDIT_CATEGORY",
             "Articles:_Featured" => "ARTICLES:_FEATURED",
             "Articles:_Options" => "ARTICLES:_OPTIONS",
+        ],
+        "WORKFLOWS" => [
+            "Workflows_List" => "WORKFLOWS_LIST",
+            "Stages_List:_Basic_Workflow" => "STAGES_LIST:_BASIC_WORKFLOW",
+            "Transitions_List:_Basic_Workflow" => "TRANSITIONS_LIST:_BASIC_WORKFLOW",
         ],
         "FIELDS" => [
             "Field_Groups" => "FIELD_GROUPS",
@@ -130,25 +136,25 @@ $menu = [
     "COMPONENTS" => [
         "BANNERS" => [
             "Banners" => "BANNERS",
-            "Banners:_Categories" => "BANNERS:_CATEGORIES",
-            "Banners:_Clients" => "BANNERS:_CLIENTS",
             "Banners:_Edit" => "BANNERS:_EDIT",
+            "Banners:_Categories" => "BANNERS:_CATEGORIES",
             "Banners:_New_or_Edit_Category" => "BANNERS:_NEW_OR_EDIT_CATEGORY",
+            "Banners:_Clients" => "BANNERS:_CLIENTS",
             "Banners:_New_or_Edit_Client" => "BANNERS:_NEW_OR_EDIT_CLIENT",
             "Banners:_Tracks" => "BANNERS:_TRACKS",
             "Banners:_Options" => "BANNERS:_OPTIONS",
         ],
         "CONTACTS" => [
             "Contacts" => "CONTACTS",
-            "Contacts:_Categories" => "CONTACTS:_CATEGORIES",
             "Contacts:_Edit" => "CONTACTS:_EDIT",
+            "Contacts:_Categories" => "CONTACTS:_CATEGORIES",
             "Contacts:_Edit_Category" => "CONTACTS:_EDIT_CATEGORY",
             "Contacts:_Options" => "CONTACTS:_OPTIONS",
         ],
         "NEWS_FEEDS" => [
             "News_Feeds" => "NEWS_FEEDS",
-            "News_Feeds:_Categories" => "NEWS_FEEDS:_CATEGORIES",
             "News_Feeds:_Edit" => "NEWS_FEEDS:_EDIT",
+            "News_Feeds:_Categories" => "NEWS_FEEDS:_CATEGORIES",
             "News_Feeds:_Edit_Category" => "NEWS_FEEDS:_EDIT_CATEGORY",
             "News_Feed:_Options" => "NEWS_FEED:_OPTIONS",
         ],
@@ -169,13 +175,15 @@ $menu = [
     "USERS" => [
         "Users" => "USERS",
         "Users:_Edit_Profile" => "USERS:_EDIT_PROFILE",
+        "Users:_Viewing_Access_Levels" => "USERS:_VIEWING_ACCESS_LEVELS",
         "Users:_Edit_Viewing_Access_Level" => "USERS:_EDIT_VIEWING_ACCESS_LEVEL",
         "Users:_Groups" => "USERS:_GROUPS",
         "Users:_New_or_Edit_Group" => "USERS:_NEW_OR_EDIT_GROUP",
-        "Users:_Options" => "USERS:_OPTIONS",
-        "Users:_Viewing_Access_Levels" => "USERS:_VIEWING_ACCESS_LEVELS",
         "Permissions_for_Group" => "PERMISSIONS_FOR_GROUP",
         "Permissions_for_User" => "PERMISSIONS_FOR_USER",
+        "Users:_Options" => "USERS:_OPTIONS",
+    ],
+    "USER_ACTIONS" => [
         "User_Actions_Log" => "USER_ACTIONS_LOG",
         "User_Actions_Log:_Options" => "USER_ACTIONS_LOG:_OPTIONS",
         "User_Notes" => "USER_NOTES",
@@ -192,8 +200,8 @@ $menu = [
         "Privacy:_Extension_Capabilities" => "PRIVACY:_EXTENSION_CAPABILITIES",
         "Privacy:_Information_Requests" => "PRIVACY:_INFORMATION_REQUESTS",
         "Privacy:_New_Information_Request" => "PRIVACY:_NEW_INFORMATION_REQUEST",
-        "Privacy:_Options" => "PRIVACY:_OPTIONS",
         "Privacy:_Review_Information_Request" => "PRIVACY:_REVIEW_INFORMATION_REQUEST",
+        "Privacy:_Options" => "PRIVACY:_OPTIONS",
     ],
     "SYSTEM" => [
         "EXTENSIONS" => [
@@ -204,7 +212,7 @@ $menu = [
             "Extensions:_Update" => "EXTENSIONS:_UPDATE",
             "Extensions:_Update_Sites" => "EXTENSIONS:_UPDATE_SITES",
         ],
-        "TEMPLATES:_TEMPLATES" => [
+        "TEMPLATES" => [
             "Templates:_Templates" => "TEMPLATES:_TEMPLATES",
             "Templates:_Customise" => "TEMPLATES:_CUSTOMISE",
             "Templates:_Customise_Source" => "TEMPLATES:_CUSTOMISE_SOURCE",
@@ -240,16 +248,16 @@ $menu = [
             "Plugin:_Options" => "PLUGIN:_OPTIONS",
         ],
         "REDIRECTS" => [
-            "Redirect:_Options" => "REDIRECT:_OPTIONS",
             "Redirects:_Links" => "REDIRECTS:_LINKS",
             "Redirects:_New_or_Edit" => "REDIRECTS:_NEW_OR_EDIT",
+            "Redirect:_Options" => "REDIRECT:_OPTIONS",
         ],
         "GUIDED_TOURS" => [
             "Guided_Tours" => "GUIDED_TOURS",
-            "Guided_Tours:_New_or_Edit_Step" => "GUIDED_TOURS:_NEW_OR_EDIT_STEP",
             "Guided_Tours:_New_or_Edit_Tour" => "GUIDED_TOURS:_NEW_OR_EDIT_TOUR",
-            "Guided_Tours:_Options" => "GUIDED_TOURS:_OPTIONS",
             "Guided_Tours:_Steps" => "GUIDED_TOURS:_STEPS",
+            "Guided_Tours:_New_or_Edit_Step" => "GUIDED_TOURS:_NEW_OR_EDIT_STEP",
+            "Guided_Tours:_Options" => "GUIDED_TOURS:_OPTIONS",
         ],
         "SCHEDULED_TASKS" => [
             "Scheduled_Tasks" => "SCHEDULED_TASKS",
@@ -267,11 +275,6 @@ $menu = [
             "Joomla_Update:_Options" => "JOOMLA_UPDATE:_OPTIONS",
             "Edit_Update_Site" => "EDIT_UPDATE_SITE",
             "Installer:_Options" => "INSTALLER:_OPTIONS",
-        ],
-        "WORKFLOWS" => [
-            "Workflows_List" => "WORKFLOWS_LIST",
-            "Stages_List:_Basic_Workflow" => "STAGES_LIST:_BASIC_WORKFLOW",
-            "Transitions_List:_Basic_Workflow" => "TRANSITIONS_LIST:_BASIC_WORKFLOW",
         ],
     ],
 ];

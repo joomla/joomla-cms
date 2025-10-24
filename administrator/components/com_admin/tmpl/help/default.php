@@ -39,6 +39,9 @@ $wa->addInlineStyle('
     .closed #helpmenu a:hover {
         max-inline-size: 18rem;
     }
+    #help-index.sidebar-wrapper .item > a {
+        align-items: baseline;
+    }
     #help-index.sidebar-wrapper .item-level-2 > a {
         padding-inline-start: 1rem;
     }
@@ -67,14 +70,14 @@ $toc = $tocBuilder->getToc();
             <?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>
         </button>
         <h2><?php echo Text::_('COM_ADMIN_HELP_INDEX'); ?></h2>
-        <div id="help-index" class="main-nav sidebar-wrapper">
-            <ul id="helpmenu" class="help-nav flex-column">
+        <nav id="help-index" class="main-nav sidebar-wrapper">
+            <ul id="helpmenu" class="help-nav flex-column pt-3">
                 <?php echo $toc; ?>
             </ul>
-        </div>
+        </nav>
     </div>
     <div class="flex-grow-1 p-3">
         <!-- Right content -->
-        <iframe name="helpFrame" title="helpFrame" height="2100px" src="" class="helpFrame table table-bordered"></iframe>
+        <iframe name="helpFrame" title="<?php echo Text::_('COM_ADMIN_HELP_FRAME_TITLE'); ?>" height="2100px" src="" class="helpFrame table table-bordered"></iframe>
     </div>
 </div>
