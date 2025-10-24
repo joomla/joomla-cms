@@ -54,6 +54,11 @@ $wa->addInlineStyle('
     .help-nav .mm-collapse.mm-show {
         display: block;
     }
+    .sidebar-wrapper h2 {
+        margin: 0.75rem 0 0.25rem 0.75rem;
+        font-weight: 400;
+        color: var(--sidebar-item-color);
+    }
 ');
 
 // Get the HTML for the Table of Contents from a separate file.
@@ -63,20 +68,20 @@ $toc = $tocBuilder->getToc();
 
 ?>
 <div class="d-flex flex-column flex-md-row">
-    <div id="help-sidebar" class="flex-shrink-0 mt-2">
+    <div id="help-sidebar" class="flex-shrink-0 mt-md-2">
         <!-- Left menu -->
-        <button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#help-index" aria-controls="help-index" aria-expanded="false">
+        <button class="btn btn-sm btn-secondary my-md-2 options-menu d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#help-index" aria-controls="help-index" aria-expanded="false">
             <span class="icon-align-justify" aria-hidden="true"></span>
             <?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>
         </button>
-        <h2><?php echo Text::_('COM_ADMIN_HELP_INDEX'); ?></h2>
         <nav id="help-index" class="main-nav sidebar-wrapper">
-            <ul id="helpmenu" class="help-nav flex-column pt-3">
+            <h2><?php echo Text::_('COM_ADMIN_HELP_INDEX'); ?></h2>
+            <ul id="helpmenu" class="help-nav flex-column pt-2">
                 <?php echo $toc; ?>
             </ul>
         </nav>
     </div>
-    <div class="flex-grow-1 p-3">
+    <div class="flex-grow-1 mt-2">
         <!-- Right content -->
         <iframe name="helpFrame" title="<?php echo Text::_('COM_ADMIN_HELP_FRAME_TITLE'); ?>" height="2100px" src="" class="helpFrame table table-bordered"></iframe>
     </div>

@@ -17,14 +17,17 @@ document.addEventListener("DOMContentLoaded", function (event) {
       if (id) {
         localStorage.setItem('helpIndex.lastClick', id);
       }
+      const btn = document.querySelector('button[data-bs-target="#help-index"]');
+      const isVisible = !!(btn && btn.offsetParent !== null);
+      if (isVisible) {
+        document.querySelector(`nav#help-index`).classList.add('collapse');
+        document.querySelector(`nav#help-index`).classList.remove('show');
+      }
     }));
   }
 
-  // Helper function: wait for given milliseconds
-  const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
-
   // Async restore function
-  async function restoreMenu() {
+  function restoreMenu() {
     let lastClick = localStorage.getItem('helpIndex.lastClick');
     if (!lastClick) {
       lastClick = 'start-here';
@@ -33,38 +36,33 @@ document.addEventListener("DOMContentLoaded", function (event) {
     const selectedLink = helpIndex.querySelector(`a[data-id="${lastClick}"]`);
     if (!selectedLink) return;
 
-    // Collect parent anchors top-down
-    const parentAnchors = [];
+    // Collect parent list items top-down
+    const lists = [];
     let parentLi = selectedLink.closest('li');
     while (parentLi && parentLi !== helpIndex) {
       const parentUl = parentLi.parentElement;
       const parentLiOfUl = parentUl.closest('li');
       if (parentLiOfUl) {
-        const anchor = parentLiOfUl.querySelector('a.has-arrow');
-        if (anchor) parentAnchors.unshift(anchor);
+        const li = parentLiOfUl
+        if (li) lists.unshift(li);
       }
       parentLi = parentLiOfUl;
     }
 
     // Trigger clicks in sequence with a delay
-    for (const anchor of parentAnchors) {
-      anchor.click();
-      await wait(400); // adjust delay as needed (150–300ms)
+    for (const li of lists) {
+      li.classList.add('mm-active');
+      li.querySelector('ul').classList.add('mm-show');
+      li.querySelector('a').setAttribute('aria-expanded', true);
     }
 
     // Optional: highlight selected link
     selectedLink.classList.add('active');
 
-    // Ensure it's visible and then "click" it
-    //selectedLink.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
     // Give the submenu a moment to fully render before clicking
-    await wait(100);
     selectedLink.click();
   }
 
   // Run restore after MetisMenu setup delay
-  setTimeout(() => {
-    restoreMenu();
-  }, 100);
+  restoreMenu()
 });
