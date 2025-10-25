@@ -57,7 +57,7 @@
 }
 
 .sidebar-wrapper h2 {
-  color: var(--sidebar-item-color);
   margin: .75rem 0 .25rem .75rem;
+  color: var(--sidebar-item-color);
   font-weight: 400;
 }
