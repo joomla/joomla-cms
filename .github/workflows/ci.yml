@@ -134,7 +134,31 @@ jobs:
     strategy:
       matrix:
         php_version: ['8.1', '8.2', '8.3', '8.4']
-        config: ['phpunit.xml.dist', 'phpunit-pgsql.xml.dist']
+        config:
+          - my_version: '8.4'
+            engine: 'mysqli'
+            host: 'mysql'
+            user: 'joomla_ut'
+          - my_version: '8.0.13'
+            engine: 'mysqli'
+            host: 'mysql'
+            user: 'joomla_ut'
+          - maria_version: '12.0'
+            engine: 'mysqli'
+            host: 'maria'
+            user: 'joomla_ut'
+          - maria_version: '10.4'
+            engine: 'mysqli'
+            host: 'maria'
+            user: 'joomla_ut'
+          - pg_version: '12.0'
+            engine: 'pgsql'
+            host: 'postgres'
+            user: 'root'
+          - pg_version: '18.0'
+            engine: 'pgsql'
+            host: 'postgres'
+            user: 'root'
     steps:
       - uses: actions/checkout@v4
       - name: Start LDAP container
@@ -146,23 +170,36 @@ jobs:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
       - name: Run Integration tests
+        env:
+          JTEST_DB_ENGINE: ${{ matrix.config.engine }}
+          JTEST_DB_HOST: ${{ matrix.config.host }}
+          JTEST_DB_USER: ${{ matrix.config.user }}
+          JTEST_DB_NAME: test_joomla
+          JTEST_DB_PASSWORD: joomla_ut
         run: |
          sleep 3
-          ./libraries/vendor/bin/phpunit --testsuite Integration --configuration ${{ matrix.config }}
+          ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit.xml.dist
       - name: Stop LDAP container
         uses: docker://docker
         with:
           args: docker kill openldap
     services:
       mysql:
-        image: mariadb
+        image: mysql:${{ matrix.config.my_version || '8.4' }}
+        env:
+          MYSQL_USER: joomla_ut
+          MYSQL_PASSWORD: joomla_ut
+          MYSQL_ROOT_PASSWORD: joomla_ut
+          MYSQL_DATABASE: test_joomla
+      maria:
+        image: mariadb:${{ matrix.config.maria_version || '12.0' }}
         env:
           MARIADB_USER: joomla_ut
           MARIADB_PASSWORD: joomla_ut
           MARIADB_ROOT_PASSWORD: joomla_ut
           MARIADB_DATABASE: test_joomla
       postgres:
-        image: postgres:12-alpine
+        image: postgres:${{ matrix.config.pg_version || '18' }}-alpine
         env:
           POSTGRES_USER: root
           POSTGRES_PASSWORD: joomla_ut
@@ -270,18 +307,32 @@ jobs:
             test_group: cmysqlmax
             db_engine: mysqli
             db_host: mysql
+            my_version: '8.4'
           - php_version: '8.1'
             test_group: cmysql
             db_engine: mysqli
             db_host: mysql
+            my_version: '8.0.13'
+          - php_version: '8.4'
+            test_group: cmariamax
+            db_engine: mysqli
+            db_host: maria
+            maria_version: '12.0'
+          - php_version: '8.1'
+            test_group: cmaria
+            db_engine: mysqli
+            db_host: maria
+            maria_version: '10.4'
           - php_version: '8.1'
             test_group: cpostgres
             db_engine: pgsql
             db_host: postgres
+            pg_version: '12.0'
           - php_version: '8.4'
             test_group: cpostgresmax
             db_engine: pgsql
             db_host: postgres
+            pg_version: '18.0'
     env:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     steps:
@@ -313,14 +364,21 @@ jobs:
           if-no-files-found: ignore
     services:
       mysql:
-        image: mariadb
+        image: mysql:${{ matrix.config.my_version || '8.4' }}
+        env:
+          MYSQL_USER: joomla_ut
+          MYSQL_PASSWORD: joomla_ut
+          MYSQL_ROOT_PASSWORD: joomla_ut
+          MYSQL_DATABASE: test_joomla
+      maria:
+        image: mariadb:${{ matrix.config.maria_version || '12.0' }}
         env:
           MARIADB_USER: joomla_ut
           MARIADB_PASSWORD: joomla_ut
           MARIADB_ROOT_PASSWORD: joomla_ut
           MARIADB_DATABASE: test_joomla
       postgres:
-        image: postgres:12-alpine
+        image: postgres:${{ matrix.config.pg_version || '18' }}-alpine
         env:
           POSTGRES_USER: root
           POSTGRES_PASSWORD: joomla_ut
