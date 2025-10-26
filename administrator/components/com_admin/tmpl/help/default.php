@@ -21,9 +21,7 @@ $wa->useScript('com_admin.admin-help')
     ->useStyle('com_admin.admin-help');
 
 // Get the HTML for the Table of Contents from a separate file.
-require_once 'toc-build.php';
-$tocBuilder =  new Toc();
-$toc = $tocBuilder->getToc();
+include_once 'toc-build.php';
 
 ?>
 <div class="d-flex flex-column flex-md-row">
@@ -33,7 +31,7 @@ $toc = $tocBuilder->getToc();
             <span class="icon-align-justify" aria-hidden="true"></span>
             <?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>
         </button>
-        <nav id="help-index" class="main-nav sidebar-wrapper">
+        <nav id="help-index" class="main-nav help-nav sidebar-wrapper">
             <h2><?php echo Text::_('COM_ADMIN_HELP_INDEX'); ?></h2>
             <ul id="helpmenu" class="help-nav flex-column pt-2">
                 <?php echo $toc; ?>
