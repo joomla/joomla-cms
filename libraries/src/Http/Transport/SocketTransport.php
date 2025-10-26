@@ -136,8 +136,8 @@ class SocketTransport extends AbstractTransport implements TransportInterface
         $content = $this->getResponse($content);
 
         // Follow Http redirects
-        if ($content->code >= 301 && $content->code < 400 && isset($content->headers['Location'][0])) {
-            return $this->request($method, new Uri($content->headers['Location'][0]), $data, $headers, $timeout, $userAgent);
+        if ($content->getStatusCode() >= 301 && $content->getStatusCode() < 400 && isset($content->getHeaders()['Location'][0])) {
+            return $this->request($method, new Uri($content->getHeaders()['Location'][0]), $data, $headers, $timeout, $userAgent);
         }
 
         return $content;
