@@ -1,20 +1,22 @@
 @charset "UTF-8";
+/* help-sidebar is the complete sidebar*/
 #help-sidebar {
-  background-color: var(--sidebarwrapper-bg);
   min-width: 18rem;
 }
 
-#help-index.main-nav, #help-index ul, #help-index li {
+/* help-index is the area below the help-sidebar toggle */
+#help-index.main-nav, #help-index ul {
+  background-color: var(--sidebarwrapper-bg);
   inline-size: 18rem;
   max-inline-size: 18rem;
   padding-left: 0;
-  background-color: var(--main-nav-ul-bg);
 }
 
 #help-index ul .mm-show {
-  background-color: var(--main-nav-ul-bg)
+  background-color: var(--main-nav-mm-active-bg);
 }
 
+/* helpmenu is the area below the help title */
 #helpmenu .has-arrow .item-title {
   margin-inline-end: auto;
 }
@@ -29,8 +31,8 @@
 
 #help-index.sidebar-wrapper .item > a {
   align-items: baseline;
-  padding-bottom: 2px;
   padding-top: 8px;
+  padding-bottom: 2px;
 }
 
 #help-index.sidebar-wrapper .item-level-1 > a {
@@ -57,25 +59,26 @@
   padding-inline-end: .5rem;
 }
 
-.help-nav a.active {
-  background-color: var(--main-nav-mm-active-bg);
+#help-index a.active {
+  background-color: var(--sidebar-item-bg-hvr);
 }
 
-.help-nav .mm-collapse {
+.helpmenu .mm-collapse {
   display: none;
 }
 
-.help-nav .mm-collapse.mm-show {
+.helpmenu .mm-collapse.mm-show {
   display: block;
 }
 
 #help-index .sidebar-wrapper .item a:hover {
-	color: var(--sidebar-item-color-hvr);
-	background-color: var(--sidebar-item-bg-hvr);
-	text-decoration: none;
+  color: var(--sidebar-item-color-hvr);
+  text-decoration: none;
+  background-color: var(--sidebar-item-bg-hvr);
 }
+
 .sidebar-wrapper h2 {
-  color: var(--sidebar-item-color);
   margin: .75rem 0 .25rem .75rem;
+  color: var(--sidebar-item-color);
   font-weight: 400;
 }

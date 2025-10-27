@@ -27,7 +27,7 @@ $firstpass = true;
 // Compose the menu.
 $toc = buildMenu($menu, $tocid, $toclevel, $liid, $firstpass);
 
-function buildMenu(array $items, int &$tocid, int &$toclevel, int &$liid, bool $firstpass = false): string
+function buildMenu(array &$items, int &$tocid, int &$toclevel, int &$liid, bool $firstpass = false): string
 {
     // don't set a ul on the first pass
     if ($firstpass) {
@@ -70,8 +70,7 @@ function buildMenu(array $items, int &$tocid, int &$toclevel, int &$liid, bool $
         }
     }
     // don't set a ul on the first pass
-    if ($firstpass) {
-    } else {
+    if (!$firstpass) {
         $html .= "</ul>\n";
     }
     // On return decrease the toclevel

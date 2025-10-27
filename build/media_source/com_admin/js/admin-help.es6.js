@@ -28,8 +28,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
             helpIndex.querySelectorAll('a:not(has-arrow)').forEach(a => {
               if (a.dataset.id !== id) {
                 a.classList.remove('active');
+                a.removeAttribute('aria-current');
               } else {
                 element.classList.add('active');
+                a.setAttribute('aria-current', 'page');
               }
             });
           }
@@ -53,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     if (!lastClick) {
       lastClick = 'start-here';
     }
-    
+
     const selectedLink = helpIndex.querySelector(`a[data-id="${lastClick}"]`);
     if (!selectedLink) return;
 
@@ -80,6 +82,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     // Optional: highlight selected link
     selectedLink.classList.add('active');
+    selectedLink.setAttribute('aria-current', 'page');
 
     // Give the submenu a moment to fully render before clicking
     selectedLink.click();
