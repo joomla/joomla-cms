@@ -466,7 +466,7 @@ abstract class WebApplication extends AbstractWebApplication
      * @return  Input | null
      *
      * @since       6.0.0
-     * @deprecated  4.0 will be removed in 7.0 use $this->getInput() instead
+     * @deprecated  4.0 will be removed in 8.0 use $this->getInput() instead
      */
     public function __get($name)
     {
