@@ -91,7 +91,7 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      *
-     * @deprecated  6.0.0  will be removed in 8.0 without direct replacement,
+     * @deprecated  6.0.0  will be removed in 7.0 without direct replacement,
      *              use the new versioning concept (LINK TO DOCUMENTATION)
      */
     public function onTableAfterStore(AfterStoreEvent $event)
