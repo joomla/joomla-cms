@@ -475,7 +475,7 @@ class UpdateController extends BaseController
      *
      * @since       3.10.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use batchextensioncompatibility instead.
      *              Example: $updateController->batchextensioncompatibility();
      *

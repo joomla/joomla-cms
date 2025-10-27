@@ -31,7 +31,7 @@ final class PackageInstaller extends CMSPlugin implements SubscriberInterface
      *
      * @var    \Joomla\CMS\Application\CMSApplication
      * @since  4.0.0
-     * @deprecated 6.0 Is needed for template overrides, use getApplication instead
+     * @deprecated 7.0 Is needed for template overrides, use getApplication instead
      */
     protected $app;
 

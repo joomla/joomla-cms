@@ -125,7 +125,7 @@ class UsersHelper extends ContentHelper
      * @since   3.2.0
      * @throws  \Exception
      *
-     * @deprecated  4.2 will be removed in 6.0
+     * @deprecated  4.2 will be removed in 7.0
      *              No longer used, will be removed without replacement
      */
     public static function getTwoFactorMethods()
@@ -174,7 +174,7 @@ class UsersHelper extends ContentHelper
      * @since       3.7.0
      * @throws      \Exception
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use \Joomla\Component\Users\Administrator\Extension\UsersComponent::validateSection() instead.
      */
     public static function validateSection($section)
@@ -189,7 +189,7 @@ class UsersHelper extends ContentHelper
      *
      * @since       3.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use \Joomla\Component\Users\Administrator\Extension\UsersComponent::getContexts() instead.
      */
     public static function getContexts()

@@ -34,7 +34,7 @@ final class Vote extends CMSPlugin implements SubscriberInterface
      *
      * @since  3.7.0
      *
-     * @deprecated 4.4.0 will be removed in 6.0 as it is there only for layout overrides
+     * @deprecated 4.4.0 will be removed in 7.0 as it is there only for layout overrides
      *             Use getApplication() instead
      */
     protected $app;

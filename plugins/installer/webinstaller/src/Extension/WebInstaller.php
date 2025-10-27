@@ -45,7 +45,7 @@ final class WebInstaller extends CMSPlugin implements SubscriberInterface
      *
      * @var    CMSApplication
      * @since  4.0.0
-     * @deprecated 6.0 Is needed for template overrides, use getApplication instead
+     * @deprecated 7.0 Is needed for template overrides, use getApplication instead
      */
     protected $app;
 

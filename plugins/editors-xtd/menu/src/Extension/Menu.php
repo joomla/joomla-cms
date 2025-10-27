@@ -71,7 +71,7 @@ final class Menu extends CMSPlugin implements SubscriberInterface
      *
      * @since  3.7.0
      *
-     * @deprecated  5.0 Use onEditorButtonsSetup event
+     * @deprecated  7.0 Use onEditorButtonsSetup event
      */
     public function onDisplay($name)
     {

@@ -3314,7 +3314,7 @@ class JoomlaInstallerScript
      *
      * @todo    6.0 Remove this method
      *
-     * @deprecated  5.2.2 will be removed in 6.0 without replacement
+     * @deprecated  5.2.2 will be removed in 7.0 without replacement
      */
     protected function fixFilesystemPermissions()
     {

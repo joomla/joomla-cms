@@ -311,7 +311,7 @@ class DatabaseModelTest extends UnitTestCase
      *
      * @since   4.2.0
      *
-     * @deprecated  5.0 Must be removed when trait gets deleted
+     * @deprecated  7.0 Must be removed when trait gets deleted
      */
     public function testUseOldMVCTrait()
     {
@@ -331,7 +331,7 @@ class DatabaseModelTest extends UnitTestCase
      *
      * @since   4.2.0
      *
-     * @deprecated  5.0 This has to be removed when we do not support the MVC Trait anymore
+     * @deprecated  7.0 This has to be removed when we do not support the MVC Trait anymore
      */
     public function testNotDeclaredVariable()
     {

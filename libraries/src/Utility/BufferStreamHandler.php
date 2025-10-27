@@ -15,7 +15,7 @@ namespace Joomla\CMS\Utility;
 \defined('_JEXEC') or die;
 
 /**
- * @deprecated  3.8 will be removed in 5.0
+ * @deprecated  3.8 will be removed in 7.0
  *              Workaround for B/C. (removal missed in 4.0, also remove phpcs exception).
  *              If BufferStreamHandler is needed directly call BufferStreamHandler::stream_register();
  */
