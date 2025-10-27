@@ -13,18 +13,20 @@ use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// Include the $menu as a php array.
-include __DIR__ . '/toc-src.php';
 // phpcs:enable PSR1.Files.SideEffects
 
-// Initialise variables used the Help men.
-$tocid = 1000;
-$toclevel = 1;
-$liid = 0;
-$firstpass = true;
+function renderHelpMenu(): string
+{
+    include __DIR__ . '/toc-src.php';
 
-// Compose the menu.
-$toc = buildMenu($menu, $tocid, $toclevel, $liid, $firstpass);
+    // Initialise variables used the Help men.
+    $tocid = 1000;
+    $toclevel = 1;
+    $liid = 0;
+    $firstpass = true;
+
+    return buildMenu($menu, $tocid, $toclevel, $liid, $firstpass);
+}
 
 function buildMenu(array &$items, int &$tocid, int &$toclevel, int &$liid, bool $firstpass = false): string
 {

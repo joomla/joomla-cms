@@ -34,7 +34,7 @@ include_once 'toc-build.php';
         <nav id="help-index" class="main-nav help-nav sidebar-wrapper">
             <h2><?php echo Text::_('COM_ADMIN_HELP_INDEX'); ?></h2>
             <ul id="helpmenu" class="help-nav flex-column pt-2">
-                <?php echo $toc; ?>
+                <?php echo renderHelpMenu(); ?>
             </ul>
         </nav>
     </div>
