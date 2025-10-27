@@ -52,7 +52,7 @@ interface VersionableModelInterface
      *
      * @return  boolean  true on success, otherwise false.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function deleteHistory($typeAlias, $id);
 }

@@ -482,7 +482,7 @@ trait VersionableModelTrait
      *
      * @return  boolean  True if version history is enabled, false otherwise.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected function versionHistoryEnabled(string $context): bool
     {
