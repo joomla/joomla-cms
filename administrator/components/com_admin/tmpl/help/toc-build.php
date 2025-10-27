@@ -13,10 +13,9 @@ use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
-
 // Include the $menu as a php array.
 include __DIR__ . '/toc-src.php';
+// phpcs:enable PSR1.Files.SideEffects
 
 // Initialise variables used the Help men.
 $tocid = 1000;

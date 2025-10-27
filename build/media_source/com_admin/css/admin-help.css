@@ -6,10 +6,10 @@
 
 /* help-index is the area below the help-sidebar toggle */
 #help-index.main-nav, #help-index ul {
+  padding-left: 0;
   background-color: var(--sidebarwrapper-bg);
   inline-size: 18rem;
   max-inline-size: 18rem;
-  padding-left: 0;
 }
 
 #help-index ul .mm-show {
@@ -79,6 +79,6 @@
 
 .sidebar-wrapper h2 {
   margin: .75rem 0 .25rem .75rem;
-  color: var(--sidebar-item-color);
   font-weight: 400;
+  color: var(--sidebar-item-color);
 }
