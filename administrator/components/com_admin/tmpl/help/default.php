@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
-use Joomla\Component\Admin\Administrator\View\Help\Toc;
 
 /** @var \Joomla\Component\Admin\Administrator\View\Help\HtmlView $this */
 
@@ -22,9 +21,6 @@ $wa->useScript('com_admin.admin-help')
 
 // Get the HTML for the Table of Contents from a separate file.
 include_once 'toc-src.php';
-
-$this->firstpass = 0;
-$this->toclevel = 0;
 
 ?>
 <div class="d-flex flex-column flex-md-row">

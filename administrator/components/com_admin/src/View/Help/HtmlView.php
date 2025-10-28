@@ -43,12 +43,11 @@ class HtmlView extends BaseHtmlView
     protected $page = null;
 
     /**
-     * Table of contents
+     * The level of each submenu
      *
-     * @var    array
-     * @since  1.6
+     * @var    integer
      */
-    protected $toc = [];
+    protected $toclevel = 0;
 
     /**
      * Execute and display a template script.
