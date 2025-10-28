@@ -89,11 +89,38 @@ document.addEventListener("DOMContentLoaded", function (event) {
   restoreMenu();
 });
 
+// Define Bootstrap breakpoints (in pixels)
+const breakpoints = {
+  sm: 576,
+  md: 768,
+  lg: 992,
+  xl: 1200,
+  xxl: 1400
+};
+
+// Function to determine the current breakpoint
+function getCurrentBreakpoint() {
+  const width = window.innerWidth;
+  if (width < breakpoints.sm) return 'xs';
+  if (width < breakpoints.md) return 'sm';
+  if (width < breakpoints.lg) return 'md';
+  if (width < breakpoints.xl) return 'lg';
+  if (width < breakpoints.xxl) return 'xl';
+  return 'xxl';
+}
+
+let currentBreakpoint = getCurrentBreakpoint();
 let resizeTimeout;
 
 window.addEventListener('resize', () => {
   clearTimeout(resizeTimeout);
+
   resizeTimeout = setTimeout(() => {
-    location.reload();
-  }, 500); // waits 500ms after resizing stops
+    const newBreakpoint = getCurrentBreakpoint();
+
+    if (newBreakpoint !== currentBreakpoint) {
+      // Breakpoint changed — reload the page
+      location.reload();
+    }
+  }, 300); // delay in ms after resizing stops
 });
