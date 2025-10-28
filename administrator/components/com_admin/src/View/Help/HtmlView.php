@@ -83,4 +83,21 @@ class HtmlView extends BaseHtmlView
     {
         ToolbarHelper::title(Text::_('COM_ADMIN_HELP'), 'support help_header');
     }
+
+    /**
+     * Method to render a given level of a menu using provided layout file
+     *
+     * @param   string      $layoutFile  The layout file to be used to render
+     * @param   array       $menu        The menu to render the children of
+     *
+     * @return  void
+     *
+     * @since   3.8.0
+     */
+    public function renderSubmenu($layoutFile, $menu)
+    {
+        if (is_file($layoutFile)) {
+            require $layoutFile;
+        }
+    }
 }

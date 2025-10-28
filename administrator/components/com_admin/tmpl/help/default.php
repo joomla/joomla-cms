@@ -21,7 +21,10 @@ $wa->useScript('com_admin.admin-help')
     ->useStyle('com_admin.admin-help');
 
 // Get the HTML for the Table of Contents from a separate file.
-include_once 'toc-build.php';
+include_once 'toc-src.php';
+
+$this->firstpass = 0;
+$this->toclevel = 0;
 
 ?>
 <div class="d-flex flex-column flex-md-row">
@@ -34,7 +37,11 @@ include_once 'toc-build.php';
         <nav id="help-index" class="main-nav help-nav sidebar-wrapper">
             <h2><?php echo Text::_('COM_ADMIN_HELP_INDEX'); ?></h2>
             <ul id="helpmenu" class="help-nav flex-column pt-2">
-                <?php echo renderHelpMenu(); ?>
+                <?php
+                    // WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call
+                    $this->renderSubmenu(JPATH_ADMINISTRATOR .'/components/com_admin/tmpl/help/toc-build.php', $menu);
+                ?>
+                <?php //echo renderHelpMenu(); ?>
             </ul>
         </nav>
     </div>
