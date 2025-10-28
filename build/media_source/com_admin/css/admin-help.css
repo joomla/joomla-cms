@@ -4,10 +4,10 @@
 }
 
 #help-index.main-nav, #help-index ul {
+  padding-left: 0;
   background-color: var(--sidebarwrapper-bg);
   inline-size: 18rem;
   max-inline-size: 18rem;
-  padding-left: 0;
 }
 
 #help-index ul .mm-show {
@@ -70,12 +70,12 @@
 
 #help-index .sidebar-wrapper .item a:hover {
   color: var(--sidebar-item-color-hvr);
-  background-color: var(--sidebar-item-bg-hvr);
   text-decoration: none;
+  background-color: var(--sidebar-item-bg-hvr);
 }
 
 #help-index h2 {
-  color: var(--sidebar-item-color);
   padding: .75rem 0 .25rem .75rem;
+  color: var(--sidebar-item-color);
   font-weight: 400;
 }
