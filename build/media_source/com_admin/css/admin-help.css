@@ -1,22 +1,19 @@
 @charset "UTF-8";
-/* help-sidebar is the complete sidebar*/
 #help-sidebar {
   min-width: 18rem;
 }
 
-/* help-index is the area below the help-sidebar toggle */
 #help-index.main-nav, #help-index ul {
-  padding-left: 0;
   background-color: var(--sidebarwrapper-bg);
   inline-size: 18rem;
   max-inline-size: 18rem;
+  padding-left: 0;
 }
 
 #help-index ul .mm-show {
   background-color: var(--main-nav-mm-active-bg);
 }
 
-/* helpmenu is the area below the help title */
 #helpmenu .has-arrow .item-title {
   margin-inline-end: auto;
 }
@@ -25,7 +22,7 @@
   display: flex;
 }
 
-.closed #helpmenu a:hover {
+.closed #helpmenu li, .closed #helpmenu a:hover {
   max-inline-size: 18rem;
 }
 
@@ -73,12 +70,12 @@
 
 #help-index .sidebar-wrapper .item a:hover {
   color: var(--sidebar-item-color-hvr);
-  text-decoration: none;
   background-color: var(--sidebar-item-bg-hvr);
+  text-decoration: none;
 }
 
-.sidebar-wrapper h2 {
-  margin: .75rem 0 .25rem .75rem;
-  font-weight: 400;
+#help-index h2 {
   color: var(--sidebar-item-color);
+  padding: .75rem 0 .25rem .75rem;
+  font-weight: 400;
 }
