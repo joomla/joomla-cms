@@ -88,3 +88,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
   // Run restore after MetisMenu setup delay
   restoreMenu();
 });
+
+let resizeTimeout;
+
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    location.reload();
+  }, 500); // waits 500ms after resizing stops
+});
