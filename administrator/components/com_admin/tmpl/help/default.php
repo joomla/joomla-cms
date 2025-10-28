@@ -39,7 +39,7 @@ $this->toclevel = 0;
             <ul id="helpmenu" class="help-nav flex-column pt-2">
                 <?php
                     // WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call
-                    $this->renderSubmenu(JPATH_ADMINISTRATOR .'/components/com_admin/tmpl/help/toc-build.php', $menu);
+                    $this->renderSubmenu(JPATH_ADMINISTRATOR . '/components/com_admin/tmpl/help/toc-build.php', $menu);
                 ?>
                 <?php //echo renderHelpMenu(); ?>
             </ul>

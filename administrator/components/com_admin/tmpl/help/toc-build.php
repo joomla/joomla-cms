@@ -34,7 +34,7 @@ foreach ($menu as $label => $value) {
         echo "{$icon}{$wrap_label}</a>\n";
         if (!empty($value)) {
             // Recursively build sublist.
-            $this->renderSubmenu(JPATH_ADMINISTRATOR .'/components/com_admin/tmpl/help/toc-build.php', $value);
+            $this->renderSubmenu(JPATH_ADMINISTRATOR . '/components/com_admin/tmpl/help/toc-build.php', $value);
         }
         echo "</li>\n";
     } else {
