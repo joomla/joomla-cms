@@ -1467,7 +1467,7 @@ abstract class AdminModel extends FormModel
         }
 
         if ($this instanceof VersionableModelInterface) {
-            $this->saveHistory($data, $context);
+            $this->saveHistory($data, $this->typeAlias);
         }
 
         if ($app->getInput()->get('task') == 'editAssociations') {
