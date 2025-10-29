@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
   const helpIndex = document.getElementById('helpmenu');
   if (helpIndex) {
     helpIndex.querySelectorAll('a').forEach(element => element.addEventListener('click', () => {
-      window.scroll(0, 0);
       if (element.classList.contains('has-arrow')) {
         // 🔸 Action for a link to a folder, where <a class="has-arrow">
         helpIndex.querySelectorAll('a.has-arrow').forEach(a => {
@@ -33,6 +32,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
               a.setAttribute('aria-current', 'page');
             }
           });
+          window.scroll(0, 0);
         }
         localStorage.setItem('helpIndex.lastClick', id);
 
@@ -91,11 +91,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 // Define Bootstrap breakpoints (in pixels)
 const breakpoints = {
-  sm: 576,
+  //sm: 576,
   md: 768,
-  lg: 992,
-  xl: 1200,
-  xxl: 1400
+  //lg: 992,
+  //xl: 1200,
+  //xxl: 1400
 };
 
 // Function to determine the current breakpoint
