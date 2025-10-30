@@ -123,7 +123,7 @@ class HtmlView extends InstallerViewDefault
 
         // Add form control fields
         $this->filterForm
-            ->addControlField('task', '')
+            ->addControlField('task')
             ->addControlField('boxchecked', '0');
 
         parent::display($tpl);
