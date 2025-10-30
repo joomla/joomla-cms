@@ -11,6 +11,7 @@ namespace Joomla\CMS\Language;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Menu\MenuItem;
 use Joomla\CMS\Menu\SiteMenu;
 use Joomla\Database\DatabaseInterface;
 
@@ -90,30 +91,15 @@ class Multilanguage
     /**
      * Method to return a list of language home page menu items.
      *
-     * @param   ?DatabaseInterface  $db  The database, deprecated parameter
-     *
-     * @return  array of menu item objects.
+     * @return  MenuItem[] array of menu item objects.
      *
      * @since   3.5
      */
-    public static function getSiteHomePages(?DatabaseInterface $db = null)
+    public static function getSiteHomePages()
     {
-        // To avoid doing duplicate discover.
-        static $multilangSiteHomePages;
+        /** @var SiteMenu $menu */
+        $menu = Factory::getApplication()->getMenu('site');
 
-        if ($multilangSiteHomePages === null) {
-            $multilangSiteHomePages = [];
-
-            // Get all site homepages.
-            /** @var SiteMenu $menu */
-            $menu  = Factory::getApplication()->getMenu('site');
-            $items = $menu->getItems(['home', 'language', 'access'], [1, null, null]);
-
-            foreach ($items as $item) {
-                $multilangSiteHomePages[$item->language] = $item;
-            }
-        }
-
-        return $multilangSiteHomePages;
+        return $menu->getHomepages();
     }
 }

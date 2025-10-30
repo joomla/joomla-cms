@@ -191,7 +191,7 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
             return false;
         }
 
-        foreach ($this->items as &$item) {
+        foreach ($this->items as $item) {
             // Get parent information.
             $parent_tree = [];
 
