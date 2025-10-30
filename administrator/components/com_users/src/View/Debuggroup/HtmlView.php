@@ -13,7 +13,6 @@ namespace Joomla\Component\Users\Administrator\View\Debuggroup;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Users\Administrator\Model\DebuggroupModel;
@@ -98,6 +97,7 @@ class HtmlView extends BaseHtmlView
 
         /** @var DebuggroupModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->actions       = $model->getDebugActions();
         $this->items         = $model->getItems();
@@ -106,11 +106,6 @@ class HtmlView extends BaseHtmlView
         $this->group         = $model->getGroup();
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         $this->addToolbar();
 
