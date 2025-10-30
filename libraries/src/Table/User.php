@@ -98,7 +98,7 @@ class User extends Table
 
         // Load the user data.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*')
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('id') . ' = :userid')
@@ -165,7 +165,7 @@ class User extends Table
 
             // Get the titles for the user groups.
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('id'))
                 ->select($db->quoteName('title'))
                 ->from($db->quoteName('#__usergroups'))
@@ -256,7 +256,7 @@ class User extends Table
 
         // Check for existing username
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('username') . ' = :username')
@@ -356,7 +356,7 @@ class User extends Table
         // Reset groups to the local object.
         $this->groups = $groups;
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Store the group data if the user data was saved.
         if (\is_array($this->groups) && \count($this->groups)) {
@@ -458,7 +458,7 @@ class User extends Table
 
         // Delete the user.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName($this->_tbl))
             ->where($db->quoteName($this->_tbl_key) . ' = :key')
             ->bind(':key', $key, ParameterType::INTEGER);
@@ -533,7 +533,7 @@ class User extends Table
 
         // Update the database row for the user.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName($this->_tbl))
             ->set($db->quoteName('lastvisitDate') . ' = :lastvisitDate')
             ->where($db->quoteName('id') . ' = :id')

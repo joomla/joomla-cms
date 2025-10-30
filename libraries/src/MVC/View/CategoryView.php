@@ -58,7 +58,7 @@ class CategoryView extends HtmlView
      * @var    CategoryNode
      * @since  3.2
      */
-    public $category;
+    protected $category;
 
     /**
      * The list of other categories for this extension.
@@ -82,7 +82,7 @@ class CategoryView extends HtmlView
      * @var    array
      * @since  3.2
      */
-    public $children;
+    protected $children;
 
     /**
      * The name of the extension for the category
