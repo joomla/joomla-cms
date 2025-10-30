@@ -11,6 +11,7 @@ namespace Joomla\CMS\UCM;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Table\CoreContent;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\Database\ParameterType;
@@ -23,6 +24,7 @@ use Joomla\Database\ParameterType;
  * Base class for implementing UCM
  *
  * @since  3.1
+ * @deprecated  5.4.0 will be removed in 7.0 without replacement
  */
 class UCMContent extends UCMBase
 {
@@ -31,6 +33,7 @@ class UCMContent extends UCMBase
      *
      * @var    Table
      * @since  3.1
+     * @deprecated  5.4.0 will be removed in 7.0 without replacement
      */
     protected $table;
 
@@ -39,6 +42,7 @@ class UCMContent extends UCMBase
      *
      * @var    array[]
      * @since  3.1
+     * @deprecated  5.4.0 will be removed in 7.0 without replacement
      */
     public $ucmData;
 
@@ -50,6 +54,7 @@ class UCMContent extends UCMBase
      * @param   ?UCMType         $type   The type object
      *
      * @since   3.1
+     * @deprecated  5.4.0 will be removed in 7.0 without replacement
      */
     public function __construct(?TableInterface $table = null, $alias = null, ?UCMType $type = null)
     {
@@ -72,6 +77,7 @@ class UCMContent extends UCMBase
      * @return  boolean  true
      *
      * @since   3.1
+     * @deprecated  5.4.0 will be removed in 7.0 without replacement
      */
     public function save($original = null, ?UCMType $type = null)
     {
@@ -99,6 +105,7 @@ class UCMContent extends UCMBase
      * @return  boolean  True if success
      *
      * @since   3.1
+     * @deprecated  5.4.0 will be removed in 7.0 without replacement
      */
     public function delete($pk, ?UCMType $type = null)
     {
@@ -109,7 +116,7 @@ class UCMContent extends UCMBase
             $pk = explode(',', $pk);
         }
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__ucm_content'))
             ->where($db->quoteName('core_type_id') . ' = :typeId')
             ->whereIn($db->quoteName('core_content_item_id'), $pk)
@@ -130,6 +137,7 @@ class UCMContent extends UCMBase
      * @return  array[]  $ucmData  The mapped UCM data
      *
      * @since   3.1
+     * @deprecated  5.4.0 will be removed in 7.0 without replacement
      */
     public function mapData($original, ?UCMType $type = null)
     {
@@ -179,10 +187,11 @@ class UCMContent extends UCMBase
      * @return  boolean  true on success
      *
      * @since   3.1
+     * @deprecated  5.4.0 will be removed in 7.0 without replacement
      */
     protected function store($data, ?TableInterface $table = null, $primaryKey = null)
     {
-        $table = $table ?: Table::getInstance('CoreContent');
+        $table = $table ?: new CoreContent(Factory::getDbo());
 
         $typeId     = $this->getType()->type->type_id;
         $primaryKey = $primaryKey ?: $this->getPrimaryKey($typeId, $data['core_content_item_id']);
@@ -211,11 +220,12 @@ class UCMContent extends UCMBase
      * @return  integer  The integer of the primary key
      *
      * @since   3.1
+     * @deprecated  5.4.0 will be removed in 7.0 without replacement
      */
     public function getPrimaryKey($typeId, $contentItemId)
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('ucm_id'))
             ->from($db->quoteName('#__ucm_base'))
             ->where(

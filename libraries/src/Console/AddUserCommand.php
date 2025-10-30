@@ -189,7 +189,7 @@ class AddUserCommand extends AbstractCommand
     protected function getGroupId($groupName)
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__usergroups'))
             ->where($db->quoteName('title') . ' = :groupName')
@@ -257,7 +257,7 @@ class AddUserCommand extends AbstractCommand
         }
 
         // Generate select list for user
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('title'))
             ->from($db->quoteName('#__usergroups'))
             ->order($db->quoteName('id') . 'ASC');

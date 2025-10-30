@@ -12,9 +12,7 @@ namespace Joomla\Component\Mails\Administrator\View\Template;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Mails\Administrator\Helper\MailsHelper;
 use Joomla\Component\Mails\Administrator\Model\TemplateModel;
@@ -61,7 +59,7 @@ class HtmlView extends BaseHtmlView
     /**
      * Master data for the mail template
      *
-     * @var  CMSObject
+     * @var  \stdClass
      */
     protected $master;
 
@@ -78,16 +76,12 @@ class HtmlView extends BaseHtmlView
     {
         /** @var TemplateModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->state  = $model->getState();
         $this->item   = $model->getItem();
         $this->master = $model->getMaster();
         $this->form   = $model->getForm();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         [$extension, $template_id] = explode('.', $this->item->template_id, 2);
         $fields                    = ['subject', 'body', 'htmlbody'];
@@ -116,6 +110,11 @@ class HtmlView extends BaseHtmlView
                 $this->form->setValue($field, null, $this->item->$field);
             }
         }
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '')
+            ->addControlField('return', Factory::getApplication()->getInput()->get('return', '', 'BASE64'));
 
         $this->addToolbar();
 

@@ -306,7 +306,7 @@ class JoomlaStorage extends NativeStorage
 
             if ($session_clean) {
                 $this->setId($session_clean);
-                $cookie->set($session_name, '', time() - 3600);
+                $cookie->set($session_name, '', ['expires' => time() - 3600 ]);
             }
         }
 

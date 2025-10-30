@@ -184,7 +184,7 @@ class WorkflowController extends FormController
 
             // @todo Moves queries out of the controller.
             $db    = $model->getDbo();
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             $query->select('*')
                 ->from($db->quoteName('#__workflow_stages'))
@@ -214,7 +214,7 @@ class WorkflowController extends FormController
                 $mapping[$oldID] = (int) $table->id;
             }
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select('*')
                 ->from($db->quoteName('#__workflow_transitions'))
                 ->where($db->quoteName('workflow_id') . ' = :id')
