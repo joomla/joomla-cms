@@ -362,7 +362,7 @@ class ScriptsRenderer extends DocumentRenderer
 
             // Check if script uses media version.
             if ($version && !str_contains($src, '?') && !str_ends_with($src, '/') && ($mediaVersion || $version !== 'auto')) {
-                $src .= '?' . match($version) {
+                $src .= '?' . match ($version) {
                     'auto'    => $mediaVersion,
                     'nocache' => 'nocache-' . rand(0, 1_000_000),
                     default   => $version,
