@@ -147,6 +147,10 @@ final class PhpVersionCheck extends CMSPlugin implements SubscriberInterface
                 'security' => '2025-12-31',
                 'eos'      => '2027-12-31',
             ],
+            '8.4' => [
+                'security' => '2026-12-31',
+                'eos'      => '2028-12-31',
+            ],
         ];
 
         // Fill our return array with default values

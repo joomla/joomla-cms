@@ -45,6 +45,8 @@ abstract class FieldsPlugin extends CMSPlugin
      *
      * @var    \Joomla\CMS\Application\CMSApplication
      * @since  4.0.0
+     *
+     * @deprecated  5.4.0 will be removed in 7.0 use $this->getApplication() instead
      */
     protected $app;
 
@@ -138,6 +140,7 @@ abstract class FieldsPlugin extends CMSPlugin
             return $types_cache[$this->_type . $this->_name];
         }
 
+        $app   = $this->getApplication() ?: $this->app;
         $types = [];
 
         // The root of the plugin
@@ -160,11 +163,11 @@ abstract class FieldsPlugin extends CMSPlugin
             // Needed attributes
             $data['type'] = $layout;
 
-            if ($this->app->getLanguage()->hasKey('PLG_FIELDS_' . $key . '_LABEL')) {
+            if ($app->getLanguage()->hasKey('PLG_FIELDS_' . $key . '_LABEL')) {
                 $data['label'] = Text::sprintf('PLG_FIELDS_' . $key . '_LABEL', strtolower($key));
 
                 // Fix wrongly set parentheses in RTL languages
-                if ($this->app->getLanguage()->isRtl()) {
+                if ($app->getLanguage()->isRtl()) {
                     $data['label'] .= '&#x200E;';
                 }
             } else {
@@ -343,7 +346,7 @@ abstract class FieldsPlugin extends CMSPlugin
     protected function getFormPath(Form $form, $data)
     {
         // Check if the field form is calling us
-        if (strpos($form->getName(), 'com_fields.field') !== 0) {
+        if (!str_starts_with($form->getName(), 'com_fields.field')) {
             return null;
         }
 

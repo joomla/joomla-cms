@@ -11,12 +11,17 @@
 namespace Joomla\Plugin\User\Token\Extension;
 
 use Joomla\CMS\Crypt\Crypt;
+use Joomla\CMS\Event\Model\PrepareDataEvent;
+use Joomla\CMS\Event\Model\PrepareFormEvent;
+use Joomla\CMS\Event\User\AfterDeleteEvent;
+use Joomla\CMS\Event\User\AfterSaveEvent;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -28,7 +33,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.9.0
  */
-final class Token extends CMSPlugin
+final class Token extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
     use UserFactoryAwareTrait;
@@ -61,36 +66,55 @@ final class Token extends CMSPlugin
     private $tokenLength = 32;
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   5.3.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onContentPrepareData' => 'onContentPrepareData',
+            'onContentPrepareForm' => 'onContentPrepareForm',
+            'onUserAfterSave'      => 'onUserAfterSave',
+            'onUserAfterDelete'    => 'onUserAfterDelete',
+        ];
+    }
+
+    /**
      * Inject the Joomla token management panel's data into the User Profile.
      *
      * This method is called whenever Joomla is preparing the data for an XML form for display.
      *
-     * @param   string  $context  Form context, passed by Joomla
-     * @param   mixed   $data     Form data
+     * @param   PrepareDataEvent $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      * @since   4.0.0
      */
-    public function onContentPrepareData(string $context, &$data): bool
+    public function onContentPrepareData(PrepareDataEvent $event): void
     {
         // Only do something if the api-authentication plugin with the same name is published
         if (!PluginHelper::isEnabled('api-authentication', $this->_name)) {
-            return true;
+            return;
         }
+
+        $context = $event->getContext();
+        $data    = $event->getData();
 
         // Check we are manipulating a valid form.
         if (!\in_array($context, $this->allowedContexts)) {
-            return true;
+            return;
         }
 
         // $data must be an object
         if (!\is_object($data)) {
-            return true;
+            return;
         }
 
         // We expect the numeric user ID in $data->id
         if (!isset($data->id)) {
-            return true;
+            return;
         }
 
         // Get the user ID
@@ -98,11 +122,11 @@ final class Token extends CMSPlugin
 
         // Make sure we have a positive integer user ID
         if ($userId <= 0) {
-            return true;
+            return;
         }
 
         if (!$this->isInAllowedUserGroup($userId)) {
-            return true;
+            return;
         }
 
         // Load plugin language files
@@ -134,7 +158,7 @@ final class Token extends CMSPlugin
 
                 $data->{$this->profileKeyPrefix}[$k] = $v[1];
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // We suppress any database error. It means we get no token saved by default.
         }
 
@@ -162,31 +186,31 @@ final class Token extends CMSPlugin
 
             $data->{$this->profileKeyPrefix} = $pluginData;
         }
-
-        return true;
     }
 
     /**
      * Runs whenever Joomla is preparing a form object.
      *
-     * @param   Form   $form  The form to be altered.
-     * @param   mixed  $data  The associated data for the form.
+     * @param   PrepareFormEvent $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @throws  \Exception  When $form is not a valid form object
      * @since   4.0.0
      */
-    public function onContentPrepareForm(Form $form, $data): bool
+    public function onContentPrepareForm(PrepareFormEvent $event): void
     {
         // Only do something if the api-authentication plugin with the same name is published
         if (!PluginHelper::isEnabled('api-authentication', $this->_name)) {
-            return true;
+            return;
         }
+
+        $form = $event->getForm();
+        $data = $event->getData();
 
         // Check we are manipulating a valid form.
         if (!\in_array($form->getName(), $this->allowedContexts)) {
-            return true;
+            return;
         }
 
         // If we are on the save command, no data is passed to $data variable, we need to get it directly from request
@@ -204,7 +228,7 @@ final class Token extends CMSPlugin
         $userId = (\is_object($data) && isset($data->id)) ? $data->id : 0;
 
         if (!empty($userId) && !$this->isInAllowedUserGroup($userId)) {
-            return true;
+            return;
         }
 
         // Load plugin language files
@@ -243,23 +267,22 @@ final class Token extends CMSPlugin
         if (($form->getName() === 'com_users.profile') && ($this->getApplication()->getInput()->get('layout') !== 'edit')) {
             $form->removeField('reset', 'joomlatoken');
         }
-
-        return true;
     }
 
     /**
      * Save the Joomla token in the user profile field
      *
-     * @param   mixed    $data    The incoming form data
-     * @param   bool     $isNew   Is this a new user?
-     * @param   bool     $result  Has Joomla successfully saved the user?
-     * @param   ?string  $error   Error string
+     * @param   AfterSaveEvent $event  The event instance.
      *
      * @return  void
      * @since   4.0.0
      */
-    public function onUserAfterSave($data, bool $isNew, bool $result, ?string $error): void
+    public function onUserAfterSave(AfterSaveEvent $event): void
     {
+        $data   = $event->getUser();
+        $isNew  = $event->getIsNew();
+        $result = $event->getSavingResult();
+
         if (!\is_array($data)) {
             return;
         }
@@ -371,17 +394,18 @@ final class Token extends CMSPlugin
      *
      * This event is called after the user data is deleted from the database.
      *
-     * @param   array    $user     Holds the user data
-     * @param   boolean  $success  True if user was successfully stored in the database
-     * @param   string   $msg      Message
+     * @param   AfterDeleteEvent $event  The event instance.
      *
      * @return  void
      *
      * @throws  \Exception
      * @since   4.0.0
      */
-    public function onUserAfterDelete(array $user, bool $success, string $msg): void
+    public function onUserAfterDelete(AfterDeleteEvent $event): void
     {
+        $user    = $event->getUser();
+        $success = $event->getDeletingResult();
+
         if (!$success) {
             return;
         }
@@ -404,7 +428,7 @@ final class Token extends CMSPlugin
             $query->bind(':profileKey', $profileKey, ParameterType::STRING);
 
             $db->setQuery($query)->execute();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // Do nothing.
         }
     }
@@ -449,7 +473,7 @@ final class Token extends CMSPlugin
             $query->bind(':userId', $userId, ParameterType::INTEGER);
 
             return $db->setQuery($query)->loadResult();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return null;
         }
     }
@@ -529,7 +553,7 @@ final class Token extends CMSPlugin
 
         try {
             $siteSecret = $this->getApplication()->get('secret');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $siteSecret = '';
         }
 
@@ -596,7 +620,7 @@ final class Token extends CMSPlugin
 
         try {
             $numRows = $db->setQuery($q)->loadResult() ?? 0;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 

@@ -12,9 +12,9 @@ namespace Joomla\Component\Menus\Administrator\View\Menus;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Menus\Administrator\Model\MenusModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -91,19 +91,18 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->items      = $this->get('Items');
-        $this->modules    = $this->get('Modules');
-        $this->pagination = $this->get('Pagination');
-        $this->state      = $this->get('State');
+        /** @var MenusModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
+
+        $this->items      = $model->getItems();
+        $this->modules    = $model->getModules();
+        $this->pagination = $model->getPagination();
+        $this->state      = $model->getState();
 
         if ($this->getLayout() == 'default') {
-            $this->filterForm    = $this->get('FilterForm');
-            $this->activeFilters = $this->get('ActiveFilters');
-        }
-
-        // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
+            $this->filterForm    = $model->getFilterForm();
+            $this->activeFilters = $model->getActiveFilters();
         }
 
         $this->addToolbar();

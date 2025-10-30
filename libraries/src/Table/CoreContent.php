@@ -15,7 +15,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
 use Joomla\String\StringHelper;
@@ -52,12 +52,12 @@ class CoreContent extends Table implements CurrentUserInterface
     /**
      * Constructor
      *
-     * @param   DatabaseDriver        $db          Database connector object
+     * @param   DatabaseInterface     $db          Database connector object
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   3.1
      */
-    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__ucm_content', 'core_content_id', $db, $dispatcher);
 
@@ -116,7 +116,7 @@ class CoreContent extends Table implements CurrentUserInterface
             $this->core_publish_up !== null
             && $this->core_publish_down !== null
             && $this->core_publish_down < $this->core_publish_up
-            && $this->core_publish_down > $this->_db->getNullDate()
+            && $this->core_publish_down > $this->getDatabase()->getNullDate()
         ) {
             // Swap the dates.
             $temp                    = $this->core_publish_up;
@@ -155,23 +155,6 @@ class CoreContent extends Table implements CurrentUserInterface
     }
 
     /**
-     * Override \Joomla\CMS\Table\Table delete method to include deleting corresponding row from #__ucm_base.
-     *
-     * @param   integer  $pk  primary key value to delete. Must be set or throws an exception.
-     *
-     * @return  boolean  True on success.
-     *
-     * @since   3.1
-     * @throws  \UnexpectedValueException
-     */
-    public function delete($pk = null)
-    {
-        $baseTable = new Ucm($this->getDbo(), $this->getDispatcher());
-
-        return parent::delete($pk) && $baseTable->delete($pk);
-    }
-
-    /**
      * Method to delete a row from the #__ucm_content table by content_item_id.
      *
      * @param   integer  $contentItemId  value of the core_content_item_id to delete. Corresponds to the primary key of the content table.
@@ -179,8 +162,8 @@ class CoreContent extends Table implements CurrentUserInterface
      *
      * @return  boolean  True on success.
      *
-     * @since   3.1
      * @throws  \UnexpectedValueException
+     * @since   3.1
      */
     public function deleteByContentId($contentItemId = null, $typeAlias = null)
     {
@@ -194,7 +177,7 @@ class CoreContent extends Table implements CurrentUserInterface
             throw new \UnexpectedValueException('Null type alias not allowed.');
         }
 
-        $db    = $this->getDbo();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
         $query->select($db->quoteName('core_content_id'))
             ->from($db->quoteName('#__ucm_content'))
@@ -263,9 +246,7 @@ class CoreContent extends Table implements CurrentUserInterface
             $this->setRules('{}');
         }
 
-        $result = parent::store($updateNulls);
-
-        return $result && $this->storeUcmBase($updateNulls, $isNew);
+        return parent::store($updateNulls);
     }
 
     /**
@@ -277,11 +258,12 @@ class CoreContent extends Table implements CurrentUserInterface
      * @return  boolean  True on success.
      *
      * @since   3.1
+     * @deprecated  5.4.0 will be removed in 7.0 without replacement
      */
     protected function storeUcmBase($updateNulls = true, $isNew = false)
     {
         // Store the ucm_base row
-        $db         = $this->getDbo();
+        $db         = $this->getDatabase();
         $query      = $db->getQuery(true);
         $languageId = ContentHelper::getLanguageId($this->core_language);
 

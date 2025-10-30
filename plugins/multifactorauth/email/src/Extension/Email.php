@@ -173,7 +173,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 
         try {
             $this->sendCode($key, $user);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return;
         }
 
@@ -476,7 +476,7 @@ class Email extends CMSPlugin implements SubscriberInterface
                     'user_id' => $user->id,
                 ]
             );
-        } catch (\Exception $event) {
+        } catch (\Exception) {
             // Fail gracefully
         }
     }

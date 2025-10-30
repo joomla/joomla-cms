@@ -173,7 +173,7 @@
       "type": "script",
       "class": "FormValidateAssetItem",
       "attributes": {
-        "defer": true
+        "type": "module"
       },
       "dependencies": [
         "core"

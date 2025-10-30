@@ -10,11 +10,13 @@
 
 namespace Joomla\Module\Menu\Site\Helper;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Router\Route;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -30,20 +32,20 @@ class MenuHelper
     /**
      * Get a list of the menu items.
      *
-     * @param   \Joomla\Registry\Registry  &$params  The module options.
+     * @param   Registry                  &$params  The module options.
+     * @param   CMSApplicationInterface   $app      The application
      *
      * @return  array
      *
-     * @since   1.5
+     * @since   5.4.0
      */
-    public static function getList(&$params)
+    public function getItems(Registry &$params, CMSApplicationInterface $app): array
     {
-        $app   = Factory::getApplication();
         $menu  = $app->getMenu();
 
         // Get active menu item
-        $base   = self::getBase($params);
-        $levels = Factory::getUser()->getAuthorisedViewLevels();
+        $base   = $this->getBaseItem($params, $app);
+        $levels = $app->getIdentity()->getAuthorisedViewLevels();
         asort($levels);
 
         // Compose cache key
@@ -125,7 +127,7 @@ class MenuHelper
                             break;
 
                         case 'url':
-                            if ((strpos($item->link, 'index.php?') === 0) && (strpos($item->link, 'Itemid=') === false)) {
+                            if ((str_starts_with($item->link, 'index.php?')) && (!str_contains($item->link, 'Itemid='))) {
                                 // If this is an internal Joomla link, ensure the Itemid is set.
                                 $item->flink = $item->link . '&Itemid=' . $item->id;
                             }
@@ -136,7 +138,7 @@ class MenuHelper
 
                             // Get the language of the target menu item when site is multilingual
                             if (Multilanguage::isEnabled()) {
-                                $newItem = Factory::getApplication()->getMenu()->getItem((int) $itemParams->get('aliasoptions'));
+                                $newItem = $app->getMenu()->getItem((int) $itemParams->get('aliasoptions'));
 
                                 // Use language code if not set to ALL
                                 if ($newItem != null && $newItem->language && $newItem->language !== '*') {
@@ -150,7 +152,7 @@ class MenuHelper
                             break;
                     }
 
-                    if ((strpos($item->flink, 'index.php?') !== false) && strcasecmp(substr($item->flink, 0, 4), 'http')) {
+                    if ((str_contains($item->flink, 'index.php?')) && strcasecmp(substr($item->flink, 0, 4), 'http')) {
                         $item->flink = Route::_($item->flink, true, $itemParams->get('secure'));
                     } else {
                         $item->flink = Route::_($item->flink);
@@ -183,24 +185,25 @@ class MenuHelper
     /**
      * Get base menu item.
      *
-     * @param   \Joomla\Registry\Registry  &$params  The module options.
+     * @param   Registry                   &$params  The module options.
+     * @param   CMSApplicationInterface    $app      The application
      *
      * @return  object
      *
-     * @since    3.0.2
+     * @since    5.4.0
      */
-    public static function getBase(&$params)
+    public function getBaseItem(Registry &$params, CMSApplicationInterface $app): object
     {
         // Get base menu item from parameters
         if ($params->get('base')) {
-            $base = Factory::getApplication()->getMenu()->getItem($params->get('base'));
+            $base = $app->getMenu()->getItem($params->get('base'));
         } else {
             $base = false;
         }
 
         // Use active menu item if no base found
         if (!$base) {
-            $base = self::getActive($params);
+            $base = $this->getActiveItem($app);
         }
 
         return $base;
@@ -209,33 +212,114 @@ class MenuHelper
     /**
      * Get active menu item.
      *
-     * @param   \Joomla\Registry\Registry  &$params  The module options.
+     * @param   CMSApplicationInterface  $app  The application
+     *
+     * @return  object
+     *
+     * @since    5.4.0
+     */
+    public function getActiveItem(CMSApplicationInterface $app): object
+    {
+        $menu = $app->getMenu();
+
+        return $menu->getActive() ?: $this->getDefaultItem($app);
+    }
+
+    /**
+     * Get default menu item (home page) for current language.
+     *
+     * @param   CMSApplicationInterface  $app  The application
+     *
+     * @return  object
+     *
+     * @since   5.4.0
+     */
+    public function getDefaultItem(CMSApplicationInterface $app): object
+    {
+        $menu = $app->getMenu();
+
+        // Look for the home menu
+        if (Multilanguage::isEnabled()) {
+            return $menu->getDefault($app->getLanguage()->getTag());
+        }
+
+        return $menu->getDefault();
+    }
+
+
+    /**
+     * Get a list of the menu items.
+     *
+     * @param   Registry  &$params  The module options.
+     *
+     * @return  array
+     *
+     * @since   1.5
+     *
+     * @deprecated 5.4.0 will be removed in 7.0
+     *             Use the non-static method getItems
+     *             Example: Factory::getApplication()->bootModule('mod_menu', 'site')
+     *                          ->getHelper('MenuHelper')
+     *                          ->getItems($params, $app)
+     */
+    public static function getList(&$params)
+    {
+        return (new self())->getItems($params, Factory::getApplication());
+    }
+
+    /**
+     * Get base menu item.
+     *
+     * @param   Registry  &$params  The module options.
      *
      * @return  object
      *
      * @since    3.0.2
+     *
+     * @deprecated 5.4.0 will be removed in 7.0
+     *             Use the non-static method getBaseItem
+     *             Example: Factory::getApplication()->bootModule('mod_menu', 'site')
+     *                          ->getHelper('MenuHelper')
+     *                          ->getBaseItem($params, $app)
+     */
+    public static function getBase(&$params)
+    {
+        return (new self())->getBaseItem($params, Factory::getApplication());
+    }
+
+    /**
+     * Get active menu item.
+     *
+     * @param   Registry  &$params  The module options.
+     *
+     * @return  object
+     *
+     * @since    3.0.2
+     *
+     * @deprecated 5.4.0 will be removed in 7.0
+     *             Use the non-static method getActiveItem
+     *             Example: Factory::getApplication()->bootModule('mod_menu', 'site')
+     *                          ->getHelper('MenuHelper')
+     *                          ->getActiveItem($app)
      */
     public static function getActive(&$params)
     {
-        $menu = Factory::getApplication()->getMenu();
-
-        return $menu->getActive() ?: self::getDefault();
+        return (new self())->getActiveItem(Factory::getApplication());
     }
 
     /**
      * Get default menu item (home page) for current language.
      *
      * @return  object
+     *
+     * @deprecated 5.4.0 will be removed in 7.0
+     *             Use the non-static method getDefaultItem
+     *             Example: Factory::getApplication()->bootModule('mod_menu', 'site')
+     *                          ->getHelper('MenuHelper')
+     *                          ->getDefaultItem($app)
      */
     public static function getDefault()
     {
-        $menu = Factory::getApplication()->getMenu();
-
-        // Look for the home menu
-        if (Multilanguage::isEnabled()) {
-            return $menu->getDefault(Factory::getLanguage()->getTag());
-        }
-
-        return $menu->getDefault();
+        return (new self())->getDefaultItem(Factory::getApplication());
     }
 }

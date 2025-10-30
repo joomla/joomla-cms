@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Language;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
-use Joomla\Event\Dispatcher;
 use Joomla\Filesystem\Folder;
 use Joomla\Plugin\Task\Checkfiles\Extension\Checkfiles;
 use Joomla\Tests\Unit\UnitTestCase;
@@ -60,7 +59,6 @@ class CheckfilesPluginTest extends UnitTestCase
         $image = imagecreate(200, 200);
         imagecolorallocate($image, 255, 255, 0);
         imagepng($image, $this->tmpFolder . '/test.png');
-        imagedestroy($image);
     }
 
     /**
@@ -92,7 +90,7 @@ class CheckfilesPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Checkfiles(new Dispatcher(), [], $this->tmpFolder);
+        $plugin = new Checkfiles([], $this->tmpFolder);
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -131,7 +129,7 @@ class CheckfilesPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Checkfiles(new Dispatcher(), [], $this->tmpFolder);
+        $plugin = new Checkfiles([], $this->tmpFolder);
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -172,7 +170,7 @@ class CheckfilesPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Checkfiles(new Dispatcher(), [], $this->tmpFolder);
+        $plugin = new Checkfiles([], $this->tmpFolder);
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -209,7 +207,7 @@ class CheckfilesPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Checkfiles(new Dispatcher(), [], $this->tmpFolder);
+        $plugin = new Checkfiles([], $this->tmpFolder);
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);

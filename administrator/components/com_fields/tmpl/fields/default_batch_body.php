@@ -17,6 +17,9 @@ use Joomla\CMS\Layout\LayoutHelper;
 
 /** @var \Joomla\Component\Fields\Administrator\View\Fields\HtmlView $this */
 
+/** @var \Joomla\Component\Fields\Administrator\Model\FieldsModel $model */
+$model = $this->getModel();
+
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_fields.admin-fields-batch');
@@ -55,7 +58,7 @@ $context = $this->escape($this->state->get('filter.context'));
                     <select name="batch[group_id]" class="form-select" id="batch-group-id">
                         <option value=""><?php echo Text::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
                         <option value="nogroup"><?php echo Text::_('COM_FIELDS_BATCH_GROUP_OPTION_NONE'); ?></option>
-                        <?php echo HTMLHelper::_('select.options', $this->get('Groups'), 'value', 'text'); ?>
+                        <?php echo HTMLHelper::_('select.options', $model->getGroups(), 'value', 'text'); ?>
                     </select>
                 </div>
                 <div id="batch-copy-move">

@@ -222,12 +222,11 @@ class CollectionAdapter extends UpdateAdapter
         }
 
         $this->xmlParser = xml_parser_create('');
-        xml_set_object($this->xmlParser, $this);
-        xml_set_element_handler($this->xmlParser, '_startElement', '_endElement');
+        xml_set_element_handler($this->xmlParser, [$this, '_startElement'], [$this, '_endElement']);
 
-        if (!xml_parse($this->xmlParser, $response->body)) {
+        if (!xml_parse($this->xmlParser, (string) $response->getBody())) {
             // If the URL is missing the .xml extension, try appending it and retry loading the update
-            if (!$this->appendExtension && (substr($this->_url, -4) !== '.xml')) {
+            if (!$this->appendExtension && (!str_ends_with($this->_url, '.xml'))) {
                 $options['append_extension'] = true;
 
                 return $this->findUpdate($options);
