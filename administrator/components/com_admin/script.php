@@ -718,6 +718,7 @@ class JoomlaInstallerScript
             '/libraries/vendor/beberlei/assert/LICENSE',
             '/libraries/vendor/google/recaptcha/ARCHITECTURE.md',
             '/libraries/vendor/jfcherng/php-color-output/src/helpers.php',
+            '/libraries/vendor/joomla/filter/PATCHES.txt',
             '/libraries/vendor/joomla/ldap/LICENSE',
             '/libraries/vendor/joomla/ldap/src/LdapClient.php',
             '/libraries/vendor/laminas/laminas-zendframework-bridge/config/replacements.php',
