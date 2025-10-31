@@ -1,34 +1,27 @@
 /* ================================
    Workflow Graph Client Styles
    ================================ */
-
 /* Color Variables */
 :root {
   --wf-bg: var(--bg-primary);
   --wf-border: var(--border-color);
   --wf-border-hover: var(--border-color-translucent);
-  --wf-dot-color: var(--primary);
-
+  --wf-dot-color: var(--body-color);
   --stage-bg: rgb(var(--primary-rgb));
   --stage-border: var(--border-color);
   --stage-text: var(--white);
   --stage-desc: var(--ext-secondary);
   --stage-virtual-bg: #800080;
-
-  --transition-stroke: var(--primary);
   --transition-hover: var(--border-color-hover);
   --transition-label-bg: #2071c6;
+  --transition-stroke: var(--transition-label-bg);
   --transition-label-color: var(--white);
   --transition-highlight: #ff6868;
-
   --zoom-btn-bg: transparent;
   --zoom-btn-hover: var(--border-color);
   --zoom-btn-color: var(--text-primary);
+  --vf-custom-controls-bgcolor: var(--secondary);
 }
-
-/* ================================
-   Containers
-   ================================ */
 
 #workflow-graph {
   position: relative;
@@ -37,7 +30,7 @@
   overflow: hidden;
   cursor: grab;
   background-image: radial-gradient(circle at 1px 1px, var(--wf-dot-color) 1px, transparent 1px);
-  background-size: 18px 18px;
+  background-size: 38px 38px;
   border: 1px solid var(--stage-border);
   border-radius: 8px;
 }
@@ -86,7 +79,6 @@
 /* ================================
    Stage Styling
    ================================ */
-
 .stage {
   position: absolute;
   z-index: 10;
@@ -102,8 +94,6 @@
   border: 1px solid var(--stage-border);
   border-radius: 6px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, .6);
-  transition: all .2s cubic-bezier(.4, 0, .2, 1);
-  animation: slideIn .3s ease-out forwards;
 }
 
 .stage:hover {
@@ -155,7 +145,6 @@
 /* ================================
    Transitions
    ================================ */
-
 .transition-path {
   stroke: var(--transition-stroke);
   stroke-width: 3;
@@ -175,7 +164,7 @@
   transition: fill .2s ease;
 }
 
-.transition-path:hover + .arrow-marker {
+.transition-path:hover+.arrow-marker {
   fill: var(--transition-hover);
 }
 
@@ -191,10 +180,12 @@
    Transition Labels
    ================================ */
 .transition-label-content {
-  position: relative;
-  z-index: 10;
-  padding: 4px 8px;
-  font-size: 14px;
+  position: absolute;
+  z-index: 20;
+  min-width: 80px;
+  max-width: 300px;
+  padding: 2px 12px;
+  font-size: 1rem;
   font-weight: 600;
   line-height: 1.2;
   color: var(--transition-label-color);
@@ -203,15 +194,15 @@
   pointer-events: auto;
   user-select: none;
   background: var(--transition-label-bg) !important;
-  border: 1px solid var(--stage-border);
-  border-radius: 4px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, .6);
+  border: 2px solid var(--transition-stroke);
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
+  transition: background .2s, border .2s, box-shadow .2s;
 }
 
 .transition-label-content.highlighted {
   font-weight: 700;
-  background: var(--transition-highlight) !important;
-  transition: transform .2s ease, background .2s ease;
+  transition: transform .2s ease;
   transform: scale(1.1);
 }
 
@@ -228,26 +219,10 @@
   flex-direction: column;
   gap: 2px;
   padding: 4px;
+  background: var(--vf-custom-controls-bgcolor);
   border: 1px solid var(--wf-border);
   border-radius: 6px;
   backdrop-filter: blur(4px);
-}
-
-.zoom-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--zoom-btn-color);
-  cursor: pointer;
-  user-select: none;
-  background: var(--zoom-btn-bg);
-  border: none;
-  border-radius: 4px;
-  transition: all .15s ease;
 }
 
 .zoom-btn:hover {
@@ -258,41 +233,4 @@
 .zoom-btn:active {
   transition: transform .05s ease;
   transform: scale(.95);
-}
-
-/* ================================
-   Accessibility & Preferences
-   ================================ */
-
-.stage:focus-visible,
-.zoom-btn:focus-visible {
-  outline: 2px solid var(--stage-border);
-  outline-offset: 2px;
-}
-
-@media (prefers-contrast: high) {
-  .stage { border-width: 2px; }
-  .transition-path { stroke-width: 3; }
-  .transition-label-content {
-    font-weight: 600;
-    border-width: 2px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .stage, .transition-path, .zoom-btn, #graph { transition: none; }
-  .stage:hover, .zoom-btn:hover, .stage.dragging { transform: none; }
-}
-
-/* ================================
-   Animations
-   ================================ */
-
-@keyframes slideIn {
-  from { opacity: 0; transform: translateY(20px) scale(.9); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-@keyframes dashmove {
-  to { stroke-dashoffset: -50; }
 }
