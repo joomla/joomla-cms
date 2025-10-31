@@ -337,8 +337,10 @@ class BaseControllerTest extends UnitTestCase
         };
         $mvcFactory = $this->createStub(MVCFactoryInterface::class);
         $mvcFactory->method('createView')->willReturn($view);
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getName')->willReturn('Test');
 
-        $controller = new class (['base_path' => __DIR__], $mvcFactory, $this->createStub(CMSApplicationInterface::class), new Input()) extends BaseController {
+        $controller = new class (['base_path' => __DIR__], $mvcFactory, $app, new Input()) extends BaseController {
         };
 
         $this->assertEquals($view, $controller->getView('testGetView'));
@@ -407,6 +409,7 @@ class BaseControllerTest extends UnitTestCase
 
         $user = new User();
         $app  = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getName')->willReturn('Test');
         $app->method('getIdentity')->willReturn($user);
 
         $controller = new class (['base_path' => __DIR__], $mvcFactory, $app, new Input()) extends BaseController {
@@ -467,8 +470,11 @@ class BaseControllerTest extends UnitTestCase
      */
     public function testDisplay()
     {
+        $doc = $this->createStub(Document::class);
+        $doc->method('getType')->willReturn('html');
         $app = $this->createStub(CMSWebApplicationInterface::class);
-        $app->method('getDocument')->willReturn(new Document());
+        $app->method('getName')->willReturn('Test');
+        $app->method('getDocument')->willReturn($doc);
 
         $view             = new class (['name' => 'test']) extends AbstractView {
             public $value = null;
@@ -498,8 +504,11 @@ class BaseControllerTest extends UnitTestCase
      */
     public function testDisplayWithModel()
     {
+        $doc = $this->createStub(Document::class);
+        $doc->method('getType')->willReturn('html');
         $app = $this->createStub(CMSWebApplicationInterface::class);
-        $app->method('getDocument')->willReturn(new Document());
+        $app->method('getName')->willReturn('Test');
+        $app->method('getDocument')->willReturn($doc);
 
         $model = new class (['name' => 'test']) extends BaseModel {
         };

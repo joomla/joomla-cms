@@ -178,7 +178,7 @@ class TextField extends FormField
     {
         $result = parent::setup($element, $value, $group);
 
-        if ($result == true) {
+        if ($result) {
             $inputmode = (string) $this->element['inputmode'];
             $dirname   = (string) $this->element['dirname'];
 
