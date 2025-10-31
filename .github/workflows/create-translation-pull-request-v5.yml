@@ -31,6 +31,7 @@ jobs:
         with:
           ref: translation5
           fetch-depth: 0
+          token: ${{ secrets.PAT_WORKFLOW }}
       - uses: actions/setup-node@v5
         with:
           node-version: 24
