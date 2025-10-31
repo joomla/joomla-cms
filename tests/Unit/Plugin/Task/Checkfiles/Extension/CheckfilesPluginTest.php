@@ -59,7 +59,6 @@ class CheckfilesPluginTest extends UnitTestCase
         $image = imagecreate(200, 200);
         imagecolorallocate($image, 255, 255, 0);
         imagepng($image, $this->tmpFolder . '/test.png');
-        imagedestroy($image);
     }
 
     /**
