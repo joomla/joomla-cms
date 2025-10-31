@@ -710,6 +710,12 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
 
         $this->setState($this->getName() . '.id', $table->id);
 
+        /**
+         * Save the version history. We need to call saveHistory method manually because category model does not
+         * call parent::save()
+         */
+        $this->saveHistory($data, $this->typeAlias);
+
         if (Factory::getApplication()->getInput()->get('task') == 'editAssociations') {
             return $this->redirectToAssociations($data);
         }
