@@ -103,7 +103,13 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 
         if (isset($headers)) {
             foreach ($headers as $key => $value) {
-                $headerArray[] = $key . ': ' . $value;
+                if (\is_array($value)) {
+                    foreach ($value as $header) {
+                        $headerArray[] = "$key: $header";
+                    }
+                } else {
+                    $headerArray[] = "$key: $value";
+                }
             }
 
             // Add the headers string into the stream context options array.
@@ -186,9 +192,6 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 
         // Get the request information.
         $info = curl_getinfo($ch);
-
-        // Close the connection.
-        curl_close($ch);
 
         $response = $this->getResponse($content, $info);
 

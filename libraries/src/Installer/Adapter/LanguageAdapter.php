@@ -107,7 +107,7 @@ class LanguageAdapter extends InstallerAdapter
 
         // Remove the schema version
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__schemas'))
             ->where($db->quoteName('extension_id') . ' = :extension_id')
             ->bind(':extension_id', $extensionId, ParameterType::INTEGER);
@@ -479,7 +479,7 @@ class LanguageAdapter extends InstallerAdapter
 
         // Get the sef value of all current content languages.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('sef'))
             ->from($db->quoteName('#__languages'));
         $db->setQuery($query);
@@ -765,7 +765,7 @@ class LanguageAdapter extends InstallerAdapter
 
         // Setting the language of users which have this language as the default language
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('id'),
@@ -785,7 +785,7 @@ class LanguageAdapter extends InstallerAdapter
         $count = 0;
 
         // Prepare the query.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__users'))
             ->set($db->quoteName('params') . ' = :registry')
             ->where($db->quoteName('id') . ' = :userId')

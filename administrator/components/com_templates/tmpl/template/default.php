@@ -394,7 +394,7 @@ if ($this->type == 'font') {
     $copyModalData = [
         'selector' => $taskName . 'Modal',
         'params'   => [
-            'title'  => Text::_('COM_TEMPLATES_TEMPLATE_' . strtoupper($taskName)),
+            'title'  => Text::_('COM_TEMPLATES_TEMPLATE_' . strtoupper($taskName) . (isset($this->template->xmldata->parent) && (string) $this->template->xmldata->parent !== '' ? '_CHILD' : '')),
             'footer' => $this->loadTemplate('modal_' . $taskName . '_footer')
         ],
         'body' => $this->loadTemplate('modal_' . $taskName . '_body')

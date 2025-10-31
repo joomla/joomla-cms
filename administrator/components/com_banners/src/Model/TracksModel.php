@@ -98,7 +98,7 @@ class TracksModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the required fields from the table.
         $query->select(
@@ -202,7 +202,7 @@ class TracksModel extends ListModel
         if ($allow) {
             // Delete tracks from this banner
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__banner_tracks'));
 
             // Filter by type
@@ -223,7 +223,7 @@ class TracksModel extends ListModel
                     ->bind(':end', $end);
             }
 
-            $subQuery = $db->getQuery(true);
+            $subQuery = $db->createQuery();
             $subQuery->select($db->quoteName('id'))
                 ->from($db->quoteName('#__banners'));
 
@@ -344,7 +344,7 @@ class TracksModel extends ListModel
 
         if ($categoryId) {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('title'))
                 ->from($db->quoteName('#__categories'))
                 ->where($db->quoteName('id') . ' = :categoryId')
@@ -378,7 +378,7 @@ class TracksModel extends ListModel
 
         if ($clientId) {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('name'))
                 ->from($db->quoteName('#__banner_clients'))
                 ->where($db->quoteName('id') . ' = :clientId')

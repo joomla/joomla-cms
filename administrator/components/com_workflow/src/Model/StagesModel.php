@@ -131,7 +131,7 @@ class StagesModel extends ListModel
     public function getListQuery()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query
             ->select(
