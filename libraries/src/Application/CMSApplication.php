@@ -436,16 +436,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             return;
         }
 
-        /**
-         * The mfa/captive view page and captive,validate task also needs to be always accessible.
-         */
-        if (
-            $this->input->getCmd('option', '') === 'com_users'
-            && ($this->input->getCmd('view', '') === 'captive' || $this->input->getCmd('task', '') === 'captive.validate')
-        ) {
-            return;
-        }
-
         // If the current URL matches an entry in $urls, we do not redirect
         foreach ($urls as $url) {
             $match = true;
