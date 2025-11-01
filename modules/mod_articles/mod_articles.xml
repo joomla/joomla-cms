@@ -648,7 +648,6 @@
 					>
 					<option value="a.ordering">MOD_ARTICLES_OPTION_ORDERING_VALUE</option>
 					<option value="fp.ordering">MOD_ARTICLES_OPTION_ORDERINGFEATURED_VALUE</option>
-					<option value="a.hits" requires="hits">MOD_ARTICLES_OPTION_HITS_VALUE</option>
 					<option value="a.title">JGLOBAL_TITLE</option>
 					<option value="a.id">MOD_ARTICLES_OPTION_ID_VALUE</option>
 					<option value="a.alias">JFIELD_ALIAS_LABEL</option>
@@ -657,6 +656,7 @@
 					<option value="publish_up">MOD_ARTICLES_OPTION_STARTPUBLISHING_VALUE</option>
 					<option value="a.publish_down">MOD_ARTICLES_OPTION_FINISHPUBLISHING_VALUE</option>
 					<option value="random">MOD_ARTICLES_OPTION_RANDOM_VALUE</option>
+					<option value="a.hits" requires="hits">MOD_ARTICLES_OPTION_HITS_VALUE</option>
 					<option value="rating_count" requires="vote">MOD_ARTICLES_OPTION_VOTE_VALUE</option>
 					<option value="rating" requires="vote">MOD_ARTICLES_OPTION_RATING_VALUE</option>
 				</field>
