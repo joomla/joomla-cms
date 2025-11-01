@@ -185,7 +185,7 @@ Joomla.checkDbCredentials = function() {
 
   // Remove specific error messages when password issues are fixed
   if (document.getElementById('jform_admin_password')) {
-    document.getElementById('jform_admin_password').addEventListener('input', function(e) {
+    document.getElementById('jform_admin_password').addEventListener('blur', function(e) {
       const value = e.target.value;
       const hasSpaces = value.indexOf(' ') !== -1;
       const isLongEnough = value.length >= 12;
@@ -238,7 +238,7 @@ Joomla.checkDbCredentials = function() {
   }
 
   if (document.getElementById('step2')) {
-    document.getElementById('step2').addEventListener('click', function(e) {
+    document.getElementById('step2').addEventListener('blur', function(e) {
       e.preventDefault();
 
       // Check admin password length and spaces
