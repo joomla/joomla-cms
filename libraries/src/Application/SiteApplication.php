@@ -570,12 +570,6 @@ final class SiteApplication extends CMSApplication
             $user->groups   = [$guestUsergroup];
         }
 
-        if ($plugin = PluginHelper::getPlugin('system', 'languagefilter')) {
-            $pluginParams = new Registry($plugin->params);
-            $this->setLanguageFilter(true);
-            $this->setDetectBrowser($pluginParams->get('detect_browser', 1) == 1);
-        }
-
         if (empty($options['language'])) {
             // Detect the specified language
             $lang = $this->input->getString('language', null);
@@ -813,7 +807,7 @@ final class SiteApplication extends CMSApplication
             new AfterRouteEvent('onAfterRoute', ['subject' => $this])
         );
 
-        $Itemid = $this->input->getInt('Itemid', null);
+        $Itemid = $this->input->getInt('Itemid', 0);
         $this->authorise($Itemid);
     }
 

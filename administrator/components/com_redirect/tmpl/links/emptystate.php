@@ -25,6 +25,8 @@ $displayData = [
     'formURL'    => 'index.php?option=com_redirect&view=links',
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help5.x:Redirects:_Links',
     'icon'       => 'icon-map-signs redirect',
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
 $app  = Factory::getApplication();

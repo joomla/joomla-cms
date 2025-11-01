@@ -123,7 +123,7 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
         $app   = Factory::getApplication();
         $lang  = $app->getLanguage();
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query
             ->select($db->quoteName(['u.email', 'l.extensions']))
@@ -163,7 +163,8 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
             $m              = [];
             $m['extension'] = Text::_($extension);
             $m['message']   = ActionlogsHelper::getHumanReadableLogMessage($message);
-            $m['date']      = HTMLHelper::_('date', $message->log_date, 'Y-m-d H:i:s T', 'UTC');
+            $tzOffset       = Factory::getApplication()->get('offset');
+            $m['date']      = HTMLHelper::_('date', $message->log_date, 'Y-m-d H:i:s T', $tzOffset);
             $m['username']  = $username;
             $temp[]         = $m;
 
