@@ -95,6 +95,7 @@ class ArchiveModel extends ArticlesModel
         $app              = Factory::getApplication();
         $catids           = $app->getInput()->get('catid', [], 'array');
         $catids           = array_values(array_diff($catids, ['']));
+        $catids           = array_map('intval', $catids); // temp fix for text; postgres cannot convert space to int at WHERE IN 
 
         $articleOrderDate = $params->get('order_date');
 

@@ -73,6 +73,10 @@ function queryTestDB(joomlaQuery, config) {
         return [result.rows];
       }
 
+      if (!insertItem && result.rows.length === 0) {
+        return result;
+      }
+
       if (!insertItem || result.rows.length === 0) {
         return result.rows;
       }

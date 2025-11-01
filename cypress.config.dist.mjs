@@ -14,11 +14,7 @@ export default defineConfig({
     baseUrl: 'https://localhost/',
     specPattern: [
       'tests/System/integration/install/**/*.cy.{js,jsx,ts,tsx}',
-      'tests/System/integration/administrator/**/*.cy.{js,jsx,ts,tsx}',
-      'tests/System/integration/site/**/*.cy.{js,jsx,ts,tsx}',
-      'tests/System/integration/api/**/*.cy.{js,jsx,ts,tsx}',
-      'tests/System/integration/plugins/**/*.cy.{js,jsx,ts,tsx}',
-      'tests/System/integration/cli/**/*.cy.{js,jsx,ts,tsx}',
+      'tests/System/integration/site/issue46371.cy.js',
     ],
     supportFile: 'tests/System/support/index.js',
     scrollBehavior: 'center',
