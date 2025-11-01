@@ -9,6 +9,6 @@ WHERE JSON_VALID(`params`) = 1
     AND `link` = 'index.php?option=com_content&view=featured';
 
 UPDATE `#__menu`
-SET `link` = REPLACE(`link`, 'catid[0]= ', 'catid[0]=')
+SET `link` = REPLACE(`link`, '&catid[0]= ', '&catid[0]=')
 WHERE `type` = 'component'
-    AND `link` LIKE 'index.php?option=com_content&view=archive%= %';
+    AND `link` LIKE 'index.php?option=com_content&view=archive&catid[0]= %';
