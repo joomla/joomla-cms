@@ -239,6 +239,7 @@ abstract class PluginHelper
             return;
         }
 
+        // @TODO: Starting from 7.0 it should use $dispatcher->addSubscriber($plugin); for plugins which implement SubscriberInterface.
         $plugin->registerListeners();
     }
 
@@ -262,7 +263,7 @@ abstract class PluginHelper
 
         $loader = function () use ($levels) {
             $db    = Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select(
                     $db->quoteName(
                         [

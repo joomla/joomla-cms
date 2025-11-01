@@ -417,7 +417,7 @@ class ComponentAdapter extends InstallerAdapter
         $db = $this->getDatabase();
 
         // Remove the schema version
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__schemas'))
             ->where($db->quoteName('extension_id') . ' = :extension_id')
             ->bind(':extension_id', $extensionId, ParameterType::INTEGER);
@@ -435,7 +435,7 @@ class ComponentAdapter extends InstallerAdapter
         $extensionNameWithWildcard = $extensionName . '.%';
 
         // Remove categories for this component
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__categories'))
             ->where(
                 [
@@ -669,7 +669,7 @@ class ComponentAdapter extends InstallerAdapter
             // Try to delete existing failed records before retrying
             $db = $this->getDatabase();
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('extension_id'))
                 ->from($db->quoteName('#__extensions'))
                 ->where(
@@ -858,7 +858,7 @@ class ComponentAdapter extends InstallerAdapter
             // Try to delete existing failed records before retrying
             $db = $this->getDatabase();
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('extension_id'))
                 ->from($db->quoteName('#__extensions'))
                 ->where(
@@ -938,7 +938,7 @@ class ComponentAdapter extends InstallerAdapter
         $option = $this->element;
 
         // If a component exists with this option in the table within the protected menutype 'main' then we don't need to add menus
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('m.id'),
@@ -1151,7 +1151,7 @@ class ComponentAdapter extends InstallerAdapter
         $table = new Menu($db);
 
         // Get the ids of the menu items
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__menu'))
             ->where(
@@ -1220,7 +1220,7 @@ class ComponentAdapter extends InstallerAdapter
 
         // Update all menu items which contain 'index.php?option=com_extension' or 'index.php?option=com_extension&...'
         // to use the new component id.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__menu'))
             ->set($db->quoteName('component_id') . ' = :componentId')
             ->where($db->quoteName('type') . ' = ' . $db->quote('component'))
@@ -1409,7 +1409,7 @@ class ComponentAdapter extends InstallerAdapter
             $home         = $data['home'];
 
             // The menu item already exists. Delete it and retry instead of throwing an error.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__menu'))
                 ->where(

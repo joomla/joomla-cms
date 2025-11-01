@@ -17,6 +17,7 @@ use Joomla\CMS\Event\Application\AfterInitialiseEvent;
 use Joomla\CMS\Event\Application\AfterRenderEvent;
 use Joomla\CMS\Event\Application\AfterRespondEvent;
 use Joomla\CMS\Event\Application\AfterRouteEvent;
+use Joomla\CMS\Event\Application\BeforeExecuteEvent;
 use Joomla\CMS\Event\Application\BeforeRenderEvent;
 use Joomla\CMS\Event\Application\BeforeRespondEvent;
 use Joomla\CMS\Event\ErrorEvent;
@@ -299,6 +300,21 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $this->sanityCheckSystemVariables();
             $this->setupLogging();
             $this->createExtensionNamespaceMap();
+
+            // Load the behaviour plugins
+            PluginHelper::importPlugin('behaviour', null, true, $this->getDispatcher());
+
+            // Load the system plugins
+            PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
+
+            // Trigger the onBeforeExecute event
+            $this->dispatchEvent(
+                'onBeforeExecute',
+                new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
+            );
+
+            // Mark beforeExecute in the profiler.
+            JDEBUG ? $this->profiler->mark('beforeExecute event dispatched') : null;
 
             // Perform application routines.
             $this->doExecute();
@@ -805,11 +821,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
         $this->set('editor', $editor);
 
-        // Load the behaviour plugins
-        PluginHelper::importPlugin('behaviour', null, true, $this->getDispatcher());
-
         // Trigger the onAfterInitialise event.
-        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
         $this->dispatchEvent(
             'onAfterInitialise',
             new AfterInitialiseEvent('onAfterInitialise', ['subject' => $this])

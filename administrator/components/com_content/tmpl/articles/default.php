@@ -52,7 +52,8 @@ if (strpos($listOrder, 'publish_up') !== false) {
 }
 
 if ($saveOrder && !empty($this->items)) {
-    $saveOrderingUrl = 'index.php?option=com_content&task=articles.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
+    $controller = $featured === '1' ? 'featured' : 'articles';
+    $saveOrderingUrl = 'index.php?option=com_content&task=' . $controller . '.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
     HTMLHelper::_('draggablelist.draggable');
 }
 
@@ -154,7 +155,7 @@ $assoc = Associations::isEnabled();
                             </tr>
                         </thead>
                         <tbody<?php if ($saveOrder) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php
+                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>"<?php echo $featured === '1' ? '' : ' data-nested="true"'; ?><?php
                               endif; ?>>
                         <?php foreach ($this->items as $i => $item) :
                             $item->max_ordering = 0;
@@ -192,7 +193,7 @@ $assoc = Associations::isEnabled();
                             }
 
                             ?>
-                            <tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->catid; ?>"
+                            <tr class="row<?php echo $i % 2; ?>"<?php echo $featured === '1' ? '' : ' data-draggable-group="' . $item->catid; ?>
                                 <?php echo $dataTransitionsAttribute ?? '' ?>
                             >
                                 <td class="text-center">

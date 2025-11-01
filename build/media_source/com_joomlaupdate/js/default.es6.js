@@ -182,7 +182,6 @@ Joomla = window.Joomla || {};
    * Called by document ready, setup below.
    */
   PreUpdateChecker.run = () => {
-    // eslint-disable-next-line no-undef
     PreUpdateChecker.nonCoreCriticalPlugins = Joomla.getOptions('nonCoreCriticalPlugins', []);
 
     // Grab all extensions based on the selector set in the config object
@@ -514,7 +513,6 @@ Joomla = window.Joomla || {};
     // Process the nonCoreCriticalPlugin list
     if (extensionData.compatibilityData.resultGroup === 3) {
       PreUpdateChecker.nonCoreCriticalPlugins = PreUpdateChecker.nonCoreCriticalPlugins
-        // eslint-disable-next-line max-len
         .filter((ext) => !(ext.package_id.toString() === extensionId || ext.extension_id.toString() === extensionId));
     }
 
@@ -549,7 +547,6 @@ Joomla = window.Joomla || {};
           const popoverElement = pluginTitleTableCell.querySelector('.hasPopover');
           if (popoverElement) {
             popoverElement.style.cursor = 'pointer';
-            // eslint-disable-next-line no-new
             new bootstrap.Popover(popoverElement, { placement: 'top', html: true, trigger: 'focus' });
           }
           status = 'danger';
