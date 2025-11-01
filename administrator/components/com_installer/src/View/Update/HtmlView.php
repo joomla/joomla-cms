@@ -13,7 +13,6 @@ namespace Joomla\Component\Installer\Administrator\View\Update;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper as CmsInstallerHelper;
 use Joomla\Component\Installer\Administrator\Model\UpdateModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
@@ -32,7 +31,7 @@ class HtmlView extends InstallerViewDefault
     /**
      * List of update items.
      *
-     * @var array
+     * @var \stdClass[]
      */
     protected $items;
 
@@ -101,11 +100,11 @@ class HtmlView extends InstallerViewDefault
 
         // Find if there are any updates which require but are missing a Download Key
         if (!class_exists('Joomla\Component\Installer\Administrator\Helper\InstallerHelper')) {
-            require_once JPATH_COMPONENT_ADMINISTRATOR . '/Helper/InstallerHelper.php';
+            require_once JPATH_ADMINISTRATOR . '/components/com_installer/src/Helper/InstallerHelper.php';
         }
 
         $mappingCallback = function ($item) {
-            $dlkeyInfo                  = CmsInstallerHelper::getDownloadKey(new CMSObject($item));
+            $dlkeyInfo                  = CmsInstallerHelper::getDownloadKey($item);
             $item->isMissingDownloadKey = $dlkeyInfo['supported'] && !$dlkeyInfo['valid'];
 
             if ($item->isMissingDownloadKey) {
@@ -121,6 +120,11 @@ class HtmlView extends InstallerViewDefault
             $msg = Text::plural('COM_INSTALLER_UPDATE_MISSING_DOWNLOADKEY_LABEL_N', $this->missingDownloadKeys, $url);
             Factory::getApplication()->enqueueMessage($msg, CMSApplication::MSG_WARNING);
         }
+
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
 
         parent::display($tpl);
     }

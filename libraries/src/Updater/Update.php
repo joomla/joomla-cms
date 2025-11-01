@@ -11,7 +11,6 @@ namespace Joomla\CMS\Updater;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
@@ -20,6 +19,7 @@ use Joomla\CMS\Table\Tuf as TufMetadata;
 use Joomla\CMS\TUF\TufFetcher;
 use Joomla\CMS\Version;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Http\HttpFactory;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -562,6 +562,11 @@ class Update
         $constraintChecker = new ConstraintChecker();
 
         foreach ($data['signed']['targets'] as $target) {
+            // Check if this target is older than the currently installed version
+            if (version_compare($target['custom']['version'], JVERSION, '<')) {
+                continue;
+            }
+
             // Check if this target is newer than the current version
             if (isset($this->latest) && version_compare($target['custom']['version'], $this->latest->version, '<')) {
                 continue;
@@ -607,6 +612,19 @@ class Update
 
         // If the latest item is set then we transfer it to where we want to
         if (isset($this->latest)) {
+            // Set generic variables from latest update
+            foreach (get_object_vars($this->latest) as $key => $val) {
+                $this->$key = (object) ['_data' => $val];
+            }
+
+            // Convert infourl into legacy data structure
+            if (!empty($this->latest->infourl) && \is_array($this->latest->infourl)) {
+                $this->infourl = (object) [
+                    '_data' => $this->latest->infourl["url"],
+                    'title' => $this->latest->infourl["title"],
+                ];
+            }
+
             foreach ($this->downloadSources as $source) {
                 $this->downloadurl = (object) [
                     '_data'  => $source->url,
@@ -640,13 +658,13 @@ class Update
         $httpOption->set('userAgent', $version->getUserAgent('Joomla', true, false));
 
         try {
-            $http     = HttpFactory::getHttp($httpOption);
+            $http     = (new HttpFactory())->getHttp($httpOption);
             $response = $http->get($url);
         } catch (\RuntimeException) {
             $response = null;
         }
 
-        if ($response === null || $response->code !== 200) {
+        if ($response === null || $response->getStatusCode() !== 200) {
             // @todo: Add a 'mark bad' setting here somehow
             Log::add(Text::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), Log::WARNING, 'jerror');
 
@@ -660,7 +678,7 @@ class Update
         xml_set_element_handler($this->xmlParser, [$this, '_startElement'], [$this, '_endElement']);
         xml_set_character_data_handler($this->xmlParser, [$this, '_characterData']);
 
-        if (!xml_parse($this->xmlParser, $response->body)) {
+        if (!xml_parse($this->xmlParser, (string) $response->getBody())) {
             Log::add(
                 \sprintf(
                     'XML error: %s at line %d',
@@ -673,8 +691,6 @@ class Update
 
             return false;
         }
-
-        xml_parser_free($this->xmlParser);
 
         return true;
     }

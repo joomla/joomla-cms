@@ -58,7 +58,7 @@ trait UserDeletion
             $repository = $this->authenticationHelper->getCredentialsRepository();
             $userHandle = $repository->getHandleFromUserId($userId);
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__webauthn_credentials'))
                 ->where($db->quoteName('user_id') . ' = :userHandle')
                 ->bind(':userHandle', $userHandle);

@@ -1,7 +1,7 @@
 // Form
 
 .form-control {
-  max-width: $input-max-width;
+  max-inline-size: $input-max-width;
   background: $form-control-bg;
   border: $form-control-border;
 
@@ -61,18 +61,18 @@
   }
 
   .control-label {
-    width: 240px;
+    inline-size: 240px;
     padding: .3rem 1rem .3rem 0;
   }
 
   .controls {
     position: relative;
     flex: 1;
-    min-width: 210px;
-    max-width: 100%;
+    min-inline-size: 210px;
+    max-inline-size: 100%;
 
     + div {
-      width: 100%;
+      inline-size: 100%;
       margin: 5px 0 10px;
     }
   }
@@ -83,36 +83,36 @@
 }
 
 .stack .control-label {
-  width: 100%;
+  inline-size: 100%;
 }
 
 .spacer {
   hr {
-    width: 380px;
+    inline-size: 380px;
   }
 }
 
 td .form-control {
   display: inline-block;
-  width: auto;
+  inline-size: auto;
 }
 
 .checkboxes {
-  padding-top: 5px;
+  padding-block-start: 5px;
 
   .checkbox input {
     position: static;
-    margin-left: 0;
+    margin-inline-start: 0;
   }
 }
 
 .form-check {
-  padding-top: 5px;
-  margin-bottom: 0;
+  padding-block-start: 5px;
+  margin-block-end: 0;
 }
 
 .modal label {
-  width: 100%;
+  inline-size: 100%;
 }
 
 // Validation
@@ -161,20 +161,23 @@ label.valid {
 :hover + [role="tooltip"] {
   position: absolute;
   display: block;
+  max-inline-size: 100%;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 .filter-search-bar__description {
-  top: 100%;
-  bottom: auto;
+  inset-block-start: 100%;
+  inset-block-end: auto;
 }
 
 .container-popup .filter-search-bar__description {
-  top: 100%;
-  bottom: auto;
+  inset-block-start: 100%;
+  inset-block-end: auto;
 }
 
 .input-group > .form-control[readonly] {
-  margin-right: 1px;
+  margin-inline-end: 1px;
 }
 
 .form-group {
@@ -185,7 +188,7 @@ label.valid {
 div.subform-repeatable-group {
   position: relative;
   padding: 32px 32px 16px 28px;
-  margin-top: 20px;
+  margin-block-start: 20px;
   border: $input-border-width solid $input-border-color;
   @include border-radius($border-radius);
 
@@ -199,18 +202,18 @@ div.subform-repeatable-group {
       position: absolute;
 
       &.group-add {
-        right: -1px;
-        bottom: -1px;
+        inset-inline-end: -1px;
+        inset-block-end: -1px;
         border-radius: $border-radius 0 $border-radius 0;
       }
       &.group-remove {
-        top: -1px;
-        right: -1px;
-        border-radius: 0 $border-radius 0 $border-radius;
+        inset-block-start: -1px;
+        inset-inline-end: -1px;
+        border-radius: 0 $border-radius;
       }
       &.group-move {
-        top: 50%;
-        right: 100%;
+        inset-block-start: 50%;
+        inset-inline-end: 100%;
         padding: 0;
         border-radius: $border-radius 0 0 $border-radius;
         transform: translateY(-50%);
@@ -220,16 +223,16 @@ div.subform-repeatable-group {
         }
       }
       &.group-move-up {
-        top: 50%;
-        right: 100%;
-        margin-top: -45px;
+        inset-block-start: 50%;
+        inset-inline-end: 100%;
+        margin-block-start: -45px;
         border-radius: 0;
         transform: translateY(-50%);
       }
       &.group-move-down {
-        top: 50%;
-        right: 100%;
-        margin-top: 45px;
+        inset-block-start: 50%;
+        inset-inline-end: 100%;
+        margin-block-start: 45px;
         border-radius: 0;
         transform: translateY(-50%);
       }

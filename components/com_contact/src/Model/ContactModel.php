@@ -180,7 +180,7 @@ class ContactModel extends FormModel
         if (!isset($this->_item[$pk])) {
             try {
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
 
                 $query->select($this->getState('item.select', 'a.*'))
                     ->select($this->getSlugColumn($query, 'a.id', 'a.alias') . ' AS slug')
@@ -300,7 +300,7 @@ class ContactModel extends FormModel
         $user      = $this->getCurrentUser();
         $groups    = $user->getAuthorisedViewLevels();
         $published = $this->getState('filter.published');
-        $query     = $db->getQuery(true);
+        $query     = $db->createQuery();
 
         // If we are showing a contact list, then the contact parameters take priority
         // So merge the contact parameters with the merged parameters
@@ -403,9 +403,9 @@ class ContactModel extends FormModel
         return 'CASE WHEN '
             . $query->charLength($alias, '!=', '0')
             . ' THEN '
-            . $query->concatenate([$query->castAsChar($id), $alias], ':')
+            . $query->concatenate([$query->castAs('CHAR', $id), $alias], ':')
             . ' ELSE '
-            . $query->castAsChar($id) . ' END';
+            . $query->castAs('CHAR', $id) . ' END';
     }
 
     /**

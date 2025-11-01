@@ -19,6 +19,8 @@ $displayData = [
     'formURL'    => 'index.php?option=com_newsfeeds&view=newsfeeds',
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help5.x:News_Feeds',
     'icon'       => 'icon-rss newsfeeds',
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
 $user = $this->getCurrentUser();

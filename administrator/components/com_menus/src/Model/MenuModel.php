@@ -14,7 +14,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
@@ -121,7 +120,7 @@ class MenuModel extends AdminModel
      *
      * @param   integer  $itemId  The id of the menu item to get.
      *
-     * @return  mixed  Menu item data object on success, false on failure.
+     * @return  \stdClass|false  Menu item data object on success, false on failure.
      *
      * @since   1.6
      */
@@ -143,7 +142,7 @@ class MenuModel extends AdminModel
         }
 
         $properties = $table->getProperties(1);
-        $value      = ArrayHelper::toObject($properties, CMSObject::class);
+        $value      = ArrayHelper::toObject($properties);
 
         return $value;
     }
@@ -342,7 +341,7 @@ class MenuModel extends AdminModel
     {
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('a.id'),
@@ -364,7 +363,7 @@ class MenuModel extends AdminModel
         foreach ($modules as &$module) {
             $params = new Registry($module->params);
 
-            $menuType = $params->get('menutype');
+            $menuType = $params->get('menutype', '');
 
             if (!isset($result[$menuType])) {
                 $result[$menuType] = [];
@@ -388,7 +387,7 @@ class MenuModel extends AdminModel
     public function getExtensionElementsForMenuItems(array $itemIds): array
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query
             ->select($db->quoteName('e.element'))
@@ -402,15 +401,13 @@ class MenuModel extends AdminModel
     /**
      * Custom clean the cache
      *
-     * @param   string   $group     Cache group name.
-     * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              @deprecated   4.3 will be removed in 6.0
+     * @param  string  $group  Cache group name.
      *
      * @return  void
      *
      * @since   1.6
      */
-    protected function cleanCache($group = null, $clientId = 0)
+    protected function cleanCache($group = null)
     {
         parent::cleanCache('com_menus');
         parent::cleanCache('com_modules');

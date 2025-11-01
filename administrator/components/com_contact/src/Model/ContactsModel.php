@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Category;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
@@ -146,7 +146,7 @@ class ContactsModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $user  = $this->getCurrentUser();
 
         // Select the required fields from the table.
@@ -208,7 +208,7 @@ class ContactsModel extends ListModel
 
         // Join over the associations.
         if (Associations::isEnabled()) {
-            $subQuery = $db->getQuery(true)
+            $subQuery = $db->createQuery()
                 ->select('COUNT(' . $db->quoteName('asso1.id') . ') > 1')
                 ->from($db->quoteName('#__associations', 'asso1'))
                 ->join('INNER', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
@@ -283,9 +283,15 @@ class ContactsModel extends ListModel
         }
 
         if ($tag && \is_array($tag)) {
-            $tag = ArrayHelper::toInteger($tag);
+            $tag         = ArrayHelper::toInteger($tag);
+            $includeNone = false;
 
-            $subQuery = $db->getQuery(true)
+            if (\in_array(0, $tag)) {
+                $tag         = array_filter($tag);
+                $includeNone = true;
+            }
+
+            $subQuery = $db->createQuery()
                 ->select('DISTINCT ' . $db->quoteName('content_item_id'))
                 ->from($db->quoteName('#__contentitem_tag_map'))
                 ->where(
@@ -296,16 +302,48 @@ class ContactsModel extends ListModel
                 );
 
             $query->join(
-                'INNER',
+                $includeNone ? 'LEFT' : 'INNER',
                 '(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
                 $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
             );
-        } elseif ($tag = (int) $tag) {
-            $query->join(
-                'INNER',
-                $db->quoteName('#__contentitem_tag_map', 'tagmap'),
-                $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-            )
+
+            if ($includeNone) {
+                $subQuery2 = $db->createQuery()
+                    ->select('DISTINCT ' . $db->quoteName('content_item_id'))
+                    ->from($db->quoteName('#__contentitem_tag_map'))
+                    ->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_contact.contact'));
+                $query->join(
+                    'LEFT',
+                    '(' . $subQuery2 . ') AS ' . $db->quoteName('tagmap2'),
+                    $db->quoteName('tagmap2.content_item_id') . ' = ' . $db->quoteName('a.id')
+                )
+                ->where(
+                    '(' . $db->quoteName('tagmap.content_item_id') . ' IS NOT NULL OR '
+                    . $db->quoteName('tagmap2.content_item_id') . ' IS NULL)'
+                );
+            }
+        } elseif (is_numeric($tag)) {
+            $tag = (int) $tag;
+
+            if ($tag === 0) {
+                $subQuery = $db->createQuery()
+                    ->select('DISTINCT ' . $db->quoteName('content_item_id'))
+                    ->from($db->quoteName('#__contentitem_tag_map'))
+                    ->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_contact.contact'));
+
+                // Only show contacts without tags
+                $query->join(
+                    'LEFT',
+                    '(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
+                    $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+                )
+                ->where($db->quoteName('tagmap.content_item_id') . ' IS NULL');
+            } else {
+                $query->join(
+                    'INNER',
+                    $db->quoteName('#__contentitem_tag_map', 'tagmap'),
+                    $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+                )
                 ->where(
                     [
                         $db->quoteName('tagmap.tag_id') . ' = :tag',
@@ -313,6 +351,7 @@ class ContactsModel extends ListModel
                     ]
                 )
                 ->bind(':tag', $tag, ParameterType::INTEGER);
+            }
         }
 
         // Filter by categories and by level
@@ -326,7 +365,7 @@ class ContactsModel extends ListModel
         // Case: Using both categories filter and by level filter
         if (\count($categoryId)) {
             $categoryId       = ArrayHelper::toInteger($categoryId);
-            $categoryTable    = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\');
+            $categoryTable    = new Category($db);
             $subCatItemsWhere = [];
 
             // @todo: Convert to prepared statement
