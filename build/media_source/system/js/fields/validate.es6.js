@@ -2,9 +2,6 @@
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-'use strict';
-
 import punycode from 'punycode';
 
 class JFormValidator {
@@ -62,7 +59,6 @@ class JFormValidator {
     };
   }
 
-  // eslint-disable-next-line class-methods-use-this
   markValid(element) {
     // Get a label
     const label = element.form.querySelector(`label[for="${element.id}"]`);
@@ -91,7 +87,6 @@ class JFormValidator {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
   markInvalid(element, empty) {
     // Get a label
     const label = element.form.querySelector(`label[for="${element.id}"]`);
@@ -132,7 +127,6 @@ class JFormValidator {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
   removeMarking(element) {
     // Get the associated label
     let message;
@@ -259,7 +253,7 @@ class JFormValidator {
 
     // Run custom form validators if present
     if (Object.keys(this.customValidators).length) {
-      Object.keys(this.customValidators).foreach((key) => {
+      Object.keys(this.customValidators).forEach((key) => {
         if (this.customValidators[key].exec() !== true) {
           valid = false;
         }
@@ -317,14 +311,7 @@ class JFormValidator {
   }
 }
 
-const initialize = () => {
-  document.formvalidator = new JFormValidator();
-
-  // Cleanup
-  document.removeEventListener('DOMContentLoaded', initialize);
-};
-
-document.addEventListener('DOMContentLoaded', initialize);
+document.formvalidator = new JFormValidator();
 
 /**
  * Expose the classes to the global scope

@@ -43,10 +43,10 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 
         // Article frontpage Editor pagebreak proxying:
         if ($this->input->get('view') === 'article' && $this->input->get('layout') === 'pagebreak') {
-            $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
+            $config['base_path'] = JPATH_ADMINISTRATOR . '/components/com_content';
         } elseif ($this->input->get('view') === 'articles' && $this->input->get('layout') === 'modal') {
             // Article frontpage Editor article proxying:
-            $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
+            $config['base_path'] = JPATH_ADMINISTRATOR . '/components/com_content';
         }
 
         parent::__construct($config, $factory, $app, $input);

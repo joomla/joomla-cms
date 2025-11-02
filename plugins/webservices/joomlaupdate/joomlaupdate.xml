@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="webservices" method="upgrade">
+	<name>plg_webservices_joomlaupdate</name>
+	<author>Joomla! Project</author>
+	<creationDate>2025-03</creationDate>
+	<copyright>(C) 2025 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>5.4.0</version>
+	<description>PLG_WEBSERVICES_JOOMLAUPDATE_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\WebServices\Joomlaupdate</namespace>
+	<files>
+		<folder plugin="joomlaupdate">services</folder>
+		<folder>src</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_webservices_joomlaupdate.ini</language>
+		<language tag="en-GB">language/en-GB/plg_webservices_joomlaupdate.sys.ini</language>
+	</languages>
+</extension>

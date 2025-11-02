@@ -344,7 +344,7 @@ class FtpClient
      */
     public function isConnected()
     {
-        return ($this->_conn);
+        return $this->_conn;
     }
 
     /**
@@ -479,9 +479,9 @@ class FtpClient
         }
 
         // Match the system string to an OS
-        if (strpos(strtoupper($ret), 'MAC') !== false) {
+        if (str_contains(strtoupper($ret), 'MAC')) {
             $ret = 'MAC';
-        } elseif (strpos(strtoupper($ret), 'WIN') !== false) {
+        } elseif (str_contains(strtoupper($ret), 'WIN')) {
             $ret = 'WIN';
         } else {
             $ret = 'UNIX';
@@ -1423,7 +1423,7 @@ class FtpClient
             }
 
             // Request the file listing
-            if (!$this->_putCmd(($recurse == true) ? 'LIST -R' : 'LIST' . $path, [150, 125])) {
+            if (!$this->_putCmd($recurse ? 'LIST -R' : 'LIST' . $path, [150, 125])) {
                 Log::add(Text::sprintf('JLIB_CLIENT_ERROR_FTP_NOT_EXPECTED_RESPONSE_150_125', __METHOD__, $this->_response, $path), Log::WARNING, 'jerror');
                 @ fclose($this->_dataconn);
 

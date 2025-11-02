@@ -13,10 +13,10 @@ namespace Joomla\Component\Languages\Administrator\View\Language;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Languages\Administrator\Model\LanguageModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -68,15 +68,14 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->item  = $this->get('Item');
-        $this->form  = $this->get('Form');
-        $this->state = $this->get('State');
-        $this->canDo = ContentHelper::getActions('com_languages');
+        /** @var LanguageModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-        // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        $this->item  = $model->getItem();
+        $this->form  = $model->getForm();
+        $this->state = $model->getState();
+        $this->canDo = ContentHelper::getActions('com_languages');
 
         $this->addToolbar();
         parent::display($tpl);

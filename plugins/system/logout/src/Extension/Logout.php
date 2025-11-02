@@ -12,8 +12,9 @@ namespace Joomla\Plugin\System\Logout\Extension;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Event\User\LogoutEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Event\DispatcherInterface;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -24,18 +25,17 @@ use Joomla\Event\DispatcherInterface;
  *
  * @since  1.6
  */
-final class Logout extends CMSPlugin
+final class Logout extends CMSPlugin implements SubscriberInterface
 {
     /**
-     * @param   DispatcherInterface      $dispatcher  The object to observe -- event dispatcher.
      * @param   array                    $config      An optional associative array of configuration settings.
      * @param   CMSApplicationInterface  $app         The object to observe -- event dispatcher.
      *
      * @since   1.6
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, CMSApplicationInterface $app)
+    public function __construct(array $config, CMSApplicationInterface $app)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->setApplication($app);
 
@@ -51,38 +51,53 @@ final class Logout extends CMSPlugin
             $this->getApplication()->getInput()->cookie->set(
                 $hash,
                 '',
-                1,
-                $this->getApplication()->get('cookie_path', '/'),
-                $this->getApplication()->get('cookie_domain', '')
+                [
+                    'expires' => 1,
+                    'path'    => $this->getApplication()->get('cookie_path', '/'),
+                    'domain'  => $this->getApplication()->get('cookie_domain', ''),
+                ]
             );
         }
     }
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   5.3.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onUserLogout' => 'onUserLogout',
+        ];
+    }
+
+    /**
      * Method to handle any logout logic and report back to the subject.
      *
-     * @param   array  $user     Holds the user data.
-     * @param   array  $options  Array holding options (client, ...).
+     * @param   LogoutEvent $event  The event instance.
      *
-     * @return  boolean  Always returns true.
+     * @return  void
      *
      * @since   1.6
      */
-    public function onUserLogout($user, $options = [])
+    public function onUserLogout(LogoutEvent $event): void
     {
         if ($this->getApplication()->isClient('site')) {
             // Create the cookie.
             $this->getApplication()->getInput()->cookie->set(
                 ApplicationHelper::getHash('PlgSystemLogout'),
                 true,
-                time() + 86400,
-                $this->getApplication()->get('cookie_path', '/'),
-                $this->getApplication()->get('cookie_domain', ''),
-                $this->getApplication()->isHttpsForced(),
-                true
+                [
+                    'expires'  => time() + 86400,
+                    'path'     => $this->getApplication()->get('cookie_path', '/'),
+                    'domain'   => $this->getApplication()->get('cookie_domain', ''),
+                    'secure'   => $this->getApplication()->isHttpsForced(),
+                    'httponly' => true,
+                ]
             );
         }
-
-        return true;
     }
 }
