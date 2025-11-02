@@ -10,11 +10,13 @@
 
 namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Media\Administrator\Exception\ProviderAccountNotFoundException;
 use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
 use Joomla\Registry\Registry;
 
@@ -164,7 +166,7 @@ trait DisplayTrait
 
                 // if we have a name and path, add it to the list
                 if ($external['name'] != '' && $path != '') {
-                    $externalPlugins[$external['name']] = substr($path, 0, 1) == '/' ? Uri::root() . substr($path, 1) : $path;
+                    $externalPlugins[$external['name']] = str_starts_with($path, '/') ? Uri::root() . substr($path, 1) : $path;
                 }
             }
         }
@@ -205,7 +207,7 @@ trait DisplayTrait
              * If URL, just pass it to $content_css
              * else, assume it is a file name in the current template folder
              */
-            $content_css = strpos($content_css_custom, 'http') !== false
+            $content_css = str_contains($content_css_custom, 'http')
                 ? $content_css_custom
                 : $this->includeRelativeFiles('css', $content_css_custom);
         } else {
@@ -327,7 +329,7 @@ trait DisplayTrait
             $wa->useScript('plg_editors_tinymce.jdragndrop');
             $plugins[]  = 'jdragndrop';
             $uploadUrl  = Uri::base(true) . '/index.php?option=com_media&format=json&url=1&task=api.files';
-            $uploadPath = $levelParams->get('path', '');
+            $uploadPath = $levelParams->get('path', ComponentHelper::getParams('com_media')->get('image_path', 'images'));
 
             // Make sure the path is full, and contain the media adapter in it.
             $mediaHelper = new class () {
@@ -335,6 +337,21 @@ trait DisplayTrait
 
                 public function prepareTinyMCEUploadPath(string $path): string
                 {
+                    // Check for the path includes the adapter
+                    if (!str_contains($path, ':')) {
+                        try {
+                            /*
+                             * We got old folder name without adapter eg "images".
+                             * Look whether the adapter exists for this folder, otherwise everything will fallback to default.
+                             */
+                            $this->getAdapter('local-' . $path);
+                            // Adapter exists, update the path
+                            $path = 'local-' . $path . ':/';
+                        } catch (ProviderAccountNotFoundException) {
+                            // Nothing found
+                        }
+                    }
+
                     $result = $this->resolveAdapterAndPath($path);
 
                     return implode(':', $result);
@@ -383,11 +400,11 @@ trait DisplayTrait
         $custom_button = trim($levelParams->get('custom_button', ''));
 
         if ($custom_plugin) {
-            $plugins   = array_merge($plugins, explode(strpos($custom_plugin, ',') !== false ? ',' : ' ', $custom_plugin));
+            $plugins   = array_merge($plugins, explode(str_contains($custom_plugin, ',') ? ',' : ' ', $custom_plugin));
         }
 
         if ($custom_button) {
-            $toolbar1  = array_merge($toolbar1, explode(strpos($custom_button, ',') !== false ? ',' : ' ', $custom_button));
+            $toolbar1  = array_merge($toolbar1, explode(str_contains($custom_button, ',') ? ',' : ' ', $custom_button));
         }
 
         // Merge the two toolbars for backwards compatibility

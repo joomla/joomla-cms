@@ -11,10 +11,12 @@
 namespace Joomla\Plugin\System\Highlight\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Application\AfterDispatchEvent;
+use Joomla\CMS\Event\Finder\ResultEvent;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Component\Finder\Administrator\Indexer\Result;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -25,8 +27,23 @@ use Joomla\Component\Finder\Administrator\Indexer\Result;
  *
  * @since  2.5
  */
-final class Highlight extends CMSPlugin
+final class Highlight extends CMSPlugin implements SubscriberInterface
 {
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   5.3.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onAfterDispatch' => 'onAfterDispatch',
+            'onFinderResult'  => 'onFinderResult',
+        ];
+    }
+
     /**
      * Method to catch the onAfterDispatch event.
      *
@@ -34,19 +51,21 @@ final class Highlight extends CMSPlugin
      * The highlighting is done with JavaScript so we just
      * need to check a few parameters and the JHtml behavior will do the rest.
      *
+     * @param  AfterDispatchEvent $event  The event object
+     *
      * @return  void
      *
      * @since   2.5
      */
-    public function onAfterDispatch()
+    public function onAfterDispatch(AfterDispatchEvent $event): void
     {
         // Check that we are in the site application.
-        if (!$this->getApplication()->isClient('site')) {
+        if (!$event->getApplication()->isClient('site')) {
             return;
         }
 
         // Set the variables.
-        $input     = $this->getApplication()->getInput();
+        $input     = $event->getApplication()->getInput();
         $extension = $input->get('option', '', 'cmd');
 
         // Check if the highlighter is enabled.
@@ -55,7 +74,7 @@ final class Highlight extends CMSPlugin
         }
 
         // Check if the highlighter should be activated in this environment.
-        if ($input->get('tmpl', '', 'cmd') === 'component' || $this->getApplication()->getDocument()->getType() !== 'html') {
+        if ($input->get('tmpl', '', 'cmd') === 'component' || $event->getApplication()->getDocument()->getType() !== 'html') {
             return;
         }
 
@@ -78,7 +97,7 @@ final class Highlight extends CMSPlugin
         }
 
         /** @var \Joomla\CMS\Document\HtmlDocument $doc */
-        $doc = $this->getApplication()->getDocument();
+        $doc = $event->getApplication()->getDocument();
 
         // Activate the highlighter.
         if (!empty($cleanTerms)) {
@@ -101,20 +120,22 @@ final class Highlight extends CMSPlugin
     /**
      * Method to catch the onFinderResult event.
      *
-     * @param   Result  $item   The search result
-     * @param   object  $query  The search query of this result
+     * @param  ResultEvent $event  The event object
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function onFinderResult($item, $query)
+    public function onFinderResult(ResultEvent $event): void
     {
         static $params;
 
         if (\is_null($params)) {
             $params = ComponentHelper::getParams('com_finder');
         }
+
+        $item  = $event->getItem();
+        $query = $event->getQuery();
 
         // Get the route with highlighting information.
         if (

@@ -156,7 +156,7 @@ trait ExtensionManagerTrait
                     $container->set($type, new Module(new ModuleDispatcherFactory(''), new HelperFactory('')));
                     break;
                 case PluginInterface::class:
-                    list($pluginName, $pluginType) = explode(':', $extensionName);
+                    [$pluginName, $pluginType] = explode(':', $extensionName);
                     $container->set($type, $this->loadPluginFromFilesystem($pluginName, $pluginType));
             }
         }

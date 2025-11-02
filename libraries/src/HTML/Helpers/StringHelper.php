@@ -40,7 +40,7 @@ abstract class StringHelper
      */
     public static function truncate($text, $length = 0, $noSplit = true, $allowHtml = true)
     {
-        // Assume a lone open tag is invalid HTML.
+        // Assume a lone open tag is invalid HTML
         if ($length === 1 && $text[0] === '<') {
             return '...';
         }
@@ -67,7 +67,7 @@ abstract class StringHelper
         if ($length > 0 && FrameworkStringHelper::strlen($text) > $length) {
             $tmp = trim(FrameworkStringHelper::substr($text, 0, $length));
 
-            if ($tmp[0] === '<' && strpos($tmp, '>') === false) {
+            if ($tmp[0] === '<' && !str_contains($tmp, '>')) {
                 return '...';
             }
 
@@ -156,89 +156,84 @@ abstract class StringHelper
      */
     public static function truncateComplex($html, $maxLength = 0, $noSplit = true)
     {
-        // Start with some basic rules.
         $baseLength = \strlen($html);
 
-        // If the original HTML string is shorter than the $maxLength do nothing and return that.
-        if ($baseLength <= $maxLength || $maxLength === 0) {
+        // Early return for trivial cases
+        if ($maxLength === 0 || $baseLength <= $maxLength) {
             return $html;
         }
 
-        // Take care of short simple cases.
-        if ($maxLength <= 3 && $html[0] !== '<' && strpos(substr($html, 0, $maxLength - 1), '<') === false && $baseLength > $maxLength) {
+        // Special case: very short cutoff, plain text.
+        if ($maxLength <= 3 && $html[0] !== '<' && !str_contains(substr($html, 0, max(0, $maxLength - 1)), '<')) {
             return '...';
         }
 
-        // Deal with maximum length of 1 where the string starts with a tag.
+        // Special case: string starts with a tag and maxLength is 1
         if ($maxLength === 1 && $html[0] === '<') {
-            $endTagPos = \strlen(strstr($html, '>', true));
-            $tag       = substr($html, 1, $endTagPos);
-
-            $l = $endTagPos + 1;
-
-            if ($noSplit) {
-                return substr($html, 0, $l) . '</' . $tag . '...';
+            $endTagPos = strpos($html, '>');
+            if ($endTagPos === false) {
+                return '...';
             }
-
-            // @todo: $character doesn't seem to be used...
-            $character = substr(strip_tags($html), 0, 1);
-
-            return substr($html, 0, $l) . '</' . $tag . '...';
+            $tag = substr($html, 1, $endTagPos - 1);
+            return substr($html, 0, $endTagPos + 1) . "</$tag>...";
         }
 
-        // First get the truncated plain text string. This is the rendered text we want to end up with.
-        $ptString = HTMLHelper::_('string.truncate', $html, $maxLength, $noSplit, $allowHtml = false);
+        // Get a plain text truncated string
+        $ptString = HTMLHelper::_('string.truncate', $html, $maxLength, $noSplit, false);
 
-        // It's all HTML, just return it.
         if ($ptString === '') {
             return $html;
         }
-
-        // If the plain text is shorter than the max length the variable will not end in ...
-        // In that case we use the whole string.
-        if (substr($ptString, -3) !== '...') {
+        if (!str_ends_with($ptString, '...')) {
             return $html;
         }
-
-        // Regular truncate gives us the ellipsis but we want to go back for text and tags.
         if ($ptString === '...') {
             $stripped = substr(strip_tags($html), 0, $maxLength);
-            $ptString = HTMLHelper::_('string.truncate', $stripped, $maxLength, $noSplit, $allowHtml = false);
+            $ptString = HTMLHelper::_('string.truncate', $stripped, $maxLength, $noSplit, false);
         }
-
-        // We need to trim the ellipsis that truncate adds.
         $ptString = rtrim($ptString, '.');
 
-        // Now deal with more complex truncation.
         while ($maxLength <= $baseLength) {
-            // Get the truncated string assuming HTML is allowed.
-            $htmlString = HTMLHelper::_('string.truncate', $html, $maxLength, $noSplit, $allowHtml = true);
+            $htmlString = HTMLHelper::_('string.truncate', $html, $maxLength, $noSplit, true);
 
             if ($htmlString === '...' && \strlen($ptString) + 3 > $maxLength) {
-                return $htmlString;
+                return '...';
             }
 
             $htmlString = rtrim($htmlString, '.');
 
-            // Now get the plain text from the HTML string and trim it.
-            $htmlStringToPtString = HTMLHelper::_('string.truncate', $htmlString, $maxLength, $noSplit, $allowHtml = false);
+            // Get the plain text version of the truncated HTML string
+            $htmlStringToPtString = HTMLHelper::_('string.truncate', $htmlString, $maxLength, $noSplit, false);
             $htmlStringToPtString = rtrim($htmlStringToPtString, '.');
 
-            // If the new plain text string matches the original plain text string we are done.
+            // If plain text matches, we're done
             if ($ptString === $htmlStringToPtString) {
+                // Remove whitespace, non-breaking spaces, and trailing tags before the ellipsis
+                $htmlString = preg_replace('/(&nbsp;|\s)+(<\/[^>]+>)?$/u', '', $htmlString);
+
+                // If it ends with a closing tag, try to inject the ellipsis before the last closing tag
+                if (preg_match('/(<\/[^>]+>)$/', $htmlString, $matches)) {
+                    return preg_replace('/(<\/[^>]+>)$/', '...$1', $htmlString);
+                }
                 return $htmlString . '...';
             }
 
-            // Get the number of HTML tag characters in the first $maxLength characters
+            // Adjust length for HTML tags
             $diffLength = \strlen($ptString) - \strlen($htmlStringToPtString);
-
             if ($diffLength <= 0) {
+                // Remove whitespace, non-breaking spaces, and trailing tags before the ellipsis
+                $htmlString = preg_replace('/(&nbsp;|\s)+(<\/[^>]+>)?$/u', '', $htmlString);
+
+                // If it ends with a closing tag, inject the ellipsis before the last closing tag
+                if (preg_match('/(<\/[^>]+>)$/', $htmlString, $matches)) {
+                    return preg_replace('/(<\/[^>]+>)$/', '...$1', $htmlString);
+                }
                 return $htmlString . '...';
             }
-
-            // Set new $maxlength that adjusts for the HTML tags
             $maxLength += $diffLength;
         }
+
+        return '';
     }
 
     /**

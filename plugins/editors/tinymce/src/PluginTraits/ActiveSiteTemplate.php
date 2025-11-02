@@ -47,7 +47,7 @@ trait ActiveSiteTemplate
 
         try {
             return $db->loadObject();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $this->getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
             return new \stdClass();

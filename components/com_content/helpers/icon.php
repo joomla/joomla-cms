@@ -125,6 +125,6 @@ abstract class JHtmlIcon
      */
     private static function getIcon()
     {
-        return (new \Joomla\Component\Content\Administrator\Service\HTML\Icon(Joomla\CMS\Factory::getApplication()));
+        return new \Joomla\Component\Content\Administrator\Service\HTML\Icon(Joomla\CMS\Factory::getApplication());
     }
 }
