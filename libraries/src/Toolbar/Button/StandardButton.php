@@ -47,10 +47,10 @@ class StandardButton extends BasicButton
         if (empty($options['is_child'])) {
             $class = $this->fetchButtonClass($this->getName());
 
-            $options['btnClass'] = $options['button_class'] = ($options['button_class'] ?? $class);
+            $options['btnClass'] = ($options['button_class'] ??= $class);
         }
 
-        $options['onclick'] = $options['onclick'] ?? $this->_getCommand();
+        $options['onclick'] ??= $this->_getCommand();
     }
 
     /**

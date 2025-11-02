@@ -10,12 +10,12 @@
 namespace Joomla\CMS\Log\Logger;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
 use Joomla\CMS\Version;
 use Joomla\Filesystem\Exception\FilesystemException;
 use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\Utilities\IpHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -40,7 +40,7 @@ class FormattedtextLogger extends Logger
      * @var    string
      * @since  1.7.0
      */
-    protected $format = '{DATETIME}	{PRIORITY} {CLIENTIP}	{CATEGORY}	{MESSAGE}';
+    protected $format = '{DATETIME}	{PRIORITY}	{CLIENTIP}	{CATEGORY}	{MESSAGE}';
 
     /**
      * The parsed fields from the format string.
@@ -147,7 +147,7 @@ class FormattedtextLogger extends Logger
     /**
      * Prevent object injection attacks by suppressing unserialization of instance with deferred rows
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.2
      *
      * @throws \Exception
      */

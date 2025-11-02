@@ -28,7 +28,7 @@ class StepController extends FormController
      *
      * @return  string  The arguments to append to the redirect URL.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.2
      */
     protected function getRedirectToListAppend()
     {

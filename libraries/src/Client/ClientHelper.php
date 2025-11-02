@@ -62,7 +62,7 @@ class ClientHelper
             }
 
             // If user and pass are not set in global config lets see if they are in the session
-            if ($options['enabled'] == true && ($options['user'] == '' || $options['pass'] == '')) {
+            if ($options['enabled'] && ($options['user'] == '' || $options['pass'] == '')) {
                 $session         = Factory::getSession();
                 $options['user'] = $session->get($client . '.user', null, 'JClientHelper');
                 $options['pass'] = $session->get($client . '.pass', null, 'JClientHelper');
@@ -159,7 +159,7 @@ class ClientHelper
                 break;
         }
 
-        if ($options['enabled'] == false) {
+        if (!$options['enabled']) {
             // The client is disabled in global config, so let's pretend we are OK
             $return = true;
         } elseif ($options['user'] != '' && $options['pass'] != '') {

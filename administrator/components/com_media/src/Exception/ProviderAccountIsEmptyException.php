@@ -17,7 +17,7 @@ namespace Joomla\Component\Media\Administrator\Exception;
 /**
  * Provider Account is empty or not set exception.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.2.2
  */
 class ProviderAccountIsEmptyException extends \Exception
 {

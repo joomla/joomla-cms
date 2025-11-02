@@ -48,7 +48,7 @@ class AdministratorMenuItem extends MenuItem
      * The class of the menu item
      *
      * @var string
-     * @since __DEPLOY_VERSION__
+     * @since 5.2.2
      */
     public $class = '';
 
@@ -56,7 +56,7 @@ class AdministratorMenuItem extends MenuItem
      * The element type of the menu item
      *
      * @var string
-     * @since __DEPLOY_VERSION__
+     * @since 5.2.2
      */
     public $element = '';
 }

@@ -17,7 +17,7 @@ namespace Joomla\Component\Media\Administrator\Exception;
 /**
  * Provider Account not found exception.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.2.2
  */
 class ProviderAccountNotFoundException extends \Exception
 {

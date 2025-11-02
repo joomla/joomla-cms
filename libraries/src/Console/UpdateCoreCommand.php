@@ -12,14 +12,16 @@ namespace Joomla\CMS\Console;
 use Joomla\Application\Cli\CliInput;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Version;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Filesystem\Exception\FilesystemException;
 use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -192,7 +194,6 @@ class UpdateCoreCommand extends AbstractCommand
         $this->progressBar->display();
         $this->progressBar->advance();
 
-
         $errors = $this->checkSchema();
 
         if ($errors > 0) {
@@ -201,6 +202,22 @@ class UpdateCoreCommand extends AbstractCommand
             $this->ioStyle->info('There were ' . $errors . ' errors');
 
             return self::ERR_CHECKS_FAILED;
+        }
+
+        // If upgrading to a new major version, check pre-conditions
+        if (version_compare($this->updateInfo['latest'], (string) Version::MAJOR_VERSION + 1, '>=')) {
+            $this->progressBar->clear();
+            $this->ioStyle->writeln('Check pre-conditions for a major upgrade to version ' . $this->updateInfo['latest'] . '...');
+            $this->progressBar->display();
+            $this->progressBar->advance();
+
+            if (!$this->checkMajorUpgrade()) {
+                $this->progressBar->finish();
+
+                $this->ioStyle->info('The pre-conditions for a major upgrade are not fulfilled.');
+
+                return self::ERR_CHECKS_FAILED;
+            }
         }
 
         $this->progressBar->clear();
@@ -501,5 +518,33 @@ class UpdateCoreCommand extends AbstractCommand
         }
 
         return $changeInformation['errorsCount'];
+    }
+
+    /**
+     * Check pre-conditions for major version upgrade
+     *
+     * @return  boolean  True if success
+     *
+     * @since 5.4.0
+     */
+    public function checkMajorUpgrade(): bool
+    {
+        $return = true;
+
+        $language = Factory::getLanguage();
+        $language->load('plg_behaviour_compat.sys', JPATH_ADMINISTRATOR);
+        $language->load('plg_behaviour_compat6.sys', JPATH_ADMINISTRATOR);
+
+        if (PluginHelper::isEnabled('behaviour', 'compat')) {
+            $this->ioStyle->error('The \'' . Text::_('PLG_BEHAVIOUR_COMPAT') . '\' plugin is enabled.');
+            $return = false;
+        }
+
+        if (!PluginHelper::isEnabled('behaviour', 'compat6')) {
+            $this->ioStyle->error('The \'' . Text::_('PLG_BEHAVIOUR_COMPAT6') . '\' plugin is disabled.');
+            $return = false;
+        }
+
+        return $return;
     }
 }

@@ -313,6 +313,10 @@ class SysinfoModel extends BaseDatabaseModel
         $db = $this->getDatabase();
 
         $this->info = [
+            'version'                => (new Version())->getLongVersion(),
+            'compatpluginenabled'    => PluginHelper::isEnabled('behaviour', 'compat'),
+            'compatpluginparameters' => $this->getCompatPluginParameters(),
+            'phpversion'             => PHP_VERSION,
             'php'                    => php_uname(),
             'dbserver'               => $db->getServerType(),
             'dbversion'              => $db->getVersion(),
@@ -320,12 +324,8 @@ class SysinfoModel extends BaseDatabaseModel
             'dbconnectioncollation'  => $db->getConnectionCollation(),
             'dbconnectionencryption' => $db->getConnectionEncryption(),
             'dbconnencryptsupported' => $db->isConnectionEncryptionSupported(),
-            'phpversion'             => PHP_VERSION,
             'server'                 => $_SERVER['SERVER_SOFTWARE'] ?? getenv('SERVER_SOFTWARE'),
             'sapi_name'              => PHP_SAPI,
-            'version'                => (new Version())->getLongVersion(),
-            'compatpluginenabled'    => PluginHelper::isEnabled('behaviour', 'compat'),
-            'compatpluginparameters' => $this->getCompatPluginParameters(),
             'useragent'              => $_SERVER['HTTP_USER_AGENT'] ?? '',
         ];
 
@@ -466,7 +466,7 @@ class SysinfoModel extends BaseDatabaseModel
         } catch (\Exception $e) {
             try {
                 Log::add(Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), Log::WARNING, 'jerror');
-            } catch (\RuntimeException $exception) {
+            } catch (\RuntimeException) {
                 Factory::getApplication()->enqueueMessage(
                     Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()),
                     'warning'
@@ -568,10 +568,14 @@ class SysinfoModel extends BaseDatabaseModel
 
         $this->addDirectory('components', JPATH_SITE . '/components');
 
-        $this->addDirectory($cparams->get('image_path'), JPATH_SITE . '/' . $cparams->get('image_path'));
+        $imagesDir = $cparams->get('image_path', 'images');
+        $filesDir  = $cparams->get('file_path', 'files');
+
+        $this->addDirectory($imagesDir, JPATH_SITE . '/' . $imagesDir);
 
         // List all images folders
-        $image_folders = new \DirectoryIterator(JPATH_SITE . '/' . $cparams->get('image_path'));
+        $image_folders = new \DirectoryIterator(JPATH_SITE . '/' . $imagesDir);
+
 
         foreach ($image_folders as $folder) {
             if ($folder->isDot() || !$folder->isDir()) {
@@ -579,8 +583,23 @@ class SysinfoModel extends BaseDatabaseModel
             }
 
             $this->addDirectory(
-                'images/' . $folder->getFilename(),
-                JPATH_SITE . '/' . $cparams->get('image_path') . '/' . $folder->getFilename()
+                $imagesDir . '/' . $folder->getFilename(),
+                JPATH_SITE . '/' . $imagesDir . '/' . $folder->getFilename()
+            );
+        }
+
+        $this->addDirectory($filesDir, JPATH_SITE . '/' . $filesDir);
+
+        $files_folders = new \DirectoryIterator(JPATH_SITE . '/' . $filesDir);
+
+        foreach ($files_folders as $folder) {
+            if ($folder->isDot() || !$folder->isDir()) {
+                continue;
+            }
+
+            $this->addDirectory(
+                $filesDir . '/' . $folder->getFilename(),
+                JPATH_SITE . '/' . $filesDir . '/' . $folder->getFilename()
             );
         }
 
