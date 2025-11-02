@@ -733,8 +733,10 @@ class Query
      */
     protected function processString($input, $lang, $mode)
     {
-        if ($input === null) {
-            $input = '';
+        $input = trim($input ?? '');
+
+        if ($input === '') {
+            return true;
         }
 
         // Clean up the input string.

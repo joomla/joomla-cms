@@ -955,7 +955,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                 $user->cookieLogin = true;
             }
 
-            if (\in_array(false, $results, true) == false) {
+            if (!\in_array(false, $results, true)) {
                 $options['user']         = $user;
                 $options['responseType'] = $response->type;
 
