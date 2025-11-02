@@ -14,7 +14,7 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\String\PunycodeHelper;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
@@ -51,12 +51,12 @@ class User extends Table
     /**
      * Constructor
      *
-     * @param   DatabaseDriver        $db          Database connector object
+     * @param   DatabaseInterface     $db          Database connector object
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since  1.7.0
      */
-    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__users', 'id', $db, $dispatcher);
 
@@ -97,13 +97,14 @@ class User extends Table
         $userId = (int) $userId;
 
         // Load the user data.
-        $query = $this->_db->getQuery(true)
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
             ->select('*')
-            ->from($this->_db->quoteName('#__users'))
-            ->where($this->_db->quoteName('id') . ' = :userid')
+            ->from($db->quoteName('#__users'))
+            ->where($db->quoteName('id') . ' = :userid')
             ->bind(':userid', $userId, ParameterType::INTEGER);
-        $this->_db->setQuery($query);
-        $data = (array) $this->_db->loadAssoc();
+        $db->setQuery($query);
+        $data = (array) $db->loadAssoc();
 
         if (!\count($data)) {
             return false;
@@ -118,20 +119,20 @@ class User extends Table
         if ($return !== false) {
             // Load the user groups.
             $query->clear()
-                ->select($this->_db->quoteName('g.id'))
-                ->select($this->_db->quoteName('g.title'))
-                ->from($this->_db->quoteName('#__usergroups', 'g'))
+                ->select($db->quoteName('g.id'))
+                ->select($db->quoteName('g.title'))
+                ->from($db->quoteName('#__usergroups', 'g'))
                 ->join(
                     'INNER',
-                    $this->_db->quoteName('#__user_usergroup_map', 'm'),
-                    $this->_db->quoteName('m.group_id') . ' = ' . $this->_db->quoteName('g.id')
+                    $db->quoteName('#__user_usergroup_map', 'm'),
+                    $db->quoteName('m.group_id') . ' = ' . $db->quoteName('g.id')
                 )
-                ->where($this->_db->quoteName('m.user_id') . ' = :muserid')
+                ->where($db->quoteName('m.user_id') . ' = :muserid')
                 ->bind(':muserid', $userId, ParameterType::INTEGER);
-            $this->_db->setQuery($query);
+            $db->setQuery($query);
 
             // Add the groups to the user data.
-            $this->groups = $this->_db->loadAssocList('id', 'id');
+            $this->groups = $db->loadAssocList('id', 'id');
         }
 
         return $return;
@@ -163,15 +164,16 @@ class User extends Table
             $this->groups = ArrayHelper::toInteger($this->groups);
 
             // Get the titles for the user groups.
-            $query = $this->_db->getQuery(true)
-                ->select($this->_db->quoteName('id'))
-                ->select($this->_db->quoteName('title'))
-                ->from($this->_db->quoteName('#__usergroups'))
-                ->whereIn($this->_db->quoteName('id'), array_values($this->groups));
-            $this->_db->setQuery($query);
+            $db    = $this->getDatabase();
+            $query = $db->getQuery(true)
+                ->select($db->quoteName('id'))
+                ->select($db->quoteName('title'))
+                ->from($db->quoteName('#__usergroups'))
+                ->whereIn($db->quoteName('id'), array_values($this->groups));
+            $db->setQuery($query);
 
             // Set the titles for the user groups.
-            $this->groups = $this->_db->loadAssocList('id', 'id');
+            $this->groups = $db->loadAssocList('id', 'id');
         }
 
         return $return;
@@ -253,16 +255,17 @@ class User extends Table
         $uid = (int) $this->id;
 
         // Check for existing username
-        $query = $this->_db->getQuery(true)
-            ->select($this->_db->quoteName('id'))
-            ->from($this->_db->quoteName('#__users'))
-            ->where($this->_db->quoteName('username') . ' = :username')
-            ->where($this->_db->quoteName('id') . ' != :userid')
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
+            ->select($db->quoteName('id'))
+            ->from($db->quoteName('#__users'))
+            ->where($db->quoteName('username') . ' = :username')
+            ->where($db->quoteName('id') . ' != :userid')
             ->bind(':username', $this->username)
             ->bind(':userid', $uid, ParameterType::INTEGER);
-        $this->_db->setQuery($query);
+        $db->setQuery($query);
 
-        $xid = (int) $this->_db->loadResult();
+        $xid = (int) $db->loadResult();
 
         if ($xid && $xid != (int) $this->id) {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_USERNAME_INUSE'));
@@ -272,14 +275,14 @@ class User extends Table
 
         // Check for existing email
         $query->clear()
-            ->select($this->_db->quoteName('id'))
-            ->from($this->_db->quoteName('#__users'))
-            ->where('LOWER(' . $this->_db->quoteName('email') . ') = LOWER(:mail)')
-            ->where($this->_db->quoteName('id') . ' != :muserid')
+            ->select($db->quoteName('id'))
+            ->from($db->quoteName('#__users'))
+            ->where('LOWER(' . $db->quoteName('email') . ') = LOWER(:mail)')
+            ->where($db->quoteName('id') . ' != :muserid')
             ->bind(':mail', $this->email)
             ->bind(':muserid', $uid, ParameterType::INTEGER);
-        $this->_db->setQuery($query);
-        $xid = (int) $this->_db->loadResult();
+        $db->setQuery($query);
+        $xid = (int) $db->loadResult();
 
         if ($xid && $xid != (int) $this->id) {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_EMAIL_INUSE'));
@@ -292,12 +295,12 @@ class User extends Table
 
         if (!is_numeric($rootUser)) {
             $query->clear()
-                ->select($this->_db->quoteName('id'))
-                ->from($this->_db->quoteName('#__users'))
-                ->where($this->_db->quoteName('username') . ' = :username')
+                ->select($db->quoteName('id'))
+                ->from($db->quoteName('#__users'))
+                ->where($db->quoteName('username') . ' = :username')
                 ->bind(':username', $rootUser);
-            $this->_db->setQuery($query);
-            $xid = (int) $this->_db->loadResult();
+            $db->setQuery($query);
+            $xid = (int) $db->loadResult();
 
             if (
                 $rootUser == $this->username && (!$xid || $xid && $xid != (int) $this->id)
@@ -340,18 +343,20 @@ class User extends Table
         unset($this->groups);
 
         // Insert or update the object based on presence of a key value.
+        $db = $this->getDatabase();
+
         if ($key) {
             // Already have a table key, update the row.
-            $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
+            $db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
         } else {
             // Don't have a table key, insert the row.
-            $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
+            $db->insertObject($this->_tbl, $this, $this->_tbl_key);
         }
 
         // Reset groups to the local object.
         $this->groups = $groups;
 
-        $query = $this->_db->getQuery(true);
+        $query = $db->getQuery(true);
 
         // Store the group data if the user data was saved.
         if (\is_array($this->groups) && \count($this->groups)) {
@@ -359,13 +364,13 @@ class User extends Table
 
             // Grab all usergroup entries for the user
             $query->clear()
-                ->select($this->_db->quoteName('group_id'))
-                ->from($this->_db->quoteName('#__user_usergroup_map'))
-                ->where($this->_db->quoteName('user_id') . ' = :userid')
+                ->select($db->quoteName('group_id'))
+                ->from($db->quoteName('#__user_usergroup_map'))
+                ->where($db->quoteName('user_id') . ' = :userid')
                 ->bind(':userid', $uid, ParameterType::INTEGER);
 
-            $this->_db->setQuery($query);
-            $result = $this->_db->loadObjectList();
+            $db->setQuery($query);
+            $result = $db->loadObjectList();
 
             // Loop through them and check if database contains something $this->groups does not
             if (\count($result)) {
@@ -382,13 +387,13 @@ class User extends Table
 
                 if (\count($mapGroupId)) {
                     $query->clear()
-                        ->delete($this->_db->quoteName('#__user_usergroup_map'))
-                        ->where($this->_db->quoteName('user_id') . ' = :uid')
-                        ->whereIn($this->_db->quoteName('group_id'), $mapGroupId)
+                        ->delete($db->quoteName('#__user_usergroup_map'))
+                        ->where($db->quoteName('user_id') . ' = :uid')
+                        ->whereIn($db->quoteName('group_id'), $mapGroupId)
                         ->bind(':uid', $uid, ParameterType::INTEGER);
 
-                    $this->_db->setQuery($query);
-                    $this->_db->execute();
+                    $db->setQuery($query);
+                    $db->execute();
                 }
             }
 
@@ -396,8 +401,8 @@ class User extends Table
             if (\count($groups)) {
                 // Set the new user group maps.
                 $query->clear()
-                    ->insert($this->_db->quoteName('#__user_usergroup_map'))
-                    ->columns([$this->_db->quoteName('user_id'), $this->_db->quoteName('group_id')]);
+                    ->insert($db->quoteName('#__user_usergroup_map'))
+                    ->columns([$db->quoteName('user_id'), $db->quoteName('group_id')]);
 
                 foreach ($groups as $group) {
                     $query->values(
@@ -411,8 +416,8 @@ class User extends Table
                     );
                 }
 
-                $this->_db->setQuery($query);
-                $this->_db->execute();
+                $db->setQuery($query);
+                $db->execute();
             }
 
             unset($groups);
@@ -421,11 +426,11 @@ class User extends Table
         // If a user is blocked, delete the cookie login rows
         if ($this->block == 1) {
             $query->clear()
-                ->delete($this->_db->quoteName('#__user_keys'))
-                ->where($this->_db->quoteName('user_id') . ' = :user_id')
+                ->delete($db->quoteName('#__user_keys'))
+                ->where($db->quoteName('user_id') . ' = :user_id')
                 ->bind(':user_id', $this->username);
-            $this->_db->setQuery($query);
-            $this->_db->execute();
+            $db->setQuery($query);
+            $db->execute();
         }
 
         return true;
@@ -452,45 +457,46 @@ class User extends Table
         $key = (int) $this->$k;
 
         // Delete the user.
-        $query = $this->_db->getQuery(true)
-            ->delete($this->_db->quoteName($this->_tbl))
-            ->where($this->_db->quoteName($this->_tbl_key) . ' = :key')
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
+            ->delete($db->quoteName($this->_tbl))
+            ->where($db->quoteName($this->_tbl_key) . ' = :key')
             ->bind(':key', $key, ParameterType::INTEGER);
-        $this->_db->setQuery($query);
-        $this->_db->execute();
+        $db->setQuery($query);
+        $db->execute();
 
         // Delete the user group maps.
         $query->clear()
-            ->delete($this->_db->quoteName('#__user_usergroup_map'))
-            ->where($this->_db->quoteName('user_id') . ' = :key')
+            ->delete($db->quoteName('#__user_usergroup_map'))
+            ->where($db->quoteName('user_id') . ' = :key')
             ->bind(':key', $key, ParameterType::INTEGER);
-        $this->_db->setQuery($query);
-        $this->_db->execute();
+        $db->setQuery($query);
+        $db->execute();
 
         /*
          * Clean Up Related Data.
          */
 
         $query->clear()
-            ->delete($this->_db->quoteName('#__messages_cfg'))
-            ->where($this->_db->quoteName('user_id') . ' = :key')
+            ->delete($db->quoteName('#__messages_cfg'))
+            ->where($db->quoteName('user_id') . ' = :key')
             ->bind(':key', $key, ParameterType::INTEGER);
-        $this->_db->setQuery($query);
-        $this->_db->execute();
+        $db->setQuery($query);
+        $db->execute();
 
         $query->clear()
-            ->delete($this->_db->quoteName('#__messages'))
-            ->where($this->_db->quoteName('user_id_to') . ' = :key')
+            ->delete($db->quoteName('#__messages'))
+            ->where($db->quoteName('user_id_to') . ' = :key')
             ->bind(':key', $key, ParameterType::INTEGER);
-        $this->_db->setQuery($query);
-        $this->_db->execute();
+        $db->setQuery($query);
+        $db->execute();
 
         $query->clear()
-            ->delete($this->_db->quoteName('#__user_keys'))
-            ->where($this->_db->quoteName('user_id') . ' = :username')
+            ->delete($db->quoteName('#__user_keys'))
+            ->where($db->quoteName('user_id') . ' = :username')
             ->bind(':username', $this->username);
-        $this->_db->setQuery($query);
-        $this->_db->execute();
+        $db->setQuery($query);
+        $db->execute();
 
         return true;
     }
@@ -526,7 +532,7 @@ class User extends Table
         $lastVisit = $date->toSql();
 
         // Update the database row for the user.
-        $db    = $this->_db;
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->update($db->quoteName($this->_tbl))
             ->set($db->quoteName('lastvisitDate') . ' = :lastvisitDate')

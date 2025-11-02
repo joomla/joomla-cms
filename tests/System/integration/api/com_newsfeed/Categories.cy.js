@@ -1,4 +1,5 @@
 describe('Test that newsfeed categories API endpoint', () => {
+  afterEach(() => cy.task('queryDB', "DELETE FROM #__categories where title = 'automated test feed category'"));
   it('can deliver a list of categories', () => {
     cy.db_createCategory({ title: 'automated test category', extension: 'com_newsfeeds' })
       .then((id) => cy.db_createNewsFeed({ name: 'automated test feed', catid: id }))
@@ -15,7 +16,12 @@ describe('Test that newsfeed categories API endpoint', () => {
   });
 
   it('can create a category', () => {
-    cy.api_post('/newsfeeds/categories', { title: 'automated test feed category', description: 'automated test feed category description' })
+    cy.api_post('/newsfeeds/categories', {
+      title: 'automated test feed category',
+      description: 'automated test feed category description',
+      parent_id: 1,
+      extension: 'com_newsfeeds',
+    })
       .then((response) => {
         cy.wrap(response).its('body').its('data').its('attributes')
           .its('title')

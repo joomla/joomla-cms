@@ -11,9 +11,9 @@
 namespace Joomla\Component\Privacy\Administrator\View\Capabilities;
 
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Privacy\Administrator\Model\CapabilitiesModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -55,14 +55,13 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        // Initialise variables
-        $this->capabilities = $this->get('Capabilities');
-        $this->state        = $this->get('State');
+        /** @var CapabilitiesModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-        // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
-            throw new Genericdataexception(implode("\n", $errors), 500);
-        }
+        // Initialise variables
+        $this->capabilities = $model->getCapabilities();
+        $this->state        = $model->getState();
 
         $this->addToolbar();
 

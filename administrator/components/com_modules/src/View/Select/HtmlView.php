@@ -12,9 +12,9 @@ namespace Joomla\Component\Modules\Administrator\View\Select;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Modules\Administrator\Model\SelectModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -57,14 +57,13 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state     = $this->get('State');
-        $this->items     = $this->get('Items');
-        $this->modalLink = '';
+        /** @var SelectModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-        // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        $this->state     = $model->getState();
+        $this->items     = $model->getItems();
+        $this->modalLink = '';
 
         $this->addToolbar();
         parent::display($tpl);
@@ -79,7 +78,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $state    = $this->get('State');
+        $state    = $this->state;
         $clientId = (int) $state->get('client_id', 0);
         $toolbar  = $this->getDocument()->getToolbar();
 

@@ -26,7 +26,6 @@ class Edit {
       extension: this.extension,
       contents: `data:image/${this.fileType};base64,${this.options.contents}`,
     };
-    // eslint-disable-next-line no-promise-executor-return
     this.previousPluginDeactivated = new Promise((resolve) => resolve);
     this.history = {};
     this.current = this.original;
@@ -56,7 +55,6 @@ class Edit {
 
         link.addEventListener('joomla.tab.hidden', ({ target }) => {
           if (!target) {
-            // eslint-disable-next-line no-promise-executor-return
             this.previousPluginDeactivated = new Promise((resolve) => resolve);
             return;
           }
@@ -66,7 +64,6 @@ class Edit {
               .Deactivate(this.imagePreview)
               .then(resolve)
               .catch((e) => {
-                // eslint-disable-next-line no-console
                 console.log(e);
                 reject();
               });
@@ -79,7 +76,6 @@ class Edit {
           this.previousPluginDeactivated
             .then(() => this.plugins[target.getAttribute('aria-controls').replace('attrib-', '')].Activate(this.imagePreview))
             .catch((e) => {
-              // eslint-disable-next-line no-console
               console.log(e);
             });
         });
@@ -148,23 +144,18 @@ class Edit {
   }
 
   // @TODO History
-  // eslint-disable-next-line class-methods-use-this
   Undo() { }
 
   // @TODO History
-  // eslint-disable-next-line class-methods-use-this
   Redo() { }
 
   // @TODO Create the progress bar
-  // eslint-disable-next-line class-methods-use-this
   createProgressBar() { }
 
   // @TODO Update the progress bar
-  // eslint-disable-next-line class-methods-use-this
   updateProgressBar(/* position */) { }
 
   // @TODO Remove the progress bar
-  // eslint-disable-next-line class-methods-use-this
   removeProgressBar() { }
 
   /**
@@ -175,7 +166,6 @@ class Edit {
     let format = Joomla.MediaManager.Edit.original.extension.toLowerCase() === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension.toLowerCase();
 
     if (!format) {
-      // eslint-disable-next-line prefer-destructuring
       format = /data:image\/(.+);/gm.exec(Joomla.MediaManager.Edit.original.contents)[1];
     }
 
@@ -234,7 +224,6 @@ class Edit {
 }
 
 // Initiate the Editor API
-// eslint-disable-next-line no-new
 new Edit();
 
 /**
@@ -293,7 +282,6 @@ Joomla.submitbutton = (task) => {
           await Joomla.MediaManager.Edit.plugins[activeTab[0].id.replace('attrib-', '')].Deactivate(Joomla.MediaManager.Edit.imagePreview);
           await Joomla.MediaManager.Edit.plugins[activeTab[0].id.replace('attrib-', '')].Activate(Joomla.MediaManager.Edit.imagePreview);
         } catch (e) {
-          // eslint-disable-next-line no-console
           console.log(e);
         }
       })();

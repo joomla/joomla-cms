@@ -43,7 +43,7 @@ if (!empty($feed) && is_string($feed)) {
         $direction = ' redirect-rtl';
     }
 
-    if ($feed != false) :
+    if ($feed) :
         ?>
         <div style="direction: <?php echo $rssrtl ? 'rtl' : 'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' : 'left'; ?> !important" class="feed">
         <?php
