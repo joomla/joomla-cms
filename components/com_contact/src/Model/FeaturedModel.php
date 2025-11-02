@@ -13,6 +13,7 @@ namespace Joomla\Component\Contact\Site\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
@@ -32,11 +33,12 @@ class FeaturedModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   1.6
      */
-    public function __construct($config = [])
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -50,7 +52,7 @@ class FeaturedModel extends ListModel
             ];
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**

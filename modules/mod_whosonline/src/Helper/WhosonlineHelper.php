@@ -10,7 +10,11 @@
 
 namespace Joomla\Module\Whosonline\Site\Helper;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -21,25 +25,29 @@ use Joomla\CMS\Factory;
  *
  * @since  1.5
  */
-class WhosonlineHelper
+class WhosonlineHelper implements DatabaseAwareInterface
 {
+    use DatabaseAwareTrait;
+
     /**
      * Show online count
      *
+     * @param   CMSApplicationInterface  $app  The application instance
+     *
      * @return  array  The number of Users and Guests online.
      *
-     * @since   1.5
+     * @since   5.4.0
      **/
-    public static function getOnlineCount()
+    public function getOnlineUsersCount(CMSApplicationInterface $app): array
     {
-        $db = Factory::getDbo();
+        $db = $this->getDatabase();
 
         // Calculate number of guests and users
         $result      = [];
         $user_array  = 0;
         $guest_array = 0;
 
-        $whereCondition = Factory::getApplication()->get('shared_session', '0') ? 'IS NULL' : '= 0';
+        $whereCondition = $app->get('shared_session', '0') ? 'IS NULL' : '= 0';
 
         $query = $db->getQuery(true)
             ->select('guest, client_id')
@@ -49,7 +57,7 @@ class WhosonlineHelper
 
         try {
             $sessions = (array) $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $sessions = [];
         }
 
@@ -74,19 +82,20 @@ class WhosonlineHelper
     }
 
     /**
-     * Show online member names
+     * Fetch online user names
      *
-     * @param   mixed  $params  The parameters
+     * @param   CMSApplicationInterface  $app     The application instance
+     * @param   Registry                 $params  The parameters
      *
      * @return  array   (array) $db->loadObjectList()  The names of the online users.
      *
-     * @since   1.5
+     * @since   5.4.0
      **/
-    public static function getOnlineUserNames($params)
+    public function fetchOnlineUserNames(CMSApplicationInterface $app, Registry $params): array
     {
-        $whereCondition = Factory::getApplication()->get('shared_session', '0') ? 'IS NULL' : '= 0';
+        $whereCondition = $app->get('shared_session', '0') ? 'IS NULL' : '= 0';
 
-        $db    = Factory::getDbo();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select($db->quoteName(['a.username', 'a.userid', 'a.client_id']))
             ->from($db->quoteName('#__session', 'a'))
@@ -94,7 +103,7 @@ class WhosonlineHelper
             ->where($db->quoteName('a.client_id') . ' ' . $whereCondition)
             ->group($db->quoteName(['a.username', 'a.userid', 'a.client_id']));
 
-        $user = Factory::getUser();
+        $user = $app->getIdentity();
 
         if (!$user->authorise('core.admin') && $params->get('filter_groups', 0) == 1) {
             $groups = $user->getAuthorisedGroups();
@@ -113,8 +122,52 @@ class WhosonlineHelper
 
         try {
             return (array) $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return [];
         }
+    }
+
+    /**
+     * Show online count
+     *
+     * @return  array  The number of Users and Guests online.
+     *
+     * @since   1.5
+     *
+     * @deprecated 5.4.0 will be removed in 7.0
+     *             Use the non-static method getOnlineUsersCount
+     *             Example: Factory::getApplication()->bootModule('mod_whosonline', 'site')
+     *                          ->getHelper('WhosonlineHelper')
+     *                          ->getOnlineUsersCount(Factory::getApplication())
+     **/
+    public static function getOnlineCount()
+    {
+        $app = Factory::getApplication();
+        return $app->bootModule('mod_whosonline', 'site')
+                   ->getHelper('WhosonlineHelper')
+                   ->getOnlineUsersCount($app);
+    }
+
+    /**
+     * Show online member names
+     *
+     * @param   mixed  $params  The parameters
+     *
+     * @return  array   (array) $db->loadObjectList()  The names of the online users.
+     *
+     * @since   1.5
+     *
+     * @deprecated 5.4.0 will be removed in 7.0
+     *             Use the non-static method fetchOnlineUserNames
+     *             Example: Factory::getApplication()->bootModule('mod_whosonline', 'site')
+     *                          ->getHelper('WhosonlineHelper')
+     *                          ->fetchOnlineUserNames(Factory::getApplication(), $params)
+     **/
+    public static function getOnlineUserNames($params)
+    {
+        $app = Factory::getApplication();
+        return $app->bootModule('mod_whosonline', 'site')
+                   ->getHelper('WhosonlineHelper')
+                   ->fetchOnlineUserNames($app, $params);
     }
 }

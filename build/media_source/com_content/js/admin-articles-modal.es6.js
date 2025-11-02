@@ -17,7 +17,6 @@
     * and closes the select frame.
     * */
   window.jSelectArticle = (id, title, catid, object, link, lang) => {
-    // eslint-disable-next-line no-console
     console.warn('Method jSelectArticle() is deprecated. Use postMessage() instead.');
 
     if (!Joomla.getOptions('xtd-articles')) {

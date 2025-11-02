@@ -18,7 +18,6 @@ use Joomla\CMS\Document\FactoryInterface;
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\LanguageHelper;
@@ -27,6 +26,7 @@ use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
+use Joomla\Filesystem\Folder;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 

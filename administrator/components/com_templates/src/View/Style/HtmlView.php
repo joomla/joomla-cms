@@ -13,10 +13,10 @@ namespace Joomla\Component\Templates\Administrator\View\Style;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Templates\Administrator\Model\StyleModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -79,15 +79,14 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->item  = $this->get('Item');
-        $this->state = $this->get('State');
-        $this->form  = $this->get('Form');
-        $this->canDo = ContentHelper::getActions('com_templates');
+        /** @var StyleModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-        // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        $this->item  = $model->getItem();
+        $this->state = $model->getState();
+        $this->form  = $model->getForm();
+        $this->canDo = ContentHelper::getActions('com_templates');
 
         $this->addToolbar();
 
@@ -146,7 +145,10 @@ class HtmlView extends BaseHtmlView
 
         // Get the help information for the template item.
         $lang = $this->getLanguage();
-        $help = $this->get('Help');
+
+        /** @var StyleModel $model */
+        $model = $this->getModel();
+        $help  = $model->getHelp();
 
         if ($lang->hasKey($help->url)) {
             $debug = $lang->setDebug(false);
