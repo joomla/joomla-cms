@@ -907,14 +907,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             // Validate that $authorisations is an array before iterating
             if (!\is_array($authorisations)) {
                 // Log the issue for debugging purposes
-                \JLog::add(
+                Log::add(
                     \sprintf(
                         'Invalid data type for $authorisations in %s on line %d. Expected array, got %s.',
                         __FILE__,
                         __LINE__,
                         \gettype($authorisations)
                     ),
-                    \JLog::WARNING,
+                    Log::WARNING,
                     'api'
                 );
 
@@ -957,13 +957,13 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                     }
                 } else {
                     // Log a warning if the structure is unexpected
-                    \JLog::add(
+                    Log::add(
                         \sprintf(
                             'Invalid authorisation object or missing status property in %s on line %d.',
                             __FILE__,
                             __LINE__
                         ),
-                        \JLog::WARNING,
+                        Log::WARNING,
                         'api'
                     );
                 }
