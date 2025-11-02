@@ -152,7 +152,7 @@ class HistoryModel extends ListModel
                     if ($error) {
                         try {
                             Log::add($error, Log::WARNING, 'jerror');
-                        } catch (\RuntimeException $exception) {
+                        } catch (\RuntimeException) {
                             Factory::getApplication()->enqueueMessage($error, 'warning');
                         }
 
@@ -161,7 +161,7 @@ class HistoryModel extends ListModel
 
                     try {
                         Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-                    } catch (\RuntimeException $exception) {
+                    } catch (\RuntimeException) {
                         Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
                     }
 
@@ -259,7 +259,7 @@ class HistoryModel extends ListModel
                     if ($error) {
                         try {
                             Log::add($error, Log::WARNING, 'jerror');
-                        } catch (\RuntimeException $exception) {
+                        } catch (\RuntimeException) {
                             Factory::getApplication()->enqueueMessage($error, 'warning');
                         }
 
@@ -268,7 +268,7 @@ class HistoryModel extends ListModel
 
                     try {
                         Log::add(Text::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), Log::WARNING, 'jerror');
-                    } catch (\RuntimeException $exception) {
+                    } catch (\RuntimeException) {
                         Factory::getApplication()->enqueueMessage(Text::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), 'warning');
                     }
 

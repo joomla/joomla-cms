@@ -15,7 +15,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -91,6 +90,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var ModulesModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->items         = $model->getItems();
         $this->pagination    = $model->getPagination();
@@ -129,11 +129,6 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
-
         // We do not need the Language filter when modules are not filtered
         if ($this->clientId == 1 && !ModuleHelper::isAdminMultilang()) {
             unset($this->activeFilters['language']);
@@ -156,8 +151,7 @@ class HtmlView extends BaseHtmlView
 
             // If in the frontend state and language should not activate the search tools.
             if (Factory::getApplication()->isClient('site')) {
-                unset($this->activeFilters['state']);
-                unset($this->activeFilters['language']);
+                unset($this->activeFilters['state'], $this->activeFilters['language']);
             }
         }
 

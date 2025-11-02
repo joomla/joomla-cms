@@ -363,7 +363,7 @@ class ActionlogsModel extends ListModel
     {
         try {
             $this->getDatabase()->truncateTable('#__action_logs');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 

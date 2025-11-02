@@ -98,7 +98,7 @@ abstract class TemplateHelper
 
         $allowable = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
 
-        if ($format == '' || $format == false || (!\in_array($format, $allowable))) {
+        if ($format === '' || !\in_array($format, $allowable)) {
             $app = Factory::getApplication();
             $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_WARNFILETYPE'), 'error');
 

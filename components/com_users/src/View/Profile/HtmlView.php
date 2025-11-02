@@ -141,8 +141,8 @@ class HtmlView extends BaseHtmlView
         $active = Factory::getApplication()->getMenu()->getActive();
 
         if (
-            $active && isset($active->query['layout'])
-            && isset($active->query['option']) && $active->query['option'] === 'com_users'
+            $active && isset($active->query['layout'], $active->query['option'])
+            && $active->query['option'] === 'com_users'
             && isset($active->query['view']) && $active->query['view'] === 'profile'
         ) {
             $this->setLayout($active->query['layout']);

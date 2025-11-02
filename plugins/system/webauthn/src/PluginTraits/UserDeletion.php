@@ -66,7 +66,7 @@ trait UserDeletion
 
             try {
                 $db->setQuery($query)->execute();
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // Don't worry if this fails
             }
 

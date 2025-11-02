@@ -42,7 +42,13 @@ describe('Test that contacts API endpoint', () => {
 
   it('can delete a contact', () => {
     cy.db_createContact({ name: 'automated test contact', published: -2 })
-      .then((contact) => cy.api_delete(`/contacts/${contact.id}`));
+      .then((contact) => cy.api_delete(`/contacts/${contact.id}`))
+      .then((result) => expect(result.status).to.eq(204));
+  });
+
+  it('check correct response for delete a not existent contact', () => {
+    cy.api_delete('/contacts/9999')
+      .then((result) => expect(result.status).to.eq(204));
   });
 
   it('can submit a contact form', () => {
@@ -62,7 +68,7 @@ describe('Test that contacts API endpoint', () => {
       cy.wrap(mails[0].receivers).should('have.property', Cypress.env('email'));
       cy.wrap(mails[0].headers.subject).should('equal', `${Cypress.env('sitename')}: automated test subject`);
       cy.wrap(mails[0].body).should('have.string', 'This is an enquiry email via');
-      cy.wrap(mails[0].body).should('have.string', `${Cypress.env('name')} <${Cypress.env('email')}>`);
+      cy.wrap(mails[0].body).should('have.string', `${Cypress.env('name')} ${Cypress.env('email')}`);
       cy.wrap(mails[0].body).should('have.string', 'automated test message');
     });
   });

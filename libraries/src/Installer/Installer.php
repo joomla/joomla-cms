@@ -564,7 +564,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                         $db->execute();
 
                         $stepval = true;
-                    } catch (ExecutionFailureException $e) {
+                    } catch (ExecutionFailureException) {
                         // The database API will have already logged the error it caught, we just need to alert the user to the issue
                         Log::add(Text::_('JLIB_INSTALLER_ABORT_ERROR_DELETING_EXTENSIONS_RECORD'), Log::WARNING, 'jerror');
 
@@ -1351,7 +1351,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             } else {
                 $db->insertObject('#__schemas', $o);
             }
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             /**
              * Safe fallback: delete any existing record and insert afresh.
              *
@@ -2311,12 +2311,13 @@ class Installer extends Adapter implements DatabaseAwareInterface
         $data['creationDate'] = ((string) $xml->creationDate) ?: Text::_('JLIB_UNKNOWN');
         $data['author']       = ((string) $xml->author) ?: Text::_('JLIB_UNKNOWN');
 
-        $data['copyright']   = (string) $xml->copyright;
-        $data['authorEmail'] = (string) $xml->authorEmail;
-        $data['authorUrl']   = (string) $xml->authorUrl;
-        $data['version']     = (string) $xml->version;
-        $data['description'] = (string) $xml->description;
-        $data['group']       = (string) $xml->group;
+        $data['copyright']    = (string) $xml->copyright;
+        $data['authorEmail']  = (string) $xml->authorEmail;
+        $data['authorUrl']    = (string) $xml->authorUrl;
+        $data['version']      = (string) $xml->version;
+        $data['description']  = (string) $xml->description;
+        $data['group']        = (string) $xml->group;
+        $data['changelogurl'] = (string) $xml->changelogurl;
 
         // Child template specific fields.
         if (isset($xml->inheritable)) {

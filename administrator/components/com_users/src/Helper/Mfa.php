@@ -272,7 +272,7 @@ abstract class Mfa
 
         try {
             $ids = $db->setQuery($query)->loadColumn() ?: [];
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $ids = [];
         }
 

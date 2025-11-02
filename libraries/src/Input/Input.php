@@ -210,7 +210,7 @@ class Input extends \Joomla\Input\Input
     public function unserialize($input)
     {
         // Unserialize the options, data, and inputs.
-        list($this->options, $this->data, $this->inputs) = unserialize($input);
+        [$this->options, $this->data, $this->inputs] = unserialize($input);
 
         // Load the filter.
         if (isset($this->options['filter'])) {

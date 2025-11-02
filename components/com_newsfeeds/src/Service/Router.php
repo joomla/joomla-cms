@@ -122,7 +122,7 @@ class Router extends RouterView
 
             if ($this->noIDs) {
                 foreach ($path as &$segment) {
-                    list($id, $segment) = explode(':', $segment, 2);
+                    [, $segment] = explode(':', $segment, 2);
                 }
             }
 
@@ -156,7 +156,7 @@ class Router extends RouterView
     public function getNewsfeedSegment($id, $query)
     {
         if ($this->noIDs && strpos($id, ':')) {
-            list($void, $segment) = explode(':', $id, 2);
+            [$void, $segment] = explode(':', $id, 2);
 
             return [$void => $segment];
         }

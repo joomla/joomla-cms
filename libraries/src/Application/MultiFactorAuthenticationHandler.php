@@ -59,7 +59,7 @@ trait MultiFactorAuthenticationHandler
         // Multi-factor Authentication checks take place only for logged in users.
         try {
             $user = $this->getIdentity();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 
@@ -255,7 +255,7 @@ trait MultiFactorAuthenticationHandler
         // Make sure we are logged in
         try {
             $user = $this->getIdentity();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // This would happen if we are in CLI or under an old Joomla! version. Either case is not supported.
             return false;
         }
@@ -268,11 +268,6 @@ trait MultiFactorAuthenticationHandler
         // If we are in the administrator section we only kick in when the user has backend access privileges
         if ($isAdmin && !$user->authorise('core.login.admin')) {
             // @todo How exactly did you end up here if you didn't have the core.login.admin privilege to begin with?!
-            return false;
-        }
-
-        // Do not redirect if we are already in a MFA management or captive page
-        if ($this->isMultiFactorAuthenticationPage()) {
             return false;
         }
 
@@ -291,6 +286,13 @@ trait MultiFactorAuthenticationHandler
 
         // Allow the Joomla update finalisation to run
         if ($isAdmin && $option === 'com_joomlaupdate' && \in_array($task, ['update.finalise', 'update.cleanup', 'update.finaliseconfirm'])) {
+            return false;
+        }
+
+        // Do not redirect if we are already in a MFA management or captive page
+        $onlyCaptive = $this->isMultiFactorAuthenticationPending() && !$isMFASetupMandatory;
+
+        if ($this->isMultiFactorAuthenticationPage($onlyCaptive)) {
             return false;
         }
 
@@ -356,7 +358,7 @@ trait MultiFactorAuthenticationHandler
 
         try {
             $result = $db->setQuery($query)->loadResult();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $result = 1;
         }
 
@@ -491,7 +493,7 @@ trait MultiFactorAuthenticationHandler
         // Is this already decrypted?
         try {
             $decrypted = @json_decode($stringToDecrypt, true);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $decrypted = null;
         }
 

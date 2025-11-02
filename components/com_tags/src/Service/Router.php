@@ -144,7 +144,7 @@ class Router extends RouterBase
 
         foreach (array_unique([$lang, '*']) as $language) {
             if (isset($query['view']) && $query['view'] === 'tags') {
-                if (isset($query['parent_id']) && isset($this->lookup[$language]['tags'][$query['parent_id']])) {
+                if (isset($query['parent_id'], $this->lookup[$language]['tags'][$query['parent_id']])) {
                     $query['Itemid'] = $this->lookup[$language]['tags'][$query['parent_id']];
                     break;
                 }
@@ -268,7 +268,7 @@ class Router extends RouterBase
 
         foreach ($segments as &$segment) {
             if (strpos($segment, ':')) {
-                [$void, $segment] = explode(':', $segment, 2);
+                [, $segment] = explode(':', $segment, 2);
             }
         }
 
@@ -300,15 +300,44 @@ class Router extends RouterBase
             $vars['view'] = array_shift($segments);
         }
 
-        $ids = [];
+        $ids          = [];
+        $matchedAlias = false;
 
         if ($item && $item->query['view'] == 'tag') {
             $ids = $item->query['id'];
         }
 
+        // Iterate through all URL segments and try to parse tag IDs from them
         while (\count($segments)) {
             $id    = array_shift($segments);
-            $ids[] = $this->fixSegment($id);
+
+            // We have a numeric ID
+            if (!$matchedAlias && is_numeric($id)) {
+                $ids[] = $id;
+
+                // We allow more than one numeric segment in the URL
+                continue;
+            }
+
+            // We have a comma-separated list of IDs
+            if (!$matchedAlias && str_contains($id, ',')) {
+                $ids[] = $id;
+
+                // We don't allow more than one list of IDs in a URL
+                break;
+            }
+
+            $slug  = $this->fixSegment($id);
+
+            // We did not find the segment as a tag in the DB
+            if ($slug === $id) {
+                array_unshift($segments, $id);
+                break;
+            }
+
+            // We don't want to match numeric or comma-separated segments after we matched an alias
+            $matchedAlias = true;
+            $ids[]        = $slug;
         }
 
         if (\count($ids)) {
@@ -334,6 +363,8 @@ class Router extends RouterBase
         $items     = $this->app->getMenu()->getItems(['component_id'], [$component->id]);
 
         foreach ($items as $item) {
+            $itemParams = $item->getParams();
+
             if (!isset($this->lookup[$item->language])) {
                 $this->lookup[$item->language] = ['tags' => [], 'tag' => []];
             }
@@ -343,8 +374,11 @@ class Router extends RouterBase
                 sort($id);
                 $this->lookup[$item->language]['tag'][implode(',', $id)] = $item->id;
 
-                foreach ($id as $i) {
-                    $this->lookup[$item->language]['tag'][$i] = $item->id;
+                // Only apply to menu items with match type any
+                if ($itemParams->get('return_any_or_all') == 1) {
+                    foreach ($id as $i) {
+                        $this->lookup[$item->language]['tag'][$i] = $item->id;
+                    }
                 }
             }
 

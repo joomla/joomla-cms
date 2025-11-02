@@ -19,7 +19,7 @@ use Joomla\CMS\Form\Field\PredefinedlistField;
 /**
  * A predefined list field with all possible states for a com_scheduler entry.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.3.0
  */
 class ExitCodeField extends PredefinedlistField
 {
@@ -27,7 +27,7 @@ class ExitCodeField extends PredefinedlistField
      * The form field type.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.3.0
      */
     public $type = 'exitCode';
 
@@ -35,7 +35,7 @@ class ExitCodeField extends PredefinedlistField
      * Available states
      *
      * @var  string[]
-     * @since  __DEPLOY_VERSION__
+     * @since  5.3.0
      */
     protected $predefinedOptions = [
         5   => 'COM_SCHEDULER_EXIT_CODE_FAILED',

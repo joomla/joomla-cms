@@ -6,7 +6,7 @@ describe('Test in frontend that the users logout view', () => {
 
     cy.contains(`Hi ${Cypress.env('name')}`).should('not.exist');
     // This is disabled for now as it looks like cypress has an issue after redirect with the session
-    // cy.get('#system-message-container').should('contain.text', 'You have been logged out.');
+    // cy.checkForSystemMessage('You have been logged out.');
   });
 
   it('can log out the user in a menu item', () => {
@@ -18,7 +18,7 @@ describe('Test in frontend that the users logout view', () => {
         cy.get('a:contains(Automated logout)').click();
 
         cy.contains(`Hi ${Cypress.env('name')}`).should('not.exist');
-        cy.get('#system-message-container').should('contain.text', 'You have been logged out.');
+        cy.checkForSystemMessage('You have been logged out.');
       });
   });
 });

@@ -189,7 +189,7 @@ class ContenthistoryHelper
     {
         $result = false;
 
-        if (isset($lookup->sourceColumn) && isset($lookup->targetTable) && isset($lookup->targetColumn) && isset($lookup->displayColumn)) {
+        if (isset($lookup->sourceColumn, $lookup->targetTable, $lookup->targetColumn, $lookup->displayColumn)) {
             $db    = Factory::getDbo();
             $value = (int) $value;
             $query = $db->getQuery(true);
@@ -201,7 +201,7 @@ class ContenthistoryHelper
 
             try {
                 $result = $db->loadResult();
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // Ignore any errors and just return false
                 return false;
             }
