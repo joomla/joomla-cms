@@ -49,6 +49,7 @@
 			<filename>newsfeeds.xml</filename>
 			<folder>forms</folder>
 			<folder>helpers</folder>
+			<folder>layouts</folder>
 			<folder>services</folder>
 			<folder>sql</folder>
 			<folder>src</folder>

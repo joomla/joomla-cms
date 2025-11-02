@@ -10,10 +10,10 @@
 
 defined('_JEXEC') or die;
 
-$this->document->getWebAssetManager()
+/** @var \Joomla\Component\Finder\Site\View\Search\HtmlView $this */
+$this->getDocument()->getWebAssetManager()
     ->useStyle('com_finder.finder')
     ->useScript('com_finder.finder');
-
 ?>
 <div class="com-finder finder">
     <?php if ($this->params->get('show_page_heading')) : ?>

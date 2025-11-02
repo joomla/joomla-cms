@@ -18,7 +18,7 @@ use Joomla\CMS\Dispatcher\ComponentDispatcher;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * ComponentDispatcher class for com_admin
+ * ComponentDispatcher class for com_joomlaupdate
  *
  * @since  4.0.0
  */

@@ -26,16 +26,16 @@
   .#{$jicon-css-prefix}-publish,
   .#{$jicon-css-prefix}-check,
   .#{$fa-css-prefix}-check {
-    color: var(--success);
-    border-color: var(--success);
+    color: $icon-success;
+    border-color: $icon-success;
   }
 
   .#{$jicon-css-prefix}-home,
   .#{$jicon-css-prefix}-color-featured,
   .#{$jicon-css-prefix}-star.featured,
   .#{$fa-css-prefix}-star.featured {
-    color: $warning;
-    border-color: $warning;
+    color: var(--featured-icon-color);
+    border-color: var(--featured-icon-color);
   }
 
   .#{$jicon-css-prefix}-folder,
@@ -51,7 +51,7 @@
     height: auto;
     font-size: 1.2rem;
     line-height: 1rem;
-    color: var(--template-text-dark);
+    color: $icon-checkedout-color; // var(--template-text-dark);
     border: 0;
   }
 
@@ -73,10 +73,11 @@
 
 // WebAuthn
 .plg_system_webauthn_login_button svg {
-  margin-inline-end: 2px;
+  width: 30px;
+  margin: 4px;
 }
 
-.plg_system_webauthn_login_button svg path {
+.plg_system_webauthn_login_button svg path, .plg_system_webauthn_login_button svg circle {
   fill: var(--white);
 }
 

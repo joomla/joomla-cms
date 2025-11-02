@@ -249,7 +249,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
         $update->loadFromXml($remoteManifest);
 
         // Get the download url from the remote manifest
-        $downloadUrl = $update->get('downloadurl', false);
+        $downloadUrl = $update->downloadurl ?? false;
 
         // Check if the download url exist, otherwise return empty value
         if ($downloadUrl === false) {
@@ -340,7 +340,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
             $row           = new \stdClass();
             $row->language = $lang;
 
-            if (!is_array($info)) {
+            if (!\is_array($info)) {
                 continue;
             }
 
@@ -491,18 +491,6 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
     }
 
     /**
-     * Get the current setup options from the session.
-     *
-     * @return  array
-     *
-     * @since   3.1
-     */
-    public function getOptions()
-    {
-        return Factory::getSession()->get('setup.options', []);
-    }
-
-    /**
      * Get the model form.
      *
      * @param   string|null $view  The view being processed.
@@ -518,9 +506,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
         }
 
         // Get the form.
-        Form::addFormPath(JPATH_COMPONENT . '/forms');
-        Form::addFieldPath(JPATH_COMPONENT . '/model/fields');
-        Form::addRulePath(JPATH_COMPONENT . '/model/rules');
+        Form::addFormPath(JPATH_BASE . '/forms');
 
         try {
             $form = Form::getInstance('jform', $view, ['control' => 'jform']);

@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Error\JsonApi;
 
-use Exception;
 use Joomla\CMS\MVC\Controller\Exception\ResourceNotFound;
 use Tobscure\JsonApi\Exception\Handler\ExceptionHandlerInterface;
 use Tobscure\JsonApi\Exception\Handler\ResponseBag;
@@ -35,7 +34,7 @@ class ResourceNotFoundExceptionHandler implements ExceptionHandlerInterface
      *
      * @since  4.0.0
      */
-    public function manages(Exception $e)
+    public function manages(\Exception $e)
     {
         return $e instanceof ResourceNotFound;
     }
@@ -43,13 +42,13 @@ class ResourceNotFoundExceptionHandler implements ExceptionHandlerInterface
     /**
      * Handle the provided exception.
      *
-     * @param   Exception  $e  The exception being handled
+     * @param   \Exception  $e  The exception being handled
      *
      * @return  \Tobscure\JsonApi\Exception\Handler\ResponseBag
      *
      * @since  4.0.0
      */
-    public function handle(Exception $e)
+    public function handle(\Exception $e)
     {
         $status = 404;
         $error  = ['title' => 'Resource not found'];

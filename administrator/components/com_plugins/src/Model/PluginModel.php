@@ -11,7 +11,6 @@
 namespace Joomla\Component\Plugins\Administrator\Model;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -19,6 +18,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -54,13 +54,13 @@ class PluginModel extends AdminModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         $config = array_merge(
             [
@@ -207,7 +207,7 @@ class PluginModel extends AdminModel
      *
      * @return  Table   A database object
      */
-    public function getTable($type = 'Extension', $prefix = 'JTable', $config = [])
+    public function getTable($type = 'Extension', $prefix = '\\Joomla\\CMS\\Table\\', $config = [])
     {
         return Table::getInstance($type, $prefix, $config);
     }
@@ -240,7 +240,7 @@ class PluginModel extends AdminModel
      * @param   mixed   $data   The data expected for the form.
      * @param   string  $group  Cache group name.
      *
-     * @return  mixed  True if successful.
+     * @return  void
      *
      * @since   1.6
      *

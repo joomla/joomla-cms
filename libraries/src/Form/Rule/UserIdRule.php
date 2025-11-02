@@ -17,7 +17,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -44,7 +44,7 @@ class UserIdRule extends FormRule implements DatabaseAwareInterface
      *
      * @since   4.0.0
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         // Check if the field is required.
         $required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');

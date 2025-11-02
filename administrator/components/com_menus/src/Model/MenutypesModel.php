@@ -11,11 +11,12 @@
 namespace Joomla\Component\Menus\Administrator\Model;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Event\Menu\AfterGetMenuTypeOptionsEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\Filesystem\Folder;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -126,9 +127,10 @@ class MenutypesModel extends BaseDatabaseModel
         }
 
         // Allow a system plugin to insert dynamic menu types to the list shown in menus:
-        Factory::getApplication()->triggerEvent('onAfterGetMenuTypeOptions', [&$list, $this]);
-
-        return $list;
+        return $this->getDispatcher()->dispatch('onAfterGetMenuTypeOptions', new AfterGetMenuTypeOptionsEvent('onAfterGetMenuTypeOptions', [
+            'items'   => &$list, // @todo: Remove reference in Joomla 6, see AfterGetMenuTypeOptionsEvent::__constructor()
+            'subject' => $this,
+        ]))->getArgument('items', $list);
     }
 
     /**
@@ -143,7 +145,7 @@ class MenutypesModel extends BaseDatabaseModel
      */
     public function addReverseLookupUrl($option)
     {
-        $this->rlu[MenusHelper::getLinkKey($option->request)] = $option->get('title');
+        $this->rlu[MenusHelper::getLinkKey($option->request)] = $option->title;
     }
 
     /**
@@ -198,9 +200,9 @@ class MenutypesModel extends BaseDatabaseModel
         // Look for the first menu node off of the root node.
         if (!$menu = $xml->xpath('menu[1]')) {
             return false;
-        } else {
-            $menu = $menu[0];
         }
+
+        $menu = $menu[0];
 
         // If we have no options to parse, just add the base component to the list of options.
         if (!empty($menu['options']) && $menu['options'] == 'none') {
@@ -218,9 +220,9 @@ class MenutypesModel extends BaseDatabaseModel
         // Look for the first options node off of the menu node.
         if (!$optionsNode = $menu->xpath('options[1]')) {
             return false;
-        } else {
-            $optionsNode = $optionsNode[0];
         }
+
+        $optionsNode = $optionsNode[0];
 
         // Make sure the options node has children.
         if (!$children = $optionsNode->children()) {
@@ -277,7 +279,7 @@ class MenutypesModel extends BaseDatabaseModel
             $view = basename($viewPath);
 
             // Ignore private views.
-            if (strpos($view, '_') !== 0) {
+            if (!str_starts_with($view, '_')) {
                 // Determine if a metadata file exists for the view.
                 $file = $viewPath . '/metadata.xml';
 
@@ -371,7 +373,7 @@ class MenutypesModel extends BaseDatabaseModel
         $rootMenu = $manifest->administration->menu;
 
         // If the menu item doesn't exist or is hidden do nothing.
-        if (!$rootMenu || in_array((string) $rootMenu['hidden'], ['true', 'hidden'])) {
+        if (!$rootMenu || \in_array((string) $rootMenu['hidden'], ['true', 'hidden'])) {
             return $options;
         }
 
@@ -409,11 +411,18 @@ class MenutypesModel extends BaseDatabaseModel
                 $request['sub']        = (string) $attributes->sub;
             }
 
-            $o->request = array_filter($request, 'strlen');
+            $o->request = array_filter($request, function ($value) {
+                if (\is_array($value)) {
+                    return !empty($value);
+                }
+
+                return \strlen($value);
+            });
+
             $options[]  = new CMSObject($o);
 
             // Do not repeat the default view link (index.php?option=com_abc).
-            if (count($o->request) == 1) {
+            if (\count($o->request) == 1) {
                 $ro = null;
             }
         }
@@ -461,7 +470,7 @@ class MenutypesModel extends BaseDatabaseModel
         // Build list of standard layout names
         foreach ($layouts as $layout) {
             // Ignore private layouts.
-            if (strpos(basename($layout), '_') === false) {
+            if (!str_contains(basename($layout), '_')) {
                 // Get the layout name.
                 $layoutNames[] = basename($layout, '.xml');
             }
@@ -500,7 +509,7 @@ class MenutypesModel extends BaseDatabaseModel
         // Process the found layouts.
         foreach ($layouts as $layout) {
             // Ignore private layouts.
-            if (strpos(basename($layout), '_') === false) {
+            if (!str_contains(basename($layout), '_')) {
                 $file = $layout;
 
                 // Get the layout name.
@@ -528,8 +537,7 @@ class MenutypesModel extends BaseDatabaseModel
 
                             // If the view is hidden from the menu, discard it and move on to the next view.
                             if (!empty($menu['hidden']) && $menu['hidden'] == 'true') {
-                                unset($xml);
-                                unset($o);
+                                unset($xml, $o);
                                 continue;
                             }
 

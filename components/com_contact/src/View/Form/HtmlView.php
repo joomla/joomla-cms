@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Contact\Administrator\Helper\ContactHelper;
+use Joomla\Component\Contact\Site\Model\FormModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -79,14 +80,15 @@ class HtmlView extends BaseHtmlView
         $user = $this->getCurrentUser();
         $app  = Factory::getApplication();
 
-        // Get model data.
-        $this->state       = $this->get('State');
-        $this->item        = $this->get('Item');
-        $this->form        = $this->get('Form');
-        $this->return_page = $this->get('ReturnPage');
+        /** @var FormModel $model */
+        $model             = $this->getModel();
+        $this->state       = $model->getState();
+        $this->item        = $model->getItem();
+        $this->form        = $model->getForm();
+        $this->return_page = $model->getReturnPage();
 
         if (empty($this->item->id)) {
-            $authorised = $user->authorise('core.create', 'com_contact') || count($user->getAuthorisedCategories('com_contact', 'core.create'));
+            $authorised = $user->authorise('core.create', 'com_contact') || \count($user->getAuthorisedCategories('com_contact', 'core.create'));
         } else {
             // Since we don't track these assets at the item level, use the category id.
             $canDo      = ContactHelper::getActions('com_contact', 'category', $this->item->catid);
@@ -107,14 +109,14 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             $app->enqueueMessage(implode("\n", $errors), 'error');
 
             return false;
         }
 
         // Create a shortcut to the parameters.
-        $this->params = $this->state->params;
+        $this->params = $this->state->get('params');
 
         // Escape strings for HTML output
         $this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''));
@@ -124,7 +126,7 @@ class HtmlView extends BaseHtmlView
 
         // Propose current language as default when creating new contact
         if (empty($this->item->id) && Multilanguage::isEnabled()) {
-            $lang = Factory::getLanguage()->getTag();
+            $lang = $this->getLanguage()->getTag();
             $this->form->setFieldAttribute('language', 'default', $lang);
         }
 
@@ -164,15 +166,15 @@ class HtmlView extends BaseHtmlView
         $pathway->addItem($title, '');
 
         if ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('menu-meta_keywords')) {
-            $this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
+            $this->getDocument()->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
     }
 }

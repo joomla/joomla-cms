@@ -10,9 +10,10 @@
 namespace Joomla\CMS\WebAsset;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -77,17 +78,17 @@ class WebAssetItem implements WebAssetItemInterface
     /**
      * Class constructor
      *
-     * @param   string  $name          The asset name
-     * @param   string  $uri           The URI for the asset
-     * @param   array   $options       Additional options for the asset
-     * @param   array   $attributes    Attributes for the asset
-     * @param   array   $dependencies  Asset dependencies
+     * @param   string   $name          The asset name
+     * @param   ?string  $uri           The URI for the asset
+     * @param   array    $options       Additional options for the asset
+     * @param   array    $attributes    Attributes for the asset
+     * @param   array    $dependencies  Asset dependencies
      *
      * @since   4.0.0
      */
     public function __construct(
         string $name,
-        string $uri = null,
+        ?string $uri = null,
         array $options = [],
         array $attributes = [],
         array $dependencies = []
@@ -95,19 +96,19 @@ class WebAssetItem implements WebAssetItemInterface
         $this->name    = $name;
         $this->uri     = $uri;
 
-        if (array_key_exists('version', $options)) {
+        if (\array_key_exists('version', $options)) {
             $this->version = $options['version'];
             unset($options['version']);
         }
 
-        if (array_key_exists('attributes', $options)) {
+        if (\array_key_exists('attributes', $options)) {
             $this->attributes = (array) $options['attributes'];
             unset($options['attributes']);
         } else {
             $this->attributes = $attributes;
         }
 
-        if (array_key_exists('dependencies', $options)) {
+        if (\array_key_exists('dependencies', $options)) {
             $this->dependencies = (array) $options['dependencies'];
             unset($options['dependencies']);
         } else {
@@ -175,6 +176,13 @@ class WebAssetItem implements WebAssetItemInterface
                     $path = $this->resolvePath($path, 'stylesheet');
                     break;
                 default:
+                    // Asset for the ES modules may give us a folder for ESM import map
+                    if (
+                        $this->getOption('importmap') && !$this->isPathExternal($path) &&
+                        str_ends_with($path, '/') && !str_starts_with($path, '.')
+                    ) {
+                        $path = Uri::root(true) . '/' . $path;
+                    }
                     break;
             }
         }
@@ -194,7 +202,7 @@ class WebAssetItem implements WebAssetItemInterface
      */
     public function getOption(string $key, $default = null)
     {
-        if (array_key_exists($key, $this->options)) {
+        if (\array_key_exists($key, $this->options)) {
             return $this->options[$key];
         }
 
@@ -242,7 +250,7 @@ class WebAssetItem implements WebAssetItemInterface
      */
     public function getAttribute(string $key, $default = null)
     {
-        if (array_key_exists($key, $this->attributes)) {
+        if (\array_key_exists($key, $this->attributes)) {
             return $this->attributes[$key];
         }
 
@@ -296,15 +304,17 @@ class WebAssetItem implements WebAssetItemInterface
 
         $file     = $path;
         $external = $this->isPathExternal($path);
+        $folders  = ['script' => 'js', 'stylesheet' => 'css'];
 
         if (!$external) {
             // Get the file path
             $file = HTMLHelper::_(
-                $type,
+                'mediaPath',
+                $folders[$type],
                 $path,
                 [
-                    'pathOnly' => true,
-                    'relative' => !$this->isPathAbsolute($path),
+                    'detectDebug' => $this->getOption('debug') ? 1 : true,
+                    'relative'    => !$this->isPathAbsolute($path),
                 ]
             );
         }
@@ -323,7 +333,7 @@ class WebAssetItem implements WebAssetItemInterface
      */
     protected function isPathExternal(string $path): bool
     {
-        return strpos($path, 'http://') === 0 || strpos($path, 'https://') === 0 || strpos($path, '//') === 0;
+        return str_starts_with($path, 'http://') || str_starts_with($path, 'https://') || str_starts_with($path, '//');
     }
 
     /**
@@ -338,6 +348,6 @@ class WebAssetItem implements WebAssetItemInterface
     protected function isPathAbsolute(string $path): bool
     {
         // We have a full path or not
-        return is_file(JPATH_ROOT . '/' . $path);
+        return str_contains($path, '/') && is_file(JPATH_ROOT . '/' . $path);
     }
 }

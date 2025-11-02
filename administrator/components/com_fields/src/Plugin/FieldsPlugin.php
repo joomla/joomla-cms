@@ -10,12 +10,16 @@
 
 namespace Joomla\Component\Fields\Administrator\Plugin;
 
-use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Event\CustomFields\GetTypesEvent;
+use Joomla\CMS\Event\CustomFields\PrepareDomEvent;
+use Joomla\CMS\Event\CustomFields\PrepareFieldEvent;
+use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Filesystem\Folder;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -41,8 +45,84 @@ abstract class FieldsPlugin extends CMSPlugin
      *
      * @var    \Joomla\CMS\Application\CMSApplication
      * @since  4.0.0
+     *
+     * @deprecated  5.4.0 will be removed in 7.0 use $this->getApplication() instead
      */
     protected $app;
+
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   5.0.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onCustomFieldsGetTypes'     => 'getFieldTypes',
+            'onCustomFieldsPrepareField' => 'prepareField',
+            'onCustomFieldsPrepareDom'   => 'prepareDom',
+            'onContentPrepareForm'       => 'prepareForm',
+        ];
+    }
+
+    /**
+     * Returns the custom fields types.
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     */
+    public function getFieldTypes(GetTypesEvent $event)
+    {
+        $result = $this->onCustomFieldsGetTypes();
+
+        if ($result) {
+            $event->addResult($result);
+        }
+    }
+
+    /**
+     * Prepares the field value.
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     */
+    public function prepareField(PrepareFieldEvent $event)
+    {
+        $result = $this->onCustomFieldsPrepareField($event->getContext(), $event->getItem(), $event->getField());
+
+        if ($result !== '' && $result !== null) {
+            $event->addResult($result);
+        }
+    }
+
+    /**
+     * Transforms the field into a DOM XML element and appends it as a child on the given parent.
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     */
+    public function prepareDom(PrepareDomEvent $event)
+    {
+        $this->onCustomFieldsPrepareDom($event->getField(), $event->getFieldset(), $event->getForm());
+    }
+
+    /**
+     * The form event. Load additional parameters when available into the field form.
+     * Only when the type of the form is of interest.
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     */
+    public function prepareForm(PrepareFormEvent $event)
+    {
+        $this->onContentPrepareForm($event->getForm(), $event->getData());
+    }
 
     /**
      * Returns the custom fields types.
@@ -60,6 +140,7 @@ abstract class FieldsPlugin extends CMSPlugin
             return $types_cache[$this->_type . $this->_name];
         }
 
+        $app   = $this->getApplication() ?: $this->app;
         $types = [];
 
         // The root of the plugin
@@ -82,12 +163,12 @@ abstract class FieldsPlugin extends CMSPlugin
             // Needed attributes
             $data['type'] = $layout;
 
-            if ($this->app->getLanguage()->hasKey('PLG_FIELDS_' . $key . '_LABEL')) {
+            if ($app->getLanguage()->hasKey('PLG_FIELDS_' . $key . '_LABEL')) {
                 $data['label'] = Text::sprintf('PLG_FIELDS_' . $key . '_LABEL', strtolower($key));
 
                 // Fix wrongly set parentheses in RTL languages
-                if ($this->app->getLanguage()->isRtl()) {
-                    $data['label'] = $data['label'] . '&#x200E;';
+                if ($app->getLanguage()->isRtl()) {
+                    $data['label'] .= '&#x200E;';
                 }
             } else {
                 $data['label'] = $key;
@@ -123,7 +204,7 @@ abstract class FieldsPlugin extends CMSPlugin
      * @param   \stdclass  $item     The item.
      * @param   \stdclass  $field    The field.
      *
-     * @return  string
+     * @return  ?string
      *
      * @since   3.7.0
      */
@@ -131,7 +212,7 @@ abstract class FieldsPlugin extends CMSPlugin
     {
         // Check if the field should be processed by us
         if (!$this->isTypeSupported($field->type)) {
-            return;
+            return '';
         }
 
         // Merge the params from the plugin and field which has precedence
@@ -157,7 +238,7 @@ abstract class FieldsPlugin extends CMSPlugin
      * @param   \DOMElement  $parent  The field node parent.
      * @param   Form         $form    The form.
      *
-     * @return  \DOMElement
+     * @return  ?\DOMElement
      *
      * @since   3.7.0
      */
@@ -191,10 +272,6 @@ abstract class FieldsPlugin extends CMSPlugin
             $node->setAttribute('showon', $showon_attribute);
         }
 
-        if ($layout = $field->params->get('form_layout')) {
-            $node->setAttribute('layout', $layout);
-        }
-
         if ($field->default_value !== '') {
             $defaultNode = $node->appendChild(new \DOMElement('default'));
             $defaultNode->appendChild(new \DOMCdataSection($field->default_value));
@@ -204,14 +281,20 @@ abstract class FieldsPlugin extends CMSPlugin
         $params = clone $this->params;
         $params->merge($field->fieldparams);
 
+        $layout = $field->params->get('form_layout', $this->params->get('form_layout', ''));
+
+        if ($layout) {
+            $node->setAttribute('layout', $layout);
+        }
+
         // Set the specific field parameters
         foreach ($params->toArray() as $key => $param) {
-            if (is_array($param)) {
+            if (\is_array($param)) {
                 // Multidimensional arrays (eg. list options) can't be transformed properly
-                $param = count($param) == count($param, COUNT_RECURSIVE) ? implode(',', $param) : '';
+                $param = \count($param) == \count($param, COUNT_RECURSIVE) ? implode(',', $param) : '';
             }
 
-            if ($param === '' || (!is_string($param) && !is_numeric($param))) {
+            if ($param === '' || (!\is_string($param) && !is_numeric($param))) {
                 continue;
             }
 
@@ -263,7 +346,7 @@ abstract class FieldsPlugin extends CMSPlugin
     protected function getFormPath(Form $form, $data)
     {
         // Check if the field form is calling us
-        if (strpos($form->getName(), 'com_fields.field') !== 0) {
+        if (!str_starts_with($form->getName(), 'com_fields.field')) {
             return null;
         }
 

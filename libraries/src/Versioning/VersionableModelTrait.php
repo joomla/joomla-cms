@@ -9,12 +9,13 @@
 
 namespace Joomla\CMS\Versioning;
 
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -34,7 +35,7 @@ trait VersionableModelTrait
      *
      * @since   4.0.0
      */
-    public function loadHistory($versionId, Table &$table)
+    public function loadHistory($versionId, Table $table)
     {
         // Only attempt to check the row in if it exists, otherwise do an early exit.
         if (!$versionId) {
@@ -42,7 +43,7 @@ trait VersionableModelTrait
         }
 
         // Get an instance of the row to checkout.
-        $historyTable = Table::getInstance('Contenthistory');
+        $historyTable = Table::getInstance('ContentHistory');
 
         if (!$historyTable->load($versionId)) {
             $this->setError($historyTable->getError());
@@ -77,6 +78,20 @@ trait VersionableModelTrait
 
         if (isset($rowArray[$key])) {
             $table->load($rowArray[$key]);
+        }
+
+        // We set checked_out to the current user
+        if ($table->hasField('checked_out')) {
+            $rowArray[$table->getColumnAlias('checked_out')] = $this->getCurrentUser()->id;
+        }
+
+        if ($table->hasField('checked_out_time')) {
+            $rowArray[$table->getColumnAlias('checked_out_time')] = (new Date())->toSql();
+        }
+
+        // Fix null ordering when restoring history
+        if (\array_key_exists('ordering', $rowArray) && $rowArray['ordering'] === null) {
+            $rowArray['ordering'] = 0;
         }
 
         return $table->bind($rowArray);

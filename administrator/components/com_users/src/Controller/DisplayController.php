@@ -21,7 +21,7 @@ use Joomla\CMS\Router\Route;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Users master display controller.
+ * Users display controller.
  *
  * @since  1.6
  */
@@ -49,15 +49,15 @@ class DisplayController extends BaseController
         $canDo = ContentHelper::getActions('com_users');
 
         switch ($view) {
-            // Special permissions.
             case 'groups':
             case 'group':
             case 'levels':
             case 'level':
+                // Special permissions.
                 return $canDo->get('core.admin');
 
-            // Default permissions.
             default:
+                // Default permissions.
                 return true;
         }
     }
@@ -66,8 +66,8 @@ class DisplayController extends BaseController
      * Method to display a view.
      *
      * @param   boolean  $cachable   If true, the view output will be cached
-     * @param   array    $urlparams  An array of safe URL parameters and their variable types,
-     *                               for valid values see {@link \Joomla\CMS\Filter\InputFilter::clean()}.
+     * @param   array    $urlparams  An array of safe URL parameters and their variable types.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  BaseController|boolean  This object to support chaining or false on failure.
      *
@@ -84,7 +84,7 @@ class DisplayController extends BaseController
         }
 
         // Check for edit form.
-        if ($view == 'user' && $layout == 'edit' && !$this->checkEditId('com_users.edit.user', $id)) {
+        if ($view === 'user' && $layout === 'edit' && !$this->checkEditId('com_users.edit.user', $id)) {
             // Somehow the person just went to the form - we don't allow that.
             if (!\count($this->app->getMessageQueue())) {
                 $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
@@ -93,7 +93,9 @@ class DisplayController extends BaseController
             $this->setRedirect(Route::_('index.php?option=com_users&view=users', false));
 
             return false;
-        } elseif ($view == 'group' && $layout == 'edit' && !$this->checkEditId('com_users.edit.group', $id)) {
+        }
+
+        if ($view === 'group' && $layout === 'edit' && !$this->checkEditId('com_users.edit.group', $id)) {
             // Somehow the person just went to the form - we don't allow that.
             if (!\count($this->app->getMessageQueue())) {
                 $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
@@ -102,7 +104,9 @@ class DisplayController extends BaseController
             $this->setRedirect(Route::_('index.php?option=com_users&view=groups', false));
 
             return false;
-        } elseif ($view == 'level' && $layout == 'edit' && !$this->checkEditId('com_users.edit.level', $id)) {
+        }
+
+        if ($view === 'level' && $layout === 'edit' && !$this->checkEditId('com_users.edit.level', $id)) {
             // Somehow the person just went to the form - we don't allow that.
             if (!\count($this->app->getMessageQueue())) {
                 $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
@@ -111,7 +115,9 @@ class DisplayController extends BaseController
             $this->setRedirect(Route::_('index.php?option=com_users&view=levels', false));
 
             return false;
-        } elseif ($view == 'note' && $layout == 'edit' && !$this->checkEditId('com_users.edit.note', $id)) {
+        }
+
+        if ($view === 'note' && $layout === 'edit' && !$this->checkEditId('com_users.edit.note', $id)) {
             // Somehow the person just went to the form - we don't allow that.
             if (!\count($this->app->getMessageQueue())) {
                 $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
@@ -120,7 +126,9 @@ class DisplayController extends BaseController
             $this->setRedirect(Route::_('index.php?option=com_users&view=notes', false));
 
             return false;
-        } elseif (in_array($view, ['captive', 'callback', 'methods', 'method'])) {
+        }
+
+        if (\in_array($view, ['captive', 'callback', 'methods', 'method'])) {
             $controller = $this->factory->createController($view, 'Administrator', [], $this->app, $this->input);
             $task       = $this->input->get('task', '');
 

@@ -59,6 +59,11 @@ $languagePackXmlFile = '/administrator/manifests/packages/pkg_en-GB.xml';
 
 $antJobFile = '/build.xml';
 
+$packageJsonFiles = [
+    '/package.json',
+    '/package-lock.json',
+];
+
 $readMeFiles = [
     '/README.md',
     '/README.txt',
@@ -186,7 +191,7 @@ if (!empty($version['codename'])) {
 
 echo PHP_EOL;
 
-$rootPath = dirname(__DIR__);
+$rootPath = \dirname(__DIR__);
 
 // Updates the version in version class.
 if (file_exists($rootPath . $versionFile)) {
@@ -245,6 +250,17 @@ if (file_exists($rootPath . $antJobFile)) {
     file_put_contents($rootPath . $antJobFile, $fileContents);
 }
 
+// Updates the version in the package.json file.
+foreach ($packageJsonFiles as $packageJsonFile) {
+    if (file_exists($rootPath . $packageJsonFile)) {
+        $package          = json_decode(file_get_contents($rootPath . $packageJsonFile));
+        $package->version = $version['release'];
+
+        // @todo use a native formatter whenever https://github.com/php/php-src/issues/8864 is resolved
+        file_put_contents($rootPath . $packageJsonFile, str_replace('    ', '  ', json_encode($package, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)) . "\n");
+    }
+}
+
 // Updates the version in readme files.
 foreach ($readMeFiles as $readMeFile) {
     if (file_exists($rootPath . $readMeFile)) {
@@ -271,7 +287,7 @@ foreach ($iterator as $file) {
         }
 
         // Exclude certain files.
-        if (in_array($relativePath, $directoryLoopExcludeFiles)) {
+        if (\in_array($relativePath, $directoryLoopExcludeFiles)) {
             continue;
         }
 

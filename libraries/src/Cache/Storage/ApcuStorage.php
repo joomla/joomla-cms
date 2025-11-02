@@ -170,7 +170,7 @@ class ApcuStorage extends CacheStorage
                 $internalKey = $key['key'];
             }
 
-            if (strpos($internalKey, $secret . '-cache-' . $group . '-') === 0 xor $mode !== 'group') {
+            if (str_starts_with($internalKey, $secret . '-cache-' . $group . '-') xor $mode !== 'group') {
                 apcu_delete($internalKey);
             }
         }
@@ -220,11 +220,11 @@ class ApcuStorage extends CacheStorage
      */
     public static function isSupported()
     {
-        $supported = \extension_loaded('apcu') && ini_get('apc.enabled');
+        $supported = \extension_loaded('apcu') && \ini_get('apc.enabled');
 
         // If on the CLI interface, the `apc.enable_cli` option must also be enabled
         if ($supported && PHP_SAPI === 'cli') {
-            $supported = ini_get('apc.enable_cli');
+            $supported = \ini_get('apc.enable_cli');
         }
 
         return (bool) $supported;

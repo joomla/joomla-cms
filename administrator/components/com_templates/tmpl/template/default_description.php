@@ -15,6 +15,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 
+/** @var \Joomla\Component\Templates\Administrator\View\Template\HtmlView $this */
+
 ?>
 
 <div class="clearfix">

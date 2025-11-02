@@ -3,7 +3,7 @@
   display: flex;
   flex-wrap: wrap;
   margin-top: 1rem;
-  background-color: #fff;
+  background-color: $container-bg;
   border-radius: $border-radius;
   box-shadow: $col-box-shadow;
 
@@ -31,7 +31,7 @@
   padding-left: $col-gutter-width * .5;
 }
 
-@media (min-width: var(--breakpoint-md)) {
+@media (min-width: 768px) {
   [class^="media-col"], [class*=" media-col"] {
     flex: 0 0 100%;
     max-width: 100%;
@@ -45,6 +45,12 @@
 }
 
 .media-sidebar {
-  flex: 0 0 280px;
+  flex: 1 1 300px;
   padding: 1rem;
+  @media (min-width: 768px) {
+    position: sticky;
+    top: 75px;
+    align-self: flex-start;
+    max-width: 300px;
+  }
 }

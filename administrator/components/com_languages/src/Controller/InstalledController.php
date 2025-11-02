@@ -11,8 +11,8 @@
 namespace Joomla\Component\Languages\Administrator\Controller;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;

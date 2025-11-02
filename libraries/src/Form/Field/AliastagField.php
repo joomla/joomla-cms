@@ -10,11 +10,11 @@
 namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -35,7 +35,7 @@ class AliastagField extends ListField
     /**
      * Method to get a list of options for a list input.
      *
-     * @return  array  An array of JHtml options.
+     * @return  object[]  An array of JHtml options.
      *
      * @since   3.6
      */
@@ -57,12 +57,12 @@ class AliastagField extends ListField
 
         $lang = Factory::getLanguage();
 
-        foreach ($options as $i => $item) {
+        foreach ($options as $item) {
             $parts     = explode('.', $item->value);
             $extension = $parts[0];
             $lang->load($extension . '.sys', JPATH_ADMINISTRATOR)
             || $lang->load($extension, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $extension));
-            $options[$i]->text = Text::_(strtoupper($extension) . '_TAGS_' . strtoupper($parts[1]));
+            $item->text = Text::_(strtoupper($extension) . '_TAGS_' . strtoupper($parts[1]));
         }
 
         // Merge any additional options in the XML definition.

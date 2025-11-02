@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Fields\Administrator\Field">
+	<config>
+		<inlinehelp button="show"/>
+	</config>
 	<fieldset>
 		<field
 			name="id"
@@ -81,7 +84,6 @@
 			label="COM_FIELDS_FIELD_ONLY_USE_IN_SUBFORM_LABEL"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
-			showon="type!:subform"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -90,7 +92,7 @@
 			name="default_value"
 			type="textarea"
 			label="COM_FIELDS_FIELD_DEFAULT_VALUE_LABEL"
-			filter="raw"
+			filter="safehtml"
 		/>
 
 		<field
@@ -251,6 +253,7 @@
 					type="text"
 					label="COM_FIELDS_FIELD_SHOWON_LABEL"
 					description="COM_FIELDS_FIELD_SHOWON_DESC"
+					validate="ShowOn"
 				/>
 
 			</fieldset>
@@ -270,6 +273,7 @@
 					label="COM_FIELDS_FIELD_VALUE_RENDER_CLASS_LABEL"
 					description="COM_FIELDS_FIELD_VALUE_RENDER_CLASS_DESC"
 					size="40"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -333,6 +337,21 @@
 					<option value="2">JGLOBAL_INHERIT</option>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+				</field>
+			</fieldset>
+			<fieldset name="smartsearchoptions" label="COM_FIELDS_FIELD_SMARTSEARCHOPTIONS_HEADING">
+				<field
+					name="searchindex"
+					type="list"
+					label="COM_FIELDS_FIELD_SEARCHINDEX_LABEL"
+					description="COM_FIELDS_FIELD_SEARCHINDEX_DESC"
+					default="0"
+					validate="options"
+					>
+					<option value="0">COM_FIELDS_FIELD_SEARCHINDEX_DONT</option>
+					<option value="1">COM_FIELDS_FIELD_SEARCHINDEX_SEARCHABLE</option>
+					<option value="2">COM_FIELDS_FIELD_SEARCHINDEX_TAXONOMY</option>
+					<option value="3">COM_FIELDS_FIELD_SEARCHINDEX_BOTH</option>
 				</field>
 			</fieldset>
 		</fieldset>

@@ -14,7 +14,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -108,7 +108,7 @@ class PluginsField extends ListField
     /**
      * Method to get a list of options for a list input.
      *
-     * @return  array  An array of JHtml options.
+     * @return  object[]  An array of JHtml options.
      *
      * @since   2.5.0
      */
@@ -117,57 +117,59 @@ class PluginsField extends ListField
         $folder        = $this->folder;
         $parentOptions = parent::getOptions();
 
-        if (!empty($folder)) {
-            // Get list of plugins
-            $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
-                ->select(
-                    [
-                        $db->quoteName('element', 'value'),
-                        $db->quoteName('name', 'text'),
-                    ]
-                )
-                ->from($db->quoteName('#__extensions'))
-                ->where(
-                    [
-                        $db->quoteName('folder') . ' = :folder',
-                        $db->quoteName('enabled') . ' = 1',
-                    ]
-                )
-                ->bind(':folder', $folder)
-                ->order(
-                    [
-                        $db->quoteName('ordering'),
-                        $db->quoteName('name'),
-                    ]
-                );
-
-            if ((string) $this->element['useaccess'] === 'true') {
-                $query->whereIn($db->quoteName('access'), Factory::getUser()->getAuthorisedViewLevels());
-            }
-
-            $options   = $db->setQuery($query)->loadObjectList();
-            $lang      = Factory::getLanguage();
-            $useGlobal = $this->element['useglobal'];
-
-            if ($useGlobal) {
-                $globalValue = Factory::getApplication()->get($this->fieldname);
-            }
-
-            foreach ($options as $i => $item) {
-                $source    = JPATH_PLUGINS . '/' . $folder . '/' . $item->value;
-                $extension = 'plg_' . $folder . '_' . $item->value;
-                $lang->load($extension . '.sys', JPATH_ADMINISTRATOR) || $lang->load($extension . '.sys', $source);
-                $options[$i]->text = Text::_($item->text);
-
-                // If we are using useglobal update the use global value text with the plugin text.
-                if ($useGlobal && isset($parentOptions[0]) && $item->value === $globalValue) {
-                    $text                   = Text::_($extension);
-                    $parentOptions[0]->text = Text::sprintf('JGLOBAL_USE_GLOBAL_VALUE', ($text === '' || $text === $extension ? $item->value : $text));
-                }
-            }
-        } else {
+        if (empty($folder)) {
             Log::add(Text::_('JFRAMEWORK_FORM_FIELDS_PLUGINS_ERROR_FOLDER_EMPTY'), Log::WARNING, 'jerror');
+
+            return $parentOptions;
+        }
+
+        // Get list of plugins
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
+            ->select(
+                [
+                    $db->quoteName('element', 'value'),
+                    $db->quoteName('name', 'text'),
+                ]
+            )
+            ->from($db->quoteName('#__extensions'))
+            ->where(
+                [
+                    $db->quoteName('folder') . ' = :folder',
+                    $db->quoteName('enabled') . ' = 1',
+                ]
+            )
+            ->bind(':folder', $folder)
+            ->order(
+                [
+                    $db->quoteName('ordering'),
+                    $db->quoteName('name'),
+                ]
+            );
+
+        if ((string) $this->element['useaccess'] === 'true') {
+            $query->whereIn($db->quoteName('access'), $this->getCurrentUser()->getAuthorisedViewLevels());
+        }
+
+        $options   = $db->setQuery($query)->loadObjectList();
+        $lang      = Factory::getLanguage();
+        $useGlobal = $this->element['useglobal'];
+
+        if ($useGlobal) {
+            $globalValue = Factory::getApplication()->get($this->fieldname);
+        }
+
+        foreach ($options as $i => $item) {
+            $source    = JPATH_PLUGINS . '/' . $folder . '/' . $item->value;
+            $extension = 'plg_' . $folder . '_' . $item->value;
+            $lang->load($extension . '.sys', JPATH_ADMINISTRATOR) || $lang->load($extension . '.sys', $source);
+            $item->text = Text::_($item->text);
+
+            // If we are using useglobal update the use global value text with the plugin text.
+            if ($useGlobal && isset($parentOptions[0]) && $item->value === $globalValue) {
+                $text                   = Text::_($extension);
+                $parentOptions[0]->text = Text::sprintf('JGLOBAL_USE_GLOBAL_VALUE', ($text === '' || $text === $extension ? $item->value : $text));
+            }
         }
 
         return array_merge($parentOptions, $options);

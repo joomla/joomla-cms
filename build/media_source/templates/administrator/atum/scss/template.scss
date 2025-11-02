@@ -1,14 +1,14 @@
-// Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
-$prefix: "";
-
 // Bootstrap functions
 @import "../../../../../../media/vendor/bootstrap/scss/functions";
 
 // Atum Variables
 @import "variables";
+@import "variables-dark";
 
 @import "../../../../../../media/vendor/bootstrap/scss/variables";
+@import "../../../../../../media/vendor/bootstrap/scss/variables-dark";
 @import "../../../../../../media/vendor/bootstrap/scss/maps";
+@import "maps-atum";
 @import "../../../../../../media/vendor/bootstrap/scss/mixins";
 @import "../../../../../../media/vendor/bootstrap/scss/utilities";
 
@@ -23,7 +23,12 @@ $prefix: "";
 // jQuery Minicolors
 @import "../../../../../../media/system/scss/jquery-minicolors";
 
+// System overrides
+@import "system/fields/calendar";
+@import "system/fields/switcher";
+
 // Vendor overrides
+@import "vendor/bootstrap/accordion";
 @import "vendor/bootstrap/badge";
 @import "vendor/bootstrap/buttons";
 @import "vendor/bootstrap/card";
@@ -32,6 +37,7 @@ $prefix: "";
 @import "vendor/bootstrap/dropdown";
 @import "vendor/bootstrap/form";
 @import "vendor/bootstrap/lists";
+@import "vendor/bootstrap/list-group";
 @import "vendor/bootstrap/modal";
 @import "vendor/bootstrap/pagination";
 @import "vendor/bootstrap/reboot";
@@ -39,6 +45,7 @@ $prefix: "";
 
 // Blocks
 @import "blocks/alerts";
+@import "blocks/calendar";
 @import "blocks/edit";
 @import "blocks/header";
 @import "blocks/form";
@@ -49,6 +56,7 @@ $prefix: "";
 @import "blocks/modals";
 @import "blocks/quickicons";
 @import "blocks/lists";
+@import "blocks/shepard-modals";
 @import "blocks/sidebar";
 @import "blocks/sidebar-nav";
 @import "blocks/switcher";
@@ -67,11 +75,14 @@ $prefix: "";
 @import "pages/com_content";
 @import "pages/com_cpanel";
 @import "pages/com_joomlaupdate";
+@import "pages/com_media";
 @import "pages/com_modules";
 @import "pages/com_tags";
 @import "pages/com_privacy";
+@import "pages/com_scheduler";
 @import "pages/com_templates";
 @import "pages/com_users";
+@import "pages/plg_web_installer";
 
 // Custom Atum colors
 :root {
@@ -80,6 +91,14 @@ $prefix: "";
   }
 }
 
+// Check if dark mode is enabled
+@if $enable-dark-mode {
+  @include color-mode(dark, true) {
+    @each $color, $value in $atum-colors-dark {
+      --#{$prefix}#{$color}: #{$value};
+    }
+  }
+}
 
 // Forcing reduced motion when set in the user OS
 @media (prefers-reduced-motion: reduce) {
@@ -193,6 +212,7 @@ $prefix: "";
 }
 
 .bg-warning {
+  color: #000;
   background-color: var(--warning) !important;
 }
 

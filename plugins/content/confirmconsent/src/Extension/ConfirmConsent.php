@@ -10,8 +10,9 @@
 
 namespace Joomla\Plugin\Content\ConfirmConsent\Extension;
 
-use Joomla\CMS\Form\Form;
+use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -22,17 +23,8 @@ use Joomla\CMS\Plugin\CMSPlugin;
  *
  * @since  3.9.0
  */
-final class ConfirmConsent extends CMSPlugin
+final class ConfirmConsent extends CMSPlugin implements SubscriberInterface
 {
-    /**
-     * Load the language file on instantiation.
-     *
-     * @var    boolean
-     *
-     * @since  3.9.0
-     */
-    protected $autoloadLanguage = true;
-
     /**
      * The supported form contexts
      *
@@ -46,20 +38,37 @@ final class ConfirmConsent extends CMSPlugin
     ];
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   5.3.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onContentPrepareForm' => 'onContentPrepareForm',
+        ];
+    }
+
+    /**
      * Add additional fields to the supported forms
      *
-     * @param   Form   $form  The form to be altered.
-     * @param   mixed  $data  The associated data for the form.
+     * @param   PrepareFormEvent $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   3.9.0
      */
-    public function onContentPrepareForm(Form $form, $data)
+    public function onContentPrepareForm(PrepareFormEvent $event)
     {
-        if ($this->getApplication()->isClient('administrator') || !in_array($form->getName(), $this->supportedContext)) {
-            return true;
+        $form = $event->getForm();
+
+        if ($this->getApplication()->isClient('administrator') || !\in_array($form->getName(), $this->supportedContext)) {
+            return;
         }
+
+        $this->loadLanguage();
 
         // Get the consent box Text & the selected privacyarticle
         $consentboxText  = (string) $this->params->get(
@@ -86,7 +95,5 @@ final class ConfirmConsent extends CMSPlugin
 					</field>
 				</fieldset>
 			</form>');
-
-        return true;
     }
 }

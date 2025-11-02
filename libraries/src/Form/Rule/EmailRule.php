@@ -20,7 +20,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -40,7 +40,7 @@ class EmailRule extends FormRule implements DatabaseAwareInterface
      * @link   https://www.w3.org/TR/html/sec-forms.html#email-state-typeemail
      */
     protected $regex = "^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])"
-            . "?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
+        . "?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
 
     /**
      * Method to test the email address and optionally check for uniqueness.
@@ -50,15 +50,15 @@ class EmailRule extends FormRule implements DatabaseAwareInterface
      * @param   string             $group    The field name group control value. This acts as an array container for the field.
      *                                       For example if the field has name="foo" and the group value is set to "bar" then the
      *                                       full field name would end up being "bar[foo]".
-     * @param   Registry           $input    An optional Registry object with the entire data set to validate against the entire form.
-     * @param   Form               $form     The form object for which the field is being tested.
+     * @param   ?Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
+     * @param   ?Form              $form     The form object for which the field is being tested.
      *
      * @return  mixed  Boolean true if field value is valid.
      *
      * @since   1.7.0
      * @throws  \UnexpectedValueException
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         // If the field is empty and not required, the field is valid.
         $required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
@@ -164,7 +164,9 @@ class EmailRule extends FormRule implements DatabaseAwareInterface
             $query = $db->getQuery(true);
 
             // Get the extra field check attribute.
-            $userId = ($form instanceof Form) ? (int) $form->getValue('id') : 0;
+            $userId = ($form instanceof Form) && $form->getValue('id')
+                ? (int) $form->getValue('id')
+                : (($input instanceof Registry) ? (int) $input->get('id') : 0);
 
             // Build the query.
             $query->select('COUNT(*)')

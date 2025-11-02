@@ -12,7 +12,7 @@ namespace Joomla\CMS\MVC\View;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -43,4 +43,13 @@ interface ViewInterface
      * @since   3.0
      */
     public function getModel($name = null);
+
+    /**
+     * Method to get the view name
+     *
+     * @return  string  The name of the view
+     *
+     * @since   5.0.0
+     */
+    public function getName();
 }

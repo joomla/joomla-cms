@@ -13,7 +13,7 @@ use Joomla\Crypt\CipherInterface;
 use Joomla\Crypt\Key;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -124,7 +124,7 @@ class CryptoCipher implements CipherInterface
             \Crypto::RuntimeTest();
 
             return true;
-        } catch (\CryptoTestFailedException $e) {
+        } catch (\CryptoTestFailedException) {
             return false;
         }
     }

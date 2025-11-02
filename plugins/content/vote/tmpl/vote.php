@@ -26,7 +26,6 @@ use Joomla\CMS\Uri\Uri;
  */
 
 $uri = clone Uri::getInstance();
-$uri->setVar('hitcount', '0');
 
 // Create option list for voting select box
 $options = [];

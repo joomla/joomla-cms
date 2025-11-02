@@ -15,7 +15,6 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Button\BasicButton;
 use Joomla\CMS\Toolbar\Button\LinkButton;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
@@ -122,7 +121,7 @@ class HtmlView extends BaseHtmlView
         $this->record        = $model->getRecord($this->user);
         $this->title         = $model->getPageTitle();
         $this->isAdmin       = $app->isClient('administrator');
-        $toolbar             = Toolbar::getInstance();
+        $toolbar             = $this->getDocument()->getToolbar();
 
         // Backup codes are a special case, rendered with a special layout
         if ($this->record->method == 'backupcodes') {
@@ -130,7 +129,7 @@ class HtmlView extends BaseHtmlView
 
             $backupCodes = $this->record->options;
 
-            if (!is_array($backupCodes)) {
+            if (!\is_array($backupCodes)) {
                 $backupCodes = [];
             }
 
@@ -141,7 +140,7 @@ class HtmlView extends BaseHtmlView
                 }
             );
 
-            if (count($backupCodes) % 2 != 0) {
+            if (\count($backupCodes) % 2 != 0) {
                 $backupCodes[] = '';
             }
 
@@ -200,7 +199,7 @@ class HtmlView extends BaseHtmlView
             $button = (new LinkButton('user-mfa-edit-cancel'))
                 ->url(
                     Route::_(
-                        sprintf(
+                        \sprintf(
                             "index.php?option=com_users&task=method.regenerateBackupCodes&user_id=%s&%s=1&returnurl=%s",
                             $this->user->id,
                             Factory::getApplication()->getFormToken(),

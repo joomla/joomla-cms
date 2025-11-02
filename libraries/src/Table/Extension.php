@@ -10,10 +10,11 @@
 namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -32,7 +33,7 @@ class Extension extends Table
     protected $_supportNullValue = true;
 
     /**
-     * Ensure the params in json encoded in the bind method
+     * Ensure the params are json encoded in the bind method
      *
      * @var    array
      * @since  4.0.0
@@ -50,13 +51,14 @@ class Extension extends Table
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  Database driver object.
+     * @param   DatabaseInterface     $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.7.0
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__extensions', 'extension_id', $db);
+        parent::__construct('#__extensions', 'extension_id', $db, $dispatcher);
 
         // Set the alias since the column is called enabled
         $this->setColumnAlias('published', 'enabled');
@@ -102,16 +104,17 @@ class Extension extends Table
     public function find($options = [])
     {
         // Get the DatabaseQuery object
-        $query = $this->_db->getQuery(true);
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true);
 
         foreach ($options as $col => $val) {
-            $query->where($col . ' = ' . $this->_db->quote($val));
+            $query->where($col . ' = ' . $db->quote($val));
         }
 
-        $query->select($this->_db->quoteName('extension_id'))
-            ->from($this->_db->quoteName('#__extensions'));
-        $this->_db->setQuery($query);
+        $query->select($db->quoteName('extension_id'))
+            ->from($db->quoteName('#__extensions'));
+        $db->setQuery($query);
 
-        return $this->_db->loadResult();
+        return $db->loadResult();
     }
 }

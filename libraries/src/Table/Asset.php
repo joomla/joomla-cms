@@ -10,10 +10,11 @@
 namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -58,13 +59,14 @@ class Asset extends Nested
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  Database driver object.
+     * @param   DatabaseInterface     $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.7.0
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__assets', 'id', $db);
+        parent::__construct('#__assets', 'id', $db, $dispatcher);
     }
 
     /**
@@ -107,14 +109,15 @@ class Asset extends Nested
         // Nested does not allow parent_id = 0, override this.
         if ($this->parent_id > 0) {
             // Get the DatabaseQuery object
-            $query = $this->_db->getQuery(true)
+            $db    = $this->getDatabase();
+            $query = $db->getQuery(true)
                 ->select('1')
-                ->from($this->_db->quoteName($this->_tbl))
-                ->where($this->_db->quoteName('id') . ' = ' . $this->parent_id);
+                ->from($db->quoteName($this->_tbl))
+                ->where($db->quoteName('id') . ' = ' . $this->parent_id);
 
             $query->setLimit(1);
 
-            if ($this->_db->setQuery($query)->loadResult()) {
+            if ($db->setQuery($query)->loadResult()) {
                 return true;
             }
 
@@ -151,7 +154,8 @@ class Asset extends Nested
             }
         }
 
-        $query = $this->_db->getQuery(true);
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true);
 
         // Build the structure of the recursive query.
         if (!isset($this->_cache['rebuild.sql'])) {
@@ -173,9 +177,9 @@ class Asset extends Nested
         // Make a shortcut to database object.
 
         // Assemble the query to find all children of this node.
-        $this->_db->setQuery(sprintf($this->_cache['rebuild.sql'], (int) $parentId));
+        $db->setQuery(\sprintf($this->_cache['rebuild.sql'], (int) $parentId));
 
-        $children = $this->_db->loadObjectList();
+        $children = $db->loadObjectList();
 
         // The right value of this node is the left value + 1
         $rightId = $leftId + 1;
@@ -203,7 +207,7 @@ class Asset extends Nested
             ->set('rgt = ' . (int) $rightId)
             ->set('level = ' . (int) $level)
             ->where($this->_tbl_key . ' = ' . (int) $parentId);
-        $this->_db->setQuery($query)->execute();
+        $db->setQuery($query)->execute();
 
         // Return the right value of this node + 1.
         return $rightId + 1;

@@ -58,7 +58,7 @@ class ComponentsFieldsField extends ListField
 
         $options = [];
 
-        if (count($items)) {
+        if (\count($items)) {
             $lang = Factory::getLanguage();
 
             $components = [];
@@ -94,10 +94,10 @@ class ComponentsFieldsField extends ListField
                 if ($c instanceof FieldsServiceInterface) {
                     $contexts = $c->getContexts();
 
-                    foreach ($contexts as $context) {
+                    foreach ($contexts as $contextKey => $contextName) {
                         $newOption        = new \stdClass();
-                        $newOption->value = strtolower($component->value . '.' . $context);
-                        $newOption->text  = $component->text . ' - ' . Text::_($context);
+                        $newOption->value = $contextKey;
+                        $newOption->text  = $component->text . ' - ' . Text::_($contextName);
                         $options[]        = $newOption;
                     }
                 } else {

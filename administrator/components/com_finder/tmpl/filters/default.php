@@ -10,21 +10,22 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-$user      = Factory::getUser();
-$userId    = $user->get('id');
+/** @var \Joomla\Component\Finder\Administrator\View\Filters\HtmlView $this */
+
+$user      = $this->getCurrentUser();
+$userId    = $user->id;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
 Text::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_finder.filters')
     ->useScript('table.columns')
     ->useScript('multiselect');

@@ -68,7 +68,7 @@ class ArticlesLatestHelper implements DatabaseAwareInterface
 
         // Access filter
         $access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
-        $authorised = Access::getAuthorisedViewLevels($user->get('id'));
+        $authorised = Access::getAuthorisedViewLevels($user->id);
         $model->setState('filter.access', $access);
 
         // Category filter
@@ -78,7 +78,7 @@ class ArticlesLatestHelper implements DatabaseAwareInterface
         $model->setState('filter.condition', 1);
 
         // User filter
-        $userId = $user->get('id');
+        $userId = $user->id;
 
         switch ($params->get('user_id')) {
             case 'by_me':
@@ -124,7 +124,7 @@ class ArticlesLatestHelper implements DatabaseAwareInterface
             'random' => $db->getQuery(true)->rand(),
         ];
 
-        $ordering = ArrayHelper::getValue($order_map, $params->get('ordering'), 'a.publish_up');
+        $ordering = ArrayHelper::getValue($order_map, $params->get('ordering', 'p_dsc'), 'a.publish_up');
         $dir      = 'DESC';
 
         $model->setState('list.ordering', $ordering);
@@ -156,9 +156,11 @@ class ArticlesLatestHelper implements DatabaseAwareInterface
      *
      * @since   1.6
      *
-     * @deprecated  4.3 will be removed in 6.0
-     *              Use the none static function getArticles
-     *              Example: (new ArticlesLatestHelper())->getArticles($params, Factory::getApplication());
+     * @deprecated 4.3 will be removed in 6.0
+     *             Use the non-static method getArticles
+     *             Example: Factory::getApplication()->bootModule('mod_articles_latest', 'site')
+     *                          ->getHelper('ArticlesLatestHelper')
+     *                          ->getArticles($params, Factory::getApplication())
      */
     public static function getList(Registry $params, ArticlesModel $model)
     {

@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Event\Plugin\System\Webauthn;
 
-use InvalidArgumentException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\Event\Result\ResultAware;
 use Joomla\CMS\Event\Result\ResultAwareInterface;
@@ -41,8 +40,8 @@ class AjaxChallenge extends AbstractImmutableEvent implements ResultAwareInterfa
             return;
         }
 
-        if (!is_string($data) || @json_decode($data) === null) {
-            throw new InvalidArgumentException(sprintf('Event %s only accepts JSON results.', $this->getName()));
+        if (!\is_string($data) || @json_decode($data) === null) {
+            throw new \InvalidArgumentException(\sprintf('Event %s only accepts JSON results.', $this->getName()));
         }
     }
 }

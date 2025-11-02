@@ -11,15 +11,14 @@
       "uri": "com_finder/dates.min.css"
     },
     {
-      "name": "com_finder.filters.es5",
+      "name": "com_finder.debug",
       "type": "script",
-      "uri": "com_finder/filters-es5.min.js",
+      "uri": "com_finder/debug.min.js",
       "dependencies": [
         "core"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
+        "type": "module"
       }
     },
     {
@@ -27,7 +26,7 @@
       "type": "script",
       "uri": "com_finder/filters.min.js",
       "dependencies": [
-        "com_finder.filters.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -39,38 +38,14 @@
       "uri": "com_finder/finder.min.css"
     },
     {
-      "name": "com_finder.finder.es5",
-      "type": "script",
-      "uri": "com_finder/finder-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_finder.finder",
       "type": "script",
       "uri": "com_finder/finder.min.js",
       "dependencies": [
-        "com_finder.finder.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
-      "name": "com_finder.finder-edit.es5",
-      "type": "script",
-      "uri": "com_finder/finder-edit-es5.min.js",
-      "dependencies": [
         "core"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
+        "type": "module"
       }
     },
     {
@@ -78,7 +53,7 @@
       "type": "script",
       "uri": "com_finder/finder-edit.min.js",
       "dependencies": [
-        "com_finder.finder-edit.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -90,38 +65,14 @@
       "uri": "com_finder/indexer.min.css"
     },
     {
-      "name": "com_finder.indexer.es5",
-      "type": "script",
-      "uri": "com_finder/indexer-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_finder.indexer",
       "type": "script",
       "uri": "com_finder/indexer.min.js",
       "dependencies": [
-        "com_finder.indexer.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
-      "name": "com_finder.maps.es5",
-      "type": "script",
-      "uri": "com_finder/maps-es5.min.js",
-      "dependencies": [
         "core"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
+        "type": "module"
       }
     },
     {
@@ -129,7 +80,7 @@
       "type": "script",
       "uri": "com_finder/maps.min.js",
       "dependencies": [
-        "com_finder.maps.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

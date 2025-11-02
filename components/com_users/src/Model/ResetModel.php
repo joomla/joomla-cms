@@ -21,7 +21,10 @@ use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -32,8 +35,10 @@ use Joomla\CMS\User\UserHelper;
  *
  * @since  1.5
  */
-class ResetModel extends FormModel
+class ResetModel extends FormModel implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * Method to get the password reset request form.
      *
@@ -72,7 +77,7 @@ class ResetModel extends FormModel
     public function getResetCompleteForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.reset_complete', 'reset_complete', $options = ['control' => 'jform']);
+        $form = $this->loadForm('com_users.reset_complete', 'reset_complete', ['control' => 'jform']);
 
         if (empty($form)) {
             return false;
@@ -95,13 +100,13 @@ class ResetModel extends FormModel
     public function getResetConfirmForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.reset_confirm', 'reset_confirm', $options = ['control' => 'jform']);
+        $form = $this->loadForm('com_users.reset_confirm', 'reset_confirm', ['control' => 'jform']);
 
         if (empty($form)) {
             return false;
-        } else {
-            $form->setValue('token', '', Factory::getApplication()->getInput()->get('token'));
         }
+
+        $form->setValue('token', '', Factory::getApplication()->getInput()->get('token'));
 
         return $form;
     }
@@ -193,7 +198,7 @@ class ResetModel extends FormModel
         }
 
         // Get the user object.
-        $user = User::getInstance($userId);
+        $user = $this->getUserFactory()->loadUserById($userId);
 
         $event = AbstractEvent::create(
             'onUserBeforeResetComplete',
@@ -417,7 +422,7 @@ class ResetModel extends FormModel
         }
 
         // Get the user object.
-        $user = User::getInstance($userId);
+        $user = $this->getUserFactory()->loadUserById($userId);
 
         // Make sure the user isn't blocked.
         if ($user->block) {
@@ -465,7 +470,7 @@ class ResetModel extends FormModel
         $link = 'index.php?option=com_users&view=reset&layout=confirm&token=' . $token;
 
         // Put together the email template data.
-        $data              = $user->getProperties();
+        $data              = ArrayHelper::fromObject($user, false);
         $data['sitename']  = $app->get('sitename');
         $data['link_text'] = Route::_($link, false, $mode);
         $data['link_html'] = Route::_($link, true, $mode);
@@ -523,7 +528,7 @@ class ResetModel extends FormModel
         $resetHours = (int) $params->get('reset_time');
         $result     = true;
 
-        $lastResetTime       = strtotime($user->lastResetTime) ?: 0;
+        $lastResetTime       = $user->lastResetTime === null ? 0 : strtotime($user->lastResetTime);
         $hoursSinceLastReset = (strtotime(Factory::getDate()->toSql()) - $lastResetTime) / 3600;
 
         if ($hoursSinceLastReset > $resetHours) {

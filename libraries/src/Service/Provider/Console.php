@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Service\Provider;
 
 use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
+use Joomla\CMS\Console\CoreUpdateChannelCommand;
 use Joomla\CMS\Console\ExtensionDiscoverCommand;
 use Joomla\CMS\Console\ExtensionDiscoverInstallCommand;
 use Joomla\CMS\Console\ExtensionDiscoverListCommand;
@@ -18,6 +19,7 @@ use Joomla\CMS\Console\ExtensionRemoveCommand;
 use Joomla\CMS\Console\ExtensionsListCommand;
 use Joomla\CMS\Console\FinderIndexCommand;
 use Joomla\CMS\Console\GetConfigurationCommand;
+use Joomla\CMS\Console\MaintenanceDatabaseCommand;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
 use Joomla\CMS\Console\SetConfigurationCommand;
@@ -27,6 +29,7 @@ use Joomla\CMS\Console\TasksListCommand;
 use Joomla\CMS\Console\TasksRunCommand;
 use Joomla\CMS\Console\TasksStateCommand;
 use Joomla\CMS\Console\UpdateCoreCommand;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\Database\Command\ExportCommand;
 use Joomla\Database\Command\ImportCommand;
@@ -35,7 +38,7 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -82,7 +85,7 @@ class Console implements ServiceProviderInterface
         $container->share(
             ExportCommand::class,
             function (Container $container) {
-                return new ExportCommand($container->get('db'));
+                return new ExportCommand($container->get(DatabaseInterface::class));
             },
             true
         );
@@ -90,7 +93,7 @@ class Console implements ServiceProviderInterface
         $container->share(
             ImportCommand::class,
             function (Container $container) {
-                return new ImportCommand($container->get('db'));
+                return new ImportCommand($container->get(DatabaseInterface::class));
             },
             true
         );
@@ -130,7 +133,7 @@ class Console implements ServiceProviderInterface
         $container->share(
             ExtensionsListCommand::class,
             function (Container $container) {
-                return new ExtensionsListCommand($container->get('db'));
+                return new ExtensionsListCommand($container->get(DatabaseInterface::class));
             },
             true
         );
@@ -170,7 +173,7 @@ class Console implements ServiceProviderInterface
         $container->share(
             ExtensionDiscoverInstallCommand::class,
             function (Container $container) {
-                return new ExtensionDiscoverInstallCommand($container->get('db'));
+                return new ExtensionDiscoverInstallCommand($container->get(DatabaseInterface::class));
             },
             true
         );
@@ -178,7 +181,7 @@ class Console implements ServiceProviderInterface
         $container->share(
             ExtensionDiscoverListCommand::class,
             function (Container $container) {
-                return new ExtensionDiscoverListCommand($container->get('db'));
+                return new ExtensionDiscoverListCommand($container->get(DatabaseInterface::class));
             },
             true
         );
@@ -186,7 +189,7 @@ class Console implements ServiceProviderInterface
         $container->share(
             UpdateCoreCommand::class,
             function (Container $container) {
-                return new UpdateCoreCommand($container->get('db'));
+                return new UpdateCoreCommand($container->get(DatabaseInterface::class));
             },
             true
         );
@@ -194,7 +197,13 @@ class Console implements ServiceProviderInterface
         $container->share(
             FinderIndexCommand::class,
             function (Container $container) {
-                return new FinderIndexCommand($container->get('db'));
+                $command = new FinderIndexCommand($container->get(DatabaseInterface::class));
+                $command->setLanguage($container->get(LanguageFactoryInterface::class)->createLanguage(
+                    $container->get('config')->get('language'),
+                    $container->get('config')->get('debug_lang')
+                ));
+
+                return $command;
             },
             true
         );
@@ -218,6 +227,21 @@ class Console implements ServiceProviderInterface
             TasksStateCommand::class,
             function (Container $container) {
                 return new TasksStateCommand();
+            }
+        );
+
+        $container->share(
+            MaintenanceDatabaseCommand::class,
+            function (Container $container) {
+                return new MaintenanceDatabaseCommand();
+            },
+            true
+        );
+
+        $container->share(
+            CoreUpdateChannelCommand::class,
+            function (Container $container) {
+                return new CoreUpdateChannelCommand($container->get(DatabaseInterface::class));
             }
         );
     }

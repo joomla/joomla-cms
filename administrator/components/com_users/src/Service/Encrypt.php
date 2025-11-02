@@ -53,7 +53,7 @@ class Encrypt
      */
     public function encrypt(string $data): string
     {
-        if (!is_object($this->aes)) {
+        if (!\is_object($this->aes)) {
             return $data;
         }
 
@@ -75,13 +75,13 @@ class Encrypt
      */
     public function decrypt(string $data, bool $legacy = false): string
     {
-        if (substr($data, 0, 12) != '###AES128###') {
+        if (!str_starts_with($data, '###AES128###')) {
             return $data;
         }
 
         $data = substr($data, 12);
 
-        if (!is_object($this->aes)) {
+        if (!\is_object($this->aes)) {
             return $data;
         }
 
@@ -100,7 +100,7 @@ class Encrypt
      */
     private function initialize(): void
     {
-        if (is_object($this->aes)) {
+        if (\is_object($this->aes)) {
             return;
         }
 
@@ -125,7 +125,7 @@ class Encrypt
     {
         try {
             return Factory::getApplication()->get('secret', '');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return '';
         }
     }
