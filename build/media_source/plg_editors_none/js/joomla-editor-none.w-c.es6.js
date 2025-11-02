@@ -2,14 +2,11 @@
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-// eslint-disable-next-line import/no-unresolved, max-classes-per-file
 import { JoomlaEditor, JoomlaEditorDecorator } from 'editor-api';
 
 /**
  * EditorNone Decorator for Joomla.Editor
  */
-// eslint-disable-next-line max-classes-per-file
 class EditorNoneDecorator extends JoomlaEditorDecorator {
   /**
    * @returns {string}
@@ -62,7 +59,6 @@ class JoomlaEditorNone extends HTMLElement {
     this.getSelection = this.getSelection.bind(this);
 
     // Watch for children changes.
-    // eslint-disable-next-line no-return-assign
     new MutationObserver(() => this.childrenChange())
       .observe(this, { childList: true });
 

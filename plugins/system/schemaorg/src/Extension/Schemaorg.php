@@ -161,11 +161,11 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
 
             $user = $this->getApplication()->getIdentity();
 
-            $infoText = Text::_('PLG_SYSTEM_SCHEMAORG_FIELD_SCHEMA_DESCRIPTION_NOT_CONFIGURATED');
+            $infoText = Text::_('PLG_SYSTEM_SCHEMAORG_FIELD_SCHEMA_DESCRIPTION_NOT_CONFIGURED');
 
             // If edit permission are available, offer a link
             if ($user->authorise('core.edit', 'com_plugins')) {
-                $infoText = Text::sprintf('PLG_SYSTEM_SCHEMAORG_FIELD_SCHEMA_DESCRIPTION_NOT_CONFIGURATED_ADMIN', (int) $plugin->id);
+                $infoText = Text::sprintf('PLG_SYSTEM_SCHEMAORG_FIELD_SCHEMA_DESCRIPTION_NOT_CONFIGURED_ADMIN', (int) $plugin->id);
             }
 
             $form->setFieldAttribute('schemainfo', 'description', $infoText, 'schema');
@@ -566,11 +566,14 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
      */
     public function onContentAfterDelete(Model\AfterDeleteEvent $event)
     {
-        if (!$this->isSupported($event->getContext())) {
+        $context = $event->getContext();
+        $itemId  = $event->getItem()->id ?? 0;
+
+        if (!$itemId || !$this->isSupported($context)) {
             return;
         }
 
-        $this->deleteSchemaOrg($event->getItem()->id, $event->getContext());
+        $this->deleteSchemaOrg($itemId, $context);
     }
 
     /**
