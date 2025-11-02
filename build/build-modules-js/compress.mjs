@@ -13,7 +13,7 @@ async function getFiles(path) {
   // Get files within the current directory
   return (await readdir(path, { withFileTypes: true, recursive: true }))
     .filter((file) => !file.isDirectory() && ['.js', '.css'].includes(extname(file.name)))
-    .map((file) => `${file.path}/${file.name}`);
+    .map((file) => `${file.parentPath}/${file.name}`);
 }
 
 /**
@@ -34,7 +34,6 @@ export const compressFiles = async (enableBrotli = false) => {
   [].concat(...files).map((file) => compressTasks.push(compressFile(file, enableBrotli)));
 
   await Promise.all(compressTasks);
-  // eslint-disable-next-line no-console
   console.log('✅ Done 👍');
   bench.stop();
 };
