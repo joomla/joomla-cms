@@ -718,6 +718,7 @@ class JoomlaInstallerScript
             '/libraries/vendor/beberlei/assert/LICENSE',
             '/libraries/vendor/google/recaptcha/ARCHITECTURE.md',
             '/libraries/vendor/jfcherng/php-color-output/src/helpers.php',
+            '/libraries/vendor/joomla/filter/PATCHES.txt',
             '/libraries/vendor/joomla/ldap/LICENSE',
             '/libraries/vendor/joomla/ldap/src/LdapClient.php',
             '/libraries/vendor/laminas/laminas-zendframework-bridge/config/replacements.php',
@@ -2450,6 +2451,38 @@ class JoomlaInstallerScript
             '/libraries/vendor/maximebf/debugbar/src/DebugBar/Storage/PdoStorage.php',
             '/libraries/vendor/maximebf/debugbar/src/DebugBar/Storage/RedisStorage.php',
             '/libraries/vendor/maximebf/debugbar/src/DebugBar/Storage/StorageInterface.php',
+            // From 5.3.0-beta3 to 5.3.0-rc1
+            '/libraries/vendor/joomla/http/.drone.jsonnet',
+            '/libraries/vendor/joomla/http/.drone.yml',
+            '/libraries/vendor/joomla/oauth1/.drone.jsonnet',
+            '/libraries/vendor/joomla/oauth1/.drone.yml',
+            '/libraries/vendor/joomla/oauth2/.drone.jsonnet',
+            '/libraries/vendor/joomla/oauth2/.drone.yml',
+            '/libraries/vendor/joomla/router/.drone.jsonnet',
+            '/libraries/vendor/joomla/router/.drone.yml',
+            '/libraries/vendor/joomla/string/.drone.jsonnet',
+            '/libraries/vendor/joomla/string/.drone.yml',
+            '/libraries/vendor/joomla/uri/.drone.jsonnet',
+            '/libraries/vendor/joomla/uri/.drone.yml',
+            '/libraries/vendor/joomla/utilities/.drone.jsonnet',
+            '/libraries/vendor/joomla/utilities/.drone.yml',
+            // From 5.3.0-rc1 to 5.3.0-rc2
+            '/libraries/vendor/algo26-matthias/idna-convert/Dockerfile',
+            '/libraries/vendor/algo26-matthias/idna-convert/compose.yml',
+            '/libraries/vendor/algo26-matthias/idna-convert/src/Exception/Std3AsciiRulesViolationException.php',
+            '/libraries/vendor/algo26-matthias/idna-convert/src/TranscodeUnicode/ByteLengthTrait.php',
+            // From 5.4.0-alpha2 to 5.4.0-alpha3
+            '/administrator/modules/mod_menu/mod_menu.php',
+            '/modules/mod_random_image/mod_random_image.php',
+            // From 5.4.0-alpha3 to 5.4.0-beta1
+            '/administrator/modules/mod_latest/mod_latest.php',
+            '/administrator/modules/mod_logged/mod_logged.php',
+            '/administrator/modules/mod_privacy_dashboard/mod_privacy_dashboard.php',
+            '/administrator/modules/mod_submenu/mod_submenu.php',
+            '/modules/mod_finder/mod_finder.php',
+            '/modules/mod_login/mod_login.php',
+            '/modules/mod_menu/mod_menu.php',
+            '/modules/mod_whosonline/mod_whosonline.php',
         ];
 
         $folders = [
