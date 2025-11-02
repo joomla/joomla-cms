@@ -97,7 +97,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
                                 </div>
                             </th>
                             <td class="d-none d-md-table-cell">
-                                <?php echo $this->escape($item->user_name); ?>
+                                <?php echo !empty($item->user_name) ? $this->escape($item->user_name) : '[ ' . Text::_('JNONE') . ' ]'; ?>
                             </td>
                             <td class="d-none d-md-table-cell">
                                 <?php if ($item->review_time !== null) : ?>

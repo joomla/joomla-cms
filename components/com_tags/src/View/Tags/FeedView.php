@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Tags\Site\Model\TagsModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -56,8 +57,9 @@ class FeedView extends BaseHtmlView
             $this->getDocument()->editorEmail = $siteEmail;
         }
 
-        // Get some data from the model
-        $items = $this->get('Items');
+        /** @var TagsModel $model */
+        $model = $this->getModel();
+        $items = $model->getItems();
 
         foreach ($items as $item) {
             // Strip HTML from feed item title

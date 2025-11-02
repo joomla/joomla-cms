@@ -13,7 +13,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
 
@@ -33,12 +33,12 @@ class MenuType extends Table implements CurrentUserInterface
     /**
      * Constructor
      *
-     * @param   DatabaseDriver        $db          Database connector object
+     * @param   DatabaseInterface     $db          Database connector object
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.6
      */
-    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__menu_types', 'id', $db, $dispatcher);
     }
@@ -77,16 +77,17 @@ class MenuType extends Table implements CurrentUserInterface
         $id = (int) $this->id;
 
         // Check for unique menutype.
-        $query = $this->_db->getQuery(true)
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
             ->select('COUNT(id)')
-            ->from($this->_db->quoteName('#__menu_types'))
-            ->where($this->_db->quoteName('menutype') . ' = :menutype')
-            ->where($this->_db->quoteName('id') . ' <> :id')
+            ->from($db->quoteName('#__menu_types'))
+            ->where($db->quoteName('menutype') . ' = :menutype')
+            ->where($db->quoteName('id') . ' <> :id')
             ->bind(':menutype', $this->menutype)
             ->bind(':id', $id, ParameterType::INTEGER);
-        $this->_db->setQuery($query);
+        $db->setQuery($query);
 
-        if ($this->_db->loadResult()) {
+        if ($db->loadResult()) {
             $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENUTYPE_EXISTS', $this->menutype));
 
             return false;
@@ -115,19 +116,20 @@ class MenuType extends Table implements CurrentUserInterface
             $notIn  = [0, $userId];
 
             // Get the old value of the table
-            $table = new Menutype($this->getDbo(), $this->getDispatcher());
+            $db    = $this->getDatabase();
+            $table = new Menutype($db, $this->getDispatcher());
             $table->load($this->id);
 
             // Verify that no items are checked out
-            $query = $this->_db->getQuery(true)
-                ->select($this->_db->quoteName('id'))
-                ->from($this->_db->quoteName('#__menu'))
-                ->where($this->_db->quoteName('menutype') . ' = :menutype')
-                ->whereNotIn($this->_db->quoteName('checked_out'), $notIn)
+            $query = $db->getQuery(true)
+                ->select($db->quoteName('id'))
+                ->from($db->quoteName('#__menu'))
+                ->where($db->quoteName('menutype') . ' = :menutype')
+                ->whereNotIn($db->quoteName('checked_out'), $notIn)
                 ->bind(':menutype', $table->menutype);
-            $this->_db->setQuery($query);
+            $db->setQuery($query);
 
-            if ($this->_db->loadRowList()) {
+            if ($db->loadRowList()) {
                 $this->setError(
                     Text::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
                 );
@@ -138,15 +140,15 @@ class MenuType extends Table implements CurrentUserInterface
             // Verify that no module for this menu are checked out
             $searchParams = '%"menutype":' . json_encode($table->menutype) . '%';
             $query->clear()
-                ->select($this->_db->quoteName('id'))
-                ->from($this->_db->quoteName('#__modules'))
-                ->where($this->_db->quoteName('module') . ' = ' . $this->_db->quote('mod_menu'))
-                ->where($this->_db->quoteName('params') . ' LIKE :params')
-                ->whereNotIn($this->_db->quoteName('checked_out'), $notIn)
+                ->select($db->quoteName('id'))
+                ->from($db->quoteName('#__modules'))
+                ->where($db->quoteName('module') . ' = ' . $db->quote('mod_menu'))
+                ->where($db->quoteName('params') . ' LIKE :params')
+                ->whereNotIn($db->quoteName('checked_out'), $notIn)
                 ->bind(':params', $searchParams);
-            $this->_db->setQuery($query);
+            $db->setQuery($query);
 
-            if ($this->_db->loadRowList()) {
+            if ($db->loadRowList()) {
                 $this->setError(
                     Text::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
                 );
@@ -156,30 +158,30 @@ class MenuType extends Table implements CurrentUserInterface
 
             // Update the menu items
             $query->clear()
-                ->update($this->_db->quoteName('#__menu'))
-                ->set($this->_db->quoteName('menutype') . ' = :setmenutype')
-                ->where($this->_db->quoteName('menutype') . ' = :menutype')
+                ->update($db->quoteName('#__menu'))
+                ->set($db->quoteName('menutype') . ' = :setmenutype')
+                ->where($db->quoteName('menutype') . ' = :menutype')
                 ->bind(':setmenutype', $this->menutype)
                 ->bind(':menutype', $table->menutype);
-            $this->_db->setQuery($query);
-            $this->_db->execute();
+            $db->setQuery($query);
+            $db->execute();
 
             // Update the module items
             $whereParams   = '%"menutype":' . json_encode($table->menutype) . '%';
             $searchParams  = '"menutype":' . json_encode($table->menutype);
             $replaceParams = '"menutype":' . json_encode($this->menutype);
             $query->clear()
-                ->update($this->_db->quoteName('#__modules'))
+                ->update($db->quoteName('#__modules'))
                 ->set(
-                    $this->_db->quoteName('params') . ' = REPLACE(' . $this->_db->quoteName('params') . ', :search, :value)'
+                    $db->quoteName('params') . ' = REPLACE(' . $db->quoteName('params') . ', :search, :value)'
                 );
-            $query->where($this->_db->quoteName('module') . ' = ' . $this->_db->quote('mod_menu'))
-                ->where($this->_db->quoteName('params') . ' LIKE :whereparams')
+            $query->where($db->quoteName('module') . ' = ' . $db->quote('mod_menu'))
+                ->where($db->quoteName('params') . ' LIKE :whereparams')
                 ->bind(':search', $searchParams)
                 ->bind(':value', $replaceParams)
                 ->bind(':whereparams', $whereParams);
-            $this->_db->setQuery($query);
-            $this->_db->execute();
+            $db->setQuery($query);
+            $db->execute();
         }
 
         return parent::store($updateNulls);
@@ -197,7 +199,7 @@ class MenuType extends Table implements CurrentUserInterface
     public function delete($pk = null)
     {
         $k  = $this->_tbl_key;
-        $pk = $pk === null ? $this->$k : $pk;
+        $pk = $pk ?? $this->$k;
 
         // If no primary key is given, return false.
         if ($pk !== null) {
@@ -207,25 +209,26 @@ class MenuType extends Table implements CurrentUserInterface
             $star   = '*';
 
             // Get the old value of the table
-            $table = new Menutype($this->getDbo(), $this->getDispatcher());
+            $db    = $this->getDatabase();
+            $table = new Menutype($db, $this->getDispatcher());
             $table->load($pk);
 
             // Verify that no items are checked out
-            $query = $this->_db->getQuery(true)
-                ->select($this->_db->quoteName('id'))
-                ->from($this->_db->quoteName('#__menu'))
-                ->where($this->_db->quoteName('menutype') . ' = :menutype')
+            $query = $db->getQuery(true)
+                ->select($db->quoteName('id'))
+                ->from($db->quoteName('#__menu'))
+                ->where($db->quoteName('menutype') . ' = :menutype')
                 ->where('(' .
-                    $this->_db->quoteName('checked_out') . ' NOT IN (NULL, :id)' .
-                    ' OR ' . $this->_db->quoteName('home') . ' = 1' .
-                    ' AND ' . $this->_db->quoteName('language') . ' = :star' .
+                    $db->quoteName('checked_out') . ' NOT IN (NULL, :id)' .
+                    ' OR ' . $db->quoteName('home') . ' = 1' .
+                    ' AND ' . $db->quoteName('language') . ' = :star' .
                     ')')
                 ->bind(':menutype', $table->menutype)
                 ->bind(':id', $userId, ParameterType::INTEGER)
                 ->bind(':star', $star);
-            $this->_db->setQuery($query);
+            $db->setQuery($query);
 
-            if ($this->_db->loadRowList()) {
+            if ($db->loadRowList()) {
                 $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE')));
 
                 return false;
@@ -234,15 +237,15 @@ class MenuType extends Table implements CurrentUserInterface
             // Verify that no module for this menu are checked out
             $searchParams = '%"menutype":' . json_encode($table->menutype) . '%';
             $query->clear()
-                ->select($this->_db->quoteName('id'))
-                ->from($this->_db->quoteName('#__modules'))
-                ->where($this->_db->quoteName('module') . ' = ' . $this->_db->quote('mod_menu'))
-                ->where($this->_db->quoteName('params') . ' LIKE :menutype')
-                ->whereNotIn($this->_db->quoteName('checked_out'), $notIn)
+                ->select($db->quoteName('id'))
+                ->from($db->quoteName('#__modules'))
+                ->where($db->quoteName('module') . ' = ' . $db->quote('mod_menu'))
+                ->where($db->quoteName('params') . ' LIKE :menutype')
+                ->whereNotIn($db->quoteName('checked_out'), $notIn)
                 ->bind(':menutype', $searchParams);
-            $this->_db->setQuery($query);
+            $db->setQuery($query);
 
-            if ($this->_db->loadRowList()) {
+            if ($db->loadRowList()) {
                 $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE')));
 
                 return false;
@@ -251,17 +254,17 @@ class MenuType extends Table implements CurrentUserInterface
             // Delete the menu items
             $query->clear()
                 ->delete('#__menu')
-                ->where('menutype=' . $this->_db->quote($table->menutype));
-            $this->_db->setQuery($query);
-            $this->_db->execute();
+                ->where('menutype=' . $db->quote($table->menutype));
+            $db->setQuery($query);
+            $db->execute();
 
             // Update the module items
             $query->clear()
                 ->delete('#__modules')
-                ->where('module=' . $this->_db->quote('mod_menu'))
-                ->where('params LIKE ' . $this->_db->quote('%"menutype":' . json_encode($table->menutype) . '%'));
-            $this->_db->setQuery($query);
-            $this->_db->execute();
+                ->where('module=' . $db->quote('mod_menu'))
+                ->where('params LIKE ' . $db->quote('%"menutype":' . json_encode($table->menutype) . '%'));
+            $db->setQuery($query);
+            $db->execute();
         }
 
         return parent::delete($pk);
@@ -316,6 +319,6 @@ class MenuType extends Table implements CurrentUserInterface
             $assetId = $asset->id;
         }
 
-        return $assetId === null ? parent::_getAssetParentId($table, $id) : $assetId;
+        return $assetId ?? parent::_getAssetParentId($table, $id);
     }
 }
