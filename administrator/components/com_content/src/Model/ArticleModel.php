@@ -719,7 +719,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             $check = $input->post->get('jform', [], 'array');
 
             foreach ($data['urls'] as $i => $url) {
-                if ($url != false && ($i == 'urla' || $i == 'urlb' || $i == 'urlc')) {
+                if (trim($url) !== '' && ($i == 'urla' || $i == 'urlb' || $i == 'urlc')) {
                     if (preg_match('~^#[a-zA-Z]{1}[a-zA-Z0-9-_:.]*$~', $check['urls'][$i]) == 1) {
                         $data['urls'][$i] = $check['urls'][$i];
                     } else {
@@ -761,6 +761,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                 $data['alias']   = $alias;
             } elseif ($data['alias'] == $origTable->alias) {
                 $data['alias'] = '';
+            }
+
+            if (!$this->workflowEnabled) {
+                $data['state'] = 0;
+            } else {
+                $data['transition'] = '';
             }
         }
 
@@ -1060,6 +1066,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
     protected function cleanCache($group = null, $clientId = 0)
     {
         parent::cleanCache('com_content');
+        parent::cleanCache('mod_articles');
         parent::cleanCache('mod_articles_archive');
         parent::cleanCache('mod_articles_categories');
         parent::cleanCache('mod_articles_category');

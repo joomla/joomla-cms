@@ -31,7 +31,6 @@ const copyFilesTo = async (files, srcDir, destDir) => {
   }
 
   // Copy each file
-  // eslint-disable-next-line no-restricted-syntax,guard-for-in
   for (const srcFile in files) {
     copyPromises.push(doTheCopy(join(srcDir, srcFile), join(destDir, files[srcFile])));
   }
@@ -48,7 +47,6 @@ const resolvePackage = async (vendor, packageName, mediaVendorPath, options, reg
   const vendorName = vendor.name || packageName;
   const modulePathJson = resolvePackageFile(`${packageName}/package.json`);
   const modulePathRoot = dirname(modulePathJson);
-  // eslint-disable-next-line global-require, import/no-dynamic-require
   const moduleOptions = require(modulePathJson);
 
   const promises = [];
@@ -106,7 +104,6 @@ const resolvePackage = async (vendor, packageName, mediaVendorPath, options, reg
     });
   }
 
-  // eslint-disable-next-line no-console
   console.log(`${packageName} was updated.`);
 };
 
@@ -134,7 +131,6 @@ export const localisePackages = async (options) => {
   }
 
   // Loop to get some text for the package.json
-  // eslint-disable-next-line guard-for-in, no-restricted-syntax
   for (const packageName in options.settings.vendors) {
     const vendor = options.settings.vendors[packageName];
 
