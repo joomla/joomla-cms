@@ -131,6 +131,8 @@ class LanguageHelper
                 }
             }
         }
+
+        return null;
     }
 
     /**
@@ -227,7 +229,7 @@ class LanguageHelper
             if ($cache->contains('installedlanguages')) {
                 $installedLanguages = $cache->get('installedlanguages');
             } else {
-                $db = $db ?? Factory::getContainer()->get(DatabaseInterface::class);
+                $db ??= Factory::getContainer()->get(DatabaseInterface::class);
 
                 $query = $db->getQuery(true)
                     ->select(
@@ -279,7 +281,7 @@ class LanguageHelper
                 if ($processMetaData) {
                     try {
                         $lang->metadata = self::parseXMLLanguageFile($metafile);
-                    } catch (\Exception $e) {
+                    } catch (\Exception) {
                         // Not able to process xml language file. Fail silently.
                         Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), Log::WARNING, 'language');
 
@@ -298,7 +300,7 @@ class LanguageHelper
                 if ($processManifest) {
                     try {
                         $lang->manifest = Installer::parseXMLInstallFile($metafile);
-                    } catch (\Exception $e) {
+                    } catch (\Exception) {
                         // Not able to process xml language file. Fail silently.
                         Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), Log::WARNING, 'language');
 
@@ -624,7 +626,7 @@ class LanguageHelper
                     if ($metadata = self::parseXMLLanguageFile($file)) {
                         $languages = array_replace($languages, [$dirPathParts['filename'] => $metadata]);
                     }
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException) {
                     // Ignore it
                 }
             }

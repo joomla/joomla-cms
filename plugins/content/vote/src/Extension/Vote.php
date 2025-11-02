@@ -10,9 +10,13 @@
 
 namespace Joomla\Plugin\Content\Vote\Extension;
 
+use Joomla\CMS\Event\Content\AfterDisplayEvent;
+use Joomla\CMS\Event\Content\BeforeDisplayEvent;
+use Joomla\CMS\Event\Plugin\System\Schemaorg;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,7 +27,7 @@ use Joomla\CMS\Uri\Uri;
  *
  * @since  1.5
  */
-final class Vote extends CMSPlugin
+final class Vote extends CMSPlugin implements SubscriberInterface
 {
     /**
      * @var    \Joomla\CMS\Application\CMSApplication
@@ -36,60 +40,76 @@ final class Vote extends CMSPlugin
     protected $app;
 
     /**
-     * Displays the voting area when viewing an article and the voting section is displayed before the article
+     * Returns an array of events this subscriber will listen to.
      *
-     * @param   string   $context  The context of the content being passed to the plugin
-     * @param   object   &$row     The article object
-     * @param   object   &$params  The article params
-     * @param   integer  $page     The 'page' number
+     * @return array
      *
-     * @return  string|boolean  HTML string containing code for the votes if in com_content else boolean false
-     *
-     * @since   1.6
+     * @since   5.3.0
      */
-    public function onContentBeforeDisplay($context, &$row, &$params, $page = 0)
+    public static function getSubscribedEvents(): array
     {
-        if ($this->params->get('position', 'top') !== 'top') {
-            return '';
-        }
-
-        return $this->displayVotingData($context, $row, $params, $page);
+        return [
+            'onContentBeforeDisplay'    => 'onContentBeforeDisplay',
+            'onContentAfterDisplay'     => 'onContentAfterDisplay',
+            'onSchemaBeforeCompileHead' => 'onSchemaBeforeCompileHead',
+        ];
     }
 
     /**
-     * Displays the voting area when viewing an article and the voting section is displayed after the article
+     * Displays the voting area when viewing an article and the voting section is displayed before the article.
+     * Add HTML string containing code for the votes if in com_content.
      *
-     * @param   string   $context  The context of the content being passed to the plugin
-     * @param   object   &$row     The article object
-     * @param   object   &$params  The article params
-     * @param   integer  $page     The 'page' number
+     * @param   BeforeDisplayEvent $event  The event instance.
      *
-     * @return  string|boolean  HTML string containing code for the votes if in com_content else boolean false
+     * @return  void
+     *
+     * @since   1.6
+     */
+    public function onContentBeforeDisplay(BeforeDisplayEvent $event)
+    {
+        if ($this->params->get('position', 'top') !== 'top') {
+            return;
+        }
+
+        $event->addResult(
+            $this->displayVotingData($event->getContext(), $event->getItem(), $event->getParams(), $event->getPage())
+        );
+    }
+
+    /**
+     * Displays the voting area when viewing an article and the voting section is displayed after the article.
+     * Add HTML string containing code for the votes if in com_content.
+     *
+     * @param   AfterDisplayEvent $event  The event instance.
+     *
+     * @return  void
      *
      * @since   3.7.0
      */
-    public function onContentAfterDisplay($context, &$row, &$params, $page = 0)
+    public function onContentAfterDisplay(AfterDisplayEvent $event)
     {
         if ($this->params->get('position', 'top') !== 'bottom') {
-            return '';
+            return;
         }
 
-        return $this->displayVotingData($context, $row, $params, $page);
+        $event->addResult(
+            $this->displayVotingData($event->getContext(), $event->getItem(), $event->getParams(), $event->getPage())
+        );
     }
 
     /**
      * Displays the voting area
      *
      * @param   string   $context  The context of the content being passed to the plugin
-     * @param   object   &$row     The article object
-     * @param   object   &$params  The article params
+     * @param   object   $row     The article object
+     * @param   object   $params  The article params
      * @param   integer  $page     The 'page' number
      *
      * @return  string  HTML string containing code for the votes if in com_content else empty string
      *
      * @since   3.7.0
      */
-    private function displayVotingData($context, &$row, &$params, $page)
+    private function displayVotingData($context, $row, $params, $page)
     {
         $parts = explode('.', $context);
 
@@ -128,15 +148,16 @@ final class Vote extends CMSPlugin
     /**
      * Create SchemaOrg AggregateRating
      *
-     * @param   object   $schema  The schema of the content being passed to the plugin
-     * @param   string   $context The context of the content being passed to the plugin
+     * @param   Schemaorg\BeforeCompileHeadEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   5.2.0
      */
-    public function onSchemaBeforeCompileHead($schema, $context): void
+    public function onSchemaBeforeCompileHead(Schemaorg\BeforeCompileHeadEvent $event): void
     {
+        $context  = $event->getContext();
+        $schema   = $event->getSchema();
         $graph    = $schema->get('@graph');
         $baseId   = Uri::root() . '#/schema/';
         $schemaId = $baseId . str_replace('.', '/', $context);

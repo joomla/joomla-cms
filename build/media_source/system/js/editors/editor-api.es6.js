@@ -2,8 +2,6 @@
  * @copyright  (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-// eslint-disable-next-line import/no-unresolved
 import JoomlaEditorDecorator from 'editor-decorator';
 
 /**
@@ -177,7 +175,6 @@ const JoomlaEditorButton = {
       const textarea = parent ? parent.querySelector('textarea[id]') : false;
       editor = textarea && Joomla.editors.instances[textarea.id] ? Joomla.editors.instances[textarea.id] : false;
       if (editor) {
-        // eslint-disable-next-line no-console
         console.warn('Legacy editors is deprecated. Set active editor instance with JoomlaEditor.setActive().');
       }
     }

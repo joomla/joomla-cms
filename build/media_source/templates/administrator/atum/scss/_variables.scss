@@ -339,6 +339,8 @@ $atum-colors: (
   btn-secondary-bg:                 var(--template-bg-dark-60),
   btn-secondary-border:             1px solid var(--template-bg-dark-60),
   btn-secondary-color:              var(--template-text-light),
+  btn-secondary-bg-hvr:             var(--template-bg-dark-70),
+  btn-secondary-color-hvr:          var(--template-text-light),
 
   btn-info-color:                   var(--template-text-light),
   btn-info-bg:                      $info,
