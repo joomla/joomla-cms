@@ -328,7 +328,7 @@ class AssociationsModel extends ListModel
         }
 
         // If component item type supports access level, select the access level also.
-        if (\array_key_exists('acl', $support) && $support['acl'] == true && !empty($fields['access'])) {
+        if (\array_key_exists('acl', $support) && $support['acl'] && !empty($fields['access'])) {
             $query->select($db->quoteName($fields['access'], 'access'));
 
             // Join over the access levels.

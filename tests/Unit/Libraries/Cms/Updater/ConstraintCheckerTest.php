@@ -219,7 +219,6 @@ class ConstraintCheckerTest extends UnitTestCase
     {
         $reflectionClass = new \ReflectionClass($this->checker);
         $method          = $reflectionClass->getMethod($method);
-        $method->setAccessible(true);
 
         return $method;
     }
