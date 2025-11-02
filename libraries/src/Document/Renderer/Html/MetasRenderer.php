@@ -76,7 +76,7 @@ class MetasRenderer extends DocumentRenderer
                 throw new \RuntimeException('Detected an override for "joomla.script.options" asset');
             }
 
-            $jsonFlags   = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | (JDEBUG ? JSON_PRETTY_PRINT : 0);
+            $jsonFlags   = JSON_UNESCAPED_UNICODE | (JDEBUG ? JSON_PRETTY_PRINT : 0);
             $jsonOptions = json_encode($scriptOptions, $jsonFlags);
 
             // Set content and update attributes of dummy asset to correct ones

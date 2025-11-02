@@ -175,7 +175,7 @@ final class Override extends CMSPlugin implements SubscriberInterface
         try {
             /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $templateModel */
             $templateModel = $this->getModel();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return [];
         }
 

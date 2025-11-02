@@ -89,7 +89,7 @@ class SiteCreatePublicFolderCommand extends AbstractCommand
 
         try {
             (new PublicFolderGeneratorHelper())->createPublicFolder($this->publicFolder);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return Command::FAILURE;
         }
 

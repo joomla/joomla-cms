@@ -9,7 +9,9 @@
 
 namespace Joomla\CMS\Error\Renderer;
 
+use Joomla\Application\WebApplicationInterface;
 use Joomla\CMS\Error\AbstractRenderer;
+use Joomla\CMS\Factory;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -60,6 +62,12 @@ class XmlRenderer extends AbstractRenderer
 
         // End error element
         $xw->endElement();
+
+        $app = Factory::getApplication();
+
+        if ($app instanceof WebApplicationInterface) {
+            $app->setHeader('status', $error->getCode() < 400 ? 500 : $error->getCode());
+        }
 
         // Push the data object into the document
         $this->getDocument()->setBuffer($xw->outputMemory(true));

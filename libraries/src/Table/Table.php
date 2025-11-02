@@ -16,9 +16,12 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\DatabaseQuery;
+use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
@@ -36,9 +39,10 @@ use Joomla\String\StringHelper;
  *
  * @since  1.7.0
  */
-abstract class Table extends \stdClass implements TableInterface, DispatcherAwareInterface
+abstract class Table extends \stdClass implements TableInterface, DispatcherAwareInterface, DatabaseAwareInterface
 {
     use DispatcherAwareTrait;
+    use DatabaseAwareTrait;
     use LegacyErrorHandlingTrait;
     use LegacyPropertyManagementTrait;
 
@@ -88,6 +92,10 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      *
      * @var    DatabaseDriver
      * @since  1.7.0
+     *
+     * @deprecated  5.4.0 will be removed in 7.0
+     *              Use setDatabase() and getDatabase() instead
+     *              Example: $this->setDatabase($db);
      */
     protected $_db;
 
@@ -162,12 +170,12 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      *
      * @param   string                $table       Name of the table to model.
      * @param   mixed                 $key         Name of the primary key field in the table or array of field names that compose the primary key.
-     * @param   DatabaseDriver        $db          DatabaseDriver object.
+     * @param   DatabaseInterface     $db          Object which implements the DatabaseInterface.
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.7.0
      */
-    public function __construct($table, $key, DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
+    public function __construct($table, $key, DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         // Set internal variables.
         $this->_tbl = $table;
@@ -190,7 +198,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         // Set the singular table key for backwards compatibility.
         $this->_tbl_key = $this->getKeyName();
 
-        $this->_db = $db;
+        $this->setDatabase($db);
 
         // Initialise the table properties.
         $fields = $this->getFields();
@@ -243,12 +251,13 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      */
     public function getFields($reload = false)
     {
-        $key = $this->_db->getServerType() . ':' . $this->_db->getName() . ':' . $this->_tbl;
+        $db  = $this->getDatabase();
+        $key = $db->getServerType() . ':' . $db->getName() . ':' . $this->_tbl;
 
         if (!isset(self::$tableFields[$key]) || $reload) {
             // Lookup the fields for this table only once.
             $name   = $this->_tbl;
-            $fields = $this->_db->getTableColumns($name, false);
+            $fields = $db->getTableColumns($name, false);
 
             if (empty($fields)) {
                 throw new \UnexpectedValueException(\sprintf('No columns found for %s table', $name));
@@ -434,7 +443,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
     protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         // For simple cases, parent to the asset root.
-        $assets = new Asset($this->getDbo(), $this->getDispatcher());
+        $assets = new Asset($this->getDatabase(), $this->getDispatcher());
         $rootId = $assets->getRootId();
 
         if (!empty($rootId)) {
@@ -456,9 +465,11 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      */
     public function appendPrimaryKeys($query, $pk = null)
     {
+        $db = $this->getDatabase();
+
         if (\is_null($pk)) {
             foreach ($this->_tbl_keys as $k) {
-                $query->where($this->_db->quoteName($k) . ' = ' . $this->_db->quote($this->$k));
+                $query->where($db->quoteName($k) . ' = ' . $db->quote($this->$k));
             }
         } else {
             if (\is_string($pk)) {
@@ -468,7 +479,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
             $pk = (object) $pk;
 
             foreach ($this->_tbl_keys as $k) {
-                $query->where($this->_db->quoteName($k) . ' = ' . $this->_db->quote($pk->$k));
+                $query->where($db->quoteName($k) . ' = ' . $db->quote($pk->$k));
             }
         }
     }
@@ -530,6 +541,10 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      * @return  DatabaseDriver  The internal database driver object.
      *
      * @since   1.7.0
+     *
+     * @deprecated  5.4.0 will be removed in 7.0
+     *               Use getDatabase() instead
+     *               Example: $this->getDatabase();
      */
     public function getDbo()
     {
@@ -544,12 +559,48 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      * @return  boolean  True on success.
      *
      * @since   1.7.0
+     *
+     * @deprecated  5.4.0 will be removed in 7.0
+     *              Use setDatabase() instead
+     *              Example: $this->setDatabase($db);
      */
     public function setDbo(DatabaseDriver $db)
     {
         $this->_db = $db;
 
         return true;
+    }
+
+    /**
+     * Get the database.
+     *
+     * @return  DatabaseInterface
+     *
+     * @since   5.4.0
+     * @throws  DatabaseNotFoundException May be thrown if the database has not been set.
+     *
+     * @note    This method will be removed in 7.0 and DatabaseAwareTrait will be used instead.
+     */
+    protected function getDatabase(): DatabaseInterface
+    {
+        return $this->getDbo();
+    }
+
+    /**
+     * Set the database.
+     *
+     * @param   DatabaseInterface  $db  The database.
+     *
+     * @return  void
+     *
+     * @since   5.4.0
+     *
+     * @note    This method will be removed in 7.0 and DatabaseAwareTrait will be used instead.
+     */
+    public function setDatabase(DatabaseInterface $db): void
+    {
+        $this->_db                        = $db;
+        $this->databaseAwareTraitDatabase = $db;
     }
 
     /**
@@ -604,7 +655,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         // Get the default values for the class from the table.
         foreach ($this->getFields() as $k => $v) {
             // If the property is not the primary key or private, reset it.
-            if (!\in_array($k, $this->_tbl_keys) && (strpos($k, '_') !== 0)) {
+            if (!\in_array($k, $this->_tbl_keys) && (!str_starts_with($k, '_'))) {
                 $this->$k = $v->Default;
             }
         }
@@ -680,7 +731,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         foreach ($this->getProperties() as $k => $v) {
             // Only process fields not in the ignore array.
             if (!\in_array($k, $ignore)) {
-                if (isset($src[$k])) {
+                if (\array_key_exists($k, $src)) {
                     $this->$k = $src[$k];
                 }
             }
@@ -715,6 +766,8 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      */
     public function load($keys = null, $reset = true)
     {
+        $db = $this->getDatabase();
+
         // Pre-processing by observers
         $event = AbstractEvent::create(
             'onTableBeforeLoad',
@@ -760,9 +813,9 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         }
 
         // Initialise the query.
-        $query = $this->_db->getQuery(true)
+        $query = $db->getQuery(true)
             ->select('*')
-            ->from($this->_db->quoteName($this->_tbl));
+            ->from($db->quoteName($this->_tbl));
         $fields = array_keys($this->getProperties());
 
         foreach ($keys as $field => $value) {
@@ -772,12 +825,12 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
             }
 
             // Add the search tuple to the query.
-            $query->where($this->_db->quoteName($field) . ' = ' . $this->_db->quote($value));
+            $query->where($db->quoteName($field) . ' = ' . $db->quote($value));
         }
 
-        $this->_db->setQuery($query);
+        $db->setQuery($query);
 
-        $row = $this->_db->loadAssoc();
+        $row = $db->loadAssoc();
 
         // Check that we have a result.
         if (empty($row)) {
@@ -838,6 +891,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      */
     public function store($updateNulls = false)
     {
+        $db     = $this->getDatabase();
         $result = true;
 
         $k = $this->_tbl_keys;
@@ -871,9 +925,9 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         try {
             // If a primary key exists update the object, otherwise insert it.
             if ($this->hasPrimaryKey()) {
-                $this->_db->updateObject($this->_tbl, $this, $this->_tbl_keys, $updateNulls);
+                $db->updateObject($this->_tbl, $this, $this->_tbl_keys, $updateNulls);
             } else {
-                $this->_db->insertObject($this->_tbl, $this, $this->_tbl_keys[0]);
+                $db->insertObject($this->_tbl, $this, $this->_tbl_keys[0]);
             }
         } catch (\Exception $e) {
             $this->setError($e->getMessage());
@@ -894,7 +948,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
             $parentId = $this->_getAssetParentId();
             $name     = $this->_getAssetName();
             $title    = $this->_getAssetTitle();
-            $asset    = new Asset($this->getDbo(), $this->getDispatcher());
+            $asset    = new Asset($this->getDatabase(), $this->getDispatcher());
 
             $asset->loadByName($name);
 
@@ -937,11 +991,11 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
                 // Update the asset_id field in this table.
                 $this->asset_id = (int) $asset->id;
 
-                $query = $this->_db->getQuery(true)
-                    ->update($this->_db->quoteName($this->_tbl))
+                $query = $db->getQuery(true)
+                    ->update($db->quoteName($this->_tbl))
                     ->set('asset_id = ' . (int) $this->asset_id);
                 $this->appendPrimaryKeys($query);
-                $this->_db->setQuery($query)->execute();
+                $db->setQuery($query)->execute();
             }
         }
 
@@ -975,6 +1029,8 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      */
     public function save($src, $orderingFilter = '', $ignore = '')
     {
+        $db = $this->getDatabase();
+
         // Attempt to bind the source to the instance.
         if (!$this->bind($src, $ignore)) {
             return false;
@@ -998,7 +1054,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         // If an ordering filter is set, attempt reorder the rows in the table based on the filter and value.
         if ($orderingFilter) {
             $filterValue = $this->$orderingFilter;
-            $this->reorder($orderingFilter ? $this->_db->quoteName($orderingFilter) . ' = ' . $this->_db->quote($filterValue) : '');
+            $this->reorder($orderingFilter ? $db->quoteName($orderingFilter) . ' = ' . $db->quote($filterValue) : '');
         }
 
         // Set the error to empty and return true.
@@ -1019,6 +1075,8 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      */
     public function delete($pk = null)
     {
+        $db = $this->getDatabase();
+
         if (\is_null($pk)) {
             $pk = [];
 
@@ -1053,7 +1111,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         if ($this->_trackAssets) {
             // Get the asset name
             $name  = $this->_getAssetName();
-            $asset = new Asset($this->getDbo(), $this->getDispatcher());
+            $asset = new Asset($this->getDatabase(), $this->getDispatcher());
 
             if ($asset->loadByName($name)) {
                 if (!$asset->delete()) {
@@ -1065,14 +1123,14 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         }
 
         // Delete the row by primary key.
-        $query = $this->_db->getQuery(true)
-            ->delete($this->_db->quoteName($this->_tbl));
+        $query = $db->getQuery(true)
+            ->delete($db->quoteName($this->_tbl));
         $this->appendPrimaryKeys($query, $pk);
 
-        $this->_db->setQuery($query);
+        $db->setQuery($query);
 
         // Check for a database error.
-        $this->_db->execute();
+        $db->execute();
 
         // Post-processing by observers
         $event = AbstractEvent::create(
@@ -1104,6 +1162,8 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      */
     public function checkOut($userId, $pk = null)
     {
+        $db = $this->getDatabase();
+
         // Pre-processing by observers
         $event = AbstractEvent::create(
             'onTableBeforeCheckout',
@@ -1146,13 +1206,13 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         $time = Factory::getDate()->toSql();
 
         // Check the row out by primary key.
-        $query = $this->_db->getQuery(true)
-            ->update($this->_db->quoteName($this->_tbl))
-            ->set($this->_db->quoteName($checkedOutField) . ' = ' . (int) $userId)
-            ->set($this->_db->quoteName($checkedOutTimeField) . ' = ' . $this->_db->quote($time));
+        $query = $db->getQuery(true)
+            ->update($db->quoteName($this->_tbl))
+            ->set($db->quoteName($checkedOutField) . ' = ' . (int) $userId)
+            ->set($db->quoteName($checkedOutTimeField) . ' = ' . $db->quote($time));
         $this->appendPrimaryKeys($query, $pk);
-        $this->_db->setQuery($query);
-        $this->_db->execute();
+        $db->setQuery($query);
+        $db->execute();
 
         // Set table values in the object.
         $this->$checkedOutField      = (int) $userId;
@@ -1186,6 +1246,8 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      */
     public function checkIn($pk = null)
     {
+        $db = $this->getDatabase();
+
         // Pre-processing by observers
         $event = AbstractEvent::create(
             'onTableBeforeCheckin',
@@ -1223,19 +1285,19 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         $checkedOutField     = $this->getColumnAlias('checked_out');
         $checkedOutTimeField = $this->getColumnAlias('checked_out_time');
 
-        $nullDate = $this->_supportNullValue ? 'NULL' : $this->_db->quote($this->_db->getNullDate());
+        $nullDate = $this->_supportNullValue ? 'NULL' : $db->quote($db->getNullDate());
         $nullID   = $this->_supportNullValue ? 'NULL' : '0';
 
         // Check the row in by primary key.
-        $query = $this->_db->getQuery(true)
-            ->update($this->_db->quoteName($this->_tbl))
-            ->set($this->_db->quoteName($checkedOutField) . ' = ' . $nullID)
-            ->set($this->_db->quoteName($checkedOutTimeField) . ' = ' . $nullDate);
+        $query = $db->getQuery(true)
+            ->update($db->quoteName($this->_tbl))
+            ->set($db->quoteName($checkedOutField) . ' = ' . $nullID)
+            ->set($db->quoteName($checkedOutTimeField) . ' = ' . $nullDate);
         $this->appendPrimaryKeys($query, $pk);
-        $this->_db->setQuery($query);
+        $db->setQuery($query);
 
         // Check for a database error.
-        $this->_db->execute();
+        $db->execute();
 
         // Set table values in the object.
         $this->$checkedOutField     = $this->_supportNullValue ? null : 0;
@@ -1266,6 +1328,8 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      */
     public function hasPrimaryKey()
     {
+        $db = $this->getDatabase();
+
         if ($this->_autoincrement) {
             $empty = true;
 
@@ -1273,13 +1337,13 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
                 $empty = $empty && empty($this->$key);
             }
         } else {
-            $query = $this->_db->getQuery(true)
+            $query = $db->getQuery(true)
                 ->select('COUNT(*)')
-                ->from($this->_db->quoteName($this->_tbl));
+                ->from($db->quoteName($this->_tbl));
             $this->appendPrimaryKeys($query);
 
-            $this->_db->setQuery($query);
-            $count = $this->_db->loadResult();
+            $db->setQuery($query);
+            $count = $db->loadResult();
 
             if ($count == 1) {
                 $empty = false;
@@ -1303,6 +1367,8 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      */
     public function hit($pk = null)
     {
+        $db = $this->getDatabase();
+
         // Pre-processing by observers
         $event = AbstractEvent::create(
             'onTableBeforeHit',
@@ -1340,12 +1406,12 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         $hitsField = $this->getColumnAlias('hits');
 
         // Check the row in by primary key.
-        $query = $this->_db->getQuery(true)
-            ->update($this->_db->quoteName($this->_tbl))
-            ->set($this->_db->quoteName($hitsField) . ' = (' . $this->_db->quoteName($hitsField) . ' + 1)');
+        $query = $db->getQuery(true)
+            ->update($db->quoteName($this->_tbl))
+            ->set($db->quoteName($hitsField) . ' = (' . $db->quoteName($hitsField) . ' + 1)');
         $this->appendPrimaryKeys($query, $pk);
-        $this->_db->setQuery($query);
-        $this->_db->execute();
+        $db->setQuery($query);
+        $db->execute();
 
         // Set table values in the object.
         $this->hits++;
@@ -1420,22 +1486,24 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      */
     public function getNextOrder($where = '')
     {
+        $db = $this->getDatabase();
+
         // Check if there is an ordering field set
         if (!$this->hasField('ordering')) {
             throw new \UnexpectedValueException(\sprintf('%s does not support ordering.', \get_class($this)));
         }
 
         // Get the largest ordering value for a given where clause.
-        $query = $this->_db->getQuery(true)
-            ->select('MAX(' . $this->_db->quoteName($this->getColumnAlias('ordering')) . ')')
-            ->from($this->_db->quoteName($this->_tbl));
+        $query = $db->getQuery(true)
+            ->select('MAX(' . $db->quoteName($this->getColumnAlias('ordering')) . ')')
+            ->from($db->quoteName($this->_tbl));
 
         if ($where) {
             $query->where($where);
         }
 
-        $this->_db->setQuery($query);
-        $max = (int) $this->_db->loadResult();
+        $db->setQuery($query);
+        $max = (int) $db->loadResult();
 
         // Return the largest ordering value + 1.
         return $max + 1;
@@ -1475,27 +1543,29 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      */
     public function reorder($where = '')
     {
+        $db = $this->getDatabase();
+
         // Check if there is an ordering field set
         if (!$this->hasField('ordering')) {
             throw new \UnexpectedValueException(\sprintf('%s does not support ordering.', \get_class($this)));
         }
 
-        $quotedOrderingField = $this->_db->quoteName($this->getColumnAlias('ordering'));
+        $quotedOrderingField = $db->quoteName($this->getColumnAlias('ordering'));
 
-        $subquery = $this->_db->getQuery(true)
-            ->from($this->_db->quoteName($this->_tbl))
+        $subquery = $db->getQuery(true)
+            ->from($db->quoteName($this->_tbl))
             ->selectRowNumber($quotedOrderingField, 'new_ordering');
 
-        $query = $this->_db->getQuery(true)
-            ->update($this->_db->quoteName($this->_tbl))
+        $query = $db->getQuery(true)
+            ->update($db->quoteName($this->_tbl))
             ->set($quotedOrderingField . ' = sq.new_ordering');
 
         $innerOn = [];
 
         // Get the primary keys for the selection.
         foreach ($this->_tbl_keys as $i => $k) {
-            $subquery->select($this->_db->quoteName($k, 'pk__' . $i));
-            $innerOn[] = $this->_db->quoteName($k) . ' = sq.' . $this->_db->quoteName('pk__' . $i);
+            $subquery->select($db->quoteName($k, 'pk__' . $i));
+            $innerOn[] = $db->quoteName($k) . ' = sq.' . $db->quoteName('pk__' . $i);
         }
 
         // Setup the extra where and ordering clause data.
@@ -1523,8 +1593,8 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         );
         $this->getDispatcher()->dispatch('onTableBeforeReorder', $event);
 
-        $this->_db->setQuery($query);
-        $this->_db->execute();
+        $db->setQuery($query);
+        $db->execute();
 
         // Post-processing by observers
         $event = AbstractEvent::create(
@@ -1554,13 +1624,15 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      */
     public function move($delta, $where = '')
     {
+        $db = $this->getDatabase();
+
         // Check if there is an ordering field set
         if (!$this->hasField('ordering')) {
             throw new \UnexpectedValueException(\sprintf('%s does not support ordering.', \get_class($this)));
         }
 
         $orderingField       = $this->getColumnAlias('ordering');
-        $quotedOrderingField = $this->_db->quoteName($orderingField);
+        $quotedOrderingField = $db->quoteName($orderingField);
 
         // If the change is none, do nothing.
         if (empty($delta)) {
@@ -1568,11 +1640,11 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         }
 
         $row   = null;
-        $query = $this->_db->getQuery(true);
+        $query = $db->getQuery(true);
 
         // Select the primary key and ordering values from the table.
         $query->select(implode(',', $this->_tbl_keys) . ', ' . $quotedOrderingField)
-            ->from($this->_db->quoteName($this->_tbl));
+            ->from($db->quoteName($this->_tbl));
 
         // If the movement delta is negative move the row up.
         if ($delta < 0) {
@@ -1603,37 +1675,37 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
 
         // Select the first row with the criteria.
         $query->setLimit(1);
-        $this->_db->setQuery($query);
-        $row = $this->_db->loadObject();
+        $db->setQuery($query);
+        $row = $db->loadObject();
 
         // If a row is found, move the item.
         if (!empty($row)) {
             // Update the ordering field for this instance to the row's ordering value.
             $query->clear()
-                ->update($this->_db->quoteName($this->_tbl))
+                ->update($db->quoteName($this->_tbl))
                 ->set($quotedOrderingField . ' = ' . (int) $row->$orderingField);
             $this->appendPrimaryKeys($query);
-            $this->_db->setQuery($query);
-            $this->_db->execute();
+            $db->setQuery($query);
+            $db->execute();
 
             // Update the ordering field for the row to this instance's ordering value.
             $query->clear()
-                ->update($this->_db->quoteName($this->_tbl))
+                ->update($db->quoteName($this->_tbl))
                 ->set($quotedOrderingField . ' = ' . (int) $this->$orderingField);
             $this->appendPrimaryKeys($query, $row);
-            $this->_db->setQuery($query);
-            $this->_db->execute();
+            $db->setQuery($query);
+            $db->execute();
 
             // Update the instance value.
             $this->$orderingField = $row->$orderingField;
         } else {
             // Update the ordering field for this instance.
             $query->clear()
-                ->update($this->_db->quoteName($this->_tbl))
+                ->update($db->quoteName($this->_tbl))
                 ->set($quotedOrderingField . ' = ' . (int) $this->$orderingField);
             $this->appendPrimaryKeys($query);
-            $this->_db->setQuery($query);
-            $this->_db->execute();
+            $db->setQuery($query);
+            $db->execute();
         }
 
         // Post-processing by observers
@@ -1666,6 +1738,8 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      */
     public function publish($pks = null, $state = 1, $userId = 0)
     {
+        $db = $this->getDatabase();
+
         // Sanitize input
         $userId = (int) $userId;
         $state  = (int) $state;
@@ -1717,23 +1791,23 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
 
         foreach ($pks as $pk) {
             // Update the publishing state for rows with the given primary keys.
-            $query = $this->_db->getQuery(true)
-                ->update($this->_db->quoteName($this->_tbl))
-                ->set($this->_db->quoteName($publishedField) . ' = ' . (int) $state);
+            $query = $db->getQuery(true)
+                ->update($db->quoteName($this->_tbl))
+                ->set($db->quoteName($publishedField) . ' = ' . (int) $state);
 
             // If publishing, set published date/time if not previously set
             if ($state && $this->hasField('publish_up') && (int) $this->publish_up == 0) {
-                $nowDate = $this->_db->quote(Factory::getDate()->toSql());
-                $query->set($this->_db->quoteName($this->getColumnAlias('publish_up')) . ' = ' . $nowDate);
+                $nowDate = $db->quote(Factory::getDate()->toSql());
+                $query->set($db->quoteName($this->getColumnAlias('publish_up')) . ' = ' . $nowDate);
             }
 
             // Determine if there is checkin support for the table.
             if ($this->hasField('checked_out') || $this->hasField('checked_out_time')) {
                 $query->where(
                     '('
-                        . $this->_db->quoteName($checkedOutField) . ' = 0'
-                        . ' OR ' . $this->_db->quoteName($checkedOutField) . ' = ' . (int) $userId
-                        . ' OR ' . $this->_db->quoteName($checkedOutField) . ' IS NULL'
+                        . $db->quoteName($checkedOutField) . ' = 0'
+                        . ' OR ' . $db->quoteName($checkedOutField) . ' = ' . (int) $userId
+                        . ' OR ' . $db->quoteName($checkedOutField) . ' IS NULL'
                         . ')'
                 );
                 $checkin = true;
@@ -1744,10 +1818,10 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
             // Build the WHERE clause for the primary keys.
             $this->appendPrimaryKeys($query, $pk);
 
-            $this->_db->setQuery($query);
+            $db->setQuery($query);
 
             try {
-                $this->_db->execute();
+                $db->execute();
             } catch (\RuntimeException $e) {
                 $this->setError($e->getMessage());
 
@@ -1755,7 +1829,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
             }
 
             // If checkin is supported and all rows were adjusted, check them in.
-            if ($checkin && (\count($pks) == $this->_db->getAffectedRows())) {
+            if ($checkin && (\count($pks) == $db->getAffectedRows())) {
                 $this->checkIn($pk);
             }
 
@@ -1800,7 +1874,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      */
     protected function _lock()
     {
-        $this->_db->lockTable($this->_tbl);
+        $this->getDatabase()->lockTable($this->_tbl);
         $this->_locked = true;
 
         return true;
@@ -1858,7 +1932,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
     protected function _unlock()
     {
         if ($this->_locked) {
-            $this->_db->unlockTables();
+            $this->getDatabase()->unlockTables();
             $this->_locked = false;
         }
 

@@ -106,7 +106,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
      */
     public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?FormFactoryInterface $formFactory = null)
     {
-        $config['events_map'] = $config['events_map'] ?? [];
+        $config['events_map'] ??= [];
 
         $config['events_map'] = array_merge(
             ['featured' => 'content'],
@@ -117,9 +117,9 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
         // Set the featured status change events
         $this->event_before_change_featured = $config['event_before_change_featured'] ?? $this->event_before_change_featured;
-        $this->event_before_change_featured = $this->event_before_change_featured ?? 'onContentBeforeChangeFeatured';
+        $this->event_before_change_featured ??= 'onContentBeforeChangeFeatured';
         $this->event_after_change_featured  = $config['event_after_change_featured'] ?? $this->event_after_change_featured;
-        $this->event_after_change_featured  = $this->event_after_change_featured ?? 'onContentAfterChangeFeatured';
+        $this->event_after_change_featured  ??= 'onContentAfterChangeFeatured';
 
         $this->setUpWorkflow('com_content.article');
     }
@@ -347,7 +347,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         }
 
         // Increment the content version number.
-        $table->version++;
+        $table->version = empty($table->version) ? 1 : $table->version + 1;
 
         // Reorder the articles within the category so the new article is first
         if (empty($table->id)) {
@@ -587,7 +587,18 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                         ((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
                     )
                 );
-                $data->set('catid', $app->getInput()->getInt('catid', (!empty($filters['category_id']) ? $filters['category_id'] : null)));
+
+                // If multiple categories are filtered, pick the first one to avoid loading all fields
+                $filteredCategories = $filters['category_id'] ?? null;
+                $selectedCatId      = null;
+
+                if (\is_array($filteredCategories)) {
+                    $selectedCatId = (int) reset($filteredCategories);
+                } elseif (!empty($filteredCategories)) {
+                    $selectedCatId = (int) $filteredCategories;
+                }
+
+                $data->set('catid', $app->getInput()->getInt('catid', $selectedCatId));
 
                 if ($app->isClient('administrator')) {
                     $data->set('language', $app->getInput()->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
@@ -649,7 +660,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         $input  = $app->getInput();
         $filter = InputFilter::getInstance();
 
-        if (isset($data['metadata']) && isset($data['metadata']['author'])) {
+        if (isset($data['metadata']['author'])) {
             $data['metadata']['author'] = $filter->clean($data['metadata']['author'], 'TRIM');
         }
 
@@ -682,7 +693,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         if ($createCategory && $this->canCreateCategory()) {
             $category = [
                 // Remove #new# prefix, if exists.
-                'title'     => strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'],
+                'title'     => str_starts_with($data['catid'], '#new#') ? substr($data['catid'], 5) : $data['catid'],
                 'parent_id' => 1,
                 'extension' => 'com_content',
                 'language'  => $data['language'],
@@ -708,7 +719,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             $check = $input->post->get('jform', [], 'array');
 
             foreach ($data['urls'] as $i => $url) {
-                if ($url != false && ($i == 'urla' || $i == 'urlb' || $i == 'urlc')) {
+                if (trim($url) !== '' && ($i == 'urla' || $i == 'urlb' || $i == 'urlc')) {
                     if (preg_match('~^#[a-zA-Z]{1}[a-zA-Z0-9-_:.]*$~', $check['urls'][$i]) == 1) {
                         $data['urls'][$i] = $check['urls'][$i];
                     } else {
@@ -745,11 +756,17 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             }
 
             if ($data['title'] == $origTable->title) {
-                list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
-                $data['title']       = $title;
-                $data['alias']       = $alias;
+                [$title, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+                $data['title']   = $title;
+                $data['alias']   = $alias;
             } elseif ($data['alias'] == $origTable->alias) {
                 $data['alias'] = '';
+            }
+
+            if (!$this->workflowEnabled) {
+                $data['state'] = 0;
+            } else {
+                $data['transition'] = '';
             }
         }
 
@@ -768,8 +785,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                     $msg = Text::_('COM_CONTENT_SAVE_WARNING');
                 }
 
-                list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
-                $data['alias']       = $alias;
+                [$title, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+                $data['alias']   = $alias;
 
                 if (isset($msg)) {
                     $app->enqueueMessage($msg, 'warning');
@@ -1049,6 +1066,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
     protected function cleanCache($group = null, $clientId = 0)
     {
         parent::cleanCache('com_content');
+        parent::cleanCache('mod_articles');
         parent::cleanCache('mod_articles_archive');
         parent::cleanCache('mod_articles_categories');
         parent::cleanCache('mod_articles_category');

@@ -41,14 +41,14 @@ class Query
 
         // Process the required tokens.
         foreach ($query->included as $token) {
-            if ($token->required && (!isset($token->derived) || $token->derived == false)) {
+            if ($token->required && (!isset($token->derived) || !$token->derived)) {
                 $parts[] = '<span class="query-required">' . Text::sprintf('COM_FINDER_QUERY_TOKEN_REQUIRED', $token->term) . '</span>';
             }
         }
 
         // Process the optional tokens.
         foreach ($query->included as $token) {
-            if (!$token->required && (!isset($token->derived) || $token->derived == false)) {
+            if (!$token->required && (!isset($token->derived) || !$token->derived)) {
                 $parts[] = '<span class="query-optional">' . Text::sprintf('COM_FINDER_QUERY_TOKEN_OPTIONAL', $token->term) . '</span>';
             }
         }

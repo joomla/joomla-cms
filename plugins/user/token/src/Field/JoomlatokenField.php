@@ -104,7 +104,7 @@ class JoomlatokenField extends TextField
 
         try {
             $siteSecret = Factory::getApplication()->get('secret');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $siteSecret = '';
         }
 

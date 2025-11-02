@@ -69,7 +69,7 @@ class Filter
 
             try {
                 $filter = $db->loadObject();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 return null;
             }
 
@@ -100,7 +100,7 @@ class Filter
 
         try {
             $branches = $db->loadObjectList('id');
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return null;
         }
 
@@ -141,7 +141,7 @@ class Filter
 
             try {
                 $nodes = $db->loadObjectList('id');
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 return null;
             }
 
@@ -238,7 +238,7 @@ class Filter
 
                 try {
                     $filter = $db->loadObject();
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException) {
                     return null;
                 }
 
@@ -273,7 +273,7 @@ class Filter
 
             try {
                 $branches = $db->loadObjectList('id');
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 return null;
             }
 
@@ -321,7 +321,7 @@ class Filter
 
                 try {
                     $bv->nodes = $db->loadObjectList('id');
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException) {
                     return null;
                 }
 

@@ -153,7 +153,7 @@ class TagField extends ListField
             }
         } elseif (!empty($this->element['language'])) {
             // Filter language
-            if (strpos($this->element['language'], ',') !== false) {
+            if (str_contains($this->element['language'], ',')) {
                 $language = explode(',', $this->element['language']);
             } else {
                 $language = [$this->element['language']];
@@ -209,7 +209,7 @@ class TagField extends ListField
 
                 try {
                     $options = $db->loadObjectList();
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException) {
                     return [];
                 }
 
@@ -232,7 +232,7 @@ class TagField extends ListField
 
             try {
                 $options = array_merge($options, $db->loadObjectList());
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 return [];
             }
         }

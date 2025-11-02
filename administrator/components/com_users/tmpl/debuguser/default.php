@@ -20,9 +20,6 @@ use Joomla\CMS\Router\Route;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
-$loginActions = [];
-$actions = [];
-
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns');
@@ -39,6 +36,8 @@ $wa->useScript('table.columns');
         <?php else : ?>
             <?php
             // Split the actions table
+            $loginActions = [];
+            $actions      = [];
             foreach ($this->actions as $action) :
                 $name = $action[0];
                 if (in_array($name, ['core.login.site', 'core.login.admin', 'core.login.api', 'core.login.offline'])) :
