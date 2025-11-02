@@ -79,6 +79,8 @@
 
       nav.addEventListener('keydown', this.onMenuKeyDown.bind(this));
       nav.addEventListener('click', this.onClick.bind(this));
+
+      this.toggleAllForCurrentActive();
     }
 
     onMenuKeyDown(event) {
@@ -231,6 +233,22 @@
         currentLi = parentUl ? parentUl.closest('li') : null;
       }
       return currentLi; // top-level li or null if not found, or the
+    }
+
+    toggleAllForCurrentActive() {
+      const active = this.nav.querySelector('.current.active');
+      if (active) {
+        const $parentTopLevel = this.getTopLevelParentLi(active);
+        let currentLi = active;
+        while (currentLi && !Array.from(this.topLevelNodes).includes(currentLi)) {
+          const parentUl = currentLi.parentElement.closest('ul');
+          currentLi = parentUl ? parentUl.closest('li') : null;
+          if (currentLi) {
+            const subLists = currentLi.querySelectorAll('ul');
+            this.toggleSubMenu(currentLi, subLists, subLists[0]?.getAttribute('aria-hidden') === 'true');
+          }
+        }
+      }
     }
   }
 
