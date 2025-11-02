@@ -16,7 +16,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\SampleData\Blog\Extension\Blog;
 
 return new class () implements ServiceProviderInterface {
@@ -35,7 +34,6 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $plugin     = new Blog(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('sampledata', 'blog')
                 );
                 $plugin->setApplication(Factory::getApplication());

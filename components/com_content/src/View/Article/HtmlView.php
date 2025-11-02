@@ -24,6 +24,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Component\Content\Site\Model\ArticleModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -107,13 +108,15 @@ class HtmlView extends BaseHtmlView
         $app  = Factory::getApplication();
         $user = $this->getCurrentUser();
 
-        $this->item  = $this->get('Item');
+        /** @var ArticleModel $model */
+        $model       = $this->getModel();
+        $this->item  = $model->getItem();
         $this->print = $app->getInput()->getBool('print', false);
-        $this->state = $this->get('State');
+        $this->state = $model->getState();
         $this->user  = $user;
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -176,7 +179,7 @@ class HtmlView extends BaseHtmlView
         $offset = (int) $this->state->get('list.offset');
 
         // Check the view access to the article (the model has already computed the values).
-        if ($item->params->get('access-view') == false && ($item->params->get('show_noauth', '0') == '0')) {
+        if (!$item->params->get('access-view') && ($item->params->get('show_noauth', '0') == '0')) {
             $app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
             $app->setHeader('status', 403, true);
 
@@ -189,7 +192,7 @@ class HtmlView extends BaseHtmlView
          * - Deny access to logged users with 403 code
          * NOTE: we do not recheck for no access-view + show_noauth disabled ... since it was checked above
          */
-        if ($item->params->get('access-view') == false && !\strlen($item->fulltext)) {
+        if (!$item->params->get('access-view') && !\strlen($item->fulltext)) {
             if ($this->user->guest) {
                 $return                = base64_encode(Uri::getInstance());
                 $login_url_with_return = Route::_('index.php?option=com_users&view=login&return=' . $return);

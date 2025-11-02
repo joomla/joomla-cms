@@ -54,8 +54,8 @@
   border: var(--btn-secondary-border);
 
   &:hover {
-    color: var(--btn-secondary-color-hvr);
-    background: var(--btn-secondary-bg-hvr);
+    color: var(--btn-secondary-color-hvr, var(--btn-secondary-color));
+    background: var(--btn-secondary-bg-hvr, var(--template-bg-dark-70));
   }
 }
 

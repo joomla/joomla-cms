@@ -14,7 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -31,12 +31,12 @@ class LinkTable extends Table
     /**
      * Constructor
      *
-     * @param   DatabaseDriver        $db          Database connector object
+     * @param   DatabaseInterface     $db          Database connector object
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.6
      */
-    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__redirect_links', 'id', $db, $dispatcher);
     }
@@ -74,13 +74,13 @@ class LinkTable extends Table
         }
 
         // Check for valid name if not in advanced mode.
-        if (empty($this->new_url) && ComponentHelper::getParams('com_redirect')->get('mode', 0) == false) {
+        if (empty($this->new_url) && !ComponentHelper::getParams('com_redirect')->get('mode', 0)) {
             $this->setError(Text::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
 
             return false;
         }
 
-        if (empty($this->new_url) && ComponentHelper::getParams('com_redirect')->get('mode', 0) == true) {
+        if (empty($this->new_url) && ComponentHelper::getParams('com_redirect')->get('mode', 0)) {
             // Else if an empty URL and in redirect mode only throw the same error if the code is a 3xx status code
             if ($this->header < 400 && $this->header >= 300) {
                 $this->setError(Text::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
@@ -96,7 +96,7 @@ class LinkTable extends Table
             return false;
         }
 
-        $db = $this->getDbo();
+        $db = $this->getDatabase();
 
         // Check for existing name
         $query = $db->getQuery(true)

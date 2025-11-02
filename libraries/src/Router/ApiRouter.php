@@ -144,7 +144,7 @@ class ApiRouter extends Router
          */
         try {
             $baseUri = Uri::base(true);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $baseUri = '';
         }
 
@@ -172,7 +172,7 @@ class ApiRouter extends Router
         $path = ltrim($path, '/');
 
         // We can only remove index.php if it's present in the beginning of the route
-        if (strpos($path, 'index.php') !== 0) {
+        if (!str_starts_with($path, 'index.php')) {
             return $path;
         }
 

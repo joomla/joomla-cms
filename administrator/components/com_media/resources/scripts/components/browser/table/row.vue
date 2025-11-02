@@ -47,6 +47,7 @@
 import api from '../../../app/Api.es6';
 import * as types from '../../../store/mutation-types.es6';
 import navigable from '../../../mixins/navigable.es6';
+import onItemClick from '../utils/utils.es6';
 
 export default {
   name: 'MediaBrowserItemRow',
@@ -55,6 +56,10 @@ export default {
     item: {
       type: Object,
       default: () => {},
+    },
+    localItems: {
+      type: Array,
+      default: () => [],
     },
   },
   computed: {
@@ -136,49 +141,7 @@ export default {
      * @param event
      */
     onClick(event) {
-      const data = {
-        type: this.item.type,
-        name: this.item.name,
-        path: this.item.path,
-        thumb: false,
-        fileType: this.item.mime_type ? this.item.mime_type : false,
-        extension: this.item.extension ? this.item.extension : false,
-      };
-
-      if (this.item.type === 'file') {
-        data.thumb = this.item.thumb ? this.item.thumb : false;
-        data.width = this.item.width ? this.item.width : 0;
-        data.height = this.item.height ? this.item.height : 0;
-      }
-
-      window.parent.document.dispatchEvent(
-        new CustomEvent(
-          'onMediaFileSelected',
-          {
-            bubbles: true,
-            cancelable: false,
-            detail: data,
-          },
-        ),
-      );
-
-      // Handle clicks when the item was not selected
-      if (!this.isSelected()) {
-        // Unselect all other selected items,
-        // if the shift key was not pressed during the click event
-        if (!(event.shiftKey || event.keyCode === 13)) {
-          this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-        }
-        this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
-        return;
-      }
-
-      // If more than one item was selected and the user clicks again on the selected item,
-      // he most probably wants to unselect all other items.
-      if (this.$store.state.selectedItems.length > 1) {
-        this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-        this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
-      }
+      return onItemClick(event, this);
     },
 
   },

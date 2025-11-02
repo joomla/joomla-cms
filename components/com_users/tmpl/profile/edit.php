@@ -37,7 +37,7 @@ $wa->useScript('keepalive')
         </div>
     <?php endif; ?>
 
-    <form id="member-profile" action="<?php echo Route::_('index.php?option=com_users'); ?>" method="post" class="com-users-profile__edit-form form-validate form-horizontal well" enctype="multipart/form-data">
+    <form id="member-profile" action="<?php echo Route::_('index.php'); ?>" method="post" class="com-users-profile__edit-form form-validate form-horizontal well" enctype="multipart/form-data">
         <?php // Iterate through the form fieldsets and display each one. ?>
         <?php foreach ($this->form->getFieldsets() as $group => $fieldset) : ?>
             <?php $fields = $this->form->getFieldset($group); ?>

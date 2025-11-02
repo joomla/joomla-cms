@@ -97,7 +97,13 @@ class SocketTransport extends AbstractTransport implements TransportInterface
         // If there are custom headers to send add them to the request payload.
         if (\is_array($headers)) {
             foreach ($headers as $k => $v) {
-                $request[] = $k . ': ' . $v;
+                if (\is_array($v)) {
+                    foreach ($v as $value) {
+                        $request[] = "$k: $value";
+                    }
+                } else {
+                    $request[] = "$k: $v";
+                }
             }
         }
 
@@ -130,8 +136,8 @@ class SocketTransport extends AbstractTransport implements TransportInterface
         $content = $this->getResponse($content);
 
         // Follow Http redirects
-        if ($content->code >= 301 && $content->code < 400 && isset($content->headers['Location'][0])) {
-            return $this->request($method, new Uri($content->headers['Location'][0]), $data, $headers, $timeout, $userAgent);
+        if ($content->getStatusCode() >= 301 && $content->getStatusCode() < 400 && isset($content->getHeaders()['Location'][0])) {
+            return $this->request($method, new Uri($content->getHeaders()['Location'][0]), $data, $headers, $timeout, $userAgent);
         }
 
         return $content;
