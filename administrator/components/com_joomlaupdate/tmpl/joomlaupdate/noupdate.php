@@ -15,6 +15,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView $this */
+
 $uploadLink       = 'index.php?option=com_joomlaupdate&view=upload';
 $reasonNoDownload = '';
 

@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Error\JsonApi;
 
-use Exception;
 use Tobscure\JsonApi\Exception\Handler\ResponseBag;
 
 // phpcs:disable PSR1.Files.SideEffects

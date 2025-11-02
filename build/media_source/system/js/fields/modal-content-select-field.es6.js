@@ -3,7 +3,6 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// eslint-disable-next-line import/no-unresolved
 import JoomlaDialog from 'joomla.dialog';
 
 /**
@@ -78,10 +77,10 @@ const updateView = (inputValue, container) => {
   const hasValue = !!inputValue.value;
   container.querySelectorAll('[data-show-when-value]').forEach((el) => {
     if (el.dataset.showWhenValue) {
-      // eslint-disable-next-line no-unused-expressions
+
       hasValue ? el.removeAttribute('hidden') : el.setAttribute('hidden', '');
     } else {
-      // eslint-disable-next-line no-unused-expressions
+
       hasValue ? el.setAttribute('hidden', '') : el.removeAttribute('hidden');
     }
   });
@@ -113,18 +112,24 @@ const setupField = (container) => {
     const action = button.dataset.buttonAction;
     const dialogConfig = button.dataset.modalConfig ? JSON.parse(button.dataset.modalConfig) : {};
     const keyName = container.dataset.keyName || 'id';
+    const token = Joomla.getOptions('csrf.token', '');
 
     // Handle requested action
     let handle;
     switch (action) {
       case 'select':
-      case 'create':
+      case 'create': {
+        const url = dialogConfig.src.indexOf('http') === 0 ? new URL(dialogConfig.src) : new URL(dialogConfig.src, window.location.origin);
+        url.searchParams.set(token, '1');
+        dialogConfig.src = url.toString();
         handle = doSelect(inputValue, inputTitle, dialogConfig);
         break;
+      }
       case 'edit': {
         // Update current value in the URL
         const url = dialogConfig.src.indexOf('http') === 0 ? new URL(dialogConfig.src) : new URL(dialogConfig.src, window.location.origin);
         url.searchParams.set(keyName, inputValue.value);
+        url.searchParams.set(token, '1');
         dialogConfig.src = url.toString();
 
         handle = doSelect(inputValue, inputTitle, dialogConfig);

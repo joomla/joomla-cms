@@ -81,9 +81,15 @@ class SiteCreatePublicFolderCommand extends AbstractCommand
         $this->publicFolder = rtrim((new InputFilter())->clean($this->publicFolder, 'PATH'), '/');
         $this->publicFolder = rtrim($this->publicFolder, '\\');
 
+        // Check if the symlink function is available
+        if (!\function_exists('symlink')) {
+            $this->ioStyle->error('symlink() function is not enabled on the server. Please enable it to proceed.');
+            return Command::FAILURE;
+        }
+
         try {
             (new PublicFolderGeneratorHelper())->createPublicFolder($this->publicFolder);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return Command::FAILURE;
         }
 

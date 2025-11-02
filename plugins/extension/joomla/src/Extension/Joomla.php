@@ -10,11 +10,15 @@
 
 namespace Joomla\Plugin\Extension\Joomla\Extension;
 
+use Joomla\CMS\Event\Extension\AfterInstallEvent;
+use Joomla\CMS\Event\Extension\AfterUninstallEvent;
+use Joomla\CMS\Event\Extension\AfterUpdateEvent;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -25,7 +29,7 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.6
  */
-final class Joomla extends CMSPlugin
+final class Joomla extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
 
@@ -53,6 +57,22 @@ final class Joomla extends CMSPlugin
     protected $autoloadLanguage = true;
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   5.2.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onExtensionAfterInstall'   => 'onExtensionAfterInstall',
+            'onExtensionAfterUpdate'    => 'onExtensionAfterUpdate',
+            'onExtensionAfterUninstall' => 'onExtensionAfterUninstall',
+        ];
+    }
+
+    /**
      * Adds an update site to the table if it doesn't exist.
      *
      * @param   string   $name        The friendly name of the site
@@ -60,12 +80,13 @@ final class Joomla extends CMSPlugin
      * @param   string   $location    The URI for the site
      * @param   boolean  $enabled     If this site is enabled
      * @param   string   $extraQuery  Any additional request query to use when updating
+     * @param   int      $total       The total of update sites
      *
      * @return  void
      *
      * @since   1.6
      */
-    private function addUpdateSite($name, $type, $location, $enabled, $extraQuery = '')
+    private function addUpdateSite($name, $type, $location, $enabled, $extraQuery = '', int $total = 1)
     {
         // Look if the location is used already; doesn't matter what type you can't have two types at the same address, doesn't make sense
         $db    = $this->getDatabase();
@@ -80,7 +101,32 @@ final class Joomla extends CMSPlugin
 
         $update_site_id = (int) $db->loadResult();
 
-        // If it doesn't exist, add it!
+        // If it doesn't exist and there is an extension, use that site
+        if (!$update_site_id && $this->eid && $total === 1) {
+            $query->clear();
+            $query->select($db->quoteName('update_site_id'))
+                ->from($db->quoteName('#__update_sites_extensions'))
+                ->where($db->quoteName('extension_id') . ' = :extension_id')
+                ->bind(':extension_id', $this->eid, ParameterType::INTEGER);
+
+            $db->setQuery($query);
+
+            // When there is an existing update site, update the location and return
+            if ($id = $db->loadResult()) {
+                $query->clear()
+                    ->update($db->quoteName('#__update_sites'))
+                    ->set($db->quoteName('location') . ' = :location')
+                    ->where($db->quoteName('update_site_id') . ' = :update_site_id')
+                    ->bind(':location', $location)
+                    ->bind(':update_site_id', $id, ParameterType::INTEGER);
+
+                $db->setQuery($query);
+                $db->execute();
+
+                return;
+            }
+        }
+
         if (!$update_site_id) {
             $enabled = (int) $enabled;
             $query->clear()
@@ -138,17 +184,18 @@ final class Joomla extends CMSPlugin
     /**
      * Handle post extension install update sites
      *
-     * @param   Installer  $installer  Installer object
-     * @param   integer    $eid        Extension Identifier
+     * @param   AfterInstallEvent $event  Event instance.
      *
      * @return  void
      *
      * @since   1.6
      */
-    public function onExtensionAfterInstall($installer, $eid)
+    public function onExtensionAfterInstall(AfterInstallEvent $event): void
     {
+        $eid = $event->getEid();
+
         if ($eid) {
-            $this->installer = $installer;
+            $this->installer = $event->getInstaller();
             $this->eid       = (int) $eid;
 
             // After an install we only need to do update sites
@@ -159,16 +206,17 @@ final class Joomla extends CMSPlugin
     /**
      * Handle extension uninstall
      *
-     * @param   Installer  $installer  Installer instance
-     * @param   integer    $eid        Extension id
-     * @param   boolean    $removed    Installation result
+     * @param   AfterUninstallEvent $event  Event instance.
      *
      * @return  void
      *
      * @since   1.6
      */
-    public function onExtensionAfterUninstall($installer, $eid, $removed)
+    public function onExtensionAfterUninstall(AfterUninstallEvent $event): void
     {
+        $eid     = $event->getEid();
+        $removed = $event->getRemoved();
+
         // If we have a valid extension ID and the extension was successfully uninstalled wipe out any
         // update sites for it
         if ($eid && $removed) {
@@ -240,17 +288,18 @@ final class Joomla extends CMSPlugin
     /**
      * After update of an extension
      *
-     * @param   Installer  $installer  Installer object
-     * @param   integer    $eid        Extension identifier
+     * @param   AfterUpdateEvent $event  Event instance.
      *
      * @return  void
      *
      * @since   1.6
      */
-    public function onExtensionAfterUpdate($installer, $eid)
+    public function onExtensionAfterUpdate(AfterUpdateEvent $event): void
     {
+        $eid = $event->getEid();
+
         if ($eid) {
-            $this->installer = $installer;
+            $this->installer = $event->getInstaller();
             $this->eid       = (int) $eid;
 
             // Handle any update sites
@@ -279,7 +328,7 @@ final class Joomla extends CMSPlugin
         if (\count($children)) {
             foreach ($children as $child) {
                 $attrs = $child->attributes();
-                $this->addUpdateSite((string) $attrs['name'], (string) $attrs['type'], trim($child), true, $this->installer->extraQuery);
+                $this->addUpdateSite((string) $attrs['name'], (string) $attrs['type'], trim($child), true, $this->installer->extraQuery, \count($children));
             }
         } else {
             $data = trim((string) $updateservers);

@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Event\Result;
 
-use BadMethodCallException;
 use Joomla\Event\Event as BaseEvent;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -35,7 +34,7 @@ trait ResultAware
      * @var    boolean
      * @since  4.2.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Using setResult() for the result argument will always be disallowed.
      */
     protected $preventSetArgumentResult = false;
@@ -52,19 +51,19 @@ trait ResultAware
     {
         // Ensure this trait is applied to an Event object.
         if (!($this instanceof BaseEvent)) {
-            throw new \LogicException(sprintf('Event class ‘%s‘ must implement %s.', \get_class($this), BaseEvent::class));
+            throw new \LogicException(\sprintf('Event class ‘%s‘ must implement %s.', \get_class($this), BaseEvent::class));
         }
 
         // Ensure the Event object fully implements the ResultAwareInterface.
         if (!($this instanceof ResultAwareInterface)) {
-            throw new \LogicException(sprintf('Event class ‘%s‘ must implement %s.', \get_class($this), ResultAwareInterface::class));
+            throw new \LogicException(\sprintf('Event class ‘%s‘ must implement %s.', \get_class($this), ResultAwareInterface::class));
         }
 
         // Make sure the data type is correct
         $this->typeCheckResult($data);
 
         // Append the result. We use the arguments property directly to allow this to work on immutable events.
-        $this->arguments['result']   = $this->arguments['result'] ?? [];
+        $this->arguments['result'] ??= [];
         $this->arguments['result'][] = $data;
     }
 
@@ -87,7 +86,7 @@ trait ResultAware
      * @return  array
      * @since   4.2.0
      *
-     * @deprecated 4.4.0 will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 7.0
      *                Use counterpart with onSet prefix
      */
     protected function setResult(array $value)

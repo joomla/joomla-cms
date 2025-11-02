@@ -12,9 +12,10 @@ namespace Joomla\Component\Privacy\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -30,11 +31,12 @@ class RequestsModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   3.9.0
      */
-    public function __construct($config = [])
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -46,13 +48,13 @@ class RequestsModel extends ListModel
             ];
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
-     * Method to get a DatabaseQuery object for retrieving the data set from a database.
+     * Method to get a QueryInterface object for retrieving the data set from a database.
      *
-     * @return  DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   3.9.0
      */
@@ -146,22 +148,6 @@ class RequestsModel extends ListModel
      */
     protected function populateState($ordering = 'a.id', $direction = 'desc')
     {
-        // Load the filter state.
-        $this->setState(
-            'filter.search',
-            $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search')
-        );
-
-        $this->setState(
-            'filter.status',
-            $this->getUserStateFromRequest($this->context . '.filter.status', 'filter_status', '', 'int')
-        );
-
-        $this->setState(
-            'filter.request_type',
-            $this->getUserStateFromRequest($this->context . '.filter.request_type', 'filter_request_type', '', 'string')
-        );
-
         // Load the parameters.
         $this->setState('params', ComponentHelper::getParams('com_privacy'));
 

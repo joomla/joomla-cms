@@ -742,6 +742,7 @@
 					name="custom_reply"
 					type="list"
 					label="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_LABEL"
+					description="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_DESC"
 					useglobal="true"
 					validate="options"
 					>

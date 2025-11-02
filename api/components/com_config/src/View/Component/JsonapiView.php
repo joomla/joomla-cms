@@ -32,13 +32,13 @@ class JsonapiView extends BaseApiView
     /**
      * Execute and display a template script.
      *
-     * @param   array|null  $items  Array of items
+     * @param   ?array  $items  Array of items
      *
      * @return  string
      *
      * @since   4.0.0
      */
-    public function displayList(array $items = null)
+    public function displayList(?array $items = null)
     {
         try {
             $component = ComponentHelper::getComponent($this->get('component_name'));
@@ -128,7 +128,7 @@ class JsonapiView extends BaseApiView
      */
     protected function prepareItem($item)
     {
-        $item->id = ExtensionHelper::getExtensionRecord($this->get('component_name'), 'component')->extension_id;
+        $item->id = ExtensionHelper::getExtensionRecord($this->component_name, 'component')->extension_id;
 
         return $item;
     }

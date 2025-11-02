@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Updater;
 
 use Joomla\CMS\Adapter\Adapter;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 
@@ -182,6 +181,36 @@ class Updater extends Adapter
     }
 
     /**
+     * Returns available updates
+     *
+     * @param integer $eid
+     * @param string $minimumStability
+     * @param boolean $includeCurrent
+     *
+     * @return array
+     */
+    public function getAvailableUpdates(int $eid, string $minimumStability = self::STABILITY_STABLE): array
+    {
+        $results = $this->getUpdateSites($eid);
+
+        if (empty($results)) {
+            return [];
+        }
+
+        $updateObjects = [];
+
+        foreach ($results as $result) {
+            $updateElements = $this->getUpdateObjectsForSite($result, $minimumStability);
+
+            foreach ($updateElements as $updateElement) {
+                $updateObjects[] = get_object_vars($updateElement);
+            }
+        }
+
+        return $updateObjects;
+    }
+
+    /**
      * Returns the update site records for an extension with ID $eid. If $eid is zero all enabled update sites records
      * will be returned.
      *
@@ -260,7 +289,7 @@ class Updater extends Adapter
 
         // Get the update information from the remote update XML document
         /** @var UpdateAdapter $adapter */
-        $adapter       = $this->_adapters[ $updateSite['type']];
+        $adapter       = $this->_adapters[$updateSite['type']];
         $update_result = $adapter->findUpdate($updateSite);
 
         // Version comparison operator.
@@ -303,20 +332,20 @@ class Updater extends Adapter
                     $uid = $update
                         ->find(
                             [
-                                'element'   => $current_update->get('element'),
-                                'type'      => $current_update->get('type'),
-                                'client_id' => $current_update->get('client_id'),
-                                'folder'    => $current_update->get('folder'),
+                                'element'   => $current_update->element,
+                                'type'      => $current_update->type,
+                                'client_id' => $current_update->client_id,
+                                'folder'    => $current_update->folder ?? '',
                             ]
                         );
 
                     $eid = $extension
                         ->find(
                             [
-                                'element'   => $current_update->get('element'),
-                                'type'      => $current_update->get('type'),
-                                'client_id' => $current_update->get('client_id'),
-                                'folder'    => $current_update->get('folder'),
+                                'element'   => $current_update->element,
+                                'type'      => $current_update->type,
+                                'client_id' => $current_update->client_id,
+                                'folder'    => $current_update->folder ?? '',
                             ]
                         );
 
@@ -368,7 +397,7 @@ class Updater extends Adapter
      */
     private function getSitesWithUpdates($timestamp = 0)
     {
-        $db        = Factory::getDbo();
+        $db        = $this->getDbo();
         $timestamp = (int) $timestamp;
 
         $query = $db->getQuery(true)
@@ -412,7 +441,7 @@ class Updater extends Adapter
     private function updateLastCheckTimestamp($updateSiteId)
     {
         $timestamp    = time();
-        $db           = Factory::getDbo();
+        $db           = $this->getDbo();
         $updateSiteId = (int) $updateSiteId;
 
         $query = $db->getQuery(true)

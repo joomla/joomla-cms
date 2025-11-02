@@ -10,7 +10,6 @@
  *
  * @since    4.1.0
  */
-// eslint-disable-next-line import/no-unresolved
 import JoomlaDialog from 'joomla.dialog';
 
 /**
@@ -67,7 +66,7 @@ const runTheTask = (url, resultContainer) => {
 
       if (output.data.output) {
         resultContainer.appendChild(createEl('div', Joomla.Text._('COM_SCHEDULER_TEST_RUN_OUTPUT').replace('%s', '').replace('<br>', '')));
-        resultContainer.appendChild(createEl('pre', output.data.output, ['bg-light', 'p-2']));
+        resultContainer.appendChild(createEl('pre', output.data.output, ['bg-body', 'p-2']));
       }
 
       complete(true);

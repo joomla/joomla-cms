@@ -109,7 +109,7 @@ class LibraryManifest extends Manifest
         $this->packagerurl  = (string) $xml->packagerurl;
         $this->update       = (string) $xml->update;
 
-        if (isset($xml->files) && isset($xml->files->file) && \count($xml->files->file)) {
+        if (isset($xml->files, $xml->files->file) && \count($xml->files->file)) {
             foreach ($xml->files->file as $file) {
                 $this->filelist[] = (string) $file;
             }

@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Mail;
 
-use Exception;
 use Joomla\CMS\Log\Log;
 use Joomla\Registry\Registry;
 
@@ -54,7 +53,7 @@ class MailerFactory implements MailerFactoryInterface
      */
     public function createMailer(?Registry $settings = null): MailerInterface
     {
-        $configuration = clone $this->defaultConfiguration;
+        $configuration = new Registry($this->defaultConfiguration);
 
         if ($settings) {
             $configuration->merge($settings);
@@ -83,7 +82,7 @@ class MailerFactory implements MailerFactoryInterface
                 if ($mailer->setFrom($mailfrom, MailHelper::cleanLine($fromname), false) === false) {
                     Log::add(__METHOD__ . '() could not set the sender data.', Log::WARNING, 'mail');
                 }
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 Log::add(__METHOD__ . '() could not set the sender data.', Log::WARNING, 'mail');
             }
         }

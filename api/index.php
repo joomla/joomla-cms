@@ -15,7 +15,7 @@
 if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<')) {
     header('HTTP/1.1 500 Internal Server Error');
     echo json_encode(
-        ['error' => sprintf('Joomla requires PHP version %s to run', JOOMLA_MINIMUM_PHP)]
+        ['error' => \sprintf('Joomla requires PHP version %s to run', JOOMLA_MINIMUM_PHP)]
     );
 
     return;
@@ -28,4 +28,4 @@ if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<')) {
 \define('_JEXEC', 1);
 
 // Run the application - All executable code should be triggered through this file
-require_once \dirname(__FILE__) . '/includes/app.php';
+require_once __DIR__ . '/includes/app.php';

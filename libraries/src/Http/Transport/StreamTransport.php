@@ -110,7 +110,13 @@ class StreamTransport extends AbstractTransport implements TransportInterface
 
         if (isset($headers)) {
             foreach ($headers as $key => $value) {
-                $headerEntries[] = $key . ': ' . $value;
+                if (\is_array($value)) {
+                    foreach ($value as $header) {
+                        $headerEntries[] = "$key: $header";
+                    }
+                } else {
+                    $headerEntries[] = "$key: $value";
+                }
             }
 
             // Add the headers string into the stream context options array.
@@ -154,7 +160,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
 
             if (!$stream) {
                 // Error but nothing from php? Create our own
-                throw new \Exception(sprintf('Could not connect to resource: %s', $uri));
+                throw new \Exception(\sprintf('Could not connect to resource: %s', $uri));
             }
         } catch (\Exception $e) {
             throw new \RuntimeException($e->getMessage());

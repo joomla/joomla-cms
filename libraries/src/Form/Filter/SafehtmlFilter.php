@@ -40,7 +40,7 @@ class SafehtmlFilter implements FormFilterInterface
      *
      * @since   4.0.0
      */
-    public function filter(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function filter(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         return InputFilter::getInstance(
             [],

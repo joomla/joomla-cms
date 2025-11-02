@@ -13,9 +13,10 @@ namespace Joomla\Component\Modules\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
@@ -33,12 +34,13 @@ class ModulesModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \JController
      * @since   1.6
      */
-    public function __construct($config = [])
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -63,7 +65,7 @@ class ModulesModel extends ListModel
             ];
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -92,21 +94,10 @@ class ModulesModel extends ListModel
         // Make context client aware
         $this->context .= '.' . $app->getInput()->get->getInt('client_id', 0);
 
-        // Load the filter state.
-        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-        $this->setState('filter.position', $this->getUserStateFromRequest($this->context . '.filter.position', 'filter_position', '', 'string'));
-        $this->setState('filter.module', $this->getUserStateFromRequest($this->context . '.filter.module', 'filter_module', '', 'string'));
-        $this->setState('filter.menuitem', $this->getUserStateFromRequest($this->context . '.filter.menuitem', 'filter_menuitem', '', 'cmd'));
-        $this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'cmd'));
-
         // If in modal layout on the frontend, state and language are always forced.
         if ($app->isClient('site') && $layout === 'modal') {
             $this->setState('filter.language', 'current');
             $this->setState('filter.state', 1);
-        } else {
-            // If in backend (modal or not) we get the same fields from the user request.
-            $this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'string'));
-            $this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string'));
         }
 
         // Special case for the client id.
@@ -161,9 +152,9 @@ class ModulesModel extends ListModel
     /**
      * Returns an object list
      *
-     * @param   DatabaseQuery  $query       The query
-     * @param   int            $limitstart  Offset
-     * @param   int            $limit       The number of records
+     * @param   QueryInterface  $query       The query
+     * @param   int             $limitstart  Offset
+     * @param   int             $limit       The number of records
      *
      * @return  array
      */
@@ -252,7 +243,7 @@ class ModulesModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  DatabaseQuery
+     * @return  QueryInterface
      */
     protected function getListQuery()
     {
@@ -324,7 +315,7 @@ class ModulesModel extends ListModel
         }
 
         // Filter by published state.
-        $state = $this->getState('filter.state');
+        $state = $this->getState('filter.state', '');
 
         if (is_numeric($state)) {
             $state = (int) $state;
@@ -425,7 +416,7 @@ class ModulesModel extends ListModel
     /**
      * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
      *
-     * @return DatabaseQuery
+     * @return QueryInterface
      *
      * @since 4.0.0
      */

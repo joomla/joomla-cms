@@ -17,12 +17,14 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Fields\Administrator\View\Fields\HtmlView $this */
+
 if (Factory::getApplication()->isClient('site')) {
     Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_fields.admin-fields-modal')->useScript('modal-content-select');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -75,9 +77,9 @@ $editor    = Factory::getApplication()->getInput()->get('editor', '', 'cmd');
                     <?php
                     $iconStates = [
                         -2 => 'icon-trash',
-                        0  => 'icon-times',
-                        1  => 'icon-check',
-                        2  => 'icon-folder',
+                        0  => 'icon-unpublish',
+                        1  => 'icon-publish',
+                        2  => 'icon-archive',
                     ];
                     foreach ($this->items as $i => $item) :
                         $attrs = 'data-content-select data-content-type="com_fields.field"'

@@ -213,13 +213,13 @@ final class CliInstallationApplication extends Application implements CMSApplica
     /**
      * Returns the installed language files in the administrative and frontend area.
      *
-     * @param   DatabaseInterface|null  $db  Database driver.
+     * @param   ?DatabaseInterface  $db  Database driver.
      *
      * @return  array  Array with installed language packs in admin and site area.
      *
      * @since   4.3.0
      */
-    public function getLocaliseAdmin(DatabaseInterface $db = null)
+    public function getLocaliseAdmin(?DatabaseInterface $db = null)
     {
         $langfiles = [];
 

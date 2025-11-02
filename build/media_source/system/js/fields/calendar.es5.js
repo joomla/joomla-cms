@@ -653,6 +653,11 @@
 		}
 		this.firstdayname = (this.params.weekNumbers) ? row.firstChild.nextSibling : row.firstChild;
 
+    // Check if the direction is 'rtl' and reverse the shortDays array if true
+    if (this.params.direction === 'rtl') {
+      this.strings.shortDays.reverse();
+    }
+
 		var fdow = this.params.firstDayOfWeek,
 			cell = this.firstdayname,
 			weekend = this.params.weekend;
@@ -741,8 +746,8 @@
 					hrs -= 12;
 				}
 
-				var H = makeTimePart("time time-hours", hrs, t12 ? 1 : 0, t12 ? 12 : 23, cell1),
-					M = makeTimePart("time time-minutes", mins, 0, 59, cell2),
+				var H = makeTimePart("time time-hours form-control form-select", hrs, t12 ? 1 : 0, t12 ? 12 : 23, cell1),
+					M = makeTimePart("time time-minutes form-control form-select", mins, 0, 59, cell2),
 					AP = null;
 
 
@@ -774,16 +779,27 @@
 					cell.colSpan = 1;
 				}
 
-				H.addEventListener("change", function (event) {
-					self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
-						event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
-						event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
-				}, false);
-				M.addEventListener("change", function (event) {
-					self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
-						event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
-						event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
-				}, false);
+				if (self.params.weekNumbers) {
+					H.addEventListener("change", function (event) {
+						self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
+							event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
+							event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
+					}, false);
+					M.addEventListener("change", function (event) {
+						self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
+							event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
+							event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
+					}, false);
+				} else {
+					H.addEventListener("change", function (event) {
+						self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
+							event.target.parentNode.parentNode.childNodes[2].childNodes[0].value);
+					}, false);
+					M.addEventListener("change", function (event) {
+						self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
+							event.target.parentNode.parentNode.childNodes[2].childNodes[0].value);
+					}, false);
+				}
 			})();
 		}
 

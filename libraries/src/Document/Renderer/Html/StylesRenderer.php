@@ -154,7 +154,7 @@ class StylesRenderer extends DocumentRenderer
 
                 if ($asset->getOption('deprecated')) {
                     @trigger_error(
-                        sprintf('Web Asset style [%s] is deprecated. %s', $asset->getName(), $asset->getOption('deprecatedMsg', '')),
+                        \sprintf('Web Asset style [%s] is deprecated. %s', $asset->getName(), $asset->getOption('deprecatedMsg', '')),
                         E_USER_DEPRECATED
                     );
                 }
@@ -174,7 +174,7 @@ class StylesRenderer extends DocumentRenderer
         $this->renderedSrc[$src] = true;
 
         // Check if script uses media version.
-        if ($version && strpos($src, '?') === false && ($mediaVersion || $version !== 'auto')) {
+        if ($version && !str_contains($src, '?') && ($mediaVersion || $version !== 'auto')) {
             $src .= '?' . ($version === 'auto' ? $mediaVersion : $version);
         }
 
@@ -194,10 +194,10 @@ class StylesRenderer extends DocumentRenderer
         // Render the element with attributes
         $buffer .= '<link href="' . htmlspecialchars($src) . '" rel="' . $relation . '"';
         $buffer .= $this->renderAttributes($attribs);
-        $buffer .= ' />';
+        $buffer .= '>';
 
         if ($relation === 'lazy-stylesheet') {
-            $buffer .= '<noscript><link href="' . htmlspecialchars($src) . '" rel="stylesheet" /></noscript>';
+            $buffer .= '<noscript><link href="' . htmlspecialchars($src) . '" rel="stylesheet"></noscript>';
         }
 
         // This is for IE conditional statements support.

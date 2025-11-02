@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+/** @var \Joomla\Component\Users\Site\View\Registration\HtmlView $this */
 ?>
 <div class="com-users-registration-complete registration-complete">
     <?php if ($this->params->get('show_page_heading')) : ?>

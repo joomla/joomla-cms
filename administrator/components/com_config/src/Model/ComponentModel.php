@@ -64,7 +64,7 @@ class ComponentModel extends FormModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  mixed  A JForm object on success, false on failure
+     * @return  mixed  A Form object on success, false on failure
      *
      * @since   3.2
      */
@@ -201,8 +201,7 @@ class ComponentModel extends FormModel
             }
 
             // We don't need this anymore
-            unset($data['option']);
-            unset($data['params']['rules']);
+            unset($data['option'], $data['params']['rules']);
         }
 
         // Load the previous Data

@@ -10,8 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-
+/** @var \Joomla\Component\Contact\Site\View\Contact\HtmlView $this */
 ?>
 <div class="com-contact__links contact-links">
     <ul class="list-unstyled">

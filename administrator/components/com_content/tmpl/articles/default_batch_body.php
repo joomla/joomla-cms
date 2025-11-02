@@ -15,6 +15,8 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
+/** @var \Joomla\Component\Content\Administrator\View\Articles\HtmlView $this */
+
 $params = ComponentHelper::getParams('com_content');
 
 $published = (int) $this->state->get('filter.published');

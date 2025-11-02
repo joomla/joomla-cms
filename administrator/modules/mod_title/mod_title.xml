@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_TITLE_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Module\Title</namespace>
 	<files>
-		<filename module="mod_title">mod_title.php</filename>
+		<folder module="mod_title">services</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>

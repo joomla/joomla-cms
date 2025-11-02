@@ -10,11 +10,12 @@
 namespace Joomla\CMS\Installer;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -210,7 +211,9 @@ class InstallerScript
             return false;
         }
 
-        $params = $this->getItemArray('params', $this->paramTable, 'id', $id);
+        $column = ($this->paramTable === '#__extensions') ? 'extension_id' : 'id';
+
+        $params = $this->getItemArray('params', $this->paramTable, $column, $id);
 
         return $params[$name];
     }
@@ -235,7 +238,9 @@ class InstallerScript
             return false;
         }
 
-        $params = $this->getItemArray('params', $this->paramTable, 'id', $id);
+        $column = ($this->paramTable === '#__extensions') ? 'extension_id' : 'id';
+
+        $params = $this->getItemArray('params', $this->paramTable, $column, $id);
 
         if ($paramArray) {
             foreach ($paramArray as $name => $value) {
@@ -261,7 +266,7 @@ class InstallerScript
         $query = $db->getQuery(true)
             ->update($db->quoteName($this->paramTable))
             ->set('params = :params')
-            ->where('id = :id')
+            ->where($column . ' = :id')
             ->bind(':params', $paramsString)
             ->bind(':id', $id, ParameterType::INTEGER);
 
@@ -325,7 +330,7 @@ class InstallerScript
 
         if (!empty($this->deleteFolders)) {
             foreach ($this->deleteFolders as $folder) {
-                if (Folder::exists(JPATH_ROOT . $folder) && !Folder::delete(JPATH_ROOT . $folder)) {
+                if (is_dir(Path::clean(JPATH_ROOT . $folder)) && !Folder::delete(JPATH_ROOT . $folder)) {
                     echo Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $folder) . '<br>';
                 }
             }

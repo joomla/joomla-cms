@@ -16,6 +16,7 @@ use Joomla\CMS\Event\Editor\EditorButtonsSetupEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -26,7 +27,7 @@ use Joomla\CMS\Uri\Uri;
  *
  * @since  1.5
  */
-final class Image extends CMSPlugin
+final class Image extends CMSPlugin implements SubscriberInterface
 {
     /**
      * Returns an array of events this subscriber will listen to.
@@ -46,7 +47,7 @@ final class Image extends CMSPlugin
      *
      * @since   5.1.0
      */
-    public function onEditorButtonsSetup(EditorButtonsSetupEvent $event)
+    public function onEditorButtonsSetup(EditorButtonsSetupEvent $event): void
     {
         $disabled = $event->getDisabledButtons();
 
@@ -164,25 +165,24 @@ final class Image extends CMSPlugin
             }
 
             Text::script('JCLOSE');
-            Text::script('PLG_IMAGE_BUTTON_INSERT');
-            Text::script('JFIELD_MEDIA_LAZY_LABEL');
-            Text::script('JFIELD_MEDIA_ALT_LABEL');
-            Text::script('JFIELD_MEDIA_ALT_CHECK_LABEL');
             Text::script('JFIELD_MEDIA_ALT_CHECK_DESC_LABEL');
+            Text::script('JFIELD_MEDIA_ALT_CHECK_LABEL');
+            Text::script('JFIELD_MEDIA_ALT_LABEL');
             Text::script('JFIELD_MEDIA_CLASS_LABEL');
-            Text::script('JFIELD_MEDIA_FIGURE_CLASS_LABEL');
-            Text::script('JFIELD_MEDIA_FIGURE_CAPTION_LABEL');
-            Text::script('JFIELD_MEDIA_LAZY_LABEL');
-            Text::script('JFIELD_MEDIA_SUMMARY_LABEL');
-            Text::script('JFIELD_MEDIA_EMBED_CHECK_DESC_LABEL');
             Text::script('JFIELD_MEDIA_DOWNLOAD_CHECK_DESC_LABEL');
             Text::script('JFIELD_MEDIA_DOWNLOAD_CHECK_LABEL');
-            Text::script('JFIELD_MEDIA_EMBED_CHECK_LABEL');
-            Text::script('JFIELD_MEDIA_WIDTH_LABEL');
-            Text::script('JFIELD_MEDIA_TITLE_LABEL');
-            Text::script('JFIELD_MEDIA_HEIGHT_LABEL');
-            Text::script('JFIELD_MEDIA_UNSUPPORTED');
             Text::script('JFIELD_MEDIA_DOWNLOAD_FILE');
+            Text::script('JFIELD_MEDIA_EMBED_CHECK_DESC_LABEL');
+            Text::script('JFIELD_MEDIA_EMBED_CHECK_LABEL');
+            Text::script('JFIELD_MEDIA_FIGURE_CAPTION_LABEL');
+            Text::script('JFIELD_MEDIA_FIGURE_CLASS_LABEL');
+            Text::script('JFIELD_MEDIA_HEIGHT_LABEL');
+            Text::script('JFIELD_MEDIA_LAZY_LABEL');
+            Text::script('JFIELD_MEDIA_SUMMARY_LABEL');
+            Text::script('JFIELD_MEDIA_TITLE_LABEL');
+            Text::script('JFIELD_MEDIA_UNSUPPORTED');
+            Text::script('JFIELD_MEDIA_WIDTH_LABEL');
+            Text::script('PLG_IMAGE_BUTTON_INSERT');
 
             $link = 'index.php?option=com_media&view=media&tmpl=component&e_name=' . $name . '&asset=' . $asset . '&mediatypes=0,1,2,3' . '&author=' . $author;
 
@@ -193,6 +193,7 @@ final class Image extends CMSPlugin
                     'text'    => Text::_('PLG_IMAGE_BUTTON_IMAGE'),
                     'name'    => $this->_type . '_' . $this->_name,
                     'icon'    => 'pictures',
+                    'link'    => $link,
                     'iconSVG' => '<svg width="24" height="24" viewBox="0 0 512 512"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48'
                         . ' 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 336H54a6 6 0 0 1-6-6V118a6 6 0 0 1 6-6h404a6 6'
                         . ' 0 0 1 6 6v276a6 6 0 0 1-6 6zM128 152c-22.091 0-40 17.909-40 40s17.909 40 40 40 40-17.909 40-40-17.909-40-40-40'
@@ -203,7 +204,6 @@ final class Image extends CMSPlugin
                     'popupType'  => 'iframe',
                     'textHeader' => Text::_('PLG_IMAGE_BUTTON_IMAGE'),
                     'iconHeader' => 'icon-pictures',
-                    'src'        => $link,
                 ]
             );
         }

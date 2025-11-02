@@ -106,9 +106,9 @@ final class ColorStyle
     public function __construct(string $fg = '', string $bg = '', array $options = [])
     {
         if ($fg) {
-            if (\array_key_exists($fg, static::$knownColors) == false) {
+            if (!\array_key_exists($fg, static::$knownColors)) {
                 throw new \InvalidArgumentException(
-                    sprintf(
+                    \sprintf(
                         'Invalid foreground color "%1$s" [%2$s]',
                         $fg,
                         implode(', ', $this->getKnownColors())
@@ -120,9 +120,9 @@ final class ColorStyle
         }
 
         if ($bg) {
-            if (\array_key_exists($bg, static::$knownColors) == false) {
+            if (!\array_key_exists($bg, static::$knownColors)) {
                 throw new \InvalidArgumentException(
-                    sprintf(
+                    \sprintf(
                         'Invalid background color "%1$s" [%2$s]',
                         $bg,
                         implode(', ', $this->getKnownColors())
@@ -134,9 +134,9 @@ final class ColorStyle
         }
 
         foreach ($options as $option) {
-            if (\array_key_exists($option, static::$knownOptions) == false) {
+            if (!\array_key_exists($option, static::$knownOptions)) {
                 throw new \InvalidArgumentException(
-                    sprintf(
+                    \sprintf(
                         'Invalid option "%1$s" [%2$s]',
                         $option,
                         implode(', ', $this->getKnownOptions())

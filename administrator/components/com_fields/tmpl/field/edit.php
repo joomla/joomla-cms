@@ -16,13 +16,15 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Fields\Administrator\View\Field\HtmlView $this */
+
 $app = Factory::getApplication();
 $input = $app->getInput();
 
 $this->useCoreUI = true;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->useScript('com_fields.admin-field-edit');
@@ -53,27 +55,24 @@ $wa->useScript('keepalive')
                 <?php endforeach; ?>
             </div>
             <div class="col-lg-3">
-                <?php $this->set(
-                    'fields',
-                    [
-                            [
-                                'published',
-                                'state',
-                                'enabled',
-                            ],
-                            'group_id',
-                            'assigned_cat_ids',
-                            'access',
-                            'language',
-                            'note',
-                        ]
-                ); ?>
+                <?php $this->fields = [
+                        [
+                            'published',
+                            'state',
+                            'enabled',
+                        ],
+                        'group_id',
+                        'assigned_cat_ids',
+                        'access',
+                        'language',
+                        'note',
+                    ]; ?>
                 <?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
-                <?php $this->set('fields', null); ?>
+                <?php $this->fields = null; ?>
             </div>
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
-        <?php $this->set('ignore_fieldsets', ['fieldparams']); ?>
+        <?php $this->ignore_fieldsets = ['fieldparams']; ?>
         <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
         <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
         <fieldset id="fieldset-publishingdata" class="options-form">

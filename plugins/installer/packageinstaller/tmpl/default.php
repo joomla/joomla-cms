@@ -10,12 +10,11 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Filesystem\FilesystemHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Plugin\Installer\Package\Extension\PackageInstaller;
+use Joomla\Filesystem\Helper as FilesystemHelper;
 
-/** @var PackageInstaller $this */
+/** @var \Joomla\Plugin\Installer\Package\Extension\PackageInstaller $this */
 
 HTMLHelper::_('form.csrf');
 
@@ -34,7 +33,7 @@ $this->getApplication()->getDocument()->getWebAssetManager()
     );
 
 $return = $this->getApplication()->getInput()->getBase64('return');
-$maxSizeBytes = FilesystemHelper::fileUploadMaxSize(false);
+$maxSizeBytes = FilesystemHelper::getFileUploadMaxSize();
 $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes);
 ?>
 <legend><?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>

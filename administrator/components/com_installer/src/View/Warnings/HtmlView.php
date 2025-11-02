@@ -10,7 +10,7 @@
 
 namespace Joomla\Component\Installer\Administrator\View\Warnings;
 
-use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\Component\Installer\Administrator\Model\WarningsModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -35,7 +35,10 @@ class HtmlView extends InstallerViewDefault
      */
     public function display($tpl = null)
     {
-        $this->messages = $this->get('Items');
+        /** @var WarningsModel $model */
+        $model = $this->getModel();
+
+        $this->messages = $model->getItems();
 
         if (!\count($this->messages)) {
             $this->setLayout('emptystate');
@@ -53,7 +56,7 @@ class HtmlView extends InstallerViewDefault
      */
     protected function addToolbar()
     {
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         parent::addToolbar();
 

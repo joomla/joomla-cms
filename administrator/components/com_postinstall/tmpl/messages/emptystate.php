@@ -14,6 +14,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
+/** @var \Joomla\Component\Postinstall\Administrator\View\Messages\HtmlView $this */
+
 $adminFormClass = count($this->extension_options) > 1 ? 'form-inline mb-3' : 'visually-hidden';
 ?>
 

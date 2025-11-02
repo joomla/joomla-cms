@@ -200,7 +200,7 @@ abstract class AdminModel extends FormModel
      * @since   1.6
      * @throws  \Exception
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?FormFactoryInterface $formFactory = null)
     {
         parent::__construct($config, $factory, $formFactory);
 
@@ -246,7 +246,7 @@ abstract class AdminModel extends FormModel
             $this->event_before_batch = 'onBeforeBatch';
         }
 
-        $config['events_map'] = $config['events_map'] ?? [];
+        $config['events_map'] ??= [];
 
         $this->events_map = array_merge(
             [
@@ -497,7 +497,7 @@ abstract class AdminModel extends FormModel
             }
 
             // Get the new item ID
-            $newId = $this->table->get('id');
+            $newId = $this->table->id;
 
             if (!empty($oldAssetId)) {
                 $dbType = strtolower($db->getServerType());
@@ -693,6 +693,8 @@ abstract class AdminModel extends FormModel
      * @return  boolean  True if successful, false otherwise and internal error is set.
      *
      * @since   3.1
+     *
+     * @deprecated  5.3 will be removed in 7.0
      */
     protected function batchTag($value, $pks, $contexts)
     {
@@ -977,7 +979,7 @@ abstract class AdminModel extends FormModel
      *
      * @param   integer  $pk  The id of the primary key.
      *
-     * @return  CMSObject|boolean  Object on success, false on failure.
+     * @return  \stdClass|false  Object on success, false on failure.
      *
      * @since   1.6
      */
@@ -1106,8 +1108,6 @@ abstract class AdminModel extends FormModel
 
                     // Prune items that you can't change.
                     unset($pks[$i]);
-
-                    return false;
                 }
 
                 /**
@@ -1116,7 +1116,7 @@ abstract class AdminModel extends FormModel
                  */
                 $publishedColumnName = $table->getColumnAlias('published');
 
-                if (property_exists($table, $publishedColumnName) && $table->get($publishedColumnName, $value) == $value) {
+                if (property_exists($table, $publishedColumnName) && ($table->$publishedColumnName ?? $value) == $value) {
                     unset($pks[$i]);
                 }
             }
@@ -1142,7 +1142,7 @@ abstract class AdminModel extends FormModel
         }
 
         // Attempt to change the state of the records.
-        if (!$table->publish($pks, $value, $user->get('id'))) {
+        if (!$table->publish($pks, $value, $user->id)) {
             $this->setError($table->getError());
 
             return false;
@@ -1224,7 +1224,7 @@ abstract class AdminModel extends FormModel
         }
 
         // Clear the component's cache
-        if ($result == true) {
+        if ($result) {
             $this->cleanCache();
         }
 
@@ -1252,7 +1252,7 @@ abstract class AdminModel extends FormModel
         }
 
         $key   = $table->getKeyName();
-        $pk    = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+        $pk    = $data[$key] ?? (int) $this->getState($this->getName() . '.id');
         $isNew = true;
 
         // Include the plugins for the save events.

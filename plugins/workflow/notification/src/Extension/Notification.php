@@ -13,14 +13,12 @@ namespace Joomla\Plugin\Workflow\Notification\Extension;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\Workflow\WorkflowPluginTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
 
@@ -74,15 +72,14 @@ final class Notification extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor.
      *
-     * @param   DispatcherInterface       $dispatcher       The dispatcher
      * @param   array                     $config           An optional associative array of configuration settings
      * @param   LanguageFactoryInterface  $languageFactory  The language factory
      *
      * @since   4.2.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, LanguageFactoryInterface $languageFactory)
+    public function __construct(array $config, LanguageFactoryInterface $languageFactory)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->languageFactory = $languageFactory;
     }
@@ -211,7 +208,7 @@ final class Notification extends CMSPlugin implements SubscriberInterface
                     // Load language for messaging
                     $lang = $this->languageFactory->createLanguage($user->getParam('admin_language', $defaultLanguage), $debug);
                     $lang->load('plg_workflow_notification');
-                    $messageText = sprintf(
+                    $messageText = \sprintf(
                         $lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_MSG'),
                         $title,
                         $lang->_($transitionName),
@@ -226,7 +223,7 @@ final class Notification extends CMSPlugin implements SubscriberInterface
                     $message = [
                         'id'         => 0,
                         'user_id_to' => $receiver->id,
-                        'subject'    => sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_SUBJECT'), $title),
+                        'subject'    => \sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_SUBJECT'), $title),
                         'message'    => $messageText,
                     ];
 

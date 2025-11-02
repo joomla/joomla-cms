@@ -43,21 +43,24 @@ class CategoryController extends FormController
     /**
      * Constructor.
      *
-     * @param   array                     $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface|null  $factory  The factory.
-     * @param   CMSApplication|null       $app      The Application for the dispatcher
-     * @param   Input|null                $input    Input
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The Application for the dispatcher
+     * @param   ?Input                $input    Input
      *
      * @since  1.6
      * @throws \Exception
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, CMSApplication $app = null, Input $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
         if (empty($this->extension)) {
             $this->extension = $this->input->get('extension', 'com_content');
         }
+
+        $this->registerTask('save2menulist', 'save');
+        $this->registerTask('save2menublog', 'save');
     }
 
     /**
@@ -73,7 +76,7 @@ class CategoryController extends FormController
     {
         $user = $this->app->getIdentity();
 
-        return ($user->authorise('core.create', $this->extension) || \count($user->getAuthorisedCategories($this->extension, 'core.create')));
+        return $user->authorise('core.create', $this->extension) || \count($user->getAuthorisedCategories($this->extension, 'core.create'));
     }
 
     /**
@@ -88,7 +91,7 @@ class CategoryController extends FormController
      */
     protected function allowEdit($data = [], $key = 'parent_id')
     {
-        $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
+        $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
         $user     = $this->app->getIdentity();
 
         // Check "edit" permission on record asset (explicit or inherited)
@@ -254,8 +257,34 @@ class CategoryController extends FormController
             $item->metadata = (string) $registry;
         }
 
-        // When editing in modal then redirect to modalreturn layout
-        if ($this->input->get('layout') === 'modal' && $this->task === 'save') {
+        if (\in_array($this->getTask(), ['save2menulist', 'save2menublog'])) {
+            $editState = [];
+
+            $type = 'component';
+            $id   = $model->getState('category.id');
+            $link = 'index.php?option=com_content&view=category';
+
+            if ($this->getTask() === 'save2menublog') {
+                $link .= '&layout=blog'; // Append the layout parameter for the blog layout
+            }
+
+            $editState = [
+                'id'      => $id,
+                'link'    => $link,
+                'title'   => $model->getItem($id)->title,
+                'type'    => $type,
+                'request' => ['id' => $id],
+            ];
+
+            $this->app->setUserState('com_menus.edit.item', [
+                'data' => $editState,
+                'type' => $type,
+                'link' => $link,
+            ]);
+
+            $this->setRedirect(Route::_('index.php?option=com_menus&view=item&client_id=0&menutype=mainmenu&layout=edit', false));
+        } elseif ($this->input->get('layout') === 'modal' && $this->task === 'save') {
+            // When editing in modal then redirect to modalreturn layout
             $id     = $item->id;
             $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id)
                 . '&layout=modalreturn&from-task=save';

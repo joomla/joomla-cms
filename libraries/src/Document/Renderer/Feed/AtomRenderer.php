@@ -123,63 +123,63 @@ class AtomRenderer extends DocumentRenderer
         $feed .= "	<generator uri=\"https://www.joomla.org\"" . $versionHtmlEscaped . ">" . $data->getGenerator() . "</generator>\n";
         $feed .= "	<link rel=\"self\" type=\"application/atom+xml\" href=\"" . str_replace(' ', '%20', $url . $syndicationURL) . "\"/>\n";
 
-        for ($i = 0, $count = \count($data->items); $i < $count; $i++) {
-            $itemlink = $data->items[$i]->link;
+        foreach ($data->items as $item) {
+            $itemlink = $item->link;
 
             if (preg_match('/[\x80-\xFF]/', $itemlink)) {
                 $itemlink = implode('/', array_map('rawurlencode', explode('/', $itemlink)));
             }
 
             $feed .= "	<entry>\n";
-            $feed .= "		<title>" . htmlspecialchars(strip_tags($data->items[$i]->title), ENT_COMPAT, 'UTF-8') . "</title>\n";
+            $feed .= "		<title>" . htmlspecialchars(strip_tags($item->title), ENT_COMPAT, 'UTF-8') . "</title>\n";
             $feed .= "		<link rel=\"alternate\" type=\"text/html\" href=\"" . $url . $itemlink . "\"/>\n";
 
-            if ($data->items[$i]->date == '') {
-                $data->items[$i]->date = $now->toUnix();
+            if ($item->date == '') {
+                $item->date = $now->toUnix();
             }
 
-            $itemDate = Factory::getDate($data->items[$i]->date);
+            $itemDate = Factory::getDate($item->date);
             $itemDate->setTimezone($tz);
             $feed .= "		<published>" . htmlspecialchars($itemDate->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</published>\n";
             $feed .= "		<updated>" . htmlspecialchars($itemDate->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</updated>\n";
 
-            if (empty($data->items[$i]->guid)) {
+            if (empty($item->guid)) {
                 $itemGuid = str_replace(' ', '%20', $url . $itemlink);
             } else {
-                $itemGuid = htmlspecialchars($data->items[$i]->guid, ENT_COMPAT, 'UTF-8');
+                $itemGuid = htmlspecialchars($item->guid, ENT_COMPAT, 'UTF-8');
             }
 
             $feed .= "		<id>" . $itemGuid . "</id>\n";
 
-            if ($data->items[$i]->author != '') {
+            if ($item->author != '') {
                 $feed .= "		<author>\n";
-                $feed .= "			<name>" . htmlspecialchars($data->items[$i]->author, ENT_COMPAT, 'UTF-8') . "</name>\n";
+                $feed .= "			<name>" . htmlspecialchars($item->author, ENT_COMPAT, 'UTF-8') . "</name>\n";
 
-                if (!empty($data->items[$i]->authorEmail)) {
-                    $feed .= "			<email>" . htmlspecialchars($data->items[$i]->authorEmail, ENT_COMPAT, 'UTF-8') . "</email>\n";
+                if (!empty($item->authorEmail)) {
+                    $feed .= "			<email>" . htmlspecialchars($item->authorEmail, ENT_COMPAT, 'UTF-8') . "</email>\n";
                 }
 
                 $feed .= "		</author>\n";
             }
 
-            if (!empty($data->items[$i]->description)) {
-                $feed .= "		<summary type=\"html\">" . htmlspecialchars($this->_relToAbs($data->items[$i]->description), ENT_COMPAT, 'UTF-8') . "</summary>\n";
-                $feed .= "		<content type=\"html\">" . htmlspecialchars($this->_relToAbs($data->items[$i]->description), ENT_COMPAT, 'UTF-8') . "</content>\n";
+            if (!empty($item->description)) {
+                $feed .= "		<summary type=\"html\">" . htmlspecialchars($this->_relToAbs($item->description), ENT_COMPAT, 'UTF-8') . "</summary>\n";
+                $feed .= "		<content type=\"html\">" . htmlspecialchars($this->_relToAbs($item->description), ENT_COMPAT, 'UTF-8') . "</content>\n";
             }
 
-            if (!empty($data->items[$i]->category)) {
-                if (\is_array($data->items[$i]->category)) {
-                    foreach ($data->items[$i]->category as $cat) {
+            if (!empty($item->category)) {
+                if (\is_array($item->category)) {
+                    foreach ($item->category as $cat) {
                         $feed .= "		<category term=\"" . htmlspecialchars($cat, ENT_COMPAT, 'UTF-8') . "\" />\n";
                     }
                 } else {
-                    $feed .= "		<category term=\"" . htmlspecialchars($data->items[$i]->category, ENT_COMPAT, 'UTF-8') . "\" />\n";
+                    $feed .= "		<category term=\"" . htmlspecialchars($item->category, ENT_COMPAT, 'UTF-8') . "\" />\n";
                 }
             }
 
-            if ($data->items[$i]->enclosure != null) {
-                $feed .= "		<link rel=\"enclosure\" href=\"" . $data->items[$i]->enclosure->url . "\" type=\""
-                    . $data->items[$i]->enclosure->type . "\"  length=\"" . $data->items[$i]->enclosure->length . "\"/>\n";
+            if ($item->enclosure != null) {
+                $feed .= "		<link rel=\"enclosure\" href=\"" . $item->enclosure->url . "\" type=\""
+                    . $item->enclosure->type . "\"  length=\"" . $item->enclosure->length . "\"/>\n";
             }
 
             $feed .= "	</entry>\n";

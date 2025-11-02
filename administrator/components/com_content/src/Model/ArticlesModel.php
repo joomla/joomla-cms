@@ -14,11 +14,13 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -36,12 +38,13 @@ class ArticlesModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   1.6
      * @see     \Joomla\CMS\MVC\Controller\BaseController
      */
-    public function __construct($config = [])
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -80,7 +83,7 @@ class ArticlesModel extends ListModel
             }
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -101,11 +104,6 @@ class ArticlesModel extends ListModel
 
         if (!$params->get('workflow_enabled')) {
             $form->removeField('stage', 'filter');
-        } else {
-            $ordering = $form->getField('fullordering', 'list');
-
-            $ordering->addOption('JSTAGE_ASC', ['value' => 'ws.title ASC']);
-            $ordering->addOption('JSTAGE_DESC', ['value' => 'ws.title DESC']);
         }
 
         return $form;
@@ -140,42 +138,14 @@ class ArticlesModel extends ListModel
             $this->context .= '.' . $forcedLanguage;
         }
 
-        $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-        $this->setState('filter.search', $search);
-
-        $featured = $this->getUserStateFromRequest($this->context . '.filter.featured', 'filter_featured', '');
-        $this->setState('filter.featured', $featured);
-
-        $published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
-        $this->setState('filter.published', $published);
-
-        $level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
-        $this->setState('filter.level', $level);
-
-        $language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
-        $this->setState('filter.language', $language);
-
-        $formSubmitted = $input->post->get('form_submitted');
-
-        // Gets the value of a user state variable and sets it in the session
-        $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
-        $this->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
+        // Required content filters for the administrator menu
         $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
+        $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
+        $this->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
         $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
-
-        if ($formSubmitted) {
-            $access = $input->post->get('access');
-            $this->setState('filter.access', $access);
-
-            $authorId = $input->post->get('author_id');
-            $this->setState('filter.author_id', $authorId);
-
-            $categoryId = $input->post->get('category_id');
-            $this->setState('filter.category_id', $categoryId);
-
-            $tag = $input->post->get('tag');
-            $this->setState('filter.tag', $tag);
-        }
+        $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
+        $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
+        $this->getUserStateFromRequest($this->context . '.filter.checked_out', 'filter_checked_out', '');
 
         // List state information.
         parent::populateState($ordering, $direction);
@@ -210,6 +180,7 @@ class ArticlesModel extends ListModel
         $id .= ':' . serialize($this->getState('filter.author_id'));
         $id .= ':' . $this->getState('filter.language');
         $id .= ':' . serialize($this->getState('filter.tag'));
+        $id .= ':' . $this->getState('filter.checked_out');
 
         return parent::getStoreId($id);
     }
@@ -217,7 +188,7 @@ class ArticlesModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   1.6
      */
@@ -431,18 +402,49 @@ class ArticlesModel extends ListModel
 
         if (is_numeric($authorId)) {
             $authorId = (int) $authorId;
-            $type     = $this->getState('filter.author_id.include', true) ? ' = ' : ' <> ';
-            $query->where($db->quoteName('a.created_by') . $type . ':authorId')
-                ->bind(':authorId', $authorId, ParameterType::INTEGER);
+
+            if ($authorId === 0) {
+                // Only show deleted authors' articles
+                $subQuery = $db->getQuery(true)
+                    ->select($db->quoteName('id'))
+                    ->from($db->quoteName('#__users'));
+
+                $query->where($db->quoteName('a.created_by') . ' NOT IN (' . $subQuery . ')');
+            } else {
+                $type = $this->getState('filter.author_id.include', true) ? ' = ' : ' <> ';
+                $query->where($db->quoteName('a.created_by') . $type . ':authorId')
+                    ->bind(':authorId', $authorId, ParameterType::INTEGER);
+            }
         } elseif (\is_array($authorId)) {
             // Check to see if by_me is in the array
-            if (\in_array('by_me', $authorId)) {
+            $keyByMe = array_search('by_me', $authorId);
+
+            if ($keyByMe !== false) {
                 // Replace by_me with the current user id in the array
-                $authorId['by_me'] = $user->id;
+                $authorId[$keyByMe] = $user->id;
             }
 
             $authorId = ArrayHelper::toInteger($authorId);
-            $query->whereIn($db->quoteName('a.created_by'), $authorId);
+
+            if (\in_array(0, $authorId)) {
+                // Remove 0 from array and handle deleted users with OR condition
+                $authorId = array_filter($authorId);
+
+                // Subquery for deleted users
+                $subQuery = $db->getQuery(true)
+                    ->select($db->quoteName('id'))
+                    ->from($db->quoteName('#__users'));
+
+                // Build WHERE with both conditions
+                $query->where('(' .
+                    $db->quoteName('a.created_by') . ' NOT IN (' . $subQuery . ')' .
+                    (!empty($authorId)
+                        ? ' OR ' . $db->quoteName('a.created_by') . ' IN (' . implode(',', $query->bindArray($authorId)) . ')'
+                        : '') .
+                ')');
+            } else {
+                $query->whereIn($db->quoteName('a.created_by'), $authorId);
+            }
         }
 
         // Filter by search in title.
@@ -461,6 +463,11 @@ class ArticlesModel extends ListModel
                 $search = '%' . substr($search, 8) . '%';
                 $query->where('(' . $db->quoteName('a.introtext') . ' LIKE :search1 OR ' . $db->quoteName('a.fulltext') . ' LIKE :search2)')
                     ->bind([':search1', ':search2'], $search);
+            } elseif (stripos($search, 'checkedout:') === 0) {
+                $search = '%' . substr($search, 11) . '%';
+                $query->where('(' . $db->quoteName('uc.name') . ' LIKE :search1 OR ' . $db->quoteName('uc.username') . ' LIKE :search2)'
+                    . ' AND ' . $db->quoteName('a.checked_out') . ' IS NOT NULL')
+                    ->bind([':search1', ':search2'], $search);
             } else {
                 $search = '%' . str_replace(' ', '%', trim($search)) . '%';
                 $query->where(
@@ -477,6 +484,24 @@ class ArticlesModel extends ListModel
                 ->bind(':language', $language);
         }
 
+        // Filter by checked out status.
+        $checkedOut = $this->getState('filter.checked_out');
+
+        if (is_numeric($checkedOut)) {
+            if ($checkedOut == -1) {
+                // Only checked out articles
+                $query->where($db->quoteName('a.checked_out') . ' > 0');
+            } elseif ($checkedOut == 0) {
+                // Only not checked out articles (checked_out is 0 or NULL)
+                $query->where('(' . $db->quoteName('a.checked_out') . ' = 0 OR ' . $db->quoteName('a.checked_out') . ' IS NULL)');
+            } else {
+                // Checked out by specific user
+                $checkedOut = (int) $checkedOut;
+                $query->where($db->quoteName('a.checked_out') . ' = :checkedOutUser')
+                    ->bind(':checkedOutUser', $checkedOut, ParameterType::INTEGER);
+            }
+        }
+
         // Filter by a single or group of tags.
         $tag = $this->getState('filter.tag');
 
@@ -486,7 +511,13 @@ class ArticlesModel extends ListModel
         }
 
         if ($tag && \is_array($tag)) {
-            $tag = ArrayHelper::toInteger($tag);
+            $tag         = ArrayHelper::toInteger($tag);
+            $includeNone = false;
+
+            if (\in_array(0, $tag)) {
+                $tag         = array_filter($tag);
+                $includeNone = true;
+            }
 
             $subQuery = $db->getQuery(true)
                 ->select('DISTINCT ' . $db->quoteName('content_item_id'))
@@ -499,16 +530,48 @@ class ArticlesModel extends ListModel
                 );
 
             $query->join(
-                'INNER',
+                $includeNone ? 'LEFT' : 'INNER',
                 '(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
                 $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
             );
-        } elseif ($tag = (int) $tag) {
-            $query->join(
-                'INNER',
-                $db->quoteName('#__contentitem_tag_map', 'tagmap'),
-                $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-            )
+
+            if ($includeNone) {
+                $subQuery2 = $db->getQuery(true)
+                    ->select('DISTINCT ' . $db->quoteName('content_item_id'))
+                    ->from($db->quoteName('#__contentitem_tag_map'))
+                    ->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'));
+                $query->join(
+                    'LEFT',
+                    '(' . $subQuery2 . ') AS ' . $db->quoteName('tagmap2'),
+                    $db->quoteName('tagmap2.content_item_id') . ' = ' . $db->quoteName('a.id')
+                )
+                ->where(
+                    '(' . $db->quoteName('tagmap.content_item_id') . ' IS NOT NULL OR '
+                    . $db->quoteName('tagmap2.content_item_id') . ' IS NULL)'
+                );
+            }
+        } elseif (is_numeric($tag)) {
+            $tag = (int) $tag;
+
+            if ($tag === 0) {
+                $subQuery = $db->getQuery(true)
+                    ->select('DISTINCT ' . $db->quoteName('content_item_id'))
+                    ->from($db->quoteName('#__contentitem_tag_map'))
+                    ->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'));
+
+                // Only show articles without tags
+                $query->join(
+                    'LEFT',
+                    '(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
+                    $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+                )
+                ->where($db->quoteName('tagmap.content_item_id') . ' IS NULL');
+            } else {
+                $query->join(
+                    'INNER',
+                    $db->quoteName('#__contentitem_tag_map', 'tagmap'),
+                    $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+                )
                 ->where(
                     [
                         $db->quoteName('tagmap.tag_id') . ' = :tag',
@@ -516,6 +579,7 @@ class ArticlesModel extends ListModel
                     ]
                 )
                 ->bind(':tag', $tag, ParameterType::INTEGER);
+            }
         }
 
         // Add the list ordering clause.

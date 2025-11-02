@@ -14,7 +14,6 @@ use Joomla\CMS\Event\MultiFactor\NotifyActionLog;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
@@ -178,7 +177,7 @@ class HtmlView extends BaseHtmlView
             ToolbarHelper::title(Text::_('COM_USERS_MFA_LIST_PAGE_HEAD'), 'users user-lock');
 
             if ($this->getCurrentUser()->authorise('core.manage', 'com_users')) {
-                $toolbar = Toolbar::getInstance();
+                $toolbar = $this->getDocument()->getToolbar();
                 $arrow   = Factory::getApplication()->getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
                 $toolbar->link('JTOOLBAR_BACK', 'index.php?option=com_users')
                     ->icon('icon-' . $arrow);

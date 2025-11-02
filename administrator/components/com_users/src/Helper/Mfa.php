@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\Helper;
 
-use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Document\HtmlDocument;
@@ -78,7 +77,7 @@ abstract class Mfa
         /** @var CMSApplication $app */
         $app = Factory::getApplication();
 
-        if (!$app->getInput()->getCmd('option', '') === 'com_users') {
+        if ($app->getInput()->getCmd('option', '') !== 'com_users') {
             $app->getLanguage()->load('com_users');
             $app->getDocument()
                 ->getWebAssetManager()
@@ -110,10 +109,10 @@ abstract class Mfa
         $view->setModel($methodsModel, true);
         /** @noinspection PhpParamsInspection */
         $view->setModel($backupCodesModel);
-        $view->document  = $app->getDocument();
+        $view->setDocument($app->getDocument());
         $view->returnURL = base64_encode(Uri::getInstance()->toString());
         $view->user      = $user;
-        $view->set('forHMVC', true);
+        $view->forHMVC   = true;
         $view->setLanguage($app->getLanguage());
 
         @ob_start();
@@ -273,7 +272,7 @@ abstract class Mfa
 
         try {
             $ids = $db->setQuery($query)->loadColumn() ?: [];
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $ids = [];
         }
 

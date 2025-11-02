@@ -25,14 +25,16 @@ use Joomla\CMS\Session\Session;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Utilities\ArrayHelper;
 
+/** @var \Joomla\Component\Content\Administrator\View\Articles\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
 $app       = Factory::getApplication();
 $user      = $this->getCurrentUser();
-$userId    = $user->get('id');
+$userId    = $user->id;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
@@ -63,6 +65,8 @@ if ($workflow_enabled) :
 
     $workflow_state    = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.state', 'com_content.article');
     $workflow_featured = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article');
+
+    $this->filterForm->addControlField('transition_id', '');
 endif;
 
 $assoc = Associations::isEnabled();
@@ -317,12 +321,12 @@ $assoc = Associations::isEnabled();
                                     <?php echo $this->escape($item->access_level); ?>
                                 </td>
                                 <td class="small d-none d-md-table-cell">
-                                    <?php if ((int) $item->created_by != 0) : ?>
+                                    <?php if (!empty($item->author_name)) : ?>
                                         <a href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>">
                                             <?php echo $this->escape($item->author_name); ?>
                                         </a>
                                     <?php else : ?>
-                                        <?php echo Text::_('JNONE'); ?>
+                                        [ <?php echo Text::_('JNONE'); ?> ]
                                     <?php endif; ?>
                                     <?php if ($item->created_by_alias) : ?>
                                         <div class="smallsub"><?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
@@ -360,7 +364,7 @@ $assoc = Associations::isEnabled();
                                         </span>
                                     </td>
                                     <td class="d-none d-md-table-cell text-center">
-                                        <span class="badge bg-warning text-dark">
+                                        <span class="badge bg-warning">
                                             <?php echo (int) $item->rating; ?>
                                         </span>
                                     </td>
@@ -387,13 +391,7 @@ $assoc = Associations::isEnabled();
                     <?php endif; ?>
                 <?php endif; ?>
 
-                <?php if ($workflow_enabled) : ?>
-                <input type="hidden" name="transition_id" value="">
-                <?php endif; ?>
-
-                <input type="hidden" name="task" value="">
-                <input type="hidden" name="boxchecked" value="0">
-                <?php echo HTMLHelper::_('form.token'); ?>
+                <?php echo $this->filterForm->renderControlFields(); ?>
             </div>
         </div>
     </div>

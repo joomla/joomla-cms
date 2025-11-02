@@ -37,18 +37,18 @@ class ActionlogsController extends AdminController
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
      *                                         Recognized key values include 'name', 'default_task', 'model_path', and
      *                                         'view_path' (this list is not meant to be comprehensive).
-     * @param   MVCFactoryInterface  $factory  The factory.
-     * @param   CMSApplication       $app      The Application for the dispatcher
-     * @param   Input                $input    Input
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   CMSApplication        $app      The Application for the dispatcher
+     * @param   Input                 $input    Input
      *
      * @since   3.9.0
      *
      * @throws  \Exception
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -87,7 +87,7 @@ class ActionlogsController extends AdminController
         if (\count($data)) {
             try {
                 $rows = ActionlogsHelper::getCsvData($data);
-            } catch (\InvalidArgumentException $exception) {
+            } catch (\InvalidArgumentException) {
                 $this->setMessage(Text::_('COM_ACTIONLOGS_ERROR_COULD_NOT_EXPORT_DATA'), 'error');
                 $this->setRedirect(Route::_('index.php?option=com_actionlogs&view=actionlogs', false));
 

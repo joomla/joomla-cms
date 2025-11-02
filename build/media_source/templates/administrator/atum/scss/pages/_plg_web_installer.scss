@@ -1,6 +1,7 @@
 @if $enable-dark-mode {
   @include color-mode(dark) {
-    .com-apps-container .grid-container .card:hover {
+    .com-apps-container .grid-container .card:hover,
+    .com-apps-container .list-container .list-group-item:hover {
       background-color: var(--gray-800);
     }
   }

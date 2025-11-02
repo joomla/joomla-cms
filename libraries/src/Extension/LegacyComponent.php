@@ -19,7 +19,8 @@ use Joomla\CMS\Component\Router\RouterLegacy;
 use Joomla\CMS\Component\Router\RouterServiceInterface;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 use Joomla\CMS\Dispatcher\LegacyComponentDispatcher;
-use Joomla\CMS\Fields\FieldsServiceInterface;
+use Joomla\CMS\Fields\FieldsFormServiceInterface;
+use Joomla\CMS\Fields\FieldsServiceTrait;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -41,13 +42,14 @@ class LegacyComponent implements
     ComponentInterface,
     MVCFactoryServiceInterface,
     CategoryServiceInterface,
-    FieldsServiceInterface,
+    FieldsFormServiceInterface,
     RouterServiceInterface,
     TagServiceInterface
 {
-    use CategoryServiceTrait, TagServiceTrait {
+    use CategoryServiceTrait, TagServiceTrait, FieldsServiceTrait {
         CategoryServiceTrait::getTableNameForSection insteadof TagServiceTrait;
         CategoryServiceTrait::getStateColumnForSection insteadof TagServiceTrait;
+        CategoryServiceTrait::prepareForm insteadof FieldsServiceTrait;
     }
 
     /**

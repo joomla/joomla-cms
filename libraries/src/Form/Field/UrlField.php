@@ -49,7 +49,7 @@ class UrlField extends TextField
     protected function getInput()
     {
         // Trim the trailing line in the layout file
-        return rtrim($this->getRenderer($this->layout)->render($this->getLayoutData()), PHP_EOL);
+        return rtrim($this->getRenderer($this->layout)->render($this->collectLayoutData()), PHP_EOL);
     }
 
     /**

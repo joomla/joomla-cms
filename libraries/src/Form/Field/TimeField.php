@@ -145,7 +145,7 @@ class TimeField extends FormField
      */
     protected function getInput()
     {
-        return $this->getRenderer($this->layout)->render($this->getLayoutData());
+        return $this->getRenderer($this->layout)->render($this->collectLayoutData());
     }
 
     /**

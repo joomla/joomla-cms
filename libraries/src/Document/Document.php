@@ -144,7 +144,7 @@ class Document
      * @var    array
      * @since  1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use WebAssetManager
      */
     public $_scripts = [];
@@ -155,7 +155,7 @@ class Document
      * @var    array
      * @since  1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use WebAssetManager
      */
     public $_script = [];
@@ -173,7 +173,7 @@ class Document
      * @var    array
      * @since  1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use WebAssetManager
      */
     public $_styleSheets = [];
@@ -184,7 +184,7 @@ class Document
      * @var    array
      * @since  1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use WebAssetManager
      */
     public $_style = [];
@@ -325,7 +325,7 @@ class Document
         if (\array_key_exists('webAssetManager', $options)) {
             $this->setWebAssetManager($options['webAssetManager']);
         } else {
-            $webAssetManager = new WebAssetManager(\Joomla\CMS\Factory::getContainer()->get('webassetregistry'));
+            $webAssetManager = new WebAssetManager(CmsFactory::getContainer()->get('webassetregistry'));
 
             $this->setWebAssetManager($webAssetManager);
         }
@@ -444,7 +444,7 @@ class Document
     {
         // B/C old http_equiv parameter.
         if (!\is_string($attribute)) {
-            $attribute = $attribute == true ? 'http-equiv' : 'name';
+            $attribute = $attribute ? 'http-equiv' : 'name';
         }
 
         if ($name === 'generator') {
@@ -478,7 +478,7 @@ class Document
 
         // B/C old http_equiv parameter.
         if (!\is_string($attribute)) {
-            $attribute = $attribute == true ? 'http-equiv' : 'name';
+            $attribute = $attribute ? 'http-equiv' : 'name';
         }
 
         if ($name === 'generator') {
@@ -503,7 +503,7 @@ class Document
      *
      * @since   1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use WebAssetManager
      *              Example: $wa->registerAndUseScript(...);
      */
@@ -530,7 +530,7 @@ class Document
      *
      * @since   1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use WebAssetManager
      *              Example: $wa->addInlineScript(...);
      */
@@ -602,7 +602,7 @@ class Document
      *
      * @since   1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use WebAssetManager
      *              Example: $wa->registerAndUseStyle(...);
      */
@@ -634,7 +634,7 @@ class Document
      *
      * @since   1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use WebAssetManager
      *              Example: $wa->addInlineStyle(...);
      */
@@ -977,7 +977,7 @@ class Document
     {
         if (!\is_string($date) && !($date instanceof Date)) {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     'The $date parameter of %1$s must be a string or a %2$s instance, a %3$s was given.',
                     __METHOD__ . '()',
                     'Joomla\\CMS\\Date\\Date',
@@ -1197,7 +1197,7 @@ class Document
                 } elseif (\in_array($preloadMethod, $this->preloadTypes)) {
                     $this->getPreloadManager()->$preloadMethod($link);
                 } else {
-                    throw new \InvalidArgumentException(sprintf('The "%s" method is not supported for preloading.', $preloadMethod), 500);
+                    throw new \InvalidArgumentException(\sprintf('The "%s" method is not supported for preloading.', $preloadMethod), 500);
                 }
             }
         }
@@ -1215,7 +1215,7 @@ class Document
                 } elseif (\in_array($preloadMethod, $this->preloadTypes)) {
                     $this->getPreloadManager()->$preloadMethod($link);
                 } else {
-                    throw new \InvalidArgumentException(sprintf('The "%s" method is not supported for preloading.', $preloadMethod), 500);
+                    throw new \InvalidArgumentException(\sprintf('The "%s" method is not supported for preloading.', $preloadMethod), 500);
                 }
             }
         }

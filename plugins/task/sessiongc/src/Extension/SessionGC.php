@@ -10,14 +10,11 @@
 
 namespace Joomla\Plugin\Task\SessionGC\Extension;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
-use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -64,15 +61,14 @@ final class SessionGC extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor.
      *
-     * @param   DispatcherInterface  $dispatcher       The dispatcher
      * @param   array                $config           An optional associative array of configuration settings
      * @param   MetadataManager      $metadataManager  The user factory
      *
      * @since   4.4.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, MetadataManager $metadataManager)
+    public function __construct(array $config, MetadataManager $metadataManager)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->metadataManager = $metadataManager;
     }

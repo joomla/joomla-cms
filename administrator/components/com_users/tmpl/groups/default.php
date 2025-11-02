@@ -16,6 +16,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Users\Administrator\View\Groups\HtmlView $this */
+
 $user        = $this->getCurrentUser();
 $listOrder   = $this->escape($this->state->get('list.ordering'));
 $listDirn    = $this->escape($this->state->get('list.direction'));
@@ -23,7 +25,7 @@ $listDirn    = $this->escape($this->state->get('list.direction'));
 Text::script('COM_USERS_GROUPS_CONFIRM_DELETE', true);
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_users.admin-users-groups')
     ->useScript('multiselect')
     ->useScript('table.columns');

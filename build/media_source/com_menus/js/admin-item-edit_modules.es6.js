@@ -13,9 +13,7 @@ const published0 = document.getElementById('jform_toggle_modules_published0');
 
 if (assigned1) {
   assigned1.addEventListener('click', () => {
-    const list = [].slice.call(document.querySelectorAll('tr.no'));
-
-    list.forEach((item) => {
+    document.querySelectorAll('tr.no').forEach((item) => {
       item.classList.add('table-row');
       item.classList.remove('hidden');
     });
@@ -24,9 +22,7 @@ if (assigned1) {
 
 if (assigned0) {
   assigned0.addEventListener('click', () => {
-    const list = [].slice.call(document.querySelectorAll('tr.no'));
-
-    list.forEach((item) => {
+    document.querySelectorAll('tr.no').forEach((item) => {
       item.classList.add('hidden');
       item.classList.remove('table-row');
     });
@@ -35,9 +31,7 @@ if (assigned0) {
 
 if (published1) {
   published1.addEventListener('click', () => {
-    const list = [].slice.call(document.querySelectorAll('.table tr.unpublished'));
-
-    list.forEach((item) => {
+    document.querySelectorAll('.table tr.unpublished').forEach((item) => {
       item.classList.add('table-row');
       item.classList.remove('hidden');
     });
@@ -46,9 +40,7 @@ if (published1) {
 
 if (published0) {
   published0.addEventListener('click', () => {
-    const list = [].slice.call(document.querySelectorAll('.table tr.unpublished'));
-
-    list.forEach((item) => {
+    document.querySelectorAll('.table tr.unpublished').forEach((item) => {
       item.classList.add('hidden');
       item.classList.remove('table-row');
     });

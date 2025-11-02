@@ -51,6 +51,18 @@ export default {
     /* Handle the on preview double click event */
     onPreviewDblClick() {
       this.navigateTo(this.item.path);
+
+      window.parent.document.dispatchEvent(
+        new CustomEvent('onMediaFileSelected', {
+          bubbles: true,
+          cancelable: false,
+          detail: {
+            type: this.item.type,
+            name: this.item.name,
+            path: this.item.path,
+          },
+        }),
+      );
     },
     /* Hide actions dropdown */
     hideActions() {

@@ -446,7 +446,7 @@ class Workflow
                 ->bind(':extension', $this->extension);
 
             $this->db->setQuery($query)->execute();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 
@@ -478,7 +478,7 @@ class Workflow
                 ->bind(':extension', $this->extension);
 
             $this->db->setQuery($query)->execute();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 
@@ -508,7 +508,7 @@ class Workflow
                 ->bind(':extension', $this->extension);
 
             $this->db->setQuery($query)->execute();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 

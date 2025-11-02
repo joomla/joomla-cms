@@ -13,12 +13,9 @@ namespace Joomla\Component\Privacy\Administrator\View\Request;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Privacy\Administrator\Model\RequestModel;
 
@@ -52,7 +49,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The item record
      *
-     * @var    CMSObject
+     * @var    \stdClass
      * @since  3.9.0
      */
     protected $item;
@@ -79,7 +76,9 @@ class HtmlView extends BaseHtmlView
     public function display($tpl = null)
     {
         /** @var RequestModel $model */
-        $model       = $this->getModel();
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
+
         $this->item  = $model->getItem();
         $this->state = $model->getState();
 
@@ -98,12 +97,7 @@ class HtmlView extends BaseHtmlView
 
         // Variables only required for the edit layout
         if ($this->getLayout() === 'edit') {
-            $this->form = $this->get('Form');
-        }
-
-        // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
+            $this->form = $model->getForm();
         }
 
         $this->addToolbar();
@@ -122,7 +116,7 @@ class HtmlView extends BaseHtmlView
     {
         Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         // Set the title and toolbar based on the layout
         if ($this->getLayout() === 'edit') {

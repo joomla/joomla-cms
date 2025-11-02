@@ -169,7 +169,7 @@ class ContactModel extends FormModel
      *
      * @param   integer  $pk  Id for the contact
      *
-     * @return  mixed Object or null
+     * @return  mixed \stdClass or null
      *
      * @since   1.6.0
      */
@@ -252,7 +252,7 @@ class ContactModel extends FormModel
                 }
 
                 // Compute access permissions.
-                if (($access = $this->getState('filter.access'))) {
+                if ($this->getState('filter.access')) {
                     // If the access filter has been set, we already know this user can view.
                     $data->params->set('access-view', true);
                 } else {
@@ -403,9 +403,9 @@ class ContactModel extends FormModel
         return 'CASE WHEN '
             . $query->charLength($alias, '!=', '0')
             . ' THEN '
-            . $query->concatenate([$query->castAsChar($id), $alias], ':')
+            . $query->concatenate([$query->castAs('CHAR', $id), $alias], ':')
             . ' ELSE '
-            . $query->castAsChar($id) . ' END';
+            . $query->castAs('CHAR', $id) . ' END';
     }
 
     /**

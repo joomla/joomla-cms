@@ -42,7 +42,7 @@ class UrlFilter implements FormFilterInterface
      *
      * @since   4.0.0
      */
-    public function filter(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function filter(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         if (empty($value)) {
             return false;
@@ -67,7 +67,7 @@ class UrlFilter implements FormFilterInterface
             $protocol = 'http';
 
             // If it looks like an internal link, then add the root.
-            if (substr($value, 0, 9) === 'index.php') {
+            if (str_starts_with($value, 'index.php')) {
                 $value = Uri::root() . $value;
             } else {
                 // Otherwise we treat it as an external link.
@@ -81,7 +81,7 @@ class UrlFilter implements FormFilterInterface
             // If it starts with the host string, just prepend the protocol.
             if (substr($value, 0) === $host) {
                 $value = 'http://' . $value;
-            } elseif (substr($value, 0, 1) !== '/') {
+            } elseif (!str_starts_with($value, '/')) {
                 // Otherwise if it doesn't start with "/" prepend the prefix of the current site.
                 $value = Uri::root(true) . '/' . $value;
             }

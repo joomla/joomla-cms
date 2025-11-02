@@ -56,7 +56,7 @@ class ChainedHandler implements HandlerInterface, CheckIfRehashNeededHandlerInte
     public function checkIfRehashNeeded(string $hash): bool
     {
         foreach ($this->handlers as $handler) {
-            if ($handler instanceof CheckIfRehashNeededHandlerInterface && $handler->isSupported() && $handler->checkIfRehashNeeded($hash)) {
+            if ($handler instanceof CheckIfRehashNeededHandlerInterface && $handler::isSupported() && $handler->checkIfRehashNeeded($hash)) {
                 return true;
             }
         }
@@ -105,7 +105,7 @@ class ChainedHandler implements HandlerInterface, CheckIfRehashNeededHandlerInte
     public function validatePassword($plaintext, $hashed)
     {
         foreach ($this->handlers as $handler) {
-            if ($handler->isSupported() && $handler->validatePassword($plaintext, $hashed)) {
+            if ($handler::isSupported() && $handler->validatePassword($plaintext, $hashed)) {
                 return true;
             }
         }

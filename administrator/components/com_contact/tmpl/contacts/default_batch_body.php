@@ -14,6 +14,8 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
+/** @var \Joomla\Component\Contact\Administrator\View\Contacts\HtmlView $this */
+
 $published = (int) $this->state->get('filter.published');
 $noUser    = true;
 ?>
@@ -44,11 +46,6 @@ $noUser    = true;
         <div class="form-group col-md-6">
             <div class="controls">
                 <?php echo LayoutHelper::render('joomla.html.batch.tag', []); ?>
-            </div>
-        </div>
-        <div class="form-group col-md-6">
-            <div class="controls">
-                <?php echo LayoutHelper::render('joomla.html.batch.user', ['noUser' => $noUser]); ?>
             </div>
         </div>
     </div>

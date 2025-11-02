@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Version;
+use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -163,20 +164,21 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->updateInfo          = $this->get('UpdateInformation');
-        $this->selfUpdateAvailable = $this->get('CheckForSelfUpdate');
+        /** @var UpdateModel $model */
+        $model = $this->getModel();
 
         // Get results of pre update check evaluations
-        $model                          = $this->getModel();
-        $this->phpOptions               = $this->get('PhpOptions');
-        $this->phpSettings              = $this->get('PhpSettings');
-        $this->nonCoreExtensions        = $this->get('NonCoreExtensions');
+        $this->updateInfo               = $model->getUpdateInformation();
+        $this->selfUpdateAvailable      = $model->getCheckForSelfUpdate();
+        $this->phpOptions               = $model->getPhpOptions();
+        $this->phpSettings              = $model->getPhpSettings();
+        $this->nonCoreExtensions        = $model->getNonCoreExtensions();
         $this->isDefaultBackendTemplate = (bool) $model->isTemplateActive($this->defaultBackendTemplate);
         $nextMajorVersion               = Version::MAJOR_VERSION + 1;
 
         // The critical plugins check is only available for major updates.
         if (version_compare($this->updateInfo['latest'], (string) $nextMajorVersion, '>=')) {
-            $this->nonCoreCriticalPlugins = $this->get('NonCorePlugins');
+            $this->nonCoreCriticalPlugins = $model->getNonCorePlugins();
         }
 
         // Set to true if a required PHP option is not ok
@@ -189,7 +191,7 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        $this->state = $this->get('State');
+        $this->state = $model->getState();
 
         $hasUpdate   = !empty($this->updateInfo['hasUpdate']);
         $hasDownload = isset($this->updateInfo['object']->downloadurl->_data);
@@ -239,12 +241,6 @@ class HtmlView extends BaseHtmlView
                 $this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT');
                 break;
 
-            case 'testing':
-                // "Testing"
-                $this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_TESTING';
-                $this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_TESTING');
-                break;
-
             case 'custom':
                 // "Custom"
                 $this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_CUSTOM';
@@ -259,6 +255,7 @@ class HtmlView extends BaseHtmlView
                  * case 'sts':
                  * case 'lts':
                  * case 'nochange':
+                 * case 'testing':
                  */
                 $this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_DEFAULT';
                 $this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT');

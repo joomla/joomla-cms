@@ -18,8 +18,10 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Newsfeeds\Administrator\View\Newsfeeds\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
@@ -96,7 +98,7 @@ if ($saveOrder && !empty($this->items)) {
                             $ordering   = ($listOrder == 'a.ordering');
                             $canCreate  = $user->authorise('core.create', 'com_newsfeeds.category.' . $item->catid);
                             $canEdit    = $user->authorise('core.edit', 'com_newsfeeds.category.' . $item->catid);
-                            $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->get('id') || is_null($item->checked_out);
+                            $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->id || is_null($item->checked_out);
                             $canEditOwn = $user->authorise('core.edit.own', 'com_newsfeeds.category.' . $item->catid) && $item->created_by == $user->id;
                             $canChange  = $user->authorise('core.edit.state', 'com_newsfeeds.category.' . $item->catid) && $canCheckin;
                             ?>

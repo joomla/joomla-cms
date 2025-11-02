@@ -1,24 +1,13 @@
 .new-tasks {
   // We use the same colours for the new task section as we do for the quickicons.
-  --text-color: var(--template-quickicon-color);
-  --bg-color: hsl(var(--hue), 60%, 97%);
-  --bg-color-hvr: var(--template-bg-dark);
-  --icon-color: var(--template-quickicon-color);
-  --icon-color-hvr: hsl(var(--hue), 50%, 93%);
+  --text-color: #{$quickicon-color};
+  --bg-color: var(--template-quickicon-bg);
+  --bg-color-hvr: var(--template-quickicon-bg-hvr);
+  --icon-color: #{$quickicon-color};
+  --icon-color-hvr: #{$quickicon-link-hvr};
 
   .card-columns {
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  }
-}
-
-@if $enable-dark-mode {
-  @include color-mode(dark) {
-    .new-tasks {
-      --bg-color: var(--template-bg-dark-80);
-      --bg-color-hvr: var(--template-bg-dark-65);
-      --icon-color: var(--template-bg-dark-80);
-      --icon-color-hvr: var(--template-quickicon-color);
-    }
   }
 }
 
@@ -27,7 +16,7 @@
   overflow: hidden;
   color: var(--text-color);
   background-color: var(--bg-color);
-  border: 1px solid hsl(var(--hue), 50%, 93%);
+  border: $quickicon-border;
   border-radius: $border-radius;
 
   * {
@@ -51,21 +40,29 @@
     font-size: .875rem;
   }
 
+  :hover {
+    color: #{$quickicon-link-hvr};
+    background: var(--bg-color-hvr);
+    .new-task-title {
+      color: #{$quickicon-link-hvr};
+    }
+  }
+
   &-link {
     display: flex;
     align-items: flex-end;
     justify-content: center;
     width: 2.5rem;
     font-size: 1.2rem;
-    background: hsl(var(--hue), 50%, 93%);
+    background: $quickicon-linkadd-bg;
 
     span {
       margin-bottom: 10px;
-      color: var(--icon-color);
+      color: var(--quickicon-linkadd-color);
     }
 
-    .new-task:hover & {
-      background: var(--bg-color-hvr);
+    &:hover {
+      background: var(--template-bg-dark);
 
       span {
         color: var(--icon-color-hvr);

@@ -91,7 +91,7 @@
 					name="link-color-dark"
 					type="color"
 					label="TPL_ATUM_COLORS_SETTINGS_LINK_COLOR_DARK_LABEL"
-					default="#7fa5d4"
+					default="#6fbfdb"
 					filter="color"
 				/>
 				<field
@@ -110,6 +110,18 @@
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+				</field>
+				<field
+					name="colorScheme"
+					type="list"
+					label="TPL_ATUM_COLORSCHEME_LABEL"
+					default="os"
+					validate="options"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="os">TPL_ATUM_COLORSCHEME_OPTION_FOLLOW_OS</option>
+					<option value="light">TPL_ATUM_COLORSCHEME_OPTION_LIGHT</option>
+					<option value="dark">TPL_ATUM_COLORSCHEME_OPTION_DARK</option>
 				</field>
 			</fieldset>
 

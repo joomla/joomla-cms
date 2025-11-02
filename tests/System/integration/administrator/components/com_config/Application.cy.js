@@ -22,9 +22,9 @@ describe('Test in backend that the application configuration', () => {
     cy.get('#sendtestmail').click();
 
     cy.task('getMails').then((mails) => {
-      cy.get('#system-message-container').should('contain.text', 'The email was sent to');
+      cy.checkForSystemMessage('The email was sent to');
 
-      cy.wrap(mails).should('have.lengthOf', 1);
+      expect(mails.length).to.equal(1);
       cy.wrap(mails[0].body).should('have.string', 'This is a test mail sent using');
       cy.wrap(mails[0].sender).should('equal', Cypress.env('email'));
       cy.wrap(mails[0].receivers).should('have.property', Cypress.env('email'));

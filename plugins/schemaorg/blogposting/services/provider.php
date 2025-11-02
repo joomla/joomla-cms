@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Schemaorg\BlogPosting\Extension\BlogPosting;
 
 return new class () implements ServiceProviderInterface {
@@ -33,9 +32,7 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $dispatcher = $container->get(DispatcherInterface::class);
-                $plugin     = new BlogPosting(
-                    $dispatcher,
+                $plugin = new BlogPosting(
                     (array) PluginHelper::getPlugin('schemaorg', 'blogposting')
                 );
                 $plugin->setApplication(Factory::getApplication());

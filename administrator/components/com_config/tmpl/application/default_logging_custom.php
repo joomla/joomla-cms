@@ -13,7 +13,10 @@ use Joomla\CMS\Layout\LayoutHelper;
 
 defined('_JEXEC') or die;
 
+/** @var \Joomla\Component\Config\Administrator\View\Application\HtmlView $this */
+
 $this->name = Text::_('COM_CONFIG_LOGGING_CUSTOM_SETTINGS');
+$this->description = '';
 $this->fieldsname = 'logging_custom';
 $this->formclass = 'options-form';
 

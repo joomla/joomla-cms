@@ -28,6 +28,8 @@ abstract class ActionLogPlugin extends CMSPlugin
      *
      * @var    \Joomla\CMS\Application\CMSApplication
      * @since  3.9.0
+     *
+     * @deprecated  5.1.0 will be removed in 7.0 use $this->getApplication() instead
      */
     protected $app;
 
@@ -36,6 +38,8 @@ abstract class ActionLogPlugin extends CMSPlugin
      *
      * @var    \Joomla\Database\DatabaseDriver
      * @since  3.9.0
+     *
+     * @deprecated  5.1.0 will be removed in 7.0 use $this->getDatabase() instead
      */
     protected $db;
 
@@ -63,7 +67,8 @@ abstract class ActionLogPlugin extends CMSPlugin
      */
     protected function addLog($messages, $messageLanguageKey, $context, $userId = null)
     {
-        $user = $this->app->getIdentity();
+        $app  = $this->getApplication() ?: $this->app;
+        $user = $app->getIdentity();
 
         foreach ($messages as $index => $message) {
             if (!\array_key_exists('userid', $message)) {
@@ -90,7 +95,7 @@ abstract class ActionLogPlugin extends CMSPlugin
         }
 
         /** @var \Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel $model */
-        $model = $this->app->bootComponent('com_actionlogs')
+        $model = $app->bootComponent('com_actionlogs')
             ->getMVCFactory()->createModel('Actionlog', 'Administrator', ['ignore_request' => true]);
 
         $model->addLog($messages, strtoupper($messageLanguageKey), $context, $userId);

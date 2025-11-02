@@ -15,11 +15,13 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -38,12 +40,13 @@ class ArticlesModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config    An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \JController
      * @since   1.6
      */
-    public function __construct($config = [])
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -69,7 +72,7 @@ class ArticlesModel extends ListModel
             ];
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -181,7 +184,7 @@ class ArticlesModel extends ListModel
     /**
      * Get the master query for retrieving a list of articles subject to the model state.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   1.6
      */
@@ -192,7 +195,6 @@ class ArticlesModel extends ListModel
         // Create a new query object.
         $db = $this->getDatabase();
 
-        /** @var \Joomla\Database\DatabaseQuery $query */
         $query = $db->getQuery(true);
 
         $nowDate = Factory::getDate()->toSql();
@@ -489,8 +491,29 @@ class ArticlesModel extends ListModel
             $query->where($authorWhere . $authorAliasWhere);
         }
 
+        // Filter by checked_out status
+        $checkedOut = $this->getState('filter.checked_out', null);
+
+        if (is_numeric($checkedOut)) {
+            if ($checkedOut == -1) {
+                // Only checked out articles
+                $query->where($db->quoteName('a.checked_out') . ' > 0');
+            } elseif ($checkedOut == 0) {
+                // Only not checked out articles
+                $query->where('(' . $db->quoteName('a.checked_out') . ' = 0 OR ' . $db->quoteName('a.checked_out') . ' IS NULL)');
+            } else {
+                // Checked out by specific user
+                $checkedOut = (int) $checkedOut;
+                $query->where($db->quoteName('a.checked_out') . ' = :checkedOutUser')
+                    ->bind(':checkedOutUser', $checkedOut, ParameterType::INTEGER);
+            }
+        }
+
         // Filter by start and end dates.
-        if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content'))) {
+        if (
+            !(is_numeric($condition) && $condition == ContentComponent::CONDITION_UNPUBLISHED)
+            && !(\is_array($condition) && \in_array(ContentComponent::CONDITION_UNPUBLISHED, $condition))
+        ) {
             $query->where(
                 [
                     '(' . $db->quoteName('a.publish_up') . ' IS NULL OR ' . $db->quoteName('a.publish_up') . ' <= :publishUp)',
@@ -651,8 +674,8 @@ class ArticlesModel extends ListModel
         $items  = parent::getItems();
 
         $user   = $this->getCurrentUser();
-        $userId = $user->get('id');
-        $guest  = $user->get('guest');
+        $userId = $user->id;
+        $guest  = $user->guest;
         $groups = $user->getAuthorisedViewLevels();
         $input  = Factory::getApplication()->getInput();
 
