@@ -38,7 +38,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      * @var    string
      * @since 4.4.0
      */
-    private const EOS_DATE = '2027-10-19';
+    private const EOS_DATE = '2027-10-12';
 
     /**
      * Load the language file on instantiation.
@@ -81,7 +81,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Check and show the the alert.
+     * Check and show the alert.
      *
      * This method is called when the Quick Icons module is constructing its set
      * of icons.
@@ -112,7 +112,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
         // Show this only when not snoozed
         if ($this->params->get('last_snoozed_id', 0) < $this->currentMessage['id']) {
             // Build the  message to be displayed in the cpanel
-            $messageText = sprintf(
+            $messageText = \sprintf(
                 $app->getLanguage()->_($this->currentMessage['messageText']),
                 HTMLHelper::_('date', Eos::EOS_DATE, $app->getLanguage()->_('DATE_FORMAT_LC3')),
                 $this->currentMessage['messageLink']
@@ -189,7 +189,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
                 'id'          => 5,
                 'messageText' => 'PLG_QUICKICON_EOS_MESSAGE_ERROR_SUPPORT_ENDED',
                 'messageType' => 'error',
-                'messageLink' => 'https://docs.joomla.org/Special:MyLanguage/Joomla_4.4.x_to_5.x_Planning_and_Upgrade_Step_by_Step',
+                'messageLink' => 'https://docs.joomla.org/Special:MyLanguage/Joomla_5.4.x_to_6.x_Planning_and_Upgrade_Step_by_Step',
                 'snoozable'   => false,
             ];
         }
@@ -200,7 +200,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
                 'id'          => 4,
                 'messageText' => 'PLG_QUICKICON_EOS_MESSAGE_WARNING_SUPPORT_ENDING',
                 'messageType' => 'warning',
-                'messageLink' => 'https://docs.joomla.org/Special:MyLanguage/Joomla_4.4.x_to_5.x_Planning_and_Upgrade_Step_by_Step',
+                'messageLink' => 'https://docs.joomla.org/Special:MyLanguage/Joomla_5.4.x_to_6.x_Planning_and_Upgrade_Step_by_Step',
                 'snoozable'   => true,
             ];
         }
@@ -211,7 +211,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
                 'id'          => 3,
                 'messageText' => 'PLG_QUICKICON_EOS_MESSAGE_WARNING_SECURITY_ONLY',
                 'messageType' => 'warning',
-                'messageLink' => 'https://docs.joomla.org/Special:MyLanguage/Joomla_4.4.x_to_5.x_Planning_and_Upgrade_Step_by_Step',
+                'messageLink' => 'https://docs.joomla.org/Special:MyLanguage/Joomla_5.4.x_to_6.x_Planning_and_Upgrade_Step_by_Step',
                 'snoozable'   => true,
             ];
         }
@@ -233,7 +233,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
                 'id'          => 1,
                 'messageText' => 'PLG_QUICKICON_EOS_MESSAGE_INFO_01',
                 'messageType' => 'info',
-                'messageLink' => 'https://joomla.org/5',
+                'messageLink' => 'https://joomla.org/6',
                 'snoozable'   => true,
             ];
         }

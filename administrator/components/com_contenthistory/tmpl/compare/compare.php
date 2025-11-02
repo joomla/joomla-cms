@@ -23,7 +23,7 @@ $object1  = $version1->data;
 $object2  = $version2->data;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_contenthistory.admin-compare-compare');
 
 ?>

@@ -12,11 +12,11 @@ namespace Joomla\Component\Workflow\Administrator\View\Workflow;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
+use Joomla\Component\Workflow\Administrator\Model\WorkflowModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -86,15 +86,13 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        // Get the Data
-        $this->state      = $this->get('State');
-        $this->form       = $this->get('Form');
-        $this->item       = $this->get('Item');
+        /** @var WorkflowModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-        // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        $this->state      = $model->getState();
+        $this->form       = $model->getForm();
+        $this->item       = $model->getItem();
 
         $extension = $this->state->get('filter.extension');
 
@@ -127,7 +125,7 @@ class HtmlView extends BaseHtmlView
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = empty($this->item->id);
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
         $canDo      = WorkflowHelper::getActions($this->extension, 'workflow', $this->item->id);
 
         ToolbarHelper::title(empty($this->item->id) ? Text::_('COM_WORKFLOW_WORKFLOWS_ADD') : Text::_('COM_WORKFLOW_WORKFLOWS_EDIT'), 'address');

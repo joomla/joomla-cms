@@ -180,6 +180,8 @@ class MenuController extends FormController
                 $this->setRedirect(Route::_('index.php?option=com_menus&view=menus', false));
                 break;
         }
+
+        return true;
     }
 
     /**

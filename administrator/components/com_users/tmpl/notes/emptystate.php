@@ -17,7 +17,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 $displayData = [
     'textPrefix' => 'COM_USERS_NOTES',
     'formURL'    => 'index.php?option=com_users&view=notes',
-    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:User_Notes',
+    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help5.x:User_Notes',
     'icon'       => 'icon-users user',
 ];
 

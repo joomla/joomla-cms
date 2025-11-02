@@ -39,7 +39,7 @@ class ProfileController extends BaseController
     {
         $app         = $this->app;
         $user        = $this->app->getIdentity();
-        $loginUserId = (int) $user->get('id');
+        $loginUserId = (int) $user->id;
 
         // Get the current user id.
         $userId     = $this->input->getInt('user_id');
@@ -52,10 +52,8 @@ class ProfileController extends BaseController
             return false;
         }
 
-        $cookieLogin = $user->get('cookieLogin');
-
         // Check if the user logged in with a cookie
-        if (!empty($cookieLogin)) {
+        if (isset($user->cookieLogin) && !empty($user->cookieLogin)) {
             // If so, the user must login to edit the password and other data.
             $app->enqueueMessage(Text::_('JGLOBAL_REMEMBER_MUST_LOGIN'), 'message');
             $this->setRedirect(Route::_('index.php?option=com_users&view=login', false));
@@ -90,7 +88,7 @@ class ProfileController extends BaseController
         /** @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
         $model  = $this->getModel('Profile', 'Site');
         $user   = $this->app->getIdentity();
-        $userId = (int) $user->get('id');
+        $userId = (int) $user->id;
 
         // Get the user data.
         $requestData = $app->getInput()->post->get('jform', [], 'array');

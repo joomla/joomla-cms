@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -24,33 +23,31 @@ $options = [
 ];
 $published = (int) $this->state->get('filter.published');
 $clientId  = (int) $this->state->get('filter.client_id');
-$menuType  = Factory::getApplication()->getUserState('com_menus.items.menutype', '');
 
 if ($clientId == 1) {
     /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-    $wa = $this->document->getWebAssetManager();
+    $wa = $this->getDocument()->getWebAssetManager();
     $wa->useScript('com_menus.batch-body');
     $wa->useScript('joomla.batch-copymove');
 }
 ?>
 <div class="p-3">
-    <?php if (strlen($menuType) && $menuType != '*') : ?>
-        <?php if ($clientId != 1) : ?>
-    <div class="row">
+    <?php if ($clientId != 1) : ?>
+        <div class="row">
             <?php if (Multilanguage::isEnabled()) : ?>
+                <div class="form-group col-md-6">
+                    <div class="controls">
+                        <?php echo LayoutHelper::render('joomla.html.batch.language', []); ?>
+                    </div>
+                </div>
+            <?php endif; ?>
             <div class="form-group col-md-6">
                 <div class="controls">
-                    <?php echo LayoutHelper::render('joomla.html.batch.language', []); ?>
+                    <?php echo LayoutHelper::render('joomla.html.batch.access', []); ?>
                 </div>
             </div>
-            <?php endif; ?>
-        <div class="form-group col-md-6">
-            <div class="controls">
-                <?php echo LayoutHelper::render('joomla.html.batch.access', []); ?>
-            </div>
         </div>
-    </div>
-        <?php endif; ?>
+    <?php endif; ?>
     <div class="row">
         <?php if ($published >= 0) : ?>
             <div class="form-group col-md-6">
@@ -82,17 +79,12 @@ if ($clientId == 1) {
             <p><?php echo Text::_('COM_MENUS_SELECT_MENU_FILTER_NOT_TRASHED'); ?></p>
         <?php endif; ?>
     </div>
-    <?php else : ?>
-    <div class="row">
-        <p><?php echo Text::_('COM_MENUS_SELECT_MENU_FIRST'); ?></p>
+</div>
+<?php if ($clientId == 0 || ($published >= 0 && $clientId == 1)) : ?>
+    <div class="btn-toolbar p-3">
+        <joomla-toolbar-button task="item.batch" class="ms-auto">
+            <button type="button" class="btn btn-success"><?php echo Text::_('JGLOBAL_BATCH_PROCESS'); ?></button>
+        </joomla-toolbar-button>
     </div>
-    <?php endif; ?>
-</div>
-<?php if ((strlen($menuType) && $menuType != '*' && $clientId == 0) || ($published >= 0 && $clientId == 1)) : ?>
-<div class="btn-toolbar p-3">
-    <joomla-toolbar-button task="item.batch" class="ms-auto">
-        <button type="button" class="btn btn-success"><?php echo Text::_('JGLOBAL_BATCH_PROCESS'); ?></button>
-    </joomla-toolbar-button>
-</div>
 <?php endif; ?>
 

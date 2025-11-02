@@ -125,7 +125,7 @@ class MenuModel extends AdminModel
      *
      * @since   1.6
      */
-    public function &getItem($itemId = null)
+    public function getItem($itemId = null)
     {
         $itemId = (!empty($itemId)) ? $itemId : (int) $this->getState('menu.id');
 
@@ -364,7 +364,7 @@ class MenuModel extends AdminModel
         foreach ($modules as &$module) {
             $params = new Registry($module->params);
 
-            $menuType = $params->get('menutype');
+            $menuType = $params->get('menutype', '');
 
             if (!isset($result[$menuType])) {
                 $result[$menuType] = [];

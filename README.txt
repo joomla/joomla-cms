@@ -1,18 +1,15 @@
 Joomla! CMS™
 
-The Joomla! 5.1 branch is under heavy development and not all links in this document are available yet
-------------------------------------------------------------------------------------------------------
-
 1- Overview
 	* This is a Joomla! 5.x installation/upgrade package.
 	* Joomla! Official site: https://www.joomla.org
-	* Joomla! 5.1 version history - https://docs.joomla.org/Special:MyLanguage/Joomla_5.1_version_history
-	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/5.1-dev
+	* Joomla! 5.4 version history - https://docs.joomla.org/Special:MyLanguage/Joomla_5.4_version_history
+	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/5.4-dev
 
 2- What is Joomla?
 	* Joomla! is a Content Management System (CMS) which enables you to build websites and powerful online applications.
 	* It's a free and Open Source software, distributed under the GNU General Public License version 2 or later.
-	* This is a simple and powerful web server application and it requires a server with PHP and either MySQL, PostgreSQL or SQL Server to run.
+	* This is a simple and powerful web server application and it requires a server with PHP and either MySQL, MariaDB or PostgreSQL to run.
 	You can find full technical requirements here: https://downloads.joomla.org/technical-requirements.
 
 3- Is Joomla! for you?
@@ -68,8 +65,9 @@ The Joomla! 5.1 branch is under heavy development and not all links in this docu
 12- Do you want to improve Joomla?
 	* Where to request a feature? https://issues.joomla.org
 	* How do you report a bug? https://docs.joomla.org/Special:MyLanguage/Filing_bugs_and_issues
+	* How to submit code to the Joomla CMS using a Pull Request? https://manual.joomla.org/docs/get-started/git/
 	* Get Involved: Joomla! is a community developed software. Join the community at https://volunteers.joomla.org
-	* Documentation for Developers: https://docs.joomla.org/Special:MyLanguage/Portal:Developers
+	* Documentation for Developers: https://manual.joomla.org/
 	* Documentation for Web designers: https://docs.joomla.org/Special:MyLanguage/Web_designers
 
 Copyright:

@@ -16,7 +16,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 $displayData = [
     'textPrefix' => 'COM_FINDER',
     'formURL'    => 'index.php?option=com_finder&view=maps',
-    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help4.x:Smart_Search:_Content_Maps',
+    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help5.x:Smart_Search:_Content_Maps',
     'icon'       => 'icon-search-plus finder',
     'title'      => Text::_('COM_FINDER_MAPS_TOOLBAR_TITLE')
 ];

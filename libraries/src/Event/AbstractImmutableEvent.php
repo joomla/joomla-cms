@@ -42,7 +42,7 @@ class AbstractImmutableEvent extends AbstractEvent
     {
         if ($this->constructed) {
             throw new \BadMethodCallException(
-                sprintf('Cannot reconstruct the AbstractImmutableEvent %s.', $this->name)
+                \sprintf('Cannot reconstruct the AbstractImmutableEvent %s.', $this->name)
             );
         }
 
@@ -69,7 +69,7 @@ class AbstractImmutableEvent extends AbstractEvent
             parent::offsetSet($name, $value);
 
             @trigger_error(
-                'Setting a result in an immutable event is deprecated, and will not work in Joomla 6. Event ' . $this->getName(),
+                'Setting a result in an immutable event is deprecated, and will not work in Joomla 7. Event ' . $this->getName(),
                 E_USER_DEPRECATED
             );
 
@@ -77,7 +77,7 @@ class AbstractImmutableEvent extends AbstractEvent
         }
 
         throw new \BadMethodCallException(
-            sprintf(
+            \sprintf(
                 'Cannot set the argument %s of the immutable event %s.',
                 $name,
                 $this->name
@@ -98,7 +98,7 @@ class AbstractImmutableEvent extends AbstractEvent
     public function offsetUnset($name)
     {
         throw new \BadMethodCallException(
-            sprintf(
+            \sprintf(
                 'Cannot remove the argument %s of the immutable event %s.',
                 $name,
                 $this->name

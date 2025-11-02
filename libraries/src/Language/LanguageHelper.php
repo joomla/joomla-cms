@@ -131,6 +131,8 @@ class LanguageHelper
                 }
             }
         }
+
+        return null;
     }
 
     /**
@@ -196,13 +198,13 @@ class LanguageHelper
     /**
      * Get a list of installed languages.
      *
-     * @param   integer            $clientId         The client app id.
-     * @param   boolean            $processMetaData  Fetch Language metadata.
-     * @param   boolean            $processManifest  Fetch Language manifest.
-     * @param   string             $pivot            The pivot of the returning array.
-     * @param   string             $orderField       Field to order the results.
-     * @param   string             $orderDirection   Direction to order the results.
-     * @param   DatabaseInterface  $db               Database object to use database queries
+     * @param   integer             $clientId         The client app id.
+     * @param   boolean             $processMetaData  Fetch Language metadata.
+     * @param   boolean             $processManifest  Fetch Language manifest.
+     * @param   string              $pivot            The pivot of the returning array.
+     * @param   string              $orderField       Field to order the results.
+     * @param   string              $orderDirection   Direction to order the results.
+     * @param   ?DatabaseInterface  $db               Database object to use database queries
      *
      * @return  array  Array with the installed languages.
      *
@@ -215,7 +217,7 @@ class LanguageHelper
         $pivot = 'element',
         $orderField = null,
         $orderDirection = null,
-        DatabaseInterface $db = null
+        ?DatabaseInterface $db = null
     ) {
         static $installedLanguages = null;
 
@@ -227,7 +229,7 @@ class LanguageHelper
             if ($cache->contains('installedlanguages')) {
                 $installedLanguages = $cache->get('installedlanguages');
             } else {
-                $db = $db ?? Factory::getContainer()->get(DatabaseInterface::class);
+                $db ??= Factory::getContainer()->get(DatabaseInterface::class);
 
                 $query = $db->getQuery(true)
                     ->select(
@@ -279,7 +281,7 @@ class LanguageHelper
                 if ($processMetaData) {
                     try {
                         $lang->metadata = self::parseXMLLanguageFile($metafile);
-                    } catch (\Exception $e) {
+                    } catch (\Exception) {
                         // Not able to process xml language file. Fail silently.
                         Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), Log::WARNING, 'language');
 
@@ -298,7 +300,7 @@ class LanguageHelper
                 if ($processManifest) {
                     try {
                         $lang->manifest = Installer::parseXMLInstallFile($metafile);
-                    } catch (\Exception $e) {
+                    } catch (\Exception) {
                         // Not able to process xml language file. Fail silently.
                         Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), Log::WARNING, 'language');
 
@@ -327,7 +329,7 @@ class LanguageHelper
                     continue;
                 }
 
-                $languages[$cId] = ArrayHelper::sortObjects($languages[$cId], $orderField, $orderDirection, true, true);
+                $languages[$cId] = ArrayHelper::sortObjects($language, $orderField, $orderDirection, true, true);
             }
         }
 
@@ -339,7 +341,7 @@ class LanguageHelper
                     continue;
                 }
 
-                $languages[$cId] = ArrayHelper::pivot($languages[$cId], $pivot);
+                $languages[$cId] = ArrayHelper::pivot($language, $pivot);
             }
         }
 
@@ -624,7 +626,7 @@ class LanguageHelper
                     if ($metadata = self::parseXMLLanguageFile($file)) {
                         $languages = array_replace($languages, [$dirPathParts['filename'] => $metadata]);
                     }
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException) {
                     // Ignore it
                 }
             }

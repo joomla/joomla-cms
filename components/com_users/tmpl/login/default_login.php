@@ -11,15 +11,16 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 
-/** @var \Joomla\Component\Users\Site\View\Login\HtmlView $cookieLogin */
+/** @var \Joomla\Component\Users\Site\View\Login\HtmlView $this */
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
 
@@ -35,7 +36,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
     </div>
     <?php endif; ?>
 
-    <?php if (($this->params->get('logindescription_show') == 1 && str_replace(' ', '', $this->params->get('login_description', '')) != '') || $this->params->get('login_image') != '') : ?>
+    <?php if (($this->params->get('logindescription_show') == 1 && trim($this->params->get('login_description', ''))) || $this->params->get('login_image') != '') : ?>
     <div class="com-users-login__description login-description">
     <?php endif; ?>
 
@@ -47,11 +48,11 @@ $usersConfig = ComponentHelper::getParams('com_users');
             <?php echo HTMLHelper::_('image', $this->params->get('login_image'), empty($this->params->get('login_image_alt')) && empty($this->params->get('login_image_alt_empty')) ? false : $this->params->get('login_image_alt'), ['class' => 'com-users-login__image login-image']); ?>
         <?php endif; ?>
 
-    <?php if (($this->params->get('logindescription_show') == 1 && str_replace(' ', '', $this->params->get('login_description', '')) != '') || $this->params->get('login_image') != '') : ?>
+    <?php if (($this->params->get('logindescription_show') == 1 && trim($this->params->get('login_description', ''))) || $this->params->get('login_image') != '') : ?>
     </div>
     <?php endif; ?>
 
-    <form action="<?php echo Route::_('index.php?option=com_users&task=user.login'); ?>" method="post" class="com-users-login__form form-validate form-horizontal well" id="com-users-login__form">
+    <form action="<?php echo Route::_('index.php?task=user.login'); ?>" method="post" id="com-users-login__form" class="com-users-login__form form-validate form-horizontal well">
 
         <fieldset>
             <?php echo $this->form->renderFieldset('credentials', ['class' => 'com-users-login__input']); ?>
@@ -120,8 +121,21 @@ $usersConfig = ComponentHelper::getParams('com_users');
         <a class="com-users-login__remind list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=remind'); ?>">
             <?php echo Text::_('COM_USERS_LOGIN_REMIND'); ?>
         </a>
-        <?php if ($usersConfig->get('allowUserRegistration')) : ?>
-            <a class="com-users-login__register list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=registration'); ?>">
+        <?php
+        if ($usersConfig->get('allowUserRegistration')) :
+            $regLinkMenuId = $this->params->get('customRegLinkMenu');
+            $regLink = 'index.php?option=com_users&view=registration';
+
+            if ($regLinkMenuId) {
+                $menu = Factory::getApplication()->getMenu();
+                $item = $menu->getItem($regLinkMenuId);
+
+                if ($item) {
+                    $regLink = 'index.php?Itemid=' . $regLinkMenuId;
+                }
+            }
+            ?>
+            <a class="com-users-login__register list-group-item" href="<?php echo Route::_($regLink); ?>">
                 <?php echo Text::_('COM_USERS_LOGIN_REGISTER'); ?>
             </a>
         <?php endif; ?>

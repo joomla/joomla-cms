@@ -17,7 +17,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 $displayData = [
     'textPrefix' => 'COM_MESSAGES',
     'formURL'    => 'index.php?option=com_messages&view=messages',
-    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Private_Messages',
+    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help5.x:Private_Messages',
     'icon'       => 'icon-envelope inbox',
 ];
 

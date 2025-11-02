@@ -14,8 +14,9 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Users\Site\View\Registration\HtmlView $this */
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
 
@@ -27,7 +28,7 @@ $wa->useScript('keepalive')
         </div>
     <?php endif; ?>
 
-    <form id="member-registration" action="<?php echo Route::_('index.php?option=com_users&task=registration.register'); ?>" method="post" class="com-users-registration__form form-validate" enctype="multipart/form-data">
+    <form id="member-registration" action="<?php echo Route::_('index.php?task=registration.register'); ?>" method="post" class="com-users-registration__form form-validate" enctype="multipart/form-data">
         <?php // Iterate through the form fieldsets and display each one. ?>
         <?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
             <?php if ($fieldset->name === 'captcha' && $this->captchaEnabled) : ?>

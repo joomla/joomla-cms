@@ -165,7 +165,7 @@ class ScriptsRenderer extends DocumentRenderer
 
                 if ($asset->getOption('deprecated')) {
                     @trigger_error(
-                        sprintf('Web Asset script [%s] is deprecated. %s', $asset->getName(), $asset->getOption('deprecatedMsg', '')),
+                        \sprintf('Web Asset script [%s] is deprecated. %s', $asset->getName(), $asset->getOption('deprecatedMsg', '')),
                         E_USER_DEPRECATED
                     );
                 }
@@ -185,7 +185,7 @@ class ScriptsRenderer extends DocumentRenderer
         $this->renderedSrc[$src] = true;
 
         // Check if script uses media version.
-        if ($version && strpos($src, '?') === false && ($mediaVersion || $version !== 'auto')) {
+        if ($version && !str_contains($src, '?') && ($mediaVersion || $version !== 'auto')) {
             $src .= '?' . ($version === 'auto' ? $mediaVersion : $version);
         }
 

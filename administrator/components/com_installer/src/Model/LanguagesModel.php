@@ -38,13 +38,13 @@ class LanguagesModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\ListModel
      * @since   1.6
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -136,17 +136,17 @@ class LanguagesModel extends ListModel
 
         try {
             $response = HttpFactory::getHttp()->get($updateSite);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $response = null;
         }
 
-        if ($response === null || $response->code !== 200) {
+        if ($response === null || $response->getStatusCode() !== 200) {
             Factory::getApplication()->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_ERROR_CANT_CONNECT_TO_UPDATESERVER', $updateSite), 'error');
 
             return;
         }
 
-        $updateSiteXML = simplexml_load_string($response->body);
+        $updateSiteXML = simplexml_load_string((string) $response->getBody());
 
         if (!$updateSiteXML) {
             Factory::getApplication()->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_ERROR_CANT_RETRIEVE_XML', $updateSite), 'error');
@@ -155,7 +155,7 @@ class LanguagesModel extends ListModel
         }
 
         $languages     = [];
-        $search        = strtolower($this->getState('filter.search'));
+        $search        = strtolower($this->getState('filter.search', ''));
 
         foreach ($updateSiteXML->extension as $extension) {
             $language = new \stdClass();
@@ -166,8 +166,8 @@ class LanguagesModel extends ListModel
 
             if ($search) {
                 if (
-                    strpos(strtolower($language->name), $search) === false
-                    && strpos(strtolower($language->element), $search) === false
+                    !str_contains(strtolower($language->name), $search)
+                    && !str_contains(strtolower($language->element), $search)
                 ) {
                     continue;
                 }
@@ -183,9 +183,9 @@ class LanguagesModel extends ListModel
         usort(
             $languages,
             function ($a, $b) use ($that) {
-                $ordering = $that->getState('list.ordering');
+                $ordering = $that->getState('list.ordering', 'name');
 
-                if (strtolower($that->getState('list.direction')) === 'asc') {
+                if (strtolower($that->getState('list.direction', 'asc')) === 'asc') {
                     return StringHelper::strcmp($a->$ordering, $b->$ordering);
                 }
 
@@ -195,9 +195,9 @@ class LanguagesModel extends ListModel
 
         // Count the non-paginated list
         $this->languageCount = \count($languages);
-        $limit               = ($this->getState('list.limit') > 0) ? $this->getState('list.limit') : $this->languageCount;
+        $limit               = ($this->getState('list.limit', 20) > 0) ? $this->getState('list.limit', 20) : $this->languageCount;
 
-        return \array_slice($languages, $this->getStart(), $limit);
+        return \array_slice($languages, $this->getStart() ?? 0, $limit);
     }
 
     /**
@@ -245,8 +245,6 @@ class LanguagesModel extends ListModel
      */
     protected function populateState($ordering = 'name', $direction = 'asc')
     {
-        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-
         $this->setState('extension_message', Factory::getApplication()->getUserState('com_installer.extension_message'));
 
         parent::populateState($ordering, $direction);

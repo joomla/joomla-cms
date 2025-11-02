@@ -61,7 +61,8 @@
 			hint="JOPTION_SELECT_AUTHOR"
 			class="js-select-submit-on-change"
 			>
-			<option value="0">JNONE</option>
+			<option value="0">JNONE_FILTER</option>
+			<option value="by_me">COM_CONTENT_FILTER_AUTHORS_BY_ME</option>
 		</field>
 
 		<field
@@ -83,7 +84,10 @@
 			custom="false"
 			hint="JOPTION_SELECT_TAG"
 			class="js-select-submit-on-change"
-		/>
+			default=""
+			>
+			<option value="0">JNONE_FILTER</option>
+		</field>
 
 		<field
 			name="level"
@@ -111,6 +115,8 @@
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="fp.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
 			<option value="fp.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="ws.title ASC" requires="workflow">JSTAGE_ASC</option>
+			<option value="ws.title DESC" requires="workflow">JSTAGE_DESC</option>
 			<option value="a.state ASC">JSTATUS_ASC</option>
 			<option value="a.state DESC">JSTATUS_DESC</option>
 			<option value="a.title ASC">JGLOBAL_TITLE_ASC</option>

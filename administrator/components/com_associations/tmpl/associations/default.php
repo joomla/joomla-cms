@@ -19,7 +19,7 @@ use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 /** @var Joomla\Component\Associations\Administrator\View\Associations\HtmlView $this */
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_associations.admin-associations-default')
     ->useScript('table.columns')
     ->useScript('multiselect');
@@ -30,9 +30,9 @@ $canManageCheckin = $this->getCurrentUser()->authorise('core.manage', 'com_check
 
 $iconStates = [
     -2 => 'icon-trash',
-    0  => 'icon-times',
-    1  => 'icon-check',
-    2  => 'icon-folder',
+    0  => 'icon-unpublish',
+    1  => 'icon-publish',
+    2  => 'icon-archive',
 ];
 
 Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);

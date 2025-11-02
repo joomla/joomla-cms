@@ -14,9 +14,9 @@ use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\WebAsset\WebAssetRegistry;
+use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\System\GuidedTours\Extension\GuidedTours;
 
 return new class () implements ServiceProviderInterface {
@@ -37,12 +37,12 @@ return new class () implements ServiceProviderInterface {
                 $app        = Factory::getApplication();
 
                 $plugin = new GuidedTours(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('system', 'guidedtours'),
                     $app->isClient('administrator')
                 );
 
                 $plugin->setApplication($app);
+                $plugin->setDatabase($container->get(DatabaseInterface::class));
 
                 $wa = $container->get(WebAssetRegistry::class);
 

@@ -66,7 +66,7 @@ trait ToolbarPresets
                     'styles', '|',
                     'blocks', 'fontfamily', 'fontsize', '|',
                     'searchreplace', '|',
-                    'bullist', 'numlist', '|',
+                    'bullist', 'numlist', 'accordion', '|',
                     'outdent', 'indent', '|',
                     'undo', 'redo', '|',
                     'link', 'unlink', 'anchor', 'image', '|',

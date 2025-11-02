@@ -38,7 +38,7 @@ class ConstraintChecker
     protected \stdClass $failedEnvironmentConstraints;
 
     /**
-     * The channel to check the contraints against
+     * The channel to check the constraints against
      *
      * @var string
      */
@@ -93,6 +93,14 @@ class ConstraintChecker
             return false;
         }
 
+        // Check stability, assume true when not set
+        if (
+            isset($candidate['stability'])
+            && !$this->checkStability($candidate['stability'], $minimumStability)
+        ) {
+            return false;
+        }
+
         $result = true;
 
         // Check php_minimum, assume true when not set
@@ -111,19 +119,11 @@ class ConstraintChecker
             $result = false;
         }
 
-        // Check stability, assume true when not set
-        if (
-            isset($candidate['stability'])
-            && !$this->checkStability($candidate['stability'], $minimumStability)
-        ) {
-            $result = false;
-        }
-
         return $result;
     }
 
     /**
-     * Gets the failed constraints for further proccesing
+     * Gets the failed constraints for further processing
      *
      * @return  \stdClass
      *

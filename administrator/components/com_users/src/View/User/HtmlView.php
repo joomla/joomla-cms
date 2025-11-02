@@ -13,13 +13,13 @@ namespace Joomla\Component\Users\Administrator\View\User;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\Helper\Mfa;
+use Joomla\Component\Users\Administrator\Model\UserModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -79,6 +79,15 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
     protected $mfaConfigurationUI;
 
     /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
+
+    /**
      * Display the view
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -89,27 +98,26 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
      */
     public function display($tpl = null)
     {
+        /** @var UserModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
+
         // If no item found, dont show the edit screen, redirect with message
-        if (false === $this->item = $this->get('Item')) {
+        if (false === $this->item = $model->getItem()) {
             $app = Factory::getApplication();
             $app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_NOT_EXIST'), 'error');
             $app->redirect('index.php?option=com_users&view=users');
         }
 
-        $this->form  = $this->get('Form');
-        $this->state = $this->get('State');
-
-        // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        $this->form  = $model->getForm();
+        $this->state = $model->getState();
 
         // Prevent user from modifying own group(s)
         $user = $this->getCurrentUser();
 
         if ((int) $user->id != (int) $this->item->id || $user->authorise('core.admin')) {
-            $this->grouplist = $this->get('Groups');
-            $this->groups    = $this->get('AssignedGroups');
+            $this->grouplist = $model->getGroups();
+            $this->groups    = $model->getAssignedGroups();
         }
 
         $this->form->setValue('password', null);
@@ -122,7 +130,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
                 $this->mfaConfigurationUI = Mfa::canShowConfigurationInterface($userBeingEdited)
                     ? Mfa::getConfigurationInterface($userBeingEdited)
                     : '';
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // In case something goes really wrong with the plugins; prevents hard breaks.
                 $this->mfaConfigurationUI = null;
             }
@@ -149,7 +157,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
         $canDo     = ContentHelper::getActions('com_users');
         $isNew     = ($this->item->id == 0);
         $isProfile = $this->item->id == $user->id;
-        $toolbar   = Toolbar::getInstance();
+        $toolbar   = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(
             Text::_(

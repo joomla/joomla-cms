@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Component\Fields\Administrator\Model\GroupModel;
 use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -72,9 +73,12 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->form  = $this->get('Form');
-        $this->item  = $this->get('Item');
-        $this->state = $this->get('State');
+        /** @var GroupModel $model */
+        $model = $this->getModel();
+
+        $this->form  = $model->getForm();
+        $this->item  = $model->getItem();
+        $this->state = $model->getState();
 
         $component = '';
         $parts     = FieldsHelper::extract($this->state->get('filter.context'));
@@ -86,7 +90,7 @@ class HtmlView extends BaseHtmlView
         $this->canDo = ContentHelper::getActions($component, 'fieldgroup', $this->item->id);
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -108,13 +112,13 @@ class HtmlView extends BaseHtmlView
 
         $component = '';
         $parts     = FieldsHelper::extract($this->state->get('filter.context'));
-        $toolbar   = Toolbar::getInstance();
+        $toolbar   = $this->getDocument()->getToolbar();
 
         if ($parts) {
             $component = $parts[0];
         }
 
-        $userId    = $this->getCurrentUser()->get('id');
+        $userId    = $this->getCurrentUser()->id;
         $canDo     = $this->canDo;
 
         $isNew      = ($this->item->id == 0);

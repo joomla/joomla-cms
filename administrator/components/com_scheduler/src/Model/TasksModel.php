@@ -19,7 +19,6 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
@@ -36,17 +35,19 @@ use Joomla\Utilities\ArrayHelper;
  */
 class TasksModel extends ListModel
 {
+    protected $listForbiddenList = ['select', 'multi_ordering'];
+
     /**
      * Constructor.
      *
-     * @param   array                     $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface|null  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   4.1.0
      * @throws  \Exception
      * @see     \JControllerLegacy
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -103,7 +104,7 @@ class TasksModel extends ListModel
     /**
      * Method to create a query for a list of items.
      *
-     * @return  DatabaseQuery
+     * @return  QueryInterface
      *
      * @since  4.1.0
      * @throws \Exception
@@ -138,6 +139,7 @@ class TasksModel extends ListModel
                     $db->quoteName('a.priority'),
                     $db->quoteName('a.ordering'),
                     $db->quoteName('a.note'),
+                    $db->quoteName('a.created_by'),
                     $db->quoteName('a.checked_out'),
                     $db->quoteName('a.checked_out_time'),
                 ]
@@ -271,7 +273,7 @@ class TasksModel extends ListModel
         if (is_numeric($locked) && $locked != 0) {
             $now              = Factory::getDate('now', 'GMT');
             $timeout          = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
-            $timeout          = new \DateInterval(sprintf('PT%dS', $timeout));
+            $timeout          = new \DateInterval(\sprintf('PT%dS', $timeout));
             $timeoutThreshold = (clone $now)->sub($timeout)->toSql();
             $now              = $now->toSql();
 
@@ -329,7 +331,7 @@ class TasksModel extends ListModel
         $multiOrdering = $this->state->get('list.multi_ordering');
 
         if (!$multiOrdering || !\is_array($multiOrdering)) {
-            $orderCol = $this->state->get('list.ordering', 'a.title');
+            $orderCol = $this->state->get('list.ordering', 'a.next_execution');
             $orderDir = $this->state->get('list.direction', 'asc');
 
             // Type title ordering is handled exceptionally in _getList()
@@ -343,8 +345,19 @@ class TasksModel extends ListModel
                 }
             }
         } else {
-            // @todo Should add quoting here
-            $query->order($multiOrdering);
+            $orderClauses = [];
+
+            // Loop through provided clauses
+            foreach ($multiOrdering as $ordering) {
+                [$column, $direction] = explode(' ', $ordering);
+
+                $orderClauses[] = $db->quoteName($column) . ' ' . $direction;
+            }
+
+            // At least one correct order clause
+            if (\count($orderClauses) > 0) {
+                $query->order($orderClauses);
+            }
         }
 
         return $query;
@@ -354,9 +367,9 @@ class TasksModel extends ListModel
      * Overloads the parent _getList() method.
      * Takes care of attaching TaskOption objects and sorting by type titles.
      *
-     * @param   DatabaseQuery  $query       The database query to get the list with
-     * @param   int            $limitstart  The list offset
-     * @param   int            $limit       Number of list items to fetch
+     * @param   QueryInterface  $query       The database query to get the list with
+     * @param   int             $limitstart  The list offset
+     * @param   int             $limit       Number of list items to fetch
      *
      * @return object[]
      *
@@ -366,7 +379,7 @@ class TasksModel extends ListModel
     protected function _getList($query, $limitstart = 0, $limit = 0): array
     {
         // Get stuff from the model state
-        $listOrder      = $this->getState('list.ordering', 'a.title');
+        $listOrder      = $this->getState('list.ordering', 'a.next_execution');
         $listDirectionN = strtolower($this->getState('list.direction', 'asc')) === 'desc' ? -1 : 1;
 
         // Set limit parameters and get object list
@@ -433,8 +446,46 @@ class TasksModel extends ListModel
      * @return void
      * @since  4.1.0
      */
-    protected function populateState($ordering = 'a.title', $direction = 'ASC'): void
+    protected function populateState($ordering = 'a.next_execution', $direction = 'ASC'): void
     {
+        $app = Factory::getApplication();
+
+        // Clean the multiorder values
+        if ($list = $app->getUserStateFromRequest($this->context . '.list', 'list', [], 'array')) {
+            if (!empty($list['multi_ordering']) && \is_array($list['multi_ordering'])) {
+                $orderClauses = [];
+
+                // Loop through provided clauses
+                foreach ($list['multi_ordering'] as $multiOrdering) {
+                    // Split the combined string into individual variables
+                    $multiOrderingParts = explode(' ', $multiOrdering, 2);
+
+                    // Check that at least the column is present
+                    if (\count($multiOrderingParts) < 1) {
+                        continue;
+                    }
+
+                    // Assign variables
+                    $multiOrderingColumn = $multiOrderingParts[0];
+                    $multiOrderingDir    = \count($multiOrderingParts) === 2 ? $multiOrderingParts[1] : 'asc';
+
+                    // Validate provided column
+                    if (!\in_array($multiOrderingColumn, $this->filter_fields)) {
+                        continue;
+                    }
+
+                    // Validate order dir
+                    if (strtolower($multiOrderingDir) !== 'asc' && strtolower($multiOrderingDir) !== 'desc') {
+                        continue;
+                    }
+
+                    $orderClauses[] = $multiOrderingColumn . ' ' . $multiOrderingDir;
+                }
+
+                $this->setState('list.multi_ordering', $orderClauses);
+            }
+        }
+
         // Call the parent method
         parent::populateState($ordering, $direction);
     }
@@ -467,5 +518,16 @@ class TasksModel extends ListModel
 
         // False if we don't have due tasks, or we have locked tasks
         return $taskDetails && $taskDetails->due_count && !$taskDetails->locked_count;
+    }
+
+    /**
+     * Check if we have right now any enabled due tasks and no locked tasks.
+     *
+     * @return boolean
+     * @since  5.2.0
+     */
+    public function getHasDueTasks()
+    {
+        return $this->hasDueTasks(Factory::getDate('now', 'UTC'));
     }
 }

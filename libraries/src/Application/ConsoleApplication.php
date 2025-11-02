@@ -177,7 +177,7 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
             default:
                 $trace = debug_backtrace();
                 trigger_error(
-                    sprintf(
+                    \sprintf(
                         'Undefined property via __get(): %1$s in %2$s on line %3$s',
                         $name,
                         $trace[0]['file'],
@@ -298,6 +298,8 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
         return array_merge(
             parent::getDefaultCommands(),
             [
+                new Console\AutomatedUpdatesRegisterCommand(),
+                new Console\AutomatedUpdatesUnregisterCommand(),
                 new Console\CleanCacheCommand(),
                 new Console\CheckUpdatesCommand(),
                 new Console\CheckJoomlaUpdatesCommand(),
@@ -444,7 +446,7 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
      */
     public function getLongVersion(): string
     {
-        return sprintf('Joomla! <info>%s</info> (debug: %s)', (new Version())->getShortVersion(), (\defined('JDEBUG') && JDEBUG ? 'Yes' : 'No'));
+        return \sprintf('Joomla! <info>%s</info> (debug: %s)', (new Version())->getShortVersion(), (\defined('JDEBUG') && JDEBUG ? 'Yes' : 'No'));
     }
 
     /**
@@ -525,7 +527,7 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
          */
         try {
             $uri = Uri::getInstance($liveSite);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $uri = Uri::getInstance('https://joomla.invalid/set/by/console/application');
         }
 

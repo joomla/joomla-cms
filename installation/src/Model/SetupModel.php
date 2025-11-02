@@ -29,20 +29,6 @@ use Joomla\Utilities\ArrayHelper;
 class SetupModel extends BaseInstallationModel
 {
     /**
-     * Get the current setup options from the session.
-     *
-     * @return  array  An array of options from the session.
-     *
-     * @since   3.1
-     */
-    public function getOptions()
-    {
-        if (!empty(Factory::getSession()->get('setup.options', []))) {
-            return Factory::getSession()->get('setup.options', []);
-        }
-    }
-
-    /**
      * Store the current setup options in the session.
      *
      * @param   array  $options  The installation options.
@@ -99,7 +85,7 @@ class SetupModel extends BaseInstallationModel
         }
 
         // Get the form.
-        Form::addFormPath(JPATH_COMPONENT . '/forms');
+        Form::addFormPath(JPATH_BASE . '/forms');
 
         try {
             $form = Form::getInstance('jform', $view, ['control' => 'jform']);

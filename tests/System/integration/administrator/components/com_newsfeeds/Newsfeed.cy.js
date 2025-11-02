@@ -8,7 +8,7 @@ describe('Test in backend that the newsfeed form', () => {
     cy.get('#jform_link').clear().type('https://newsfeedtesturl');
     cy.clickToolbarButton('Save & Close');
 
-    cy.get('#system-message-container').contains('News feed saved.').should('exist');
+    cy.checkForSystemMessage('News feed saved.');
     cy.contains('Test newsfeed');
   });
 

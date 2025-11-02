@@ -71,7 +71,7 @@ class BannerController extends FormController
      */
     protected function allowEdit($data = [], $key = 'id')
     {
-        $recordId   = (int) isset($data[$key]) ? $data[$key] : 0;
+        $recordId   = isset($data[$key]) ? (int) $data[$key] : 0;
         $categoryId = 0;
 
         if ($recordId) {

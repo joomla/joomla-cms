@@ -26,7 +26,7 @@ SELECT ue."update_site_id",
   FROM "#__update_sites_extensions" AS ue JOIN "#__extensions" AS e ON (e."extension_id" = ue."extension_id")
  WHERE e."type"='file' AND e."element"='joomla';
 
------------------------------------------------------------
+-- --------------------------------------------------------
 -- The following UPDATE statement has been modified to avoid an SQL error
 -- when there is more than 1 update site for the Joomla core.
 -- See https://github.com/joomla/joomla-cms/pull/42988 for details.

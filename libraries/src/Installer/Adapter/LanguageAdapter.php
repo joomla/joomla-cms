@@ -12,7 +12,6 @@ namespace Joomla\CMS\Installer\Adapter;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
@@ -23,6 +22,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 
@@ -417,20 +417,20 @@ class LanguageAdapter extends InstallerAdapter
         }
 
         // Add an entry to the extension table with a whole heap of defaults
-        $row = Table::getInstance('extension');
-        $row->set('name', $this->name);
-        $row->set('type', 'language');
-        $row->set('element', $this->tag);
-        $row->set('changelogurl', (string) $this->getManifest()->changelogurl);
+        $row               = Table::getInstance('extension');
+        $row->name         = $this->name;
+        $row->type         = 'language';
+        $row->element      = $this->tag;
+        $row->changelogurl = (string) $this->getManifest()->changelogurl;
 
         // There is no folder for languages
-        $row->set('folder', '');
-        $row->set('enabled', 1);
-        $row->set('protected', 0);
-        $row->set('access', 0);
-        $row->set('client_id', $clientId);
-        $row->set('params', $this->parent->getParams());
-        $row->set('manifest_cache', $this->parent->generateManifestCache());
+        $row->folder         = '';
+        $row->enabled        = 1;
+        $row->protected      = 0;
+        $row->access         = 0;
+        $row->client_id      = $clientId;
+        $row->params         = $this->parent->getParams();
+        $row->manifest_cache = $this->parent->generateManifestCache();
 
         if (!$row->check() || !$row->store()) {
             // Install failed, roll back changes
@@ -455,7 +455,7 @@ class LanguageAdapter extends InstallerAdapter
         // Clean installed languages cache.
         Factory::getCache()->clean('com_languages');
 
-        return $row->get('extension_id');
+        return $row->extension_id;
     }
 
     /**
@@ -592,19 +592,19 @@ class LanguageAdapter extends InstallerAdapter
             // Set the defaults
 
             // There is no folder for language
-            $row->set('folder', '');
-            $row->set('enabled', 1);
-            $row->set('protected', 0);
-            $row->set('access', 0);
-            $row->set('client_id', $clientId);
-            $row->set('params', $this->parent->getParams());
+            $row->folder    = '';
+            $row->enabled   = 1;
+            $row->protected = 0;
+            $row->access    = 0;
+            $row->client_id = $clientId;
+            $row->params    = $this->parent->getParams();
         }
 
-        $row->set('name', $this->name);
-        $row->set('type', 'language');
-        $row->set('element', $this->tag);
-        $row->set('manifest_cache', $this->parent->generateManifestCache());
-        $row->set('changelogurl', (string) $this->getManifest()->changelogurl);
+        $row->name           = $this->name;
+        $row->type           = 'language';
+        $row->element        = $this->tag;
+        $row->manifest_cache = $this->parent->generateManifestCache();
+        $row->changelogurl   = (string) $this->getManifest()->changelogurl;
 
         // Clean installed languages cache.
         Factory::getCache()->clean('com_languages');
@@ -620,7 +620,7 @@ class LanguageAdapter extends InstallerAdapter
             $this->createContentLanguage($this->tag);
         }
 
-        return $row->get('extension_id');
+        return $row->extension_id;
     }
 
     /**
@@ -650,17 +650,17 @@ class LanguageAdapter extends InstallerAdapter
                     }
                 }
 
-                $manifest_details = Installer::parseXMLInstallFile($manifestfile);
-                $extension        = Table::getInstance('extension');
-                $extension->set('type', 'language');
-                $extension->set('client_id', $clientId);
-                $extension->set('element', $language);
-                $extension->set('folder', '');
-                $extension->set('name', $language);
-                $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
-                $extension->set('params', '{}');
-                $results[] = $extension;
+                $manifest_details          = Installer::parseXMLInstallFile($manifestfile);
+                $extension                 = Table::getInstance('extension');
+                $extension->type           = 'language';
+                $extension->client_id      = $clientId;
+                $extension->element        = $language;
+                $extension->folder         = '';
+                $extension->name           = $language;
+                $extension->state          = -1;
+                $extension->manifest_cache = json_encode($manifest_details);
+                $extension->params         = '{}';
+                $results[]                 = $extension;
             }
         }
 
@@ -700,7 +700,7 @@ class LanguageAdapter extends InstallerAdapter
         try {
             $this->parent->extension->check();
             $this->parent->extension->store();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             Log::add(Text::_('JLIB_INSTALLER_ERROR_LANG_DISCOVER_STORE_DETAILS'), Log::WARNING, 'jerror');
 
             return false;
@@ -713,7 +713,7 @@ class LanguageAdapter extends InstallerAdapter
         // Clean installed languages cache.
         Factory::getCache()->clean('com_languages');
 
-        return $this->parent->extension->get('extension_id');
+        return $this->parent->extension->extension_id;
     }
 
     /**
@@ -734,9 +734,11 @@ class LanguageAdapter extends InstallerAdapter
 
         $this->parent->manifest = $this->parent->isManifest($manifestPath);
         $this->parent->setPath('manifest', $manifestPath);
+
         $manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
         $this->parent->extension->manifest_cache = json_encode($manifest_details);
         $this->parent->extension->name           = $manifest_details['name'];
+        $this->parent->extension->changelogurl   = $manifest_details['changelogurl'];
 
         if ($this->parent->extension->store()) {
             return true;

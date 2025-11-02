@@ -99,7 +99,7 @@ class RemoveOldFilesCommand extends AbstractCommand
         }
 
         $symfonyStyle->success(
-            sprintf(
+            \sprintf(
                 $dryRun ? '%s Files checked and %s would be deleted' : '%s Files checked and %s deleted',
                 \count($status['files_checked']),
                 ($dryRun ? \count($status['files_exist']) : \count($status['files_deleted']))
@@ -107,7 +107,7 @@ class RemoveOldFilesCommand extends AbstractCommand
         );
 
         $symfonyStyle->success(
-            sprintf(
+            \sprintf(
                 $dryRun ? '%s Folders checked and %s would be deleted' : '%s Folders checked and %s deleted',
                 \count($status['folders_checked']),
                 ($dryRun ? \count($status['folders_exist']) : \count($status['folders_deleted']))

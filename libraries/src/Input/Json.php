@@ -40,15 +40,15 @@ class Json extends Input
     /**
      * Constructor.
      *
-     * @param   array  $source   Source data (Optional, default is the raw HTTP input decoded from JSON)
-     * @param   array  $options  Array of configuration parameters (Optional)
+     * @param   ?array  $source   Source data (Optional, default is the raw HTTP input decoded from JSON)
+     * @param   array   $options  Array of configuration parameters (Optional)
      *
      * @since   3.0.1
      *
      * @deprecated   4.3 will be removed in 6.0.
      *               Use Joomla\Input\Json instead
      */
-    public function __construct(array $source = null, array $options = [])
+    public function __construct(?array $source = null, array $options = [])
     {
         if (isset($options['filter'])) {
             $this->filter = $options['filter'];

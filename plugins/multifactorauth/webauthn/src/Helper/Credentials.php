@@ -105,7 +105,7 @@ abstract class Credentials
 
         try {
             $publicKeyCredentialCreationOptions = unserialize(base64_decode($encodedOptions));
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $publicKeyCredentialCreationOptions = null;
         }
 
@@ -239,7 +239,7 @@ abstract class Credentials
         $scheme    = Uri::getInstance()->getScheme();
         $subdomain = ($scheme == 'https') ? 'secure' : 'www';
 
-        return sprintf('%s://%s.gravatar.com/avatar/%s.jpg?s=%u&d=mm', $scheme, $subdomain, md5($user->email), $size);
+        return \sprintf('%s://%s.gravatar.com/avatar/%s.jpg?s=%u&d=mm', $scheme, $subdomain, md5($user->email), $size);
     }
 
     /**
@@ -274,7 +274,7 @@ abstract class Credentials
         try {
             $app      = Factory::getApplication();
             $siteName = $app->get('sitename');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $siteName = 'Joomla! Site';
         }
 
