@@ -260,7 +260,7 @@ class DiscoverModel extends InstallerModel
 
         try {
             $db->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             $this->_message = Text::_('COM_INSTALLER_MSG_DISCOVER_FAILEDTOPURGEEXTENSIONS');
 
             return false;

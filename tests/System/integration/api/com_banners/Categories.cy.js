@@ -17,7 +17,12 @@ describe('Test that banners categories API endpoint', () => {
   });
 
   it('can create a category', () => {
-    cy.api_post('/banners/categories', { title: 'automated test banner category', description: 'automated test banner category description' })
+    cy.api_post('/banners/categories', {
+      title: 'automated test banner category',
+      description: 'automated test banner category description',
+      parent_id: 1,
+      extension: 'com_banners',
+    })
       .then((response) => {
         cy.wrap(response).its('body').its('data').its('attributes')
           .its('title')

@@ -718,6 +718,7 @@ class JoomlaInstallerScript
             '/libraries/vendor/beberlei/assert/LICENSE',
             '/libraries/vendor/google/recaptcha/ARCHITECTURE.md',
             '/libraries/vendor/jfcherng/php-color-output/src/helpers.php',
+            '/libraries/vendor/joomla/filter/PATCHES.txt',
             '/libraries/vendor/joomla/ldap/LICENSE',
             '/libraries/vendor/joomla/ldap/src/LdapClient.php',
             '/libraries/vendor/laminas/laminas-zendframework-bridge/config/replacements.php',
@@ -2357,6 +2358,131 @@ class JoomlaInstallerScript
             '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/font-awesome/fonts/fontawesome-webfont.ttf',
             '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/font-awesome/fonts/fontawesome-webfont.woff',
             '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/font-awesome/fonts/fontawesome-webfont.woff2',
+            // From 5.2.1 to 5.3.0-alpha1
+            '/media/system/css/joomla-core-loader.css',
+            '/media/system/css/joomla-core-loader.min.css',
+            '/media/system/css/joomla-core-loader.min.css.gz',
+            '/media/system/scss/joomla-core-loader.scss',
+            // From 5.3.0-alpha2 to 5.3.0-alpha3
+            '/administrator/components/com_scheduler/src/Table/LogsTable.php',
+            '/media/system/css/system-site-offline_rtl.css',
+            '/media/system/css/system-site-offline_rtl.min.css',
+            '/media/system/css/system-site-offline_rtl.min.css.gz',
+            '/media/system/scss/system-site-offline_rtl.scss',
+            // From 5.3.0-alpha3 to 5.3.0-beta1
+            '/administrator/modules/mod_feed/mod_feed.php',
+            '/administrator/modules/mod_privacy_status/mod_privacy_status.php',
+            '/libraries/vendor/guzzlehttp/promises/src/functions.php',
+            '/libraries/vendor/guzzlehttp/promises/src/functions_include.php',
+            '/libraries/vendor/maximebf/debugbar/LICENSE',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Bridge/CacheCacheCollector.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Bridge/DoctrineCollector.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Bridge/MonologCollector.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Bridge/NamespacedTwigProfileCollector.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Bridge/Propel2Collector.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Bridge/PropelCollector.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Bridge/SlimCollector.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Bridge/SwiftMailer/SwiftLogCollector.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Bridge/SwiftMailer/SwiftMailCollector.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Bridge/Symfony/SymfonyMailCollector.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Bridge/Twig/DebugTwigExtension.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Bridge/Twig/DumpTwigExtension.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Bridge/Twig/MeasureTwigExtension.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Bridge/Twig/MeasureTwigNode.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Bridge/Twig/MeasureTwigTokenParser.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Bridge/Twig/TimeableTwigExtensionProfiler.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Bridge/Twig/TraceableTwigEnvironment.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Bridge/Twig/TraceableTwigTemplate.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Bridge/Twig/TwigCollector.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Bridge/TwigProfileCollector.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataCollector/AggregatedCollector.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataCollector/AssetProvider.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataCollector/ConfigCollector.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataCollector/DataCollector.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataCollector/DataCollectorInterface.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataCollector/ExceptionsCollector.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataCollector/LocalizationCollector.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataCollector/MemoryCollector.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataCollector/MessagesAggregateInterface.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataCollector/MessagesCollector.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataCollector/ObjectCountCollector.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataCollector/PDO/PDOCollector.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataCollector/PDO/TraceablePDO.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataCollector/PDO/TraceablePDOStatement.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataCollector/PDO/TracedStatement.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataCollector/PhpInfoCollector.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataCollector/Renderable.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataCollector/RequestDataCollector.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataCollector/TimeDataCollector.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataFormatter/DataFormatter.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataFormatter/DataFormatterInterface.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataFormatter/DebugBarVarDumper.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataFormatter/HasDataFormatter.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataFormatter/HasXdebugLinks.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataFormatter/VarDumper/DebugBarHtmlDumper.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DebugBar.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DebugBarException.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/HttpDriverInterface.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/JavascriptRenderer.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/OpenHandler.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/PhpHttpDriver.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/RequestIdGenerator.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/RequestIdGeneratorInterface.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/debugbar.css',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/debugbar.js',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/openhandler.css',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/openhandler.js',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/font-awesome/css/font-awesome.min.css',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/highlightjs/highlight.pack.js',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/highlightjs/styles/github.css',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/jquery/dist/jquery.min.js',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/widgets.css',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/widgets.js',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/widgets/mails/widget.css',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/widgets/mails/widget.js',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/widgets/sqlqueries/widget.css',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/widgets/sqlqueries/widget.js',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/widgets/templates/widget.css',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/widgets/templates/widget.js',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/StandardDebugBar.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Storage/FileStorage.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Storage/MemcachedStorage.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Storage/pdo_storage_schema.sql',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Storage/PdoStorage.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Storage/RedisStorage.php',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Storage/StorageInterface.php',
+            // From 5.3.0-beta3 to 5.3.0-rc1
+            '/libraries/vendor/joomla/http/.drone.jsonnet',
+            '/libraries/vendor/joomla/http/.drone.yml',
+            '/libraries/vendor/joomla/oauth1/.drone.jsonnet',
+            '/libraries/vendor/joomla/oauth1/.drone.yml',
+            '/libraries/vendor/joomla/oauth2/.drone.jsonnet',
+            '/libraries/vendor/joomla/oauth2/.drone.yml',
+            '/libraries/vendor/joomla/router/.drone.jsonnet',
+            '/libraries/vendor/joomla/router/.drone.yml',
+            '/libraries/vendor/joomla/string/.drone.jsonnet',
+            '/libraries/vendor/joomla/string/.drone.yml',
+            '/libraries/vendor/joomla/uri/.drone.jsonnet',
+            '/libraries/vendor/joomla/uri/.drone.yml',
+            '/libraries/vendor/joomla/utilities/.drone.jsonnet',
+            '/libraries/vendor/joomla/utilities/.drone.yml',
+            // From 5.3.0-rc1 to 5.3.0-rc2
+            '/libraries/vendor/algo26-matthias/idna-convert/Dockerfile',
+            '/libraries/vendor/algo26-matthias/idna-convert/compose.yml',
+            '/libraries/vendor/algo26-matthias/idna-convert/src/Exception/Std3AsciiRulesViolationException.php',
+            '/libraries/vendor/algo26-matthias/idna-convert/src/TranscodeUnicode/ByteLengthTrait.php',
+            // From 5.4.0-alpha2 to 5.4.0-alpha3
+            '/administrator/modules/mod_menu/mod_menu.php',
+            '/modules/mod_random_image/mod_random_image.php',
+            // From 5.4.0-alpha3 to 5.4.0-beta1
+            '/administrator/modules/mod_latest/mod_latest.php',
+            '/administrator/modules/mod_logged/mod_logged.php',
+            '/administrator/modules/mod_privacy_dashboard/mod_privacy_dashboard.php',
+            '/administrator/modules/mod_submenu/mod_submenu.php',
+            '/modules/mod_finder/mod_finder.php',
+            '/modules/mod_login/mod_login.php',
+            '/modules/mod_menu/mod_menu.php',
+            '/modules/mod_whosonline/mod_whosonline.php',
         ];
 
         $folders = [
@@ -2623,6 +2749,32 @@ class JoomlaInstallerScript
             '/libraries/vendor/cweagans',
             // From 5.2.0-alpha2 to 5.2.0-alpha3
             '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/font-awesome/fonts',
+            // From 5.3.0-alpha3 to 5.3.0-beta1
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Storage',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/widgets/templates',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/widgets/sqlqueries',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/widgets/mails',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/widgets',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/jquery/dist',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/jquery',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/highlightjs/styles',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/highlightjs',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/font-awesome/css',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/font-awesome',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataFormatter/VarDumper',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataFormatter',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataCollector/PDO',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataCollector',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Bridge/Twig',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Bridge/Symfony',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Bridge/SwiftMailer',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Bridge',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar',
+            '/libraries/vendor/maximebf/debugbar/src',
+            '/libraries/vendor/maximebf/debugbar',
+            '/libraries/vendor/maximebf',
         ];
 
         $status['files_checked']   = $files;
@@ -2657,6 +2809,13 @@ class JoomlaInstallerScript
         }
 
         $this->fixFilenameCasing();
+
+        /**
+         * Fix filesystem permissions when updating a new 5.2.0 installation.
+         *
+         * @todo: Remove in 6.0
+         */
+        $this->fixFilesystemPermissions();
 
         if ($suppressOutput === false && \count($status['folders_errors'])) {
             echo implode('<br>', $status['folders_errors']);
@@ -3140,6 +3299,428 @@ class JoomlaInstallerScript
                     // On Unix with both files: Delete the incorrectly cased file.
                     if (is_file(JPATH_ROOT . $old)) {
                         File::delete(JPATH_ROOT . $old);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Fix filesystem permissions when updating a new 5.2.0 installation.
+     *
+     * @return  void
+     *
+     * @since   5.2.2
+     *
+     * @todo    6.0 Remove this method
+     *
+     * @deprecated  5.2.2 will be removed in 6.0 without replacement
+     */
+    protected function fixFilesystemPermissions()
+    {
+        // Don't do anything if not updating from a 5.2.0 or 5.2.1
+        if (
+            empty($this->fromVersion)
+            || version_compare($this->fromVersion, '5.2.0', 'lt')
+            || version_compare($this->fromVersion, '5.2.1', 'gt')
+        ) {
+            return;
+        }
+
+        // First check tmp folder if it has mode 777
+        if (decoct(fileperms(JPATH_ROOT . '/tmp') & 0777) === '777') {
+            // We are either on Windows where folders always have 777, or we have to fix permissions
+            @chmod(JPATH_ROOT . '/tmp', 0755);
+            clearstatcache(true, JPATH_ROOT . '/tmp');
+        }
+
+        // Check tmp folder again if it still has mode 777
+        if (decoct(fileperms(JPATH_ROOT . '/tmp') & 0777) === '777') {
+            // We are on Windows or chmod has no effect
+            return;
+        }
+
+        try {
+            // Using hard-coded string because a new language string would not be available in all cases
+            Log::add('Fixing permissions for files and folders.', Log::INFO, 'Update');
+        } catch (\RuntimeException) {
+            // Informational log only
+        }
+
+        $files = [
+            '/htaccess.txt',
+            '/index.php',
+            '/libraries/.htaccess',
+            '/libraries/vendor/jfcherng/php-diff/.phpstorm.meta.php',
+            '/libraries/vendor/joomla/http/.drone.jsonnet',
+            '/libraries/vendor/joomla/http/.drone.yml',
+            '/libraries/vendor/joomla/oauth1/.drone.jsonnet',
+            '/libraries/vendor/joomla/oauth1/.drone.yml',
+            '/libraries/vendor/joomla/oauth2/.drone.jsonnet',
+            '/libraries/vendor/joomla/oauth2/.drone.yml',
+            '/libraries/vendor/joomla/router/.drone.jsonnet',
+            '/libraries/vendor/joomla/router/.drone.yml',
+            '/libraries/vendor/joomla/string/.drone.jsonnet',
+            '/libraries/vendor/joomla/string/.drone.yml',
+            '/libraries/vendor/joomla/uri/.drone.jsonnet',
+            '/libraries/vendor/joomla/uri/.drone.yml',
+            '/libraries/vendor/joomla/utilities/.drone.jsonnet',
+            '/libraries/vendor/joomla/utilities/.drone.yml',
+            '/LICENSE.txt',
+            '/README.txt',
+            '/robots.txt',
+            '/robots.txt.dist',
+            '/tmp/index.html',
+            '/web.config.txt',
+        ];
+
+        $folders = [
+            '/administrator',
+            '/administrator/cache',
+            '/administrator/components',
+            '/administrator/help',
+            '/administrator/help/en-GB',
+            '/administrator/includes',
+            '/administrator/language',
+            '/administrator/language/en-GB',
+            '/administrator/language/overrides',
+            '/administrator/logs',
+            '/administrator/manifests',
+            '/administrator/manifests/files',
+            '/administrator/manifests/libraries',
+            '/administrator/manifests/packages',
+            '/administrator/modules',
+            '/administrator/templates',
+            '/api',
+            '/api/components',
+            '/api/includes',
+            '/api/language',
+            '/api/language/en-GB',
+            '/cache',
+            '/cli',
+            '/components',
+            '/images',
+            '/images/banners',
+            '/images/headers',
+            '/images/sampledata',
+            '/images/sampledata/cassiopeia',
+            '/includes',
+            '/language',
+            '/language/en-GB',
+            '/language/overrides',
+            '/layouts',
+            '/layouts/chromes',
+            '/layouts/libraries',
+            '/layouts/libraries/html',
+            '/layouts/libraries/html/bootstrap',
+            '/layouts/libraries/html/bootstrap/modal',
+            '/layouts/libraries/html/bootstrap/tab',
+            '/libraries',
+            '/libraries/php-encryption',
+            '/libraries/phpass',
+            '/media',
+            '/media/cache',
+            '/media/templates',
+            '/media/templates/administrator',
+            '/media/templates/site',
+            '/media/vendor',
+            '/modules',
+            '/plugins',
+            '/templates',
+        ];
+
+        $foldersRecursive = [
+            '/administrator/components/com_actionlogs',
+            '/administrator/components/com_admin',
+            '/administrator/components/com_ajax',
+            '/administrator/components/com_associations',
+            '/administrator/components/com_banners',
+            '/administrator/components/com_cache',
+            '/administrator/components/com_categories',
+            '/administrator/components/com_checkin',
+            '/administrator/components/com_config',
+            '/administrator/components/com_contact',
+            '/administrator/components/com_content',
+            '/administrator/components/com_contenthistory',
+            '/administrator/components/com_cpanel',
+            '/administrator/components/com_fields',
+            '/administrator/components/com_finder',
+            '/administrator/components/com_guidedtours',
+            '/administrator/components/com_installer',
+            '/administrator/components/com_joomlaupdate',
+            '/administrator/components/com_languages',
+            '/administrator/components/com_login',
+            '/administrator/components/com_mails',
+            '/administrator/components/com_media',
+            '/administrator/components/com_menus',
+            '/administrator/components/com_messages',
+            '/administrator/components/com_modules',
+            '/administrator/components/com_newsfeeds',
+            '/administrator/components/com_plugins',
+            '/administrator/components/com_postinstall',
+            '/administrator/components/com_privacy',
+            '/administrator/components/com_redirect',
+            '/administrator/components/com_scheduler',
+            '/administrator/components/com_tags',
+            '/administrator/components/com_templates',
+            '/administrator/components/com_users',
+            '/administrator/components/com_workflow',
+            '/administrator/components/com_wrapper',
+            '/administrator/modules/mod_custom',
+            '/administrator/modules/mod_feed',
+            '/administrator/modules/mod_frontend',
+            '/administrator/modules/mod_guidedtours',
+            '/administrator/modules/mod_latest',
+            '/administrator/modules/mod_latestactions',
+            '/administrator/modules/mod_logged',
+            '/administrator/modules/mod_login',
+            '/administrator/modules/mod_loginsupport',
+            '/administrator/modules/mod_menu',
+            '/administrator/modules/mod_messages',
+            '/administrator/modules/mod_multilangstatus',
+            '/administrator/modules/mod_popular',
+            '/administrator/modules/mod_post_installation_messages',
+            '/administrator/modules/mod_privacy_dashboard',
+            '/administrator/modules/mod_privacy_status',
+            '/administrator/modules/mod_quickicon',
+            '/administrator/modules/mod_sampledata',
+            '/administrator/modules/mod_stats_admin',
+            '/administrator/modules/mod_submenu',
+            '/administrator/modules/mod_title',
+            '/administrator/modules/mod_toolbar',
+            '/administrator/modules/mod_user',
+            '/administrator/modules/mod_version',
+            '/administrator/templates/atum',
+            '/administrator/templates/system',
+            '/api/components/com_banners',
+            '/api/components/com_categories',
+            '/api/components/com_config',
+            '/api/components/com_contact',
+            '/api/components/com_content',
+            '/api/components/com_contenthistory',
+            '/api/components/com_fields',
+            '/api/components/com_installer',
+            '/api/components/com_languages',
+            '/api/components/com_media',
+            '/api/components/com_menus',
+            '/api/components/com_messages',
+            '/api/components/com_modules',
+            '/api/components/com_newsfeeds',
+            '/api/components/com_plugins',
+            '/api/components/com_privacy',
+            '/api/components/com_redirect',
+            '/api/components/com_tags',
+            '/api/components/com_templates',
+            '/api/components/com_users',
+            '/components/com_ajax',
+            '/components/com_banners',
+            '/components/com_config',
+            '/components/com_contact',
+            '/components/com_content',
+            '/components/com_contenthistory',
+            '/components/com_fields',
+            '/components/com_finder',
+            '/components/com_media',
+            '/components/com_menus',
+            '/components/com_modules',
+            '/components/com_newsfeeds',
+            '/components/com_privacy',
+            '/components/com_tags',
+            '/components/com_users',
+            '/components/com_wrapper',
+            '/layouts/joomla',
+            '/layouts/plugins',
+            '/libraries/src',
+            '/libraries/vendor',
+            '/media/com_actionlogs',
+            '/media/com_admin',
+            '/media/com_associations',
+            '/media/com_banners',
+            '/media/com_cache',
+            '/media/com_categories',
+            '/media/com_config',
+            '/media/com_contact',
+            '/media/com_content',
+            '/media/com_contenthistory',
+            '/media/com_cpanel',
+            '/media/com_fields',
+            '/media/com_finder',
+            '/media/com_guidedtours',
+            '/media/com_installer',
+            '/media/com_joomlaupdate',
+            '/media/com_languages',
+            '/media/com_mails',
+            '/media/com_media',
+            '/media/com_menus',
+            '/media/com_modules',
+            '/media/com_scheduler',
+            '/media/com_tags',
+            '/media/com_templates',
+            '/media/com_users',
+            '/media/com_workflow',
+            '/media/com_wrapper',
+            '/media/layouts',
+            '/media/legacy',
+            '/media/mailto',
+            '/media/mod_articles',
+            '/media/mod_articles_news',
+            '/media/mod_languages',
+            '/media/mod_login',
+            '/media/mod_menu',
+            '/media/mod_quickicon',
+            '/media/mod_sampledata',
+            '/media/plg_behaviour_compat',
+            '/media/plg_captcha_recaptcha',
+            '/media/plg_captcha_recaptcha_invisible',
+            '/media/plg_content_vote',
+            '/media/plg_editors-xtd_image',
+            '/media/plg_editors_codemirror',
+            '/media/plg_editors_none',
+            '/media/plg_editors_tinymce',
+            '/media/plg_installer_folderinstaller',
+            '/media/plg_installer_packageinstaller',
+            '/media/plg_installer_urlinstaller',
+            '/media/plg_installer_webinstaller',
+            '/media/plg_media-action_crop',
+            '/media/plg_media-action_resize',
+            '/media/plg_media-action_rotate',
+            '/media/plg_multifactorauth_email',
+            '/media/plg_multifactorauth_fixed',
+            '/media/plg_multifactorauth_totp',
+            '/media/plg_multifactorauth_webauthn',
+            '/media/plg_multifactorauth_yubikey',
+            '/media/plg_quickicon_eos',
+            '/media/plg_quickicon_extensionupdate',
+            '/media/plg_quickicon_joomlaupdate',
+            '/media/plg_quickicon_overridecheck',
+            '/media/plg_quickicon_privacycheck',
+            '/media/plg_system_debug',
+            '/media/plg_system_guidedtours',
+            '/media/plg_system_jooa11y',
+            '/media/plg_system_schedulerunner',
+            '/media/plg_system_shortcut',
+            '/media/plg_system_stats',
+            '/media/plg_system_webauthn',
+            '/media/plg_user_token',
+            '/media/system',
+            '/media/templates/administrator/atum',
+            '/media/templates/site/cassiopeia',
+            '/media/vendor/accessibility',
+            '/media/vendor/awesomplete',
+            '/media/vendor/bootstrap',
+            '/media/vendor/choicesjs',
+            '/media/vendor/chosen',
+            '/media/vendor/codemirror',
+            '/media/vendor/cropperjs',
+            '/media/vendor/debugbar',
+            '/media/vendor/diff',
+            '/media/vendor/dragula',
+            '/media/vendor/es-module-shims',
+            '/media/vendor/focus-visible',
+            '/media/vendor/fontawesome-free',
+            '/media/vendor/hotkeysjs',
+            '/media/vendor/joomla-custom-elements',
+            '/media/vendor/jquery',
+            '/media/vendor/jquery-migrate',
+            '/media/vendor/mediaelement',
+            '/media/vendor/metismenujs',
+            '/media/vendor/minicolors',
+            '/media/vendor/qrcode',
+            '/media/vendor/roboto-fontface',
+            '/media/vendor/sa11y',
+            '/media/vendor/shepherdjs',
+            '/media/vendor/short-and-sweet',
+            '/media/vendor/skipto',
+            '/media/vendor/tinymce',
+            '/media/vendor/webcomponentsjs',
+            '/modules/mod_articles',
+            '/modules/mod_articles_archive',
+            '/modules/mod_articles_categories',
+            '/modules/mod_articles_category',
+            '/modules/mod_articles_latest',
+            '/modules/mod_articles_news',
+            '/modules/mod_articles_popular',
+            '/modules/mod_banners',
+            '/modules/mod_breadcrumbs',
+            '/modules/mod_custom',
+            '/modules/mod_feed',
+            '/modules/mod_finder',
+            '/modules/mod_footer',
+            '/modules/mod_languages',
+            '/modules/mod_login',
+            '/modules/mod_menu',
+            '/modules/mod_random_image',
+            '/modules/mod_related_items',
+            '/modules/mod_stats',
+            '/modules/mod_syndicate',
+            '/modules/mod_tags_popular',
+            '/modules/mod_tags_similar',
+            '/modules/mod_users_latest',
+            '/modules/mod_whosonline',
+            '/modules/mod_wrapper',
+            '/plugins/actionlog',
+            '/plugins/api-authentication',
+            '/plugins/authentication',
+            '/plugins/behaviour',
+            '/plugins/captcha',
+            '/plugins/content',
+            '/plugins/editors',
+            '/plugins/editors-xtd',
+            '/plugins/extension',
+            '/plugins/fields',
+            '/plugins/filesystem',
+            '/plugins/finder',
+            '/plugins/installer',
+            '/plugins/media-action',
+            '/plugins/multifactorauth',
+            '/plugins/privacy',
+            '/plugins/quickicon',
+            '/plugins/sampledata',
+            '/plugins/schemaorg',
+            '/plugins/system',
+            '/plugins/task',
+            '/plugins/user',
+            '/plugins/webservices',
+            '/plugins/workflow',
+            '/templates/cassiopeia',
+            '/templates/system',
+        ];
+
+        foreach ($files as $file) {
+            if (is_file(JPATH_ROOT . $file) && decoct(fileperms(JPATH_ROOT . $file) & 0777) === '777') {
+                @chmod(JPATH_ROOT . $file, 0644);
+            }
+        }
+
+        foreach ($folders as $folder) {
+            if (is_dir(JPATH_ROOT . $folder)) {
+                if (decoct(fileperms(JPATH_ROOT . $folder) & 0777) === '777') {
+                    @chmod(JPATH_ROOT . $folder, 0755);
+                }
+
+                foreach (Folder::files(JPATH_ROOT . $folder, '.', false, true) as $file) {
+                    if (decoct(fileperms($file) & 0777) === '777') {
+                        @chmod($file, 0644);
+                    }
+                }
+            }
+        }
+
+        foreach ($foldersRecursive as $parentFolder) {
+            if (is_dir(JPATH_ROOT . $parentFolder)) {
+                if (decoct(fileperms(JPATH_ROOT . $parentFolder) & 0777) === '777') {
+                    @chmod(JPATH_ROOT . $parentFolder, 0755);
+                }
+
+                foreach (Folder::folders(JPATH_ROOT . $parentFolder, '.', true, true) as $folder) {
+                    if (decoct(fileperms($folder) & 0777) === '777') {
+                        @chmod($folder, 0755);
+                    }
+                }
+
+                foreach (Folder::files(JPATH_ROOT . $parentFolder, '.', true, true) as $file) {
+                    if (decoct(fileperms($file) & 0777) === '777') {
+                        @chmod($file, 0644);
                     }
                 }
             }

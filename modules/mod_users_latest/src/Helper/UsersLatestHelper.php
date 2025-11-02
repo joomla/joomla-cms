@@ -69,7 +69,7 @@ class UsersLatestHelper implements DatabaseAwareInterface
 
         try {
             return (array) $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
             return [];

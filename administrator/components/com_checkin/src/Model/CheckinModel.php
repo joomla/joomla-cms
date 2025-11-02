@@ -102,7 +102,7 @@ class CheckinModel extends ListModel
 
             $fields = $db->getTableColumns($tn, false);
 
-            if (!(isset($fields['checked_out']) && isset($fields['checked_out_time']))) {
+            if (!(isset($fields['checked_out'], $fields['checked_out_time']))) {
                 continue;
             }
 
@@ -183,7 +183,7 @@ class CheckinModel extends ListModel
 
                 $fields = $db->getTableColumns($tn, false);
 
-                if (!(isset($fields['checked_out']) && isset($fields['checked_out_time']))) {
+                if (!(isset($fields['checked_out'], $fields['checked_out_time']))) {
                     continue;
                 }
 

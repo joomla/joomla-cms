@@ -142,7 +142,7 @@ class CoreUpdateChannelCommand extends AbstractCommand
         /** @var UpdateModel $updatemodel */
         $app         = $this->getApplication();
         $updatemodel = $app->bootComponent('com_joomlaupdate')->getMVCFactory($app)->createModel('Update', 'Administrator');
-        $updatemodel->applyUpdateSite();
+        $updatemodel->applyUpdateSite($channel);
 
         if ($channel == 'custom') {
             $symfonyStyle->success('The update channel for this site has been set to the custom url "' . $params->get('customurl') . '".');

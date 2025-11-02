@@ -49,7 +49,6 @@ class PasswordStrength {
     score += this.constructor.calc(value, /[a-z]/g, this.lowercase, mods);
     score += this.constructor.calc(value, /[A-Z]/g, this.uppercase, mods);
     score += this.constructor.calc(value, /[0-9]/g, this.numbers, mods);
-    // eslint-disable-next-line no-useless-escape
     score += this.constructor.calc(
       value,
       /[@$!#?=;:*\-_€%&()`´+[\]{}'"\\|,.<>/~^]/g,
@@ -109,16 +108,17 @@ class PasswordStrength {
     const i = meter.getAttribute('id').replace(/^\D+/g, '');
     const label = element.parentNode.parentNode.querySelector(`#password-${i}`);
 
-    if (score === 100) {
-      label.innerText = Joomla.Text._('JFIELD_PASSWORD_INDICATE_COMPLETE');
-    } else {
-      label.innerText = Joomla.Text._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
-    }
-    meter.value = score;
-
-    if (!element.value.length) {
-      label.innerText = '';
-      element.setAttribute('required', '');
+    if (label) {
+      if (score === 100) {
+        label.innerText = Joomla.Text._('JFIELD_PASSWORD_INDICATE_COMPLETE');
+      } else {
+        label.innerText = Joomla.Text._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
+      }
+      meter.value = score;
+      if (!element.value.length) {
+        label.innerText = '';
+        element.setAttribute('required', '');
+      }
     }
   };
 

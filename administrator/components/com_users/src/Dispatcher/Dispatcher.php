@@ -59,7 +59,7 @@ class Dispatcher extends ComponentDispatcher
         $isAllowedTask = array_reduce(
             $allowedViews,
             function ($carry, $taskPrefix) use ($task) {
-                return $carry || strpos($task ?? '', $taskPrefix . '.') === 0;
+                return $carry || str_starts_with($task ?? '', $taskPrefix . '.');
             },
             false
         );

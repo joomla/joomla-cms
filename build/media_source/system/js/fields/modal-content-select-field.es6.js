@@ -3,7 +3,6 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// eslint-disable-next-line import/no-unresolved
 import JoomlaDialog from 'joomla.dialog';
 
 /**
@@ -78,10 +77,10 @@ const updateView = (inputValue, container) => {
   const hasValue = !!inputValue.value;
   container.querySelectorAll('[data-show-when-value]').forEach((el) => {
     if (el.dataset.showWhenValue) {
-      // eslint-disable-next-line no-unused-expressions
+
       hasValue ? el.removeAttribute('hidden') : el.setAttribute('hidden', '');
     } else {
-      // eslint-disable-next-line no-unused-expressions
+
       hasValue ? el.setAttribute('hidden', '') : el.removeAttribute('hidden');
     }
   });

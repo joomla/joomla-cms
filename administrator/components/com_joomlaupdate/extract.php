@@ -567,7 +567,7 @@ class ZIPExtraction
     public function setFilename(string $value)
     {
         // Security check: disallow remote filenames
-        if (!empty($value) && strpos($value, '://') !== false) {
+        if (!empty($value) && str_contains($value, '://')) {
             $this->setError('Invalid archive location');
 
             return;
@@ -1316,7 +1316,7 @@ class ZIPExtraction
      */
     private function isIgnoredDirectory(string $shortFilename): bool
     {
-        $check = substr($shortFilename, -1) == '/' ? rtrim($shortFilename, '/') : \dirname($shortFilename);
+        $check = str_ends_with($shortFilename, '/') ? rtrim($shortFilename, '/') : \dirname($shortFilename);
 
         return \in_array($check, $this->ignoreDirectories);
     }
@@ -1375,7 +1375,7 @@ class ZIPExtraction
         }
 
         // Remove any trailing slash
-        if (substr($filename, -1) == '/') {
+        if (str_ends_with($filename, '/')) {
             $filename = substr($filename, 0, -1);
         }
 
@@ -1956,7 +1956,7 @@ if ($enabled) {
             @unlink($basePath . 'update.php');
 
             // Import a custom finalisation file
-            $filename = \dirname(__FILE__) . '/finalisation.php';
+            $filename = __DIR__ . '/finalisation.php';
 
             if (file_exists($filename)) {
                 clearFileInOPCache($filename);
