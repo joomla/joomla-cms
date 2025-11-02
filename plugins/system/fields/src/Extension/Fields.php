@@ -507,7 +507,7 @@ final class Fields extends CMSPlugin implements SubscriberInterface
         /*
         * Event allow plugins to modify the the fields it is with content prepare
         */
-        Factory::getApplication()->triggerEvent('onCustomFieldsContentPrepare', [$context, $item, &$item->jcfields]);
+        $this->getApplication()->triggerEvent('onCustomFieldsContentPrepare', [$context, $item, &$item->jcfields]);
     }
 
     /**
