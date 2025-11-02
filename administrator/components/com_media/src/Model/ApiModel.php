@@ -386,8 +386,7 @@ class ApiModel extends BaseDatabaseModel
     public function move($adapter, $sourcePath, $destinationPath, $force = false)
     {
         // Throw error when filename contains invalid ($) character
-        if (strpos($destinationPath, '$') !== false)
-        {
+        if (strpos($destinationPath, '$') !== false) {
             throw new \Exception(Text::_('COM_MEDIA_ERROR_INVALID_FILENAME'));
         }
         return $this->getAdapter($adapter)->move($sourcePath, $destinationPath, $force);
