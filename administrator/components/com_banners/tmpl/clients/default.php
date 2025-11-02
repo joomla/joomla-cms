@@ -32,7 +32,7 @@ $purchaseTypes = [
 ];
 
 $user       = $this->getCurrentUser();
-$userId     = $user->get('id');
+$userId     = $user->id;
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $params     = $this->state->get('params') ?? new Registry();
@@ -107,7 +107,7 @@ $params     = $this->state->get('params') ?? new Registry();
                             <?php foreach ($this->items as $i => $item) :
                                 $canCreate  = $user->authorise('core.create', 'com_banners');
                                 $canEdit    = $user->authorise('core.edit', 'com_banners');
-                                $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->get('id') || is_null($item->checked_out);
+                                $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->id || is_null($item->checked_out);
                                 $canChange  = $user->authorise('core.edit.state', 'com_banners') && $canCheckin;
                                 ?>
                                 <tr class="row<?php echo $i % 2; ?>">

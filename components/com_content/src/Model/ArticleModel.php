@@ -232,8 +232,8 @@ class ArticleModel extends ItemModel
                 $data->metadata = new Registry($data->metadata);
 
                 // Technically guest could edit an article, but lets not check that to improve performance a little.
-                if (!$user->get('guest')) {
-                    $userId = $user->get('id');
+                if (!$user->guest) {
+                    $userId = $user->id;
                     $asset  = 'com_content.article.' . $data->id;
 
                     // Check general edit permission first.
@@ -249,7 +249,7 @@ class ArticleModel extends ItemModel
                 }
 
                 // Compute view access permissions.
-                if ($access = $this->getState('filter.access')) {
+                if ($this->getState('filter.access')) {
                     // If the access filter has been set, we already know this user can view.
                     $data->params->set('access-view', true);
                 } else {
@@ -425,6 +425,7 @@ class ArticleModel extends ItemModel
     protected function cleanCache($group = null, $clientId = 0)
     {
         parent::cleanCache('com_content');
+        parent::cleanCache('mod_articles');
         parent::cleanCache('mod_articles_archive');
         parent::cleanCache('mod_articles_categories');
         parent::cleanCache('mod_articles_category');

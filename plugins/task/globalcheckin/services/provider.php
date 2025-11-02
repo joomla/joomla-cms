@@ -15,7 +15,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Task\Globalcheckin\Extension\Globalcheckin;
 
 return new class () implements ServiceProviderInterface {
@@ -32,12 +31,8 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $plugin     = PluginHelper::getPlugin('task', 'globalcheckin');
-                $dispatcher = $container->get(DispatcherInterface::class);
-
                 $checkin = new Globalcheckin(
-                    $dispatcher,
-                    (array) $plugin
+                    (array) PluginHelper::getPlugin('task', 'globalcheckin')
                 );
                 $checkin->setDatabase($container->get(DatabaseInterface::class));
 

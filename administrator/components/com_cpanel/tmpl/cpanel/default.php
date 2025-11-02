@@ -27,7 +27,7 @@ Text::script('COM_CPANEL_UNPUBLISH_MODULE_SUCCESS');
 Text::script('COM_CPANEL_UNPUBLISH_MODULE_ERROR');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_cpanel.admin-cpanel')
     ->useScript('joomla.dialog-autocreate');
 
@@ -57,7 +57,7 @@ $popupOptions = [
             echo ModuleHelper::renderModule($module, ['style' => 'well']);
         }
         ?>
-        <?php if ($user->authorise('core.create', 'com_modules')) : ?>
+        <?php if ($user->authorise('core.admin', 'com_modules') && $user->authorise('core.create', 'com_modules')) : ?>
             <div class="module-wrapper">
                 <div class="card">
                     <button type="button" class="cpanel-add-module"

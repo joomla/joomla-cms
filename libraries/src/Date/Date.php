@@ -261,6 +261,8 @@ class Date extends \DateTime
             case 6:
                 return $abbr ? Text::_('SAT') : Text::_('SATURDAY');
         }
+
+        return '';
     }
 
     /**
@@ -301,7 +303,7 @@ class Date extends \DateTime
         }
 
         // If the returned time should not be local use UTC.
-        if ($local == false) {
+        if (!$local) {
             parent::setTimezone(new \DateTimeZone('UTC'));
         }
 
@@ -310,24 +312,24 @@ class Date extends \DateTime
 
         if ($translate) {
             // Manually modify the month and day strings in the formatted time.
-            if (strpos($return, self::DAY_ABBR) !== false) {
+            if (str_contains($return, self::DAY_ABBR)) {
                 $return = str_replace(self::DAY_ABBR, $this->dayToString(parent::format('w'), true), $return);
             }
 
-            if (strpos($return, self::DAY_NAME) !== false) {
+            if (str_contains($return, self::DAY_NAME)) {
                 $return = str_replace(self::DAY_NAME, $this->dayToString(parent::format('w')), $return);
             }
 
-            if (strpos($return, self::MONTH_ABBR) !== false) {
+            if (str_contains($return, self::MONTH_ABBR)) {
                 $return = str_replace(self::MONTH_ABBR, $this->monthToString(parent::format('n'), true), $return);
             }
 
-            if (strpos($return, self::MONTH_NAME) !== false) {
+            if (str_contains($return, self::MONTH_NAME)) {
                 $return = str_replace(self::MONTH_NAME, $this->monthToString(parent::format('n')), $return);
             }
         }
 
-        if ($local == false && $this->tz !== null) {
+        if (!$local && $this->tz !== null) {
             parent::setTimezone($this->tz);
         }
 
@@ -386,6 +388,8 @@ class Date extends \DateTime
             case 12:
                 return $abbr ? Text::_('DECEMBER_SHORT') : Text::_('DECEMBER');
         }
+
+        return '';
     }
 
     /**
@@ -424,15 +428,15 @@ class Date extends \DateTime
     /**
      * Gets the date as an SQL datetime string.
      *
-     * @param   boolean         $local  True to return the date string in the local time zone, false to return it in GMT.
-     * @param   DatabaseDriver  $db     The database driver or null to use Factory::getDbo()
+     * @param   boolean          $local  True to return the date string in the local time zone, false to return it in GMT.
+     * @param   ?DatabaseDriver  $db     The database driver or null to use Factory::getDbo()
      *
      * @return  string     The date string in SQL datetime format.
      *
      * @link    http://dev.mysql.com/doc/refman/5.0/en/datetime.html
      * @since   2.5.0
      */
-    public function toSql($local = false, DatabaseDriver $db = null)
+    public function toSql($local = false, ?DatabaseDriver $db = null)
     {
         if ($db === null) {
             $db = Factory::getDbo();

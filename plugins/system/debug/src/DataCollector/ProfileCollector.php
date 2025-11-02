@@ -263,7 +263,7 @@ class ProfileCollector extends AbstractDataCollector
      */
     public function collect(): array
     {
-        $this->requestEndTime = $this->requestEndTime ?? microtime(true);
+        $this->requestEndTime ??= microtime(true);
 
         $start = $this->requestStartTime;
 

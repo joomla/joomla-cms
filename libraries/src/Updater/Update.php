@@ -19,6 +19,7 @@ use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Table\Tuf as TufMetadata;
 use Joomla\CMS\TUF\TufFetcher;
 use Joomla\CMS\Version;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -31,6 +32,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.7.0
  */
+#[\AllowDynamicProperties]
 class Update
 {
     use LegacyErrorHandlingTrait;
@@ -175,7 +177,7 @@ class Update
     /**
      * Resource handle for the XML Parser
      *
-     * @var    resource
+     * @var    \XMLParser
      * @since  3.0.0
      */
     protected $xmlParser;
@@ -255,10 +257,20 @@ class Update
     protected $stability;
     protected $supported_databases;
     protected $php_minimum;
+    protected $folder;
+    protected $changelogurl;
     public $sha256;
     public $sha384;
     public $sha512;
     protected $section;
+
+    /**
+     * Joomla! target version used by the pre-update check
+     *
+     * @var    string
+     * @since  5.1.1
+     */
+    private $targetVersion;
 
     /**
      * Gets the reference to the current direct parent
@@ -371,7 +383,7 @@ class Update
                 if (
                     isset($this->currentUpdate->targetplatform->name)
                     && $product == $this->currentUpdate->targetplatform->name
-                    && preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', $this->get('jversion.full', JVERSION))
+                    && preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', $this->getTargetVersion())
                 ) {
                     // Collect information on updates which do not meet PHP and DB version requirements
                     $otherUpdateInfo          = new \stdClass();
@@ -475,8 +487,7 @@ class Update
                         $this->$key = $val;
                     }
 
-                    unset($this->latest);
-                    unset($this->currentUpdate);
+                    unset($this->latest, $this->currentUpdate);
                 } elseif (isset($this->currentUpdate)) {
                     // The update might be for an older version of j!
                     unset($this->currentUpdate);
@@ -539,7 +550,10 @@ class Update
     {
         $tufFetcher = new TufFetcher(
             $metadataTable,
-            $url
+            $url,
+            Factory::getContainer()->get(DatabaseDriver::class),
+            (new HttpFactory())->getHttp(),
+            Factory::getApplication(),
         );
 
         $metaData = $tufFetcher->getValidUpdate();
@@ -548,12 +562,17 @@ class Update
         $constraintChecker = new ConstraintChecker();
 
         foreach ($data['signed']['targets'] as $target) {
+            // Check if this target is older than the currently installed version
+            if (version_compare($target['custom']['version'], JVERSION, '<')) {
+                continue;
+            }
+
             // Check if this target is newer than the current version
             if (isset($this->latest) && version_compare($target['custom']['version'], $this->latest->version, '<')) {
                 continue;
             }
 
-            if (!$constraintChecker->check($target['custom'])) {
+            if (!$constraintChecker->check($target['custom'], $minimumStability)) {
                 $this->otherUpdateInfo = $constraintChecker->getFailedEnvironmentConstraints();
 
                 continue;
@@ -593,6 +612,19 @@ class Update
 
         // If the latest item is set then we transfer it to where we want to
         if (isset($this->latest)) {
+            // Set generic variables from latest update
+            foreach (get_object_vars($this->latest) as $key => $val) {
+                $this->$key = (object) ['_data' => $val];
+            }
+
+            // Convert infourl into legacy data structure
+            if (!empty($this->latest->infourl) && \is_array($this->latest->infourl)) {
+                $this->infourl = (object) [
+                    '_data' => $this->latest->infourl["url"],
+                    'title' => $this->latest->infourl["title"],
+                ];
+            }
+
             foreach ($this->downloadSources as $source) {
                 $this->downloadurl = (object) [
                     '_data'  => $source->url,
@@ -628,11 +660,11 @@ class Update
         try {
             $http     = HttpFactory::getHttp($httpOption);
             $response = $http->get($url);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $response = null;
         }
 
-        if ($response === null || $response->code !== 200) {
+        if ($response === null || $response->getStatusCode() !== 200) {
             // @todo: Add a 'mark bad' setting here somehow
             Log::add(Text::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), Log::WARNING, 'jerror');
 
@@ -643,13 +675,12 @@ class Update
         $this->channel           = $channel;
 
         $this->xmlParser = xml_parser_create('');
-        xml_set_object($this->xmlParser, $this);
-        xml_set_element_handler($this->xmlParser, '_startElement', '_endElement');
-        xml_set_character_data_handler($this->xmlParser, '_characterData');
+        xml_set_element_handler($this->xmlParser, [$this, '_startElement'], [$this, '_endElement']);
+        xml_set_character_data_handler($this->xmlParser, [$this, '_characterData']);
 
-        if (!xml_parse($this->xmlParser, $response->body)) {
+        if (!xml_parse($this->xmlParser, (string) $response->getBody())) {
             Log::add(
-                sprintf(
+                \sprintf(
                     'XML error: %s at line %d',
                     xml_error_string(xml_get_error_code($this->xmlParser)),
                     xml_get_current_line_number($this->xmlParser)
@@ -660,8 +691,6 @@ class Update
 
             return false;
         }
-
-        xml_parser_free($this->xmlParser);
 
         return true;
     }
@@ -685,5 +714,35 @@ class Update
         }
 
         return Updater::STABILITY_STABLE;
+    }
+
+    /**
+     * Set extension's Joomla! target version
+     *
+     * @param   string  $version  The target version
+     *
+     * @return  void
+     *
+     * @since   5.1.1
+     */
+    public function setTargetVersion($version)
+    {
+        $this->targetVersion = $version;
+    }
+
+    /**
+     * Get extension's Joomla! target version
+     *
+     * @return  string
+     *
+     * @since   5.1.1
+     */
+    public function getTargetVersion()
+    {
+        if (!$this->targetVersion) {
+            return JVERSION;
+        }
+
+        return $this->targetVersion;
     }
 }

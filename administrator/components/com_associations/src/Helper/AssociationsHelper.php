@@ -72,7 +72,7 @@ class AssociationsHelper extends ContentHelper
     }
 
     /**
-     * Get the the instance of the extension helper class
+     * Get the instance of the extension helper class
      *
      * @param   string  $extensionName  The extension name with com_
      *
@@ -193,7 +193,7 @@ class AssociationsHelper extends ContentHelper
      */
     private static function getExtensionRealName($extensionName)
     {
-        return strpos($extensionName, 'com_') === false ? $extensionName : substr($extensionName, 4);
+        return !str_starts_with($extensionName, 'com_') ? $extensionName : substr($extensionName, 4);
     }
 
     /**
@@ -593,7 +593,7 @@ class AssociationsHelper extends ContentHelper
 
         $userId = Factory::getUser()->id;
 
-        return ($item->{$checkedOutFieldName} == $userId || $item->{$checkedOutFieldName} == 0);
+        return $item->{$checkedOutFieldName} == $userId || $item->{$checkedOutFieldName} == 0;
     }
 
     /**

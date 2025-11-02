@@ -12,10 +12,8 @@ namespace Joomla\Component\Installer\Administrator\View\Updatesites;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\Component\Installer\Administrator\Model\UpdatesitesModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
@@ -76,16 +74,13 @@ class HtmlView extends InstallerViewDefault
     public function display($tpl = null): void
     {
         /** @var UpdatesitesModel $model */
-        $model               = $this->getModel();
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
+
         $this->items         = $model->getItems();
         $this->pagination    = $model->getPagination();
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         // Display the view
         parent::display($tpl);
@@ -103,7 +98,7 @@ class HtmlView extends InstallerViewDefault
         $canDo = ContentHelper::getActions('com_installer');
 
         // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance('toolbar');
+        $toolbar = $this->getDocument()->getToolbar();
 
         if ($canDo->get('core.edit.state')) {
             /** @var DropdownButton $dropdown */

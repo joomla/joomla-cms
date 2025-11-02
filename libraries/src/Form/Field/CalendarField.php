@@ -11,6 +11,7 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
@@ -232,16 +233,16 @@ class CalendarField extends FormField
         $return = parent::setup($element, $value, $group);
 
         if ($return) {
-            $this->maxlength    = (int) $this->element['maxlength'] ? (int) $this->element['maxlength'] : 45;
-            $this->format       = (string) $this->element['format'] ? (string) $this->element['format'] : '%Y-%m-%d';
-            $this->filterFormat = (string) $this->element['filterformat'] ? (string) $this->element['filterformat'] : '';
-            $this->filter       = (string) $this->element['filter'] ? (string) $this->element['filter'] : 'USER_UTC';
-            $this->todaybutton  = (string) $this->element['todaybutton'] ? (string) $this->element['todaybutton'] : 'true';
-            $this->weeknumbers  = (string) $this->element['weeknumbers'] ? (string) $this->element['weeknumbers'] : 'true';
-            $this->showtime     = (string) $this->element['showtime'] ? (string) $this->element['showtime'] : 'false';
-            $this->filltable    = (string) $this->element['filltable'] ? (string) $this->element['filltable'] : 'true';
-            $this->timeformat   = (int) $this->element['timeformat'] ? (int) $this->element['timeformat'] : 24;
-            $this->singleheader = (string) $this->element['singleheader'] ? (string) $this->element['singleheader'] : 'false';
+            $this->maxlength    = (int) $this->element['maxlength'] ?: 45;
+            $this->format       = (string) $this->element['format'] ?: '%Y-%m-%d';
+            $this->filterFormat = (string) $this->element['filterformat'] ?: '';
+            $this->filter       = (string) $this->element['filter'] ?: 'USER_UTC';
+            $this->todaybutton  = (string) $this->element['todaybutton'] ?: 'true';
+            $this->weeknumbers  = (string) $this->element['weeknumbers'] ?: 'true';
+            $this->showtime     = (string) $this->element['showtime'] ?: 'false';
+            $this->filltable    = (string) $this->element['filltable'] ?: 'true';
+            $this->timeformat   = (int) $this->element['timeformat'] ?: 24;
+            $this->singleheader = (string) $this->element['singleheader'] ?: 'false';
             $this->minyear      = \strlen((string) $this->element['minyear']) ? (int) $this->element['minyear'] : null;
             $this->maxyear      = \strlen((string) $this->element['maxyear']) ? (int) $this->element['maxyear'] : null;
 
@@ -281,52 +282,56 @@ class CalendarField extends FormField
      */
     protected function getInput()
     {
-        $user = Factory::getApplication()->getIdentity();
+        $user  = Factory::getApplication()->getIdentity();
+        $data  = $this->collectLayoutData();
+        $value = $data['value'];
 
         // If a known filter is given use it.
         switch (strtoupper($this->filter)) {
             case 'SERVER_UTC':
                 // Convert a date to UTC based on the server timezone.
-                if ($this->value && $this->value != $this->getDatabase()->getNullDate()) {
+                if ($value && $value != $this->getDatabase()->getNullDate()) {
                     // Get a date object based on the correct timezone.
-                    $date = Factory::getDate($this->value, 'UTC');
+                    $date = Factory::getDate($value, 'UTC');
                     $date->setTimezone(new \DateTimeZone(Factory::getApplication()->get('offset')));
 
                     // Transform the date string.
-                    $this->value = $date->format('Y-m-d H:i:s', true, false);
+                    $value = $date->format('Y-m-d H:i:s', true, false);
                 }
                 break;
             case 'USER_UTC':
                 // Convert a date to UTC based on the user timezone.
-                if ($this->value && $this->value != $this->getDatabase()->getNullDate()) {
+                if ($value && $value != $this->getDatabase()->getNullDate()) {
                     // Get a date object based on the correct timezone.
-                    $date = Factory::getDate($this->value, 'UTC');
+                    $date = Factory::getDate($value, 'UTC');
                     $date->setTimezone($user->getTimezone());
 
                     // Transform the date string.
-                    $this->value = $date->format('Y-m-d H:i:s', true, false);
+                    $value = $date->format('Y-m-d H:i:s', true, false);
                 }
                 break;
         }
 
         // Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
-        if ($this->value && $this->value != $this->getDatabase()->getNullDate() && strtotime($this->value) !== false) {
+        if ($value && $value != $this->getDatabase()->getNullDate() && strtotime($value) !== false) {
             $tz = date_default_timezone_get();
             date_default_timezone_set('UTC');
 
             if ($this->filterFormat) {
-                $date        = \DateTimeImmutable::createFromFormat('U', strtotime($this->value));
-                $this->value = $date->format($this->filterFormat);
+                $date  = \DateTimeImmutable::createFromFormat('U', strtotime($value));
+                $value = $date->format($this->filterFormat);
             } else {
-                $this->value = strftime($this->format, strtotime($this->value));
+                $value = date(HTMLHelper::strftimeFormatToDateFormat($this->format), strtotime($value));
             }
 
             date_default_timezone_set($tz);
         } else {
-            $this->value = '';
+            $value = '';
         }
 
-        return $this->getRenderer($this->layout)->render($this->collectLayoutData());
+        $data['value'] = $value;
+
+        return $this->getRenderer($this->layout)->render($data);
     }
 
     /**
@@ -385,11 +390,11 @@ class CalendarField extends FormField
      *
      * @since   4.0.0
      */
-    public function filter($value, $group = null, Registry $input = null)
+    public function filter($value, $group = null, ?Registry $input = null)
     {
         // Make sure there is a valid SimpleXMLElement.
         if (!($this->element instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s::filter `element` is not an instance of SimpleXMLElement', \get_class($this)));
+            throw new \UnexpectedValueException(\sprintf('%s::filter `element` is not an instance of SimpleXMLElement', \get_class($this)));
         }
 
         if ((int) $value <= 0) {

@@ -15,6 +15,7 @@ use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 
 defined('_JEXEC') or die;
 
+/** @var \Joomla\Component\Newsfeeds\Site\View\Category\HtmlView $this */
 ?>
 <?php if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?>
     <ul>

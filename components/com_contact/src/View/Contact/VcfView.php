@@ -13,6 +13,7 @@ namespace Joomla\Component\Contact\Site\View\Contact;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\Component\Contact\Site\Model\ContactModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -28,7 +29,7 @@ class VcfView extends AbstractView
     /**
      * The contact item
      *
-     * @var   \Joomla\CMS\Object\CMSObject
+     * @var   \stdClass
      */
     protected $item;
 
@@ -43,11 +44,12 @@ class VcfView extends AbstractView
      */
     public function display($tpl = null)
     {
-        // Get model data.
-        $item = $this->get('Item');
+        /** @var ContactModel $model */
+        $model = $this->getModel();
+        $item  = $model->getItem();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -88,21 +90,21 @@ class VcfView extends AbstractView
 
         Factory::getApplication()->setHeader('Content-disposition', 'attachment; filename="' . $card_name . '.vcf"', true);
 
-        $vcard = [];
-        $vcard[] .= 'BEGIN:VCARD';
-        $vcard[] .= 'VERSION:3.0';
-        $vcard[]  = 'N:' . $lastname . ';' . $firstname . ';' . $middlename;
-        $vcard[]  = 'FN:' . $item->name;
-        $vcard[]  = 'TITLE:' . $item->con_position;
-        $vcard[]  = 'TEL;TYPE=WORK,VOICE:' . $item->telephone;
-        $vcard[]  = 'TEL;TYPE=WORK,FAX:' . $item->fax;
-        $vcard[]  = 'TEL;TYPE=WORK,MOBILE:' . $item->mobile;
-        $vcard[]  = 'ADR;TYPE=WORK:;;' . $item->address . ';' . $item->suburb . ';' . $item->state . ';' . $item->postcode . ';' . $item->country;
-        $vcard[]  = 'LABEL;TYPE=WORK:' . $item->address . "\n" . $item->suburb . "\n" . $item->state . "\n" . $item->postcode . "\n" . $item->country;
-        $vcard[]  = 'EMAIL;TYPE=PREF,INTERNET:' . $item->email_to;
-        $vcard[]  = 'URL:' . $item->webpage;
-        $vcard[]  = 'REV:' . $rev . 'Z';
-        $vcard[]  = 'END:VCARD';
+        $vcard   = [];
+        $vcard[] = 'BEGIN:VCARD';
+        $vcard[] = 'VERSION:3.0';
+        $vcard[] = 'N:' . $lastname . ';' . $firstname . ';' . $middlename;
+        $vcard[] = 'FN:' . $item->name;
+        $vcard[] = 'TITLE:' . $item->con_position;
+        $vcard[] = 'TEL;TYPE=WORK,VOICE:' . $item->telephone;
+        $vcard[] = 'TEL;TYPE=WORK,FAX:' . $item->fax;
+        $vcard[] = 'TEL;TYPE=WORK,MOBILE:' . $item->mobile;
+        $vcard[] = 'ADR;TYPE=WORK:;;' . $item->address . ';' . $item->suburb . ';' . $item->state . ';' . $item->postcode . ';' . $item->country;
+        $vcard[] = 'LABEL;TYPE=WORK:' . $item->address . "\n" . $item->suburb . "\n" . $item->state . "\n" . $item->postcode . "\n" . $item->country;
+        $vcard[] = 'EMAIL;TYPE=PREF,INTERNET:' . $item->email_to;
+        $vcard[] = 'URL:' . $item->webpage;
+        $vcard[] = 'REV:' . $rev . 'Z';
+        $vcard[] = 'END:VCARD';
 
         echo implode("\n", $vcard);
     }

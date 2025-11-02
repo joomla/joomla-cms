@@ -131,15 +131,21 @@ abstract class Adapter extends CMSPlugin
     /**
      * Method to instantiate the indexer adapter.
      *
-     * @param   DispatcherInterface  $dispatcher  The object to observe.
      * @param   array                $config      An array that holds the plugin configuration.
      *
      * @since   2.5
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config)
+    public function __construct($config)
     {
         // Call the parent constructor.
-        parent::__construct($dispatcher, $config);
+        if ($config instanceof DispatcherInterface) {
+            $dispatcher = $config;
+            $config     = \func_num_args() > 1 ? func_get_arg(1) : [];
+
+            parent::__construct($dispatcher, $config);
+        } else {
+            parent::__construct($config);
+        }
 
         // Get the type id.
         $this->type_id = $this->getTypeId();
@@ -256,9 +262,9 @@ abstract class Adapter extends CMSPlugin
         $items = $this->getItems($offset, $limit);
 
         // Iterate through the items and index them.
-        for ($i = 0, $n = \count($items); $i < $n; $i++) {
+        foreach ($items as $item) {
             // Index the item.
-            $this->index($items[$i]);
+            $this->index($item);
 
             // Adjust the offsets.
             $offset++;

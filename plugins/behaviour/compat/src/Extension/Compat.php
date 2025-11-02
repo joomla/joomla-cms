@@ -12,8 +12,6 @@ namespace Joomla\Plugin\Behaviour\Compat\Extension;
 
 use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Event\DispatcherInterface;
-use Joomla\Event\Event;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 
@@ -50,16 +48,15 @@ final class Compat extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor
      *
-     * @param   DispatcherInterface  $dispatcher  The event dispatcher
      * @param   array                $config      An optional associative array of configuration settings.
      *                                            Recognized key values include 'name', 'group', 'params', 'language'
      *                                            (this list is not meant to be comprehensive).
      *
      * @since   1.5
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config = [])
+    public function __construct(array $config = [])
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         /**
          * Normally we should never use the constructor to execute any logic which would
@@ -80,7 +77,7 @@ final class Compat extends CMSPlugin implements SubscriberInterface
     /**
      * We run as early as possible, this should be the first event
      *
-     * @param Event $event
+     * @param  AfterInitialiseDocumentEvent $event
      * @return void
      *
      * @since  5.0.0

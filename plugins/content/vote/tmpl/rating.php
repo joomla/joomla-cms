@@ -14,7 +14,11 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+
+/**
+ * @var Joomla\CMS\WebAsset\WebAssetManager $wa
+ * @var \Joomla\Plugin\Content\Vote\Extension\Vote $this
+ */
 $wa = $this->getApplication()->getDocument()->getWebAssetManager();
 $wa->registerAndUseStyle('plg_content_vote', 'plg_content_vote/rating.css');
 
@@ -79,11 +83,13 @@ for ($i = $stars; $i < 5; $i++) {
 ?>
 <div class="content_rating" role="img" aria-label="<?php echo Text::sprintf('PLG_VOTE_STAR_RATING', $rating); ?>">
     <?php if ($rcount) : ?>
-        <p class="visually-hidden" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
-            <?php echo Text::sprintf('PLG_VOTE_USER_RATING', '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>'); ?>
-            <meta itemprop="ratingCount" content="<?php echo $rcount; ?>">
-            <meta itemprop="worstRating" content="1">
-        </p>
+        <div class="visually-hidden">
+            <p itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+                <?php echo Text::sprintf('PLG_VOTE_USER_RATING', '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>'); ?>
+                <meta itemprop="ratingCount" content="<?php echo $rcount; ?>">
+                <meta itemprop="worstRating" content="1">
+            </p>
+        </div>
         <?php if ($this->params->get('show_total_votes', 0)) : ?>
             <?php echo Text::sprintf('PLG_VOTE_TOTAL_VOTES', $rcount); ?>
         <?php endif; ?>

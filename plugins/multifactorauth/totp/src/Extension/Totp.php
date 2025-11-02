@@ -210,7 +210,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
         // Generate a QR code for the key
         $user     = $this->getUserFactory()->loadUserById($record->user_id);
         $hostname = Uri::getInstance()->toString(['host']);
-        $otpURL   = sprintf("otpauth://totp/%s@%s?secret=%s", $user->username, $hostname, $key);
+        $otpURL   = \sprintf("otpauth://totp/%s@%s?secret=%s", $user->username, $hostname, $key);
         $document = $this->getApplication()->getDocument();
         $wam      = $document->getWebAssetManager();
 

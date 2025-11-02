@@ -16,8 +16,9 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Tags\Site\View\Tags\HtmlView $this */
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_tags.tags-default');
 
 // Get the user object.
@@ -79,7 +80,7 @@ $n         = count($this->items);
         <?php endif; ?>
     </form>
 
-    <?php if ($this->items == false || $n === 0) : ?>
+    <?php if (!$this->items || $n === 0) : ?>
         <div class="alert alert-info">
             <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
             <?php echo Text::_('COM_TAGS_NO_TAGS'); ?>

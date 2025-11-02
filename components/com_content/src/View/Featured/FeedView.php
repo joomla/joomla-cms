@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Component\Content\Site\Model\FeaturedModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -45,12 +46,20 @@ class FeedView extends AbstractView
         $feedEmail = $app->get('feed_email', 'none');
         $siteEmail = $app->get('mailfrom');
 
+        // If the feed has been disabled, we want to bail out here
+        if ($params->get('show_feed_link', 1) == 0) {
+            throw new \Exception(Text::_('JGLOBAL_RESOURCE_NOT_FOUND'), 404);
+        }
+
         $this->getDocument()->link = Route::_('index.php?option=com_content&view=featured');
 
         // Get some data from the model
         $app->getInput()->set('limit', $app->get('feed_limit'));
         $categories = Categories::getInstance('Content');
-        $rows       = $this->get('Items');
+
+        /** @var FeaturedModel $model */
+        $model = $this->getModel();
+        $rows  = $model->getItems();
 
         foreach ($rows as $row) {
             // Strip html from feed item title

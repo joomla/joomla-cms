@@ -12,6 +12,7 @@ namespace Joomla\Plugin\WebServices\Users\Extension;
 
 use Joomla\CMS\Event\Application\BeforeApiRouteEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Router\ApiRouter;
 use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects

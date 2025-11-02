@@ -14,11 +14,9 @@ use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\Component\Associations\Administrator\Model\AssociationModel;
@@ -224,11 +222,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var AssociationModel $model */
         $model = $this->getModel();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        $model->setUseExceptions(true);
 
         $this->app  = Factory::getApplication();
         $this->form = $model->getForm();
@@ -358,7 +352,7 @@ class HtmlView extends BaseHtmlView
             'language assoc'
         );
 
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
         $toolbar->customButton('reference')
             ->html('<joomla-toolbar-button><button onclick="Joomla.submitbutton(\'reference\')" '
             . 'class="btn btn-success"><span class="icon-save" aria-hidden="true"></span>'

@@ -160,6 +160,12 @@
   .mod-custom {
     padding: 1rem;
   }
+
+  .btn:first-child:focus-visible {
+    color: var(--btn-active-color);
+    background-color: var(--btn-active-bg);
+    border-color: var(--btn-active-border-color);
+  }
 }
 
 .sample-data {

@@ -18,7 +18,6 @@
     */
 
   window.jSelectContact = (id, title, catid, object, link, lang) => {
-    // eslint-disable-next-line no-console
     console.warn('Method jSelectContact() is deprecated. Use postMessage() instead.');
 
     let hreflang = '';
@@ -43,12 +42,9 @@
   };
 
   document.addEventListener('DOMContentLoaded', () => {
-    // Get the elements
-    const elements = document.querySelectorAll('.select-link');
-
-    for (let i = 0, l = elements.length; l > i; i += 1) {
+    document.querySelectorAll('.select-link').forEach((element) => {
       // Listen for click event
-      elements[i].addEventListener('click', (event) => {
+      element.addEventListener('click', (event) => {
         event.preventDefault();
         const functionName = event.target.getAttribute('data-function');
 
@@ -64,6 +60,6 @@
           window.parent.Joomla.Modal.getCurrent().close();
         }
       });
-    }
+    });
   });
 })();

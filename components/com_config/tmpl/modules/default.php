@@ -18,8 +18,9 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.combobox');
 
+/** @var \Joomla\Component\Config\Site\View\Modules\HtmlView $this */
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->useScript('com_config.modules');
@@ -41,7 +42,7 @@ if (Multilanguage::isEnabled()) {
 }
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="modules-form" class="form-validate">
+<form action="<?php echo Route::_('index.php'); ?>" method="post" name="adminForm" id="modules-form" class="form-validate">
     <div class="row">
         <div class="col-md-12">
             <legend><?php echo Text::_('COM_CONFIG_MODULES_SETTINGS_TITLE'); ?></legend>
@@ -168,7 +169,7 @@ if (Multilanguage::isEnabled()) {
                 <input type="hidden" name="task" value="">
                 <?php echo HTMLHelper::_('form.token'); ?>
             </div>
-            <div class="mb-2">
+            <div class="d-grid gap-2 d-sm-block mb-2">
             <button type="button" class="btn btn-primary" data-submit-task="modules.apply">
                 <span class="icon-check" aria-hidden="true"></span>
                 <?php echo Text::_('JAPPLY'); ?>

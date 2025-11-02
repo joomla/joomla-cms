@@ -31,7 +31,7 @@ class FieldsListPlugin extends FieldsPlugin
      * @param   \DOMElement  $parent  The field node parent.
      * @param   Form         $form    The form.
      *
-     * @return  \DOMElement
+     * @return  ?\DOMElement
      *
      * @since   3.7.0
      */

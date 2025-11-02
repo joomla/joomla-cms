@@ -54,14 +54,14 @@
   border: var(--btn-secondary-border);
 
   &:hover {
-    color: var(--btn-secondary-color-hvr);
-    background: var(--btn-secondary-bg-hvr);
+    color: var(--btn-secondary-color-hvr, var(--btn-secondary-color));
+    background: var(--btn-secondary-bg-hvr, var(--template-bg-dark-70));
   }
 }
 
 .btn-light {
-  background: var(--btn-light-bg); //#f8f9fa (light)
-  border: var(--btn-light-bg); //#f8f9fa (light)
+  background: var(--btn-light-bg); // #f8f9fa (light)
+  border: var(--btn-light-bg); // #f8f9fa (light)
   &:hover,
   &:focus,
   &:active {

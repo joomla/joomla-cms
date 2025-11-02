@@ -7,6 +7,12 @@
   @media screen and (prefers-reduced-motion: reduce) {
     scroll-behavior: auto;
   }
+
+  &:has(.sticky-top) {
+    [id] {
+      scroll-margin-top: var(--cassiopeia-scroll-margin-top, 10rem);
+    }
+  }
 }
 
 html {
@@ -55,6 +61,10 @@ h6 {
 
 a {
   color: var(--#{$prefix}link-color);
+
+  &:hover {
+    color: var(--#{$prefix}link-hover-color);
+  }
 
   &:not([class]) {
     text-decoration: underline;

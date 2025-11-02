@@ -17,8 +17,8 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -43,13 +43,13 @@ class UsersModel extends ListModel
     /**
      * Override parent constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -281,7 +281,7 @@ class UsersModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   1.6
      */
@@ -358,6 +358,14 @@ class UsersModel extends ListModel
             } elseif ($active == '1') {
                 $query->where($query->length($db->quoteName('a.activation')) . ' > 1');
             }
+        }
+
+        // If the model is set to check receive system email, add to the query.
+        $receiveSystemEmail = $this->getState('filter.receiveSystemEmail');
+
+        if (is_numeric($receiveSystemEmail)) {
+            $query->where($db->quoteName('a.sendEmail') . ' = :receiveSystemEmail')
+                ->bind(':receiveSystemEmail', $receiveSystemEmail, ParameterType::INTEGER);
         }
 
         // Filter the items over the group id if set.
@@ -598,7 +606,7 @@ class UsersModel extends ListModel
 
         try {
             $result = $db->setQuery($query)->loadColumn();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $result = [];
         }
 

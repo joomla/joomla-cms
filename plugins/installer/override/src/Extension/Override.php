@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -25,7 +26,7 @@ use Joomla\Database\ParameterType;
  *
  * @since  4.0.0
  */
-final class Override extends CMSPlugin
+final class Override extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
 
@@ -37,6 +38,25 @@ final class Override extends CMSPlugin
      * @since  4.0.0
      */
     protected $autoloadLanguage = true;
+
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   5.2.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onExtensionBeforeUpdate'    => 'onExtensionBeforeUpdate',
+            'onExtensionAfterUpdate'     => 'onExtensionAfterUpdate',
+            'onJoomlaBeforeUpdate'       => 'onJoomlaBeforeUpdate',
+            'onJoomlaAfterUpdate'        => 'onJoomlaAfterUpdate',
+            'onInstallerBeforeInstaller' => 'onInstallerBeforeInstaller',
+            'onInstallerAfterInstaller'  => 'onInstallerAfterInstaller',
+        ];
+    }
 
     /**
      * Method to get com_templates model instance.
@@ -155,7 +175,7 @@ final class Override extends CMSPlugin
         try {
             /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $templateModel */
             $templateModel = $this->getModel();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return [];
         }
 

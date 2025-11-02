@@ -17,7 +17,7 @@ use Joomla\CMS\Router\Route;
 /** @var \Joomla\Component\Languages\Administrator\View\Language\HtmlView $this */
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->useScript('com_languages.admin-language-edit-change-flag');

@@ -40,7 +40,7 @@ class IntarrayFilter implements FormFilterInterface
      *
      * @since   4.0.0
      */
-    public function filter(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function filter(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         if (strtoupper((string) $element['filter']) === 'INT_ARRAY') {
             @trigger_error('`INT_ARRAY` form filter is deprecated and will be removed in 5.0. Use `Intarray` instead', E_USER_DEPRECATED);

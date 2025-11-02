@@ -61,7 +61,7 @@ abstract class Icons
     {
         if (isset($button['access'])) {
             if (\is_bool($button['access'])) {
-                if ($button['access'] == false) {
+                if (!$button['access']) {
                     return '';
                 }
             } else {

@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Installer\Adapter;
 
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Installer\Manifest\LibraryManifest;
@@ -19,6 +18,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -462,16 +462,16 @@ class LibraryAdapter extends InstallerAdapter
             $element       = str_replace([$mainFolder . DIRECTORY_SEPARATOR, '.xml'], '', $file);
             $manifestCache = Installer::parseXMLInstallFile($file);
 
-            $extension = Table::getInstance('extension');
-            $extension->set('type', 'library');
-            $extension->set('client_id', 0);
-            $extension->set('element', $element);
-            $extension->set('folder', '');
-            $extension->set('name', $element);
-            $extension->set('state', -1);
-            $extension->set('manifest_cache', json_encode($manifestCache));
-            $extension->set('params', '{}');
-            $results[] = $extension;
+            $extension                 = Table::getInstance('extension');
+            $extension->type           = 'library';
+            $extension->client_id      = 0;
+            $extension->element        = $element;
+            $extension->folder         = '';
+            $extension->name           = $element;
+            $extension->state          = -1;
+            $extension->manifest_cache = json_encode($manifestCache);
+            $extension->params         = '{}';
+            $results[]                 = $extension;
         }
 
         return $results;
@@ -494,10 +494,11 @@ class LibraryAdapter extends InstallerAdapter
         $manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
         $this->parent->extension->manifest_cache = json_encode($manifest_details);
         $this->parent->extension->name           = $manifest_details['name'];
+        $this->parent->extension->changelogurl   = $manifest_details['changelogurl'];
 
         try {
             return $this->parent->extension->store();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             Log::add(Text::_('JLIB_INSTALLER_ERROR_LIB_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
             return false;

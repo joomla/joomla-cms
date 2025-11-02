@@ -448,7 +448,7 @@ abstract class ToolbarButton
             if ($fieldName !== false) {
                 if (!\array_key_exists(0, $args)) {
                     throw new \InvalidArgumentException(
-                        sprintf(
+                        \sprintf(
                             '%s::%s() miss first argument.',
                             \get_called_class(),
                             $name
@@ -461,7 +461,7 @@ abstract class ToolbarButton
         }
 
         throw new \BadMethodCallException(
-            sprintf(
+            \sprintf(
                 'Method %s() not found in class: %s',
                 $name,
                 \get_called_class()

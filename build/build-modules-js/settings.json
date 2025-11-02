@@ -553,10 +553,6 @@
         "dependencies": [],
         "licenseFilename": ""
       },
-      "punycode": {
-        "name": "punycode",
-        "licenseFilename": "LICENSE-MIT.txt"
-      },
       "@claviska/jquery-minicolors": {
         "name": "minicolors",
         "js": {
@@ -708,16 +704,13 @@
       "short-and-sweet": {
         "name": "short-and-sweet",
         "licenseFilename": "LICENSE",
-        "js": {
-          "dist/short-and-sweet.min.js": "js/short-and-sweet.min.js"
-        },
         "provideAssets": [
           {
             "name": "short-and-sweet",
             "type": "script",
             "uri": "short-and-sweet.min.js",
             "attributes": {
-              "defer": true
+              "type": "module"
             }
           }
         ]
@@ -847,7 +840,7 @@
         "title": "Joomla: Environment Setup Incomplete",
         "header": "Environment Setup Incomplete",
         "text": "It looks like you are trying to run Joomla! from our git repository. To do so requires you complete a couple of extra steps first.",
-        "link": "J4.x:Setting_Up_Your_Local_Environment",
+        "link": "J5.x:Setting_Up_Your_Local_Environment",
         "linkText": "More Details",
         "destFile": [
           "/templates/system/build_incomplete.html"

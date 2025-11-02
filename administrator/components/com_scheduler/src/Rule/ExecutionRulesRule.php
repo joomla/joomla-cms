@@ -54,7 +54,7 @@ class ExecutionRulesRule extends FormRule
      *
      * @since  4.1.0
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null): bool
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null): bool
     {
         $fieldName = (string) $element['name'];
         $ruleType  = $input->get(self::RULE_TYPE_FIELD);

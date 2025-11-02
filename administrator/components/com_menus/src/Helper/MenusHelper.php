@@ -72,7 +72,7 @@ class MenusHelper extends ContentHelper
         if (\is_string($request)) {
             $args = [];
 
-            if (strpos($request, 'index.php') === 0) {
+            if (str_starts_with($request, 'index.php')) {
                 parse_str(parse_url(htmlspecialchars_decode($request), PHP_URL_QUERY), $args);
             } else {
                 parse_str($request, $args);
@@ -368,7 +368,7 @@ class MenusHelper extends ContentHelper
                 if ($menuitem->link = \in_array($menuitem->type, ['separator', 'heading', 'container']) ? '#' : trim($menuitem->link)) {
                     $menuitem->submenu = [];
                     $menuitem->class   = $menuitem->img ?? '';
-                    $menuitem->scope   = $menuitem->scope ?? null;
+                    $menuitem->scope   ??= null;
                     $menuitem->target  = $menuitem->browserNav ? '_blank' : '';
                 }
 
@@ -383,7 +383,7 @@ class MenusHelper extends ContentHelper
                     $root->addChild($menuitem);
                 }
             }
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
         }
 
@@ -480,7 +480,7 @@ class MenusHelper extends ContentHelper
                 ];
                 $table->load($keys);
             } elseif ($item->type == 'url' || $item->type == 'component') {
-                if (substr($item->link, 0, 8) === 'special:') {
+                if (str_starts_with($item->link, 'special:')) {
                     $special = substr($item->link, 8);
 
                     if ($special === 'language-forum') {
@@ -550,7 +550,7 @@ class MenusHelper extends ContentHelper
                 throw new \Exception($table->getError());
             }
 
-            $item->id = $table->get('id');
+            $item->id = $table->id;
 
             if ($item->hasChildren()) {
                 static::installPresetItems($item, $menutype);
@@ -719,7 +719,7 @@ class MenusHelper extends ContentHelper
 
                     return;
                 }
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 $item->link = '';
 
                 return;
@@ -750,7 +750,7 @@ class MenusHelper extends ContentHelper
 
         if ($item->link = \in_array($item->type, ['separator', 'heading', 'container']) ? '#' : trim($item->link)) {
             $item->class  = $item->img ?? '';
-            $item->scope  = $item->scope ?? null;
+            $item->scope  ??= null;
             $item->target = $item->browserNav ? '_blank' : '';
         }
     }
@@ -889,6 +889,14 @@ class MenusHelper extends ContentHelper
             $params->set('menu-quicktask-title', (string) $node['quicktask-title']);
             $params->set('menu-quicktask-icon', (string) $node['quicktask-icon']);
             $params->set('menu-quicktask-permission', (string) $node['quicktask-permission']);
+        }
+
+        if ($item->ajaxbadge) {
+            $params->set('ajax-badge', $item->ajaxbadge);
+        }
+
+        if ($item->dashboard) {
+            $params->set('dashboard', $item->dashboard);
         }
 
         // Translate attributes for iterator values
