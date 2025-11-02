@@ -133,7 +133,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 
         try {
             $users = $db->setQuery($query)->loadObjectList();
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             return Status::KNOCKOUT;
         }
 
@@ -183,10 +183,10 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 
                 try {
                     $db->execute();
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException) {
                     return Status::KNOCKOUT;
                 }
-            } catch (MailDisabledException | phpmailerException $exception) {
+            } catch (MailDisabledException | phpmailerException) {
                 return Status::KNOCKOUT;
             }
         }
@@ -222,7 +222,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 
         try {
             $users = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return Status::KNOCKOUT;
         }
 
@@ -246,7 +246,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 
             try {
                 $db->execute();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 return Status::KNOCKOUT;
             }
 

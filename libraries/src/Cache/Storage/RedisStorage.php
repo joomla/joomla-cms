@@ -67,7 +67,7 @@ class RedisStorage extends CacheStorage
      */
     protected function getConnection()
     {
-        if (static::isSupported() == false) {
+        if (!static::isSupported()) {
             return false;
         }
 
@@ -100,7 +100,7 @@ class RedisStorage extends CacheStorage
             Log::add($e->getMessage(), Log::DEBUG);
         }
 
-        if ($connection == false) {
+        if (!$connection) {
             static::$_redis = null;
 
             throw new CacheConnectingException('Redis connection failed', 500);
@@ -121,7 +121,7 @@ class RedisStorage extends CacheStorage
 
         $select = static::$_redis->select($server['db']);
 
-        if ($select == false) {
+        if (!$select) {
             static::$_redis = null;
 
             throw new CacheConnectingException('Redis failed to select database', 500);
@@ -129,7 +129,7 @@ class RedisStorage extends CacheStorage
 
         try {
             static::$_redis->ping();
-        } catch (\RedisException $e) {
+        } catch (\RedisException) {
             static::$_redis = null;
 
             throw new CacheConnectingException('Redis ping failed', 500);
@@ -150,7 +150,7 @@ class RedisStorage extends CacheStorage
      */
     public function contains($id, $group)
     {
-        if (static::isConnected() == false) {
+        if (!static::isConnected()) {
             return false;
         }
 
@@ -171,7 +171,7 @@ class RedisStorage extends CacheStorage
      */
     public function get($id, $group, $checkTime = true)
     {
-        if (static::isConnected() == false) {
+        if (!static::isConnected()) {
             return false;
         }
 
@@ -187,7 +187,7 @@ class RedisStorage extends CacheStorage
      */
     public function getAll()
     {
-        if (static::isConnected() == false) {
+        if (!static::isConnected()) {
             return false;
         }
 
@@ -230,7 +230,7 @@ class RedisStorage extends CacheStorage
      */
     public function store($id, $group, $data)
     {
-        if (static::isConnected() == false) {
+        if (!static::isConnected()) {
             return false;
         }
 
@@ -251,7 +251,7 @@ class RedisStorage extends CacheStorage
      */
     public function remove($id, $group)
     {
-        if (static::isConnected() == false) {
+        if (!static::isConnected()) {
             return false;
         }
 
@@ -273,7 +273,7 @@ class RedisStorage extends CacheStorage
      */
     public function clean($group, $mode = null)
     {
-        if (static::isConnected() == false) {
+        if (!static::isConnected()) {
             return false;
         }
 
@@ -286,11 +286,11 @@ class RedisStorage extends CacheStorage
         $secret = $this->_hash;
 
         foreach ($allKeys as $key) {
-            if (strpos($key, $secret . '-cache-' . $group . '-') === 0 && $mode === 'group') {
+            if (str_starts_with($key, $secret . '-cache-' . $group . '-') && $mode === 'group') {
                 static::$_redis->del($key);
             }
 
-            if (strpos($key, $secret . '-cache-' . $group . '-') !== 0 && $mode !== 'group') {
+            if (!str_starts_with($key, $secret . '-cache-' . $group . '-') && $mode !== 'group') {
                 static::$_redis->del($key);
             }
         }

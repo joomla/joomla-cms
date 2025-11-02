@@ -87,7 +87,7 @@ class ActionlogsController extends AdminController
         if (\count($data)) {
             try {
                 $rows = ActionlogsHelper::getCsvData($data);
-            } catch (\InvalidArgumentException $exception) {
+            } catch (\InvalidArgumentException) {
                 $this->setMessage(Text::_('COM_ACTIONLOGS_ERROR_COULD_NOT_EXPORT_DATA'), 'error');
                 $this->setRedirect(Route::_('index.php?option=com_actionlogs&view=actionlogs', false));
 

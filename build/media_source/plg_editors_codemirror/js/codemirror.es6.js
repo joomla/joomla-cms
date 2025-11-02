@@ -46,7 +46,6 @@ const optionsToExtensions = async (options) => {
     const { mode } = options;
     const modeOptions = options[mode] || {};
 
-    // eslint-disable-next-line consistent-return
     q.push(import(`@codemirror/lang-${options.mode}`).then((modeMod) => {
       // For html and php we need to configure selfClosingTags, to make code folding work correctly with <jdoc:include />
       if (mode === 'php') {
@@ -60,7 +59,6 @@ const optionsToExtensions = async (options) => {
       }
       extensions.push(modeMod[options.mode](modeOptions));
     }).catch((error) => {
-      // eslint-disable-next-line no-console
       console.error(`Cannot create an extension for "${options.mode}" syntax mode.`, error);
     }));
   }

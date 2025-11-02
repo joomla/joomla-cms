@@ -14,7 +14,6 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status as TaskStatus;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
@@ -87,16 +86,15 @@ final class Requests extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor.
      *
-     * @param   DispatcherInterface  $dispatcher     The dispatcher
      * @param   array                $config         An optional associative array of configuration settings
      * @param   HttpFactory          $httpFactory    The http factory
      * @param   string               $rootDirectory  The root directory to store the output file in
      *
      * @since   4.2.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, HttpFactory $httpFactory, string $rootDirectory)
+    public function __construct(array $config, HttpFactory $httpFactory, string $rootDirectory)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->httpFactory   = $httpFactory;
         $this->rootDirectory = $rootDirectory;
@@ -136,8 +134,8 @@ final class Requests extends CMSPlugin implements SubscriberInterface
             return TaskStatus::TIMEOUT;
         }
 
-        $responseCode = $response->code;
-        $responseBody = $response->body;
+        $responseCode = $response->getStatusCode();
+        $responseBody = (string) $response->getBody();
 
         // @todo this handling must be rethought and made safe. stands as a good demo right now.
         $responseFilename = Path::clean($this->rootDirectory . "/task_{$id}_response.html");
@@ -146,7 +144,7 @@ final class Requests extends CMSPlugin implements SubscriberInterface
             File::write($responseFilename, $responseBody);
             $this->snapshot['output_file'] = $responseFilename;
             $responseStatus                = 'SAVED';
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_UNWRITEABLE_OUTPUT'), 'error');
             $responseStatus = 'NOT_SAVED';
         }
@@ -160,7 +158,7 @@ EOF;
 
         $this->logTask(\sprintf($this->getApplication()->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_RESPONSE'), $responseCode));
 
-        if ($response->code !== 200) {
+        if ($response->getStatusCode() !== 200) {
             return TaskStatus::KNOCKOUT;
         }
 

@@ -1,4 +1,4 @@
-import mysql from 'mysql';
+import mysql from 'mysql2';
 import pkg from 'pg';
 
 const { Pool } = pkg; // Using Pool from pg for PostgreSQL connections
@@ -165,6 +165,7 @@ function deleteInsertedItems(config) {
       if (item.table === `${config.env.db_prefix}users`) {
         promises.push(queryTestDB(`DELETE FROM #__user_usergroup_map WHERE user_id IN (${item.rows.join(',')})`, config));
         promises.push(queryTestDB(`DELETE FROM #__user_profiles WHERE user_id IN (${item.rows.join(',')})`, config));
+        promises.push(queryTestDB(`DELETE FROM #__session WHERE userid IN (${item.rows.join(',')})`, config));
       }
 
       if (item.table === `${config.env.db_prefix}content`) {

@@ -124,7 +124,7 @@ abstract class HTMLHelper
      */
     final public static function _(string $key, ...$methodArgs)
     {
-        list($key, $prefix, $file, $func) = static::extract($key);
+        [$key, $prefix, $file, $func] = static::extract($key);
 
         if (\array_key_exists($key, static::$registry)) {
             $function = static::$registry[$key];
@@ -215,7 +215,7 @@ abstract class HTMLHelper
             E_USER_DEPRECATED
         );
 
-        list($key) = static::extract($key);
+        [$key] = static::extract($key);
 
         static::$registry[$key] = $function;
 
@@ -240,7 +240,7 @@ abstract class HTMLHelper
             E_USER_DEPRECATED
         );
 
-        list($key) = static::extract($key);
+        [$key] = static::extract($key);
 
         if (isset(static::$registry[$key])) {
             unset(static::$registry[$key]);
@@ -262,7 +262,7 @@ abstract class HTMLHelper
      */
     public static function isRegistered($key)
     {
-        list($key) = static::extract($key);
+        [$key] = static::extract($key);
 
         return isset(static::$registry[$key]);
     }
@@ -349,6 +349,31 @@ abstract class HTMLHelper
     }
 
     /**
+     * Look for path relatively to media folder.
+     *
+     * @param   string   $folder   Folder name to search in (i.e. images, css, js).
+     * @param   string   $file     Path to file to check.
+     * @param   array    $options  Array with additional options:
+     *                             relative: Flag if the path to the file is relative to the /media folder (and searches in template);
+     *                             detectBrowser: Flag if the browser should be detected to include specific browser file;
+     *                             detectDebug: Flag if debug mode is enabled to include uncompressed files (for css, js)
+     *                               (boolean) - will enable debugging depends on site configuration, (1) - force debug On, (-1) - force debug Off;
+     *
+     * @return string
+     * @since  5.3.0
+     */
+    final public static function mediaPath(string $folder, string $file, array $options = []): string
+    {
+        $relative      = $options['relative'] ?? false;
+        $detectBrowser = $options['detectBrowser'] ?? false;
+        $detectDebug   = $options['detectDebug'] ?? true;
+
+        $includes      = static::includeRelativeFiles($folder, $file, $relative, $detectBrowser, $detectDebug);
+
+        return $includes[0] ?? '';
+    }
+
+    /**
      * Compute the files to be included
      *
      * @param   string   $folder         Folder name to search in (i.e. images, css, js).
@@ -356,6 +381,7 @@ abstract class HTMLHelper
      * @param   boolean  $relative       Flag if the path to the file is relative to the /media folder (and searches in template).
      * @param   boolean  $detectBrowser  Flag if the browser should be detected to include specific browser files.
      * @param   boolean  $detectDebug    Flag if debug mode is enabled to include uncompressed files if debug is on.
+     *                                   (boolean) - will enable debugging depends on site configuration, (1) - force debug On, (-1) - force debug Off;
      *
      * @return  array    files to be included.
      *
@@ -364,16 +390,21 @@ abstract class HTMLHelper
      */
     protected static function includeRelativeFiles($folder, $file, $relative, $detectBrowser, $detectDebug)
     {
-        // Set debug flag
-        $debugMode = false;
-
         // Detect debug mode
-        if ($detectDebug && JDEBUG) {
-            $debugMode = true;
+        switch (true) {
+            case \is_bool($detectDebug):
+                $debugMode = $detectDebug && JDEBUG;
+                break;
+            case $detectDebug === 1:
+                $debugMode = true;
+                break;
+            case $detectDebug === -1:
+            default:
+                $debugMode = false;
         }
 
         // If http is present in filename
-        if (strpos($file, 'http') === 0 || strpos($file, '//') === 0) {
+        if (str_starts_with($file, 'http') || str_starts_with($file, '//')) {
             $includes = [$file];
         } else {
             // Extract extension and strip the file
@@ -449,12 +480,12 @@ abstract class HTMLHelper
                         // If the file contains any /: it can be in a media extension subfolder
                         if (strpos($file, '/')) {
                             // Divide the file extracting the extension as the first part before /
-                            list($extension, $file) = explode('/', $file, 2);
+                            [$extension, $file] = explode('/', $file, 2);
 
                             // If the file yet contains any /: it can be a plugin
                             if (strpos($file, '/')) {
                                 // Divide the file extracting the element as the first part before /
-                                list($element, $file) = explode('/', $file, 2);
+                                [$element, $file] = explode('/', $file, 2);
 
                                 // Try to deal with plugins group in the media folder
                                 $found = static::addFileToBuffer(JPATH_PUBLIC . "/media/$extension/$element/$folder/$file", $ext, $debugMode);
@@ -724,14 +755,14 @@ abstract class HTMLHelper
             // Go through each argument
             foreach (explode(' ', $attribs) as $attribute) {
                 // When an argument without a value, default to an empty string
-                if (strpos($attribute, '=') === false) {
+                if (!str_contains($attribute, '=')) {
                     $attributes[$attribute] = '';
                     continue;
                 }
 
                 // Set the attribute
-                list($key, $value) = explode('=', $attribute);
-                $attributes[$key]  = trim($value, '"');
+                [$key, $value]    = explode('=', $attribute);
+                $attributes[$key] = trim($value, '"');
             }
 
             // Add the attributes from the string to the original attributes
@@ -757,13 +788,18 @@ abstract class HTMLHelper
      *
      * @see   Browser
      * @since 1.5
+     *
+     * @deprecated  5.3.0 will be removed in 7.0
+     *              Use WebAssetManager::useStyle() or WebAssetManager::registerAndUseStyle() instead.
      */
     public static function stylesheet($file, $options = [], $attribs = [])
     {
-        $options['relative']      = $options['relative'] ?? false;
-        $options['pathOnly']      = $options['pathOnly'] ?? false;
-        $options['detectBrowser'] = $options['detectBrowser'] ?? false;
-        $options['detectDebug']   = $options['detectDebug'] ?? true;
+        @trigger_error('Method HTMLHelper::stylesheet() is deprecated, and will be removed in 7.0', \E_USER_DEPRECATED);
+
+        $options['relative']      ??= false;
+        $options['pathOnly']      ??= false;
+        $options['detectBrowser'] ??= false;
+        $options['detectDebug']   ??= true;
 
         $includes = static::includeRelativeFiles('css', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 
@@ -785,7 +821,7 @@ abstract class HTMLHelper
 
         foreach ($includes as $include) {
             // If there is already a version hash in the script reference (by using deprecated MD5SUM).
-            if ($pos = strpos($include, '?') !== false) {
+            if (($pos = strpos($include, '?')) !== false) {
                 $options['version'] = substr($include, $pos + 1);
             }
 
@@ -804,13 +840,18 @@ abstract class HTMLHelper
      *
      * @see   HTMLHelper::stylesheet()
      * @since 1.5
+     *
+     * @deprecated  5.3.0 will be removed in 7.0
+     *              Use WebAssetManager::useScript() or WebAssetManager::registerAndUseScript() instead.
      */
     public static function script($file, $options = [], $attribs = [])
     {
-        $options['relative']      = $options['relative'] ?? false;
-        $options['pathOnly']      = $options['pathOnly'] ?? false;
-        $options['detectBrowser'] = $options['detectBrowser'] ?? false;
-        $options['detectDebug']   = $options['detectDebug'] ?? true;
+        @trigger_error('Method HTMLHelper::script() is deprecated, and will be removed in 7.0', \E_USER_DEPRECATED);
+
+        $options['relative']      ??= false;
+        $options['pathOnly']      ??= false;
+        $options['detectBrowser'] ??= false;
+        $options['detectDebug']   ??= true;
 
         $includes = static::includeRelativeFiles('js', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 
@@ -832,7 +873,7 @@ abstract class HTMLHelper
 
         foreach ($includes as $include) {
             // If there is already a version hash in the script reference (by using deprecated MD5SUM).
-            if ($pos = strpos($include, '?') !== false) {
+            if (($pos = strpos($include, '?')) !== false) {
                 $options['version'] = substr($include, $pos + 1);
             }
 
@@ -996,8 +1037,8 @@ abstract class HTMLHelper
         // Don't process empty strings
         if ($content !== '' || $title !== '') {
             // Split title into title and content if the title contains '::' (old Mootools format).
-            if ($content === '' && !(strpos($title, '::') === false)) {
-                list($title, $content) = explode('::', $title, 2);
+            if ($content === '' && !(!str_contains($title, '::'))) {
+                [$title, $content] = explode('::', $title, 2);
             }
 
             // Pass texts through Text if required.
@@ -1222,7 +1263,10 @@ abstract class HTMLHelper
      */
     protected static function convertToRelativePath($path)
     {
-        $relativeFilePath = Uri::root(true) . str_replace(JPATH_PUBLIC, '', $path);
+        // Remove JPATH_PUBLIC only if it is at beginning of full path
+        $path = str_starts_with($path, JPATH_PUBLIC) ? substr_replace($path, '', 0, \strlen(JPATH_PUBLIC)) : $path;
+
+        $relativeFilePath = Uri::root(true) . $path;
 
         // On windows devices we need to replace "\" with "/" otherwise some browsers will not load the asset
         return str_replace(DIRECTORY_SEPARATOR, '/', $relativeFilePath);
@@ -1311,7 +1355,7 @@ abstract class HTMLHelper
          * If there is % character left after replacing, that mean one of unsupported format is used
          * the conversion false
          */
-        if (strpos($format, '%') !== false) {
+        if (str_contains($format, '%')) {
             return false;
         }
 

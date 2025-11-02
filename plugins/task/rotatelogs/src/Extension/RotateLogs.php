@@ -103,7 +103,7 @@ final class RotateLogs extends CMSPlugin implements SubscriberInterface
                 foreach ($files as $file) {
                     try {
                         File::delete($logPath . '/' . $file);
-                    } catch (FilesystemException $exception) {
+                    } catch (FilesystemException) {
                     }
                 }
             } else {
@@ -146,7 +146,7 @@ final class RotateLogs extends CMSPlugin implements SubscriberInterface
 
         try {
             File::move($path . '/' . $filename, $rotatedFile);
-        } catch (FilesystemException $exception) {
+        } catch (FilesystemException) {
         }
     }
 

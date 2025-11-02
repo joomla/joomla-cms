@@ -11,19 +11,16 @@
 namespace Joomla\Component\Templates\Administrator\Model;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Path;
-use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
@@ -55,14 +52,6 @@ class StyleModel extends AdminModel
     protected $helpURL;
 
     /**
-     * Item cache.
-     *
-     * @var    array
-     * @since  1.6
-     */
-    private $_cache = [];
-
-    /**
      * Constructor.
      *
      * @param   array                 $config   An optional associative array of configuration settings.
@@ -85,28 +74,6 @@ class StyleModel extends AdminModel
         );
 
         parent::__construct($config, $factory);
-    }
-
-    /**
-     * Method to auto-populate the model state.
-     *
-     * @note    Calling getState in this method will result in recursion.
-     *
-     * @return  void
-     *
-     * @since   1.6
-     */
-    protected function populateState()
-    {
-        $app = Factory::getApplication();
-
-        // Load the User state.
-        $pk = $app->getInput()->getInt('id');
-        $this->setState('style.id', $pk);
-
-        // Load the parameters.
-        $params = ComponentHelper::getParams('com_templates');
-        $this->setState('params', $params);
     }
 
     /**
@@ -284,10 +251,6 @@ class StyleModel extends AdminModel
         // Get the form.
         $form = $this->loadForm('com_templates.style', 'style', ['control' => 'jform', 'load_data' => $loadData]);
 
-        if (empty($form)) {
-            return false;
-        }
-
         // Modify the form based on access controls.
         if (!$this->canEditState((object) $data)) {
             // Disable fields for display.
@@ -331,42 +294,18 @@ class StyleModel extends AdminModel
      */
     public function getItem($pk = null)
     {
-        $pk = (!empty($pk)) ? $pk : (int) $this->getState('style.id');
-
-        if (!isset($this->_cache[$pk])) {
-            // Get a row instance.
-            $table = $this->getTable();
-
-            // Attempt to load the row.
-            $return = $table->load($pk);
-
-            // Check for a table object error.
-            if ($return === false && $table->getError()) {
-                $this->setError($table->getError());
-
-                return false;
-            }
-
-            // Convert to the \Joomla\CMS\Object\CMSObject before adding other data.
-            $properties        = $table->getProperties(1);
-            $this->_cache[$pk] = ArrayHelper::toObject($properties, CMSObject::class);
-
-            // Convert the params field to an array.
-            $registry                  = new Registry($table->params);
-            $this->_cache[$pk]->params = $registry->toArray();
-
-            // Get the template XML.
-            $client = ApplicationHelper::getClientInfo($table->client_id);
-            $path   = Path::clean($client->path . '/templates/' . $table->template . '/templateDetails.xml');
+        if ($item = parent::getItem($pk)) {
+            $client = ApplicationHelper::getClientInfo($item->client_id);
+            $path   = Path::clean($client->path . '/templates/' . $item->template . '/templateDetails.xml');
 
             if (file_exists($path)) {
-                $this->_cache[$pk]->xml = simplexml_load_file($path);
+                $item->xml = simplexml_load_file($path);
             } else {
-                $this->_cache[$pk]->xml = null;
+                $item->xml = null;
             }
         }
 
-        return $this->_cache[$pk];
+        return $item;
     }
 
     /**
@@ -385,7 +324,7 @@ class StyleModel extends AdminModel
     {
         $clientId = $this->getState('item.client_id');
         $template = $this->getState('item.template');
-        $lang     = Factory::getLanguage();
+        $lang     = Factory::getApplication()->getLanguage();
         $client   = ApplicationHelper::getClientInfo($clientId);
 
         if (!$form->loadFile('style_' . $client->name, true)) {
@@ -394,10 +333,18 @@ class StyleModel extends AdminModel
 
         $formFile = Path::clean($client->path . '/templates/' . $template . '/templateDetails.xml');
 
+        /**
+         * $data could be array or object, so we use object casting here to make sure $styleObj
+         * is an object and access to template style data via the object's properties
+         */
+        $styleObj = (object) $data;
+
         // Load the core and/or local language file(s).
         // Default to using parent template language constants
-        $lang->load('tpl_' . $data->parent, $client->path)
-            || $lang->load('tpl_' . $data->parent, $client->path . '/templates/' . $data->parent);
+        if (!empty($styleObj->parent)) {
+            $lang->load('tpl_' . $styleObj->parent, $client->path)
+            || $lang->load('tpl_' . $styleObj->parent, $client->path . '/templates/' . $styleObj->parent);
+        }
 
         // Apply any, optional, overrides for child template language constants
         $lang->load('tpl_' . $template, $client->path)
@@ -411,11 +358,7 @@ class StyleModel extends AdminModel
         }
 
         // Disable home field if it is default style
-
-        if (
-            (\is_array($data) && \array_key_exists('home', $data) && $data['home'] == '1')
-            || (\is_object($data) && isset($data->home) && $data->home == '1')
-        ) {
+        if (isset($styleObj->home) && $styleObj->home == '1') {
             $form->setFieldAttribute('home', 'readonly', 'true');
         }
 

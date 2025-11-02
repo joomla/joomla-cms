@@ -249,7 +249,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
         $update->loadFromXml($remoteManifest);
 
         // Get the download url from the remote manifest
-        $downloadUrl = $update->get('downloadurl', false);
+        $downloadUrl = $update->downloadurl ?? false;
 
         // Check if the download url exist, otherwise return empty value
         if ($downloadUrl === false) {
@@ -506,9 +506,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
         }
 
         // Get the form.
-        Form::addFormPath(JPATH_COMPONENT . '/forms');
-        Form::addFieldPath(JPATH_COMPONENT . '/model/fields');
-        Form::addRulePath(JPATH_COMPONENT . '/model/rules');
+        Form::addFormPath(JPATH_BASE . '/forms');
 
         try {
             $form = Form::getInstance('jform', $view, ['control' => 'jform']);
