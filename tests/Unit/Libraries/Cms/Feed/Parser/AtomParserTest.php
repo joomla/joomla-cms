@@ -58,7 +58,6 @@ class AtomParserTest extends UnitTestCase
         $atomParser      = new AtomParser(new \XMLReader());
         $reflectionClass = new \ReflectionClass($atomParser);
         $method          = $reflectionClass->getMethod('handleAuthor');
-        $method->setAccessible(true);
         $method->invoke($atomParser, $feedMock, $xmlElement);
     }
 
@@ -95,7 +94,6 @@ class AtomParserTest extends UnitTestCase
         $atomParser      = new AtomParser(new \XMLReader());
         $reflectionClass = new \ReflectionClass($atomParser);
         $method          = $reflectionClass->getMethod('handleContributor');
-        $method->setAccessible(true);
         $method->invoke($atomParser, $feedMock, $xmlElement);
     }
 
@@ -125,7 +123,6 @@ class AtomParserTest extends UnitTestCase
         $atomParser      = new AtomParser(new \XMLReader());
         $reflectionClass = new \ReflectionClass($atomParser);
         $method          = $reflectionClass->getMethod('handleGenerator');
-        $method->setAccessible(true);
         $method->invoke($atomParser, $feedMock, $xmlElement);
     }
 
@@ -155,7 +152,6 @@ class AtomParserTest extends UnitTestCase
         $atomParser      = new AtomParser(new \XMLReader());
         $reflectionClass = new \ReflectionClass($atomParser);
         $method          = $reflectionClass->getMethod('handleId');
-        $method->setAccessible(true);
         $method->invoke($atomParser, $feedMock, $xmlElement);
     }
 
@@ -192,7 +188,6 @@ class AtomParserTest extends UnitTestCase
         $atomParser      = new AtomParser(new \XMLReader());
         $reflectionClass = new \ReflectionClass($atomParser);
         $method          = $reflectionClass->getMethod('handleLink');
-        $method->setAccessible(true);
         $method->invoke($atomParser, $feedMock, $xmlElement);
     }
 
@@ -222,7 +217,6 @@ class AtomParserTest extends UnitTestCase
         $atomParser      = new AtomParser(new \XMLReader());
         $reflectionClass = new \ReflectionClass($atomParser);
         $method          = $reflectionClass->getMethod('handleRights');
-        $method->setAccessible(true);
         $method->invoke($atomParser, $feedMock, $xmlElement);
     }
 
@@ -252,7 +246,6 @@ class AtomParserTest extends UnitTestCase
         $atomParser      = new AtomParser(new \XMLReader());
         $reflectionClass = new \ReflectionClass($atomParser);
         $method          = $reflectionClass->getMethod('handleSubtitle');
-        $method->setAccessible(true);
         $method->invoke($atomParser, $feedMock, $xmlElement);
     }
 
@@ -282,7 +275,6 @@ class AtomParserTest extends UnitTestCase
         $atomParser      = new AtomParser(new \XMLReader());
         $reflectionClass = new \ReflectionClass($atomParser);
         $method          = $reflectionClass->getMethod('handleTitle');
-        $method->setAccessible(true);
         $method->invoke($atomParser, $feedMock, $xmlElement);
     }
 
@@ -312,7 +304,6 @@ class AtomParserTest extends UnitTestCase
         $atomParser      = new AtomParser(new \XMLReader());
         $reflectionClass = new \ReflectionClass($atomParser);
         $method          = $reflectionClass->getMethod('handleUpdated');
-        $method->setAccessible(true);
         $method->invoke($atomParser, $feedMock, $xmlElement);
     }
 
@@ -335,7 +326,6 @@ class AtomParserTest extends UnitTestCase
         // Use reflection to check the value
         $reflectionClass = new \ReflectionClass($atomParser);
         $attribute       = $reflectionClass->getProperty('version');
-        $attribute->setAccessible(true);
 
         $this->assertEquals('1.0', $attribute->getValue($atomParser));
     }
@@ -375,7 +365,6 @@ class AtomParserTest extends UnitTestCase
         // Use reflection to check the value
         $reflectionClass = new \ReflectionClass($atomParser);
         $attribute       = $reflectionClass->getProperty('version');
-        $attribute->setAccessible(true);
 
         $this->assertEquals('1.0', $attribute->getValue($atomParser));
     }
@@ -415,7 +404,6 @@ class AtomParserTest extends UnitTestCase
         // Use reflection to check the value
         $reflectionClass = new \ReflectionClass($atomParser);
         $attribute       = $reflectionClass->getProperty('version');
-        $attribute->setAccessible(true);
 
         $this->assertEquals('0.3', $attribute->getValue($atomParser));
     }
@@ -463,7 +451,6 @@ class AtomParserTest extends UnitTestCase
         $atomParser      = new AtomParser(new \XMLReader());
         $reflectionClass = new \ReflectionClass($atomParser);
         $method          = $reflectionClass->getMethod('processFeedEntry');
-        $method->setAccessible(true);
         $method->invoke($atomParser, $feedEntryMock, $xmlElement);
     }
 }
