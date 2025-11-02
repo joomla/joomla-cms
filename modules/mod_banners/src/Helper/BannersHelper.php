@@ -42,7 +42,7 @@ class BannersHelper
         /** @var BannersModel $model */
         $model = $app->bootComponent('com_banners')->getMVCFactory()->createModel('Banners', 'Site', ['ignore_request' => true]);
 
-        $input    = $app->input;
+        $input    = $app->getInput();
         $keywords = [];
 
         // Check if the current view is an article
