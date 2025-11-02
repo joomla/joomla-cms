@@ -91,7 +91,7 @@ class ArchiveModel extends ArticlesModel
      */
     protected function getListQuery()
     {
-        $params           = $this->state->params;
+        $params           = $this->state->get('params');
         $app              = Factory::getApplication();
         $catids           = $app->getInput()->get('catid', [], 'array');
         $catids           = array_values(array_diff($catids, ['']));
@@ -158,8 +158,9 @@ class ArchiveModel extends ArticlesModel
         $db        = $this->getDatabase();
         $nowDate   = Factory::getDate()->toSql();
         $query     = $db->getQuery(true);
-        $queryDate = QueryHelper::getQueryDate($this->state->params->get('order_date'), $db);
+        $queryDate = QueryHelper::getQueryDate($this->state->get('params')->get('order_date'), $db);
         $years     = $query->year($queryDate);
+        $yearSort  = $this->state->get('params')->get('year_sort_order', 'ASC');
 
         $query->select('DISTINCT ' . $years)
             ->from($db->quoteName('#__content', 'a'))
@@ -182,7 +183,7 @@ class ArchiveModel extends ArticlesModel
             )
             ->bind(':publishUp', $nowDate)
             ->bind(':publishDown', $nowDate)
-            ->order('1 ASC');
+            ->order('1 ' . $yearSort);
 
         $db->setQuery($query);
 
@@ -207,8 +208,8 @@ class ArchiveModel extends ArticlesModel
         return 'CASE WHEN '
             . $query->charLength($db->quoteName($alias), '!=', '0')
             . ' THEN '
-            . $query->concatenate([$query->castAsChar($db->quoteName($id)), $db->quoteName($alias)], ':')
+            . $query->concatenate([$query->castAs('CHAR', $db->quoteName($id)), $db->quoteName($alias)], ':')
             . ' ELSE '
-            . $query->castAsChar($id) . ' END';
+            . $query->castAs('CHAR', $id) . ' END';
     }
 }
