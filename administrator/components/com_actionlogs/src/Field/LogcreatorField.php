@@ -21,9 +21,7 @@ use Joomla\CMS\Form\Field\ListField;
  *
  * @since  3.9.0
  *
- * No longer used, will be removed without replacement
- *
- * @deprecated  7.0  will be removed in 7.0
+ * @deprecated  5.3  will be removed in 7.0 without replacement
  */
 class LogcreatorField extends ListField
 {

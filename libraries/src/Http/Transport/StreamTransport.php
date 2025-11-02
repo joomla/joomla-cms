@@ -110,7 +110,13 @@ class StreamTransport extends AbstractTransport implements TransportInterface
 
         if (isset($headers)) {
             foreach ($headers as $key => $value) {
-                $headerEntries[] = $key . ': ' . $value;
+                if (\is_array($value)) {
+                    foreach ($value as $header) {
+                        $headerEntries[] = "$key: $header";
+                    }
+                } else {
+                    $headerEntries[] = "$key: $value";
+                }
             }
 
             // Add the headers string into the stream context options array.

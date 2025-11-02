@@ -260,7 +260,7 @@ body {
 
   select {
     width: 100%;
-    margin-left: 0 !important;
+    margin-inline-start: 0 !important;
   }
 }
 
@@ -275,7 +275,7 @@ body {
 
   span {
     position: relative;
-    margin-right: 5px;
+    margin-inline-end: 5px;
     font-size: 1.2rem;
   }
 }
@@ -380,8 +380,8 @@ label {
 
   .control-label {
     padding-top: 5px;
-    padding-right: 5px;
-    text-align: left;
+    padding-inline-end: 5px;
+    text-align: start;
   }
 }
 
@@ -407,7 +407,7 @@ legend {
 
   .checkbox input {
     position: static;
-    margin-left: 0;
+    margin-inline-start: 0;
   }
 
 }
@@ -416,6 +416,13 @@ legend {
   padding-top: 5px;
   margin-bottom: 0;
 }
+
+/* rtl:begin:ignore */
+#jform_db_prefix {
+  text-align: start;
+  direction: ltr;
+}
+/* rtl:end:ignore */
 
 // Possibly temporary until Bootstrap support it themselves
 .form-select[multiple] {
@@ -453,7 +460,7 @@ caption {
 }
 
 .bg-warning {
-  color: #fff;
+  color: #000;
 }
 
 // footer
@@ -493,4 +500,71 @@ progress {
   background: linear-gradient(#ccc 0%, #eee 50%, #eee 50%, #ccc 100%);
   border: 0 none;
   border-radius: 4px;
+}
+
+/* error page */
+.j-header {
+  display: flex;
+  flex-direction: row;
+  color: #fff;
+  background-color: #0b3257;
+}
+
+.j-header-logo {
+  width: 100%;
+  max-width: 240px;
+  margin: 20px;
+}
+
+.j-header-help {
+  margin: 20px 20px 20px auto;
+  a {
+    padding: 1rem;
+    font-size: 2rem;
+    color: #fff;
+  }
+}
+
+.j-footer {
+  padding: 10px 20px;
+  margin-top: auto;
+  font-size: .8rem;
+  color: #fff;
+  text-align: right;
+  background-color: #0b3257;
+}
+
+.alert {
+  position: relative;
+  display: flex;
+  margin: 0 0 20px;
+  background: #fafafa;
+  border: 1px solid rgba(0,0,0,.1);
+  box-shadow: 0 0 10px rgba(0,0,0,.05);
+  p {
+    margin-bottom: 0;
+  }
+}
+
+.alert-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25%;
+  margin-bottom: 0;
+  font-size: 3rem;
+  opacity: .6;
+  .fa {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.alert-text {
+  padding: 10px 20px;
+}
+
+.j-installation-error {
+  background-color: #1c3d5c;
+  background-image: linear-gradient(90deg, #1c3d5c 0%, #2a5c8b 100%);
 }

@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -36,12 +36,12 @@ class Update extends Table
     /**
      * Constructor
      *
-     * @param   DatabaseDriver        $db          Database connector object
+     * @param   DatabaseInterface     $db          Database connector object
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.7.0
      */
-    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__updates', 'update_id', $db, $dispatcher);
     }
@@ -96,16 +96,18 @@ class Update extends Table
     {
         $where = [];
 
+        $db = $this->getDatabase();
+
         foreach ($options as $col => $val) {
-            $where[] = $col . ' = ' . $this->_db->quote($val);
+            $where[] = $col . ' = ' . $db->quote($val);
         }
 
-        $query = $this->_db->getQuery(true)
-            ->select($this->_db->quoteName($this->_tbl_key))
-            ->from($this->_db->quoteName($this->_tbl))
+        $query = $db->getQuery(true)
+            ->select($db->quoteName($this->_tbl_key))
+            ->from($db->quoteName($this->_tbl))
             ->where(implode(' AND ', $where));
-        $this->_db->setQuery($query);
+        $db->setQuery($query);
 
-        return $this->_db->loadResult();
+        return $db->loadResult();
     }
 }
