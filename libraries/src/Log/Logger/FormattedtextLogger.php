@@ -40,7 +40,7 @@ class FormattedtextLogger extends Logger
      * @var    string
      * @since  1.7.0
      */
-    protected $format = '{DATETIME}	{PRIORITY} {CLIENTIP}	{CATEGORY}	{MESSAGE}';
+    protected $format = '{DATETIME}	{PRIORITY}	{CLIENTIP}	{CATEGORY}	{MESSAGE}';
 
     /**
      * The parsed fields from the format string.
