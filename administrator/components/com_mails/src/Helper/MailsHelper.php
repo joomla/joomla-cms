@@ -75,13 +75,17 @@ abstract class MailsHelper
             return;
         }
 
-        $lang   = Factory::getLanguage();
+        $lang   = Factory::getApplication()->getLanguage();
         $source = '';
 
         switch (substr($extension, 0, 3)) {
             case 'com':
             default:
                 $source = JPATH_ADMINISTRATOR . '/components/' . $extension;
+
+                $lang->load($extension, JPATH_SITE, $language, true)
+                || $lang->load($extension, JPATH_SITE . '/components/' . $extension, $language, true);
+
                 break;
 
             case 'mod':

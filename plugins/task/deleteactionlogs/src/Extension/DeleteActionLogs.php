@@ -94,7 +94,7 @@ final class DeleteActionLogs extends CMSPlugin implements SubscriberInterface
 
             try {
                 $db->execute();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 // Ignore it
                 return Status::KNOCKOUT;
             }

@@ -69,7 +69,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
 
         // Access filter
         $access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
-        $authorised = Access::getAuthorisedViewLevels($app->getIdentity()->get('id'));
+        $authorised = Access::getAuthorisedViewLevels($app->getIdentity()->id);
         $articles->setState('filter.access', $access);
 
         // Prep for Normal or Dynamic Modes
@@ -352,6 +352,8 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
     {
         $introtext = str_replace(['<p>', '</p>'], ' ', $introtext);
         $introtext = strip_tags($introtext, '<a><em><strong><joomla-hidden-mail>');
+        // Remove empty links
+        $introtext = preg_replace('/<a[^>]*><\\/a>/', '', $introtext);
 
         return trim($introtext);
     }

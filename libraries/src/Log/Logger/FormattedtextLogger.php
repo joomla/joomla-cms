@@ -10,12 +10,12 @@
 namespace Joomla\CMS\Log\Logger;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
 use Joomla\CMS\Version;
 use Joomla\Filesystem\Exception\FilesystemException;
 use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\Utilities\IpHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -40,7 +40,7 @@ class FormattedtextLogger extends Logger
      * @var    string
      * @since  1.7.0
      */
-    protected $format = '{DATETIME}	{PRIORITY} {CLIENTIP}	{CATEGORY}	{MESSAGE}';
+    protected $format = '{DATETIME}	{PRIORITY}	{CLIENTIP}	{CATEGORY}	{MESSAGE}';
 
     /**
      * The parsed fields from the format string.
@@ -141,6 +141,20 @@ class FormattedtextLogger extends Logger
             File::write($this->path, implode("\n", $lines) . "\n", false, true);
         } catch (FilesystemException $exception) {
             throw new \RuntimeException('Cannot write to log file.', 500, $exception);
+        }
+    }
+
+    /**
+     * Prevent object injection attacks by suppressing unserialization of instance with deferred rows
+     *
+     * @since  5.2.2
+     *
+     * @throws \Exception
+     */
+    public function __wakeup()
+    {
+        if ($this->defer && !empty($this->deferredEntries)) {
+            throw new \RuntimeException('Can not unserialize in defer mode');
         }
     }
 

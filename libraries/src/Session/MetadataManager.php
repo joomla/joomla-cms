@@ -158,7 +158,7 @@ final class MetadataManager
 
         try {
             $this->db->execute();
-        } catch (ExecutionFailureException $exception) {
+        } catch (ExecutionFailureException) {
             // Since garbage collection does not result in a fatal error when run in the session API, we don't allow it here either.
         }
     }
@@ -185,7 +185,7 @@ final class MetadataManager
 
         try {
             $exists = $this->db->loadResult();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return self::$sessionRecordUnknown;
         }
 
@@ -233,7 +233,7 @@ final class MetadataManager
         $sessionId   = $session->getId();
         $userIsGuest = $user->guest;
         $userId      = $user->id;
-        $username    = $user->username === null ? '' : $user->username;
+        $username    = $user->username ?? '';
 
         $query->bind(':session_id', $sessionId)
             ->bind(':guest', $userIsGuest, ParameterType::INTEGER)
@@ -258,7 +258,7 @@ final class MetadataManager
 
         try {
             $this->db->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             // This failure isn't critical, we can go on without the metadata
         }
     }
@@ -290,7 +290,7 @@ final class MetadataManager
         $sessionId   = $session->getId();
         $userIsGuest = $user->guest;
         $userId      = $user->id;
-        $username    = $user->username === null ? '' : $user->username;
+        $username    = $user->username ?? '';
 
         $query->bind(':session_id', $sessionId)
             ->bind(':guest', $userIsGuest, ParameterType::INTEGER)
@@ -314,7 +314,7 @@ final class MetadataManager
 
         try {
             $this->db->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             // This failure isn't critical, we can go on without the metadata
         }
     }

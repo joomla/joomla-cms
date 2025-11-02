@@ -1,3 +1,5 @@
+@use "sass:color";
+
 // Form
 
 label {
@@ -72,11 +74,11 @@ select.form-control {
   }
 
   .button-select {
-    background-color: darken($success, 8%);
+    background-color: color.adjust($success, $lightness: -8%);
   }
 
   .button-clear {
-    background-color: darken($danger, 8%);
+    background-color: color.adjust($danger, $lightness: -8%);
   }
 
   .button-clear > .#{$fa-css-prefix}-check,

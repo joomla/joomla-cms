@@ -12,6 +12,8 @@ namespace Joomla\Plugin\SampleData\Blog\Extension;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Plugin\AjaxEvent;
+use Joomla\CMS\Event\SampleData\GetOverviewEvent;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -21,6 +23,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -31,7 +34,7 @@ use Joomla\Database\ParameterType;
  *
  * @since  3.8.0
  */
-final class Blog extends CMSPlugin
+final class Blog extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
 
@@ -54,13 +57,33 @@ final class Blog extends CMSPlugin
     private $menuItemModel;
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since 5.3.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onSampledataGetOverview'    => 'onSampledataGetOverview',
+            'onAjaxSampledataApplyStep1' => 'onAjaxSampledataApplyStep1',
+            'onAjaxSampledataApplyStep2' => 'onAjaxSampledataApplyStep2',
+            'onAjaxSampledataApplyStep3' => 'onAjaxSampledataApplyStep3',
+            'onAjaxSampledataApplyStep4' => 'onAjaxSampledataApplyStep4',
+        ];
+    }
+
+    /**
      * Get an overview of the proposed sampledata.
      *
-     * @return  \stdClass|void  Will be converted into the JSON response to the module.
+     * @param   GetOverviewEvent $event  Event instance
+     *
+     * @return  void
      *
      * @since  3.8.0
      */
-    public function onSampledataGetOverview()
+    public function onSampledataGetOverview(GetOverviewEvent $event): void
     {
         if (!$this->getApplication()->getIdentity()->authorise('core.create', 'com_content')) {
             return;
@@ -73,17 +96,19 @@ final class Blog extends CMSPlugin
         $data->icon        = 'wifi';
         $data->steps       = 4;
 
-        return $data;
+        $event->addResult($data);
     }
 
     /**
      * First step to enter the sampledata. Content.
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @param   AjaxEvent $event  Event instance
+     *
+     * @return  void
      *
      * @since  3.8.0
      */
-    public function onAjaxSampledataApplyStep1()
+    public function onAjaxSampledataApplyStep1(AjaxEvent $event): void
     {
         if (!Session::checkToken('get') || $this->getApplication()->getInput()->get('type') != $this->_name) {
             return;
@@ -94,7 +119,8 @@ final class Blog extends CMSPlugin
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 1, 'com_tags');
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         // Get some metadata.
@@ -104,6 +130,9 @@ final class Blog extends CMSPlugin
         // Detect language to be used.
         $language   = Multilanguage::isEnabled() ? $this->getApplication()->getLanguage()->getTag() : '*';
         $langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
+
+        // Disable language debug to prevent debug_lang_const being added to the string
+        $this->getApplication()->getLanguage()->setDebug(false);
 
         /** @var \Joomla\Component\Tags\Administrator\Model\TagModel $model */
         $modelTag = $this->getApplication()->bootComponent('com_tags')->getMVCFactory()
@@ -138,7 +167,8 @@ final class Blog extends CMSPlugin
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
 
-                return $response;
+                $event->addResult($response);
+                return;
             }
 
             $tagIds[] = $modelTag->getItem()->id;
@@ -149,7 +179,8 @@ final class Blog extends CMSPlugin
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 1, 'com_content');
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         if (ComponentHelper::isEnabled('com_fields') && $user->authorise('core.create', 'com_fields')) {
@@ -183,7 +214,8 @@ final class Blog extends CMSPlugin
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
 
-                return $response;
+                $event->addResult($response);
+                return;
             }
 
             $groupId = $groupModel->getItem()->id;
@@ -246,7 +278,8 @@ final class Blog extends CMSPlugin
                     $response['success'] = false;
                     $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
 
-                    return $response;
+                    $event->addResult($response);
+                    return;
                 }
 
                 // Get ID from the field we just added
@@ -273,7 +306,8 @@ final class Blog extends CMSPlugin
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $this->getApplication()->getLanguage()->_($workflowTable->getError()));
 
-                return $response;
+                $event->addResult($response);
+                return;
             }
 
             // Get ID from workflow we just added
@@ -299,7 +333,8 @@ final class Blog extends CMSPlugin
                     $response['success'] = false;
                     $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $this->getApplication()->getLanguage()->_($stageTable->getError()));
 
-                    return $response;
+                    $event->addResult($response);
+                    return;
                 }
             }
 
@@ -449,7 +484,8 @@ final class Blog extends CMSPlugin
                     $response['success'] = false;
                     $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $this->getApplication()->getLanguage()->_($trTable->getError()));
 
-                    return $response;
+                    $event->addResult($response);
+                    return;
                 }
             }
         }
@@ -500,7 +536,8 @@ final class Blog extends CMSPlugin
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
 
-                return $response;
+                $event->addResult($response);
+                return;
             }
 
             // Get ID from category we just added
@@ -718,7 +755,8 @@ final class Blog extends CMSPlugin
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $this->getApplication()->getLanguage()->_($articleModel->getError()));
 
-                return $response;
+                $event->addResult($response);
+                return;
             }
 
             // Get ID from article we just added
@@ -766,17 +804,19 @@ final class Blog extends CMSPlugin
         $response['success'] = true;
         $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_STEP1_SUCCESS');
 
-        return $response;
+        $event->addResult($response);
     }
 
     /**
      * Second step to enter the sampledata. Menus.
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @param   AjaxEvent $event  Event instance
+     *
+     * @return  void
      *
      * @since  3.8.0
      */
-    public function onAjaxSampledataApplyStep2()
+    public function onAjaxSampledataApplyStep2(AjaxEvent $event): void
     {
         if (!Session::checkToken('get') || $this->getApplication()->getInput()->get('type') != $this->_name) {
             return;
@@ -787,12 +827,16 @@ final class Blog extends CMSPlugin
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 2, 'com_menus');
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         // Detect language to be used.
         $language   = Multilanguage::isEnabled() ? $this->getApplication()->getLanguage()->getTag() : '*';
         $langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
+
+        // Disable language debug to prevent debug_lang_const being added to the string
+        $this->getApplication()->getLanguage()->setDebug(false);
 
         // Create the menu types.
         $menuTable = new \Joomla\Component\Menus\Administrator\Table\MenuTypeTable($this->getDatabase());
@@ -825,7 +869,8 @@ final class Blog extends CMSPlugin
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
 
-                return $response;
+                $event->addResult($response);
+                return;
             }
 
             $menuTypes[] = $menuTable->menutype;
@@ -1053,7 +1098,8 @@ final class Blog extends CMSPlugin
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         // Insert level 1 (Link in the footer as alias)
@@ -1122,7 +1168,8 @@ final class Blog extends CMSPlugin
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         $this->getApplication()->setUserState('sampledata.blog.menuIdsLevel1', $menuIdsLevel1);
@@ -1259,7 +1306,8 @@ final class Blog extends CMSPlugin
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         // Add a third level of menuItems - use article title also for menuItem title
@@ -1306,24 +1354,27 @@ final class Blog extends CMSPlugin
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         $response            = [];
         $response['success'] = true;
         $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_STEP2_SUCCESS');
 
-        return $response;
+        $event->addResult($response);
     }
 
     /**
      * Third step to enter the sampledata. Modules.
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @param   AjaxEvent $event  Event instance
+     *
+     * @return  void
      *
      * @since  3.8.0
      */
-    public function onAjaxSampledataApplyStep3()
+    public function onAjaxSampledataApplyStep3(AjaxEvent $event): void
     {
         if (!Session::checkToken('get') || $this->getApplication()->getInput()->get('type') != $this->_name) {
             return;
@@ -1336,12 +1387,16 @@ final class Blog extends CMSPlugin
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 3, 'com_modules');
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         // Detect language to be used.
         $language   = Multilanguage::isEnabled() ? $this->getApplication()->getLanguage()->getTag() : '*';
         $langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
+
+        // Disable language debug to prevent debug_lang_const being added to the string
+        $this->getApplication()->getLanguage()->setDebug(false);
 
         // Add Include Paths.
         /** @var \Joomla\Component\Modules\Administrator\Model\ModuleModel $model */
@@ -1438,6 +1493,7 @@ final class Blog extends CMSPlugin
                     'category_filtering_type'      => 1,
                     'show_child_category_articles' => 0,
                     'levels'                       => 1,
+                    'ex_or_include_articles'       => 0,
                     'exclude_current'              => 1,
                     'excluded_articles'            => '',
                     'included_articles'            => '',
@@ -1507,19 +1563,23 @@ final class Blog extends CMSPlugin
                     'catid'                        => $catIds[2],
                     'show_child_category_articles' => 0,
                     'levels'                       => 1,
+                    'ex_or_include_articles'       => 0,
+                    'exclude_current'              => 1,
+                    'excluded_articles'            => '',
+                    'included_articles'            => '',
                     'title_only'                   => 0,
                     'articles_layout'              => 1,
                     'layout_columns'               => 3,
                     'item_title'                   => 1,
                     'item_heading'                 => 'h3',
                     'link_titles'                  => 1,
+                    'show_author'                  => 0,
+                    'show_category'                => 0,
+                    'show_category_link'           => 1,
                     'show_date'                    => 0,
                     'show_date_field'              => 'created',
                     'show_date_format'             => $this->getApplication()->getLanguage()->_('DATE_FORMAT_LC5'),
-                    'show_category'                => 0,
-                    'show_category_link'           => 1,
                     'show_hits'                    => 0,
-                    'show_author'                  => 0,
                     'info_layout'                  => 1,
                     'show_tags'                    => 0,
                     'trigger_events'               => 0,
@@ -1534,7 +1594,6 @@ final class Blog extends CMSPlugin
                     'show_archived'                => 'hide',
                     'author_filtering_type'        => 1,
                     'author_alias_filtering_type'  => 1,
-                    'excluded_articles'            => '',
                     'date_filtering'               => 'off',
                     'date_field'                   => 'a.created',
                     'start_date_range'             => '',
@@ -1571,6 +1630,7 @@ final class Blog extends CMSPlugin
                     'catid'                        => $catIds[0],
                     'show_child_category_articles' => 0,
                     'levels'                       => 1,
+                    'ex_or_include_articles'       => 0,
                     'exclude_current'              => 1,
                     'excluded_articles'            => '',
                     'included_articles'            => '',
@@ -1749,8 +1809,8 @@ final class Blog extends CMSPlugin
                     'cache_time'     => 900,
                     'cachemode'      => 'static',
                     'module_tag'     => 'div',
-                    'bootstrap_size' => 0,
-                    'header_tag'     => 'h3',
+                    'bootstrap_size' => 12,
+                    'header_tag'     => 'h2',
                     'style'          => 0,
                 ],
             ],
@@ -1807,7 +1867,8 @@ final class Blog extends CMSPlugin
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 3, $this->getApplication()->getLanguage()->_($model->getError()));
 
-                return $response;
+                $event->addResult($response);
+                return;
             }
         }
 
@@ -1839,7 +1900,8 @@ final class Blog extends CMSPlugin
                     $response['success'] = false;
                     $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 3, $this->getApplication()->getLanguage()->_($model->getError()));
 
-                    return $response;
+                    $event->addResult($response);
+                    return;
                 }
             }
         }
@@ -1848,17 +1910,19 @@ final class Blog extends CMSPlugin
         $response['success'] = true;
         $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_STEP3_SUCCESS');
 
-        return $response;
+        $event->addResult($response);
     }
 
     /**
      * Final step to show completion of sampledata.
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @param   AjaxEvent $event  Event instance
+     *
+     * @return  void
      *
      * @since  4.0.0
      */
-    public function onAjaxSampledataApplyStep4()
+    public function onAjaxSampledataApplyStep4(AjaxEvent $event): void
     {
         if ($this->getApplication()->getInput()->get('type') != $this->_name) {
             return;
@@ -1867,7 +1931,7 @@ final class Blog extends CMSPlugin
         $response['success'] = true;
         $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_STEP4_SUCCESS');
 
-        return $response;
+        $event->addResult($response);
     }
 
     /**
@@ -1891,6 +1955,9 @@ final class Blog extends CMSPlugin
         // Detect language to be used.
         $language   = Multilanguage::isEnabled() ? $this->getApplication()->getLanguage()->getTag() : '*';
         $langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
+
+        // Disable language debug to prevent debug_lang_const being added to the string
+        $this->getApplication()->getLanguage()->setDebug(false);
 
         foreach ($menuItems as $menuItem) {
             // Reset item.id in model state.

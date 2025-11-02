@@ -62,14 +62,15 @@ class LanguagesHelper
         }
 
         // Load associations
-        $assoc = Associations::isEnabled();
+        $assoc        = Associations::isEnabled();
+        $option       = $app->getInput()->get('option');
+        $associations = [];
 
-        if ($assoc) {
+        if ($assoc && $option) {
             if ($active) {
                 $associations = MenusHelper::getAssociations($active->id);
             }
 
-            $option    = $app->getInput()->get('option');
             $component = $app->bootComponent($option);
 
             if ($component instanceof AssociationServiceInterface) {

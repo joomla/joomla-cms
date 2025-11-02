@@ -11,7 +11,7 @@ describe('Test in backend that the field form', () => {
     cy.get('#jform_title').clear().type('Test field');
     cy.clickToolbarButton('Save & Close');
 
-    cy.get('#system-message-container').contains('Field saved').should('exist');
+    cy.checkForSystemMessage('Field saved');
     cy.contains('Test field');
   });
 

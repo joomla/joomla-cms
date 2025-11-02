@@ -24,11 +24,14 @@
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         onSuccess: (response) => {
           const output = document.getElementById('indexer-output');
+          const allowedHtml = {
+            fieldset: [], legend: [], dl: ['class'], dt: ['class'], dd: ['class'],
+          };
           try {
             const parsed = JSON.parse(response);
-            output.innerHTML = parsed.rendered;
+            output.innerHTML = Joomla.sanitizeHtml(parsed.rendered, allowedHtml);
           } catch (e) {
-            output.innerHTML = response;
+            output.innerHTML = Joomla.sanitizeHtml(response, allowedHtml);
           }
         },
         onError: (xhr) => {

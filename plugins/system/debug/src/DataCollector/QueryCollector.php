@@ -219,7 +219,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 
                     $isCaller = 0;
 
-                    if (\Joomla\Database\DatabaseDriver::class === $class && false === strpos($file, 'DatabaseDriver.php')) {
+                    if (\Joomla\Database\DatabaseDriver::class === $class && !str_contains($file, 'DatabaseDriver.php')) {
                         $callerLocation = $location;
                         $isCaller       = 1;
                     }
