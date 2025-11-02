@@ -39,7 +39,7 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
      * @var   DataFormatter
      * @since 4.0.0
      */
-    private static $defaultDataFormatter;
+    public static $defaultDataFormatter;
 
     /**
      * AbstractDataCollector constructor.

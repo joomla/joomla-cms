@@ -11,6 +11,7 @@
 namespace Joomla\Component\Menus\Administrator\Controller;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
@@ -32,7 +33,8 @@ class MenuController extends FormController
      * Dummy method to redirect back to standard controller
      *
      * @param   boolean  $cachable   If true, the view output will be cached.
-     * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+     * @param   array    $urlparams  An array of safe URL parameters and their variable types.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  void
      *
@@ -96,11 +98,11 @@ class MenuController extends FormController
             $errors = $model->getErrors();
 
             // Push up to three validation messages out to the user.
-            for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
+            for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
                 if ($errors[$i] instanceof \Exception) {
-                    $app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+                    $app->enqueueMessage($errors[$i]->getMessage(), CMSWebApplicationInterface::MSG_ERROR);
                 } else {
-                    $app->enqueueMessage($errors[$i], 'warning');
+                    $app->enqueueMessage($errors[$i], CMSWebApplicationInterface::MSG_ERROR);
                 }
             }
 
@@ -178,6 +180,8 @@ class MenuController extends FormController
                 $this->setRedirect(Route::_('index.php?option=com_menus&view=menus', false));
                 break;
         }
+
+        return true;
     }
 
     /**

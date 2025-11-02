@@ -104,13 +104,13 @@ abstract class JsonApiView extends JsonView
     /**
      * Execute and display a template script.
      *
-     * @param   array|null  $items  Array of items
+     * @param   ?array  $items  Array of items
      *
      * @return  string
      *
      * @since   4.0.0
      */
-    public function displayList(array $items = null)
+    public function displayList(?array $items = null)
     {
         /** @var \Joomla\CMS\MVC\Model\ListModel $model */
         $model = $this->getModel();
@@ -215,7 +215,7 @@ abstract class JsonApiView extends JsonView
             $item  = $this->prepareItem($model->getItem());
         }
 
-        if ($item->id === null) {
+        if (!$item || $item->id === null) {
             throw new RouteNotFoundException('Item does not exist');
         }
 

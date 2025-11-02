@@ -27,7 +27,7 @@ use Joomla\Database\ParameterType;
  */
 function com_users_postinstall_mfa_condition(): bool
 {
-    return count(PluginHelper::getPlugin('multifactorauth')) < 1;
+    return \count(PluginHelper::getPlugin('multifactorauth')) < 1;
 }
 
 /**

@@ -26,7 +26,7 @@ defined('IS_UNIX') or define('IS_UNIX', (($os !== 'MAC') && ($os !== 'WIN')));
 
 // Import the library loader if necessary.
 if (!class_exists('JLoader')) {
-    require_once JPATH_PLATFORM . '/loader.php';
+    require_once JPATH_LIBRARIES . '/loader.php';
 
     // If JLoader still does not exist panic.
     if (!class_exists('JLoader')) {
@@ -49,9 +49,6 @@ $loader->unregister();
 // Decorate Composer autoloader
 spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
 
-// Register the class aliases for Framework classes that have replaced their Platform equivalents
-require_once JPATH_LIBRARIES . '/classmap.php';
-
 /**
  * Register the global exception handler. And set error level to server default error level.
  * The error level may be changed later in boot up process, after application config will be loaded.
@@ -65,17 +62,6 @@ if (error_reporting() & E_USER_DEPRECATED) {
     set_error_handler(['Joomla\CMS\Exception\ExceptionHandler', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);
 }
 
-// Suppress phar stream wrapper for non .phar files
-$behavior = new \TYPO3\PharStreamWrapper\Behavior();
-\TYPO3\PharStreamWrapper\Manager::initialize(
-    $behavior->withAssertion(new \TYPO3\PharStreamWrapper\Interceptor\PharExtensionInterceptor())
-);
-
-if (in_array('phar', stream_get_wrappers())) {
-    stream_wrapper_unregister('phar');
-    stream_wrapper_register('phar', 'TYPO3\\PharStreamWrapper\\PharStreamWrapper');
-}
-
 // Define the Joomla version if not already defined.
 defined('JVERSION') or define('JVERSION', (new \Joomla\CMS\Version())->getShortVersion());
 
@@ -85,7 +71,7 @@ if (array_key_exists('REQUEST_METHOD', $_SERVER)) {
 }
 
 // Register the Crypto lib
-JLoader::register('Crypto', JPATH_PLATFORM . '/php-encryption/Crypto.php');
+JLoader::register('Crypto', JPATH_LIBRARIES . '/php-encryption/Crypto.php');
 
 // Register the PasswordHash library.
-JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
+JLoader::register('PasswordHash', JPATH_LIBRARIES . '/phpass/PasswordHash.php');

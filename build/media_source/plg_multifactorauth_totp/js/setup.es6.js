@@ -22,5 +22,4 @@
     qr.make();
     elTarget.innerHTML = qr.createImgTag(4);
   });
-// eslint-disable-next-line no-undef
 })(Joomla, document, qrcode);

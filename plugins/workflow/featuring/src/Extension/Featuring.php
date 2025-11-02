@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\Workflow\Featuring\Extension;
 
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Event\Table\BeforeStoreEvent;
 use Joomla\CMS\Event\View\DisplayEvent;
 use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
@@ -83,13 +84,14 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
     /**
      * The form event.
      *
-     * @param   EventInterface  $event  The event
+     * @param   Model\PrepareFormEvent  $event  The event
      *
      * @since   4.0.0
      */
-    public function onContentPrepareForm(EventInterface $event)
+    public function onContentPrepareForm(Model\PrepareFormEvent $event)
     {
-        [$form, $data] = array_values($event->getArguments());
+        $form = $event->getForm();
+        $data = $event->getData();
 
         $context = $form->getName();
 
@@ -108,7 +110,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
      * Check also for the workflow implementation and if the field exists
      *
      * @param   Form      $form  The form
-     * @param   stdClass  $data  The data
+     * @param   object    $data  The data
      *
      * @return  boolean
      *
@@ -178,6 +180,8 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
      *
      * @param   DisplayEvent  $event
      *
+     * @return  void
+     *
      * @since   4.0.0
      */
     public function onAfterDisplay(DisplayEvent $event)
@@ -193,7 +197,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
         $singularsection = Inflector::singularize($section);
 
         if (!$this->isSupported($component . '.' . $singularsection)) {
-            return true;
+            return;
         }
 
         // List of related batch functions we need to hide
@@ -225,8 +229,6 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
 		";
 
         $this->getApplication()->getDocument()->addScriptDeclaration($js);
-
-        return true;
     }
 
     /**
@@ -338,7 +340,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
      *
      * @return   boolean
      *
-     * @throws   Exception
+     * @throws   \Exception
      * @since   4.0.0
      */
     public function onContentBeforeChangeFeatured(FeatureEvent $event)
@@ -357,26 +359,30 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
         }
 
         $event->setAbort('PLG_WORKFLOW_FEATURING_CHANGE_STATE_NOT_ALLOWED');
+
+        return false;
     }
 
     /**
      * The save event.
      *
-     * @param   EventInterface  $event
+     * @param   Model\BeforeSaveEvent  $event
      *
      * @return  boolean
      *
      * @since   4.0.0
      */
-    public function onContentBeforeSave(EventInterface $event)
+    public function onContentBeforeSave(Model\BeforeSaveEvent $event)
     {
-        /** @var TableInterface $table */
-        [$context, $table, $isNew, $data] = array_values($event->getArguments());
+        $context = $event->getContext();
 
         if (!$this->isSupported($context)) {
             return true;
         }
 
+        /** @var TableInterface $table */
+        $table   = $event->getItem();
+        $data    = $event->getData();
         $keyName = $table->getColumnAlias('featured');
 
         // Check for the old value
@@ -405,7 +411,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
      *
      * @param   EventInterface  $event
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   4.0.0
      */
@@ -415,7 +421,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
         $context = $event->getArgument('extension');
 
         if (!$this->isSupported($context)) {
-            return true;
+            return;
         }
 
         $parts = explode('.', $context);
@@ -491,7 +497,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
         $parts = explode('.', $context);
 
         // We need at least the extension + view for loading the table fields
-        if (count($parts) < 2) {
+        if (\count($parts) < 2) {
             return false;
         }
 

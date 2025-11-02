@@ -16,12 +16,14 @@ use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarFactoryInterface;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Utility\Utility;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -55,7 +57,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      * @var    string
      * @since  1.7.0
      */
-    public $template = null;
+    public $template;
 
     /**
      * Base url
@@ -63,15 +65,15 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      * @var    string
      * @since  1.7.0
      */
-    public $baseurl = null;
+    public $baseurl;
 
     /**
-     * Array of template parameters
+     * Registry of template parameters
      *
-     * @var    array
+     * @var    Registry
      * @since  1.7.0
      */
-    public $params = null;
+    public $params;
 
     /**
      * File name
@@ -79,7 +81,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      * @var    array
      * @since  1.7.0
      */
-    public $_file = null;
+    public $_file;
 
     /**
      * Script nonce (string if set, null otherwise)
@@ -87,7 +89,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      * @var    string|null
      * @since  4.0.0
      */
-    public $cspNonce = null;
+    public $cspNonce;
 
     /**
      * String holding parsed template
@@ -111,7 +113,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      * @var    integer
      * @since  1.7.0
      */
-    protected $_caching = null;
+    protected $_caching;
 
     /**
      * Set to true when the document should be output as HTML5
@@ -120,6 +122,14 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      * @since  4.0.0
      */
     private $html5 = true;
+
+    /**
+     * List of type \Joomla\CMS\Toolbar\Toolbar
+     *
+     * @var    Toolbar[]
+     * @since  5.0.0
+     */
+    private $toolbars = [];
 
     /**
      * Class constructor
@@ -518,7 +528,8 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
             return parent::$_buffer;
         }
 
-        $title = $attribs['title'] ?? null;
+        $name  ??= '';
+        $title = $attribs['title'] ?? '';
 
         if (isset(parent::$_buffer[$type][$name][$title])) {
             return parent::$_buffer[$type][$name][$title];
@@ -526,7 +537,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
 
         $renderer = $this->loadRenderer($type);
 
-        if ($this->_caching == true && $type === 'modules' && $name !== 'debug') {
+        if ($this->_caching && $type === 'modules' && $name !== 'debug') {
             /** @var  \Joomla\CMS\Document\Renderer\Html\ModulesRenderer  $renderer */
             /** @var  \Joomla\CMS\Cache\Controller\OutputController  $cache */
             $cache  = $this->getCacheControllerFactory()->createCacheController('output', ['defaultgroup' => 'com_modules']);
@@ -548,12 +559,14 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
                 return Cache::getWorkarounds($cbuffer[$hash], ['mergehead' => 1]);
             }
 
-            $options               = [];
-            $options['nopathway']  = 1;
-            $options['nomodules']  = 1;
-            $options['modulemode'] = 1;
+            $options = [
+                'nopathway'  => 1,
+                'nomodules'  => 1,
+                'modulemode' => 1,
+            ];
 
             $this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
+
             $data = parent::$_buffer[$type][$name][$title];
 
             $tmpdata = Cache::setWorkarounds($data, $options);
@@ -694,7 +707,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
     {
         $active = CmsFactory::getApplication()->getMenu()->getActive();
 
-        return $active ? count($active->getChildren()) : 0;
+        return $active ? \count($active->getChildren()) : 0;
     }
 
     /**
@@ -719,8 +732,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
             // Get the file content
             ob_start();
             require $directory . '/' . $filename;
-            $contents = ob_get_contents();
-            ob_end_clean();
+            $contents = ob_get_clean();
         }
 
         return $contents;
@@ -774,6 +786,58 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
 
         // Load
         $this->_template = $this->_loadTemplate($baseDir, $file);
+
+        return $this;
+    }
+
+    /**
+     * Returns a toolbar object or null
+     *
+     * @param   string   $toolbar
+     * @param   boolean  $create
+     *
+     * @return  ?Toolbar
+     *
+     * @since   5.0.0
+     */
+    public function getToolbar(string $toolbar = 'toolbar', bool $create = true): ?Toolbar
+    {
+        if (empty($this->toolbars[$toolbar])) {
+            if (!$create) {
+                return null;
+            }
+
+            $this->toolbars[$toolbar] = CmsFactory::getContainer()->get(ToolbarFactoryInterface::class)->createToolbar($toolbar);
+        }
+
+        return $this->toolbars[$toolbar];
+    }
+
+    /**
+     * Returns the toolbar array
+     *
+     * @return  array
+     *
+     * @since   5.0.0
+     */
+    public function getToolbars(): array
+    {
+        return $this->toolbars;
+    }
+
+    /**
+     * Adds a new or replace an existing toolbar object
+     *
+     * @param   string   $name
+     * @param   Toolbar  $toolbar
+     *
+     * @return  $this
+     *
+     * @since   5.0.0
+     */
+    public function setToolbar(string $name, Toolbar $toolbar): self
+    {
+        $this->toolbars[$name] = $toolbar;
 
         return $this;
     }

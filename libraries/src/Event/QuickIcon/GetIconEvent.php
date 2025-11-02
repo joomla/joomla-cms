@@ -16,7 +16,7 @@ use Joomla\CMS\Event\Result\ResultAwareInterface;
 use Joomla\CMS\Event\Result\ResultTypeArrayAware;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -55,13 +55,13 @@ class GetIconEvent extends AbstractImmutableEvent implements ResultAwareInterfac
      *
      * @since   4.2.0
      *
-     * @deprecated 4.4.0 will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 7.0
      *                Use counterpart with onSet prefix
      */
     public function setContext(string $value)
     {
         if (empty($value)) {
-            throw new \DomainException(sprintf("Argument 'context' of event %s must be a non-empty string.", $this->name));
+            throw new \DomainException(\sprintf("Argument 'context' of event %s must be a non-empty string.", $this->name));
         }
 
         return $value;

@@ -14,8 +14,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Menus\Administrator\Model\MenutypesModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -46,6 +46,15 @@ class HtmlView extends BaseHtmlView
     protected $types;
 
     /**
+     * The model state
+     *
+     * @var    object
+     *
+     * @since  5.3.0
+     */
+    protected $state;
+
+    /**
      * Display the view
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -59,7 +68,11 @@ class HtmlView extends BaseHtmlView
         $app            = Factory::getApplication();
         $this->recordId = $app->getInput()->getInt('recordId');
 
-        $types = $this->get('TypeOptions');
+        /** @var MenutypesModel $model */
+        $model = $this->getModel();
+
+        $this->state = $model->getState();
+        $types       = $model->getTypeOptions();
 
         $this->addCustomTypes($types);
 
@@ -80,7 +93,9 @@ class HtmlView extends BaseHtmlView
 
         $this->types = $sortedTypes;
 
-        $this->addToolbar();
+        if (!$app->getInput()->get('tmpl')) {
+            $this->addToolbar();
+        }
 
         parent::display($tpl);
     }
@@ -97,7 +112,7 @@ class HtmlView extends BaseHtmlView
         // Add page title
         ToolbarHelper::title(Text::_('COM_MENUS'), 'list menumgr');
 
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         // Cancel
         $title = Text::_('JTOOLBAR_CANCEL');
@@ -153,7 +168,7 @@ class HtmlView extends BaseHtmlView
         $o->request     = null;
         $list[]         = $o;
 
-        if ($this->get('state')->get('client_id') == 1) {
+        if ($this->state->get('client_id') == 1) {
             $o              = new CMSObject();
             $o->title       = 'COM_MENUS_TYPE_CONTAINER';
             $o->type        = 'container';

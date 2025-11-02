@@ -9,13 +9,13 @@
 
 namespace Joomla\CMS\Form\Field;
 
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormField;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -168,7 +168,7 @@ class SubformField extends FormField
 
             case 'value':
                 // We allow a json encoded string or an array
-                if (is_string($value)) {
+                if (\is_string($value)) {
                     $value = json_decode($value, true);
                 }
 
@@ -229,7 +229,7 @@ class SubformField extends FormField
     protected function getInput()
     {
         // Prepare data for renderer
-        $data    = $this->getLayoutData();
+        $data    = $this->collectLayoutData();
         $tmpl    = null;
         $control = $this->name;
 
@@ -400,18 +400,18 @@ class SubformField extends FormField
      * @param   mixed      $value  The optional value to use as the default for the field.
      * @param   string     $group  The optional dot-separated form group path on which to find the field.
      * @param   ?Registry  $input  An optional Registry object with the entire data set to filter
-     *                            against the entire form.
+     *                             against the entire form.
      *
      * @return  mixed   The filtered value.
      *
      * @since   4.0.0
      * @throws  \UnexpectedValueException
      */
-    public function filter($value, $group = null, Registry $input = null)
+    public function filter($value, $group = null, ?Registry $input = null)
     {
         // Make sure there is a valid SimpleXMLElement.
         if (!($this->element instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s::filter `element` is not an instance of SimpleXMLElement', \get_class($this)));
+            throw new \UnexpectedValueException(\sprintf('%s::filter `element` is not an instance of SimpleXMLElement', \get_class($this)));
         }
 
         // Get the field filter type.
@@ -425,7 +425,7 @@ class SubformField extends FormField
         $subForm = $this->loadSubForm();
 
         // Subform field may have a default value, that is a JSON string
-        if ($value && is_string($value)) {
+        if ($value && \is_string($value)) {
             $value = json_decode($value, true);
 
             // The string is invalid json

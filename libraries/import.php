@@ -40,7 +40,7 @@ if (!defined('IS_UNIX')) {
 
 // Import the library loader if necessary.
 if (!class_exists('JLoader')) {
-    require_once JPATH_PLATFORM . '/loader.php';
+    require_once JPATH_LIBRARIES . '/loader.php';
 }
 
 // Make sure that the Joomla Platform has been successfully loaded.
@@ -52,4 +52,4 @@ if (!class_exists('JLoader')) {
 JLoader::setup();
 
 // Register the PasswordHash lib
-JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
+JLoader::register('PasswordHash', JPATH_LIBRARIES . '/phpass/PasswordHash.php');

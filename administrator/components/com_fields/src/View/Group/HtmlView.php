@@ -11,15 +11,15 @@
 namespace Joomla\Component\Fields\Administrator\View\Group;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Component\Fields\Administrator\Model\GroupModel;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -40,14 +40,14 @@ class HtmlView extends BaseHtmlView
     protected $form;
 
     /**
-     * @var    CMSObject
+     * @var    \stdClass
      *
      * @since  3.7.0
      */
     protected $item;
 
     /**
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      *
      * @since  3.7.0
      */
@@ -56,7 +56,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The actions the user is authorised to perform
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      *
      * @since  3.7.0
      */
@@ -73,9 +73,12 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->form  = $this->get('Form');
-        $this->item  = $this->get('Item');
-        $this->state = $this->get('State');
+        /** @var GroupModel $model */
+        $model = $this->getModel();
+
+        $this->form  = $model->getForm();
+        $this->item  = $model->getItem();
+        $this->state = $model->getState();
 
         $component = '';
         $parts     = FieldsHelper::extract($this->state->get('filter.context'));
@@ -87,7 +90,7 @@ class HtmlView extends BaseHtmlView
         $this->canDo = ContentHelper::getActions($component, 'fieldgroup', $this->item->id);
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -109,17 +112,17 @@ class HtmlView extends BaseHtmlView
 
         $component = '';
         $parts     = FieldsHelper::extract($this->state->get('filter.context'));
-        $toolbar   = Toolbar::getInstance();
+        $toolbar   = $this->getDocument()->getToolbar();
 
         if ($parts) {
             $component = $parts[0];
         }
 
-        $userId    = $this->getCurrentUser()->get('id');
+        $userId    = $this->getCurrentUser()->id;
         $canDo     = $this->canDo;
 
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
 
         // Avoid nonsense situation.
         if ($component == 'com_fields') {
@@ -140,8 +143,6 @@ class HtmlView extends BaseHtmlView
             ($isNew ? 'add' : 'edit')
         );
 
-        $toolbarButtons = [];
-
         // For new records, check the create permission.
         if ($isNew) {
             $toolbar->apply('group.apply');
@@ -154,7 +155,7 @@ class HtmlView extends BaseHtmlView
                 }
             );
 
-            $toolbar->cancel('group.cancel');
+            $toolbar->cancel('group.cancel', 'JTOOLBAR_CANCEL');
         } else {
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
             $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);

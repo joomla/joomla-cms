@@ -12,7 +12,7 @@ namespace Joomla\CMS\Application\CLI;
 use Joomla\CMS\Application\CLI\Output\Processor\ProcessorInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -36,11 +36,11 @@ abstract class CliOutput
     /**
      * Constructor
      *
-     * @param   ProcessorInterface  $processor  The output processor.
+     * @param   ?ProcessorInterface  $processor  The output processor.
      *
      * @since   4.0.0
      */
-    public function __construct(ProcessorInterface $processor = null)
+    public function __construct(?ProcessorInterface $processor = null)
     {
         $this->setProcessor($processor ?: new Output\Processor\ColorProcessor());
     }

@@ -29,9 +29,8 @@ describe('Test in backend that the categories list', () => {
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Publish').click();
-      cy.on('window:confirm', () => true);
 
-      cy.get('#system-message-container').contains('Category published.').should('exist');
+      cy.checkForSystemMessage('Category published.');
     });
   });
 
@@ -42,9 +41,8 @@ describe('Test in backend that the categories list', () => {
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Unpublish').click();
-      cy.on('window:confirm', () => true);
 
-      cy.get('#system-message-container').contains('Category unpublished.').should('exist');
+      cy.checkForSystemMessage('Category unpublished.');
     });
   });
 
@@ -55,9 +53,8 @@ describe('Test in backend that the categories list', () => {
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Trash').click();
-      cy.on('window:confirm', () => true);
 
-      cy.get('#system-message-container').contains('Category trashed.').should('exist');
+      cy.checkForSystemMessage('Category trashed.');
     });
   });
 
@@ -71,8 +68,8 @@ describe('Test in backend that the categories list', () => {
     cy.searchForItem('Test category');
     cy.checkAllResults();
     cy.clickToolbarButton('empty trash');
-    cy.on('window:confirm', () => true);
+    cy.clickDialogConfirm(true);
 
-    cy.get('#system-message-container').contains('Category deleted.').should('exist');
+    cy.checkForSystemMessage('Category deleted.');
   });
 });

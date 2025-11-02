@@ -48,6 +48,9 @@ trait AjaxHandlerChallenge
         $session    = $this->getApplication()->getSession();
         $input      = $this->getApplication()->getInput();
 
+        // Load plugin language files
+        $this->loadLanguage();
+
         // Retrieve data from the request
         $username  = $input->getUsername('username', '');
         $returnUrl = base64_encode(
@@ -73,27 +76,11 @@ trait AjaxHandlerChallenge
 
         // Is the username valid?
         try {
-            $userId = UserHelper::getUserId($username);
-        } catch (\Exception $e) {
-            $userId = 0;
-        }
-
-        if ($userId <= 0) {
-            $event->addResult(false);
-
-            return;
-        }
-
-        try {
-            $myUser = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
+            $userId = UserHelper::getUserId($username) ?: 0;
+            $myUser = $userId ? Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId) : new User();
         } catch (\Exception $e) {
             $myUser = new User();
-        }
-
-        if ($myUser->id != $userId || $myUser->guest) {
-            $event->addResult(false);
-
-            return;
+            $userId = 0;
         }
 
         $publicKeyCredentialRequestOptions = $this->authenticationHelper->getPubkeyRequestOptions($myUser);

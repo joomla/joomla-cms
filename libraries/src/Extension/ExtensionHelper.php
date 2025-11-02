@@ -13,7 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -131,6 +131,7 @@ class ExtensionHelper
         ['module', 'mod_version', '', 1],
 
         // Core module extensions - site
+        ['module', 'mod_articles', '', 0],
         ['module', 'mod_articles_archive', '', 0],
         ['module', 'mod_articles_categories', '', 0],
         ['module', 'mod_articles_category', '', 0],
@@ -173,12 +174,9 @@ class ExtensionHelper
 
         // Core plugin extensions - behaviour
         ['plugin', 'compat', 'behaviour', 0],
+        ['plugin', 'compat6', 'behaviour', 0],
         ['plugin', 'taggable', 'behaviour', 0],
         ['plugin', 'versionable', 'behaviour', 0],
-
-        // Core plugin extensions - captcha
-        ['plugin', 'recaptcha', 'captcha', 0],
-        ['plugin', 'recaptcha_invisible', 'captcha', 0],
 
         // Core plugin extensions - content
         ['plugin', 'confirmconsent', 'content', 0],
@@ -209,6 +207,7 @@ class ExtensionHelper
 
         // Core plugin extensions - extension
         ['plugin', 'joomla', 'extension', 0],
+        ['plugin', 'joomlaupdate', 'extension', 0],
         ['plugin', 'namespacemap', 'extension', 0],
         ['plugin', 'finder', 'extension', 0],
 
@@ -268,6 +267,7 @@ class ExtensionHelper
         ['plugin', 'user', 'privacy', 0],
 
         // Core plugin extensions - quick icon
+        ['plugin', 'autoupdate', 'quickicon', 0],
         ['plugin', 'downloadkey', 'quickicon', 0],
         ['plugin', 'extensionupdate', 'quickicon', 0],
         ['plugin', 'joomlaupdate', 'quickicon', 0],
@@ -279,6 +279,17 @@ class ExtensionHelper
         // Core plugin extensions - sample data
         ['plugin', 'blog', 'sampledata', 0],
         ['plugin', 'multilang', 'sampledata', 0],
+
+        // Core plugin extensions - schemaorg
+        ['plugin', 'article', 'schemaorg', 0],
+        ['plugin', 'blogposting', 'schemaorg', 0],
+        ['plugin', 'book', 'schemaorg', 0],
+        ['plugin', 'custom', 'schemaorg', 0],
+        ['plugin', 'event', 'schemaorg', 0],
+        ['plugin', 'jobposting', 'schemaorg', 0],
+        ['plugin', 'organization', 'schemaorg', 0],
+        ['plugin', 'person', 'schemaorg', 0],
+        ['plugin', 'recipe', 'schemaorg', 0],
 
         // Core plugin extensions - system
         ['plugin', 'accessibility', 'system', 0],
@@ -294,25 +305,28 @@ class ExtensionHelper
         ['plugin', 'languagefilter', 'system', 0],
         ['plugin', 'log', 'system', 0],
         ['plugin', 'logout', 'system', 0],
-        ['plugin', 'logrotation', 'system', 0],
         ['plugin', 'privacyconsent', 'system', 0],
         ['plugin', 'redirect', 'system', 0],
         ['plugin', 'remember', 'system', 0],
         ['plugin', 'schedulerunner', 'system', 0],
+        ['plugin', 'schemaorg', 'system', 0],
         ['plugin', 'sef', 'system', 0],
-        ['plugin', 'sessiongc', 'system', 0],
         ['plugin', 'shortcut', 'system', 0],
         ['plugin', 'skipto', 'system', 0],
         ['plugin', 'stats', 'system', 0],
         ['plugin', 'tasknotification', 'system', 0],
-        ['plugin', 'updatenotification', 'system', 0],
         ['plugin', 'webauthn', 'system', 0],
 
         // Core plugin extensions - task scheduler
         ['plugin', 'checkfiles', 'task', 0],
-        ['plugin', 'demotasks', 'task', 0],
+        ['plugin', 'deleteactionlogs', 'task', 0],
+        ['plugin', 'globalcheckin', 'task', 0],
+        ['plugin', 'privacyconsent', 'task', 0],
         ['plugin', 'requests', 'task', 0],
+        ['plugin', 'rotatelogs', 'task', 0],
+        ['plugin', 'sessiongc', 'task', 0],
         ['plugin', 'sitestatus', 'task', 0],
+        ['plugin', 'updatenotification', 'task', 0],
 
         // Core plugin extensions - user
         ['plugin', 'contactcreator', 'user', 0],
@@ -327,6 +341,7 @@ class ExtensionHelper
         ['plugin', 'contact', 'webservices', 0],
         ['plugin', 'content', 'webservices', 0],
         ['plugin', 'installer', 'webservices', 0],
+        ['plugin', 'joomlaupdate', 'webservices', 0],
         ['plugin', 'languages', 'webservices', 0],
         ['plugin', 'media', 'webservices', 0],
         ['plugin', 'menus', 'webservices', 0],
@@ -452,12 +467,12 @@ class ExtensionHelper
     public static function getExtensionRecord(string $element, string $type, ?int $clientId = null, ?string $folder = null): ?\stdClass
     {
         if ($type === 'plugin' && $folder === null) {
-            throw new \InvalidArgumentException(sprintf('`$folder` is required when `$type` is `plugin` in %s()', __METHOD__));
+            throw new \InvalidArgumentException(\sprintf('`$folder` is required when `$type` is `plugin` in %s()', __METHOD__));
         }
 
         if (\in_array($type, ['module', 'language', 'template'], true) && $clientId === null) {
             throw new \InvalidArgumentException(
-                sprintf('`$clientId` is required when `$type` is `module`, `language` or `template` in %s()', __METHOD__)
+                \sprintf('`$clientId` is required when `$type` is `module`, `language` or `template` in %s()', __METHOD__)
             );
         }
 

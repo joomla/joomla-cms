@@ -35,14 +35,6 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
     use DatabaseAwareTrait;
 
     /**
-     * Affects constructor behavior. If true, language files will be loaded automatically.
-     *
-     * @var    boolean
-     * @since  3.4
-     */
-    protected $autoloadLanguage = false;
-
-    /**
      * Returns an array of events this subscriber will listen to.
      *
      * @return  array
@@ -71,6 +63,9 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
         if ($app->isClient('administrator') || ((int) $event->getError()->getCode() !== 404)) {
             return;
         }
+
+        // Load translations
+        $this->loadLanguage();
 
         $uri = Uri::getInstance();
 
@@ -125,7 +120,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
          * Why is this (still) here?
          * Because hackers still try urls with mosConfig_* and Url Injection with =http[s]:// and we dont want to log/redirect these requests
          */
-        if ($skipUrl || (strpos($url, 'mosConfig_') !== false) || (strpos($url, '=http') !== false)) {
+        if ($skipUrl || (str_contains($url, 'mosConfig_')) || (str_contains($url, '=http'))) {
             return;
         }
 
@@ -208,7 +203,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
                     $newUrl .= '?' . $urlQuery;
                 }
 
-                $dest = Uri::isInternal($newUrl) || strpos($newUrl, 'http') === false ?
+                $dest = Uri::isInternal($newUrl) || !str_contains($newUrl, 'http') ?
                     Route::_($newUrl) : $newUrl;
 
                 // In case the url contains double // lets remove it
@@ -219,7 +214,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
 
                 try {
                     $this->getDatabase()->updateObject('#__redirect_links', $redirect, 'id');
-                } catch (\Exception $e) {
+                } catch (\Exception) {
                     // We don't log issues for now
                 }
 

@@ -14,7 +14,7 @@ describe('Test that redirect API endpoint', () => {
         .should('include', 'automated test redirect'));
   });
 
-  it('can deliver a list of redirect', () => {
+  it('can deliver a list of redirects', () => {
     cy.api_get('/redirects')
       .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes')
         .its('comment')

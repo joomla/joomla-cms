@@ -12,10 +12,13 @@ namespace Joomla\Plugin\SampleData\Testing\Extension;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Plugin\AjaxEvent;
+use Joomla\CMS\Event\SampleData\GetOverviewEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -26,7 +29,7 @@ use Joomla\Database\DatabaseAwareTrait;
  *
  * @since  3.8.0
  */
-final class Testing extends CMSPlugin
+final class Testing extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
 
@@ -57,14 +60,41 @@ final class Testing extends CMSPlugin
      */
     private $menuItemModel;
 
+    protected $menuModuleMapping = [];
+
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since 5.3.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onSampledataGetOverview'    => 'onSampledataGetOverview',
+            'onAjaxSampledataApplyStep1' => 'onAjaxSampledataApplyStep1',
+            'onAjaxSampledataApplyStep2' => 'onAjaxSampledataApplyStep2',
+            'onAjaxSampledataApplyStep3' => 'onAjaxSampledataApplyStep3',
+            'onAjaxSampledataApplyStep4' => 'onAjaxSampledataApplyStep4',
+            'onAjaxSampledataApplyStep5' => 'onAjaxSampledataApplyStep5',
+            'onAjaxSampledataApplyStep6' => 'onAjaxSampledataApplyStep6',
+            'onAjaxSampledataApplyStep7' => 'onAjaxSampledataApplyStep7',
+            'onAjaxSampledataApplyStep8' => 'onAjaxSampledataApplyStep8',
+            'onAjaxSampledataApplyStep9' => 'onAjaxSampledataApplyStep9',
+        ];
+    }
+
     /**
      * Get an overview of the proposed sampledata.
      *
-     * @return  object  Object containing the name, title, description, icon and steps.
+     * @param   GetOverviewEvent $event  Event instance
+     *
+     * @return  void
      *
      * @since  3.8.0
      */
-    public function onSampledataGetOverview()
+    public function onSampledataGetOverview(GetOverviewEvent $event): void
     {
         $data              = new \stdClass();
         $data->name        = $this->_name;
@@ -73,17 +103,19 @@ final class Testing extends CMSPlugin
         $data->icon        = 'bolt';
         $data->steps       = 9;
 
-        return $data;
+        $event->addResult($data);
     }
 
     /**
      * First step to enter the sampledata. Tags
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @param   AjaxEvent $event  Event instance
+     *
+     * @return  void
      *
      * @since  3.8.0
      */
-    public function onAjaxSampledataApplyStep1()
+    public function onAjaxSampledataApplyStep1(AjaxEvent $event): void
     {
         if ($this->getApplication()->getInput()->get('type') !== $this->_name) {
             return;
@@ -94,7 +126,8 @@ final class Testing extends CMSPlugin
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 1, 'com_tags');
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         /** @var \Joomla\Component\Tags\Administrator\Model\TagModel $model */
@@ -128,7 +161,8 @@ final class Testing extends CMSPlugin
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 1, $e->getMessage());
 
-                return $response;
+                $event->addResult($response);
+                return;
             }
 
             $tagIds[] = $model->getState('tag.id');
@@ -158,7 +192,8 @@ final class Testing extends CMSPlugin
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 1, $e->getMessage());
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         $tagIds[] = $model->getState('tag.id');
@@ -170,17 +205,19 @@ final class Testing extends CMSPlugin
         $response['success'] = true;
         $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_STEP1_SUCCESS');
 
-        return $response;
+        $event->addResult($response);
     }
 
     /**
      * Second step to enter the sampledata. Banners
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @param AjaxEvent $event Event instance
+     *
+     * @return  void
      *
      * @since  3.8.0
      */
-    public function onAjaxSampledataApplyStep2()
+    public function onAjaxSampledataApplyStep2(AjaxEvent $event): void
     {
         if ($this->getApplication()->getInput()->get('type') !== $this->_name) {
             return;
@@ -191,15 +228,16 @@ final class Testing extends CMSPlugin
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 2, 'com_banners');
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         $factory = $this->getApplication()->bootComponent('com_banners')->getMVCFactory();
 
-        /** @var Joomla\Component\Banners\Administrator\Model\ClientModel $clientModel */
+        /** @var \Joomla\Component\Banners\Administrator\Model\ClientModel $clientModel */
         $clientModel = $factory->createModel('Client', 'Administrator', ['ignore_request' => true]);
 
-        /** @var Joomla\Component\Banners\Administrator\Model\BannerModel $bannerModel */
+        /** @var \Joomla\Component\Banners\Administrator\Model\BannerModel $bannerModel */
         $bannerModel = $factory->createModel('Banner', 'Administrator', ['ignore_request' => true]);
 
         $user = $this->getApplication()->getIdentity();
@@ -218,7 +256,8 @@ final class Testing extends CMSPlugin
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 2, $e->getMessage());
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         $this->getApplication()->setUserState('sampledata.testing.banners.catids', $catIds);
@@ -267,7 +306,8 @@ final class Testing extends CMSPlugin
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 2, $e->getMessage());
 
-                return $response;
+                $event->addResult($response);
+                return;
             }
 
             $clientIds[] = $clientModel->getState('banner.id');
@@ -326,7 +366,8 @@ final class Testing extends CMSPlugin
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 2, $e->getMessage());
 
-                return $response;
+                $event->addResult($response);
+                return;
             }
         }
 
@@ -334,17 +375,19 @@ final class Testing extends CMSPlugin
         $response['success'] = true;
         $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_STEP2_SUCCESS');
 
-        return $response;
+        $event->addResult($response);
     }
 
     /**
      * Third step to enter the sampledata. Content 1/2
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @param AjaxEvent $event Event instance
+     *
+     * @return  void
      *
      * @since  3.8.0
      */
-    public function onAjaxSampledataApplyStep3()
+    public function onAjaxSampledataApplyStep3(AjaxEvent $event): void
     {
         if ($this->getApplication()->getInput()->get('type') !== $this->_name) {
             return;
@@ -355,7 +398,8 @@ final class Testing extends CMSPlugin
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 3, 'com_content');
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         // Insert first level of categories.
@@ -372,7 +416,8 @@ final class Testing extends CMSPlugin
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 3, $e->getMessage());
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         // Insert second level of categories.
@@ -398,7 +443,8 @@ final class Testing extends CMSPlugin
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 3, $e->getMessage());
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         // Insert third level of categories.
@@ -439,7 +485,8 @@ final class Testing extends CMSPlugin
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 3, $e->getMessage());
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         // Insert fourth level of categories.
@@ -487,7 +534,8 @@ final class Testing extends CMSPlugin
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 3, $e->getMessage());
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         // Insert fifth level of categories.
@@ -540,7 +588,8 @@ final class Testing extends CMSPlugin
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 3, $e->getMessage());
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         $this->getApplication()->setUserState('sampledata.testing.articles.catids1', $catIdsLevel1);
@@ -553,17 +602,19 @@ final class Testing extends CMSPlugin
         $response['success'] = true;
         $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_STEP3_SUCCESS');
 
-        return $response;
+        $event->addResult($response);
     }
 
     /**
      * Fourth step to enter the sampledata. Content 2/2
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @param AjaxEvent $event Event instance
+     *
+     * @return  void
      *
      * @since  4.0.0
      */
-    public function onAjaxSampledataApplyStep4()
+    public function onAjaxSampledataApplyStep4(AjaxEvent $event): void
     {
         if ($this->getApplication()->getInput()->get('type') !== $this->_name) {
             return;
@@ -574,7 +625,8 @@ final class Testing extends CMSPlugin
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 4, 'com_content');
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         ComponentHelper::getParams('com_content')->set('workflow_enabled', 0);
@@ -886,7 +938,7 @@ final class Testing extends CMSPlugin
                 'catid'    => $catIdsLevel4[4],
                 'ordering' => 7,
             ],
-            // Articles 60 - 68
+            // Articles 60 - 69
             [
                 'catid'  => $catIdsLevel4[6],
                 'images' => [
@@ -936,7 +988,20 @@ final class Testing extends CMSPlugin
             ],
             [
                 'catid'    => $catIdsLevel5[0],
-                'tags'     => array_map('strval', array_slice($tagIds, 0, 3)),
+                'tags'     => array_map('strval', \array_slice($tagIds, 0, 3)),
+                'ordering' => 0,
+            ],
+            [
+                'catid'    => $catIdsLevel5[0],
+                'ordering' => 0,
+            ],
+            [
+                'catid'    => $catIdsLevel5[0],
+                'ordering' => 0,
+            ],
+            // Articles 70 -
+            [
+                'catid'    => $catIdsLevel5[0],
                 'ordering' => 0,
             ],
             [
@@ -952,7 +1017,8 @@ final class Testing extends CMSPlugin
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 4, $e->getMessage());
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         $articleNamespace = (array) $this->getApplication()->getUserState('sampledata.testing.articles');
@@ -962,17 +1028,19 @@ final class Testing extends CMSPlugin
         $response['success'] = true;
         $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_STEP4_SUCCESS');
 
-        return $response;
+        $event->addResult($response);
     }
 
     /**
      * Fifth step to enter the sampledata. Contacts
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @param AjaxEvent $event Event instance
+     *
+     * @return  void
      *
      * @since  3.8.0
      */
-    public function onAjaxSampledataApplyStep5()
+    public function onAjaxSampledataApplyStep5(AjaxEvent $event): void
     {
         if ($this->getApplication()->getInput()->get('type') !== $this->_name) {
             return;
@@ -983,7 +1051,8 @@ final class Testing extends CMSPlugin
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 5, 'com_contact');
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         $model  = $this->getApplication()->bootComponent('com_contact')->getMVCFactory()->createModel('Contact', 'Administrator', ['ignore_request' => true]);
@@ -1004,7 +1073,8 @@ final class Testing extends CMSPlugin
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage());
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         // Insert second level of categories.
@@ -1025,7 +1095,8 @@ final class Testing extends CMSPlugin
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage());
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         // Insert third level of categories.
@@ -1048,7 +1119,8 @@ final class Testing extends CMSPlugin
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage());
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         // Insert fourth level of categories.
@@ -1057,7 +1129,7 @@ final class Testing extends CMSPlugin
         // Categories A-Z.
         for ($i = 65; $i <= 90; $i++) {
             $categories[] = [
-                'title'     => chr($i),
+                'title'     => \chr($i),
                 'parent_id' => $catIdsLevel3[1],
             ];
         }
@@ -1069,7 +1141,8 @@ final class Testing extends CMSPlugin
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage());
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         $contacts   = [
@@ -1271,7 +1344,8 @@ final class Testing extends CMSPlugin
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage());
 
-                return $response;
+                $event->addResult($response);
+                return;
             }
 
             // Get ID from category we just added
@@ -1289,17 +1363,19 @@ final class Testing extends CMSPlugin
         $response['success'] = true;
         $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_STEP5_SUCCESS');
 
-        return $response;
+        $event->addResult($response);
     }
 
     /**
      * Sixth step to enter the sampledata. Newsfeed.
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @param AjaxEvent $event Event instance
+     *
+     * @return  void
      *
      * @since  3.8.0
      */
-    public function onAjaxSampledataApplyStep6()
+    public function onAjaxSampledataApplyStep6(AjaxEvent $event): void
     {
         if ($this->getApplication()->getInput()->get('type') !== $this->_name) {
             return;
@@ -1310,7 +1386,8 @@ final class Testing extends CMSPlugin
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 6, 'com_newsfeed');
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         /** @var \Joomla\Component\Newsfeeds\Administrator\Model\NewsfeedModel $model */
@@ -1332,7 +1409,8 @@ final class Testing extends CMSPlugin
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 6, $e->getMessage());
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         $newsfeeds    = [
@@ -1392,7 +1470,8 @@ final class Testing extends CMSPlugin
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 6, $e->getMessage());
 
-                return $response;
+                $event->addResult($response);
+                return;
             }
 
             // Get ID from category we just added
@@ -1407,17 +1486,19 @@ final class Testing extends CMSPlugin
         $response['success'] = true;
         $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_STEP6_SUCCESS');
 
-        return $response;
+        $event->addResult($response);
     }
 
     /**
      * Seventh step to enter the sampledata. Menus.
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @param AjaxEvent $event Event instance
+     *
+     * @return  void
      *
      * @since  3.8.0
      */
-    public function onAjaxSampledataApplyStep7()
+    public function onAjaxSampledataApplyStep7(AjaxEvent $event): void
     {
         if ($this->getApplication()->getInput()->get('type') !== $this->_name) {
             return;
@@ -1428,7 +1509,8 @@ final class Testing extends CMSPlugin
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 7, 'com_menus');
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         /** @var \Joomla\Component\Menus\Administrator\Model\MenuModel $model */
@@ -1455,7 +1537,8 @@ final class Testing extends CMSPlugin
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
 
-                return $response;
+                $event->addResult($response);
+                return;
             }
 
             $menuTypes[] = $menu['menutype'];
@@ -1489,8 +1572,8 @@ final class Testing extends CMSPlugin
         $menuItemTable->home = 0;
         $menuItemTable->store();
 
-        // Insert first level of menuitems.
-        $menuItems = [
+        // Insert User Menu Items
+        $userMenuItems = [
             [
                 'menutype'     => $menuTypes[0],
                 'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_0_TITLE'),
@@ -1504,32 +1587,33 @@ final class Testing extends CMSPlugin
                 ],
             ],
             [
-                'menutype'     => $menuTypes[1],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_1_TITLE'),
-                'link'         => 'https://joomla.org',
-                'type'         => 'url',
-                'component_id' => 0,
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_2_TITLE'),
-                'link'         => 'index.php?option=com_contact&view=contact&id=' . $contactIds[0],
-                'component_id' => ComponentHelper::getComponent('com_contact')->id,
+                'menutype'     => $menuTypes[0],
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_66_TITLE'),
+                'link'         => 'index.php?option=com_content&view=form&layout=edit',
+                'component_id' => ComponentHelper::getComponent('com_content')->id,
+                'access'       => 3,
                 'params'       => [
+                    'enable_category'   => 0,
+                    'menu_text'         => 1,
                     'show_page_heading' => 0,
                     'secure'            => 0,
                 ],
             ],
-            [
-                'menutype'     => $menuTypes[4],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_3_TITLE'),
-                'link'         => 'index.php?option=com_users&view=login',
-                'component_id' => ComponentHelper::getComponent('com_users')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
+        ];
+
+        try {
+            $userMenuIds = $this->addMenuItems($userMenuItems, 1);
+        } catch (\Exception $e) {
+            $response            = [];
+            $response['success'] = false;
+            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
+
+            $event->addResult($response);
+            return;
+        }
+
+        // Insert Park Menu Items
+        $parkMenuItems = [
             [
                 'menutype'          => $menuTypes[3],
                 'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_4_TITLE'),
@@ -1550,24 +1634,6 @@ final class Testing extends CMSPlugin
                 ],
             ],
             [
-                'menutype'     => $menuTypes[4],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_5_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[37],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_category'        => 0,
-                    'show_parent_category' => 0,
-                    'show_author'          => 0,
-                    'show_create_date'     => 0,
-                    'show_modify_date'     => 0,
-                    'show_publish_date'    => 0,
-                    'show_item_navigation' => 0,
-                    'show_hits'            => 0,
-                    'show_page_heading'    => 0,
-                    'secure'               => 0,
-                ],
-            ],
-            [
                 'menutype'          => $menuTypes[3],
                 'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_6_TITLE'),
                 'link'              => 'index.php?option=com_content&view=form&layout=edit',
@@ -1575,6 +1641,7 @@ final class Testing extends CMSPlugin
                 'access'            => 3,
                 'template_style_id' => 114,
                 'params'            => [
+                    'enable_category'   => 0,
                     'show_page_heading' => 0,
                     'secure'            => 0,
                 ],
@@ -1620,549 +1687,111 @@ final class Testing extends CMSPlugin
                     'show_page_heading'      => 0,
                     'secure'                 => 0,
                 ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_9_TITLE'),
-                'link'         => 'index.php?option=com_contact&view=categories&id=' . $contactCatids1[0],
-                'component_id' => ComponentHelper::getComponent('com_contact')->id,
-                'params'       => [
-                    'maxLevel'           => -1,
-                    'presentation_style' => 'sliders',
-                    'show_links'         => 1,
-                    'show_page_heading'  => 0,
-                    'secure'             => 0,
+                'children' => [
+                    [
+                        'menutype'          => $menuTypes[3],
+                        'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_8_1_TITLE'),
+                        'link'              => 'index.php?option=com_content&view=category&layout=blog&id=' . $articleCatids4[5],
+                        'component_id'      => ComponentHelper::getComponent('com_content')->id,
+                        'template_style_id' => 114,
+                        'params'            => [
+                            'show_description'       => 1,
+                            'show_description_image' => 0,
+                            'num_leading_articles'   => 0,
+                            'num_intro_articles'     => 6,
+                            'num_columns'            => 2,
+                            'num_links'              => 4,
+                            'multi_column_order'     => 1,
+                            'show_pagination'        => 2,
+                            'show_intro'             => 0,
+                            'show_category'          => 1,
+                            'link_category'          => 1,
+                            'show_author'            => 0,
+                            'show_create_date'       => 0,
+                            'show_modify_date'       => 0,
+                            'show_publish_date'      => 0,
+                            'show_item_navigation'   => 1,
+                            'show_feed_link'         => 1,
+                            'show_page_heading'      => 0,
+                            'secure'                 => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'          => $menuTypes[3],
+                        'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_8_2_TITLE'),
+                        'link'              => 'index.php?option=com_content&view=category&layout=blog&id=' . $articleCatids4[5],
+                        'component_id'      => ComponentHelper::getComponent('com_content')->id,
+                        'template_style_id' => 114,
+                        'params'            => [
+                            'show_description'       => 0,
+                            'show_description_image' => 0,
+                            'num_leading_articles'   => 0,
+                            'num_intro_articles'     => 4,
+                            'num_columns'            => 2,
+                            'num_links'              => 4,
+                            'multi_column_order'     => 1,
+                            'show_pagination'        => 2,
+                            'show_intro'             => 0,
+                            'show_category'          => 1,
+                            'show_parent_category'   => 0,
+                            'link_parent_category'   => 0,
+                            'show_author'            => 0,
+                            'link_author'            => 0,
+                            'show_create_date'       => 0,
+                            'show_modify_date'       => 0,
+                            'show_publish_date'      => 0,
+                            'show_item_navigation'   => 1,
+                            'show_readmore'          => 1,
+                            'show_icons'             => 0,
+                            'show_print_icon'        => 0,
+                            'show_email_icon'        => 0,
+                            'show_hits'              => 0,
+                            'show_feed_link'         => 1,
+                            'show_page_heading'      => 0,
+                            'secure'                 => 0,
+                        ],
+                    ],
                 ],
             ],
+        ];
+
+        try {
+            $parkMenuIds = $this->addMenuItems($parkMenuItems, 1);
+        } catch (\Exception $e) {
+            $response            = [];
+            $response['success'] = false;
+            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
+
+            $event->addResult($response);
+            return;
+        }
+
+        // Insert Fruitshop Menu Items
+        $fruitshopMenuItems = [
             [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_10_TITLE'),
-                'link'         => 'index.php?option=com_newsfeeds&view=categories&id=0',
-                'component_id' => ComponentHelper::getComponent('com_newsfeeds')->id,
-                'params'       => [
-                    'show_base_description'  => 1,
-                    'categories_description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_10_PARAM_CATEGORIES_DESCRIPTION'),
-                    'maxLevel'               => -1,
-                    'show_empty_categories'  => 1,
-                    'show_description'       => 1,
-                    'show_description_image' => 1,
-                    'show_cat_num_articles'  => 1,
-                    'feed_character_count'   => 0,
-                    'show_page_heading'      => 0,
-                    'secure'                 => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_11_TITLE'),
-                'link'         => 'index.php?option=com_newsfeeds&view=category&id=' . $newsfeedsCatids[0],
-                'component_id' => ComponentHelper::getComponent('com_newsfeeds')->id,
-                'params'       => [
-                    'maxLevel'             => -1,
-                    'feed_character_count' => 0,
-                    'show_page_heading'    => 0,
-                    'secure'               => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_12_TITLE'),
-                'link'         => 'index.php?option=com_newsfeeds&view=newsfeed&id=' . $newsfeedsIds[0],
-                'component_id' => ComponentHelper::getComponent('com_newsfeeds')->id,
-                'params'       => [
-                    'feed_character_count' => 0,
-                    'show_page_heading'    => 0,
-                    'secure'               => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_14_TITLE'),
-                'link'         => 'index.php?option=com_content&view=archive',
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_category'     => 1,
-                    'link_category'     => 1,
-                    'show_title'        => 1,
-                    'link_titles'       => 1,
-                    'show_intro'        => 1,
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_15_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[5],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_16_TITLE'),
-                'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $articleCatids3[1],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_description'       => 0,
-                    'show_description_image' => 0,
-                    'num_leading_articles'   => 1,
-                    'num_intro_articles'     => 4,
-                    'num_columns'            => 2,
-                    'num_links'              => 4,
-                    'show_pagination'        => 2,
-                    'show_feed_link'         => 1,
-                    'show_page_heading'      => 0,
-                    'secure'                 => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_17_TITLE'),
-                'link'         => 'index.php?option=com_content&view=category&id=' . $articleCatids2[0],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'orderby_sec'       => 'alpha',
-                    'display_num'       => 10,
-                    'menu_text'         => 1,
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_18_TITLE'),
-                'link'         => 'index.php?option=com_content&view=featured',
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'num_leading_articles' => 1,
-                    'num_intro_articles'   => 4,
-                    'num_columns'          => 2,
-                    'num_links'            => 4,
-                    'multi_column_order'   => 1,
-                    'orderby_sec'          => 'front',
-                    'show_pagination'      => 2,
-                    'show_feed_link'       => 1,
-                    'show_page_heading'    => 0,
-                    'secure'               => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_19_TITLE'),
-                'link'         => 'index.php?option=com_content&view=form&layout=edit',
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'access'       => 3,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_20_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[9],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_21_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[57],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 1,
-                    'page_title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_21_PARAM_PAGE_TITLE'),
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_22_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[8],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_23_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[51],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_24_TITLE'),
-                'link'         => 'index.php?option=com_content&view=categories&id=' . $articleCatids1[0],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'maxLevel'             => -1,
-                    'num_leading_articles' => 1,
-                    'num_intro_articles'   => 4,
-                    'num_columns'          => 2,
-                    'num_links'            => 4,
-                    'show_page_heading'    => 0,
-                    'secure'               => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_25_TITLE'),
-                'link'         => 'index.php?option=com_contact&view=category&id=' . $contactCatids3[0],
-                'component_id' => ComponentHelper::getComponent('com_contact')->id,
-                'params'       => [
-                    'maxLevel'           => -1,
-                    'display_num'        => 20,
-                    'presentation_style' => 'sliders',
-                    'show_links'         => 1,
-                    'show_feed_link'     => 1,
-                    'show_page_heading'  => 0,
-                    'secure'             => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_26_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[38],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'menu_text'         => 1,
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[2],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[52],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_title'           => 1,
+                'menutype'          => $menuTypes[5],
+                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_56_TITLE'),
+                'link'              => 'index.php?option=com_content&view=article&id=' . $articleIds[19],
+                'component_id'      => ComponentHelper::getComponent('com_content')->id,
+                'template_style_id' => 7,
+                'params'            => [
+                    'show_title'           => 0,
                     'link_titles'          => 0,
                     'show_intro'           => 1,
                     'show_category'        => 0,
-                    'show_parent_category' => 0,
+                    'link_category'        => 0,
                     'show_author'          => 0,
                     'show_create_date'     => 0,
                     'show_modify_date'     => 0,
                     'show_publish_date'    => 0,
                     'show_item_navigation' => 0,
+                    'show_icons'           => 0,
+                    'show_print_icon'      => 0,
+                    'show_email_icon'      => 0,
                     'show_hits'            => 0,
-                    'show_noauth'          => 0,
+                    'menu_text'            => 1,
                     'show_page_heading'    => 0,
                     'secure'               => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[7],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_28_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[62],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[7],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_29_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[55],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[7],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_30_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[29],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[7],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_31_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[28],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[7],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_32_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[43],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[7],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_33_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[6],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'menu_text'         => 1,
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[7],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_34_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[39],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'menu_text'         => 1,
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[7],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_35_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[35],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[7],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_36_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[30],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[7],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_37_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[26],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[7],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_38_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[44],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[7],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_39_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[27],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'menu_text'         => 1,
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[7],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_40_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[56],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'menu_text'         => 1,
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[7],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_41_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[18],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[7],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_42_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[1],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[7],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_43_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[36],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_44_TITLE'),
-                'link'         => 'index.php?option=com_users&view=login',
-                'component_id' => ComponentHelper::getComponent('com_users')->id,
-                'params'       => [
-                    'logindescription_show'  => 1,
-                    'logoutdescription_show' => 1,
-                    'show_page_heading'      => 0,
-                    'secure'                 => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_45_TITLE'),
-                'link'         => 'index.php?option=com_users&view=profile',
-                'component_id' => ComponentHelper::getComponent('com_users')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_46_TITLE'),
-                'link'         => 'index.php?option=com_users&view=profile&layout=edit',
-                'component_id' => ComponentHelper::getComponent('com_users')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_47_TITLE'),
-                'link'         => 'index.php?option=com_users&view=registration',
-                'component_id' => ComponentHelper::getComponent('com_users')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_48_TITLE'),
-                'link'         => 'index.php?option=com_users&view=remind',
-                'component_id' => ComponentHelper::getComponent('com_users')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_49_TITLE'),
-                'link'         => 'index.php?option=com_users&view=reset',
-                'component_id' => ComponentHelper::getComponent('com_users')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[7],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_50_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[15],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[7],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_51_TITLE'),
-                'link'         => 'index.php?option=com_content&view=category&id=' . $articleCatids5[0],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'maxLevel'              => 0,
-                    'show_category_title'   => 1,
-                    'show_empty_categories' => 1,
-                    'show_description'      => 1,
-                    'display_num'           => 0,
-                    'show_headings'         => 0,
-                    'list_show_title'       => 1,
-                    'list_show_date'        => 0,
-                    'list_show_hits'        => 0,
-                    'list_show_author'      => 0,
-                    'orderby_sec'           => 'order',
-                    'show_category'         => 1,
-                    'link_category'         => 1,
-                    'show_page_heading'     => 0,
-                    'secure'                => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[7],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_52_TITLE'),
-                'link'         => 'index.php?option=com_content&view=category&id=' . $articleCatids5[1],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'maxLevel'            => 0,
-                    'show_category_title' => 1,
-                    'show_description'    => 1,
-                    'display_num'         => 0,
-                    'show_headings'       => 0,
-                    'list_show_title'     => 1,
-                    'list_show_hits'      => 0,
-                    'list_show_author'    => 0,
-                    'orderby_sec'         => 'order',
-                    'show_category'       => 1,
-                    'link_category'       => 1,
-                    'show_page_heading'   => 0,
-                    'secure'              => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[7],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_53_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[58],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'menu_text'         => 1,
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[7],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_54_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[11],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
                 ],
             ],
             [
@@ -2188,32 +1817,6 @@ final class Testing extends CMSPlugin
                     'show_page_heading'       => 0,
                     'pageclass_sfx'           => ' categories-listalphabet',
                     'secure'                  => 0,
-                ],
-            ],
-            [
-                'menutype'          => $menuTypes[5],
-                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_56_TITLE'),
-                'link'              => 'index.php?option=com_content&view=article&id=' . $articleIds[19],
-                'component_id'      => ComponentHelper::getComponent('com_content')->id,
-                'template_style_id' => 7,
-                'params'            => [
-                    'show_title'           => 0,
-                    'link_titles'          => 0,
-                    'show_intro'           => 1,
-                    'show_category'        => 0,
-                    'link_category'        => 0,
-                    'show_author'          => 0,
-                    'show_create_date'     => 0,
-                    'show_modify_date'     => 0,
-                    'show_publish_date'    => 0,
-                    'show_item_navigation' => 0,
-                    'show_icons'           => 0,
-                    'show_print_icon'      => 0,
-                    'show_email_icon'      => 0,
-                    'show_hits'            => 0,
-                    'menu_text'            => 1,
-                    'show_page_heading'    => 0,
-                    'secure'               => 0,
                 ],
             ],
             [
@@ -2289,116 +1892,6 @@ final class Testing extends CMSPlugin
                 ],
             ],
             [
-                'menutype'     => $menuTypes[4],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_61_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[23],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_title'           => 1,
-                    'show_category'        => 0,
-                    'link_category'        => 0,
-                    'show_parent_category' => 0,
-                    'link_parent_category' => 0,
-                    'show_author'          => 0,
-                    'link_author'          => 0,
-                    'show_create_date'     => 0,
-                    'show_modify_date'     => 0,
-                    'show_publish_date'    => 0,
-                    'show_item_navigation' => 0,
-                    'show_icons'           => 0,
-                    'show_print_icon'      => 0,
-                    'show_email_icon'      => 0,
-                    'show_hits'            => 0,
-                    'menu_text'            => 1,
-                    'show_page_heading'    => 0,
-                    'secure'               => 0,
-                ],
-                'home' => 1,
-            ],
-            [
-                'menutype'     => $menuTypes[2],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_62_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[21],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_title'           => 1,
-                    'link_titles'          => 0,
-                    'show_category'        => 0,
-                    'show_parent_category' => 0,
-                    'show_author'          => 0,
-                    'show_create_date'     => 0,
-                    'show_modify_date'     => 0,
-                    'show_publish_date'    => 0,
-                    'show_item_navigation' => 0,
-                    'show_hits'            => 0,
-                    'show_page_heading'    => 0,
-                    'secure'               => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[7],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_63_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[2],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[7],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_64_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[25],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[4],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_65_TITLE'),
-                'link'         => 'administrator',
-                'type'         => 'url',
-                'component_id' => 0,
-                'params'       => [],
-            ],
-            [
-                'menutype'     => $menuTypes[0],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_66_TITLE'),
-                'link'         => 'index.php?option=com_content&view=form&layout=edit',
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'access'       => 3,
-                'params'       => [
-                    'menu_text'         => 1,
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_67_TITLE'),
-                'link'         => 'index.php?option=com_contact&view=featured',
-                'component_id' => ComponentHelper::getComponent('com_contact')->id,
-                'params'       => [
-                    'maxLevel'           => -1,
-                    'presentation_style' => 'sliders',
-                    'show_links'         => 1,
-                    'show_page_heading'  => 1,
-                    'secure'             => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[7],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_68_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[3],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 1,
-                    'secure'            => 0,
-                ],
-            ],
-            [
                 'menutype'          => $menuTypes[5],
                 'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_69_TITLE'),
                 'link'              => 'index.php?option=com_content&view=form&layout=edit',
@@ -2430,132 +1923,498 @@ final class Testing extends CMSPlugin
                     'secure'                => 0,
                 ],
             ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_71_TITLE'),
-                'link'         => 'index.php?option=com_finder&view=search&q=&f=',
-                'component_id' => ComponentHelper::getComponent('com_finder')->id,
-                'params'       => [
-                    'description_length' => 255,
-                    'allow_empty_query'  => 0,
-                    'show_feed'          => 0,
-                    'show_feed_text'     => 0,
-                    'menu_text'          => 1,
-                    'show_page_heading'  => 0,
-                    'secure'             => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[7],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_72_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[66],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'menu_text'         => 1,
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[7],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_73_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[67],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'menu_text'         => 1,
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[7],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_74_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[68],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'menu_text'         => 1,
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_75_TITLE'),
-                'link'         => 'index.php?option=com_tags&view=tag&layout=list&id[0]=' . $tagIds[2],
-                'component_id' => ComponentHelper::getComponent('com_tags')->id,
-                'params'       => [
-                    'tag_list_item_maximum_characters' => 0,
-                    'maximum'                          => 200,
-                    'menu_text'                        => 1,
-                    'show_page_heading'                => 0,
-                    'secure'                           => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_76_TITLE'),
-                'link'         => 'index.php?option=com_tags&view=tag&id[0]=' . $tagIds[1],
-                'component_id' => ComponentHelper::getComponent('com_tags')->id,
-                'params'       => [
-                    'tag_list_item_maximum_characters' => 0,
-                    'maximum'                          => 200,
-                    'menu_text'                        => 1,
-                    'show_page_heading'                => 0,
-                    'secure'                           => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_77_TITLE'),
-                'link'         => 'index.php?option=com_tags&view=tags',
-                'component_id' => ComponentHelper::getComponent('com_tags')->id,
-                'params'       => [
-                    'tag_columns'                     => 4,
-                    'all_tags_tag_maximum_characters' => 0,
-                    'maximum'                         => 200,
-                    'menu_text'                       => 1,
-                    'show_page_heading'               => 0,
-                    'secure'                          => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_78_TITLE'),
-                'link'         => 'index.php?option=com_config&view=config',
-                'component_id' => ComponentHelper::getComponent('com_config')->id,
-                'access'       => 6,
-                'params'       => [
-                    'menu_text'         => 1,
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[6],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_79_TITLE'),
-                'link'         => 'index.php?option=com_config&view=templates',
-                'component_id' => ComponentHelper::getComponent('com_config')->id,
-                'access'       => 6,
-                'params'       => [
-                    'menu_text'         => 1,
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
         ];
 
         try {
-            $menuIdsLevel1 = $this->addMenuItems($menuItems, 1);
+            $fruitshopMenuIds = $this->addMenuItems($fruitshopMenuItems, 1);
         } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
-        // Insert alias menu items for level 1.
-        $menuItems = [
+        // Insert Frontend Views & Modules Menu Items
+        $frontendMenuIds = $this->addFrontendViewsMenu($menuTypes);
+        $this->getApplication()->setUserState('sampledata.testing.menu_module_mapping', $this->menuModuleMapping);
+
+        // Insert About Joomla Menu Items
+        $aboutMenuItems = [
+            [
+                'menutype'     => $menuTypes[2],
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_TITLE'),
+                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[52],
+                'component_id' => ComponentHelper::getComponent('com_content')->id,
+                'params'       => [
+                    'show_title'           => 1,
+                    'link_titles'          => 0,
+                    'show_intro'           => 1,
+                    'show_category'        => 0,
+                    'show_parent_category' => 0,
+                    'show_author'          => 0,
+                    'show_create_date'     => 0,
+                    'show_modify_date'     => 0,
+                    'show_publish_date'    => 0,
+                    'show_item_navigation' => 0,
+                    'show_hits'            => 0,
+                    'show_noauth'          => 0,
+                    'show_page_heading'    => 0,
+                    'secure'               => 0,
+                ],
+                'children' => [
+                    [
+                        'menutype'     => $menuTypes[2],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_TITLE'),
+                        'link'         => 'index.php?option=com_content&view=categories&id=' . $articleCatids3[0],
+                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                        'params'       => [
+                            'show_base_description'     => 1,
+                            'maxLevelcat'               => 1,
+                            'show_empty_categories_cat' => 1,
+                            'show_subcat_desc_cat'      => 1,
+                            'show_cat_num_articles_cat' => 0,
+                            'show_description'          => 1,
+                            'show_description_image'    => 1,
+                            'maxLevel'                  => 1,
+                            'show_empty_categories'     => 1,
+                            'num_leading_articles'      => 1,
+                            'num_intro_articles'        => 4,
+                            'num_columns'               => 2,
+                            'num_links'                 => 4,
+                            'secure'                    => 0,
+                        ],
+                        'children' => [
+                            [
+                                'menutype'     => $menuTypes[2],
+                                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_TITLE'),
+                                'link'         => 'index.php?option=com_content&view=category&id=' . $articleCatids4[2],
+                                'component_id' => ComponentHelper::getComponent('com_content')->id,
+                                'params'       => [
+                                    'show_description'      => 1,
+                                    'maxLevel'              => 2,
+                                    'show_empty_categories' => 1,
+                                    'show_no_articles'      => '0',
+                                    'show_subcat_desc'      => 1,
+                                    'show_pagination_limit' => '0',
+                                    'filter_field'          => 'hide',
+                                    'show_headings'         => '0',
+                                    'list_show_date'        => '0',
+                                    'list_show_hits'        => '0',
+                                    'list_show_author'      => '0',
+                                    'show_pagination'       => '0',
+                                    'show_title'            => 1,
+                                    'link_titles'           => 1,
+                                    'menu_text'             => 1,
+                                    'page_title'            => 'Templates',
+                                    'show_page_heading'     => 0,
+                                    'secure'                => 0,
+                                ],
+                                'children' => [
+                                    [
+                                        'menutype'     => $menuTypes[2],
+                                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_7_TITLE'),
+                                        'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $articleCatids5[6],
+                                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                                        'params'       => [
+                                            'show_description'     => 1,
+                                            'num_leading_articles' => 1,
+                                            'num_intro_articles'   => 4,
+                                            'num_columns'          => 2,
+                                            'num_links'            => 4,
+                                            'show_page_heading'    => 0,
+                                            'secure'               => 0,
+                                        ],
+                                        'children' => [
+                                            [
+                                                'menutype'          => $menuTypes[2],
+                                                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_7_2_TITLE'),
+                                                'link'              => 'index.php?option=com_content&view=article&id=' . $articleIds[48],
+                                                'component_id'      => ComponentHelper::getComponent('com_content')->id,
+                                                'template_style_id' => 4,
+                                                'params'            => [
+                                                    'show_page_heading' => 0,
+                                                    'secure'            => 0,
+                                                ],
+                                            ],
+                                            [
+                                                'menutype'          => $menuTypes[2],
+                                                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_7_3_TITLE'),
+                                                'link'              => 'index.php?option=com_content&view=featured',
+                                                'component_id'      => ComponentHelper::getComponent('com_content')->id,
+                                                'template_style_id' => 4,
+                                                'params'            => [
+                                                    'num_leading_articles' => 1,
+                                                    'num_intro_articles'   => 3,
+                                                    'num_columns'          => 3,
+                                                    'num_links'            => 0,
+                                                    'multi_column_order'   => 1,
+                                                    'orderby_sec'          => 'front',
+                                                    'show_pagination'      => 2,
+                                                    'show_feed_link'       => 1,
+                                                    'show_page_heading'    => 0,
+                                                    'secure'               => 0,
+                                                ],
+
+                                            ],
+                                        ],
+                                    ],
+                                    [
+                                        'menutype'     => $menuTypes[2],
+                                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_8_TITLE'),
+                                        'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $articleCatids5[5],
+                                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                                        'params'       => [
+                                            'show_description'     => 1,
+                                            'num_leading_articles' => 2,
+                                            'num_intro_articles'   => 4,
+                                            'num_columns'          => 2,
+                                            'num_links'            => 4,
+                                            'show_page_heading'    => 0,
+                                            'secure'               => 0,
+                                        ],
+                                        'children' => [
+                                            [
+                                                'menutype'          => $menuTypes[2],
+                                                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_8_0_TITLE'),
+                                                'link'              => 'index.php?option=com_content&view=article&id=' . $articleIds[48],
+                                                'component_id'      => ComponentHelper::getComponent('com_content')->id,
+                                                'template_style_id' => 3,
+                                                'params'            => [
+                                                    'show_page_heading' => 0,
+                                                    'secure'            => 0,
+                                                ],
+                                            ],
+                                            [
+                                                'menutype'          => $menuTypes[2],
+                                                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_8_1_TITLE'),
+                                                'link'              => 'index.php?option=com_content&view=featured',
+                                                'component_id'      => ComponentHelper::getComponent('com_content')->id,
+                                                'template_style_id' => 3,
+                                                'params'            => [
+                                                    'num_leading_articles' => 1,
+                                                    'num_intro_articles'   => 3,
+                                                    'num_columns'          => 3,
+                                                    'num_links'            => 0,
+                                                    'multi_column_order'   => 1,
+                                                    'orderby_sec'          => 'front',
+                                                    'show_pagination'      => 2,
+                                                    'show_feed_link'       => 1,
+                                                    'show_page_heading'    => 0,
+                                                    'secure'               => 0,
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                    [
+                                        'menutype'     => $menuTypes[2],
+                                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_9_TITLE'),
+                                        'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $articleCatids5[7],
+                                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                                        'params'       => [
+                                            'show_description'     => 1,
+                                            'num_leading_articles' => 1,
+                                            'num_intro_articles'   => 4,
+                                            'num_columns'          => 2,
+                                            'num_links'            => 4,
+                                            'show_page_heading'    => 1,
+                                            'secure'               => 0,
+                                        ],
+                                        'children' => [
+                                            [
+                                                'menutype'     => $menuTypes[2],
+                                                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_9_4_TITLE'),
+                                                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[48],
+                                                'component_id' => ComponentHelper::getComponent('com_content')->id,
+                                                'params'       => [
+                                                    'show_page_heading' => 1,
+                                                    'secure'            => 0,
+                                                ],
+                                            ],
+                                            [
+                                                'menutype'     => $menuTypes[2],
+                                                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_9_5_TITLE'),
+                                                'link'         => 'index.php?option=com_content&view=featured',
+                                                'component_id' => ComponentHelper::getComponent('com_content')->id,
+                                                'params'       => [
+                                                    'num_leading_articles' => 1,
+                                                    'num_intro_articles'   => 3,
+                                                    'num_columns'          => 3,
+                                                    'num_links'            => 0,
+                                                    'orderby_sec'          => 'front',
+                                                    'show_page_heading'    => 1,
+                                                    'secure'               => 0,
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                            [
+                                'menutype'     => $menuTypes[2],
+                                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_1_TITLE'),
+                                'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $articleCatids4[3],
+                                'component_id' => ComponentHelper::getComponent('com_content')->id,
+                                'params'       => [
+                                    'show_description'       => 1,
+                                    'show_description_image' => 1,
+                                    'show_category_title'    => 1,
+                                    'num_leading_articles'   => 1,
+                                    'num_intro_articles'     => 4,
+                                    'num_columns'            => 2,
+                                    'num_links'              => 4,
+                                    'show_page_heading'      => 0,
+                                    'secure'                 => 0,
+                                ],
+                            ],
+                            [
+                                'menutype'     => $menuTypes[2],
+                                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_TITLE'),
+                                'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $articleCatids4[4],
+                                'component_id' => ComponentHelper::getComponent('com_content')->id,
+                                'params'       => [
+                                    'show_description'     => 1,
+                                    'show_category_title'  => 1,
+                                    'num_leading_articles' => 0,
+                                    'num_intro_articles'   => 7,
+                                    'num_columns'          => 1,
+                                    'num_links'            => 0,
+                                    'orderby_sec'          => 'order',
+                                    'show_category'        => 0,
+                                    'link_category'        => 0,
+                                    'show_parent_category' => 0,
+                                    'link_parent_category' => 0,
+                                    'show_author'          => 0,
+                                    'show_create_date'     => 0,
+                                    'show_modify_date'     => 0,
+                                    'show_publish_date'    => 0,
+                                    'show_icons'           => 0,
+                                    'show_print_icon'      => 0,
+                                    'show_email_icon'      => 0,
+                                    'show_hits'            => 0,
+                                    'show_page_heading'    => 0,
+                                    'secure'               => 0,
+                                ],
+                                'children' => [
+                                    [
+                                        'menutype'     => $menuTypes[2],
+                                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_0_TITLE'),
+                                        'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[45],
+                                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                                        'params'       => [
+                                            'show_page_heading' => 0,
+                                            'secure'            => 0,
+                                        ],
+                                    ],
+                                    [
+                                        'menutype'     => $menuTypes[2],
+                                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_1_TITLE'),
+                                        'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[4],
+                                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                                        'params'       => [
+                                            'show_page_heading' => 0,
+                                            'secure'            => 0,
+                                        ],
+                                    ],
+                                    [
+                                        'menutype'     => $menuTypes[2],
+                                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_2_TITLE'),
+                                        'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[59],
+                                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                                        'params'       => [
+                                            'show_page_heading' => 0,
+                                            'secure'            => 0,
+                                        ],
+                                    ],
+                                    [
+                                        'menutype'     => $menuTypes[2],
+                                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_3_TITLE'),
+                                        'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[13],
+                                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                                        'params'       => [
+                                            'show_page_heading' => 0,
+                                            'secure'            => 0,
+                                        ],
+                                    ],
+                                    [
+                                        'menutype'     => $menuTypes[2],
+                                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_4_TITLE'),
+                                        'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[14],
+                                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                                        'params'       => [
+                                            'show_page_heading' => 0,
+                                            'secure'            => 0,
+                                        ],
+                                    ],
+                                    [
+                                        'menutype'     => $menuTypes[2],
+                                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_5_TITLE'),
+                                        'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[40],
+                                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                                        'params'       => [
+                                            'show_page_heading' => 0,
+                                            'secure'            => 0,
+                                        ],
+                                    ],
+                                    [
+                                        'menutype'     => $menuTypes[2],
+                                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_6_TITLE'),
+                                        'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[50],
+                                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                                        'params'       => [
+                                            'show_page_heading' => 0,
+                                            'secure'            => 0,
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'menutype'     => $menuTypes[2],
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_62_TITLE'),
+                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[21],
+                'component_id' => ComponentHelper::getComponent('com_content')->id,
+                'params'       => [
+                    'show_title'           => 1,
+                    'link_titles'          => 0,
+                    'show_category'        => 0,
+                    'show_parent_category' => 0,
+                    'show_author'          => 0,
+                    'show_create_date'     => 0,
+                    'show_modify_date'     => 0,
+                    'show_publish_date'    => 0,
+                    'show_item_navigation' => 0,
+                    'show_hits'            => 0,
+                    'show_page_heading'    => 0,
+                    'secure'               => 0,
+                ],
+            ],
+        ];
+
+        try {
+            $aboutMenuIds = $this->addMenuItems($aboutMenuItems, 1);
+        } catch (\Exception $e) {
+            $response            = [];
+            $response['success'] = false;
+            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
+
+            $event->addResult($response);
+            return;
+        }
+
+        // Insert Main Menu Testing Menu Items
+        $mainMenuItems = [
+            [
+                'menutype'     => $menuTypes[4],
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_3_TITLE'),
+                'link'         => 'index.php?option=com_users&view=login',
+                'component_id' => ComponentHelper::getComponent('com_users')->id,
+                'params'       => [
+                    'show_page_heading' => 0,
+                    'secure'            => 0,
+                ],
+            ],
+            [
+                'menutype'     => $menuTypes[4],
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_5_TITLE'),
+                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[37],
+                'component_id' => ComponentHelper::getComponent('com_content')->id,
+                'params'       => [
+                    'show_category'        => 0,
+                    'show_parent_category' => 0,
+                    'show_author'          => 0,
+                    'show_create_date'     => 0,
+                    'show_modify_date'     => 0,
+                    'show_publish_date'    => 0,
+                    'show_item_navigation' => 0,
+                    'show_hits'            => 0,
+                    'show_page_heading'    => 0,
+                    'secure'               => 0,
+                ],
+                'children' => [
+                    [
+                        'menutype'     => $menuTypes[4],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_102_TITLE'),
+                        'link'         => 'index.php?Itemid=',
+                        'type'         => 'alias',
+                        'component_id' => 0,
+                        'params'       => [
+                            'aliasoptions' => $parkMenuIds[0],
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[4],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_104_TITLE'),
+                        'link'         => 'index.php?Itemid=',
+                        'type'         => 'alias',
+                        'component_id' => 0,
+                        'params'       => [
+                            'aliasoptions' => $fruitshopMenuIds[0],
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'menutype'     => $menuTypes[4],
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_61_TITLE'),
+                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[23],
+                'component_id' => ComponentHelper::getComponent('com_content')->id,
+                'params'       => [
+                    'show_title'           => 1,
+                    'show_category'        => 0,
+                    'link_category'        => 0,
+                    'show_parent_category' => 0,
+                    'link_parent_category' => 0,
+                    'show_author'          => 0,
+                    'link_author'          => 0,
+                    'show_create_date'     => 0,
+                    'show_modify_date'     => 0,
+                    'show_publish_date'    => 0,
+                    'show_item_navigation' => 0,
+                    'show_icons'           => 0,
+                    'show_print_icon'      => 0,
+                    'show_email_icon'      => 0,
+                    'show_hits'            => 0,
+                    'menu_text'            => 1,
+                    'show_page_heading'    => 0,
+                    'secure'               => 0,
+                ],
+                'home' => 1,
+            ],
+            [
+                'menutype'     => $menuTypes[4],
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_65_TITLE'),
+                'link'         => 'administrator',
+                'type'         => 'url',
+                'component_id' => 0,
+                'params'       => [],
+            ],
+        ];
+
+        try {
+            $mainMenuIds = $this->addMenuItems($mainMenuItems, 1);
+        } catch (\Exception $e) {
+            $response            = [];
+            $response['success'] = false;
+            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
+
+            $event->addResult($response);
+            return;
+        }
+
+        // Insert Top Menu Items
+        $topMenuItems = [
+            [
+                'menutype'     => $menuTypes[1],
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_1_TITLE'),
+                'link'         => 'https://joomla.org',
+                'type'         => 'url',
+                'component_id' => 0,
+            ],
             [
                 'menutype'     => $menuTypes[1],
                 'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_100_TITLE'),
@@ -2563,7 +2422,7 @@ final class Testing extends CMSPlugin
                 'type'         => 'alias',
                 'component_id' => 0,
                 'params'       => [
-                    'aliasoptions' => $menuIdsLevel1[5],
+                    'aliasoptions' => $mainMenuIds[1],
                 ],
             ],
             [
@@ -2573,7 +2432,7 @@ final class Testing extends CMSPlugin
                 'type'         => 'alias',
                 'component_id' => 0,
                 'params'       => [
-                    'aliasoptions' => $menuIdsLevel1[61],
+                    'aliasoptions' => end($aboutMenuIds),
                 ],
             ],
             [
@@ -2583,7 +2442,7 @@ final class Testing extends CMSPlugin
                 'type'         => 'alias',
                 'component_id' => 0,
                 'params'       => [
-                    'aliasoptions' => $menuIdsLevel1[7],
+                    'aliasoptions' => $parkMenuIds[0],
                     'menu_text'    => 1,
                 ],
             ],
@@ -2594,515 +2453,854 @@ final class Testing extends CMSPlugin
                 'type'         => 'alias',
                 'component_id' => 0,
                 'params'       => [
-                    'aliasoptions' => $menuIdsLevel1[56],
+                    'aliasoptions' => $fruitshopMenuIds[0],
                     'menu_text'    => 1,
                 ],
             ],
         ];
 
         try {
-            $menuIdsLevel1Alias = $this->addMenuItems($menuItems, 1);
+            $topMenuIds = $this->addMenuItems($topMenuItems, 1);
         } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
-        // Insert second level of menuitems.
-        $menuItems = [
-            [
-                'menutype'     => $menuTypes[2],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_TITLE'),
-                'link'         => 'index.php?option=com_content&view=categories&id=' . $articleCatids3[0],
-                'parent_id'    => $menuIdsLevel1[27],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_base_description'     => 1,
-                    'maxLevelcat'               => 1,
-                    'show_empty_categories_cat' => 1,
-                    'show_subcat_desc_cat'      => 1,
-                    'show_cat_num_articles_cat' => 0,
-                    'show_description'          => 1,
-                    'show_description_image'    => 1,
-                    'maxLevel'                  => 1,
-                    'show_empty_categories'     => 1,
-                    'num_leading_articles'      => 1,
-                    'num_intro_articles'        => 4,
-                    'num_columns'               => 2,
-                    'num_links'                 => 4,
-                    'secure'                    => 0,
-                ],
-            ],
-            [
-                'menutype'          => $menuTypes[3],
-                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_8_1_TITLE'),
-                'link'              => 'index.php?option=com_content&view=category&layout=blog&id=' . $articleCatids4[5],
-                'parent_id'         => $menuIdsLevel1[8],
-                'component_id'      => ComponentHelper::getComponent('com_content')->id,
-                'template_style_id' => 114,
-                'params'            => [
-                    'show_description'       => 1,
-                    'show_description_image' => 0,
-                    'num_leading_articles'   => 0,
-                    'num_intro_articles'     => 6,
-                    'num_columns'            => 2,
-                    'num_links'              => 4,
-                    'multi_column_order'     => 1,
-                    'show_pagination'        => 2,
-                    'show_intro'             => 0,
-                    'show_category'          => 1,
-                    'link_category'          => 1,
-                    'show_author'            => 0,
-                    'show_create_date'       => 0,
-                    'show_modify_date'       => 0,
-                    'show_publish_date'      => 0,
-                    'show_item_navigation'   => 1,
-                    'show_feed_link'         => 1,
-                    'show_page_heading'      => 0,
-                    'secure'                 => 0,
-                ],
-            ],
-            [
-                'menutype'          => $menuTypes[3],
-                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_8_2_TITLE'),
-                'link'              => 'index.php?option=com_content&view=category&layout=blog&id=' . $articleCatids4[5],
-                'parent_id'         => $menuIdsLevel1[8],
-                'component_id'      => ComponentHelper::getComponent('com_content')->id,
-                'template_style_id' => 114,
-                'params'            => [
-                    'show_description'       => 0,
-                    'show_description_image' => 0,
-                    'num_leading_articles'   => 0,
-                    'num_intro_articles'     => 4,
-                    'num_columns'            => 2,
-                    'num_links'              => 4,
-                    'multi_column_order'     => 1,
-                    'show_pagination'        => 2,
-                    'show_intro'             => 0,
-                    'show_category'          => 1,
-                    'show_parent_category'   => 0,
-                    'link_parent_category'   => 0,
-                    'show_author'            => 0,
-                    'link_author'            => 0,
-                    'show_create_date'       => 0,
-                    'show_modify_date'       => 0,
-                    'show_publish_date'      => 0,
-                    'show_item_navigation'   => 1,
-                    'show_readmore'          => 1,
-                    'show_icons'             => 0,
-                    'show_print_icon'        => 0,
-                    'show_email_icon'        => 0,
-                    'show_hits'              => 0,
-                    'show_feed_link'         => 1,
-                    'show_page_heading'      => 0,
-                    'secure'                 => 0,
-                ],
-            ],
-        ];
-
-        try {
-            $menuIdsLevel2 = $this->addMenuItems($menuItems, 2);
-        } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
-
-            return $response;
-        }
-
-        // Insert alias menu items for level 2.
-        $menuItems = [
-            [
-                'menutype'     => $menuTypes[4],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_103_TITLE'),
-                'link'         => 'index.php?Itemid=',
-                'type'         => 'alias',
-                'parent_id'    => $menuIdsLevel1[5],
-                'component_id' => 0,
-                'params'       => [
-                    'aliasoptions' => $menuIdsLevel1[7],
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[4],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_104_TITLE'),
-                'link'         => 'index.php?Itemid=',
-                'type'         => 'alias',
-                'parent_id'    => $menuIdsLevel1[5],
-                'component_id' => 0,
-                'params'       => [
-                    'aliasoptions' => $menuIdsLevel1[56],
-                ],
-            ],
-        ];
-
-        try {
-            $menuIdsLevel2Alias = $this->addMenuItems($menuItems, 2);
-        } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
-
-            return $response;
-        }
-
-        // Insert third level of menuitems.
-        $menuItems = [
-            [
-                'menutype'     => $menuTypes[2],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_TITLE'),
-                'link'         => 'index.php?option=com_content&view=category&id=' . $articleCatids4[2],
-                'parent_id'    => $menuIdsLevel2[0],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_description'      => 1,
-                    'maxLevel'              => 2,
-                    'show_empty_categories' => 1,
-                    'show_no_articles'      => '0',
-                    'show_subcat_desc'      => 1,
-                    'show_pagination_limit' => '0',
-                    'filter_field'          => 'hide',
-                    'show_headings'         => '0',
-                    'list_show_date'        => '0',
-                    'list_show_hits'        => '0',
-                    'list_show_author'      => '0',
-                    'show_pagination'       => '0',
-                    'show_title'            => 1,
-                    'link_titles'           => 1,
-                    'menu_text'             => 1,
-                    'page_title'            => 'Templates',
-                    'show_page_heading'     => 0,
-                    'secure'                => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[2],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_1_TITLE'),
-                'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $articleCatids4[3],
-                'parent_id'    => $menuIdsLevel2[0],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_description'       => 1,
-                    'show_description_image' => 1,
-                    'show_category_title'    => 1,
-                    'num_leading_articles'   => 1,
-                    'num_intro_articles'     => 4,
-                    'num_columns'            => 2,
-                    'num_links'              => 4,
-                    'show_page_heading'      => 0,
-                    'secure'                 => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[2],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_TITLE'),
-                'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $articleCatids4[4],
-                'parent_id'    => $menuIdsLevel2[0],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_description'     => 1,
-                    'show_category_title'  => 1,
-                    'num_leading_articles' => 0,
-                    'num_intro_articles'   => 7,
-                    'num_columns'          => 1,
-                    'num_links'            => 0,
-                    'orderby_sec'          => 'order',
-                    'show_category'        => 0,
-                    'link_category'        => 0,
-                    'show_parent_category' => 0,
-                    'link_parent_category' => 0,
-                    'show_author'          => 0,
-                    'show_create_date'     => 0,
-                    'show_modify_date'     => 0,
-                    'show_publish_date'    => 0,
-                    'show_icons'           => 0,
-                    'show_print_icon'      => 0,
-                    'show_email_icon'      => 0,
-                    'show_hits'            => 0,
-                    'show_page_heading'    => 0,
-                    'secure'               => 0,
-                ],
-            ],
-        ];
-
-        try {
-            $menuIdsLevel3 = $this->addMenuItems($menuItems, 3);
-        } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
-
-            return $response;
-        }
-
-        // Insert fourth level of menuitems.
-        $menuItems = [
-            [
-                'menutype'     => $menuTypes[2],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_0_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[45],
-                'parent_id'    => $menuIdsLevel3[2],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[2],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_1_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[4],
-                'parent_id'    => $menuIdsLevel3[2],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[2],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_2_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[59],
-                'parent_id'    => $menuIdsLevel3[2],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[2],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_3_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[13],
-                'parent_id'    => $menuIdsLevel3[2],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[2],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_4_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[14],
-                'parent_id'    => $menuIdsLevel3[2],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[2],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_5_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[40],
-                'parent_id'    => $menuIdsLevel3[2],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[2],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_6_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[50],
-                'parent_id'    => $menuIdsLevel3[2],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[2],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_7_TITLE'),
-                'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $articleCatids5[6],
-                'parent_id'    => $menuIdsLevel3[0],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_description'     => 1,
-                    'num_leading_articles' => 1,
-                    'num_intro_articles'   => 4,
-                    'num_columns'          => 2,
-                    'num_links'            => 4,
-                    'show_page_heading'    => 0,
-                    'secure'               => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[2],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_8_TITLE'),
-                'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $articleCatids5[5],
-                'parent_id'    => $menuIdsLevel3[0],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_description'     => 1,
-                    'num_leading_articles' => 2,
-                    'num_intro_articles'   => 4,
-                    'num_columns'          => 2,
-                    'num_links'            => 4,
-                    'show_page_heading'    => 0,
-                    'secure'               => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[2],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_9_TITLE'),
-                'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $articleCatids5[7],
-                'parent_id'    => $menuIdsLevel3[0],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_description'     => 1,
-                    'num_leading_articles' => 1,
-                    'num_intro_articles'   => 4,
-                    'num_columns'          => 2,
-                    'num_links'            => 4,
-                    'show_page_heading'    => 1,
-                    'secure'               => 0,
-                ],
-            ],
-        ];
-
-        try {
-            $menuIdsLevel4 = $this->addMenuItems($menuItems, 4);
-        } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
-
-            return $response;
-        }
-
-        // Insert fifth level of menuitems.
-        $menuItems = [
-            [
-                'menutype'          => $menuTypes[2],
-                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_8_0_TITLE'),
-                'link'              => 'index.php?option=com_content&view=article&id=' . $articleIds[48],
-                'parent_id'         => $menuIdsLevel4[8],
-                'component_id'      => ComponentHelper::getComponent('com_content')->id,
-                'template_style_id' => 3,
-                'params'            => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'          => $menuTypes[2],
-                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_8_1_TITLE'),
-                'link'              => 'index.php?option=com_content&view=featured',
-                'parent_id'         => $menuIdsLevel4[8],
-                'component_id'      => ComponentHelper::getComponent('com_content')->id,
-                'template_style_id' => 3,
-                'params'            => [
-                    'num_leading_articles' => 1,
-                    'num_intro_articles'   => 3,
-                    'num_columns'          => 3,
-                    'num_links'            => 0,
-                    'multi_column_order'   => 1,
-                    'orderby_sec'          => 'front',
-                    'show_pagination'      => 2,
-                    'show_feed_link'       => 1,
-                    'show_page_heading'    => 0,
-                    'secure'               => 0,
-                ],
-            ],
-            [
-                'menutype'          => $menuTypes[2],
-                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_7_2_TITLE'),
-                'link'              => 'index.php?option=com_content&view=article&id=' . $articleIds[48],
-                'parent_id'         => $menuIdsLevel4[7],
-                'component_id'      => ComponentHelper::getComponent('com_content')->id,
-                'template_style_id' => 4,
-                'params'            => [
-                    'show_page_heading' => 0,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'          => $menuTypes[2],
-                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_7_3_TITLE'),
-                'link'              => 'index.php?option=com_content&view=featured',
-                'parent_id'         => $menuIdsLevel4[7],
-                'component_id'      => ComponentHelper::getComponent('com_content')->id,
-                'template_style_id' => 4,
-                'params'            => [
-                    'num_leading_articles' => 1,
-                    'num_intro_articles'   => 3,
-                    'num_columns'          => 3,
-                    'num_links'            => 0,
-                    'multi_column_order'   => 1,
-                    'orderby_sec'          => 'front',
-                    'show_pagination'      => 2,
-                    'show_feed_link'       => 1,
-                    'show_page_heading'    => 0,
-                    'secure'               => 0,
-                ],
-
-            ],
-            [
-                'menutype'     => $menuTypes[2],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_9_4_TITLE'),
-                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[48],
-                'parent_id'    => $menuIdsLevel4[9],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'show_page_heading' => 1,
-                    'secure'            => 0,
-                ],
-            ],
-            [
-                'menutype'     => $menuTypes[2],
-                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_9_5_TITLE'),
-                'link'         => 'index.php?option=com_content&view=featured',
-                'parent_id'    => $menuIdsLevel4[9],
-                'component_id' => ComponentHelper::getComponent('com_content')->id,
-                'params'       => [
-                    'num_leading_articles' => 1,
-                    'num_intro_articles'   => 3,
-                    'num_columns'          => 3,
-                    'num_links'            => 0,
-                    'orderby_sec'          => 'front',
-                    'show_page_heading'    => 1,
-                    'secure'               => 0,
-                ],
-            ],
-        ];
-
-        try {
-            $menuIdsLevel5 = $this->addMenuItems($menuItems, 5);
-        } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
-
-            return $response;
-        }
-
-        $this->getApplication()->setUserState('sampledata.testing.menus.menuids1', $menuIdsLevel1);
-        $this->getApplication()->setUserState('sampledata.testing.menus.menuids2', $menuIdsLevel2);
-        $this->getApplication()->setUserState('sampledata.testing.menus.menuids3', $menuIdsLevel3);
-        $this->getApplication()->setUserState('sampledata.testing.menus.menuids4', $menuIdsLevel4);
-        $this->getApplication()->setUserState('sampledata.testing.menus.menuids5', $menuIdsLevel5);
+        $this->getApplication()->setUserState('sampledata.testing.menus.user', $userMenuIds);
+        $this->getApplication()->setUserState('sampledata.testing.menus.park', $parkMenuIds);
+        $this->getApplication()->setUserState('sampledata.testing.menus.fruitshop', $fruitshopMenuIds);
+        $this->getApplication()->setUserState('sampledata.testing.menus.frontend', $frontendMenuIds);
+        $this->getApplication()->setUserState('sampledata.testing.menus.about', $aboutMenuIds);
+        $this->getApplication()->setUserState('sampledata.testing.menus.main', $mainMenuIds);
+        $this->getApplication()->setUserState('sampledata.testing.menus.top', $topMenuIds);
 
         $response            = [];
         $response['success'] = true;
         $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_STEP7_SUCCESS');
 
-        return $response;
+        $event->addResult($response);
+    }
+
+    protected function addFrontendViewsMenu($menuTypes)
+    {
+        // Get previously entered Data from UserStates
+        $contactIds      = $this->getApplication()->getUserState('sampledata.testing.contacts');
+        $contactCatids1  = $this->getApplication()->getUserState('sampledata.testing.contacts.catids1');
+        $contactCatids3  = $this->getApplication()->getUserState('sampledata.testing.contacts.catids3');
+        $articleIds      = $this->getApplication()->getUserState('sampledata.testing.articles');
+        $articleCatids1  = $this->getApplication()->getUserState('sampledata.testing.articles.catids1');
+        $articleCatids2  = $this->getApplication()->getUserState('sampledata.testing.articles.catids2');
+        $articleCatids3  = $this->getApplication()->getUserState('sampledata.testing.articles.catids3');
+        $articleCatids4  = $this->getApplication()->getUserState('sampledata.testing.articles.catids4');
+        $articleCatids5  = $this->getApplication()->getUserState('sampledata.testing.articles.catids5');
+        $tagIds          = $this->getApplication()->getUserState('sampledata.testing.tags');
+        $newsfeedsIds    = $this->getApplication()->getUserState('sampledata.testing.newsfeeds');
+        $newsfeedsCatids = $this->getApplication()->getUserState('sampledata.testing.newsfeeds.catids');
+
+        $menuItems = [
+            // com_config
+            [
+                'menutype'     => $menuTypes[6],
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_105_TITLE'),
+                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[69],
+                'component_id' => ComponentHelper::getComponent('com_content')->id,
+                'params'       => [
+                    'show_page_heading' => 0,
+                    'secure'            => 0,
+                ],
+                'children' => [
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_78_TITLE'),
+                        'link'         => 'index.php?option=com_config&view=config',
+                        'component_id' => ComponentHelper::getComponent('com_config')->id,
+                        'access'       => 6,
+                        'params'       => [
+                            'menu_text'         => 1,
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_79_TITLE'),
+                        'link'         => 'index.php?option=com_config&view=templates',
+                        'component_id' => ComponentHelper::getComponent('com_config')->id,
+                        'access'       => 6,
+                        'params'       => [
+                            'menu_text'         => 1,
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                    ],
+                ],
+            ],
+
+            // com_contact
+            [
+                'menutype'     => $menuTypes[6],
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_22_TITLE'),
+                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[8],
+                'component_id' => ComponentHelper::getComponent('com_content')->id,
+                'params'       => [
+                    'show_page_heading' => 0,
+                    'secure'            => 0,
+                ],
+                'children' => [
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_2_TITLE'),
+                        'link'         => 'index.php?option=com_contact&view=contact&id=' . $contactIds[0],
+                        'component_id' => ComponentHelper::getComponent('com_contact')->id,
+                        'params'       => [
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_9_TITLE'),
+                        'link'         => 'index.php?option=com_contact&view=categories&id=' . $contactCatids1[0],
+                        'component_id' => ComponentHelper::getComponent('com_contact')->id,
+                        'params'       => [
+                            'maxLevel'           => -1,
+                            'presentation_style' => 'sliders',
+                            'show_links'         => 1,
+                            'show_page_heading'  => 0,
+                            'secure'             => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_25_TITLE'),
+                        'link'         => 'index.php?option=com_contact&view=category&id=' . $contactCatids3[0],
+                        'component_id' => ComponentHelper::getComponent('com_contact')->id,
+                        'params'       => [
+                            'maxLevel'           => -1,
+                            'display_num'        => 20,
+                            'presentation_style' => 'sliders',
+                            'show_links'         => 1,
+                            'show_feed_link'     => 1,
+                            'show_page_heading'  => 0,
+                            'secure'             => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_67_TITLE'),
+                        'link'         => 'index.php?option=com_contact&view=featured',
+                        'component_id' => ComponentHelper::getComponent('com_contact')->id,
+                        'params'       => [
+                            'maxLevel'           => -1,
+                            'presentation_style' => 'sliders',
+                            'show_links'         => 1,
+                            'show_page_heading'  => 1,
+                            'secure'             => 0,
+                        ],
+                    ],
+                ],
+            ],
+
+            // com_content
+            [
+                'menutype'     => $menuTypes[6],
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_20_TITLE'),
+                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[9],
+                'component_id' => ComponentHelper::getComponent('com_content')->id,
+                'params'       => [
+                    'show_page_heading' => 0,
+                    'secure'            => 0,
+                ],
+                'children' => [
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_14_TITLE'),
+                        'link'         => 'index.php?option=com_content&view=archive',
+                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                        'params'       => [
+                            'show_category'     => 1,
+                            'link_category'     => 1,
+                            'show_title'        => 1,
+                            'link_titles'       => 1,
+                            'show_intro'        => 1,
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_15_TITLE'),
+                        'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[5],
+                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                        'params'       => [
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_16_TITLE'),
+                        'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $articleCatids3[1],
+                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                        'params'       => [
+                            'show_description'       => 0,
+                            'show_description_image' => 0,
+                            'num_leading_articles'   => 1,
+                            'num_intro_articles'     => 4,
+                            'num_columns'            => 2,
+                            'num_links'              => 4,
+                            'show_pagination'        => 2,
+                            'show_feed_link'         => 1,
+                            'show_page_heading'      => 0,
+                            'secure'                 => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_17_TITLE'),
+                        'link'         => 'index.php?option=com_content&view=category&id=' . $articleCatids2[0],
+                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                        'params'       => [
+                            'orderby_sec'       => 'alpha',
+                            'display_num'       => 10,
+                            'menu_text'         => 1,
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_18_TITLE'),
+                        'link'         => 'index.php?option=com_content&view=featured',
+                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                        'params'       => [
+                            'num_leading_articles' => 1,
+                            'num_intro_articles'   => 4,
+                            'num_columns'          => 2,
+                            'num_links'            => 4,
+                            'multi_column_order'   => 1,
+                            'orderby_sec'          => 'front',
+                            'show_pagination'      => 2,
+                            'show_feed_link'       => 1,
+                            'show_page_heading'    => 0,
+                            'secure'               => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_19_TITLE'),
+                        'link'         => 'index.php?option=com_content&view=form&layout=edit',
+                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                        'access'       => 3,
+                        'params'       => [
+                            'enable_category'   => 0,
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_24_TITLE'),
+                        'link'         => 'index.php?option=com_content&view=categories&id=' . $articleCatids1[0],
+                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                        'params'       => [
+                            'maxLevel'             => -1,
+                            'num_leading_articles' => 1,
+                            'num_intro_articles'   => 4,
+                            'num_columns'          => 2,
+                            'num_links'            => 4,
+                            'show_page_heading'    => 0,
+                            'secure'               => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_30_TITLE'),
+                        'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[29],
+                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                        'params'       => [
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                        'sampledata_module' => 'mod_articles_popular',
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_36_TITLE'),
+                        'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[30],
+                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                        'params'       => [
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                        'sampledata_module' => 'mod_articles_news',
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_37_TITLE'),
+                        'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[26],
+                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                        'params'       => [
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                        'sampledata_module' => 'mod_articles_latest',
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_42_TITLE'),
+                        'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[1],
+                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                        'params'       => [
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                        'sampledata_module' => 'mod_articles_archive',
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_43_TITLE'),
+                        'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[36],
+                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                        'params'       => [
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                        'sampledata_module' => 'mod_related_items',
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_63_TITLE'),
+                        'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[2],
+                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                        'params'       => [
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                        'sampledata_module' => 'mod_articles_categories',
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_68_TITLE'),
+                        'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[3],
+                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                        'params'       => [
+                            'show_page_heading' => 1,
+                            'secure'            => 0,
+                        ],
+                        'sampledata_module' => 'mod_articles_category',
+                    ],
+                ],
+            ],
+
+            // com_finder
+            [
+                'menutype'     => $menuTypes[6],
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_26_TITLE'),
+                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[38],
+                'component_id' => ComponentHelper::getComponent('com_content')->id,
+                'params'       => [
+                    'menu_text'         => 1,
+                    'show_page_heading' => 0,
+                    'secure'            => 0,
+                ],
+                'children' => [
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_71_TITLE'),
+                        'link'         => 'index.php?option=com_finder&view=search&q=&f=',
+                        'component_id' => ComponentHelper::getComponent('com_finder')->id,
+                        'params'       => [
+                            'description_length' => 255,
+                            'allow_empty_query'  => 0,
+                            'show_feed'          => 0,
+                            'show_feed_text'     => 0,
+                            'menu_text'          => 1,
+                            'show_page_heading'  => 0,
+                            'secure'             => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_72_TITLE'),
+                        'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[66],
+                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                        'params'       => [
+                            'menu_text'         => 1,
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                        'sampledata_module' => 'mod_finder',
+                    ],
+                ],
+            ],
+
+            // com_newsfeeds
+            [
+                'menutype'     => $menuTypes[6],
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_21_TITLE'),
+                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[57],
+                'component_id' => ComponentHelper::getComponent('com_content')->id,
+                'params'       => [
+                    'show_page_heading' => 1,
+                    'page_title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_21_PARAM_PAGE_TITLE'),
+                    'secure'            => 0,
+                ],
+                'children' => [
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_10_TITLE'),
+                        'link'         => 'index.php?option=com_newsfeeds&view=categories&id=0',
+                        'component_id' => ComponentHelper::getComponent('com_newsfeeds')->id,
+                        'params'       => [
+                            'show_base_description'  => 1,
+                            'categories_description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_10_PARAM_CATEGORIES_DESCRIPTION'),
+                            'maxLevel'               => -1,
+                            'show_empty_categories'  => 1,
+                            'show_description'       => 1,
+                            'show_description_image' => 1,
+                            'show_cat_num_articles'  => 1,
+                            'feed_character_count'   => 0,
+                            'show_page_heading'      => 0,
+                            'secure'                 => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_11_TITLE'),
+                        'link'         => 'index.php?option=com_newsfeeds&view=category&id=' . $newsfeedsCatids[0],
+                        'component_id' => ComponentHelper::getComponent('com_newsfeeds')->id,
+                        'params'       => [
+                            'maxLevel'             => -1,
+                            'feed_character_count' => 0,
+                            'show_page_heading'    => 0,
+                            'secure'               => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_12_TITLE'),
+                        'link'         => 'index.php?option=com_newsfeeds&view=newsfeed&id=' . $newsfeedsIds[0],
+                        'component_id' => ComponentHelper::getComponent('com_newsfeeds')->id,
+                        'params'       => [
+                            'feed_character_count' => 0,
+                            'show_page_heading'    => 0,
+                            'secure'               => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_38_TITLE'),
+                        'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[44],
+                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                        'params'       => [
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                        'sampledata_module' => 'mod_syndicate',
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_50_TITLE'),
+                        'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[15],
+                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                        'params'       => [
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                        'sampledata_module' => 'mod_feed',
+                    ],
+                ],
+            ],
+            // com_privacy
+            [
+                'menutype'     => $menuTypes[6],
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_109_TITLE'),
+                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[71],
+                'component_id' => ComponentHelper::getComponent('com_content')->id,
+                'params'       => [
+                    'show_page_heading' => 1,
+                    'secure'            => 0,
+                ],
+                'children' => [
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_110_TITLE'),
+                        'link'         => 'index.php?option=com_privacy&view=confirm',
+                        'component_id' => ComponentHelper::getComponent('com_privacy')->id,
+                        'params'       => [
+                            'tag_list_item_maximum_characters' => 0,
+                            'maximum'                          => 200,
+                            'menu_text'                        => 1,
+                            'show_page_heading'                => 0,
+                            'secure'                           => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_111_TITLE'),
+                        'link'         => 'index.php?option=com_privacy&view=remind',
+                        'component_id' => ComponentHelper::getComponent('com_privacy')->id,
+                        'params'       => [
+                            'tag_list_item_maximum_characters' => 0,
+                            'maximum'                          => 200,
+                            'menu_text'                        => 1,
+                            'show_page_heading'                => 0,
+                            'secure'                           => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_112_TITLE'),
+                        'link'         => 'index.php?option=com_privacy&view=request',
+                        'component_id' => ComponentHelper::getComponent('com_privacy')->id,
+                        'params'       => [
+                            'tag_columns'                     => 4,
+                            'all_tags_tag_maximum_characters' => 0,
+                            'maximum'                         => 200,
+                            'menu_text'                       => 1,
+                            'show_page_heading'               => 0,
+                            'secure'                          => 0,
+                        ],
+                    ],
+                ],
+            ],
+
+            //com_tags
+            [
+                'menutype'     => $menuTypes[6],
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_106_TITLE'),
+                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[70],
+                'component_id' => ComponentHelper::getComponent('com_content')->id,
+                'params'       => [
+                    'show_page_heading' => 1,
+                    'secure'            => 0,
+                ],
+                'children' => [
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_75_TITLE'),
+                        'link'         => 'index.php?option=com_tags&view=tag&layout=list&id[0]=' . $tagIds[2],
+                        'component_id' => ComponentHelper::getComponent('com_tags')->id,
+                        'params'       => [
+                            'tag_list_item_maximum_characters' => 0,
+                            'maximum'                          => 200,
+                            'menu_text'                        => 1,
+                            'show_page_heading'                => 0,
+                            'secure'                           => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_76_TITLE'),
+                        'link'         => 'index.php?option=com_tags&view=tag&id[0]=' . $tagIds[1],
+                        'component_id' => ComponentHelper::getComponent('com_tags')->id,
+                        'params'       => [
+                            'tag_list_item_maximum_characters' => 0,
+                            'maximum'                          => 200,
+                            'menu_text'                        => 1,
+                            'show_page_heading'                => 0,
+                            'secure'                           => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_77_TITLE'),
+                        'link'         => 'index.php?option=com_tags&view=tags',
+                        'component_id' => ComponentHelper::getComponent('com_tags')->id,
+                        'params'       => [
+                            'tag_columns'                     => 4,
+                            'all_tags_tag_maximum_characters' => 0,
+                            'maximum'                         => 200,
+                            'menu_text'                       => 1,
+                            'show_page_heading'               => 0,
+                            'secure'                          => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_73_TITLE'),
+                        'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[67],
+                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                        'params'       => [
+                            'menu_text'         => 1,
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                        'sampledata_module' => 'mod_tags_similar',
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_74_TITLE'),
+                        'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[68],
+                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                        'params'       => [
+                            'menu_text'         => 1,
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                        'sampledata_module' => 'mod_tags_popular',
+                    ],
+                ],
+            ],
+
+            // com_users
+            [
+                'menutype'     => $menuTypes[6],
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_23_TITLE'),
+                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[51],
+                'component_id' => ComponentHelper::getComponent('com_content')->id,
+                'params'       => [
+                    'show_page_heading' => 0,
+                    'secure'            => 0,
+                ],
+                'children' => [
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_44_TITLE'),
+                        'link'         => 'index.php?option=com_users&view=login',
+                        'component_id' => ComponentHelper::getComponent('com_users')->id,
+                        'params'       => [
+                            'logindescription_show'  => 1,
+                            'logoutdescription_show' => 1,
+                            'show_page_heading'      => 0,
+                            'secure'                 => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_45_TITLE'),
+                        'link'         => 'index.php?option=com_users&view=profile',
+                        'component_id' => ComponentHelper::getComponent('com_users')->id,
+                        'params'       => [
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_46_TITLE'),
+                        'link'         => 'index.php?option=com_users&view=profile&layout=edit',
+                        'component_id' => ComponentHelper::getComponent('com_users')->id,
+                        'params'       => [
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_47_TITLE'),
+                        'link'         => 'index.php?option=com_users&view=registration',
+                        'component_id' => ComponentHelper::getComponent('com_users')->id,
+                        'params'       => [
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_48_TITLE'),
+                        'link'         => 'index.php?option=com_users&view=remind',
+                        'component_id' => ComponentHelper::getComponent('com_users')->id,
+                        'params'       => [
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_49_TITLE'),
+                        'link'         => 'index.php?option=com_users&view=reset',
+                        'component_id' => ComponentHelper::getComponent('com_users')->id,
+                        'params'       => [
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_28_TITLE'),
+                        'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[62],
+                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                        'params'       => [
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                        'sampledata_module' => 'mod_users_latest',
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_29_TITLE'),
+                        'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[55],
+                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                        'params'       => [
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                        'sampledata_module' => 'mod_whosonline',
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_39_TITLE'),
+                        'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[27],
+                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                        'params'       => [
+                            'menu_text'         => 1,
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                        'sampledata_module' => 'mod_login',
+                    ],
+                ],
+            ],
+
+            // com_wrapper
+            [
+                'menutype'     => $menuTypes[6],
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_107_TITLE'),
+                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[71],
+                'component_id' => ComponentHelper::getComponent('com_content')->id,
+                'params'       => [
+                    'menu_text'         => 1,
+                    'show_page_heading' => 0,
+                    'secure'            => 0,
+                ],
+                'children' => [
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_108_TITLE'),
+                        'link'         => 'index.php?option=com_wrapper&view=wrapper',
+                        'component_id' => ComponentHelper::getComponent('com_wrapper')->id,
+                        'params'       => [
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                    ],
+                    [
+                        'menutype'     => $menuTypes[6],
+                        'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_40_TITLE'),
+                        'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[56],
+                        'component_id' => ComponentHelper::getComponent('com_content')->id,
+                        'params'       => [
+                            'menu_text'         => 1,
+                            'show_page_heading' => 0,
+                            'secure'            => 0,
+                        ],
+                        'sampledata_module' => 'mod_wrapper',
+                    ],
+                ],
+            ],
+
+            // Misc
+            [
+                'menutype'     => $menuTypes[6],
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_31_TITLE'),
+                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[28],
+                'component_id' => ComponentHelper::getComponent('com_content')->id,
+                'params'       => [
+                    'show_page_heading' => 0,
+                    'secure'            => 0,
+                ],
+                'sampledata_module' => 'mod_menu',
+            ],
+            [
+                'menutype'     => $menuTypes[6],
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_32_TITLE'),
+                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[43],
+                'component_id' => ComponentHelper::getComponent('com_content')->id,
+                'params'       => [
+                    'show_page_heading' => 0,
+                    'secure'            => 0,
+                ],
+                'sampledata_module' => 'mod_stats',
+            ],
+            [
+                'menutype'     => $menuTypes[6],
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_33_TITLE'),
+                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[6],
+                'component_id' => ComponentHelper::getComponent('com_content')->id,
+                'params'       => [
+                    'menu_text'         => 1,
+                    'show_page_heading' => 0,
+                    'secure'            => 0,
+                ],
+                'sampledata_module' => 'mod_banners',
+            ],
+            [
+                'menutype'     => $menuTypes[6],
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_35_TITLE'),
+                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[35],
+                'component_id' => ComponentHelper::getComponent('com_content')->id,
+                'params'       => [
+                    'show_page_heading' => 0,
+                    'secure'            => 0,
+                ],
+                'sampledata_module' => 'mod_random_image',
+            ],
+            [
+                'menutype'     => $menuTypes[6],
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_41_TITLE'),
+                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[18],
+                'component_id' => ComponentHelper::getComponent('com_content')->id,
+                'params'       => [
+                    'show_page_heading' => 0,
+                    'secure'            => 0,
+                ],
+                'sampledata_module' => 'mod_footer',
+            ],
+            [
+                'menutype'     => $menuTypes[6],
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_53_TITLE'),
+                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[58],
+                'component_id' => ComponentHelper::getComponent('com_content')->id,
+                'params'       => [
+                    'menu_text'         => 1,
+                    'show_page_heading' => 0,
+                    'secure'            => 0,
+                ],
+                'sampledata_module' => 'mod_breadcrumbs',
+            ],
+            [
+                'menutype'     => $menuTypes[6],
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_54_TITLE'),
+                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[11],
+                'component_id' => ComponentHelper::getComponent('com_content')->id,
+                'params'       => [
+                    'show_page_heading' => 0,
+                    'secure'            => 0,
+                ],
+                'sampledata_module' => 'mod_custom',
+            ],
+            [
+                'menutype'     => $menuTypes[6],
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_64_TITLE'),
+                'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[25],
+                'component_id' => ComponentHelper::getComponent('com_content')->id,
+                'params'       => [
+                    'show_page_heading' => 0,
+                    'secure'            => 0,
+                ],
+                'sampledata_module' => 'mod_languages',
+            ],
+        ];
+
+        return $this->addMenuItems($menuItems, 1);
     }
 
     /**
      * Eighth step to enter the sampledata. Modules.
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @param AjaxEvent $event Event instance
+     *
+     * @return  void
      *
      * @since  3.8.0
      */
-    public function onAjaxSampledataApplyStep8()
+    public function onAjaxSampledataApplyStep8(AjaxEvent $event): void
     {
         if ($this->getApplication()->getInput()->get('type') !== $this->_name) {
             return;
@@ -3113,23 +3311,29 @@ final class Testing extends CMSPlugin
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 8, 'com_modules');
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         $model  = $this->getApplication()->bootComponent('com_modules')->getMVCFactory()->createModel('Module', 'Administrator', ['ignore_request' => true]);
         $access = (int) $this->getApplication()->get('access', 1);
 
         // Get previously entered Data from UserStates
-        $menuTypes      = $this->getApplication()->getUserState('sampledata.testing.menutypes');
-        $articleCatids1 = $this->getApplication()->getUserState('sampledata.testing.articles.catids1');
-        $articleCatids2 = $this->getApplication()->getUserState('sampledata.testing.articles.catids2');
-        $articleCatids3 = $this->getApplication()->getUserState('sampledata.testing.articles.catids3');
-        $articleCatids4 = $this->getApplication()->getUserState('sampledata.testing.articles.catids4');
-        $articleCatids5 = $this->getApplication()->getUserState('sampledata.testing.articles.catids5');
-        $bannerCatids   = $this->getApplication()->getUserState('sampledata.testing.banners.catids');
-        $menuIdsLevel1  = $this->getApplication()->getUserState('sampledata.testing.menus.menuids1');
-        $menuIdsLevel2  = $this->getApplication()->getUserState('sampledata.testing.menus.menuids2');
-        $menuIdsLevel5  = $this->getApplication()->getUserState('sampledata.testing.menus.menuids5');
+        $menuTypes        = $this->getApplication()->getUserState('sampledata.testing.menutypes');
+        $articleCatids1   = $this->getApplication()->getUserState('sampledata.testing.articles.catids1');
+        $articleCatids2   = $this->getApplication()->getUserState('sampledata.testing.articles.catids2');
+        $articleCatids3   = $this->getApplication()->getUserState('sampledata.testing.articles.catids3');
+        $articleCatids4   = $this->getApplication()->getUserState('sampledata.testing.articles.catids4');
+        $articleCatids5   = $this->getApplication()->getUserState('sampledata.testing.articles.catids5');
+        $bannerCatids     = $this->getApplication()->getUserState('sampledata.testing.banners.catids');
+        $menuMapping      = $this->getApplication()->getUserState('sampledata.testing.menu_module_mapping');
+        $userMenuIds      = $this->getApplication()->getUserState('sampledata.testing.menus.user');
+        $parkMenuIds      = $this->getApplication()->getUserState('sampledata.testing.menus.park');
+        $fruitshopMenuIds = $this->getApplication()->getUserState('sampledata.testing.menus.fruitshop');
+        $frontendMenuIds  = $this->getApplication()->getUserState('sampledata.testing.menus.frontend');
+        $aboutMenuIds     = $this->getApplication()->getUserState('sampledata.testing.menus.about');
+        $mainMenuIds      = $this->getApplication()->getUserState('sampledata.testing.menus.main');
+        $topMenuIds       = $this->getApplication()->getUserState('sampledata.testing.menus.top');
 
         $modules = [
             [
@@ -3175,23 +3379,8 @@ final class Testing extends CMSPlugin
                 'module'     => 'mod_menu',
                 'access'     => 2,
                 'assignment' => -1,
-                'assigned'   => [
-                    $menuIdsLevel1[4],
-                    $menuIdsLevel1[6],
-                    $menuIdsLevel1[7],
-                    $menuIdsLevel1[8],
-                    $menuIdsLevel1[55],
-                    $menuIdsLevel1[56],
-                    $menuIdsLevel1[57],
-                    $menuIdsLevel1[58],
-                    $menuIdsLevel1[59],
-                    $menuIdsLevel1[60],
-                    $menuIdsLevel1[69],
-                    $menuIdsLevel1[70],
-                    $menuIdsLevel2[1],
-                    $menuIdsLevel2[2],
-                ],
-                'params' => [
+                'assigned'   => array_merge($parkMenuIds, $fruitshopMenuIds),
+                'params'     => [
                     'menutype'        => $menuTypes[0],
                     'startLevel'      => 1,
                     'endLevel'        => 0,
@@ -3226,16 +3415,8 @@ final class Testing extends CMSPlugin
                 'module'     => 'mod_menu',
                 'access'     => $access,
                 'assignment' => 1,
-                'assigned'   => [
-                    $menuIdsLevel1[4],
-                    $menuIdsLevel1[5],
-                    $menuIdsLevel1[6],
-                    $menuIdsLevel1[7],
-                    $menuIdsLevel1[8],
-                    $menuIdsLevel2[1],
-                    $menuIdsLevel2[2],
-                ],
-                'params' => [
+                'assigned'   => array_merge($parkMenuIds, [$mainMenuIds[1]]),
+                'params'     => [
                     'menutype'        => $menuTypes[3],
                     'startLevel'      => 1,
                     'endLevel'        => 0,
@@ -3252,24 +3433,8 @@ final class Testing extends CMSPlugin
                 'module'     => 'mod_menu',
                 'access'     => $access,
                 'assignment' => -1,
-                'assigned'   => [
-                    $menuIdsLevel1[4],
-                    $menuIdsLevel1[5],
-                    $menuIdsLevel1[6],
-                    $menuIdsLevel1[7],
-                    $menuIdsLevel1[8],
-                    $menuIdsLevel1[55],
-                    $menuIdsLevel1[56],
-                    $menuIdsLevel1[57],
-                    $menuIdsLevel1[58],
-                    $menuIdsLevel1[59],
-                    $menuIdsLevel1[60],
-                    $menuIdsLevel1[69],
-                    $menuIdsLevel1[70],
-                    $menuIdsLevel2[1],
-                    $menuIdsLevel2[2],
-                ],
-                'params' => [
+                'assigned'   => array_merge($parkMenuIds, $fruitshopMenuIds, [$mainMenuIds[4]]),
+                'params'     => [
                     'menutype'        => $menuTypes[2],
                     'startLevel'      => 1,
                     'endLevel'        => 0,
@@ -3306,24 +3471,8 @@ final class Testing extends CMSPlugin
                 'module'     => 'mod_menu',
                 'access'     => $access,
                 'assignment' => -1,
-                'assigned'   => [
-                    $menuIdsLevel1[4],
-                    $menuIdsLevel1[5],
-                    $menuIdsLevel1[6],
-                    $menuIdsLevel1[7],
-                    $menuIdsLevel1[8],
-                    $menuIdsLevel1[55],
-                    $menuIdsLevel1[56],
-                    $menuIdsLevel1[57],
-                    $menuIdsLevel1[58],
-                    $menuIdsLevel1[59],
-                    $menuIdsLevel1[60],
-                    $menuIdsLevel1[69],
-                    $menuIdsLevel1[70],
-                    $menuIdsLevel2[1],
-                    $menuIdsLevel2[2],
-                ],
-                'params' => [
+                'assigned'   => array_merge($parkMenuIds, $fruitshopMenuIds, [$mainMenuIds[1]]),
+                'params'     => [
                     'menutype'        => $menuTypes[4],
                     'startLevel'      => 1,
                     'endLevel'        => 1,
@@ -3341,7 +3490,7 @@ final class Testing extends CMSPlugin
                 'access'     => $access,
                 'assignment' => 1,
                 'assigned'   => [
-                    $menuIdsLevel1[42],
+                    $menuMapping['mod_articles_archive'],
                 ],
                 'params' => [
                     'count'      => '10',
@@ -3357,7 +3506,7 @@ final class Testing extends CMSPlugin
                 'access'     => $access,
                 'assignment' => 1,
                 'assigned'   => [
-                    $menuIdsLevel1[37],
+                    $menuMapping['mod_articles_latest'],
                 ],
                 'params' => [
                     'catid'      => [$articleCatids2[0]],
@@ -3376,7 +3525,7 @@ final class Testing extends CMSPlugin
                 'access'     => $access,
                 'assignment' => 1,
                 'assigned'   => [
-                    $menuIdsLevel1[30],
+                    $menuMapping['mod_articles_popular'],
                 ],
                 'params' => [
                     'catid'      => [$articleCatids2[1], $articleCatids2[2]],
@@ -3394,16 +3543,18 @@ final class Testing extends CMSPlugin
                 'access'     => $access,
                 'assignment' => 1,
                 'assigned'   => [
-                    $menuIdsLevel1[50],
+                    $menuMapping['mod_feed'],
                 ],
                 'params' => [
                     'rssurl'      => 'https://community.joomla.org/blogs/community.feed?type=rss',
                     'rssrtl'      => 0,
                     'rsstitle'    => 1,
+                    'rssdate'     => 0,
                     'rssdesc'     => 1,
                     'rssimage'    => 1,
                     'rssitems'    => 3,
                     'rssitemdesc' => 1,
+                    'rssitemdate' => 0,
                     'word_count'  => 0,
                     'cache'       => 1,
                     'cache_time'  => 900,
@@ -3416,7 +3567,7 @@ final class Testing extends CMSPlugin
                 'access'     => $access,
                 'assignment' => 1,
                 'assigned'   => [
-                    $menuIdsLevel1[36],
+                    $menuMapping['mod_articles_news'],
                 ],
                 'params' => [
                     'catid'             => [$articleCatids2[0]],
@@ -3439,7 +3590,7 @@ final class Testing extends CMSPlugin
                 'access'     => $access,
                 'assignment' => 1,
                 'assigned'   => [
-                    $menuIdsLevel1[35],
+                    $menuMapping['mod_random_image'],
                 ],
                 'params' => [
                     'type'   => 'jpg',
@@ -3455,29 +3606,11 @@ final class Testing extends CMSPlugin
                 'access'     => $access,
                 'assignment' => 1,
                 'assigned'   => [
-                    $menuIdsLevel1[43],
+                    $menuMapping['mod_related_items'],
                 ],
                 'params' => [
                     'showDate' => 0,
                     'owncache' => 1,
-                ],
-            ],
-            [
-                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_15_TITLE'),
-                'ordering'   => 1,
-                'module'     => 'mod_search',
-                'access'     => $access,
-                'assignment' => 1,
-                'assigned'   => [
-                    $menuIdsLevel1[34],
-                ],
-                'params' => [
-                    'width'      => '20',
-                    'button_pos' => 'right',
-                    'opensearch' => 1,
-                    'cache'      => 1,
-                    'cache_time' => 900,
-                    'cachemode'  => 'itemid',
                 ],
             ],
             [
@@ -3487,7 +3620,7 @@ final class Testing extends CMSPlugin
                 'access'     => $access,
                 'assignment' => 1,
                 'assigned'   => [
-                    $menuIdsLevel1[32],
+                    $menuMapping['mod_stats'],
                 ],
                 'params' => [
                     'serverinfo' => 1,
@@ -3507,7 +3640,7 @@ final class Testing extends CMSPlugin
                 'access'     => $access,
                 'assignment' => 1,
                 'assigned'   => [
-                    $menuIdsLevel1[38],
+                    $menuMapping['mod_syndicate'],
                 ],
                 'params' => [
                     'text'   => 'Feed Entries',
@@ -3522,7 +3655,7 @@ final class Testing extends CMSPlugin
                 'access'     => $access,
                 'assignment' => 1,
                 'assigned'   => [
-                    $menuIdsLevel1[28],
+                    $menuMapping['mod_users_latest'],
                 ],
                 'params' => [
                     'shownumber' => 5,
@@ -3539,7 +3672,7 @@ final class Testing extends CMSPlugin
                 'access'     => $access,
                 'assignment' => 1,
                 'assigned'   => [
-                    $menuIdsLevel1[29],
+                    $menuMapping['mod_whosonline'],
                 ],
                 'params' => [
                     'showmode'  => 2,
@@ -3554,7 +3687,7 @@ final class Testing extends CMSPlugin
                 'access'     => $access,
                 'assignment' => 1,
                 'assigned'   => [
-                    $menuIdsLevel1[40],
+                    $menuMapping['mod_wrapper'],
                 ],
                 'params' => [
                     'url'         => 'https://www.youtube.com/embed/vb2eObvmvdI',
@@ -3575,7 +3708,7 @@ final class Testing extends CMSPlugin
                 'access'     => $access,
                 'assignment' => 1,
                 'assigned'   => [
-                    $menuIdsLevel1[41],
+                    $menuMapping['mod_footer'],
                 ],
                 'params' => [
                     'cache'      => 1,
@@ -3590,7 +3723,7 @@ final class Testing extends CMSPlugin
                 'access'     => $access,
                 'assignment' => 1,
                 'assigned'   => [
-                    $menuIdsLevel1[39],
+                    $menuMapping['mod_login'],
                 ],
                 'params' => [
                     'login'     => 280,
@@ -3608,7 +3741,7 @@ final class Testing extends CMSPlugin
                 'access'     => $access,
                 'assignment' => 1,
                 'assigned'   => [
-                    $menuIdsLevel1[31],
+                    $menuMapping['mod_menu'],
                 ],
                 'params' => [
                     'menutype'        => $menuTypes[4],
@@ -3627,15 +3760,8 @@ final class Testing extends CMSPlugin
                 'module'     => 'mod_articles_latest',
                 'access'     => $access,
                 'assignment' => 1,
-                'assigned'   => [
-                    $menuIdsLevel1[4],
-                    $menuIdsLevel1[6],
-                    $menuIdsLevel1[7],
-                    $menuIdsLevel1[8],
-                    $menuIdsLevel2[1],
-                    $menuIdsLevel2[2],
-                ],
-                'params' => [
+                'assigned'   => $parkMenuIds,
+                'params'     => [
                     'catid'      => [$articleCatids3[1]],
                     'count'      => 5,
                     'ordering'   => 'c_dsc',
@@ -3652,7 +3778,7 @@ final class Testing extends CMSPlugin
                 'module'   => 'mod_custom',
                 'access'   => $access,
                 'assigned' => [
-                    $menuIdsLevel1[54],
+                    $menuMapping['mod_custom'],
                 ],
                 'params' => [
                     'prepare_content' => 1,
@@ -3667,7 +3793,7 @@ final class Testing extends CMSPlugin
                 'module'   => 'mod_breadcrumbs',
                 'access'   => $access,
                 'assigned' => [
-                    $menuIdsLevel1[53],
+                    $menuMapping['mod_breadcrumbs'],
                 ],
                 'params' => [
                     'showHere'   => 1,
@@ -3685,7 +3811,7 @@ final class Testing extends CMSPlugin
                 'module'   => 'mod_banners',
                 'access'   => $access,
                 'assigned' => [
-                    $menuIdsLevel1[33],
+                    $menuMapping['mod_banners'],
                 ],
                 'params' => [
                     'target'     => 1,
@@ -3705,18 +3831,8 @@ final class Testing extends CMSPlugin
                 'module'     => 'mod_menu',
                 'access'     => $access,
                 'assignment' => 1,
-                'assigned'   => [
-                    $menuIdsLevel1[5],
-                    $menuIdsLevel1[55],
-                    $menuIdsLevel1[56],
-                    $menuIdsLevel1[57],
-                    $menuIdsLevel1[58],
-                    $menuIdsLevel1[59],
-                    $menuIdsLevel1[60],
-                    $menuIdsLevel1[69],
-                    $menuIdsLevel1[70],
-                ],
-                'params' => [
+                'assigned'   => array_merge($fruitshopMenuIds, [$mainMenuIds[1]]),
+                'params'     => [
                     'menutype'        => $menuTypes[5],
                     'startLevel'      => 1,
                     'endLevel'        => 0,
@@ -3734,17 +3850,8 @@ final class Testing extends CMSPlugin
                 'module'     => 'mod_custom',
                 'access'     => 4,
                 'assignment' => 1,
-                'assigned'   => [
-                    $menuIdsLevel1[55],
-                    $menuIdsLevel1[56],
-                    $menuIdsLevel1[57],
-                    $menuIdsLevel1[58],
-                    $menuIdsLevel1[59],
-                    $menuIdsLevel1[60],
-                    $menuIdsLevel1[69],
-                    $menuIdsLevel1[70],
-                ],
-                'params' => [
+                'assigned'   => $fruitshopMenuIds,
+                'params'     => [
                     'prepare_content' => 1,
                     'cache'           => 1,
                     'cache_time'      => 900,
@@ -3758,10 +3865,10 @@ final class Testing extends CMSPlugin
                 'access'     => $access,
                 'assignment' => 1,
                 'assigned'   => [
-                    $menuIdsLevel1[63],
+                    $menuMapping['mod_articles_categories'],
                 ],
                 'params' => [
-                    'parent'           => 29,
+                    'parent'           => 19,
                     'show_description' => 0,
                     'show_children'    => 0,
                     'count'            => 0,
@@ -3779,34 +3886,12 @@ final class Testing extends CMSPlugin
                 'module'     => 'mod_languages',
                 'access'     => $access,
                 'assignment' => 1,
-                'assigned'   => [
-                    $menuIdsLevel1[4],
-                    $menuIdsLevel1[6],
-                    $menuIdsLevel1[7],
-                    $menuIdsLevel1[8],
-                    $menuIdsLevel2[1],
-                    $menuIdsLevel2[2],
-                ],
-                'params' => [
+                'assigned'   => $parkMenuIds,
+                'params'     => [
                     'image'      => 1,
                     'cache'      => 1,
                     'cache_time' => 900,
                     'cachemode'  => 'static',
-                ],
-            ],
-            [
-                'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_32_TITLE'),
-                'ordering' => 1,
-                'position' => 'search',
-                'module'   => 'mod_search',
-                'access'   => $access,
-                'params'   => [
-                    'width'       => '20',
-                    'button_pos'  => 'right',
-                    'imagebutton' => 1,
-                    'cache'       => 1,
-                    'cache_time'  => 900,
-                    'cachemode'   => 'itemid',
                 ],
             ],
             [
@@ -3818,7 +3903,7 @@ final class Testing extends CMSPlugin
                 'access'     => $access,
                 'assignment' => 1,
                 'assigned'   => [
-                    $menuIdsLevel1[64],
+                    $menuMapping['mod_languages'],
                 ],
                 'params' => [
                     'image'      => 1,
@@ -3835,39 +3920,12 @@ final class Testing extends CMSPlugin
                 'module'     => 'mod_custom',
                 'access'     => $access,
                 'assignment' => 1,
-                'assigned'   => [
-                    $menuIdsLevel1[55],
-                    $menuIdsLevel1[56],
-                    $menuIdsLevel1[57],
-                    $menuIdsLevel1[58],
-                    $menuIdsLevel1[60],
-                    $menuIdsLevel1[69],
-                    $menuIdsLevel1[70],
-                ],
-                'params' => [
+                'assigned'   => $fruitshopMenuIds,
+                'params'     => [
                     'prepare_content' => 1,
                     'cache'           => 1,
                     'cache_time'      => 900,
                     'cachemode'       => 'static',
-                ],
-            ],
-            [
-                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_35_TITLE'),
-                'ordering'   => 2,
-                'position'   => 'sidebar-right',
-                'published'  => 0,
-                'module'     => 'mod_menu',
-                'access'     => $access,
-                'assignment' => '-',
-                'params'     => [
-                    'menutype'        => $menuTypes[2],
-                    'startLevel'      => 1,
-                    'endLevel'        => 6,
-                    'showAllChildren' => 0,
-                    'class_sfx'       => '-menu',
-                    'cache'           => 0,
-                    'cache_time'      => 900,
-                    'cachemode'       => 'itemid',
                 ],
             ],
             [
@@ -3879,7 +3937,7 @@ final class Testing extends CMSPlugin
                 'access'     => $access,
                 'assignment' => 1,
                 'assigned'   => [
-                    $menuIdsLevel1[7],
+                    $parkMenuIds[0],
                 ],
                 'params' => [
                     'prepare_content' => 1,
@@ -3895,7 +3953,7 @@ final class Testing extends CMSPlugin
                 'access'     => $access,
                 'assignment' => 1,
                 'assigned'   => [
-                    $menuIdsLevel1[69],
+                    $menuMapping['mod_articles_category'],
                 ],
                 'params' => [
                     'mode'                         => 'normal',
@@ -3933,147 +3991,6 @@ final class Testing extends CMSPlugin
                     'readmore_limit'               => 15,
                     'owncache'                     => 1,
                     'cache_time'                   => 900,
-                ],
-            ],
-            [
-                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_38_TITLE'),
-                'ordering'   => 1,
-                'position'   => 'atomic-search',
-                'module'     => 'mod_search',
-                'access'     => $access,
-                'showtitle'  => 0,
-                'assignment' => 1,
-                'assigned'   => [
-                    $menuIdsLevel5[0],
-                    $menuIdsLevel5[1],
-                ],
-                'params' => [
-                    'width'      => 20,
-                    'button_pos' => 'right',
-                    'cache'      => 1,
-                    'cache_time' => 900,
-                    'cachemode'  => 'itemid',
-                ],
-            ],
-            [
-                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_39_TITLE'),
-                'ordering'   => 1,
-                'position'   => 'atomic-topmenu',
-                'module'     => 'mod_menu',
-                'access'     => $access,
-                'showtitle'  => 0,
-                'assignment' => 1,
-                'assigned'   => [
-                    $menuIdsLevel5[0],
-                    $menuIdsLevel5[1],
-                ],
-                'params' => [
-                    'menutype'        => $menuTypes[2],
-                    'startLevel'      => 1,
-                    'endLevel'        => 0,
-                    'showAllChildren' => 0,
-                    'cache'           => 1,
-                    'cache_time'      => 900,
-                    'cachemode'       => 'itemid',
-                ],
-            ],
-            [
-                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_40_TITLE'),
-                'content'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_40_CONTENT'),
-                'ordering'   => 1,
-                'position'   => 'atomic-topquote',
-                'module'     => 'mod_custom',
-                'access'     => $access,
-                'showtitle'  => 0,
-                'assignment' => 1,
-                'assigned'   => [
-                    $menuIdsLevel5[0],
-                    $menuIdsLevel5[1],
-                ],
-                'params' => [
-                    'prepare_content' => 1,
-                    'cache'           => 1,
-                    'cache_time'      => 900,
-                    'cachemode'       => 'static',
-                ],
-            ],
-            [
-                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_41_TITLE'),
-                'content'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_41_CONTENT'),
-                'ordering'   => 1,
-                'position'   => 'atomic-bottomleft',
-                'module'     => 'mod_custom',
-                'access'     => $access,
-                'showtitle'  => 0,
-                'assignment' => 1,
-                'assigned'   => [
-                    $menuIdsLevel5[0],
-                    $menuIdsLevel5[1],
-                ],
-                'params' => [
-                    'prepare_content' => 1,
-                    'cache'           => 1,
-                    'cache_time'      => 900,
-                    'cachemode'       => 'static',
-                ],
-            ],
-            [
-                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_42_TITLE'),
-                'content'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_42_CONTENT'),
-                'ordering'   => 1,
-                'position'   => 'atomic-bottommiddle',
-                'module'     => 'mod_custom',
-                'access'     => $access,
-                'showtitle'  => 0,
-                'assignment' => 1,
-                'assigned'   => [
-                    $menuIdsLevel5[0],
-                    $menuIdsLevel5[1],
-                ],
-                'params' => [
-                    'prepare_content' => 1,
-                    'cache'           => 1,
-                    'cache_time'      => 900,
-                    'cachemode'       => 'static',
-                ],
-            ],
-            [
-                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_43_TITLE'),
-                'content'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_43_CONTENT'),
-                'ordering'   => 1,
-                'position'   => 'atomic-sidebar',
-                'module'     => 'mod_custom',
-                'access'     => $access,
-                'showtitle'  => 0,
-                'assignment' => 1,
-                'assigned'   => [
-                    $menuIdsLevel5[0],
-                    $menuIdsLevel5[1],
-                ],
-                'params' => [
-                    'prepare_content' => 1,
-                    'cache'           => 1,
-                    'cache_time'      => 900,
-                    'cachemode'       => 'static',
-                ],
-            ],
-            [
-                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_44_TITLE'),
-                'ordering'   => 2,
-                'position'   => 'atomic-sidebar',
-                'module'     => 'mod_login',
-                'access'     => $access,
-                'showtitle'  => 0,
-                'assignment' => 1,
-                'assigned'   => [
-                    $menuIdsLevel5[0],
-                    $menuIdsLevel5[1],
-                ],
-                'params' => [
-                    'greeting'  => 1,
-                    'name'      => 0,
-                    'usesecure' => 0,
-                    'cache'     => 0,
                 ],
             ],
             [
@@ -4121,7 +4038,7 @@ final class Testing extends CMSPlugin
                 'access'     => $access,
                 'assignment' => 1,
                 'assigned'   => [
-                    $menuIdsLevel1[72],
+                    $menuMapping['mod_finder'],
                 ],
                 'params' => [
                     'show_autosuggest' => 1,
@@ -4137,7 +4054,7 @@ final class Testing extends CMSPlugin
             [
                 'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_48_TITLE'),
                 'ordering' => '2',
-                'position' => 'sidebar-right',
+                'position' => 'sidebar-left',
                 'module'   => 'mod_menu',
                 'access'   => $access,
                 'params'   => [
@@ -4167,39 +4084,14 @@ final class Testing extends CMSPlugin
                 ],
             ],
             [
-                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_50_TITLE'),
-                'ordering'   => 1,
-                'position'   => 'sidebar-right',
-                'module'     => 'mod_menu',
-                'access'     => $access,
-                'assignment' => 1,
-                'assigned'   => [
-                    $menuIdsLevel1[5],
-                    $menuIdsLevel1[55],
-                    $menuIdsLevel1[56],
-                    $menuIdsLevel1[57],
-                    $menuIdsLevel1[58],
-                    $menuIdsLevel1[59],
-                    $menuIdsLevel1[60],
-                    $menuIdsLevel1[69],
-                    $menuIdsLevel1[70],
-                ],
-                'params' => [
-                    'menutype'        => $menuTypes[5],
-                    'startLevel'      => 1,
-                    'endLevel'        => 0,
-                    'showAllChildren' => 0,
-                    'cache'           => 0,
-                    'cache_time'      => 900,
-                    'cachemode'       => 'itemid',
-                ],
-            ],
-            [
                 'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_51_TITLE'),
                 'ordering' => 1,
                 'module'   => 'mod_tags_popular',
                 'access'   => $access,
-                'params'   => [
+                'assigned' => [
+                    $menuMapping['mod_tags_popular'],
+                ],
+                'params' => [
                     'maximum'         => 5,
                     'timeframe'       => 'alltime',
                     'order_value'     => 'count',
@@ -4216,7 +4108,10 @@ final class Testing extends CMSPlugin
                 'ordering' => 1,
                 'module'   => 'mod_tags_similar',
                 'access'   => $access,
-                'params'   => [
+                'assigned' => [
+                    $menuMapping['mod_tags_similar'],
+                ],
+                'params' => [
                     'maximum'   => 5,
                     'matchtype' => 'any',
                     'owncache'  => 1,
@@ -4259,7 +4154,6 @@ final class Testing extends CMSPlugin
                     'prepare_content' => 1,
                     'cache'           => 1,
                     'cache_time'      => 900,
-                    'bootstrap_size'  => 6,
                 ],
                 'client_id' => 1,
             ],
@@ -4271,17 +4165,16 @@ final class Testing extends CMSPlugin
                 'module'    => 'mod_feed',
                 'access'    => $access,
                 'params'    => [
-                    'rssurl'         => 'http://feeds.joomla.org/JoomlaAnnouncements',
-                    'rssrtl'         => 0,
-                    'rsstitle'       => 1,
-                    'rssdesc'        => 1,
-                    'rssimage'       => 1,
-                    'rssitems'       => 3,
-                    'rssitemdesc'    => 1,
-                    'word_count'     => 0,
-                    'cache'          => 1,
-                    'cache_time'     => 900,
-                    'bootstrap_size' => 6,
+                    'rssurl'      => 'http://feeds.joomla.org/JoomlaAnnouncements',
+                    'rssrtl'      => 0,
+                    'rsstitle'    => 1,
+                    'rssdesc'     => 1,
+                    'rssimage'    => 1,
+                    'rssitems'    => 3,
+                    'rssitemdesc' => 1,
+                    'word_count'  => 0,
+                    'cache'       => 1,
+                    'cache_time'  => 900,
                 ],
                 'client_id' => 1,
             ],
@@ -4292,44 +4185,16 @@ final class Testing extends CMSPlugin
                 'module'   => 'mod_stats_admin',
                 'access'   => $access,
                 'params'   => [
-                    'serverinfo'     => 1,
-                    'siteinfo'       => 1,
-                    'counter'        => 1,
-                    'increase'       => 0,
-                    'cache'          => 1,
-                    'cache_time'     => 900,
-                    'cachemode'      => 'static',
-                    'bootstrap_size' => 6,
+                    'serverinfo' => 1,
+                    'siteinfo'   => 1,
+                    'counter'    => 1,
+                    'increase'   => 0,
+                    'cache'      => 1,
+                    'cache_time' => 900,
+                    'cachemode'  => 'static',
                 ],
                 'client_id' => 1,
             ],
-            /*
-            TODO: Altering existing admin modules (Bootstrap Size).
-            array(
-                'title'            => 'Popular Articles',
-                'position'         => 'cpanel',
-                'module'           => 'mod_popular',
-                'params'           => array(
-                    'bootstrap_size'  => 6,
-                ),
-            ),
-            array(
-                'title'            => 'Logged-in Users',
-                'position'         => 'cpanel',
-                'module'           => 'mod_logged',
-                'params'           => array(
-                    'bootstrap_size'  => 6,
-                ),
-            ),
-            array(
-                'title'            => 'Recently Added Articles',
-                'position'         => 'cpanel',
-                'module'           => 'mod_latest',
-                'params'           => array(
-                    'bootstrap_size'  => 6,
-                ),
-            ),
-            */
         ];
 
         foreach ($modules as $module) {
@@ -4377,7 +4242,8 @@ final class Testing extends CMSPlugin
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 8, $this->getApplication()->getLanguage()->_($model->getError()));
 
-                return $response;
+                $event->addResult($response);
+                return;
             }
         }
 
@@ -4385,22 +4251,24 @@ final class Testing extends CMSPlugin
         $response['success'] = true;
         $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_STEP8_SUCCESS');
 
-        return $response;
+        $event->addResult($response);
     }
 
     /**
      * Final step to show completion of sampledata.
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @param AjaxEvent $event Event instance
+     *
+     * @return  void
      *
      * @since  4.0.0
      */
-    public function onAjaxSampledataApplyStep9()
+    public function onAjaxSampledataApplyStep9(AjaxEvent $event): void
     {
         $response['success'] = true;
         $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_STEP9_SUCCESS');
 
-        return $response;
+        $event->addResult($response);
     }
 
     /**
@@ -4610,7 +4478,20 @@ final class Testing extends CMSPlugin
             }
 
             // Get ID from menuitem we just added
-            $itemIds[] = $this->menuItemModel->getstate('item.id');
+            $id        = $this->menuItemModel->getstate('item.id');
+            $itemIds[] = $id;
+
+            if (isset($menuItem['sampledata_module'])) {
+                $this->menuModuleMapping[$menuItem['sampledata_module']] = $id;
+            }
+
+            if (isset($menuItem['children'])) {
+                foreach ($menuItem['children'] as &$item) {
+                    $item['parent_id'] = $id;
+                }
+
+                $itemIds = array_merge($itemIds, $this->addMenuItems($menuItem['children'], $level + 1));
+            }
         }
 
         return $itemIds;

@@ -136,14 +136,14 @@ final class Downloadkey extends CMSPlugin implements SubscriberInterface
         }
 
         $supported        = ComInstallerHelper::getDownloadKeySupportedSites(true);
-        $ret['supported'] = count($supported);
+        $ret['supported'] = \count($supported);
 
         if ($ret['supported'] === 0) {
             return $ret;
         }
 
         $missing        = ComInstallerHelper::getDownloadKeyExistsSites(false, true);
-        $ret['missing'] = count($missing);
+        $ret['missing'] = \count($missing);
 
         return $ret;
     }

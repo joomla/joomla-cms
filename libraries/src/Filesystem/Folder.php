@@ -16,7 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -47,7 +47,7 @@ abstract class Folder
     public static function copy($src, $dest, $path = '', $force = false, $useStreams = false)
     {
         if (\function_exists('set_time_limit')) {
-            set_time_limit(ini_get('max_execution_time'));
+            set_time_limit(\ini_get('max_execution_time'));
         }
 
         $FTPOptions = ClientHelper::getCredentials('ftp');
@@ -136,7 +136,7 @@ abstract class Folder
 
                             if (!$stream->copy($sfid, $dfid)) {
                                 throw new \RuntimeException(
-                                    sprintf(
+                                    \sprintf(
                                         "Cannot copy file: %s",
                                         Path::removeRoot($stream->getError())
                                     ),
@@ -219,7 +219,7 @@ abstract class Folder
             $ftp->chmod($path, $mode);
         } else {
             // We need to get and explode the open_basedir paths
-            $obd = ini_get('open_basedir');
+            $obd = \ini_get('open_basedir');
 
             // If open_basedir is set we need to get the open_basedir that the path is in
             if ($obd != null) {
@@ -237,13 +237,13 @@ abstract class Folder
                 foreach ($obdArray as $test) {
                     $test = Path::clean($test);
 
-                    if (strpos($path, $test) === 0 || strpos($path, realpath($test)) === 0) {
+                    if (str_starts_with($path, $test) || str_starts_with($path, realpath($test))) {
                         $inBaseDir = true;
                         break;
                     }
                 }
 
-                if ($inBaseDir == false) {
+                if (!$inBaseDir) {
                     // Return false for JFolder::create because the path to be created is not in open_basedir
                     Log::add(__METHOD__ . ': ' . Text::_('JLIB_FILESYSTEM_ERROR_FOLDER_PATH'), Log::WARNING, 'jerror');
 
@@ -288,7 +288,7 @@ abstract class Folder
     public static function delete($path)
     {
         if (\function_exists('set_time_limit')) {
-            set_time_limit(ini_get('max_execution_time'));
+            set_time_limit(\ini_get('max_execution_time'));
         }
 
         // Sanity check
@@ -571,7 +571,7 @@ abstract class Folder
     protected static function _items($path, $filter, $recurse, $full, $exclude, $excludeFilterString, $findFiles)
     {
         if (\function_exists('set_time_limit')) {
-            set_time_limit(ini_get('max_execution_time'));
+            set_time_limit(\ini_get('max_execution_time'));
         }
 
         $arr = [];

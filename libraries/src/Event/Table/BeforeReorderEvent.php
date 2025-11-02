@@ -12,11 +12,11 @@ namespace Joomla\CMS\Event\Table;
 use Joomla\Database\DatabaseQuery;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Event class for JTable's onBeforeReorder event
+ * Event class for \Joomla\CMS\Table\Table onBeforeReorder event
  *
  * @since  4.0.0
  */
@@ -26,9 +26,9 @@ class BeforeReorderEvent extends AbstractEvent
      * Constructor.
      *
      * Mandatory arguments:
-     * subject      JTableInterface The table we are operating on
-     * query        DatabaseQuery   The query to get the primary keys and ordering values for the selection.
-     * where        string          WHERE clause to use for limiting the selection of rows to compact the ordering values.
+     * subject      \Joomla\CMS\Table\TableInterface The table we are operating on
+     * query        DatabaseQuery                    The query to get the primary keys and ordering values for the selection.
+     * where        string                           WHERE clause to use for limiting the selection of rows to compact the ordering values.
      *
      * @param   string  $name       The event name.
      * @param   array   $arguments  The event arguments.
@@ -57,7 +57,7 @@ class BeforeReorderEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @deprecated 4.4.0 will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 7.0
      *                Use counterpart with onSet prefix
      */
     protected function setQuery($value)
@@ -78,7 +78,7 @@ class BeforeReorderEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @deprecated 4.4.0 will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 7.0
      *                Use counterpart with onSet prefix
      */
     protected function setWhere($value)

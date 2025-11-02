@@ -21,26 +21,25 @@ switch ((string) $item->text) {
     // Check for "Start" item
     case Text::_('JLIB_HTML_START'):
         $icon = $app->getLanguage()->isRtl() ? 'icon-angle-double-right' : 'icon-angle-double-left';
-        $aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
+        $aria = Text::_('JLIB_HTML_GOTO_POSITION_START');
         break;
 
     // Check for "Prev" item
     case $item->text === Text::_('JPREV'):
-        $item->text = Text::_('JPREVIOUS');
         $icon = $app->getLanguage()->isRtl() ? 'icon-angle-right' : 'icon-angle-left';
-        $aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
+        $aria = Text::_('JLIB_HTML_GOTO_POSITION_PREVIOUS');
         break;
 
     // Check for "Next" item
     case Text::_('JNEXT'):
         $icon = $app->getLanguage()->isRtl() ? 'icon-angle-left' : 'icon-angle-right';
-        $aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
+        $aria = Text::_('JLIB_HTML_GOTO_POSITION_NEXT');
         break;
 
     // Check for "End" item
     case Text::_('JLIB_HTML_END'):
         $icon = $app->getLanguage()->isRtl() ? 'icon-angle-double-left' : 'icon-angle-double-right';
-        $aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
+        $aria = Text::_('JLIB_HTML_GOTO_POSITION_END');
         break;
 
     default:

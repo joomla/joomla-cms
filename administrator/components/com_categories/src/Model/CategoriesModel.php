@@ -16,8 +16,9 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Database\DatabaseQuery;
+use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -42,12 +43,12 @@ class CategoriesModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                     $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface|null  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   1.6
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -66,6 +67,7 @@ class CategoriesModel extends ListModel
                 'level', 'a.level',
                 'path', 'a.path',
                 'tag',
+                'category_id', 'a.id',
             ];
         }
 
@@ -154,7 +156,7 @@ class CategoriesModel extends ListModel
     /**
      * Method to get a database query to list categories.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   1.6
      */
@@ -239,8 +241,30 @@ class CategoriesModel extends ListModel
                 ->bind(':extension', $extension);
         }
 
-        // Filter on the level.
-        if ($level = (int) $this->getState('filter.level')) {
+        // Filter by categories and by level
+        $categoryId = $this->getState('filter.category_id', []);
+        $level      = $this->getState('filter.level');
+
+        if (!\is_array($categoryId)) {
+            $categoryId = $categoryId ? [$categoryId] : [];
+        }
+
+        if (\count($categoryId)) {
+            // Case: Using both categories filter and by level filter
+            $categoryTable    = Table::getInstance('Category', 'JTable');
+            $subCatItemsWhere = [];
+
+            foreach ($categoryId as $filterCatId) {
+                $categoryTable->load($filterCatId);
+                $subCatItemsWhere[] = '(' .
+                    ($level ? 'a.level <= ' . ((int) $level + (int) $categoryTable->level - 1) . ' AND ' : '') .
+                    'a.lft >= ' . (int) $categoryTable->lft . ' AND ' .
+                    'a.rgt <= ' . (int) $categoryTable->rgt . ')';
+            }
+
+            $query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
+        } elseif ($level) {
+            // Case: Using only the by level filter
             $query->where($db->quoteName('a.level') . ' <= :level')
                 ->bind(':level', $level, ParameterType::INTEGER);
         }
@@ -309,7 +333,13 @@ class CategoriesModel extends ListModel
         }
 
         if ($tag && \is_array($tag)) {
-            $tag = ArrayHelper::toInteger($tag);
+            $tag         = ArrayHelper::toInteger($tag);
+            $includeNone = false;
+
+            if (\in_array(0, $tag)) {
+                $tag         = array_filter($tag);
+                $includeNone = true;
+            }
 
             $subQuery = $db->getQuery(true)
                 ->select('DISTINCT ' . $db->quoteName('content_item_id'))
@@ -322,17 +352,51 @@ class CategoriesModel extends ListModel
                 );
 
             $query->join(
-                'INNER',
+                $includeNone ? 'LEFT' : 'INNER',
                 '(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
                 $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
             )
+            ->bind(':typeAlias', $typeAlias);
+
+            if ($includeNone) {
+                $subQuery2 = $db->getQuery(true)
+                    ->select('DISTINCT ' . $db->quoteName('content_item_id'))
+                    ->from($db->quoteName('#__contentitem_tag_map'))
+                    ->where($db->quoteName('type_alias') . ' = :typeAlias2');
+                $query->join(
+                    'LEFT',
+                    '(' . $subQuery2 . ') AS ' . $db->quoteName('tagmap2'),
+                    $db->quoteName('tagmap2.content_item_id') . ' = ' . $db->quoteName('a.id')
+                )
+                ->where(
+                    '(' . $db->quoteName('tagmap.content_item_id') . ' IS NOT NULL OR '
+                    . $db->quoteName('tagmap2.content_item_id') . ' IS NULL)'
+                )
+                ->bind(':typeAlias2', $typeAlias);
+            }
+        } elseif (is_numeric($tag)) {
+            $tag = (int) $tag;
+
+            if ($tag === 0) {
+                $subQuery = $db->getQuery(true)
+                    ->select('DISTINCT ' . $db->quoteName('content_item_id'))
+                    ->from($db->quoteName('#__contentitem_tag_map'))
+                    ->where($db->quoteName('type_alias') . ' = :typeAlias');
+
+                // Only show categories without tags
+                $query->join(
+                    'LEFT',
+                    '(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
+                    $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+                )
+                ->where($db->quoteName('tagmap.content_item_id') . ' IS NULL')
                 ->bind(':typeAlias', $typeAlias);
-        } elseif ($tag = (int) $tag) {
-            $query->join(
-                'INNER',
-                $db->quoteName('#__contentitem_tag_map', 'tagmap'),
-                $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-            )
+            } else {
+                $query->join(
+                    'INNER',
+                    $db->quoteName('#__contentitem_tag_map', 'tagmap'),
+                    $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+                )
                 ->where(
                     [
                         $db->quoteName('tagmap.tag_id') . ' = :tag',
@@ -341,6 +405,7 @@ class CategoriesModel extends ListModel
                 )
                 ->bind(':tag', $tag, ParameterType::INTEGER)
                 ->bind(':typeAlias', $typeAlias);
+            }
         }
 
         // Add the list ordering clause
@@ -355,25 +420,25 @@ class CategoriesModel extends ListModel
 
         // Group by on Categories for \JOIN with component tables to count items
         $query->group('a.id,
-				a.title,
-				a.alias,
-				a.note,
-				a.published,
-				a.access,
-				a.checked_out,
-				a.checked_out_time,
-				a.created_user_id,
-				a.path,
-				a.parent_id,
-				a.level,
-				a.lft,
-				a.rgt,
-				a.language,
-				l.title,
-				l.image,
-				uc.name,
-				ag.title,
-				ua.name');
+                a.title,
+                a.alias,
+                a.note,
+                a.published,
+                a.access,
+                a.checked_out,
+                a.checked_out_time,
+                a.created_user_id,
+                a.path,
+                a.parent_id,
+                a.level,
+                a.lft,
+                a.rgt,
+                a.language,
+                l.title,
+                l.image,
+                uc.name,
+                ag.title,
+                ua.name');
 
         return $query;
     }
@@ -431,7 +496,7 @@ class CategoriesModel extends ListModel
     {
         $items = parent::getItems();
 
-        if ($items != false) {
+        if ($items) {
             $extension = $this->getState('filter.extension');
 
             $this->countItems($items, $extension);
@@ -469,7 +534,7 @@ class CategoriesModel extends ListModel
     /**
      * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
      *
-     * @return DatabaseQuery
+     * @return QueryInterface
      *
      * @since 4.0.0
      */

@@ -18,7 +18,7 @@ use Joomla\Session\HandlerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -65,7 +65,7 @@ class SessionFactory implements ContainerAwareInterface
             case 'filesystem':
             case 'none':
                 // Try to use a custom configured path, fall back to the path in the PHP runtime configuration
-                $path = $config->get('session_filesystem_path', ini_get('session.save_path'));
+                $path = $config->get('session_filesystem_path', \ini_get('session.save_path'));
 
                 // If we still have no path, as a last resort fall back to the system's temporary directory
                 if (empty($path)) {
@@ -125,16 +125,8 @@ class SessionFactory implements ContainerAwareInterface
 
                 return new Handler\RedisHandler($redis, ['ttl' => $options['expire']]);
 
-            case 'wincache':
-                // @TODO Remove WinCache with Joomla 5.0
-                if (!Handler\WincacheHandler::isSupported()) {
-                    throw new \RuntimeException('Wincache is not supported on this system.');
-                }
-
-                return new Handler\WincacheHandler();
-
             default:
-                throw new \InvalidArgumentException(sprintf('The "%s" session handler is not recognised.', $handlerType));
+                throw new \InvalidArgumentException(\sprintf('The "%s" session handler is not recognised.', $handlerType));
         }
     }
 

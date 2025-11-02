@@ -2,7 +2,7 @@
 
 .btn-group .dropdown-menu {
   min-width: 100%;
-  background: $white;
+  background: var(--body-bg);
   box-shadow: $dropdown-box-shadow;
 
   joomla-toolbar-button {
@@ -12,15 +12,18 @@
 }
 
 .dropdown-menu {
-  box-shadow: $atum-box-shadow;
+  box-shadow: var(--atum-box-shadow);
 }
 
 .dropdown-item {
   text-align: start;
-  border-bottom: 1px solid rgba(0, 0, 0, .1);
+  border-bottom: var(--dropdown-item-border-bottom);
 
   &:hover,
   &:focus {
+    --dropdown-link-hover-bg: var(--atum-dropdown-link-hover-bg);
+    --dropdown-link-hover-color: var(--atum-dropdown-link-hover-color);
+
     .btn-primary + .dropdown-menu & {
       background-color: var(--template-bg-dark);
     }
@@ -73,5 +76,13 @@
 
   &:not(.first):not(.last):not(:only-of-type) {
     border-radius: 0;
+  }
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .dropdown-divider {
+      border-top: map-get($atum-colors-dark, "dropdown-divider-bg");
+    }
   }
 }

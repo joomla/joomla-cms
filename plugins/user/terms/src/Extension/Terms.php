@@ -10,10 +10,13 @@
 
 namespace Joomla\Plugin\User\Terms\Extension;
 
-use Joomla\CMS\Form\Form;
+use Joomla\CMS\Event\Model\PrepareFormEvent;
+use Joomla\CMS\Event\User\AfterSaveEvent;
+use Joomla\CMS\Event\User\BeforeSaveEvent;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -25,35 +28,46 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.9.0
  */
-final class Terms extends CMSPlugin
+final class Terms extends CMSPlugin implements SubscriberInterface
 {
     /**
-     * Load the language file on instantiation.
+     * Returns an array of events this subscriber will listen to.
      *
-     * @var    boolean
+     * @return array
      *
-     * @since  3.9.0
+     * @since   5.3.0
      */
-    protected $autoloadLanguage = true;
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onContentPrepareForm' => 'onContentPrepareForm',
+            'onUserBeforeSave'     => 'onUserBeforeSave',
+            'onUserAfterSave'      => 'onUserAfterSave',
+        ];
+    }
 
     /**
      * Adds additional fields to the user registration form
      *
-     * @param   Form   $form  The form to be altered.
-     * @param   mixed  $data  The associated data for the form.
+     * @param   PrepareFormEvent $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   3.9.0
      */
-    public function onContentPrepareForm(Form $form, $data)
+    public function onContentPrepareForm(PrepareFormEvent $event)
     {
+        $form = $event->getForm();
+
         // Check we are manipulating a valid form - we only display this on user registration form.
         $name = $form->getName();
 
-        if (!in_array($name, ['com_users.registration'])) {
-            return true;
+        if (!\in_array($name, ['com_users.registration'])) {
+            return;
         }
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         // Add the terms and conditions fields to the form.
         FormHelper::addFieldPrefix('Joomla\\Plugin\\User\\Terms\\Field');
@@ -71,28 +85,31 @@ final class Terms extends CMSPlugin
     /**
      * Method is called before user data is stored in the database
      *
-     * @param   array    $user   Holds the old user data.
-     * @param   boolean  $isNew  True if a new user is stored.
-     * @param   array    $data   Holds the new user data.
+     * @param   BeforeSaveEvent $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   3.9.0
      * @throws  \InvalidArgumentException on missing required data.
      */
-    public function onUserBeforeSave($user, $isNew, $data)
+    public function onUserBeforeSave(BeforeSaveEvent $event)
     {
+        $user = $event->getUser();
+
         // // Only check for front-end user registration
         if ($this->getApplication()->isClient('administrator')) {
-            return true;
+            return;
         }
 
         $userId = ArrayHelper::getValue($user, 'id', 0, 'int');
 
         // User already registered, no need to check it further
         if ($userId > 0) {
-            return true;
+            return;
         }
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         // Check that the terms is checked if required ie only in registration from frontend.
         $input  = $this->getApplication()->getInput();
@@ -100,27 +117,26 @@ final class Terms extends CMSPlugin
         $task   = $input->post->get('task');
         $form   = $input->post->get('jform', [], 'array');
 
-        if ($option == 'com_users' && in_array($task, ['registration.register']) && empty($form['terms']['terms'])) {
+        if ($option == 'com_users' && \in_array($task, ['registration.register']) && empty($form['terms']['terms'])) {
             throw new \InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_TERMS_FIELD_ERROR'));
         }
-
-        return true;
     }
 
     /**
      * Saves user profile data
      *
-     * @param   array    $data    entered user data
-     * @param   boolean  $isNew   true if this is a new user
-     * @param   boolean  $result  true if saving the user worked
-     * @param   string   $error   error message
+     * @param   AfterSaveEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   3.9.0
      */
-    public function onUserAfterSave($data, $isNew, $result, $error): void
+    public function onUserAfterSave(AfterSaveEvent $event): void
     {
+        $data   = $event->getUser();
+        $isNew  = $event->getIsNew();
+        $result = $event->getSavingResult();
+
         if (!$isNew || !$result) {
             return;
         }

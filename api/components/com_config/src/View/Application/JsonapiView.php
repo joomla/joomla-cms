@@ -31,13 +31,13 @@ class JsonapiView extends BaseApiView
     /**
      * Execute and display a template script.
      *
-     * @param   array|null  $items  Array of items
+     * @param   ?array  $items  Array of items
      *
      * @return  string
      *
      * @since   4.0.0
      */
-    public function displayList(array $items = null)
+    public function displayList(?array $items = null)
     {
         /** @var ApplicationModel $model */
         $model = $this->getModel();
@@ -73,7 +73,7 @@ class JsonapiView extends BaseApiView
             $previousPage                = clone $currentUrl;
             $previousPageQuery           = $currentPageQuery;
             $previousOffset              = $currentPageQuery['offset'] - $limit;
-            $previousPageQuery['offset'] = $previousOffset >= 0 ? $previousOffset : 0;
+            $previousPageQuery['offset'] = max($previousOffset, 0);
             $previousPage->setVar('page', $previousPageQuery);
 
             $this->getDocument()->addLink('first', $this->queryEncode((string) $firstPage))

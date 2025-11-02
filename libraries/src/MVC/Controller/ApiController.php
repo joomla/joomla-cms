@@ -10,20 +10,20 @@
 namespace Joomla\CMS\MVC\Controller;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
-use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\MVC\Model\State;
 use Joomla\CMS\MVC\View\JsonApiView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Input\Input;
 use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -36,6 +36,14 @@ use Tobscure\JsonApi\Exception\InvalidParameterException;
  */
 class ApiController extends BaseController
 {
+    /**
+     * The Application. Redeclared to show this class requires a web application.
+     *
+     * @var    CMSWebApplicationInterface
+     * @since  5.0.0
+     */
+    protected $app;
+
     /**
      * The content type of the item.
      *
@@ -78,26 +86,29 @@ class ApiController extends BaseController
     /**
      * The model state to inject
      *
-     * @var  CMSObject
+     * @var  State|\Joomla\Registry\Registry
+     *
+     * @todo   Remove the State type hint in Joomla 7.0 since it will be removed see State class
      */
     protected $modelState;
 
     /**
      * Constructor.
      *
-     * @param   array                 $config   An optional associative array of configuration settings.
-     *                                          Recognized key values include 'name', 'default_task', 'model_path', and
-     *                                          'view_path' (this list is not meant to be comprehensive).
-     * @param   ?MVCFactoryInterface  $factory  The factory.
-     * @param   ?CMSApplication       $app      The Application for the dispatcher
-     * @param   ?Input                $input    Input
+     * @param   array                        $config   An optional associative array of configuration settings.
+     *                                                 Recognized key values include 'name', 'default_task',
+     *                                                 'model_path', and 'view_path' (this list is not meant to be
+     *                                                 comprehensive).
+     * @param   ?MVCFactoryInterface         $factory  The factory.
+     * @param   ?CMSWebApplicationInterface  $app      The Application for the dispatcher
+     * @param   ?Input                       $input    Input
      *
-     * @since   4.0.0
      * @throws  \Exception
+     * @since   4.0.0
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?CMSWebApplicationInterface $app = null, ?Input $input = null)
     {
-        $this->modelState = new CMSObject();
+        $this->modelState = new State();
 
         parent::__construct($config, $factory, $app, $input);
 
@@ -174,7 +185,7 @@ class ApiController extends BaseController
         // Push the model into the view (as default)
         $view->setModel($model, true);
 
-        $view->document = $this->app->getDocument();
+        $view->setDocument($this->app->getDocument());
         $view->displayItem();
 
         return $this;
@@ -246,11 +257,11 @@ class ApiController extends BaseController
             $model->setState('list.limit', $this->itemsPerPage);
         }
 
-        if (!is_null($offset) && $offset > $model->getTotal()) {
+        if (!\is_null($offset) && $offset > $model->getTotal()) {
             throw new Exception\ResourceNotFound();
         }
 
-        $view->document = $this->app->getDocument();
+        $view->setDocument($this->app->getDocument());
 
         $view->displayList();
 
@@ -290,8 +301,6 @@ class ApiController extends BaseController
             if ($model->getError() !== false) {
                 throw new \RuntimeException($model->getError(), 500);
             }
-
-            throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_DELETE'), 500);
         }
 
         $this->app->setHeader('status', 204);
@@ -399,7 +408,7 @@ class ApiController extends BaseController
                 $fields = $table->getFields();
 
                 foreach ($fields as $field) {
-                    if (array_key_exists($field->Field, $data)) {
+                    if (\array_key_exists($field->Field, $data)) {
                         continue;
                     }
 
@@ -411,7 +420,7 @@ class ApiController extends BaseController
         $data = $this->preprocessSaveData($data);
 
         // @todo: Not the cleanest thing ever but it works...
-        Form::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . '/forms');
+        Form::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $this->option . '/forms');
 
         // Needs to be set because com_fields needs the data in jform to determine the assigned catid
         $this->input->set('jform', $data);

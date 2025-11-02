@@ -54,7 +54,7 @@ trait FormFactoryAwareTrait
      *
      * @since   4.0.0
      */
-    public function setFormFactory(FormFactoryInterface $formFactory = null)
+    public function setFormFactory(?FormFactoryInterface $formFactory = null)
     {
         $this->formFactory = $formFactory;
 

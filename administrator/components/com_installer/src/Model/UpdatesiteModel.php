@@ -78,7 +78,7 @@ class UpdatesiteModel extends AdminModel
      *
      * @param   integer  $pk  The id of the primary key.
      *
-     * @return  CMSObject|boolean  Object on success, false on failure.
+     * @return  \stdClass|boolean  Object on success, false on failure.
      *
      * @since   4.0.0
      */
@@ -161,7 +161,7 @@ class UpdatesiteModel extends AdminModel
 
         try {
             $db->setQuery($query)->execute();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // No problem if this fails for any reason.
         }
 

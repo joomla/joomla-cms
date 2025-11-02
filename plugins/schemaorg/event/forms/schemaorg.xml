@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="schema">
+		<fieldset
+			name="schema"
+			label="PLG_SYSTEM_SCHEMA_FIELD_SCHEMA_LABEL"
+		>
+			<field
+				name="Event"
+				type="subform"
+				showon="schemaType:Event"
+			>
+				<form>
+
+					<field
+						name="@type"
+						type="hidden"
+						default="Event"
+					/>
+
+					<field
+						name="noteEvent"
+						type="note"
+						description="PLG_SCHEMAORG_EVENT_DESCRIPTION_LABEL"
+						class="alert alert-info w-100"
+					/>
+
+					<field
+						name="image"
+						type="media"
+						schemes="http,https,ftp,ftps,data,file"
+						validate="url"
+						relative="true"
+						label="PLG_SCHEMAORG_EVENT_FIELD_IMAGE_LABEL"
+					/>
+
+					<field
+						name="name"
+						type="text"
+						label="PLG_SCHEMAORG_EVENT_FIELD_NAME_LABEL"
+						filter="string"
+						size="30"
+					/>
+
+					<field
+						name="description"
+						type="text"
+						label="PLG_SCHEMAORG_EVENT_FIELD_DESCRIPTION_LABEL"
+						filter="string"
+					/>
+
+					<field
+						name="aggregateRating"
+						type="subform"
+						label="PLG_SCHEMAORG_EVENT_FIELD_AGGREGATE_RATING_LABEL"
+					>
+						<form>
+
+							<field
+								name="@type"
+								type="hidden"
+								default="AggregateRating"
+							/>
+							<field
+								name="ratingValue"
+								type="number"
+								label="PLG_SCHEMAORG_EVENT_FIELD_RATING_VALUE_LABEL"
+								max="5"
+							/>
+							<field
+								name="reviewCount"
+								type="number"
+								label="PLG_SCHEMAORG_EVENT_FIELD_REVIEW_COUNT_LABEL"
+							/>
+
+						</form>
+					</field>
+
+					<field
+						name="startDate"
+						type="calendar"
+						label="PLG_SCHEMAORG_EVENT_FIELD_START_DATE_LABEL"
+						class="input-small"
+						filter="user_utc"
+						showtime="false"
+						todaybutton="true"
+						translateformat="true"
+					/>
+
+					<field
+						name="location"
+						type="subform"
+						label="PLG_SCHEMAORG_EVENT_FIELD_LOCATION_LABEL"
+					>
+						<form>
+
+							<field
+								name="@type"
+								type="hidden"
+								default="Place"
+							/>
+
+							<field
+								name="name"
+								type="text"
+								label="PLG_SCHEMAORG_EVENT_FIELD_LOCATION_NAME_LABEL"
+							/>
+
+							<field
+								name="address"
+								type="subform"
+								label="PLG_SCHEMAORG_EVENT_FIELD_ADDRESS_LABEL"
+							>
+								<form>
+
+									<field
+										name="@type"
+										type="hidden"
+										default="PostalAddress"
+									/>
+
+									<field
+										name="addressLocality"
+										type="text"
+										label="PLG_SCHEMAORG_EVENT_FIELD_LOCALITY_LABEL"
+									/>
+
+									<field
+										name="postalCode"
+										type="text"
+										label="PLG_SCHEMAORG_EVENT_FIELD_POSTAL_CODE_LABEL"
+									/>
+
+									<field
+										name="streetAddress"
+										type="text"
+										label="PLG_SCHEMAORG_EVENT_FIELD_STREET_ADDRESS_LABEL"
+									/>
+
+								</form>
+
+							</field>
+						</form>
+					</field>
+
+					<field
+						name="organizer"
+						type="subform"
+						label="PLG_SCHEMAORG_EVENT_FIELD_ORGANIZER_LABEL"
+						>
+						<form>
+
+							<field
+								name="@type"
+								type="list"
+								label="PLG_SCHEMAORG_EVENT_FIELD_TYPE_LABEL"
+								default="person"
+								>
+								<option value="person">PLG_SCHEMAORG_EVENT_FIELD_PERSON_LABEL</option>
+								<option value="organization">PLG_SCHEMAORG_EVENT_FIELD_ORGANIZATION_LABEL</option>
+							</field>
+
+							<field
+								name="name"
+								type="text"
+								label="PLG_SCHEMAORG_EVENT_FIELD_ORGANIZER_NAME_LABEL"
+								filter="string"
+							/>
+
+							<field
+								name="url"
+								type="url"
+								label="PLG_SCHEMAORG_EVENT_FIELD_URL_LABEL"
+								filter="url"
+								validate="url"
+							/>
+
+							<field
+								name="logo"
+								type="subform"
+								label="PLG_SCHEMAORG_EVENT_FIELD_LOGO_LABEL"
+								showon="@type:organization"
+							>
+								<form>
+
+									<field
+										name="@type"
+										type="hidden"
+										default="ImageObject"
+									/>
+
+									<field
+										name="url"
+										type="media"
+										schemes="http,https,ftp,ftps,data,file"
+										validate="url"
+										relative="true"
+										label="PLG_SCHEMAORG_EVENT_FIELD_URL_LABEL"
+									/>
+
+								</form>
+							</field>
+
+							<field
+								name="email"
+								type="email"
+								label="PLG_SCHEMAORG_EVENT_FIELD_EMAIL_LABEL"
+								validate="email"
+							/>
+
+							<field
+								name="address"
+								type="subform"
+								label="PLG_SCHEMAORG_EVENT_FIELD_ADDRESS_LABEL"
+							>
+								<form>
+
+									<field
+										name="@type"
+										type="hidden"
+										default="PostalAddress"
+									/>
+
+									<field
+										name="addressLocality"
+										type="text"
+										label="PLG_SCHEMAORG_EVENT_FIELD_LOCALITY_LABEL"
+									/>
+
+									<field
+										name="postalCode"
+										type="text"
+										label="PLG_SCHEMAORG_EVENT_FIELD_POSTAL_CODE_LABEL"
+									/>
+
+									<field
+										name="streetAddress"
+										type="text"
+										label="PLG_SCHEMAORG_EVENT_FIELD_STREET_ADDRESS_LABEL"
+									/>
+
+								</form>
+							</field>
+
+						</form>
+					</field>
+
+					<field
+						name="genericField"
+						type="subform"
+						label="PLG_SCHEMAORG_EVENT_FIELD_GENERIC_FIELD_LABEL"
+						multiple="true"
+					>
+						<form>
+							<field
+								name="genericTitle"
+								type="text"
+								label="PLG_SCHEMAORG_EVENT_FIELD_GENERIC_TITLE_LABEL"
+								filter="string"
+								size="30"
+							/>
+							<field
+								name="genericValue"
+								type="text"
+								label="PLG_SCHEMAORG_EVENT_FIELD_GENERIC_VALUE_LABEL"
+								filter="string"
+								size="30"
+							/>
+						</form>
+
+					</field>
+
+				</form>
+			</field>
+		</fieldset>
+	</fields>
+</form>

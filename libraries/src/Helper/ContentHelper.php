@@ -17,13 +17,13 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\MVC\View\CanDo;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -62,7 +62,7 @@ class ContentHelper
         $db = Factory::getDbo();
 
         // Allow custom state / condition values and custom column names to support custom components
-        $counter_names = isset($config->counter_names) ? $config->counter_names : [
+        $counter_names = $config->counter_names ?? [
             '-2' => 'count_trashed',
             '0'  => 'count_unpublished',
             '1'  => 'count_published',
@@ -153,7 +153,7 @@ class ContentHelper
      * @param   string   $section    The access section name.
      * @param   integer  $id         The item ID.
      *
-     * @return  CMSObject
+     * @return  Registry
      *
      * @since   3.2
      */
@@ -165,7 +165,8 @@ class ContentHelper
             $assetName .= '.' . $section . '.' . (int) $id;
         }
 
-        $result = new CMSObject();
+        // Return a CanDo object to prevent any BC break, will be changed in 7.0 to Registry
+        $result = new CanDo();
 
         $user = Factory::getUser();
 

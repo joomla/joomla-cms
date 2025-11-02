@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Form\Field;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -29,7 +29,7 @@ class AuthorField extends ListField
     public $type = 'Author';
 
     /**
-     * Cached array of the category items.
+     * Cached array of the user items.
      *
      * @var    array[]
      * @since  3.2

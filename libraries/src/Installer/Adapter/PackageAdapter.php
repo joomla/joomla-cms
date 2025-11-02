@@ -11,7 +11,6 @@ namespace Joomla\CMS\Installer\Adapter;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
@@ -25,9 +24,11 @@ use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Event\Event;
 use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -115,15 +116,20 @@ class PackageAdapter extends InstallerAdapter
      */
     protected function copyBaseFiles()
     {
-        $folder = (string) $this->getManifest()->files->attributes()->folder;
         $source = $this->parent->getPath('source');
 
-        if ($folder) {
-            $source .= '/' . $folder;
+        $attributes = $this->getManifest()->files->attributes();
+
+        if ($attributes) {
+            $folder = (string) $attributes->folder;
+
+            if ($folder) {
+                $source .= '/' . $folder;
+            }
         }
 
         // Install all necessary files
-        if (!\count($this->getManifest()->files->children())) {
+        if (!$this->getManifest()->files->count()) {
             throw new \RuntimeException(
                 Text::sprintf(
                     'JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_FILES',
@@ -224,7 +230,7 @@ class PackageAdapter extends InstallerAdapter
 
             try {
                 $db->setQuery($query)->execute();
-            } catch (ExecutionFailureException $e) {
+            } catch (ExecutionFailureException) {
                 Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_SETTING_PACKAGE_ID'), Log::WARNING, 'jerror');
             }
         }
@@ -331,7 +337,7 @@ class PackageAdapter extends InstallerAdapter
 
         $folder = $this->parent->getPath('extension_root');
 
-        if (Folder::exists($folder)) {
+        if (is_dir(Path::clean($folder))) {
             Folder::delete($folder);
         }
 
@@ -535,7 +541,6 @@ class PackageAdapter extends InstallerAdapter
             $this->extension->name         = $this->name;
             $this->extension->type         = 'package';
             $this->extension->element      = $this->element;
-            $this->extension->changelogurl = $this->changelogurl;
 
             // There is no folder for packages
             $this->extension->folder    = '';
@@ -545,6 +550,9 @@ class PackageAdapter extends InstallerAdapter
             $this->extension->client_id = 0;
             $this->extension->params    = $this->parent->getParams();
         }
+
+        // Update changelogurl
+        $this->extension->changelogurl = $this->changelogurl;
 
         // Update the manifest cache for the entry
         $this->extension->manifest_cache = $this->parent->generateManifestCache();
@@ -580,8 +588,8 @@ class PackageAdapter extends InstallerAdapter
 
         if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, $method)) {
             switch ($method) {
-                // The preflight method takes the route as a param
                 case 'preflight':
+                    // The preflight method takes the route as a param
                     if ($this->parent->manifestClass->$method($this->route, $this) === false) {
                         // The script failed, rollback changes
                         throw new \RuntimeException(
@@ -594,16 +602,16 @@ class PackageAdapter extends InstallerAdapter
 
                     break;
 
-                // The postflight method takes the route and a results array as params
                 case 'postflight':
+                    // The postflight method takes the route and a results array as params
                     $this->parent->manifestClass->$method($this->route, $this, $this->results);
 
                     break;
 
-                // The install, uninstall, and update methods only pass this object as a param
                 case 'install':
                 case 'uninstall':
                 case 'update':
+                    // The install, uninstall, and update methods only pass this object as a param
                     if ($this->parent->manifestClass->$method($this) === false) {
                         if ($method !== 'uninstall') {
                             // The script failed, rollback changes
@@ -711,10 +719,11 @@ class PackageAdapter extends InstallerAdapter
         $manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
         $this->parent->extension->manifest_cache = json_encode($manifest_details);
         $this->parent->extension->name           = $manifest_details['name'];
+        $this->parent->extension->changelogurl   = $manifest_details['changelogurl'];
 
         try {
             return $this->parent->extension->store();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
             return false;

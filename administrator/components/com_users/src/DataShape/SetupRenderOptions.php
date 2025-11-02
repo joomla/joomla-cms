@@ -114,8 +114,8 @@ class SetupRenderOptions extends DataShapeObject
     /**
      * Attributes other than type and id which will be added to the HTML input box.
      *
-     * @var    array
-     * @@since 4.2.0
+     * @var   array
+     * @since 4.2.0
      */
     protected $input_attributes = [];
 
@@ -210,7 +210,7 @@ class SetupRenderOptions extends DataShapeObject
     // phpcs:ignore
     protected function setField_type($value)
     {
-        if (!in_array($value, [self::FIELD_INPUT, self::FIELD_CUSTOM])) {
+        if (!\in_array($value, [self::FIELD_INPUT, self::FIELD_CUSTOM])) {
             throw new \InvalidArgumentException('Invalid value for property field_type.');
         }
 

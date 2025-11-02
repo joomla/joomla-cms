@@ -160,7 +160,7 @@ class MessageController extends BaseController
                 if (is_file($file)) {
                     require_once $file;
 
-                    call_user_func($item->action);
+                    \call_user_func($item->action);
                 }
                 break;
         }

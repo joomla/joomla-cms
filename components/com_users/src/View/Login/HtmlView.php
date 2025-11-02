@@ -15,8 +15,8 @@ use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\User\User;
+use Joomla\Component\Users\Site\Model\LoginModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -46,7 +46,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -96,14 +96,15 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        // Get the view data.
+        /** @var LoginModel $model */
+        $model        = $this->getModel();
         $this->user   = $this->getCurrentUser();
-        $this->form   = $this->get('Form');
-        $this->state  = $this->get('State');
+        $this->form   = $model->getForm();
+        $this->state  = $model->getState();
         $this->params = $this->state->get('params');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -134,7 +135,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function prepareDocument()
     {
-        $login = $this->getCurrentUser()->get('guest') ? true : false;
+        $login = (bool) $this->getCurrentUser()->guest;
 
         // Because the application sets a default page title,
         // we need to get it from the menu item itself

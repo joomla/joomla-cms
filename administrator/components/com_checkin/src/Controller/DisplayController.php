@@ -37,7 +37,8 @@ class DisplayController extends BaseController
      * Method to display a view.
      *
      * @param   boolean  $cachable   If true, the view output will be cached
-     * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+     * @param   array    $urlparams  An array of safe URL parameters and their variable types.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  static  A \JControllerLegacy object to support chaining.
      */
@@ -88,7 +89,7 @@ class DisplayController extends BaseController
 
         $model = $this->getModel('Checkin');
 
-        $amount = (int) count($model->getItems());
+        $amount = (int) \count($model->getItems());
 
         echo new JsonResponse($amount);
     }
@@ -109,7 +110,7 @@ class DisplayController extends BaseController
 
         $model = $this->getModel('Checkin');
 
-        $amount = (int) count($model->getItems());
+        $amount = (int) \count($model->getItems());
 
         $result = [];
 

@@ -41,14 +41,14 @@ class Query
 
         // Process the required tokens.
         foreach ($query->included as $token) {
-            if ($token->required && (!isset($token->derived) || $token->derived == false)) {
+            if ($token->required && (!isset($token->derived) || !$token->derived)) {
                 $parts[] = '<span class="query-required">' . Text::sprintf('COM_FINDER_QUERY_TOKEN_REQUIRED', $token->term) . '</span>';
             }
         }
 
         // Process the optional tokens.
         foreach ($query->included as $token) {
-            if (!$token->required && (!isset($token->derived) || $token->derived == false)) {
+            if (!$token->required && (!isset($token->derived) || !$token->derived)) {
                 $parts[] = '<span class="query-optional">' . Text::sprintf('COM_FINDER_QUERY_TOKEN_OPTIONAL', $token->term) . '</span>';
             }
         }
@@ -93,7 +93,7 @@ class Query
                     }
 
                     // Don't include the node if it is not in the request.
-                    if (!in_array($id, $t)) {
+                    if (!\in_array($id, $t)) {
                         continue;
                     }
 
@@ -106,7 +106,7 @@ class Query
         }
 
         // Build the interpreted query.
-        return count($parts) ? implode(Text::_('COM_FINDER_QUERY_TOKEN_GLUE'), $parts) : null;
+        return \count($parts) ? implode(Text::_('COM_FINDER_QUERY_TOKEN_GLUE'), $parts) : null;
     }
 
     /**
@@ -128,7 +128,7 @@ class Query
         }
 
         // Check if there were any ignored or included keywords.
-        if (count($query->ignored) || count($query->included)) {
+        if (\count($query->ignored) || \count($query->included)) {
             $suggested = $query->input;
 
             // Replace the ignored keyword suggestions.

@@ -13,12 +13,15 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseDriver;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -26,8 +29,10 @@ use Joomla\String\StringHelper;
  *
  * @since  3.1
  */
-class CoreContent extends Table
+class CoreContent extends Table implements CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * Indicates that columns fully support the NULL value in the database
      *
@@ -37,7 +42,7 @@ class CoreContent extends Table
     protected $_supportNullValue = true;
 
     /**
-     * Encode necessary fields to JSON in the bind method
+     * An array of key names to be json encoded in the bind method
      *
      * @var    array
      * @since  4.0.0
@@ -47,13 +52,14 @@ class CoreContent extends Table
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  A database connector object
+     * @param   DatabaseInterface     $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   3.1
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__ucm_content', 'core_content_id', $db);
+        parent::__construct('#__ucm_content', 'core_content_id', $db, $dispatcher);
 
         $this->setColumnAlias('published', 'core_state');
         $this->setColumnAlias('checked_out', 'core_checked_out_user_id');
@@ -110,7 +116,7 @@ class CoreContent extends Table
             $this->core_publish_up !== null
             && $this->core_publish_down !== null
             && $this->core_publish_down < $this->core_publish_up
-            && $this->core_publish_down > $this->_db->getNullDate()
+            && $this->core_publish_down > $this->getDatabase()->getNullDate()
         ) {
             // Swap the dates.
             $temp                    = $this->core_publish_up;
@@ -149,23 +155,6 @@ class CoreContent extends Table
     }
 
     /**
-     * Override JTable delete method to include deleting corresponding row from #__ucm_base.
-     *
-     * @param   integer  $pk  primary key value to delete. Must be set or throws an exception.
-     *
-     * @return  boolean  True on success.
-     *
-     * @since   3.1
-     * @throws  \UnexpectedValueException
-     */
-    public function delete($pk = null)
-    {
-        $baseTable = Table::getInstance('Ucm', 'JTable', ['dbo' => $this->getDbo()]);
-
-        return parent::delete($pk) && $baseTable->delete($pk);
-    }
-
-    /**
      * Method to delete a row from the #__ucm_content table by content_item_id.
      *
      * @param   integer  $contentItemId  value of the core_content_item_id to delete. Corresponds to the primary key of the content table.
@@ -173,8 +162,8 @@ class CoreContent extends Table
      *
      * @return  boolean  True on success.
      *
-     * @since   3.1
      * @throws  \UnexpectedValueException
+     * @since   3.1
      */
     public function deleteByContentId($contentItemId = null, $typeAlias = null)
     {
@@ -188,7 +177,7 @@ class CoreContent extends Table
             throw new \UnexpectedValueException('Null type alias not allowed.');
         }
 
-        $db    = $this->getDbo();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
         $query->select($db->quoteName('core_content_id'))
             ->from($db->quoteName('#__ucm_content'))
@@ -205,9 +194,9 @@ class CoreContent extends Table
 
         if ($ucmId = $db->loadResult()) {
             return $this->delete($ucmId);
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -222,12 +211,12 @@ class CoreContent extends Table
     public function store($updateNulls = true)
     {
         $date = Factory::getDate();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         if ($this->core_content_id) {
             // Existing item
             $this->core_modified_time    = $date->toSql();
-            $this->core_modified_user_id = $user->get('id');
+            $this->core_modified_user_id = $user->id;
             $isNew                       = false;
         } else {
             // New content item. A content item core_created_time and core_created_user_id field can be set by the user,
@@ -237,7 +226,7 @@ class CoreContent extends Table
             }
 
             if (empty($this->core_created_user_id)) {
-                $this->core_created_user_id = $user->get('id');
+                $this->core_created_user_id = $user->id;
             }
 
             if (!(int) $this->core_modified_time) {
@@ -257,9 +246,7 @@ class CoreContent extends Table
             $this->setRules('{}');
         }
 
-        $result = parent::store($updateNulls);
-
-        return $result && $this->storeUcmBase($updateNulls, $isNew);
+        return parent::store($updateNulls);
     }
 
     /**
@@ -271,11 +258,12 @@ class CoreContent extends Table
      * @return  boolean  True on success.
      *
      * @since   3.1
+     * @deprecated  5.4.0 will be removed in 7.0 without replacement
      */
     protected function storeUcmBase($updateNulls = true, $isNew = false)
     {
         // Store the ucm_base row
-        $db         = $this->getDbo();
+        $db         = $this->getDatabase();
         $query      = $db->getQuery(true);
         $languageId = ContentHelper::getLanguageId($this->core_language);
 

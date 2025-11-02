@@ -10,8 +10,9 @@
 
 namespace Joomla\Plugin\WebServices\Redirect\Extension;
 
+use Joomla\CMS\Event\Application\BeforeApiRouteEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Router\ApiRouter;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -22,27 +23,35 @@ use Joomla\CMS\Router\ApiRouter;
  *
  * @since  4.0.0
  */
-final class Redirect extends CMSPlugin
+final class Redirect extends CMSPlugin implements SubscriberInterface
 {
     /**
-     * Load the language file on instantiation.
+     * Returns an array of events this subscriber will listen to.
      *
-     * @var    boolean
-     * @since  4.0.0
+     * @return  array
+     *
+     * @since   5.1.0
      */
-    protected $autoloadLanguage = true;
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onBeforeApiRoute' => 'onBeforeApiRoute',
+        ];
+    }
 
     /**
      * Registers com_redirect's API's routes in the application
      *
-     * @param   ApiRouter  &$router  The API Routing object
+     * @param   BeforeApiRouteEvent  $event  The event object
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function onBeforeApiRoute(&$router)
+    public function onBeforeApiRoute(BeforeApiRouteEvent $event): void
     {
+        $router = $event->getRouter();
+
         $router->createCRUDRoutes(
             'v1/redirects',
             'redirect',

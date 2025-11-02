@@ -11,6 +11,8 @@
 namespace Joomla\Component\Users\Administrator\Model;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Event\User\UserGroupAfterDeleteEvent;
+use Joomla\CMS\Event\User\UserGroupBeforeDeleteEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -36,13 +38,13 @@ class GroupModel extends AdminModel
     /**
      * Override parent constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         $config = array_merge(
             [
@@ -134,7 +136,7 @@ class GroupModel extends AdminModel
      */
     protected function preprocessForm(Form $form, $data, $group = '')
     {
-        $obj = is_array($data) ? ArrayHelper::toObject($data, CMSObject::class) : $data;
+        $obj = \is_array($data) ? ArrayHelper::toObject($data, CMSObject::class) : $data;
 
         if (isset($obj->parent_id) && $obj->parent_id == 0 && $obj->id > 0) {
             $form->setFieldAttribute('parent_id', 'type', 'hidden');
@@ -166,7 +168,7 @@ class GroupModel extends AdminModel
         $parentSuperAdmin = Access::checkGroup($data['parent_id'], 'core.admin');
 
         // Get core.admin rules from the root asset
-        $rules = Access::getAssetRules('root.1')->getData('core.admin');
+        $rules = Access::getAssetRules('root.1')->getData();
 
         // Get the value for the current group (will be true (allowed), false (denied), or null (inherit)
         $groupSuperAdmin = $rules['core.admin']->allow($data['id']);
@@ -195,9 +197,9 @@ class GroupModel extends AdminModel
          */
         if ($iAmSuperAdmin) {
             // Next, are we a member of the current group?
-            $myGroups = Access::getGroupsByUser($this->getCurrentUser()->get('id'), false);
+            $myGroups = Access::getGroupsByUser($this->getCurrentUser()->id, false);
 
-            if (in_array($data['id'], $myGroups)) {
+            if (\in_array($data['id'], $myGroups)) {
                 // Now, would we have super admin permissions without the current group?
                 $otherGroups     = array_diff($myGroups, [$data['id']]);
                 $otherSuperAdmin = false;
@@ -239,26 +241,30 @@ class GroupModel extends AdminModel
     public function delete(&$pks)
     {
         // Typecast variable.
-        $pks    = (array) $pks;
-        $user   = $this->getCurrentUser();
-        $groups = Access::getGroupsByUser($user->get('id'));
+        $pks        = (array) $pks;
+        $user       = $this->getCurrentUser();
+        $groups     = Access::getGroupsByUser($user->id);
+        $context    = $this->option . '.' . $this->name;
+        $dispatcher = $this->getDispatcher();
 
         // Get a row instance.
         $table = $this->getTable();
 
         // Load plugins.
-        PluginHelper::importPlugin($this->events_map['delete']);
+        PluginHelper::importPlugin($this->events_map['delete'], null, true, $dispatcher);
 
         // Check if I am a Super Admin
         $iAmSuperAdmin = $user->authorise('core.admin');
 
         foreach ($pks as $pk) {
             // Do not allow to delete groups to which the current user belongs
-            if (in_array($pk, $groups)) {
+            if (\in_array($pk, $groups)) {
                 Factory::getApplication()->enqueueMessage(Text::_('COM_USERS_DELETE_ERROR_INVALID_GROUP'), 'error');
 
                 return false;
-            } elseif (!$table->load($pk)) {
+            }
+
+            if (!$table->load($pk)) {
                 // Item is not in the table.
                 $this->setError($table->getError());
 
@@ -277,16 +283,33 @@ class GroupModel extends AdminModel
 
                 if ($allow) {
                     // Fire the before delete event.
-                    Factory::getApplication()->triggerEvent($this->event_before_delete, [$table->getProperties()]);
+                    $beforeDeleteEvent = new UserGroupBeforeDeleteEvent($this->event_before_delete, [
+                        'data'    => $table->getProperties(), // @TODO: Remove data argument in Joomla 6, see UserGroupBeforeDeleteEvent
+                        'context' => $context,
+                        'subject' => $table,
+                    ]);
+                    $result = $dispatcher->dispatch($this->event_before_delete, $beforeDeleteEvent)->getArgument('result', []);
+
+                    if (\in_array(false, $result, true)) {
+                        $this->setError($table->getError());
+
+                        return false;
+                    }
 
                     if (!$table->delete($pk)) {
                         $this->setError($table->getError());
 
                         return false;
-                    } else {
-                        // Trigger the after delete event.
-                        Factory::getApplication()->triggerEvent($this->event_after_delete, [$table->getProperties(), true, $this->getError()]);
                     }
+
+                    // Trigger the after delete event.
+                    $dispatcher->dispatch($this->event_after_delete, new UserGroupAfterDeleteEvent($this->event_after_delete, [
+                        'data'           => $table->getProperties(), // @TODO: Remove data argument in Joomla 6, see UserGroupAfterDeleteEvent
+                        'deletingResult' => true, // @TODO: Remove deletingResult argument in Joomla 6, see UserGroupAfterDeleteEvent
+                        'errorMessage'   => $this->getError(), // @TODO: Remove errorMessage argument in Joomla 6, see UserGroupAfterDeleteEvent
+                        'context'        => $context,
+                        'subject'        => $table,
+                    ]));
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);

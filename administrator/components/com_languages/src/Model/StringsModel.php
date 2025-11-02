@@ -11,12 +11,12 @@
 namespace Joomla\Component\Languages\Administrator\Model;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Folder;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -65,7 +65,7 @@ class StringsModel extends BaseDatabaseModel
         $client   = $app->getUserState('com_languages.overrides.filter.client', 'site') ? 'administrator' : 'site';
         $language = $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
 
-        $base = constant('JPATH_' . strtoupper($client));
+        $base = \constant('JPATH_' . strtoupper($client));
         $path = $base . '/language/' . $language;
 
         $files = [];
@@ -90,7 +90,7 @@ class StringsModel extends BaseDatabaseModel
         // Parse all found ini files and add the strings to the database cache.
         foreach ($files as $file) {
             // Only process if language file is for selected language
-            if (strpos($file, $language, strlen($base)) === false) {
+            if (!str_contains(substr($file, \strlen($base)), $language)) {
                 continue;
             }
 

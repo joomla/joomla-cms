@@ -12,18 +12,6 @@
         "jquery"
       ],
       "uri": "legacy/jquery-noconflict.min.js"
-    },
-    {
-      "name": "joomla.treeselectmenu",
-      "type": "script",
-      "dependencies": [
-        "jquery",
-        "bootstrap.dropdown"
-      ],
-      "uri": "legacy/treeselectmenu.min.js",
-      "attributes": {
-        "defer": true
-      }
     }
   ]
 }

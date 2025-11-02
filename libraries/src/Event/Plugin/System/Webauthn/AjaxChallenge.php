@@ -40,8 +40,8 @@ class AjaxChallenge extends AbstractImmutableEvent implements ResultAwareInterfa
             return;
         }
 
-        if (!is_string($data) || @json_decode($data) === null) {
-            throw new \InvalidArgumentException(sprintf('Event %s only accepts JSON results.', $this->getName()));
+        if (!\is_string($data) || @json_decode($data) === null) {
+            throw new \InvalidArgumentException(\sprintf('Event %s only accepts JSON results.', $this->getName()));
         }
     }
 }

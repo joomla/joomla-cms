@@ -5,11 +5,11 @@
  *
  * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
-
+ *
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('_JEXEC') or die;
 
 /**
  * Static class to handle loading of libraries.
@@ -282,7 +282,7 @@ abstract class JLoader
      *
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to
      *              register an autoloader for your files.
      */
@@ -699,12 +699,12 @@ if (!function_exists('jexit')) {
      *
      * @param   mixed  $message  Exit code or string. Defaults to zero.
      *
-     * @return  void
+     * @return  never
      *
      * @codeCoverageIgnore
      * @since   1.7.0
      */
-    function jexit($message = 0)
+    function jexit($message = 0): never
     {
         exit($message);
     }

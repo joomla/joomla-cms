@@ -11,8 +11,10 @@
 namespace Joomla\Plugin\Fields\SQL\Extension;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Form\Form;
 use Joomla\Component\Fields\Administrator\Plugin\FieldsListPlugin;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,16 +25,30 @@ use Joomla\Component\Fields\Administrator\Plugin\FieldsListPlugin;
  *
  * @since  3.7.0
  */
-final class SQL extends FieldsListPlugin
+final class SQL extends FieldsListPlugin implements SubscriberInterface
 {
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   5.3.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return array_merge(parent::getSubscribedEvents(), [
+            'onContentBeforeSave' => 'contentBeforeSave',
+        ]);
+    }
+
     /**
      * Transforms the field into a DOM XML element and appends it as a child on the given parent.
      *
-     * @param   stdClass    $field   The field.
+     * @param   \stdClass    $field   The field.
      * @param   \DOMElement  $parent  The field node parent.
-     * @param   Form        $form    The form.
+     * @param   Form         $form    The form.
      *
-     * @return  \DOMElement
+     * @return  ?\DOMElement
      *
      * @since   3.7.0
      */
@@ -53,29 +69,27 @@ final class SQL extends FieldsListPlugin
     /**
      * The save event.
      *
-     * @param   string                   $context  The context
-     * @param   \Joomla\CMS\Table\Table  $item     The table
-     * @param   boolean                  $isNew    Is new item
-     * @param   array                    $data     The validated data
+     * @param   BeforeSaveEvent $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   3.7.0
      */
-    public function onContentBeforeSave($context, $item, $isNew, $data = [])
+    public function contentBeforeSave(BeforeSaveEvent $event): void
     {
+        $context = $event->getContext();
+        $item    = $event->getItem();
+
         // Only work on new SQL fields
         if ($context != 'com_fields.field' || !isset($item->type) || $item->type != 'sql') {
-            return true;
+            return;
         }
 
         // If we are not a super admin, don't let the user create or update a SQL field
         if (!Access::getAssetRules(1)->allow('core.admin', $this->getApplication()->getIdentity()->getAuthorisedGroups())) {
             $item->setError($this->getApplication()->getLanguage()->_('PLG_FIELDS_SQL_CREATE_NOT_POSSIBLE'));
 
-            return false;
+            $event->addResult(false);
         }
-
-        return true;
     }
 }

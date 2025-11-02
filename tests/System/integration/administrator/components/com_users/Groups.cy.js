@@ -27,9 +27,9 @@ describe('Test in backend that the user group list', () => {
       cy.searchForItem('Test group');
       cy.checkAllResults();
       cy.clickToolbarButton('Delete');
-      cy.on('window:confirm', () => true);
+      cy.clickDialogConfirm(true);
 
-      cy.get('#system-message-container').contains('User Group deleted.').should('exist');
+      cy.checkForSystemMessage('User Group deleted.');
     });
   });
 });

@@ -14,7 +14,7 @@ use Joomla\CMS\Document\FactoryInterface;
 use Joomla\CMS\Factory;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -83,7 +83,7 @@ abstract class AbstractRenderer implements RendererInterface
         }
 
         // 404 Resource Not Found
-        throw new \InvalidArgumentException(sprintf('There is not an error renderer for the "%s" format.', $type));
+        throw new \InvalidArgumentException(\sprintf('There is not an error renderer for the "%s" format.', $type));
     }
 
     /**

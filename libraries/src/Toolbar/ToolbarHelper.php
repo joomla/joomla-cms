@@ -45,6 +45,7 @@ abstract class ToolbarHelper
         $html   = $layout->render(['title' => $title, 'icon' => $icon]);
 
         $app                  = Factory::getApplication();
+        // @deprecated 5.2.0 will be removed in 7.0 as this property is not used anymore see WebApplication
         $app->JComponentTitle = $html;
         $title                = strip_tags($title) . ' - ' . $app->get('sitename');
 
@@ -52,7 +53,7 @@ abstract class ToolbarHelper
             $title .= ' - ' . Text::_('JADMINISTRATION');
         }
 
-        Factory::getDocument()->setTitle($title);
+        $app->getDocument()->setTitle($title);
     }
 
     /**
@@ -675,7 +676,7 @@ abstract class ToolbarHelper
         $lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);
 
         /** @var \Joomla\CMS\Table\ContentType $contentTypeTable */
-        $contentTypeTable = Table::getInstance('Contenttype');
+        $contentTypeTable = Table::getInstance('ContentType', '\\Joomla\\CMS\\Table\\');
         $typeId           = $contentTypeTable->getTypeId($typeAlias);
 
         // Options array for Layout

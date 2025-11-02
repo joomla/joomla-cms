@@ -9,15 +9,18 @@
 
 namespace Joomla\CMS\Authentication;
 
+use Joomla\CMS\Event\User\AuthenticationEvent;
+use Joomla\CMS\Event\User\AuthorisationEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Event\Dispatcher;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -94,12 +97,12 @@ class Authentication
     /**
      * Constructor
      *
-     * @param   string               $pluginType  The plugin type to run authorisation and authentication on
-     * @param   DispatcherInterface  $dispatcher  The event dispatcher we're going to use
+     * @param   string                $pluginType  The plugin type to run authorisation and authentication on
+     * @param   ?DispatcherInterface  $dispatcher  The event dispatcher we're going to use
      *
      * @since   1.7.0
      */
-    public function __construct(string $pluginType = 'authentication', DispatcherInterface $dispatcher = null)
+    public function __construct(string $pluginType = 'authentication', ?DispatcherInterface $dispatcher = null)
     {
         // Set the dispatcher
         if (!\is_object($dispatcher)) {
@@ -149,40 +152,18 @@ class Authentication
      */
     public function authenticate($credentials, $options = [])
     {
-        // Get plugins
-        $plugins = PluginHelper::getPlugin($this->pluginType);
-
         // Create authentication response
         $response = new AuthenticationResponse();
 
-        /*
-         * Loop through the plugins and check if the credentials can be used to authenticate
-         * the user
-         *
-         * Any errors raised in the plugin should be returned via the AuthenticationResponse
-         * and handled appropriately.
-         */
-        foreach ($plugins as $plugin) {
-            $plugin = Factory::getApplication()->bootPlugin($plugin->name, $plugin->type);
+        // Dispatch onUserAuthenticate event in the isolated dispatcher
+        $dispatcher = new Dispatcher();
+        PluginHelper::importPlugin($this->pluginType, null, true, $dispatcher);
 
-            if (!method_exists($plugin, 'onUserAuthenticate')) {
-                // Bail here if the plugin can't be created
-                Log::add(Text::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $plugin->name), Log::WARNING, 'jerror');
-                continue;
-            }
-
-            // Try to authenticate
-            $plugin->onUserAuthenticate($credentials, $options, $response);
-
-            // If authentication is successful break out of the loop
-            if ($response->status === self::STATUS_SUCCESS) {
-                if (empty($response->type)) {
-                    $response->type = $plugin->_name ?? $plugin->name;
-                }
-
-                break;
-            }
-        }
+        $dispatcher->dispatch('onUserAuthenticate', new AuthenticationEvent('onUserAuthenticate', [
+            'credentials' => $credentials,
+            'options'     => $options,
+            'subject'     => $response,
+        ]));
 
         if (empty($response->username)) {
             $response->username = $credentials['username'];
@@ -212,10 +193,14 @@ class Authentication
      */
     public function authorise($response, $options = [])
     {
-        // Get plugins in case they haven't been imported already
-        PluginHelper::importPlugin('user');
-        $results = Factory::getApplication()->triggerEvent('onUserAuthorisation', [$response, $options]);
+        $dispatcher = $this->getDispatcher();
 
-        return $results;
+        // Get plugins in case they haven't been imported already
+        PluginHelper::importPlugin('user', null, true, $dispatcher);
+
+        $event = new AuthorisationEvent('onUserAuthorisation', ['subject' => $response, 'options' => $options]);
+        $dispatcher->dispatch('onUserAuthorisation', $event);
+
+        return $event['result'] ?? [];
     }
 }

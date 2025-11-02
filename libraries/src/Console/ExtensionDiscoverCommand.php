@@ -16,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -120,11 +120,13 @@ class ExtensionDiscoverCommand extends AbstractCommand
     {
         if ($count < 1) {
             return 'No extensions were discovered.';
-        } elseif ($count === 1) {
-            return $count . ' extension has been discovered.';
-        } else {
-            return $count . ' extensions have been discovered.';
         }
+
+        if ($count === 1) {
+            return $count . ' extension has been discovered.';
+        }
+
+        return $count . ' extensions have been discovered.';
     }
 
     /**

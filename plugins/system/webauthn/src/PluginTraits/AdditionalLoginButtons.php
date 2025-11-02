@@ -68,6 +68,9 @@ trait AdditionalLoginButtons
             return;
         }
 
+        // Load plugin language files
+        $this->loadLanguage();
+
         // Load necessary CSS and Javascript files
         $this->addLoginCSSAndJavascript();
 
@@ -76,7 +79,7 @@ trait AdditionalLoginButtons
             UserHelper::genRandomPassword(12) . '-' . UserHelper::genRandomPassword(8);
 
         // Get local path to image
-        $image = HTMLHelper::_('image', 'plg_system_webauthn/webauthn.svg', '', '', true, true);
+        $image = HTMLHelper::_('image', 'plg_system_webauthn/fido-passkey-black.svg', '', '', true, true);
 
         // If you can't find the image then skip it
         $image = $image ? JPATH_ROOT . substr($image, \strlen(Uri::root(true))) : '';
@@ -135,7 +138,7 @@ trait AdditionalLoginButtons
              */
             try {
                 $document = $this->getApplication()->getDocument();
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 $document = null;
             }
 
@@ -182,7 +185,7 @@ trait AdditionalLoginButtons
         }
 
         if (!$wa->assetExists('script', 'plg_system_webauthn.login')) {
-            $wa->registerScript('plg_system_webauthn.login', 'plg_system_webauthn/login.js', [], ['defer' => true], ['core']);
+            $wa->registerScript('plg_system_webauthn.login', 'plg_system_webauthn/login.js', [], ['defer' => true], ['core', 'messages']);
         }
 
         $wa->useStyle('plg_system_webauthn.button')

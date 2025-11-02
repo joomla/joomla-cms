@@ -10,12 +10,11 @@
 
 namespace Joomla\Plugin\Fields\Subform\Extension;
 
-use DOMDocument;
-use DOMElement;
-use DOMXPath;
+use Joomla\CMS\Event\CustomFields\BeforePrepareFieldEvent;
 use Joomla\CMS\Form\Form;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -26,7 +25,7 @@ use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
  *
  * @since  3.7.0
  */
-final class Subform extends FieldsPlugin
+final class Subform extends FieldsPlugin implements SubscriberInterface
 {
     /**
      * Two-dimensional array to hold to do a fast in-memory caching of rendered
@@ -46,6 +45,20 @@ final class Subform extends FieldsPlugin
      * @since 4.0.0
      */
     protected static $customFieldsCache = null;
+
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   5.3.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return array_merge(parent::getSubscribedEvents(), [
+            'onCustomFieldsBeforePrepareField' => 'beforePrepareField',
+        ]);
+    }
 
     /**
      * Handles the onContentPrepareForm event. Adds form definitions to relevant forms.
@@ -109,27 +122,27 @@ final class Subform extends FieldsPlugin
      * Manipulates the $field->value before the field is being passed to
      * onCustomFieldsPrepareField.
      *
-     * @param   string     $context  The context
-     * @param   object     $item     The item
-     * @param   \stdClass  $field    The field
+     * @param   BeforePrepareFieldEvent $event    The event instance.
      *
      * @return  void
      *
      * @since 4.0.0
      */
-    public function onCustomFieldsBeforePrepareField($context, $item, $field)
+    public function beforePrepareField(BeforePrepareFieldEvent $event): void
     {
+        $field = $event->getField();
+
         if (!$this->isTypeSupported($field->type)) {
             return;
         }
 
-        if (is_array($field->value)) {
+        if (\is_array($field->value)) {
             return;
         }
 
         $decoded_value = json_decode($field->value, true);
 
-        if (!$decoded_value || !is_array($decoded_value)) {
+        if (!$decoded_value || !\is_array($decoded_value)) {
             return;
         }
 
@@ -143,7 +156,7 @@ final class Subform extends FieldsPlugin
      * @param   object     $item     The item
      * @param   \stdClass  $field    The field
      *
-     * @return  string
+     * @return  ?string
      *
      * @since 4.0.0
      */
@@ -151,12 +164,12 @@ final class Subform extends FieldsPlugin
     {
         // Check if the field should be processed by us
         if (!$this->isTypeSupported($field->type)) {
-            return;
+            return '';
         }
 
         // If we don't have any subfields (or values for them), nothing to do.
-        if (!is_array($field->value) || count($field->value) < 1) {
-            return;
+        if (!\is_array($field->value) || \count($field->value) < 1) {
+            return '';
         }
 
         // Get the field params
@@ -218,7 +231,7 @@ final class Subform extends FieldsPlugin
                 }
 
                 // Flatten the value if it is an array (list, checkboxes, etc.) [independent of render_values]
-                if (is_array($subfield->value)) {
+                if (\is_array($subfield->value)) {
                     $subfield->value = implode(' ', $subfield->value);
                 }
 
@@ -245,7 +258,7 @@ final class Subform extends FieldsPlugin
      * @param   \DOMElement  $parent  The original parent element
      * @param   Form        $form    The form
      *
-     * @return  \DOMElement
+     * @return  ?\DOMElement
      *
      * @since 4.0.0
      */
@@ -294,7 +307,7 @@ final class Subform extends FieldsPlugin
         $subfields = $this->getSubfieldsFromField($field);
 
         // If we have 5 or more of them, use the `repeatable` layout instead of the `repeatable-table`
-        if (count($subfields) >= 5) {
+        if (\count($subfields) >= 5) {
             $parent_field->setAttribute('layout', 'joomla.form.field.subform.repeatable');
         }
 
@@ -353,7 +366,7 @@ final class Subform extends FieldsPlugin
     {
         $params = (clone $this->params);
 
-        if (isset($field->fieldparams) && is_object($field->fieldparams)) {
+        if (isset($field->fieldparams) && \is_object($field->fieldparams)) {
             $params->merge($field->fieldparams);
         }
 

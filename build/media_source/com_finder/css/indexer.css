@@ -4,10 +4,10 @@
 }
 
 h1.finder-error {
-  color: #FF0000;
+  color: #f00;
 }
 
 p.finder-error {
-  color: #FF0000;
   font-weight: bold;
+  color: #f00;
 }

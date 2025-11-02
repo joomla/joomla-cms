@@ -11,8 +11,6 @@ namespace Joomla\CMS\Installer\Adapter;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Language\Text;
@@ -22,10 +20,12 @@ use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Folder;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -521,7 +521,7 @@ class ComponentAdapter extends InstallerAdapter
     {
         $element = parent::getElement($element);
 
-        if (strpos($element, 'com_') !== 0) {
+        if (!str_starts_with($element, 'com_')) {
             $element = 'com_' . $element;
         }
 
@@ -559,7 +559,7 @@ class ComponentAdapter extends InstallerAdapter
 
             default:
                 throw new \InvalidArgumentException(
-                    sprintf(
+                    \sprintf(
                         'Unsupported client ID %d for component %s',
                         $this->parent->extension->client_id,
                         $this->parent->extension->element
@@ -1245,7 +1245,7 @@ class ComponentAdapter extends InstallerAdapter
         try {
             $db->setQuery($query);
             $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
 
@@ -1288,15 +1288,15 @@ class ComponentAdapter extends InstallerAdapter
                 $manifest_details = Installer::parseXMLInstallFile(
                     JPATH_SITE . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml'
                 );
-                $extension = Table::getInstance('extension');
-                $extension->set('type', 'component');
-                $extension->set('client_id', 0);
-                $extension->set('element', $component);
-                $extension->set('folder', '');
-                $extension->set('name', $component);
-                $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
-                $extension->set('params', '{}');
+                $extension                 = Table::getInstance('extension');
+                $extension->type           = 'component';
+                $extension->client_id      = 0;
+                $extension->element        = $component;
+                $extension->folder         = '';
+                $extension->name           = $component;
+                $extension->state          = -1;
+                $extension->manifest_cache = json_encode($manifest_details);
+                $extension->params         = '{}';
 
                 $results[] = $extension;
             }
@@ -1307,16 +1307,16 @@ class ComponentAdapter extends InstallerAdapter
                 $manifest_details = Installer::parseXMLInstallFile(
                     JPATH_ADMINISTRATOR . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml'
                 );
-                $extension = Table::getInstance('extension');
-                $extension->set('type', 'component');
-                $extension->set('client_id', 1);
-                $extension->set('element', $component);
-                $extension->set('folder', '');
-                $extension->set('name', $component);
-                $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
-                $extension->set('params', '{}');
-                $results[] = $extension;
+                $extension                 = Table::getInstance('extension');
+                $extension->type           = 'component';
+                $extension->client_id      = 1;
+                $extension->element        = $component;
+                $extension->folder         = '';
+                $extension->name           = $component;
+                $extension->state          = -1;
+                $extension->manifest_cache = json_encode($manifest_details);
+                $extension->params         = '{}';
+                $results[]                 = $extension;
             }
         }
 
@@ -1325,16 +1325,16 @@ class ComponentAdapter extends InstallerAdapter
                 $manifest_details = Installer::parseXMLInstallFile(
                     JPATH_API . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml'
                 );
-                $extension = Table::getInstance('extension');
-                $extension->set('type', 'component');
-                $extension->set('client_id', 3);
-                $extension->set('element', $component);
-                $extension->set('folder', '');
-                $extension->set('name', $component);
-                $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
-                $extension->set('params', '{}');
-                $results[] = $extension;
+                $extension                 = Table::getInstance('extension');
+                $extension->type           = 'component';
+                $extension->client_id      = 3;
+                $extension->element        = $component;
+                $extension->folder         = '';
+                $extension->name           = $component;
+                $extension->state          = -1;
+                $extension->manifest_cache = json_encode($manifest_details);
+                $extension->params         = '{}';
+                $results[]                 = $extension;
             }
         }
 
@@ -1360,6 +1360,7 @@ class ComponentAdapter extends InstallerAdapter
         $manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
         $this->parent->extension->manifest_cache = json_encode($manifest_details);
         $this->parent->extension->name           = $manifest_details['name'];
+        $this->parent->extension->changelogurl   = $manifest_details['changelogurl'];
 
         // Namespace is optional
         if (isset($manifest_details['namespace'])) {
@@ -1368,7 +1369,7 @@ class ComponentAdapter extends InstallerAdapter
 
         try {
             return $this->parent->extension->store();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             Log::add(Text::_('JLIB_INSTALLER_ERROR_COMP_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
             return false;
@@ -1437,22 +1438,22 @@ class ComponentAdapter extends InstallerAdapter
                 Factory::getApplication()->enqueueMessage($table->getError(), 'error');
 
                 return false;
-            } else {
-                /** @var  \Joomla\CMS\Table\Menu $temporaryTable */
-                $temporaryTable = Table::getInstance('menu');
-                $temporaryTable->delete($menu_id, true);
-                $temporaryTable->load($parentId);
-                $temporaryTable->rebuild($parentId, $temporaryTable->lft, $temporaryTable->level, $temporaryTable->path);
+            }
 
-                // Retry creating the menu item
-                $table->setLocation($parentId, 'last-child');
+            /** @var  \Joomla\CMS\Table\Menu $temporaryTable */
+            $temporaryTable = Table::getInstance('menu');
+            $temporaryTable->delete($menu_id, true);
+            $temporaryTable->load($parentId);
+            $temporaryTable->rebuild($parentId, $temporaryTable->lft, $temporaryTable->level, $temporaryTable->path);
 
-                if (!$table->bind($data) || !$table->check() || !$table->store()) {
-                    // Install failed, warn user and rollback changes
-                    Factory::getApplication()->enqueueMessage($table->getError(), 'error');
+            // Retry creating the menu item
+            $table->setLocation($parentId, 'last-child');
 
-                    return false;
-                }
+            if (!$table->bind($data) || !$table->check() || !$table->store()) {
+                // Install failed, warn user and rollback changes
+                Factory::getApplication()->enqueueMessage($table->getError(), 'error');
+
+                return false;
             }
         }
 

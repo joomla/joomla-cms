@@ -37,7 +37,7 @@ class Dispatcher extends ComponentDispatcher
     protected function checkAccess(): void
     {
         // sendtestmail and store do their own checks, so leave the method to handle the permission and send response itself
-        if (in_array($this->input->getCmd('task'), ['application.sendtestmail', 'application.store'], true)) {
+        if (\in_array($this->input->getCmd('task'), ['application.sendtestmail', 'application.store'], true)) {
             return;
         }
 
@@ -45,7 +45,7 @@ class Dispatcher extends ComponentDispatcher
         $view      = $this->input->getCmd('view');
         $component = $this->input->getCmd('component');
 
-        if ($component && (substr($task, 0, 10) === 'component.' || $view === 'component')) {
+        if ($component && (str_starts_with($task, 'component.') || $view === 'component')) {
             // User is changing component settings, check if he has permission to do that
             $canAccess = ConfigHelper::canChangeComponentConfig($component);
         } else {

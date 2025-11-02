@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -107,7 +107,7 @@ class SessionGcCommand extends AbstractCommand implements ContainerAwareInterfac
     {
         if (!$this->getContainer()->has("session.web.$application")) {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     'The `%s` application is not a valid option.',
                     $application
                 )

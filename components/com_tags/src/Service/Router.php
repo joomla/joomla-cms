@@ -16,7 +16,10 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Component\Router\RouterBase;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Menu\AbstractMenu;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -48,12 +51,22 @@ class Router extends RouterBase
     protected $lookup = [];
 
     /**
+     * System - SEF Plugin parameters
+     *
+     * @var   Registry
+     * @since 5.2.0
+     * @deprecated  5.2.0 will be removed in 6.0
+     *              without replacement
+     */
+    private $sefparams;
+
+    /**
      * Tags Component router constructor
      *
-     * @param   SiteApplication           $app              The application object
-     * @param   AbstractMenu              $menu             The menu object to work with
-     * @param   CategoryFactoryInterface  $categoryFactory  The category object
-     * @param   DatabaseInterface         $db               The database object
+     * @param   SiteApplication            $app              The application object
+     * @param   AbstractMenu               $menu             The menu object to work with
+     * @param   ?CategoryFactoryInterface  $categoryFactory  The category object
+     * @param   DatabaseInterface          $db               The database object
      *
      * @since  4.0.0
      */
@@ -62,6 +75,14 @@ class Router extends RouterBase
         $this->db = $db;
 
         parent::__construct($app, $menu);
+
+        $sefPlugin       = PluginHelper::getPlugin('system', 'sef');
+
+        if ($sefPlugin) {
+            $this->sefparams = new Registry($sefPlugin->params);
+        } else {
+            $this->sefparams = new Registry();
+        }
 
         $this->buildLookup();
     }
@@ -78,6 +99,31 @@ class Router extends RouterBase
      */
     public function preprocess($query)
     {
+        // Make sure the alias for the tags is correct
+        if (isset($query['id'])) {
+            if (!\is_array($query['id'])) {
+                $query['id'] = [$query['id']];
+            }
+
+            foreach ($query['id'] as &$item) {
+                if (!strpos($item, ':')) {
+                    $dbquery = $this->db->getQuery(true);
+                    $id      = (int) $item;
+
+                    $dbquery->select($dbquery->quoteName('alias'))
+                        ->from('#__tags')
+                        ->where($dbquery->quoteName('id') . ' = :key')
+                        ->bind(':key', $id, ParameterType::INTEGER);
+
+                    $obj = $this->db->setQuery($dbquery)->loadObject();
+
+                    if ($obj) {
+                        $item .= ':' . $obj->alias;
+                    }
+                }
+            }
+        }
+
         $active = $this->menu->getActive();
 
         /**
@@ -89,7 +135,7 @@ class Router extends RouterBase
         }
 
         // Get query language
-        $lang = isset($query['lang']) ? $query['lang'] : '*';
+        $lang = $query['lang'] ?? '*';
 
         // Set the language to the current one when multilang is enabled and item is tagged to ALL
         if (Multilanguage::isEnabled() && $lang === '*') {
@@ -97,17 +143,19 @@ class Router extends RouterBase
         }
 
         foreach (array_unique([$lang, '*']) as $language) {
-            if (isset($query['view']) && $query['view'] == 'tags') {
-                if (isset($query['parent_id']) && isset($this->lookup[$language]['tags'][$query['parent_id']])) {
+            if (isset($query['view']) && $query['view'] === 'tags') {
+                if (isset($query['parent_id'], $this->lookup[$language]['tags'][$query['parent_id']])) {
                     $query['Itemid'] = $this->lookup[$language]['tags'][$query['parent_id']];
                     break;
-                } elseif (isset($this->lookup[$language]['tags'][0])) {
+                }
+
+                if (isset($this->lookup[$language]['tags'][0])) {
                     $query['Itemid'] = $this->lookup[$language]['tags'][0];
                     break;
                 }
-            } elseif (isset($query['view']) && $query['view'] == 'tag') {
+            } elseif (isset($query['view']) && $query['view'] === 'tag') {
                 if (isset($query['id'])) {
-                    if (!is_array($query['id'])) {
+                    if (!\is_array($query['id'])) {
                         $query['id'] = [$query['id']];
                     }
 
@@ -117,12 +165,12 @@ class Router extends RouterBase
                     if (isset($this->lookup[$language]['tag'][implode(',', $id)])) {
                         $query['Itemid'] = $this->lookup[$language]['tag'][implode(',', $id)];
                         break;
-                    } else {
-                        foreach ($id as $i) {
-                            if (isset($this->lookup[$language]['tag'][$i])) {
-                                $query['Itemid'] = $this->lookup[$language]['tag'][$i];
-                                break 2;
-                            }
+                    }
+
+                    foreach ($id as $i) {
+                        if (isset($this->lookup[$language]['tag'][$i])) {
+                            $query['Itemid'] = $this->lookup[$language]['tag'][$i];
+                            break 2;
                         }
                     }
 
@@ -139,12 +187,15 @@ class Router extends RouterBase
             }
         }
 
-        // If not found, return language specific home link
-        if (!isset($query['Itemid'])) {
-            $default = $this->menu->getDefault($lang);
+        // TODO: Remove this whole block in 6.0 as it is a bug
+        if (!$this->sefparams->get('strictrouting', 0)) {
+            // If not found, return language specific home link
+            if (!isset($query['Itemid'])) {
+                $default = $this->menu->getDefault($lang);
 
-            if (!empty($default->id)) {
-                $query['Itemid'] = $default->id;
+                if (!empty($default->id)) {
+                    $query['Itemid'] = $default->id;
+                }
             }
         }
 
@@ -171,10 +222,6 @@ class Router extends RouterBase
                 if (isset($query['id'])) {
                     $ids = $query['id'];
 
-                    if (!is_array($ids)) {
-                        $ids = [$ids];
-                    }
-
                     foreach ($ids as $id) {
                         $segments[] = $id;
                     }
@@ -194,7 +241,7 @@ class Router extends RouterBase
                  * We check if there is a difference between the tags of the menu item and the query.
                  * If they are identical, we exactly match the menu item. Otherwise we append all tags to the URL
                  */
-                if (count(array_diff($int_ids, $mIds)) > 0 || count(array_diff($mIds, $int_ids)) > 0) {
+                if (\count(array_diff($int_ids, $mIds)) > 0 || \count(array_diff($mIds, $int_ids)) > 0) {
                     foreach ($ids as $id) {
                         $segments[] = $id;
                     }
@@ -208,7 +255,7 @@ class Router extends RouterBase
             $segments[] = $query['view'];
             unset($query['view'], $query['Itemid']);
 
-            if (isset($query['id']) && is_array($query['id'])) {
+            if (isset($query['id']) && \is_array($query['id'])) {
                 foreach ($query['id'] as $id) {
                     $segments[] = $id;
                 }
@@ -221,7 +268,7 @@ class Router extends RouterBase
 
         foreach ($segments as &$segment) {
             if (strpos($segment, ':')) {
-                [$void, $segment] = explode(':', $segment, 2);
+                [, $segment] = explode(':', $segment, 2);
             }
         }
 
@@ -253,18 +300,47 @@ class Router extends RouterBase
             $vars['view'] = array_shift($segments);
         }
 
-        $ids = [];
+        $ids          = [];
+        $matchedAlias = false;
 
         if ($item && $item->query['view'] == 'tag') {
             $ids = $item->query['id'];
         }
 
-        while (count($segments)) {
+        // Iterate through all URL segments and try to parse tag IDs from them
+        while (\count($segments)) {
             $id    = array_shift($segments);
-            $ids[] = $this->fixSegment($id);
+
+            // We have a numeric ID
+            if (!$matchedAlias && is_numeric($id)) {
+                $ids[] = $id;
+
+                // We allow more than one numeric segment in the URL
+                continue;
+            }
+
+            // We have a comma-separated list of IDs
+            if (!$matchedAlias && str_contains($id, ',')) {
+                $ids[] = $id;
+
+                // We don't allow more than one list of IDs in a URL
+                break;
+            }
+
+            $slug  = $this->fixSegment($id);
+
+            // We did not find the segment as a tag in the DB
+            if ($slug === $id) {
+                array_unshift($segments, $id);
+                break;
+            }
+
+            // We don't want to match numeric or comma-separated segments after we matched an alias
+            $matchedAlias = true;
+            $ids[]        = $slug;
         }
 
-        if (count($ids)) {
+        if (\count($ids)) {
             $vars['id']   = $ids;
             $vars['view'] = 'tag';
         }
@@ -287,6 +363,8 @@ class Router extends RouterBase
         $items     = $this->app->getMenu()->getItems(['component_id'], [$component->id]);
 
         foreach ($items as $item) {
+            $itemParams = $item->getParams();
+
             if (!isset($this->lookup[$item->language])) {
                 $this->lookup[$item->language] = ['tags' => [], 'tag' => []];
             }
@@ -296,13 +374,16 @@ class Router extends RouterBase
                 sort($id);
                 $this->lookup[$item->language]['tag'][implode(',', $id)] = $item->id;
 
-                foreach ($id as $i) {
-                    $this->lookup[$item->language]['tag'][$i] = $item->id;
+                // Only apply to menu items with match type any
+                if ($itemParams->get('return_any_or_all') == 1) {
+                    foreach ($id as $i) {
+                        $this->lookup[$item->language]['tag'][$i] = $item->id;
+                    }
                 }
             }
 
             if ($item->query['view'] == 'tags') {
-                $id                                         = (int) (isset($item->query['parent_id']) ? $item->query['parent_id'] : 0);
+                $id                                         = (int) ($item->query['parent_id'] ?? 0);
                 $this->lookup[$item->language]['tags'][$id] = $item->id;
             }
         }
@@ -310,8 +391,8 @@ class Router extends RouterBase
         foreach ($this->lookup as $language => $items) {
             // We have tags views with parent_id set and need to load child tags to be assigned to this menu item
             if (
-                count($this->lookup[$language]['tags']) > 1
-                || (count($this->lookup[$language]['tags']) == 1 && !isset($this->lookup[$language]['tags'][0]))
+                \count($this->lookup[$language]['tags']) > 1
+                || (\count($this->lookup[$language]['tags']) == 1 && !isset($this->lookup[$language]['tags'][0]))
             ) {
                 foreach ($this->lookup[$language]['tags'] as $id => $menu) {
                     if ($id === 0) {

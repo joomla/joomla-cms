@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Router\Route;
 
-ksort($this->files, SORT_NATURAL);
+/** @var \Joomla\Component\Templates\Administrator\View\Template\HtmlView $this */
 ?>
 
 <ul class="directory-tree treeselect">

@@ -13,7 +13,7 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\Table\TableInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -49,7 +49,7 @@ abstract class AbstractEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException  If the argument is not of the expected type.
      *
-     * @deprecated 4.4.0 will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 7.0
      *                Use counterpart with onSet prefix
      */
     protected function setSubject($value)

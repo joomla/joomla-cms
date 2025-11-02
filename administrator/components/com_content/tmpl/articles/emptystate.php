@@ -10,8 +10,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
+
+/** @var \Joomla\Component\Content\Administrator\View\Articles\HtmlView $this */
 
 $displayData = [
     'textPrefix' => 'COM_CONTENT',
@@ -20,7 +21,7 @@ $displayData = [
     'icon'       => 'icon-copy article',
 ];
 
-$user = Factory::getApplication()->getIdentity();
+$user = $this->getCurrentUser();
 
 if ($user->authorise('core.create', 'com_content') || count($user->getAuthorisedCategories('com_content', 'core.create')) > 0) {
     $displayData['createURL'] = 'index.php?option=com_content&task=article.add';

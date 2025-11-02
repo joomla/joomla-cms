@@ -10,9 +10,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Filter\OutputFilter;
 
 // Check if feed URL has been set
 if (empty($rssurl)) {
@@ -43,7 +43,7 @@ if (!empty($feed) && is_string($feed)) {
         $direction = ' redirect-rtl';
     }
 
-    if ($feed != false) :
+    if ($feed) :
         ?>
         <div style="direction: <?php echo $rssrtl ? 'rtl' : 'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' : 'left'; ?> !important" class="feed">
         <?php
@@ -51,7 +51,7 @@ if (!empty($feed) && is_string($feed)) {
         // Feed title
         if (!is_null($feed->title) && $params->get('rsstitle', 1)) : ?>
             <h2 class="<?php echo $direction; ?>">
-                <a href="<?php echo str_replace('&', '&amp;', $rssurl); ?>" target="_blank">
+                <a href="<?php echo str_replace('&', '&amp;', $rssurl); ?>" target="_blank" rel="noopener noreferrer">
                 <?php echo $feed->title; ?></a>
             </h2>
         <?php endif;

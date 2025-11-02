@@ -11,12 +11,12 @@
 namespace Joomla\Component\Fields\Administrator\Model;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -120,14 +120,13 @@ class GroupModel extends AdminModel
             return false;
         }
 
-        // Modify the form based on Edit State access controls.
-        if (empty($data['context'])) {
-            $data['context'] = $context;
-        }
+        $record          = new \stdClass();
+        $record->context = $context;
+        $record->id      = $jinput->get('id');
 
         $user = $this->getCurrentUser();
 
-        if (!$user->authorise('core.edit.state', $context . '.fieldgroup.' . $jinput->get('id'))) {
+        if (!$this->canEditState($record)) {
             // Disable fields for display.
             $form->setFieldAttribute('ordering', 'disabled', 'true');
             $form->setFieldAttribute('state', 'disabled', 'true');
@@ -160,7 +159,9 @@ class GroupModel extends AdminModel
             return false;
         }
 
-        return $this->getCurrentUser()->authorise('core.delete', $record->context . '.fieldgroup.' . (int) $record->id);
+        $component = explode('.', $record->context)[0];
+
+        return $this->getCurrentUser()->authorise('core.delete', $component . '.fieldgroup.' . (int) $record->id);
     }
 
     /**
@@ -177,13 +178,15 @@ class GroupModel extends AdminModel
     {
         $user = $this->getCurrentUser();
 
+        $component = explode('.', $record->context)[0];
+
         // Check for existing fieldgroup.
         if (!empty($record->id)) {
-            return $user->authorise('core.edit.state', $record->context . '.fieldgroup.' . (int) $record->id);
+            return $user->authorise('core.edit.state', $component . '.fieldgroup.' . (int) $record->id);
         }
 
         // Default to component settings.
-        return $user->authorise('core.edit.state', $record->context);
+        return $user->authorise('core.edit.state', $component);
     }
 
     /**
@@ -277,8 +280,8 @@ class GroupModel extends AdminModel
      *
      * @return  array|boolean  Array of filtered data if valid, false otherwise.
      *
-     * @see     JFormRule
-     * @see     JFilterInput
+     * @see     \Joomla\CMS\Form\FormRule
+     * @see     \Joomla\CMS\Filter\InputFilter
      * @since   3.9.23
      */
     public function validate($form, $data, $group = null)

@@ -27,9 +27,9 @@ describe('Test in backend that the user access level list', () => {
       cy.searchForItem('Test level');
       cy.checkAllResults();
       cy.clickToolbarButton('Delete');
-      cy.on('window:confirm', () => true);
+      cy.clickDialogConfirm(true);
 
-      cy.get('#system-message-container').contains('View Access Level removed.').should('exist');
+      cy.checkForSystemMessage('View Access Level removed.');
     });
   });
 });
