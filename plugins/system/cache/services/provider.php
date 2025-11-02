@@ -42,7 +42,8 @@ return new class () implements ServiceProviderInterface {
                 $profiler               = (\defined('JDEBUG') && JDEBUG) ? Profiler::getInstance('Application') : null;
                 $router                 = $container->has(SiteRouter::class) ? $container->get(SiteRouter::class) : null;
 
-                $plugin = new Cache($dispatcher, (array) $plugin, $documentFactory, $cacheControllerFactory, $profiler, $router);
+                $plugin = new Cache((array) $plugin, $documentFactory, $cacheControllerFactory, $profiler, $router);
+                $plugin->setDispatcher($dispatcher);
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
