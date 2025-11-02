@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="behaviour" method="upgrade">
+	<name>plg_behaviour_compat6</name>
+	<author>Joomla! Project</author>
+	<creationDate>2025-04</creationDate>
+	<copyright>(C) 2025 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>5.4.0</version>
+	<description>PLG_COMPAT6_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Behaviour\Compat6</namespace>
+	<files>
+		<folder plugin="compat6">services</folder>
+		<folder>src</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_behaviour_compat6.ini</language>
+		<language tag="en-GB">language/en-GB/plg_behaviour_compat6.sys.ini</language>
+	</languages>
+</extension>

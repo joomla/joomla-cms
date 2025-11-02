@@ -228,7 +228,6 @@ if (window.innerWidth > 992) {
       tableName = `default-table--${tableIndex}`;
     }
 
-    /* eslint-disable-next-line no-new */
     new TableColumns($table, tableName);
   });
 }

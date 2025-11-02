@@ -106,7 +106,7 @@ class HtmlView extends BaseHtmlView
             $toolbar->divider();
 
             // Add the create folder button
-            $layout = new FileLayout('toolbar.create-folder', JPATH_COMPONENT_ADMINISTRATOR . '/layouts');
+            $layout = new FileLayout('toolbar.create-folder', JPATH_ADMINISTRATOR . '/components/com_media/layouts');
 
             $toolbar->customButton('new')
                 ->html($layout->render([]));

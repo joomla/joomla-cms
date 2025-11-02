@@ -1706,11 +1706,11 @@ class Form implements CurrentUserInterface
 
             // Load the data.
             if (str_starts_with($data, '<')) {
-                if ($forms[$name]->load($data, $replace, $xpath) == false) {
+                if (!$forms[$name]->load($data, $replace, $xpath)) {
                     throw new \RuntimeException(\sprintf('%s() could not load form', __METHOD__));
                 }
             } else {
-                if ($forms[$name]->loadFile($data, $replace, $xpath) == false) {
+                if (!$forms[$name]->loadFile($data, $replace, $xpath)) {
                     throw new \RuntimeException(\sprintf('%s() could not load file', __METHOD__));
                 }
             }
