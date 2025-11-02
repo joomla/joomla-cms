@@ -11,12 +11,14 @@
 namespace Joomla\Plugin\Content\PageNavigation\Extension;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Event\Content\BeforeDisplayEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -27,24 +29,39 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.5
  */
-final class PageNavigation extends CMSPlugin
+final class PageNavigation extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   5.3.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onContentBeforeDisplay' => 'onContentBeforeDisplay',
+        ];
+    }
+
+    /**
      * If in the article view and the parameter is enabled shows the page navigation
      *
-     * @param   string   $context  The context of the content being passed to the plugin
-     * @param   object   &$row     The article object
-     * @param   mixed    &$params  The article params
-     * @param   integer  $page     The 'page' number
+     * @param   BeforeDisplayEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   1.6
      */
-    public function onContentBeforeDisplay($context, &$row, &$params, $page = 0)
+    public function onContentBeforeDisplay(BeforeDisplayEvent $event)
     {
+        $context = $event->getContext();
+        $row     = $event->getItem();
+        $params  = $event->getParams();
+
         $app   = $this->getApplication();
         $view  = $app->getInput()->get('view');
         $print = $app->getInput()->getBool('print');
@@ -141,12 +158,12 @@ final class PageNavigation extends CMSPlugin
             $query->order($orderby);
 
             $case_when = ' CASE WHEN ' . $query->charLength($db->quoteName('a.alias'), '!=', '0')
-                . ' THEN ' . $query->concatenate([$query->castAsChar($db->quoteName('a.id')), $db->quoteName('a.alias')], ':')
-                . ' ELSE ' . $query->castAsChar('a.id') . ' END AS ' . $db->quoteName('slug');
+                . ' THEN ' . $query->concatenate([$query->castAs('CHAR', $db->quoteName('a.id')), $db->quoteName('a.alias')], ':')
+                . ' ELSE ' . $query->castAs('CHAR', 'a.id') . ' END AS ' . $db->quoteName('slug');
 
             $case_when1 = ' CASE WHEN ' . $query->charLength($db->quoteName('cc.alias'), '!=', '0')
-                . ' THEN ' . $query->concatenate([$query->castAsChar($db->quoteName('cc.id')), $db->quoteName('cc.alias')], ':')
-                . ' ELSE ' . $query->castAsChar('cc.id') . ' END AS ' . $db->quoteName('catslug');
+                . ' THEN ' . $query->concatenate([$query->castAs('CHAR', $db->quoteName('cc.id')), $db->quoteName('cc.alias')], ':')
+                . ' ELSE ' . $query->castAs('CHAR', 'cc.id') . ' END AS ' . $db->quoteName('catslug');
 
             $query->select($db->quoteName(['a.id', 'a.title', 'a.catid', 'a.language']))
                 ->select([$case_when, $case_when1])

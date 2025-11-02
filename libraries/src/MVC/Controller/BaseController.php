@@ -300,9 +300,9 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         }
 
         // Check for a controller.task command.
-        if (strpos($command, '.') !== false) {
+        if (str_contains($command, '.')) {
             // Explode the controller.task command.
-            list($type, $task) = explode('.', $command);
+            [$type, $task] = explode('.', $command);
 
             // Define the controller filename and path.
             $file       = self::createFileName('controller', ['name' => $type, 'format' => $format]);
@@ -690,7 +690,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
                 /** @var \Joomla\CMS\Cache\Controller\ViewController $cache */
                 $cache = Factory::getCache($option, 'view');
                 $cache->get($view, 'display');
-            } catch (CacheExceptionInterface $exception) {
+            } catch (CacheExceptionInterface) {
                 $view->display();
             }
         } else {
@@ -750,7 +750,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         if (!$prefix) {
             if ($this->factory instanceof LegacyFactory) {
                 $prefix = $this->model_prefix;
-            } elseif (!empty($config['base_path']) && strpos(Path::clean($config['base_path']), JPATH_ADMINISTRATOR) === 0) {
+            } elseif (!empty($config['base_path']) && str_starts_with(Path::clean($config['base_path']), JPATH_ADMINISTRATOR)) {
                 // When the frontend uses an administrator model
                 $prefix = 'Administrator';
             } else {
@@ -773,15 +773,10 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
                 $menu = $this->app->getMenu();
 
                 if (\is_object($menu) && $item = $menu->getActive()) {
-                    // Let's get the application object and set menu information if it's available
-                    $menu = $this->app->getMenu();
+                    $params = $menu->getParams($item->id);
 
-                    if (\is_object($menu) && $item = $menu->getActive()) {
-                        $params = $menu->getParams($item->id);
-
-                        // Set default state data
-                        $model->setState('parameters.menu', $params);
-                    }
+                    // Set default state data
+                    $model->setState('parameters.menu', $params);
                 }
             }
         }
@@ -866,7 +861,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         if (!$prefix) {
             if ($this->factory instanceof LegacyFactory) {
                 $prefix = $this->getName() . 'View';
-            } elseif (!empty($config['base_path']) && strpos(Path::clean($config['base_path']), JPATH_ADMINISTRATOR) === 0) {
+            } elseif (!empty($config['base_path']) && str_starts_with(Path::clean($config['base_path']), JPATH_ADMINISTRATOR)) {
                 // When the front uses an administrator view
                 $prefix = 'Administrator';
             } else {

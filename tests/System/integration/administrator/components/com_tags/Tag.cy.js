@@ -11,7 +11,7 @@ describe('Test in backend that the tag form', () => {
     cy.get('#jform_title').clear().type('Test tag');
     cy.clickToolbarButton('Save & Close');
 
-    cy.get('#system-message-container').contains('Tag saved').should('exist');
+    cy.checkForSystemMessage('Tag saved');
     cy.contains('Test tag');
   });
 

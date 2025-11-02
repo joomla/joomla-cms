@@ -1,0 +1,38 @@
+services:
+  system-tests:
+    image: joomlaprojects/docker-images:cypress8.4
+    environment:
+      CYPRESS_VERIFY_TIMEOUT: 100000
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    entrypoint: bash /app/tests/System/entrypoint.sh /app j mysqli mysql
+    depends_on:
+      - phpmyadmin
+    ports:
+      - 8080:80
+      - 8443:443
+    volumes:
+      - ../..:/app
+      - /tmp/cypress-cache:/root/.cache/Cypress
+    working_dir: /app
+
+  mysql:
+    image: mysql:8.3
+    environment:
+      MYSQL_USER: joomla_ut
+      MYSQL_PASSWORD: joomla_ut
+      MYSQL_ROOT_PASSWORD: joomla_ut
+      MYSQL_DATABASE: test_joomla
+    command: --default-authentication-plugin=mysql_native_password
+    tmpfs:
+      - /var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: joomla_ut
+      PMA_PASSWORD: joomla_ut
+    depends_on:
+      - mysql
+    ports:
+      - 8081:80

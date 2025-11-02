@@ -84,7 +84,7 @@
 			title="MOD_MENU_FIELDS"
 			type="component"
 			element="com_fields"
-			link="index.php?option=com_fields&amp;context=com_users.user"
+			link="index.php?option=com_fields&amp;view=fields&amp;context=com_users.user"
 		/>
 
 		<menuitem
@@ -316,7 +316,7 @@
 			title="MOD_MENU_FIELDS"
 			type="component"
 			element="com_fields"
-			link="index.php?option=com_fields&amp;context=com_content.article"
+			link="index.php?option=com_fields&amp;view=fields&amp;context=com_content.article"
 		/>
 
 		<menuitem
@@ -578,6 +578,13 @@
 			title="MOD_MENU_HELP_DOCUMENTATION"
 			link="https://docs.joomla.org"
 			scope="help"
+		/>
+
+		<menuitem
+			title="MOD_MENU_HELP_PROGRAMMERS"
+			type="url"
+			target="_blank"
+			link="https://manual.joomla.org"
 		/>
 
 		<menuitem

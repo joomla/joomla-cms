@@ -15,10 +15,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Menus\Administrator\Model\ItemModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -93,11 +93,15 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state   = $this->get('State');
-        $this->form    = $this->get('Form');
-        $this->item    = $this->get('Item');
-        $this->modules = $this->get('Modules');
-        $this->levels  = $this->get('ViewLevels');
+        /** @var ItemModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
+
+        $this->state   = $model->getState();
+        $this->form    = $model->getForm();
+        $this->item    = $model->getItem();
+        $this->modules = $model->getModules();
+        $this->levels  = $model->getViewLevels();
         $this->canDo   = ContentHelper::getActions('com_menus', 'menu', (int) $this->state->get('item.menutypeid'));
 
         // Check if we're allowed to edit this item
@@ -106,19 +110,17 @@ class HtmlView extends BaseHtmlView
             throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
-        // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
-
         if ($this->getLayout() === 'modalreturn') {
             parent::display($tpl);
 
             return;
         }
 
+        $input          = Factory::getApplication()->getInput();
+        $forcedLanguage = $input->get('forcedLanguage', '', 'cmd');
+
         // If we are forcing a language in modal (used for associations).
-        if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'cmd')) {
+        if ($this->getLayout() === 'modal' && $forcedLanguage) {
             // Set the language field to the forcedLanguage and disable changing it.
             $this->form->setValue('language', null, $forcedLanguage);
             $this->form->setFieldAttribute('language', 'readonly', 'true');
@@ -126,6 +128,13 @@ class HtmlView extends BaseHtmlView
             // Only allow to select categories with All language or with the forced language.
             $this->form->setFieldAttribute('parent_id', 'language', '*,' . $forcedLanguage);
         }
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '')
+            ->addControlField('forcedLanguage', $forcedLanguage)
+            ->addControlField('menutype', $input->get('menutype', ''))
+            ->addControlField('fieldtype', '', ['id' => 'fieldtype']);
 
         if ($this->getLayout() !== 'modal') {
             $this->addToolbar();
@@ -212,7 +221,9 @@ class HtmlView extends BaseHtmlView
         // Get the help information for the menu item.
         $lang = $this->getLanguage();
 
-        $help = $this->get('Help');
+        /** @var ItemModel $model */
+        $model = $this->getModel();
+        $help  = $model->getHelp();
 
         if ($lang->hasKey($help->url)) {
             $debug = $lang->setDebug(false);
