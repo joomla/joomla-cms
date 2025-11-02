@@ -44,7 +44,7 @@ joomla-tab {
       box-shadow: none;
 
       &:first-of-type,
-      &[aria-expanded=true]:first-of-type {
+      &[aria-selected=true]:first-of-type {
         border-start-start-radius: .25rem;
       }
 
@@ -52,7 +52,7 @@ joomla-tab {
         z-index: 1;
       }
 
-      &[aria-expanded=true],
+      &[aria-selected=true],
       &:focus,
       &:hover {
         color: $joomla-tab-btn-hvr;
@@ -76,7 +76,7 @@ joomla-tab {
         }
       }
 
-      &[aria-expanded=true] {
+      &[aria-selected=true] {
         font-weight: $font-weight-bold;
         background: $joomla-tab-btn-aria-exp-bg;
       }
@@ -96,7 +96,7 @@ joomla-tab {
     border: $joomla-tab-btn-region-border;
     border-top: 0;
 
-    &[aria-expanded=true],
+    &[aria-selected=true],
     &:hover,
     &:focus {
       color: var(--template-text-light);
@@ -154,7 +154,7 @@ joomla-tab[orientation=vertical] {
     > button[role=tab] {
       text-align: start;
 
-      &[aria-expanded=true] {
+      &[aria-selected=true] {
         color: $joomla-tablist-btn-aria-exp; // var(--template-text-light);
         background-color: $joomla-tablist-btn-aria-exp-bg; // var(--template-bg-dark-60);
       }
@@ -174,7 +174,7 @@ joomla-tab[orientation=vertical] {
       border-bottom: $joomla-tab-vert-border-bottom; // 1px solid $gray-300;
       box-shadow: none;
 
-      &[aria-expanded=true],
+      &[aria-selected=true],
       &:focus,
       &:hover {
         color: var(--template-text-light);
@@ -231,7 +231,7 @@ joomla-tab[view=accordion] {
       border-bottom: $joomla-tab-vert-border-bottom; // 1px solid $gray-300;
       box-shadow: none;
 
-      &[aria-expanded=true]::after,
+      &[aria-selected=true]::after,
       &:hover::after {
         position: absolute;
         top: auto;
@@ -261,7 +261,7 @@ joomla-tab[view=accordion] {
   }
 
   [active],
-  [aria-expanded=true] {
+  [aria-selected=true] {
     background-color: var(--body-bg);
   }
 
@@ -320,7 +320,7 @@ joomla-tab[view=accordion] {
         background-color: var(--btn-primary-bg);
         border: var(--btn-primary-border);
 
-        &[aria-expanded=true],
+        &[aria-selected=true],
         &:hover,
         &:focus {
           color: var(--btn-primary-color);
@@ -332,7 +332,7 @@ joomla-tab[view=accordion] {
     }
 
     [dir=rtl] joomla-tab {
-      div[role="tablist"] > button[role="tab"][aria-expanded="true"]::after {
+      div[role="tablist"] > button[role="tab"][aria-selected="true"]::after {
         right: auto;
         left: 0;
       }

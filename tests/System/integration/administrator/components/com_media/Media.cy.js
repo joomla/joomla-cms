@@ -89,4 +89,22 @@ describe('Test in backend that the media manager', () => {
 
     cy.checkForSystemMessage('File or Folder not found');
   });
+
+  it('can not rename to malicious file', () => {
+    cy.visit('/administrator/index.php?option=com_media');
+    cy.wait('@getMedia');
+
+    cy.window()
+      .then((win) => win.Joomla.getOptions('csrf.token'))
+      .then((token) => cy.request({
+        method: 'put',
+        url: '/administrator/index.php?option=com_media&format=json&mediatypes=0,1,2,3&task=api.files&path=local-images%3A%2Fpowered_by.png',
+        body: { [token]: '1', newPath: 'local-images:/powered.php', move: 0 },
+        failOnStatusCode: false,
+      }))
+      .then((response) => {
+        expect(response.status).to.eq(500);
+        cy.readFile('images/powered.php').should('not.exist');
+      });
+  });
 });

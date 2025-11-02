@@ -252,7 +252,7 @@ class BackupcodesModel extends BaseDatabaseModel
          */
         $otherResult = false;
 
-        $temp1 = '';
+        $temp1 = [];
 
         for ($i = 0; $i < 10; $i++) {
             $temp1[$i] = random_int(0, 99999999);

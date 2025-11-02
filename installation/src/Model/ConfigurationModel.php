@@ -403,6 +403,12 @@ class ConfigurationModel extends BaseInstallationModel
         // Locale settings.
         $registry->set('offset', 'UTC');
 
+        // CORS settings.
+        $registry->set('cors', false);
+        $registry->set('cors_allow_origin', '*');
+        $registry->set('cors_allow_methods', '');
+        $registry->set('cors_allow_headers', 'Content-Type,X-Joomla-Token');
+
         // Mail settings.
         $registry->set('mailonline', true);
         $registry->set('mailer', 'mail');
