@@ -12,11 +12,11 @@ namespace Joomla\Component\Finder\Administrator\View\Maps;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
+use Joomla\Component\Finder\Administrator\Model\MapsModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -104,21 +104,20 @@ class HtmlView extends BaseHtmlView
         // Load plugin language files.
         LanguageHelper::loadPluginLanguage();
 
+        /** @var MapsModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
+
         // Load the view data.
-        $this->items         = $this->get('Items');
-        $this->total         = $this->get('Total');
-        $this->pagination    = $this->get('Pagination');
-        $this->state         = $this->get('State');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
+        $this->items         = $model->getItems();
+        $this->total         = $model->getTotal();
+        $this->pagination    = $model->getPagination();
+        $this->state         = $model->getState();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
 
-        if ($this->total === 0 && $this->isEmptyState = $this->get('isEmptyState')) {
+        if ($this->total === 0 && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
-        }
-
-        // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Prepare the view.

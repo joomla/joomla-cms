@@ -85,7 +85,7 @@ class HtmlView extends BaseHtmlView
         $this->canDo = ContentHelper::getActions('com_banners');
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -147,7 +147,7 @@ class HtmlView extends BaseHtmlView
         } else {
             $toolbar->cancel('client.cancel');
 
-            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit')) {
+            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->get('params')->get('save_history', 0) && $canDo->get('core.edit')) {
                 $toolbar->versions('com_banners.client', $this->item->id);
             }
         }

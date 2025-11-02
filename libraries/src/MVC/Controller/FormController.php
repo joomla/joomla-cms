@@ -566,7 +566,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             $urlVar = $key;
         }
 
-        $recordId = $this->input->getInt($urlVar);
+        $recordId = (int) $this->input->getInt($urlVar);
 
         // Populate the row id from the session.
         $data[$key] = $recordId;
