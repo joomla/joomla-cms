@@ -255,13 +255,13 @@ abstract class UpdateAdapter extends AdapterInstance
             'headers' => $headers,
         ]);
         $dispatcher->dispatch('onInstallerBeforeUpdateSiteDownload', $event);
-        $url     = $event->getArgument('url', $url);
+        $newUrl  = $event->getArgument('url', $url);
         $headers = $event->getArgument('headers', $headers);
 
         // Http transport throws an exception when there's no response.
         try {
             $http     = HttpFactory::getHttp($httpOption);
-            $response = $http->get($url, $headers, 20);
+            $response = $http->get($newUrl, $headers, 20);
         } catch (\RuntimeException) {
             $response = null;
         }
@@ -279,7 +279,7 @@ abstract class UpdateAdapter extends AdapterInstance
             'updater'
         );
 
-        if ($response === null || $response->code !== 200) {
+        if ($response === null || $response->getStatusCode() !== 200) {
             // If the URL is missing the .xml extension, try appending it and retry loading the update
             if (!$this->appendExtension && (!str_ends_with($url, '.xml'))) {
                 $options['append_extension'] = true;
