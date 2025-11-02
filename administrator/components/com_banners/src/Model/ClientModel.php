@@ -169,14 +169,14 @@ class ClientModel extends AdminModel
      * @param string $name The original client name
      *
      * @return string Unique client name
-     
+     *
      * @since   __DEPLOY_VERSION__
      */
     protected function generateUniqueName($name)
     {
-        $table = $this->getTable();
+        $table    = $this->getTable();
         $baseName = $name;
-        $i = 2;
+        $i        = 2;
 
         // Keep appending numbers until the name is unique
         while ($table->load(['name' => $name])) {
