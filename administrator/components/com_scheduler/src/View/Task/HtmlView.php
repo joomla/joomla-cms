@@ -118,6 +118,10 @@ class HtmlView extends BaseHtmlView
         $this->state = $model->getState();
         $this->canDo = ContentHelper::getActions('com_scheduler', 'task', $this->item->id);
 
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '');
+
         $this->addToolbar();
 
         parent::display($tpl);

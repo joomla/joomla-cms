@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Category;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
@@ -76,6 +76,7 @@ class ArticlesModel extends ListModel
                 'rating_count', 'rating',
                 'stage', 'wa.stage_id',
                 'ws.title',
+                'fp.ordering',
             ];
 
             if (Associations::isEnabled()) {
@@ -145,6 +146,7 @@ class ArticlesModel extends ListModel
         $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
         $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
         $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
+        $this->getUserStateFromRequest($this->context . '.filter.checked_out', 'filter_checked_out', '');
 
         // List state information.
         parent::populateState($ordering, $direction);
@@ -175,10 +177,12 @@ class ArticlesModel extends ListModel
         $id .= ':' . $this->getState('filter.search');
         $id .= ':' . serialize($this->getState('filter.access'));
         $id .= ':' . $this->getState('filter.published');
+        $id .= ':' . $this->getState('filter.featured');
         $id .= ':' . serialize($this->getState('filter.category_id'));
         $id .= ':' . serialize($this->getState('filter.author_id'));
         $id .= ':' . $this->getState('filter.language');
         $id .= ':' . serialize($this->getState('filter.tag'));
+        $id .= ':' . $this->getState('filter.checked_out');
 
         return parent::getStoreId($id);
     }
@@ -194,7 +198,7 @@ class ArticlesModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $user  = $this->getCurrentUser();
 
         $params = ComponentHelper::getParams('com_content');
@@ -283,7 +287,7 @@ class ArticlesModel extends ListModel
 
         // Join over the associations.
         if (Associations::isEnabled()) {
-            $subQuery = $db->getQuery(true)
+            $subQuery = $db->createQuery()
                 ->select('COUNT(' . $db->quoteName('asso1.id') . ') > 1')
                 ->from($db->quoteName('#__associations', 'asso1'))
                 ->join('INNER', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
@@ -310,12 +314,19 @@ class ArticlesModel extends ListModel
         }
 
         // Filter by featured.
-        $featured = (string) $this->getState('filter.featured');
+        $featured = $this->getState('filter.featured');
 
-        if (\in_array($featured, ['0','1'])) {
+        $defaultOrdering = 'a.id';
+
+        if (is_numeric($featured) && \in_array($featured, [0, 1])) {
             $featured = (int) $featured;
             $query->where($db->quoteName('a.featured') . ' = :featured')
                 ->bind(':featured', $featured, ParameterType::INTEGER);
+
+            if ($featured) {
+                $query->select($db->quoteName('fp.ordering'));
+                $defaultOrdering = 'fp.ordering';
+            }
         }
 
         // Filter by access level on categories.
@@ -363,7 +374,7 @@ class ArticlesModel extends ListModel
         // Case: Using both categories filter and by level filter
         if (\count($categoryId)) {
             $categoryId       = ArrayHelper::toInteger($categoryId);
-            $categoryTable    = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\');
+            $categoryTable    = new Category($db);
             $subCatItemsWhere = [];
 
             foreach ($categoryId as $key => $filter_catid) {
@@ -400,18 +411,49 @@ class ArticlesModel extends ListModel
 
         if (is_numeric($authorId)) {
             $authorId = (int) $authorId;
-            $type     = $this->getState('filter.author_id.include', true) ? ' = ' : ' <> ';
-            $query->where($db->quoteName('a.created_by') . $type . ':authorId')
-                ->bind(':authorId', $authorId, ParameterType::INTEGER);
+
+            if ($authorId === 0) {
+                // Only show deleted authors' articles
+                $subQuery = $db->createQuery()
+                    ->select($db->quoteName('id'))
+                    ->from($db->quoteName('#__users'));
+
+                $query->where($db->quoteName('a.created_by') . ' NOT IN (' . $subQuery . ')');
+            } else {
+                $type = $this->getState('filter.author_id.include', true) ? ' = ' : ' <> ';
+                $query->where($db->quoteName('a.created_by') . $type . ':authorId')
+                    ->bind(':authorId', $authorId, ParameterType::INTEGER);
+            }
         } elseif (\is_array($authorId)) {
             // Check to see if by_me is in the array
-            if (\in_array('by_me', $authorId)) {
+            $keyByMe = array_search('by_me', $authorId);
+
+            if ($keyByMe !== false) {
                 // Replace by_me with the current user id in the array
-                $authorId['by_me'] = $user->id;
+                $authorId[$keyByMe] = $user->id;
             }
 
             $authorId = ArrayHelper::toInteger($authorId);
-            $query->whereIn($db->quoteName('a.created_by'), $authorId);
+
+            if (\in_array(0, $authorId)) {
+                // Remove 0 from array and handle deleted users with OR condition
+                $authorId = array_filter($authorId);
+
+                // Subquery for deleted users
+                $subQuery = $db->createQuery()
+                    ->select($db->quoteName('id'))
+                    ->from($db->quoteName('#__users'));
+
+                // Build WHERE with both conditions
+                $query->where('(' .
+                    $db->quoteName('a.created_by') . ' NOT IN (' . $subQuery . ')' .
+                    (!empty($authorId)
+                        ? ' OR ' . $db->quoteName('a.created_by') . ' IN (' . implode(',', $query->bindArray($authorId)) . ')'
+                        : '') .
+                ')');
+            } else {
+                $query->whereIn($db->quoteName('a.created_by'), $authorId);
+            }
         }
 
         // Filter by search in title.
@@ -451,6 +493,24 @@ class ArticlesModel extends ListModel
                 ->bind(':language', $language);
         }
 
+        // Filter by checked out status.
+        $checkedOut = $this->getState('filter.checked_out');
+
+        if (is_numeric($checkedOut)) {
+            if ($checkedOut == -1) {
+                // Only checked out articles
+                $query->where($db->quoteName('a.checked_out') . ' > 0');
+            } elseif ($checkedOut == 0) {
+                // Only not checked out articles (checked_out is 0 or NULL)
+                $query->where('(' . $db->quoteName('a.checked_out') . ' = 0 OR ' . $db->quoteName('a.checked_out') . ' IS NULL)');
+            } else {
+                // Checked out by specific user
+                $checkedOut = (int) $checkedOut;
+                $query->where($db->quoteName('a.checked_out') . ' = :checkedOutUser')
+                    ->bind(':checkedOutUser', $checkedOut, ParameterType::INTEGER);
+            }
+        }
+
         // Filter by a single or group of tags.
         $tag = $this->getState('filter.tag');
 
@@ -460,9 +520,15 @@ class ArticlesModel extends ListModel
         }
 
         if ($tag && \is_array($tag)) {
-            $tag = ArrayHelper::toInteger($tag);
+            $tag         = ArrayHelper::toInteger($tag);
+            $includeNone = false;
 
-            $subQuery = $db->getQuery(true)
+            if (\in_array(0, $tag)) {
+                $tag         = array_filter($tag);
+                $includeNone = true;
+            }
+
+            $subQuery = $db->createQuery()
                 ->select('DISTINCT ' . $db->quoteName('content_item_id'))
                 ->from($db->quoteName('#__contentitem_tag_map'))
                 ->where(
@@ -473,16 +539,48 @@ class ArticlesModel extends ListModel
                 );
 
             $query->join(
-                'INNER',
+                $includeNone ? 'LEFT' : 'INNER',
                 '(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
                 $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
             );
-        } elseif ($tag = (int) $tag) {
-            $query->join(
-                'INNER',
-                $db->quoteName('#__contentitem_tag_map', 'tagmap'),
-                $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-            )
+
+            if ($includeNone) {
+                $subQuery2 = $db->createQuery()
+                    ->select('DISTINCT ' . $db->quoteName('content_item_id'))
+                    ->from($db->quoteName('#__contentitem_tag_map'))
+                    ->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'));
+                $query->join(
+                    'LEFT',
+                    '(' . $subQuery2 . ') AS ' . $db->quoteName('tagmap2'),
+                    $db->quoteName('tagmap2.content_item_id') . ' = ' . $db->quoteName('a.id')
+                )
+                ->where(
+                    '(' . $db->quoteName('tagmap.content_item_id') . ' IS NOT NULL OR '
+                    . $db->quoteName('tagmap2.content_item_id') . ' IS NULL)'
+                );
+            }
+        } elseif (is_numeric($tag)) {
+            $tag = (int) $tag;
+
+            if ($tag === 0) {
+                $subQuery = $db->createQuery()
+                    ->select('DISTINCT ' . $db->quoteName('content_item_id'))
+                    ->from($db->quoteName('#__contentitem_tag_map'))
+                    ->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'));
+
+                // Only show articles without tags
+                $query->join(
+                    'LEFT',
+                    '(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
+                    $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+                )
+                ->where($db->quoteName('tagmap.content_item_id') . ' IS NULL');
+            } else {
+                $query->join(
+                    'INNER',
+                    $db->quoteName('#__contentitem_tag_map', 'tagmap'),
+                    $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+                )
                 ->where(
                     [
                         $db->quoteName('tagmap.tag_id') . ' = :tag',
@@ -490,10 +588,27 @@ class ArticlesModel extends ListModel
                     ]
                 )
                 ->bind(':tag', $tag, ParameterType::INTEGER);
+            }
+        }
+
+        // Filter by date after modified date.
+        $modifiedStartDateTime = $this->getState('filter.modified_start');
+
+        if (!empty($modifiedStartDateTime)) {
+            $query->where($db->quoteName('a.modified') . ' >= :startDate')
+                ->bind(':startDate', $modifiedStartDateTime);
+        }
+
+        // Filter by date before modified date.
+        $modifiedEndDateTime = $this->getState('filter.modified_end');
+
+        if (!empty($modifiedEndDateTime)) {
+            $query->where($db->quoteName('a.modified') . ' <= :endDate')
+                ->bind(':endDate', $modifiedEndDateTime);
         }
 
         // Add the list ordering clause.
-        $orderCol  = $this->state->get('list.ordering', 'a.id');
+        $orderCol  = $this->state->get('list.ordering', $defaultOrdering);
         $orderDirn = $this->state->get('list.direction', 'DESC');
 
         if ($orderCol === 'a.ordering' || $orderCol === 'category_title') {
@@ -550,7 +665,7 @@ class ArticlesModel extends ListModel
             if (\count($stage_ids) || \count($workflow_ids)) {
                 Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
 
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
 
                 $query  ->select(
                     [

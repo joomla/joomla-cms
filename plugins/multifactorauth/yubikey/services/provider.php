@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Multifactorauth\Yubikey\Extension\Yubikey;
 
 return new class () implements ServiceProviderInterface {
@@ -33,7 +32,7 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $plugin = new Yubikey($container->get(DispatcherInterface::class), (array) PluginHelper::getPlugin('multifactorauth', 'yubikey'));
+                $plugin = new Yubikey((array) PluginHelper::getPlugin('multifactorauth', 'yubikey'));
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
