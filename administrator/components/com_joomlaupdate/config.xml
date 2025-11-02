@@ -72,4 +72,64 @@
 		</field>
 
 	</fieldset>
+	<fieldset
+		name="automated-updates"
+		label="COM_JOOMLAUPDATE_CONFIG_AUTOMATED_UPDATES_LABEL"
+		description="COM_JOOMLAUPDATE_CONFIG_AUTOMATED_UPDATES_DESC"
+		>
+		<field
+			name="autoupdate"
+			type="radio"
+			label="COM_JOOMLAUPDATE_CONFIG_AUTOUPDATE_LABEL"
+			description="COM_JOOMLAUPDATE_CONFIG_AUTOUPDATE_DESC"
+			default="0"
+			layout="joomla.form.field.radio.switcher"
+			showon="updatesource:default[AND]minimum_stability:4"
+			validate="options"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="autoupdate_status"
+			type="hidden"
+		/>
+
+		<field
+			name="update_token"
+			type="text"
+			label="COM_JOOMLAUPDATE_CONFIG_UPDATE_TOKEN_LABEL"
+			description="COM_JOOMLAUPDATE_CONFIG_UPDATE_TOKEN_DESC"
+			readonly="true"
+			showon="updatesource:default[AND]minimum_stability:4[AND]autoupdate:1"
+		/>
+		<field
+			name="update_last_check"
+			type="calendar"
+			showtime="true"
+			filter="user_utc"
+			label="COM_JOOMLAUPDATE_CONFIG_UPDATE_LAST_CHECK_LABEL"
+			description="COM_JOOMLAUPDATE_CONFIG_UPDATE_LAST_CHECK_DESC"
+			readonly="true"
+			showon="updatesource:default[AND]minimum_stability:4[AND]autoupdate:1"
+		/>
+		<field
+			name="automated_updates_disabled"
+			type="note"
+			label="COM_JOOMLAUPDATE_CONFIG_AUTOMATED_UPDATES_DISABLED_LABEL"
+			class="alert alert-info w-100"
+			showon="updatesource!:default[OR]minimum_stability!:4"
+		/>
+		<field
+			name="automated_updates_email_groups"
+			type="usergrouplist"
+			label="COM_JOOMLAUPDATE_CONFIG_AUTOUPDATE_UPDATE_EMAIL_LABEL"
+			description="COM_JOOMLAUPDATE_CONFIG_AUTOUPDATE_UPDATE_EMAIL_DESCRIPTION"
+			checksuperusergroup="0"
+			multiple="true"
+			layout="joomla.form.field.list-fancy-select"
+			showon="updatesource:default[AND]minimum_stability:4[AND]autoupdate:1"
+		/>
+	</fieldset>
 </config>
