@@ -1174,9 +1174,9 @@ class TemplateModel extends FormModel
             $name         = end($explodeArray);
             $client       = ApplicationHelper::getClientInfo($template->client_id);
 
-            if (stristr($name, 'mod_') != false) {
+            if (stristr($name, 'mod_') !== false) {
                 $htmlPath   = Path::clean($client->path . '/templates/' . $template->element . '/html/' . $name);
-            } elseif (stristr($override, 'com_') != false) {
+            } elseif (stristr($override, 'com_') !== false) {
                 $size = \count($explodeArray);
 
                 $url = Path::clean($explodeArray[$size - 3] . '/' . $explodeArray[$size - 1]);
@@ -1202,9 +1202,9 @@ class TemplateModel extends FormModel
                 return false;
             }
 
-            if (stristr($name, 'mod_') != false) {
+            if (stristr($name, 'mod_') !== false) {
                 $return = $this->createTemplateOverride(Path::clean($override . '/tmpl'), $htmlPath);
-            } elseif (stristr($override, 'com_') != false && stristr($override, 'layouts') == false) {
+            } elseif (stristr($override, 'com_') !== false && stristr($override, 'layouts') === false) {
                 $path = $override . '/tmpl';
 
                 // View can also be in the top level folder
@@ -1703,7 +1703,7 @@ class TemplateModel extends FormModel
             $fileName     = end($explodeArray);
             $path         = $this->getBasePath() . base64_decode($app->getInput()->get('file'));
 
-            if (stristr($client->path, 'administrator') == false) {
+            if (stristr($client->path, 'administrator') === false) {
                 $folder = '/templates/';
             } else {
                 $folder = '/administrator/templates/';

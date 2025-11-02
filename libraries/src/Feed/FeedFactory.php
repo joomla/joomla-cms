@@ -59,12 +59,12 @@ class FeedFactory
                 throw new \RuntimeException('Unable to open the feed.', $e->getCode(), $e);
             }
 
-            if ($response->code != 200) {
+            if ($response->getStatusCode() != 200) {
                 throw new \RuntimeException('Unable to open the feed.');
             }
 
             // Set the value to the XMLReader parser
-            if (!$reader->XML($response->body, null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING)) {
+            if (!$reader->XML((string) $response->getBody(), null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING)) {
                 throw new \RuntimeException('Unable to parse the feed.');
             }
         }

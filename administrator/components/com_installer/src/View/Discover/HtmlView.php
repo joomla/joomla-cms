@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Installer\Administrator\View\Discover;
 
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\Component\Installer\Administrator\Model\DiscoverModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
@@ -78,6 +77,7 @@ class HtmlView extends InstallerViewDefault
     {
         /** @var DiscoverModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         // Run discover from the model.
         if (!$model->checkExtensions()) {
@@ -92,11 +92,6 @@ class HtmlView extends InstallerViewDefault
 
         if (!\count($this->items) && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         parent::display($tpl);
