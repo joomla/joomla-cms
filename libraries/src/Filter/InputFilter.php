@@ -218,7 +218,7 @@ class InputFilter extends BaseInputFilter
         // Make sure we can scan nested file descriptors
         $descriptors = $file;
 
-        if (isset($file['name']) && isset($file['tmp_name'])) {
+        if (isset($file['name'], $file['tmp_name'])) {
             $descriptors = static::decodeFileData(
                 [
                     $file['name'],

@@ -14,8 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Table\CoreContent;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
-use Joomla\CMS\UCM\UCMContent;
-use Joomla\CMS\UCM\UCMType;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -104,11 +102,17 @@ class TagsHelper extends CMSHelper
         $db     = $table->getDbo();
         $key    = $table->getKeyName();
         $item   = $table->$key;
-        $ucm    = new UCMType($this->typeAlias, $db);
-        $typeId = $ucm->getTypeId();
+        $query  = $db->getQuery(true)
+            ->select($db->quoteName('ct') . '.type_id')
+            ->from($db->quoteName('#__content_types', 'ct'))
+            ->where($db->quoteName('ct.type_alias') . ' = :alias')
+            ->bind(':alias', $this->typeAlias);
+
+        $db->setQuery($query);
+        $typeId = $db->loadResult();
 
         // Insert the new tag maps
-        if (strpos(implode(',', $tags), '#') !== false) {
+        if (str_contains(implode(',', $tags), '#')) {
             $tags = $this->createTagsFromField($tags);
         }
 
@@ -194,7 +198,7 @@ class TagsHelper extends CMSHelper
 
                 try {
                     $aliasesMapper = $db->loadAssocList('alias');
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException) {
                     return false;
                 }
 
@@ -246,7 +250,7 @@ class TagsHelper extends CMSHelper
 
         foreach ($tags as $key => $tag) {
             // User is not allowed to create tags, so don't create.
-            if (!$canCreate && strpos($tag, '#new#') !== false) {
+            if (!$canCreate && str_contains($tag, '#new#')) {
                 continue;
             }
 
@@ -325,10 +329,10 @@ class TagsHelper extends CMSHelper
 
         $result = $this->unTagItem($contentItemId[$key], $table);
 
-        /** @var  CoreContent $ucmContentTable */
-        $ucmContentTable = Table::getInstance('CoreContent');
+        /** @var  CoreContent $coreContentTable */
+        $coreContentTable = Table::getInstance('CoreContent');
 
-        return $result && $ucmContentTable->deleteByContentId($contentItemId[$key], $this->typeAlias);
+        return $result && $coreContentTable->deleteByContentId($contentItemId[$key], $this->typeAlias);
     }
 
     /**
@@ -591,6 +595,7 @@ class TagsHelper extends CMSHelper
                 'MAX(' . $db->quoteName('c.core_publish_down') . ') AS ' . $db->quoteName('core_publish_down'),
                 'MAX(' . $db->quoteName('ct.type_title') . ') AS ' . $db->quoteName('content_type_title'),
                 'MAX(' . $db->quoteName('ct.router') . ') AS ' . $db->quoteName('router'),
+                'MAX(' . $db->quoteName('tc.title') . ') AS ' . $db->quoteName('core_category_title'),
                 'CASE WHEN ' . $db->quoteName('c.core_created_by_alias') . ' > ' . $db->quote(' ')
                 . ' THEN ' . $db->quoteName('c.core_created_by_alias') . ' ELSE ' . $db->quoteName('ua.name') . ' END AS ' . $db->quoteName('author'),
                 $db->quoteName('ua.email', 'author_email'),
@@ -821,6 +826,8 @@ class TagsHelper extends CMSHelper
      * @return  boolean
      *
      * @since   3.1
+     *
+     * @deprecated  5.3 will be removed in 7.0
      */
     public function postStoreProcess(TableInterface $table, $newTags = [], $replace = true)
     {
@@ -836,24 +843,74 @@ class TagsHelper extends CMSHelper
 
         // Process ucm_content and ucm_base if either tags have changed or we have some tags.
         if ($this->tagsChanged || (!empty($newTags) && $newTags[0] != '')) {
-            if (!$newTags && $replace == true) {
+            if (!$newTags && $replace) {
                 // Delete all tags data
                 $key    = $table->getKeyName();
                 $result = $this->deleteTagData($table, $table->$key);
             } else {
                 // Process the tags
-                $data            = $this->getRowData($table);
-                $ucmContentTable = Table::getInstance('CoreContent');
+                $data             = $this->getRowData($table);
+                $coreContentTable = Table::getInstance('CoreContent');
+                $db               = Factory::getDbo();
 
-                $ucm     = new UCMContent($table, $this->typeAlias);
-                $ucmData = $data ? $ucm->mapData($data) : $ucm->ucmData;
+                $query = $db->getQuery(true)
+                    ->select($db->quoteName('ct') . '.*')
+                    ->from($db->quoteName('#__content_types', 'ct'))
+                    ->where($db->quoteName('ct.type_alias') . ' = :alias')
+                    ->bind(':alias', $this->typeAlias);
 
-                $primaryId = $ucm->getPrimaryKey($ucmData['common']['core_type_id'], $ucmData['common']['core_content_item_id']);
-                $result    = $ucmContentTable->load($primaryId);
-                $result    = $result && $ucmContentTable->bind($ucmData['common']);
-                $result    = $result && $ucmContentTable->check();
-                $result    = $result && $ucmContentTable->store();
-                $ucmId     = $ucmContentTable->core_content_id;
+                $db->setQuery($query);
+
+                $contentType = $db->loadObject();
+
+                $fields = json_decode($contentType->field_mappings);
+
+                $ucmData = [];
+
+                $common = \is_object($fields->common) ? $fields->common : $fields->common[0];
+
+                foreach ($common as $i => $field) {
+                    if ($field && $field !== 'null' && \array_key_exists($field, $data)) {
+                        $ucmData['common'][$i] = $data[$field];
+                    }
+                }
+
+                if (\array_key_exists('special', $ucmData)) {
+                    $special = \is_object($fields->special) ? $fields->special : $fields->special[0];
+
+                    foreach ($special as $i => $field) {
+                        if ($field && $field !== 'null' && \array_key_exists($field, $data)) {
+                            $ucmData['special'][$i] = $data[$field];
+                        }
+                    }
+                }
+
+                $ucmData['common']['core_type_alias'] = $contentType->type_alias;
+                $ucmData['common']['core_type_id']    = $contentType->type_id;
+
+                if (isset($ucmData['special'])) {
+                    $ucmData['special']['ucm_id'] = $ucmData['common']['ucm_id'];
+                }
+
+                $query = $db->getQuery(true)
+                    ->select($db->quoteName('ucm_id'))
+                    ->from($db->quoteName('#__ucm_base'))
+                    ->where(
+                        [
+                            $db->quoteName('ucm_item_id') . ' = :itemId',
+                            $db->quoteName('ucm_type_id') . ' = :typeId',
+                        ]
+                    )
+                    ->bind(':itemId', $ucmData['common']['core_content_item_id'], ParameterType::INTEGER)
+                    ->bind(':typeId', $ucmData['common']['core_type_id'], ParameterType::INTEGER);
+                $db->setQuery($query);
+
+                $primaryId = $db->loadResult();
+                $result    = $coreContentTable->load($primaryId);
+                $result    = $result && $coreContentTable->bind($ucmData['common']);
+                $result    = $result && $coreContentTable->check();
+                $result    = $result && $coreContentTable->store();
+                $ucmId     = $coreContentTable->core_content_id;
 
                 // Store the tag data if the article data was saved and run related methods.
                 $result = $result && $this->tagItem($ucmId, $table, $newTags, $replace);
@@ -998,7 +1055,7 @@ class TagsHelper extends CMSHelper
 
         try {
             $results = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return [];
         }
 

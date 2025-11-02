@@ -307,8 +307,7 @@ class AdminController extends BaseController
         // Remove zero PKs and corresponding order values resulting from input filter for PK
         foreach ($pks as $i => $pk) {
             if ($pk === 0) {
-                unset($pks[$i]);
-                unset($order[$i]);
+                unset($pks[$i], $order[$i]);
             }
         }
 
@@ -402,8 +401,7 @@ class AdminController extends BaseController
         // Remove zero PKs and corresponding order values resulting from input filter for PK
         foreach ($pks as $i => $pk) {
             if ($pk === 0) {
-                unset($pks[$i]);
-                unset($order[$i]);
+                unset($pks[$i], $order[$i]);
             }
         }
 

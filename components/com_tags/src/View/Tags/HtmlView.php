@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Tags\Site\Model\TagsModel;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -86,14 +87,15 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        // Get some data from the models
-        $this->state      = $this->get('State');
-        $this->items      = $this->get('Items');
-        $this->pagination = $this->get('Pagination');
+        /** @var TagsModel $model */
+        $model            = $this->getModel();
+        $this->state      = $model->getState();
+        $this->items      = $model->getItems();
+        $this->pagination = $model->getPagination();
         $this->params     = $this->state->get('params');
         $this->user       = $this->getCurrentUser();
 
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

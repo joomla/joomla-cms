@@ -14,7 +14,6 @@ use Joomla\CMS\Event\CoreEventAware;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\System\Webauthn\Authentication;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AdditionalLoginButtons;
@@ -96,7 +95,6 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor. Loads the language files as well.
      *
-     * @param   DispatcherInterface  $dispatcher    The object to observe
      * @param   array                $config        An optional associative array of configuration
      *                                              settings. Recognized key values include 'name',
      *                                              'group', 'params', 'language (this list is not meant
@@ -105,9 +103,9 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
      *
      * @since  4.0.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config = [], ?Authentication $authHelper = null)
+    public function __construct(array $config = [], ?Authentication $authHelper = null)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         /**
          * Note: Do NOT try to load the language in the constructor. This is called before Joomla initializes the
@@ -125,7 +123,7 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
 
         Log::addLogger([
             'text_file'         => "webauthn_system.php",
-            'text_entry_format' => '{DATETIME}	{PRIORITY} {CLIENTIP}	{MESSAGE}',
+            'text_entry_format' => '{DATETIME}	{PRIORITY}	{CLIENTIP}	{MESSAGE}',
         ], $logLevels, ["webauthn.system"]);
 
         $this->authenticationHelper = $authHelper ?? (new Authentication());
@@ -155,7 +153,7 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
     {
         try {
             $app = Factory::getApplication();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return [];
         }
 

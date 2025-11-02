@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\Task\UpdateNotification\Extension;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\Mail\MailTemplate;
@@ -19,6 +20,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
+use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateRegisterState;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
@@ -92,6 +94,16 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
         $specificEmail  = $event->getArgument('params')->email ?? '';
         $forcedLanguage = $event->getArgument('params')->language_override ?? '';
 
+        $updateParams = ComponentHelper::getParams('com_joomlaupdate');
+
+        // Don't send when automated updates are active and working
+        $registrationState = AutoupdateRegisterState::tryFrom($updateParams->get('autoupdate_status', 0));
+        $lastUpdateCheck   = date_create_from_format('Y-m-d H:i:s', $updateParams->get('update_last_check', ''));
+
+        if ($registrationState === AutoupdateRegisterState::Subscribed && $lastUpdateCheck !== false && $lastUpdateCheck->diff(new \DateTime())->days < 4) {
+            return Status::OK;
+        }
+
         // This is the extension ID for Joomla! itself
         $eid = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
 
@@ -127,7 +139,7 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
         // If we're here, we have updates. First, get a link to the Joomla! Update component.
         $baseURL  = Uri::base();
         $baseURL  = rtrim($baseURL, '/');
-        $baseURL .= (substr($baseURL, -13) !== 'administrator') ? '/administrator/' : '/';
+        $baseURL .= (!str_ends_with($baseURL, 'administrator')) ? '/administrator/' : '/';
         $baseURL .= 'index.php?option=com_joomlaupdate';
         $uri      = new Uri($baseURL);
 
@@ -203,7 +215,7 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
             } catch (MailDisabledException | phpMailerException $exception) {
                 try {
                     $this->logTask($jLanguage->_($exception->getMessage()));
-                } catch (\RuntimeException $exception) {
+                } catch (\RuntimeException) {
                     return Status::KNOCKOUT;
                 }
             }
@@ -300,7 +312,7 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
 
             $db->setQuery($query);
             $ret = $db->loadObjectList();
-        } catch (\Exception $exc) {
+        } catch (\Exception) {
             return $ret;
         }
 
