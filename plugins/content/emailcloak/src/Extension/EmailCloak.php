@@ -11,6 +11,8 @@
 namespace Joomla\Plugin\Content\EmailCloak\Extension;
 
 use Joomla\CMS\Event\Content\ContentPrepareEvent;
+use Joomla\CMS\Event\CustomFields\AfterPrepareFieldEvent;
+use Joomla\CMS\Event\Finder\ResultEvent;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
@@ -36,7 +38,34 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        return ['onContentPrepare' => 'onContentPrepare'];
+        return [
+            'onContentPrepare'                => 'onContentPrepare',
+            'onFinderResult'                  => 'onFinderResult',
+            'onCustomFieldsAfterPrepareField' => 'onCustomFieldsAfterPrepareField',
+        ];
+    }
+
+    /**
+     * Plugin that cloaks all emails in com_finder from spambots via Javascript.
+     *
+     * @param   ResultEvent  $event  Event instance
+     *
+     * @return  void
+     */
+    public function onFinderResult(ResultEvent $event)
+    {
+        $item = $event->getItem();
+
+        // If the item does not have a text property there is nothing to do
+        if (!isset($item->description)) {
+            return;
+        }
+
+        $text = $this->cloak($item->description);
+
+        if ($text) {
+            $item->description = $text;
+        }
     }
 
     /**
@@ -70,6 +99,27 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
     }
 
     /**
+     * Plugin that cloaks all emails in a custom field.
+     *
+     * @param   AfterPrepareFieldEvent  $event  Event instance
+     *
+     * @return  void
+     */
+    public function onCustomFieldsAfterPrepareField(AfterPrepareFieldEvent $event)
+    {
+        // If the value is empty then there is nothing to do
+        if (empty($event->getValue())) {
+            return;
+        }
+
+        $text = $this->cloak($event->getValue());
+
+        if ($text) {
+            $event->updateValue($text);
+        }
+    }
+
+    /**
      * Generate a search pattern based on link and text.
      *
      * @param   string  $link  The target of an email link.
@@ -94,14 +144,14 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
     private function cloak($text)
     {
         /*
-         * Check for presence of {emailcloak=off} which is explicits disables this
-         * bot for the item.
+         * Check for presence of {emailcloak=off} which explicitly disables the
+         * plugin for the item.
          */
         if (StringHelper::strpos($text, '{emailcloak=off}') !== false) {
             return StringHelper::str_ireplace('{emailcloak=off}', '', $text);
         }
 
-        // Simple performance check to determine whether bot should process further.
+        // Simple performance check to determine whether the plugin should process further.
         if (StringHelper::strpos($text, '@') === false) {
             return '';
         }
@@ -110,7 +160,7 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
         $mode = $mode === 1;
 
         // Example: any@example.org
-        $searchEmail = "([\p{L}\p{N}\.\'\-\+]+\@(?:[\.\-\p{L}\p{N}]+\.)+(?:[\-\p{L}\p{N}]{2,24}))";
+        $searchEmail = "([\p{L}\p{N}\.\'\-\+\_]+\@(?:[\.\-\p{L}\p{N}]+\.)+(?:[\-\p{L}\p{N}]{2,24}))";
 
         // Example: any@example.org?subject=anyText
         $searchEmailLink = $searchEmail . '([?&][\x20-\x7f][^"<>]+)';

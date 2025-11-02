@@ -12,10 +12,10 @@ namespace Joomla\Component\Workflow\Administrator\View\Workflows;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Workflow\Administrator\Model\WorkflowsModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -103,16 +103,15 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state            = $this->get('State');
-        $this->workflows        = $this->get('Items');
-        $this->pagination       = $this->get('Pagination');
-        $this->filterForm       = $this->get('FilterForm');
-        $this->activeFilters    = $this->get('ActiveFilters');
+        /** @var WorkflowsModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-        // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        $this->state         = $model->getState();
+        $this->workflows     = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
 
         $extension = $this->state->get('filter.extension');
 

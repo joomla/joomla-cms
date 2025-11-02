@@ -12,9 +12,9 @@
 
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Quickicon\Joomlaupdate\Extension\Joomlaupdate;
 
 return new class () implements ServiceProviderInterface {
@@ -32,13 +32,9 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                // @Todo This needs to be changed to a proper factory
-                $plugin = \Joomla\CMS\Plugin\PluginHelper::getPlugin('quickicon', 'joomlaupdate');
-
                 $plugin = new Joomlaupdate(
-                    $container->get(DispatcherInterface::class),
                     Factory::getApplication()->getDocument(),
-                    (array) $plugin
+                    (array) PluginHelper::getPlugin('quickicon', 'joomlaupdate')
                 );
                 $plugin->setApplication(Factory::getApplication());
 
