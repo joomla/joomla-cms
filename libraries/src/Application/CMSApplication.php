@@ -900,9 +900,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
         if ($response->status === Authentication::STATUS_SUCCESS) {
             /*
-            * Validate that the user should be able to login (different to being authenticated).
-            * This permits authentication plugins blocking the user.
-            */
+             * Validate that the user should be able to login (different to being authenticated).
+             * This permits authentication plugins blocking the user.
+             */
             $authorisations = $authenticate->authorise($response, $options);
             $denied_states  = Authentication::STATUS_EXPIRED | Authentication::STATUS_DENIED;
 
