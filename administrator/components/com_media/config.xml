@@ -23,7 +23,7 @@
 			type="text"
 			label="COM_MEDIA_FIELD_PATH_FILE_FOLDER_LABEL"
 			description="COM_MEDIA_FIELD_PATH_FILE_FOLDER_DESC"
-			default="images"
+			default="files"
 			validate="folderPathExists"
 			exclude="administrator|api|cache|cli|components|includes|language|layouts|libraries|media|modules|plugins|templates|tmp"
 		/>

@@ -12,12 +12,11 @@ namespace Joomla\Component\Mails\Administrator\View\Template;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Mails\Administrator\Helper\MailsHelper;
+use Joomla\Component\Mails\Administrator\Model\TemplateModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -76,19 +75,18 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state  = $this->get('State');
-        $this->item   = $this->get('Item');
-        $this->master = $this->get('Master');
-        $this->form   = $this->get('Form');
+        /** @var TemplateModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-        // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        $this->state  = $model->getState();
+        $this->item   = $model->getItem();
+        $this->master = $model->getMaster();
+        $this->form   = $model->getForm();
 
-        list($extension, $template_id) = explode('.', $this->item->template_id, 2);
-        $fields                        = ['subject', 'body', 'htmlbody'];
-        $this->templateData            = [];
+        [$extension, $template_id] = explode('.', $this->item->template_id, 2);
+        $fields                    = ['subject', 'body', 'htmlbody'];
+        $this->templateData        = [];
 
         MailsHelper::loadTranslationFiles($extension, $this->item->language);
 

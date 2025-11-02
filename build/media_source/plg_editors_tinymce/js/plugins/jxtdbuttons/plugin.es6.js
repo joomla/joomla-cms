@@ -2,7 +2,6 @@
  * @copyright  (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-// eslint-disable-next-line import/no-unresolved
 import { JoomlaEditor, JoomlaEditorButton } from 'editor-api';
 
 /**
@@ -44,7 +43,6 @@ const pluginSetUp = (editor) => {
       } else if (xtdButton.bsModal) {
         document.getElementById(`${xtdButton.id}_modal`).open();
       } else if (xtdButton.click) {
-        // eslint-disable-next-line no-new-func
         new Function(xtdButton.click)();
       }
     };

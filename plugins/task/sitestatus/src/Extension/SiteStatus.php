@@ -14,7 +14,6 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
@@ -98,16 +97,15 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor.
      *
-     * @param   DispatcherInterface  $dispatcher  The dispatcher
      * @param   array                $config      An optional associative array of configuration settings
      * @param   array                $oldConfig   The old config
      * @param   string               $configFile  The config
      *
      * @since   4.2.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, array $oldConfig, string $configFile)
+    public function __construct(array $config, array $oldConfig, string $configFile)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->oldConfig  = $oldConfig;
         $this->configFile = $configFile;
@@ -171,7 +169,7 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
             // Attempt to write the configuration file as a PHP class named JConfig.
             $configuration = $config->toString('PHP', ['class' => 'JConfig', 'closingtag' => false]);
             File::write($file, $configuration);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_SITE_STATUS_ERROR_WRITE_FAILED'), 'error');
 
             return Status::KNOCKOUT;
