@@ -432,7 +432,7 @@ final class Fields extends CMSPlugin implements SubscriberInterface
                     /*
                     * Event allow plugins to modify the output of the field before it is display
                     */
-                    Factory::getApplication()->triggerEvent('onCustomFieldsBeforeDisplay', [$context, $item, &$field, $displayType, &$params]);
+                    $this->getApplication()->triggerEvent('onCustomFieldsBeforeDisplay', [$context, $item, &$field, $displayType, &$params]);
 
                     continue;
                 }
