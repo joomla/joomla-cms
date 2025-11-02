@@ -226,7 +226,7 @@ class FormView extends HtmlView
                 'btn-success'
             );
 
-            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable) {
+            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->get('params')->get('save_history', 0) && $itemEditable) {
                 ToolbarHelper::versions($this->option . '.' . $viewName, $this->item->id);
             }
 
