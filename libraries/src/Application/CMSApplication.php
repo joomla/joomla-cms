@@ -905,14 +905,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $denied_states  = Authentication::STATUS_EXPIRED | Authentication::STATUS_DENIED;
 
             // Validate that $authorisations is an array before iterating
-            if (!is_array($authorisations)) {
+            if (!\is_array($authorisations)) {
                 // Log the issue for debugging purposes
                 \JLog::add(
-                    sprintf(
+                    \sprintf(
                         'Invalid data type for $authorisations in %s on line %d. Expected array, got %s.',
                         __FILE__,
                         __LINE__,
-                        gettype($authorisations)
+                        \gettype($authorisations)
                     ),
                     \JLog::WARNING,
                     'api'
@@ -924,7 +924,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
             foreach ($authorisations as $authorisation) {
                 // Ensure $authorisation is an object and has the 'status' property
-                if (is_object($authorisation) && property_exists($authorisation, 'status')) {
+                if (\is_object($authorisation) && property_exists($authorisation, 'status')) {
                     if ((int) $authorisation->status & $denied_states) {
                         // Trigger onUserAuthorisationFailure Event.
                         $dispatcher->dispatch('onUserAuthorisationFailure', new AuthorisationFailureEvent('onUserAuthorisationFailure', [
@@ -958,7 +958,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                 } else {
                     // Log a warning if the structure is unexpected
                     \JLog::add(
-                        sprintf(
+                        \sprintf(
                             'Invalid authorisation object or missing status property in %s on line %d.',
                             __FILE__,
                             __LINE__
