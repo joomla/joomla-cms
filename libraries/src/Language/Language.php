@@ -62,7 +62,7 @@ class Language extends BaseLanguage
      * @var    callable
      * @since  1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     protected $ignoredSearchWordsCallback = null;
 
@@ -72,7 +72,7 @@ class Language extends BaseLanguage
      * @var    callable
      * @since  1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     protected $lowerLimitSearchWordCallback = null;
 
@@ -82,7 +82,7 @@ class Language extends BaseLanguage
      * @var    callable
      * @since  1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     protected $upperLimitSearchWordCallback = null;
 
@@ -92,7 +92,7 @@ class Language extends BaseLanguage
      * @var    callable
      * @since  1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     protected $searchDisplayedCharactersNumberCallback = null;
 
@@ -204,7 +204,7 @@ class Language extends BaseLanguage
      *
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the language factory instead
      *              Example: Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($lang, $debug);
      */
@@ -406,7 +406,7 @@ class Language extends BaseLanguage
      *
      * @since   1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     public function getIgnoredSearchWords()
     {
@@ -424,7 +424,7 @@ class Language extends BaseLanguage
      *
      * @since   1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     public function getIgnoredSearchWordsCallback()
     {
@@ -440,7 +440,7 @@ class Language extends BaseLanguage
      *
      * @since   1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     public function setIgnoredSearchWordsCallback(callable $function)
     {
@@ -457,7 +457,7 @@ class Language extends BaseLanguage
      *
      * @since   1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     public function getLowerLimitSearchWord()
     {
@@ -475,7 +475,7 @@ class Language extends BaseLanguage
      *
      * @since   1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     public function getLowerLimitSearchWordCallback()
     {
@@ -491,7 +491,7 @@ class Language extends BaseLanguage
      *
      * @since   1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     public function setLowerLimitSearchWordCallback(callable $function)
     {
@@ -508,7 +508,7 @@ class Language extends BaseLanguage
      *
      * @since   1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     public function getUpperLimitSearchWord()
     {
@@ -526,7 +526,7 @@ class Language extends BaseLanguage
      *
      * @since   1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     public function getUpperLimitSearchWordCallback()
     {
@@ -542,7 +542,7 @@ class Language extends BaseLanguage
      *
      * @since   1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     public function setUpperLimitSearchWordCallback(callable $function)
     {
@@ -559,7 +559,7 @@ class Language extends BaseLanguage
      *
      * @since   1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     public function getSearchDisplayedCharactersNumber()
     {
@@ -577,7 +577,7 @@ class Language extends BaseLanguage
      *
      * @since   1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     public function getSearchDisplayedCharactersNumberCallback()
     {
@@ -593,7 +593,7 @@ class Language extends BaseLanguage
      *
      * @since   1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     public function setSearchDisplayedCharactersNumberCallback(callable $function)
     {
