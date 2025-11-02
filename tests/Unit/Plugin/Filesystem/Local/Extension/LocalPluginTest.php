@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\User\User;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Provider\ProviderManager;
-use Joomla\Event\Dispatcher;
 use Joomla\Plugin\Filesystem\Local\Extension\Local;
 use Joomla\Tests\Unit\UnitTestCase;
 
@@ -40,9 +39,7 @@ class LocalPluginTest extends UnitTestCase
      */
     public function testID()
     {
-        $dispatcher = new Dispatcher();
-
-        $plugin = new Local($dispatcher, ['name' => 'test'], __DIR__);
+        $plugin = new Local(['name' => 'test'], __DIR__);
 
         $this->assertEquals('test', $plugin->getID());
     }
@@ -56,15 +53,13 @@ class LocalPluginTest extends UnitTestCase
      */
     public function testDisplayName()
     {
-        $dispatcher = new Dispatcher();
-
         $language = $this->createStub(Language::class);
         $language->method('_')->willReturn('test');
 
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Local($dispatcher, [], __DIR__);
+        $plugin = new Local([], __DIR__);
         $plugin->setApplication($app);
 
         $this->assertEquals('test', $plugin->getDisplayName());
@@ -79,14 +74,12 @@ class LocalPluginTest extends UnitTestCase
      */
     public function testSetupProviders()
     {
-        $dispatcher = new Dispatcher();
-
         $manager = new ProviderManager();
 
         $event = new MediaProviderEvent('test');
         $event->setProviderManager($manager);
 
-        $plugin = new Local($dispatcher, ['name' => 'test'], __DIR__);
+        $plugin = new Local(['name' => 'test'], __DIR__);
         $plugin->onSetupProviders($event);
 
         $this->assertEquals(['test' => $plugin], $manager->getProviders());
@@ -102,12 +95,10 @@ class LocalPluginTest extends UnitTestCase
      */
     public function testAdapters()
     {
-        $dispatcher = new Dispatcher();
-
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getIdentity')->willReturn(new User());
 
-        $plugin   = new Local($dispatcher, ['params' => ['directories' => '[{"directory": "tests"}]']], JPATH_ROOT);
+        $plugin   = new Local(['params' => ['directories' => '[{"directory": "tests"}]']], JPATH_ROOT);
         $plugin->setApplication($app);
         $adapters = $plugin->getAdapters();
 
@@ -125,9 +116,8 @@ class LocalPluginTest extends UnitTestCase
     public function testAdaptersInvalidDirectory()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $dispatcher = new Dispatcher();
 
-        $plugin = new Local($dispatcher, ['params' => ['directories' => '[{"directory": "invalid"}]']], __DIR__);
+        $plugin = new Local(['params' => ['directories' => '[{"directory": "invalid"}]']], __DIR__);
         $plugin->getAdapters();
     }
 }

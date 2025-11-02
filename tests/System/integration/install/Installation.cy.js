@@ -28,9 +28,6 @@ describe('Install Joomla', () => {
     cy.setErrorReportingToDevelopment();
     cy.doAdministratorLogout();
 
-    // Update to the correct secret for the API tests because of the bearer token
-    cy.config_setParameter('secret', 'tEstValue');
-
     // Setup mailing
     cy.config_setParameter('mailonline', true);
     cy.config_setParameter('mailer', 'smtp');
