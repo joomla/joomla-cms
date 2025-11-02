@@ -100,7 +100,7 @@ class OverridesController extends ApiController
         $data = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
 
         // @todo: Not the cleanest thing ever but it works...
-        Form::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . '/forms');
+        Form::addFormPath(JPATH_ADMINISTRATOR . '/components/com_languages/forms');
 
         // Validate the posted data.
         $form = $model->getForm($data, false);

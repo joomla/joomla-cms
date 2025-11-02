@@ -208,7 +208,6 @@
      *
      * @since   2.5
      */
-    // eslint-disable-next-line class-methods-use-this
     selectString(id) {
       document.getElementById('jform_key').value = document.getElementById(`override_key${id}`).innerHTML;
       document.getElementById('jform_override').value = document.getElementById(`override_string${id}`).innerHTML;

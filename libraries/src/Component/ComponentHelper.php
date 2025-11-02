@@ -383,7 +383,7 @@ class ComponentHelper
         $loader = function () {
             $db    = Factory::getDbo();
             $query = $db->getQuery(true)
-                ->select($db->quoteName(['extension_id', 'element', 'params', 'enabled', 'manifest_cache'], ['id', 'option', null, null, null]))
+                ->select($db->quoteName(['extension_id', 'element', 'params', 'enabled'], ['id', 'option', null, null]))
                 ->from($db->quoteName('#__extensions'))
                 ->where(
                     [
@@ -397,9 +397,6 @@ class ComponentHelper
             $db->setQuery($query);
 
             foreach ($db->getIterator() as $component) {
-                $component->namespace = (new Registry($component->manifest_cache))->get('namespace');
-                unset($component->manifest_cache);
-
                 $components[$component->option] = new ComponentRecord((array) $component);
             }
 
@@ -411,7 +408,7 @@ class ComponentHelper
 
         try {
             static::$components = $cache->get($loader, [], __METHOD__);
-        } catch (CacheExceptionInterface $e) {
+        } catch (CacheExceptionInterface) {
             static::$components = $loader();
         }
 

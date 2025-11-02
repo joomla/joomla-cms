@@ -63,7 +63,7 @@ abstract class ModuleHelper
         }
 
         // If we didn't find it, and the name is mod_something, create a dummy object
-        if ($result === null && strpos($name, 'mod_') === 0) {
+        if ($result === null && str_starts_with($name, 'mod_')) {
             $result         = static::createDummyModule();
             $result->module = $name;
         }
@@ -208,7 +208,7 @@ abstract class ModuleHelper
         // If the $module is nulled it will return an empty content, otherwise it will render the module normally.
         $brEvent = $dispatcher->dispatch('onRenderModule', new Module\BeforeRenderModuleEvent('onRenderModule', [
             'subject'    => $module,
-            'attributes' => &$attribs, // @todo: Remove reference in Joomla 6, see BeforeRenderModuleEvent::__constructor()
+            'attributes' => &$attribs, // @todo: Remove reference in Joomla 7, see BeforeRenderModuleEvent::__constructor()
         ]));
         // Get final attributes
         $attribs = $brEvent->getArgument('attributes', $attribs);
@@ -319,7 +319,7 @@ abstract class ModuleHelper
         $defaultLayout = $layout;
         $template      = $templateObj->template;
 
-        if (strpos($layout, ':') !== false) {
+        if (str_contains($layout, ':')) {
             // Get the template and file name from the string
             $temp          = explode(':', $layout);
             $template      = $temp[0] === '_' ? $template : $temp[0];
@@ -334,7 +334,7 @@ abstract class ModuleHelper
             $tPath = Path::check(JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php');
             $iPath = Path::check(JPATH_THEMES . '/' . $templateObj->parent . '/html/' . $module . '/' . $layout . '.php');
             $bPath = Path::check(JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // On error fallback to the default path
             return $dPath;
         }
@@ -374,7 +374,7 @@ abstract class ModuleHelper
         $modules    = [];
 
         $modules = $dispatcher->dispatch('onPrepareModuleList', new Module\PrepareModuleListEvent('onPrepareModuleList', [
-            'modules' => &$modules, // @todo: Remove reference in Joomla 6, see PrepareModuleListEvent::__constructor()
+            'modules' => &$modules, // @todo: Remove reference in Joomla 7, see PrepareModuleListEvent::__constructor()
         ]))->getArgument('modules', $modules);
 
         // If the onPrepareModuleList event returns an array of modules, then ignore the default module list creation
@@ -383,13 +383,13 @@ abstract class ModuleHelper
         }
 
         $modules = $dispatcher->dispatch('onAfterModuleList', new Module\AfterModuleListEvent('onAfterModuleList', [
-            'modules' => &$modules, // @todo: Remove reference in Joomla 6, see AfterModuleListEvent::__constructor()
+            'modules' => &$modules, // @todo: Remove reference in Joomla 7, see AfterModuleListEvent::__constructor()
         ]))->getArgument('modules', $modules);
 
         $modules = static::cleanModuleList($modules);
 
         $modules = $dispatcher->dispatch('onAfterCleanModuleList', new Module\AfterCleanModuleListEvent('onAfterCleanModuleList', [
-            'modules' => &$modules, // @todo: Remove reference in Joomla 6, see AfterCleanModuleListEvent::__constructor()
+            'modules' => &$modules, // @todo: Remove reference in Joomla 7, see AfterCleanModuleListEvent::__constructor()
         ]))->getArgument('modules', $modules);
 
         return $modules;

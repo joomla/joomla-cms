@@ -101,7 +101,7 @@ class UrlRule extends FormRule
         $urlScheme = (string) $urlParts['scheme'];
         $urlScheme = strtolower($urlScheme);
 
-        if (\in_array($urlScheme, $scheme) == false) {
+        if (!\in_array($urlScheme, $scheme)) {
             return false;
         }
 

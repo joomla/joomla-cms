@@ -39,9 +39,9 @@ $mediaTypes = '&mediatypes=' . $input->getString('mediatypes', '0,1,2,3');
 $config = [
     'apiBaseUrl'          => Uri::base() . 'index.php?option=com_media&format=json' . $mediaTypes,
     'csrfToken'           => Session::getFormToken(),
-    'filePath'            => $params->get('file_path', 'images'),
-    'fileBaseUrl'         => Uri::root() . $params->get('file_path', 'images'),
-    'fileBaseRelativeUrl' => $params->get('file_path', 'images'),
+    'filePath'            => $params->get('file_path', 'files'),
+    'fileBaseUrl'         => Uri::root() . $params->get('file_path', 'files'),
+    'fileBaseRelativeUrl' => $params->get('file_path', 'files'),
     'editViewUrl'         => Uri::base() . 'index.php?option=com_media&view=file' . ($tmpl ? '&tmpl=' . $tmpl : '')  . $mediaTypes,
     'imagesExtensions'    => array_map('trim', explode(',', $params->get('image_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif'))),
     'audioExtensions'     => array_map('trim', explode(',', $params->get('audio_extensions', 'mp3,m4a,mp4a,ogg'))),
