@@ -13,16 +13,16 @@ namespace Joomla\Component\Guidedtours\Administrator\View\Tour;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Guidedtours\Administrator\Model\TourModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * View to edit an tour.
+ * View to edit a tour.
  *
  * @since 4.3.0
  */
@@ -68,13 +68,13 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->form  = $this->get('Form');
-        $this->item  = $this->get('Item');
-        $this->state = $this->get('State');
+        /** @var TourModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-        if (\count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        $this->form  = $model->getForm();
+        $this->item  = $model->getItem();
+        $this->state = $model->getState();
 
         $this->addToolbar();
 

@@ -48,8 +48,6 @@ class ModuletagField extends ListField
             $options[] = $tmp;
         }
 
-        reset($options);
-
         return $options;
     }
 }

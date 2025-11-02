@@ -2,17 +2,19 @@
  * @copyright  (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-// eslint-disable-next-line import/no-unresolved
 import { JoomlaEditor, JoomlaEditorButton } from 'editor-api';
 
 /**
  * @param {Editor} editor
  */
 const pluginSetUp = (editor) => {
-  editor.options.register('joomlaExtButtons', { processor: 'object', default: { names: [] } });
+  editor.options.register('joomlaExtButtons', {
+    // Check for Object with list of buttons, or empty list
+    processor: (val) => (typeof val === 'object' && Array.isArray(val.names)) || (Array.isArray(val) && val.length === 0),
+  });
 
   // Get buttons list
-  const buttons = editor.options.get('joomlaExtButtons').names || [];
+  const buttons = editor.options.get('joomlaExtButtons')?.names || [];
 
   if (!buttons.length) {
     return;
@@ -41,7 +43,6 @@ const pluginSetUp = (editor) => {
       } else if (xtdButton.bsModal) {
         document.getElementById(`${xtdButton.id}_modal`).open();
       } else if (xtdButton.click) {
-        // eslint-disable-next-line no-new-func
         new Function(xtdButton.click)();
       }
     };

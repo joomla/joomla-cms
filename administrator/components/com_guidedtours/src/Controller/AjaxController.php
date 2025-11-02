@@ -37,9 +37,9 @@ class AjaxController extends BaseController
     {
         $user = $this->app->getIdentity();
 
-        $tourId     = $this->app->input->getInt('tid', 0);
-        $stepNumber = $this->app->input->getInt('sid', 0);
-        $context    = $this->app->input->getString('context', '');
+        $tourId     = $this->app->getInput()->getInt('tid', 0);
+        $stepNumber = $this->app->getInput()->getInt('sid', 0);
+        $context    = $this->app->getInput()->getString('context', '');
 
         if ($user == null || $user->id <= 0) {
             echo new JsonResponse(['success' => false, 'tourId' => $tourId], Text::_('COM_GUIDEDTOURS_USERSTATE_CONNECTEDONLY'), true);

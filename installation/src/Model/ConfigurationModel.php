@@ -371,6 +371,7 @@ class ConfigurationModel extends BaseInstallationModel
         $registry->set('captcha', '0');
         $registry->set('list_limit', 20);
         $registry->set('access', 1);
+        $registry->set('frontediting', 1);
 
         // Debug settings.
         $registry->set('debug', false);
@@ -401,6 +402,12 @@ class ConfigurationModel extends BaseInstallationModel
 
         // Locale settings.
         $registry->set('offset', 'UTC');
+
+        // CORS settings.
+        $registry->set('cors', false);
+        $registry->set('cors_allow_origin', '*');
+        $registry->set('cors_allow_methods', '');
+        $registry->set('cors_allow_headers', 'Content-Type,X-Joomla-Token');
 
         // Mail settings.
         $registry->set('mailonline', true);
@@ -560,6 +567,18 @@ class ConfigurationModel extends BaseInstallationModel
 
         try {
             $db->execute();
+
+            // Synch the sequence if pgsql
+            if (($db->getServerType() === 'postgresql') && (!$result)) {
+                $query = $db->getQuery(true)
+                    ->select('MAX(' . $db->quoteName('id') . ') + 1 AS ' . $db->quoteName('id'))
+                    ->from($db->quoteName('#__users'));
+                $db->setQuery($query);
+                $result = $db->loadResult();
+
+                $db->setQuery('SELECT setval(' . $db->quote('#__users_id_seq') . ', ' .  $result . ', false)')
+                    ->execute();
+            }
         } catch (\RuntimeException $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 

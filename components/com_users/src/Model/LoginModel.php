@@ -148,7 +148,7 @@ class LoginModel extends FormModel
 
         try {
             return $db->loadResult();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return '';
         }
     }

@@ -270,13 +270,13 @@ class ApiController extends BaseController
         $move         = $content->get('move', true);
 
         if ($mediaContent != null) {
-            $this->checkContent();
+            $this->checkFileSize(\strlen($mediaContent));
 
             $this->getModel()->updateFile($adapter, $name, str_replace($name, '', $path), $mediaContent);
         }
 
         if ($newPath != null && $newPath !== $adapter . ':' . $path) {
-            list($destinationAdapter, $destinationPath) = explode(':', $newPath, 2);
+            [$destinationAdapter, $destinationPath] = explode(':', $newPath, 2);
 
             if ($move) {
                 $destinationPath = $this->getModel()->move($adapter, $path, $destinationPath, false);

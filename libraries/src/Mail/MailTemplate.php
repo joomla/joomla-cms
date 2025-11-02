@@ -328,13 +328,12 @@ class MailTemplate
                 $htmlBody = nl2br($this->replaceTags(Text::_($mail->body), $plainData, true), false);
             }
 
-            $htmlBody = MailHelper::convertRelativeToAbsoluteUrls($htmlBody);
-
             if ($useLayout) {
                 // Add additional data to the layout template
                 $this->addLayoutTemplateData([
                     'siteName' => $app->get('sitename'),
                     'lang'     => substr($this->language, 0, 2),
+                    'mail'     => $mail,
                 ]);
 
                 $layout = $config->get('mail_htmllayout', 'mailtemplate');
@@ -380,6 +379,8 @@ class MailTemplate
 
                 $htmlBody = $this->replaceTags(Text::_($htmlBody), $this->data);
             }
+
+            $htmlBody = MailHelper::convertRelativeToAbsoluteUrls($htmlBody);
 
             $this->mailer->setBody($htmlBody);
         }

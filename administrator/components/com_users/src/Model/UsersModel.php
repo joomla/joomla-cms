@@ -360,6 +360,14 @@ class UsersModel extends ListModel
             }
         }
 
+        // If the model is set to check receive system email, add to the query.
+        $receiveSystemEmail = $this->getState('filter.receiveSystemEmail');
+
+        if (is_numeric($receiveSystemEmail)) {
+            $query->where($db->quoteName('a.sendEmail') . ' = :receiveSystemEmail')
+                ->bind(':receiveSystemEmail', $receiveSystemEmail, ParameterType::INTEGER);
+        }
+
         // Filter the items over the group id if set.
         $groupId = $this->getState('filter.group_id');
         $groups  = $this->getState('filter.groups');
@@ -598,7 +606,7 @@ class UsersModel extends ListModel
 
         try {
             $result = $db->setQuery($query)->loadColumn();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $result = [];
         }
 

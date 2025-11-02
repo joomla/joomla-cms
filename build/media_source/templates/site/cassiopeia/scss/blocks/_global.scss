@@ -7,6 +7,12 @@
   @media screen and (prefers-reduced-motion: reduce) {
     scroll-behavior: auto;
   }
+
+  &:has(.sticky-top) {
+    [id] {
+      scroll-margin-top: var(--cassiopeia-scroll-margin-top, 10rem);
+    }
+  }
 }
 
 html {

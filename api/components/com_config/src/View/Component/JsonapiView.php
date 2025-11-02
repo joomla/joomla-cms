@@ -128,7 +128,7 @@ class JsonapiView extends BaseApiView
      */
     protected function prepareItem($item)
     {
-        $item->id = ExtensionHelper::getExtensionRecord($this->get('component_name'), 'component')->extension_id;
+        $item->id = ExtensionHelper::getExtensionRecord($this->component_name, 'component')->extension_id;
 
         return $item;
     }

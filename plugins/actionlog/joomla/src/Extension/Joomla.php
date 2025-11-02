@@ -24,7 +24,6 @@ use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Component\Actionlogs\Administrator\Plugin\ActionLogPlugin;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
@@ -78,14 +77,13 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
     /**
      * Constructor.
      *
-     * @param   DispatcherInterface  $dispatcher  The dispatcher
      * @param   array                $config      An optional associative array of configuration settings
      *
      * @since   3.9.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config)
+    public function __construct(array $config)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $params = ComponentHelper::getComponent('com_actionlogs')->getParams();
 
@@ -164,7 +162,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             return;
         }
 
-        list($option, $contentType) = explode('.', $params->type_alias);
+        [$option, $contentType] = explode('.', $params->type_alias);
 
         if (!$this->checkLoggable($option)) {
             return;
@@ -183,13 +181,13 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             $messageLanguageKey = $defaultLanguageKey;
         }
 
-        $id = empty($params->id_holder) ? 0 : $article->get($params->id_holder);
+        $id = empty($params->id_holder) ? 0 : $article->{$params->id_holder};
 
         $message = [
             'action'   => $isNew ? 'add' : 'update',
             'type'     => $params->text_prefix . '_TYPE_' . $params->type_title,
             'id'       => $id,
-            'title'    => $article->get($params->title_holder),
+            'title'    => $article->{$params->title_holder} ?? '',
             'itemlink' => ActionlogsHelper::getContentTypeLink($option, $contentType, $id, $params->id_holder, $article),
         ];
 
@@ -231,13 +229,13 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             $messageLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_DELETED';
         }
 
-        $id = empty($params->id_holder) ? 0 : $article->get($params->id_holder);
+        $id = empty($params->id_holder) ? 0 : $article->{$params->id_holder};
 
         $message = [
             'action' => 'delete',
             'type'   => $params->text_prefix . '_TYPE_' . $params->type_title,
             'id'     => $id,
-            'title'  => $article->get($params->title_holder),
+            'title'  => $article->{$params->title_holder} ?? '',
         ];
 
         $this->addLog([$message], $messageLanguageKey, $context);
@@ -272,7 +270,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             return;
         }
 
-        list(, $contentType) = explode('.', $params->type_alias);
+        [, $contentType] = explode('.', $params->type_alias);
 
         switch ($value) {
             case 0:
@@ -316,7 +314,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
 
         try {
             $items = $db->loadObjectList($params->id_holder);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $items = [];
         }
 
@@ -531,11 +529,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
         $table   = $event->getItem();
         $isNew   = $event->getIsNew();
 
-        $option = $this->getApplication()->getInput()->getCmd('option');
-
-        if ($table->module != null) {
-            $option = 'com_modules';
-        }
+        [$option] = explode('.', $context);
 
         if (!$this->checkLoggable($option)) {
             return;
@@ -548,7 +542,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             return;
         }
 
-        list(, $contentType) = explode('.', $params->type_alias);
+        [, $contentType] = explode('.', $params->type_alias);
 
         if ($isNew) {
             $messageLanguageKey = $params->text_prefix . '_' . $params->type_title . '_ADDED';
@@ -879,7 +873,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
 
         try {
             $loggedInUser = $db->loadObject();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return;
         }
 
@@ -1190,7 +1184,10 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             'version'     => JVERSION,
             'oldversion'  => $oldVersion,
         ];
-        $this->addLog([$message], 'PLG_ACTIONLOG_JOOMLA_USER_UPDATE', $context, $user->id);
+
+        $messageKey = ($user->id) ? 'PLG_ACTIONLOG_JOOMLA_USER_UPDATE' : 'PLG_ACTIONLOG_JOOMLA_SYSTEM_UPDATE';
+
+        $this->addLog([$message], $messageKey, $context, $user->id);
     }
 
     /**

@@ -35,7 +35,7 @@
     const selfChecked = isChecked(target);
 
     if (root) {
-      getTreeElements(root).map((element) => toggleState(element, selfChecked));
+      getTreeElements(root).forEach((element) => toggleState(element, selfChecked));
     }
   };
 

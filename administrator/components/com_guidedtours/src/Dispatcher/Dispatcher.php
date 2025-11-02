@@ -20,7 +20,7 @@ use Joomla\CMS\Dispatcher\ComponentDispatcher;
 /**
  * ComponentDispatcher class for com_guidedtours
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.2.0
  */
 class Dispatcher extends ComponentDispatcher
 {

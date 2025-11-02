@@ -30,7 +30,7 @@ describe('Test in backend that the user list', () => {
       cy.contains('Delete').click();
       cy.clickDialogConfirm(true);
 
-      cy.get('#system-message-container').contains('User deleted.').should('exist');
+      cy.checkForSystemMessage('User deleted.');
     });
   });
 

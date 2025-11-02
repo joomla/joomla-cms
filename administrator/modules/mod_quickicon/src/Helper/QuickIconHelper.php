@@ -137,7 +137,7 @@ class QuickIconHelper
                 $tmp = [
                     'image'   => 'icon-folder-open',
                     'link'    => Route::_('index.php?option=com_categories&view=categories&extension=com_content'),
-                    'linkadd' => Route::_('index.php?option=com_categories&task=category.add'),
+                    'linkadd' => Route::_('index.php?option=com_categories&task=category.add&extension=com_content'),
                     'name'    => 'MOD_QUICKICON_CATEGORY_MANAGER',
                     'access'  => ['core.manage', 'com_content', 'core.create', 'com_content'],
                     'group'   => 'MOD_QUICKICON_SITE',

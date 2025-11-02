@@ -628,7 +628,7 @@ class User
             $array['password'] = UserHelper::hashPassword($array['password']);
 
             // Set the registration timestamp
-            $this->set('registerDate', Factory::getDate()->toSql());
+            $this->registerDate = Factory::getDate()->toSql();
         } else {
             // Updating an existing user
             if (!empty($array['password'])) {
@@ -649,17 +649,21 @@ class User
 
                 $array['password'] = UserHelper::hashPassword($array['password']);
 
-                // Reset the change password flag
-                $array['requireReset'] = 0;
+                // Reset the change password flag if it was set previously
+                if ($this->requireReset) {
+                    $array['requireReset'] = 0;
+                }
             } else {
                 $array['password'] = $this->password;
             }
 
             // Prevent updating internal fields
-            unset($array['registerDate']);
-            unset($array['lastvisitDate']);
-            unset($array['lastResetTime']);
-            unset($array['resetCount']);
+            unset(
+                $array['registerDate'],
+                $array['lastvisitDate'],
+                $array['lastResetTime'],
+                $array['resetCount']
+            );
         }
 
         if (\array_key_exists('params', $array)) {
@@ -675,10 +679,8 @@ class User
         }
 
         // Bind the array
-        if (!$this->setProperties($array)) {
-            $this->setError(Text::_('JLIB_USER_ERROR_BIND_ARRAY'));
-
-            return false;
+        foreach ($array as $key => $value) {
+            $this->$key = $value;
         }
 
         // Make sure its an integer
@@ -703,7 +705,7 @@ class User
         // Create the user table object
         $table        = static::getTable();
         $this->params = (string) $this->_params;
-        $table->bind($this->getProperties());
+        $table->bind(ArrayHelper::fromObject($this, false));
 
         // Allow an exception to be thrown.
         try {
@@ -753,7 +755,7 @@ class User
             }
 
             // We are only worried about edits to this account if I am not a Super Admin.
-            if ($iAmSuperAdmin != true && $iAmRehashingSuperadmin != true && $isCli != true) {
+            if (!$iAmSuperAdmin && !$iAmRehashingSuperadmin && !$isCli) {
                 // I am not a Super Admin, and this one is, so fail.
                 if (!$isNew && Access::check($this->id, 'core.admin')) {
                     throw new \RuntimeException('User not Super Administrator');
@@ -769,14 +771,19 @@ class User
                 }
             }
 
+            // Unset the activation token, if the mail address changes - that affects both, activation and PW resets
+            if ($this->email !== $oldUser->email && $this->id !== 0 && !empty($this->activation) && !$this->block) {
+                $table->activation = '';
+            }
+
             // Fire the onUserBeforeSave event.
             $dispatcher = Factory::getApplication()->getDispatcher();
             PluginHelper::importPlugin('user', null, true, $dispatcher);
 
             $saveEvent = new BeforeSaveEvent('onUserBeforeSave', [
-                'subject' => $oldUser->getProperties(),
+                'subject' => ArrayHelper::fromObject($oldUser, false),
                 'isNew'   => $isNew,
-                'data'    => $this->getProperties(),
+                'data'    => ArrayHelper::fromObject($this, false),
             ]);
             $dispatcher->dispatch('onUserBeforeSave', $saveEvent);
             $result = $saveEvent['result'] ?? [];
@@ -801,7 +808,7 @@ class User
 
             // Fire the onUserAfterSave event
             $dispatcher->dispatch('onUserAfterSave', new AfterSaveEvent('onUserAfterSave', [
-                'subject'      => $this->getProperties(),
+                'subject'      => ArrayHelper::fromObject($this),
                 'isNew'        => $isNew,
                 'savingResult' => $result,
                 'errorMessage' => $this->getError() ?? '',
@@ -829,7 +836,7 @@ class User
 
         // Trigger the onUserBeforeDelete event
         $dispatcher->dispatch('onUserBeforeDelete', new BeforeDeleteEvent('onUserBeforeDelete', [
-            'subject' => $this->getProperties(),
+            'subject' => ArrayHelper::fromObject($this, false),
         ]));
 
         // Create the user table object
@@ -841,7 +848,7 @@ class User
 
         // Trigger the onUserAfterDelete event
         $dispatcher->dispatch('onUserAfterDelete', new AfterDeleteEvent('onUserAfterDelete', [
-            'subject'        => $this->getProperties(),
+            'subject'        => ArrayHelper::fromObject($this, false),
             'deletingResult' => $result,
             'errorMessage'   => $this->getError() ?? '',
         ]));
@@ -882,7 +889,9 @@ class User
         }
 
         // Assuming all is well at this point let's bind the data
-        $this->setProperties($table->getProperties());
+        foreach ($table->getProperties() as $key => $value) {
+            $this->$key = $value;
+        }
 
         // The user is no longer a guest
         if ($this->id != 0) {

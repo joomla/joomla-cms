@@ -75,7 +75,7 @@
 			hint="JOPTION_SELECT_AUTHOR"
 			class="js-select-submit-on-change"
 			>
-			<option value="0">JNONE</option>
+			<option value="0">JNONE_FILTER</option>
 			<option value="by_me">COM_CONTENT_FILTER_AUTHORS_BY_ME</option>
 		</field>
 
@@ -90,15 +90,31 @@
 		</field>
 
 		<field
+			name="checked_out"
+			type="list"
+			label="COM_CONTENT_CHECKED_OUT"
+			class="js-select-submit-on-change"
+			default=""
+			validate="options"
+			>
+			<option value="">COM_CONTENT_SELECT_CHECKED_OUT</option>
+			<option value="0">COM_CONTENT_FILTER_CHECKED_OUT_NO</option>
+			<option value="-1">COM_CONTENT_FILTER_CHECKED_OUT_YES</option>
+		</field>
+
+		<field
 			name="tag"
 			type="tag"
-			multiple="true"
 			label="JTAG"
-			hint="JOPTION_SELECT_TAG"
+			multiple="true"
 			mode="nested"
 			custom="false"
+			hint="JOPTION_SELECT_TAG"
 			class="js-select-submit-on-change"
-		/>
+			default=""
+			>
+			<option value="0">JNONE_FILTER</option>
+		</field>
 
 		<field
 			name="level"
@@ -126,6 +142,8 @@
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
 			<option value="a.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="ws.title ASC" requires="workflow">JSTAGE_ASC</option>
+			<option value="ws.title DESC" requires="workflow">JSTAGE_DESC</option>
 			<option value="a.featured ASC">JFEATURED_ASC</option>
 			<option value="a.featured DESC">JFEATURED_DESC</option>
 			<option value="a.state ASC">JSTATUS_ASC</option>

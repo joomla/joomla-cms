@@ -9,10 +9,10 @@
 
 namespace Joomla\CMS\Table;
 
-// phpcs:disable PSR1.Files.SideEffects
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Event\DispatcherInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
@@ -20,18 +20,20 @@ use Joomla\Event\DispatcherInterface;
  * UCM map table
  *
  * @since  3.1
+ * @deprecated  5.4.0 will be removed in 7.0 without replacement
  */
 class Ucm extends Table
 {
     /**
      * Constructor
      *
-     * @param   DatabaseDriver        $db          Database connector object
+     * @param   DatabaseInterface     $db          Database connector object
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   3.1
+     * @deprecated  5.4.0 will be removed in 7.0 without replacement
      */
-    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__ucm_base', 'ucm_id', $db, $dispatcher);
     }
