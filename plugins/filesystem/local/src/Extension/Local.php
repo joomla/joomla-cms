@@ -13,7 +13,7 @@ namespace Joomla\Plugin\Filesystem\Local\Extension;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
-use Joomla\Event\DispatcherInterface;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -27,7 +27,7 @@ use Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter;
  *
  * @since  4.0.0
  */
-final class Local extends CMSPlugin implements ProviderInterface
+final class Local extends CMSPlugin implements SubscriberInterface, ProviderInterface
 {
     /**
      * Affects constructor behavior. If true, language files will be loaded automatically.
@@ -36,6 +36,7 @@ final class Local extends CMSPlugin implements ProviderInterface
      * @since  4.0.0
      */
     protected $autoloadLanguage = true;
+
     /**
      * The root directory path
      *
@@ -45,17 +46,30 @@ final class Local extends CMSPlugin implements ProviderInterface
     private $rootDirectory;
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   5.4.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onSetupProviders' => 'onSetupProviders',
+        ];
+    }
+
+    /**
      * Constructor.
      *
-     * @param   DispatcherInterface  $dispatcher     The dispatcher
      * @param   array                $config         An optional associative array of configuration settings
      * @param   string               $rootDirectory  The root directory to look for images
      *
      * @since   4.3.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, string $rootDirectory)
+    public function __construct(array $config, string $rootDirectory)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->rootDirectory = $rootDirectory;
     }
@@ -95,7 +109,7 @@ final class Local extends CMSPlugin implements ProviderInterface
      */
     public function getDisplayName()
     {
-        return $this->getLanguage()->_('PLG_FILESYSTEM_LOCAL_DEFAULT_NAME');
+        return $this->getApplication()->getLanguage()->_('PLG_FILESYSTEM_LOCAL_DEFAULT_NAME');
     }
 
     /**
@@ -108,7 +122,7 @@ final class Local extends CMSPlugin implements ProviderInterface
     public function getAdapters()
     {
         $adapters    = [];
-        $directories = $this->params->get('directories', '[{"directory": "images", "thumbs": 0}]');
+        $directories = $this->params->get('directories', [(object) ['directory' => 'images', 'thumbs' => 0], (object) ['directory' => 'files']]);
 
         // Do a check if default settings are not saved by user, if not initialize them manually
         if (\is_string($directories)) {

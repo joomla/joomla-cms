@@ -161,7 +161,7 @@ class TufAdapter extends UpdateAdapter
 
         try {
             $values = $resolver->resolve($values);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 

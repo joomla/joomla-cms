@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
@@ -17,6 +18,8 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Updater\Updater;
+use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateRegisterState;
 use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -123,7 +126,7 @@ class UpdateController extends BaseController
         Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_INSTALL'), Log::INFO, 'Update');
 
         $file = $this->app->getUserState('com_joomlaupdate.file', null);
-        $model->createRestorationFile($file);
+        $model->createUpdateFile($file);
 
         $this->display();
     }
@@ -375,7 +378,7 @@ class UpdateController extends BaseController
 
         try {
             Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $tempFile), Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
 
@@ -709,6 +712,62 @@ class UpdateController extends BaseController
         $update[] = ['version' => $updateInfo['latest']];
 
         echo json_encode($update);
+
+        $this->app->close();
+    }
+
+    /**
+     * Fetch and report health status of the automated updates in \JSON format, for AJAX requests
+     *
+     * @return  void
+     *
+     * @since   5.4.0
+     */
+    public function healthstatus()
+    {
+        if (!Session::checkToken('get')) {
+            $this->app->setHeader('status', 403, true);
+            $this->app->sendHeaders();
+            echo Text::_('JINVALID_TOKEN_NOTICE');
+            $this->app->close();
+        }
+
+        $params = ComponentHelper::getParams('com_joomlaupdate');
+
+        // Edge case: the current state requires the registration, i.e. because it's a new installation
+        $registrationState = AutoupdateRegisterState::tryFrom($params->get('autoupdate_status', 0));
+
+        if (
+            $this->app->getIdentity()->authorise('core.admin', 'com_joomlaupdate')
+            && $registrationState === AutoupdateRegisterState::Subscribe
+        ) {
+            /** @var UpdateModel $model */
+            $model  = $this->getModel('Update');
+            $result = $model->changeAutoUpdateRegistration($registrationState);
+
+            $result = [
+                'active'  => true,
+                'healthy' => $result->value,
+            ];
+
+            echo json_encode($result);
+
+            $this->app->close();
+        }
+
+        // Default case: connection already configured, check update source and date
+        $lastCheck = date_create_from_format('Y-m-d H:i:s', $params->get('update_last_check', ''));
+
+        $result = [
+            'active' => (
+                (int) $params->get('autoupdate')
+                && $params->get('updatesource', 'default') === 'default'
+                && (int) $params->get('minimum_stability', Updater::STABILITY_STABLE) === Updater::STABILITY_STABLE
+            ),
+            'healthy' => (int) ($lastCheck !== false && $lastCheck->diff(new \DateTime())->days < 4),
+        ];
+
+        echo json_encode($result);
 
         $this->app->close();
     }

@@ -47,7 +47,6 @@ Joomla.initialiseTabs = (el, options) => {
 
             ul.appendChild(li);
 
-            // eslint-disable-next-line no-new
             new window.bootstrap.Tab(li);
           }
         });

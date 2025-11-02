@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
@@ -39,12 +40,13 @@ class ArticlesModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config    An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \JController
      * @since   1.6
      */
-    public function __construct($config = [])
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -70,7 +72,7 @@ class ArticlesModel extends ListModel
             ];
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -487,6 +489,24 @@ class ArticlesModel extends ListModel
         } elseif (!empty($authorWhere) || !empty($authorAliasWhere)) {
             // One of these is empty, the other is not so we just add both
             $query->where($authorWhere . $authorAliasWhere);
+        }
+
+        // Filter by checked_out status
+        $checkedOut = $this->getState('filter.checked_out', null);
+
+        if (is_numeric($checkedOut)) {
+            if ($checkedOut == -1) {
+                // Only checked out articles
+                $query->where($db->quoteName('a.checked_out') . ' > 0');
+            } elseif ($checkedOut == 0) {
+                // Only not checked out articles
+                $query->where('(' . $db->quoteName('a.checked_out') . ' = 0 OR ' . $db->quoteName('a.checked_out') . ' IS NULL)');
+            } else {
+                // Checked out by specific user
+                $checkedOut = (int) $checkedOut;
+                $query->where($db->quoteName('a.checked_out') . ' = :checkedOutUser')
+                    ->bind(':checkedOutUser', $checkedOut, ParameterType::INTEGER);
+            }
         }
 
         // Filter by start and end dates.

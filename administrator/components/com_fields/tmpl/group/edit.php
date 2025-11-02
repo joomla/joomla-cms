@@ -41,25 +41,22 @@ $this->useCoreUI = true;
                 <?php echo $this->form->renderField('description'); ?>
             </div>
             <div class="col-lg-3">
-                <?php $this->set(
-                    'fields',
-                    [
-                            [
-                                'published',
-                                'state',
-                                'enabled',
-                            ],
-                            'access',
-                            'language',
-                            'note',
-                        ]
-                ); ?>
+                <?php $this->fields = [
+                        [
+                            'published',
+                            'state',
+                            'enabled',
+                        ],
+                        'access',
+                        'language',
+                        'note',
+                    ]; ?>
                 <?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
-                <?php $this->set('fields', null); ?>
+                <?php $this->fields = null; ?>
             </div>
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
-        <?php $this->set('ignore_fieldsets', ['fieldparams']); ?>
+        <?php $this->ignore_fieldsets = ['fieldparams']; ?>
         <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
         <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
         <fieldset id="fieldset-rules" class="options-form">

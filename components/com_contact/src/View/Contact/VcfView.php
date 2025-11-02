@@ -13,6 +13,7 @@ namespace Joomla\Component\Contact\Site\View\Contact;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\Component\Contact\Site\Model\ContactModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -43,11 +44,12 @@ class VcfView extends AbstractView
      */
     public function display($tpl = null)
     {
-        // Get model data.
-        $item = $this->get('Item');
+        /** @var ContactModel $model */
+        $model = $this->getModel();
+        $item  = $model->getItem();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

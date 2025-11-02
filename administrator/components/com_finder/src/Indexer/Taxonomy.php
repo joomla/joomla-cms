@@ -306,23 +306,29 @@ class Taxonomy
      */
     public static function getBranchTitles()
     {
-        $db = Factory::getDbo();
+        static $titles;
 
-        // Set user variables
-        $groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
+        if ($titles === null) {
+            $db = Factory::getDbo();
 
-        // Create a query to get the taxonomy branch titles.
-        $query = $db->getQuery(true)
-            ->select($db->quoteName('title'))
-            ->from($db->quoteName('#__finder_taxonomy'))
-            ->where($db->quoteName('parent_id') . ' = 1')
-            ->where($db->quoteName('state') . ' = 1')
-            ->where($db->quoteName('access') . ' IN (' . $groups . ')');
+            // Set user variables
+            $groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
 
-        // Get the branch titles.
-        $db->setQuery($query);
+            // Create a query to get the taxonomy branch titles.
+            $query = $db->getQuery(true)
+                ->select($db->quoteName('title'))
+                ->from($db->quoteName('#__finder_taxonomy'))
+                ->where($db->quoteName('parent_id') . ' = 1')
+                ->where($db->quoteName('state') . ' = 1')
+                ->where($db->quoteName('access') . ' IN (' . $groups . ')');
 
-        return $db->loadColumn();
+            // Get the branch titles.
+            $db->setQuery($query);
+
+            $titles = $db->loadColumn();
+        }
+
+        return $titles;
     }
 
     /**
@@ -425,6 +431,7 @@ class Taxonomy
         $db           = Factory::getDbo();
         $nodeTable    = new MapTable($db);
         $query        = $db->getQuery(true);
+        $query2       = $db->getQuery(true);
 
         $query->select($db->quoteName('t.id'))
             ->from($db->quoteName('#__finder_taxonomy', 't'))
@@ -432,15 +439,22 @@ class Taxonomy
             ->where($db->quoteName('t.parent_id') . ' > 1 ')
             ->where('t.lft + 1 = t.rgt')
             ->where($db->quoteName('m.link_id') . ' IS NULL');
+        $query2->delete($db->quoteName('#__finder_taxonomy'));
 
         do {
             $db->setQuery($query);
             $nodes = $db->loadColumn();
 
-            foreach ($nodes as $node) {
-                $nodeTable->delete($node);
-                $affectedRows++;
+            if (!\count($nodes)) {
+                break;
             }
+
+            $query2->clear('where')->whereIn($db->quoteName('id'), $nodes);
+            $db->setQuery($query2);
+            $db->execute();
+            $affectedRows += $db->getAffectedRows();
+            $nodeTable->rebuild();
+            $nodeTable->rebuildPath();
         } while ($nodes);
 
         return $affectedRows;
