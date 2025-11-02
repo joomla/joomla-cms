@@ -205,7 +205,7 @@
         ulChild.setAttribute('aria-hidden', open ? 'false' : 'true');
         ulChild.classList.toggle(this.settings.menuHoverClass, open);
       });
-      target.querySelector(':scope > [aria-expanded]').setAttribute('aria-expanded', open ? 'true' : 'false');
+      target.querySelector(':scope > [aria-expanded]')?.setAttribute('aria-expanded', open ? 'true' : 'false');
     }
 
     focusTabbable(direction = 1) {
