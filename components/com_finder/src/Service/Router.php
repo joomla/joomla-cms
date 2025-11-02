@@ -66,7 +66,7 @@ class Router extends RouterView
         if (isset($query['Itemid'])) {
             $item = $this->menu->getItem($query['Itemid']);
 
-            if ($query['option'] == 'com_finder' && isset($query['f']) && isset($item->query['f']) && $query['f'] == $item->query['f']) {
+            if ($query['option'] == 'com_finder' && isset($query['f'], $item->query['f']) && $query['f'] == $item->query['f']) {
                 unset($query['f']);
             }
         }

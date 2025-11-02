@@ -12,11 +12,11 @@ namespace Joomla\Component\Workflow\Administrator\View\Transition;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Workflow\Administrator\Helper\StageHelper;
+use Joomla\Component\Workflow\Administrator\Model\TransitionModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -117,15 +117,13 @@ class HtmlView extends BaseHtmlView
         $this->app   = Factory::getApplication();
         $this->input = $this->app->getInput();
 
-        // Get the Data
-        $this->state      = $this->get('State');
-        $this->form       = $this->get('Form');
-        $this->item       = $this->get('Item');
+        /** @var TransitionModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-        // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        $this->state      = $model->getState();
+        $this->form       = $model->getForm();
+        $this->item       = $model->getItem();
 
         $extension = $this->state->get('filter.extension');
 
