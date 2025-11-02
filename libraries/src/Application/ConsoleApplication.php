@@ -299,6 +299,8 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
         return array_merge(
             parent::getDefaultCommands(),
             [
+                new Console\AutomatedUpdatesRegisterCommand(),
+                new Console\AutomatedUpdatesUnregisterCommand(),
                 new Console\CleanCacheCommand(),
                 new Console\CheckUpdatesCommand(),
                 new Console\CheckJoomlaUpdatesCommand(),

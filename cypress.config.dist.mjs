@@ -42,5 +42,6 @@ export default defineConfig({
     smtp_host: 'localhost',
     smtp_port: '1025',
     cmsPath: '.',
+    logFile: '',
   },
 });

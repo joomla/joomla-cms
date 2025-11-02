@@ -533,13 +533,6 @@ class UpdateModel extends ListModel
         Form::addFieldPath(JPATH_COMPONENT . '/models/fields');
         $form = Form::getInstance('com_installer.update', 'update', ['load_data' => $loadData]);
 
-        // Check for an error.
-        if ($form == false) {
-            $this->setError($form->getMessage());
-
-            return false;
-        }
-
         // Check the session for previously entered form data.
         $data = $this->loadFormData();
 
