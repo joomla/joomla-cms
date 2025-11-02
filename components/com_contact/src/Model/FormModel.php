@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Contact\Site\Model;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
@@ -84,7 +83,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
      *
      * @return  mixed  Contact item data object on success, false on failure.
      *
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since   4.0.0
      */
@@ -100,7 +99,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
             if (!$table->load($itemId)) {
                 return false;
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage());
 
             return false;
@@ -146,7 +145,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
      *
      * @since   4.0.0
      *
-     * @throws  Exception
+     * @throws  \Exception
      */
     public function save($data)
     {
@@ -174,7 +173,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
      *
      * @since   4.0.0
      *
-     * @throws  Exception
+     * @throws  \Exception
      */
     protected function populateState()
     {
@@ -229,7 +228,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
      *
      * @since   4.0.0
 
-     * @throws  Exception
+     * @throws  \Exception
      */
     public function getTable($name = 'Contact', $prefix = 'Administrator', $options = [])
     {

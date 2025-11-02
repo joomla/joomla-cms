@@ -11,13 +11,13 @@
 namespace Joomla\Component\Users\Administrator\Service\HTML;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -256,13 +256,15 @@ class Users
      */
     public function value($value)
     {
-        if (is_string($value)) {
+        if (\is_string($value)) {
             $value = trim($value);
         }
 
         if (empty($value)) {
             return Text::_('COM_USERS_PROFILE_VALUE_NOT_FOUND');
-        } elseif (!is_array($value)) {
+        }
+
+        if (!\is_array($value)) {
             return htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
         }
     }
@@ -294,22 +296,22 @@ class Users
     {
         if (empty($value)) {
             return static::value($value);
-        } else {
-            $db    = Factory::getDbo();
-            $query = $db->getQuery(true)
-                ->select($db->quoteName('title'))
-                ->from($db->quoteName('#__template_styles'))
-                ->where($db->quoteName('id') . ' = :id')
-                ->bind(':id', $value, ParameterType::INTEGER);
-            $db->setQuery($query);
-            $title = $db->loadResult();
-
-            if ($title) {
-                return htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
-            } else {
-                return static::value('');
-            }
         }
+
+        $db    = Factory::getDbo();
+        $query = $db->getQuery(true)
+            ->select($db->quoteName('title'))
+            ->from($db->quoteName('#__template_styles'))
+            ->where($db->quoteName('id') . ' = :id')
+            ->bind(':id', $value, ParameterType::INTEGER);
+        $db->setQuery($query);
+        $title = $db->loadResult();
+
+        if ($title) {
+            return htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
+        }
+
+        return static::value('');
     }
 
     /**
@@ -397,27 +399,27 @@ class Users
     {
         if (empty($value)) {
             return static::value($value);
-        } else {
-            $db    = Factory::getDbo();
-            $lang  = Factory::getLanguage();
-            $query = $db->getQuery(true)
-                ->select($db->quoteName('name'))
-                ->from($db->quoteName('#__extensions'))
-                ->where($db->quoteName('element') . ' = :element')
-                ->where($db->quoteName('folder') . ' = ' . $db->quote('editors'))
-                ->bind(':element', $value);
-            $db->setQuery($query);
-            $title = $db->loadResult();
-
-            if ($title) {
-                $lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR)
-                || $lang->load("plg_editors_$value.sys", JPATH_PLUGINS . '/editors/' . $value);
-                $lang->load($title . '.sys');
-
-                return Text::_($title);
-            } else {
-                return static::value('');
-            }
         }
+
+        $db    = Factory::getDbo();
+        $lang  = Factory::getLanguage();
+        $query = $db->getQuery(true)
+            ->select($db->quoteName('name'))
+            ->from($db->quoteName('#__extensions'))
+            ->where($db->quoteName('element') . ' = :element')
+            ->where($db->quoteName('folder') . ' = ' . $db->quote('editors'))
+            ->bind(':element', $value);
+        $db->setQuery($query);
+        $title = $db->loadResult();
+
+        if ($title) {
+            $lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR)
+            || $lang->load("plg_editors_$value.sys", JPATH_PLUGINS . '/editors/' . $value);
+            $lang->load($title . '.sys');
+
+            return Text::_($title);
+        }
+
+        return static::value('');
     }
 }

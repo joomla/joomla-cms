@@ -11,18 +11,17 @@
 namespace Joomla\Component\Fields\Administrator\View\Groups;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Component\Fields\Administrator\Model\GroupsModel;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -64,7 +63,7 @@ class HtmlView extends BaseHtmlView
     protected $pagination;
 
     /**
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var   \Joomla\Registry\Registry
      *
      * @since  3.7.0
      */
@@ -83,16 +82,15 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state         = $this->get('State');
-        $this->items         = $this->get('Items');
-        $this->pagination    = $this->get('Pagination');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
+        /** @var GroupsModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-        // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        $this->state         = $model->getState();
+        $this->items         = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
 
         // Display a warning if the fields system plugin is disabled
         if (!PluginHelper::isEnabled('system', 'fields')) {
@@ -120,7 +118,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $toolbar   = Toolbar::getInstance();
+        $toolbar   = $this->getDocument()->getToolbar();
         $groupId   = $this->state->get('filter.group_id');
         $component = '';
         $parts     = FieldsHelper::extract($this->state->get('filter.context'));
@@ -137,7 +135,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Load component language file
-        $lang = Factory::getLanguage();
+        $lang = $this->getLanguage();
         $lang->load($component, JPATH_ADMINISTRATOR)
         || $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
@@ -177,13 +175,17 @@ class HtmlView extends BaseHtmlView
             // Add a batch button
             if ($canDo->get('core.create') && $canDo->get('core.edit') && $canDo->get('core.edit.state')) {
                 $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
-                    ->selector('collapseModal')
+                    ->popupType('inline')
+                    ->textHeader(Text::_('COM_FIELDS_VIEW_GROUPS_BATCH_OPTIONS'))
+                    ->url('#joomla-dialog-batch')
+                    ->modalWidth('800px')
+                    ->modalHeight('fit-content')
                     ->listCheck(true);
             }
         }
 
         if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete', $component)) {
-            $toolbar->delete('groups.delete', 'JTOOLBAR_EMPTY_TRASH')
+            $toolbar->delete('groups.delete', 'JTOOLBAR_DELETE_FROM_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }

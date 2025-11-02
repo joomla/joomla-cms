@@ -15,7 +15,7 @@ use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Layout\LayoutHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -55,7 +55,7 @@ abstract class Bootstrap
             $scriptOptions = $doc->getScriptOptions('bootstrap.alert');
             $options       = [$selector];
 
-            if (is_array($scriptOptions)) {
+            if (\is_array($scriptOptions)) {
                 $options = array_merge($scriptOptions, $options);
             }
 
@@ -95,7 +95,7 @@ abstract class Bootstrap
             $scriptOptions = $doc->getScriptOptions('bootstrap.button');
             $options       = [$selector];
 
-            if (is_array($scriptOptions)) {
+            if (\is_array($scriptOptions)) {
                 $options = array_merge($scriptOptions, $options);
             }
 
@@ -125,35 +125,66 @@ abstract class Bootstrap
      *
      * Options for the carousel can be:
      * - interval  number   5000   The amount of time to delay between automatically cycling an item.
-     *                             If false, carousel will not automatically cycle.
      * - keyboard  boolean  true   Whether the carousel should react to keyboard events.
-     * - pause     string|  hover  Pauses the cycling of the carousel on mouseenter and resumes the cycling
-     *             boolean         of the carousel on mouseleave.
-     * - slide     string|  false  Autoplays the carousel after the user manually cycles the first item.
-     *             boolean         If "carousel", autoplays the carousel on load.
+     * - pause     string|  hover  If set to "hover", pauses the cycling of the carousel on mouseenter and resumes the
+     *             boolean         cycling of the carousel on mouseleave. If set to false, hovering over the carousel won’t
+     *                             pause it. On touch-enabled devices, when set to "hover", cycling will pause on touchend
+     *                             (once the user finished interacting with the carousel) for two intervals, before
+     *                             automatically resuming. This is in addition to the mouse behavior.
+     * - ride      string|  false  If set to true, autoplays the carousel after the user manually cycles the first item. If set
+     *             boolean         to "carousel", autoplays the carousel on load.
+     * - touch     boolean  true   Whether the carousel should support left/right swipe interactions on touchscreen devices.
+     * - wrap      boolean  true   Whether the carousel should cycle continuously or have hard stops.
      */
     public static function carousel($selector = '', $params = []): void
     {
-        // Only load once
         if (!empty(static::$loaded[__METHOD__][$selector])) {
             return;
         }
 
         if ($selector !== '') {
-            // Setup options object
-            $opt = [
-                'interval' => (isset($params['interval']) ? (int) $params['interval'] : 5000),
-                'keyboard' => (isset($params['keyboard']) ? (bool) $params['keyboard'] : true),
-                'pause'    => (isset($params['pause']) ? $params['pause'] : 'hover'),
-                'slide'    => (isset($params['slide']) ? (bool) $params['slide'] : false),
-                'wrap'     => (isset($params['wrap']) ? (bool) $params['wrap'] : true),
-                'touch'    => (isset($params['touch']) ? (bool) $params['touch'] : true),
-            ];
+            $opt['interval'] = 5000;
 
-            Factory::getDocument()->addScriptOptions('bootstrap.carousel', [$selector => (object) array_filter((array) $opt)]);
+            if (isset($params['interval']) && is_numeric($params['interval'])) {
+                $opt['interval'] = (int) $params['interval'];
+            }
+
+            $opt['keyboard'] = true;
+
+            if (isset($params['keyboard']) && \is_bool($params['keyboard'])) {
+                $opt['keyboard'] = $params['keyboard'];
+            }
+
+            $opt['pause'] = 'hover';
+
+            if (isset($params['pause']) && \in_array($params['pause'], ['hover', false], true)) {
+                $opt['pause'] = $params['pause'];
+            }
+
+            $opt['ride'] = false;
+
+            if (isset($params['ride']) && \in_array($params['ride'], ['carousel', true, false], true)) {
+                $opt['ride'] = $params['ride'];
+            }
+
+            $opt['touch'] = true;
+
+            if (isset($params['touch']) && \is_bool($params['touch'])) {
+                $opt['touch'] = $params['touch'];
+            }
+
+            $opt['wrap'] = true;
+
+            if (isset($params['wrap']) && \is_bool($params['wrap'])) {
+                $opt['wrap'] = $params['wrap'];
+            }
+
+            Factory::getApplication()->getDocument()->addScriptOptions(
+                'bootstrap.carousel',
+                [$selector => (object) $opt]
+            );
         }
 
-        // Include the Bootstrap component
         Factory::getApplication()
             ->getDocument()
             ->getWebAssetManager()
@@ -189,10 +220,10 @@ abstract class Bootstrap
         if ($selector !== '') {
             // Setup options object
             $opt           = [];
-            $opt['parent'] = isset($params['parent']) ? $params['parent'] : false;
-            $opt['toggle'] = isset($params['toggle']) ? (bool) $params['toggle'] : true;
+            $opt['parent'] = $params['parent'] ?? false;
+            $opt['toggle'] = (bool) ($params['toggle'] ?? true);
 
-            Factory::getDocument()->addScriptOptions('bootstrap.collapse', [$selector => (object) array_filter((array) $opt)]);
+            Factory::getDocument()->addScriptOptions('bootstrap.collapse', [$selector => (object) array_filter($opt)]);
         }
 
         // Include the Bootstrap component
@@ -230,13 +261,13 @@ abstract class Bootstrap
         if ($selector !== '') {
             // Setup options object
             $opt                 = [];
-            $opt['flip']         = isset($params['flip']) ? $params['flip'] : true;
-            $opt['boundary']     = isset($params['boundary']) ? $params['boundary'] : 'scrollParent';
-            $opt['reference']    = isset($params['reference']) ? $params['reference'] : 'toggle';
-            $opt['display']      = isset($params['display']) ? $params['display'] : 'dynamic';
-            $opt['popperConfig'] = isset($params['popperConfig']) ? (bool) $params['popperConfig'] : true;
+            $opt['flip']         = $params['flip'] ?? true;
+            $opt['boundary']     = $params['boundary'] ?? 'scrollParent';
+            $opt['reference']    = $params['reference'] ?? 'toggle';
+            $opt['display']      = $params['display'] ?? 'dynamic';
+            $opt['popperConfig'] = (bool) ($params['popperConfig'] ?? true);
 
-            Factory::getDocument()->addScriptOptions('bootstrap.dropdown', [$selector => (object) array_filter((array) $opt)]);
+            Factory::getDocument()->addScriptOptions('bootstrap.dropdown', [$selector => (object) array_filter($opt)]);
         }
 
         // Include the Bootstrap component
@@ -274,12 +305,12 @@ abstract class Bootstrap
         if ($selector !== '') {
             // Setup options object
             $opt = [
-                'backdrop' => (isset($options['backdrop']) ? $options['backdrop'] : false),
-                'keyboard' => (isset($options['keyboard']) ? (bool) $options['keyboard'] : true),
-                'focus'    => (isset($options['focus']) ? (bool) $options['focus'] : true),
+                'backdrop' => $options['backdrop'] ?? false,
+                'keyboard' => (bool) ($options['keyboard'] ?? true),
+                'focus'    => (bool) ($options['focus'] ?? true),
             ];
 
-            Factory::getDocument()->addScriptOptions('bootstrap.modal', [$selector => (object) array_filter((array) $opt)]);
+            Factory::getDocument()->addScriptOptions('bootstrap.modal', [$selector => (object) array_filter($opt)]);
         }
 
         // Include the Bootstrap component
@@ -316,12 +347,12 @@ abstract class Bootstrap
         if ($selector !== '') {
             // Setup options object
             $opt = [
-                'backdrop' => (isset($options['backdrop']) ? (bool) $options['backdrop'] : true),
-                'keyboard' => (isset($options['keyboard']) ? (bool) $options['keyboard'] : true),
-                'scroll'   => (isset($options['scroll']) ? (bool) $options['scroll'] : false),
+                'backdrop' => (bool) ($options['backdrop'] ?? true),
+                'keyboard' => (bool) ($options['keyboard'] ?? true),
+                'scroll'   => (bool) ($options['scroll'] ?? false),
             ];
 
-            Factory::getDocument()->addScriptOptions('bootstrap.offcanvas', [$selector => (object) array_filter((array) $opt)]);
+            Factory::getDocument()->addScriptOptions('bootstrap.offcanvas', [$selector => (object) array_filter($opt)]);
         }
 
         // Include the Bootstrap component
@@ -373,25 +404,25 @@ abstract class Bootstrap
         if ($selector !== '') {
             // Setup options object
             $opt = [
-                'animation'         => isset($options['animation']) ? (bool) $options['animation'] : true,
-                'container'         => isset($options['container']) ? $options['container'] : 'body',
-                'content'           => isset($options['content']) ? $options['content'] : null,
+                'animation'         => (bool) ($options['animation'] ?? true),
+                'container'         => $options['container'] ?? 'body',
+                'content'           => $options['content'] ?? null,
                 'delay'             => isset($options['delay']) ? (int) $options['delay'] : ['show' => 50, 'hide' => 200],
-                'html'              => isset($options['html']) ? (bool) $options['html'] : true,
-                'placement'         => isset($options['placement']) ? $options['placement'] : null,
-                'selector'          => isset($options['selector']) ? $options['selector'] : false,
-                'template'          => isset($options['template']) ? $options['template'] : null,
-                'title'             => isset($options['title']) ? $options['title'] : null,
-                'trigger'           => isset($options['trigger']) ? $options['trigger'] : 'click',
-                'offset'            => isset($options['offset']) ? $options['offset'] : [0, 10],
-                'fallbackPlacement' => isset($options['fallbackPlacement']) ? $options['fallbackPlacement'] : null,
-                'boundary'          => isset($options['boundary']) ? $options['boundary'] : 'scrollParent',
-                'customClass'       => isset($options['customClass']) ? $options['customClass'] : null,
-                'sanitize'          => isset($options['sanitize']) ? (bool) $options['sanitize'] : null,
-                'allowList'         => isset($options['allowList']) ? $options['allowList'] : null,
+                'html'              => (bool) ($options['html'] ?? true),
+                'placement'         => $options['placement'] ?? null,
+                'selector'          => $options['selector'] ?? false,
+                'template'          => $options['template'] ?? null,
+                'title'             => $options['title'] ?? null,
+                'trigger'           => $options['trigger'] ?? 'click',
+                'offset'            => $options['offset'] ?? [0, 10],
+                'fallbackPlacement' => $options['fallbackPlacement'] ?? null,
+                'boundary'          => $options['boundary'] ?? 'scrollParent',
+                'customClass'       => $options['customClass'] ?? null,
+                'sanitize'          => (bool) ($options['sanitize'] ?? null),
+                'allowList'         => $options['allowList'] ?? null,
             ];
 
-            Factory::getDocument()->addScriptOptions('bootstrap.popover', [$selector => (object) array_filter((array) $opt)]);
+            Factory::getDocument()->addScriptOptions('bootstrap.popover', [$selector => (object) array_filter($opt)]);
         }
 
         // Include the Bootstrap component
@@ -428,12 +459,12 @@ abstract class Bootstrap
         if ($selector !== '') {
             // Setup options object
             $opt = [
-                'offset' => isset($options['offset']) ? (int) $options['offset'] : 10,
-                'method' => isset($options['method']) ? $options['method'] : 'auto',
-                'target' => isset($options['target']) ? $options['target'] : null,
+                'offset' => (int) ($options['offset'] ?? 10),
+                'method' => $options['method'] ?? 'auto',
+                'target' => $options['target'] ?? null,
             ];
 
-            Factory::getDocument()->addScriptOptions('bootstrap.scrollspy', [$selector => (object) array_filter((array) $opt)]);
+            Factory::getDocument()->addScriptOptions('bootstrap.scrollspy', [$selector => (object) array_filter($opt)]);
         }
 
         // Include the Bootstrap component
@@ -517,23 +548,23 @@ abstract class Bootstrap
         if ($selector !== '') {
             // Setup options object
             $opt = [
-                'animation'         => isset($options['animation']) ? (bool) $options['animation'] : true,
-                'container'         => isset($options['container']) ? $options['container'] : 'body',
-                'delay'             => isset($options['delay']) ? (int) $options['delay'] : 0,
-                'html'              => isset($options['html']) ? (bool) $options['html'] : true,
-                'placement'         => isset($options['placement']) ? $options['placement'] : null,
-                'selector'          => isset($options['selector']) ? $options['selector'] : false,
-                'template'          => isset($options['template']) ? $options['template'] : null,
-                'title'             => isset($options['title']) ? $options['title'] : null,
-                'trigger'           => isset($options['trigger']) ? $options['trigger'] : 'hover focus',
-                'fallbackPlacement' => isset($options['fallbackPlacement']) ? $options['fallbackPlacement'] : null,
-                'boundary'          => isset($options['boundary']) ? $options['boundary'] : 'clippingParents',
-                'customClass'       => isset($options['customClass']) ? $options['customClass'] : null,
-                'sanitize'          => isset($options['sanitize']) ? (bool) $options['sanitize'] : true,
-                'allowList'         => isset($options['allowList']) ? $options['allowList'] : null,
+                'animation'         => (bool) ($options['animation'] ?? true),
+                'container'         => $options['container'] ?? 'body',
+                'delay'             => (int) ($options['delay'] ?? 0),
+                'html'              => (bool) ($options['html'] ?? true),
+                'placement'         => $options['placement'] ?? null,
+                'selector'          => $options['selector'] ?? false,
+                'template'          => $options['template'] ?? null,
+                'title'             => $options['title'] ?? null,
+                'trigger'           => $options['trigger'] ?? 'hover focus',
+                'fallbackPlacement' => $options['fallbackPlacement'] ?? null,
+                'boundary'          => $options['boundary'] ?? 'clippingParents',
+                'customClass'       => $options['customClass'] ?? null,
+                'sanitize'          => (bool) ($options['sanitize'] ?? true),
+                'allowList'         => $options['allowList'] ?? null,
             ];
 
-            Factory::getDocument()->addScriptOptions('bootstrap.tooltip', [$selector => (object) array_filter((array) $opt)]);
+            Factory::getDocument()->addScriptOptions('bootstrap.tooltip', [$selector => (object) array_filter($opt)]);
         }
 
         // Include the Bootstrap component
@@ -569,11 +600,11 @@ abstract class Bootstrap
             // Setup options object
             $opt = [
                 'animation' => isset($options['animation']) ? (string) $options['animation'] : null,
-                'autohide'  => isset($options['autohide']) ? (bool) $options['autohide'] : true,
-                'delay'     => isset($options['delay']) ? (int) $options['delay'] : 5000,
+                'autohide'  => (bool) ($options['autohide'] ?? true),
+                'delay'     => (int) ($options['delay'] ?? 5000),
             ];
 
-            Factory::getDocument()->addScriptOptions('bootstrap.toast', [$selector => (object) array_filter((array) $opt)]);
+            Factory::getDocument()->addScriptOptions('bootstrap.toast', [$selector => (object) array_filter($opt)]);
         }
 
         // Include the Bootstrap component
@@ -665,18 +696,18 @@ abstract class Bootstrap
         // Setup options object
         $opt           = [];
         $opt['parent'] = isset($options['parent']) ?
-            ($options['parent'] == true ? '#' . preg_replace('/^[\.#]/', '', $selector) : $options['parent']) : '';
+            ($options['parent'] ? '#' . preg_replace('/^[\.#]/', '', $selector) : $options['parent']) : '';
         $opt['toggle'] = isset($options['toggle']) ? (bool) $options['toggle'] : !($opt['parent'] === false || isset($options['active']));
-        $opt['active'] = isset($options['active']) ? (string) $options['active'] : '';
+        $opt['active'] = (string) ($options['active'] ?? '');
 
         // Initialise with the Joomla specifics
         $opt['isJoomla'] = true;
 
-        Factory::getDocument()->addScriptOptions('bootstrap.accordion', ['#' . preg_replace('/^[\.#]/', '', $selector) => (object) array_filter((array) $opt)]);
+        Factory::getDocument()->addScriptOptions('bootstrap.accordion', ['#' . preg_replace('/^[\.#]/', '', $selector) => (object) array_filter($opt)]);
 
         static::$loaded[__METHOD__][$selector] = $opt;
 
-        return '<div id="' . $selector . '" class="accordion" role="tablist">';
+        return '<div id="' . $selector . '" class="accordion">';
     }
 
     /**
@@ -710,16 +741,16 @@ abstract class Bootstrap
         $parent    = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] ?
             'data-bs-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
         $class        = (!empty($class)) ? ' ' . $class : '';
-        $ariaExpanded = $in === 'show' ? true : false;
+        $ariaExpanded = $in === 'show';
 
         return <<<HTMLSTR
 <div class="accordion-item $class">
   <h2 class="accordion-header" id="$id-heading">
-    <button class="accordion-button $collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#$id" aria-expanded="$ariaExpanded" aria-controls="$id" role="tab">
+    <button class="accordion-button $collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#$id" aria-expanded="$ariaExpanded" aria-controls="$id">
 		$text
     </button>
   </h2>
-  <div id="$id" class="accordion-collapse collapse $in" aria-labelledby="$id-heading" $parent role="tabpanel">
+  <div id="$id" class="accordion-collapse collapse $in" aria-labelledby="$id-heading" $parent>
     <div class="accordion-body">
 HTMLSTR;
     }
@@ -818,6 +849,8 @@ HTMLSTR;
 
             return LayoutHelper::render('libraries.html.bootstrap.tab.starttabset', ['selector' => $selector]);
         }
+
+        return '';
     }
 
     /**
@@ -847,7 +880,7 @@ HTMLSTR;
     {
         static $tabLayout = null;
 
-        $tabLayout = $tabLayout === null ? new FileLayout('libraries.html.bootstrap.tab.addtab') : $tabLayout;
+        $tabLayout = $tabLayout ?? new FileLayout('libraries.html.bootstrap.tab.addtab');
         $active    = (static::$loaded[__CLASS__ . '::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
         return $tabLayout->render(['id' => preg_replace('/^[\.#]/', '', $id), 'active' => $active, 'title' => $title]);

@@ -11,7 +11,7 @@
 	<description>MOD_USERS_LATEST_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\UsersLatest</namespace>
 	<files>
-		<filename module="mod_users_latest">mod_users_latest.php</filename>
+		<folder module="mod_users_latest">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>

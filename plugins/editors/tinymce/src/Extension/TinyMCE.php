@@ -10,9 +10,20 @@
 
 namespace Joomla\Plugin\Editors\TinyMCE\Extension;
 
+use Joomla\CMS\Event\Editor\EditorSetupEvent;
+use Joomla\CMS\Event\Plugin\AjaxEvent;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\String\StringableInterface;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Plugin\Editors\TinyMCE\PluginTraits\DisplayTrait;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
+use Joomla\Event\SubscriberInterface;
+use Joomla\Filesystem\Folder;
+use Joomla\Plugin\Editors\TinyMCE\PluginTraits\KnownButtons;
+use Joomla\Plugin\Editors\TinyMCE\PluginTraits\ToolbarPresets;
+use Joomla\Plugin\Editors\TinyMCE\Provider\TinyMCEProvider;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,27 +34,102 @@ use Joomla\Plugin\Editors\TinyMCE\PluginTraits\DisplayTrait;
  *
  * @since  1.5
  */
-final class TinyMCE extends CMSPlugin
+final class TinyMCE extends CMSPlugin implements SubscriberInterface, DispatcherAwareInterface
 {
-    use DisplayTrait;
     use DatabaseAwareTrait;
+    use DispatcherAwareTrait;
+
+    // @todo: KnownButtons, ToolbarPresets for backward compatibility. Remove in Joomla 7
+    use KnownButtons;
+    use ToolbarPresets;
 
     /**
-     * Load the language file on instantiation.
+     * Returns an array of events this subscriber will listen to.
      *
-     * @var    boolean
-     * @since  3.1
+     * @return array
+     *
+     * @since   5.0.0
      */
-    protected $autoloadLanguage = true;
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onEditorSetup' => 'onEditorSetup',
+            'onAjaxTinymce' => 'onAjaxTinymce',
+        ];
+    }
 
     /**
-     * Initializes the Editor.
+     * Register Editor instance
+     *
+     * @param EditorSetupEvent $event
+     *
+     * @return void
+     *
+     * @since   5.0.0
+     */
+    public function onEditorSetup(EditorSetupEvent $event)
+    {
+        $this->loadLanguage();
+
+        $event->getEditorsRegistry()
+            ->add(new TinyMCEProvider($this->params, $this->getApplication(), $this->getDispatcher(), $this->getDatabase()));
+    }
+
+    /**
+     * Returns the templates
      *
      * @return  void
      *
-     * @since   1.5
+     * @since   5.0.0
      */
-    public function onInit()
+    public function onAjaxTinymce(AjaxEvent $event)
     {
+        // Create response object, with list of the templates
+        $response = new class () implements StringableInterface {
+            public $data = [];
+
+            public function __toString(): string
+            {
+                return json_encode($this->data);
+            }
+        };
+        $event->updateEventResult($response);
+
+        if (!Session::checkToken('request')) {
+            return;
+        }
+
+        $this->loadLanguage();
+
+        $templates = [];
+        $language  = $this->getApplication()->getLanguage();
+        $template  = $this->getApplication()->getInput()->getPath('template', '');
+
+        if ('' === $template) {
+            return;
+        }
+
+        $filepaths = is_dir(JPATH_ROOT . '/templates/' . $template)
+            ? Folder::files(JPATH_ROOT . '/templates/' . $template, '\.(html|txt)$', false, true)
+            : [];
+
+        foreach ($filepaths as $filepath) {
+            $fileinfo    = pathinfo($filepath);
+            $filename    = $fileinfo['filename'];
+            $title_upper = strtoupper($filename);
+
+            if ($filename === 'index') {
+                continue;
+            }
+
+            $templates[] = (object) [
+                'title'       => $language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE') ? Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE') : $filename,
+                'description' => $language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC') ? Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC') : ' ',
+                'content'     => file_get_contents($filepath),
+            ];
+        }
+
+        // Add the list of templates to the response
+        $response->data = $templates;
     }
 }

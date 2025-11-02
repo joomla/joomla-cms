@@ -25,7 +25,7 @@ use Joomla\Component\Newsfeeds\Administrator\Service\HTML\AdministratorService;
 use Psr\Container\ContainerInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -69,13 +69,13 @@ class NewsfeedsComponent extends MVCComponent implements
     /**
      * Returns the table for the count items functions for the given section.
      *
-     * @param   string  $section  The section
+     * @param   ?string  $section  The section
      *
      * @return  string|null
      *
      * @since   4.0.0
      */
-    protected function getTableNameForSection(string $section = null)
+    protected function getTableNameForSection(?string $section = null)
     {
         return $section === 'category' ? 'categories' : 'newsfeeds';
     }
@@ -83,13 +83,13 @@ class NewsfeedsComponent extends MVCComponent implements
     /**
      * Returns the state column for the count items functions for the given section.
      *
-     * @param   string  $section  The section
+     * @param   ?string  $section  The section
      *
      * @return  string|null
      *
      * @since   4.0.0
      */
-    protected function getStateColumnForSection(string $section = null)
+    protected function getStateColumnForSection(?string $section = null)
     {
         return 'published';
     }

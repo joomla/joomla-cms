@@ -10,11 +10,12 @@
 namespace Joomla\CMS\Installer;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -141,7 +142,7 @@ class InstallerScript
 
         // Abort if the extension being installed is not newer than the currently installed version
         if (!$this->allowDowngrades && strtolower($type) === 'update') {
-            $manifest = $this->getItemArray('manifest_cache', '#__extensions', 'element', $this->extension);
+            $manifest = $this->getItemArray('manifest_cache', '#__extensions', 'name', $this->extension);
 
             // Check whether we have an old release installed and skip this check when this here is the initial install.
             if (!isset($manifest['version'])) {
@@ -177,13 +178,13 @@ class InstallerScript
         $query = $db->getQuery(true);
 
         // Select the item(s) and retrieve the id
-        $query->select($db->quoteName('id'));
-
         if ($isModule) {
-            $query->from($db->quoteName('#__modules'))
+            $query->select($db->quoteName('id'))
+                ->from($db->quoteName('#__modules'))
                 ->where($db->quoteName('module') . ' = :extension');
         } else {
-            $query->from($db->quoteName('#__extensions'))
+            $query->select($db->quoteName('extension_id', 'id'))
+                ->from($db->quoteName('#__extensions'))
                 ->where($db->quoteName('element') . ' = :extension');
         }
 
@@ -210,7 +211,9 @@ class InstallerScript
             return false;
         }
 
-        $params = $this->getItemArray('params', $this->paramTable, 'id', $id);
+        $column = ($this->paramTable === '#__extensions') ? 'extension_id' : 'id';
+
+        $params = $this->getItemArray('params', $this->paramTable, $column, $id);
 
         return $params[$name];
     }
@@ -235,7 +238,9 @@ class InstallerScript
             return false;
         }
 
-        $params = $this->getItemArray('params', $this->paramTable, 'id', $id);
+        $column = ($this->paramTable === '#__extensions') ? 'extension_id' : 'id';
+
+        $params = $this->getItemArray('params', $this->paramTable, $column, $id);
 
         if ($paramArray) {
             foreach ($paramArray as $name => $value) {
@@ -261,7 +266,7 @@ class InstallerScript
         $query = $db->getQuery(true)
             ->update($db->quoteName($this->paramTable))
             ->set('params = :params')
-            ->where('id = :id')
+            ->where($column . ' = :id')
             ->bind(':params', $paramsString)
             ->bind(':id', $id, ParameterType::INTEGER);
 
@@ -301,7 +306,9 @@ class InstallerScript
         $db->setQuery($query);
 
         // Load the single cell and json_decode data
-        return json_decode($db->loadResult(), true);
+        $result = $db->loadResult();
+
+        return $result === null ? [] : json_decode($result, true);
     }
 
     /**
@@ -315,7 +322,7 @@ class InstallerScript
     {
         if (!empty($this->deleteFiles)) {
             foreach ($this->deleteFiles as $file) {
-                if (file_exists(JPATH_ROOT . $file) && !File::delete(JPATH_ROOT . $file)) {
+                if (is_file(JPATH_ROOT . $file) && !File::delete(JPATH_ROOT . $file)) {
                     echo Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $file) . '<br>';
                 }
             }
@@ -323,7 +330,7 @@ class InstallerScript
 
         if (!empty($this->deleteFolders)) {
             foreach ($this->deleteFolders as $folder) {
-                if (Folder::exists(JPATH_ROOT . $folder) && !Folder::delete(JPATH_ROOT . $folder)) {
+                if (is_dir(Path::clean(JPATH_ROOT . $folder)) && !Folder::delete(JPATH_ROOT . $folder)) {
                     echo Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $folder) . '<br>';
                 }
             }

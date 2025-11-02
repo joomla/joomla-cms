@@ -9,9 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>PLG_MEDIA-ACTION_RESIZE_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\MediaAction\Resize</namespace>
 	<files>
-		<filename plugin="resize">resize.php</filename>
 		<folder>form</folder>
+		<folder plugin="resize">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_media-action_resize.ini</language>

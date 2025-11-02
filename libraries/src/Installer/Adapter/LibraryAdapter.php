@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Installer\Adapter;
 
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Installer\Manifest\LibraryManifest;
@@ -19,9 +17,12 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -54,7 +55,7 @@ class LibraryAdapter extends InstallerAdapter
 
                 // Clear the cached data
                 $this->currentExtensionId = null;
-                $this->extension          = Table::getInstance('Extension', 'JTable', ['dbo' => $this->getDatabase()]);
+                $this->extension          = Table::getInstance('Extension', '\\Joomla\\CMS\\Table\\', ['dbo' => $this->getDatabase()]);
 
                 // From this point we'll consider this an update
                 $this->setRoute('update');
@@ -225,12 +226,12 @@ class LibraryAdapter extends InstallerAdapter
         $source = $this->parent->getPath('source');
 
         if (!$source) {
-            $this->parent->setPath('source', JPATH_PLATFORM . '/' . $this->getElement());
+            $this->parent->setPath('source', JPATH_LIBRARIES . '/' . $this->getElement());
         }
 
         $extension   = 'lib_' . str_replace('/', '_', $this->getElement());
         $librarypath = (string) $this->getManifest()->libraryname;
-        $source      = $path ?: JPATH_PLATFORM . '/' . $librarypath;
+        $source      = $path ?: JPATH_LIBRARIES . '/' . $librarypath;
 
         $this->doLoadLanguage($extension, $source, JPATH_SITE);
     }
@@ -274,11 +275,15 @@ class LibraryAdapter extends InstallerAdapter
     protected function removeExtensionFiles()
     {
         $this->parent->removeFiles($this->getManifest()->files, -1);
-        File::delete(JPATH_MANIFESTS . '/libraries/' . $this->extension->element . '.xml');
+        $manifest = JPATH_MANIFESTS . '/libraries/' . $this->extension->element . '.xml';
+
+        if (is_file($manifest)) {
+            File::delete($manifest);
+        }
 
         // @todo: Change this so it walked up the path backwards so we clobber multiple empties
         // If the folder is empty, let's delete it
-        if (Folder::exists($this->parent->getPath('extension_root'))) {
+        if (is_dir(Path::clean($this->parent->getPath('extension_root')))) {
             if (is_dir($this->parent->getPath('extension_root'))) {
                 $files = Folder::files($this->parent->getPath('extension_root'));
 
@@ -295,11 +300,11 @@ class LibraryAdapter extends InstallerAdapter
 
         // Delete empty vendor folders
         if (2 === \count($elementParts)) {
-            $folders = Folder::folders(JPATH_PLATFORM . '/' . $elementParts[0]);
+            $folders = Folder::folders(JPATH_LIBRARIES . '/' . $elementParts[0]);
 
             if (empty($folders)) {
                 Folder::delete(JPATH_MANIFESTS . '/libraries/' . $elementParts[0]);
-                Folder::delete(JPATH_PLATFORM . '/' . $elementParts[0]);
+                Folder::delete(JPATH_LIBRARIES . '/' . $elementParts[0]);
             }
         }
     }
@@ -323,11 +328,11 @@ class LibraryAdapter extends InstallerAdapter
         // Don't install libraries which would override core folders
         $restrictedFolders = ['php-encryption', 'phpass', 'src', 'vendor'];
 
-        if (in_array($group, $restrictedFolders)) {
+        if (\in_array($group, $restrictedFolders)) {
             throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_CORE_FOLDER'));
         }
 
-        $this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . implode(DIRECTORY_SEPARATOR, explode('/', $group)));
+        $this->parent->setPath('extension_root', JPATH_LIBRARIES . '/' . implode(DIRECTORY_SEPARATOR, explode('/', $group)));
     }
 
     /**
@@ -352,7 +357,7 @@ class LibraryAdapter extends InstallerAdapter
         $manifest = new LibraryManifest($manifestFile);
 
         // Set the library root path
-        $this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . $manifest->libraryname);
+        $this->parent->setPath('extension_root', JPATH_LIBRARIES . '/' . $manifest->libraryname);
 
         // Set the source path to the library root, the manifest script may be found
         $this->parent->setPath('source', $this->parent->getPath('extension_root'));
@@ -457,16 +462,16 @@ class LibraryAdapter extends InstallerAdapter
             $element       = str_replace([$mainFolder . DIRECTORY_SEPARATOR, '.xml'], '', $file);
             $manifestCache = Installer::parseXMLInstallFile($file);
 
-            $extension = Table::getInstance('extension');
-            $extension->set('type', 'library');
-            $extension->set('client_id', 0);
-            $extension->set('element', $element);
-            $extension->set('folder', '');
-            $extension->set('name', $element);
-            $extension->set('state', -1);
-            $extension->set('manifest_cache', json_encode($manifestCache));
-            $extension->set('params', '{}');
-            $results[] = $extension;
+            $extension                 = Table::getInstance('extension');
+            $extension->type           = 'library';
+            $extension->client_id      = 0;
+            $extension->element        = $element;
+            $extension->folder         = '';
+            $extension->name           = $element;
+            $extension->state          = -1;
+            $extension->manifest_cache = json_encode($manifestCache);
+            $extension->params         = '{}';
+            $results[]                 = $extension;
         }
 
         return $results;
@@ -489,10 +494,11 @@ class LibraryAdapter extends InstallerAdapter
         $manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
         $this->parent->extension->manifest_cache = json_encode($manifest_details);
         $this->parent->extension->name           = $manifest_details['name'];
+        $this->parent->extension->changelogurl   = $manifest_details['changelogurl'];
 
         try {
             return $this->parent->extension->store();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             Log::add(Text::_('JLIB_INSTALLER_ERROR_LIB_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
             return false;

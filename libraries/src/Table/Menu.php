@@ -11,16 +11,17 @@ namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
+use Joomla\Filesystem\Folder;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -41,13 +42,14 @@ class Menu extends Nested
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  Database driver object.
+     * @param   DatabaseInterface     $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.5
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__menu', 'id', $db);
+        parent::__construct('#__menu', 'id', $db, $dispatcher);
 
         // Set the default access level.
         $this->access = (int) Factory::getApplication()->get('access');
@@ -169,10 +171,10 @@ class Menu extends Nested
      */
     public function store($updateNulls = true)
     {
-        $db = $this->getDbo();
+        $db = $this->getDatabase();
 
         // Verify that the alias is unique
-        $table = Table::getInstance('Menu', 'JTable', ['dbo' => $db]);
+        $table = new self($db, $this->getDispatcher());
 
         $originalAlias = trim($this->alias);
         $this->alias   = !$originalAlias ? $this->title : $originalAlias;
@@ -240,7 +242,7 @@ class Menu extends Nested
 
             // The alias already exists. Enqueue an error message.
             if ($error) {
-                $menuTypeTable = Table::getInstance('MenuType', 'JTable', ['dbo' => $db]);
+                $menuTypeTable = new MenuType($db, $this->getDispatcher());
                 $menuTypeTable->load(['menutype' => $table->menutype]);
                 $url = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $table->id);
 
@@ -256,22 +258,6 @@ class Menu extends Nested
         }
 
         if ($this->home == '1') {
-            // Verify that the home page for this menu is unique.
-            if (
-                $table->load(
-                    [
-                    'menutype' => $this->menutype,
-                    'client_id' => (int) $this->client_id,
-                    'home' => '1',
-                    ]
-                )
-                && ($table->language != $this->language)
-            ) {
-                $this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_UNIQUE_IN_MENU'));
-
-                return false;
-            }
-
             // Verify that the home page for this language is unique per client id
             if ($table->load(['home' => '1', 'language' => $this->language, 'client_id' => (int) $this->client_id])) {
                 if ($table->checked_out && $table->checked_out != $this->checked_out) {

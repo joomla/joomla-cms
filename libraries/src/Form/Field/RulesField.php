@@ -10,12 +10,13 @@
 namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -78,7 +79,7 @@ class RulesField extends FormField
     /**
      * The asset rules
      *
-     * @var    array
+     * @var    Rules
      * @since  4.3.0
      */
     protected $assetRules;
@@ -86,7 +87,7 @@ class RulesField extends FormField
     /**
      * The actions
      *
-     * @var    array
+     * @var    object[]
      * @since  4.3.0
      */
     protected $actions;
@@ -94,7 +95,7 @@ class RulesField extends FormField
     /**
      * The groups
      *
-     * @var    array
+     * @var    object[]
      * @since  4.3.0
      */
     protected $groups;
@@ -293,7 +294,7 @@ class RulesField extends FormField
         $this->groups = $this->getUserGroups();
 
         // Trim the trailing line in the layout file
-        return trim($this->getRenderer($this->layout)->render($this->getLayoutData()));
+        return trim($this->getRenderer($this->layout)->render($this->collectLayoutData()));
     }
 
     /**
@@ -325,7 +326,7 @@ class RulesField extends FormField
     /**
      * Get a list of the user groups.
      *
-     * @return  array
+     * @return  object[]
      *
      * @since   1.7.0
      */

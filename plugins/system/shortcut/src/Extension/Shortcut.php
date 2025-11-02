@@ -10,11 +10,14 @@
 
 namespace Joomla\Plugin\System\Shortcut\Extension;
 
+use Joomla\CMS\Event\Application\BeforeCompileHeadEvent;
 use Joomla\CMS\Event\GenericEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
@@ -27,15 +30,9 @@ use Joomla\Event\SubscriberInterface;
  *
  * @since  4.2.0
  */
-final class Shortcut extends CMSPlugin implements SubscriberInterface
+final class Shortcut extends CMSPlugin implements SubscriberInterface, DispatcherAwareInterface
 {
-    /**
-     * Load the language file on instantiation.
-     *
-     * @var    boolean
-     * @since  4.2.0
-     */
-    protected $autoloadLanguage = true;
+    use DispatcherAwareTrait;
 
     /**
      * Returns an array of events this subscriber will listen to.
@@ -65,17 +62,23 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
     /**
      * Add the javascript for the shortcuts
      *
+     * @param   BeforeCompileHeadEvent  $event  The event instance.
+     *
      * @return  void
      *
      * @since   4.2.0
      */
-    public function initialize()
+    public function initialize(BeforeCompileHeadEvent $event): void
     {
-        if (!$this->getApplication()->isClient('administrator')) {
+        $app = $event->getApplication();
+        if (!$app->isClient('administrator')) {
             return;
         }
 
-        $context = $this->getApplication()->getInput()->get('option') . '.' . $this->getApplication()->getInput()->get('view');
+        // Load translations
+        $this->loadLanguage();
+
+        $context = $app->getInput()->get('option') . '.' . $app->getInput()->get('view');
 
         $shortcuts = [];
 
@@ -97,10 +100,15 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
         Text::script('PLG_SYSTEM_SHORTCUT_THEN');
         Text::script('JCLOSE');
 
-        $document = $this->getApplication()->getDocument();
+        $document = $app->getDocument();
         $wa       = $document->getWebAssetManager();
-        $wa->useScript('bootstrap.modal');
-        $wa->registerAndUseScript('script', 'plg_system_shortcut/shortcut.min.js', ['dependencies' => ['hotkeysjs']]);
+        $wa->registerAndUseScript(
+            'plg_system_shortcut.shortcut',
+            'plg_system_shortcut/shortcut.min.js',
+            [],
+            ['type' => 'module'],
+            ['hotkeysjs', 'joomla.dialog']
+        );
 
         $timeout = $this->params->get('timeout', 2000);
 
@@ -111,28 +119,29 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
     /**
      * Add default shortcuts to the document
      *
-     * @param   Event  $event  The event
+     * @param   Event  $event  The event instance.
      *
      * @return  void
      *
      * @since   4.2.0
      */
-    public function addShortcuts(Event $event)
+    public function addShortcuts(Event $event): void
     {
         $shortcuts = $event->getArgument('shortcuts', []);
 
+        $language  = $this->getApplication()->getLanguage();
         $shortcuts = array_merge(
             $shortcuts,
             [
-                'applyKey'   => (object) ['selector' => 'joomla-toolbar-button .button-apply', 'shortcut' => 'A', 'title' => Text::_('JAPPLY')],
-                'saveKey'    => (object) ['selector' => 'joomla-toolbar-button .button-save', 'shortcut' => 'S', 'title' => Text::_('JTOOLBAR_SAVE')],
-                'cancelKey'  => (object) ['selector' => 'joomla-toolbar-button .button-cancel', 'shortcut' => 'Q', 'title' => Text::_('JCANCEL')],
-                'newKey'     => (object) ['selector' => 'joomla-toolbar-button .button-new', 'shortcut' => 'N', 'title' => Text::_('JTOOLBAR_NEW')],
-                'searchKey'  => (object) ['selector' => 'input[placeholder=' . Text::_('JSEARCH_FILTER') . ']', 'shortcut' => 'F', 'title' => Text::_('JSEARCH_FILTER')],
-                'optionKey'  => (object) ['selector' => 'joomla-toolbar-button .button-options', 'shortcut' => 'O', 'title' => Text::_('JOPTIONS')],
-                'helpKey'    => (object) ['selector' => 'joomla-toolbar-button .button-help', 'shortcut' => 'H', 'title' => Text::_('JHELP')],
-                'toggleMenu' => (object) ['selector' => '#menu-collapse', 'shortcut' => 'M', 'title' => Text::_('JTOGGLE_SIDEBAR_MENU')],
-                'dashboard'  => (object) ['selector' => (string) new Uri(Route::_('index.php?')), 'shortcut' => 'D', 'title' => Text::_('JHOMEDASHBOARD')],
+                'applyKey'   => (object) ['selector' => 'joomla-toolbar-button .button-apply', 'shortcut' => 'A', 'title' => $language->_('JAPPLY')],
+                'saveKey'    => (object) ['selector' => 'joomla-toolbar-button .button-save', 'shortcut' => 'S', 'title' => $language->_('JTOOLBAR_SAVE')],
+                'cancelKey'  => (object) ['selector' => 'joomla-toolbar-button .button-cancel', 'shortcut' => 'Q', 'title' => $language->_('JCANCEL')],
+                'newKey'     => (object) ['selector' => 'joomla-toolbar-button .button-new', 'shortcut' => 'N', 'title' => $language->_('JTOOLBAR_NEW')],
+                'searchKey'  => (object) ['selector' => 'input[placeholder=' . $language->_('JSEARCH_FILTER') . ']', 'shortcut' => 'F', 'title' => $language->_('JSEARCH_FILTER')],
+                'optionKey'  => (object) ['selector' => 'joomla-toolbar-button .button-options', 'shortcut' => 'O', 'title' => $language->_('JOPTIONS')],
+                'helpKey'    => (object) ['selector' => 'joomla-toolbar-button .button-help', 'shortcut' => 'H', 'title' => $language->_('JHELP')],
+                'toggleMenu' => (object) ['selector' => '#menu-collapse', 'shortcut' => 'M', 'title' => $language->_('JTOGGLE_SIDEBAR_MENU')],
+                'dashboard'  => (object) ['selector' => (string) new Uri(Route::_('index.php?')), 'shortcut' => 'D', 'title' => $language->_('JHOMEDASHBOARD')],
             ]
         );
 

@@ -154,8 +154,7 @@ trait CoreButtonsTrait
      */
     public function back(string $text = 'JTOOLBAR_BACK'): LinkButton
     {
-        return $this->link('back', $text)
-            ->url('javascript:history.back();');
+        return $this->link($text, 'javascript:history.back();');
     }
 
     /**

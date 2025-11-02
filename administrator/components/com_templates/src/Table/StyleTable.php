@@ -12,8 +12,9 @@ namespace Joomla\Component\Templates\Administrator\Table;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -30,13 +31,14 @@ class StyleTable extends Table
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  A database connector object
+     * @param   DatabaseInterface     $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.6
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__template_styles', 'id', $db);
+        parent::__construct('#__template_styles', 'id', $db, $dispatcher);
     }
 
     /**
@@ -51,7 +53,7 @@ class StyleTable extends Table
      */
     public function bind($array, $ignore = '')
     {
-        if (isset($array['params']) && is_array($array['params'])) {
+        if (isset($array['params']) && \is_array($array['params'])) {
             $registry        = new Registry($array['params']);
             $array['params'] = (string) $registry;
         }
@@ -104,16 +106,17 @@ class StyleTable extends Table
     public function store($updateNulls = false)
     {
         if ($this->home != '0') {
-            $clientId = (int) $this->client_id;
-            $query    = $this->_db->getQuery(true)
-                ->update($this->_db->quoteName('#__template_styles'))
-                ->set($this->_db->quoteName('home') . ' = ' . $this->_db->quote('0'))
-                ->where($this->_db->quoteName('client_id') . ' = :clientid')
-                ->where($this->_db->quoteName('home') . ' = :home')
+            $clientId = (int)$this->client_id;
+            $db       = $this->getDatabase();
+            $query    = $db->getQuery(true)
+                ->update($db->quoteName('#__template_styles'))
+                ->set($db->quoteName('home') . ' = ' . $db->quote('0'))
+                ->where($db->quoteName('client_id') . ' = :clientid')
+                ->where($db->quoteName('home') . ' = :home')
                 ->bind(':clientid', $clientId, ParameterType::INTEGER)
                 ->bind(':home', $this->home);
-            $this->_db->setQuery($query);
-            $this->_db->execute();
+            $db->setQuery($query);
+            $db->execute();
         }
 
         return parent::store($updateNulls);
@@ -131,21 +134,22 @@ class StyleTable extends Table
     public function delete($pk = null)
     {
         $k  = $this->_tbl_key;
-        $pk = is_null($pk) ? $this->$k : $pk;
+        $pk = \is_null($pk) ? $this->$k : $pk;
 
-        if (!is_null($pk)) {
-            $clientId = (int) $this->client_id;
-            $query    = $this->_db->getQuery(true)
-                ->select($this->_db->quoteName('id'))
-                ->from($this->_db->quoteName('#__template_styles'))
-                ->where($this->_db->quoteName('client_id') . ' = :clientid')
-                ->where($this->_db->quoteName('template') . ' = :template')
+        if (!\is_null($pk)) {
+            $clientId = (int)$this->client_id;
+            $db       = $this->getDatabase();
+            $query    = $db->getQuery(true)
+                ->select($db->quoteName('id'))
+                ->from($db->quoteName('#__template_styles'))
+                ->where($db->quoteName('client_id') . ' = :clientid')
+                ->where($db->quoteName('template') . ' = :template')
                 ->bind(':template', $this->template)
                 ->bind(':clientid', $clientId, ParameterType::INTEGER);
-            $this->_db->setQuery($query);
-            $results = $this->_db->loadColumn();
+            $db->setQuery($query);
+            $results = $db->loadColumn();
 
-            if (count($results) == 1 && $results[0] == $pk) {
+            if (\count($results) == 1 && $results[0] == $pk) {
                 $this->setError(Text::_('COM_TEMPLATES_ERROR_CANNOT_DELETE_LAST_STYLE'));
 
                 return false;

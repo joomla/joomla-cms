@@ -10,11 +10,11 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Filesystem\FilesystemHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Filesystem\Helper as FilesystemHelper;
 
-/** @var PlgInstallerPackageInstaller $this */
+/** @var \Joomla\Plugin\Installer\Package\Extension\PackageInstaller $this */
 
 HTMLHelper::_('form.csrf');
 
@@ -23,7 +23,7 @@ Text::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_UNKNOWN');
 Text::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_EMPTY');
 Text::script('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG');
 
-$this->app->getDocument()->getWebAssetManager()
+$this->getApplication()->getDocument()->getWebAssetManager()
     ->registerAndUseScript(
         'plg_installer_packageinstaller.packageinstaller',
         'plg_installer_packageinstaller/packageinstaller.js',
@@ -32,8 +32,8 @@ $this->app->getDocument()->getWebAssetManager()
         ['core']
     );
 
-$return = $this->app->getInput()->getBase64('return');
-$maxSizeBytes = FilesystemHelper::fileUploadMaxSize(false);
+$return = $this->getApplication()->getInput()->getBase64('return');
+$maxSizeBytes = FilesystemHelper::getFileUploadMaxSize();
 $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes);
 ?>
 <legend><?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>

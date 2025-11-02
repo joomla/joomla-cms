@@ -10,7 +10,6 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Object;
 
-use Exception;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Tests\Unit\UnitTestCase;
 
@@ -103,6 +102,7 @@ class CMSObjectTest extends UnitTestCase
                 '_privateproperty1' => 'valuep1',
                 'property1'         => 'value1',
                 'property2'         => 5,
+                'useExceptions'     => false,
             ],
             $object->getProperties(false),
             'Should get all properties, including private ones'
@@ -157,7 +157,7 @@ class CMSObjectTest extends UnitTestCase
             'Should return false, since the error does not exist'
         );
 
-        $exception = new Exception('error');
+        $exception = new \Exception('error');
         $object->setError($exception);
         $this->assertThat(
             $object->getError(3, true),

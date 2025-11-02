@@ -11,12 +11,11 @@
 namespace Joomla\Component\Cpanel\Administrator\View\Cpanel;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Filter\OutputFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -61,7 +60,7 @@ class HtmlView extends BaseHtmlView
     {
         $app       = Factory::getApplication();
         $dashboard = $app->getInput()->getCmd('dashboard', '');
-        $toolbar   = Toolbar::getInstance();
+        $toolbar   = $this->getDocument()->getToolbar();
 
         $position = OutputFilter::stringURLSafe($dashboard);
 
@@ -70,12 +69,12 @@ class HtmlView extends BaseHtmlView
             $parts     = explode('.', $dashboard);
             $component = $parts[0];
 
-            if (strpos($component, 'com_') === false) {
+            if (!str_starts_with($component, 'com_')) {
                 $component = 'com_' . $component;
             }
 
             // Need to load the language file
-            $lang = Factory::getLanguage();
+            $lang = $this->getLanguage();
             $lang->load($component, JPATH_BASE)
             || $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
             $lang->load($component);

@@ -13,7 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -42,7 +42,7 @@ final class UserGroupsHelper
     /**
      * Singleton instance.
      *
-     * @var    array
+     * @var    UserGroupsHelper
      * @since  3.6.3
      */
     private static $instance;
@@ -171,7 +171,7 @@ final class UserGroupsHelper
      */
     public function has($id)
     {
-        return (\array_key_exists($id, $this->groups) && $this->groups[$id] !== false);
+        return \array_key_exists($id, $this->groups) && $this->groups[$id] !== false;
     }
 
     /**

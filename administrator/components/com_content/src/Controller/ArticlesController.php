@@ -33,16 +33,16 @@ class ArticlesController extends AdminController
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * Recognized key values include 'name', 'default_task', 'model_path', and
-     * 'view_path' (this list is not meant to be comprehensive).
-     * @param   MVCFactoryInterface  $factory  The factory.
-     * @param   CMSApplication       $app      The Application for the dispatcher
-     * @param   Input                $input    Input
+     * @param   array                 $config   An optional associative array of configuration settings.
+     *                                          Recognized key values include 'name', 'default_task', 'model_path', and
+     *                                          'view_path' (this list is not meant to be comprehensive).
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The Application for the dispatcher
+     * @param   ?Input                $input    Input
      *
      * @since   3.0
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -110,9 +110,9 @@ class ArticlesController extends AdminController
         }
 
         if ($value == 1) {
-            $message = Text::plural('COM_CONTENT_N_ITEMS_FEATURED', count($ids));
+            $message = Text::plural('COM_CONTENT_N_ITEMS_FEATURED', \count($ids));
         } else {
-            $message = Text::plural('COM_CONTENT_N_ITEMS_UNFEATURED', count($ids));
+            $message = Text::plural('COM_CONTENT_N_ITEMS_UNFEATURED', \count($ids));
         }
 
         $this->setRedirect(Route::_($redirectUrl, false), $message);

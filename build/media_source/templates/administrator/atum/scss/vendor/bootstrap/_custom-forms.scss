@@ -7,52 +7,55 @@
 .form-select {
   max-width: $input-max-width;
   cursor: pointer;
-  background: $form-select-background #{"/* rtl:"}$form-select-background-rtl#{"*/"};;
-  background-color: $form-select-bg;
-  border: $form-select-border-width solid $form-select-border-color;
+  background: $form-select-background;
+  border: $form-select-border;
+
+  [dir="rtl"] & {
+    background: $form-select-background-rtl;
+  }
 
   &[multiple] {
     padding: 0;
-    background-color: var(--white-offset);
 
     option {
       padding: $form-select-multiple-padding-y $form-select-padding-x;
-      background-color: var(--white-offset);
 
       &:checked {
         color: var(--template-text-light);
-        background-color: var(--template-bg-dark) !important;
+        background-color: var(--template-contrast) !important;
       }
     }
   }
 
+  // TODO: Archived State has a green border instead blue
+
   &.form-select-success,
   &.custom-select-success {
-    color: var(--success);
+    color: var(--success-text);
     background-color: var(--success);
     border-color: var(--success);
 
     option {
       color: $form-select-color;
-      background-color: var(--white-offset);
+      background-color: $form-select-success-bg;
     }
   }
 
   &.form-select-danger,
   &.custom-select-danger {
-    color: var(--danger);
+    color: var(--danger-text);
     background-color: var(--danger);
     border-color: var(--danger);
 
     option {
       color: $form-select-color;
-      background-color: var(--white-offset);
+      background-color: $form-select-danger-bg;
     }
   }
 
   &:disabled {
     cursor: default;
-    background-color: #e8e8e8;
+    background-color: $form-select-disabled-bg;
     background-image: none;
     border: 0;
     box-shadow: none;
@@ -60,7 +63,21 @@
 
   optgroup,
   option {
-    color: var(--template-text-dark);
-    background-color: $white;
+    color: $form-select-option;
+    background-color: var(--body-bg);
+
+    &:disabled {
+      background-color: $form-select-option-disabled-bg;
+    }
+  }
+}
+
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .form-select:disabled, .custom-select:disabled {
+      border: map-get($atum-colors-dark, "form-control-border-disabled");
+      opacity: .5;
+    }
   }
 }

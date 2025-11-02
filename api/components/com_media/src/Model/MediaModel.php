@@ -77,7 +77,7 @@ class MediaModel extends BaseModel implements ListModelInterface
         ['adapter' => $adapterName, 'path' => $path] = $this->resolveAdapterAndPath($this->getState('path', ''));
         try {
             $files = $this->mediaApiModel->getFiles($adapterName, $path, $options);
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             throw new ResourceNotFound(
                 Text::sprintf('WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND', $path),
                 404

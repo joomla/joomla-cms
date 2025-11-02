@@ -76,7 +76,7 @@
 			name="misc"
 			type="editor"
 			label="COM_CONTACT_FIELD_INFORMATION_MISC_LABEL"
-			filter="JComponentHelper::filterText"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 			buttons="true"
 			hide="readmore,pagebreak"
 		/>
@@ -175,7 +175,7 @@
 			label="JFIELD_META_DESCRIPTION_LABEL"
 			rows="3"
 			cols="30"
-			maxlength="160"
+			maxlength="300"
 			charcounter="true"
 		/>
 
@@ -211,6 +211,9 @@
 		<field
 			name="image"
 			type="media"
+			schemes="http,https,ftp,ftps,data,file"
+			validate="url"
+			relative="true"
 			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"
 			hide_none="1"
 		/>
@@ -739,6 +742,7 @@
 					name="custom_reply"
 					type="list"
 					label="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_LABEL"
+					description="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_DESC"
 					useglobal="true"
 					validate="options"
 					>

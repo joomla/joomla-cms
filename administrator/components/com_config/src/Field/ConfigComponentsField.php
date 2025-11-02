@@ -11,7 +11,6 @@
 namespace Joomla\Component\Config\Administrator\Field;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
@@ -60,7 +59,7 @@ class ConfigComponentsField extends ListField
                 // Load language
                 $extension = $item->value;
 
-                if (File::exists(JPATH_ADMINISTRATOR . '/components/' . $extension . '/config.xml')) {
+                if (is_file(JPATH_ADMINISTRATOR . '/components/' . $extension . '/config.xml')) {
                     $source = JPATH_ADMINISTRATOR . '/components/' . $extension;
                     $lang->load("$extension.sys", JPATH_ADMINISTRATOR)
                     || $lang->load("$extension.sys", $source);

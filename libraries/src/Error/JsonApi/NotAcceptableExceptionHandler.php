@@ -9,13 +9,12 @@
 
 namespace Joomla\CMS\Error\JsonApi;
 
-use Exception;
 use Joomla\CMS\Application\Exception\NotAcceptable;
 use Tobscure\JsonApi\Exception\Handler\ExceptionHandlerInterface;
 use Tobscure\JsonApi\Exception\Handler\ResponseBag;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -35,7 +34,7 @@ class NotAcceptableExceptionHandler implements ExceptionHandlerInterface
      *
      * @since  4.0.0
      */
-    public function manages(Exception $e)
+    public function manages(\Exception $e)
     {
         return $e instanceof NotAcceptable;
     }
@@ -43,13 +42,13 @@ class NotAcceptableExceptionHandler implements ExceptionHandlerInterface
     /**
      * Handle the provided exception.
      *
-     * @param   Exception  $e  The exception being handled
+     * @param   \Exception  $e  The exception being handled
      *
      * @return  \Tobscure\JsonApi\Exception\Handler\ResponseBag
      *
      * @since  4.0.0
      */
-    public function handle(Exception $e)
+    public function handle(\Exception $e)
     {
         $status = 406;
         $error  = ['title' => 'Not Acceptable'];

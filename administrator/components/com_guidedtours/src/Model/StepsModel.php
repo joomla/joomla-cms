@@ -12,9 +12,12 @@ namespace Joomla\Component\Guidedtours\Administrator\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Database\DatabaseQuery;
+use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -31,12 +34,13 @@ class StepsModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array $config An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since 4.3.0
      * @see   \Joomla\CMS\MVC\Controller\BaseController
      */
-    public function __construct($config = [])
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -54,13 +58,13 @@ class StepsModel extends ListModel
             ];
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
      * Provide a query to be used to evaluate if this is an Empty State, can be overridden in the model to provide granular control.
      *
-     * @return DatabaseQuery
+     * @return QueryInterface
      *
      * @since 4.3.0
      */
@@ -136,7 +140,7 @@ class StepsModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return \Joomla\Database\DatabaseQuery
+     * @return QueryInterface
      *
      * @since 4.3.0
      */
@@ -170,7 +174,7 @@ class StepsModel extends ListModel
             $tourId = (int) $tourId;
             $query->where($db->quoteName('a.tour_id') . ' = :tour_id')
                 ->bind(':tour_id', $tourId, ParameterType::INTEGER);
-        } elseif (is_array($tourId)) {
+        } elseif (\is_array($tourId)) {
             $tourId = ArrayHelper::toInteger($tourId);
             $query->whereIn($db->quoteName('a.tour_id'), $tourId);
         }
@@ -228,11 +232,32 @@ class StepsModel extends ListModel
     {
         $items = parent::getItems();
 
-        Factory::getLanguage()->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
-
+        $tourLanguageLoaded = false;
         foreach ($items as $item) {
+            if (!$tourLanguageLoaded) {
+                $app    = Factory::getApplication();
+                $tourId = $item->tour_id;
+
+                /** @var \Joomla\Component\Guidedtours\Administrator\Model\TourModel $tourModel */
+                $tourModel = $app->bootComponent('com_guidedtours')
+                                 ->getMVCFactory()->createModel('Tour', 'Administrator', [ 'ignore_request' => true ]);
+
+                $tour = $tourModel->getItem($tourId);
+
+                GuidedtoursHelper::loadTranslationFiles($tour->uid, true);
+
+                $tourLanguageLoaded = true;
+            }
+
             $item->title       = Text::_($item->title);
             $item->description = Text::_($item->description);
+
+            if (isset($item->params)) {
+                $params = new Registry($item->params);
+                if (!empty($item->params->requiredvalue)) {
+                    $item->params->requiredvalue = Text::_($item->params->requiredvalue);
+                }
+            }
         }
 
         return $items;

@@ -19,14 +19,15 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Contact\Administrator\Helper\ContactHelper;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Contact\Site\View\Category\HtmlView $this */
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_contact.contacts-list')
     ->useScript('core');
 
 $canDo   = ContactHelper::getActions('com_contact', 'category', $this->category->id);
 $canEdit = $canDo->get('core.edit');
-$userId  = Factory::getUser()->id;
+$userId  = $this->getCurrentUser()->id;
 
 $showEditColumn = false;
 if ($canEdit) {
@@ -88,7 +89,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
                 <thead<?php echo $this->params->get('show_headings', '1') ? '' : ' class="visually-hidden"'; ?>>
                     <tr>
                         <th scope="col" id="categorylist_header_title">
-                            <?php echo HTMLHelper::_('grid.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder, null, 'asc', '', 'adminForm'); ?>
+                            <?php echo HTMLHelper::_('grid.sort', 'COM_CONTACT_FIELD_NAME_LABEL', 'a.name', $listDirn, $listOrder, null, 'asc', '', 'adminForm'); ?>
                         </th>
                         <th scope="col">
                             <?php echo Text::_('COM_CONTACT_CONTACT_DETAILS'); ?>

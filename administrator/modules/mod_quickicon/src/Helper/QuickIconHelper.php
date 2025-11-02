@@ -43,14 +43,14 @@ class QuickIconHelper
      * This method returns the array by reference so it can be
      * used to add custom buttons or remove default ones.
      *
-     * @param   Registry        $params       The module parameters
-     * @param   CMSApplication  $application  The application
+     * @param   Registry         $params       The module parameters
+     * @param   ?CMSApplication  $application  The application
      *
      * @return  array  An array of buttons
      *
      * @since   1.6
      */
-    public function getButtons(Registry $params, CMSApplication $application = null)
+    public function getButtons(Registry $params, ?CMSApplication $application = null)
     {
         if ($application == null) {
             $application = Factory::getApplication();
@@ -137,7 +137,7 @@ class QuickIconHelper
                 $tmp = [
                     'image'   => 'icon-folder-open',
                     'link'    => Route::_('index.php?option=com_categories&view=categories&extension=com_content'),
-                    'linkadd' => Route::_('index.php?option=com_categories&task=category.add'),
+                    'linkadd' => Route::_('index.php?option=com_categories&task=category.add&extension=com_content'),
                     'name'    => 'MOD_QUICKICON_CATEGORY_MANAGER',
                     'access'  => ['core.manage', 'com_content', 'core.create', 'com_content'],
                     'group'   => 'MOD_QUICKICON_SITE',
@@ -299,7 +299,7 @@ class QuickIconHelper
                 $this->buttons[$key][] = $tmp;
             }
 
-            if (ComponentHelper::isEnabled('com_contacts') && $params->get('show_contact')) {
+            if (ComponentHelper::isEnabled('com_contact') && $params->get('show_contact')) {
                 $tmp = [
                     'image'   => 'icon-address-book contact',
                     'link'    => Route::_('index.php?option=com_contact&view=contacts'),

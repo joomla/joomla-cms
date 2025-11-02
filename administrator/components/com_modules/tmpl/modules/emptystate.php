@@ -10,9 +10,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+
+/** @var \Joomla\Component\Modules\Administrator\View\Modules\HtmlView $this */
 
 $displayData = [
     'textPrefix' => 'COM_MODULES',
@@ -23,7 +24,7 @@ $displayData = [
     'title'      => Text::_('COM_MODULES_EMPTYSTATE_TITLE_' . ($this->clientId ? 'ADMINISTRATOR' : 'SITE')),
 ];
 
-if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_modules')) {
+if ($this->getCurrentUser()->authorise('core.create', 'com_modules')) {
     $displayData['createURL'] = 'index.php?option=com_modules&view=select&client_id=' . $this->clientId;
 }
 

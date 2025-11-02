@@ -72,7 +72,7 @@ class HtmlView extends CategoryView
      */
     public function display($tpl = null)
     {
-        parent::commonCategoryDisplay();
+        $this->commonCategoryDisplay();
 
         // Flag indicates to not add limitstart=0 to URL
         $this->pagination->hideEmptyLimitstart = true;
@@ -154,28 +154,24 @@ class HtmlView extends CategoryView
         $this->setDocumentTitle($title);
 
         if ($this->category->metadesc) {
-            $this->document->setDescription($this->category->metadesc);
+            $this->getDocument()->setDescription($this->category->metadesc);
         } elseif ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
 
-        if (!is_object($this->category->metadata)) {
+        if (!\is_object($this->category->metadata)) {
             $this->category->metadata = new Registry($this->category->metadata);
-        }
-
-        if (($app->get('MetaAuthor') == '1') && $this->category->get('author', '')) {
-            $this->document->setMetaData('author', $this->category->get('author', ''));
         }
 
         $mdata = $this->category->metadata->toArray();
 
         foreach ($mdata as $k => $v) {
             if ($v) {
-                $this->document->setMetaData($k, $v);
+                $this->getDocument()->setMetaData($k, $v);
             }
         }
 
@@ -191,7 +187,7 @@ class HtmlView extends CategoryView
     {
         parent::prepareDocument();
 
-        parent::addFeed();
+        $this->addFeed();
 
         if ($this->menuItemMatchCategory) {
             // If the active menu item is linked directly to the category being displayed, no further process is needed
@@ -203,7 +199,7 @@ class HtmlView extends CategoryView
 
         if (
             $menu && $menu->component == 'com_content' && isset($menu->query['view'])
-            && in_array($menu->query['view'], ['categories', 'category'])
+            && \in_array($menu->query['view'], ['categories', 'category'])
         ) {
             $id = $menu->query['id'];
         } else {

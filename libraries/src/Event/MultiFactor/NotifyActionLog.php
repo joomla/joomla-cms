@@ -12,7 +12,7 @@ namespace Joomla\CMS\Event\MultiFactor;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -51,8 +51,8 @@ class NotifyActionLog extends AbstractImmutableEvent
      */
     public function __construct(string $name, array $arguments = [])
     {
-        if (!in_array($name, self::ACCEPTABLE_EVENTS)) {
-            throw new \InvalidArgumentException(sprintf('The %s event class does not support the %s event name.', __CLASS__, $name));
+        if (!\in_array($name, self::ACCEPTABLE_EVENTS)) {
+            throw new \InvalidArgumentException(\sprintf('The %s event class does not support the %s event name.', __CLASS__, $name));
         }
 
         parent::__construct($name, $arguments);

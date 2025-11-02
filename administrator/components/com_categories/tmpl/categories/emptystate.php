@@ -14,6 +14,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
+/** @var \Joomla\Component\Categories\Administrator\View\Categories\HtmlView $this */
+
 $extension = $this->state->get('filter.extension');
 $component = $this->state->get('filter.component');
 $section = $this->state->get('filter.section');
@@ -42,7 +44,7 @@ $displayData = [
     'icon'       => 'icon-folder categories content-categories',
 ];
 
-if (Factory::getApplication()->getIdentity()->authorise('core.create', $extension)) {
+if ($this->getCurrentUser()->authorise('core.create', $extension)) {
     $displayData['createURL'] = 'index.php?option=com_categories&extension=' . $extension . '&task=category.add';
 }
 

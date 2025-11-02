@@ -1,5 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
+	<help key="Guided_Tours:_Options"/>
+	<inlinehelp button="show"/>
+	<fieldset name="guidedtours_config" label="COM_GUIDEDTOURS">
+		<field
+			name="allowTourAutoStart"
+			type="radio"
+			label="COM_GUIDEDTOURS_CONFIG_USER_ALLOWTOURAUTOSTART_LABEL"
+			description="COM_GUIDEDTOURS_CONFIG_USER_ALLOWTOURAUTOSTART_DESCRIPTION"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="delayed_time"
+			type="number"
+			label="COM_GUIDEDTOURS_CONFIG_DELAYED_TIME_LABEL"
+			description="COM_GUIDEDTOURS_CONFIG_DELAYED_TIME_DESCRIPTION"
+			default="60"
+			min="1"
+			filter="integer"
+			validate="number"
+			showon="allowTourAutoStart:1"
+		/>
+	</fieldset>
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"

@@ -9,10 +9,8 @@
 
 namespace Joomla\CMS\Event\Result;
 
-use InvalidArgumentException;
-
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -39,7 +37,7 @@ trait ResultTypeFloatAware
      * @var    boolean
      * @since  4.2.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              You should use nullable values or exceptions instead of returning boolean false results.
      */
     protected $resultIsFalseable = false;
@@ -50,7 +48,7 @@ trait ResultTypeFloatAware
      * @param   mixed  $data  The data to type check
      *
      * @return  void
-     * @throws  InvalidArgumentException
+     * @throws  \InvalidArgumentException
      *
      * @internal
      * @since   4.2.0
@@ -65,8 +63,8 @@ trait ResultTypeFloatAware
             return;
         }
 
-        if (!is_float($data)) {
-            throw new InvalidArgumentException(sprintf('Event %s only accepts Float results.', $this->getName()));
+        if (!\is_float($data)) {
+            throw new \InvalidArgumentException(\sprintf('Event %s only accepts Float results.', $this->getName()));
         }
     }
 }

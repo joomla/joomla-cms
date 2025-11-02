@@ -9,18 +9,17 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_CUSTOM_XML_DESCRIPTION</description>
-
+	<namespace path="src">Joomla\Module\Custom</namespace>
 	<customContent />
-
 	<files>
-		<filename module="mod_custom">mod_custom.php</filename>
+		<folder module="mod_custom">services</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/mod_custom.ini</language>
 		<language tag="en-GB">language/en-GB/mod_custom.sys.ini</language>
 	</languages>
-
 	<help key="Site_Modules:_Custom" />
 	<config>
 		<fields name="params">
@@ -41,6 +40,9 @@
 				<field
 					name="backgroundimage"
 					type="media"
+					schemes="http,https,ftp,ftps,data,file"
+					validate="url"
+					relative="true"
 					label="MOD_CUSTOM_FIELD_BACKGROUNDIMAGE_LABEL"
 				/>
 			</fieldset>

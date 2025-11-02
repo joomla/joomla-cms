@@ -9,10 +9,8 @@
 
 namespace Joomla\CMS\Event\Workflow;
 
-use BadMethodCallException;
-
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -28,7 +26,7 @@ class WorkflowTransitionEvent extends AbstractEvent
      * @param   string  $name       The event name.
      * @param   array   $arguments  The event arguments.
      *
-     * @throws  BadMethodCallException
+     * @throws  \BadMethodCallException
      *
      * @since   4.0.0
      */

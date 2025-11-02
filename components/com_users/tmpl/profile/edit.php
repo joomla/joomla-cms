@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -20,11 +19,11 @@ use Joomla\CMS\Router\Route;
 HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
 // Load user_profile plugin language
-$lang = Factory::getLanguage();
+$lang = $this->getLanguage();
 $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
 
@@ -38,7 +37,7 @@ $wa->useScript('keepalive')
         </div>
     <?php endif; ?>
 
-    <form id="member-profile" action="<?php echo Route::_('index.php?option=com_users'); ?>" method="post" class="com-users-profile__edit-form form-validate form-horizontal well" enctype="multipart/form-data">
+    <form id="member-profile" action="<?php echo Route::_('index.php'); ?>" method="post" class="com-users-profile__edit-form form-validate form-horizontal well" enctype="multipart/form-data">
         <?php // Iterate through the form fieldsets and display each one. ?>
         <?php foreach ($this->form->getFieldsets() as $group => $fieldset) : ?>
             <?php $fields = $this->form->getFieldset($group); ?>

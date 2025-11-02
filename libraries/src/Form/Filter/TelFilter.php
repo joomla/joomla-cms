@@ -14,7 +14,7 @@ use Joomla\CMS\Form\FormFilterInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -32,14 +32,14 @@ class TelFilter implements FormFilterInterface
      * @param   string             $group    The field name group control value. This acts as an array container for the field.
      *                                       For example if the field has name="foo" and the group value is set to "bar" then the
      *                                       full field name would end up being "bar[foo]".
-     * @param   Registry           $input    An optional Registry object with the entire data set to validate against the entire form.
-     * @param   Form               $form     The form object for which the field is being tested.
+     * @param   ?Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
+     * @param   ?Form              $form     The form object for which the field is being tested.
      *
      * @return  mixed   The filtered value.
      *
      * @since   4.0.0
      */
-    public function filter(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function filter(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         $value = trim($value);
 
@@ -47,11 +47,11 @@ class TelFilter implements FormFilterInterface
         if (preg_match('/^(?:\+?1[-. ]?)?\(?([2-9][0-8][0-9])\)?[-. ]?([2-9][0-9]{2})[-. ]?([0-9]{4})$/', $value) == 1) {
             $number = (string) preg_replace('/[^\d]/', '', $value);
 
-            if (substr($number, 0, 1) === '1') {
+            if (str_starts_with($number, '1')) {
                 $number = substr($number, 1);
             }
 
-            if (substr($number, 0, 2) === '+1') {
+            if (str_starts_with($number, '+1')) {
                 $number = substr($number, 2);
             }
 

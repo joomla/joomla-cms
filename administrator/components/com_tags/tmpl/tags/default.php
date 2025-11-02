@@ -19,14 +19,16 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\String\Inflector;
 
+/** @var \Joomla\Component\Tags\Administrator\View\Tags\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
 $app       = Factory::getApplication();
-$user      = Factory::getUser();
-$userId    = $user->get('id');
+$user      = $this->getCurrentUser();
+$userId    = $user->id;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
@@ -134,7 +136,7 @@ if ($saveOrder && !empty($this->items)) {
                     $orderkey   = array_search($item->id, $this->ordering[$item->parent_id]);
                     $canCreate  = $user->authorise('core.create', 'com_tags');
                     $canEdit    = $user->authorise('core.edit', 'com_tags');
-                    $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->get('id') || is_null($item->checked_out);
+                    $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->id || is_null($item->checked_out);
                     $canChange  = $user->authorise('core.edit.state', 'com_tags') && $canCheckin;
 
                     // Get the parents of item for sorting
@@ -216,7 +218,7 @@ if ($saveOrder && !empty($this->items)) {
                         <?php endif; ?>
                         <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
                             <td class="text-center btns d-none d-md-table-cell itemnumber">
-                                <a class="btn <?php echo $item->count_archived > 0 ? 'btn-info' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=2'); ?>">
+                                <a class="btn <?php echo $item->count_archived > 0 ? 'btn-primary' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=2'); ?>">
                                     <?php echo $item->count_archived; ?></a>
                             </td>
                         <?php endif; ?>
@@ -257,15 +259,7 @@ if ($saveOrder && !empty($this->items)) {
                 && $user->authorise('core.edit', 'com_tags')
                 && $user->authorise('core.edit.state', 'com_tags')
             ) : ?>
-                <?php echo HTMLHelper::_(
-                    'bootstrap.renderModal',
-                    'collapseModal',
-                    [
-                        'title'  => Text::_('COM_TAGS_BATCH_OPTIONS'),
-                        'footer' => $this->loadTemplate('batch_footer'),
-                    ],
-                    $this->loadTemplate('batch_body')
-                ); ?>
+                <template id="joomla-dialog-batch"><?php echo $this->loadTemplate('batch_body'); ?></template>
             <?php endif; ?>
         <?php endif; ?>
 

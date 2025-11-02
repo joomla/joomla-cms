@@ -138,13 +138,13 @@ class JsonapiView extends BaseApiView
     /**
      * Execute and display a template script.
      *
-     * @param   array|null  $items  Array of items
+     * @param   ?array  $items  Array of items
      *
      * @return  string
      *
      * @since   4.0.0
      */
-    public function displayList(array $items = null)
+    public function displayList(?array $items = null)
     {
         foreach (FieldsHelper::getFields('com_content.article') as $field) {
             $this->fieldsToRenderList[] = $field->name;
@@ -189,6 +189,10 @@ class JsonapiView extends BaseApiView
      */
     protected function prepareItem($item)
     {
+        if (!$item) {
+            return $item;
+        }
+
         $item->text = $item->introtext . ' ' . $item->fulltext;
 
         // Process the content plugins.
@@ -215,10 +219,8 @@ class JsonapiView extends BaseApiView
         }
 
         if (!empty($item->tags->tags)) {
-            $tagsIds   = explode(',', $item->tags->tags);
-            $tagsNames = $item->tagsHelper->getTagNames($tagsIds);
-
-            $item->tags = array_combine($tagsIds, $tagsNames);
+            $tagsIds    = explode(',', $item->tags->tags);
+            $item->tags = $item->tagsHelper->getTags($tagsIds);
         } else {
             $item->tags = [];
             $tags       = new TagsHelper();
@@ -226,8 +228,7 @@ class JsonapiView extends BaseApiView
 
             if (!empty($tagsIds)) {
                 $tagsIds    = explode(',', $tagsIds);
-                $tagsNames  = $tags->getTagNames($tagsIds);
-                $item->tags = array_combine($tagsIds, $tagsNames);
+                $item->tags = $tags->getTags($tagsIds);
             }
         }
 

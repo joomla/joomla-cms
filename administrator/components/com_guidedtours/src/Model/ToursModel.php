@@ -10,10 +10,12 @@
 
 namespace Joomla\Component\Guidedtours\Administrator\Model;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -31,12 +33,13 @@ class ToursModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     JController
      * @since   4.3.0
      */
-    public function __construct($config = [])
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -55,7 +58,7 @@ class ToursModel extends ListModel
             ];
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -76,11 +79,6 @@ class ToursModel extends ListModel
      */
     protected function populateState($ordering = 'a.ordering', $direction = 'ASC')
     {
-        $app       = Factory::getApplication();
-        $extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
-
-        $this->setState('filter.extension', $extension);
-
         parent::populateState($ordering, $direction);
     }
 
@@ -107,7 +105,7 @@ class ToursModel extends ListModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  string  The query to database.
+     * @return  QueryInterface  The query to database.
      *
      * @since  4.3.0
      */
@@ -193,7 +191,7 @@ class ToursModel extends ListModel
             $access = (int) $access;
             $query->where($db->quoteName('a.access') . ' = :access')
                 ->bind(':access', $access, ParameterType::INTEGER);
-        } elseif (is_array($access)) {
+        } elseif (\is_array($access)) {
             $access = ArrayHelper::toInteger($access);
             $query->whereIn($db->quoteName('a.access'), $access);
         }
@@ -248,13 +246,15 @@ class ToursModel extends ListModel
     {
         $items = parent::getItems();
 
-        Factory::getLanguage()->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
-
-        foreach ($items as $item) {
+        foreach ($items as & $item) {
+            if (!empty($item->uid)) {
+                GuidedtoursHelper::loadTranslationFiles($item->uid, false);
+            }
             $item->title       = Text::_($item->title);
             $item->description = Text::_($item->description);
             $item->extensions  = (new Registry($item->extensions))->toArray();
         }
+        unset($item);
 
         return $items;
     }
