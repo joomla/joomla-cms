@@ -92,12 +92,12 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
      */
     public const MSG_DEBUG = 'debug';
 
-     /**
-     * Constant defining an enqueued message message
-     *
-     * @var    string
-     * @since  __DEPLOY_VERSION__
-     */
+    /**
+    * Constant defining an enqueued message message
+    *
+    * @var    string
+    * @since  __DEPLOY_VERSION__
+    */
     public const MSG_MESSAGE = 'message';
 
     /**
