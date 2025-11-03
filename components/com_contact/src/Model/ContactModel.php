@@ -365,28 +365,30 @@ class ContactModel extends FormModel
         }
 
         // Get the profile information for the linked user
-        if ((int) $contact->user_id > 0) {
-            $userModel = $this->bootComponent('com_users')->getMVCFactory()
-                ->createModel('User', 'Administrator', ['ignore_request' => true]);
-            $data = $userModel->getItem((int) $contact->user_id);
-    
-            PluginHelper::importPlugin('user');
-    
-            // Get the form.
-            Form::addFormPath(JPATH_SITE . '/components/com_users/forms');
-    
-            $form = Form::getInstance('com_users.profile', 'profile');
-    
-            // Trigger the form preparation event.
-            Factory::getApplication()->triggerEvent('onContentPrepareForm', [$form, $data]);
-    
-            // Trigger the data preparation event.
-            Factory::getApplication()->triggerEvent('onContentPrepareData', ['com_users.profile', $data]);
-    
-            // Load the data into the form after the plugins have operated.
-            $form->bind($data);
-            $contact->profile = $form;
+        if (empty($contact->user_id)) {
+            return;
         }
+        
+        $userModel = $this->bootComponent('com_users')->getMVCFactory()
+            ->createModel('User', 'Administrator', ['ignore_request' => true]);
+        $data = $userModel->getItem((int) $contact->user_id);
+
+        PluginHelper::importPlugin('user');
+
+        // Get the form.
+        Form::addFormPath(JPATH_SITE . '/components/com_users/forms');
+
+        $form = Form::getInstance('com_users.profile', 'profile');
+
+        // Trigger the form preparation event.
+        Factory::getApplication()->triggerEvent('onContentPrepareForm', [$form, $data]);
+
+        // Trigger the data preparation event.
+        Factory::getApplication()->triggerEvent('onContentPrepareData', ['com_users.profile', $data]);
+
+        // Load the data into the form after the plugins have operated.
+        $form->bind($data);
+        $contact->profile = $form;
     }
 
     /**
