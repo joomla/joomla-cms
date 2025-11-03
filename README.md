@@ -1,37 +1,38 @@
 Joomla! CMS™
-====================
+============
 
-The Joomla! 6.0 branch is under heavy development and not all links in this document are available yet
-------------------------------------------------------------------------------------------------------
+## The Joomla! 6.1 branch is under heavy development and not all links in this document are available yet
 
-Build Status
-------------
+## Build Status
 
 | Actions                                                                                                                                         | PHP                                                                           | Node                                                                                 | npm                                                                              |
 |-------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
-| [![Build Status](https://github.com/joomla/joomla-cms/actions/workflows/ci.yml/badge.svg?branch=6.0-dev)](https://github.com/joomla/joomla-cms) | [![PHP](https://img.shields.io/badge/PHP-V8.3.0-green)](https://www.php.net/) | [![node-lts](https://img.shields.io/badge/Node-V20.0-green)](https://nodejs.org/en/) | [![npm](https://img.shields.io/badge/npm-v10.1.0-green)](https://nodejs.org/en/) |
+| [![Build Status](https://github.com/joomla/joomla-cms/actions/workflows/ci.yml/badge.svg?branch=6.1-dev)](https://github.com/joomla/joomla-cms) | [![PHP](https://img.shields.io/badge/PHP-V8.3.0-green)](https://www.php.net/) | [![node-lts](https://img.shields.io/badge/Node-V20.0-green)](https://nodejs.org/en/) | [![npm](https://img.shields.io/badge/npm-v10.1.0-green)](https://nodejs.org/en/) |
 
-Overview
----------------------
+## Overview
+
 * This is the source of Joomla! 6.x.
 * Joomla's [Official website](https://www.joomla.org).
-* Joomla! 6.0 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_6.0_version_history).
-* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/6.0-dev).
+* Joomla! 6.1 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_6.1_version_history).
+* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/6.1-dev).
+* Release Managers responsible for Joomla! 6.1
+  * Stefan Wendhausen @tecpromotion
+  * Harald Leithner @HLeithner
 
-What is Joomla?
----------------------
+## What is Joomla?
+
 * [Joomla!](https://www.joomla.org/about-joomla.html) is a **Content Management System** (CMS) which enables you to build websites and powerful online applications.
 * It is a simple and powerful web server application which requires a server with PHP and either MySQL, MariaDB or PostgreSQL to run. You can find [full technical requirements here](https://downloads.joomla.org/technical-requirements).
 * Joomla! is **free and Open Source software** distributed under the GNU General Public License version 2 or later.
 
-Looking for an installable package?
----------------------
+## Looking for an installable package?
+
 Joomla is not installable out of the box from this repository, please use:
 - For the latest stable package: https://downloads.joomla.org
 - For a nightly package: https://developer.joomla.org/nightly-builds.html
 
-How to get a working installation from the source
----------------------
+## How to get a working installation from the source
+
 For detailed instructions please visit https://docs.joomla.org/Special:MyLanguage/J5.x:Setting_Up_Your_Local_Environment
 
 You will need:
@@ -49,9 +50,9 @@ git clone https://github.com/joomla/joomla-cms.git
 ```bash
 cd joomla-cms
 ```
-- Go to the 6.0-dev branch:
+- Go to the 6.1-dev branch:
 ```bash
-git checkout 6.0-dev
+git checkout 6.1-dev
 ```
 - Install all the needed composer packages:
 ```bash
@@ -67,8 +68,8 @@ Joomla creates a cache of the namespaces of its extensions in `JOOMLA_ROOT/admin
 extensions are created, deleted or removed in git then this file needs to be recreated. You can simply delete the file
 and it will be regenerated on the next call to Joomla.
 
-Do you want to improve Joomla?
---------------------
+## Do you want to improve Joomla?
+
 * Where to [request a feature](https://issues.joomla.org)?
 * How do you [report a bug](https://docs.joomla.org/Special:MyLanguage/Filing_bugs_and_issues) on the [Issue Tracker](https://issues.joomla.org)?
 * How to [submit code](https://manual.joomla.org/docs/get-started/git/) to the Joomla CMS using a Pull Request?
@@ -77,8 +78,8 @@ Do you want to improve Joomla?
 * Documentation for [Web designers](https://docs.joomla.org/Special:MyLanguage/Web_designers).
 * Provide a translation for Joomla: [Joomla Crowdin Project](https://joomla.crowdin.com/cms)
 
-Copyright
----------------------
+## Copyright
+
 * (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
 * Distributed under the GNU General Public License version 2 or later
 * See [License details](https://docs.joomla.org/Special:MyLanguage/Joomla_Licenses)
