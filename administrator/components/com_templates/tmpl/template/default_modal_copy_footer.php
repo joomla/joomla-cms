@@ -14,4 +14,4 @@ use Joomla\CMS\Language\Text;
 
 ?>
 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></button>
-<button type="submit" class="btn btn-primary"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_COPY'); ?></button>
+<button type="submit" class="btn btn-primary"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_COPY' . (isset($this->template->xmldata->parent) && (string) $this->template->xmldata->parent !== '' ? '_CHILD' : '')); ?></button>

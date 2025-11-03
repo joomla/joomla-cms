@@ -296,8 +296,6 @@ trait TaskPluginTrait
             }
 
             try {
-                // Enable invocation of private/protected methods.
-                $method->setAccessible(true);
                 $exitCode = $method->invoke($this, $event);
             } catch (\ReflectionException $e) {
                 // @todo replace with language string (?)
