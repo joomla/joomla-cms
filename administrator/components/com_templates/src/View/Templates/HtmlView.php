@@ -13,10 +13,10 @@ namespace Joomla\Component\Templates\Administrator\View\Templates;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Templates\Administrator\Model\TemplatesModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -104,20 +104,19 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->items         = $this->get('Items');
-        $this->pagination    = $this->get('Pagination');
-        $this->state         = $this->get('State');
-        $this->total         = $this->get('Total');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
+        /** @var TemplatesModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
+
+        $this->items         = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->state         = $model->getState();
+        $this->total         = $model->getTotal();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
         $this->preview       = ComponentHelper::getParams('com_templates')->get('template_positions_display');
         $this->file          = base64_encode('home');
         $this->pluginState   = PluginHelper::isEnabled('installer', 'override');
-
-        // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         $this->addToolbar();
 
@@ -134,11 +133,11 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         $canDo    = ContentHelper::getActions('com_templates');
-        $clientId = (int) $this->get('State')->get('client_id');
+        $clientId = (int) $this->state->get('client_id');
         $toolbar  = $this->getDocument()->getToolbar();
 
         // Add a shortcut to the styles list view.
-        $toolbar->linkButton('', 'COM_TEMPLATES_MANAGER_STYLES_BUTTON')
+        $toolbar->linkButton('styles', 'COM_TEMPLATES_MANAGER_STYLES_BUTTON')
             ->url('index.php?option=com_templates&view=styles&client_id=' . $clientId)
             ->icon('icon-brush thememanager');
 

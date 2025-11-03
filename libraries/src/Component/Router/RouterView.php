@@ -89,7 +89,7 @@ abstract class RouterView extends RouterBase
         $result = [];
 
         // Get the right view object
-        if (isset($query['view']) && isset($views[$query['view']])) {
+        if (isset($query['view'], $views[$query['view']])) {
             $viewobj = $views[$query['view']];
         }
 

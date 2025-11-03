@@ -534,7 +534,7 @@ class CategoryModel extends AdminModel
 
         // Alter the title for save as copy
         if ($input->get('task') == 'save2copy') {
-            $origTable = clone $this->getTable();
+            $origTable = $this->getTable();
             $origTable->load($input->getInt('id'));
 
             if ($data['title'] == $origTable->title) {
@@ -1232,6 +1232,7 @@ class CategoryModel extends AdminModel
         switch ($extension) {
             case 'com_content':
                 parent::cleanCache('com_content');
+                parent::cleanCache('mod_articles');
                 parent::cleanCache('mod_articles_archive');
                 parent::cleanCache('mod_articles_categories');
                 parent::cleanCache('mod_articles_category');

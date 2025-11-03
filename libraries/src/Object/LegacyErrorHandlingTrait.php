@@ -19,7 +19,7 @@ namespace Joomla\CMS\Object;
  *
  * @since       4.3.0
  *
- * @deprecated  4.3 will be removed in 6.0
+ * @deprecated  4.3 will be removed in 7.0
  *              Will be removed without replacement
  *              Throw an Exception instead of setError
  */
@@ -37,6 +37,15 @@ trait LegacyErrorHandlingTrait
     // phpcs:enable PSR2.Classes.PropertyDeclaration
 
     /**
+     * Use exceptions rather than getError/setError.
+     *
+     * @var          boolean
+     * @since        5.4.0
+     * @deprecated   7.0
+     */
+    private bool $useExceptions = false;
+
+    /**
      * Get the most recent error message.
      *
      * @param   integer  $i         Option error index.
@@ -46,7 +55,7 @@ trait LegacyErrorHandlingTrait
      *
      * @since   1.7.0
      *
-     * @deprecated  3.1.4 will be removed in 6.0
+     * @deprecated  3.1.4 will be removed in 7.0
      *              Will be removed without replacement
      *              Catch thrown Exceptions instead of getError
      */
@@ -78,7 +87,7 @@ trait LegacyErrorHandlingTrait
      *
      * @since   1.7.0
      *
-     * @deprecated  3.1.4 will be removed in 6.0
+     * @deprecated  3.1.4 will be removed in 7.0
      *              Will be removed without replacement
      *              Catch thrown Exceptions instead of getErrors
      */
@@ -96,12 +105,44 @@ trait LegacyErrorHandlingTrait
      *
      * @since   1.7.0
      *
-     * @deprecated  3.1.4 will be removed in 6.0
+     * @deprecated  3.1.4 will be removed in 7.0
      *              Will be removed without replacement
      *              Throw an Exception instead of using setError
      */
     public function setError($error)
     {
+        if ($this->useExceptions && \is_string($error)) {
+            throw new \Exception($error, 500);
+        }
+
         $this->_errors[] = $error;
+    }
+
+    /**
+     * If true then subclasses should throw exceptions rather than use getError and setError.
+     *
+     * @return  boolean
+     *
+     * @since        5.4.0
+     * @deprecated   7.0
+     */
+    public function shouldUseExceptions(): bool
+    {
+        return $this->useExceptions;
+    }
+
+    /**
+     * If true then subclasses should throw exceptions rather than use getError and setError.
+     *
+     * @param   boolean   $value  The value to set for the field.
+     *
+     * @return  void
+     *
+     * @since        5.4.0
+     * @deprecated   7.0
+     */
+    public function setUseExceptions(bool $value): void
+    {
+        $this->useExceptions = $value;
     }
 }

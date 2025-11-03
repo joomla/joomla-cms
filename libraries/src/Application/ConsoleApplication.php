@@ -299,6 +299,8 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
         return array_merge(
             parent::getDefaultCommands(),
             [
+                new Console\AutomatedUpdatesRegisterCommand(),
+                new Console\AutomatedUpdatesUnregisterCommand(),
                 new Console\CleanCacheCommand(),
                 new Console\CheckUpdatesCommand(),
                 new Console\CheckJoomlaUpdatesCommand(),
@@ -526,7 +528,7 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
          */
         try {
             $uri = Uri::getInstance($liveSite);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $uri = Uri::getInstance('https://joomla.invalid/set/by/console/application');
         }
 

@@ -16,7 +16,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\System\Debug\Extension\Debug;
 
 return new class () implements ServiceProviderInterface {
@@ -35,7 +34,6 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 return new Debug(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('system', 'debug'),
                     Factory::getApplication(),
                     $container->get(DatabaseInterface::class)
