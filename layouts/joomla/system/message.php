@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
@@ -19,16 +19,15 @@ $msgList   = $displayData['msgList'];
 $document  = Factory::getDocument();
 $msgOutput = '';
 $alert     = [
+    CMSApplication::MSG_EMERGENCY => 'danger',
     CMSApplication::MSG_ALERT     => 'danger',
     CMSApplication::MSG_CRITICAL  => 'danger',
-    CMSApplication::MSG_DEBUG     => 'info',
-    CMSApplication::MSG_EMERGENCY => 'danger',
     CMSApplication::MSG_ERROR     => 'danger',
-    CMSApplication::MSG_INFO      => 'info',
-    CMSApplication::MSG_MESSAGE   => 'success',
-    CMSApplication::MSG_NOTICE    => 'info',
-    CMSApplication::MSG_SUCCESS   => 'success',
     CMSApplication::MSG_WARNING   => 'warning',
+    CMSApplication::MSG_NOTICE    => 'info',
+    CMSApplication::MSG_INFO      => 'info',
+    CMSApplication::MSG_DEBUG     => 'info',
+    'message'                     => 'success'
 ];
 
 // Load JavaScript message titles
@@ -47,7 +46,7 @@ $document->getWebAssetManager()
     ->useStyle('webcomponent.joomla-alert')
     ->useScript('messages');
 
-if (\is_array($msgList) && !empty($msgList)) {
+if (is_array($msgList) && !empty($msgList)) {
     $messages = [];
 
     foreach ($msgList as $type => $msgs) {
