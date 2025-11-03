@@ -364,11 +364,11 @@ class ContactModel extends FormModel
             $contact->articles = null;
         }
 
-        // Get the profile information for the linked user
         if (empty($contact->user_id)) {
             return;
         }
-        
+
+        // Get the profile information for the linked user
         $userModel = $this->bootComponent('com_users')->getMVCFactory()
             ->createModel('User', 'Administrator', ['ignore_request' => true]);
         $data = $userModel->getItem((int) $contact->user_id);
