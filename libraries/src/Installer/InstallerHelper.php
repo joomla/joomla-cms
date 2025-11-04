@@ -138,11 +138,11 @@ abstract class InstallerHelper
             return false;
         }
 
-        if (302 == $response->code && !empty($headers['location'])) {
+        if (302 == $response->getStatusCode() && !empty($headers['location'])) {
             return self::downloadPackage($headers['location']);
         }
 
-        if (200 != $response->code) {
+        if (200 != $response->getStatusCode()) {
             Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->getStatusCode()), Log::WARNING, 'jerror');
 
             return false;
