@@ -107,7 +107,7 @@ abstract class InstallerHelper
             $response = (new HttpFactory())->getHttp()->get($url, $headers);
 
             // Convert keys of headers to lowercase, to accommodate for case variations
-            $headers = array_change_key_case($response->headers, CASE_LOWER);
+            $headers = array_change_key_case($response->getHeaders(), CASE_LOWER);
         } catch (\RuntimeException $exception) {
             $response = $exception;
         }
