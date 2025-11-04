@@ -167,12 +167,19 @@ if (document.getElementById('installLanguagesButton')) {
 	document.getElementById('installLanguagesButton').addEventListener('click', function(e) {
 		e.preventDefault();
 		var form = document.getElementById('languagesForm');
-		if (form) {
+    if (form) {
+      Joomla.removeMessages();
+      document.body.appendChild(document.createElement('joomla-core-loader'));
+
 			// Install the extra languages
-			if (Joomla.install(['languages'], form)) {
-				document.getElementById('installLanguages').classList.remove('active');
-				document.getElementById('installFinal').classList.add('active');
-			}
+      try {
+        Joomla.install(['languages'], form, true);
+      } catch (err) {
+        const loader = document.querySelector('joomla-core-loader');
+        if (loader) {
+          loader.remove();
+        }
+      }
 		}
 	})
 }
