@@ -97,7 +97,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         if ($itemId > 0) {
             $db = $this->getDatabase();
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select('*')
                 ->from($db->quoteName('#__schemaorg'))
                 ->where($db->quoteName('itemId') . '= :itemId')
@@ -214,7 +214,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
             return;
         }
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select('*')
             ->from($db->quoteName('#__schemaorg'))
@@ -418,7 +418,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         if ($itemId > 0) {
             // Load the table data from the database
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select('*')
                 ->from($db->quoteName('#__schemaorg'))
                 ->where($db->quoteName('itemId') . ' = :itemId')
@@ -589,7 +589,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
     public function deleteSchemaOrg($itemId, $context)
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->delete($db->quoteName('#__schemaorg'))
             ->where($db->quoteName('itemId') . '= :itemId')

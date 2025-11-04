@@ -14,6 +14,7 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\UserGroupsHelper;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -49,31 +50,33 @@ final class NotificationModel extends BaseDatabaseModel
     {
         $params = ComponentHelper::getParams('com_joomlaupdate');
 
-        // Superusergroups as fallback
-        $superUserGroups = $this->getSuperUserGroups();
-
-        if (!\is_array($superUserGroups)) {
-            $emailGroups = ArrayHelper::toInteger(explode(',', $superUserGroups));
-        }
-
-        // User groups from input field
-        $emailGroups = $params->get('automated_updates_email_groups', $superUserGroups, 'array');
+        // User groups from Send Email to User Groups parameter in Joomla update component
+        $emailGroups = $params->get('automated_updates_email_groups', []);
 
         if (!\is_array($emailGroups)) {
             $emailGroups = ArrayHelper::toInteger(explode(',', $emailGroups));
         }
 
+        $emailGroups = array_filter($emailGroups);
+
+        /*
+         * If no valid user groups configured in Send Email to User Groups parameter, fallback to Super Users
+         * user group
+         */
+        if ($emailGroups === []) {
+            $emailGroups = $this->getSuperUserGroups();
+        }
+
         // Get all users in these groups who can receive emails
         $emailReceivers = $this->getEmailReceivers($emailGroups);
 
-        // If no email receivers are found, we use superusergroups as fallback
-        if (empty($emailReceivers)) {
-            $emailReceivers  = $this->getEmailReceivers($superUserGroups);
+        // Do not process further if no user is configured to receive email
+        if ($emailReceivers === []) {
+            return;
         }
 
-        $app        = Factory::getApplication();
-        $jLanguage  = $app->getLanguage();
-        $sitename   = $app->get('sitename');
+        $app      = Factory::getApplication();
+        $sitename = $app->get('sitename');
 
         $substitutions = [
             'oldversion' => $oldVersion,
@@ -82,64 +85,77 @@ final class NotificationModel extends BaseDatabaseModel
             'url'        => Uri::root(),
         ];
 
+        // Determine the default admin language and load the language file for the fallback and default language
+        $defaultLocale   = ComponentHelper::getParams('com_languages')->get('administrator', 'en-GB');
+        $defaultLanguage = $app->getLanguage();
+        $defaultLanguage->load('com_joomlaupdate', JPATH_ADMINISTRATOR, 'en-GB', true, true);
+        $defaultLanguage->load('com_joomlaupdate', JPATH_ADMINISTRATOR);
+
         // Send emails to all receivers
         foreach ($emailReceivers as $receiver) {
-            $params = new Registry($receiver->params);
-            $jLanguage->load('com_joomlaupdate', JPATH_ADMINISTRATOR, 'en-GB', true, true);
-            $jLanguage->load('com_joomlaupdate', JPATH_ADMINISTRATOR, $params->get('admin_language', null), true, true);
+            // If receiver email is invalid for some reason, just ignore it
+            if (!MailHelper::isEmailAddress($receiver->email)) {
+                continue;
+            }
 
-            $mailer = new MailTemplate('com_joomlaupdate.update.' . $type, $jLanguage->getTag());
-            $mailer->addRecipient($receiver->email);
+            $receiverParams = new Registry($receiver->params);
+            $receiverLocale = $receiverParams->get('admin_language', $defaultLocale);
+
+            // Temporarily set application language to user's language.
+            if ($app->getLanguage()->getTag() !== $receiverLocale) {
+                $receiverLanguage = Factory::getContainer()
+                    ->get(LanguageFactoryInterface::class)
+                    ->createLanguage($receiverLocale, $app->get('debug_lang', false));
+
+                Factory::$language = $receiverLanguage;
+
+                if (method_exists($app, 'loadLanguage')) {
+                    $app->loadLanguage($receiverLanguage);
+                }
+
+                $receiverLanguage->load('com_joomlaupdate', JPATH_ADMINISTRATOR, $receiverLocale);
+            }
+
+            $mailer = new MailTemplate('com_joomlaupdate.update.' . $type, $receiverLocale);
+            $mailer->addRecipient($receiver->email, $receiver->name);
             $mailer->addTemplateData($substitutions);
             $mailer->send();
+        }
+
+        // Set application language back to default
+        Factory::$language = $defaultLanguage;
+
+        if (method_exists($app, 'loadLanguage')) {
+            $app->loadLanguage($defaultLanguage);
         }
     }
 
     /**
      * Returns the email information of receivers. Receiver can be any user who is not disabled.
      *
-     * @param   array $emailGroups A list of usergroups to email
+     * @param   array $emailGroups A list of user groups to email
      *
      * @return  array  The list of email receivers. Can be empty if no users are found.
      *
      * @since   5.4.0
      */
-    private function getEmailReceivers($emailGroups): array
+    private function getEmailReceivers(array $emailGroups): array
     {
-        if (empty($emailGroups)) {
-            return [];
-        }
-
-        $emailReceivers = [];
-
-        // Get the users of all groups in the emailGroups
+        /* @var \Joomla\Component\Users\Administrator\Model\UsersModel $usersModel */
         $usersModel = Factory::getApplication()->bootComponent('com_users')
-            ->getMVCFactory()->createModel('Users', 'Administrator');
-        $usersModel->setState('filter.state', (int) 0); // Only enabled users
+            ->getMVCFactory()->createModel('Users', 'Administrator', ['ignore_request' => true]);
 
-        foreach ($emailGroups as $group) {
-            $usersModel->setState('filter.group_id', $group);
+        $usersModel->setState('filter.state', 0); // Only return enabled users
+        $usersModel->setState('filter.receiveSystemEmail', 1); // Only return users who receive system emails set to Yes
+        $usersModel->setState('filter.groups', $emailGroups);
 
-            $usersInGroup = $usersModel->getItems();
-            if (empty($usersInGroup)) {
-                continue;
-            }
-
-            // Users can be in more than one group. Accept only one entry
-            foreach ($usersInGroup as $user) {
-                if (MailHelper::isEmailAddress($user->email) && $user->sendEmail === 1) {
-                    $emailReceivers[$user->id] ??= $user;
-                }
-            }
-        }
-
-        return $emailReceivers;
+        return $usersModel->getItems() ?: [];
     }
 
     /**
-     * Returns all Super Users
+     * Returns all user groups with Super User right
      *
-     * @return  array  The list of super user groups.
+     * @return  array  The list of user groups have Super User right
      *
      * @since   5.4.0
      */
@@ -148,7 +164,7 @@ final class NotificationModel extends BaseDatabaseModel
         $groups = UserGroupsHelper::getInstance()->getAll();
         $ret    = [];
 
-        // Find groups with core.admin rights (super users)
+        // Find groups with core.admin (Super User) right
         foreach ($groups as $group) {
             if (Access::checkGroup($group->id, 'core.admin')) {
                 $ret[] = $group->id;

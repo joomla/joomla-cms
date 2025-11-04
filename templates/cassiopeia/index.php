@@ -94,40 +94,6 @@ $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'l
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
 
-// Advanced Color Settings
-$paramsColorSettings = $this->params->get('colorSettings', false);
-
-if ($paramsColorSettings) {
-    $wa->registerAndUseStyle('colors_custom', 'global/' . 'colors_custom.css')
-    ->addInlineStyle(':root {
-        --body-bg: ' . $this->params->get('bodybg') . ';
-        --body-color: ' . $this->params->get('bodycolor') . ';
-        --btnbg: ' . $this->params->get('btnbg') . ';
-        --btnbgh: ' . $this->params->get('btnbgh') . ';
-        --btncolor: ' . $this->params->get('btncolor') . ';
-        --btncolorh: ' . $this->params->get('btncolorh') . ';
-        --footerbg: ' . $this->params->get('footerbg') . ';
-        --footercolor: ' . $this->params->get('footercolor') . ';
-        --headerbg: ' . $this->params->get('headerbg') . ';
-        --headercolor: ' . $this->params->get('headercolor') . ';
-        --link-color: ' . $this->params->get('linkcolor') . ';
-        --link-hover-color: ' . $this->params->get('linkcolorh') . ';
-    }');
-}
-
-// Advanced Font Settings
-$paramsFontSettings = $this->params->get('fontSettings', false);
-
-if ($paramsFontSettings) {
-    $wa->registerAndUseStyle('font_advanced', 'global/' . 'font_advanced.css')
-    ->addInlineStyle(':root {
-        --body-font-size: ' . $this->params->get('bodysize') . 'rem;
-        --h1size: ' . $this->params->get('h1size') . 'rem;
-        --h2size: ' . $this->params->get('h2size') . 'rem;
-        --h3size: ' . $this->params->get('h3size') . 'rem;
-    }');
-}
-
 // Logo file or site title param
 if ($this->params->get('logoFile')) {
     $logo = HTMLHelper::_('image', Uri::root(false) . htmlspecialchars($this->params->get('logoFile'), ENT_QUOTES), $sitename, ['loading' => 'eager', 'decoding' => 'async'], false, 0);

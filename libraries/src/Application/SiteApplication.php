@@ -807,7 +807,7 @@ final class SiteApplication extends CMSApplication
             new AfterRouteEvent('onAfterRoute', ['subject' => $this])
         );
 
-        $Itemid = $this->input->getInt('Itemid', null);
+        $Itemid = $this->input->getInt('Itemid', 0);
         $this->authorise($Itemid);
     }
 

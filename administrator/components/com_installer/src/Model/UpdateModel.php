@@ -97,7 +97,7 @@ class UpdateModel extends ListModel
         $db = $this->getDatabase();
 
         // Grab updates ignoring new installs
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('u.*')
             ->select($db->quoteName('e.manifest_cache'))
             ->from($db->quoteName('#__updates', 'u'))
@@ -245,7 +245,7 @@ class UpdateModel extends ListModel
     {
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('COUNT(*)')
             ->from($db->quoteName('#__update_sites'))
             ->where($db->quoteName('enabled') . ' = 0');
@@ -293,7 +293,7 @@ class UpdateModel extends ListModel
         }
 
         // Reset the last update check timestamp
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__update_sites'))
             ->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote(0));
         $db->setQuery($query);
@@ -334,7 +334,7 @@ class UpdateModel extends ListModel
 
             $app   = Factory::getApplication();
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select('type')
                 ->from('#__update_sites')
                 ->where($db->quoteName('update_site_id') . ' = :id')
