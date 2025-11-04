@@ -153,7 +153,7 @@ abstract class InstallerHelper
             && !empty($headers['content-type'][0])
             && strpos($headers['content-type'][0], 'application/json') !== false
         ) {
-            $response = json_decode($response->body, true);
+            $response = json_decode((string)$response->getBody(), true);
 
             if (isset($response['downloadfailmessage'])) {
                 // Empty string will disable the download fail message.
