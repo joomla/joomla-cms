@@ -15,6 +15,7 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -28,7 +29,7 @@ use Joomla\String\StringHelper;
  *
  * @since  3.1
  */
-class TagModel extends AdminModel
+class TagModel extends AdminModel implements VersionableModelInterface
 {
     use VersionableModelTrait;
 
@@ -306,6 +307,9 @@ class TagModel extends AdminModel
 
         $this->setState($this->getName() . '.id', $table->id);
         $this->setState($this->getName() . '.new', $isNew);
+
+        // Save version history.
+        $this->saveHistory($data, $context);
 
         // Clear the cache
         $this->cleanCache();

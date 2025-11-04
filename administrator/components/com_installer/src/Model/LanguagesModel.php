@@ -131,7 +131,7 @@ class LanguagesModel extends ListModel
         if (empty($updateSite)) {
             Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_WARNING_NO_LANGUAGES_UPDATESERVER'), 'warning');
 
-            return;
+            return [];
         }
 
         try {
@@ -143,7 +143,7 @@ class LanguagesModel extends ListModel
         if ($response === null || $response->getStatusCode() !== 200) {
             Factory::getApplication()->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_ERROR_CANT_CONNECT_TO_UPDATESERVER', $updateSite), 'error');
 
-            return;
+            return [];
         }
 
         $updateSiteXML = simplexml_load_string((string) $response->getBody());
@@ -151,7 +151,7 @@ class LanguagesModel extends ListModel
         if (!$updateSiteXML) {
             Factory::getApplication()->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_ERROR_CANT_RETRIEVE_XML', $updateSite), 'error');
 
-            return;
+            return [];
         }
 
         $languages     = [];
