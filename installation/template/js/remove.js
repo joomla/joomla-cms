@@ -10,7 +10,7 @@ if (document.getElementById('installAddFeatures')) {
   document.getElementById('installAddFeatures').addEventListener('click', function(e) {
     e.preventDefault();
     document.getElementById('installLanguages').classList.add('active');
-    document.getElementById('automatedUpdates').classList.remove('active');
+    document.getElementById('automatedUpdates')?.classList?.remove('active');
     document.getElementById('installCongrat').classList.remove('active');
     document.getElementById('installFinal').classList.remove('active');
     document.getElementById('installRecommended').classList.remove('active');
@@ -20,7 +20,7 @@ if (document.getElementById('installAddFeatures')) {
 if (document.getElementById('skipLanguages')) {
 	document.getElementById('skipLanguages').addEventListener('click', function(e) {
 		e.preventDefault();
-		document.getElementById('automatedUpdates').classList.add('active');
+		document.getElementById('automatedUpdates')?.classList?.add('active');
 		document.getElementById('installCongrat').classList.add('active');
 		document.getElementById('installFinal').classList.add('active');
 		document.getElementById('installRecommended').classList.add('active');
