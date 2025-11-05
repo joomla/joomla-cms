@@ -73,7 +73,7 @@ class Route
     {
         try {
             /**
-             * @deprecated  3.9 int conversion will be removed in 6.0
+             * @deprecated  3.9 int conversion will be removed in 7.0
              *              Before 3.9.7 this method silently converted $tls to integer
              */
             if (!\is_int($tls)) {
@@ -86,7 +86,7 @@ class Route
             }
 
             /**
-             * @deprecated  3.9 -1 as valid value will be removed in 6.0
+             * @deprecated  3.9 -1 as valid value will be removed in 7.0
              *              Before 3.9.7 this method accepted -1.
              */
             if ($tls === -1) {
@@ -99,7 +99,7 @@ class Route
             return static::link($client, $url, $xhtml, $tls, $absolute);
         } catch (\RuntimeException) {
             /**
-             * @deprecated  3.9 this method will not fail silently from 6.0
+             * @deprecated  3.9 this method will not fail silently from 7.0
              *              Before 3.9.0 this method failed silently on router error. This B/C will be removed in Joomla 6.0
              */
             return null;
