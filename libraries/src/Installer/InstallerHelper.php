@@ -103,6 +103,21 @@ abstract class InstallerHelper
             return false;
         }
 
+        // In the XML returned by the update server the downloadurl value may include optional values using escape fields.
+        // In the simplest case these values would be the Joomla version and the PHP version.
+        // Additionally, the value of a Joomla Text Override label could be used as a security token.
+        // https://...?task=product.download&element=plg_test_test2&file_id=400&updatetype=1&j={joomla_version}&p={php_version}&t={DEVELOPER_UPDATE_TOKEN}
+        $url = str_replace(
+            ['{joomla_version}', '{php_version}'],
+            [JVERSION, PHP_VERSION],
+            $url);
+
+        preg_match('/{[^}]+}/', $url, $matches);
+        foreach($matches as $match)
+        {
+            $url = str_replace($match, Text::_(trim($match, '{}')), $url);
+        }
+
         try {
             $response = (new HttpFactory())->getHttp()->get($url, $headers);
 
@@ -154,6 +169,15 @@ abstract class InstallerHelper
             && strpos($headers['content-type'][0], 'application/json') !== false
         ) {
             $response = json_decode((string)$response->getBody(), true);
+
+            /*
+            Typically this is used for an error response which will look like this:
+            array (
+              'message' => '<strong>plg_test_test2: </strong>The subscription key you provided is expired or invalid. Please purchase a new subscription key.',
+              'type' => 'info',  'success' => false, 'error' => true, 'downloadfailmessage' => '',
+            )
+            Json data can be used as an alternative success response in which case it will include package and target data.
+            */
 
             if (isset($response['downloadfailmessage'])) {
                 // Empty string will disable the download fail message.
