@@ -10,8 +10,10 @@
 
 namespace Joomla\Plugin\System\TaskNotification\Extension;
 
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -134,7 +136,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
 
         // Load translations
         $this->loadLanguage();
-        $groups = $task->get('params.notifications.notification_failure_groups', [8]);
+        $groups = $task->get('params.notifications.notification_failure_groups', []);
 
         // @todo safety checks, multiple files [?]
         $outFile = $task->getContent()['output_file'] ?? '';
@@ -164,7 +166,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
 
         // Load translations
         $this->loadLanguage();
-        $groups = $task->get('params.notifications.notification_orphan_groups', [8]);
+        $groups = $task->get('params.notifications.notification_orphan_groups', []);
 
         $data = $this->getDataFromTask($task);
         $this->sendMail('plg_system_tasknotification.orphan_mail', $data, '', $groups);
@@ -193,7 +195,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
 
         // Load translations
         $this->loadLanguage();
-        $groups = $task->get('params.notifications.notification_success_groups', [8]);
+        $groups = $task->get('params.notifications.notification_success_groups', []);
 
         // @todo safety checks, multiple files [?]
         $outFile = $task->getContent()['output_file'] ?? '';
@@ -241,7 +243,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
 
         // Load translations
         $this->loadLanguage();
-        $groups = $task->get('params.notifications.notification_fatal_groups', [8]);
+        $groups = $task->get('params.notifications.notification_fatal_groups', []);
 
         $data = $this->getDataFromTask($task);
         $this->sendMail('plg_system_tasknotification.fatal_recovery_mail', $data, '', $groups);
@@ -283,6 +285,18 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
      */
     private function sendMail(string $template, array $data, string $attachment = '', array $groups = []): void
     {
+        // If no user groups configured, fallback to Super Users user group
+        if (empty($groups)) {
+            $usergroups = UserGroupsHelper::getInstance()->getAll();
+
+            // Find groups with core.admin (Super User) right
+            foreach ($usergroups as $group) {
+                if (Access::checkGroup($group->id, 'core.admin')) {
+                    $groups[] = $group->id;
+                }
+            }
+        }
+
         $app = $this->getApplication();
         $db  = $this->getDatabase();
 
