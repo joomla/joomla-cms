@@ -927,7 +927,7 @@ class Browser
      */
     public function isRobot()
     {
-        if (PluginHelper::importPlugin('browserbot'))
+        if (PluginHelper::importPlugin('browserbot') !== null)
         {
             $event = new Event('onIsRobot', ['isRobot' => null]);
 
@@ -935,7 +935,9 @@ class Browser
 
             $isRobot = $result->getArgument('isRobot');
 
-            if ($isRobot !== null) return $isRobot;
+            if ($isRobot !== null) {
+                return $isRobot;
+            }
         }
 
         // Fall through to legacy robot list.
