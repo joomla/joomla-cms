@@ -140,7 +140,6 @@ $direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
     </fieldset>
 
     <?php if (!$this->autoUpdatesDisabled) : ?>
-
     <fieldset id="automatedUpdates" class="j-install-step active">
         <legend class="j-install-step-header">
             <?php echo Text::_('INSTL_AUTOMATED_UPDATES'); ?>
@@ -153,7 +152,6 @@ $direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
             </button>
         </div>
     </fieldset>
-
     <?php endif; ?>
 
     <div id="installRecommended" class="j-install-step active">
