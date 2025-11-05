@@ -110,10 +110,11 @@ abstract class InstallerHelper
         $url = str_replace(
             ['{joomla_version}', '{php_version}'],
             [JVERSION, PHP_VERSION],
-            $url);
+            $url
+        );
 
         preg_match('/{[^}]+}/', $url, $matches);
-        foreach($matches as $match)
+        foreach ($matches as $match)
         {
             $url = str_replace($match, Text::_(trim($match, '{}')), $url);
         }
