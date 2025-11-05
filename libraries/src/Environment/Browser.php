@@ -927,8 +927,7 @@ class Browser
      */
     public function isRobot()
     {
-        if (PluginHelper::importPlugin('browserbot') !== null)
-        {
+        if (PluginHelper::importPlugin('browserbot') !== null) {
             $event = new Event('onIsRobot', ['isRobot' => null]);
 
             $result = Factory::getApplication()->getDispatcher()->dispatch('onIsRobot', $event);
