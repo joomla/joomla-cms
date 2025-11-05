@@ -91,9 +91,9 @@ $form = $forms[0];
                     <div<?php echo $fieldWrapperOptions; ?>>
                         <?php
                         echo $field->renderField(
-                                [
-                                        'class' => $fieldSet->name . ' ' . $fieldSet->name . '-' . $field->fieldname,
-                                ]
+                            [
+                                'class' => $fieldSet->name . ' ' . $fieldSet->name . '-' . $field->fieldname,
+                            ]
                         );
                         ?>
                     </div>
