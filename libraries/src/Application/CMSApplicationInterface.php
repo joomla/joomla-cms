@@ -108,7 +108,6 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
      */
     public const MSG_SUCCESS = 'success';
 
-
     /**
      * Enqueue a system message.
      *
