@@ -20,7 +20,7 @@ use Joomla\CMS\Form\FormField;
 /**
  * Aspect Ratio Calculator Field
  *
- * @since  4.0.0
+ * @since  6.1.0
  */
 class CalculatorField extends FormField
 {
@@ -28,7 +28,7 @@ class CalculatorField extends FormField
      * The form field type.
      *
      * @var    string
-     * @since  4.0.0
+     * @since  6.1.0
      */
     protected $type = 'Calculator';
 
@@ -36,7 +36,7 @@ class CalculatorField extends FormField
      * The layout path to use for rendering the field.
      *
      * @var    string
-     * @since  4.0.0
+     * @since  6.1.0
      */
     protected $layout = 'field.calculator';
 
@@ -45,7 +45,7 @@ class CalculatorField extends FormField
      *
      * @return  string  The field label markup.
      *
-     * @since   4.0.0
+     * @since   6.1.0
      */
     protected function getLabel(): string
     {
@@ -57,7 +57,7 @@ class CalculatorField extends FormField
      *
      * @return  string  The field input markup.
      *
-     * @since   4.0.0
+     * @since   6.1.0
      */
     protected function getInput(): string
     {
@@ -69,7 +69,7 @@ class CalculatorField extends FormField
      *
      * @return  array  An array of layout paths
      *
-     * @since   4.0.0
+     * @since   6.1.0
      */
     protected function getLayoutPaths(): array
     {
@@ -87,7 +87,7 @@ class CalculatorField extends FormField
      *
      * @return  array  The layout data.
      *
-     * @since   4.0.0
+     * @since   6.1.0
      */
     protected function getLayoutData(): array
     {

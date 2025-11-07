@@ -35,12 +35,12 @@ final class Crop extends MediaActionPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   4.0.0
+     * @since   6.1.0
      */
-    public function onContentPrepareForm(Form $form, $data)
+    public function onContentPrepareForm(Form $form, $data): void
     {
         // Check if it is the right form
-        if ($form->getName() != 'com_media.file') {
+        if ($form->getName() !== 'com_media.file') {
             return;
         }
 
@@ -80,9 +80,9 @@ final class Crop extends MediaActionPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   4.0.0
+     * @since   6.1.0
      */
-    protected function injectAspectRatios(Form $form, array $aspectRatios)
+    protected function injectAspectRatios(Form $form, array $aspectRatios): void
     {
         // Get the aspectRatio field (try without group first, then with 'crop' group)
         $field = $form->getField('aspectRatio');
@@ -189,7 +189,7 @@ final class Crop extends MediaActionPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    protected function loadJs()
+    protected function loadJs(): void
     {
         parent::loadJs();
 
@@ -207,7 +207,7 @@ final class Crop extends MediaActionPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    protected function loadCss()
+    protected function loadCss(): void
     {
         parent::loadCss();
 
