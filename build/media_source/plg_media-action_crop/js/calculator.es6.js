@@ -50,45 +50,18 @@
     };
 
     /**
-     * Fallback copy method for older browsers
-     *
-     * @param {string} value - The value to copy
-     */
-    const fallbackCopy = (value) => {
-      const textArea = document.createElement('textarea');
-      textArea.value = value;
-      textArea.style.position = 'fixed';
-      textArea.style.left = '-999999px';
-      document.body.appendChild(textArea);
-      textArea.select();
-
-      try {
-        document.execCommand('copy');
-        showCopyFeedback();
-      } catch (err) {
-        // Silent fail
-      }
-
-      document.body.removeChild(textArea);
-    };
-
-    /**
      * Copy the calculated value to clipboard
      */
     const copyToClipboard = () => {
       const value = output.textContent;
 
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(value)
-          .then(() => {
-            showCopyFeedback();
-          })
-          .catch(() => {
-            fallbackCopy(value);
-          });
-      } else {
-        fallbackCopy(value);
-      }
+      navigator.clipboard.writeText(value)
+        .then(() => {
+          showCopyFeedback();
+        })
+        .catch((err) => {
+          console.error('Clipboard copy failed:', err);
+        });
     };
 
     // Attach event listeners
