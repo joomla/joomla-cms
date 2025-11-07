@@ -35,7 +35,7 @@ final class Crop extends MediaActionPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     public function onContentPrepareForm(Form $form, $data): void
     {
@@ -80,7 +80,7 @@ final class Crop extends MediaActionPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function injectAspectRatios(Form $form, array $aspectRatios): void
     {
