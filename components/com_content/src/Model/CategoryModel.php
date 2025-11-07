@@ -335,7 +335,7 @@ class CategoryModel extends ListModel
     public function getCategory()
     {
         if (!\is_object($this->_item)) {
-            if (!empty($this->state->get('params'))) {
+            if (isset($this->state) && !empty($this->state->get('params'))) {
                 $params                = $this->state->get('params');
                 $options               = [];
                 $options['countItems'] = $params->get('show_cat_num_articles', 1) || !$params->get('show_empty_categories_cat', 0);
