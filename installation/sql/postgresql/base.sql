@@ -683,7 +683,7 @@ INSERT INTO "#__modules" ("id", "asset_id", "title", "note", "content", "orderin
 (109, 96, 'Guided Tours', '', '', 1, 'status', NULL, NULL, 1, 'mod_guidedtours', 1, 1, '', 1, '*'),
 (110, 100, 'Backward Compatibility', '', '', 1, 'status', NULL, NULL, 1, 'mod_backward', 1, 1, '', 1, '*');
 
-SELECT setval('#__modules_id_seq', 110, false);
+SELECT setval('#__modules_id_seq', 111, false);
 
 --
 -- Table structure for table `#__modules_menu`
