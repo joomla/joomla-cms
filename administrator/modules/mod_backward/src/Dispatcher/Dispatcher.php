@@ -24,7 +24,6 @@ use Joomla\CMS\Plugin\PluginHelper;
  */
 class Dispatcher extends AbstractModuleDispatcher
 {
-
     /**
      * Returns the layout data.
      *
