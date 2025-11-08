@@ -10,6 +10,7 @@
 
 namespace Joomla\CMS\Installation\Model;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -252,5 +253,19 @@ class ChecksModel extends BaseInstallationModel
         }
 
         return $form;
+    }
+
+    /**
+     * Check if auto updates are disabled
+     *
+     * @return  boolean
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getAutoUpdatesDisabled(): bool
+    {
+        $updates = ComponentHelper::getParams('com_joomlaupdate');
+
+        return !$updates->get('autoupdate', 0) && !$updates->get('autoupdate_status', 0);
     }
 }
