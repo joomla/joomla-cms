@@ -105,6 +105,7 @@ class ExtensionHelper
         ['library', 'phpass', '', 0],
 
         // Core module extensions - administrator
+        ['module', 'mod_backward', '', 1],
         ['module', 'mod_custom', '', 1],
         ['module', 'mod_feed', '', 1],
         ['module', 'mod_frontend', '', 1],
