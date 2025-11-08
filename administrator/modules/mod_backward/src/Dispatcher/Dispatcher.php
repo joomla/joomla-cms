@@ -18,7 +18,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Dispatcher class for mod_backword
+ * Dispatcher class for mod_backward
  *
  * @since  5.4.0
  */
