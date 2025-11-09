@@ -20,7 +20,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 /**
  * Dispatcher class for mod_backward
  *
- * @since  5.4.0
+ * @since  __DEPLOY_VERSION__
  */
 class Dispatcher extends AbstractModuleDispatcher
 {
