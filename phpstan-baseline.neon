@@ -3,7 +3,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -15,7 +15,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -27,7 +27,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -50,7 +50,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -88,7 +88,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -100,7 +100,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -123,7 +123,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -141,7 +141,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -153,7 +153,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -165,7 +165,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -177,7 +177,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -189,7 +189,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -275,7 +275,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -446,7 +446,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getCache\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the cache controller factory instead
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(CacheControllerFactoryInterface\:\:class\)\-\>createCacheController\(\$handler, \$options\);$#
@@ -458,7 +458,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Cache\\Cache\:
-				4\.2 will be removed in 6\.0
+				4\.2 will be removed in 7\.0
 				             Use the cache controller factory instead
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(CacheControllerFactoryInterface\:\:class\)\-\>createCacheController\(\$type, \$options\);$#
 			'''
@@ -489,7 +489,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -501,7 +501,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -524,7 +524,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -536,7 +536,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -548,7 +548,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -582,7 +582,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -653,7 +653,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -722,7 +722,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -734,7 +734,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -746,7 +746,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -758,7 +758,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -770,7 +770,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getCache\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the cache controller factory instead
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(CacheControllerFactoryInterface\:\:class\)\-\>createCacheController\(\$handler, \$options\);$#
@@ -819,7 +819,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -947,7 +947,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -968,7 +968,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -1013,7 +1013,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -1025,7 +1025,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -1037,7 +1037,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -1066,7 +1066,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -1100,7 +1100,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -1131,7 +1131,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -1143,7 +1143,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -1155,7 +1155,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -1247,7 +1247,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -1270,7 +1270,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -1282,7 +1282,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -1332,7 +1332,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -1344,7 +1344,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -1356,7 +1356,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the MvcFactory instead or instantiate the table class directly\.
 				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
 				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
@@ -1379,7 +1379,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method addIncludePath\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Should not be used anymore as tables are loaded through the MvcFactory$#
 			'''
 			identifier: staticMethod.deprecated
@@ -1411,7 +1411,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the MvcFactory instead or instantiate the table class directly\.
 				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
 				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
@@ -1434,7 +1434,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the MvcFactory instead or instantiate the table class directly\.
 				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
 				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
@@ -1473,7 +1473,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -1485,7 +1485,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -1497,7 +1497,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -1509,7 +1509,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -1521,7 +1521,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -1544,7 +1544,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -1576,7 +1576,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -1597,7 +1597,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -1620,7 +1620,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -1711,7 +1711,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the ComponentInterface to get the categories
 				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
 			'''
@@ -1784,7 +1784,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -1796,7 +1796,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -1808,7 +1808,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -1820,7 +1820,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -1842,7 +1842,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -1874,7 +1874,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the session service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
@@ -1896,7 +1896,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -1908,7 +1908,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -1941,7 +1941,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -2072,7 +2072,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -2084,7 +2084,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getCache\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the cache controller factory instead
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(CacheControllerFactoryInterface\:\:class\)\-\>createCacheController\(\$handler, \$options\);$#
@@ -2096,7 +2096,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -2108,7 +2108,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -2120,7 +2120,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -2132,7 +2132,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -2144,7 +2144,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -2250,7 +2250,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the session service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
@@ -2262,7 +2262,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the session service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
@@ -2274,7 +2274,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -2296,7 +2296,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -2361,7 +2361,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -2373,7 +2373,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -2467,7 +2467,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -2520,7 +2520,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -2764,7 +2764,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated static property \$language of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -2786,7 +2786,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\MVC\\Model\\BaseDatabaseModel\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use getDatabase\(\) instead
 				             Example\: \$model\-\>getDatabase\(\);$#
 			'''
@@ -2808,7 +2808,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -2900,7 +2900,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the session service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
@@ -2912,7 +2912,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated static property \$language of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -2935,7 +2935,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Language\\Language\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language factory instead
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(LanguageFactoryInterface\:\:class\)\-\>createLanguage\(\$lang, \$debug\);$#
 			'''
@@ -2946,7 +2946,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -2991,7 +2991,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -3020,7 +3020,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -3107,7 +3107,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Language\\Language\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language factory instead
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(LanguageFactoryInterface\:\:class\)\-\>createLanguage\(\$lang, \$debug\);$#
 			'''
@@ -3305,7 +3305,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getCache\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the cache controller factory instead
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(CacheControllerFactoryInterface\:\:class\)\-\>createCacheController\(\$handler, \$options\);$#
@@ -3317,7 +3317,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -3329,7 +3329,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -3439,7 +3439,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -3451,7 +3451,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -3463,7 +3463,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -3551,7 +3551,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method addIncludePath\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Should not be used anymore as tables are loaded through the MvcFactory$#
 			'''
 			identifier: staticMethod.deprecated
@@ -3561,7 +3561,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -3650,7 +3650,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -3662,7 +3662,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -3706,7 +3706,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -3749,7 +3749,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -3772,7 +3772,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the MvcFactory instead or instantiate the table class directly\.
 				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
 				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
@@ -3826,7 +3826,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -3838,7 +3838,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -3973,7 +3973,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Language\\Language\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language factory instead
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(LanguageFactoryInterface\:\:class\)\-\>createLanguage\(\$lang, \$debug\);$#
 			'''
@@ -3995,7 +3995,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -4045,7 +4045,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -4057,7 +4057,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -4069,7 +4069,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -4092,7 +4092,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the MvcFactory instead or instantiate the table class directly\.
 				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
 				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
@@ -4104,7 +4104,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -4147,7 +4147,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -4159,7 +4159,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -4182,7 +4182,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -4265,7 +4265,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -4277,7 +4277,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -4311,7 +4311,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -4323,7 +4323,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -4376,7 +4376,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -4388,7 +4388,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the MvcFactory instead or instantiate the table class directly\.
 				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
 				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
@@ -4400,7 +4400,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -4422,7 +4422,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -4476,7 +4476,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getCache\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the cache controller factory instead
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(CacheControllerFactoryInterface\:\:class\)\-\>createCacheController\(\$handler, \$options\);$#
@@ -4512,7 +4512,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the session service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
@@ -4582,7 +4582,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -4626,7 +4626,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Language\\Language\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language factory instead
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(LanguageFactoryInterface\:\:class\)\-\>createLanguage\(\$lang, \$debug\);$#
 			'''
@@ -4637,7 +4637,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -4704,7 +4704,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Language\\Language\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language factory instead
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(LanguageFactoryInterface\:\:class\)\-\>createLanguage\(\$lang, \$debug\);$#
 			'''
@@ -4715,7 +4715,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -4785,7 +4785,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the session service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
@@ -4808,7 +4808,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -4831,7 +4831,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -4917,7 +4917,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -4940,7 +4940,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Toolbar\\Toolbar\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the ToolbarFactoryInterface instead
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(ToolbarFactoryInterface\:\:class\)\-\>createToolbar\(\$name\)$#
@@ -5037,7 +5037,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -5134,7 +5134,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -5178,7 +5178,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -5326,7 +5326,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -5455,7 +5455,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -5467,7 +5467,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -5479,7 +5479,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -5501,7 +5501,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -5556,7 +5556,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the MvcFactory instead or instantiate the table class directly\.
 				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
 				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
@@ -5600,7 +5600,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the MvcFactory instead or instantiate the table class directly\.
 				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
 				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
@@ -5645,7 +5645,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -5721,7 +5721,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the MvcFactory instead or instantiate the table class directly\.
 				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
 				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
@@ -5775,7 +5775,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -5787,7 +5787,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -5799,7 +5799,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -5822,7 +5822,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -5984,7 +5984,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\MVC\\Model\\BaseDatabaseModel\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use getDatabase\(\) instead
 				             Example\: \$model\-\>getDatabase\(\);$#
 			'''
@@ -6006,7 +6006,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -6081,7 +6081,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -6273,7 +6273,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -6285,7 +6285,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -6297,7 +6297,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -6309,7 +6309,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -6321,7 +6321,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -6339,7 +6339,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -6351,7 +6351,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -6374,7 +6374,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getCache\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the cache controller factory instead
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(CacheControllerFactoryInterface\:\:class\)\-\>createCacheController\(\$handler, \$options\);$#
@@ -6386,7 +6386,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -6409,7 +6409,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Form\\Form\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the FormFactory service from the container
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(FormFactoryInterface\:\:class\)\-\>createForm\(\$name, \$options\);$#
 			'''
@@ -6430,7 +6430,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -6442,7 +6442,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -6454,7 +6454,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -6478,7 +6478,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated property \$document of class Joomla\\CMS\\MVC\\View\\AbstractView\:
-				4\.4\.0 will be removed in 6\.0
+				4\.4\.0 will be removed in 7\.0
 				            Use \$this\-\>getDocument\(\) instead$#
 			'''
 			identifier: property.deprecated
@@ -6510,7 +6510,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the session service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
@@ -6522,7 +6522,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the ComponentInterface to get the categories
 				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
 			'''
@@ -6533,7 +6533,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the ComponentInterface to get the categories
 				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
 			'''
@@ -6544,7 +6544,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Form\\Form\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the FormFactory service from the container
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(FormFactoryInterface\:\:class\)\-\>createForm\(\$name, \$options\);$#
 			'''
@@ -6555,7 +6555,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -6588,7 +6588,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -6600,7 +6600,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getRouter\(\) of class Joomla\\CMS\\Application\\CMSApplication\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Inject the router or load it from the dependency injection container
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(\$name\);$#
 			'''
@@ -6640,7 +6640,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the ComponentInterface to get the categories
 				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
 			'''
@@ -6794,7 +6794,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -6806,7 +6806,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -6818,7 +6818,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -6830,7 +6830,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -6842,7 +6842,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -6865,7 +6865,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the ComponentInterface to get the categories
 				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
 			'''
@@ -6876,7 +6876,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the ComponentInterface to get the categories
 				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
 			'''
@@ -6930,7 +6930,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getRouter\(\) of class Joomla\\CMS\\Application\\CMSApplication\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Inject the router or load it from the dependency injection container
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(\$name\);$#
 			'''
@@ -6973,7 +6973,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the ComponentInterface to get the categories
 				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
 			'''
@@ -7012,7 +7012,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the ComponentInterface to get the categories
 				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
 			'''
@@ -7149,7 +7149,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -7161,7 +7161,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -7183,7 +7183,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -7254,7 +7254,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the ComponentInterface to get the categories
 				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
 			'''
@@ -7265,7 +7265,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the ComponentInterface to get the categories
 				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
 			'''
@@ -7287,7 +7287,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getRouter\(\) of class Joomla\\CMS\\Application\\CMSApplication\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Inject the router or load it from the dependency injection container
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(\$name\);$#
 			'''
@@ -7333,7 +7333,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the ComponentInterface to get the categories
 				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
 			'''
@@ -7456,7 +7456,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Menu\\AbstractMenu\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the MenuFactoryInterface from the container instead
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(MenuFactoryInterface\:\:class\)\-\>createMenu\(\$client, \$options\)$#
 			'''
@@ -7499,7 +7499,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated property \$sefparams of class Joomla\\Component\\Tags\\Site\\Service\\Router\:
-				5\.2\.0 will be removed in 6\.0
+				5\.2\.0 will be removed in 7\.0
 				             without replacement$#
 			'''
 			identifier: property.deprecated
@@ -7662,7 +7662,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -7803,7 +7803,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated static property \$config of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the configuration object within the application
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getConfig\(\);$#
@@ -7815,7 +7815,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated static property \$language of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -7838,7 +7838,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated static property \$config of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the configuration object within the application
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getConfig\(\);$#
@@ -7850,7 +7850,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated static property \$document of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				              Use the document service in the DI container or get from the application object
 				              Example\:
 				              Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -7862,7 +7862,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated static property \$language of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -7874,7 +7874,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -7897,7 +7897,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -7909,7 +7909,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated static property \$language of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -7921,7 +7921,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Language\\Language\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language factory instead
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(LanguageFactoryInterface\:\:class\)\-\>createLanguage\(\$lang, \$debug\);$#
 			'''
@@ -7932,7 +7932,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -7944,7 +7944,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the session service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
@@ -7965,7 +7965,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the session service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
@@ -7977,7 +7977,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the session service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
@@ -7989,7 +7989,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Form\\Form\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the FormFactory service from the container
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(FormFactoryInterface\:\:class\)\-\>createForm\(\$name, \$options\);$#
 			'''
@@ -8000,7 +8000,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the session service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
@@ -8021,7 +8021,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -8033,7 +8033,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the session service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
@@ -8056,7 +8056,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Form\\Form\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the FormFactory service from the container
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(FormFactoryInterface\:\:class\)\-\>createForm\(\$name, \$options\);$#
 			'''
@@ -8073,7 +8073,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Form\\Form\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the FormFactory service from the container
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(FormFactoryInterface\:\:class\)\-\>createForm\(\$name, \$options\);$#
 			'''
@@ -8084,7 +8084,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -8096,7 +8096,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the session service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
@@ -8108,7 +8108,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -8156,7 +8156,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -8174,7 +8174,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -8192,7 +8192,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -8204,7 +8204,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\User\\User\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or via \$app\-\>getIdentity\(\)
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(UserFactoryInterface\:\:class\)\-\>loadUserById\(\$id\)$#
 			'''
@@ -8215,7 +8215,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method __construct\(\) of class Joomla\\CMS\\Encrypt\\Aes\:
-				4\.3 \$strength will be removed in 6\.0$#
+				4\.3 \$strength will be removed in 7\.0$#
 			'''
 			identifier: method.deprecated
 			count: 1
@@ -8224,7 +8224,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -8236,7 +8236,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -8248,7 +8248,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method route\(\) of class Joomla\\CMS\\Application\\AdministratorApplication\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Implement the route functionality in the extending class, this here will be removed without replacement$#
 			'''
 			identifier: method.deprecated
@@ -8258,7 +8258,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -8270,7 +8270,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method route\(\) of class Joomla\\CMS\\Application\\ApiApplication\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Implement the route functionality in the extending class, this here will be removed without replacement$#
 			'''
 			identifier: method.deprecated
@@ -8280,7 +8280,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated static property \$instances of class Joomla\\CMS\\Menu\\AbstractMenu\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the MenuFactoryInterface from the container instead
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(MenuFactoryInterface\:\:class\)\-\>createMenu\(\$client, \$options\)$#
 			'''
@@ -8291,7 +8291,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated static property \$language of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -8303,7 +8303,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -8342,7 +8342,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method __construct\(\) of class Joomla\\CMS\\Console\\CheckJoomlaUpdatesCommand\:
-				5\.1\.0 will be removed in 6\.0
+				5\.1\.0 will be removed in 7\.0
 				            Use core\:update\:check instead of core\:check\-updates$#
 			'''
 			identifier: method.deprecated
@@ -8363,7 +8363,7 @@ parameters:
 		-
 			message: '''
 				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\Input\\Cli\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the `joomla/console` package instead$#
 			'''
 			identifier: method.deprecatedClass
@@ -8373,7 +8373,7 @@ parameters:
 		-
 			message: '''
 				#^Instantiation of deprecated class Joomla\\CMS\\Input\\Cli\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the `joomla/console` package instead$#
 			'''
 			identifier: new.deprecatedClass
@@ -8433,7 +8433,7 @@ parameters:
 		-
 			message: '''
 				#^Parameter \$input of method Joomla\\CMS\\Application\\DaemonApplication\:\:__construct\(\) has typehint with deprecated class Joomla\\CMS\\Input\\Cli\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the `joomla/console` package instead$#
 			'''
 			identifier: parameter.deprecatedClass
@@ -8449,7 +8449,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated static property \$document of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				              Use the document service in the DI container or get from the application object
 				              Example\:
 				              Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -8461,7 +8461,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method __construct\(\) of class Joomla\\CMS\\Encrypt\\Aes\:
-				4\.3 \$strength will be removed in 6\.0$#
+				4\.3 \$strength will be removed in 7\.0$#
 			'''
 			identifier: method.deprecated
 			count: 1
@@ -8470,7 +8470,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -8482,7 +8482,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method route\(\) of class Joomla\\CMS\\Application\\SiteApplication\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Implement the route functionality in the extending class, this here will be removed without replacement$#
 			'''
 			identifier: method.deprecated
@@ -8492,7 +8492,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -8504,7 +8504,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -8534,7 +8534,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -8546,7 +8546,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -8558,7 +8558,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -8570,7 +8570,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -8593,7 +8593,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -8624,7 +8624,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -8636,7 +8636,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -8648,7 +8648,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the ComponentInterface to get the categories
 				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
 			'''
@@ -8659,7 +8659,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -8693,7 +8693,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the session service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
@@ -8711,7 +8711,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -8723,7 +8723,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -8735,7 +8735,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -8747,7 +8747,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated property \$sefparams of class Joomla\\CMS\\Component\\Router\\Rules\\MenuRules\:
-				5\.2\.0 will be removed in 6\.0
+				5\.2\.0 will be removed in 7\.0
 				             without replacement$#
 			'''
 			identifier: property.deprecated
@@ -8768,7 +8768,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\User\\User\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or via \$app\-\>getIdentity\(\)
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(UserFactoryInterface\:\:class\)\-\>loadUserById\(\$id\)$#
 			'''
@@ -8779,7 +8779,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\User\\User\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or via \$app\-\>getIdentity\(\)
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(UserFactoryInterface\:\:class\)\-\>loadUserById\(\$id\)$#
 			'''
@@ -8801,7 +8801,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\User\\User\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or via \$app\-\>getIdentity\(\)
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(UserFactoryInterface\:\:class\)\-\>loadUserById\(\$id\)$#
 			'''
@@ -8812,7 +8812,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\User\\User\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or via \$app\-\>getIdentity\(\)
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(UserFactoryInterface\:\:class\)\-\>loadUserById\(\$id\)$#
 			'''
@@ -8823,7 +8823,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -8835,7 +8835,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -8868,7 +8868,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\User\\User\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or via \$app\-\>getIdentity\(\)
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(UserFactoryInterface\:\:class\)\-\>loadUserById\(\$id\)$#
 			'''
@@ -8888,7 +8888,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -8906,7 +8906,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -8918,7 +8918,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -9028,7 +9028,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -9040,7 +9040,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -9137,7 +9137,7 @@ parameters:
 		-
 			message: '''
 				#^Call to method isSupported\(\) of deprecated class Joomla\\CMS\\Encrypt\\AES\\Mcrypt\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Will be removed without replacement$#
 			'''
 			identifier: method.deprecatedClass
@@ -9147,7 +9147,7 @@ parameters:
 		-
 			message: '''
 				#^Instantiation of deprecated class Joomla\\CMS\\Encrypt\\AES\\Mcrypt\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Will be removed without replacement$#
 			'''
 			identifier: new.deprecatedClass
@@ -9163,7 +9163,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated static property \$language of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -9175,7 +9175,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -10505,7 +10505,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated static property \$document of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				              Use the document service in the DI container or get from the application object
 				              Example\:
 				              Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -10527,7 +10527,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -10581,7 +10581,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -10619,7 +10619,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Language\\Language\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language factory instead
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(LanguageFactoryInterface\:\:class\)\-\>createLanguage\(\$lang, \$debug\);$#
 			'''
@@ -10630,7 +10630,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -10642,7 +10642,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -10654,7 +10654,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -10666,7 +10666,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -10678,7 +10678,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -10690,7 +10690,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -10702,7 +10702,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -10714,7 +10714,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -10726,7 +10726,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -10738,7 +10738,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -10761,7 +10761,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -10773,7 +10773,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -10785,7 +10785,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -10797,7 +10797,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -10809,7 +10809,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Form\\Form\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the FormFactory service from the container
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(FormFactoryInterface\:\:class\)\-\>createForm\(\$name, \$options\);$#
 			'''
@@ -10820,7 +10820,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -10832,7 +10832,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -10844,7 +10844,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\User\\User\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or via \$app\-\>getIdentity\(\)
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(UserFactoryInterface\:\:class\)\-\>loadUserById\(\$id\)$#
 			'''
@@ -10855,7 +10855,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -10867,7 +10867,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -10879,7 +10879,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -10902,7 +10902,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -10914,7 +10914,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated static property \$includePaths of class Joomla\\CMS\\HTML\\HTMLHelper\:
-				4\.0 will be removed in 6\.0$#
+				4\.0 will be removed in 7\.0$#
 			'''
 			identifier: staticProperty.deprecated
 			count: 1
@@ -10923,7 +10923,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated static property \$registry of class Joomla\\CMS\\HTML\\HTMLHelper\:
-				4\.0 will be removed in 6\.0$#
+				4\.0 will be removed in 7\.0$#
 			'''
 			identifier: staticProperty.deprecated
 			count: 3
@@ -10938,7 +10938,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method extract\(\) of class Joomla\\CMS\\HTML\\HTMLHelper\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the service registry instead
 				             HTMLHelper\:\:getServiceRegistry\(\)\-\>getService\(\$file\);$#
 			'''
@@ -10949,7 +10949,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -10961,7 +10961,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -10984,7 +10984,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method register\(\) of class Joomla\\CMS\\HTML\\HTMLHelper\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the service registry instead
 				             HTMLHelper\:\:getServiceRegistry\(\)\-\>register\(\$key, \$function\);$#
 			'''
@@ -10995,7 +10995,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -11007,7 +11007,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -11019,7 +11019,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -11031,7 +11031,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -11043,7 +11043,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -11055,7 +11055,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -11067,7 +11067,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -11079,7 +11079,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -11091,7 +11091,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -11114,7 +11114,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -11126,7 +11126,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -11138,7 +11138,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -11150,7 +11150,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -11162,7 +11162,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -11174,7 +11174,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -11186,7 +11186,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -11198,7 +11198,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -11221,7 +11221,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method framework\(\) of class Joomla\\CMS\\HTML\\Helpers\\Jquery\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use webasset manager instead
 				             Example\:
 				             \$wa \= Factory\:\:getApplication\(\)\-\>getDocument\(\)\-\>getWebAssetManager\(\);
@@ -11236,7 +11236,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -11248,7 +11248,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -11260,7 +11260,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -11272,7 +11272,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -11284,7 +11284,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -11296,7 +11296,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -11308,7 +11308,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -11320,7 +11320,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -11332,7 +11332,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -11344,7 +11344,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -11356,7 +11356,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -11368,7 +11368,7 @@ parameters:
 		-
 			message: '''
 				#^Access to constant on deprecated class Joomla\\CMS\\HTML\\Helpers\\FormBehavior\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Will be removed without replacement
 				             Use choice\.js instead
 				             Example\:
@@ -11382,7 +11382,7 @@ parameters:
 		-
 			message: '''
 				#^Access to constant on deprecated class Joomla\\CMS\\HTML\\Helpers\\SortableList\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Sortable List will be deprecated in favour of a new dragula script in 4\.0$#
 			'''
 			identifier: classConstant.deprecatedClass
@@ -11392,7 +11392,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -11414,7 +11414,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -11426,7 +11426,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -11438,7 +11438,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -11468,7 +11468,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -11480,7 +11480,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -11492,7 +11492,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -11514,7 +11514,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the ComponentInterface to get the categories
 				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
 			'''
@@ -11531,7 +11531,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -11543,7 +11543,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -11561,7 +11561,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -11601,7 +11601,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getCache\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the cache controller factory instead
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(CacheControllerFactoryInterface\:\:class\)\-\>createCacheController\(\$handler, \$options\);$#
@@ -11709,7 +11709,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -11721,7 +11721,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the MvcFactory instead or instantiate the table class directly\.
 				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
 				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
@@ -11782,7 +11782,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -11794,7 +11794,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the MvcFactory instead or instantiate the table class directly\.
 				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
 				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
@@ -11806,7 +11806,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -11881,7 +11881,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -11904,7 +11904,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -11916,7 +11916,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated property \$ignoredSearchWordsCallback of class Joomla\\CMS\\Language\\Language\:
-				4\.4 will be removed in 6\.0 without replacement$#
+				4\.4 will be removed in 7\.0 without replacement$#
 			'''
 			identifier: property.deprecated
 			count: 1
@@ -11925,7 +11925,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated property \$lowerLimitSearchWordCallback of class Joomla\\CMS\\Language\\Language\:
-				4\.4 will be removed in 6\.0 without replacement$#
+				4\.4 will be removed in 7\.0 without replacement$#
 			'''
 			identifier: property.deprecated
 			count: 1
@@ -11934,7 +11934,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated property \$searchDisplayedCharactersNumberCallback of class Joomla\\CMS\\Language\\Language\:
-				4\.4 will be removed in 6\.0 without replacement$#
+				4\.4 will be removed in 7\.0 without replacement$#
 			'''
 			identifier: property.deprecated
 			count: 1
@@ -11943,7 +11943,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated property \$upperLimitSearchWordCallback of class Joomla\\CMS\\Language\\Language\:
-				4\.4 will be removed in 6\.0 without replacement$#
+				4\.4 will be removed in 7\.0 without replacement$#
 			'''
 			identifier: property.deprecated
 			count: 1
@@ -11952,7 +11952,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -11964,7 +11964,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -11976,7 +11976,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -11988,7 +11988,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -12012,7 +12012,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -12055,7 +12055,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method addModelPath\(\) of class Joomla\\CMS\\MVC\\Controller\\BaseController\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Will be removed without replacement\. Get the model through the MVCFactory instead$#
 			'''
 			identifier: staticMethod.deprecated
@@ -12065,7 +12065,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getCache\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the cache controller factory instead
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(CacheControllerFactoryInterface\:\:class\)\-\>createCacheController\(\$handler, \$options\);$#
@@ -12109,7 +12109,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Will be removed without replacement\. Get the model through the MVCFactory instead
 				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('com_xxx'\)\-\>getMVCFactory\(\)\-\>createModel\(\$type, \$prefix, \$config\);$#
 			'''
@@ -12120,7 +12120,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the MvcFactory instead or instantiate the table class directly\.
 				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
 				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
@@ -12212,7 +12212,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method addTablePath\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Will be removed without replacement\. Get the model through the MVCFactory instead$#
 			'''
 			identifier: staticMethod.deprecated
@@ -12222,7 +12222,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -12234,7 +12234,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -12246,7 +12246,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setDbo\(\) of class Joomla\\CMS\\MVC\\Model\\BaseDatabaseModel\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use setDatabase\(\) instead
 				             Example\: \$model\-\>setDatabase\(\$db\);$#
 			'''
@@ -12284,7 +12284,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\MVC\\Model\\LegacyModelLoaderTrait in class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Will be removed without replacement$#
 			'''
 			identifier: traitUse.deprecatedTrait
@@ -12349,7 +12349,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated property \$document of class Joomla\\CMS\\MVC\\View\\AbstractView\:
-				4\.4\.0 will be removed in 6\.0
+				4\.4\.0 will be removed in 7\.0
 				            Use \$this\-\>getDocument\(\) instead$#
 			'''
 			identifier: property.deprecated
@@ -12421,7 +12421,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -12540,7 +12540,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -12621,7 +12621,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -12633,7 +12633,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getMailer\(\) of class Joomla\\CMS\\Factory\:
-				4\.4\.0 will be removed in 6\.0
+				4\.4\.0 will be removed in 7\.0
 				             Use the mailer service in the DI container and create a mailer from there
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(MailerFactoryInterface\:\:class\)\-\>createMailer\(\);$#
@@ -12655,7 +12655,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -12667,7 +12667,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -12679,7 +12679,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -12691,7 +12691,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -12733,7 +12733,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getCache\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the cache controller factory instead
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(CacheControllerFactoryInterface\:\:class\)\-\>createCacheController\(\$handler, \$options\);$#
@@ -12745,7 +12745,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -12757,7 +12757,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -12857,7 +12857,7 @@ parameters:
 		-
 			message: '''
 				#^Access to constant on deprecated class Joomla\\CMS\\Authentication\\Password\\MD5Handler\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Support for MD5 hashed passwords will be removed without replacement$#
 			'''
 			identifier: classConstant.deprecatedClass
@@ -12867,7 +12867,7 @@ parameters:
 		-
 			message: '''
 				#^Access to constant on deprecated class Joomla\\CMS\\Authentication\\Password\\PHPassHandler\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Support for PHPass hashed passwords will be removed without replacement$#
 			'''
 			identifier: classConstant.deprecatedClass
@@ -12877,7 +12877,7 @@ parameters:
 		-
 			message: '''
 				#^Instantiation of deprecated class Joomla\\CMS\\Authentication\\Password\\MD5Handler\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Support for MD5 hashed passwords will be removed without replacement$#
 			'''
 			identifier: new.deprecatedClass
@@ -12887,7 +12887,7 @@ parameters:
 		-
 			message: '''
 				#^Instantiation of deprecated class Joomla\\CMS\\Authentication\\Password\\PHPassHandler\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Support for PHPass hashed passwords will be removed without replacement$#
 			'''
 			identifier: new.deprecatedClass
@@ -12908,7 +12908,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method __construct\(\) of class Joomla\\CMS\\Console\\CheckJoomlaUpdatesCommand\:
-				5\.1\.0 will be removed in 6\.0
+				5\.1\.0 will be removed in 7\.0
 				            Use core\:update\:check instead of core\:check\-updates$#
 			'''
 			identifier: method.deprecated
@@ -12927,7 +12927,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -12950,7 +12950,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -12973,7 +12973,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -12996,7 +12996,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -13030,7 +13030,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -13097,7 +13097,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -13170,7 +13170,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated property \$_errors of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4  JError has been deprecated$#
+				3\.7\.0  JError has been deprecated$#
 			'''
 			identifier: property.deprecated
 			count: 1
@@ -13179,7 +13179,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -13332,7 +13332,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
@@ -13344,7 +13344,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getButtonPath\(\) of class Joomla\\CMS\\Toolbar\\Toolbar\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             ToolbarButton buttons should be autoloaded via namespaces$#
 			'''
 			identifier: method.deprecated
@@ -13354,7 +13354,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -13372,7 +13372,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method fetchButton\(\) of class Joomla\\CMS\\Toolbar\\ToolbarButton\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use render\(\) instead\.$#
 			'''
 			identifier: method.deprecated
@@ -13382,7 +13382,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -13394,7 +13394,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Toolbar\\Toolbar\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the ToolbarFactoryInterface instead
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(ToolbarFactoryInterface\:\:class\)\-\>createToolbar\(\$name\)$#
@@ -13406,7 +13406,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -13418,7 +13418,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -13430,7 +13430,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -13464,7 +13464,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -13497,7 +13497,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -13543,7 +13543,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -13587,7 +13587,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -13642,7 +13642,7 @@ parameters:
 		-
 			message: '''
 				#^Access to constant on deprecated class Joomla\\CMS\\Authentication\\Password\\MD5Handler\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Support for MD5 hashed passwords will be removed without replacement$#
 			'''
 			identifier: classConstant.deprecatedClass
@@ -13652,7 +13652,7 @@ parameters:
 		-
 			message: '''
 				#^Access to constant on deprecated class Joomla\\CMS\\Authentication\\Password\\PHPassHandler\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Support for PHPass hashed passwords will be removed without replacement$#
 			'''
 			identifier: classConstant.deprecatedClass
@@ -13662,7 +13662,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -13685,7 +13685,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\User\\User\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or via \$app\-\>getIdentity\(\)
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(UserFactoryInterface\:\:class\)\-\>loadUserById\(\$id\)$#
 			'''
@@ -13696,7 +13696,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the session service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
@@ -13708,7 +13708,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -13720,7 +13720,7 @@ parameters:
 		-
 			message: '''
 				#^Call to method checkIfRehashNeeded\(\) of deprecated class Joomla\\CMS\\Authentication\\Password\\PHPassHandler\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Support for PHPass hashed passwords will be removed without replacement$#
 			'''
 			identifier: method.deprecatedClass
@@ -13740,7 +13740,7 @@ parameters:
 		-
 			message: '''
 				#^Call to method validatePassword\(\) of deprecated class Joomla\\CMS\\Authentication\\Password\\PHPassHandler\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Support for PHPass hashed passwords will be removed without replacement$#
 			'''
 			identifier: method.deprecatedClass
@@ -13750,7 +13750,7 @@ parameters:
 		-
 			message: '''
 				#^Fetching deprecated class constant HASH_ARGON2ID_BC of class Joomla\\CMS\\User\\UserHelper\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use UserHelper\:\:HASH_ARGON2ID instead$#
 			'''
 			identifier: classConstant.deprecated
@@ -13760,7 +13760,7 @@ parameters:
 		-
 			message: '''
 				#^Fetching deprecated class constant HASH_ARGON2I_BC of class Joomla\\CMS\\User\\UserHelper\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use UserHelper\:\:HASH_ARGON2I instead$#
 			'''
 			identifier: classConstant.deprecated
@@ -13770,7 +13770,7 @@ parameters:
 		-
 			message: '''
 				#^Fetching deprecated class constant HASH_BCRYPT_BC of class Joomla\\CMS\\User\\UserHelper\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use UserHelper\:\:HASH_BCRYPT instead$#
 			'''
 			identifier: classConstant.deprecated
@@ -13780,7 +13780,7 @@ parameters:
 		-
 			message: '''
 				#^Fetching deprecated class constant HASH_MD5 of class Joomla\\CMS\\User\\UserHelper\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Support for MD5 hashed passwords will be removed use any of the other hashing methods$#
 			'''
 			identifier: classConstant.deprecated
@@ -13790,7 +13790,7 @@ parameters:
 		-
 			message: '''
 				#^Fetching deprecated class constant HASH_PHPASS of class Joomla\\CMS\\User\\UserHelper\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Support for PHPass hashed passwords will be removed use any of the other hashing methods$#
 			'''
 			identifier: classConstant.deprecated
@@ -13800,7 +13800,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -13812,7 +13812,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated property \$tokenBindingHandler of class Joomla\\CMS\\WebAuthn\\Server\:
-				6\.0 Will be removed when we upgrade to WebAuthn library 5\.0 or later$#
+				6\.0 Will be removed when we upgrade to WebAuthn library 7\.0 or later$#
 			'''
 			identifier: property.deprecated
 			count: 2
@@ -13888,7 +13888,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -13946,7 +13946,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method onDisplay\(\) of class Joomla\\Plugin\\EditorsXtd\\Article\\Extension\\Article\:
-				5\.0 Use onEditorButtonsSetup event$#
+				5\.0 Use onEditorButtonsSetup event instead, will be removed in 7\.0$#
 			'''
 			identifier: method.deprecated
 			count: 1
@@ -13955,7 +13955,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method onDisplay\(\) of class Joomla\\Plugin\\EditorsXtd\\Contact\\Extension\\Contact\:
-				5\.0 Use onEditorButtonsSetup event$#
+				5\.0 Use onEditorButtonsSetup event instead, will be removed in 7\.0$#
 			'''
 			identifier: method.deprecated
 			count: 1
@@ -13964,7 +13964,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method onDisplay\(\) of class Joomla\\Plugin\\EditorsXtd\\Menu\\Extension\\Menu\:
-				5\.0 Use onEditorButtonsSetup event$#
+				5\.0 Use onEditorButtonsSetup event instead, will be removed in 7\.0$#
 			'''
 			identifier: method.deprecated
 			count: 1
@@ -13973,7 +13973,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method onDisplay\(\) of class Joomla\\Plugin\\EditorsXtd\\Module\\Extension\\Module\:
-				5\.0 Use onEditorButtonsSetup event$#
+				5\.0 Use onEditorButtonsSetup event instead, will be removed in 7\.0$#
 			'''
 			identifier: method.deprecated
 			count: 1
@@ -13982,7 +13982,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method onDisplay\(\) of class Joomla\\Plugin\\EditorsXtd\\PageBreak\\Extension\\PageBreak\:
-				5\.0 Use onEditorButtonsSetup event$#
+				5\.0 Use onEditorButtonsSetup event instead, will be removed in 7\.0$#
 			'''
 			identifier: method.deprecated
 			count: 1
@@ -13991,7 +13991,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method onDisplay\(\) of class Joomla\\Plugin\\EditorsXtd\\ReadMore\\Extension\\ReadMore\:
-				5\.0 Use onEditorButtonsSetup event$#
+				5\.0 Use onEditorButtonsSetup event instead, will be removed in 7\.0$#
 			'''
 			identifier: method.deprecated
 			count: 1
@@ -14060,7 +14060,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Form\\Form\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the FormFactory service from the container
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(FormFactoryInterface\:\:class\)\-\>createForm\(\$name, \$options\);$#
 			'''
@@ -14071,7 +14071,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -14099,7 +14099,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -14117,7 +14117,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
@@ -14156,7 +14156,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getMailer\(\) of class Joomla\\CMS\\Factory\:
-				4\.4\.0 will be removed in 6\.0
+				4\.4\.0 will be removed in 7\.0
 				             Use the mailer service in the DI container and create a mailer from there
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(MailerFactoryInterface\:\:class\)\-\>createMailer\(\);$#
@@ -14223,7 +14223,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method register\(\) of class Joomla\\CMS\\HTML\\HTMLHelper\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the service registry instead
 				             HTMLHelper\:\:getServiceRegistry\(\)\-\>register\(\$key, \$function\);$#
 			'''
@@ -14254,7 +14254,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -14266,7 +14266,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -14278,7 +14278,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -14290,7 +14290,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
 				             Example\:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
@@ -14324,7 +14324,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated static property \$language of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -14387,7 +14387,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Cache\\Cache\:
-				4\.2 will be removed in 6\.0
+				4\.2 will be removed in 7\.0
 				             Use the cache controller factory instead
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(CacheControllerFactoryInterface\:\:class\)\-\>createCacheController\(\$type, \$options\);$#
 			'''
@@ -14414,7 +14414,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method __construct\(\) of class Joomla\\CMS\\Encrypt\\Aes\:
-				4\.3 \$strength will be removed in 6\.0$#
+				4\.3 \$strength will be removed in 7\.0$#
 			'''
 			identifier: method.deprecated
 			count: 2
@@ -14423,7 +14423,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method register\(\) of class Joomla\\CMS\\HTML\\HTMLHelper\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the service registry instead
 				             HTMLHelper\:\:getServiceRegistry\(\)\-\>register\(\$key, \$function\);$#
 			'''
@@ -14497,7 +14497,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated static property \$language of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -14509,7 +14509,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the session service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
@@ -14521,7 +14521,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method register\(\) of class Joomla\\CMS\\HTML\\HTMLHelper\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the service registry instead
 				             HTMLHelper\:\:getServiceRegistry\(\)\-\>register\(\$key, \$function\);$#
 			'''
@@ -14532,7 +14532,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
@@ -14544,7 +14544,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
