@@ -58,7 +58,7 @@ Joomla.checkInputs = function() {
   if (adminPassword) {
     const errors = [];
     
-    if (adminPassword.value.indexOf(' ') !== -1) {
+    if (adminPassword.value !== adminPassword.value.trim()) {
       errors.push(Joomla.Text._('JFIELD_PASSWORD_SPACES_IN_PASSWORD'));
     }
     if (adminPassword.value.length < 12) {
@@ -187,12 +187,12 @@ Joomla.checkDbCredentials = function() {
   if (document.getElementById('jform_admin_password')) {
     document.getElementById('jform_admin_password').addEventListener('blur', function(e) {
       const value = e.target.value;
-      const hasSpaces = value.indexOf(' ') !== -1;
+      const hasLeadingOrTrailingSpaces = value !== value.trim();
       const isLongEnough = value.length >= 12;
       
       // Rebuild error messages with only remaining issues
       const errors = [];
-      if (hasSpaces) {
+      if (hasLeadingOrTrailingSpaces) {
         errors.push(Joomla.Text._('JFIELD_PASSWORD_SPACES_IN_PASSWORD'));
       }
       if (!isLongEnough) {
@@ -246,7 +246,7 @@ Joomla.checkDbCredentials = function() {
       if (adminPassword) {
         const errors = [];
         
-        if (adminPassword.value.indexOf(' ') !== -1) {
+        if (adminPassword.value !== adminPassword.value.trim()) {
           errors.push(Joomla.Text._('JFIELD_PASSWORD_SPACES_IN_PASSWORD'));
         }
         if (adminPassword.value.length < 12) {
