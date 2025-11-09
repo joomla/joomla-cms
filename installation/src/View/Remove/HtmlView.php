@@ -67,6 +67,14 @@ class HtmlView extends BaseHtmlView
     protected $installed_languages;
 
     /**
+     * If updates are disabled, we hide the box
+     *
+     * @var    boolean
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $autoUpdatesDisabled = false;
+
+    /**
      * Execute and display a template script.
      *
      * @param   string|null  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -91,6 +99,8 @@ class HtmlView extends BaseHtmlView
         $checksModel       = $this->getModel('Checks');
         $this->phpoptions  = $checksModel->getPhpOptions();
         $this->phpsettings = $checksModel->getPhpSettings();
+
+        $this->autoUpdatesDisabled = $checksModel->getAutoUpdatesDisabled();
 
         parent::display($tpl);
     }
