@@ -40,7 +40,7 @@
       const copiedIcon = copyBtn.getAttribute('data-copied-icon');
       const copiedText = copyBtn.getAttribute('data-copied-text');
 
-      copyBtn.innerHTML = copiedIcon + copiedText;
+      copyBtn.innerHTML = Joomla.sanitizeHtml(copiedIcon + copiedText);
       copyBtn.disabled = true;
 
       setTimeout(() => {
