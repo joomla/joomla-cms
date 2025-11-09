@@ -936,6 +936,12 @@ abstract class AdminModel extends FormModel
                         return false;
                     }
 
+                    if ($this instanceof VersionableModelInterface) {
+                        $typeAlias = $this->typeAlias ?: $this->option . '.' . $this->name;
+
+                        $this->deleteHistory($typeAlias, $pk);
+                    }
+
                     // Trigger the after event.
                     $dispatcher->dispatch($this->event_after_delete, new Model\AfterDeleteEvent($this->event_after_delete, [
                         'context' => $context,
@@ -1461,15 +1467,7 @@ abstract class AdminModel extends FormModel
         }
 
         if ($this instanceof VersionableModelInterface) {
-            // Merge table data and data so that we write all data to the history
-            $tableData = ArrayHelper::fromObject($table);
-
-            $historyData = array_merge($data, $tableData);
-
-            // We have to set the key for new items, would be always 0 otherwise
-            $historyData[$key] = $this->getState($this->getName() . '.id');
-
-            $this->saveHistory($historyData, $context);
+            $this->saveHistory($data, $this->typeAlias);
         }
 
         if ($app->getInput()->get('task') == 'editAssociations') {
@@ -1664,7 +1662,7 @@ abstract class AdminModel extends FormModel
      *
      * @since   3.9.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              It is handled by regular save method now.
      */
     public function editAssociations($data)
