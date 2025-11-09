@@ -2,7 +2,7 @@
 <extension type="module" client="administrator" method="upgrade">
 	<name>mod_backward</name>
 	<author>Joomla! Project</author>
-	<creationDate>2025-01</creationDate>
+	<creationDate>2025-11</creationDate>
 	<copyright>(C) 2025 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
