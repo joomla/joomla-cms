@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Joomla\CMS\Service;
 
+use Joomla\CMS\Form\CachingFormFactory;
+use Joomla\CMS\Form\FormFactoryInterface;
+use Joomla\CMS\User\CachingUserFactory;
+use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\CMS\Form\FormFactoryInterface;
-use Joomla\CMS\Form\CachingFormFactory;
-use Joomla\CMS\User\UserFactoryInterface;
-use Joomla\CMS\User\CachingUserFactory;
 
 /**
  * Registers caching decorator factories for Forms and Users.
@@ -46,21 +46,21 @@ final class CachingFactoriesProvider implements ServiceProviderInterface
             $inner = $c->get(FormFactoryInterface::class);
             return new CachingFormFactory($inner);
         });
-// caching.user.factory: a CachingUserFactory that wraps the current default user factory
+        // caching.user.factory: a CachingUserFactory that wraps the current default user factory
         $container->share('caching.user.factory', function (Container $c) {
 
             $inner = $c->get(UserFactoryInterface::class);
             return new CachingUserFactory($inner);
         });
-// ---- Optional: replace defaults (no BC break; interfaces unchanged) --
+        // ---- Optional: replace defaults (no BC break; interfaces unchanged) --
 
         if ($this->replaceDefaults) {
-// Override the interface bindings with the caching decorators
+            // Override the interface bindings with the caching decorators
             $container->share(FormFactoryInterface::class, function (Container $c) {
 
                 // Wrap the original concrete (obtain via previous binding)
                 $inner = $c->get('core.form.factory') ?? $c->get('caching.form.factory');
-// If 'core.form.factory' is not registered, fall back to opt-in service
+                // If 'core.form.factory' is not registered, fall back to opt-in service
                 if ($inner instanceof CachingFormFactory) {
                     return $inner;
                 }

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Joomla\CMS\Form;
 
-use Joomla\CMS\Form\Form;
-
 /**
  * Caching decorator for the Form factory.
  *
@@ -27,14 +25,14 @@ final class CachingFormFactory implements FormFactoryInterface
 
     /** @var array<string, Form> */
     private array $cache = [];
-/**
-     * {@inheritdoc}
-     */
+    /**
+         * {@inheritdoc}
+         */
     public function createForm(string $name, array $options = []): Form
     {
         // Allow callers to opt out of caching explicitly.
         if (!empty($options['fresh'])) {
-// Do not store in cache when 'fresh' is requested.
+            // Do not store in cache when 'fresh' is requested.
             $opts = $options;
             unset($opts['fresh']);
             return $this->inner->createForm($name, $opts);
@@ -69,13 +67,13 @@ final class CachingFormFactory implements FormFactoryInterface
     private function makeKey(string $name, array $options): string
     {
         $opts = $this->normalizedOptions($options);
-// Remove flags that should not influence identity:
+        // Remove flags that should not influence identity:
         unset(
             $opts['fresh'], // our local bypass flag
             $opts['debug'], // debugging shouldn't split cache entries
             $opts['timestamp']    // any time-based hint
         );
-// Sort for deterministic encoding.
+        // Sort for deterministic encoding.
         ksort($opts);
         return $name . '|' . md5(json_encode($opts, JSON_THROW_ON_ERROR));
     }

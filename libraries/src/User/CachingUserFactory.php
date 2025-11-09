@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Joomla\CMS\User;
 
-use Joomla\CMS\User\User;
-
 /**
  * Caching decorator for the User factory.
  *
@@ -28,13 +26,13 @@ final class CachingUserFactory implements UserFactoryInterface
 
     /** @var array<int, User> */
     private array $byId = [];
-/** @var array<string, User> */
+    /** @var array<string, User> */
     private array $byUsername = [];
-/** @var array<string, User> */
+    /** @var array<string, User> */
     private array $byEmail = [];
-/**
-     * Returns a cached User instance by id when available; otherwise loads once and caches.
-     */
+    /**
+         * Returns a cached User instance by id when available; otherwise loads once and caches.
+         */
     public function loadById(int $id): User
     {
         if (isset($this->byId[$id])) {
@@ -42,13 +40,13 @@ final class CachingUserFactory implements UserFactoryInterface
         }
 
         $user = $this->inner->loadById($id);
-// Keep identity maps in sync if we can infer username/email
+        // Keep identity maps in sync if we can infer username/email
         $this->byId[$user->id] = $user;
-        if (isset($user->username) && is_string($user->username) && $user->username !== '') {
+        if (isset($user->username) && \is_string($user->username) && $user->username !== '') {
             $this->byUsername[$user->username] = $user;
         }
 
-        if (isset($user->email) && is_string($user->email) && $user->email !== '') {
+        if (isset($user->email) && \is_string($user->email) && $user->email !== '') {
             $this->byEmail[strtolower($user->email)] = $user;
         }
 
@@ -66,13 +64,13 @@ final class CachingUserFactory implements UserFactoryInterface
         }
 
         $user = $this->inner->loadByUsername($username);
-// Sync maps
-        if (is_int($user->id)) {
+        // Sync maps
+        if (\is_int($user->id)) {
             $this->byId[$user->id] = $user;
         }
 
         $this->byUsername[$username] = $user;
-        if (isset($user->email) && is_string($user->email) && $user->email !== '') {
+        if (isset($user->email) && \is_string($user->email) && $user->email !== '') {
             $this->byEmail[strtolower($user->email)] = $user;
         }
 
@@ -91,12 +89,12 @@ final class CachingUserFactory implements UserFactoryInterface
         }
 
         $user = $this->inner->loadByEmail($email);
-// Sync maps
-        if (is_int($user->id)) {
+        // Sync maps
+        if (\is_int($user->id)) {
             $this->byId[$user->id] = $user;
         }
 
-        if (isset($user->username) && is_string($user->username) && $user->username !== '') {
+        if (isset($user->username) && \is_string($user->username) && $user->username !== '') {
             $this->byUsername[$user->username] = $user;
         }
 
@@ -138,9 +136,9 @@ final class CachingUserFactory implements UserFactoryInterface
 
     public function invalidateAll(): void
     {
-        $this->byId = [];
+        $this->byId       = [];
         $this->byUsername = [];
-        $this->byEmail = [];
+        $this->byEmail    = [];
     }
 
     /**
