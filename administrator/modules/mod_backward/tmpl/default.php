@@ -21,4 +21,3 @@ use Joomla\CMS\Language\Text;
         </div>
     </div>
 <?php endif; ?>
-    
