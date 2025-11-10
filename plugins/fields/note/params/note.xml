@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
+	<field
+		name="default_value"
+		type="hidden"
+		filter="unset"
+	/>
 	<fields name="params" label="COM_FIELDS_FIELD_BASIC_LABEL">
 		<fieldset name="renderoptions">
 			<field

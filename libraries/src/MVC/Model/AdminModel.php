@@ -976,10 +976,8 @@ abstract class AdminModel extends FormModel
                 }
                 if (Factory::getApplication()->isClient('api')) {
                     $session = Factory::getApplication()->getSession();
-                    $session->set('http_status_code_409', true);
+                    $session->set('http_status_code_404', true);
                 }
-
-                Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
 
                 return true;
             }
@@ -1467,7 +1465,7 @@ abstract class AdminModel extends FormModel
         }
 
         if ($this instanceof VersionableModelInterface) {
-            $this->saveHistory($data, $context);
+            $this->saveHistory($data, $this->typeAlias);
         }
 
         if ($app->getInput()->get('task') == 'editAssociations') {
@@ -1662,7 +1660,7 @@ abstract class AdminModel extends FormModel
      *
      * @since   3.9.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              It is handled by regular save method now.
      */
     public function editAssociations($data)
