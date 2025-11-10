@@ -31,7 +31,7 @@
     static defaultSettings = {
       menuHoverClass: 'show-menu',
       dir: 'ltr',
-      preventSubmenoOpenOnload: 'nav-active-open'
+      preventSubmenuOpenOnload: 'nav-active-open'
     };
 
     constructor(nav, settings = {}) {
@@ -81,7 +81,7 @@
       nav.addEventListener('keydown', this.onMenuKeyDown.bind(this));
       nav.addEventListener('click', this.onClick.bind(this));
 
-      if (this.nav.classList.contains(this.settings.preventSubmenoOpenOnload)) {
+      if (this.nav.classList.contains(this.settings.preventSubmenuOpenOnload)) {
         this.toggleAllForCurrentActive();
       }
     }
