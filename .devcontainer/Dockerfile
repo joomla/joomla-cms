@@ -50,7 +50,21 @@ RUN sed -i 's|/var/www/html|/workspaces/joomla-cms|g' /etc/apache2/sites-availab
 RUN a2enmod rewrite \
     && echo "ServerName localhost" >> /etc/apache2/apache2.conf
     
-# Create a custom PHP configuration file to enable file uploads
-RUN echo "upload_tmp_dir = /tmp" > /usr/local/etc/php/conf.d/custom-php.ini && \
+RUN apt-get update && apt-get install -y ssl-cert && \
+    a2enmod ssl && \
+    a2ensite 000-default && \
+    a2ensite default-ssl && \
+    sed -i 's|/var/www/html|/workspaces/joomla-cms|g' /etc/apache2/sites-available/default-ssl.conf && \
+    echo '<Directory /workspaces/joomla-cms>\n    Options Indexes FollowSymLinks\n    AllowOverride All\n    Require all granted\n</Directory>' >> /etc/apache2/sites-available/default-ssl.conf
+
+# Create a custom PHP configuration file to enable file uploads and a log directory
+RUN mkdir -p /var/log/ && \
+    touch /var/log/php_errors.log && \
+    chown -R www-data:www-data /var/log/ && \
+    chmod 766 /var/log/php_errors.log && \
+    echo "upload_tmp_dir = /tmp" > /usr/local/etc/php/conf.d/custom-php.ini && \
     echo "post_max_size = 64M" >> /usr/local/etc/php/conf.d/custom-php.ini && \
-    echo "upload_max_filesize = 64M" >> /usr/local/etc/php/conf.d/custom-php.ini
+    echo "upload_max_filesize = 64M" >> /usr/local/etc/php/conf.d/custom-php.ini && \
+    echo "log_errors = On" >> /usr/local/etc/php/conf.d/custom-php.ini && \
+    echo "error_log = /var/log/php_errors.log" >> /usr/local/etc/php/conf.d/custom-php.ini && \
+    echo "error_reporting = E_ALL" >> /usr/local/etc/php/conf.d/custom-php.ini

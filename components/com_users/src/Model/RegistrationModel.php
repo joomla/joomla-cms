@@ -89,7 +89,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
         $db       = $this->getDatabase();
 
         // Get the user id based on the token.
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('activation') . ' = :activation')
@@ -159,7 +159,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
 
             // Get all admin users
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName(['name', 'email', 'sendEmail', 'id']))
                 ->from($db->quoteName('#__users'))
                 ->where($db->quoteName('sendEmail') . ' = 1')
@@ -466,7 +466,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
         // From this moment the user is registered, so we don't return false anymore
         $app   = Factory::getApplication();
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Compile the notification mail values.
         $data             = ArrayHelper::fromObject($user, false);

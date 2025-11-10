@@ -1681,7 +1681,7 @@ class Form implements CurrentUserInterface
      *
      * @since   1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the FormFactory service from the container
      *              Example: Factory::getContainer()->get(FormFactoryInterface::class)->createForm($name, $options);
      *

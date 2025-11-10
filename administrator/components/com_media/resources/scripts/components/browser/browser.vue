@@ -154,8 +154,7 @@ export default {
       return this.$store.state.search !== '' && this.localItems.length === 0;
     },
     isEmpty() {
-      return ![...this.$store.getters.getSelectedDirectoryDirectories, ...this.$store.getters.getSelectedDirectoryFiles].length
-       && !this.$store.state.isLoading;
+      return !this.localItems.length && !this.$store.state.isLoading;
     },
     /* The styles for the media-browser element */
     listView() {
