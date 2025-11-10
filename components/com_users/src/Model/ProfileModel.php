@@ -298,7 +298,7 @@ class ProfileModel extends FormModel
      *
      * @since   3.2
      *
-     * @deprecated   4.2 will be removed in 6.0.
+     * @deprecated   4.2 will be removed in 7.0.
      *               Will be removed without replacement
      */
     public function getTwofactorform($userId = null)
@@ -315,7 +315,7 @@ class ProfileModel extends FormModel
      *
      * @since   3.2
      *
-     * @deprecated   4.2 will be removed in 6.0.
+     * @deprecated   4.2 will be removed in 7.0.
      *               Will be removed without replacement
      */
     public function getOtpConfig($userId = null)

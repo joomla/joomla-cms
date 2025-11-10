@@ -15,12 +15,11 @@ You are welcome to submit a contribution for review and possible inclusion in th
 Please be patient as not all items will be viewed or tested immediately (remember, all bug testing for the Joomla! CMS is done by volunteers) and be receptive to feedback about your code.
 
 #### Branches
-Joomla 4.4 is in security maintenance mode, until 14th October 2025, which means it will only receive security fixes. Bug fixing PRs should be made to the `5.3-dev` branch. Merged bugfixes will be upmerged into the current branches. New features that do not break backwards compatibility should be made to the `5.4-dev` branch otherwise they should be made to the `6.0-dev` branch.
+Bug fixing PRs should be made to the `5.4-dev` branch. Merged bugfixes will be upmerged into the current branches. New features that do not break backwards compatibility should be made to the `6.1-dev`.
 
 
-| Branch | Purpose |
-| ------ | ------- |
-| 4.4-dev | Branch for the current 4.x Joomla version. Currently in security maintenance mode. |
-| 5.3-dev | Branch for the current 5.x Joomla version. Bugfix only for 5.x go into this branch. |
-| 5.4-dev | Branch for the next minor 5.x Joomla version. New features go into this branch. |
-| 6.0-dev | Branch for the next major Joomla version. New features that include a b/c break have to go into this branch. |
+| Branch  | Purpose                                                                                 |
+|---------|-----------------------------------------------------------------------------------------|
+| 5.4-dev | Branch for the current 5.x Joomla version.                                              |
+| 6.0-dev | Branch for the current 6.x Joomla version. Bugfixes only for 6.x go into this branch.   |
+| 6.1-dev | Branch for the next minor 6.x Joomla version. New features have to go into this branch. |
