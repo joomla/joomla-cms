@@ -319,9 +319,22 @@ class ApiController extends BaseController
                 ];
                 echo new JsonResponse($body);
                 $this->app->close();
-            } else {
-                throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_DELETE'), 500);
             }
+        }
+
+        // If the model has set a 404 status code in the session, we return a 404 http status codee
+        if ($this->app->getSession()->get('http_status_code_404', false)) {
+            $this->app->getSession()->clear('http_status_code_404');
+            $this->app->setHeader('status', 404, true);
+            $this->app->setHeader('Content-Type', 'application/json');
+            $this->app->sendHeaders();
+            $body = [
+                'status'  => 'not found',
+                'code'    => 404,
+                'message' => 'Resource not found',
+            ];
+            echo new JsonResponse($body);
+            $this->app->close();
         }
 
         $this->app->setHeader('status', 204);
