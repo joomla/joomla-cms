@@ -1,9 +1,6 @@
 Joomla! CMS™
 ====================
 
-The Joomla! 6.0 branch is under heavy development and not all links in this document are available yet
-------------------------------------------------------------------------------------------------------
-
 Build Status
 ------------
 
