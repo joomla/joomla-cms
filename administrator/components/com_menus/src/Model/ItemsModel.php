@@ -225,7 +225,7 @@ class ItemsModel extends ListModel
     {
         // Create a new query object.
         $db       = $this->getDatabase();
-        $query    = $db->getQuery(true);
+        $query    = $db->createQuery();
         $user     = $this->getCurrentUser();
         $clientId = (int) $this->getState('filter.client_id');
 
@@ -302,7 +302,7 @@ class ItemsModel extends ListModel
 
         // Join over the associations.
         if (Associations::isEnabled()) {
-            $subQuery = $db->getQuery(true)
+            $subQuery = $db->createQuery()
                 ->select('COUNT(' . $db->quoteName('asso1.id') . ') > 1')
                 ->from($db->quoteName('#__associations', 'asso1'))
                 ->join('INNER', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
@@ -368,7 +368,7 @@ class ItemsModel extends ListModel
 
         if ($parentId) {
             // Create a subquery for the sub-items list
-            $subQuery = $db->getQuery(true)
+            $subQuery = $db->createQuery()
                 ->select($db->quoteName('sub.id'))
                 ->from($db->quoteName('#__menu', 'sub'))
                 ->join(
@@ -406,7 +406,7 @@ class ItemsModel extends ListModel
         // A value "" means all
         if ($menuType == '') {
             // Load all menu types we have manage access
-            $query2 = $db->getQuery(true)
+            $query2 = $db->createQuery()
                 ->select(
                     [
                         $db->quoteName('id'),
@@ -518,7 +518,7 @@ class ItemsModel extends ListModel
     protected function getMenu($menuType, $check = false)
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select($db->quoteName('a') . '.*')
             ->from($db->quoteName('#__menu_types', 'a'))

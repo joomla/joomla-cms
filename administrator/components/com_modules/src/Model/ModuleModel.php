@@ -201,7 +201,7 @@ class ModuleModel extends AdminModel
 
                 // Now we need to handle the module assignments
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName('menuid'))
                     ->from($db->quoteName('#__modules_menu'))
                     ->where($db->quoteName('moduleid') . ' = :moduleid')
@@ -355,7 +355,7 @@ class ModuleModel extends AdminModel
                 // Delete the menu assignments
                 $pk    = (int) $pk;
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->delete($db->quoteName('#__modules_menu'))
                     ->where($db->quoteName('moduleid') . ' = :moduleid')
                     ->bind(':moduleid', $pk, ParameterType::INTEGER);
@@ -425,7 +425,7 @@ class ModuleModel extends AdminModel
                 }
 
                 $pk    = (int) $pk;
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName('menuid'))
                     ->from($db->quoteName('#__modules_menu'))
                     ->where($db->quoteName('moduleid') . ' = :moduleid')
@@ -444,7 +444,7 @@ class ModuleModel extends AdminModel
 
         if (!empty($tuples)) {
             // Module-Menu Mapping: Do it in one query
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->insert($db->quoteName('#__modules_menu'))
                 ->columns($db->quoteName(['moduleid', 'menuid']))
                 ->values($tuples);
@@ -651,7 +651,7 @@ class ModuleModel extends AdminModel
             // Check if we are creating a new extension.
             if (empty($pk)) {
                 if ($extensionId = (int) $this->getState('extension.id')) {
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->select($db->quoteName(['element', 'client_id']))
                         ->from($db->quoteName('#__extensions'))
                         ->where($db->quoteName('extension_id') . ' = :extensionid')
@@ -692,7 +692,7 @@ class ModuleModel extends AdminModel
             $this->_cache[$pk]->params = $registry->toArray();
 
             // Determine the page assignment mode.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('menuid'))
                 ->from($db->quoteName('#__modules_menu'))
                 ->where($db->quoteName('moduleid') . ' = :moduleid')
@@ -965,7 +965,7 @@ class ModuleModel extends AdminModel
 
         // Delete old module to menu item associations
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__modules_menu'))
             ->where($db->quoteName('moduleid') . ' = :moduleid')
             ->bind(':moduleid', $table->id, ParameterType::INTEGER);

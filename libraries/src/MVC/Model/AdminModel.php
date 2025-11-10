@@ -510,7 +510,7 @@ abstract class AdminModel extends FormModel
                 $dbType = strtolower($db->getServerType());
 
                 // Copy rules
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
                 $query->clear()
                     ->update($db->quoteName('#__assets', 't'));
 
@@ -886,7 +886,7 @@ abstract class AdminModel extends FormModel
                     // Multilanguage: if associated, delete the item in the _associations table
                     if ($this->associationsContext && Associations::isEnabled()) {
                         $db    = $this->getDatabase();
-                        $query = $db->getQuery(true)
+                        $query = $db->createQuery()
                             ->select(
                                 [
                                     'COUNT(*) AS ' . $db->quoteName('count'),
@@ -909,7 +909,7 @@ abstract class AdminModel extends FormModel
                         $row = $db->loadAssoc();
 
                         if (!empty($row['count'])) {
-                            $query = $db->getQuery(true)
+                            $query = $db->createQuery()
                                 ->delete($db->quoteName('#__associations'))
                                 ->where(
                                     [
@@ -934,6 +934,12 @@ abstract class AdminModel extends FormModel
                         $this->setError($table->getError());
 
                         return false;
+                    }
+
+                    if ($this instanceof VersionableModelInterface) {
+                        $typeAlias = $this->typeAlias ?: $this->option . '.' . $this->name;
+
+                        $this->deleteHistory($typeAlias, $pk);
                     }
 
                     // Trigger the after event.
@@ -1390,7 +1396,7 @@ abstract class AdminModel extends FormModel
             // Get associationskey for edited item
             $db    = $this->getDatabase();
             $id    = (int) $table->$key;
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('key'))
                 ->from($db->quoteName('#__associations'))
                 ->where($db->quoteName('context') . ' = :context')
@@ -1402,7 +1408,7 @@ abstract class AdminModel extends FormModel
 
             if ($associations || $oldKey !== null) {
                 // Deleting old associations for the associated items
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->delete($db->quoteName('#__associations'))
                     ->where($db->quoteName('context') . ' = :context')
                     ->bind(':context', $this->associationsContext);
@@ -1431,7 +1437,7 @@ abstract class AdminModel extends FormModel
             if (\count($associations) > 1) {
                 // Adding new association for these items
                 $key   = md5(json_encode($associations));
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->insert($db->quoteName('#__associations'))
                     ->columns(
                         [
@@ -1459,15 +1465,7 @@ abstract class AdminModel extends FormModel
         }
 
         if ($this instanceof VersionableModelInterface) {
-            // Merge table data and data so that we write all data to the history
-            $tableData = ArrayHelper::fromObject($table);
-
-            $historyData = array_merge($data, $tableData);
-
-            // We have to set the key for new items, would be always 0 otherwise
-            $historyData[$key] = $this->getState($this->getName() . '.id');
-
-            $this->saveHistory($historyData, $context);
+            $this->saveHistory($data, $this->typeAlias);
         }
 
         if ($app->getInput()->get('task') == 'editAssociations') {
@@ -1662,7 +1660,7 @@ abstract class AdminModel extends FormModel
      *
      * @since   3.9.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              It is handled by regular save method now.
      */
     public function editAssociations($data)
