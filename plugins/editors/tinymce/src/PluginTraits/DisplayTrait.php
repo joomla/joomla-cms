@@ -63,8 +63,8 @@ trait DisplayTrait
         // Editor variables
         $col             = $attributes['col'] ?? '';
         $row             = $attributes['row'] ?? '';
-        $width           = $attributes['width'] ?? '';
-        $height          = $attributes['height'] ?? '';
+        $width           = $this->params->get('html_width', '');
+        $height          = $this->params->get('html_height', '550px');
         $id              = $attributes['id'] ?? $name;
         $id              = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
         $nameGroup       = explode('[', preg_replace('/\[\]|\]/', '', $name));
@@ -75,6 +75,15 @@ trait DisplayTrait
         $scriptOptions   = [];
         $externalPlugins = [];
         $theme           = 'silver';
+
+        // Fall back to attributes default if width/height not set in params
+        if (empty($width)) {
+            $width = $attributes['width'] ?? '';
+        }
+
+        if (empty($height)) {
+            $height = $attributes['height'] ?? '';
+        }
 
         // Register assets
         $wa->getRegistry()->addExtensionRegistryFile('plg_editors_tinymce');
@@ -332,7 +341,7 @@ trait DisplayTrait
             $uploadPath = $levelParams->get('path', ComponentHelper::getParams('com_media')->get('image_path', 'images'));
 
             // Make sure the path is full, and contain the media adapter in it.
-            $mediaHelper = new class () {
+            $mediaHelper = new class() {
                 use ProviderManagerHelperTrait;
 
                 public function prepareTinyMCEUploadPath(string $path): string
