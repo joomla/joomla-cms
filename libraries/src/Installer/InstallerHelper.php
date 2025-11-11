@@ -160,6 +160,15 @@ abstract class InstallerHelper
         if (200 != $response->getStatusCode()) {
             Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->getStatusCode()), Log::WARNING, 'jerror');
 
+            if (403 === $response->getStatusCode()) {
+                $body = (string) $response->getBody();
+
+                // Show response message, but ignore default server error pages
+                if ($body && !str_contains($body, '</body>')) {
+                    Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_MESSAGE', $url, $body), Log::WARNING, 'jerror');
+                }
+            }
+
             return false;
         }
 
