@@ -231,9 +231,9 @@ class TextField extends FormField
 
             $params = ComponentHelper::getParams($component);
 
-            if ((string) $this->element['useglobal'] !== 'true' && \substr_count((string) $this->element['useglobal'], '_') === 2) {
+            if ((string) $this->element['useglobal'] !== 'true' && substr_count((string) $this->element['useglobal'], '_') === 2) {
                 // Get the correct plugin parameters
-                [$prefix, $type, $plugin] = \explode('_', (string) $this->element['useglobal'], 3);
+                [$prefix, $type, $plugin] = explode('_', (string) $this->element['useglobal'], 3);
 
                 if ($prefix === 'plg' && PluginHelper::isEnabled($type, $plugin)) {
                     $plugin = PluginHelper::getPlugin($type, $plugin);
