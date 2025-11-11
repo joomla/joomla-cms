@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Environment;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\Event;
 
 // phpcs:disable PSR1.Files.SideEffects
