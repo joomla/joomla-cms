@@ -93,14 +93,17 @@ if ($colorScheme) {
         $themeModeAttr = $themeModes[$userLastMode];
     } else {
         // Check parameters first (User and Template), then look if we have detected the OS color scheme (if it set to 'os')
-        $colorScheme   = $app->getIdentity()->getParam('colorScheme', $colorScheme);
+        $colorScheme   = $app->getIdentity()?->getParam('colorScheme', $colorScheme) ?? 'os';
         $lastMode      = $colorScheme === 'os' ? $app->getInput()->cookie->get('osColorScheme', '') : '';
         $themeModeAttr = ($colorScheme === 'os' ? $themeModes['os'] : '') . ($themeModes[$lastMode] ?? '');
     }
 }
 
+// The module renderer will not work properly due to incomplete Application initialisation
+$renderModules = $app->getIdentity() && $app->getLanguage();
+
 // @see administrator/templates/atum/html/layouts/status.php
-$statusModules = LayoutHelper::render('status', ['modules' => 'status']);
+$statusModules = $renderModules ? LayoutHelper::render('status', ['modules' => 'status']) : '';
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $themeModeAttr; ?>>
@@ -126,7 +129,9 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
                     <?php echo HTMLHelper::_('image', $logoBrandSmall, $logoBrandSmallAlt, ['class' => 'logo-collapsed', 'loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
                 </div>
             </div>
-            <jdoc:include type="modules" name="title" />
+            <?php if ($renderModules) : ?>
+                <jdoc:include type="modules" name="title" />
+            <?php endif; ?>
         </div>
         <?php echo $statusModules; ?>
     </header>
@@ -178,10 +183,14 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
                 <a href="<?php echo Uri::root(); ?>"><?php echo Text::_('TPL_ATUM_LOGIN_SIDEBAR_VIEW_WEBSITE'); ?></a>
             </div>
             <div id="sidebar">
-                <jdoc:include type="modules" name="sidebar" style="body" />
+                <?php if ($renderModules) : ?>
+                    <jdoc:include type="modules" name="sidebar" style="body" />
+                <?php endif; ?>
             </div>
         </div>
     </div>
-    <jdoc:include type="modules" name="debug" style="none" />
+    <?php if ($renderModules) : ?>
+        <jdoc:include type="modules" name="debug" style="none" />
+    <?php endif; ?>
 </body>
 </html>
