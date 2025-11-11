@@ -14,7 +14,9 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -228,6 +230,17 @@ class TextField extends FormField
             }
 
             $params = ComponentHelper::getParams($component);
+
+            if ((string) $this->element['useglobal'] !== 'true' && \substr_count((string) $this->element['useglobal'], '_') === 2) {
+                // Get the correct plugin parameters
+                [$prefix, $type, $plugin] = \explode('_', (string) $this->element['useglobal'], 3);
+
+                if ($prefix === 'plg' && PluginHelper::isEnabled($type, $plugin)) {
+                    $plugin = PluginHelper::getPlugin($type, $plugin);
+                    $params = new Registry($plugin->params);
+                }
+            }
+
             $value  = $params->get($this->fieldname);
 
             // Try with global configuration
