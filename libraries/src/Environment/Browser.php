@@ -928,7 +928,7 @@ class Browser
     public function isRobot()
     {
         foreach ($this->robots as $robot) {
-            if (strpos($this->lowerAgent, $robot) !== false) {
+            if (str_contains($this->lowerAgent, $robot)) {
                 return true;
             }
         }
