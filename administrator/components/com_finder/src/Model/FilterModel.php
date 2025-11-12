@@ -163,7 +163,7 @@ class FilterModel extends AdminModel
      *
      * @return  boolean        True on success, false on failure.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.1
      */
     public function save($data)
     {
@@ -199,7 +199,7 @@ class FilterModel extends AdminModel
      *
      * @return  array           Array with [newTitle, newAlias].
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.1
      */
     protected function generateNewTitleAndAlias(string $title, string $alias): array
     {
@@ -253,7 +253,7 @@ class FilterModel extends AdminModel
      *
      * @return  string         A unique alias.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.1
      */
     protected function getUniqueAlias(string $base): string
     {
@@ -273,7 +273,7 @@ class FilterModel extends AdminModel
      *
      * @return  boolean         True if it exists, false otherwise.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.1
      */
     protected function aliasExists(string $alias): bool
     {
