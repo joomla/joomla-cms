@@ -35,49 +35,34 @@ class PasswordStrength {
     this.special = parseInt(settings.special, 10) || 0;
     this.length = parseInt(settings.length, 10) || 12;
   }
-
   getScore(value) {
     let score = 0;
     let mods = 0;
     const sets = ['lowercase', 'uppercase', 'numbers', 'special', 'length'];
-    sets.forEach((set) => {
+    sets.forEach(set => {
       if (this[set] > 0) {
         mods += 1;
       }
     });
-
     score += this.constructor.calc(value, /[a-z]/g, this.lowercase, mods);
     score += this.constructor.calc(value, /[A-Z]/g, this.uppercase, mods);
     score += this.constructor.calc(value, /[0-9]/g, this.numbers, mods);
-    score += this.constructor.calc(
-      value,
-      /[@$!#?=;:*\-_€%&()`´+[\]{}'"\\|,.<>/~^]/g,
-      this.special,
-      mods,
-    );
-
+    score += this.constructor.calc(value, /[@#?=;:*\-_€%&()`´+[\]{}'"\\|,.<>/~^]/g, this.special, mods);
     if (mods === 1) {
-      score += value.length > this.length
-        ? 100
-        : (100 / this.length) * value.length;
+      score += value.length > this.length ? 100 : 100 / this.length * value.length;
     } else {
-      score += value.length > this.length
-        ? (100 / mods)
-        : ((100 / mods) / this.length) * value.length;
+      score += value.length > this.length ? 100 / mods : 100 / mods / this.length * value.length;
     }
-
     return score;
   }
-
   static calc(value, pattern, length, mods) {
     const count = value.match(pattern);
     if (count && count.length > length && length !== 0) {
       return 100 / mods;
     }
     if (count && length > 0) {
-      return ((100 / mods) / length) * count.length;
+      return 100 / mods / length * count.length;
     }
-
     return 0;
   }
 }
@@ -88,26 +73,23 @@ class PasswordStrength {
  */
 ((Joomla, document) => {
   // Method to check the input and set the meter
-  const getMeter = (element) => {
+  const getMeter = element => {
     const meter = document.querySelector('meter');
     const minLength = element.getAttribute('data-min-length');
     const minIntegers = element.getAttribute('data-min-integers');
     const minSymbols = element.getAttribute('data-min-symbols');
     const minUppercase = element.getAttribute('data-min-uppercase');
     const minLowercase = element.getAttribute('data-min-lowercase');
-
     const strength = new PasswordStrength({
       lowercase: minLowercase || 0,
       uppercase: minUppercase || 0,
       numbers: minIntegers || 0,
       special: minSymbols || 0,
-      length: minLength || 12,
+      length: minLength || 12
     });
-
     const score = strength.getScore(element.value);
     const i = meter.getAttribute('id').replace(/^\D+/g, '');
     const label = element.parentNode.parentNode.querySelector(`#password-${i}`);
-
     if (label) {
       if (score === 100) {
         label.innerText = Joomla.Text._('JFIELD_PASSWORD_INDICATE_COMPLETE');
@@ -121,14 +103,12 @@ class PasswordStrength {
       }
     }
   };
-
   document.addEventListener('DOMContentLoaded', () => {
     const fields = document.querySelectorAll('.js-password-strength');
 
     // Loop  through the fields
     fields.forEach((field, index) => {
       let initialVal = '';
-
       if (!field.value.length) {
         initialVal = 0;
       }
@@ -142,12 +122,10 @@ class PasswordStrength {
       meter.setAttribute('high', 99);
       meter.setAttribute('optimum', 100);
       meter.value = initialVal;
-
       const label = document.createElement('div');
       label.setAttribute('class', 'text-center');
       label.setAttribute('id', `password-${index}`);
       label.setAttribute('aria-live', 'polite');
-
       field.parentNode.insertAdjacentElement('afterEnd', label);
       field.parentNode.insertAdjacentElement('afterEnd', meter);
 
@@ -157,32 +135,46 @@ class PasswordStrength {
       }
 
       // Add a listener for input data change
-      field.addEventListener('keyup', ({ target }) => getMeter(target));
+      field.addEventListener('keyup', ({
+        target
+      }) => getMeter(target));
+      
+      // Trim spaces on blur
+      field.addEventListener('blur', ({
+        target
+      }) => {
+        target.value = target.value.trim();
+        getMeter(target);
+      });
     });
 
     // Set a handler for the validation script
     if (fields[0]) {
-      document.formvalidator.setHandler('password-strength', (value) => {
+      document.formvalidator.setHandler('password-strength', value => {
+        const trimmedValue = value.trim();
+        
+        // Block if less than 12 characters
+        if (trimmedValue.length < 12) {
+          return false;
+        }
+        
         const strengthElements = document.querySelectorAll('.js-password-strength');
         const minLength = strengthElements[0].getAttribute('data-min-length');
         const minIntegers = strengthElements[0].getAttribute('data-min-integers');
         const minSymbols = strengthElements[0].getAttribute('data-min-symbols');
         const minUppercase = strengthElements[0].getAttribute('data-min-uppercase');
         const minLowercase = strengthElements[0].getAttribute('data-min-lowercase');
-
         const strength = new PasswordStrength({
           lowercase: minLowercase || 0,
           uppercase: minUppercase || 0,
           numbers: minIntegers || 0,
           special: minSymbols || 0,
-          length: minLength || 12,
+          length: minLength || 12
         });
-
-        const score = strength.getScore(value);
+        const score = strength.getScore(trimmedValue);
         if (score === 100) {
           return true;
         }
-
         return false;
       });
     }
