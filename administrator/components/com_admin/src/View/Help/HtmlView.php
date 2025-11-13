@@ -91,7 +91,7 @@ class HtmlView extends BaseHtmlView
      *
      * @return  void
      *
-     * @since   3.8.0
+     * @since   __DEPLOY_VERSION__
      */
     public function renderSubmenu($layoutFile, $menu)
     {

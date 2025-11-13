@@ -91,21 +91,21 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 // Define Bootstrap breakpoints (in pixels)
 const breakpoints = {
-  //sm: 576,
+  sm: 576,
   md: 768,
-  //lg: 992,
-  //xl: 1200,
-  //xxl: 1400
+  lg: 992,
+  xl: 1200,
+  xxl: 1400
 };
 
-// Function to determine the current breakpoint
+// Collapse the Help menu on small screens (sm) by causing a page reload
 function getCurrentBreakpoint() {
   const width = window.innerWidth;
-  if (width < breakpoints.sm) return 'xs';
+  //if (width < breakpoints.sm) return 'xs';
   if (width < breakpoints.md) return 'sm';
-  if (width < breakpoints.lg) return 'md';
-  if (width < breakpoints.xl) return 'lg';
-  if (width < breakpoints.xxl) return 'xl';
+  //if (width < breakpoints.lg) return 'md';
+  //if (width < breakpoints.xl) return 'lg';
+  //if (width < breakpoints.xxl) return 'xl';
   return 'xxl';
 }
 
