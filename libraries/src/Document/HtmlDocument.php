@@ -171,7 +171,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
         $data['custom']        = $this->_custom;
 
         /**
-         * @deprecated  4.0 will be removed in 6.0
+         * @deprecated  4.0 will be removed in 7.0
          *              This property is for backwards compatibility. Pass text through script options in the future
          */
         $data['scriptText']    = Text::getScriptStrings();
@@ -699,7 +699,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      *
      * @since   1.7.0
      *
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Load the active menu item directly and count the children with the php count function
      *              `$children = count($app->getMenu()->getActive()->getChildren())` beware getActive could be `null`
      */
