@@ -382,7 +382,7 @@ final class SiteApplication extends CMSApplication
      *
      * @since      3.2
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Inject the router or load it from the dependency injection container
      *              Example: Factory::getContainer()->get(SiteRouter::class);
      */
@@ -807,7 +807,7 @@ final class SiteApplication extends CMSApplication
             new AfterRouteEvent('onAfterRoute', ['subject' => $this])
         );
 
-        $Itemid = $this->input->getInt('Itemid', null);
+        $Itemid = $this->input->getInt('Itemid', 0);
         $this->authorise($Itemid);
     }
 
