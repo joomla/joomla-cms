@@ -464,7 +464,7 @@ abstract class ToolbarButton
             \sprintf(
                 'Method %s() not found in class: %s',
                 $name,
-                \get_called_class()
+                static::class
             )
         );
     }
