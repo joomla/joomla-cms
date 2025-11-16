@@ -44,13 +44,11 @@ Text::script('NOTICE');
 Text::script('MESSAGE');
 
 // Add strings for JavaScript error translations.
-Text::script('JFIELD_PASSWORD_SPACES_IN_PASSWORD');
 Text::script('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT');
 Text::script('JLIB_JS_AJAX_ERROR_NO_CONTENT');
 Text::script('JLIB_JS_AJAX_ERROR_OTHER');
 Text::script('JLIB_JS_AJAX_ERROR_PARSE');
 Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
-Text::script('INSTL_ADMIN_PASSWORD_LENGTH');
 Text::script('INSTL_DATABASE_RESPONSE_ERROR');
 
 // Add strings for installation progress
