@@ -11,7 +11,6 @@
 namespace Joomla\Component\Finder\Administrator\Model;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Component\Finder\Administrator\Table\FilterTable;
@@ -167,123 +166,46 @@ class FilterModel extends AdminModel
      */
     public function save($data)
     {
-        $app  = Factory::getApplication();
-        $task = $app->getInput()->get('task', '', 'cmd');
+        if ($this->getState('task') === 'save2copy') {
+            $table = $this->getTable();
+            $table->load(Factory::getApplication()->getInput()->getInt('filter_id', 0));
 
-        if ($task === 'save2copy') {
-            $data['filter_id'] = 0;
+            if ($table->title === $data['title']) {
+                [$title, $alias] = $this->generateNewFilterTitleAndAlias($data['alias'], $data['title']);
 
-            $title = trim((string) ($data['title'] ?? ''));
-            $alias = trim((string) ($data['alias'] ?? ''));
-
-            if ($alias === '') {
-                $alias = OutputFilter::stringURLSafe($title);
+                $data['title'] = $title;
+                $data['alias'] = $alias;
+            } elseif ($table->alias === $data['alias']) {
+                $data['alias'] = '';
             }
-
-            // Generate unique title + alias
-            list($title, $alias) = $this->generateNewTitleAndAlias($title, $alias);
-
-            $data['title'] = $title;
-            $data['alias'] = $alias;
         }
 
         return parent::save($data);
     }
 
     /**
-     * Generate a new unique title and alias for a copied filter.
-     * Follows the same logic as Joomla's core content models.
+     * Generate new title and alias to make sure alias is unique when filter is created using save2copy
      *
-     * @param   string  $title  The original title.
-     * @param   string  $alias  The original alias.
+     * @param   string  $alias  The alias.
+     * @param   string  $title  The title.
      *
-     * @return  array           Array with [newTitle, newAlias].
+     * @return  array  Contains the new title and alias.
      *
-     * @since   5.4.1
+     * @since   __DEPLOY_VERSION__
      */
-    protected function generateNewTitleAndAlias(string $title, string $alias): array
+    protected function generateNewFilterTitleAndAlias(string $alias, string $title): array
     {
-        $db = $this->getDatabase();
+        // Alter the title & alias
+        $table = $this->getTable();
 
-        if (preg_match('/^(.*?)(?:\s\((\d+)\))?$/', $title, $matches)) {
-            $baseTitle = trim($matches[1]);
-        } else {
-            $baseTitle = trim($title);
-        }
-
-        $baseAlias = trim($alias ?: OutputFilter::stringURLSafe($title));
-
-        $likeTitle = $db->quote($db->escape($baseTitle, true) . '%', false);
-
-        $query = $db->getQuery(true)
-            ->select($db->quoteName('title'))
-            ->from($db->quoteName('#__finder_filters'))
-            ->where($db->quoteName('title') . ' LIKE ' . $likeTitle);
-
-        $existingTitles = $db->setQuery($query)->loadColumn();
-
-        $maxNum = 0;
-        foreach ($existingTitles as $existing) {
-            if (preg_match('/^\Q' . $baseTitle . '\E(?:\s\((\d+)\))?$/', $existing, $matches)) {
-                $num = isset($matches[1]) ? (int) $matches[1] : 1;
-                if ($num > $maxNum) {
-                    $maxNum = $num;
-                }
+        while ($table->load(['alias' => $alias])) {
+            if ($title === $table->title) {
+                $title = StringHelper::increment($title);
             }
-        }
 
-        $nextNum = $maxNum + 1;
-
-        $newTitle = $baseTitle;
-        if ($nextNum > 1) {
-            $newTitle .= ' (' . $nextNum . ')';
-        }
-
-        // Build a unique alias
-        $newAlias = $this->getUniqueAlias($baseAlias);
-
-        return [$newTitle, $newAlias];
-    }
-
-    /**
-     * Ensure a unique alias in the table by incrementing with dash style.
-     *
-     *
-     * @param   string  $base  The starting alias (already URL-safe).
-     *
-     * @return  string         A unique alias.
-     *
-     * @since   5.4.1
-     */
-    protected function getUniqueAlias(string $base): string
-    {
-        $alias = $base !== '' ? $base : OutputFilter::stringURLSafe(uniqid('filter-', true));
-
-        while ($this->aliasExists($alias)) {
             $alias = StringHelper::increment($alias, 'dash');
         }
 
-        return $alias;
-    }
-
-    /**
-     * Check whether an alias exists in the table.
-     *
-     * @param   string  $alias  The alias to test.
-     *
-     * @return  boolean         True if it exists, false otherwise.
-     *
-     * @since   5.4.1
-     */
-    protected function aliasExists(string $alias): bool
-    {
-        $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
-            ->select('COUNT(*)')
-            ->from($db->quoteName('#__finder_filters'))
-            ->where($db->quoteName('alias') . ' = :alias')
-            ->bind(':alias', $alias);
-
-        return (int) $db->setQuery($query)->loadResult() > 0;
+        return [$title, $alias];
     }
 }
