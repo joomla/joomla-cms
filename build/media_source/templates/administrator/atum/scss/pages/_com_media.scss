@@ -9,7 +9,7 @@
   --com-media-manager-toolbar-icon-color: #{$media-manager-toolbar-icon-color};
 }
 .file-background, .folder-background {
-  padding-bottom: 100%;
+  padding-block-end: 100%;
   background-color: $media-browser-file-bg; //hsl(var(--hue), 20%, 97%);
   border: $media-manager-border; // 1px solid hsl(var(--hue), 35%, 95%);
 }
@@ -26,7 +26,7 @@
 }
 .media-toolbar {
   background-color: $media-toolbar-bg; // var(--com-media-manager-content-bg,#fff);
-  border-bottom: $media-manager-border; // 1px solid var(--template-bg-dark-7);
+  border-block-end: $media-manager-border; // 1px solid var(--template-bg-dark-7);
   border-inline-start: $media-manager-border; // 1px solid var(--template-bg-dark-7)
   box-shadow: 0 -1px 0 0 $media-manager-border; // var(--template-bg-dark-7);
 }
@@ -76,7 +76,7 @@
 .media-infobar {
   border-inline-start: $media-manager-border; // 1px solid $border-color;
   h2 {
-    border-bottom: $media-manager-border;
+    border-block-end: $media-manager-border;
   }
 }
 

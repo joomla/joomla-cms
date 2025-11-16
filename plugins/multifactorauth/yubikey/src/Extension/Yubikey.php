@@ -15,7 +15,6 @@ use Joomla\CMS\Event\MultiFactor\GetMethod;
 use Joomla\CMS\Event\MultiFactor\GetSetup;
 use Joomla\CMS\Event\MultiFactor\SaveSetup;
 use Joomla\CMS\Event\MultiFactor\Validate;
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
@@ -26,6 +25,7 @@ use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Http\HttpFactory;
 use Joomla\Input\Input;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -65,7 +65,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
      * @var    boolean
      * @since  4.2.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Implement your plugin methods accepting an AbstractEvent object
      *              Example:
      *              onEventTriggerName(AbstractEvent $event) {
@@ -319,7 +319,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
                     return $rec->method === $record->method;
                 }
             );
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $records = [];
         }
 
@@ -369,7 +369,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 
         $gotResponse = false;
 
-        $http     = HttpFactory::getHttp();
+        $http     = (new HttpFactory())->getHttp();
         $token    = $this->getApplication()->getFormToken();
         $nonce    = md5($token . uniqid(random_int(0, mt_getrandmax())));
         $response = null;
@@ -409,7 +409,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
                 } else {
                     continue;
                 }
-            } catch (\Exception $exc) {
+            } catch (\Exception) {
                 // No response, continue with the next server
                 continue;
             }
@@ -425,7 +425,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
         }
 
         // Parse response
-        $lines = explode("\n", $response->body);
+        $lines = explode("\n", (string) $response->getBody());
         $data  = [];
 
         foreach ($lines as $line) {

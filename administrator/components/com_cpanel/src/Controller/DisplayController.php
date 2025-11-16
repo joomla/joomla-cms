@@ -75,7 +75,7 @@ class DisplayController extends BaseController
             $appendLink .= '&function=' . $function;
         }
 
-        if (substr($position, 0, 6) != 'cpanel') {
+        if (!str_starts_with($position, 'cpanel')) {
             $position = 'cpanel';
         }
 

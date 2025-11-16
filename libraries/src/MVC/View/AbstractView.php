@@ -50,7 +50,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
      * @var    Document
      * @since  3.0
      *
-     * @deprecated 4.4.0 will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 7.0
      *             Use $this->getDocument() instead
      */
     public $document;
@@ -138,9 +138,21 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
      * @return  mixed  The return value of the method
      *
      * @since   3.0
+     *
+     * @deprecated 5.3.0 will be removed in 7.0.
+     *              Retrieve the model with $model = $this->getModel(); and call the methods
+     *              to the model directly, e.g. $model->getItems() instead of $this->get('Items').
      */
     public function get($property, $default = null)
     {
+        trigger_deprecation(
+            'joomla/mvc/view',
+            '5.3',
+            'The %s() method is deprecated and will be removed in 7.0. use $model = $this->getModel();
+            $this->items = $model->getItems(); instead',
+            __METHOD__
+        );
+
         // If $model is null we use the default model
         if ($default === null) {
             $model = $this->_defaultModel;
@@ -160,7 +172,11 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
             }
         }
 
-        return $this->legacyGet($property, $default);
+        if (isset($this->$property)) {
+            return $this->$property;
+        }
+
+        return $default;
     }
 
     /**
@@ -233,7 +249,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
                 $className = \get_class($this);
                 $viewPos   = strpos($className, 'View');
 
-                if ($viewPos != false) {
+                if ($viewPos !== false) {
                     $this->_name = strtolower(substr($className, $viewPos + 4));
                 }
             }
@@ -281,7 +297,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
      * Get the event dispatcher.
      *
      * The override was made to keep a backward compatibility for legacy component.
-     * TODO: Remove the override in 6.0
+     * TODO: Remove the override ONLY when support of Legacy components will be removed (components without Dispatcher and MVCFactory).
      *
      * @return  DispatcherInterface
      *
@@ -311,7 +327,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
      *
      * @since   4.1.0
      *
-     * @deprecated 4.4 will be removed in 6.0. Use $this->getDispatcher() directly.
+     * @deprecated 4.4 will be removed in 7.0. Use $this->getDispatcher() directly.
      */
     protected function dispatchEvent(EventInterface $event)
     {
@@ -319,7 +335,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
 
         @trigger_error(
             \sprintf(
-                'Method %s is deprecated and will be removed in 6.0. Use getDispatcher()->dispatch() directly.',
+                'Method %s is deprecated and will be removed in 7.0. Use getDispatcher()->dispatch() directly.',
                 __METHOD__
             ),
             E_USER_DEPRECATED

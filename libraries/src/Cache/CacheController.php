@@ -87,7 +87,7 @@ class CacheController
      * @since       1.7.0
      * @throws      \RuntimeException
      *
-     * @deprecated  4.2 will be removed in 6.0
+     * @deprecated  4.2 will be removed in 7.0
      *              Use the cache controller factory instead
      *              Example: Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($type, $options);
      */
@@ -103,7 +103,7 @@ class CacheController
 
         try {
             return Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($type, $options);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $type  = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
             $class = 'JCacheController' . ucfirst($type);
 
@@ -141,7 +141,7 @@ class CacheController
      *
      * @since       1.7.0
      *
-     * @deprecated  4.2 will be removed in 6.0
+     * @deprecated  4.2 will be removed in 7.0
      *              Use the cache controller factory instead
      *              Example: Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($type, $options);
      */

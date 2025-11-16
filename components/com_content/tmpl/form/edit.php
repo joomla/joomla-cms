@@ -44,16 +44,15 @@ if (!$params->exists('show_publishing_options')) {
     </div>
     <?php endif; ?>
 
-    <form action="<?php echo Route::_('index.php?option=com_content&a_id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-vertical">
+    <form action="<?php echo Route::_('index.php'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-vertical">
         <fieldset>
             <?php echo HTMLHelper::_('uitab.startTabSet', $this->tab_name, ['active' => 'editor', 'recall' => true, 'breakpoint' => 768]); ?>
 
             <?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'editor', Text::_('COM_CONTENT_ARTICLE_CONTENT')); ?>
                 <?php echo $this->form->renderField('title'); ?>
 
-                <?php if (is_null($this->item->id)) : ?>
-                    <?php echo $this->form->renderField('alias'); ?>
-                <?php endif; ?>
+                <?php echo $this->form->renderField('alias'); ?>
+
 
                 <?php echo $this->form->renderField('articletext'); ?>
 
@@ -151,9 +150,7 @@ if (!$params->exists('show_publishing_options')) {
 
             <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
-            <input type="hidden" name="task" value="">
-            <input type="hidden" name="return" value="<?php echo $this->return_page; ?>">
-            <?php echo HTMLHelper::_('form.token'); ?>
+            <?php echo $this->form->renderControlFields(); ?>
         </fieldset>
         <div class="d-grid gap-2 d-sm-block mb-2">
             <button type="button" class="btn btn-primary" data-submit-task="article.apply">

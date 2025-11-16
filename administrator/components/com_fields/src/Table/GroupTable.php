@@ -16,7 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
@@ -44,12 +44,12 @@ class GroupTable extends Table implements CurrentUserInterface
     /**
      * Class constructor.
      *
-     * @param   DatabaseDriver        $db          Database connector object
+     * @param   DatabaseInterface     $db          Database connector object
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   3.7.0
      */
-    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__fields_groups', 'id', $db, $dispatcher);
 
@@ -203,8 +203,8 @@ class GroupTable extends Table implements CurrentUserInterface
     protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         $component = explode('.', $this->context);
-        $db        = $this->getDbo();
-        $query     = $db->getQuery(true)
+        $db        = $this->getDatabase();
+        $query     = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__assets'))
             ->where($db->quoteName('name') . ' = :name')

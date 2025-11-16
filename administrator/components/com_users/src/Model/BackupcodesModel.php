@@ -230,17 +230,17 @@ class BackupcodesModel extends BaseDatabaseModel
         $realLength = \count($codes);
         $restLength = 10 - $realLength;
 
-        for ($i = 0; $i < $realLength; $i++) {
-            if (hash_equals($codes[$i], $code)) {
+        foreach ($codes as $value) {
+            if (hash_equals($value, $code)) {
                 // This may seem redundant but makes sure both branches of the if-block are isochronous
                 $result       = $result || true;
                 $newArray[]   = '';
-                $dummyArray[] = $codes[$i];
+                $dummyArray[] = $value;
             } else {
                 // This may seem redundant but makes sure both branches of the if-block are isochronous
                 $result       = $result || false;
                 $dummyArray[] = '';
-                $newArray[]   = $codes[$i];
+                $newArray[]   = $value;
             }
         }
 
@@ -252,7 +252,7 @@ class BackupcodesModel extends BaseDatabaseModel
          */
         $otherResult = false;
 
-        $temp1 = '';
+        $temp1 = [];
 
         for ($i = 0; $i < 10; $i++) {
             $temp1[$i] = random_int(0, 99999999);

@@ -105,7 +105,7 @@ abstract class Credentials
 
         try {
             $publicKeyCredentialCreationOptions = unserialize(base64_decode($encodedOptions));
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $publicKeyCredentialCreationOptions = null;
         }
 
@@ -274,7 +274,7 @@ abstract class Credentials
         try {
             $app      = Factory::getApplication();
             $siteName = $app->get('sitename');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $siteName = 'Joomla! Site';
         }
 

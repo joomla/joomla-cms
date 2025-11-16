@@ -157,7 +157,7 @@ class ItemModel extends AdminModel
 
         $table  = $this->getTable();
         $db     = $this->getDatabase();
-        $query  = $db->getQuery(true);
+        $query  = $db->createQuery();
         $newIds = [];
 
         // Check that the parent exists
@@ -234,7 +234,7 @@ class ItemModel extends AdminModel
             }
 
             // Copy is a bit tricky, because we also need to copy the children
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__menu'))
                 ->where(
@@ -278,9 +278,9 @@ class ItemModel extends AdminModel
             $table->home  = 0;
 
             // Alter the title & alias
-            list($title, $alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
-            $table->title        = $title;
-            $table->alias        = $alias;
+            [$title, $alias] = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
+            $table->title    = $title;
+            $table->alias    = $alias;
 
             // Check the row.
             if (!$table->check()) {
@@ -409,7 +409,7 @@ class ItemModel extends AdminModel
             // Check if we are moving to a different menu
             if ($menuType != $table->menutype) {
                 // Add the child node ids to the children array.
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName('id'))
                     ->from($db->quoteName('#__menu'))
                     ->where($db->quoteName('lft') . ' BETWEEN :lft AND :rgt')
@@ -448,7 +448,7 @@ class ItemModel extends AdminModel
             $children = ArrayHelper::toInteger($children);
 
             // Update the menutype field in all nodes where necessary.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->update($db->quoteName('#__menu'))
                 ->set($db->quoteName('menutype') . ' = :menuType')
                 ->whereIn($db->quoteName('id'), $children)
@@ -567,7 +567,7 @@ class ItemModel extends AdminModel
 
         // Only merge if there is a session and itemId or itemid is null.
         if (
-            isset($sessionData['id']) && isset($itemData['id']) && $sessionData['id'] === $itemData['id']
+            isset($sessionData['id'], $itemData['id']) && $sessionData['id'] === $itemData['id']
             || \is_null($itemData['id'])
         ) {
             $data = array_merge($itemData, $sessionData);
@@ -579,10 +579,10 @@ class ItemModel extends AdminModel
         if (empty($data['id'])) {
             // Get selected fields
             $filters           = Factory::getApplication()->getUserState('com_menus.items.filter');
-            $data['parent_id'] = $data['parent_id'] ?? ($filters['parent_id'] ?? null);
-            $data['published'] = $data['published'] ?? ($filters['published'] ?? null);
-            $data['language']  = $data['language'] ?? ($filters['language'] ?? null);
-            $data['access']    = $data['access'] ?? ($filters['access'] ?? Factory::getApplication()->get('access'));
+            $data['parent_id'] ??= $filters['parent_id'] ?? null;
+            $data['published'] ??= $filters['published'] ?? null;
+            $data['language']  ??= $filters['language'] ?? null;
+            $data['access']    ??= $filters['access'] ?? Factory::getApplication()->get('access');
         }
 
         if (isset($data['menutype']) && !$this->getState('item.menutypeid')) {
@@ -784,7 +784,7 @@ class ItemModel extends AdminModel
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         /**
          * Join on the module-to-menu mapping table.
@@ -808,7 +808,7 @@ class ItemModel extends AdminModel
                     . ' AND ' . $db->quoteName('map.menuid') . ' IN (' . implode(',', $query->bindArray([0, $id, -$id])) . ')'
             );
 
-        $subQuery = $db->getQuery(true)
+        $subQuery = $db->createQuery()
             ->select('COUNT(*)')
             ->from($db->quoteName('#__modules_menu'))
             ->where(
@@ -860,7 +860,7 @@ class ItemModel extends AdminModel
     public function getViewLevels()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Get all the available view levels
         $query->select($db->quoteName('id'))
@@ -974,7 +974,7 @@ class ItemModel extends AdminModel
         if ($pk) {
             $table = $this->getTable();
             $table->load($pk);
-            $forcedClientId = isset($table->client_id) ? $table->client_id : $forcedClientId;
+            $forcedClientId = $table->client_id ?? $forcedClientId;
         }
 
         if (isset($forcedClientId) && $forcedClientId != $clientId) {
@@ -998,7 +998,7 @@ class ItemModel extends AdminModel
 
         $this->setState('item.type', $type);
 
-        $link = $app->isClient('api') ? $app->getInput()->get('link') :
+        $link = $app->isClient('api') ? $app->getInput()->get('link', null, 'string') :
             $app->getUserState('com_menus.edit.item.link');
 
         if ($link) {
@@ -1109,7 +1109,7 @@ class ItemModel extends AdminModel
                 // If custom layout, get the xml file from the template folder
                 // template folder is first part of file name -- template:folder
                 if (!$formFile && (strpos($layout, ':') > 0)) {
-                    list($altTmpl, $altLayout) = explode(':', $layout);
+                    [$altTmpl, $altLayout] = explode(':', $layout);
 
                     $templatePath = Path::clean($clientInfo->path . '/templates/' . $altTmpl . '/html/' . $option . '/' . $view . '/' . $altLayout . '.xml');
 
@@ -1146,7 +1146,7 @@ class ItemModel extends AdminModel
             // If an XML file was found in the component, load it first.
             // We need to qualify the full path to avoid collisions with component file names.
 
-            if ($form->loadFile($formFile, true, '/metadata') == false) {
+            if (!$form->loadFile($formFile, true, '/metadata')) {
                 throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
             }
 
@@ -1232,7 +1232,7 @@ class ItemModel extends AdminModel
     {
         // Initialise variables.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $table = $this->getTable();
 
         try {
@@ -1272,7 +1272,7 @@ class ItemModel extends AdminModel
             return false;
         }
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__menu'))
             ->set($db->quoteName('params') . ' = :params')
             ->where($db->quoteName('id') . ' = :id')
@@ -1314,7 +1314,7 @@ class ItemModel extends AdminModel
         $pk      = $data['id'] ?? (int) $this->getState('item.id');
         $isNew   = true;
         $db      = $this->getDatabase();
-        $query   = $db->getQuery(true);
+        $query   = $db->createQuery();
         $table   = $this->getTable();
         $context = $this->option . '.' . $this->name;
 
@@ -1380,9 +1380,9 @@ class ItemModel extends AdminModel
             $origTable->load($this->getState('item.id'));
 
             if ($table->title === $origTable->title) {
-                list($title, $alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
-                $table->title        = $title;
-                $table->alias        = $alias;
+                [$title, $alias] = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
+                $table->title    = $title;
+                $table->alias    = $alias;
             }
 
             if ($table->alias === $origTable->alias) {
@@ -1434,7 +1434,7 @@ class ItemModel extends AdminModel
             $children = ArrayHelper::toInteger($children);
 
             // Update the menutype field in all nodes where necessary.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->update($db->quoteName('#__menu'))
                 ->set($db->quoteName('menutype') . ' = :menutype')
                 ->whereIn($db->quoteName('id'), $children)
@@ -1476,7 +1476,7 @@ class ItemModel extends AdminModel
 
             // Get associationskey for edited item
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('key'))
                 ->from($db->quoteName('#__associations'))
                 ->where(
@@ -1493,7 +1493,7 @@ class ItemModel extends AdminModel
             if ($associations || $oldKey !== null) {
                 // Deleting old associations for the associated items
                 $where = [];
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->delete($db->quoteName('#__associations'))
                     ->where($db->quoteName('context') . ' = :context')
                     ->bind(':context', $this->associationsContext);
@@ -1527,7 +1527,7 @@ class ItemModel extends AdminModel
             if (\count($associations) > 1) {
                 // Adding new association for these items
                 $key   = md5(json_encode($associations));
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->insert($db->quoteName('#__associations'))
                     ->columns(
                         [
@@ -1746,15 +1746,13 @@ class ItemModel extends AdminModel
     /**
      * Custom clean the cache
      *
-     * @param   string   $group     Cache group name.
-     * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              @deprecated   4.3 will be removed in 6.0
+     * @param  string  $group  Cache group name.
      *
      * @return  void
      *
      * @since   1.6
      */
-    protected function cleanCache($group = null, $clientId = 0)
+    protected function cleanCache($group = null)
     {
         parent::cleanCache('com_menus');
         parent::cleanCache('com_modules');

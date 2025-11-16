@@ -22,6 +22,7 @@ use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\DatabaseNotFoundException;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
@@ -400,6 +401,14 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
     protected $renderLabelLayout = 'joomla.form.renderlabel';
 
     /**
+     * Additional layout paths to look for layout files
+     *
+     * @var   array
+     * @since 6.0.0
+     */
+    protected $layoutPaths = [];
+
+    /**
      * The data-attribute name and values of the form field.
      * For example, data-action-type="click" data-action-type="change"
      *
@@ -475,6 +484,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             case 'validationtext':
             case 'showon':
             case 'parentclass':
+            case 'layoutPaths':
                 return $this->$name;
 
             case 'input':
@@ -498,7 +508,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
 
             default:
                 // Check for data attribute
-                if (strpos($name, 'data-') === 0 && \array_key_exists($name, $this->dataAttributes)) {
+                if (str_starts_with($name, 'data-') && \array_key_exists($name, $this->dataAttributes)) {
                     return $this->dataAttributes[$name];
                 }
         }
@@ -592,9 +602,13 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                 $this->$name = (int) $value;
                 break;
 
+            case 'layoutIncludePath':
+                $this->layoutPaths = \is_array($value) ? $value : explode(',', (string) $value);
+                break;
+
             default:
                 // Detect data attribute(s)
-                if (strpos($name, 'data-') === 0) {
+                if (str_starts_with($name, 'data-')) {
                     $this->dataAttributes[$name] = $value;
                 } else {
                     if (property_exists(__CLASS__, $name)) {
@@ -659,7 +673,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
         $attributes = [
             'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'validationtext',
             'default', 'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
-            'translate_label', 'translateDescription', 'translate_description', 'size', 'showon', ];
+            'translate_label', 'translateDescription', 'translate_description', 'size', 'showon', 'layoutIncludePath'];
 
         $this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
@@ -672,7 +686,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
 
         // Lets detect miscellaneous data attribute. For eg, data-*
         foreach ($this->element->attributes() as $key => $value) {
-            if (strpos($key, 'data-') === 0) {
+            if (str_starts_with($key, 'data-')) {
                 // Data attribute key value pair
                 $this->dataAttributes[$key] = $value;
             }
@@ -1061,7 +1075,13 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
 
         $data = array_merge($this->collectLayoutData(), $data);
 
-        return $this->getRenderer($this->renderLayout)->render($data);
+        $renderer = $this->getRenderer($this->renderLayout);
+
+        if (isset($options['layoutIncludePath']) && is_dir(Path::check($options['layoutIncludePath']))) {
+            $renderer->addIncludePaths($options['layoutIncludePath']);
+        }
+
+        return $renderer->render($data);
     }
 
     /**
@@ -1095,12 +1115,12 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             }
 
             // Check for a callback filter
-            if (strpos($filter, '::') !== false) {
+            if (str_contains($filter, '::')) {
                 if (\is_callable(explode('::', $filter))) {
                     return \call_user_func(explode('::', $filter), $value);
                 }
 
-                /** @deprecated Can be removed with Joomla 6.0 since the class alias is deprecated since Joomla 4.0*/
+                /** @deprecated Can be removed with Joomla 6.0 since the class alias is deprecated since Joomla 7.0*/
                 [$class, $method] = explode('::', $filter);
                 if ($class === 'JComponentHelper') {
                     throw new \UnexpectedValueException(
@@ -1218,8 +1238,8 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             if ($rule instanceof DatabaseAwareInterface) {
                 try {
                     $rule->setDatabase($this->getDatabase());
-                } catch (DatabaseNotFoundException $e) {
-                    @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+                } catch (DatabaseNotFoundException) {
+                    @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
                     $rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
                 }
             }
@@ -1243,8 +1263,8 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             if ($rule instanceof DatabaseAwareInterface) {
                 try {
                     $rule->setDatabase($this->getDatabase());
-                } catch (DatabaseNotFoundException $e) {
-                    @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+                } catch (DatabaseNotFoundException) {
+                    @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
                     $rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
                 }
             }
@@ -1373,7 +1393,13 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
     {
         $renderer = new FileLayout('default');
 
-        return $renderer->getDefaultIncludePaths();
+        $paths = $renderer->getDefaultIncludePaths();
+
+        foreach ($this->layoutPaths as $path) {
+            array_unshift($paths, JPATH_ROOT . '/' . ltrim((string) $path, '/'));
+        }
+
+        return $paths;
     }
 
     /**

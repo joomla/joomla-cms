@@ -13,8 +13,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\Router\Route;
 
 /** @var \Joomla\Component\Guidedtours\Administrator\View\Step\HtmlView $this */
 
@@ -104,7 +104,7 @@ $this->useCoreUI = true;
 
         <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
     </div>
-    <input type="hidden" name="task" value="">
     <?php echo $this->form->getInput('tour_id'); ?>
-    <?php echo HTMLHelper::_('form.token'); ?>
+
+    <?php echo $this->form->renderControlFields(); ?>
 </form>

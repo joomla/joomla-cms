@@ -14,14 +14,12 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Guidedtours\Administrator\Extension\GuidedtoursComponent;
 use Joomla\Component\Guidedtours\Administrator\Model\TourModel;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
@@ -77,17 +75,16 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor
      *
-     * @param   DispatcherInterface  $dispatcher  The object to observe
      * @param   array                $config      An optional associative array of configuration settings.
      * @param   boolean              $enabled     An internal flag whether plugin should listen any event.
      *
      * @since   4.3.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config = [], bool $enabled = false)
+    public function __construct(array $config = [], bool $enabled = false)
     {
         self::$enabled = $enabled;
 
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
     }
 
     /**
@@ -204,7 +201,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
                     $profileKey = 'guidedtour.id.' . $tour->id;
 
                     // Check if the tour state has already been saved some time before.
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->select($db->quoteName('profile_value'))
                         ->from($db->quoteName('#__user_profiles'))
                         ->where($db->quoteName('user_id') . ' = :user_id')
@@ -214,7 +211,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
 
                     try {
                         $result = $db->setQuery($query)->loadResult();
-                    } catch (\Exception $e) {
+                    } catch (\Exception) {
                         // Do not start the tour.
                         continue;
                     }
@@ -283,7 +280,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     /**
      * Return a tour and its steps or null if not found
      *
-     * @param   CMSObject  $item  The tour to load
+     * @param   \stdClass  $item  The tour to load
      *
      * @return null|object
      *
@@ -326,13 +323,15 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         $temp->id          = 0;
         $temp->title       = $this->getApplication()->getLanguage()->_($item->title);
         $temp->description = $this->getApplication()->getLanguage()->_($item->description);
+        $temp->description = $this->fixImagePaths($temp->description);
         $temp->url         = $item->url;
-
-        // Replace 'images/' to '../images/' when using an image from /images in backend.
-        $temp->description = preg_replace('*src\=\"(?!administrator\/)images/*', 'src="../images/', $temp->description);
 
         // Set the start label for the tour.
         $temp->start_label = Text::_('PLG_SYSTEM_GUIDEDTOURS_START');
+        // What's new tours have a different label.
+        if (str_contains($item->uid, 'joomla-whatsnew')) {
+            $temp->start_label = Text::_('PLG_SYSTEM_GUIDEDTOURS_NEXT');
+        }
 
         $tour->steps[] = $temp;
 
@@ -342,6 +341,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
             $temp->id               = $i + 1;
             $temp->title            = $this->getApplication()->getLanguage()->_($step->title);
             $temp->description      = $this->getApplication()->getLanguage()->_($step->description);
+            $temp->description      = $this->fixImagePaths($temp->description);
             $temp->position         = $step->position;
             $temp->target           = $step->target;
             $temp->type             = $this->stepType[$step->type];
@@ -351,12 +351,33 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
             $temp->tour_id          = $step->tour_id;
             $temp->step_id          = $step->id;
 
-            // Replace 'images/' to '../images/' when using an image from /images in backend.
-            $temp->description = preg_replace('*src\=\"(?!administrator\/)images/*', 'src="../images/', $temp->description);
-
             $tour->steps[] = $temp;
         }
 
         return $tour;
+    }
+
+    /**
+     * Return a modified version of a given string with usable image paths for tours
+     *
+     * @param   string  $description  The string to fix
+     *
+     * @return  string
+     *
+     * @since  5.2.0
+     */
+    private function fixImagePaths($description)
+    {
+        return preg_replace(
+            [
+                '*src="(?!administrator\/)images/*',
+                '*src="media/*',
+            ],
+            [
+                'src="../images/',
+                'src="../media/',
+            ],
+            $description
+        );
     }
 }

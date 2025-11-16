@@ -13,6 +13,7 @@ namespace Joomla\Component\Users\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -24,7 +25,7 @@ use Joomla\CMS\Versioning\VersionableModelTrait;
  *
  * @since  2.5
  */
-class NoteModel extends AdminModel
+class NoteModel extends AdminModel implements VersionableModelInterface
 {
     use VersionableModelTrait;
 
@@ -105,7 +106,7 @@ class NoteModel extends AdminModel
 
             // Prime some default values.
             if ($this->getState('note.id') == 0) {
-                $data->set('catid', $app->getInput()->get('catid', $app->getUserState('com_users.notes.filter.category_id'), 'int'));
+                $data->catid = $app->getInput()->get('catid', $app->getUserState('com_users.notes.filter.category_id'), 'int');
             }
 
             $userId = $app->getInput()->get('u_id', 0, 'int');

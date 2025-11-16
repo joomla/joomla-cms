@@ -31,7 +31,7 @@ abstract class AuthenticationHelper
      *
      * @since   3.6.3
      *
-     * @deprecated  4.2 will be removed in 6.0
+     * @deprecated  4.2 will be removed in 7.0
      *              Will be removed without replacement
      */
     public static function getTwoFactorMethods()
@@ -93,7 +93,7 @@ abstract class AuthenticationHelper
             // Get all the User plugins.
             $dispatcher = Factory::getApplication()->getDispatcher();
             PluginHelper::importPlugin('user', null, true, $dispatcher);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return [];
         }
 
@@ -131,7 +131,7 @@ abstract class AuthenticationHelper
 
                 // Unset anything that doesn't conform to a button definition
                 foreach (array_keys($button) as $key) {
-                    if (substr($key, 0, 5) == 'data-') {
+                    if (str_starts_with($key, 'data-')) {
                         continue;
                     }
 

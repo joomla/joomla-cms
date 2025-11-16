@@ -79,9 +79,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                     <?php
                     $iconStates = [
                         -2 => 'icon-trash',
-                        0  => 'icon-times',
-                        1  => 'icon-check',
-                        2  => 'icon-folder',
+                        0  => 'icon-unpublish',
+                        1  => 'icon-publish',
+                        2  => 'icon-archive',
                     ];
                     ?>
                     <?php foreach ($this->items as $i => $item) : ?>
@@ -143,11 +143,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
         <?php endif; ?>
 
-        <input type="hidden" name="extension" value="<?php echo $extension; ?>">
-        <input type="hidden" name="task" value="">
-        <input type="hidden" name="boxchecked" value="0">
-        <input type="hidden" name="forcedLanguage" value="<?php echo $app->getInput()->get('forcedLanguage', '', 'CMD'); ?>">
-        <?php echo HTMLHelper::_('form.token'); ?>
+        <?php echo $this->filterForm->renderControlFields(); ?>
 
     </form>
 </div>
