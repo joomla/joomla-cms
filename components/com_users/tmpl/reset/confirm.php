@@ -32,7 +32,6 @@ $wa->useScript('keepalive')
     <form action="<?php echo Route::_('index.php?task=reset.confirm'); ?>" method="post" class="com-users-reset-confirm__form form-validate form-horizontal well">
         <?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
             <fieldset>
-            <fieldset>
                 <legend><?php echo Text::_('COM_USERS_FIELD_RESET_CONFIRM_TOKEN_LABEL'); ?></legend>
                 <p><?php echo Text::_('COM_USERS_RESET_CONFIRM_LABEL'); ?><p>
                 <?php echo $this->form->renderFieldset($fieldset->name); ?>
