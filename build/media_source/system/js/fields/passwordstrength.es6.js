@@ -47,7 +47,7 @@ class PasswordStrength {
     score += this.constructor.calc(value, /[a-z]/g, this.lowercase, mods);
     score += this.constructor.calc(value, /[A-Z]/g, this.uppercase, mods);
     score += this.constructor.calc(value, /[0-9]/g, this.numbers, mods);
-    score += this.constructor.calc(value, /[@#?=;:*\-_€%&()`´+[\]{}'"\\|,.<>/~^]/g, this.special, mods);
+    score += this.constructor.calc(value, /[@$!#?=;:*\-_€%&()`´+[\]{}'"\\|,.<>/~^]/g, this.special, mods);
     if (mods === 1) {
       score += value.length > this.length ? 100 : 100 / this.length * value.length;
     } else {
@@ -138,26 +138,11 @@ class PasswordStrength {
       field.addEventListener('keyup', ({
         target
       }) => getMeter(target));
-      
-      // Trim spaces on blur
-      field.addEventListener('blur', ({
-        target
-      }) => {
-        target.value = target.value.trim();
-        getMeter(target);
-      });
     });
 
     // Set a handler for the validation script
     if (fields[0]) {
       document.formvalidator.setHandler('password-strength', value => {
-        const trimmedValue = value.trim();
-        
-        // Block if less than 12 characters
-        if (trimmedValue.length < 12) {
-          return false;
-        }
-        
         const strengthElements = document.querySelectorAll('.js-password-strength');
         const minLength = strengthElements[0].getAttribute('data-min-length');
         const minIntegers = strengthElements[0].getAttribute('data-min-integers');
@@ -171,7 +156,7 @@ class PasswordStrength {
           special: minSymbols || 0,
           length: minLength || 12
         });
-        const score = strength.getScore(trimmedValue);
+        const score = strength.getScore(value);
         if (score === 100) {
           return true;
         }
