@@ -89,9 +89,9 @@ class MediaHelper
         $mime = false;
 
         try {
-            if ($isImage && \function_exists('exif_imagetype')) {
+            if ($isImage && \function_exists('exif_imagetype') && filesize($file) > 12) {
                 $mime = image_type_to_mime_type(exif_imagetype($file));
-            } elseif ($isImage && \function_exists('getimagesize')) {
+            } elseif ($isImage && \function_exists('getimagesize') && filesize($file) > 12) {
                 $imagesize = getimagesize($file);
                 $mime      = $imagesize['mime'] ?? false;
             } elseif (\function_exists('mime_content_type')) {

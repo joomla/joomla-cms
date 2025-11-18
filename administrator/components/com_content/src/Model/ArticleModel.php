@@ -1059,6 +1059,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
     protected function cleanCache($group = null)
     {
         parent::cleanCache('com_content');
+        parent::cleanCache('mod_articles');
         parent::cleanCache('mod_articles_archive');
         parent::cleanCache('mod_articles_categories');
         parent::cleanCache('mod_articles_category');
