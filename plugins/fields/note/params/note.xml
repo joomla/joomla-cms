@@ -1,96 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
-	<field
-		name="required"
-		type="hidden"
-		filter="unset"
-	/>
-
-	<field
-		name="default_value"
-		type="hidden"
-		filter="unset"
-	/>
 	<fields name="params" label="COM_FIELDS_FIELD_BASIC_LABEL">
-		<fieldset name="basic">
-			<field
-				name="hint"
-				type="hidden"
-				filter="unset"
-			/>
-
-			<field
-				name="class"
-				type="hidden"
-				filter="unset"
-			/>
-
-			<field
-				name="label_class"
-				type="hidden"
-				filter="unset"
-			/>
-
-			<field
-				name="show_on"
-				type="hidden"
-				filter="unset"
-			/>
-
-			<field
-				name="showon"
-				type="hidden"
-				filter="unset"
-			/>
-
-			<field
-				name="showlabel"
-				type="hidden"
-				filter="unset"
-			/>
-
-			<field
-				name="label_render_class"
-				type="hidden"
-				filter="unset"
-			/>
-
-			<field
-				name="render_class"
-				type="hidden"
-				filter="unset"
-			/>
-
-			<field
-				name="value_render_class"
-				type="hidden"
-				filter="unset"
-			/>
-
-			<field
-				name="prefix"
-				type="hidden"
-				filter="unset"
-			/>
-
-			<field
-				name="suffix"
-				type="hidden"
-				filter="unset"
-			/>
-
-			<field
-				name="display_readonly"
-				type="hidden"
-				filter="unset"
-			/>
-
-			<field
-				name="searchindex"
-				type="hidden"
-				filter="unset"
-			/>
-		</fieldset>
 		<fieldset name="renderoptions">
 			<field
 				name="display_frontend"
@@ -148,6 +58,7 @@
 				type="text"
 				label="PLG_FIELDS_NOTE_PARAMS_CLOSE_LABEL"
 				description="PLG_FIELDS_NOTE_PARAMS_CLOSE_DESC"
+				default="true"
 			/>
 		</fieldset>
 	</fields>

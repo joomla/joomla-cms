@@ -9,6 +9,20 @@
       "name": "wcpolyfill",
       "type": "script",
       "uri": ""
+    },
+    {
+      "name": "chosen",
+      "type": "style",
+      "uri": ""
+    },
+    {
+      "name": "chosen",
+      "type": "script",
+      "uri": ""
+    },
+    {
+      "name": "chosen",
+      "type": "preset"
     }
   ]
 }

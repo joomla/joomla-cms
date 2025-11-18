@@ -165,7 +165,7 @@ class CategoryModel extends ListModel
         $db = $this->getDatabase();
 
         /** @var \Joomla\Database\DatabaseQuery $query */
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select($this->getState('list.select', 'a.*'))
             ->select($this->getSlugColumn($query, 'a.id', 'a.alias') . ' AS slug')
@@ -187,7 +187,7 @@ class CategoryModel extends ListModel
             $levels = (int) $this->getState('filter.max_category_levels', 1);
 
             // Create a subquery for the subcategory list
-            $subQuery = $db->getQuery(true)
+            $subQuery = $db->createQuery()
                 ->select($db->quoteName('sub.id'))
                 ->from($db->quoteName('#__categories', 'sub'))
                 ->join(

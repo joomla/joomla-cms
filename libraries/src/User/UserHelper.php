@@ -60,7 +60,7 @@ abstract class UserHelper
      * @var    integer
      * @since  4.0.0
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use UserHelper::HASH_ARGON2I instead
      */
     public const HASH_ARGON2I_BC = 2;
@@ -83,7 +83,7 @@ abstract class UserHelper
      * @var    integer
      * @since  4.0.0
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use UserHelper::HASH_ARGON2ID instead
      */
     public const HASH_ARGON2ID_BC = 3;
@@ -102,7 +102,7 @@ abstract class UserHelper
      * @var    integer
      * @since  4.0.0
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use UserHelper::HASH_BCRYPT instead
      */
     public const HASH_BCRYPT_BC = 1;
@@ -113,7 +113,7 @@ abstract class UserHelper
      * @var    string
      * @since  4.0.0
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Support for MD5 hashed passwords will be removed use any of the other hashing methods
      */
     public const HASH_MD5 = 'md5';
@@ -124,7 +124,7 @@ abstract class UserHelper
      * @var    string
      * @since  4.0.0
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Support for PHPass hashed passwords will be removed use any of the other hashing methods
      */
     public const HASH_PHPASS = 'phpass';
@@ -170,7 +170,7 @@ abstract class UserHelper
         if (!\in_array($groupId, $user->groups)) {
             // Check whether the group exists.
             $db    = Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__usergroups'))
                 ->where($db->quoteName('id') . ' = :groupId')
@@ -286,7 +286,7 @@ abstract class UserHelper
 
         // Get the titles for the user groups.
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['id', 'title']))
             ->from($db->quoteName('#__usergroups'))
             ->whereIn($db->quoteName('id'), $user->groups);
@@ -359,7 +359,7 @@ abstract class UserHelper
         $db       = Factory::getDbo();
 
         // Let's get the id of the user we want to activate
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('activation') . ' = :activation')
@@ -404,7 +404,7 @@ abstract class UserHelper
     {
         // Initialise some variables
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('username') . ' = :username')
@@ -602,7 +602,7 @@ abstract class UserHelper
         try {
             $userId = (int) $userId;
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('session_id'))
                 ->from($db->quoteName('#__session'))
                 ->where($db->quoteName('userid') . ' = :userid')
@@ -643,7 +643,7 @@ abstract class UserHelper
 
         try {
             $db->setQuery(
-                $db->getQuery(true)
+                $db->createQuery()
                     ->delete($db->quoteName('#__session'))
                     ->whereIn($db->quoteName('session_id'), $sessionIds, ParameterType::LARGE_OBJECT)
             )->execute();
