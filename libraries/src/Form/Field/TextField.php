@@ -220,18 +220,11 @@ class TextField extends FormField
     protected function getInput()
     {
         if ($this->element['useglobal']) {
-            $component = Factory::getApplication()->getInput()->getCmd('option');
 
-            // Get correct component for menu items
-            if ($component === 'com_menus') {
-                $link      = $this->form->getData()->get('link');
-                $uri       = new Uri($link);
-                $component = $uri->getVar('option', 'com_menus');
-            }
-
-            $params = ComponentHelper::getParams($component);
-
-            if ((string) $this->element['useglobal'] !== 'true' && substr_count((string) $this->element['useglobal'], '_') === 2) {
+            if (\str_starts_with((string) $this->element['useglobal'], 'com_')) {
+                // Get the correct component parameters
+                $params = ComponentHelper::getParams((string) $this->element['useglobal']);
+            } elseif (substr_count((string) $this->element['useglobal'], '_') === 2) {
                 // Get the correct plugin parameters
                 [$prefix, $type, $plugin] = explode('_', (string) $this->element['useglobal'], 3);
 
@@ -239,6 +232,20 @@ class TextField extends FormField
                     $plugin = PluginHelper::getPlugin($type, $plugin);
                     $params = new Registry($plugin->params);
                 }
+            }
+
+            if (!isset($params)) {
+                // Fallback for B/C
+                $component = Factory::getApplication()->getInput()->getCmd('option');
+
+                // Get correct component for menu items
+                if ($component === 'com_menus') {
+                    $link      = $this->form->getData()->get('link');
+                    $uri       = new Uri($link);
+                    $component = $uri->getVar('option', 'com_menus');
+                }
+
+                $params = ComponentHelper::getParams($component);
             }
 
             $value  = $params->get($this->fieldname);
