@@ -83,7 +83,7 @@ Using a simple classification keeps the project **stable**, **transparent**, and
 | **Bug / Patch release** | The change fixes an actual error. The software crashes, produces the wrong result, or behaves contrary to its specification. It can be resolved without large‑scale refactoring or new functionality. | **5.4-dev** (6.0-dev) |
 | **Feature / Minor release** | Anything that isn’t a strict bug – new behavior, refactoring, performance improvements, enhancements, UI tweaks, etc. These changes are bundled together for the next minor version. | **6.1-dev** |
 
-The maintainer team confirms the classification and sets the appropriate labels when a PR is opened. If a PR is opened in the wrong branch, a maintainer will simply ask you to retarget it to the proper branch – no need for a discussion.
+A member of the maintainer or bug squad team confirms the classification and sets the appropriate labels when a PR is opened. If a PR is opened in the wrong branch, a maintainer will simply ask you to retarget it to the proper branch.
 
 Copyright
 ---------------------
