@@ -354,7 +354,7 @@ class Text
             $doc = $app->getDocument();
 
             // Get previously added strings
-            $strings = $doc->getScriptOptions('joomla.jtext');
+            $strings = $doc->getScriptOptions('joomla.text');
 
             // Normalize the key and translate the string.
             $key                   = strtoupper($string);
@@ -365,7 +365,7 @@ class Text
             $doc->getWebAssetManager()->useScript('core');
 
             // Update Joomla.Text script options
-            $doc->addScriptOptions('joomla.jtext', $strings, false);
+            $doc->addScriptOptions('joomla.text', $strings, false);
         }
 
         return static::getScriptStrings();
