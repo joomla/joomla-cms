@@ -231,7 +231,7 @@ Joomla.loadOptions = (options) => {
        * But test for new option being null, as null is an object, but we want to allow
        * clearing of options with ...
        *
-       * Joomla.loadOptions({'joomla.text': null});
+       * Joomla.loadOptions({'joomla.jtext': null});
        */
       if (options[key] !== null && typeof Joomla.optionsStorage[key] === 'object' && typeof options[key] === 'object') {
         Joomla.optionsStorage[key] = Joomla.extend(Joomla.optionsStorage[key], options[key]);
@@ -265,12 +265,12 @@ Joomla.Text = {
     let newKey = key;
     let newDef = def;
     // Check for new strings in the optionsStorage, and load them
-    const newStrings = Joomla.getOptions('joomla.text');
+    const newStrings = Joomla.getOptions('joomla.jtext');
     if (newStrings) {
       Joomla.Text.load(newStrings);
 
       // Clean up the optionsStorage from useless data
-      Joomla.loadOptions({ 'joomla.text': null });
+      Joomla.loadOptions({ 'joomla.jtext': null });
     }
 
     newDef = newDef === undefined ? newKey : newDef;
