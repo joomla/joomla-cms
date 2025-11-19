@@ -13,7 +13,6 @@ namespace Joomla\Component\Messages\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\Database\ParameterType;
-use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -59,7 +58,7 @@ class ConfigModel extends FormModel
      */
     public function getItem()
     {
-        $item   = new Registry();
+        $item   = new \stdClass();
         $userid = (int) $this->getState('user.id');
 
         $db    = $this->getDatabase();
