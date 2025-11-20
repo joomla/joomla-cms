@@ -26,7 +26,12 @@
 
       if (width > 0 && height > 0) {
         const ratio = width / height;
-        output.textContent = ratio.toString();
+        // Use a temporary input to match browser's number-to-string conversion
+        // This ensures the same rounding as Joomla's form field value assignment
+        const tempInput = document.createElement('input');
+        tempInput.type = 'number';
+        tempInput.value = ratio;
+        output.textContent = tempInput.value;
       } else {
         output.textContent = '0';
       }
