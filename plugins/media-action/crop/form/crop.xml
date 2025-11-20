@@ -78,7 +78,7 @@
 			<group label="PLG_MEDIA-ACTION_CROP_PARAM_PORTRAIT">
 				<option class="crop-aspect-ratio-option" value="0.8">4:5</option>
 				<option class="crop-aspect-ratio-option" value="0.75">3:4</option>
-				<option class="crop-aspect-ratio-option" value="0.6666666666666667">2:3</option>
+				<option class="crop-aspect-ratio-option" value="0.6666666666666666">2:3</option>
 				<option class="crop-aspect-ratio-option" value="0.5625">9:16</option>
 			</group>
 		</field>
