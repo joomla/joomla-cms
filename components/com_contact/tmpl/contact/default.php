@@ -136,11 +136,17 @@ $icon    = $this->params->get('contact_icons') == 0;
 
     <?php endif; ?>
 
-    <?php if ($tparams->get('show_email_form') && ($this->item->email_to || $this->item->user_id)) : ?>
-        <?php echo '<' . $htag2 . '>' . Text::_('COM_CONTACT_EMAIL_FORM') . '</' . $htag2 . '>'; ?>
-
-        <?php echo $this->loadTemplate('form'); ?>
+<?php if (
+    $tparams->get('show_email_form')
+    && ($this->item->email_to || $this->item->user_id)
+) : ?>
+    <?php if ($tparams->get('show_email_heading', 1)) : ?>
+        <<?= $htag2 ?>><?= Text::_('COM_CONTACT_EMAIL_FORM') ?></<?= $htag2 ?>>
     <?php endif; ?>
+
+    <?php echo $this->loadTemplate('form'); ?>
+
+<?php endif; ?>
 
     <?php if ($tparams->get('show_links')) : ?>
         <?php echo '<' . $htag2 . '>' . Text::_('COM_CONTACT_LINKS') . '</' . $htag2 . '>'; ?>
