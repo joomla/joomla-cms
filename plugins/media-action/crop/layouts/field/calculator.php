@@ -61,7 +61,7 @@ $copiedText = Text::_('PLG_MEDIA-ACTION_CROP_RATIO_CALCULATOR_COPY_DONE_LABEL');
                 <strong class="me-2">
                     <?php echo Text::_('PLG_MEDIA-ACTION_CROP_RATIO_CALCULATOR_OUTPUT_LABEL'); ?>
                 </strong>
-                <output id="calc-output" for="aspect-ratio-calculator" class="font-monospace fs-5 text-success fw-bold user-select-all" style="cursor: pointer;" title="<?php echo Text::_('PLG_MEDIA-ACTION_CROP_RATIO_CALCULATOR_OUTPUT_TITLE_LABEL'); ?>">1.7777777777777777</output>
+                <output id="calc-output" for="aspect-ratio-calculator" class="font-monospace fs-5 fw-bold user-select-all" style="cursor: pointer;" title="<?php echo Text::_('PLG_MEDIA-ACTION_CROP_RATIO_CALCULATOR_OUTPUT_TITLE_LABEL'); ?>">1.7777777777777777</output>
             </div>
             <button type="button" id="copy-calc-value" class="btn btn-success btn-sm"
                     data-copied-icon="<?php echo htmlspecialchars($copiedIcon, ENT_QUOTES, 'UTF-8'); ?>"
