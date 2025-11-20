@@ -221,7 +221,7 @@ class TextField extends FormField
     {
         if ($this->element['useglobal']) {
 
-            if (\str_starts_with((string) $this->element['useglobal'], 'com_')) {
+            if (str_starts_with((string) $this->element['useglobal'], 'com_')) {
                 // Get the correct component parameters
                 $params = ComponentHelper::getParams((string) $this->element['useglobal']);
             } elseif (substr_count((string) $this->element['useglobal'], '_') === 2) {
