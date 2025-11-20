@@ -58,7 +58,6 @@ class ConfigModel extends FormModel
      */
     public function getItem()
     {
-        $item   = new \stdClass();
         $userid = (int) $this->getState('user.id');
 
         $db    = $this->getDatabase();
@@ -83,10 +82,7 @@ class ConfigModel extends FormModel
             return false;
         }
 
-        foreach ($rows as $row) {
-            $property        = $row->cfg_name;
-            $item->$property = $row->cfg_value;
-        }
+        $item = (object) array_column($rows, 'cfg_value', 'cfg_name');
 
         $this->preprocessData('com_messages.config', $item);
 
