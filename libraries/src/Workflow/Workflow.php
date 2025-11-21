@@ -204,7 +204,7 @@ class Workflow
 
         // Check if the workflow exists
         if ($workflow_id = (int) $workflow_id) {
-            $query = $this->db->getQuery(true);
+            $query = $this->db->createQuery();
 
             $query->select(
                 [
@@ -238,7 +238,7 @@ class Workflow
         }
 
         // Use default workflow
-        $query  = $this->db->getQuery(true);
+        $query  = $this->db->createQuery();
 
         $query->select(
             [
@@ -290,7 +290,7 @@ class Workflow
             return null;
         }
 
-        $query = $this->db->getQuery(true);
+        $query = $this->db->createQuery();
 
         $user = $this->app->getIdentity();
 
@@ -435,7 +435,7 @@ class Workflow
     public function createAssociation(int $pk, int $state): bool
     {
         try {
-            $query = $this->db->getQuery(true);
+            $query = $this->db->createQuery();
 
             $query->insert($this->db->quoteName('#__workflow_associations'))
                 ->columns(
@@ -473,7 +473,7 @@ class Workflow
         $pks = ArrayHelper::toInteger($pks);
 
         try {
-            $query = $this->db->getQuery(true);
+            $query = $this->db->createQuery();
 
             $query->update($this->db->quoteName('#__workflow_associations'))
                 ->set($this->db->quoteName('stage_id') . ' = :state')
@@ -504,7 +504,7 @@ class Workflow
         $pks = ArrayHelper::toInteger($pks);
 
         try {
-            $query = $this->db->getQuery(true);
+            $query = $this->db->createQuery();
 
             $query
                 ->delete($this->db->quoteName('#__workflow_associations'))
@@ -531,7 +531,7 @@ class Workflow
      */
     public function getAssociation(int $itemId): ?\stdClass
     {
-        $query = $this->db->getQuery(true);
+        $query = $this->db->createQuery();
 
         $query->select(
             [
