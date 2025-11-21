@@ -63,8 +63,8 @@ trait DisplayTrait
         // Editor variables
         $col             = $attributes['col'] ?? '';
         $row             = $attributes['row'] ?? '';
-        $width           = $this->params->get('html_width', '');
-        $height          = $this->params->get('html_height', '550px');
+        $width           = $attributes['width'] ?? '';
+        $height          = $attributes['height'] ?? '';
         $id              = $attributes['id'] ?? $name;
         $id              = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
         $nameGroup       = explode('[', preg_replace('/\[\]|\]/', '', $name));
@@ -76,13 +76,13 @@ trait DisplayTrait
         $externalPlugins = [];
         $theme           = 'silver';
 
-        // Fall back to attributes default if width/height not set in params
-        if (empty($width)) {
-            $width = $attributes['width'] ?? '';
+        // Set the width and height from plugin params if not set in attributes
+        if (!$width) {
+            $width = $this->params->get('html_width', '100%');
         }
 
-        if (empty($height)) {
-            $height = $attributes['height'] ?? '';
+        if (!$height) {
+            $height = $this->params->get('html_height', '550px');
         }
 
         // Register assets
@@ -111,13 +111,13 @@ trait DisplayTrait
             $options['tinyMCE'][$fieldName] = [];
         }
 
-        // Width and height
+        // Add editor Width and height to options if not already set
         if ($width && empty($options['tinyMCE'][$fieldName]['width'])) {
-            $options['tinyMCE'][$fieldName]['width'] = $width;
+            $options['tinyMCE'][$fieldName]['width'] = $textarea->width;
         }
 
         if ($height && empty($options['tinyMCE'][$fieldName]['height'])) {
-            $options['tinyMCE'][$fieldName]['height'] = $height;
+            $options['tinyMCE'][$fieldName]['height'] = $textarea->height;
         }
 
         // Set editor to readonly mode

@@ -57,7 +57,7 @@
 					type="text"
 					label="PLG_TINY_FIELD_HTMLWIDTH_LABEL"
 					description="PLG_TINY_FIELD_HTMLWIDTH_DESC"
-					default=""
+					default="100%"
 				/>
 			</fieldset>
 		</fields>
