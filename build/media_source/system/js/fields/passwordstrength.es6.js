@@ -138,13 +138,38 @@ class PasswordStrength {
       field.addEventListener('keyup', ({
         target
       }) => getMeter(target));
+      
+      // Trim spaces on blur
+      field.addEventListener('blur', ({
+        target
+      }) => {
+        target.value = target.value.trim();
+        getMeter(target);
+      });
     });
 
     // Set a handler for the validation script
     if (fields[0]) {
       document.formvalidator.setHandler('password-strength', value => {
+        // Block if starts or ends with space
+        if (value !== value.trim()) {
+          return false;
+        }
+        
+        // Allow empty passwords
+        if (value.length === 0) {
+          return true;
+        }
+
         const strengthElements = document.querySelectorAll('.js-password-strength');
         const minLength = strengthElements[0].getAttribute('data-min-length');
+        const configuredMinLength = parseInt(minLength, 10) || 12;
+        
+        // Block if less than configured minimum length
+        if (value.length < configuredMinLength) {
+          return false;
+        }
+        
         const minIntegers = strengthElements[0].getAttribute('data-min-integers');
         const minSymbols = strengthElements[0].getAttribute('data-min-symbols');
         const minUppercase = strengthElements[0].getAttribute('data-min-uppercase');
@@ -154,7 +179,7 @@ class PasswordStrength {
           uppercase: minUppercase || 0,
           numbers: minIntegers || 0,
           special: minSymbols || 0,
-          length: minLength || 12
+          length: configuredMinLength
         });
         const score = strength.getScore(value);
         if (score === 100) {
