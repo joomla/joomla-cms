@@ -715,7 +715,7 @@
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
-
+					
 				<field
 					name="show_email_copy"
 					type="list"
