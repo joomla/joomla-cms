@@ -120,7 +120,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
             }
         }
 
-        if ($vName !== 'form') {
+        if ($vName !== 'form' && $this->app->getIdentity()?->guest) {
             $this->app->allowCache(true);
         }
 
