@@ -120,6 +120,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
             }
         }
 
+        // Allow caching of the response by Browser (and other Agents)
         if ($vName !== 'form' && $this->app->getIdentity()?->guest) {
             $this->app->allowCache(true);
         }
