@@ -120,6 +120,10 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
             }
         }
 
+        if ($vName !== 'form') {
+            $this->app->allowCache(true);
+        }
+
         parent::display($cachable, $safeurlparams);
 
         return $this;
