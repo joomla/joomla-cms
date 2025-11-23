@@ -101,11 +101,7 @@ const breakpoints = {
 // Collapse the Help menu on small screens (sm) by causing a page reload
 function getCurrentBreakpoint() {
   const width = window.innerWidth;
-  //if (width < breakpoints.sm) return 'xs';
   if (width < breakpoints.md) return 'sm';
-  //if (width < breakpoints.lg) return 'md';
-  //if (width < breakpoints.xl) return 'lg';
-  //if (width < breakpoints.xxl) return 'xl';
   return 'xxl';
 }
 
