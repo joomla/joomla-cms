@@ -13,6 +13,7 @@ namespace Joomla\Component\Messages\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -58,6 +59,7 @@ class ConfigModel extends FormModel
      */
     public function getItem()
     {
+        $item   = new Registry();
         $userid = (int) $this->getState('user.id');
 
         $db    = $this->getDatabase();
@@ -82,7 +84,10 @@ class ConfigModel extends FormModel
             return false;
         }
 
-        $item = (object) array_column($rows, 'cfg_value', 'cfg_name');
+        foreach ($rows as $row) {
+            $property        = $row->cfg_name;
+            $item->set($property, $row->cfg_value);
+        }
 
         $this->preprocessData('com_messages.config', $item);
 
