@@ -1,3 +1,50 @@
+describe('Test installation page password strength validation', () => {
+  beforeEach(() => {
+    cy.visit('/installation/index.php');
+    cy.get('#jform_site_name').clear().type('testsite!');
+  });
+
+  it('blocks admin_password with less than 12 characters', () => {
+    cy.get('#step1').click();
+    cy.get('#jform_admin_password').clear().type('Short1!');
+    cy.get('#jform_admin_password').blur();
+    cy.contains('Password doesn\'t meet the site\'s requirements');
+  });
+
+  it('allows admin_password with 12 or more characters', () => {
+    cy.get('#step1').click();
+    cy.get('#jform_admin_password').clear().type('ValidPass123!');
+    cy.get('#jform_admin_password').blur();
+    cy.get('#jform_admin_password').should('have.value', 'ValidPass123!');
+  });
+
+  it('allows spaces in the middle of admin_password', () => {
+    cy.get('#step1').click();
+    cy.get('#jform_admin_password').clear().type('Valid Pass 123!');
+    cy.get('#jform_admin_password').blur();
+    cy.get('#jform_admin_password').should('have.value', 'Valid Pass 123!');
+  });
+
+  it('trims spaces from beginning and end of admin_password', () => {
+    cy.get('#step1').click();
+    cy.get('#jform_admin_password').clear().type(' ValidPass123! ');
+    cy.get('#jform_admin_password').blur();
+    cy.get('#jform_admin_password').should('have.value', 'ValidPass123!');
+  });
+
+  it('allows empty db_pass (optional field)', () => {
+    cy.get('#step1').click();
+    cy.get('#jform_admin_user').clear().type('admin');
+    cy.get('#jform_admin_username').clear().type('ci-admin');
+    cy.get('#jform_admin_password').clear().type('ValidPass123!');
+    cy.get('#jform_admin_email').clear().type('admin@example.com');
+    cy.get('#step2').click();
+    cy.get('#jform_db_pass').clear();
+    cy.get('#jform_db_pass').blur();
+    cy.get('#jform_db_pass').should('have.value', '');
+  });
+});
+
 describe('Install Joomla', () => {
   it('Install Joomla', () => {
     const config = {
