@@ -105,6 +105,11 @@ class HtmlView extends InstallerViewDefault
             : $app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DATABASE_CORE_ERRORS'), 'warning');
         }
 
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
+
         parent::display($tpl);
     }
 

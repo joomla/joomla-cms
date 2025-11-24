@@ -18,7 +18,6 @@ use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
 use Joomla\CMS\Event\Application\AfterRouteEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -26,6 +25,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\SiteRouter;
 use Joomla\CMS\Uri\Uri;
 use Joomla\DI\Container;
+use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -71,7 +71,7 @@ final class SiteApplication extends CMSApplication
      * Class constructor.
      *
      * @param   ?Input      $input      An optional argument to provide dependency injection for the application's input
-     *                                  object.  If the argument is a JInput object that object will become the
+     *                                  object.  If the argument is a Input object that object will become the
      *                                  application's input object, otherwise a default input object is created.
      * @param   ?Registry   $config     An optional argument to provide dependency injection for the application's config
      *                                  object.  If the argument is a Registry object that object will become the
@@ -382,7 +382,7 @@ final class SiteApplication extends CMSApplication
      *
      * @since      3.2
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Inject the router or load it from the dependency injection container
      *              Example: Factory::getContainer()->get(SiteRouter::class);
      */
@@ -568,12 +568,6 @@ final class SiteApplication extends CMSApplication
         if ($user->guest) {
             $guestUsergroup = ComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
             $user->groups   = [$guestUsergroup];
-        }
-
-        if ($plugin = PluginHelper::getPlugin('system', 'languagefilter')) {
-            $pluginParams = new Registry($plugin->params);
-            $this->setLanguageFilter(true);
-            $this->setDetectBrowser($pluginParams->get('detect_browser', 1) == 1);
         }
 
         if (empty($options['language'])) {
@@ -813,7 +807,7 @@ final class SiteApplication extends CMSApplication
             new AfterRouteEvent('onAfterRoute', ['subject' => $this])
         );
 
-        $Itemid = $this->input->getInt('Itemid', null);
+        $Itemid = $this->input->getInt('Itemid', 0);
         $this->authorise($Itemid);
     }
 

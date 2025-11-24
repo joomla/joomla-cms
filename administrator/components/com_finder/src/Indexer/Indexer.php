@@ -12,7 +12,6 @@ namespace Joomla\Component\Finder\Administrator\Indexer;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\Database\DatabaseInterface;
@@ -83,7 +82,7 @@ class Indexer
     /**
      * The indexer state object.
      *
-     * @var    CMSObject
+     * @var    \stdClass
      * @since  2.5
      */
     public static $state;
@@ -129,7 +128,7 @@ class Indexer
         $this->db = $db;
 
         // Set up query template for addTokensToDb
-        $this->addTokensToDbQueryTemplate = $db->getQuery(true)->insert($db->quoteName('#__finder_tokens'))
+        $this->addTokensToDbQueryTemplate = $db->createQuery()->insert($db->quoteName('#__finder_tokens'))
             ->columns(
                 [
                     $db->quoteName('term'),
@@ -146,7 +145,7 @@ class Indexer
     /**
      * Method to get the indexer state.
      *
-     * @return  CMSObject  The indexer state object.
+     * @return  \stdClass  The indexer state object.
      *
      * @since   2.5
      */
@@ -163,7 +162,7 @@ class Indexer
 
         // If the state is empty, load the values for the first time.
         if (empty($data)) {
-            $data        = new CMSObject();
+            $data        = new \stdClass();
             $data->force = false;
 
             // Load the default configuration options.
@@ -228,7 +227,7 @@ class Indexer
     /**
      * Method to set the indexer state.
      *
-     * @param   CMSObject  $data  A new indexer state object.
+     * @param   \stdClass  $data  A new indexer state object.
      *
      * @return  boolean  True on success, false on failure.
      *
@@ -237,7 +236,7 @@ class Indexer
     public static function setState($data)
     {
         // Check the state object.
-        if (empty($data) || !$data instanceof CMSObject) {
+        if (empty($data) || !$data instanceof \stdClass) {
             return false;
         }
 
@@ -285,7 +284,7 @@ class Indexer
         $serverType = strtolower($db->getServerType());
 
         // Check if the item is in the database.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('link_id') . ', ' . $db->quoteName('md5sum'))
             ->from($db->quoteName('#__finder_links'))
             ->where($db->quoteName('url') . ' = ' . $db->quote($item->url));
@@ -371,7 +370,7 @@ class Indexer
         } else {
             // Update the link.
             $entry->link_id = $linkId;
-            $db->updateObject('#__finder_links', $entry, 'link_id');
+            $db->updateObject('#__finder_links', $entry, 'link_id', true);
         }
 
         // Set up the variables we will need during processing.
@@ -541,7 +540,7 @@ class Indexer
          * so we need to go back and update the aggregate table with all the
          * new term ids.
          */
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__finder_tokens_aggregate', 'ta'))
             ->innerJoin($db->quoteName('#__finder_terms', 't'), 't.term = ta.term AND t.language = ta.language')
             ->where('ta.term_id = 0');
@@ -651,7 +650,7 @@ class Indexer
     public function remove($linkId, $removeTaxonomies = true)
     {
         $db     = $this->db;
-        $query  = $db->getQuery(true);
+        $query  = $db->createQuery();
         $linkId = (int) $linkId;
 
         // Update the link counts for the terms.
@@ -713,25 +712,25 @@ class Indexer
         $serverType = strtolower($db->getServerType());
 
         // Delete all broken links. (Links missing the object)
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete('#__finder_links')
             ->where($db->quoteName('object') . ' = ' . $db->quote(''));
         $db->setQuery($query);
         $db->execute();
 
         // Delete all orphaned mappings of terms to links
-        $query2 = $db->getQuery(true)
+        $query2 = $db->createQuery()
             ->select($db->quoteName('link_id'))
             ->from($db->quoteName('#__finder_links'));
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__finder_links_terms'))
             ->where($db->quoteName('link_id') . ' NOT IN (' . $query2 . ')');
         $db->setQuery($query);
         $db->execute();
 
         // Update count of links in terms table
-        $query  = $db->getQuery(true);
-        $query2 = $db->getQuery(true);
+        $query  = $db->createQuery();
+        $query2 = $db->createQuery();
         $query2->select('COUNT(lt.link_id)')
             ->from($db->quoteName('#__finder_links_terms', 'lt'))
             ->where($db->quoteName('lt.term_id') . ' = ' . $db->quoteName('t.term_id'));
@@ -741,7 +740,7 @@ class Indexer
         $db->execute();
 
         // Delete all orphaned terms.
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->delete($db->quoteName('#__finder_terms'))
             ->where($db->quoteName('links') . ' <= 0');
         $db->setQuery($query);
@@ -749,10 +748,10 @@ class Indexer
 
 
         // Delete all orphaned terms
-        $query2 = $db->getQuery(true)
+        $query2 = $db->createQuery()
             ->select($db->quoteName('term_id'))
             ->from($db->quoteName('#__finder_links_terms'));
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__finder_terms'))
             ->where($db->quoteName('term_id') . ' NOT IN (' . $query2 . ')');
         $db->setQuery($query);

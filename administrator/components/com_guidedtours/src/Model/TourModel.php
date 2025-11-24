@@ -16,7 +16,6 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 use Joomla\Database\ParameterType;
@@ -106,7 +105,7 @@ class TourModel extends AdminModel
             // Set ordering to the last item if not set
             if (empty($table->ordering)) {
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select('MAX(ordering)')
                     ->from($db->quoteName('#__guidedtours'));
                 $db->setQuery($query);
@@ -219,9 +218,9 @@ class TourModel extends AdminModel
             return false;
         }
 
-        // Convert to the CMSObject before adding other data.
+        // Convert to an object before adding other data.
         $properties = $table->getProperties(1);
-        $item       = ArrayHelper::toObject($properties, CMSObject::class);
+        $item       = ArrayHelper::toObject($properties);
 
         if (property_exists($item, 'params')) {
             $registry     = new Registry($item->params);
@@ -282,7 +281,7 @@ class TourModel extends AdminModel
 
                     // Delete of the tour has been successful, now delete the steps
                     $db    = $this->getDatabase();
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->delete($db->quoteName('#__guidedtour_steps'))
                         ->where($db->quoteName('tour_id') . '=' . $tourId);
                     $db->setQuery($query);
@@ -354,7 +353,7 @@ class TourModel extends AdminModel
 
                 $pk = (int) $pk;
 
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select(
                         $db->quoteName(
                             [
@@ -384,7 +383,7 @@ class TourModel extends AdminModel
                 $rows = $db->loadObjectList();
 
                 if ($rows) {
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->insert($db->quoteName('#__guidedtour_steps'))
                         ->columns(
                             [
@@ -493,7 +492,7 @@ class TourModel extends AdminModel
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__guidedtour_steps'))
             ->set($db->quoteName('language') . ' = :language')
             ->where($db->quoteName('tour_id') . ' = :tourId')
@@ -516,7 +515,7 @@ class TourModel extends AdminModel
     {
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__guidedtours'))
             ->set($db->quoteName('autostart') . ' = :autostart')
             ->where($db->quoteName('id') . ' = :tourId')
@@ -540,7 +539,7 @@ class TourModel extends AdminModel
     {
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('autostart'))
             ->from($db->quoteName('#__guidedtours'))
             ->where($db->quoteName('published') . ' = 1');
@@ -585,7 +584,7 @@ class TourModel extends AdminModel
         $profileKey = 'guidedtour.id.' . $id;
 
         // Check if the profile key already exists.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('profile_value'))
             ->from($db->quoteName('#__user_profiles'))
             ->where($db->quoteName('user_id') . ' = :user_id')

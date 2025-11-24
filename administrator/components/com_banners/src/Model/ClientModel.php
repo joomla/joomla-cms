@@ -13,6 +13,7 @@ namespace Joomla\Component\Banners\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -24,7 +25,7 @@ use Joomla\CMS\Versioning\VersionableModelTrait;
  *
  * @since  1.6
  */
-class ClientModel extends AdminModel
+class ClientModel extends AdminModel implements VersionableModelInterface
 {
     use VersionableModelTrait;
 

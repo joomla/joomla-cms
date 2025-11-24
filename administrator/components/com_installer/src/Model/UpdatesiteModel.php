@@ -12,7 +12,6 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 use Joomla\Database\ParameterType;
 
@@ -80,8 +79,8 @@ class UpdatesiteModel extends AdminModel
         $item = parent::getItem($pk);
 
         $db           = $this->getDatabase();
-        $updateSiteId = (int) $item->get('update_site_id');
-        $query        = $db->getQuery(true)
+        $updateSiteId = (int) $item->update_site_id ?? 0;
+        $query        = $db->createQuery()
             ->select(
                 $db->quoteName(
                     [
@@ -109,13 +108,13 @@ class UpdatesiteModel extends AdminModel
             ->bind(':updatesiteid', $updateSiteId, ParameterType::INTEGER);
 
         $db->setQuery($query);
-        $extension = new CMSObject($db->loadAssoc());
+        $extension = $db->loadObject();
 
         $downloadKey = InstallerHelper::getDownloadKey($extension);
 
-        $item->set('extra_query', $downloadKey['value'] ?? '');
-        $item->set('downloadIdPrefix', $downloadKey['prefix'] ?? '');
-        $item->set('downloadIdSuffix', $downloadKey['suffix'] ?? '');
+        $item->extra_query      = $downloadKey['value'] ?? '';
+        $item->downloadIdPrefix = $downloadKey['prefix'] ?? '';
+        $item->downloadIdSuffix = $downloadKey['suffix'] ?? '';
 
         return $item;
     }
@@ -147,7 +146,7 @@ class UpdatesiteModel extends AdminModel
 
         // Delete update records forcing Joomla to fetch them again, applying the new extra_query.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__updates'))
             ->where($db->quoteName('update_site_id') . ' = :updateSiteId');
         $query->bind(':updateSiteId', $data['update_site_id'], ParameterType::INTEGER);

@@ -223,14 +223,14 @@ class Modules
      *
      * @since   2.5
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Will be removed with no replacement
      */
     public function positionList($clientId = 0)
     {
         $clientId = (int) $clientId;
         $db       = Factory::getDbo();
-        $query    = $db->getQuery(true)
+        $query    = $db->createQuery()
             ->select('DISTINCT ' . $db->quoteName('position', 'value'))
             ->select($db->quoteName('position', 'text'))
             ->from($db->quoteName('#__modules'))

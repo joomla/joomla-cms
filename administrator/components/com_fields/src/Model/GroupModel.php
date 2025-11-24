@@ -315,18 +315,9 @@ class GroupModel extends AdminModel
                 $context = substr($app->getUserState('com_fields.groups.filter.context', ''), 4);
                 $filters = (array) $app->getUserState('com_fields.groups.' . $context . '.filter');
 
-                $data->set(
-                    'state',
-                    $input->getInt('state', (!empty($filters['state']) ? $filters['state'] : null))
-                );
-                $data->set(
-                    'language',
-                    $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null))
-                );
-                $data->set(
-                    'access',
-                    $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
-                );
+                $data->state    = $input->getInt('state', (!empty($filters['state']) ? $filters['state'] : null));
+                $data->language = $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null));
+                $data->access   = $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')));
             }
         }
 
@@ -363,15 +354,13 @@ class GroupModel extends AdminModel
     /**
      * Clean the cache
      *
-     * @param   string   $group     The cache group
-     * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              @deprecated   4.3 will be removed in 6.0
+     * @param  string  $group  Cache group name.
      *
      * @return  void
      *
      * @since   3.7.0
      */
-    protected function cleanCache($group = null, $clientId = 0)
+    protected function cleanCache($group = null)
     {
         $context = Factory::getApplication()->getInput()->get('context');
 

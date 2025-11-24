@@ -69,7 +69,7 @@ class LinkModel extends AdminModel
         $form = $this->loadForm('com_redirect.link', 'link', ['control' => 'jform', 'load_data' => $loadData]);
 
         // Modify the form based on access controls.
-        if ($this->canEditState((object) $data) != true) {
+        if (!$this->canEditState((object)$data)) {
             // Disable fields for display.
             $form->setFieldAttribute('published', 'disabled', 'true');
 
@@ -80,7 +80,7 @@ class LinkModel extends AdminModel
 
         // If in advanced mode then we make sure the new URL field is not compulsory and the header
         // field compulsory in case people select non-3xx redirects
-        if (ComponentHelper::getParams('com_redirect')->get('mode', 0) == true) {
+        if (ComponentHelper::getParams('com_redirect')->get('mode', 0)) {
             $form->setFieldAttribute('new_url', 'required', 'false');
             $form->setFieldAttribute('header', 'required', 'true');
         }
@@ -142,7 +142,7 @@ class LinkModel extends AdminModel
 
         if (!empty($pks)) {
             // Update the link rows.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->update($db->quoteName('#__redirect_links'))
                 ->set($db->quoteName('new_url') . ' = :url')
                 ->set($db->quoteName('published') . ' = 1')
@@ -196,7 +196,7 @@ class LinkModel extends AdminModel
             $date = Factory::getDate()->toSql();
 
             // Update the link rows.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->update($db->quoteName('#__redirect_links'))
                 ->set($db->quoteName('new_url') . ' = :url')
                 ->set($db->quoteName('modified_date') . ' = :date')

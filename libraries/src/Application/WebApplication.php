@@ -19,13 +19,13 @@ use Joomla\CMS\Event\Application\BeforeExecuteEvent;
 use Joomla\CMS\Event\Application\BeforeRenderEvent;
 use Joomla\CMS\Event\Application\BeforeRespondEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Version;
 use Joomla\Filter\OutputFilter;
+use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 use Psr\Http\Message\ResponseInterface;
@@ -57,16 +57,6 @@ abstract class WebApplication extends AbstractWebApplication
     public $JComponentTitle;
 
     /**
-     * The item associations
-     *
-     * @var    integer
-     * @since  4.3.0
-     *
-     * @deprecated 4.4.0 will be removed in 6.0 as this property is not used anymore
-     */
-    public $item_associations;
-
-    /**
      * The application document object.
      *
      * @var    Document
@@ -94,7 +84,7 @@ abstract class WebApplication extends AbstractWebApplication
      * Class constructor.
      *
      * @param   ?Input              $input     An optional argument to provide dependency injection for the application's
-     *                                         input object.  If the argument is a JInput object that object will become
+     *                                         input object.  If the argument is a Input object that object will become
      *                                         the application's input object, otherwise a default input object is created.
      * @param   ?Registry           $config    An optional argument to provide dependency injection for the application's
      *                                         config object.  If the argument is a Registry object that object will become
@@ -111,7 +101,7 @@ abstract class WebApplication extends AbstractWebApplication
      */
     public function __construct(?Input $input = null, ?Registry $config = null, ?WebClient $client = null, ?ResponseInterface $response = null)
     {
-        // Ensure we have a CMS Input object otherwise the DI for \Joomla\CMS\Session\Storage\JoomlaStorage fails
+        // Ensure we have a Input object otherwise the DI for \Joomla\CMS\Session\Storage\JoomlaStorage fails
         $input = $input ?: new Input();
 
         parent::__construct($input, $config, $client, $response);
@@ -136,7 +126,7 @@ abstract class WebApplication extends AbstractWebApplication
      * @since       1.7.3
      * @throws      \RuntimeException
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use the application service in the DI container instead
      *              Example: \Joomla\CMS\Factory::getContainer()->get($name)
      */
@@ -256,7 +246,7 @@ abstract class WebApplication extends AbstractWebApplication
     /**
      * Method to get the application document object.
      *
-     * @return  Document  The document object
+     * @return  ?Document  The document object
      *
      * @since   1.7.3
      */
@@ -268,7 +258,7 @@ abstract class WebApplication extends AbstractWebApplication
     /**
      * Method to get the application language object.
      *
-     * @return  Language  The language object
+     * @return  ?Language  The language object
      *
      * @since   1.7.3
      */
@@ -343,7 +333,7 @@ abstract class WebApplication extends AbstractWebApplication
      *
      * @since   1.7.3
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              The session should be injected as a service.
      */
     public function loadSession(?Session $session = null)
@@ -468,5 +458,43 @@ abstract class WebApplication extends AbstractWebApplication
     public function getConfig()
     {
         return $this->config;
+    }
+
+    /**
+     * Proxy to the input property.
+     *
+     * @return  Input | null
+     *
+     * @since       6.0.0
+     * @deprecated  4.0 will be removed in 8.0 use $this->getInput() instead
+     */
+    public function __get($name)
+    {
+        switch ($name) {
+            case 'input':
+                trigger_deprecation(
+                    'cms/application',
+                    '6.0',
+                    'Accessing the input property of %s is deprecated, use the %s::getInput() method instead.',
+                    self::class,
+                    self::class
+                );
+
+                return $this->getInput();
+
+            default:
+                $trace = debug_backtrace();
+                trigger_error(
+                    \sprintf(
+                        'Undefined property via __get(): %1$s in %2$s on line %3$s',
+                        $name,
+                        $trace[0]['file'],
+                        $trace[0]['line']
+                    ),
+                    E_USER_NOTICE
+                );
+
+                return null;
+        }
     }
 }

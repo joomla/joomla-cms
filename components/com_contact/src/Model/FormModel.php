@@ -81,7 +81,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
      *
      * @param   integer  $itemId  The id of the contact.
      *
-     * @return  mixed  Contact item data object on success, false on failure.
+     * @return  \stdClass|false  Contact item data object on success, false on failure.
      *
      * @throws  \Exception
      *
@@ -106,7 +106,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
         }
 
         $properties = $table->getProperties();
-        $value      = ArrayHelper::toObject($properties, \Joomla\CMS\Object\CMSObject::class);
+        $value      = ArrayHelper::toObject($properties);
 
         // Convert field to Registry.
         $value->params = new Registry($value->params);

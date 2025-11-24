@@ -15,7 +15,6 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -100,7 +99,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
         }
 
         $properties = $table->getProperties(1);
-        $value      = ArrayHelper::toObject($properties, CMSObject::class);
+        $value      = ArrayHelper::toObject($properties);
 
         // Convert attrib field to Registry.
         $value->params = new Registry($value->attribs);
@@ -158,7 +157,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
             if ($value->featured) {
                 // Get featured dates.
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select(
                         [
                             $db->quoteName('featured_up'),
@@ -293,7 +292,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
                 $categoryId = (int) $params->get('catid');
 
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName('language'))
                     ->from($db->quoteName('#__categories'))
                     ->where($db->quoteName('id') . ' = :categoryId')

@@ -9,15 +9,16 @@
 
 namespace Joomla\CMS\Updater;
 
-use Joomla\CMS\Adapter\AdapterInstance;
 use Joomla\CMS\Event\Installer\BeforeUpdateSiteDownloadEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Version;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
+use Joomla\Http\HttpFactory;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -29,8 +30,18 @@ use Joomla\Registry\Registry;
  *
  * @since  1.7.0
  */
-abstract class UpdateAdapter extends AdapterInstance
+abstract class UpdateAdapter
 {
+    use LegacyPropertyManagementTrait;
+
+    /**
+     * Parent
+     *
+     * @var    Updater
+     * @since  1.6
+     */
+    protected $parent = null;
+
     /**
      * Resource handle for the XML Parser
      *
@@ -100,6 +111,37 @@ abstract class UpdateAdapter extends AdapterInstance
     protected $minimum_stability = Updater::STABILITY_STABLE;
 
     /**
+     * Database
+     *
+     * @var    DatabaseDriver
+     * @since  1.6
+     */
+    protected $db = null;
+
+    /**
+     * Constructor
+     *
+     * @param   Updater         $parent   Parent object
+     * @param   DatabaseDriver  $db       Database object
+     * @param   array           $options  Configuration Options
+     *
+     * @since   1.6
+     */
+    public function __construct(Updater $parent, DatabaseDriver $db, array $options = [])
+    {
+        $this->parent = $parent;
+
+        foreach ($options as $key => $value) {
+            if (property_exists($this, $key)) {
+                $this->$key = $value;
+            }
+        }
+
+        // Pull in the global dbo in case something happened to it.
+        $this->db = $db ?: Factory::getDbo();
+    }
+
+    /**
      * Gets the reference to the current direct parent
      *
      * @return  string
@@ -153,8 +195,8 @@ abstract class UpdateAdapter extends AdapterInstance
             return;
         }
 
-        $db    = $this->parent->getDbo();
-        $query = $db->getQuery(true)
+        $db    = $this->db;
+        $query = $db->createQuery()
             ->update($db->quoteName('#__update_sites'))
             ->set($db->quoteName('enabled') . ' = :enabled')
             ->where($db->quoteName('update_site_id') . ' = :id')
@@ -184,8 +226,8 @@ abstract class UpdateAdapter extends AdapterInstance
             return '';
         }
 
-        $db    = $this->parent->getDbo();
-        $query = $db->getQuery(true)
+        $db    = $this->db;
+        $query = $db->createQuery()
             ->select($db->quoteName('name'))
             ->from($db->quoteName('#__update_sites'))
             ->where($db->quoteName('update_site_id') . ' = :id')
@@ -208,7 +250,7 @@ abstract class UpdateAdapter extends AdapterInstance
      *
      * @param   array  $options  The update options, see findUpdate() in children classes
      *
-     * @return  \Joomla\CMS\Http\Response|bool  False if we can't connect to the site, HTTP Response object otherwise
+     * @return  \Joomla\Http\Response|bool  False if we can't connect to the site, HTTP Response object otherwise
      *
      * @throws  \Exception
      */
@@ -260,7 +302,7 @@ abstract class UpdateAdapter extends AdapterInstance
 
         // Http transport throws an exception when there's no response.
         try {
-            $http     = HttpFactory::getHttp($httpOption);
+            $http     = (new HttpFactory())->getHttp($httpOption);
             $response = $http->get($newUrl, $headers, 20);
         } catch (\RuntimeException) {
             $response = null;
@@ -279,7 +321,7 @@ abstract class UpdateAdapter extends AdapterInstance
             'updater'
         );
 
-        if ($response === null || $response->code !== 200) {
+        if ($response === null || $response->getStatusCode() !== 200) {
             // If the URL is missing the .xml extension, try appending it and retry loading the update
             if (!$this->appendExtension && (!str_ends_with($url, '.xml'))) {
                 $options['append_extension'] = true;
