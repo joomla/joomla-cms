@@ -136,7 +136,7 @@ class JsonapiView extends BaseApiView
         $model->resetUpdateSource();
 
         $success = true;
-        $errors = [];
+        $errors  = [];
 
         // Append any errors to the API response for debugging purposes
         if ($model->getErrors()) {
