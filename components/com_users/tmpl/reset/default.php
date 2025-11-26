@@ -32,8 +32,12 @@ $wa->useScript('keepalive')
     <form action="<?php echo Route::_('index.php?task=reset.request'); ?>" method="post" id="user-registration" class="com-users-reset__form form-validate form-horizontal well">
         <?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
             <fieldset>
-                <legend><?php echo Text::_('COM_USERS_RESET'); ?></legend>
-                <p><?php echo Text::_('COM_USERS_RESET_REQUEST_LABEL'); ?><p>
+                <?php if (isset($fieldset->legend)) : ?>
+                    <legend><?php echo Text::_($fieldset->legend); ?></legend>
+                <?php endif; ?>
+                <?php if (isset($fieldset->description)) : ?>
+                    <p><?php echo Text::_($fieldset->description); ?></p>
+                <?php endif; ?>
                 <?php echo $this->form->renderFieldset($fieldset->name); ?>
             </fieldset>
         <?php endforeach; ?>
