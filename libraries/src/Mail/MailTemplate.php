@@ -246,7 +246,7 @@ class MailTemplate
     {
         $config = ComponentHelper::getParams('com_mails');
 
-        $mail = self::getTemplate($this->template_id, $this->language);
+        $mail = static::getTemplate($this->template_id, $this->language);
 
         // If the Mail Template was not found in the db, we cannot send an email.
         if ($mail === null) {
