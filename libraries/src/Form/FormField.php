@@ -1119,7 +1119,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                     return \call_user_func(explode('::', $filter), $value);
                 }
 
-                /** @deprecated Can be removed with Joomla 6.0 since the class alias is deprecated since Joomla 4.0*/
+                /** @deprecated Can be removed with Joomla 6.0 since the class alias is deprecated since Joomla 7.0*/
                 [$class, $method] = explode('::', $filter);
                 if ($class === 'JComponentHelper') {
                     throw new \UnexpectedValueException(

@@ -45,8 +45,12 @@ class LangActiveAssetItem extends WebAssetItem
         parent::__construct($name, $uri, $options, $attributes, $dependencies);
 
         // Prepare Uri depend from the active language
-        $langTag = Factory::getApplication()->getLanguage()->getTag();
+        $langTag = Factory::getApplication()->getLanguage()?->getTag();
         $client  = $this->getOption('client');
+
+        if (!$langTag) {
+            return;
+        }
 
         // Create Uri <client>/language/<langTag>/<langTag>.css
         if ($client) {

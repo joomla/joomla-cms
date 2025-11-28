@@ -299,7 +299,7 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'plg_fields_list', 'plugin', 'list', 'fields', 0, 1, 1, 0, 1, '', '', '', 7, 0),
 (0, 'plg_fields_media', 'plugin', 'media', 'fields', 0, 1, 1, 0, 1, '', '', '', 8, 0),
 (0, 'plg_fields_note', 'plugin', 'note', 'fields', 0, 1, 1, 0, 1, '', '{"class":"alert alert-info","heading":"h4"}', '', 9, 0),
-(0, 'plg_fields_number', 'plugin', 'number', 'fields', 0, 1, 1, 0, 1, '', '{"min":"1.0","max":"100.0","step":"0.1","currency":"0","position":"0","decimals":"2"}', '', 10, 0),
+(0, 'plg_fields_number', 'plugin', 'number', 'fields', 0, 1, 1, 0, 1, '', '{"min":"1.0","max":"100.0","step":"0.1","currency":"0","symbol":"","position":"0","decimals":"2"}', '', 10, 0),
 (0, 'plg_fields_radio', 'plugin', 'radio', 'fields', 0, 1, 1, 0, 1, '', '', '', 11, 0),
 (0, 'plg_fields_sql', 'plugin', 'sql', 'fields', 0, 1, 1, 0, 1, '', '', '', 12, 0),
 (0, 'plg_fields_subform', 'plugin', 'subform', 'fields', 0, 1, 1, 0, 1, '', '', '', 13, 0),
@@ -925,7 +925,7 @@ CREATE TABLE IF NOT EXISTS `#__update_sites` (
 
 INSERT INTO `#__update_sites` (`update_site_id`, `name`, `type`, `location`, `enabled`, `last_check_timestamp`) VALUES
 (1, 'Joomla! Core', 'tuf', 'https://update.joomla.org/cms/', 1, 0),
-(2, 'Accredited Joomla! Translations', 'collection', 'https://update.joomla.org/language/translationlist_5.xml', 1, 0),
+(2, 'Accredited Joomla! Translations', 'collection', 'https://update.joomla.org/language/translationlist_6.xml', 1, 0),
 (3, 'Joomla! Update Component', 'extension', 'https://update.joomla.org/core/extensions/com_joomlaupdate.xml', 1, 0);
 
 -- --------------------------------------------------------
