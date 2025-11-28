@@ -30,7 +30,7 @@
 					description="PLG_MEDIA-ACTION_CROP_ASPECT_RATIOS_DESC"
 					multiple="true"
 					layout="joomla.form.field.subform.repeatable-table"
-					default='{"aspect_ratios0":{"label":"1:1","value":"1","group":""},"aspect_ratios1":{"label":"5:4","value":"1.25","group":"landscape"},"aspect_ratios2":{"label":"4:3","value":"1.3333333333333333","group":"landscape"},"aspect_ratios3":{"label":"3:2","value":"1.5","group":"landscape"},"aspect_ratios4":{"label":"16:9","value":"1.7777777777777777","group":"landscape"},"aspect_ratios5":{"label":"4:5","value":"0.8","group":"portrait"},"aspect_ratios6":{"label":"3:4","value":"0.75","group":"portrait"},"aspect_ratios7":{"label":"2:3","value":"0.6666666666666667","group":"portrait"},"aspect_ratios8":{"label":"9:16","value":"0.5625","group":"portrait"}}'
+					default='{"aspect_ratios0":{"label":"1:1","value":"1","group":""},"aspect_ratios1":{"label":"5:4","value":"5/4","group":"landscape"},"aspect_ratios2":{"label":"4:3","value":"4/3","group":"landscape"},"aspect_ratios3":{"label":"3:2","value":"3/2","group":"landscape"},"aspect_ratios4":{"label":"16:9","value":"16/9","group":"landscape"},"aspect_ratios5":{"label":"4:5","value":"4/5","group":"portrait"},"aspect_ratios6":{"label":"3:4","value":"3/4","group":"portrait"},"aspect_ratios7":{"label":"2:3","value":"2/3","group":"portrait"},"aspect_ratios8":{"label":"9:16","value":"9/16","group":"portrait"}}'
 				>
 					<form>
 						<field
@@ -47,10 +47,12 @@
 							label="PLG_MEDIA-ACTION_CROP_RATIO_VALUE"
 							description="PLG_MEDIA-ACTION_CROP_RATIO_VALUE_DESC"
 							required="true"
-							pattern="\d*\.?\d+"
-							hint="1.7777777777777777"
-							validate="number"
+							pattern="([1-9]\d*/[1-9]\d*|[1-9]\d*)"
+							filter="string"
+							hint="9/16"
 							class="input-small"
+							size="10"
+							maxlength="10"
 						/>
 						<field
 							name="group"
