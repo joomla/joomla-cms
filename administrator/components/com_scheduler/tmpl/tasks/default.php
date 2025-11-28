@@ -20,9 +20,8 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
-use Joomla\Component\Scheduler\Administrator\View\Tasks\HtmlView;
 
-/** @var  HtmlView  $this*/
+/** @var  \Joomla\Component\Scheduler\Administrator\View\Tasks\HtmlView  $this*/
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
@@ -301,8 +300,6 @@ if ($this->hasDueTasks === true) {
 
         <?php endif; ?>
 
-        <input type="hidden" name="task" value="">
-        <input type="hidden" name="boxchecked" value="0">
-        <?php echo HTMLHelper::_('form.token'); ?>
+        <?php echo $this->filterForm->renderControlFields(); ?>
     </div>
 </form>

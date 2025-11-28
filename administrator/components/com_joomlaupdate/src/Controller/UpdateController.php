@@ -11,7 +11,6 @@
 namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -469,114 +468,13 @@ class UpdateController extends BaseController
     }
 
     /**
-     * Fetch Extension update XML proxy. Used to prevent Access-Control-Allow-Origin errors.
-     * Prints a JSON string.
-     * Called from JS.
-     *
-     * @since       3.10.0
-     *
-     * @deprecated  4.3 will be removed in 6.0
-     *              Use batchextensioncompatibility instead.
-     *              Example: $updateController->batchextensioncompatibility();
-     *
-     * @return void
-     */
-    public function fetchExtensionCompatibility()
-    {
-        $extensionID          = $this->input->get('extension-id', '', 'DEFAULT');
-        $joomlaTargetVersion  = $this->input->get('joomla-target-version', '', 'DEFAULT');
-        $joomlaCurrentVersion = $this->input->get('joomla-current-version', '', JVERSION);
-        $extensionVersion     = $this->input->get('extension-version', '', 'DEFAULT');
-
-        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
-        $model                      = $this->getModel('Update');
-        $upgradeCompatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
-        $currentCompatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaCurrentVersion);
-        $upgradeUpdateVersion       = false;
-        $currentUpdateVersion       = false;
-
-        $upgradeWarning = 0;
-
-        if ($upgradeCompatibilityStatus->state == 1 && !empty($upgradeCompatibilityStatus->compatibleVersions)) {
-            $upgradeUpdateVersion = end($upgradeCompatibilityStatus->compatibleVersions);
-        }
-
-        if ($currentCompatibilityStatus->state == 1 && !empty($currentCompatibilityStatus->compatibleVersions)) {
-            $currentUpdateVersion = end($currentCompatibilityStatus->compatibleVersions);
-        }
-
-        if ($upgradeUpdateVersion !== false) {
-            $upgradeOldestVersion = $upgradeCompatibilityStatus->compatibleVersions[0];
-
-            if ($currentUpdateVersion !== false) {
-                // If there are updates compatible with both CMS versions use these
-                $bothCompatibleVersions = array_values(
-                    array_intersect($upgradeCompatibilityStatus->compatibleVersions, $currentCompatibilityStatus->compatibleVersions)
-                );
-
-                if (!empty($bothCompatibleVersions)) {
-                    $upgradeOldestVersion = $bothCompatibleVersions[0];
-                    $upgradeUpdateVersion = end($bothCompatibleVersions);
-                }
-            }
-
-            if (version_compare($upgradeOldestVersion, $extensionVersion, '>')) {
-                // Installed version is empty or older than the oldest compatible update: Update required
-                $resultGroup = 2;
-            } else {
-                // Current version is compatible
-                $resultGroup = 3;
-            }
-
-            if ($currentUpdateVersion !== false && version_compare($upgradeUpdateVersion, $currentUpdateVersion, '<')) {
-                // Special case warning when version compatible with target is lower than current
-                $upgradeWarning = 2;
-            }
-        } elseif ($currentUpdateVersion !== false) {
-            // No compatible version for target version but there is a compatible version for current version
-            $resultGroup = 1;
-        } else {
-            // No update server available
-            $resultGroup = 1;
-        }
-
-        // Do we need to capture
-        $combinedCompatibilityStatus = [
-            'upgradeCompatibilityStatus' => (object) [
-                'state'             => $upgradeCompatibilityStatus->state,
-                'compatibleVersion' => $upgradeUpdateVersion,
-            ],
-            'currentCompatibilityStatus' => (object) [
-                'state'             => $currentCompatibilityStatus->state,
-                'compatibleVersion' => $currentUpdateVersion,
-            ],
-            'resultGroup'    => $resultGroup,
-            'upgradeWarning' => $upgradeWarning,
-        ];
-
-        $this->app           = Factory::getApplication();
-        $this->app->mimeType = 'application/json';
-        $this->app->charSet  = 'utf-8';
-        $this->app->setHeader('Content-Type', $this->app->mimeType . '; charset=' . $this->app->charSet);
-        $this->app->sendHeaders();
-
-        try {
-            echo new JsonResponse($combinedCompatibilityStatus);
-        } catch (\Exception $e) {
-            echo $e;
-        }
-
-        $this->app->close();
-    }
-
-    /**
      * Determines the compatibility information for a number of extensions.
      *
      * Called by the Joomla Update JavaScript (PreUpdateChecker.checkNextChunk).
      *
      * @return  void
-     * @since   4.2.0
      *
+     * @since   4.2.0
      */
     public function batchextensioncompatibility()
     {

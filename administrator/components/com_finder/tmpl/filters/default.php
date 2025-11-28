@@ -59,9 +59,6 @@ $wa->useScript('com_finder.filters')
                             <th scope="col">
                                 <?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
                             </th>
-                            <th scope="col">
-                                <?php echo HTMLHelper::_('searchtools.sort', 'JALIAS', 'a.alias', $listDirn, $listOrder); ?>
-                            </th>
                             <th scope="col" class="w-10 d-none d-md-table-cell">
                                 <?php echo HTMLHelper::_('searchtools.sort', 'COM_FINDER_HEADING_CREATED_BY', 'a.created_by_alias', $listDirn, $listOrder); ?>
                             </th>
@@ -107,9 +104,6 @@ $wa->useScript('com_finder.filters')
                                 <?php endif; ?>
                             </th>
                             <td class="d-none d-md-table-cell">
-                                <?php echo $item->alias; ?>
-                            </td>
-                            <td class="d-none d-md-table-cell">
                                 <?php echo $item->created_by_alias ?: $item->user_name; ?>
                             </td>
                             <td class="d-none d-md-table-cell">
@@ -130,9 +124,8 @@ $wa->useScript('com_finder.filters')
                     <?php echo $this->pagination->getListFooter(); ?>
 
                 <?php endif; ?>
-                <input type="hidden" name="task" value="">
-                <input type="hidden" name="boxchecked" value="0">
-                <?php echo HTMLHelper::_('form.token'); ?>
+
+                <?php echo $this->filterForm->renderControlFields(); ?>
             </div>
         </div>
     </div>

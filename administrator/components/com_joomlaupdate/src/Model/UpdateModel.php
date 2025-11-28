@@ -18,8 +18,6 @@ use Joomla\CMS\Event\Extension\BeforeJoomlaUpdateEvent;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Http\Http;
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -39,6 +37,7 @@ use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateRegisterState;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Exception\FilesystemException;
 use Joomla\Filesystem\File;
+use Joomla\Http\HttpFactory;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
@@ -129,7 +128,7 @@ class UpdateModel extends BaseDatabaseModel
 
         $id    = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
         $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('us') . '.*')
             ->from($db->quoteName('#__update_sites_extensions', 'map'))
             ->join(
@@ -203,7 +202,7 @@ class UpdateModel extends BaseDatabaseModel
     {
         $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('element') . ' = ' . $db->quote('com_joomlaupdate'));
@@ -227,7 +226,7 @@ class UpdateModel extends BaseDatabaseModel
             $updater->findUpdates($joomlaUpdateComponentId, $cache_timeout, Updater::STABILITY_STABLE);
 
             // Fetch the update information from the database.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select('*')
                 ->from($db->quoteName('#__updates'))
                 ->where($db->quoteName('extension_id') . ' = :id')
@@ -273,7 +272,7 @@ class UpdateModel extends BaseDatabaseModel
         // Fetch the update information from the database.
         $id    = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
         $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*')
             ->from($db->quoteName('#__updates'))
             ->where($db->quoteName('extension_id') . ' = :id')
@@ -353,7 +352,7 @@ class UpdateModel extends BaseDatabaseModel
         $update_site->update_site_id       = 1;
         $db->updateObject('#__update_sites', $update_site, 'update_site_id');
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__updates'))
             ->where($db->quoteName('update_site_id') . ' = 1');
         $db->setQuery($query);
@@ -389,7 +388,7 @@ class UpdateModel extends BaseDatabaseModel
         $response = ['basename' => false, 'check' => null, 'version' => $updateInfo['latest']];
 
         try {
-            $head = HttpFactory::getHttp($httpOptions)->head($packageURL);
+            $head = (new HttpFactory())->getHttp($httpOptions)->head($packageURL);
         } catch (\RuntimeException) {
             // Passing false here -> download failed message
             return $response;
@@ -400,7 +399,7 @@ class UpdateModel extends BaseDatabaseModel
             $packageURL = (string) $head->getHeaders()['location'][0];
 
             try {
-                $head = HttpFactory::getHttp($httpOptions)->head($packageURL);
+                $head = (new HttpFactory())->getHttp($httpOptions)->head($packageURL);
             } catch (\RuntimeException) {
                 // Passing false here -> download failed message
                 return $response;
@@ -585,7 +584,7 @@ class UpdateModel extends BaseDatabaseModel
         $this->cleanCache('_system');
 
         // Prepare connection
-        $http = HttpFactory::getHttp();
+        $http = (new HttpFactory())->getHttp();
 
         $url = self::AUTOUPDATE_URL;
         $url .= ($targetState === AutoupdateRegisterState::Subscribe) ? '/register' : '/delete';
@@ -660,7 +659,7 @@ class UpdateModel extends BaseDatabaseModel
     /**
      * Update the autoupdate activation and registration states
      *
-     * @since   5.4.0
+     * @since   6.0.0
      */
     protected function updateAutoUpdateParams(AutoupdateRegisterState $registrationState, bool $enableUpdate): void
     {
@@ -779,7 +778,7 @@ class UpdateModel extends BaseDatabaseModel
 
         // Download the package
         try {
-            $result = HttpFactory::getHttp([], ['curl', 'stream'])->get($url);
+            $result = (new HttpFactory())->getHttp([], ['curl', 'stream'])->get($url);
         } catch (\RuntimeException) {
             return false;
         }
@@ -809,7 +808,7 @@ class UpdateModel extends BaseDatabaseModel
      * @return  boolean
      * @since   2.5.1
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use "createUpdateFile" instead
      *              Example: $updateModel->createUpdateFile($basename);
      */
@@ -942,8 +941,6 @@ ENDDATA;
         $installer->extension = new \Joomla\CMS\Table\Extension($db);
         $installer->extension->load(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id);
 
-        $installer->setAdapter($installer->extension->type);
-
         $installer->setPath('manifest', JPATH_MANIFESTS . '/files/joomla.xml');
         $installer->setPath('source', JPATH_MANIFESTS . '/files');
         $installer->setPath('extension_root', JPATH_ROOT);
@@ -988,7 +985,7 @@ ENDDATA;
          * we can assume that it was (badly) uninstalled.
          * If it isn't, add an entry to extensions.
          */
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('type') . ' = ' . $db->quote('file'))
@@ -1697,7 +1694,7 @@ ENDDATA;
     public function getNonCoreExtensions()
     {
         $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select(
             [
@@ -1745,7 +1742,7 @@ ENDDATA;
     public function getNonCorePlugins($folderFilter = ['system', 'user', 'authentication', 'actionlog', 'multifactorauth'])
     {
         $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select(
             $db->quoteName('ex.name') . ', ' .
@@ -1792,7 +1789,7 @@ ENDDATA;
     }
 
     /**
-     * Called by controller's fetchExtensionCompatibility, which is called via AJAX.
+     * Called by controller's batchextensioncompatibility, which is called via AJAX.
      *
      * @param   string  $extensionID          The ID of the checked extension
      * @param   string  $joomlaTargetVersion  Target version of Joomla
@@ -1844,7 +1841,7 @@ ENDDATA;
     {
         $id    = (int) $extensionID;
         $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select(
             [
@@ -1894,7 +1891,7 @@ ENDDATA;
     {
         $return = [];
 
-        $http = new Http();
+        $http = (new HttpFactory())->getHttp();
 
         try {
             $response = $http->get($updateSiteInfo['location']);
@@ -2029,7 +2026,7 @@ ENDDATA;
     public function isTemplateActive($template)
     {
         $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select(
             $db->quoteName(
@@ -2058,7 +2055,7 @@ ENDDATA;
         $menu = false;
 
         if (\count($ids)) {
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             $query->select(
                 'COUNT(*)'
@@ -2366,7 +2363,7 @@ ENDDATA;
 
         $params = $params->toString();
         $db     = $this->getDatabase();
-        $query  = $db->getQuery(true)
+        $query  = $db->createQuery()
             ->update($db->quoteName('#__extensions'))
             ->set($db->quoteName('params') . ' = :params')
             ->where($db->quoteName('type') . ' = ' . $db->quote('component'))

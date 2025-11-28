@@ -107,7 +107,7 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
         $model->setState('list.ordering', $ordering);
 
         if (trim($ordering) === 'rand()') {
-            $model->setState('list.ordering', $this->getDatabase()->getQuery(true)->rand());
+            $model->setState('list.ordering', $this->getDatabase()->createQuery()->rand());
         } else {
             $direction = $params->get('direction', 1) ? 'DESC' : 'ASC';
             $model->setState('list.direction', $direction);
@@ -197,7 +197,7 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
      *
      * @since 1.6
      *
-     * @deprecated 4.3 will be removed in 6.0
+     * @deprecated 4.3 will be removed in 7.0
      *             Use the non-static method getArticles
      *             Example: Factory::getApplication()->bootModule('mod_articles_news', 'site')
      *                          ->getHelper('ArticlesNewsHelper')
