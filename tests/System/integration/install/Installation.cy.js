@@ -1,7 +1,7 @@
 describe('Test installation page password strength validation', () => {
   beforeEach(() => {
     cy.visit('/installation/index.php');
-    cy.get('#jform_site_name').clear().type('testsite!');
+    cy.get('#jform_site_name').clear().type(Cypress.env('sitename'));
   });
 
   it('blocks admin_password with less than 12 characters', () => {
@@ -34,10 +34,10 @@ describe('Test installation page password strength validation', () => {
 
   it('allows empty db_pass (optional field)', () => {
     cy.get('#step1').click();
-    cy.get('#jform_admin_user').clear().type('admin');
-    cy.get('#jform_admin_username').clear().type('ci-admin');
+    cy.get('#jform_admin_user').clear().type(Cypress.env('name'));
+    cy.get('#jform_admin_username').clear().type(Cypress.env('username'));
     cy.get('#jform_admin_password').clear().type('ValidPass123!');
-    cy.get('#jform_admin_email').clear().type('admin@example.com');
+    cy.get('#jform_admin_email').clear().type(Cypress.env('email'));
     cy.get('#step2').click();
     cy.get('#jform_db_pass').clear();
     cy.get('#jform_db_pass').blur();
