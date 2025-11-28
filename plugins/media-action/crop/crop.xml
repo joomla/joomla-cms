@@ -24,11 +24,6 @@
 		<fields name="params" addfieldprefix="Joomla\Plugin\MediaAction\Crop\Field">
 			<fieldset name="basic">
 				<field
-					name="ratio_calculator"
-					type="calculator"
-					label="PLG_MEDIA-ACTION_CROP_RATIO_CALCULATOR_LABEL"
-				/>
-				<field
 					name="aspect_ratios"
 					type="subform"
 					label="PLG_MEDIA-ACTION_CROP_ASPECT_RATIOS_LABEL"
