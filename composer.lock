@@ -1679,16 +1679,16 @@
         },
         {
             "name": "joomla/http",
-            "version": "4.0.0",
+            "version": "4.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/http.git",
-                "reference": "c1631de6f88f5cb0c720360f6dc63a832359a1f7"
+                "reference": "ddaaaf390a1833946e8eee68748fdd0f62b83aaf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/http/zipball/c1631de6f88f5cb0c720360f6dc63a832359a1f7",
-                "reference": "c1631de6f88f5cb0c720360f6dc63a832359a1f7",
+                "url": "https://api.github.com/repos/joomla-framework/http/zipball/ddaaaf390a1833946e8eee68748fdd0f62b83aaf",
+                "reference": "ddaaaf390a1833946e8eee68748fdd0f62b83aaf",
                 "shasum": ""
             },
             "require": {
@@ -1728,9 +1728,9 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/http/issues",
-                "source": "https://github.com/joomla-framework/http/tree/4.0.0"
+                "source": "https://github.com/joomla-framework/http/tree/4.0.1"
             },
-            "time": "2025-07-23T20:11:41+00:00"
+            "time": "2025-10-16T12:31:07+00:00"
         },
         {
             "name": "joomla/input",
@@ -6586,16 +6586,16 @@
         },
         {
             "name": "joomla/test",
-            "version": "4.0",
+            "version": "4.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/test.git",
-                "reference": "5c5651800bed4a657d596929db56a200da063600"
+                "reference": "cfc3ca98f363dc76c4e3cf7a0cd089eeb93e2480"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/test/zipball/5c5651800bed4a657d596929db56a200da063600",
-                "reference": "5c5651800bed4a657d596929db56a200da063600",
+                "url": "https://api.github.com/repos/joomla-framework/test/zipball/cfc3ca98f363dc76c4e3cf7a0cd089eeb93e2480",
+                "reference": "cfc3ca98f363dc76c4e3cf7a0cd089eeb93e2480",
                 "shasum": ""
             },
             "require": {
@@ -6633,9 +6633,9 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/test/issues",
-                "source": "https://github.com/joomla-framework/test/tree/4.0"
+                "source": "https://github.com/joomla-framework/test/tree/4.0.1"
             },
-            "time": "2025-07-23T18:26:34+00:00"
+            "time": "2025-10-17T08:21:47+00:00"
         },
         {
             "name": "myclabs/deep-copy",
