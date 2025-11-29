@@ -154,7 +154,7 @@ final class POWCaptcha extends CMSPlugin implements SubscriberInterface
      */
     public function handleAjaxRequest(AjaxEvent $event)
     {
-        // Altcha expects it's challenge code in a specific syntax that is not compatible with com_ajax, raw output
+        // Altcha expects its challenge code in a specific syntax that is not compatible with com_ajax, raw output
         @ob_end_clean();
         header('Content-Type: application/json');
 
