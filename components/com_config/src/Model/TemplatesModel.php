@@ -49,10 +49,9 @@ class TemplatesModel extends FormModel
      * @param   array    $data      An optional array of data for the form to interrogate.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form    A Form object
+     * @return  Form|false    A Form object on success, false on failure
      *
      * @since   3.2
-     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -68,10 +67,6 @@ class TemplatesModel extends FormModel
         } catch (\Exception $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage());
 
-            return false;
-        }
-
-        if (empty($form)) {
             return false;
         }
 
