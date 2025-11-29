@@ -169,15 +169,12 @@ class FormView extends HtmlView
      */
     public function display($tpl = null)
     {
+        $model = $this->getModel();
+
+        $model->setUseExceptions(true);
+
         // Prepare view data
         $this->initializeView();
-
-        // Check for errors.
-        $errors = $this->get('Errors');
-
-        if (!empty($errors)) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         // Build toolbar
         $this->addToolbar();
