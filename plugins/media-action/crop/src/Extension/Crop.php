@@ -57,9 +57,9 @@ final class Crop extends MediaActionPlugin implements SubscriberInterface
             // Get the aspect ratios from plugin parameters
             $aspectRatios = $this->params->get('aspect_ratios');
 
-            // Convert stdClass to array if needed
+            // Convert to array if needed (handles stdClass from Registry)
             if (\is_object($aspectRatios)) {
-                $aspectRatios = json_decode(json_encode($aspectRatios), true);
+                $aspectRatios = (array) $aspectRatios;
             }
 
             // If we have custom aspect ratios, modify the form field
@@ -120,13 +120,12 @@ final class Crop extends MediaActionPlugin implements SubscriberInterface
         ];
 
         foreach ($aspectRatios as $ratio) {
-            // Handle both array and object formats
-            $label = \is_array($ratio) ? ($ratio['label'] ?? '') : ($ratio->label ?? '');
-            $value = \is_array($ratio) ? ($ratio['value'] ?? '') : ($ratio->value ?? '');
-            $group = \is_array($ratio) ? ($ratio['group'] ?? '') : ($ratio->group ?? '');
+            // Convert individual ratio to array if it's an object
+            $ratio = (array) $ratio;
 
-            // Normalize group to lowercase
-            $group = strtolower(trim($group));
+            $label = $ratio['label'] ?? '';
+            $value = $ratio['value'] ?? '';
+            $group = strtolower(trim($ratio['group'] ?? ''));
 
             if (empty($label) || $value === '' || $value === null) {
                 continue;
