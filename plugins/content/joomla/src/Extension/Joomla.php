@@ -182,6 +182,9 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
                     'url'      => Route::link('administrator', 'index.php?option=com_content&view=articles&filter[search]=id:' . $article->id, false, $linkMode, true),
                 ];
 
+                if (!$receiver->authorise('core.login.admin')) {
+                   $templateData['url'] = Route::link('site', 'index.php?option=com_content&view=article&id=' . $article->id, false, $linkMode, true);
+                }
                 // Send email
                 try {
                     $mailer = new MailTemplate('plg_content_joomla.newarticle', $receiver->getParam('admin_language', $this->getLanguage()->getTag()));
