@@ -65,9 +65,10 @@ class ComponentModel extends FormModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  mixed  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   3.2
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -90,10 +91,6 @@ class ComponentModel extends FormModel
             false,
             '/config'
         );
-
-        if (empty($form)) {
-            return false;
-        }
 
         $lang = Factory::getLanguage();
         $lang->load($option, JPATH_BASE)

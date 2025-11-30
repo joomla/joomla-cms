@@ -145,8 +145,7 @@ class FeedFactoryTest extends UnitTestCase
         // Use reflection to test private method
         $reflectionClass = new \ReflectionClass($this->feedFactory);
         $method          = $reflectionClass->getMethod('_fetchFeedParser');
-        $method->setAccessible(true);
-        $parser = $method->invoke($this->feedFactory, $tagName, new \XMLReader());
+        $parser          = $method->invoke($this->feedFactory, $tagName, new \XMLReader());
 
         $this->assertInstanceOf(FeedParser::class, $parser);
         $this->assertSame(\get_class($parseMock), \get_class($parser));
@@ -166,7 +165,6 @@ class FeedFactoryTest extends UnitTestCase
         // Use reflection to test private method
         $reflectionClass = new \ReflectionClass($this->feedFactory);
         $method          = $reflectionClass->getMethod('_fetchFeedParser');
-        $method->setAccessible(true);
         $method->invoke($this->feedFactory, 'not-existing', new \XMLReader());
     }
 }

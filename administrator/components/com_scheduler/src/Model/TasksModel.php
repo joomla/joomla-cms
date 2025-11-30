@@ -112,7 +112,7 @@ class TasksModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         /**
          * Select the required fields from the table.
@@ -484,7 +484,7 @@ class TasksModel extends ListModel
         $db  = $this->getDatabase();
         $now = $time->toSql();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             // Count due tasks
             ->select('SUM(CASE WHEN ' . $db->quoteName('a.next_execution') . ' <= :now THEN 1 ELSE 0 END) AS due_count')
             // Count locked tasks
