@@ -183,7 +183,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
                 ];
 
                 if (!$receiver->authorise('core.login.admin')) {
-                   $templateData['url'] = Route::link('site', 'index.php?option=com_content&view=article&id=' . $article->id, false, $linkMode, true);
+                    $templateData['url'] = Route::link('site', 'index.php?option=com_content&view=article&id=' . $article->id, false, $linkMode, true);
                 }
                 // Send email
                 try {
