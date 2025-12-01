@@ -31,11 +31,12 @@ final class Crop extends MediaActionPlugin implements SubscriberInterface
      * Override to dynamically inject aspect ratios from plugin settings.
      *
      * @param   Form       $form  The form
-     * @param   \stdClass  $data  The data
+     * @param   \stdClass  $data  The data (required by the event interface, not used in this implementation)
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
+     * @note    The $data parameter is required by the Joomla event interface but is not used in this method.
      */
     public function onContentPrepareForm(Form $form, $data): void
     {
