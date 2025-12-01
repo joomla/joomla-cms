@@ -144,7 +144,7 @@ final class POWCaptcha extends CMSPlugin implements SubscriberInterface
      */
     public function onCheckAnswer($code = null)
     {
-        // Before we verify the actual solution, let's first our challenge key
+        // Before we verify the actual solution, let's first verify our challenge key
         $decoded = base64_decode($code, true);
 
         // Check for base64 decode errors
