@@ -220,8 +220,8 @@ final class POWCaptcha extends CMSPlugin implements SubscriberInterface
         // Calculate expiration time
         $expiration = Date::getInstance()->add(new \DateInterval('PT' . $this->params->get('expiration', 300) . 'S'));
 
-        // Generate a random key for the challenge - that key is stored in the session and will be checked an invalidated
-        // during the verification process. That prevents challenge replay attacks.
+        // Generate a random key for the challenge to prevent replay attacks.
+        // That key is stored in the session and will be checked and invalidated for re-use during the verification process.
         $challengeKey = md5(random_bytes(16));
 
         // Store the challenge key in the session
