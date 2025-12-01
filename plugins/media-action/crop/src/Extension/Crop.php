@@ -101,12 +101,12 @@ final class Crop extends MediaActionPlugin implements SubscriberInterface
         $xml->addAttribute('label', 'PLG_MEDIA-ACTION_CROP_PARAM_ASPECT');
         $xml->addAttribute('hiddenLabel', 'true');
         $xml->addAttribute('class', 'crop-aspect-ratio-options');
-        $xml->addAttribute('default', '1.111');
+        $xml->addAttribute('default', '10/9');
 
         // Add default options
         $option = $xml->addChild('option', 'PLG_MEDIA-ACTION_CROP_PARAM_DEFAULT_RATIO');
         $option->addAttribute('class', 'crop-aspect-ratio-option');
-        $option->addAttribute('value', '1.111');
+        $option->addAttribute('value', '10/9');
 
         $option = $xml->addChild('option', 'PLG_MEDIA-ACTION_CROP_PARAM_NO_RATIO');
         $option->addAttribute('class', 'crop-aspect-ratio-option');
