@@ -2,7 +2,7 @@
 <extension client="administrator" type="language" method="upgrade">
 	<name>English (en-GB)</name>
 	<tag>en-GB</tag>
-	<version>6.0.1</version>
+	<version>6.0.2</version>
 	<creationDate>2025-11</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
