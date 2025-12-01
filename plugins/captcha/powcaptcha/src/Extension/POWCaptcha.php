@@ -64,21 +64,18 @@ final class POWCaptcha extends CMSPlugin implements SubscriberInterface
      */
     public function handleAjaxRequest(AjaxEvent $event)
     {
-        // Altcha expects its challenge code in a specific syntax that is not compatible with com_ajax, raw output
-        @ob_end_clean();
-        header('Content-Type: application/json');
-
         // CRSF Token check
         if (!Session::checkToken('get')) {
-            echo json_encode([]);
-            $this->getApplication()->close();
+            $event->updateEventResult(json_encode([]));
+
+            return;
         }
 
-        $challenge = $this->getProvider()->getChallenge();
-
-        echo json_encode($challenge);
-
-        $this->getApplication()->close();
+        $event->updateEventResult(
+            json_encode(
+                $this->getProvider()->getChallenge()
+            )
+        );
     }
 
     /**
