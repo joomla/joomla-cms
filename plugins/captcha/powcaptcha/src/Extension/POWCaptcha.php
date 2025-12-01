@@ -16,7 +16,6 @@ use AltchaOrg\Altcha\Hasher\Algorithm;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\Plugin\AjaxEvent;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
@@ -155,7 +154,7 @@ final class POWCaptcha extends CMSPlugin implements SubscriberInterface
         // Check for json Errors
         try {
             $data = json_decode($decoded, true, 2, \JSON_THROW_ON_ERROR);
-        } catch (\JsonException|\ValueError) {
+        } catch (\JsonException | \ValueError) {
             return null;
         }
 
@@ -232,7 +231,7 @@ final class POWCaptcha extends CMSPlugin implements SubscriberInterface
             $maxNumber,
             $expiration,
             [
-                "challengeKey" => $challengeKey
+                "challengeKey" => $challengeKey,
             ]
         );
 
