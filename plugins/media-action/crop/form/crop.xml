@@ -64,7 +64,7 @@
 			label="PLG_MEDIA-ACTION_CROP_PARAM_ASPECT"
 			hiddenLabel="true"
 			class="crop-aspect-ratio-options"
-			default="1.111"
+			default="10/9"
 		>
 			<option class="crop-aspect-ratio-option" value="10/9">PLG_MEDIA-ACTION_CROP_PARAM_DEFAULT_RATIO</option>
 			<option class="crop-aspect-ratio-option" value="">PLG_MEDIA-ACTION_CROP_PARAM_NO_RATIO</option>
