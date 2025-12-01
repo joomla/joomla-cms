@@ -15,11 +15,24 @@ let instance;
  * @returns {number} The calculated aspect ratio as a number
  */
 const parseAspectRatio = (value) => {
+  if (!value || typeof value !== 'string' || value.trim() === '') {
+    return NaN;
+  }
   if (value.includes('/')) {
-    const [numerator, denominator] = value.split('/').map((num) => parseFloat(num));
+    const [numeratorStr, denominatorStr] = value.split('/');
+    const numerator = parseFloat(numeratorStr);
+    const denominator = parseFloat(denominatorStr);
+    if (
+      isNaN(numerator) ||
+      isNaN(denominator) ||
+      denominator === 0
+    ) {
+      return NaN;
+    }
     return numerator / denominator;
   }
-  return parseFloat(value);
+  const num = parseFloat(value);
+  return isNaN(num) ? NaN : num;
 };
 
 const addListeners = () => {
