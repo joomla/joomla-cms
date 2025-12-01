@@ -16,6 +16,7 @@ use AltchaOrg\Altcha\Hasher\Algorithm;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\Plugin\AjaxEvent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
@@ -35,8 +36,8 @@ use Joomla\Utilities\ArrayHelper;
  */
 final class POWCaptcha extends CMSPlugin implements SubscriberInterface
 {
-    protected const int MAXNUMBER_EASY     = 30000;
-    protected const int MAXNUMBER_MODERATE = 80000;
+    protected const int MAXNUMBER_EASY     = 50000;
+    protected const int MAXNUMBER_MODERATE = 100000;
     protected const int MAXNUMBER_HARD     = 200000;
 
     /**
@@ -143,8 +144,52 @@ final class POWCaptcha extends CMSPlugin implements SubscriberInterface
      */
     public function onCheckAnswer($code = null)
     {
-        // Verify the given solution
-        return $this->getAltcha()->verifySolution((string) $code);
+        // Before we verify the actual solution, let's first our challenge key
+        $decoded = base64_decode($code, true);
+
+        // Check for base64 decode errors
+        if (!$decoded) {
+            return false;
+        }
+
+        // Check for json Errors
+        try {
+            $data = json_decode($decoded, true, 2, \JSON_THROW_ON_ERROR);
+        } catch (\JsonException|\ValueError) {
+            return null;
+        }
+
+        // Check for data errors
+        if (!\is_array($data) || empty($data)) {
+            return null;
+        }
+
+        // Invalid salt format
+        if (empty($data['salt']) || !str_contains($data['salt'], 'challengeKey=')) {
+            return null;
+        }
+
+        // Extract challengeKey
+        parse_str(explode("?", $data['salt'])[1], $challengeParams);
+
+        // Check if challengeKey is valid
+        $session = $this->getApplication()->getSession();
+
+        if (!$session->get('plg_captcha_powcaptcha.' . $challengeParams['challengeKey'], false)) {
+            // Key is invalid, return
+            return false;
+        }
+
+        // Key is valid, check for solution
+        if (!$this->getAltcha()->verifySolution((string) $code)) {
+            return false;
+        }
+
+        // Solution was valid, invalidate key
+        $session->set('plg_captcha_powcaptcha.' . $challengeParams['challengeKey'], false);
+
+        // It's valid!
+        return true;
     }
 
     /**
@@ -175,10 +220,20 @@ final class POWCaptcha extends CMSPlugin implements SubscriberInterface
         // Calculate expiration time
         $expiration = Date::getInstance()->add(new \DateInterval('PT' . $this->params->get('expiration', 300) . 'S'));
 
+        // Generate a random key for the challenge - that key is stored in the session and will be checked an invalidated
+        // during the verification process. That prevents challenge replay attacks.
+        $challengeKey = md5(random_bytes(16));
+
+        // Store the challenge key in the session
+        $this->getApplication()->getSession('')->set('plg_captcha_powcaptcha.' . $challengeKey, true);
+
         $options = new ChallengeOptions(
             Algorithm::SHA512,
             $maxNumber,
-            $expiration
+            $expiration,
+            [
+                "challengeKey" => $challengeKey
+            ]
         );
 
         // Generate the challenge
