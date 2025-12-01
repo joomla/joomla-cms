@@ -147,7 +147,7 @@ final class Crop extends MediaActionPlugin implements SubscriberInterface
         foreach ($grouped[''] as $ratio) {
             $option = $xml->addChild('option', htmlspecialchars($ratio['label'], ENT_XML1, 'UTF-8'));
             $option->addAttribute('class', 'crop-aspect-ratio-option');
-            $option->addAttribute('value', $ratio['value']);
+            $option->addAttribute('value', htmlspecialchars($ratio['value'], ENT_XML1, 'UTF-8'));
         }
 
         // Add landscape group
@@ -158,7 +158,7 @@ final class Crop extends MediaActionPlugin implements SubscriberInterface
             foreach ($grouped['landscape'] as $ratio) {
                 $option = $group->addChild('option', htmlspecialchars($ratio['label'], ENT_XML1, 'UTF-8'));
                 $option->addAttribute('class', 'crop-aspect-ratio-option');
-                $option->addAttribute('value', $ratio['value']);
+                $option->addAttribute('value', htmlspecialchars($ratio['value'], ENT_XML1, 'UTF-8'));
             }
         }
 
@@ -170,7 +170,7 @@ final class Crop extends MediaActionPlugin implements SubscriberInterface
             foreach ($grouped['portrait'] as $ratio) {
                 $option = $group->addChild('option', htmlspecialchars($ratio['label'], ENT_XML1, 'UTF-8'));
                 $option->addAttribute('class', 'crop-aspect-ratio-option');
-                $option->addAttribute('value', $ratio['value']);
+                $option->addAttribute('value', htmlspecialchars($ratio['value'], ENT_XML1, 'UTF-8'));
             }
         }
 
