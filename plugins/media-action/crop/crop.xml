@@ -12,7 +12,6 @@
 	<namespace path="src">Joomla\Plugin\MediaAction\Crop</namespace>
 	<files>
 		<folder>form</folder>
-		<folder>layouts</folder>
 		<folder plugin="crop">services</folder>
 		<folder>src</folder>
 	</files>
