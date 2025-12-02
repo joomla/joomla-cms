@@ -82,7 +82,7 @@ final class Crop extends MediaActionPlugin implements SubscriberInterface
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected function injectAspectRatios(Form $form, array $aspectRatios): void
+    private function injectAspectRatios(Form $form, array $aspectRatios): void
     {
         // Get the aspectRatio field (try without group first, then with 'crop' group)
         $field = $form->getField('aspectRatio');
