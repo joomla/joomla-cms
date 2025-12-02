@@ -8,9 +8,17 @@ describe('Test in backend that the Installer', () => {
     cy.get('h1.page-title').should('contain.text', 'Extensions: Languages');
   });
 
-  it('has Afrikaans Language installable', () => {
-    cy.get('tr.row0').should('contain.text', 'Afrikaans').then(() => {
-      cy.get('input.btn.btn-primary.btn-sm').should('exist');
+  it('has any Language installable', () => {
+    cy.get('body').then((body) => {
+      if (body.find('#installer-languages table').length === 0) {
+        cy.get('#installer-languages .alert.alert-info').should('contain.text', 'No Matching Results');
+        cy.checkForSystemMessage(`Can't connect to https://update.joomla.org/language/translationlist`);
+      } else {
+        cy.get('#installer-languages table').within(() => {
+          cy.get('input[type="button"]').should('have.value', 'Install');
+          cy.get('a[target="_blank"]').invoke('attr', 'href').should('match', /^https:\/\/update\.joomla\.org\/language\/details/);
+        });
+      }
     });
   });
 });

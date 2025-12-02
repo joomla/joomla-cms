@@ -68,8 +68,8 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
                                         <td class="original">
                                             <?php if (isset($value1['value'][$key])) : ?>
                                                 <?php $currentvalue1 = $value1['value'][$key]; ?>
-                                                <?php if (is_array($value1['value'][$key])) : ?>
-                                                    <?php $currentvalue1 = implode(' | ', $value1['value'][$key]); ?>
+                                                <?php if (is_array($currentvalue1)) : ?>
+                                                    <?php $currentvalue1 = ArrayHelper::isAssociative($currentvalue1) ? json_encode($currentvalue1) : implode(' | ', $currentvalue1); ?>
                                                     <?php echo htmlspecialchars($key . ': ' . $currentvalue1, ENT_COMPAT, 'UTF-8'); ?>
                                                 <?php else : ?>
                                                     <?php echo htmlspecialchars($key . ': ' . $currentvalue1, ENT_COMPAT, 'UTF-8'); ?>
@@ -79,8 +79,8 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
                                         <td class="changed">
                                             <?php if (isset($value2['value'][$key])) : ?>
                                                 <?php $currentvalue2 = $value2['value'][$key]; ?>
-                                                <?php if (is_array($value2['value'][$key])) : ?>
-                                                    <?php $currentvalue2 = implode(' | ', $value2['value'][$key]); ?>
+                                                <?php if (is_array($currentvalue2)) : ?>
+                                                    <?php $currentvalue2 = ArrayHelper::isAssociative($currentvalue2) ? json_encode($currentvalue2) : implode(' | ', $currentvalue2); ?>
                                                     <?php echo htmlspecialchars($key . ': ' . $currentvalue2, ENT_COMPAT, 'UTF-8'); ?>
                                                 <?php else : ?>
                                                     <?php echo htmlspecialchars($key . ': ' . $currentvalue2, ENT_COMPAT, 'UTF-8'); ?>

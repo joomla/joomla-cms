@@ -103,7 +103,7 @@ final class Server
      *
      * @var TokenBindingHandler
      * @since 5.0.0
-     * @deprecated 6.0 Will be removed when we upgrade to WebAuthn library 5.0 or later
+     * @deprecated 6.0 Will be removed when we upgrade to WebAuthn library 7.0 or later
      */
     private TokenBindingHandler $tokenBindingHandler;
 
