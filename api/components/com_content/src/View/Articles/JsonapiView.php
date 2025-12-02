@@ -249,7 +249,9 @@ class JsonapiView extends BaseApiView
         }
 
         // Add schema.org data using existing plugin system
-        $item->schemaorg = $this->getSchemaOrg($item);
+        if (PluginHelper::isEnabled('system', 'schemaorg')) {
+            $item->schemaorg = $this->getSchemaOrg($item);
+        }
 
         return parent::prepareItem($item);
     }
