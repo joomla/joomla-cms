@@ -12,7 +12,6 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\CMS\Language\Text;
@@ -97,7 +96,7 @@ class UpdateModel extends ListModel
         $db = $this->getDatabase();
 
         // Grab updates ignoring new installs
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('u.*')
             ->select($db->quoteName('e.manifest_cache'))
             ->from($db->quoteName('#__updates', 'u'))
@@ -245,7 +244,7 @@ class UpdateModel extends ListModel
     {
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('COUNT(*)')
             ->from($db->quoteName('#__update_sites'))
             ->where($db->quoteName('enabled') . ' = 0');
@@ -293,7 +292,7 @@ class UpdateModel extends ListModel
         }
 
         // Reset the last update check timestamp
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__update_sites'))
             ->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote(0));
         $db->setQuery($query);
@@ -334,7 +333,7 @@ class UpdateModel extends ListModel
 
             $app   = Factory::getApplication();
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select('type')
                 ->from('#__update_sites')
                 ->where($db->quoteName('update_site_id') . ' = :id')
@@ -514,56 +513,6 @@ class UpdateModel extends ListModel
         InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 
         return $result;
-    }
-
-    /**
-     * Method to get the row form.
-     *
-     * @param   array    $data      Data for the form.
-     * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
-     *
-     * @return  Form|bool  A Form object on success, false on failure
-     *
-     * @since   2.5.2
-     */
-    public function getForm($data = [], $loadData = true)
-    {
-        // Get the form.
-        Form::addFormPath(JPATH_COMPONENT . '/models/forms');
-        Form::addFieldPath(JPATH_COMPONENT . '/models/fields');
-        $form = Form::getInstance('com_installer.update', 'update', ['load_data' => $loadData]);
-
-        // Check for an error.
-        if ($form == false) {
-            $this->setError($form->getMessage());
-
-            return false;
-        }
-
-        // Check the session for previously entered form data.
-        $data = $this->loadFormData();
-
-        // Bind the form data if present.
-        if (!empty($data)) {
-            $form->bind($data);
-        }
-
-        return $form;
-    }
-
-    /**
-     * Method to get the data that should be injected in the form.
-     *
-     * @return  mixed  The data for the form.
-     *
-     * @since   2.5.2
-     */
-    protected function loadFormData()
-    {
-        // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState($this->context, []);
-
-        return $data;
     }
 
     /**

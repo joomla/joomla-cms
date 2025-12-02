@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Categories;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Tree\NodeInterface;
 use Joomla\CMS\Tree\NodeTrait;
@@ -28,7 +27,6 @@ use Joomla\Registry\Registry;
 #[\AllowDynamicProperties]
 class CategoryNode implements NodeInterface
 {
-    use LegacyErrorHandlingTrait;
     use LegacyPropertyManagementTrait;
     use NodeTrait;
 

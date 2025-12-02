@@ -49,7 +49,6 @@ class PasswordStrength {
     score += this.constructor.calc(value, /[a-z]/g, this.lowercase, mods);
     score += this.constructor.calc(value, /[A-Z]/g, this.uppercase, mods);
     score += this.constructor.calc(value, /[0-9]/g, this.numbers, mods);
-    // eslint-disable-next-line no-useless-escape
     score += this.constructor.calc(
       value,
       /[@$!#?=;:*\-_€%&()`´+[\]{}'"\\|,.<>/~^]/g,
@@ -144,10 +143,9 @@ class PasswordStrength {
       meter.setAttribute('optimum', 100);
       meter.value = initialVal;
 
-      const label = document.createElement('div');
-      label.setAttribute('class', 'text-center');
+      const label = document.createElement('output');
       label.setAttribute('id', `password-${index}`);
-      label.setAttribute('aria-live', 'polite');
+      label.setAttribute('for', field.id);
 
       field.parentNode.insertAdjacentElement('afterEnd', label);
       field.parentNode.insertAdjacentElement('afterEnd', meter);

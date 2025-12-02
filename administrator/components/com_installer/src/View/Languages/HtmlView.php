@@ -14,7 +14,6 @@ use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\Component\Installer\Administrator\Model\LanguagesModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
@@ -68,6 +67,7 @@ class HtmlView extends InstallerViewDefault
 
         /** @var LanguagesModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         // Get data from the model.
         $this->items         = $model->getItems();
@@ -76,10 +76,14 @@ class HtmlView extends InstallerViewDefault
         $this->activeFilters = $model->getActiveFilters();
         $this->installedLang = LanguageHelper::getInstalledLanguages();
 
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0')
+            ->addControlField('return', base64_encode('index.php?option=com_installer&view=languages'))
+            ->addControlField('install_url', '', ['id' => 'install_url'])
+            ->addControlField('installtype', 'url')
+            ->addControlField('package', 'language');
 
         parent::display($tpl);
     }

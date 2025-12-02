@@ -627,7 +627,7 @@ abstract class Bootstrap
      *
      * @since   3.0
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Will be removed without replacement
      *              Load the different scripts with their individual method calls
      */
@@ -696,7 +696,7 @@ abstract class Bootstrap
         // Setup options object
         $opt           = [];
         $opt['parent'] = isset($options['parent']) ?
-            ($options['parent'] == true ? '#' . preg_replace('/^[\.#]/', '', $selector) : $options['parent']) : '';
+            ($options['parent'] ? '#' . preg_replace('/^[\.#]/', '', $selector) : $options['parent']) : '';
         $opt['toggle'] = isset($options['toggle']) ? (bool) $options['toggle'] : !($opt['parent'] === false || isset($options['active']));
         $opt['active'] = (string) ($options['active'] ?? '');
 

@@ -22,6 +22,8 @@ $displayData = [
     'icon'       => 'icon-cube module',
     // Although it is (almost) impossible to get to this page with no created Administrator Modules, we add this for completeness.
     'title'      => Text::_('COM_MODULES_EMPTYSTATE_TITLE_' . ($this->clientId ? 'ADMINISTRATOR' : 'SITE')),
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
 if ($this->getCurrentUser()->authorise('core.create', 'com_modules')) {

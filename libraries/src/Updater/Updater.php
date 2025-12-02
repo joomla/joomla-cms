@@ -9,9 +9,14 @@
 
 namespace Joomla\CMS\Updater;
 
-use Joomla\CMS\Adapter\Adapter;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
+use Joomla\CMS\Table\Extension;
+use Joomla\CMS\Table\Update as UpdateTable;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use Joomla\DI\ContainerAwareInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -22,8 +27,11 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.7.0
  */
-class Updater extends Adapter
+class Updater implements DatabaseAwareInterface
 {
+    use DatabaseAwareTrait;
+    use LegacyPropertyManagementTrait;
+
     /**
      * Development snapshots, nightly builds, pre-release versions and so on
      *
@@ -73,6 +81,30 @@ class Updater extends Adapter
     protected static $instance;
 
     /**
+     * Array of installer adapters
+     *
+     * @var    string[]|UpdateAdapter[]
+     * @since  6.0.0
+     */
+    private $adapters = [];
+
+    /**
+     * Adapter Class Prefix
+     *
+     * @var    string
+     * @since  6.0.0
+     */
+    private $classprefix = '\\Joomla\\CMS\\Updater\\Adapter';
+
+    /**
+     * Base Path for the installer adapters
+     *
+     * @var    string
+     * @since  6.0.0
+     */
+    private $adapterfolder;
+
+    /**
      * Constructor
      *
      * @param   string  $basepath       Base Path of the adapters
@@ -83,7 +115,9 @@ class Updater extends Adapter
      */
     public function __construct($basepath = __DIR__, $classprefix = '\\Joomla\\CMS\\Updater\\Adapter', $adapterfolder = 'Adapter')
     {
-        parent::__construct($basepath, $classprefix, $adapterfolder);
+        $this->adapterfolder = $basepath . '/' . $adapterfolder;
+        $this->classprefix   = $classprefix;
+        $this->loadAdapters();
     }
 
     /**
@@ -98,6 +132,7 @@ class Updater extends Adapter
     {
         if (!isset(self::$instance)) {
             self::$instance = new static();
+            self::$instance->setDatabase(Factory::getDbo());
         }
 
         return self::$instance;
@@ -153,8 +188,8 @@ class Updater extends Adapter
             }
 
             // Make sure there is no update left over in the database.
-            $db    = $this->getDbo();
-            $query = $db->getQuery(true)
+            $db    = $this->getDatabase();
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__updates'))
                 ->where($db->quoteName('update_site_id') . ' = :id')
                 ->bind(':id', $result['update_site_id'], ParameterType::INTEGER);
@@ -181,6 +216,36 @@ class Updater extends Adapter
     }
 
     /**
+     * Returns available updates
+     *
+     * @param integer $eid
+     * @param string $minimumStability
+     * @param boolean $includeCurrent
+     *
+     * @return array
+     */
+    public function getAvailableUpdates(int $eid, string $minimumStability = self::STABILITY_STABLE): array
+    {
+        $results = $this->getUpdateSites($eid);
+
+        if (empty($results)) {
+            return [];
+        }
+
+        $updateObjects = [];
+
+        foreach ($results as $result) {
+            $updateElements = $this->getUpdateObjectsForSite($result, $minimumStability);
+
+            foreach ($updateElements as $updateElement) {
+                $updateObjects[] = get_object_vars($updateElement);
+            }
+        }
+
+        return $updateObjects;
+    }
+
+    /**
      * Returns the update site records for an extension with ID $eid. If $eid is zero all enabled update sites records
      * will be returned.
      *
@@ -192,8 +257,8 @@ class Updater extends Adapter
      */
     private function getUpdateSites($eid = 0)
     {
-        $db    = $this->getDbo();
-        $query = $db->getQuery(true);
+        $db    = $this->getDatabase();
+        $query = $db->createQuery();
 
         $query->select(
             [
@@ -248,19 +313,17 @@ class Updater extends Adapter
     {
         $retVal = [];
 
-        $this->setAdapter($updateSite['type']);
-
-        if (!isset($this->_adapters[$updateSite['type']])) {
+        try {
+            // Get the update information from the remote update XML document
+            /** @var UpdateAdapter $adapter */
+            $adapter = $this->getAdapter($updateSite['type']);
+        } catch (\InvalidArgumentException $e) {
             // Ignore update sites requiring adapters we don't have installed
             return $retVal;
         }
 
         $updateSite['minimum_stability'] = $minimumStability;
-
-        // Get the update information from the remote update XML document
-        /** @var UpdateAdapter $adapter */
-        $adapter       = $this->_adapters[$updateSite['type']];
-        $update_result = $adapter->findUpdate($updateSite);
+        $update_result                   = $adapter->findUpdate($updateSite);
 
         // Version comparison operator.
         $operator = $includeCurrent ? 'ge' : 'gt';
@@ -293,11 +356,8 @@ class Updater extends Adapter
                 foreach ($update_result['updates'] as $current_update) {
                     $current_update->extra_query = $updateSite['extra_query'];
 
-                    /** @var \Joomla\CMS\Table\Update $update */
-                    $update = Table::getInstance('update');
-
-                    /** @var \Joomla\CMS\Table\Extension $extension */
-                    $extension = Table::getInstance('extension');
+                    $update    = new UpdateTable($this->getDatabase());
+                    $extension = new Extension($this->getDatabase());
 
                     $uid = $update
                         ->find(
@@ -367,15 +427,15 @@ class Updater extends Adapter
      */
     private function getSitesWithUpdates($timestamp = 0)
     {
-        $db        = $this->getDbo();
+        $db        = $this->getDatabase();
         $timestamp = (int) $timestamp;
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('DISTINCT ' . $db->quoteName('update_site_id'))
             ->from($db->quoteName('#__updates'));
 
         if ($timestamp) {
-            $subQuery = $db->getQuery(true)
+            $subQuery = $db->createQuery()
                 ->select($db->quoteName('update_site_id'))
                 ->from($db->quoteName('#__update_sites'))
                 ->where(
@@ -411,10 +471,10 @@ class Updater extends Adapter
     private function updateLastCheckTimestamp($updateSiteId)
     {
         $timestamp    = time();
-        $db           = $this->getDbo();
+        $db           = $this->getDatabase();
         $updateSiteId = (int) $updateSiteId;
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__update_sites'))
             ->set($db->quoteName('last_check_timestamp') . ' = :timestamp')
             ->where($db->quoteName('update_site_id') . ' = :id')
@@ -422,5 +482,149 @@ class Updater extends Adapter
             ->bind(':id', $updateSiteId, ParameterType::INTEGER);
         $db->setQuery($query);
         $db->execute();
+    }
+
+    /**
+     * Discover all adapters in the adapterfolder path
+     *
+     * @return  void
+     *
+     * @since  6.0.0
+     */
+    protected function loadAdapters()
+    {
+        $files    = new \DirectoryIterator($this->adapterfolder);
+
+        // Process the core adapters
+        foreach ($files as $file) {
+            $fileName = $file->getFilename();
+
+            // Only load php files.
+            if (!$file->isFile() || $file->getExtension() !== 'php') {
+                continue;
+            }
+
+            // Derive the class name from the filename.
+            $name  = str_ireplace('.php', '', trim($fileName));
+            $name  = str_ireplace('adapter', '', trim($name));
+            $class = rtrim($this->classprefix, '\\') . '\\' . ucfirst($name) . 'Adapter';
+
+            if (!class_exists($class)) {
+                // Not namespaced
+                $class = $this->classprefix . ucfirst($name);
+            }
+
+            // Core adapters should autoload based on classname, keep this fallback just in case
+            if (!class_exists($class)) {
+                // Try to load the adapter object
+                \JLoader::register($class, $this->adapterfolder . '/' . $fileName);
+
+                if (!class_exists($class)) {
+                    // Skip to next one
+                    continue;
+                }
+            }
+
+            $this->adapters[strtolower($name)] = $class;
+        }
+    }
+
+    /**
+     * Gets a list of available update adapters.
+     *
+     * @param   array  $options  An array of options to inject into the adapter
+     * @param   array  $custom   Array of custom update adapters
+     *
+     * @return  string[]  An array of the class names of available install adapters.
+     *
+     * @since   3.4
+     */
+    public function getAdapters($options = [], array $custom = [])
+    {
+        if (\count($custom)) {
+            foreach ($custom as $adapter) {
+                // Setup the class name
+                // @todo - Can we abstract this to not depend on the Joomla class namespace without PHP namespaces?
+                $class = $this->classprefix . ucfirst(trim($adapter));
+
+                // If the class doesn't exist we have nothing left to do but look at the next type. We did our best.
+                if (!class_exists($class)) {
+                    continue;
+                }
+
+                $this->adapters[$adapter] = $class;
+            }
+        }
+
+        return array_keys($this->adapters);
+    }
+
+    /**
+     * Get an update adapter instance
+     *
+     * @param   string  $name     Adapter name
+     * @param   array   $options  Adapter options
+     *
+     * @return  UpdateAdapter
+     *
+     * @throws  \InvalidArgumentException
+     * @since   6.0.0
+     */
+    public function getAdapter($name, $options = [])
+    {
+        $name = strtolower($name);
+
+        if (!isset($this->adapters[$name])) {
+            throw new \InvalidArgumentException(\sprintf('The %s update adapter does not exist.', $name));
+        }
+
+        if (\is_string($this->adapters[$name])) {
+            $class = $this->adapters[$name];
+
+            // Ensure the adapter type is part of the options array
+            $options['type'] = $name;
+
+            // Check for a possible service from the container otherwise manually instantiate the class
+            if (Factory::getContainer()->has($class)) {
+                return Factory::getContainer()->get($class);
+            }
+
+            $adapter = new $class($this, $this->getDatabase(), $options);
+
+            if ($adapter instanceof ContainerAwareInterface) {
+                $adapter->setContainer(Factory::getContainer());
+            }
+
+            $this->adapters[$name] = $adapter;
+        }
+
+        return $this->adapters[$name];
+    }
+
+    /**
+     * Set an adapter by name
+     *
+     * @param   string                $name     Adapter name
+     * @param   UpdateAdapter|string  $adapter  Adapter object or class name
+     *
+     * @return  boolean  True if successful
+     *
+     * @since   6.0.0
+     */
+    public function setAdapter($name, $adapter)
+    {
+        if (\is_object($adapter)) {
+            $this->adapters[$name] = $adapter;
+
+            return true;
+        }
+
+        if (class_exists($adapter)) {
+            $this->adapters[$name] = $adapter;
+
+            return true;
+        }
+
+        return false;
     }
 }

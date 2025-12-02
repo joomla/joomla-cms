@@ -17,7 +17,10 @@ export const handleScssFile = async (file) => {
     const { css } = await compileAsync(file);
     contents = css.toString();
   } catch (error) {
-    throw new Error(error.formatted);
+    const message = `Error in file: ${file}\n${error.formatted || error.message}`;
+    const newErr = new Error(message);
+    newErr.stack = error.stack;
+    throw newErr;
   }
 
   if (cssFile.endsWith('-rtl.css')) {
@@ -62,6 +65,5 @@ ${css}`,
     { encoding: 'utf8', mode: 0o644 },
   );
 
-  // eslint-disable-next-line no-console
   console.log(`✅ SCSS File compiled: ${cssFile}`);
 };

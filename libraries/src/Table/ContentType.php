@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -27,12 +27,12 @@ class ContentType extends Table
     /**
      * Constructor
      *
-     * @param   DatabaseDriver        $db          Database connector object
+     * @param   DatabaseInterface     $db          Database connector object
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   3.1
      */
-    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__content_types', 'type_id', $db, $dispatcher);
     }
@@ -81,7 +81,7 @@ class ContentType extends Table
     public function store($updateNulls = false)
     {
         // Verify that the alias is unique
-        $table = new self($this->getDbo(), $this->getDispatcher());
+        $table = new self($this->getDatabase(), $this->getDispatcher());
 
         if ($table->load(['type_alias' => $this->type_alias]) && ($table->type_id != $this->type_id || $this->type_id == 0)) {
             $this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
@@ -117,8 +117,8 @@ class ContentType extends Table
      */
     public function getTypeId($typeAlias)
     {
-        $db    = $this->getDbo();
-        $query = $db->getQuery(true);
+        $db    = $this->getDatabase();
+        $query = $db->createQuery();
         $query->select($db->quoteName('type_id'))
             ->from($db->quoteName($this->_tbl))
             ->where($db->quoteName('type_alias') . ' = :type_alias')
@@ -144,14 +144,25 @@ class ContentType extends Table
 
         if (\is_object($tableInfo) && isset($tableInfo->special)) {
             if (\is_object($tableInfo->special) && isset($tableInfo->special->type, $tableInfo->special->prefix)) {
-                $class = $tableInfo->special->class ?? 'Joomla\\CMS\\Table\\Table';
+                if (isset($tableInfo->special->class)) {
+                    $class = $tableInfo->special->class;
+
+                    if (!class_implements($class, 'Joomla\\CMS\\Table\\TableInterface')) {
+                        // This isn't an instance of TableInterface. Stop.
+                        throw new \RuntimeException('Class must be an instance of Joomla\\CMS\\Table\\TableInterface');
+                    }
+
+                    return $class::getInstance($tableInfo->special->type, $tableInfo->special->prefix);
+                }
+
+                $class = rtrim($tableInfo->special->prefix, '\\') . '\\' . $tableInfo->special->type;
 
                 if (!class_implements($class, 'Joomla\\CMS\\Table\\TableInterface')) {
                     // This isn't an instance of TableInterface. Stop.
                     throw new \RuntimeException('Class must be an instance of Joomla\\CMS\\Table\\TableInterface');
                 }
 
-                $result = $class::getInstance($tableInfo->special->type, $tableInfo->special->prefix);
+                $result = new $class($this->getDbo());
             }
         }
 

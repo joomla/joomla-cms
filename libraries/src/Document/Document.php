@@ -342,7 +342,7 @@ class Document
      *
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the \Joomla\CMS\Document\FactoryInterface instead
      *              Example: Factory::getApplication()->getDocument();
      */
@@ -444,7 +444,7 @@ class Document
     {
         // B/C old http_equiv parameter.
         if (!\is_string($attribute)) {
-            $attribute = $attribute == true ? 'http-equiv' : 'name';
+            $attribute = $attribute ? 'http-equiv' : 'name';
         }
 
         if ($name === 'generator') {
@@ -478,7 +478,7 @@ class Document
 
         // B/C old http_equiv parameter.
         if (!\is_string($attribute)) {
-            $attribute = $attribute == true ? 'http-equiv' : 'name';
+            $attribute = $attribute ? 'http-equiv' : 'name';
         }
 
         if ($name === 'generator') {
