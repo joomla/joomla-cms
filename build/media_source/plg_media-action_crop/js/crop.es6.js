@@ -26,19 +26,19 @@ const parseAspectRatio = (value) => {
 };
 
 const addListeners = () => {
-  formElements.cropX.addEventListener('change', ({currentTarget}) => {
-    instance.setData({x: parseInt(currentTarget.value, 10)});
+  formElements.cropX.addEventListener('change', ({ currentTarget }) => {
+    instance.setData({ x: parseInt(currentTarget.value, 10) });
   });
-  formElements.cropY.addEventListener('change', ({currentTarget}) => {
-    instance.setData({y: parseInt(currentTarget.value, 10)});
+  formElements.cropY.addEventListener('change', ({ currentTarget }) => {
+    instance.setData({ y: parseInt(currentTarget.value, 10) });
   });
-  formElements.cropWidth.addEventListener('change', ({currentTarget}) => {
-    instance.setData({width: parseInt(currentTarget.value, 10)});
+  formElements.cropWidth.addEventListener('change', ({ currentTarget }) => {
+    instance.setData({ width: parseInt(currentTarget.value, 10) });
   });
-  formElements.cropHeight.addEventListener('change', ({currentTarget}) => {
-    instance.setData({height: parseInt(currentTarget.value, 10)});
+  formElements.cropHeight.addEventListener('change', ({ currentTarget }) => {
+    instance.setData({ height: parseInt(currentTarget.value, 10) });
   });
-  formElements.aspectRatio.addEventListener('change', ({currentTarget}) => {
+  formElements.aspectRatio.addEventListener('change', ({ currentTarget }) => {
     instance.setAspectRatio(parseAspectRatio(currentTarget.value));
   });
   activated = true;
@@ -115,4 +115,4 @@ window.addEventListener('media-manager-edit-init', () => {
       });
     },
   };
-}, {once: true});
+}, { once: true });
