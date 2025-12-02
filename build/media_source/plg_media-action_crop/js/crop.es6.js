@@ -31,8 +31,7 @@ const parseAspectRatio = (value) => {
     }
     return numerator / denominator;
   }
-  const num = parseFloat(value);
-  return isNaN(num) ? NaN : num;
+  return parseFloat(value);
 };
 
 const addListeners = () => {
