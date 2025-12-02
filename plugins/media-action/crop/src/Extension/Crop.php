@@ -67,7 +67,6 @@ final class Crop extends MediaActionPlugin implements SubscriberInterface
             if (!empty($aspectRatios) && \is_array($aspectRatios)) {
                 $this->injectAspectRatios($form, $aspectRatios);
             }
-            // This is intentional - allows fallback to defaults
         }
     }
 
