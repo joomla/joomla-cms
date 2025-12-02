@@ -306,7 +306,7 @@ class ManageModel extends InstallerModel
     protected function getListQuery()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*')
             ->select('2*protected+(1-protected)*enabled AS status')
             ->from('#__extensions')
@@ -395,7 +395,7 @@ class ManageModel extends InstallerModel
         // Get the changelog URL
         $eid   = (int) $eid;
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 $db->quoteName(
                     [
