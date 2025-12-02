@@ -179,11 +179,14 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
                     'name'     => $user->name,
                     'email'    => PunycodeHelper::emailToPunycode($user->email),
                     'title'    => $article->title,
-                    'url'      => Route::link('administrator', 'index.php?option=com_content&view=articles&filter[search]=id:' . $article->id, false, $linkMode, true),
                 ];
 
-                if (!$receiver->authorise('core.login.admin')) {
+                if ($receiver->authorise('core.login.admin')) {
+                    $templateData['url'] = Route::link('administrator', 'index.php?option=com_content&view=articles&filter[search]=id:' . $article->id, false, $linkMode, true);
+                } elseif (in_array($article->access, $receiver->getAuthorisedViewLevels())) {
                     $templateData['url'] = Route::link('site', 'index.php?option=com_content&view=article&id=' . $article->id, false, $linkMode, true);
+                } else {
+                    $templateData['url'] = Text::_('JERROR_ALERTNOAUTHOR');
                 }
                 // Send email
                 try {
