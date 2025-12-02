@@ -234,7 +234,7 @@ class Router extends RouterView
     public function getNewsfeedId($segment, $query)
     {
         if ($this->noIDs) {
-            $dbquery = $this->db->getQuery(true);
+            $dbquery = $this->db->createQuery();
             $dbquery->select($this->db->quoteName('id'))
                 ->from($this->db->quoteName('#__newsfeeds'))
                 ->where($this->db->quoteName('alias') . ' = :segment')
@@ -260,7 +260,7 @@ class Router extends RouterView
         $id = (int) $segment;
 
         if ($id) {
-            $dbquery = $this->db->getQuery(true);
+            $dbquery = $this->db->createQuery();
             $dbquery->select($this->db->quoteName('alias'))
                 ->from($this->db->quoteName('#__newsfeeds'))
                 ->where($this->db->quoteName('id') . ' = :id')

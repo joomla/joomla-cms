@@ -121,5 +121,15 @@
 			class="alert alert-info w-100"
 			showon="updatesource!:default[OR]minimum_stability!:4"
 		/>
+		<field
+			name="automated_updates_email_groups"
+			type="usergrouplist"
+			label="COM_JOOMLAUPDATE_CONFIG_AUTOUPDATE_UPDATE_EMAIL_LABEL"
+			description="COM_JOOMLAUPDATE_CONFIG_AUTOUPDATE_UPDATE_EMAIL_DESCRIPTION"
+			checksuperusergroup="0"
+			multiple="true"
+			layout="joomla.form.field.list-fancy-select"
+			showon="updatesource:default[AND]minimum_stability:4[AND]autoupdate:1"
+		/>
 	</fieldset>
 </config>
