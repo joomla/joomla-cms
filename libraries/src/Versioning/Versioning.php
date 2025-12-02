@@ -138,6 +138,8 @@ class Versioning
             }
         }
 
+        // Mark this as a legacy version so that it will be restored using legacy way
+        $historyTable->is_legacy    = 1;
         $historyTable->version_data = json_encode($data);
         $historyTable->version_note = $note;
 
