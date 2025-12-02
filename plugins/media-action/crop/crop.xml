@@ -35,7 +35,7 @@
 						<field
 							name="label"
 							type="text"
-							label="PLG_MEDIA-ACTION_CROP_RATIO_LABEL"
+							label="PLG_MEDIA-ACTION_CROP_RATIO_LABEL_LABEL"
 							description="PLG_MEDIA-ACTION_CROP_RATIO_LABEL_DESC"
 							required="true"
 							filter="string"
@@ -43,7 +43,7 @@
 						<field
 							name="value"
 							type="text"
-							label="PLG_MEDIA-ACTION_CROP_RATIO_VALUE"
+							label="PLG_MEDIA-ACTION_CROP_RATIO_VALUE_LABEL"
 							description="PLG_MEDIA-ACTION_CROP_RATIO_VALUE_DESC"
 							required="true"
 							pattern="([1-9]\d*/[1-9]\d*|[1-9]\d*)"
@@ -56,7 +56,7 @@
 						<field
 							name="group"
 							type="list"
-							label="PLG_MEDIA-ACTION_CROP_RATIO_GROUP"
+							label="PLG_MEDIA-ACTION_CROP_RATIO_GROUP_LABEL"
 							description="PLG_MEDIA-ACTION_CROP_RATIO_GROUP_DESC"
 							default=""
 						>
