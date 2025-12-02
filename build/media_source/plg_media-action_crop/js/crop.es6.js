@@ -20,14 +20,7 @@ const parseAspectRatio = (value) => {
   }
   if (value.includes('/')) {
     const [numerator, denominator] = value.split('/').map(parseFloat);
-    if (
-      isNaN(numerator) ||
-      isNaN(denominator) ||
-      denominator === 0
-    ) {
-      return NaN;
-    }
-    return numerator / denominator;
+    return isNaN(numerator) || isNaN(denominator) || denominator === 0 ? NaN : numerator / denominator;
   }
   return parseFloat(value);
 };
