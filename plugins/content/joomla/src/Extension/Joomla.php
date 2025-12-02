@@ -183,7 +183,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
                 if ($receiver->authorise('core.login.admin')) {
                     $templateData['url'] = Route::link('administrator', 'index.php?option=com_content&view=articles&filter[search]=id:' . $article->id, false, $linkMode, true);
-                } elseif (in_array($article->access, $receiver->getAuthorisedViewLevels())) {
+                } elseif (\in_array($article->access, $receiver->getAuthorisedViewLevels())) {
                     $templateData['url'] = Route::link('site', 'index.php?option=com_content&view=article&id=' . $article->id, false, $linkMode, true);
                 } else {
                     $templateData['url'] = Text::_('JERROR_ALERTNOAUTHOR');
