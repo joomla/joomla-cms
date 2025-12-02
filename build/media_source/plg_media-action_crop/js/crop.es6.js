@@ -15,13 +15,11 @@ let instance;
  * @returns {number} The calculated aspect ratio as a number
  */
 const parseAspectRatio = (value) => {
-  if (!value || typeof value !== 'string' || value.trim() === '') {
+  if (typeof value !== 'string' || !value.trim()) {
     return NaN;
   }
   if (value.includes('/')) {
-    const [numeratorStr, denominatorStr] = value.split('/');
-    const numerator = parseFloat(numeratorStr);
-    const denominator = parseFloat(denominatorStr);
+    const [numerator, denominator] = value.split('/').map(parseFloat);
     if (
       isNaN(numerator) ||
       isNaN(denominator) ||
@@ -35,19 +33,19 @@ const parseAspectRatio = (value) => {
 };
 
 const addListeners = () => {
-  formElements.cropX.addEventListener('change', ({ currentTarget }) => {
-    instance.setData({ x: parseInt(currentTarget.value, 10) });
+  formElements.cropX.addEventListener('change', ({currentTarget}) => {
+    instance.setData({x: parseInt(currentTarget.value, 10)});
   });
-  formElements.cropY.addEventListener('change', ({ currentTarget }) => {
-    instance.setData({ y: parseInt(currentTarget.value, 10) });
+  formElements.cropY.addEventListener('change', ({currentTarget}) => {
+    instance.setData({y: parseInt(currentTarget.value, 10)});
   });
-  formElements.cropWidth.addEventListener('change', ({ currentTarget }) => {
-    instance.setData({ width: parseInt(currentTarget.value, 10) });
+  formElements.cropWidth.addEventListener('change', ({currentTarget}) => {
+    instance.setData({width: parseInt(currentTarget.value, 10)});
   });
-  formElements.cropHeight.addEventListener('change', ({ currentTarget }) => {
-    instance.setData({ height: parseInt(currentTarget.value, 10) });
+  formElements.cropHeight.addEventListener('change', ({currentTarget}) => {
+    instance.setData({height: parseInt(currentTarget.value, 10)});
   });
-  formElements.aspectRatio.addEventListener('change', ({ currentTarget }) => {
+  formElements.aspectRatio.addEventListener('change', ({currentTarget}) => {
     instance.setAspectRatio(parseAspectRatio(currentTarget.value));
   });
   activated = true;
@@ -124,4 +122,4 @@ window.addEventListener('media-manager-edit-init', () => {
       });
     },
   };
-}, { once: true });
+}, {once: true});
