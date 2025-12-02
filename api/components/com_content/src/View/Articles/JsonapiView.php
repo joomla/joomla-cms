@@ -265,7 +265,7 @@ class JsonapiView extends BaseApiView
      */
     protected function getSchemaOrg($item)
     {
-        $context = 'com_content.article';  
+        $context = 'com_content.article';
         $event   = new PrepareDataEvent('onContentPrepareData', ['context' => $context, 'data' => $item]);
 
         PluginHelper::importPlugin('system', 'schemaorg');
