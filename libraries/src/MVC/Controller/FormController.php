@@ -438,7 +438,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected function getRedirectToItemUrl($recordId = null, $urlVar = 'id'):string
+    protected function getRedirectToItemUrl($recordId = null, $urlVar = 'id'): string
     {
         return Route::_('index.php?option=' . $this->option . '&view=' . $this->view_item
             . $this->getRedirectToItemAppend($recordId, $urlVar), false);
