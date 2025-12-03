@@ -68,13 +68,35 @@ class SubfieldsField extends ListField
     {
         $options = parent::getOptions();
 
+        // Try to get the ID of the field currently being edited from the form data
+        $currentFieldId = (int) $this->form->getValue('id');
+
+        // In subform context, the inner form usually has no "id" field,
+        // so fall back to the request (URL) parameter ?id=...
+        if ($currentFieldId === 0) {
+            $currentFieldId = (int) Factory::getApplication()->getInput()->getInt('id');
+        }
+    
+
         // Check whether we have a result for this context yet
         if (!isset(static::$customFieldsCache[$this->context])) {
-            static::$customFieldsCache[$this->context] = FieldsHelper::getFields($this->context, null, false, null, true);
+            static::$customFieldsCache[$this->context] = FieldsHelper::getFields(
+                $this->context,
+                null,
+                false,
+                null,
+                true
+            );
         }
 
         // Iterate over the custom fields for this context
         foreach (static::$customFieldsCache[$this->context] as $customField) {
+            // Skip the current field itself so it cannot be selected as a subfield,
+            // which would create a recursive subform configuration.
+            if ($currentFieldId && (int) $customField->id === $currentFieldId) {
+                continue;
+            }
+
             $options[] = HTMLHelper::_(
                 'select.option',
                 $customField->id,
@@ -91,11 +113,18 @@ class SubfieldsField extends ListField
         );
 
         if (\count($options) == 0) {
-            Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_NO_FIELDS_TO_CREATE_SUBFORM_FIELD_WARNING'), 'warning');
+            Factory::getApplication()->enqueueMessage(
+                Text::_('COM_FIELDS_NO_FIELDS_TO_CREATE_SUBFORM_FIELD_WARNING'),
+                'warning'
+            );
         }
 
         return $options;
     }
+
+
+
+
 
     /**
      * Method to attach a Form object to the field.
