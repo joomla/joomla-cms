@@ -68,15 +68,13 @@ class SubfieldsField extends ListField
     {
         $options = parent::getOptions();
 
-        // Try to get the ID of the field currently being edited from the form data
+        // Get the ID of the field currently being edited
         $currentFieldId = (int) $this->form->getValue('id');
 
-        // In subform context, the inner form usually has no "id" field,
-        // so fall back to the request (URL) parameter ?id=...
+        // If current field ID is zero
         if ($currentFieldId === 0) {
             $currentFieldId = (int) Factory::getApplication()->getInput()->getInt('id');
         }
-    
 
         // Check whether we have a result for this context yet
         if (!isset(static::$customFieldsCache[$this->context])) {
@@ -91,8 +89,7 @@ class SubfieldsField extends ListField
 
         // Iterate over the custom fields for this context
         foreach (static::$customFieldsCache[$this->context] as $customField) {
-            // Skip the current field itself so it cannot be selected as a subfield,
-            // which would create a recursive subform configuration.
+            // Skip the current field itself so it cannot be selected as a subfield
             if ($currentFieldId && (int) $customField->id === $currentFieldId) {
                 continue;
             }
@@ -112,7 +109,7 @@ class SubfieldsField extends ListField
             }
         );
 
-        if (\count($options) == 0) {
+        if (\count($options) === 0) {
             Factory::getApplication()->enqueueMessage(
                 Text::_('COM_FIELDS_NO_FIELDS_TO_CREATE_SUBFORM_FIELD_WARNING'),
                 'warning'
@@ -121,10 +118,6 @@ class SubfieldsField extends ListField
 
         return $options;
     }
-
-
-
-
 
     /**
      * Method to attach a Form object to the field.
