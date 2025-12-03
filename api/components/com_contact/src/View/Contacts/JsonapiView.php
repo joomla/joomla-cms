@@ -236,10 +236,10 @@ class JsonapiView extends BaseApiView
         $context = 'com_contact.contact';
 
         $event = new PrepareDataEvent('onContentPrepareData', ['context' => $context, 'data' => $item]);
-        
+
         PluginHelper::importPlugin('system', 'schemaorg');
         Factory::getApplication()->getDispatcher()->dispatch('onContentPrepareData', $event);
-        
+
         if (isset($item->schema) && !empty($item->schema['schemaType'])) {
             $schemaType = $item->schema['schemaType'];
             return $item->schema[$schemaType] ?? null;
