@@ -126,7 +126,7 @@ abstract class WebApplication extends AbstractWebApplication
      * @since       1.7.3
      * @throws      \RuntimeException
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use the application service in the DI container instead
      *              Example: \Joomla\CMS\Factory::getContainer()->get($name)
      */
@@ -333,7 +333,7 @@ abstract class WebApplication extends AbstractWebApplication
      *
      * @since   1.7.3
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              The session should be injected as a service.
      */
     public function loadSession(?Session $session = null)
