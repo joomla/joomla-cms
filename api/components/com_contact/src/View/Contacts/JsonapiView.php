@@ -223,7 +223,7 @@ class JsonapiView extends BaseApiView
     }
 
     /**
-     * Get schema.org structured data for an contact using the plugin system
+     * Get schema.org structured data for a contact using the plugin system
      *
      * @param   object  $item  The contact item
      *
