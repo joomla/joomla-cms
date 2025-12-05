@@ -16,6 +16,8 @@ $displayData = [
     'textPrefix' => 'COM_CACHE',
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Cache',
     'icon'       => 'icon-bolt clear',
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);

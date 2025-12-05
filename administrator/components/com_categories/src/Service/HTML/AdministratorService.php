@@ -52,7 +52,7 @@ class AdministratorService
 
             // Get the associated categories
             $db    = Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select(
                     [
                         $db->quoteName('c.id'),

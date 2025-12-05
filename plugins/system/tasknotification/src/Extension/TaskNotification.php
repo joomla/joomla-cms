@@ -287,7 +287,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         $db  = $this->getDatabase();
 
         // Get all users who are not blocked and have opted in for system mails.
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select('DISTINCT ' . $db->quoteName('u.id') . ', ' . $db->quoteName('u.email'))
             ->from($db->quoteName('#__users', 'u'))

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="fields" method="upgrade">
+	<name>plg_fields_note</name>
+	<author>Joomla! Project</author>
+	<creationDate>2025-03</creationDate>
+	<copyright>(C) 2025 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>6.0.0</version>
+	<description>PLG_FIELDS_NOTE_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Fields\Note</namespace>
+	<files>
+		<folder>params</folder>
+		<folder plugin="note">services</folder>
+		<folder>src</folder>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_fields_note.ini</language>
+		<language tag="en-GB">language/en-GB/plg_fields_note.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="label"
+					type="text"
+					label="PLG_FIELDS_NOTE_PARAMS_LABEL_LABEL"
+				/>
+
+				<field
+					name="description"
+					type="editor"
+					label="PLG_FIELDS_NOTE_PARAMS_DESCRIPTION_LABEL"
+					filter="\Joomla\CMS\Component\ComponentHelper::filterText"
+					buttons="false"
+				/>
+
+				<field
+					name="class"
+					type="text"
+					label="PLG_FIELDS_NOTE_PARAMS_CLASS_LABEL"
+					description="PLG_FIELDS_NOTE_PARAMS_CLASS_DESC"
+					default="alert alert-info"
+				/>
+
+				<field
+					name="heading"
+					type="list"
+					label="PLG_FIELDS_NOTE_PARAMS_HEADING_LABEL"
+					default="h4"
+					>
+					<option value="h1">JH1</option>
+					<option value="h2">JH2</option>
+					<option value="h3">JH3</option>
+					<option value="h4">JH4</option>
+					<option value="h5">JH5</option>
+					<option value="h6">JH6</option>
+				</field>
+
+				<field
+					name="close"
+					type="text"
+					label="PLG_FIELDS_NOTE_PARAMS_CLOSE_LABEL"
+					description="PLG_FIELDS_NOTE_PARAMS_CLOSE_DESC"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
