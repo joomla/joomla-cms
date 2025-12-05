@@ -655,7 +655,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
         }
 
         // Save succeeded, so check-in the record.
-        if ($checkin && !$this->attemptCheckin($model, $validData[$key], $urlVar)) {
+        if ($checkin && $validData[$key] && !$this->attemptCheckin($model, $validData[$key], $urlVar)) {
             // Save the data in the session.
             $this->app->setUserState($context . '.data', $validData);
 
