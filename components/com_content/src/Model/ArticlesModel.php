@@ -195,7 +195,7 @@ class ArticlesModel extends ListModel
         // Create a new query object.
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $nowDate = Factory::getDate()->toSql();
 
@@ -413,7 +413,7 @@ class ArticlesModel extends ListModel
                 $levels     = (int) $this->getState('filter.max_category_levels', 1);
 
                 // Create a subquery for the subcategory list
-                $subQuery = $db->getQuery(true)
+                $subQuery = $db->createQuery()
                     ->select($db->quoteName('sub.id'))
                     ->from($db->quoteName('#__categories', 'sub'))
                     ->join(
@@ -625,7 +625,7 @@ class ArticlesModel extends ListModel
             $tagId = ArrayHelper::toInteger($tagId);
 
             if ($tagId) {
-                $subQuery = $db->getQuery(true)
+                $subQuery = $db->createQuery()
                     ->select('DISTINCT ' . $db->quoteName('content_item_id'))
                     ->from($db->quoteName('#__contentitem_tag_map'))
                     ->where(
@@ -826,7 +826,7 @@ class ArticlesModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Get the list query.
         $listQuery = $this->getListQuery();

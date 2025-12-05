@@ -14,11 +14,11 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\ContentType;
-use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -76,8 +76,18 @@ class ContenthistoryHelper
 
         if (\is_object($object)) {
             foreach ($object as $name => $value) {
-                if (!\is_null($value) && $subObject = json_decode($value)) {
-                    $object->$name = $subObject;
+                if (!\is_null($value)) {
+                    if (\is_object($value)) {
+                        $object->$name = ArrayHelper::fromObject($value);
+                        continue;
+                    }
+
+                    if (str_starts_with($value, '{')) {
+                        $object->$name = json_decode($value);
+                        continue;
+                    }
+
+                    $object->$name = $value;
                 }
             }
         }
@@ -192,7 +202,7 @@ class ContenthistoryHelper
         if (isset($lookup->sourceColumn, $lookup->targetTable, $lookup->targetColumn, $lookup->displayColumn)) {
             $db    = Factory::getDbo();
             $value = (int) $value;
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
             $query->select($db->quoteName($lookup->displayColumn))
                 ->from($db->quoteName($lookup->targetTable))
                 ->where($db->quoteName($lookup->targetColumn) . ' = :value')
@@ -320,7 +330,7 @@ class ContenthistoryHelper
     public static function prepareData(ContentHistory $table)
     {
         $object     = static::decodeFields($table->version_data);
-        $typesTable = Table::getInstance('ContentType', 'Joomla\\CMS\\Table\\');
+        $typesTable = new ContentType(Factory::getDbo());
         $typeAlias  = explode('.', $table->item_id);
         array_pop($typeAlias);
         $typesTable->load(['type_alias' => implode('.', $typeAlias)]);
@@ -351,8 +361,24 @@ class ContenthistoryHelper
                     $sourceColumn = $lookup->sourceColumn ?? false;
                     $sourceValue  = $object->$sourceColumn->value ?? false;
 
-                    if ($sourceColumn && $sourceValue && ($lookupValue = static::getLookupValue($lookup, $sourceValue))) {
-                        $object->$sourceColumn->value = $lookupValue;
+                    if (!\is_array($sourceValue)) {
+                        if ($sourceColumn && $sourceValue && ($lookupValue = static::getLookupValue($lookup, $sourceValue))) {
+                            $object->$sourceColumn->value = $lookupValue;
+                        }
+
+                        continue;
+                    }
+
+                    if (\is_array($sourceValue)) {
+                        $result = [];
+
+                        foreach ($sourceValue as $key => $subValue) {
+                            if ($sourceColumn && $subValue && ($lookupValue = static::getLookupValue($lookup, $subValue))) {
+                                $result[$key] = $lookupValue;
+                            }
+
+                            $object->$sourceColumn->value = $result;
+                        }
                     }
                 }
             }
