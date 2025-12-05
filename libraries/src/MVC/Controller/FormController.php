@@ -575,6 +575,9 @@ class FormController extends BaseController implements FormFactoryAwareInterface
         // Populate the row id from the session.
         $data[$key] = $recordId;
 
+        // Give child classes a chance to preprocess the data.
+        $data = $this->preprocessSaveData($data);
+
         // The save2copy task needs to be handled slightly differently.
         if ($task === 'save2copy') {
             // Check-in the original row. If failed, go back to the record and display a notice
@@ -768,6 +771,21 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
         $this->setRedirect($redirectUrl);
         $this->redirect();
+    }
+
+    /**
+     * Method to preprocess data gotten from the request before further processing. Child controllers can use this to
+     * manipulate data before checking access, validation, and saving.
+     *
+     * @param   array  $data  The data array.
+     *
+     * @return  array  The processed data array.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function preprocessSaveData(array $data): array
+    {
+        return $data;
     }
 
     /**
