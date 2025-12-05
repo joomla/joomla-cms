@@ -615,11 +615,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
         // Check for validation errors.
         if ($validData === false) {
-            // Get the validation messages.
-            $errors = $model->getErrors();
-
-            // Push up to three validation messages out to the user.
-            $this->handleSaveDataValidationErrorMessages($errors);
+            // Push up to validation error messages out to the user.
+            $this->handleSaveDataValidationErrorMessages($model->getErrors());
 
             /**
              * We need the filtered value of calendar fields because the UTC normalisation is
@@ -871,7 +868,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
     }
 
     /**
-     * Method to merge filtered calendar fields to request data.
+     * Method to apply filter and merge filtered calendar fields data to request data.
      *
      * @param   Form   $form  The form object.
      * @param   array  $data  The request data array.
