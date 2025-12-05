@@ -1956,21 +1956,6 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
     }
 
     /**
-     * Method to determine if the table supports check-in/check-out.
-     *
-     * A table supports check-in/check-out if it contains both the `checked_out` and `checked_out_time`
-     * fields with column aliases taken into account.
-     *
-     * @return  boolean  True if the table supports check-in/check-out.
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function supportCheckin(): bool
-    {
-        return $this->hasField('checked_out') && $this->hasField('checked_out_time');
-    }
-
-    /**
      * Returns the data of the current table record as an associative array.
      *
      * Each element in the array uses the column name as the key and the
