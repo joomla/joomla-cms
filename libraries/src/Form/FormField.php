@@ -21,6 +21,7 @@ use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\DatabaseNotFoundException;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
@@ -399,6 +400,14 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
     protected $renderLabelLayout = 'joomla.form.renderlabel';
 
     /**
+     * Additional layout paths to look for layout files
+     *
+     * @var   array
+     * @since 6.0.0
+     */
+    protected $layoutPaths = [];
+
+    /**
      * The data-attribute name and values of the form field.
      * For example, data-action-type="click" data-action-type="change"
      *
@@ -474,6 +483,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             case 'validationtext':
             case 'showon':
             case 'parentclass':
+            case 'layoutPaths':
                 return $this->$name;
 
             case 'input':
@@ -591,6 +601,10 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                 $this->$name = (int) $value;
                 break;
 
+            case 'layoutIncludePath':
+                $this->layoutPaths = \is_array($value) ? $value : explode(',', (string) $value);
+                break;
+
             default:
                 // Detect data attribute(s)
                 if (str_starts_with($name, 'data-')) {
@@ -658,7 +672,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
         $attributes = [
             'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'validationtext',
             'default', 'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
-            'translate_label', 'translateDescription', 'translate_description', 'size', 'showon', ];
+            'translate_label', 'translateDescription', 'translate_description', 'size', 'showon', 'layoutIncludePath'];
 
         $this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
@@ -1060,7 +1074,13 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
 
         $data = array_merge($this->collectLayoutData(), $data);
 
-        return $this->getRenderer($this->renderLayout)->render($data);
+        $renderer = $this->getRenderer($this->renderLayout);
+
+        if (isset($options['layoutIncludePath']) && is_dir(Path::check($options['layoutIncludePath']))) {
+            $renderer->addIncludePaths($options['layoutIncludePath']);
+        }
+
+        return $renderer->render($data);
     }
 
     /**
@@ -1099,7 +1119,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                     return \call_user_func(explode('::', $filter), $value);
                 }
 
-                /** @deprecated Can be removed with Joomla 6.0 since the class alias is deprecated since Joomla 4.0*/
+                /** @deprecated Can be removed with Joomla 6.0 since the class alias is deprecated since Joomla 7.0*/
                 [$class, $method] = explode('::', $filter);
                 if ($class === 'JComponentHelper') {
                     throw new \UnexpectedValueException(
@@ -1372,7 +1392,13 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
     {
         $renderer = new FileLayout('default');
 
-        return $renderer->getDefaultIncludePaths();
+        $paths = $renderer->getDefaultIncludePaths();
+
+        foreach ($this->layoutPaths as $path) {
+            array_unshift($paths, JPATH_ROOT . '/' . ltrim((string) $path, '/'));
+        }
+
+        return $paths;
     }
 
     /**

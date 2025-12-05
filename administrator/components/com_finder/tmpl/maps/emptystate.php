@@ -18,7 +18,9 @@ $displayData = [
     'formURL'    => 'index.php?option=com_finder&view=maps',
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help5.x:Smart_Search:_Content_Maps',
     'icon'       => 'icon-search-plus finder',
-    'title'      => Text::_('COM_FINDER_MAPS_TOOLBAR_TITLE')
+    'title'      => Text::_('COM_FINDER_MAPS_TOOLBAR_TITLE'),
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);
