@@ -83,7 +83,7 @@ class BannerModel extends AdminModel implements VersionableModelInterface
         // Initialise clicks and impmade
         $db    = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
                 ->update($db->quoteName('#__banners'))
                 ->set($db->quoteName('clicks') . ' = 0')
                 ->set($db->quoteName('impmade') . ' = 0')
@@ -205,18 +205,15 @@ class BannerModel extends AdminModel implements VersionableModelInterface
      * @param   array    $data      Data for the form. [optional]
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not. [optional]
      *
-     * @return  Form|boolean  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
         // Get the form.
         $form = $this->loadForm('com_banners.banner', 'banner', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         // Modify the form based on access controls.
         if (!$this->canEditState((object) $data)) {
@@ -353,7 +350,7 @@ class BannerModel extends AdminModel implements VersionableModelInterface
             // Set ordering to the last item if not set
             if (empty($table->ordering)) {
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select('MAX(' . $db->quoteName('ordering') . ')')
                     ->from($db->quoteName('#__banners'));
 

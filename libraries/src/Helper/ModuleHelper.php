@@ -411,7 +411,7 @@ abstract class ModuleHelper
         $cacheId = implode(',', $groups) . '.' . $clientId . '.' . $itemId;
 
         $db      = Factory::getDbo();
-        $query   = $db->getQuery(true);
+        $query   = $db->createQuery();
         $nowDate = Factory::getDate()->toSql();
 
         $query->select($db->quoteName(['m.id', 'm.title', 'm.module', 'm.position', 'm.content', 'm.showtitle', 'm.params', 'mm.menuid']))

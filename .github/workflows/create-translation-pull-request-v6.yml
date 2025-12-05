@@ -1,14 +1,18 @@
-name: Create translation pull request J4
+name: Create translation pull request J6
 
 on:
   push:
-    branches: [ translation ]
+    branches: [ translation6 ]
 
   workflow_dispatch:
 
   schedule:
-    # Run daily at 7:26
-    - cron:  '27 7 * * *'
+    # Run daily at 7:37
+    - cron:  '37 7 * * *'
+
+env:
+  JOOMLA_MAJOR_VERSION: 6
+  JOOMLA_MINOR_VERSION: '6.0'
 
 permissions:
   contents: read
@@ -18,17 +22,19 @@ jobs:
     permissions:
       contents: write  # for Git to git push
     runs-on: ubuntu-latest
-    # Only run this action the translation-bot repository in the translation branch
-    if: ${{ github.repository == 'joomla-translation-bot/joomla-cms' && github.ref == 'refs/heads/translation' }}
+    # Only run this action the translation-bot repository in the relevant translation branch
+    if: ${{ github.repository == 'joomla-translation-bot/joomla-cms' && github.ref == 'refs/heads/translation6' }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v5
         # We need the full depth to create / update the pull request against the main repo
         with:
+          ref: translation6
           fetch-depth: 0
-      - uses: actions/setup-node@v3
+          token: ${{ secrets.PAT_WORKFLOW }}          
+      - uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Fetch latest cms changes
         run: |
@@ -36,8 +42,8 @@ jobs:
           git config user.email release+translation-bot@joomla.org
           git remote add upstream https://github.com/joomla/joomla-cms.git
           git fetch upstream
-          git checkout --progress --force -B translation refs/remotes/origin/translation
-          git merge upstream/4.4-dev
+          git checkout --progress --force -B translation6 refs/remotes/origin/translation6
+          git merge upstream/${{ env.JOOMLA_MINOR_VERSION }}-dev
 
       - name: Fetch and extract translations
         run: |
@@ -49,15 +55,13 @@ jobs:
         # We use a simple copy paste syntax here if needed customization for different directories
         run: |
           cd ..
-          SYNC_VERSION="v4"
-
           SYNC_PATH="installation/language/"
           echo ${SYNC_PATH}
-          rsync -i -rptgo --checksum --ignore-times --delete --exclude="*en-GB*" core-translations-main/joomla_${SYNC_VERSION}/translations/core/${SYNC_PATH} joomla-cms/${SYNC_PATH}
+          rsync -i -rptgo --checksum --ignore-times --delete --exclude="*en-GB*" core-translations-main/joomla_v${{ env.JOOMLA_MAJOR_VERSION }}/translations/core/${SYNC_PATH} joomla-cms/${SYNC_PATH}
 
       - name: Update static error pages
         run: |
-          npm ci --ignore-scripts && node build/build.js --build-pages
+          npm ci --ignore-scripts && node build/build.mjs --build-pages
 
       - name: Create commit
         continue-on-error: true
@@ -73,5 +77,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
         run: |
-          gh pr list -R joomla/joomla-cms --state open --author joomla-translation-bot -S "[4.x] Translation Update" | grep -v "No pull" || \
-            gh pr create --title "[4.x] Translation Update" --body "Automatically created pull request based on core-translation repository changes" -R joomla/joomla-cms --base 4.4-dev
+          gh pr list -R joomla/joomla-cms --state open --author joomla-translation-bot -S "[${{ env.JOOMLA_MINOR_VERSION }}] Translation Update" --base ${{ env.JOOMLA_MINOR_VERSION }}-dev | grep -v "No pull" || \
+            gh pr create --title "[${{ env.JOOMLA_MINOR_VERSION }}] Translation Update" --body "Automatically created pull request based on core-translation repository changes" -R joomla/joomla-cms --base ${{ env.JOOMLA_MINOR_VERSION }}-dev

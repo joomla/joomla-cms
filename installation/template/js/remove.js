@@ -10,6 +10,7 @@ if (document.getElementById('installAddFeatures')) {
   document.getElementById('installAddFeatures').addEventListener('click', function(e) {
     e.preventDefault();
     document.getElementById('installLanguages').classList.add('active');
+    document.getElementById('automatedUpdates')?.classList?.remove('active');
     document.getElementById('installCongrat').classList.remove('active');
     document.getElementById('installFinal').classList.remove('active');
     document.getElementById('installRecommended').classList.remove('active');
@@ -19,6 +20,7 @@ if (document.getElementById('installAddFeatures')) {
 if (document.getElementById('skipLanguages')) {
 	document.getElementById('skipLanguages').addEventListener('click', function(e) {
 		e.preventDefault();
+		document.getElementById('automatedUpdates')?.classList?.add('active');
 		document.getElementById('installCongrat').classList.add('active');
 		document.getElementById('installFinal').classList.add('active');
 		document.getElementById('installRecommended').classList.add('active');
@@ -165,12 +167,19 @@ if (document.getElementById('installLanguagesButton')) {
 	document.getElementById('installLanguagesButton').addEventListener('click', function(e) {
 		e.preventDefault();
 		var form = document.getElementById('languagesForm');
-		if (form) {
+    if (form) {
+      Joomla.removeMessages();
+      document.body.appendChild(document.createElement('joomla-core-loader'));
+
 			// Install the extra languages
-			if (Joomla.install(['languages'], form)) {
-				document.getElementById('installLanguages').classList.remove('active');
-				document.getElementById('installFinal').classList.add('active');
-			}
+      try {
+        Joomla.install(['languages'], form, true);
+      } catch (err) {
+        const loader = document.querySelector('joomla-core-loader');
+        if (loader) {
+          loader.remove();
+        }
+      }
 		}
 	})
 }
