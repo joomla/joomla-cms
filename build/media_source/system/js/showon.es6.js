@@ -91,6 +91,13 @@ class Showon {
             field.dispatchEvent(new CustomEvent('joomla:showon-hide', {
               bubbles: true,
             }));
+            console.warn(
+              '[Joomla Showon] Invalid showon configuration:',
+              'Source field not found:',
+              showonData[0].field,
+              '→ Dependent field hidden:',
+              field
+            );
           }
         }
       });
