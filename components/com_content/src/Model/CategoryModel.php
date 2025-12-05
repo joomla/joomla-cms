@@ -219,6 +219,11 @@ class CategoryModel extends ListModel
 
         // Set the featured articles state
         $this->setState('filter.featured', $params->get('show_featured'));
+
+        // Limit to articles created by the current user when requested
+        if ($params->get('list_show_own')) {
+            $this->setState('filter.author_id', (int) $user->id);
+        }
     }
 
     /**
@@ -247,6 +252,7 @@ class CategoryModel extends ListModel
             $model->setState('list.direction', $this->getState('list.direction'));
             $model->setState('list.filter', $this->getState('list.filter'));
             $model->setState('filter.tag', $this->getState('filter.tag'));
+            $model->setState('filter.author_id', $this->getState('filter.author_id'));
 
             // Filter.subcategories indicates whether to include articles from subcategories in the list or blog
             $model->setState('filter.subcategories', $this->getState('filter.subcategories'));
