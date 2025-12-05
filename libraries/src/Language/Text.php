@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Language;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -351,7 +350,8 @@ class Text
 
         // Add the string to the array if not null.
         if ($string !== null) {
-            $doc = Factory::getDocument();
+            $app = Factory::getApplication();
+            $doc = $app->getDocument();
 
             // Get previously added strings
             $strings = $doc->getScriptOptions('joomla.jtext');
@@ -362,7 +362,7 @@ class Text
             static::$strings[$key] = $strings[$key];
 
             // Load core.js dependency
-            HTMLHelper::_('behavior.core');
+            $doc->getWebAssetManager()->useScript('core');
 
             // Update Joomla.Text script options
             $doc->addScriptOptions('joomla.jtext', $strings, false);

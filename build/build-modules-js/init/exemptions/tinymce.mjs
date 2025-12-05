@@ -58,6 +58,14 @@ export const tinyMCE = async (packageName, version) => {
 
   await copyArrayFiles('', ['tinymce.js', 'tinymce.min.js', 'changelog.txt', 'license.txt'], 'tinymce', '');
 
+  // Copy translation files
+  const promises = [];
+  const majorVersion = version.split('.')[0];
+  if (existsSync(join(RootPath, `node_modules/tinymce-i18n/langs${majorVersion}`))) {
+    promises.push(copy(join(RootPath, `node_modules/tinymce-i18n/langs${majorVersion}`), join(RootPath, `media/vendor/${packageName.replace(/.+\//, '')}/langs`), { preserveTimestamps: true }));
+  }
+  await Promise.all(promises);
+
   // Update the XML file for tinyMCE
   let tinyXml = await readFile(`${RootPath}/plugins/editors/tinymce/tinymce.xml`, { encoding: 'utf8' });
   tinyXml = tinyXml.replace(xmlVersionStr, `$1${version}$3`);
