@@ -173,7 +173,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             // Set the internal error and also the redirect error.
             $this->setMessage(Text::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'), 'error');
 
-            $this->setRedirect($this->getRedirectToListUrl());
+            $this->setRedirect($this->getRedirectUrlToList());
 
             return false;
         }
@@ -182,9 +182,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
         $this->app->setUserState($context . '.data', null);
 
         // Redirect to the edit screen.
-        $this->setRedirect(
-            $this->getRedirectToItemUrl()
-        );
+        $this->setRedirect($this->getRedirectUrlToItem());
 
         return true;
     }
@@ -314,9 +312,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             // Check-in failed, go back to the record and display a notice.
             $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
 
-            $this->setRedirect(
-                $this->getRedirectToItemUrl($recordId, $key)
-            );
+            $this->setRedirect($this->getRedirectUrlToItem($recordId, $key));
 
             return false;
         }
@@ -333,7 +329,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             $this->setRedirect(Route::_(base64_decode($return), false));
         } else {
             // Otherwise use the standard list URL helper.
-            $this->setRedirect($this->getRedirectToListUrl());
+            $this->setRedirect($this->getRedirectUrlToList());
         }
 
         return true;
@@ -378,9 +374,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
         if (!$this->allowEdit([$key => $recordId], $key)) {
             $this->setMessage(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
 
-            $this->setRedirect(
-                $this->getRedirectToListUrl()
-            );
+            $this->setRedirect($this->getRedirectUrlToList());
 
             return false;
         }
@@ -390,9 +384,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             // Check-out failed, display a notice but allow the user to see the record.
             $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()), 'error');
 
-            $this->setRedirect(
-                $this->getRedirectToItemUrl($recordId, $urlVar)
-            );
+            $this->setRedirect($this->getRedirectUrlToItem($recordId, $urlVar));
 
             return false;
         }
@@ -401,9 +393,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
         $this->holdEditId($context, $recordId);
         $this->app->setUserState($context . '.data', null);
 
-        $this->setRedirect(
-            $this->getRedirectToItemUrl($recordId, $urlVar)
-        );
+        $this->setRedirect($this->getRedirectUrlToItem($recordId, $urlVar));
 
         return true;
     }
@@ -438,7 +428,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected function getRedirectToItemUrl($recordId = null, $urlVar = 'id'): string
+    protected function getRedirectUrlToItem($recordId = null, $urlVar = 'id'): string
     {
         return Route::_('index.php?option=' . $this->option . '&view=' . $this->view_item
             . $this->getRedirectToItemAppend($recordId, $urlVar), false);
@@ -491,7 +481,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected function getRedirectToListUrl(): string
+    protected function getRedirectUrlToList(): string
     {
         return Route::_(
             'index.php?option=' . $this->option . '&view=' . $this->view_list
@@ -582,9 +572,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
                 // Check-in failed. Go back to the item and display a notice.
                 $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
 
-                $this->setRedirect(
-                    $this->getRedirectToItemUrl($recordId, $urlVar)
-                );
+                $this->setRedirect($this->getRedirectUrlToItem($recordId, $urlVar));
 
                 return false;
             }
@@ -599,9 +587,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
         if (!$this->allowSave($data, $key)) {
             $this->setMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 
-            $this->setRedirect(
-                $this->getRedirectToListUrl()
-            );
+            $this->setRedirect($this->getRedirectUrlToList());
 
             return false;
         }
@@ -666,9 +652,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             $this->app->setUserState($context . '.data', $data);
 
             // Redirect back to the edit screen.
-            $this->setRedirect(
-                $this->getRedirectToItemUrl($recordId, $urlVar)
-            );
+            $this->setRedirect($this->getRedirectUrlToItem($recordId, $urlVar));
 
             return false;
         }
@@ -685,9 +669,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             // Redirect back to the edit screen.
             $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
 
-            $this->setRedirect(
-                $this->getRedirectToItemUrl($recordId, $urlVar)
-            );
+            $this->setRedirect($this->getRedirectUrlToItem($recordId, $urlVar));
 
             return false;
         }
@@ -700,9 +682,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             // Check-in failed, so go back to the record and display a notice.
             $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
 
-            $this->setRedirect(
-                $this->getRedirectToItemUrl($recordId, $urlVar)
-            );
+            $this->setRedirect($this->getRedirectUrlToItem($recordId, $urlVar));
 
             return false;
         }
@@ -722,9 +702,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
                 $model->checkout($recordId);
 
                 // Redirect back to the edit screen.
-                $this->setRedirect(
-                    $this->getRedirectToItemUrl($recordId, $urlVar)
-                );
+                $this->setRedirect($this->getRedirectUrlToItem($recordId, $urlVar));
                 break;
 
             case 'save2new':
@@ -733,9 +711,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
                 $this->app->setUserState($context . '.data', null);
 
                 // Redirect back to the edit screen.
-                $this->setRedirect(
-                    $this->getRedirectToItemUrl(null, $urlVar)
-                );
+                $this->setRedirect($this->getRedirectUrlToItem(null, $urlVar));
                 break;
 
             default:
@@ -751,7 +727,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
                     $this->setRedirect(Route::_(base64_decode($return), false));
                 } else {
                     // Otherwise use the standard list URL helper.
-                    $this->setRedirect($this->getRedirectToListUrl());
+                    $this->setRedirect($this->getRedirectUrlToList());
                 }
                 break;
         }
@@ -797,14 +773,12 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
         // Check if it is allowed to edit or create the data
         if (($recordId && !$this->allowEdit($data, $key)) || (!$recordId && !$this->allowAdd($data))) {
-            $this->setRedirect(
-                $this->getRedirectToListUrl()
-            );
+            $this->setRedirect($this->getRedirectUrlToList());
             $this->redirect();
         }
 
         // The redirect url
-        $redirectUrl = $this->getRedirectToItemUrl($recordId, $urlVar);
+        $redirectUrl = $this->getRedirectUrlToItem($recordId, $urlVar);
 
         /** @var \Joomla\CMS\Form\Form $form */
         $form = $model->getForm($data, false);

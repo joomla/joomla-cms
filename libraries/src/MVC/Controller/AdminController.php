@@ -159,9 +159,7 @@ class AdminController extends BaseController
             $this->postDeleteHook($model, $cid);
         }
 
-        $this->setRedirect(
-            $this->getRedirectToListUrl()
-        );
+        $this->setRedirect($this->getRedirectUrlToList());
     }
 
     /**
@@ -237,7 +235,7 @@ class AdminController extends BaseController
             }
         }
 
-        $this->setRedirect($this->getRedirectToListUrl());
+        $this->setRedirect($this->getRedirectUrlToList());
     }
 
     /**
@@ -261,7 +259,7 @@ class AdminController extends BaseController
         $model  = $this->getModel();
         $return = $model->reorder($ids, $inc);
 
-        $redirect = $this->getRedirectToListUrl();
+        $redirect = $this->getRedirectUrlToList();
 
         if ($return === false) {
             // Reorder failed.
@@ -307,7 +305,7 @@ class AdminController extends BaseController
         // Save the ordering
         $return = $model->saveorder($pks, $order);
 
-        $redirect = $this->getRedirectToListUrl();
+        $redirect = $this->getRedirectUrlToList();
 
         if ($return === false) {
             // Reorder failed
@@ -348,7 +346,7 @@ class AdminController extends BaseController
             // Checkin failed.
             $message = Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
             $this->setRedirect(
-                $this->getRedirectToListUrl(),
+                $this->getRedirectUrlToList(),
                 $message,
                 'error'
             );
@@ -358,7 +356,7 @@ class AdminController extends BaseController
 
         // Checkin succeeded.
         $message = Text::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', \count($ids));
-        $this->setRedirect($this->getRedirectToListUrl(), $message);
+        $this->setRedirect($this->getRedirectUrlToList(), $message);
 
         return true;
     }
@@ -433,7 +431,7 @@ class AdminController extends BaseController
 
         $return = $model->executeTransition($pks, $transitionId);
 
-        $redirect = $this->getRedirectToListUrl();
+        $redirect = $this->getRedirectUrlToList();
 
         if ($return === false) {
             // Transition change failed.
@@ -457,7 +455,7 @@ class AdminController extends BaseController
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected function getRedirectToListUrl(): string
+    protected function getRedirectUrlToList(): string
     {
         return Route::_(
             'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(),
