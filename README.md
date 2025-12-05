@@ -74,6 +74,21 @@ Do you want to improve Joomla?
 * Documentation for [Web designers](https://docs.joomla.org/Special:MyLanguage/Web_designers).
 * Provide a translation for Joomla: [Joomla Crowdin Project](https://joomla.crowdin.com/cms)
 
+Which branch should my Pull Request target?
+--------------------
+Using a simple classification keeps the project **stable**, **transparent**, and **easy** for everyone to contribute.
+
+| Type of change | What it means | Target branch |
+|---|---|---|
+| **Bug / Patch release** | The change fixes an actual error. The software crashes, produces the wrong result, or behaves contrary to its specification. It can be resolved without large‑scale refactoring or new functionality. | **[5.4-dev](https://github.com/joomla/joomla-cms/tree/5.4-dev)** (6.0-dev) **\*** |
+| **Feature / Minor release** | Anything that isn’t a strict bug – new behavior, refactoring, performance improvements, enhancements, UI tweaks, etc. These changes are bundled together for the next minor version. | **[6.1-dev](https://github.com/joomla/joomla-cms/tree/6.1-dev)** |
+
+**\*** All bugs that already exist in version 5.4.x should be fixed in `5.4-dev`. Only bugs that are introduced for the first time in version 6.0.x should target the [`6.0-dev`](https://github.com/joomla/joomla-cms/tree/6.0-dev) branch.
+
+A member of the maintainer or bug squad team confirms the classification and sets the appropriate labels when a PR is opened. If a PR is opened in the wrong branch, a maintainer will simply ask you to retarget it to the proper branch.
+
+
+
 Copyright
 ---------------------
 * (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
