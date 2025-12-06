@@ -458,13 +458,13 @@ class LanguageHelper
 
             if (\is_array($result)) {
                 return $result;
-            } else {
-                // When $result is not an array, the cache file is corrupted, we will delete it and have it regenerated
-                try {
-                    File::delete($cacheFile);
-                } catch (FilesystemException $e) {
-                    // We ignore the error, as the file is for caching only.
-                }
+            }
+
+            // When $result is not an array, the cache file is corrupted, we will delete it and have it regenerated
+            try {
+                File::delete($cacheFile);
+            } catch (FilesystemException $e) {
+                // We ignore the error, as the file is for caching only.
             }
         }
 
