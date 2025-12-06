@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -199,6 +200,12 @@ class CategoryModel extends ListModel
         if (($app->getInput()->get('layout') === 'blog') || $params->get('layout_type') === 'blog') {
             $limit = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
             $this->setState('list.links', $params->get('num_links'));
+
+            /**
+             * This state is added to allow special handling of blog layouts. For blogs layout, if total all articles
+             * (leading + intro + links) is 0, we do not load any articles for performance reasons.
+             */
+            $this->setState('list.layout', 'blog');
         } else {
             $limit = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.limit', 'limit', $params->get('display_num'), 'uint');
         }
@@ -233,6 +240,17 @@ class CategoryModel extends ListModel
         $limit = $this->getState('list.limit');
 
         if ($this->_articles === null && $category = $this->getCategory()) {
+            /**
+             * Special case for blog layout with limit 0 - don't load articles for performance reasons. We also need to
+             * create an empty pagination object to avoid fatal errors in the view.
+             */
+            if ($limit == 0 && $this->getState('list.layout') === 'blog') {
+                $this->_articles   = [];
+                $this->_pagination = new Pagination(0, 0, 0);
+
+                return $this->_articles;
+            }
+
             $model = $this->bootComponent('com_content')->getMVCFactory()
                 ->createModel('Articles', 'Site', ['ignore_request' => true]);
             $model->setState('params', Factory::getApplication()->getParams());
