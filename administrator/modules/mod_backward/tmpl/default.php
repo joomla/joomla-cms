@@ -12,11 +12,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-// Only super user can view this data
-if (!$app->getIdentity()->authorise('core.admin')) {
-    return;
-}
-
 ?>
 <?php if ($compat || $compat6) : ?>
     <div class="header-item-content joomlaversion">
