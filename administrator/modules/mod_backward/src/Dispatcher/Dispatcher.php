@@ -33,9 +33,9 @@ class Dispatcher extends AbstractModuleDispatcher
      */
     protected function getLayoutData()
     {
-        $data            = parent::getLayoutData();
-        $data['compat']  = PluginHelper::isEnabled('behaviour', 'compat');
-        $data['compat6'] = PluginHelper::isEnabled('behaviour', 'compat6');
+        $data               = parent::getLayoutData();
+        $data['compat']     = PluginHelper::isEnabled('behaviour', 'compat');
+        $data['compatNext'] = PluginHelper::isEnabled('behaviour', 'compat6');
 
         return $data;
     }
