@@ -12,6 +12,7 @@ namespace Joomla\Module\Backward\Administrator\Dispatcher;
 
 use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Version;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -34,8 +35,8 @@ class Dispatcher extends AbstractModuleDispatcher
     protected function getLayoutData()
     {
         $data               = parent::getLayoutData();
-        $data['compat']     = PluginHelper::isEnabled('behaviour', 'compat');
-        $data['compatNext'] = PluginHelper::isEnabled('behaviour', 'compat6');
+        $data['compat']     = PluginHelper::isEnabled('behaviour', 'compat') ? (string) Version::MAJOR_VERSION : '';
+        $data['compatNext'] = PluginHelper::isEnabled('behaviour', 'compat6') ? (string) (Version::MAJOR_VERSION + 1) : '';
 
         return $data;
     }
