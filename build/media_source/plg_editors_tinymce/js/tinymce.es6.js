@@ -165,7 +165,7 @@ Joomla.JoomlaTinyMCE = {
     if ('colorSchemeOs' in document.documentElement.dataset) {
       const mql = window.matchMedia('(prefers-color-scheme: dark)');
       options.skin = mql.matches ? skinDark : skinLight;
-      if (ql.matches) {
+      if (mql.matches) {
         options.content_css = options.content_css ? `${options.content_css}, dark` : 'dark';
       } else {
         options.content_css = options.content_css ? `${options.content_css}, default` : 'default';
