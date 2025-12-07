@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
     <div class="header-item-content joomlaversion">
         <div class="header-item-text no-link">
             <span class="icon-shield-alt" aria-hidden="true"></span>
-            <span aria-hidden="true"><?php echo Text::_('MOD_BACKWARD_TEXT') . $compat . ($compat && $compatNext ? ', ' : '') . $compatNext); ?></span>
+            <span aria-hidden="true"><?php echo Text::_('MOD_BACKWARD_TEXT') . $compat . ((!empty($compat) && !empty($compatNext)) ? ', ' : '') . $compatNext; ?></span>
         </div>
     </div>
 <?php endif; ?>
