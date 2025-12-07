@@ -166,13 +166,11 @@ Joomla.JoomlaTinyMCE = {
       const mql = window.matchMedia('(prefers-color-scheme: dark)');
       options.skin = mql.matches ? skinDark : skinLight;
       if (mql.matches) {
-        options.content_css = options.content_css ? `${options.content_css}, dark` : 'dark';
-      } else {
-        options.content_css = options.content_css ? `${options.content_css}, default` : 'default';
+        options.content_css = options.content_css ? `${options.content_css},dark` : 'dark';
       }
     } else if (document.documentElement.dataset.colorScheme === 'dark') {
       options.skin = skinDark;
-      options.content_css = options.content_css ? `${options.content_css}, dark` : 'dark';
+      options.content_css = options.content_css ? `${options.content_css},dark` : 'dark';
     }
 
     // Ensure tinymce is initialised in readonly mode if the textarea has readonly applied
