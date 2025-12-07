@@ -491,6 +491,8 @@ class LanguageHelper
         // Ini files are processed in the "RAW" mode of parse_ini_string, leaving escaped quotes untouched - lets postprocess them
         $strings = str_replace('\"', '"', $strings);
 
+        $logCacheWriteError = false;
+
         // Write cache
         try {
             Folder::create(\dirname($cacheFile));
@@ -499,10 +501,27 @@ class LanguageHelper
             $bytesWritten = file_put_contents($cacheFile, $data);
 
             if ($bytesWritten === false || $bytesWritten < \strlen($data)) {
-                throw new FilesystemException('Unable to write cache file');
+                /**
+                 * Cache write failed or incomplete - remove the cache file if it exists to avoid error on
+                 * next request.
+                 */
+                if (is_file($cacheFile)) {
+                    File::delete($cacheFile);
+                }
+
+                $logCacheWriteError = true;
             }
         } catch (FilesystemException $e) {
-            // We ignore the error, as the file is for caching only.
+            // Unable to write cache - log the failure
+            $logCacheWriteError = true;
+        }
+
+        if ($logCacheWriteError) {
+            Log::add(
+                Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_WRITE_CACHE', str_replace(JPATH_ROOT, '', $cacheFile)),
+                Log::WARNING,
+                'language'
+            );
         }
 
         return $strings;
