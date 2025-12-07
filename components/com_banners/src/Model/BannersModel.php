@@ -186,14 +186,16 @@ class BannersModel extends ListModel
             } else {
                 $temp   = [];
                 $config = ComponentHelper::getParams('com_banners');
-                $prefix = $config->get('metakey_prefix');
+                $prefix = $config->get('metakey_prefix', '');
 
                 if ($categoryId) {
                     $query->join('LEFT', $db->quoteName('#__categories', 'cat'), $db->quoteName('a.catid') . ' = ' . $db->quoteName('cat.id'));
                 }
 
+                $isDbMySqlVersionFrom804 = $db->getServerType() === 'mysql' && version_compare($db->getVersion(), '8.0.4', '>=');
+
                 foreach ($keywords as $key => $keyword) {
-                    $regexp       = '[[:<:]]' . $keyword . '[[:>:]]';
+                    $regexp       = $isDbMySqlVersionFrom804 ? '\\b' . $keyword . '\\b' : '[[:<:]]' . $keyword . '[[:>:]]';
                     $valuesToBind = [$keyword, $keyword, $regexp];
 
                     if ($cid) {
@@ -272,8 +274,10 @@ class BannersModel extends ListModel
         if (!isset($this->cache['items'])) {
             $this->cache['items'] = parent::getItems();
 
-            foreach ($this->cache['items'] as &$item) {
-                $item->params = new Registry($item->params);
+            if (is_array($this->cache['items'])) {
+                foreach ($this->cache['items'] as &$item) {
+                    $item->params = new Registry($item->params);
+                }
             }
         }
 
