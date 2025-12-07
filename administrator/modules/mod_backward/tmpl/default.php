@@ -13,11 +13,11 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 
 ?>
-<?php if ($compat || $compat6) : ?>
+<?php if ($compat || $compatNext) : ?>
     <div class="header-item-content joomlaversion">
         <div class="header-item-text no-link">
             <span class="icon-shield-alt" aria-hidden="true"></span>
-            <span aria-hidden="true"><?php echo Text::_('MOD_BACKWARD_TEXT') . ($compat ? '5' : '') . ($compat && $compat6 ? ', ' : '') . ($compat6 ? '6' : ''); ?></span>
+            <span aria-hidden="true"><?php echo Text::_('MOD_BACKWARD_TEXT') . ($compat ? '5' : '') . ($compat && $compatNext ? ', ' : '') . ($compatNext ? '6' : ''); ?></span>
         </div>
     </div>
 <?php endif; ?>
