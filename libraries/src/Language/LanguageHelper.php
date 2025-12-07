@@ -503,18 +503,18 @@ class LanguageHelper
                     File::delete($cacheFile);
                 }
 
+                throw new FilesystemException('Unable to write cache file');
+            }
+        } catch (FilesystemException) {
+            try {
                 Log::add(
                     Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_WRITE_CACHE', str_replace(JPATH_ROOT, '', $cacheFile)),
                     Log::WARNING,
                     'language'
                 );
+            } catch (\RuntimeException) {
+                // Ignore logging errors
             }
-        } catch (FilesystemException $e) {
-            Log::add(
-                Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_WRITE_CACHE', str_replace(JPATH_ROOT, '', $cacheFile)),
-                Log::WARNING,
-                'language'
-            );
         }
 
         return $strings;
