@@ -274,7 +274,7 @@ class BannersModel extends ListModel
         if (!isset($this->cache['items'])) {
             $this->cache['items'] = parent::getItems();
 
-            if (is_array($this->cache['items'])) {
+            if (\is_array($this->cache['items'])) {
                 foreach ($this->cache['items'] as &$item) {
                     $item->params = new Registry($item->params);
                 }
