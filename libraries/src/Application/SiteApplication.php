@@ -403,12 +403,14 @@ final class SiteApplication extends CMSApplication
      */
     public function getTemplate($params = false)
     {
-        if (!is_object($this->template)) {
+        if (!\is_object($this->template)) {
             $this->initialiseTemplate();
         }
 
         if (!$this->isValidTemplate($this->template)) {
-            throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template));
+            throw new \InvalidArgumentException(
+                Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template)
+            );
         }
 
         if ($params) {
