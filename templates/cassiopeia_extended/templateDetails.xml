@@ -19,6 +19,7 @@
 	</files>
 	<media destination="templates/site/cassiopeia_extended" folder="media">
 		<folder>css</folder>
+		<folder>images</folder>
 		<folder>scss</folder>
 	</media>
 	<positions>
@@ -42,10 +43,6 @@
 		<position>error-403</position>
 		<position>error-404</position>
 	</positions>
-	<languages folder="language">
-		<language tag="en-GB">en-GB/tpl_cassiopeia.ini</language>
-		<language tag="en-GB">en-GB/tpl_cassiopeia.sys.ini</language>
-	</languages>
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">
