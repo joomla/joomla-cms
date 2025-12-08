@@ -52,10 +52,6 @@ $itemImage  = '';
 
 if ($current->hasChildren()) {
     $linkClass[] = 'has-arrow';
-
-    if ($current->level > 2) {
-        $dataToggle  = ' data-bs-toggle="dropdown"';
-    }
 } else {
     $linkClass[] = 'no-dropdown';
 }
