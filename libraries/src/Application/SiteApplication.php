@@ -772,7 +772,7 @@ final class SiteApplication extends CMSApplication
      *
      * @throws  \InvalidArgumentException
      */
-    protected function initialiseTemplate():void
+    protected function initialiseTemplate(): void
     {
         $id = $this->getTemplateStyleId();
 
