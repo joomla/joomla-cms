@@ -193,7 +193,7 @@ class BannersModel extends ListModel
                 }
 
                 foreach ($keywords as $key => $keyword) {
-                    $regexp       = $isDbMySqlVersionFrom804 ? '\\b' . $keyword . '\\b' : '[[:<:]]' . $keyword . '[[:>:]]';
+                    $regexp       = $db->getServerType() === 'mysql' ? '\\b' . $keyword . '\\b' : '[[:<:]]' . $keyword . '[[:>:]]';
                     $valuesToBind = [$keyword, $keyword, $regexp];
 
                     if ($cid) {
