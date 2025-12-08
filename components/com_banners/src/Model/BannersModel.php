@@ -192,8 +192,6 @@ class BannersModel extends ListModel
                     $query->join('LEFT', $db->quoteName('#__categories', 'cat'), $db->quoteName('a.catid') . ' = ' . $db->quoteName('cat.id'));
                 }
 
-                $isDbMySqlVersionFrom804 = $db->getServerType() === 'mysql' && version_compare($db->getVersion(), '8.0.4', '>=');
-
                 foreach ($keywords as $key => $keyword) {
                     $regexp       = $isDbMySqlVersionFrom804 ? '\\b' . $keyword . '\\b' : '[[:<:]]' . $keyword . '[[:>:]]';
                     $valuesToBind = [$keyword, $keyword, $regexp];
