@@ -49,7 +49,7 @@
 
     @for $level from 2 through 10 {
       &-level-#{$level} > a {
-        $pad: 3rem + (($level - 2) * 0.75rem);
+        $pad: 3rem + (($level - 2) * .75rem);
         padding-inline-start: $pad;
       }
     }
