@@ -523,7 +523,7 @@ class AdministratorApplication extends CMSApplication
         // Fallback template
         if (!$this->isValidTemplate($template)) {
             $this->getLogger()->error(Text::_('JERROR_ALERTNOTEMPLATE'), ['category' => 'system']);
-            $template->params = new Registry();
+            $template->params   = new Registry();
             $template->template = 'atum';
 
             // Check, the data were found and if template really exists
