@@ -915,27 +915,4 @@ final class SiteApplication extends CMSApplication
 
         return null;
     }
-
-    /**
-     * Check if a template is valid
-     *
-     * @param   \stdClass  $template  The template object
-     *
-     * @return  bool  True if the template is valid, false otherwise. A template is valid if its index.php file exists
-     *                either in the template itself or in its parent template.
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    private function isValidTemplate($template): bool
-    {
-        if (!empty($template->template) && is_file(JPATH_THEMES . '/' . $template->template . '/index.php')) {
-            return true;
-        }
-
-        if (!empty($template->parent) && is_file(JPATH_THEMES . '/' . $template->parent . '/index.php')) {
-            return true;
-        }
-
-        return false;
-    }
 }

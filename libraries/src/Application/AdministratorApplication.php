@@ -241,47 +241,15 @@ class AdministratorApplication extends CMSApplication
      */
     public function getTemplate($params = false)
     {
-        if (\is_object($this->template)) {
-            if ($params) {
-                return $this->template;
-            }
-
-            return $this->template->template;
+        if (!\is_object($this->template)) {
+            $this->initialiseTemplate();
         }
-
-        $adminStyle = $this->getIdentity() ? (int) $this->getIdentity()->getParam('admin_style') : 0;
-        $template   = $this->bootComponent('templates')->getMVCFactory()
-            ->createModel('Style', 'Administrator')->getAdminTemplate($adminStyle);
-
-        $template->template = InputFilter::getInstance()->clean($template->template, 'cmd');
-        $template->params   = new Registry($template->params);
-
-        // Fallback template
-        if (
-            !is_file(JPATH_THEMES . '/' . $template->template . '/index.php')
-            && !is_file(JPATH_THEMES . '/' . $template->parent . '/index.php')
-        ) {
-            $this->getLogger()->error(Text::_('JERROR_ALERTNOTEMPLATE'), ['category' => 'system']);
-            $template->params   = new Registry();
-            $template->template = 'atum';
-
-            // Check, the data were found and if template really exists
-            if (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php')) {
-                throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template));
-            }
-        }
-
-        // Cache the result
-        $this->template = $template;
-
-        // Pass the parent template to the state
-        $this->set('themeInherits', $template->parent);
 
         if ($params) {
-            return $template;
+            return $this->template;
         }
 
-        return $template->template;
+        return $this->template->template;
     }
 
     /**
@@ -533,5 +501,43 @@ class AdministratorApplication extends CMSApplication
         $app->getInput()->set('option', $option);
 
         return $option;
+    }
+
+    /**
+     * Initialise the template.
+     *
+     * @return  void
+     *
+     * @throws  \InvalidArgumentException
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function initialiseTemplate()
+    {
+        $adminStyle = $this->getIdentity() ? (int) $this->getIdentity()->getParam('admin_style') : 0;
+        $template   = $this->bootComponent('templates')->getMVCFactory()
+            ->createModel('Style', 'Administrator')->getAdminTemplate($adminStyle);
+
+        $template->template = InputFilter::getInstance()->clean($template->template, 'cmd');
+        $template->params   = new Registry($template->params);
+
+        // Fallback template
+        if (!$this->isValidTemplate($template)) {
+            $this->getLogger()->error(Text::_('JERROR_ALERTNOTEMPLATE'), ['category' => 'system']);
+            $template->params = new Registry();
+            $template->template = 'atum';
+
+            // Check, the data were found and if template really exists
+            if ($this->isValidTemplate($template)) {
+                throw new \InvalidArgumentException(
+                    Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template)
+                );
+            }
+        }
+
+        // Cache the result
+        $this->template = $template;
+
+        // Pass the parent template to the state
+        $this->set('themeInherits', $template->parent);
     }
 }
