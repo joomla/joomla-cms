@@ -82,10 +82,10 @@ class TufAdapter extends UpdateAdapter
         $metadataTable = new MetadataTable($this->db);
         $metadataTable->load(['update_site_id' => $options['update_site_id']]);
 
-        $options = new Registry();
-        $options->set('userAgent', (new Version())->getUserAgent('Joomla', true, false));
+        $httpOptions = new Registry();
+        $httpOptions->set('userAgent', (new Version())->getUserAgent('Joomla', true, false));
 
-        $tufFetcher = new TufFetcher($metadataTable, $options['location'], $this->db, (new HttpFactory())->getHttp($options), Factory::getApplication());
+        $tufFetcher = new TufFetcher($metadataTable, $options['location'], $this->db, (new HttpFactory())->getHttp($httpOptions), Factory::getApplication());
         $metaData   = $tufFetcher->getValidUpdate();
 
         $metaData = json_decode((string) $metaData, true);

@@ -89,7 +89,7 @@ abstract class InstallerHelper
         $options = new Registry();
         $options->set('userAgent', $version->getUserAgent('Joomla', true, false));
 
-         // Get the file
+        // Get the file
         try {
             $response = (new HttpFactory())->getHttp($options)->get($url, $headers);
         } catch (\RuntimeException $exception) {
