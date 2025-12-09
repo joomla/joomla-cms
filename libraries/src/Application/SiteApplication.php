@@ -841,7 +841,7 @@ final class SiteApplication extends CMSApplication
         $tid = $this->input->getUint('templateStyle', 0);
 
         if (is_numeric($tid) && (int) $tid > 0) {
-            $id = (int)$tid;
+            $id = (int) $tid;
         }
 
         return $id;
