@@ -11,7 +11,7 @@
 }
 
 #help-index ul .mm-show {
-  background-color: var(--main-nav-mm-active-bg);
+  background-color: var(--main-nav-ul-bg);
 }
 
 #helpmenu .has-arrow .item-title {
