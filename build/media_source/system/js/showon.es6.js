@@ -88,7 +88,7 @@ class Showon {
           }
           if (this.fields[showonData[0].field] && !this.fields[showonData[0].field].origin.length) {
            field.dispatchEvent(new CustomEvent('joomla:showon-hide', {
-              detail: {reason: 'missingParent'}
+              detail: {reason: 'missingParent'},
               bubbles: true,
             }));
             console.warn(
