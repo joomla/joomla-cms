@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f577684c10af21b55e694ebddac803ca",
+    "content-hash": "ea140f44961f1d18b9bf369b84a4acc6",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -61,6 +61,53 @@
                 "source": "https://github.com/algo26-matthias/idna-convert/tree/v4.2.1"
             },
             "time": "2025-08-11T09:03:12+00:00"
+        },
+        {
+            "name": "altcha-org/altcha",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/altcha-org/altcha-lib-php.git",
+                "reference": "725e604719a47fa9187a795bf5ca6f945342b017"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/altcha-org/altcha-lib-php/zipball/725e604719a47fa9187a795bf5ca6f945342b017",
+                "reference": "725e604719a47fa9187a795bf5ca6f945342b017",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=8.2"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.72",
+                "phpstan/extension-installer": "^1.4",
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpunit/phpunit": "^11.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "AltchaOrg\\Altcha\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Regeci",
+                    "email": "536331+ovx@users.noreply.github.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/altcha-org/altcha-lib-php/issues",
+                "source": "https://github.com/altcha-org/altcha-lib-php/tree/v1.2.0"
+            },
+            "time": "2025-11-17T00:15:21+00:00"
         },
         {
             "name": "brick/math",
