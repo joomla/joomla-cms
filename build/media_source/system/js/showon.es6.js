@@ -87,8 +87,8 @@ class Showon {
             });
           }
           if (this.fields[showonData[0].field] && !this.fields[showonData[0].field].origin.length) {
-            field.classList.add('hidden');
-            field.dispatchEvent(new CustomEvent('joomla:showon-hide', {
+           field.dispatchEvent(new CustomEvent('joomla:showon-hide', {
+              detail: {reason: 'missingParent'}
               bubbles: true,
             }));
             console.warn(
