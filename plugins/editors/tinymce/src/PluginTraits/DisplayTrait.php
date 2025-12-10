@@ -76,15 +76,6 @@ trait DisplayTrait
         $externalPlugins = [];
         $theme           = 'silver';
 
-        // Set the width and height from plugin params if not set in attributes
-        if (!$width) {
-            $width = $this->params->get('html_width', '100%');
-        }
-
-        if (!$height) {
-            $height = $this->params->get('html_height', '550px');
-        }
-
         // Register assets
         $wa->getRegistry()->addExtensionRegistryFile('plg_editors_tinymce');
 
