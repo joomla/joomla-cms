@@ -88,6 +88,10 @@ class HtmlView extends BaseHtmlView
         $this->form  = $model->getForm();
         $this->canDo = ContentHelper::getActions('com_templates');
 
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '');
+
         $this->addToolbar();
 
         parent::display($tpl);

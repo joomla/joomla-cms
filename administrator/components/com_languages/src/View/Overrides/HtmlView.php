@@ -114,6 +114,11 @@ class HtmlView extends BaseHtmlView
         $this->languageOverrides = $model->getLanguageOverrides();
         $this->contentLanguages  = LanguageHelper::getLanguages('lang_code');
 
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
+
         $this->addToolbar();
         parent::display($tpl);
     }

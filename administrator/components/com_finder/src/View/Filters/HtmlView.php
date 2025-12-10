@@ -112,9 +112,10 @@ class HtmlView extends BaseHtmlView
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
 
-        if (\count($this->items) === 0 && $this->isEmptyState = $model->getIsEmptyState()) {
-            $this->setLayout('emptystate');
-        }
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
 
         // Configure the toolbar.
         $this->addToolbar();
