@@ -74,10 +74,10 @@ $contentLanguages   = $this->contentLanguages ?? [];
                                     <?php echo Text::_('JCLIENT'); ?>
                                 </th>
                                 <th scope="col" class="d-none d-md-table-cell">
-                                    <?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDES_TRANSLATED'); ?>
+                                    <?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDES_OVERRIDE'); ?>
                                 </th>
                                 <th scope="col" class="d-none d-md-table-cell">
-                                    <?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDES_NOT_TRANSLATED'); ?>
+                                    <?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDES_NO_OVERRIDE'); ?>
                                 </th>
                             </tr>
                         </thead>
