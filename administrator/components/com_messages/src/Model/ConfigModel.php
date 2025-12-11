@@ -86,7 +86,7 @@ class ConfigModel extends FormModel
 
         foreach ($rows as $row) {
             $property        = $row->cfg_name;
-            $item->$property = $row->cfg_value;
+            $item->set($property, $row->cfg_value);
         }
 
         $this->preprocessData('com_messages.config', $item);
