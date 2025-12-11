@@ -188,7 +188,7 @@ final class ApiApplication extends CMSApplication
         // Parent function can be overridden later on for debugging.
         parent::respond();
     }
-    
+
     /**
      * Route the application.
      *
