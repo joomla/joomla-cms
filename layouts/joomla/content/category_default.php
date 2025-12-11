@@ -63,6 +63,9 @@ $tagsData = $category->tags->itemTags;
             <?php echo HTMLHelper::_('content.prepare', $category->title, '', $extension . '.category.title'); ?>
         </<?php echo $htag; ?>>
     <?php endif; ?>
+    <?php if ($canEdit && $extension === 'com_content') : ?>
+        <?php echo LayoutHelper::render('joomla.content.category_icons', ['params' => $params, 'item' => $category]); ?>
+    <?php endif; ?>
     <?php echo $afterDisplayTitle; ?>
 
     <?php if ($params->get('show_cat_tags', 1)) : ?>

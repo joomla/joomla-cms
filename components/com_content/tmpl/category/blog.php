@@ -33,6 +33,7 @@ $results = $app->triggerEvent('onContentAfterDisplay', [$this->category->extensi
 $afterDisplayContent = trim(implode("\n", $results));
 
 $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
+$canEdit = $this->category->params->get('access-edit');
 
 ?>
 <div class="com-content-category-blog blog">
@@ -46,6 +47,9 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
     <<?php echo $htag; ?>>
         <?php echo $this->category->title; ?>
     </<?php echo $htag; ?>>
+    <?php endif; ?>
+    <?php if ($canEdit && $this->category->extension === 'com_content') : ?>
+        <?php echo LayoutHelper::render('joomla.content.category_icons', ['params' => $this->category->params, 'item' => $this->category]); ?>
     <?php endif; ?>
     <?php echo $afterDisplayTitle; ?>
 

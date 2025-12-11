@@ -90,6 +90,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
         $safeurlparams = [
             'catid'            => 'INT',
             'id'               => 'INT',
+            'parent_id'        => 'INT',
             'cid'              => 'ARRAY',
             'year'             => 'INT',
             'month'            => 'INT',
@@ -109,6 +110,10 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
         if ($vName === 'form' && !$this->checkEditId('com_content.edit.article', $id)) {
             // Somehow the person just went to the form - we don't allow that.
             throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 403);
+        }
+
+        if ($vName === 'categoryform' && !$this->checkEditId('com_content.edit.category', $this->input->getInt('id'))) {
+            throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $this->input->getInt('id')), 403);
         }
 
         if ($vName === 'article' && \in_array($this->input->getMethod(), ['GET', 'POST'])) {

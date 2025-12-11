@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Content\Site\Model;
 
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
@@ -351,10 +352,27 @@ class CategoryModel extends ListModel
             if (\is_object($this->_item)) {
                 $user  = $this->getCurrentUser();
                 $asset = 'com_content.category.' . $this->_item->id;
+                $params = $this->_item->getParams();
+                $canEdit = false;
+                $frontendEdit = Access::check($user->id, 'core.edit.frontend', $asset);
+                $canEditState = false;
+
+                if ($frontendEdit !== false) {
+                    $canEdit = $user->authorise('core.edit', $asset);
+
+                    if (!$canEdit && $user->authorise('core.edit.own', $asset)) {
+                        $canEdit = (int) $this->_item->created_user_id === (int) $user->id;
+                    }
+
+                    $canEditState = $user->authorise('core.edit.state', $asset);
+                }
+
+                $params->set('access-edit', $canEdit);
+                $params->set('access-change', $canEditState);
 
                 // Check general create permission.
                 if ($user->authorise('core.create', $asset)) {
-                    $this->_item->getParams()->set('access-create', true);
+                    $params->set('access-create', true);
                 }
 
                 // @todo: Why aren't we lazy loading the children and siblings?

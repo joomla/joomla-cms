@@ -105,4 +105,18 @@ abstract class RouteHelper
     {
         return 'index.php?option=com_content&task=article.edit&a_id=' . (int) $id;
     }
+
+    /**
+     * Get the category form route.
+     *
+     * @param   integer  $id  The category ID.
+     *
+     * @return  string  The category form route.
+     *
+     * @since   6.1.0
+     */
+    public static function getCategoryFormRoute($id)
+    {
+        return 'index.php?option=com_content&task=category.edit&id=' . (int) $id . '&layout=edit';
+    }
 }

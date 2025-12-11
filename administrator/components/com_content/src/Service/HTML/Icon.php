@@ -17,6 +17,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Workflow\Workflow;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Registry\Registry;
 
@@ -131,6 +132,76 @@ class Icon
         $text = LayoutHelper::render('joomla.content.icons.edit', ['article' => $article, 'tooltip' => $tooltip, 'legacy' => $legacy]);
 
         $attribs['aria-describedby'] = 'editarticle-' . (int) $article->id;
+        $output                      = HTMLHelper::_('link', Route::_($url), $text, $attribs);
+
+        return $output;
+    }
+
+    /**
+     * Display an edit icon for the category.
+     *
+     * @param   object    $category  The category information.
+     * @param   Registry  $params    The item parameters.
+     * @param   array     $attribs   Optional attributes for the link.
+     * @param   boolean   $legacy    True to use legacy images, false to use icomoon based graphic.
+     *
+     * @return  string  The HTML for the category edit icon.
+     *
+     * @since   6.1.0
+     */
+    public function categoryEdit($category, $params, $attribs = [], $legacy = false)
+    {
+        $user = Factory::getUser();
+        $uri  = Uri::getInstance();
+
+        if ($params && $params->get('popup')) {
+            return '';
+        }
+
+        if ((int) $category->published === ContentComponent::CONDITION_TRASHED) {
+            return '';
+        }
+
+        if (
+            property_exists($category, 'checked_out')
+            && property_exists($category, 'checked_out_time')
+            && !\is_null($category->checked_out)
+            && (int) $category->checked_out !== (int) $user->id
+        ) {
+            $checkoutUser = Factory::getUser($category->checked_out);
+            $date         = HTMLHelper::_('date', $category->checked_out_time);
+            $tooltip      = Text::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name)
+                . ' <br> ' . $date;
+
+            $text = LayoutHelper::render(
+                'joomla.content.icons.edit_lock',
+                ['tooltip' => $tooltip, 'legacy' => $legacy, 'ariaDescribed' => 'editcategory-' . (int) $category->id]
+            );
+
+            $attribs['aria-describedby'] = 'editcategory-' . (int) $category->id;
+
+            return HTMLHelper::_('link', '#', $text, $attribs);
+        }
+
+        $categoryUrl = RouteHelper::getCategoryRoute($category->id, $category->language);
+        $url         = $categoryUrl . '&task=category.edit&id=' . (int) $category->id . '&layout=edit&return=' . base64_encode($uri);
+
+        $itemId = Factory::getApplication()->getInput()->getInt('Itemid');
+
+        if ($itemId > 0) {
+            $url .= '&Itemid=' . $itemId;
+        }
+
+        $tooltip = (int) $category->published === ContentComponent::CONDITION_PUBLISHED
+            ? Text::_('COM_CONTENT_EDIT_PUBLISHED_CATEGORY')
+            : Text::_('COM_CONTENT_EDIT_UNPUBLISHED_CATEGORY');
+
+        $text = LayoutHelper::render(
+            'joomla.content.icons.category_edit',
+            ['category' => $category, 'tooltip' => $tooltip, 'legacy' => $legacy]
+        );
+
+        $attribs['aria-describedby'] = 'editcategory-' . (int) $category->id;
         $output                      = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
         return $output;

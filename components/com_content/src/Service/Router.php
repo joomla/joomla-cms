@@ -95,6 +95,9 @@ class Router extends RouterView
         $this->registerView($article);
         $this->registerView(new RouterViewConfiguration('archive'));
         $this->registerView(new RouterViewConfiguration('featured'));
+        $categoryForm = new RouterViewConfiguration('categoryform');
+        $categoryForm->setKey('id');
+        $this->registerView($categoryForm);
         $form = new RouterViewConfiguration('form');
         $form->setKey('a_id');
         $this->registerView($form);
@@ -185,6 +188,19 @@ class Router extends RouterView
     }
 
     /**
+     * Method to get the segment(s) for a category form
+     *
+     * @param   string  $id     ID of the category form to retrieve the segments for
+     * @param   array   $query  The request that is built right now
+     *
+     * @return  array|string  The segments of this item
+     */
+    public function getCategoryformSegment($id, $query)
+    {
+        return [(int) $id => (string) (int) $id];
+    }
+
+    /**
      * Method to get the id for a category
      *
      * @param   string  $segment  Segment to retrieve the ID for
@@ -241,6 +257,19 @@ class Router extends RouterView
     public function getCategoriesId($segment, $query)
     {
         return $this->getCategoryId($segment, $query);
+    }
+
+    /**
+     * Method to get the id for a category form
+     *
+     * @param   string  $segment  Segment to retrieve the ID for
+     * @param   array   $query    The request that is parsed right now
+     *
+     * @return  mixed   The id of this item or false
+     */
+    public function getCategoryformId($segment, $query)
+    {
+        return (int) $segment ?: false;
     }
 
     /**
