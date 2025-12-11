@@ -26,6 +26,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Category;
 use Joomla\CMS\UCM\UCMType;
+use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Database\ParameterType;
@@ -43,7 +44,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class CategoryModel extends AdminModel
+class CategoryModel extends AdminModel implements VersionableModelInterface
 {
     use VersionableModelTrait;
 
@@ -242,9 +243,10 @@ class CategoryModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|boolean  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -263,10 +265,6 @@ class CategoryModel extends AdminModel
 
         // Get the form.
         $form = $this->loadForm('com_categories.category' . $extension, 'category', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         // Modify the form based on Edit State access controls.
         if (empty($data['extension'])) {
@@ -337,18 +335,12 @@ class CategoryModel extends AdminModel
                 $extension = substr($app->getUserState('com_categories.categories.filter.extension', ''), 4);
                 $filters   = (array) $app->getUserState('com_categories.categories.' . $extension . '.filter');
 
-                $data->set(
+                $data->published = $app->getInput()->getInt(
                     'published',
-                    $app->getInput()->getInt(
-                        'published',
-                        ((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
-                    )
+                    ((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
                 );
-                $data->set('language', $app->getInput()->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
-                $data->set(
-                    'access',
-                    $app->getInput()->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
-                );
+                $data->language = $app->getInput()->getString('language', (!empty($filters['language']) ? $filters['language'] : null));
+                $data->access   = $app->getInput()->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')));
             }
         }
 
@@ -611,7 +603,7 @@ class CategoryModel extends AdminModel
             // Get associationskey for edited item
             $db    = $this->getDatabase();
             $id    = (int) $table->id;
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('key'))
                 ->from($db->quoteName('#__associations'))
                 ->where($db->quoteName('context') . ' = :associationscontext')
@@ -625,7 +617,7 @@ class CategoryModel extends AdminModel
                 $where = [];
 
                 // Deleting old associations for the associated items
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->delete($db->quoteName('#__associations'))
                     ->where($db->quoteName('context') . ' = :associationscontext')
                     ->bind(':associationscontext', $this->associationsContext);
@@ -714,6 +706,12 @@ class CategoryModel extends AdminModel
         }
 
         $this->setState($this->getName() . '.id', $table->id);
+
+        /**
+         * Save the version history. We need to call saveHistory method manually because category model does not
+         * call parent::save()
+         */
+        $this->saveHistory($data, $this->typeAlias);
 
         if (Factory::getApplication()->getInput()->get('task') == 'editAssociations') {
             return $this->redirectToAssociations($data);
@@ -825,7 +823,7 @@ class CategoryModel extends AdminModel
         $successful = [];
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         /**
          * For each category get the max ordering value
@@ -934,7 +932,7 @@ class CategoryModel extends AdminModel
         $parents = [];
 
         // Calculate the emergency stop count as a precaution against a runaway loop bug
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('COUNT(' . $db->quoteName('id') . ')')
             ->from($db->quoteName('#__categories'));
         $db->setQuery($query);
@@ -1085,7 +1083,7 @@ class CategoryModel extends AdminModel
         $this->type = $type->getTypeByAlias($this->typeAlias);
 
         $db        = $this->getDatabase();
-        $query     = $db->getQuery(true);
+        $query     = $db->createQuery();
         $extension = Factory::getApplication()->getInput()->get('extension', '', 'word');
 
         // Check that the parent exists.
@@ -1217,15 +1215,13 @@ class CategoryModel extends AdminModel
     /**
      * Custom clean the cache of com_content and content modules
      *
-     * @param   string   $group     Cache group name.
-     * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              @deprecated   4.3 will be removed in 6.0
+     * @param  string  $group  Cache group name.
      *
      * @return  void
      *
      * @since   1.6
      */
-    protected function cleanCache($group = null, $clientId = 0)
+    protected function cleanCache($group = null)
     {
         $extension = Factory::getApplication()->getInput()->get('extension');
 

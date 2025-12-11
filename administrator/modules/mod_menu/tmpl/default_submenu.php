@@ -34,13 +34,7 @@ if (!$this->enabled) {
     $class .= ' parent';
 }
 
-if ($current->level == 1) {
-    $class .= ' item-level-1';
-} elseif ($current->level == 2) {
-    $class .= ' item-level-2';
-} elseif ($current->level == 3) {
-    $class .= ' item-level-3';
-}
+$class .= ' item-level-' . (int) $current->level;
 
 // Set the correct aria role and print the item
 if ($current->type == 'separator') {

@@ -1,8 +1,8 @@
 <?php
 
-$version = $version ?? '5.0.0'; // set in the build script by extracting it from the Version class
+$version = $version ?? '6.0.0'; // set in the build script by extracting it from the Version class
 $majorVersion = $majorVersion ?? substr($version, 0, strpos($version, '.'));
-$previousVersion = $previousRelease ?? '4.4.0'; // Last patch release
+$previousVersion = $previousRelease ?? '5.4.0'; // Last patch release
 $previousMajorVersion = substr($previousVersion, 0, strpos($previousVersion, '.'));
 $previousMajorMinorVersion = $previousMajorVersion . '.4';
 $tagVersion = $tagVersion ?? $version; // Set in the build script by extracting it from git
@@ -10,7 +10,7 @@ $githubContent = $githubContent ?? []; // set by build script
 
 $contributors = 'INSERT_HERE';
 $pullRequests = 'INSERT_HERE';
-$migrationInfo = '[New migration guide](https://manual.joomla.org/migrations/44-50/)';
+$migrationInfo = '[New migration guide](https://manual.joomla.org/migrations/54-60/)';
 $documentation = 'New developer [documentation](https://manual.joomla.org)';
 $releasePage = 'https://www.joomla.org/announcements/release-news/5900-joomla-5-0-and-joomla-4-4-are-here';
 $releaseDownloadPage = 'https://downloads.joomla.org/cms/joomla' . $majorVersion;
@@ -93,7 +93,7 @@ $output .= <<<MD
 ### ✒️ Upgrade Packages
 
 > [!IMPORTANT]
-> Don't update directly from a version lower than 4.4 it is important that you first update to 4.4 and then update to 5.x
+> Don't update directly from a version lower than 5.4 it is important that you first update to 5.4 and then update to 6.x
 
 | Update from a previous version | SHA-256 Checksums |
 |--------------------------------|-------------------|

@@ -67,8 +67,8 @@
     [class*=" #{$fa-css-prefix}-"],
     span {
       display: inline-block;
-      width: 2.375rem;
-      height: 100%;
+      inline-size: 2.375rem;
+      block-size: 100%;
       margin: 0 16px;
       margin-inline-start: -22px;
       line-height: 2.375rem;
@@ -84,8 +84,8 @@
     [class*=" #{$fa-css-prefix}-"],
     span {
       display: inline-block;
-      width: 2.375rem;
-      height: 100%;
+      inline-size: 2.375rem;
+      block-size: 100%;
       margin: 0 16px;
       margin-inline-start: -22px;
       line-height: 2.375rem;
@@ -118,7 +118,7 @@
 
   &__item {
     display: flex;
-    border-bottom: 1px solid $table-border-color;
+    border-block-end: 1px solid $table-border-color;
 
     @include media-breakpoint-down(md) {
       flex-direction: column;
@@ -127,11 +127,11 @@
 
   &__tag {
     flex: 1 0 180px;
-    max-width: 180px;
+    max-inline-size: 180px;
     padding: 10px 15px;
     text-align: end;
     background: color.adjust($gray-100, $lightness: -2.5%);
-    border-right: 1px solid $table-border-color;
+    border-inline-end: 1px solid $table-border-color;
 
     .badge {
       border-radius: .2rem;
@@ -143,10 +143,10 @@
 
     @include media-breakpoint-down(md) {
       flex: 1 0 auto;
-      max-width: 100%;
+      max-inline-size: 100%;
       text-align: left;
-      border-right: 0;
-      border-bottom: 1px solid $table-border-color;
+      border-inline-end: 0;
+      border-block-end: 1px solid $table-border-color;
     }
   }
 
@@ -155,14 +155,14 @@
 
     ul {
       padding-inline-start: 15px;
-      margin-bottom: 0;
+      margin-block-end: 0;
     }
 
     li {
-      margin-bottom: .15rem;
+      margin-block-end: .15rem;
 
       &:last-of-type {
-        margin-bottom: 0;
+        margin-block-end: 0;
       }
     }
   }
@@ -171,17 +171,17 @@
 // Styling for joomla-dialog element
 joomla-dialog {
   dialog {
-    width: 96vw;
-    max-width: 1700px;
-    height: 96vh;
+    inline-size: 96vw;
+    max-inline-size: 1700px;
+    block-size: 96vh;
     padding: 0;
     border: 1px solid var(--border-color-translucent);
     border-radius: .3rem;
     box-shadow: $modal-joomla-dialog-box-shadow;
 
     @include media-breakpoint-up(xxl) {
-      width: 80vw;
-      height: 80vh;
+      inline-size: 80vw;
+      block-size: 80vh;
     }
 
     // Override display to flex, to scale the content to full height
@@ -192,8 +192,8 @@ joomla-dialog {
 
   &[type="image"] {
     dialog {
-      width: fit-content;
-      height: fit-content;
+      inline-size: fit-content;
+      block-size: fit-content;
     }
   }
 
@@ -204,8 +204,8 @@ joomla-dialog {
   }
 
   iframe.iframe-content {
-    width: 100%;
-    height: 100%;
+    inline-size: 100%;
+    block-size: 100%;
   }
 
   // Extra loading animation for iframe and ajax types
@@ -214,13 +214,14 @@ joomla-dialog {
     &.loading {
       dialog:after {
         position: absolute;
-        top: 50%;
-        left: 50%;
+        inset-block-start: 50%;
+        inset-inline-start: 50%;
         display: block;
-        width: 66px;
-        height: 66px;
+        inline-size: 66px;
+        block-size: 66px;
         content: "";
-        background: url("../../../../system/images/ajax-loader.gif") no-repeat center; // TODO: use svg animation?
+        background: url("../../../../system/images/joomla-loader.svg") no-repeat center;
+        background-size: 66px 66px;
         transform: translate(-50%, -50%);
       }
     }
@@ -255,7 +256,7 @@ joomla-dialog dialog[open] {
   box-sizing: border-box;
   display: flex;
   flex-flow: column;
-  width: 100%;
+  inline-size: 100%;
   background: var(--body-bg);
 
   .buttons-holder {
@@ -276,7 +277,7 @@ joomla-dialog dialog[open] {
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
-  border-bottom: 1px solid var(--border-color);
+  border-block-end: 1px solid var(--border-color);
 
   h3 {
     margin: 0;
@@ -299,8 +300,8 @@ joomla-dialog dialog[open] {
 
   .buttons-holder {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    inset-block-start: 1rem;
+    inset-inline-end: 1rem;
   }
 
   // Apply overflow for potentially large content
@@ -323,7 +324,7 @@ joomla-dialog dialog[open] {
 .joomla-dialog-footer {
   position: relative;
   padding: 1rem;
-  border-top: 1px solid var(--border-color);
+  border-block-start: 1px solid var(--border-color);
 
   .buttons-holder button {
     padding-inline: 22px;
@@ -338,9 +339,9 @@ joomla-dialog dialog[open] {
 .joomla-dialog-alert,
 .joomla-dialog-confirm {
   dialog {
-    width: 600px;
-    max-width: 80vw;
-    height: fit-content;
+    inline-size: 600px;
+    max-inline-size: 80vw;
+    block-size: fit-content;
   }
 
   .joomla-dialog-body {
@@ -352,8 +353,8 @@ joomla-dialog dialog[open] {
 .joomla-dialog-content-select-field {
   dialog {
     @include media-breakpoint-up(xxl) {
-      width: 90vw;
-      height: 90vh;
+      inline-size: 90vw;
+      block-size: 90vh;
     }
   }
 }
