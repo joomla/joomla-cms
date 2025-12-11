@@ -706,28 +706,32 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     }
 
     /**
-     * Gets the name of the current template.
+     * Gets current template data
      *
      * @param   boolean  $params  An optional associative array of configuration settings
      *
      * @return  string|\stdClass  The name of the template if the params argument is false. The template object if the params argument is true.
      *
+     * @throws  \InvalidArgumentException
      * @since   3.2
      */
     public function getTemplate($params = false)
     {
-        if ($params) {
-            $template = new \stdClass();
-
-            $template->template    = 'system';
-            $template->params      = new Registry();
-            $template->inheritable = 0;
-            $template->parent      = '';
-
-            return $template;
+        if (!\is_object($this->template)) {
+            $this->initialiseTemplate();
         }
 
-        return 'system';
+        if (!$this->isValidTemplate($this->template)) {
+            throw new \InvalidArgumentException(
+                Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template)
+            );
+        }
+
+        if ($params) {
+            return $this->template;
+        }
+
+        return $this->template->template;
     }
 
     /**
@@ -1400,6 +1404,25 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     public function setMenuFactory(MenuFactoryInterface $menuFactory): void
     {
         $this->menuFactory = $menuFactory;
+    }
+
+    /**
+     * Initialise the template
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function initialiseTemplate(): void
+    {
+        $template = new \stdClass();
+
+        $template->template    = 'system';
+        $template->params      = new Registry();
+        $template->inheritable = 0;
+        $template->parent      = '';
+
+        $this->template = $template;
     }
 
     /**
