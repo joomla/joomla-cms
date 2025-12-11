@@ -567,7 +567,6 @@ abstract class JLoader
      *
      * @since   3.4
      */
-    
     public static function applyAliasFor($class)
     {
         $class = self::stripFirstBackslash($class);
