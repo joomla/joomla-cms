@@ -39,7 +39,7 @@ class CategoryFormModel extends AdminCategoryModel
      * Component option name.
      *
      * @var    string
-     * @since  6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     protected $option = 'com_content';
 
