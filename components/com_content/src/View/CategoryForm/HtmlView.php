@@ -66,7 +66,7 @@ class HtmlView extends BaseHtmlView
      * The page parameters.
      *
      * @var    \Joomla\Registry\Registry|null
-     * @since  6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     protected $params = null;
 
