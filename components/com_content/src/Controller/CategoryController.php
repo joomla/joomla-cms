@@ -63,7 +63,7 @@ class CategoryController extends FormController
      * The URL edit variable.
      *
      * @var    string
-     * @since  6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     protected $urlVar = 'id';
 
