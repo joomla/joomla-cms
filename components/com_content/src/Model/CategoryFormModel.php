@@ -488,7 +488,7 @@ class CategoryFormModel extends AdminCategoryModel
      *
      * @return  \Joomla\CMS\Table\Table  A Table object.
      *
-     * @since   6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     public function getTable($type = 'Category', $prefix = 'Administrator', $config = [])
     {
