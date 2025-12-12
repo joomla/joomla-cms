@@ -58,7 +58,7 @@ class HtmlView extends BaseHtmlView
      * The page to return to after submission.
      *
      * @var    string
-     * @since  6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     protected $return_page = '';
 
