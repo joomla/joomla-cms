@@ -547,14 +547,13 @@ final class InstallationApplication extends CMSApplication
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected function initialiseTemplate():void
+    protected function initialiseTemplate(): void
     {
-        $template              = new \stdClass();
-        $template->template    = 'template';
-        $template->params      = new Registry();
-        $template->inheritable = 0;
-        $template->parent      = '';
-
-        $this->template = $template;
+        $this->template = (object) [
+            'template'    => 'template',
+            'params'      => new Registry(),
+            'inheritable' => 0,
+            'parent'      => '',
+        ];
     }
 }

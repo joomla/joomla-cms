@@ -1415,13 +1415,12 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      */
     protected function initialiseTemplate(): void
     {
-        $template              = new \stdClass();
-        $template->template    = 'system';
-        $template->params      = new Registry();
-        $template->inheritable = 0;
-        $template->parent      = '';
-
-        $this->template = $template;
+        $this->template = (object) [
+            'template'    => 'system',
+            'params'      => new Registry(),
+            'inheritable' => 0,
+            'parent'      => '',
+        ];
     }
 
     /**
