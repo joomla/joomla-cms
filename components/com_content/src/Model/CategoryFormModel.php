@@ -59,7 +59,7 @@ class CategoryFormModel extends AdminCategoryModel
      *
      * @return  mixed
      *
-     * @since   6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     public function getState($property = null, $default = null)
     {
