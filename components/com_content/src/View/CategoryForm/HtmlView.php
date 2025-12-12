@@ -42,7 +42,7 @@ class HtmlView extends BaseHtmlView
      * The item being edited.
      *
      * @var    \stdClass
-     * @since  6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     protected $item;
 
