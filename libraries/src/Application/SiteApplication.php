@@ -390,7 +390,7 @@ final class SiteApplication extends CMSApplication
     {
         return parent::getRouter($name, $options);
     }
-    
+
     /**
      * Initialise the application.
      *
