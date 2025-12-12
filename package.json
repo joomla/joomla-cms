@@ -64,6 +64,7 @@
     "@vue-flow/minimap": "^1.5.3",
     "@vue-flow/node-resizer": "^1.5.0",
     "accessibility": "^3.0.17",
+    "altcha": "^2.2.4",
     "awesomplete": "^1.1.7",
     "bootstrap": "^5.3.8",
     "choices.js": "^11.1.0",

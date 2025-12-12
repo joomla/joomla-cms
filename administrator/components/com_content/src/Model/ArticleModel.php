@@ -456,9 +456,10 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|boolean  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -466,10 +467,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
 
         // Get the form.
         $form = $this->loadForm('com_content.article', 'article', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         // Object uses for checking edit state permission of article
         $record = new \stdClass();

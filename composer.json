@@ -102,7 +102,8 @@
     "phpseclib/bcmath_compat": "^2.0.3",
     "jfcherng/php-diff": "^6.16.2",
     "php-tuf/php-tuf": "^1.0.3",
-    "php-debugbar/php-debugbar": "^2.2.4"
+    "php-debugbar/php-debugbar": "^2.2.4",
+    "altcha-org/altcha": "^1.2"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.6.29",

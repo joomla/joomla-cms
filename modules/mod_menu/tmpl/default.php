@@ -18,8 +18,9 @@ $wa = $app->getDocument()->getWebAssetManager();
 $wa->getRegistry()->addExtensionRegistryFile('mod_menu');
 $wa->usePreset('mod_menu.menu');
 
-$tagId = $params->get('tag_id', '') ?: 'mod-menu' . $module->id;
-$id = ' id="' . htmlspecialchars($tagId, ENT_QUOTES, 'UTF-8') . '"';
+$tagId      = $params->get('tag_id', '') ?: 'mod-menu' . $module->id;
+$id         = ' id="' . htmlspecialchars($tagId, ENT_QUOTES, 'UTF-8') . '"';
+$startLevel = (int) $params->get('startLevel', 1);
 
 // The menu class is deprecated. Use mod-menu instead
 ?>
@@ -63,7 +64,7 @@ $id = ' id="' . htmlspecialchars($tagId, ENT_QUOTES, 'UTF-8') . '"';
     echo '<li class="' . $class . '">';
 
     // The next item is deeper - add toggle only here it is a heading or separator
-    if ($item->deeper && $item->level === 1 && in_array($item->type, ['separator', 'heading'])) {
+    if ($item->deeper && (int) $item->level === $startLevel && in_array($item->type, ['separator', 'heading'])) {
         // Add a toggle button.
         echo '<button class="mod-menu__toggle-sub" aria-expanded="false">';
     }
@@ -85,7 +86,7 @@ $id = ' id="' . htmlspecialchars($tagId, ENT_QUOTES, 'UTF-8') . '"';
     if ($item->deeper) {
         // Check type - add only on first level
         // @todo aria-label - set in menu item ???
-        if ($item->level === 1) {
+        if ((int) $item->level === $startLevel) {
             switch ($item->type) {
                 case 'heading':
                 case 'separator':
