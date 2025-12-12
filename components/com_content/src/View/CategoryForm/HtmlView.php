@@ -74,7 +74,7 @@ class HtmlView extends BaseHtmlView
      * The page class suffix.
      *
      * @var    string
-     * @since  6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     protected $pageclass_sfx = '';
 
