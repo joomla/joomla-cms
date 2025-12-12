@@ -174,7 +174,7 @@ class CategoryFormModel extends AdminCategoryModel
      *
      * @return  mixed  The data for the form.
      *
-     * @since   6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function loadFormData()
     {
