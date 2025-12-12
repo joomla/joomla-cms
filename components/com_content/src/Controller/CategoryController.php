@@ -21,7 +21,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Content category frontend controller.
  *
- * @since  6.1.0
+     * @since   __DEPLOY_VERSION__
  */
 class CategoryController extends FormController
 {
