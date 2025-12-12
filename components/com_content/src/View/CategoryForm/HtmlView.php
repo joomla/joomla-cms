@@ -34,7 +34,7 @@ class HtmlView extends BaseHtmlView
      * The Form object.
      *
      * @var    \Joomla\CMS\Form\Form
-     * @since  6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     protected $form;
 
