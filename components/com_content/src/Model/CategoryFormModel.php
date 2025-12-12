@@ -47,7 +47,7 @@ class CategoryFormModel extends AdminCategoryModel
      * Model typeAlias string. Used for version history.
      *
      * @var    string
-     * @since  6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     public $typeAlias = 'com_content.category';
 
