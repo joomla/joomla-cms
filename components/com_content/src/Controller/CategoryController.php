@@ -103,12 +103,6 @@ class CategoryController extends FormController
         $this->input->set('layout', 'edit');
         $this->input->set('view', $this->view_item);
 
-        \Joomla\CMS\Log\Log::add(
-            'COM_CONTENT_CATEGORY_SAVE id=' . $data['id'] . ' alias=' . ($data['alias'] ?? '') . ' parent_id=' . ($data['parent_id'] ?? ''),
-            \Joomla\CMS\Log\Log::INFO,
-            'com_content'
-        );
-
         return parent::save($key, $urlVar);
     }
 
