@@ -219,7 +219,7 @@ class CategoryFormModel extends AdminCategoryModel
      *
      * @return  Form  A Form object
      *
-     * @since   6.1.0
+     * @since   __DEPLOY_VERSION__
      * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
