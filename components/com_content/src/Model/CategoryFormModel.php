@@ -115,7 +115,7 @@ class CategoryFormModel extends AdminCategoryModel
      *
      * @return  mixed  Category item data object on success, false on failure.
      *
-     * @since   6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     public function getItem($pk = null)
     {
