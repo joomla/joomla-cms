@@ -34,7 +34,7 @@ class CategoryController extends FormController
      *
      * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel|bool
      *
-     * @since   6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     public function getModel($name = 'CategoryForm', $prefix = 'Site', $config = [])
     {
