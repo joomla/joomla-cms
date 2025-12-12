@@ -82,7 +82,7 @@ class HtmlView extends BaseHtmlView
      * The user object.
      *
      * @var    \Joomla\CMS\User\User|null
-     * @since  6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     protected $user = null;
 
