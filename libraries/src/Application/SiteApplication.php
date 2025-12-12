@@ -603,7 +603,7 @@ final class SiteApplication extends CMSApplication
     protected function detectLanguage(User $user): string
     {
         // Detect language from input
-        $lang = $this->input->getString('language', null);
+        $lang = $this->input->getString('language');
 
         if ($lang && LanguageHelper::exists($lang)) {
             return $lang;
