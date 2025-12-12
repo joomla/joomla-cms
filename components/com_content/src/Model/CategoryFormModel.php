@@ -162,7 +162,7 @@ class CategoryFormModel extends AdminCategoryModel
      *
      * @return  string  The return URL.
      *
-     * @since   6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     public function getReturnPage()
     {
