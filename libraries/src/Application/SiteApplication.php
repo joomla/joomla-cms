@@ -872,7 +872,7 @@ final class SiteApplication extends CMSApplication
      * @param   array   $templates     An array of template objects
      * @param   string  $templateName  The template name
      *
-     * @return  \stdClass|null  The template object if found, null otherwise
+     * @return  ?\stdClass  The template object if found, null otherwise
      *
      * @since   __DEPLOY_VERSION__
      */
