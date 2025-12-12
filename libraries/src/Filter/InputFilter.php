@@ -151,8 +151,11 @@ class InputFilter extends BaseInputFilter
 
         if (preg_match_all($pattern, $text, $matches)) {
             foreach ($matches[0] as $match) {
-                $match  = (string) str_replace(['?', '"'], '', $match);
-                $text   = (string) str_replace($match, PunycodeHelper::emailToPunycode($match), $text);
+                try {
+                    $match = (string) str_replace(['?', '"'], '', $match);
+                    $text  = (string) str_replace($match, PunycodeHelper::emailToPunycode($match), $text);
+                } catch (\Exception) {
+                }
             }
         }
 

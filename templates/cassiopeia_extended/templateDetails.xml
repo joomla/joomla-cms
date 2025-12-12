@@ -2,10 +2,10 @@
 <extension type="template" client="site">
 	<name>cassiopeia_extended</name>
 	<version>1.0</version>
-	<creationDate>2017-02</creationDate>
+	<creationDate>2025-07</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
-	<copyright>(C) 2017 Open Source Matters, Inc.</copyright>
+	<copyright>(C) 2025 Open Source Matters, Inc.</copyright>
 	<description>TPL_CASSIOPEIA_EXTENDED_XML_DESCRIPTION</description>
     <inheritable>0</inheritable>
     <parent>cassiopeia</parent>

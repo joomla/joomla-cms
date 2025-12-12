@@ -567,7 +567,7 @@ class Query
 
         // Sort the filter ids by branch.
         foreach ($results as $result) {
-            $this->filters[$result->branch][$result->title] = (int) $result->id;
+            $this->filters[$result->branch][$result->id] = $result->title;
         }
 
         return true;
@@ -652,7 +652,7 @@ class Query
             }
 
             // Add the filter to the list.
-            $this->filters[$result->branch][$result->title] = (int) $result->id;
+            $this->filters[$result->branch][$result->id] = $result->title;
         }
 
         return true;
