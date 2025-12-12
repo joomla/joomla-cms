@@ -498,5 +498,4 @@ class CategoryFormModel extends AdminCategoryModel
 
         return $table;
     }
-
 }
