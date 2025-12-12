@@ -31,7 +31,7 @@ use Joomla\Component\Categories\Administrator\Table\CategoryTable;
 /**
  * Frontend category form model for com_content.
  *
- * @since  6.1.0
+     * @since   __DEPLOY_VERSION__
  */
 class CategoryFormModel extends AdminCategoryModel
 {
