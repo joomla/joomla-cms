@@ -47,7 +47,7 @@ class CategoryController extends FormController
      * The URL view item variable.
      *
      * @var    string
-     * @since  6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     protected $view_item = 'categoryform';
 
