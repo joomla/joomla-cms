@@ -113,7 +113,7 @@ abstract class RouteHelper
      *
      * @return  string  The category form route.
      *
-     * @since   6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     public static function getCategoryFormRoute($id)
     {
