@@ -101,7 +101,7 @@ class CategoryFormModel extends AdminCategoryModel
      *
      * @return  void
      *
-     * @since   6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function populateState()
     {
