@@ -25,7 +25,7 @@
     document.querySelectorAll(`[${buttonDataSelector}]`).forEach((button) => {
       button.addEventListener('click', (e) => {
         e.preventDefault();
-        const task = e.target.getAttribute(buttonDataSelector);
+        const task = button.getAttribute(buttonDataSelector);
         submitTask(task);
       });
     });

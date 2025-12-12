@@ -170,7 +170,7 @@ class ArticlesHelper implements DatabaseAwareInterface
 
         switch ($ordering) {
             case 'random':
-                $articles->setState('list.ordering', $this->getDatabase()->getQuery(true)->rand());
+                $articles->setState('list.ordering', $this->getDatabase()->createQuery()->rand());
                 break;
 
             case 'rating_count':
@@ -383,7 +383,8 @@ class ArticlesHelper implements DatabaseAwareInterface
 
                 // Remove any images belongs to the text
                 if (!$params->get('image')) {
-                    $item->displayIntrotext = preg_replace('/<img[^>]*>/', '', $item->displayIntrotext);
+                    // Remove any images and empty links from the intro text
+                    $item->displayIntrotext = preg_replace(['/\\<img[^>]*>/', '/<a[^>]*><\\/a>/'], '', $item->displayIntrotext);
                 }
 
                 if ($introtext_limit != 0) {

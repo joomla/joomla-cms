@@ -11,44 +11,45 @@
       .forEach((input) => {
         const toggleButton = input.parentNode.querySelector('.input-password-toggle');
 
-        const hasClickListener = toggleButton.getAttribute('clickListener') === 'true';
+        if (toggleButton) {
+          const hasClickListener = toggleButton.getAttribute('clickListener') === 'true';
 
-        if (toggleButton && !hasClickListener) {
-          toggleButton.setAttribute('clickListener', 'true');
-          toggleButton.addEventListener('click', () => {
-            const icon = toggleButton.firstElementChild;
-            const srText = toggleButton.lastElementChild;
+          if (!hasClickListener) {
+            toggleButton.setAttribute('clickListener', 'true');
+            toggleButton.addEventListener('click', () => {
+              const icon = toggleButton.firstElementChild;
+              const srText = toggleButton.lastElementChild;
 
-            if (input.type === 'password') {
-              // Update the icon class
-              icon.classList.remove('icon-eye');
-              icon.classList.add('icon-eye-slash');
+              if (input.type === 'password') {
+                // Update the icon class
+                icon.classList.remove('icon-eye');
+                icon.classList.add('icon-eye-slash');
 
-              // Update the input type
-              input.type = 'text';
+                // Update the input type
+                input.type = 'text';
 
-              // Focus the input field
-              input.focus();
+                // Focus the input field
+                input.focus();
 
-              // Update the text for screenreaders
-              srText.innerText = Joomla.Text._('JHIDEPASSWORD');
-            } else if (input.type === 'text') {
-              // Update the icon class
-              icon.classList.add('icon-eye');
-              icon.classList.remove('icon-eye-slash');
+                // Update the text for screenreaders
+                srText.innerText = Joomla.Text._('JHIDEPASSWORD');
+              } else if (input.type === 'text') {
+                // Update the icon class
+                icon.classList.add('icon-eye');
+                icon.classList.remove('icon-eye-slash');
 
-              // Update the input type
-              input.type = 'password';
+                // Update the input type
+                input.type = 'password';
 
-              // Focus the input field
-              input.focus();
+                // Focus the input field
+                input.focus();
 
-              // Update the text for screenreaders
-              srText.innerText = Joomla.Text._('JSHOWPASSWORD');
-            }
-          });
+                // Update the text for screenreaders
+                srText.innerText = Joomla.Text._('JSHOWPASSWORD');
+              }
+            });
+          }
         }
-
         const modifyButton = input.parentNode.querySelector('.input-password-modify');
 
         if (modifyButton) {

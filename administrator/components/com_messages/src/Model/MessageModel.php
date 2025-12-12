@@ -14,6 +14,7 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Rule;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -22,7 +23,6 @@ use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Asset;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
@@ -102,7 +102,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
 
                     try {
                         Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-                    } catch (\RuntimeException $exception) {
+                    } catch (\RuntimeException) {
                         Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
                     }
 
@@ -144,7 +144,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
                     if ($replyId = (int) $this->getState('reply.id')) {
                         // If replying to a message, preload some data.
                         $db    = $this->getDatabase();
-                        $query = $db->getQuery(true)
+                        $query = $db->createQuery()
                             ->select($db->quoteName(['subject', 'user_id_from', 'user_id_to']))
                             ->from($db->quoteName('#__messages'))
                             ->where($db->quoteName('message_id') . ' = :messageid')
@@ -164,11 +164,12 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
                             return false;
                         }
 
-                        $this->item->set('user_id_to', $message->user_id_from);
+                        $this->item->user_id_to = $message->user_id_from;
+
                         $re = Text::_('COM_MESSAGES_RE');
 
                         if (stripos($message->subject, $re) !== 0) {
-                            $this->item->set('subject', $re . ' ' . $message->subject);
+                            $this->item->subject = $re . ' ' . $message->subject;
                         }
                     }
                 } elseif ($this->item->user_id_to != $this->getCurrentUser()->id) {
@@ -178,7 +179,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
                 } else {
                     // Mark message read
                     $db    = $this->getDatabase();
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->update($db->quoteName('#__messages'))
                         ->set($db->quoteName('state') . ' = 1')
                         ->where($db->quoteName('message_id') . ' = :messageid')
@@ -189,7 +190,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
 
             // Get the user name for an existing message.
             if ($this->item->user_id_from && $fromUser = new User($this->item->user_id_from)) {
-                $this->item->set('from_user_name', $fromUser->name);
+                $this->item->from_user_name = $fromUser->name;
             }
         }
 
@@ -202,20 +203,14 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \Joomla\CMS\Form\Form|bool  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
-        // Get the form.
-        $form = $this->loadForm('com_messages.message', 'message', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+        return $this->loadForm('com_messages.message', 'message', ['control' => 'jform', 'load_data' => $loadData]);
     }
 
     /**
@@ -266,7 +261,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
 
                     try {
                         Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-                    } catch (\RuntimeException $exception) {
+                    } catch (\RuntimeException) {
                         Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'warning');
                     }
 
@@ -430,8 +425,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
         $db = $this->getDatabase();
 
         try {
-            /** @var Asset $table */
-            $table  = Table::getInstance('Asset');
+            $table  = new Asset($db);
             $rootId = $table->getRootId();
 
             /** @var Rule[] $rules */
@@ -458,7 +452,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
                 return false;
             }
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('map.user_id'))
                 ->from($db->quoteName('#__user_usergroup_map', 'map'))
                 ->join(

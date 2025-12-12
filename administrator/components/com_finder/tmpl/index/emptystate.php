@@ -26,6 +26,8 @@ $displayData = [
     'content'    => Text::_('COM_FINDER_INDEX_NO_DATA') . '<br>' . Text::_('COM_FINDER_INDEX_TIP'),
     'title'      => Text::_('COM_FINDER_HEADING_INDEXER'),
     'createURL'  => "javascript:document.getElementsByClassName('button-index')[0].click();",
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);
@@ -54,4 +56,11 @@ if ($this->finderPluginId) {
         ],
     );
     Factory::getApplication()->enqueueMessage(Text::sprintf('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED_LINK', $link), 'warning');
+}
+
+// Show warning that the finder plugins are disabled
+if (!$this->finderPlugins) {
+    $url  = 'index.php?option=com_plugins&filter[folder]=finder';
+    $link = HTMLHelper::_('link', Route::_($url), Text::_('COM_FINDER_FINDER_PLUGINS'), 'class="alert-link"');
+    Factory::getApplication()->enqueueMessage(Text::sprintf('COM_FINDER_INDEX_PLUGIN_FINDER_NOT_ENABLED_LINK', $link), 'warning');
 }

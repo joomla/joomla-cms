@@ -14,7 +14,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
@@ -111,6 +110,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var ArticlesModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->items         = $model->getItems();
         $this->pagination    = $model->getPagination();
@@ -128,11 +128,6 @@ class HtmlView extends BaseHtmlView
             PluginHelper::importPlugin('workflow');
 
             $this->transitions = $model->getTransitions();
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors()) || $this->transitions === false) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // We don't need toolbar in the modal window.
@@ -181,9 +176,9 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo   = ContentHelper::getActions('com_content', 'category', $this->state->get('filter.category_id'));
-        $user    = $this->getCurrentUser();
-        $toolbar = $this->getDocument()->getToolbar();
+        $canDo    = ContentHelper::getActions('com_content', 'category', $this->state->get('filter.category_id'));
+        $user     = $this->getCurrentUser();
+        $toolbar  = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_CONTENT_ARTICLES_TITLE'), 'copy article');
 
@@ -208,7 +203,7 @@ class HtmlView extends BaseHtmlView
                     ->buttonClass('text-center py-2 h3');
 
                 $cmd      = "Joomla.submitbutton('articles.runTransition');";
-                $messages = "{error: [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
+                $messages = "{error: [Joomla.Text._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
                 $alert    = 'Joomla.renderMessages(' . $messages . ')';
                 $cmd      = 'if (document.adminForm.boxchecked.value == 0) { ' . $alert . ' } else { ' . $cmd . ' }';
 
@@ -227,11 +222,9 @@ class HtmlView extends BaseHtmlView
 
                 $childBar->unpublish('articles.unpublish')->listCheck(true);
 
-                $childBar->standardButton('featured', 'JFEATURE', 'articles.featured')
-                    ->listCheck(true);
+                $childBar->standardButton('featured', 'JFEATURE', 'articles.featured')->listCheck(true);
 
-                $childBar->standardButton('unfeatured', 'JUNFEATURE', 'articles.unfeatured')
-                    ->listCheck(true);
+                $childBar->standardButton('unfeatured', 'JUNFEATURE', 'articles.unfeatured')->listCheck(true);
 
                 $childBar->archive('articles.archive')->listCheck(true);
 

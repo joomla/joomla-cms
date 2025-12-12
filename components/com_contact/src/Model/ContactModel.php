@@ -98,17 +98,14 @@ class ContactModel extends FormModel
      * @param   array    $data      An optional array of data for the form to interrogate.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
         $form = $this->loadForm('com_contact.contact', 'contact', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         $temp    = clone $this->getState('params');
         $contact = $this->getItem($this->getState('contact.id'));
@@ -180,7 +177,7 @@ class ContactModel extends FormModel
         if (!isset($this->_item[$pk])) {
             try {
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
 
                 $query->select($this->getState('item.select', 'a.*'))
                     ->select($this->getSlugColumn($query, 'a.id', 'a.alias') . ' AS slug')
@@ -252,7 +249,7 @@ class ContactModel extends FormModel
                 }
 
                 // Compute access permissions.
-                if (($access = $this->getState('filter.access'))) {
+                if ($this->getState('filter.access')) {
                     // If the access filter has been set, we already know this user can view.
                     $data->params->set('access-view', true);
                 } else {
@@ -300,7 +297,7 @@ class ContactModel extends FormModel
         $user      = $this->getCurrentUser();
         $groups    = $user->getAuthorisedViewLevels();
         $published = $this->getState('filter.published');
-        $query     = $db->getQuery(true);
+        $query     = $db->createQuery();
 
         // If we are showing a contact list, then the contact parameters take priority
         // So merge the contact parameters with the merged parameters
@@ -364,6 +361,10 @@ class ContactModel extends FormModel
             $contact->articles = null;
         }
 
+        if (empty($contact->user_id)) {
+            return;
+        }
+
         // Get the profile information for the linked user
         $userModel = $this->bootComponent('com_users')->getMVCFactory()
             ->createModel('User', 'Administrator', ['ignore_request' => true]);
@@ -403,9 +404,9 @@ class ContactModel extends FormModel
         return 'CASE WHEN '
             . $query->charLength($alias, '!=', '0')
             . ' THEN '
-            . $query->concatenate([$query->castAsChar($id), $alias], ':')
+            . $query->concatenate([$query->castAs('CHAR', $id), $alias], ':')
             . ' ELSE '
-            . $query->castAsChar($id) . ' END';
+            . $query->castAs('CHAR', $id) . ' END';
     }
 
     /**

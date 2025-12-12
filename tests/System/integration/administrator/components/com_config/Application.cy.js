@@ -22,7 +22,7 @@ describe('Test in backend that the application configuration', () => {
     cy.get('#sendtestmail').click();
 
     cy.task('getMails').then((mails) => {
-      cy.get('#system-message-container').should('contain.text', 'The email was sent to');
+      cy.checkForSystemMessage('The email was sent to');
 
       expect(mails.length).to.equal(1);
       cy.wrap(mails[0].body).should('have.string', 'This is a test mail sent using');

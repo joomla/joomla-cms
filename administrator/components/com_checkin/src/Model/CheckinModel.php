@@ -102,11 +102,11 @@ class CheckinModel extends ListModel
 
             $fields = $db->getTableColumns($tn, false);
 
-            if (!(isset($fields['checked_out']) && isset($fields['checked_out_time']))) {
+            if (!(isset($fields['checked_out'], $fields['checked_out_time']))) {
                 continue;
             }
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->update($db->quoteName($tn))
                 ->set($db->quoteName('checked_out') . ' = DEFAULT');
 
@@ -183,11 +183,11 @@ class CheckinModel extends ListModel
 
                 $fields = $db->getTableColumns($tn, false);
 
-                if (!(isset($fields['checked_out']) && isset($fields['checked_out_time']))) {
+                if (!(isset($fields['checked_out'], $fields['checked_out_time']))) {
                     continue;
                 }
 
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select('COUNT(*)')
                     ->from($db->quoteName($tn));
 

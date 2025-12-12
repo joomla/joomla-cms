@@ -11,9 +11,9 @@
 namespace Joomla\Component\Contenthistory\Site\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Input\Input;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\Input\Input;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -36,7 +36,7 @@ class DisplayController extends BaseController
      */
     public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
-        $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
+        $config['base_path'] = JPATH_ADMINISTRATOR . '/components/com_contenthistory';
 
         parent::__construct($config, $factory, $app, $input);
     }
