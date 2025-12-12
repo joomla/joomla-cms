@@ -147,7 +147,7 @@ class Icon
      *
      * @return  string  The HTML for the category edit icon.
      *
-     * @since   6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     public function categoryEdit($category, $params, $attribs = [], $legacy = false)
     {
