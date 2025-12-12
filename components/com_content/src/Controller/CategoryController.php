@@ -113,7 +113,7 @@ class CategoryController extends FormController
      *
      * @return  boolean
      *
-     * @since   6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function allowAdd($data = [])
     {
