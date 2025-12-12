@@ -26,7 +26,7 @@ use Joomla\Component\Content\Site\Model\CategoryFormModel;
 /**
  * HTML Category Form View class for the Content component.
  *
- * @since  6.1.0
+     * @since   __DEPLOY_VERSION__
  */
 class HtmlView extends BaseHtmlView
 {
