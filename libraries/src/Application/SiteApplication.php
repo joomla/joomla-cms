@@ -390,36 +390,7 @@ final class SiteApplication extends CMSApplication
     {
         return parent::getRouter($name, $options);
     }
-
-    /**
-     * Gets the name of the current template.
-     *
-     * @param   boolean  $params  True to return the template parameters
-     *
-     * @return  string|\stdClass  The name of the template if the params argument is false. The template object if the params argument is true.
-     *
-     * @since   3.2
-     * @throws  \InvalidArgumentException
-     */
-    public function getTemplate($params = false)
-    {
-        if (!\is_object($this->template)) {
-            $this->initialiseTemplate();
-        }
-
-        if (!$this->isValidTemplate($this->template)) {
-            throw new \InvalidArgumentException(
-                Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template)
-            );
-        }
-
-        if ($params) {
-            return $this->template;
-        }
-
-        return $this->template->template;
-    }
-
+    
     /**
      * Initialise the application.
      *
