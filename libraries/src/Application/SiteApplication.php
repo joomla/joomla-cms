@@ -828,20 +828,20 @@ final class SiteApplication extends CMSApplication
         $item = $menu->getActive();
 
         if (!$item) {
-            $item = $menu->getItem($this->input->getInt('Itemid', null));
+            $item = $menu->getItem($this->input->getInt('Itemid', 0));
         }
 
         $id = 0;
 
-        if (\is_object($item)) {
+        if ($item) {
             // Valid item retrieved
             $id = $item->template_style_id;
         }
 
         $tid = $this->input->getUint('templateStyle', 0);
 
-        if (is_numeric($tid) && (int) $tid > 0) {
-            $id = (int) $tid;
+        if ($tid > 0) {
+            $id = $tid;
         }
 
         return $id;
