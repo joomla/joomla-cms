@@ -125,6 +125,6 @@
     "stylelint-config-standard": "^39.0.1",
     "stylelint-order": "^7.0.0",
     "stylelint-scss": "^6.13.0",
-    "totp-generator": "^1.1.0"
+    "totp-generator": "^1.0.0"
   }
 }
