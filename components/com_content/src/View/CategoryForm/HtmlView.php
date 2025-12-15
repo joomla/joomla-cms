@@ -156,7 +156,7 @@ class HtmlView extends BaseHtmlView
             ->addControlField('task', '')
             ->addControlField('return', $this->return_page ?? '');
 
-        $this->_prepareDocument();
+        $this->prepareDocument();
 
         parent::display($tpl);
     }
@@ -166,7 +166,7 @@ class HtmlView extends BaseHtmlView
      *
      * @return  void
      */
-    protected function _prepareDocument()
+    protected function prepareDocument()
     {
         $app           = Factory::getApplication();
         $categoryTitle = $this->item && $this->item->id ? $this->item->title : Text::_('COM_CONTENT_FORM_EDIT_CATEGORY');
