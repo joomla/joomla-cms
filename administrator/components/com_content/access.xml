@@ -7,7 +7,7 @@
 		<action name="core.create" title="JACTION_CREATE" />
 		<action name="core.delete" title="JACTION_DELETE" />
 		<action name="core.edit" title="JACTION_EDIT" />
-		<action name="core.edit.frontend" title="COM_CONTENT_ACTION_CATEGORY_EDIT_FRONTEND" description="COM_CONTENT_ACTION_CATEGORY_EDIT_FRONTEND_DESC" />
+		<action name="core.edit.frontend" title="COM_CONTENT_ACTION_CATEGORY_EDIT_FRONTEND" />
 		<action name="core.edit.state" title="JACTION_EDITSTATE" />
 		<action name="core.edit.own" title="JACTION_EDITOWN" />
 		<action name="core.edit.value" title="JACTION_EDITVALUE" />
@@ -18,7 +18,7 @@
 		<action name="core.create" title="JACTION_CREATE" />
 		<action name="core.delete" title="JACTION_DELETE" />
 		<action name="core.edit" title="JACTION_EDIT" />
-		<action name="core.edit.frontend" title="COM_CONTENT_ACTION_CATEGORY_EDIT_FRONTEND" description="COM_CONTENT_ACTION_CATEGORY_EDIT_FRONTEND_DESC" />
+		<action name="core.edit.frontend" title="COM_CONTENT_ACTION_CATEGORY_EDIT_FRONTEND" />
 		<action name="core.edit.state" title="JACTION_EDITSTATE" />
 		<action name="core.edit.own" title="JACTION_EDITOWN" />
 	</section>
