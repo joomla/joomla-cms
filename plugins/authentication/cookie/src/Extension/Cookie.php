@@ -216,7 +216,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
             );
 
             // Issue warning by email to user and/or admin?
-            Log::add(Text::sprintf('PLG_AUTHENTICATION_COOKIE_ERROR_LOG_LOGIN_FAILED', $results[0]->user_id), Log::WARNING, 'security');
+            Log::add(Text::sprintf($this->getApplication()->getLanguage()->_('PLG_AUTHENTICATION_COOKIE_ERROR_LOG_LOGIN_FAILED'), $results[0]->user_id), Log::WARNING, 'security');
             $response->status = Authentication::STATUS_FAILURE;
 
             return;
