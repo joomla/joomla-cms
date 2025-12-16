@@ -48,20 +48,14 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
      * @param   array    $data      An optional array of data for the form to interrogate.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
-        // Get the form.
-        $form = $this->loadForm('com_users.reset_request', 'reset_request', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+        return $this->loadForm('com_users.reset_request', 'reset_request', ['control' => 'jform', 'load_data' => $loadData]);
     }
 
     /**
@@ -70,20 +64,14 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form    A Form object on success, false on failure
+     * @return  Form    A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getResetCompleteForm($data = [], $loadData = true)
     {
-        // Get the form.
-        $form = $this->loadForm('com_users.reset_complete', 'reset_complete', ['control' => 'jform']);
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+        return $this->loadForm('com_users.reset_complete', 'reset_complete', ['control' => 'jform']);
     }
 
     /**
@@ -92,7 +80,7 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
      * @throws  \Exception
@@ -101,10 +89,6 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
     {
         // Get the form.
         $form = $this->loadForm('com_users.reset_confirm', 'reset_confirm', ['control' => 'jform']);
-
-        if (empty($form)) {
-            return false;
-        }
 
         $form->setValue('token', '', Factory::getApplication()->getInput()->get('token'));
 

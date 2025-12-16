@@ -49,6 +49,8 @@ if (
     || (filesize(JPATH_CONFIGURATION . '/configuration.php') < 10)
 ) {
     echo 'Install Joomla to run cli commands' . PHP_EOL;
+    echo 'To install Joomla from the cli run the following command:' . PHP_EOL;
+    echo 'php installation/joomla.php install' . PHP_EOL;
 
     exit;
 }

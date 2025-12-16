@@ -454,7 +454,18 @@ class LanguageHelper
         $cacheFile = JPATH_CACHE . '/language/' . ltrim(str_replace([JPATH_ROOT, '/'], ['', '-'], $fileName), '-') . '.' . filemtime($fileName) . '.php';
 
         if (is_file($cacheFile)) {
-            return include $cacheFile;
+            $result = include $cacheFile;
+
+            if (\is_array($result)) {
+                return $result;
+            }
+
+            // When $result is not an array, the cache file is corrupted, we will delete it and have it regenerated
+            try {
+                File::delete($cacheFile);
+            } catch (FilesystemException $e) {
+                // We ignore the error, as the file is for caching only.
+            }
         }
 
         // This was required for https://github.com/joomla/joomla-cms/issues/17198 but not sure what server setup
