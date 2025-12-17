@@ -720,8 +720,7 @@
 					name="show_email_heading"
 					type="list"
 					label="COM_CONTACT_FIELD_EMAIL_SHOW_HEADING_LABEL"
-					description="COM_CONTACT_FIELD_EMAIL_SHOW_HEADING_DESC"
-					useglobal="true"
+					default="1"
 					validate="options"
 					>
 					<option value="0">JHIDE</option>
