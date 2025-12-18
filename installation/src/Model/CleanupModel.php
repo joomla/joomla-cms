@@ -55,7 +55,7 @@ class CleanupModel extends BaseInstallationModel
                      * We ignore this exception and expect that deletion works
                      * in the next step.
                      */
-                    }
+                }
             }
 
             Folder::delete(JPATH_INSTALLATION);
