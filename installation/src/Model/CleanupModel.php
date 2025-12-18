@@ -47,13 +47,37 @@ class CleanupModel extends BaseInstallationModel
             if (PHP_OS_FAMILY === 'Windows') {
                 // Create a temporary unique filename in case the file couldn't be deleted
                 $tmpFile = JPATH_ROOT . '/tmp/deleted_' . uniqid() . '.php';
-                File::move(JPATH_INSTALLATION . '/index.php', $tmpFile);
-                File::delete($tmpFile);
+                try {
+                    File::move(JPATH_INSTALLATION . '/index.php', $tmpFile);
+                    File::delete($tmpFile);
+                } catch (FilesystemException $e) {
+                    /**
+                     * We ignore this exception and expect that deletion works
+                     * in the next step.
+                     */
+                    }
             }
 
             Folder::delete(JPATH_INSTALLATION);
         } catch (FilesystemException $e) {
-            return false;
+            /**
+             * If the first Windows workaround failed, we check fall back here.
+             *
+             * Windows quirk: The installation folder may fail to delete because
+             * index.php, though already deleted, remains locked by PHP until
+             * the request ends. If no subfolders and only that file is present,
+             * we can assume the deletion effectively successful and continue cleanup.
+             */
+            if (PHP_OS_FAMILY === 'Windows') {
+                $files   = Folder::files(JPATH_INSTALLATION);
+                $folders = Folder::folders(JPATH_INSTALLATION);
+
+                if (\count($folders) > 0 || \count($files) > 1) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
         }
 
         // Remove file joomla.xml in root folder if it exists
