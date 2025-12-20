@@ -79,7 +79,7 @@ class MailerFactory implements MailerFactoryInterface
             // Wrap in try/catch to catch Exception if it is throwing them
             try {
                 // Check for a false return value if exception throwing is disabled
-                if ($mailer->setFrom($mailfrom, MailHelper::cleanLine($fromname), false) === false) {
+                if ($mailer->setFrom($mailfrom, MailHelper::cleanLine($fromname)) === false) {
                     Log::add(__METHOD__ . '() could not set the sender data.', Log::WARNING, 'mail');
                 }
             } catch (\Exception) {

@@ -162,9 +162,10 @@ class ContactModel extends AdminModel implements VersionableModelInterface
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|boolean  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -172,10 +173,6 @@ class ContactModel extends AdminModel implements VersionableModelInterface
 
         // Get the form.
         $form = $this->loadForm('com_contact.' . $this->formName, $this->formName, ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         // Modify the form based on access controls.
         if (!$this->canEditState((object) $data)) {

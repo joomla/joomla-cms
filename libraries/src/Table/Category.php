@@ -17,7 +17,6 @@ use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\Tag\TaggableTableTrait;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
-use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
@@ -32,7 +31,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-class Category extends Nested implements VersionableTableInterface, TaggableTableInterface, CurrentUserInterface
+class Category extends Nested implements TaggableTableInterface, CurrentUserInterface
 {
     use TaggableTableTrait;
     use CurrentUserTrait;
@@ -56,7 +55,7 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
     public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         /**
-         * @deprecated  4.0 will be removed in 6.0
+         * @deprecated  4.0 will be removed in 7.0
          *              This format was used by tags and versioning before 4.0 before
          *              the introduction of the getTypeAlias function.
          */

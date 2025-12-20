@@ -153,7 +153,7 @@
    *
    * @param tasks       An array of install tasks to execute
    */
-  Joomla.install = function(tasks, form) {
+  Joomla.install = function(tasks, form, fromSubmit) {
     const progress = document.getElementById('progressbar');
     const progress_text = document.getElementById('progress-text');
     if (!form) {
@@ -163,7 +163,7 @@
       if (progress_text) {
         progress_text.innerText = Joomla.Text._('INSTL_FINISHED');
       }
-      setTimeout(Joomla.goToPage, 2000, 'remove');
+      setTimeout(Joomla.goToPage, 2000, 'remove', fromSubmit);
       return;
     }
 
@@ -226,7 +226,7 @@
           progress.setAttribute('value', parseInt(progress.getAttribute('value')) + 1);
           progress_text.innerText = Joomla.Text._('INSTL_IN_PROGRESS');
         }
-        Joomla.install(tasks, form);
+        Joomla.install(tasks, form, fromSubmit);
       },
       onError: function(xhr){
         if (progress_text) {
