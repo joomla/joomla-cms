@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Content\Site\Model;
 
-use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -127,14 +126,18 @@ class CategoryFormModel extends AdminCategoryModel
             return false;
         }
 
+        if ($item->extension !== 'com_content') {
+            return false;
+        }
+
         $user         = $this->getCurrentUser();
         $userId       = $user->id;
         $asset        = $item->id ? 'com_content.category.' . $item->id : 'com_content';
-        $frontendEdit = Access::check($userId, 'core.edit.frontend', $asset);
+        $frontendEdit = $user->authorise('core.edit.frontend', $asset);
 
         $canEdit = false;
 
-        if ($frontendEdit !== false) {
+        if ($frontendEdit) {
             if (!$item->id) {
                 $parentId = (int) ($item->parent_id ?? 0);
                 $canEdit  = $user->authorise('core.create', $asset)
@@ -147,7 +150,7 @@ class CategoryFormModel extends AdminCategoryModel
         }
 
         $item->accessEdit   = $canEdit;
-        $item->accessChange = $frontendEdit !== false && $user->authorise('core.edit.state', $asset);
+        $item->accessChange = $frontendEdit && $user->authorise('core.edit.state', $asset);
 
         if ($item->id) {
             $tagsHelper = new TagsHelper();

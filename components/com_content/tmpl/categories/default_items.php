@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -40,9 +39,9 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
                         // Check category edit permission
                         $asset = 'com_content.category.' . $item->id;
                         $canEditItem = false;
-                        $frontendEdit = Access::check($user->id, 'core.edit.frontend', $asset);
+                        $frontendEdit = $user->authorise('core.edit.frontend', $asset);
 
-                        if ($frontendEdit !== false && (int) $item->published !== -2) {
+                        if ($frontendEdit && (int) $item->published !== -2) {
                             $canEditItem = $user->authorise('core.edit', $asset);
 
                             if (!$canEditItem && $user->authorise('core.edit.own', $asset)) {

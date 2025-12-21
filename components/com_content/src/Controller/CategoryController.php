@@ -10,7 +10,7 @@
 
 namespace Joomla\Component\Content\Site\Controller;
 
-use Joomla\CMS\Access\Access;
+use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\Utilities\ArrayHelper;
 
@@ -120,9 +120,18 @@ class CategoryController extends FormController
         $user      = $this->app->getIdentity();
         $parentId  = ArrayHelper::getValue($data, 'parent_id', $this->input->getInt('parent_id'), 'int');
         $assetName = $parentId ? 'com_content.category.' . $parentId : 'com_content';
-        $frontendEdit = Access::check($user->id, 'core.edit.frontend', $assetName);
 
-        if ($frontendEdit === false) {
+        if ($parentId > 1) {
+            $categories = Categories::getInstance('Content', ['access' => false, 'published' => 0]);
+
+            if (!$categories->get($parentId)) {
+                return false;
+            }
+        }
+
+        $frontendEdit = $user->authorise('core.edit.frontend', $assetName);
+
+        if (!$frontendEdit) {
             return false;
         }
 
@@ -147,15 +156,21 @@ class CategoryController extends FormController
     {
         $recordId = isset($data[$key]) ? (int) $data[$key] : $this->input->getInt($key);
         $user     = $this->app->getIdentity();
-        $asset    = 'com_content.category.' . $recordId;
 
         if (!$recordId) {
             return parent::allowEdit($data, $key);
         }
 
-        $frontendEdit = Access::check($user->id, 'core.edit.frontend', $asset);
+        $record = $this->getModel()->getItem($recordId);
 
-        if ($frontendEdit === false) {
+        if (empty($record)) {
+            return false;
+        }
+
+        $asset        = 'com_content.category.' . $recordId;
+        $frontendEdit = $user->authorise('core.edit.frontend', $asset);
+
+        if (!$frontendEdit) {
             return false;
         }
 
@@ -164,12 +179,6 @@ class CategoryController extends FormController
         }
 
         if ($user->authorise('core.edit.own', $asset)) {
-            $record = $this->getModel()->getItem($recordId);
-
-            if (empty($record)) {
-                return false;
-            }
-
             return (int) $record->created_user_id === (int) $user->id;
         }
 

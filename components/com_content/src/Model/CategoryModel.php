@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Content\Site\Model;
 
-use Joomla\CMS\Access\Access;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
@@ -354,10 +353,10 @@ class CategoryModel extends ListModel
                 $asset = 'com_content.category.' . $this->_item->id;
                 $params = $this->_item->getParams();
                 $canEdit = false;
-                $frontendEdit = Access::check($user->id, 'core.edit.frontend', $asset);
+                $frontendEdit = $user->authorise('core.edit.frontend', $asset);
                 $canEditState = false;
 
-                if ($frontendEdit !== false) {
+                if ($frontendEdit) {
                     $canEdit = $user->authorise('core.edit', $asset);
 
                     if (!$canEdit && $user->authorise('core.edit.own', $asset)) {
