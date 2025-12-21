@@ -10,10 +10,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
+
+$user = Factory::getApplication()->getIdentity();
 
 /** @var \Joomla\Component\Content\Site\View\Categories\HtmlView $this */
 if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
@@ -31,6 +35,23 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
                                 <?php echo Text::_('COM_CONTENT_NUM_ITEMS'); ?>&nbsp;
                                 <?php echo $item->numitems; ?>
                             </span>
+                        <?php endif; ?>
+                        <?php
+                        // Check category edit permission
+                        $asset = 'com_content.category.' . $item->id;
+                        $canEditItem = false;
+                        $frontendEdit = Access::check($user->id, 'core.edit.frontend', $asset);
+
+                        if ($frontendEdit !== false && (int) $item->published !== -2) {
+                            $canEditItem = $user->authorise('core.edit', $asset);
+
+                            if (!$canEditItem && $user->authorise('core.edit.own', $asset)) {
+                                $canEditItem = (int) ($item->created_user_id ?? 0) === (int) $user->id;
+                            }
+                        }
+                        ?>
+                        <?php if ($canEditItem) : ?>
+                            <?php echo HTMLHelper::_('icon.categoryEdit', $item, $this->params); ?>
                         <?php endif; ?>
                     </div>
                     <?php if (count($item->getChildren()) > 0 && $this->maxLevelcat > 1) : ?>

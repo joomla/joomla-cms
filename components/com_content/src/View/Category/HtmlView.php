@@ -74,6 +74,9 @@ class HtmlView extends CategoryView
     {
         $this->commonCategoryDisplay();
 
+        // Expose category edit permission to layouts (category property is protected)
+        $this->params->set('access-edit', $this->category->params->get('access-edit'));
+
         // Flag indicates to not add limitstart=0 to URL
         $this->pagination->hideEmptyLimitstart = true;
 
