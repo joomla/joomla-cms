@@ -612,7 +612,7 @@ class ArticlesModel extends ListModel
             $query->where($db->quoteName('a.modified') . ' <= :endDate')
                 ->bind(':endDate', $modifiedEndDateTime);
         }
-        
+
         // Filter by Date Range or Relative Date
         $dateFiltering = $this->getState('filter.date_filtering', 'off');
         $dateField     = $this->getState('filter.date_field', 'a.created');
