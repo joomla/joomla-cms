@@ -10,16 +10,30 @@
 
 namespace Joomla\Plugin\System\Redirect\Extension;
 
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\ErrorEvent;
+use Joomla\CMS\Event\Model\AfterSaveEvent;
+use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\HelperRedirectAwareInterface;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\LanguageFactoryInterface;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Menu\MenuFactoryInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Router\SiteRouter;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\CurrentUserTrait;
+use Joomla\CMS\User\User;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Event\SubscriberInterface;
 use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -33,6 +47,61 @@ use Joomla\String\StringHelper;
 final class Redirect extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
+    use CurrentUserTrait;
+
+    /**
+     * Holds the SEF link of the item before it's saved
+     *
+     * @var Uri|null
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private ?Uri $oldLink = null;
+
+    /**
+     * Holds the alias of the item before it's saved
+     *
+     * @var string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private string $oldAlias = '';
+
+    /**
+     * The Site Application for the special redirect handling
+     *
+     * @var  SiteApplication
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private SiteApplication $siteApp;
+
+    /**
+     * The Site Router in guest context
+     *
+     * @var  SiteRouter|null
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private ?SiteRouter $router = null;
+
+    /**
+     * Language Factory to create a language for the item
+     *
+     * @var  LanguageFactoryInterface
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private LanguageFactoryInterface $languageFactory;
+
+    /**
+     * Menu Factory to create a menu in guest context
+     *
+     * @var  MenuFactoryInterface
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private MenuFactoryInterface $menuFactory;
 
     /**
      * Returns an array of events this subscriber will listen to.
@@ -43,7 +112,177 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        return ['onError' => 'handleError'];
+        return [
+            'onError' => 'handleError',
+            'onContentAfterSave' => 'onContentAfterSave',
+            'onContentBeforeSave' => 'onContentBeforeSave',
+        ];
+    }
+
+    /**
+     * The save event.
+     *
+     * @param   BeforeSaveEvent $event  The event instance.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onContentBeforeSave(BeforeSaveEvent $event): void
+    {
+        if (!(bool) $this->params->get('show_aftersave_info', 1)) {
+            return;
+        }
+
+        // No need to redirect if the item is new, so early return
+        $isNew = $event->getIsNew();
+
+        if ($isNew) {
+            return;
+        }
+
+        // Check if the extension supports auto redirect handling
+        $context = $event->getContext();
+
+        [$component, $view] = explode('.', $context);
+
+        // If we have categories, we have to look at the extension
+        if ($component === 'com_categories' && $view === 'category') {
+            $data = $event->getData();
+
+            $component = ArrayHelper::getValue($data, 'extension', '');
+        }
+
+        if (empty($component)) {
+            return;
+        }
+
+        $extension = $this->getApplication()->bootComponent($component);
+
+        if (!$extension || !$extension instanceof HelperRedirectAwareInterface) {
+            return;
+        }
+
+        $table   = $event->getItem();
+
+        if (!$table instanceof Table) {
+            return;
+        }
+
+        // We need to load the old data to get the old alias etc.
+        $tempTable = clone $table;
+        $tempTable->load();
+
+        $link = $extension->getLinkForRedirect($tempTable);
+
+        if (empty($link)) {
+            return;
+        }
+
+        $lang = '*';
+
+        if ($table->hasField('language')) {
+            $lang = $table->{$table->getColumnAlias('language')};
+        }
+
+        $router = $this->getRouter($lang);
+
+        $this->oldLink = $router->build($link);
+
+        if ($tempTable->hasField('alias')) {
+            $this->oldAlias = $tempTable->{$tempTable->getColumnAlias('alias')};
+        }
+    }
+
+    /**
+     * Example after save content method
+     * Article is passed by reference, but after the save, so no changes will be saved.
+     * Method is called right after the content is saved
+     *
+     * @param   AfterSaveEvent $event  The event instance.
+     *
+     * @return  void
+     */
+    public function onContentAfterSave(AfterSaveEvent $event): void
+    {
+        if (!(bool) $this->params->get('show_aftersave_info', 1)) {
+            return;
+        }
+
+        // No need to redirect if the item is new, so early return
+        $isNew = $event->getIsNew();
+
+        if ($isNew) {
+            return;
+        }
+
+        // Check if the extension supports auto redirect handling
+        $context = $event->getContext();
+
+        [$component, $view] = explode('.', $context);
+
+        if ($component === 'com_categories' && $view === 'category') {
+            $data = $event->getData();
+
+            [$component] = explode('.', ArrayHelper::getValue($data, 'extension', ''));
+        }
+
+        $extension = $this->getApplication()->bootComponent($component);
+
+        if (!$extension || !$extension instanceof HelperRedirectAwareInterface) {
+            return;
+        }
+
+        $table   = $event->getItem();
+
+        if (!$table instanceof Table) {
+            return;
+        }
+
+        // Load translations
+        $this->loadLanguage();
+
+        $link = $extension->getLinkForRedirect($table);
+
+        // @todo quit when $link is empty?
+
+        $router = $this->getRouter();
+
+        $newLink = $router->build($link);
+
+        // Check for com_redirect permissions
+        $user = $this->getApplication()->getIdentity();
+
+        $canCreateRedirect = $user->authorise('core.create', 'com_redirect');
+
+        if ($table->hasField('alias')) {
+            $newAlias = $table->{$table->getColumnAlias('alias')};
+        }
+
+        if ((string) $this->oldLink !== (string) $newLink) {
+
+            $langString = Text::sprintf('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_CHANGED_NO_PERMISSION');
+
+            if ($canCreateRedirect) {
+                $button = 'index.php?option=com_redirect&task=link.add&old_url=' . base64_encode((string) $this->oldLink) . '&new_url=' . base64_encode((string) $newLink);
+
+                $langString = Text::sprintf('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_CHANGED', HTMLHelper::_('link', $button, Text::_('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_CHANGED_CREATE_REDIRECT'), ['class' => 'btn btn-success btn-sm']));
+            }
+
+            $this->getApplication()->enqueueMessage($langString, 'warning');
+        }
+        elseif ($table->hasField('alias') && $this->oldAlias && $newAlias && $this->oldAlias !== $newAlias) {
+
+            $langString = Text::sprintf('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_NOT_CHANGED_NO_PERMISSION');
+
+            if ($canCreateRedirect) {
+                $button = 'index.php?option=com_redirect&task=link.add&new_url=' . base64_encode((string) $newLink);
+
+                $langString = Text::sprintf('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_NOT_CHANGED_CREATE_REDIRECT', HTMLHelper::_('link', $button, Text::_('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_NOT_CHANGED_CREATE_REDIRECT'), ['class' => 'btn btn-success btn-sm']));
+            }
+
+            $this->getApplication()->enqueueMessage($langString, 'warning');
+        }
     }
 
     /**
@@ -261,5 +500,74 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
                 return;
             }
         }
+    }
+
+    /**
+     * Get the router prepared by outself
+     *
+     * @return  SiteRouter
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getRouter($language = '*'): ?SiteRouter
+    {
+        if ($this->router instanceof SiteRouter) {
+            return $this->router;
+        }
+
+        if (Multilanguage::isEnabled() && $language !== '*') {
+            $lang = $this->languageFactory->createLanguage($language);
+        }
+
+        if (!isset($lang)) {
+            $lang = $this->siteApp->getLanguage();
+        }
+
+        // We need to build our own menu in guest context
+        $options = [
+            'app'      => $this->siteApp,
+            'db'       => $this->getDatabase(),
+            'language' => $lang,
+            'user'     => new User(),
+        ];
+
+        $menu = $this->menuFactory->createMenu('site', $options);
+
+        $this->router = new SiteRouter($this->siteApp, $menu);
+
+        return $this->router;
+    }
+
+    public function setSiteApplication(SiteApplication $siteApp): void
+    {
+        $this->siteApp = $siteApp;
+    }
+
+    /**
+     * Sets the internal menu factory.
+     *
+     * @param  MenuFactoryInterface  $menuFactory  The menu factory
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION_
+     */
+    public function setMenuFactory(MenuFactoryInterface $menuFactory): void
+    {
+        $this->menuFactory = $menuFactory;
+    }
+
+    /**
+     * Sets the internal menu factory.
+     *
+     * @param  MenuFactoryInterface  $menuFactory  The menu factory
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION_
+     */
+    public function setLanguageFactory(LanguageFactoryInterface $languageFactory): void
+    {
+        $this->languageFactory = $languageFactory;
     }
 }

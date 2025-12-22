@@ -52,6 +52,17 @@
 					formsource="plugins/system/redirect/form/excludes.xml"
 					layout="joomla.form.field.subform.repeatable-table"
 				/>
+				<field
+					name="show_aftersave_info"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="PLG_SYSTEM_REDIRECT_FIELD_SHOW_AFTERSAVE_INFO_LABEL"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>
