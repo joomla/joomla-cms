@@ -99,7 +99,7 @@
     "cli-progress": "^3.12.0",
     "commander": "^14.0.1",
     "core-js": "^3.45.1",
-    "cypress": "^15.3.0",
+    "cypress": "^15.8.1",
     "esbuild": "^0.25.10",
     "eslint": "^9.36.0",
     "eslint-plugin-import": "^2.32.0",
