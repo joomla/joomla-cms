@@ -101,9 +101,10 @@
             :key="`stage-${node.id}`"
             :id="`stage-list-${node.id}`"
           >
-            {{ node.data.stage.title }} -
-            {{ node.data.stage.published ? translate('COM_WORKFLOW_GRAPH_STAGE_STATUS_PUBLISHED') : translate('COM_WORKFLOW_GRAPH_STAGE_STATUS_UNPUBLISHED') }}
+            {{ sprintf('COM_WORKFLOW_GRAPH_STAGE_REF', node.data.stage?.title) }} - 
+            {{ node.data.stage.published ? sprintf('COM_WORKFLOW_GRAPH_STAGE_STATUS_ENABLED', node.data.stage?.title) : sprintf('COM_WORKFLOW_GRAPH_STAGE_STATUS_DISABLED', node.data.stage?.title) }}.
             <span v-if="node.data.stage.default">({{ translate('COM_WORKFLOW_GRAPH_STAGE_DEFAULT') }})</span>
+            {{ node.data.stage?.description ? sprintf('COM_WORKFLOW_GRAPH_STAGE_DESCRIPTION', node.data.stage?.description) : '' }}
           </li>
         </ul>
       </section>
@@ -120,7 +121,7 @@
             :id="`transition-list-${edge.id}`"
           >
             {{ sprintf('COM_WORKFLOW_GRAPH_TRANSITION_REF', edge.data.title, stages.find((s) => s.id === parseInt(edge.source, 10))?.title, stages.find((s) => s.id === parseInt(edge.target, 10))?.title) }}
-            {{ edge.data.published ? translate('COM_WORKFLOW_GRAPH_TRANSITION_STATUS_PUBLISHED') : translate('COM_WORKFLOW_GRAPH_TRANSITION_STATUS_UNPUBLISHED') }}
+            {{ edge.data.published ? sprintf('COM_WORKFLOW_GRAPH_TRANSITION_STATUS_ENABLED', edge.data.title) : sprintf('COM_WORKFLOW_GRAPH_TRANSITION_STATUS_DISABLED', edge.data.title) }}
           </li>
         </ul>
       </section>

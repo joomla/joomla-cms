@@ -142,14 +142,12 @@ class HtmlView extends BaseHtmlView
 
         // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
         $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
-        $arrow        = $this->getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 
         $toolbar->link(
-            'JTOOLBAR_BACK',
+            'JTOOLBAR_CLOSE',
             Route::_('index.php?option=com_workflow&view=workflows&extension=' . $this->escape($this->item->extension))
         )
-            ->icon('icon-' . $arrow);
-
+            ->icon('icon-cancel')->buttonClass('btn btn-danger');
 
         if ($itemEditable) {
             $undoLayout = new FileLayout('toolbar.undo', JPATH_ADMINISTRATOR . '/components/com_workflow/layouts');

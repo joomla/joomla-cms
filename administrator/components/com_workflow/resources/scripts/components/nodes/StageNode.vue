@@ -14,16 +14,6 @@
     @keydown.esc="closeActions"
     @keydown.tab="closeActions"
   >
-    <div
-      :id="`stage-${stage?.id}-description`"
-      class="visually-hidden"
-    >
-      {{ sprintf('COM_WORKFLOW_GRAPH_STAGE_REF', stage?.title) }}
-      {{ stage?.published ? sprintf('COM_WORKFLOW_GRAPH_STAGE_STATUS_PUBLISHED', stage?.title) : sprintf('COM_WORKFLOW_GRAPH_STAGE_STATUS_UNPUBLISHED', stage?.title) }}.
-      {{ stage?.default ? translate('COM_WORKFLOW_GRAPH_DEFAULT') : '' }}
-      {{ stage?.description ? sprintf('COM_WORKFLOW_GRAPH_STAGE_DESCRIPTION', stage?.description) : '' }}
-    </div>
-
     <!-- Dropdown Overlay -->
     <div
       v-if="showActions"
