@@ -155,7 +155,7 @@ if (!$doc->getScriptOptions('media-picker')) {
     ]);
 }
 
-$imagesOnly = count($mediaTypeNames) == 1 && in_array('images', $mediaTypeNames);
+$imagesOnly = count($mediaTypeNames) === 1 && in_array('images', $mediaTypeNames);
 
 ?>
 <joomla-field-media class="field-media-wrapper"
