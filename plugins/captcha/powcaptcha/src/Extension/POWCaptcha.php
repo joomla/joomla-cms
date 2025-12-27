@@ -25,7 +25,7 @@ use Joomla\Plugin\Captcha\POWCaptcha\Provider\POWCaptchaProvider;
  * Proof of work captcha Plugin
  * Based on the ALTCHA captcha library
  *
- * @since __DEPLOY_VERSION__
+ * @since 6.1.0
  */
 final class POWCaptcha extends CMSPlugin implements SubscriberInterface
 {
@@ -33,7 +33,7 @@ final class POWCaptcha extends CMSPlugin implements SubscriberInterface
      * Load the language file on instantiation.
      *
      * @var    boolean
-     * @since __DEPLOY_VERSION__
+     * @since 6.1.0
      */
     protected $autoloadLanguage = true;
 
