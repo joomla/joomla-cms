@@ -194,52 +194,63 @@ class AccessiblemediaField extends SubformField
         $this->types         = isset($this->element['types']) ? (string) $this->element['types'] : 'images';
 
         // Build the form source
-        $xml      = new \SimpleXMLElement('<form />');
-        $fieldset = $xml->addChild('fieldset');
-        $fieldset->addAttribute('name', 'accessiblemedia');
-        $fieldset->addAttribute('label', 'JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_LABEL');
-
-        $imagefile = $fieldset->addChild('field');
-        $imagefile->addAttribute('name', 'imagefile');
-        $imagefile->addAttribute('type', 'media');
-        $imagefile->addAttribute('label', 'JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_LABEL');
-        $imagefile->addAttribute('directory', $this->directory);
-        $imagefile->addAttribute('preview', $this->preview);
-        $imagefile->addAttribute('preview_width', $this->previewWidth);
-        $imagefile->addAttribute('preview_height', $this->previewHeight);
-        $imagefile->addAttribute('types', $this->types);
-        $imagefile->addAttribute('schemes', 'http,https,ftp,ftps,data,file');
-        $imagefile->addAttribute('validate', 'url');
-        $imagefile->addAttribute('relative', 'true');
-
+        $xml = <<<XML
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset
+		name="accessiblemedia"
+		label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_LABEL"
+	>
+		<field
+			name="imagefile"
+			type="media"
+			label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_IMAGEFILE_LABEL"
+			directory="$this->directory"
+			preview="$this->preview"
+			preview_width="$this->previewWidth"
+			preview_height="$this->previewHeight"
+			types="$this->types"
+			schemes="http,https,ftp,ftps,data,file"
+			validate="url"
+			relative="true"
+		/>
+XML;
         $mediaTypes = explode(',', $this->types);
-
-        // We need in alt text and alt empty checkbox only for images
         if (\in_array('images', $mediaTypes)) {
-            $altText = $fieldset->addChild('field');
-            $altText->addAttribute('name', 'alt_text');
-            $altText->addAttribute('type', 'text');
-            $altText->addAttribute('label', 'JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_ALT_TEXT_LABEL');
+        $xml .= <<<XML
+		<field
+			name="alt_text"
+			type="text"
+			label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_ALT_TEXT_LABEL"
+		/>
 
-            $altEmpty = $fieldset->addChild('field');
-            $altEmpty->addAttribute('name', 'alt_empty');
-            $altEmpty->addAttribute('type', 'checkbox');
-            $altEmpty->addAttribute('label', 'JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_ALT_EMPTY_LABEL');
-            $altEmpty->addAttribute('description', 'JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_ALT_EMPTY_DESC');
+		<field
+			name="alt_empty"
+			type="checkbox"
+			label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_ALT_EMPTY_LABEL"
+			description="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_ALT_EMPTY_DESC"
+		/>
+XML;
         }
-
         if (\in_array('documents', $mediaTypes)) {
-            $fileName = $fieldset->addChild('field');
-            $fileName->addAttribute('name', 'linktext');
-            $fileName->addAttribute('type', 'text');
-            $fileName->addAttribute('label', 'JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT');
-            $fileName->addAttribute('description', 'JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DESC');
-            $fileName->addAttribute('filter', 'string');
-            $fileName->addAttribute('default', Text::_('JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DEFAULT_VALUE'));
-            $fileName->addAttribute('hint', Text::_('JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DEFAULT_VALUE'));
-        }
+        $xml .= <<<XML
+		<field
+				name="linktext"
+				type="text"
+				label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT"
+				description="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DESC"
+				filter="string"
+				default="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DEFAULT_VALUE"
+				hint="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DEFAULT_VALUE"
+		/>
+XML;
+		}
+        $xml .= <<<XML
+	</fieldset>
+</form>
+XML;
 
-        $this->formsource = $xml->asXML();
+        $this->formsource = $xml;
 
         $this->layout = 'joomla.form.field.media.accessiblemedia';
 
