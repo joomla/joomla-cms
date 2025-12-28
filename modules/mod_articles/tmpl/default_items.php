@@ -48,7 +48,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                             </<?php echo $item_heading; ?>>
                         <?php endif; ?>
 
-                        <?php if ($item->state == 0) : ?>
+                        <?php if ($item->state === 0) : ?>
                             <span class="badge bg-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
                         <?php endif; ?>
 
