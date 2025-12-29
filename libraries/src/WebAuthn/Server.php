@@ -327,7 +327,6 @@ final class Server
         if (!empty($this->metadataStatementRepository)) {
             $refObj  = new \ReflectionObject($authenticatorAttestationResponseValidator);
             $refProp = $refObj->getProperty('metadataStatementRepository');
-            $refProp->setAccessible(true);
             $refProp->setValue($authenticatorAttestationResponseValidator, $this->metadataStatementRepository);
         }
 
