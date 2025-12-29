@@ -118,7 +118,7 @@ jobs:
     needs: [code-style-php]
     strategy:
       matrix:
-        php_version: ['8.3', '8.4']
+        php_version: ['8.3', '8.4', '8.5']
     steps:
       - uses: actions/checkout@v4
       - uses: actions/cache/restore@v4
@@ -135,7 +135,7 @@ jobs:
     needs: [code-style-php]
     strategy:
       matrix:
-        php_version: ['8.3', '8.4']
+        php_version: ['8.3', '8.4', '8.5']
         config:
           - my_version: '8.4'
             engine: 'mysqli'
@@ -213,7 +213,7 @@ jobs:
     needs: [code-style-php]
     strategy:
       matrix:
-        php_version: ['8.3', '8.4']
+        php_version: ['8.3', '8.4', '8.5']
     steps:
       - uses: actions/checkout@v4
       - uses: actions/cache/restore@v4
@@ -239,7 +239,7 @@ jobs:
     needs: [code-style-php]
     strategy:
       matrix:
-        php_version: ['8.3', '8.4']
+        php_version: ['8.3', '8.4', '8.5']
     steps:
       - uses: actions/checkout@v4
       - uses: actions/cache/restore@v4
@@ -305,7 +305,7 @@ jobs:
       matrix:
         browser: ['chrome', 'edge']
         config:
-          - php_version: '8.4'
+          - php_version: '8.5'
             test_group: cmysqlmax
             db_engine: mysqli
             db_host: mysql
@@ -330,7 +330,7 @@ jobs:
             db_engine: pgsql
             db_host: postgres
             pg_version: '12.0'
-          - php_version: '8.4'
+          - php_version: '8.5'
             test_group: cpostgresmax
             db_engine: pgsql
             db_host: postgres

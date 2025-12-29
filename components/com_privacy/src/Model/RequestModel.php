@@ -203,9 +203,10 @@ class RequestModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|boolean  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   3.9.0
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
