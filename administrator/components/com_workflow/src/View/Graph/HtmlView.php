@@ -150,14 +150,6 @@ class HtmlView extends BaseHtmlView
             ->icon('icon-cancel')->buttonClass('btn btn-danger');
 
         if ($itemEditable) {
-            $undoLayout = new FileLayout('toolbar.undo', JPATH_ADMINISTRATOR . '/components/com_workflow/layouts');
-            $toolbar->customButton('undo')
-                ->html($undoLayout->render([]));
-
-            $redoLayout = new FileLayout('toolbar.redo', JPATH_ADMINISTRATOR . '/components/com_workflow/layouts');
-            $toolbar->customButton('redo')
-                ->html($redoLayout->render([]));
-
             $toolbar->help('Workflow');
             $shortcutsLayout = new FileLayout('toolbar.shortcuts', JPATH_ADMINISTRATOR . '/components/com_workflow/layouts');
             $toolbar->customButton('Shortcuts')

@@ -9,8 +9,6 @@ import {
  * @param {Function} addTransition - Function to add a new transition
  * @param {Function} editItem - Function to edit an item
  * @param {Function} deleteItem - Function to delete an item
- * @param {Function} undo - Function to undo an action
- * @param {Function} redo - Function to redo an action
  * @param {Function} setSaveStatus - Function to set the save status of positions
  * @param {Function} updateSaveMessage - Function to update the save message
  * @param {Function} saveNodePosition - Function to save the node position
@@ -24,7 +22,7 @@ import {
  */
 export function setupGlobalShortcuts({
   addStage, addTransition, editItem, deleteItem,
-  undo, redo, setSaveStatus, updateSaveMessage, saveNodePosition,
+  setSaveStatus, updateSaveMessage, saveNodePosition,
   clearSelection, zoomIn, zoomOut, fitView,
   viewport, state, store,
 }) {
@@ -91,16 +89,6 @@ export function setupGlobalShortcuts({
         e.preventDefault();
         addTransition();
         announce(state.liveRegion, 'Add transition');
-        break;
-
-      case isModifierPressed(e, 'z'):
-        e.preventDefault();
-        undo();
-        break;
-
-      case isModifierPressed(e, 'y'):
-        e.preventDefault();
-        redo();
         break;
 
       case e.key === 'e' || e.key === 'E':

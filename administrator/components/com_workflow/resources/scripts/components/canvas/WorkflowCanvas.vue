@@ -470,24 +470,6 @@ export default {
           if (selectedStage.value) showDeleteModal('stage', selectedStage.value);
           else if (selectedTransition.value) showDeleteModal('transition', selectedTransition.value);
         },
-        undo: () => {
-          if (!store.getters.canUndo) {
-            return;
-          }
-          store.dispatch('undo');
-          saveStatus.value = 'unsaved';
-          updateSaveMessage();
-          saveNodePosition();
-        },
-        redo: () => {
-          if (!store.getters.canRedo) {
-            return;
-          }
-          store.dispatch('redo');
-          saveStatus.value = 'unsaved';
-          updateSaveMessage();
-          saveNodePosition();
-        },
         clearSelection,
         zoomIn,
         zoomOut,
@@ -511,26 +493,6 @@ export default {
           accessibilityFixer.value.destroy();
         }
       });
-    });
-
-    window.WorkflowGraph.Event.listen('onClickRedoWorkflow', () => {
-      if (!store.getters.canRedo) {
-        return;
-      }
-      store.dispatch('redo');
-      saveStatus.value = 'unsaved';
-      updateSaveMessage();
-      saveNodePosition();
-    });
-
-    window.WorkflowGraph.Event.listen('onClickUndoWorkflow', () => {
-      if (!store.getters.canUndo) {
-        return;
-      }
-      store.dispatch('undo');
-      saveStatus.value = 'unsaved';
-      updateSaveMessage();
-      saveNodePosition();
     });
 
     let isRestoringViewport = false;

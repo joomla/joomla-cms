@@ -9,11 +9,10 @@ export default {
   /**
    * Load a workflow by its ID, including stages and transitions.
    * @param commit
-   * @param dispatch
    * @param id - The ID of the workflow
    * @returns {Promise<{workflow: Object, stages: Array, transitions: Array}>}
    */
-  async loadWorkflow({ commit, dispatch }, id) {
+  async loadWorkflow({ commit }, id) {
     commit('SET_LOADING', true);
     commit('SET_ERROR', null);
     try {
@@ -28,8 +27,6 @@ export default {
       commit('SET_WORKFLOW', workflowRes?.data);
       commit('SET_STAGES', stagesRes?.data);
       commit('SET_TRANSITIONS', transitionsRes?.data);
-
-      dispatch('saveToHistory');
     } catch (error) {
       notifications.error(error?.response?.data?.message || error?.message || 'COM_WORKFLOW_GRAPH_ERROR_UNKNOWN');
     } finally {
@@ -109,14 +106,12 @@ export default {
   /**
    * Update the position of a stage in the workflow locally.
    * @param commit
-   * @param dispatch
    * @param id - The ID of the stage
    * @param x - The new x position of the stage
    * @param y - The new y position of the stage
    */
-  updateStagePosition({ commit, dispatch }, { id, x, y }) {
+  updateStagePosition({ commit }, { id, x, y }) {
     commit('UPDATE_STAGE_POSITION', { id, x, y });
-    dispatch('saveToHistory');
   },
 
 
@@ -158,45 +153,5 @@ export default {
    */
   updateCanvasViewport({ commit }, { zoom, panX, panY }) {
     commit('SET_CANVAS_VIEWPORT', { zoom, panX, panY });
-  },
-
-  /**
-   * Save the current state of the workflow to history.
-   * @param commit
-   * @param state
-   * @returns {Promise<void>}
-   */
-  saveToHistory({ commit, state }) {
-    const snapshot = {
-      stagePositions: state.stages.map((stage) => ({
-        id: stage.id,
-        position: stage.position,
-      })),
-    };
-    commit('ADD_TO_HISTORY', snapshot);
-  },
-
-  /**
-   * Undo the last action in the workflow.
-   * @param commit
-   * @returns {Promise<void>}
-   */
-  undo({ commit }) {
-    commit('SET_LOADING', true);
-    commit('SET_ERROR', null);
-    commit('UNDO_REDO', -1);
-    commit('SET_LOADING', false);
-  },
-
-  /**
-   * Redo the last undone action in the workflow.
-   * @param commit
-   * @returns {Promise<void>}
-   */
-  redo({ commit }) {
-    commit('SET_LOADING', true);
-    commit('SET_ERROR', null);
-    commit('UNDO_REDO', 1);
-    commit('SET_LOADING', false);
   },
 };

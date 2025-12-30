@@ -9,7 +9,5 @@ export default {
   transitions: (state) => state.transitions,
   loading: (state) => state.loading,
   error: (state) => state.error,
-  canUndo: (state) => state.historyIndex > 0,
-  canRedo: (state) => state.historyIndex < state.history.length - 1,
   canvas: (state) => state.canvas,
 };

@@ -9,8 +9,6 @@ export default {
   transitions: [],
   loading: false,
   error: null,
-  history: [],
-  historyIndex: -1,
   canvas: {
     zoom: null,
     panX: null,

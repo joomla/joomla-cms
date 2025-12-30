@@ -35,8 +35,6 @@ $shortcuts = [
     ['key' => 'Select + Delete',     'description' => Text::_('COM_WORKFLOW_GRAPH_TRASH_ITEM')],
     ['key' => 'Select + Backspace',  'description' => Text::_('COM_WORKFLOW_GRAPH_TRASH_ITEM')],
     ['key' => 'Select + Shift + Arrows', 'description' => Text::_('COM_WORKFLOW_GRAPH_MOVE_STAGE')],
-    ['key' => 'Ctrl/Cmd + Z',        'description' => Text::_('COM_WORKFLOW_GRAPH_UNDO')],
-    ['key' => 'Ctrl/Cmd + Y',        'description' => Text::_('COM_WORKFLOW_GRAPH_REDO')],
     ['key' => 'Escape',              'description' => Text::_('COM_WORKFLOW_GRAPH_CLEAR_SELECTION')],
     ['key' => '+ / =',               'description' => Text::_('COM_WORKFLOW_GRAPH_ZOOM_IN')],
     ['key' => '- / _',               'description' => Text::_('COM_WORKFLOW_GRAPH_ZOOM_OUT')],

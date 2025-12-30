@@ -36,15 +36,6 @@
         @keydown.esc="closeActions"
         @keydown.tab="closeActions"
       >
-        <!-- Hidden Description for Screen Readers -->
-        <div
-          :id="`transition-${data?.id}-description`"
-          class="visually-hidden"
-        >
-          {{ sprintf('COM_WORKFLOW_GRAPH_TRANSITION', data?.title, sourceStageTitle, targetStageTitle) }}
-          {{ data?.published ? sprintf('COM_WORKFLOW_GRAPH_TRANSITION_STATUS_PUBLISHED', data?.title) : sprintf('COM_WORKFLOW_GRAPH_TRANSITION_STATUS_UNPUBLISHED', data?.title) }}
-          {{ data?.description ? sprintf('COM_WORKFLOW_GRAPH_TRANSITION_DESCRIPTION', data?.description) : '' }}
-        </div>
 
         <div
           v-if="showActions"
