@@ -2,8 +2,6 @@
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-// eslint-disable-next-line import/no-unresolved
 import { JoomlaEditor, JoomlaEditorDecorator } from 'editor-api';
 
 /* global tinymce, tinyMCE */
@@ -167,8 +165,12 @@ Joomla.JoomlaTinyMCE = {
     if ('colorSchemeOs' in document.documentElement.dataset) {
       const mql = window.matchMedia('(prefers-color-scheme: dark)');
       options.skin = mql.matches ? skinDark : skinLight;
+      if (mql.matches) {
+        options.content_css = options.content_css ? `${options.content_css},dark` : 'dark';
+      }
     } else if (document.documentElement.dataset.colorScheme === 'dark') {
       options.skin = skinDark;
+      options.content_css = options.content_css ? `${options.content_css},dark` : 'dark';
     }
 
     // Ensure tinymce is initialised in readonly mode if the textarea has readonly applied

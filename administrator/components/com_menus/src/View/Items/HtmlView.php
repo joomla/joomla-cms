@@ -16,7 +16,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Menus\Administrator\Model\ItemsModel;
@@ -99,6 +98,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var ItemsModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $lang                = $this->getLanguage();
         $this->items         = $model->getItems();
@@ -107,11 +107,6 @@ class HtmlView extends BaseHtmlView
         $this->state         = $model->getState();
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         $this->ordering = [];
 
@@ -177,7 +172,7 @@ class HtmlView extends BaseHtmlView
                                 }
                             }
 
-                            $vars['layout'] = $vars['layout'] ?? 'default';
+                            $vars['layout'] ??= 'default';
 
                             // Attempt to load the layout xml file.
                             // If Alternative Menu Item, get template folder for layout file
@@ -269,7 +264,9 @@ class HtmlView extends BaseHtmlView
             }
         } else {
             // In menu associations modal we need to remove language filter if forcing a language.
-            if ($forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'CMD')) {
+            $forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'CMD');
+
+            if ($forcedLanguage) {
                 // If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
                 $languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
                 $this->filterForm->setField($languageXml, 'filter', true);
@@ -277,7 +274,14 @@ class HtmlView extends BaseHtmlView
                 // Also, unset the active language filter so the search tools is not open by default with this filter.
                 unset($this->activeFilters['language']);
             }
+
+            $this->filterForm->addControlField('forcedLanguage', $forcedLanguage);
         }
+
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
 
         // Allow a system plugin to insert dynamic menu types to the list shown in menus:
         $this->getDispatcher()->dispatch('onBeforeRenderMenuItems', new BeforeRenderMenuItemsViewEvent('onBeforeRenderMenuItems', [

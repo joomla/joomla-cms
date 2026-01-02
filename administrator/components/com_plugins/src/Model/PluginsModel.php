@@ -135,7 +135,7 @@ class PluginsModel extends ListModel
                 $escapedSearchString = $this->refineSearchStringToRegex($search, '/');
 
                 foreach ($result as $i => $item) {
-                    if (!preg_match("/$escapedSearchString/i", $item->name)) {
+                    if (!preg_match("/$escapedSearchString/iu", $item->name)) {
                         unset($result[$i]);
                     }
                 }
@@ -203,7 +203,7 @@ class PluginsModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the required fields from the table.
         $query->select(

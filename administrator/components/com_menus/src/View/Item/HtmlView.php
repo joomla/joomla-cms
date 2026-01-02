@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -96,6 +95,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var ItemModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->state   = $model->getState();
         $this->form    = $model->getForm();
@@ -110,19 +110,17 @@ class HtmlView extends BaseHtmlView
             throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
-
         if ($this->getLayout() === 'modalreturn') {
             parent::display($tpl);
 
             return;
         }
 
+        $input          = Factory::getApplication()->getInput();
+        $forcedLanguage = $input->get('forcedLanguage', '', 'cmd');
+
         // If we are forcing a language in modal (used for associations).
-        if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'cmd')) {
+        if ($this->getLayout() === 'modal' && $forcedLanguage) {
             // Set the language field to the forcedLanguage and disable changing it.
             $this->form->setValue('language', null, $forcedLanguage);
             $this->form->setFieldAttribute('language', 'readonly', 'true');
@@ -130,6 +128,13 @@ class HtmlView extends BaseHtmlView
             // Only allow to select categories with All language or with the forced language.
             $this->form->setFieldAttribute('parent_id', 'language', '*,' . $forcedLanguage);
         }
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '')
+            ->addControlField('forcedLanguage', $forcedLanguage)
+            ->addControlField('menutype', $input->get('menutype', ''))
+            ->addControlField('fieldtype', '', ['id' => 'fieldtype']);
 
         if ($this->getLayout() !== 'modal') {
             $this->addToolbar();

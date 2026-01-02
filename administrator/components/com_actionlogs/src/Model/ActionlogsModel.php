@@ -16,6 +16,7 @@ use Joomla\CMS\Event\ActionLog\AfterLogPurgeEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\DatabaseIterator;
 use Joomla\Database\ParameterType;
@@ -36,13 +37,14 @@ class ActionlogsModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   3.9.0
      *
      * @throws  \Exception
      */
-    public function __construct($config = [])
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -56,7 +58,7 @@ class ActionlogsModel extends ListModel
             ];
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -88,7 +90,7 @@ class ActionlogsModel extends ListModel
     protected function getListQuery()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('a.*')
             ->select($db->quoteName('u.name'))
             ->from($db->quoteName('#__action_logs', 'a'))
@@ -210,7 +212,7 @@ class ActionlogsModel extends ListModel
                 $dStart->setTime(0, 0, 0);
 
                 // Now change the timezone back to UTC.
-                $tz = new \DateTimeZone('GMT');
+                $tz = new \DateTimeZone('UTC');
                 $dStart->setTimezone($tz);
                 break;
         }
@@ -232,7 +234,7 @@ class ActionlogsModel extends ListModel
     {
         $itemId = (int) $itemId;
         $db     = $this->getDatabase();
-        $query  = $db->getQuery(true)
+        $query  = $db->createQuery()
             ->select('a.*')
             ->select($db->quoteName('u.name'))
             ->from($db->quoteName('#__action_logs', 'a'))
@@ -305,7 +307,7 @@ class ActionlogsModel extends ListModel
     private function getLogDataQuery($pks = null)
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('a.*')
             ->select($db->quoteName('u.name'))
             ->from($db->quoteName('#__action_logs', 'a'))
@@ -332,7 +334,7 @@ class ActionlogsModel extends ListModel
     {
         $keys  = ArrayHelper::toInteger($pks);
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__action_logs'))
             ->whereIn($db->quoteName('id'), $keys);
         $db->setQuery($query);
@@ -361,7 +363,7 @@ class ActionlogsModel extends ListModel
     {
         try {
             $this->getDatabase()->truncateTable('#__action_logs');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 

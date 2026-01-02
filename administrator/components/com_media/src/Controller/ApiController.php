@@ -276,7 +276,7 @@ class ApiController extends BaseController
         }
 
         if ($newPath != null && $newPath !== $adapter . ':' . $path) {
-            list($destinationAdapter, $destinationPath) = explode(':', $newPath, 2);
+            [$destinationAdapter, $destinationPath] = explode(':', $newPath, 2);
 
             if ($move) {
                 $destinationPath = $this->getModel()->move($adapter, $path, $destinationPath, false);
@@ -308,7 +308,10 @@ class ApiController extends BaseController
         $this->app->setHeader('Content-Type', 'application/json');
 
         // Set the status code for the response
-        http_response_code($responseCode);
+        $this->app->setHeader('status', $responseCode);
+
+        // Send headers before sending the data
+        $this->app->sendHeaders();
 
         // Send the data
         echo new JsonResponse($data);

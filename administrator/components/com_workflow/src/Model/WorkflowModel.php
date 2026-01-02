@@ -93,7 +93,7 @@ class WorkflowModel extends AdminModel
 
         // Make sure we use the correct extension when editing an existing workflow
         $key = $table->getKeyName();
-        $pk  = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+        $pk  = $data[$key] ?? (int) $this->getState($this->getName() . '.id');
 
         if ($pk > 0) {
             $table->load($pk);
@@ -106,11 +106,11 @@ class WorkflowModel extends AdminModel
         }
 
         if ($input->get('task') == 'save2copy') {
-            $origTable = clone $this->getTable();
+            $origTable = $this->getTable();
 
             // Alter the title for save as copy
             if ($origTable->load(['title' => $data['title']])) {
-                list($title)   = $this->generateNewTitle(0, '', $data['title']);
+                [$title]       = $this->generateNewTitle(0, '', $data['title']);
                 $data['title'] = $title;
             }
 
@@ -146,9 +146,10 @@ class WorkflowModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \Joomla\CMS\Form\Form|boolean A Form object on success, false on failure
+     * @return  Form A Form object
      *
      * @since   4.0.0
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -161,10 +162,6 @@ class WorkflowModel extends AdminModel
                 'load_data' => $loadData,
             ]
         );
-
-        if (empty($form)) {
-            return false;
-        }
 
         $id = $data['id'] ?? $form->getValue('id');
 

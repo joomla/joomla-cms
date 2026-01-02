@@ -39,7 +39,7 @@ class HeadertagField extends ListField
      */
     protected function getOptions()
     {
-        $options = [];
+        $options = parent::getOptions();
         $tags    = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div'];
 
         // Create one new option object for each tag
@@ -47,8 +47,6 @@ class HeadertagField extends ListField
             $tmp       = HTMLHelper::_('select.option', $tag, $tag);
             $options[] = $tmp;
         }
-
-        reset($options);
 
         return $options;
     }

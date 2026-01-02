@@ -13,7 +13,6 @@ namespace Joomla\Component\Scheduler\Administrator\View\Tasks;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
@@ -94,6 +93,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var TasksModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->items         = $model->getItems();
         $this->pagination    = $model->getPagination();
@@ -106,10 +106,10 @@ class HtmlView extends BaseHtmlView
             $this->setLayout('empty_state');
         }
 
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
 
         $this->addToolbar();
 
@@ -167,6 +167,11 @@ class HtmlView extends BaseHtmlView
                 }
             }
         }
+
+        $toolbar->linkButton('history', 'COM_SCHEDULER_EXECUTION_HISTORY')
+            ->url('index.php?option=com_scheduler&view=logs&layout=default')
+            ->buttonClass('btn btn-info')
+            ->icon('icon-menu');
 
         // Add "Empty Trash" button if filtering by trashed.
         if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete')) {

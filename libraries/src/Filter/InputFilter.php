@@ -151,8 +151,11 @@ class InputFilter extends BaseInputFilter
 
         if (preg_match_all($pattern, $text, $matches)) {
             foreach ($matches[0] as $match) {
-                $match  = (string) str_replace(['?', '"'], '', $match);
-                $text   = (string) str_replace($match, PunycodeHelper::emailToPunycode($match), $text);
+                try {
+                    $match = (string) str_replace(['?', '"'], '', $match);
+                    $text  = (string) str_replace($match, PunycodeHelper::emailToPunycode($match), $text);
+                } catch (\Exception) {
+                }
             }
         }
 
@@ -218,7 +221,7 @@ class InputFilter extends BaseInputFilter
         // Make sure we can scan nested file descriptors
         $descriptors = $file;
 
-        if (isset($file['name']) && isset($file['tmp_name'])) {
+        if (isset($file['name'], $file['tmp_name'])) {
             $descriptors = static::decodeFileData(
                 [
                     $file['name'],

@@ -164,7 +164,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         // Get a generic TableExtension instance for use if not already loaded
         if (!($this->extension instanceof TableInterface)) {
-            $this->extension = Table::getInstance('extension');
+            $this->extension = Table::getInstance('Extension');
         }
 
         // Sanity check, make sure the type is set by taking the adapter name from the class name
@@ -190,7 +190,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
      */
     protected function canUninstallPackageChild($packageId)
     {
-        $package = Table::getInstance('extension');
+        $package = new Extension(Factory::getDbo());
 
         // If we can't load this package ID, we have a corrupt database
         if (!$package->load((int) $packageId)) {
@@ -997,6 +997,10 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // Create a new instance
         $this->parent->manifestClass = $container->get(InstallerScriptInterface::class);
 
+        if (method_exists($this->parent->manifestClass, 'setApplication')) {
+            $this->parent->manifestClass->setApplication(Factory::getApplication());
+        }
+
         // Set the database
         if ($this->parent->manifestClass instanceof DatabaseAwareInterface) {
             $this->parent->manifestClass->setDatabase($container->get(DatabaseInterface::class));
@@ -1272,7 +1276,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
      *
      * @since   4.2.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use getDatabase() instead of directly accessing _db
      */
     public function __get($name)

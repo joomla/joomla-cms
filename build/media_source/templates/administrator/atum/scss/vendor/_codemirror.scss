@@ -1,18 +1,18 @@
 // Codemirror
 
 joomla-editor-codemirror.fullscreen {
-  top: 133px;
+  inset-block-start: 133px;
 
   .cm-editor {
-    height: calc(90vh - 133px) !important;
+    block-size: calc(90vh - 133px) !important;
   }
 
   @include media-breakpoint-down(sm) {
-    top: 54px;
+    inset-block-start: 54px;
     z-index: 890;
 
     .cm-editor {
-      height: 100vh !important;
+      block-size: 100vh !important;
     }
   }
 }

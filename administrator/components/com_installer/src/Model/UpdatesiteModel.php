@@ -12,7 +12,6 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 use Joomla\Database\ParameterType;
 
@@ -41,7 +40,7 @@ class UpdatesiteModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|boolean  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @throws  \Exception
      *
@@ -49,14 +48,7 @@ class UpdatesiteModel extends AdminModel
      */
     public function getForm($data = [], $loadData = true)
     {
-        // Get the form.
-        $form = $this->loadForm('com_installer.updatesite', 'updatesite', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+        return $this->loadForm('com_installer.updatesite', 'updatesite', ['control' => 'jform', 'load_data' => $loadData]);
     }
     /**
      * Method to get the data that should be injected in the form.
@@ -87,8 +79,8 @@ class UpdatesiteModel extends AdminModel
         $item = parent::getItem($pk);
 
         $db           = $this->getDatabase();
-        $updateSiteId = (int) $item->get('update_site_id');
-        $query        = $db->getQuery(true)
+        $updateSiteId = (int) $item->update_site_id ?? 0;
+        $query        = $db->createQuery()
             ->select(
                 $db->quoteName(
                     [
@@ -116,13 +108,13 @@ class UpdatesiteModel extends AdminModel
             ->bind(':updatesiteid', $updateSiteId, ParameterType::INTEGER);
 
         $db->setQuery($query);
-        $extension = new CMSObject($db->loadAssoc());
+        $extension = $db->loadObject();
 
         $downloadKey = InstallerHelper::getDownloadKey($extension);
 
-        $item->set('extra_query', $downloadKey['value'] ?? '');
-        $item->set('downloadIdPrefix', $downloadKey['prefix'] ?? '');
-        $item->set('downloadIdSuffix', $downloadKey['suffix'] ?? '');
+        $item->extra_query      = $downloadKey['value'] ?? '';
+        $item->downloadIdPrefix = $downloadKey['prefix'] ?? '';
+        $item->downloadIdSuffix = $downloadKey['suffix'] ?? '';
 
         return $item;
     }
@@ -154,14 +146,14 @@ class UpdatesiteModel extends AdminModel
 
         // Delete update records forcing Joomla to fetch them again, applying the new extra_query.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__updates'))
             ->where($db->quoteName('update_site_id') . ' = :updateSiteId');
         $query->bind(':updateSiteId', $data['update_site_id'], ParameterType::INTEGER);
 
         try {
             $db->setQuery($query)->execute();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // No problem if this fails for any reason.
         }
 

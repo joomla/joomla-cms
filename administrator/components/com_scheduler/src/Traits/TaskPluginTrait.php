@@ -143,7 +143,7 @@ trait TaskPluginTrait
 
         try {
             $enhancementFormFile = Path::check($enhancementFormFile);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 
@@ -296,8 +296,6 @@ trait TaskPluginTrait
             }
 
             try {
-                // Enable invocation of private/protected methods.
-                $method->setAccessible(true);
                 $exitCode = $method->invoke($this, $event);
             } catch (\ReflectionException $e) {
                 // @todo replace with language string (?)

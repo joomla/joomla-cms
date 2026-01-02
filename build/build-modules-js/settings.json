@@ -1,6 +1,43 @@
 {
   "settings": {
     "vendors": {
+      "altcha": {
+        "name": "altcha",
+        "js": {
+          "dist_external/altcha.js": "js/altcha.js",
+          "dist_external/worker.js": "js/worker.js"
+        },
+        "css": {
+          "dist_external/altcha.css": "css/altcha.css"
+        },
+        "provideAssets": [
+          {
+            "name": "altcha",
+            "type": "script",
+            "uri": "altcha.js",
+            "attributes": {
+              "defer": true,
+              "async": true,
+              "type": "module"
+            }
+          },
+          {
+            "name": "altcha",
+            "type": "style",
+            "uri": "altcha.css"
+          },
+          {
+            "name": "altcha",
+            "type": "preset",
+            "dependencies": [
+              "altcha#script",
+              "altcha#style"
+            ]
+          }
+        ],
+        "dependencies": [],
+        "licenseFilename": "LICENSE.txt"
+      },
       "awesomplete": {
         "name": "awesomplete",
         "js": {
@@ -432,6 +469,11 @@
             "name": "jquery",
             "type": "script",
             "uri": "jquery.min.js"
+          },
+          {
+            "name": "jquery-noconflict",
+            "type": "script",
+            "uri": "jquery-noconflict.min.js"
           }
         ],
         "dependencies": [],
@@ -487,7 +529,7 @@
               "defer": true
             },
             "dependencies": [
-              "wcpolyfill"
+              "core"
             ]
           },
           {
@@ -498,7 +540,7 @@
               "type": "module"
             },
             "dependencies": [
-              "wcpolyfill"
+              "core"
             ]
           },
           {
@@ -515,7 +557,7 @@
               "defer": true
             },
             "dependencies": [
-              "wcpolyfill"
+              "core"
             ]
           },
           {
@@ -526,7 +568,7 @@
               "type": "module"
             },
             "dependencies": [
-              "wcpolyfill"
+              "core"
             ]
           }
         ],
@@ -604,62 +646,6 @@
         "name": "tinymce",
         "licenseFilename": "license.txt"
       },
-      "@webcomponents/webcomponentsjs": {
-        "name": "webcomponentsjs",
-        "js": {
-          "webcomponents-bundle.js": "js/webcomponents-bundle.js"
-        },
-        "dependencies": [],
-        "licenseFilename": "LICENSE.md",
-        "provideAssets": [
-          {
-            "name": "wcpolyfill",
-            "type": "script",
-            "uri": "webcomponents-bundle.js",
-            "attributes": {
-              "nomodule": true,
-              "defer": true
-            },
-            "dependencies": [
-              "core"
-            ]
-          }
-        ]
-      },
-      "chosen-js": {
-        "name": "chosen",
-        "js": {
-          "chosen.jquery.js": "js/chosen.jquery.js"
-        },
-        "css": {
-          "chosen.css": "css/chosen.css",
-          "chosen-sprite.png": "css/chosen-sprite.png",
-          "chosen-sprite@2x.png": "css/chosen-sprite@2x.png"
-        },
-        "provideAssets": [
-          {
-            "name": "chosen",
-            "type": "style",
-            "uri": "chosen.css"
-          },
-          {
-            "name": "chosen",
-            "type": "script",
-            "uri": "chosen.jquery.js",
-            "dependencies": [
-              "jquery"
-            ]
-          },
-          {
-            "name": "chosen",
-            "type": "preset",
-            "dependencies": [
-              "chosen#style",
-              "chosen#script"
-            ]
-          }
-        ]
-      },
       "accessibility": {
         "name": "accessibility",
         "licenseFilename": "LICENSE",
@@ -704,16 +690,13 @@
       "short-and-sweet": {
         "name": "short-and-sweet",
         "licenseFilename": "LICENSE",
-        "js": {
-          "dist/short-and-sweet.min.js": "js/short-and-sweet.min.js"
-        },
         "provideAssets": [
           {
             "name": "short-and-sweet",
             "type": "script",
             "uri": "short-and-sweet.min.js",
             "attributes": {
-              "defer": true
+              "type": "module"
             }
           }
         ]
@@ -800,9 +783,9 @@
       "qrcode-generator": {
         "name": "qrcode",
         "js": {
-          "qrcode.js": "js/qrcode.js",
-          "qrcode_SJIS.js": "js/qrcode_SJIS.js",
-          "qrcode_UTF8.js": "js/qrcode_UTF8.js"
+          "dist/qrcode.js": "js/qrcode.js",
+          "dist/qrcode_SJIS.js": "js/qrcode_SJIS.js",
+          "dist/qrcode_UTF8.js": "js/qrcode_UTF8.js"
         },
         "provideAssets": [
           {

@@ -140,7 +140,7 @@ class FieldsModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $user  = $this->getCurrentUser();
         $app   = Factory::getApplication();
 
@@ -213,11 +213,11 @@ class FieldsModel extends ListModel
                         // Try to get the categories for this component and section
                         try {
                             $cat = $componentObject->getCategory([], $parts[1] ?: '');
-                        } catch (SectionNotFoundException $e) {
+                        } catch (SectionNotFoundException) {
                             // Not found for component and section -> Now try once more without the section, so only component
                             try {
                                 $cat = $componentObject->getCategory();
-                            } catch (SectionNotFoundException $e) {
+                            } catch (SectionNotFoundException) {
                                 // If we haven't found it now, return (no categories available for this component)
                                 return null;
                             }
@@ -444,7 +444,7 @@ class FieldsModel extends ListModel
         $context    = $this->state->get('filter.context');
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select(
             [
                 $db->quoteName('title', 'text'),

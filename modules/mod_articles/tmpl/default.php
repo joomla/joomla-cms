@@ -33,7 +33,7 @@ if ((bool) $module->showtitle) {
     }
 }
 
-$layoutSuffix = $params->get('title_only', 1) ? '_titles' : '_items';
+$layoutSuffix = $params->get('title_only', 0) ? '_titles' : '_items';
 
 ?>
 <?php if ($grouped) : ?>

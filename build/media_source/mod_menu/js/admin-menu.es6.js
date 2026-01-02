@@ -4,7 +4,6 @@
  */
 
 document.querySelectorAll('ul.main-nav').forEach((menu) => {
-  // eslint-disable-next-line no-new, no-undef
   new MetisMenu(menu);
 });
 
@@ -66,12 +65,14 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
 
       // Auto Expand Levels
       if (!link.parentNode.classList.contains('parent')) {
-        const firstLevel = link.closest('.collapse-level-1');
-        const secondLevel = link.closest('.collapse-level-2');
-        if (firstLevel) firstLevel.parentNode.classList.add('mm-active');
-        if (firstLevel) firstLevel.classList.add('mm-show');
-        if (secondLevel) secondLevel.parentNode.classList.add('mm-active');
-        if (secondLevel) secondLevel.classList.add('mm-show');
+        let tempParent = link.parentNode;
+
+        while (tempParent && !tempParent.classList.contains('metismenu')) {
+          tempParent.parentNode.classList.add('mm-active');
+          tempParent.classList.add('mm-show');
+
+          tempParent = tempParent.parentNode.closest('ul');
+        }
       }
     }
   });
