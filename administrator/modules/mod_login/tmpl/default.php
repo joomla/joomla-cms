@@ -160,7 +160,7 @@ if (is_array($extraButtons)) {
             </div>
         </div>
 
-        <?php if (!empty($otherButtons)) : ?>
+        <?php if (is_array($otherButtons) && !empty($otherButtons)) : ?>
             <div class="login-other-methods mt-4">
                 <hr>
                 <p class="text-center fw-bold"><?php echo Text::_('MOD_LOGIN_OR'); ?></p>
