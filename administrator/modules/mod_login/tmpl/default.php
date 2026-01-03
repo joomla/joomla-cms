@@ -28,7 +28,7 @@ Text::script('MOD_LOGIN_USERNAME_REQUIRED_FOR_PASSKEY');
 $passkeyButton = null;
 $otherButtons = [];
 
-if (!empty($extraButtons)) {
+if (is_array($extraButtons)) {
     foreach ($extraButtons as $button) {
         $isPasskey = false;
 
