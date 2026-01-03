@@ -7,9 +7,9 @@
 
 .awesomplete > ul {
   border: 1px solid var(--border);
-  background-color: var(--body-bg);
-  color: var(--body-color);
   z-index: 3;
+  color: var(--body-color);
+  background-color: var(--body-bg);
   box-shadow: 0 0 0 .25rem #2a69b740;
 }
 
@@ -19,8 +19,8 @@
 
 .awesomplete > ul > li {
   margin: 2px;
-  border-radius: 3px;
   background-color: inherit;
+  border-radius: 3px;
 }
 
 .awesomplete > ul > li:hover {
