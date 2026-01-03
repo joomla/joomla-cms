@@ -28,28 +28,18 @@ Text::script('MOD_LOGIN_USERNAME_REQUIRED_FOR_PASSKEY');
 $passkeyButton = null;
 $otherButtons = [];
 
+$pattern     = '/passkey|webauthn|passwordless/i';
+$checkFields = ['id', 'class', 'onclick', 'label'];
+
 if (is_array($extraButtons)) {
     foreach ($extraButtons as $button) {
         $isPasskey = false;
 
-        // Check id
-        if (!empty($button['id']) && preg_match('/passkey|webauthn|passwordless/i', $button['id'])) {
-            $isPasskey = true;
-        }
-
-        // Check class
-        if (!$isPasskey && !empty($button['class']) && preg_match('/passkey|webauthn|passwordless/i', $button['class'])) {
-            $isPasskey = true;
-        }
-
-        // Check onclick
-        if (!$isPasskey && !empty($button['onclick']) && preg_match('/passkey|webauthn|passwordless/i', $button['onclick'])) {
-            $isPasskey = true;
-        }
-
-        // Check label
-        if (!$isPasskey && !empty($button['label']) && preg_match('/passkey|webauthn|passwordless/i', $button['label'])) {
-            $isPasskey = true;
+        foreach ($checkFields as $field) {
+            if (!empty($button[$field]) && preg_match($pattern, $button[$field])) {
+                $isPasskey = true;
+                break;
+            }
         }
 
         if ($isPasskey && $passkeyButton === null) {
@@ -59,6 +49,7 @@ if (is_array($extraButtons)) {
         }
     }
 }
+
 ?>
 <form class="form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login">
     <fieldset>
