@@ -100,6 +100,7 @@ class UpdateModel extends ListModel
         $query = $db->getQuery(true)
             ->select('u.*')
             ->select($db->quoteName('e.manifest_cache'))
+            ->select($db->quoteName('e.changelogurl'))
             ->from($db->quoteName('#__updates', 'u'))
             ->join(
                 'LEFT',
