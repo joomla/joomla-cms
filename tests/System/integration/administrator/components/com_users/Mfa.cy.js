@@ -14,9 +14,12 @@ describe('Test in backend that the user', () => {
     cy.get('#com-users-method-edit-title').clear().type('Test Code');
     cy.task('getMails').then((mails) => {
       cy.wrap(mails).should('have.lengthOf', 1);
-      cy.wrap(mails[0].headers.subject).should('match', /code is -\d{6}-$/);
-      cy.wrap(/code is -(\d{6})-$/.exec(mails[0].headers.subject)[1]).as('code')
-        .then((code) => cy.wrap(mails[0].body).should('have.string', `Your authentication code is ${code}.`));
+      cy.wrap(mails[0].headers.subject).should('match', /^Your .* authentication code(?: is)?$/);
+      const match = /Your authentication code is (\d{6})\./.exec(mails[0].body);
+      expect(match, 'MFA code found in email body').to.not.be.null;
+      const code = match[1];
+      cy.wrap(code).as('code');
+      cy.wrap(mails[0].body).should('have.string', `Your authentication code is ${code}.`);
       cy.wrap(mails[0].html).should('be.false');
     });
     cy.get('@code').then((code) => cy.get('#com-users-method-code').clear().type(code));
@@ -30,8 +33,11 @@ describe('Test in backend that the user', () => {
     cy.get('#users-mfa-title').contains('Test Code');
     cy.task('getMails').then((mails) => {
       cy.wrap(mails).should('have.lengthOf', 2);
-      cy.wrap(mails[1].headers.subject).should('match', /code is -\d{6}-$/);
-      cy.wrap(/code is -(\d{6})-$/.exec(mails[1].headers.subject)[1]).as('code');
+      cy.wrap(mails[1].headers.subject).should('match', /^Your .* authentication code(?: is)?$/);
+      const match = /Your authentication code is (\d{6})\./.exec(mails[1].body);
+      expect(match, 'MFA code found in email body').to.not.be.null;
+      cy.wrap(match[1]).as('code');
+      cy.wrap(mails[1].html).should('be.false');
     });
     cy.get('@code').then((code) => cy.get('#users-mfa-code').clear().type(code));
     cy.get('#users-mfa-captive-form').submit();
