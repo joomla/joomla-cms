@@ -44,7 +44,7 @@ spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass
 // Checking whether loading of the environment variables from the file is enabled. Then parse them.
 $environment = $_ENV['JOOMLA_ENV'] ?? $_SERVER['JOOMLA_ENV'] ?? false;
 
-if ($environment || is_file(JPATH_ROOT . '/.env')) {
+if ($environment || is_file(JPATH_ROOT . '/.env.local.php') || is_file(JPATH_ROOT . '/.env')) {
     /**
      * Some PHP configurations set variables_order="GPCS" not "EGPCS", in which case $_ENV is NOT populated.
      * Detect if the $_ENV  was empty and handle it by explicitly populating through getenv() for CLI,
