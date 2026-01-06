@@ -116,8 +116,8 @@ class HtmlView extends BaseHtmlView
             $envMap   = Factory::getContainer()->get('config.env-map');
             $usedEnvs = array_intersect_key($envMap, $_ENV);
 
-            foreach ($usedEnvs as $fieldName) {
-                $fromEnv[] = Text::_($this->form->getFieldAttribute($fieldName, 'label'));
+            foreach ($usedEnvs as $envName => $fieldName) {
+                $fromEnv[] = \sprintf('%s (%s)', Text::_($this->form->getFieldAttribute($fieldName, 'label')), $_ENV[$envName]);
             }
 
             if ($fromEnv) {
