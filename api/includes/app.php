@@ -22,7 +22,7 @@ require_once __DIR__ . '/defines.php';
 require_once JPATH_BASE . '/includes/framework.php';
 
 // Prevent User from leaving .env file in the root folder for the production environment
-if (($_ENV['JOOMLA_ENV'] ?? '') === 'prod' && !is_file(JPATH_ROOT . '/.env.local.php')) {
+if (($_ENV['JOOMLA_ENV'] ?? '') === 'prod' && !is_file(JPATH_ROOT . '/.env.local.php') && is_file(JPATH_ROOT . '/.env')) {
     throw new RuntimeException('Use of raw .env file instead of cached .env.local.php file in the production environment is discouraged.');
 }
 
