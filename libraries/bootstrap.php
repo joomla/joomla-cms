@@ -42,7 +42,7 @@ $loader->unregister();
 spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
 
 // Checking whether loading of the environment variables from the file is enabled. Then parse them.
-$environment = $_ENV['JOOMLA_ENVIRONMENT'] ?? $_SERVER['JOOMLA_ENVIRONMENT'] ?? false;
+$environment = $_ENV['JOOMLA_ENV'] ?? $_SERVER['JOOMLA_ENV'] ?? false;
 
 if ($environment || is_file(JPATH_ROOT . '/.env')) {
     /**
@@ -56,7 +56,10 @@ if ($environment || is_file(JPATH_ROOT . '/.env')) {
         $_ENV = PHP_SAPI === 'cli' ? getenv() : array_filter($_SERVER, fn ($k) => str_starts_with($k, 'JOOMLA_'), ARRAY_FILTER_USE_KEY);
     }
 
-    Dotenv\Dotenv::createImmutable(JPATH_ROOT, ['.env', '.env.' . $environment ?: 'production'], false)->safeLoad();
+    $dotenv = new Symfony\Component\Dotenv\Dotenv('JOOMLA_ENV', 'JOOMLA_DEBUG');
+    //$dotenv->loadEnv(JPATH_ROOT . '/.env', 'JOOMLA_ENV', $_ENV['JOOMLA_ENV'] ?? 'prod');
+    $dotenv->bootEnv(JPATH_ROOT . '/.env', $_ENV['JOOMLA_ENV'] ?? 'prod');
+    //dd($_ENV);
 }
 unset($environment);
 

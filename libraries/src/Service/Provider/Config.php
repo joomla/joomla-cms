@@ -56,6 +56,8 @@ class Config implements ServiceProviderInterface
                     foreach (array_intersect_key($_ENV, $envMap) as $envName => $envValue) {
                         if ($envName === 'JOOMLA_LOG_PRIORITIES') {
                             $envValue = json_decode($envValue, true) ?: [];
+                        } elseif ($envName === 'JOOMLA_DEBUG') {
+                            $envValue = !!$envValue;
                         }
 
                         $config->set($envMap[$envName], match ($envValue) {
