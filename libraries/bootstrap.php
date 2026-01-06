@@ -57,9 +57,7 @@ if ($environment || is_file(JPATH_ROOT . '/.env')) {
     }
 
     $dotenv = new Symfony\Component\Dotenv\Dotenv('JOOMLA_ENV', 'JOOMLA_DEBUG');
-    //$dotenv->loadEnv(JPATH_ROOT . '/.env', 'JOOMLA_ENV', $_ENV['JOOMLA_ENV'] ?? 'prod');
     $dotenv->bootEnv(JPATH_ROOT . '/.env', $_ENV['JOOMLA_ENV'] ?? 'prod');
-    //dd($_ENV);
 }
 unset($environment);
 
