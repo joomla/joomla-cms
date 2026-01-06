@@ -28,6 +28,11 @@ if (!file_exists(JPATH_LIBRARIES . '/vendor/autoload.php') || !is_dir(JPATH_PUBL
 
 require_once JPATH_BASE . '/includes/framework.php';
 
+// Prevent User from leaving .env file in the root folder for the production environment
+if (($_ENV['JOOMLA_ENV'] ?? '') === 'prod' && !is_file(JPATH_ROOT . '/.env.local.php')) {
+    throw new RuntimeException('Use of raw .env file instead of cached .env.local.php file in the production environment is discouraged.');
+}
+
 // Set profiler start time and memory usage and mark afterLoad in the profiler.
 JDEBUG ? \Joomla\CMS\Profiler\Profiler::getInstance('Application')->setStart($startTime, $startMem)->mark('afterLoad') : null;
 
