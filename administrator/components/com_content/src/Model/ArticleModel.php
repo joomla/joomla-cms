@@ -29,6 +29,7 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\UCM\UCMType;
+use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
@@ -49,7 +50,7 @@ use Joomla\Utilities\ArrayHelper;
  * @since  1.6
  */
 
-class ArticleModel extends AdminModel implements WorkflowModelInterface
+class ArticleModel extends AdminModel implements WorkflowModelInterface, VersionableModelInterface
 {
     use WorkflowBehaviorTrait;
     use VersionableModelTrait;
@@ -140,7 +141,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         // Check if the article was featured and update the #__content_frontpage table
         if ($table->featured == 1) {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select(
                     [
                         $db->quoteName('featured_up'),
@@ -154,7 +155,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             $featured = $db->setQuery($query)->loadObject();
 
             if ($featured) {
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->insert($db->quoteName('#__content_frontpage'))
                     ->values(':newId, 0, :featuredUp, :featuredDown')
                     ->bind(':newId', $newId, ParameterType::INTEGER)
@@ -410,7 +411,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                 if ($item->featured) {
                     // Get featured dates.
                     $db    = $this->getDatabase();
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->select(
                             [
                                 $db->quoteName('featured_up'),
@@ -455,9 +456,10 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|boolean  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -465,10 +467,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
         // Get the form.
         $form = $this->loadForm('com_content.article', 'article', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         // Object uses for checking edit state permission of article
         $record = new \stdClass();
@@ -756,6 +754,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             } elseif ($data['alias'] == $origTable->alias) {
                 $data['alias'] = '';
             }
+
+            if (!$this->workflowEnabled) {
+                $data['state'] = 0;
+            } else {
+                $data['transition'] = '';
+            }
         }
 
         // Automatic handling of alias for empty fields
@@ -868,7 +872,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
         try {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->update($db->quoteName('#__content'))
                 ->set($db->quoteName('featured') . ' = :featured')
                 ->whereIn($db->quoteName('id'), $pks)
@@ -879,14 +883,14 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             if ($value === 0) {
                 // Adjust the mapping table.
                 // Clear the existing features settings.
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->delete($db->quoteName('#__content_frontpage'))
                     ->whereIn($db->quoteName('content_id'), $pks);
                 $db->setQuery($query);
                 $db->execute();
             } else {
                 // First, we find out which of our new featured articles are already featured.
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName('content_id'))
                     ->from($db->quoteName('#__content_frontpage'))
                     ->whereIn($db->quoteName('content_id'), $pks);
@@ -896,7 +900,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
                 // Update old featured articles
                 if (\count($oldFeatured)) {
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->update($db->quoteName('#__content_frontpage'))
                         ->set(
                             [
@@ -916,7 +920,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
                 // Featuring.
                 if ($newFeatured) {
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->insert($db->quoteName('#__content_frontpage'))
                         ->columns(
                             [
@@ -1052,6 +1056,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
     protected function cleanCache($group = null)
     {
         parent::cleanCache('com_content');
+        parent::cleanCache('mod_articles');
         parent::cleanCache('mod_articles_archive');
         parent::cleanCache('mod_articles_categories');
         parent::cleanCache('mod_articles_category');
@@ -1099,7 +1104,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         if ($return) {
             // Now check to see if this articles was featured if so delete it from the #__content_frontpage table
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__content_frontpage'))
                 ->whereIn($db->quoteName('content_id'), $pks);
             $db->setQuery($query);

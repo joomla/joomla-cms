@@ -35,7 +35,7 @@ class ActionlogConfigModelTest extends UnitTestCase
     {
         $config = new \stdClass();
         $db     = $this->createStub(DatabaseInterface::class);
-        $db->method('getQuery')->willReturn($this->getQueryStub($db));
+        $db->method('createQuery')->willReturn($this->getQueryStub($db));
         $db->method('loadObject')->willReturn($config);
 
         $model = new ActionlogConfigModel(['dbo' => $db], $this->createStub(MVCFactoryInterface::class));
@@ -53,7 +53,7 @@ class ActionlogConfigModelTest extends UnitTestCase
     public function testGetNullLogContentTypeParams()
     {
         $db = $this->createStub(DatabaseInterface::class);
-        $db->method('getQuery')->willReturn($this->getQueryStub($db));
+        $db->method('createQuery')->willReturn($this->getQueryStub($db));
 
         $model = new ActionlogConfigModel(['dbo' => $db], $this->createStub(MVCFactoryInterface::class));
 

@@ -16,7 +16,7 @@ use Joomla\Registry\Registry;
 /**
  * DateTime field
  *
- * @since   __DEPLOY_VERSION__
+ * @since   6.0.0
  */
 class DatetimeField extends FormField
 {
@@ -25,7 +25,7 @@ class DatetimeField extends FormField
      *
      * @var     string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected $type = 'DateTime';
 
@@ -34,7 +34,7 @@ class DatetimeField extends FormField
      *
      * @var    string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected $layout = 'joomla.form.field.datetime';
 
@@ -43,7 +43,7 @@ class DatetimeField extends FormField
      *
      * @var string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected $dateMin = '';
 
@@ -52,7 +52,7 @@ class DatetimeField extends FormField
      *
      * @var string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected $dateMax = '';
 
@@ -61,7 +61,7 @@ class DatetimeField extends FormField
      *
      * @var string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected $filter = '';
 
@@ -76,7 +76,7 @@ class DatetimeField extends FormField
      *
      * @return  boolean  True on success.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function setup(\SimpleXMLElement $element, $value, $group = null)
     {
@@ -98,7 +98,7 @@ class DatetimeField extends FormField
      *
      * @return  mixed  The property value or null.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function __get($name)
     {
@@ -125,7 +125,7 @@ class DatetimeField extends FormField
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function __set($name, $value)
     {
@@ -160,7 +160,7 @@ class DatetimeField extends FormField
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected function getLayoutData()
     {
@@ -178,7 +178,7 @@ class DatetimeField extends FormField
      *
      * @return  string  The field input markup.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected function getInput()
     {
@@ -223,7 +223,7 @@ class DatetimeField extends FormField
      *
      * @return  mixed   The filtered value.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function filter($value, $group = null, ?Registry $input = null)
     {

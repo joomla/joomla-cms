@@ -505,7 +505,7 @@ class Query
         $groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
 
         // Load the predefined filter.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('f.data, f.params')
             ->from($db->quoteName('#__finder_filters') . ' AS f')
             ->where('f.filter_id = ' . (int) $filterId);
@@ -567,7 +567,7 @@ class Query
 
         // Sort the filter ids by branch.
         foreach ($results as $result) {
-            $this->filters[$result->branch][$result->title] = (int) $result->id;
+            $this->filters[$result->branch][$result->id] = $result->title;
         }
 
         return true;
@@ -609,7 +609,7 @@ class Query
         // Get the database object.
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         /*
          * Create the query to get filters from the database. We do this for
@@ -652,7 +652,7 @@ class Query
             }
 
             // Add the filter to the list.
-            $this->filters[$result->branch][$result->title] = (int) $result->id;
+            $this->filters[$result->branch][$result->id] = $result->title;
         }
 
         return true;
@@ -733,8 +733,10 @@ class Query
      */
     protected function processString($input, $lang, $mode)
     {
-        if ($input === null) {
-            $input = '';
+        $input = trim($input ?? '');
+
+        if ($input === '') {
+            return true;
         }
 
         // Clean up the input string.
@@ -1240,7 +1242,7 @@ class Query
         $db = $this->getDatabase();
 
         // Create a database query to build match the token.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('t.term, t.term_id')
             ->from('#__finder_terms AS t');
 
