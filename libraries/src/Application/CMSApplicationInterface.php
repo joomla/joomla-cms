@@ -96,7 +96,7 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
      * Constant defining an enqueued message message
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.4.2
      */
     public const MSG_MESSAGE = 'message';
 
@@ -104,7 +104,7 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
      * Constant defining an enqueued success message
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.4.2
      */
     public const MSG_SUCCESS = 'success';
 
