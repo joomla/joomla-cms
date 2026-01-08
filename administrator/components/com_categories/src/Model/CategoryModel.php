@@ -555,17 +555,17 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
             $table->setRules($rules);
         }
 
-        // Check the data.
-        if (!$table->check()) {
+        // Trigger the before save event.
+        $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, $isNew, $data]);
+
+        if (\in_array(false, $result, true)) {
             $this->setError($table->getError());
 
             return false;
         }
 
-        // Trigger the before save event.
-        $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, $isNew, $data]);
-
-        if (\in_array(false, $result, true)) {
+        // Check the data.
+        if (!$table->check()) {
             $this->setError($table->getError());
 
             return false;

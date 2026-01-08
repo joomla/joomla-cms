@@ -171,14 +171,15 @@ class StyleModel extends AdminModel
                 $m            = null;
                 $table->title = $this->generateNewTitle(null, null, $table->title);
 
-                if (!$table->check()) {
-                    throw new \Exception($table->getError());
-                }
-
                 // Trigger the before save event.
                 $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, true]);
 
                 if (\in_array(false, $result, true) || !$table->store()) {
+                    throw new \Exception($table->getError());
+                }
+
+                // Allow an exception to be thrown.
+                if (!$table->check()) {
                     throw new \Exception($table->getError());
                 }
 
@@ -436,15 +437,15 @@ class StyleModel extends AdminModel
         // Prepare the row for saving
         $this->prepareTable($table);
 
+        // Trigger the before save event.
+        $result = Factory::getApplication()->triggerEvent($this->event_before_save, ['com_templates.style', &$table, $isNew]);
+
         // Check the data.
         if (!$table->check()) {
             $this->setError($table->getError());
 
             return false;
         }
-
-        // Trigger the before save event.
-        $result = Factory::getApplication()->triggerEvent($this->event_before_save, ['com_templates.style', &$table, $isNew]);
 
         // Store the data.
         if (\in_array(false, $result, true) || !$table->store()) {

@@ -419,19 +419,19 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
                         $table->resetCount = 0;
                     }
 
-                    // Allow an exception to be thrown.
-                    try {
-                        if (!$table->check()) {
-                            $this->setError($table->getError());
-
-                            return false;
-                        }
-
                         // Trigger the before save event.
                         $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$old, false, $table->getProperties()]);
 
                         if (\in_array(false, $result, true)) {
                             // Plugin will have to raise its own error or throw an exception.
+                            return false;
+                        }
+
+                    // Allow an exception to be thrown.
+                    try {
+                        if (!$table->check()) {
+                            $this->setError($table->getError());
+
                             return false;
                         }
 
@@ -560,19 +560,19 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
                     $table->block      = 0;
                     $table->activation = '';
 
-                    // Allow an exception to be thrown.
-                    try {
-                        if (!$table->check()) {
-                            $this->setError($table->getError());
-
-                            return false;
-                        }
-
                         // Trigger the before save event.
                         $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$prevUserData, false, $table->getProperties()]);
 
                         if (\in_array(false, $result, true)) {
                             // Plugin will have to raise it's own error or throw an exception.
+                            return false;
+                        }
+
+                        // Check the data.
+                    try {
+                        if (!$table->check()) {
+                            $this->setError($table->getError());
+
                             return false;
                         }
 
