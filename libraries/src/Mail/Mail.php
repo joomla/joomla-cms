@@ -204,9 +204,13 @@ class Mail extends PHPMailer implements MailerInterface
             } else {
                 $result = $this->setFrom(MailHelper::cleanLine($from[0]), MailHelper::cleanLine($from[1]));
             }
+            // Also set the PHP Mailers Sender variable to the address so it does not default to global configuration settings
+            $this->Sender = MailHelper::cleanLine($from[0]);
         } elseif (\is_string($from)) {
             // If it is a string we assume it is just the address
             $result = $this->setFrom(MailHelper::cleanLine($from), $name);
+            // Also set the PHP Mailers Sender variable to the address so it does not default to global configuration settings
+            $this->Sender = MailHelper::cleanLine($from);
         } else {
             // If it is neither, we log a message and throw an exception
             Log::add(Text::sprintf('JLIB_MAIL_INVALID_EMAIL_SENDER', $from), Log::WARNING, 'jerror');
