@@ -1679,16 +1679,16 @@
         },
         {
             "name": "joomla/http",
-            "version": "4.0.1",
+            "version": "4.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/http.git",
-                "reference": "ddaaaf390a1833946e8eee68748fdd0f62b83aaf"
+                "reference": "3c494722385f556e022ea57b9e9c7474d95452c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/http/zipball/ddaaaf390a1833946e8eee68748fdd0f62b83aaf",
-                "reference": "ddaaaf390a1833946e8eee68748fdd0f62b83aaf",
+                "url": "https://api.github.com/repos/joomla-framework/http/zipball/3c494722385f556e022ea57b9e9c7474d95452c3",
+                "reference": "3c494722385f556e022ea57b9e9c7474d95452c3",
                 "shasum": ""
             },
             "require": {
@@ -1728,9 +1728,9 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/http/issues",
-                "source": "https://github.com/joomla-framework/http/tree/4.0.1"
+                "source": "https://github.com/joomla-framework/http/tree/4.0.2"
             },
-            "time": "2025-10-16T12:31:07+00:00"
+            "time": "2026-01-08T07:18:39+00:00"
         },
         {
             "name": "joomla/input",
