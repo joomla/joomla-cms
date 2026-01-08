@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a0bbac1380e2021808fa2a026d589486",
+    "content-hash": "083e6e5041f86adc966a32743a2a622f",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1751,16 +1751,16 @@
         },
         {
             "name": "joomla/http",
-            "version": "3.1.3",
+            "version": "3.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/http.git",
-                "reference": "10cc3c03280b69eacfb7b65a2822edeeb03d3452"
+                "reference": "493dc254d9fa9277c7ab3488573ddb4f3bbfa9bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/http/zipball/10cc3c03280b69eacfb7b65a2822edeeb03d3452",
-                "reference": "10cc3c03280b69eacfb7b65a2822edeeb03d3452",
+                "url": "https://api.github.com/repos/joomla-framework/http/zipball/493dc254d9fa9277c7ab3488573ddb4f3bbfa9bc",
+                "reference": "493dc254d9fa9277c7ab3488573ddb4f3bbfa9bc",
                 "shasum": ""
             },
             "require": {
@@ -1806,9 +1806,9 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/http/issues",
-                "source": "https://github.com/joomla-framework/http/tree/3.1.3"
+                "source": "https://github.com/joomla-framework/http/tree/3.1.4"
             },
-            "time": "2025-10-16T08:32:44+00:00"
+            "time": "2026-01-07T16:36:43+00:00"
         },
         {
             "name": "joomla/input",
