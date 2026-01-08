@@ -260,7 +260,7 @@ class ChecksModel extends BaseInstallationModel
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.1
      */
     public function getAutoUpdatesDisabled(): bool
     {

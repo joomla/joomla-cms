@@ -567,7 +567,7 @@ class Query
 
         // Sort the filter ids by branch.
         foreach ($results as $result) {
-            $this->filters[$result->branch][$result->title] = (int) $result->id;
+            $this->filters[$result->branch][$result->id] = $result->title;
         }
 
         return true;
@@ -652,7 +652,7 @@ class Query
             }
 
             // Add the filter to the list.
-            $this->filters[$result->branch][$result->title] = (int) $result->id;
+            $this->filters[$result->branch][$result->id] = $result->title;
         }
 
         return true;
@@ -1315,7 +1315,7 @@ class Query
             // Stack for sorting the similar terms.
             $suggestions = [];
 
-            // Get the levnshtein distance for all suggested terms.
+            // Get the levenshtein distance for all suggested terms.
             foreach ($results as $sk => $st) {
                 // Get the levenshtein distance between terms.
                 $distance = levenshtein($st->term, $token->term);
