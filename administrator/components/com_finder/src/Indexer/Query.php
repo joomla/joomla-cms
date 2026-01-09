@@ -1315,7 +1315,7 @@ class Query
             // Stack for sorting the similar terms.
             $suggestions = [];
 
-            // Get the levnshtein distance for all suggested terms.
+            // Get the levenshtein distance for all suggested terms.
             foreach ($results as $sk => $st) {
                 // Get the levenshtein distance between terms.
                 $distance = levenshtein($st->term, $token->term);

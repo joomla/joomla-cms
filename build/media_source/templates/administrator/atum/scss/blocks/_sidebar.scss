@@ -47,12 +47,11 @@
       }
     }
 
-    &-level-2 > a {
-      padding-inline-start: 3rem;
-    }
-
-    &-level-3 > a {
-      padding-inline-start: 3.75rem;
+    @for $level from 2 through 10 {
+      &-level-#{$level} > a {
+        $pad: 3rem + (($level - 2) * .75rem);
+        padding-inline-start: $pad;
+      }
     }
   }
 
