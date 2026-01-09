@@ -358,6 +358,14 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
 
             if ($this->_options['published'] == 1) {
                 $subQuery->where($db->quoteName($db->escape('i.' . $this->_statefield)) . ' = 1');
+
+                $nowDate = $db->quote(Factory::getDate()->toSql());
+                $subQuery->where(
+                    '(' . $db->quoteName('i.publish_up') . ' IS NULL OR ' . $db->quoteName('i.publish_up') . ' <= ' . $nowDate . ')'
+                );
+                $subQuery->where(
+                    '(' . $db->quoteName('i.publish_down') . ' IS NULL OR ' . $db->quoteName('i.publish_down') . ' >= ' . $nowDate . ')'
+                );
             }
 
             if ($this->_options['currentlang'] !== 0) {
