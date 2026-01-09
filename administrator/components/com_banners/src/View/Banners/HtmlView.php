@@ -73,7 +73,7 @@ class HtmlView extends ListView
         parent::initializeView();
 
         /** @var BannersModel $model */
-        $model               = $this->getModel();
+        $model            = $this->getModel();
 
         $this->categories = $model->getCategoryOrders();
         $this->canDo      = ContentHelper::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
@@ -83,10 +83,5 @@ class HtmlView extends ListView
             unset($this->activeFilters['language']);
             $this->filterForm->removeField('language', 'filter');
         }
-
-        // Add form control fields
-        $this->filterForm
-            ->addControlField('task', '')
-            ->addControlField('boxchecked', '0');
     }
 }

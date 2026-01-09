@@ -93,7 +93,7 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
         $loader = function () {
             $currentDate = Factory::getDate()->toSql();
 
-            $query = $this->db->getQuery(true)
+            $query = $this->db->createQuery()
                 ->select(
                     $this->db->quoteName(
                         [
@@ -235,7 +235,7 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
             if (($key = array_search('language', $attributes)) === false) {
                 if (Multilanguage::isEnabled()) {
                     $attributes[] = 'language';
-                    $values[]     = [Factory::getLanguage()->getTag(), '*'];
+                    $values[]     = [$this->language->getTag(), '*'];
                 }
             } elseif ($values[$key] === null) {
                 unset($attributes[$key], $values[$key]);

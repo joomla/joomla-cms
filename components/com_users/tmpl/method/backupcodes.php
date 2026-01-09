@@ -15,9 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Users\Site\View\Method\HtmlView;
 
-/** @var  HtmlView $this */
+/** @var  \Joomla\Component\Users\Site\View\Method\HtmlView $this */
 
 HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
