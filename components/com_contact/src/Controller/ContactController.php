@@ -206,7 +206,7 @@ class ContactController extends FormController implements UserFactoryAwareInterf
         $sent = false;
 
         if (!$contact->params->get('custom_reply')) {
-            $sent = $this->_sendEmail($data, $contact, $contact->params->get('show_email_copy', 0));
+            $sent = $this->_sendEmail($data, $contact);
         }
 
         $msg = '';
@@ -234,13 +234,12 @@ class ContactController extends FormController implements UserFactoryAwareInterf
      *
      * @param   array      $data               The data to send in the email.
      * @param   \stdClass  $contact            The user information to send the email to
-     * @param   boolean    $emailCopyToSender  True to send a copy of the email to the user.
      *
      * @return  boolean  True on success sending the email, false on failure.
      *
      * @since   1.6.4
      */
-    private function _sendEmail($data, $contact, $emailCopyToSender)
+    private function _sendEmail($data, $contact)
     {
         $app = $this->app;
 
@@ -284,16 +283,6 @@ class ContactController extends FormController implements UserFactoryAwareInterf
             $mailer->addTemplateData($templateData);
             $mailer->addUnsafeTags(['name', 'email', 'body']);
             $sent = $mailer->send();
-
-            // If we are supposed to copy the sender, do so.
-            if ($emailCopyToSender && !empty($data['contact_email_copy'])) {
-                $mailer = new MailTemplate('com_contact.mail.copy', $app->getLanguage()->getTag());
-                $mailer->addRecipient($templateData['email']);
-                $mailer->setReplyTo($templateData['email'], $templateData['name']);
-                $mailer->addTemplateData($templateData);
-                $mailer->addUnsafeTags(['name', 'email', 'body']);
-                $sent = $mailer->send();
-            }
         } catch (MailDisabledException | phpMailerException $exception) {
             try {
                 Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');

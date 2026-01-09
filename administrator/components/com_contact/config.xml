@@ -921,18 +921,6 @@
 		</field>
 
 		<field
-			name="show_email_copy"
-			type="radio"
-			label="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_LABEL"
-			default="0"
-			layout="joomla.form.field.radio.switcher"
-			showon="show_email_form:1"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
 			name="banned_email"
 			type="textarea"
 			label="COM_CONTACT_FIELD_CONFIG_BANNED_EMAIL_LABEL"
