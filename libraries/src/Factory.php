@@ -85,6 +85,19 @@ abstract class Factory
     public static $dates = [];
 
     /**
+     * Global session object
+     *
+     * @var         Session
+     * @since       1.7.0
+     *
+     * @deprecated  4.3 will be removed in 7.0
+     *              Use the session service in the DI container or get from the application object
+     *              Example:
+     *              Factory::getApplication()->getSession();
+     */
+    public static $session = null;
+
+    /**
      * Global language object
      *
      * @var         Language
@@ -250,14 +263,6 @@ abstract class Factory
      */
     public static function getSession(array $options = [])
     {
-        if (!\defined('JCOMPAT6_FACTORY_GET_SESSION')) {
-            throw new \BadMethodCallException(\sprintf(
-                '%1$s() has been removed and compatibility plugin is disabled. Load the session from the dependency injection container or via %2$s::getApplication()->getSession().',
-                __METHOD__,
-                __CLASS__
-            ), 500);
-        }
-
         @trigger_error(
             \sprintf(
                 '%1$s() is deprecated. Load the session from the dependency injection container or via %2$s::getApplication()->getSession().',

@@ -85,12 +85,6 @@ final class Compat6 extends CMSPlugin implements SubscriberInterface
          * @deprecated 4.4.0 will be removed in 7.0
          */
         \defined('JPATH_PLATFORM') or \define('JPATH_PLATFORM', __DIR__);
-
-        /**
-         * Allow to get the session from JFactory::getSession
-         * @deprecated 4.3.0 will be removed in 7.0
-         */
-        \defined('JCOMPAT6_FACTORY_GET_SESSION') or \define('JCOMPAT6_FACTORY_GET_SESSION', true);
     }
 
     /**
