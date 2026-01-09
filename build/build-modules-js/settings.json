@@ -1,6 +1,43 @@
 {
   "settings": {
     "vendors": {
+      "altcha": {
+        "name": "altcha",
+        "js": {
+          "dist_external/altcha.js": "js/altcha.js",
+          "dist_external/worker.js": "js/worker.js"
+        },
+        "css": {
+          "dist_external/altcha.css": "css/altcha.css"
+        },
+        "provideAssets": [
+          {
+            "name": "altcha",
+            "type": "script",
+            "uri": "altcha.js",
+            "attributes": {
+              "defer": true,
+              "async": true,
+              "type": "module"
+            }
+          },
+          {
+            "name": "altcha",
+            "type": "style",
+            "uri": "altcha.css"
+          },
+          {
+            "name": "altcha",
+            "type": "preset",
+            "dependencies": [
+              "altcha#script",
+              "altcha#style"
+            ]
+          }
+        ],
+        "dependencies": [],
+        "licenseFilename": "LICENSE.txt"
+      },
       "awesomplete": {
         "name": "awesomplete",
         "js": {
