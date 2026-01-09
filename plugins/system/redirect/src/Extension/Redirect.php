@@ -278,7 +278,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
             if ($canCreateRedirect) {
                 $button = 'index.php?option=com_redirect&task=link.add&new_url=' . base64_encode((string) $newLink);
 
-                $langString = Text::sprintf('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_NOT_CHANGED_CREATE_REDIRECT', HTMLHelper::_('link', $button, Text::_('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_NOT_CHANGED_CREATE_REDIRECT'), ['class' => 'btn btn-success btn-sm']));
+                $langString = Text::sprintf('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_NOT_CHANGED_CREATE_REDIRECT', HTMLHelper::_('link', $button, Text::_('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_CHANGED_CREATE_REDIRECT'), ['class' => 'btn btn-success btn-sm']));
             }
 
             $this->getApplication()->enqueueMessage($langString, 'warning');
