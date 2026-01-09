@@ -10,20 +10,17 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.combobox');
-
 /** @var \Joomla\Component\Config\Site\View\Modules\HtmlView $this */
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->getDocument()->getWebAssetManager();
-$wa->useScript('keepalive')
+
+$this->getDocument()->getWebAssetManager()
+    ->useScript('keepalive')
     ->useScript('form.validate')
-    ->useScript('com_config.modules');
+    ->useScript('com_config.modules')
+    ->useScript('awesomplete');
 
 $editorText  = false;
 $moduleXml   = JPATH_SITE . '/modules/' . $this->item['module'] . '/' . $this->item['module'] . '.xml';
@@ -42,7 +39,7 @@ if (Multilanguage::isEnabled()) {
 }
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="modules-form" class="form-validate">
+<form action="<?php echo Route::_('index.php'); ?>" method="post" name="adminForm" id="modules-form" class="form-validate">
     <div class="row">
         <div class="col-md-12">
             <legend><?php echo Text::_('COM_CONFIG_MODULES_SETTINGS_TITLE'); ?></legend>
@@ -164,10 +161,7 @@ if (Multilanguage::isEnabled()) {
                     <?php endif; ?>
                 </div>
 
-                <input type="hidden" name="id" value="<?php echo $this->item['id']; ?>">
-                <input type="hidden" name="return" value="<?php echo Factory::getApplication()->getInput()->get('return', null, 'base64'); ?>">
-                <input type="hidden" name="task" value="">
-                <?php echo HTMLHelper::_('form.token'); ?>
+                <?php echo $this->form->renderControlFields(); ?>
             </div>
             <div class="d-grid gap-2 d-sm-block mb-2">
             <button type="button" class="btn btn-primary" data-submit-task="modules.apply">

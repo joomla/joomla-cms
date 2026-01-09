@@ -26,6 +26,8 @@ $displayData = [
     'content'    => Text::_('COM_FINDER_INDEX_NO_DATA') . '<br>' . Text::_('COM_FINDER_INDEX_TIP'),
     'title'      => Text::_('COM_FINDER_HEADING_INDEXER'),
     'createURL'  => "javascript:document.getElementsByClassName('button-index')[0].click();",
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);

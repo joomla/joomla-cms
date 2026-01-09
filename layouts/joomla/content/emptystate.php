@@ -30,6 +30,8 @@ $content    = $displayData['content'] ?? Text::_($textPrefix . '_EMPTYSTATE_CONT
 $icon       = $displayData['icon'] ?? 'icon-copy article';
 $append     = $displayData['formAppend'] ?? '';
 $btnadd     = $displayData['btnadd'] ?? Text::_($textPrefix . '_EMPTYSTATE_BUTTON_ADD');
+
+$controlFields = $displayData['controlFields'] ?? '';
 ?>
 
 <form action="<?php echo Route::_($formURL); ?>" method="post" name="adminForm" id="adminForm">
@@ -63,7 +65,11 @@ $btnadd     = $displayData['btnadd'] ?? Text::_($textPrefix . '_EMPTYSTATE_BUTTO
         echo $append;
     ?>
 
-    <input type="hidden" name="task" value="">
-    <input type="hidden" name="boxchecked" value="0">
-    <?php echo HTMLHelper::_('form.token'); ?>
+    <?php if ($controlFields) : ?>
+        <?php echo $controlFields; ?>
+    <?php else : ?>
+        <input type="hidden" name="task" value="">
+        <input type="hidden" name="boxchecked" value="0">
+        <?php echo HTMLHelper::_('form.token'); ?>
+    <?php endif; ?>
 </form>

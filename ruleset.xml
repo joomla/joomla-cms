@@ -97,7 +97,6 @@
         <exclude-pattern type="relative">libraries/src/Form/Field/CaptchaField\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/Input/Json\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/Installer/Manifest\.php</exclude-pattern>
-        <exclude-pattern type="relative">libraries/src/MVC/Model/DatabaseAwareTrait\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/MVC/Model/FormBehaviorTrait\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/MVC/Model/ItemModel\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/MVC/Model/StateBehaviorTrait\.php</exclude-pattern>
