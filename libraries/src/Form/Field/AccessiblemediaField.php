@@ -217,7 +217,7 @@ class AccessiblemediaField extends SubformField
 XML;
         $mediaTypes = explode(',', $this->types);
         if (\in_array('images', $mediaTypes)) {
-        $xml .= <<<XML
+            $xml .= <<<XML
 		<field
 			name="alt_text"
 			type="text"
@@ -233,7 +233,7 @@ XML;
 XML;
         }
         if (\in_array('documents', $mediaTypes)) {
-        $xml .= <<<XML
+            $xml .= <<<XML
 		<field
 				name="linktext"
 				type="text"
@@ -244,7 +244,7 @@ XML;
 				hint="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DEFAULT_VALUE"
 		/>
 XML;
-		}
+        }
         $xml .= <<<XML
 	</fieldset>
 </form>
