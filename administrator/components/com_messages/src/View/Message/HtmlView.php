@@ -66,15 +66,11 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
     {
         /** @var MessageModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->form  = $model->getForm();
         $this->item  = $model->getItem();
         $this->state = $model->getState();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         if ($this->getLayout() !== 'edit' && empty($this->item->message_id)) {
             throw new GenericDataException(Text::_('JERROR_ALERTNOAUTHOR'), 403);

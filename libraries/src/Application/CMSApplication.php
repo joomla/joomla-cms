@@ -301,8 +301,13 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $this->setupLogging();
             $this->createExtensionNamespaceMap();
 
-            // Trigger the onBeforeExecute event
+            // Load the behaviour plugins
+            PluginHelper::importPlugin('behaviour', null, true, $this->getDispatcher());
+
+            // Load the system plugins
             PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
+
+            // Trigger the onBeforeExecute event
             $this->dispatchEvent(
                 'onBeforeExecute',
                 new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
@@ -495,7 +500,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since   3.2
      *
-     * @deprecated  3.2 will be removed in 6.0
+     * @deprecated  3.2 will be removed in 7.0
      *              Use get() instead
      *              Example: Factory::getApplication()->get($varname, $default);
      */
@@ -539,7 +544,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since       3.2
      * @throws      \RuntimeException
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use the application service from the DI container instead
      *              Example: Factory::getContainer()->get($name);
      */
@@ -683,7 +688,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since      3.2
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Inject the router or load it from the dependency injection container
      *              Example: Factory::getContainer()->get($name);
      */
@@ -815,9 +820,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         }
 
         $this->set('editor', $editor);
-
-        // Load the behaviour plugins
-        PluginHelper::importPlugin('behaviour', null, true, $this->getDispatcher());
 
         // Trigger the onAfterInitialise event.
         $this->dispatchEvent(
@@ -1154,7 +1156,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since      3.2
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Implement the route functionality in the extending class, this here will be removed without replacement
      */
     protected function route()
@@ -1305,7 +1307,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @throws \Exception
      *
-     * @deprecated  4.2 will be removed in 6.0
+     * @deprecated  4.2 will be removed in 7.0
      *              Will be removed without replacements
      */
     protected function isTwoFactorAuthenticationRequired(): bool
@@ -1322,7 +1324,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @throws \Exception
      *
-     * @deprecated  4.2 will be removed in 6.0
+     * @deprecated  4.2 will be removed in 7.0
      *              Will be removed without replacements
      */
     private function hasUserConfiguredTwoFactorAuthentication(): bool

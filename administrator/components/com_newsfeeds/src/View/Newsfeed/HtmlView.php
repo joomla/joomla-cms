@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -81,6 +80,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var NewsfeedModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->state = $model->getState();
         $this->item  = $model->getItem();
@@ -90,11 +90,6 @@ class HtmlView extends BaseHtmlView
             parent::display($tpl);
 
             return;
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // If we are forcing a language in modal (used for associations).
