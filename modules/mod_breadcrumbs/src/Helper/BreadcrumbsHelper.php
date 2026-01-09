@@ -82,7 +82,7 @@ class BreadcrumbsHelper
 
         $item       = new \stdClass();
         $item->name = htmlspecialchars($params->get('homeText', $app->getLanguage()->_('MOD_BREADCRUMBS_HOME')), ENT_COMPAT, 'UTF-8');
-        $item->link = 'index.php?Itemid=' . $home->id;
+        $item->link = $home->link . '&Itemid=' . $home->id;
 
         return $item;
     }
@@ -97,7 +97,7 @@ class BreadcrumbsHelper
      *
      * @since   1.5
      *
-     * @deprecated 4.4.0 will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 7.0
      *             Use the non-static method getBreadcrumbs
      *             Example: Factory::getApplication()->bootModule('mod_breadcrumbs', 'site')
      *                          ->getHelper('BreadcrumbsHelper')
@@ -118,7 +118,7 @@ class BreadcrumbsHelper
      *
      * @since   4.2.0
      *
-     * @deprecated 4.4.0 will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 7.0
      *             Use the non-static method getHomeItem
      *             Example: Factory::getApplication()->bootModule('mod_breadcrumbs', 'site')
      *                          ->getHelper('BreadcrumbsHelper')

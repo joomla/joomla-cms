@@ -517,9 +517,10 @@ class FieldModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|bool  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   3.7.0
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -556,10 +557,6 @@ class FieldModel extends AdminModel
                 'load_data' => true,
             ]
         );
-
-        if (empty($form)) {
-            return false;
-        }
 
         // Modify the form based on Edit State access controls.
         if (empty($data['context'])) {
@@ -1125,6 +1122,7 @@ class FieldModel extends AdminModel
         switch ($context) {
             case 'com_content':
                 parent::cleanCache('com_content');
+                parent::cleanCache('mod_articles');
                 parent::cleanCache('mod_articles_archive');
                 parent::cleanCache('mod_articles_categories');
                 parent::cleanCache('mod_articles_category');

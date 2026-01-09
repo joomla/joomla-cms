@@ -342,7 +342,7 @@ class Document
      *
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the \Joomla\CMS\Document\FactoryInterface instead
      *              Example: Factory::getApplication()->getDocument();
      */
@@ -980,7 +980,7 @@ class Document
                 \sprintf(
                     'The $date parameter of %1$s must be a string or a %2$s instance, a %3$s was given.',
                     __METHOD__ . '()',
-                    'Joomla\\CMS\\Date\\Date',
+                    Date::class,
                     \is_object($date) ? (\get_class($date) . ' instance') : \gettype($date)
                 )
             );

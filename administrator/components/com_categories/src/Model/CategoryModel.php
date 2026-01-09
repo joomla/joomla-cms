@@ -243,9 +243,10 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|boolean  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -264,10 +265,6 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
 
         // Get the form.
         $form = $this->loadForm('com_categories.category' . $extension, 'category', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         // Modify the form based on Edit State access controls.
         if (empty($data['extension'])) {
@@ -709,6 +706,12 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
         }
 
         $this->setState($this->getName() . '.id', $table->id);
+
+        /**
+         * Save the version history. We need to call saveHistory method manually because category model does not
+         * call parent::save()
+         */
+        $this->saveHistory($data, $this->typeAlias);
 
         if (Factory::getApplication()->getInput()->get('task') == 'editAssociations') {
             return $this->redirectToAssociations($data);
@@ -1225,6 +1228,7 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
         switch ($extension) {
             case 'com_content':
                 parent::cleanCache('com_content');
+                parent::cleanCache('mod_articles');
                 parent::cleanCache('mod_articles_archive');
                 parent::cleanCache('mod_articles_categories');
                 parent::cleanCache('mod_articles_category');
