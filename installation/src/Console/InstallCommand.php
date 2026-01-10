@@ -217,7 +217,11 @@ class InstallCommand extends AbstractCommand
             $dumpResult = $dumpCmd->execute(new ArrayInput([]), $output);
 
             if ($dumpResult === 0 && is_file(JPATH_ROOT . '/.env')) {
-                File::delete(JPATH_ROOT . '/.env');
+                try {
+                    File::delete(JPATH_ROOT . '/.env');
+                } catch (\Exception) {
+                    $this->ioStyle->error('Unable to delete .env file. Please remove it manually.');
+                }
             }
         }
 
