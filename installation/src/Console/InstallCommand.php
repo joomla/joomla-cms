@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Installation\Console;
 
+use Joomla\CMS\Console\DotenvDumpCommand;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Form\FormHelper;
@@ -20,7 +21,9 @@ use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Version;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Filesystem\File;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -206,6 +209,16 @@ class InstallCommand extends AbstractCommand
             }
 
             $this->ioStyle->writeln('OK');
+        }
+
+        // When environment variables in use then generate a cache and remove raw .env for production environment
+        if ($envOptions && $_ENV['JOOMLA_ENV'] === 'prod') {
+            $dumpCmd    = new DotenvDumpCommand();
+            $dumpResult = $dumpCmd->execute(new ArrayInput([]), $output);
+
+            if ($dumpResult === 0 && is_file(JPATH_ROOT . '/.env')) {
+                File::delete(JPATH_ROOT . '/.env');
+            }
         }
 
         $this->ioStyle->success('Joomla has been installed');
