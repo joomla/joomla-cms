@@ -157,7 +157,7 @@ class ItemModel extends AdminModel
 
         $table  = $this->getTable();
         $db     = $this->getDatabase();
-        $query  = $db->getQuery(true);
+        $query  = $db->createQuery();
         $newIds = [];
 
         // Check that the parent exists
@@ -234,7 +234,7 @@ class ItemModel extends AdminModel
             }
 
             // Copy is a bit tricky, because we also need to copy the children
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__menu'))
                 ->where(
@@ -409,7 +409,7 @@ class ItemModel extends AdminModel
             // Check if we are moving to a different menu
             if ($menuType != $table->menutype) {
                 // Add the child node ids to the children array.
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName('id'))
                     ->from($db->quoteName('#__menu'))
                     ->where($db->quoteName('lft') . ' BETWEEN :lft AND :rgt')
@@ -448,7 +448,7 @@ class ItemModel extends AdminModel
             $children = ArrayHelper::toInteger($children);
 
             // Update the menutype field in all nodes where necessary.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->update($db->quoteName('#__menu'))
                 ->set($db->quoteName('menutype') . ' = :menuType')
                 ->whereIn($db->quoteName('id'), $children)
@@ -491,9 +491,10 @@ class ItemModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  mixed  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -515,10 +516,6 @@ class ItemModel extends AdminModel
             $form = $this->loadForm('com_menus.item.admin', 'itemadmin', ['control' => 'jform', 'load_data' => $loadData], true);
         } else {
             $form = $this->loadForm('com_menus.item', 'item', ['control' => 'jform', 'load_data' => $loadData], true);
-        }
-
-        if (empty($form)) {
-            return false;
         }
 
         if ($loadData) {
@@ -784,7 +781,7 @@ class ItemModel extends AdminModel
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         /**
          * Join on the module-to-menu mapping table.
@@ -808,7 +805,7 @@ class ItemModel extends AdminModel
                     . ' AND ' . $db->quoteName('map.menuid') . ' IN (' . implode(',', $query->bindArray([0, $id, -$id])) . ')'
             );
 
-        $subQuery = $db->getQuery(true)
+        $subQuery = $db->createQuery()
             ->select('COUNT(*)')
             ->from($db->quoteName('#__modules_menu'))
             ->where(
@@ -860,7 +857,7 @@ class ItemModel extends AdminModel
     public function getViewLevels()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Get all the available view levels
         $query->select($db->quoteName('id'))
@@ -1232,7 +1229,7 @@ class ItemModel extends AdminModel
     {
         // Initialise variables.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $table = $this->getTable();
 
         try {
@@ -1272,7 +1269,7 @@ class ItemModel extends AdminModel
             return false;
         }
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__menu'))
             ->set($db->quoteName('params') . ' = :params')
             ->where($db->quoteName('id') . ' = :id')
@@ -1314,7 +1311,7 @@ class ItemModel extends AdminModel
         $pk      = $data['id'] ?? (int) $this->getState('item.id');
         $isNew   = true;
         $db      = $this->getDatabase();
-        $query   = $db->getQuery(true);
+        $query   = $db->createQuery();
         $table   = $this->getTable();
         $context = $this->option . '.' . $this->name;
 
@@ -1434,7 +1431,7 @@ class ItemModel extends AdminModel
             $children = ArrayHelper::toInteger($children);
 
             // Update the menutype field in all nodes where necessary.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->update($db->quoteName('#__menu'))
                 ->set($db->quoteName('menutype') . ' = :menutype')
                 ->whereIn($db->quoteName('id'), $children)
@@ -1476,7 +1473,7 @@ class ItemModel extends AdminModel
 
             // Get associationskey for edited item
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('key'))
                 ->from($db->quoteName('#__associations'))
                 ->where(
@@ -1493,7 +1490,7 @@ class ItemModel extends AdminModel
             if ($associations || $oldKey !== null) {
                 // Deleting old associations for the associated items
                 $where = [];
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->delete($db->quoteName('#__associations'))
                     ->where($db->quoteName('context') . ' = :context')
                     ->bind(':context', $this->associationsContext);
@@ -1527,7 +1524,7 @@ class ItemModel extends AdminModel
             if (\count($associations) > 1) {
                 // Adding new association for these items
                 $key   = md5(json_encode($associations));
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->insert($db->quoteName('#__associations'))
                     ->columns(
                         [

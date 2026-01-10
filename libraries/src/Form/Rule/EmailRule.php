@@ -161,7 +161,7 @@ class EmailRule extends FormRule implements DatabaseAwareInterface
         if ($unique && !$multiple) {
             // Get the database object and a new query object.
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             // Get the extra field check attribute.
             $userId = ($form instanceof Form) && $form->getValue('id')
