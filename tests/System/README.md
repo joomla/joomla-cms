@@ -73,7 +73,8 @@ cp cypress.config.dist.mjs cypress.config.mjs
 
 ## Running Joomla System Tests
 
-After installation, you can start the Joomla System Tests with headless Cypress. The test suite starts with Joomla Web-Installer as the first test step.
+After installation, you can start the Joomla System Tests with headless Cypress.
+The test suite starts with Joomla Web-Installer as the first test step.
 ```
 npm run cypress:run
 ```
