@@ -24,7 +24,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 /**
  * Dispatcher class for mod_latest
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.4.0
  */
 class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareInterface
 {

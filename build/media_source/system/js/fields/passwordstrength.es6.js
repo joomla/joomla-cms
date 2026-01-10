@@ -143,10 +143,9 @@ class PasswordStrength {
       meter.setAttribute('optimum', 100);
       meter.value = initialVal;
 
-      const label = document.createElement('div');
-      label.setAttribute('class', 'text-center');
+      const label = document.createElement('output');
       label.setAttribute('id', `password-${index}`);
-      label.setAttribute('aria-live', 'polite');
+      label.setAttribute('for', field.id);
 
       field.parentNode.insertAdjacentElement('afterEnd', label);
       field.parentNode.insertAdjacentElement('afterEnd', meter);

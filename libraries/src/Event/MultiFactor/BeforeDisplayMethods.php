@@ -46,7 +46,7 @@ class BeforeDisplayMethods extends AbstractImmutableEvent
      * @return  User
      * @since   4.2.0
      *
-     * @deprecated 4.4.0 will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 7.0
      *               Use counterpart with onSet prefix
      */
     public function setUser(User $value): User
