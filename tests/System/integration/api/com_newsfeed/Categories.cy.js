@@ -1,23 +1,31 @@
+import { AST_CATEGORY_TITLE } from '../../../support/constants.mjs';
+
 describe('Test that newsfeed categories API endpoint', () => {
-  afterEach(() => cy.task('queryDB', "DELETE FROM #__categories where title = 'automated test feed category'"));
+  beforeEach(() => cy.task('queryDB', `DELETE FROM #__categories where title LIKE '${AST_CATEGORY_TITLE}%'`));
   it('can deliver a list of categories', () => {
-    cy.db_createCategory({ title: 'automated test category', extension: 'com_newsfeeds' })
-      .then((id) => cy.db_createNewsFeed({ name: 'automated test feed', catid: id }))
+    cy.api_post('/newsfeeds/categories', { title: `${AST_CATEGORY_TITLE} 1`, extension: 'com_newsfeeds', parent_id: 1, published: 1 })
+      .then((res) => {
+        const catId = Number(res.body.data.id);
+        return cy.db_createNewsFeed({ name: 'automated test feed', catid: catId });
+      })
       .then(() => cy.api_get('/newsfeeds/categories'))
-      .then((response) => cy.api_responseContains(response, 'title', 'automated test category'));
+      .then((response) => cy.api_responseContains(response, 'title', `${AST_CATEGORY_TITLE} 1`));
   });
 
   it('can deliver a single category', () => {
-    cy.db_createCategory({ title: 'automated test feed category', extension: 'com_newsfeeds' })
-      .then((id) => cy.api_get(`/newsfeeds/categories/${id}`))
+    cy.api_post('/newsfeeds/categories', { title: `${AST_CATEGORY_TITLE} 2`, extension: 'com_newsfeeds', parent_id: 1, published: 1 })
+      .then((res) => {
+        const catId = Number(res.body.data.id);
+        return cy.api_get(`/newsfeeds/categories/${catId}`);
+      })
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
         .its('title')
-        .should('include', 'automated test feed category'));
+        .should('include', `${AST_CATEGORY_TITLE} 2`));
   });
 
   it('can create a category', () => {
     cy.api_post('/newsfeeds/categories', {
-      title: 'automated test feed category',
+      title: `${AST_CATEGORY_TITLE} 3`,
       description: 'automated test feed category description',
       parent_id: 1,
       extension: 'com_newsfeeds',
@@ -25,7 +33,7 @@ describe('Test that newsfeed categories API endpoint', () => {
       .then((response) => {
         cy.wrap(response).its('body').its('data').its('attributes')
           .its('title')
-          .should('include', 'automated test feed category');
+          .should('include', `${AST_CATEGORY_TITLE} 3`);
         cy.wrap(response).its('body').its('data').its('attributes')
           .its('description')
           .should('include', 'automated test feed category description');
@@ -33,12 +41,15 @@ describe('Test that newsfeed categories API endpoint', () => {
   });
 
   it('can update a category', () => {
-    cy.db_createCategory({ title: 'automated test feed category', extension: 'com_newsfeeds' })
-      .then((id) => cy.api_patch(`/newsfeeds/categories/${id}`, { title: 'updated automated test feed category', description: 'automated test feed category description' }))
+    cy.api_post('/newsfeeds/categories', { title: `${AST_CATEGORY_TITLE} 4`, extension: 'com_newsfeeds', parent_id: 1, published: 1 })
+      .then((res) => {
+        const catId = Number(res.body.data.id);
+        return cy.api_patch(`/newsfeeds/categories/${catId}`, { title: `${AST_CATEGORY_TITLE} 4 Updated`, description: 'automated test feed category description' });
+      })
       .then((response) => {
         cy.wrap(response).its('body').its('data').its('attributes')
           .its('title')
-          .should('include', 'updated automated test feed category');
+          .should('include', `${AST_CATEGORY_TITLE} 4 Updated`);
         cy.wrap(response).its('body').its('data').its('attributes')
           .its('description')
           .should('include', 'automated test feed category description');

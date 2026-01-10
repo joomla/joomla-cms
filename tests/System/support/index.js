@@ -1,4 +1,5 @@
 import('./commands.mjs');
+import('./constants.mjs');
 import('joomla-cypress');
 
 before(() => {

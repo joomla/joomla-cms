@@ -1,15 +1,18 @@
+import { AST_CATEGORY_TITLE } from '../../../support/constants.mjs';
+
 describe('Test that contenthistory for banners API endpoint', () => {
   beforeEach(() => {
+    cy.task('queryDB', `DELETE FROM #__categories WHERE title LIKE '${AST_CATEGORY_TITLE}%'`);
     cy.task('queryDB', 'DELETE FROM #__banners');
     cy.task('queryDB', 'DELETE FROM #__history');
   });
 
   it('can get the history of an existing banner', () => {
-    cy.db_createCategory({ extension: 'com_banners' })
-      .then((categoryId) => cy.api_post('/banners', {
+    cy.api_post('/banners/categories', { title: `${AST_CATEGORY_TITLE} banner history`, extension: 'com_banners', parent_id: 1, published: 1 })
+      .then((catRes) => cy.api_post('/banners', {
         name: 'automated test banner',
         alias: 'test-banner',
-        catid: categoryId,
+        catid: Number(catRes.body.data.id),
         state: 1,
         language: '*',
         description: '',

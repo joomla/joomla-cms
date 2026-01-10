@@ -1,4 +1,7 @@
+import { AST_CATEGORY_TITLE } from '../../../support/constants.mjs';
+
 describe('Test that content API endpoint', () => {
+  beforeEach(() => cy.task('queryDB', `DELETE FROM #__categories WHERE title LIKE '${AST_CATEGORY_TITLE}%'`));
   afterEach(() => cy.task('queryDB', 'DELETE FROM #__content'));
 
   it('can deliver a list of articles', () => {
@@ -30,11 +33,11 @@ describe('Test that content API endpoint', () => {
   });
 
   it('can create an article', () => {
-    cy.db_createCategory({ extension: 'com_content' })
-      .then((categoryId) => cy.api_post('/content/articles', {
+    cy.api_post('/content/categories', { title: `${AST_CATEGORY_TITLE} article create`, extension: 'com_content', parent_id: 1, published: 1 })
+      .then((catRes) => cy.api_post('/content/articles', {
         title: 'automated test article',
         alias: 'test-article',
-        catid: categoryId,
+        catid: Number(catRes.body.data.id),
         introtext: '',
         fulltext: '',
         state: 1,

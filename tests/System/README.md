@@ -218,7 +218,6 @@ The following commands are available and are served by the file [tests/System/su
 - **db_createArticle** – Creates an article and returns the id
 - **db_createBanner** – Creates a banner and returns the id
 - **db_createBannerClient** – Creates a banner client and returns the id
-- **db_createCategory** – Creates a category and returns the id
 - **db_createContact** – Creates a contact and returns the id
 - **db_createField** – Creates a field and returns the id
 - **db_createFieldGroup** – Creates a field group and returns the id

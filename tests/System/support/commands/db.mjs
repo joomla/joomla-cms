@@ -286,35 +286,6 @@ Cypress.Commands.add('db_createNewsFeed', (newsFeedData) => {
 });
 
 /**
- * Creates a category in the database with the given data. The category contains some default values when
- * not all required fields are passed in the given data. The id of the inserted category is returned.
- *
- * @param {Object} categoryData The category data to insert
- *
- * @returns integer
- */
-Cypress.Commands.add('db_createCategory', (category) => {
-  const defaultCategoryOptions = {
-    title: 'test category',
-    alias: 'test-category',
-    path: 'test-category',
-    extension: 'com_content',
-    published: 1,
-    access: 1,
-    params: '',
-    parent_id: 1,
-    level: 1,
-    lft: 1,
-    metadata: '',
-    metadesc: '',
-    created_time: '2023-01-01 20:00:00',
-    modified_time: '2023-01-01 20:00:00',
-  };
-
-  return cy.task('queryDB', createInsertQuery('categories', { ...defaultCategoryOptions, ...category })).then(async (info) => info.insertId);
-});
-
-/**
  * Creates a field in the database with the given data. The field contains some default values when
  * not all required fields are passed in the given data. The id of the inserted field is returned.
  *

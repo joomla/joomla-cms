@@ -1,15 +1,18 @@
+import { AST_CATEGORY_TITLE } from '../../../support/constants.mjs';
+
 describe('Test that contenthistory for content API endpoint', () => {
   beforeEach(() => {
+    cy.task('queryDB', `DELETE FROM #__categories WHERE title LIKE '${AST_CATEGORY_TITLE}%'`);
     cy.task('queryDB', 'DELETE FROM #__content');
     cy.task('queryDB', 'DELETE FROM #__history');
   });
 
   it('can get the history of an existing article', () => {
-    cy.db_createCategory({ extension: 'com_content' })
-      .then((categoryId) => cy.api_post('/content/articles', {
+    cy.api_post('/content/categories', { title: `${AST_CATEGORY_TITLE} history`, extension: 'com_content', parent_id: 1, published: 1 })
+      .then((catRes) => cy.api_post('/content/articles', {
         title: 'automated test article',
         alias: 'test-article',
-        catid: categoryId,
+        catid: Number(catRes.body.data.id),
         introtext: '',
         fulltext: '',
         state: 1,
@@ -71,11 +74,11 @@ describe('Test that contenthistory for content API endpoint', () => {
   });
 
   it('can delete the history of an existing article', () => {
-    cy.db_createCategory({ extension: 'com_content' })
-      .then((categoryId) => cy.api_post('/content/articles', {
+    cy.api_post('/content/categories', { title: `${AST_CATEGORY_TITLE} history delete`, extension: 'com_content', parent_id: 1, published: 1 })
+      .then((catRes) => cy.api_post('/content/articles', {
         title: 'automated test article',
         alias: 'test-article',
-        catid: categoryId,
+        catid: Number(catRes.body.data.id),
         introtext: '',
         fulltext: '',
         state: 1,

@@ -1,5 +1,10 @@
+import { AST_CATEGORY_TITLE } from '../../../support/constants.mjs';
+
 describe('Test that contacts API endpoint', () => {
-  beforeEach(() => cy.task('clearEmails'));
+  beforeEach(() => {
+    cy.task('queryDB', `DELETE FROM #__categories WHERE title LIKE '${AST_CATEGORY_TITLE}%'`);
+    cy.task('clearEmails');
+  });
   afterEach(() => cy.task('queryDB', 'DELETE FROM #__contact_details'));
 
   it('can deliver a list of contacts', () => {
@@ -19,11 +24,11 @@ describe('Test that contacts API endpoint', () => {
   });
 
   it('can create a contact', () => {
-    cy.db_createCategory({ extension: 'com_contact' })
-      .then((categoryId) => cy.api_post('/contacts', {
+    cy.api_post('/contacts/categories', { title: `${AST_CATEGORY_TITLE} contact create`, extension: 'com_contacts', parent_id: 1, published: 1 })
+      .then((catRes) => cy.api_post('/contacts', {
         name: 'automated test contact',
         alias: 'test-contact',
-        catid: categoryId,
+        catid: Number(catRes.body.data.id),
         published: 1,
         language: '*',
       }))
