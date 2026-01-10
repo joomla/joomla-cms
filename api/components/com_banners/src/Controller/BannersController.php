@@ -40,7 +40,7 @@ class BannersController extends ApiController
      */
     protected $default_view = 'banners';
 
-     /**
+    /**
      * Banner list view amended to add filtering of data
      *
      * @return  static  A BaseController object to support chaining.
