@@ -117,7 +117,8 @@ class HtmlView extends BaseHtmlView
             $usedEnvs = array_intersect_key($envMap, $_ENV);
 
             foreach ($usedEnvs as $envName => $fieldName) {
-                $fromEnv[] = \sprintf('%s (%s)', Text::_($this->form->getFieldAttribute($fieldName, 'label')), $_ENV[$envName]);
+                // @TODO: Show what exactly values is in use without exposing credentials
+                $fromEnv[] = Text::_($this->form->getFieldAttribute($fieldName, 'label'));
             }
 
             if ($fromEnv) {
