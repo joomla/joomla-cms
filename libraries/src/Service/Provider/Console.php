@@ -13,9 +13,11 @@ use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
 use Joomla\CMS\Console\CoreUpdateChannelCommand;
 use Joomla\CMS\Console\DotenvDebugCommand;
 use Joomla\CMS\Console\DotenvDumpCommand;
+use Joomla\CMS\Console\ExtensionDisableCommand;
 use Joomla\CMS\Console\ExtensionDiscoverCommand;
 use Joomla\CMS\Console\ExtensionDiscoverInstallCommand;
 use Joomla\CMS\Console\ExtensionDiscoverListCommand;
+use Joomla\CMS\Console\ExtensionEnableCommand;
 use Joomla\CMS\Console\ExtensionInstallCommand;
 use Joomla\CMS\Console\ExtensionRemoveCommand;
 use Joomla\CMS\Console\ExtensionsListCommand;
@@ -144,6 +146,22 @@ class Console implements ServiceProviderInterface
             CheckJoomlaUpdatesCommand::class,
             function (Container $container) {
                 return new CheckJoomlaUpdatesCommand();
+            },
+            true
+        );
+
+        $container->share(
+            ExtensionEnableCommand::class,
+            function (Container $container) {
+                return new ExtensionEnableCommand($container->get(DatabaseInterface::class));
+            },
+            true
+        );
+
+        $container->share(
+            ExtensionDisableCommand::class,
+            function (Container $container) {
+                return new ExtensionDisableCommand($container->get(DatabaseInterface::class));
             },
             true
         );

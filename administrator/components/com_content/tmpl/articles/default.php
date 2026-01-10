@@ -193,7 +193,7 @@ $assoc = Associations::isEnabled();
                             }
 
                             ?>
-                            <tr class="row<?php echo $i % 2; ?>"<?php echo $featured === '1' ? '' : ' data-draggable-group="' . $item->catid; ?>
+                            <tr class="row<?php echo $i % 2; ?>"<?php echo $featured === '1' ? '' : ' data-draggable-group="' . $item->catid . '"'; ?>
                                 <?php echo $dataTransitionsAttribute ?? '' ?>
                             >
                                 <td class="text-center">

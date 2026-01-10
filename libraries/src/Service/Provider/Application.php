@@ -18,9 +18,11 @@ use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
 use Joomla\CMS\Console\CoreUpdateChannelCommand;
 use Joomla\CMS\Console\DotenvDebugCommand;
 use Joomla\CMS\Console\DotenvDumpCommand;
+use Joomla\CMS\Console\ExtensionDisableCommand;
 use Joomla\CMS\Console\ExtensionDiscoverCommand;
 use Joomla\CMS\Console\ExtensionDiscoverInstallCommand;
 use Joomla\CMS\Console\ExtensionDiscoverListCommand;
+use Joomla\CMS\Console\ExtensionEnableCommand;
 use Joomla\CMS\Console\ExtensionInstallCommand;
 use Joomla\CMS\Console\ExtensionRemoveCommand;
 use Joomla\CMS\Console\ExtensionsListCommand;
@@ -157,6 +159,8 @@ class Application implements ServiceProviderInterface
                         GetConfigurationCommand::getDefaultName()         => GetConfigurationCommand::class,
                         ExtensionsListCommand::getDefaultName()           => ExtensionsListCommand::class,
                         CheckJoomlaUpdatesCommand::getDefaultName()       => CheckJoomlaUpdatesCommand::class,
+                        ExtensionEnableCommand::getDefaultName()          => ExtensionEnableCommand::class,
+                        ExtensionDisableCommand::getDefaultName()         => ExtensionDisableCommand::class,
                         ExtensionRemoveCommand::getDefaultName()          => ExtensionRemoveCommand::class,
                         ExtensionInstallCommand::getDefaultName()         => ExtensionInstallCommand::class,
                         ExtensionDiscoverCommand::getDefaultName()        => ExtensionDiscoverCommand::class,
@@ -183,9 +187,9 @@ class Application implements ServiceProviderInterface
                 'JApplicationApi',
                 function (Container $container) {
                     $app = new ApiApplication(null, $container->get('config'), null, $container);
-                    $app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
+                    $app->setDispatcher($container->get(DispatcherInterface::class));
                     $app->setLogger($container->get(LoggerInterface::class));
-                    $app->setSession($container->get('Joomla\Session\SessionInterface'));
+                    $app->setSession($container->get(SessionInterface::class));
                     $app->setMenuFactory($container->get(MenuFactoryInterface::class));
 
                     // Ensure that session purging is configured now we have a dispatcher
