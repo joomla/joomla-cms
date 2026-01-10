@@ -11,10 +11,14 @@
 namespace Joomla\CMS\Installation\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Console\DotenvDumpCommand;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Session\Session;
+use Joomla\Filesystem\File;
 use Joomla\Input\Input;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\NullOutput;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -231,6 +235,19 @@ class InstallationController extends JSONController
         if (!$configurationModel->setup($options, $envOptions)) {
             $r->view  = 'setup';
             $r->error = true;
+        }
+
+        // When environment variables in use then generate a cache and remove raw .env for production environment
+        if ($envOptions && $_ENV['JOOMLA_ENV'] === 'prod') {
+            $dumpCmd    = new DotenvDumpCommand();
+            $dumpResult = $dumpCmd->execute(new ArrayInput([]), new NullOutput());
+
+            if ($dumpResult === 0 && is_file(JPATH_ROOT . '/.env')) {
+                try {
+                    File::delete(JPATH_ROOT . '/.env');
+                } catch (\Exception) {
+                }
+            }
         }
 
         $this->sendJsonResponse($r);
