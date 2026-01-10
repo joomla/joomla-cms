@@ -229,22 +229,7 @@ class DatabaseModel extends BaseInstallationModel
         } catch (\RuntimeException $e) {
             // Continue Anyhow
         }
-//---------
-        $options = (array) $options;
 
-        // Remove *_errors value.
-        foreach ($options as $i => $option) {
-            if (isset($i['1']) && $i['1'] == '*') {
-                unset($options[$i]);
-
-                break;
-            }
-        }
-
-        $options = array_merge(['db_created' => 1], $options);
-
-        Factory::getApplication()->getSession()->set('setup.options', $options);
-//---------------
         return true;
     }
 
