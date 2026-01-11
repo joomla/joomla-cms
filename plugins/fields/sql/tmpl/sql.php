@@ -10,12 +10,27 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\Database\ParameterType;
 
 $value = $field->value;
 
 if ($value == '') {
+    return;
+}
+
+// SECURITY: SQL fields can execute arbitrary database queries and must only be
+// rendered for users with Super User privileges (same as field creation requirement).
+// This prevents an authorization bypass where a malicious super admin creates an SQL
+// field with sensitive query, and then any visitor triggers query execution by viewing
+// the content. This check ensures runtime authorization matches creation-time authorization.
+$app  = Factory::getApplication();
+$user = $app->getIdentity();
+
+// Check if current user is a Super User (has core.admin on root asset)
+if (!Access::getAssetRules(1)->allow('core.admin', $user->getAuthorisedGroups())) {
+    // Non-super-admin users cannot view SQL field results for security reasons
     return;
 }
 
