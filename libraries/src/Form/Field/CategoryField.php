@@ -97,6 +97,22 @@ class CategoryField extends ListField
         // Merge any additional options in the XML definition.
         $options = array_merge(parent::getOptions(), $options);
 
+        // Filter out excluded categories if the exclude attribute is set
+        $excludeAttr = (string) $this->element['exclude'];
+
+        if (!empty($excludeAttr)) {
+            $excludedCategoryIds = array_map('intval', array_filter(array_map('trim', explode(',', $excludeAttr))));
+
+            if (!empty($excludedCategoryIds)) {
+                $options = array_filter(
+                    $options,
+                    function ($option) use ($excludedCategoryIds) {
+                        return !\in_array($option->value, $excludedCategoryIds);
+                    }
+                );
+            }
+        }
+
         return $options;
     }
 }
