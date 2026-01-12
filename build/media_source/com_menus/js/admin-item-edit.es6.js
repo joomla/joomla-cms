@@ -87,6 +87,11 @@ const element = document.getElementById('jform_menutype');
 
 if (element) {
   element.addEventListener('change', onChange);
+
+  // If a menu type is already selected on page load, populate parent items
+  if (element.value) {
+    onChange({ target: element });
+  }
 }
 
 // Menu type Login Form specific
