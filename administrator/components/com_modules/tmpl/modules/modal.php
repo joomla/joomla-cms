@@ -19,7 +19,9 @@ use Joomla\CMS\Session\Session;
 
 /** @var \Joomla\Component\Modules\Administrator\View\Modules\HtmlView $this */
 
-if (Factory::getApplication()->isClient('site')) {
+$app = Factory::getApplication();
+
+if ($app->isClient('site')) {
     Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
@@ -37,7 +39,6 @@ if (!empty($editor)) {
 }
 ?>
 <div class="container-popup">
-
     <form action="<?php echo Route::_($link); ?>" method="post" name="adminForm" id="adminForm">
 
         <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>

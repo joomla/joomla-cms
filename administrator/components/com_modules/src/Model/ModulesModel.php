@@ -89,11 +89,17 @@ class ModulesModel extends ListModel
     {
         $app = Factory::getApplication();
 
-        $layout = $app->getInput()->get('layout', '', 'cmd');
+        $forcedLanguage = $app->getInput()->get('forcedLanguage', '', 'cmd');
+        $layout         = $app->getInput()->get('layout', '', 'cmd');
 
         // Adjust the context to support modal layouts.
         if ($layout) {
             $this->context .= '.' . $layout;
+        }
+
+        // Adjust the context to support forced languages.
+        if ($forcedLanguage) {
+            $this->context .= '.' . $forcedLanguage;
         }
 
         // Make context client aware
@@ -126,6 +132,11 @@ class ModulesModel extends ListModel
 
         // List state information.
         parent::populateState($ordering, $direction);
+
+        // Force a language.
+        if (!empty($forcedLanguage)) {
+            $this->setState('filter.language', $forcedLanguage);
+        }
     }
 
     /**
