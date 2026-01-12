@@ -78,7 +78,7 @@
     "fig/link-util": "^1.2.0",
     "google/recaptcha": "^1.3.1",
     "laminas/laminas-diactoros": "^3.8.0",
-    "paragonie/sodium_compat": "^1.23.0",
+    "paragonie/sodium_compat": "^1.24.0",
     "phpmailer/phpmailer": "^6.12.0",
     "psr/link": "~1.1.1",
     "symfony/console": "^7",
@@ -106,7 +106,7 @@
     "jfcherng/php-diff": "^6.16.2",
     "php-tuf/php-tuf": "^1.0.3",
     "php-debugbar/php-debugbar": "^2.2.4",
-    "altcha-org/altcha": "^1.3.0"
+    "altcha-org/altcha": "^1.3.1"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.6.31",
