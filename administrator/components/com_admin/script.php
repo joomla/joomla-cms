@@ -920,9 +920,6 @@ class JoomlaInstallerScript
             '/media/vendor/tinymce/langs/bg.js',
             '/media/vendor/tinymce/langs/bg.min.js',
             '/media/vendor/tinymce/langs/bg.min.js.gz',
-            '/media/vendor/tinymce/langs/bs.js',
-            '/media/vendor/tinymce/langs/bs.min.js',
-            '/media/vendor/tinymce/langs/bs.min.js.gz',
             '/media/vendor/tinymce/langs/fo.js',
             '/media/vendor/tinymce/langs/fo.min.js',
             '/media/vendor/tinymce/langs/fo.min.js.gz',
@@ -1045,6 +1042,12 @@ class JoomlaInstallerScript
             '/media/com_guidedtours/images/5_2/mailtemplate.png',
             '/media/com_guidedtours/images/5_3/filesdirectory.jpg',
             '/media/com_guidedtours/images/5_4/automated-updates.jpg',
+            // From 6.1.0-alpha1 to 6.1.0-alpha2
+            '/libraries/vendor/symfony/var-dumper/Cloner/Internal/NoDefault.php',
+            '/libraries/vendor/webmozart/assert/LICENSE',
+            '/libraries/vendor/webmozart/assert/src/Assert.php',
+            '/libraries/vendor/webmozart/assert/src/InvalidArgumentException.php',
+            '/libraries/vendor/webmozart/assert/src/Mixin.php',
         ];
 
         $folders = [
@@ -1110,6 +1113,11 @@ class JoomlaInstallerScript
             '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector',
             '/libraries/vendor/doctrine/inflector/lib/Doctrine',
             '/libraries/vendor/doctrine/inflector/lib',
+            // From 6.1.0-alpha1 to 6.1.0-alpha2
+            '/libraries/vendor/webmozart/assert/src',
+            '/libraries/vendor/webmozart/assert',
+            '/libraries/vendor/webmozart',
+            '/libraries/vendor/symfony/var-dumper/Cloner/Internal',
         ];
 
         $status['files_checked']   = $files;
