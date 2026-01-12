@@ -119,7 +119,7 @@ abstract class AssociationExtensionHelper implements AssociationExtensionInterfa
             'tables'     => $tables,
             'joins'      => $joins,
             'title'      => $title,
-            'urlOptions' => $this->getUrlOptions($typeName)
+            'urlOptions' => $this->getUrlOptions($typeName),
         ];
     }
 

@@ -258,11 +258,11 @@ class HtmlView extends BaseHtmlView
                 foreach ($urlOptions as $tag => $urlOption) {
                     $helper = $extension->get('helper');
 
-                    if (array_key_exists('functionName', $urlOption)) {
+                    if (\array_key_exists('functionName', $urlOption)) {
                         $func = $urlOption['functionName'];
                         $args = [];
 
-                        if (array_key_exists('params', $urlOption)) {
+                        if (\array_key_exists('params', $urlOption)) {
                             $params = $urlOption['params'];
 
                             foreach ($params as $param) {
@@ -270,7 +270,7 @@ class HtmlView extends BaseHtmlView
                             }
                         }
 
-                        $value = call_user_func_array([$helper, $func], $args);
+                        $value = \call_user_func_array([$helper, $func], $args);
                     }
 
                     $specialOptions[$tag] = $value;

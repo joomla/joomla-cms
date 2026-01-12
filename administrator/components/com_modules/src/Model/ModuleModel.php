@@ -980,40 +980,6 @@ class ModuleModel extends AdminModel
             return false;
         }
 
-
-//        // Bind the data.
-//        if (!$table->bind($data)) {
-//            $this->setError($table->getError());
-//
-//            return false;
-//        }
-//
-//        // Prepare the row for saving
-//        $this->prepareTable($table);
-//
-//        // Check the data.
-//        if (!$table->check()) {
-//            $this->setError($table->getError());
-//
-//            return false;
-//        }
-//
-//        // Trigger the before save event.
-//        $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, $isNew]);
-//
-//        if (\in_array(false, $result, true)) {
-//            $this->setError($table->getError());
-//
-//            return false;
-//        }
-//
-//        // Store the data.
-//        if (!$table->store()) {
-//            $this->setError($table->getError());
-//
-//            return false;
-//        }
-
         // Process the menu link mappings.
         $assignment = $data['assignment'] ?? 0;
 

@@ -184,9 +184,9 @@ class AssociationsHelper extends AssociationExtensionHelper
             'eid' => [
                 'functionName' => 'getExtensionId',
                 'params'        => [
-                    'id'
-                ]
-            ]
+                    'id',
+                ],
+            ],
         ];
     }
 
