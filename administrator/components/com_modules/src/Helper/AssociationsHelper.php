@@ -155,7 +155,7 @@ class AssociationsHelper extends AssociationExtensionHelper
         $support['checkout']  = true;
         $support['save2copy'] = false;
 
-        $title   = 'modules';
+        $title   = 'module';
 
         $urlOptions = $this->getUrlOptions();
 
