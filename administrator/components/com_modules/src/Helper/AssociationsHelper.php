@@ -165,7 +165,7 @@ class AssociationsHelper extends AssociationExtensionHelper
             'tables'     => $tables,
             'joins'      => $joins,
             'title'      => $title,
-            'urlOptions' => $urlOptions
+            'urlOptions' => $urlOptions,
         ];
     }
 
@@ -183,7 +183,7 @@ class AssociationsHelper extends AssociationExtensionHelper
         return [
             'eid' => [
                 'functionName' => 'getExtensionId',
-                'params'        => [
+                'params'       => [
                     'id',
                 ],
             ],
