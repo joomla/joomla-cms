@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "083e6e5041f86adc966a32743a2a622f",
+    "content-hash": "f1165ea1ad010441c68b240e8ad6bb78",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -2724,16 +2724,16 @@
         },
         {
             "name": "paragonie/sodium_compat",
-            "version": "v1.21.2",
+            "version": "v1.24.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/sodium_compat.git",
-                "reference": "d3043fd10faacb72e9eeb2df4c21a13214b45c33"
+                "reference": "2cb48f26130919f92f30650bdcc30e6f4ebe45ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/d3043fd10faacb72e9eeb2df4c21a13214b45c33",
-                "reference": "d3043fd10faacb72e9eeb2df4c21a13214b45c33",
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/2cb48f26130919f92f30650bdcc30e6f4ebe45ac",
+                "reference": "2cb48f26130919f92f30650bdcc30e6f4ebe45ac",
                 "shasum": ""
             },
             "require": {
@@ -2804,9 +2804,9 @@
             ],
             "support": {
                 "issues": "https://github.com/paragonie/sodium_compat/issues",
-                "source": "https://github.com/paragonie/sodium_compat/tree/v1.21.2"
+                "source": "https://github.com/paragonie/sodium_compat/tree/v1.24.0"
             },
-            "time": "2025-09-19T16:14:19+00:00"
+            "time": "2025-12-30T16:16:35+00:00"
         },
         {
             "name": "php-debugbar/php-debugbar",
