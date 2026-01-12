@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Modules\Administrator\Extension;
 
+use Joomla\CMS\Association\AssociationServiceInterface;
+use Joomla\CMS\Association\AssociationServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
@@ -25,8 +27,9 @@ use Psr\Container\ContainerInterface;
  *
  * @since  4.0.0
  */
-class ModulesComponent extends MVCComponent implements BootableExtensionInterface
+class ModulesComponent extends MVCComponent implements BootableExtensionInterface, AssociationServiceInterface
 {
+    use AssociationServiceTrait;
     use HTMLRegistryAwareTrait;
 
     /**

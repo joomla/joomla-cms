@@ -12,6 +12,7 @@ namespace Joomla\Component\Modules\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -63,6 +64,10 @@ class ModulesModel extends ListModel
                 'name', 'e.name',
                 'menuitem',
             ];
+
+            if (Associations::isEnabled()) {
+                $config['filter_fields'][] = 'association';
+            }
         }
 
         parent::__construct($config, $factory);
@@ -408,6 +413,22 @@ class ModulesModel extends ListModel
                 $query->where($db->quoteName('a.language') . ' = :language')
                     ->bind(':language', $language);
             }
+        }
+
+        // Join over the associations.
+        if (Associations::isEnabled()) {
+            $subQuery = $db->createQuery()
+                ->select('COUNT(' . $db->quoteName('asso1.id') . ') > 1')
+                ->from($db->quoteName('#__associations', 'asso1'))
+                ->join('INNER', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
+                ->where(
+                    [
+                        $db->quoteName('asso1.id') . ' = ' . $db->quoteName('a.id'),
+                        $db->quoteName('asso1.context') . ' = ' . $db->quote('com_modules.item'),
+                    ]
+                );
+
+            $query->select('(' . $subQuery . ') AS ' . $db->quoteName('association'));
         }
 
         return $query;
