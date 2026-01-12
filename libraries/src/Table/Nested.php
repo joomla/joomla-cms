@@ -1002,8 +1002,6 @@ class Nested extends Table
             $this->published = $state;
         }
 
-        $this->setError('');
-
         return true;
     }
 
