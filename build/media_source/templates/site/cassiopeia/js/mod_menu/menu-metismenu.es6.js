@@ -10,13 +10,14 @@ document.querySelectorAll('ul.mod-menu_dropdown-metismenu').forEach((menu) => {
   const mm = new MetisMenu(menu, {
     triggerElement: 'button.mm-toggler',
   }).on('shown.metisMenu', (event) => {
-    window.addEventListener('click', function mmClick(e) {
+    function mmClick(e) {
       if (!event.target.contains(e.target)) {
-        mm.addEventListener('hidden.metisMenu', () => {
+        mm.on('hidden.metisMenu', () => {
           window.removeEventListener('click', mmClick);
         });
         mm.hide(event.detail.shownElement);
       }
-    });
+    }
+    window.addEventListener('click', mmClick);
   });
 });
