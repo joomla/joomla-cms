@@ -22,7 +22,7 @@ use Joomla\Database\ParameterType;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Content associations helper.
+ * Module associations helper.
  *
  * @since  __DEPLOY_VERSION__
  */
