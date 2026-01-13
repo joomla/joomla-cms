@@ -58,11 +58,7 @@ abstract class Credentials
                 self::getUserEntity($user),
                 PublicKeyCredentialCreationOptions::ATTESTATION_CONVEYANCE_PREFERENCE_NONE,
                 self::getPubKeyDescriptorsForUser($user),
-                new AuthenticatorSelectionCriteria(
-                    AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_NO_PREFERENCE,
-                    false,
-                    AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_PREFERRED
-                ),
+                new AuthenticatorSelectionCriteria(),
                 new AuthenticationExtensionsClientInputs()
             );
 

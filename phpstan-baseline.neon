@@ -14172,12 +14172,6 @@ parameters:
 			path: plugins/multifactorauth/webauthn/src/Helper/Credentials.php
 
 		-
-			message: '#^Class Webauthn\\AuthenticatorSelectionCriteria does not have a constructor and must be instantiated without any parameters\.$#'
-			identifier: new.noConstructor
-			count: 1
-			path: plugins/multifactorauth/webauthn/src/Helper/Credentials.php
-
-		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
@@ -14404,12 +14398,6 @@ parameters:
 			identifier: method.deprecatedInterface
 			count: 1
 			path: plugins/system/stats/src/Field/DataField.php
-
-		-
-			message: '#^Class Webauthn\\AuthenticatorSelectionCriteria does not have a constructor and must be instantiated without any parameters\.$#'
-			identifier: new.noConstructor
-			count: 1
-			path: plugins/system/webauthn/src/Authentication.php
 
 		-
 			message: '''
