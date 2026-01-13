@@ -57,16 +57,15 @@ const onChange = ({ target }) => {
       const data = JSON.parse(response);
       const fancySelect = document.getElementById('jform_parent_id').closest('joomla-field-fancy-select');
 
-	const choices = fancySelect?.choicesInstance;
+    const choices = fancySelect?.choicesInstance;
 
-	// If the field (or its Choices instance) isn't ready yet as in Cypress run, don't crash.
-	if (!choices) {
-	  return;
-	}
+    // If the field (or its Choices instance) isn't ready yet as in Cypress run, don't crash.
+    if (!choices) {
+      return;
+    }
 
-	choices.clearChoices();
-	choices.setChoices([{
-
+    choices.clearChoices();
+    choices.setChoices([{
         id: '1',
         text: Joomla.Text._('JGLOBAL_ROOT_PARENT'),
       }], 'id', 'text', false);
