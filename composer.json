@@ -105,12 +105,12 @@
     "phpseclib/bcmath_compat": "^2.0.3",
     "jfcherng/php-diff": "^6.16.2",
     "php-tuf/php-tuf": "^1.0.3",
-    "php-debugbar/php-debugbar": "^2.2.4",
+    "php-debugbar/php-debugbar": "^2.2.6",
     "altcha-org/altcha": "^1.3.1"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.6.31",
-    "friendsofphp/php-cs-fixer": "^3.91.3",
+    "friendsofphp/php-cs-fixer": "^3.92.5",
     "squizlabs/php_codesniffer": "^3.13.5",
     "joomla/mediawiki": "^4.0",
     "joomla/test": "~4.0",
