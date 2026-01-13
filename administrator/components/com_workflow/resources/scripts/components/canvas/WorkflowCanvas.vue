@@ -259,6 +259,25 @@ export default {
         textHeader,
         src,
       });
+
+      const msgListener = (message) => {
+        try {
+          if (message.source === (dialog.getBodyContent().contentWindow || window)) {
+            const type = message.data && message.data.messageType;
+            if (type === 'joomla:content-select') {
+              dialog.close();
+            }
+          }
+        } catch (e) {
+          // Ignore cross-origin errors
+        }
+      };
+      window.addEventListener('message', msgListener);
+
+      dialog.addEventListener('joomla-dialog:close', () => {
+        window.removeEventListener('message', msgListener);
+      });
+
       dialog.show();
       setupDialogFocusHandlers(previouslyFocusedElement, store);
     }
