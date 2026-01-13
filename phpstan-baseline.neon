@@ -14166,12 +14166,6 @@ parameters:
 			path: plugins/multifactorauth/email/src/Extension/Email.php
 
 		-
-			message: '#^Class Joomla\\CMS\\WebAuthn\\Server constructor invoked with 2 parameters, 3 required\.$#'
-			identifier: arguments.count
-			count: 1
-			path: plugins/multifactorauth/webauthn/src/Helper/Credentials.php
-
-		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0

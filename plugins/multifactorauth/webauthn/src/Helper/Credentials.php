@@ -284,17 +284,7 @@ abstract class Credentials
             ''
         );
 
-        $refClass       = new \ReflectionClass(Server::class);
-        $refConstructor = $refClass->getConstructor();
-        $params         = $refConstructor->getParameters();
-
-        if (\count($params) === 3) {
-            // WebAuthn library 2, 3
-            $server = new Server($rpEntity, $repository, null);
-        } else {
-            // WebAuthn library 4 (based on the deprecated comments in library version 3)
-            $server = new Server($rpEntity, $repository);
-        }
+        $server = new Server($rpEntity, $repository);
 
         // Ed25519 is only available with libsodium
         if (!\function_exists('sodium_crypto_sign_seed_keypair')) {
