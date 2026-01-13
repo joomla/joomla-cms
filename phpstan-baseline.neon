@@ -14396,15 +14396,6 @@ parameters:
 			path: plugins/system/webauthn/src/Extension/Webauthn.php
 
 		-
-			message: '''
-				#^Call to deprecated method forUnsecuredSigner\(\) of class Lcobucci\\JWT\\Configuration\:
-				Deprecated since v4\.3$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: plugins/system/webauthn/src/MetadataRepository.php
-
-		-
 			message: '#^Access to an undefined property Joomla\\Plugin\\Task\\Checkfiles\\Extension\\Checkfiles\:\:\$app\.$#'
 			identifier: property.notFound
 			count: 2
