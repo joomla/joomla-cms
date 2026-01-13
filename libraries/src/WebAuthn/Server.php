@@ -47,7 +47,6 @@ use Webauthn\PublicKeyCredentialRpEntity;
 use Webauthn\PublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialSourceRepository;
 use Webauthn\PublicKeyCredentialUserEntity;
-use Webauthn\TokenBinding\IgnoreTokenBindingHandler;
 use Webauthn\TokenBinding\TokenBindingHandler;
 
 /**
@@ -160,7 +159,6 @@ final class Server
 
         $this->selectedAlgorithms                  = ['RS256', 'RS512', 'PS256', 'PS512', 'ES256', 'ES512', 'Ed25519'];
         $this->publicKeyCredentialSourceRepository = $publicKeyCredentialSourceRepository;
-        $this->tokenBindingHandler                 = new IgnoreTokenBindingHandler();
         $this->extensionOutputCheckerHandler       = new ExtensionOutputCheckerHandler();
         $this->metadataStatementRepository         = $metadataStatementRepository;
     }
@@ -312,7 +310,7 @@ final class Server
         $authenticatorAttestationResponseValidator = new AuthenticatorAttestationResponseValidator(
             $attestationStatementSupportManager,
             $this->publicKeyCredentialSourceRepository,
-            $this->tokenBindingHandler,
+            null,
             $this->extensionOutputCheckerHandler
         );
 
