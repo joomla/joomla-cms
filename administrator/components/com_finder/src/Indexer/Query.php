@@ -959,6 +959,9 @@ class Query
                 if ($op === 'AND' && isset($terms[$i + 2])) {
                     // Tokenize the current term.
                     $token = Helper::tokenize($terms[$i], $lang, true);
+                    if (!$token) {
+                        continue;
+                    }
 
                     // @todo: The previous function call may return an array, which seems not to be handled by the next one, which expects an object
                     $token = $this->getTokenData(array_shift($token));
@@ -983,6 +986,10 @@ class Query
 
                     // Tokenize the term after the next term (current plus two).
                     $other = Helper::tokenize($terms[$i + 2], $lang, true);
+                    if (!$other) {
+                        continue;
+                    }
+
                     $other = $this->getTokenData(array_shift($other));
 
                     // Set the required flag.
@@ -1010,6 +1017,9 @@ class Query
                     // Handle the OR operator.
                     // Tokenize the current term.
                     $token = Helper::tokenize($terms[$i], $lang, true);
+                    if (!$token) {
+                        continue;
+                    }
                     $token = $this->getTokenData(array_shift($token));
 
                     if ($params->get('filter_commonwords', 0) && $token->common) {
@@ -1036,6 +1046,9 @@ class Query
 
                     // Tokenize the term after the next term (current plus two).
                     $other = Helper::tokenize($terms[$i + 2], $lang, true);
+                    if (!$other) {
+                        continue;
+                    }
                     $other = $this->getTokenData(array_shift($other));
 
                     // Set the required flag.
@@ -1071,6 +1084,9 @@ class Query
 
                 // Tokenize the next term (current plus one).
                 $other = Helper::tokenize($terms[$i + 1], $lang, true);
+                if (!$other) {
+                    continue;
+                }
                 $other = $this->getTokenData(array_shift($other));
 
                 if ($params->get('filter_commonwords', 0) && $other->common) {
@@ -1109,6 +1125,9 @@ class Query
 
                 // Tokenize the next term (current plus one).
                 $other = Helper::tokenize($terms[$i + 1], $lang, true);
+                if (!$other) {
+                    continue;
+                }
                 $other = $this->getTokenData(array_shift($other));
 
                 if ($params->get('filter_commonwords', 0) && $other->common) {
@@ -1150,8 +1169,7 @@ class Query
         for ($i = 0, $c = \count($phrases); $i < $c; $i++) {
             // Tokenize the phrase.
             $token = Helper::tokenize($phrases[$i], $lang, true);
-
-            if (!\count($token)) {
+            if (!$token) {
                 continue;
             }
 
@@ -1315,7 +1333,7 @@ class Query
             // Stack for sorting the similar terms.
             $suggestions = [];
 
-            // Get the levnshtein distance for all suggested terms.
+            // Get the levenshtein distance for all suggested terms.
             foreach ($results as $sk => $st) {
                 // Get the levenshtein distance between terms.
                 $distance = levenshtein($st->term, $token->term);
