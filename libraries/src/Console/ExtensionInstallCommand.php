@@ -71,7 +71,7 @@ class ExtensionInstallCommand extends AbstractCommand
      *
      * @param   DatabaseInterface  $db  The database
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function __construct(DatabaseInterface $db)
     {

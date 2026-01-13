@@ -19,6 +19,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -34,7 +35,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.1
  */
-class TagModel extends AdminModel
+class TagModel extends AdminModel implements VersionableModelInterface
 {
     use VersionableModelTrait;
 
@@ -178,9 +179,10 @@ class TagModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  bool|\Joomla\CMS\Form\Form  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   3.1
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -188,10 +190,6 @@ class TagModel extends AdminModel
 
         // Get the form.
         $form = $this->loadForm('com_tags.tag', 'tag', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         $user = $this->getCurrentUser();
 
@@ -486,6 +484,12 @@ class TagModel extends AdminModel
 
             return false;
         }
+
+        // Save version history.
+        $this->saveHistory($data, $context);
+
+        // Clear the cache
+        $this->cleanCache();
 
         return true;
     }

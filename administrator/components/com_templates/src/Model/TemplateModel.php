@@ -129,7 +129,7 @@ class TemplateModel extends FormModel
         $db = $this->getDatabase();
 
         // Create a new query object.
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the required fields from the table
         $query->select(
@@ -169,7 +169,7 @@ class TemplateModel extends FormModel
         $db = $this->getDatabase();
 
         // Create a new query object.
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the required fields from the table
         $query->select(
@@ -316,7 +316,7 @@ class TemplateModel extends FormModel
 
         foreach ($ids as $id) {
             if ($value === -3) {
-                $deleteQuery = $db->getQuery(true)
+                $deleteQuery = $db->createQuery()
                     ->delete($db->quoteName('#__template_overrides'))
                     ->where($db->quoteName('hash_id') . ' = :hashid')
                     ->where($db->quoteName('extension_id') . ' = :exid')
@@ -331,7 +331,7 @@ class TemplateModel extends FormModel
                     return $e;
                 }
             } elseif ($value === 1 || $value === 0) {
-                $updateQuery = $db->getQuery(true)
+                $updateQuery = $db->createQuery()
                     ->update($db->quoteName('#__template_overrides'))
                     ->set($db->quoteName('state') . ' = :state')
                     ->where($db->quoteName('hash_id') . ' = :hashid')
@@ -645,7 +645,7 @@ class TemplateModel extends FormModel
             $app = Factory::getApplication();
 
             // Get the template information.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName(['extension_id', 'client_id', 'element', 'name', 'manifest_cache']))
                 ->from($db->quoteName('#__extensions'))
                 ->where($db->quoteName('extension_id') . ' = :pk')
@@ -691,7 +691,7 @@ class TemplateModel extends FormModel
     {
         $db    = $this->getDatabase();
         $name  = $this->getState('new_name');
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('COUNT(*)')
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('name') . ' = :name')
@@ -824,6 +824,11 @@ class TemplateModel extends FormModel
         $oldName  = $template->element;
         $manifest = json_decode($template->manifest_cache);
 
+        // When copying a child template we need to prefix it with the parent template name
+        if (!empty($template->xmldata->parent)) {
+            $newName = $template->xmldata->parent . '_' . $newName;
+        }
+
         foreach ($files as $file) {
             $newFile = '/' . str_replace($oldName, $newName, basename($file));
 
@@ -863,9 +868,10 @@ class TemplateModel extends FormModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|boolean    A Form object on success, false on failure
+     * @return  Form    A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -873,7 +879,7 @@ class TemplateModel extends FormModel
 
         // Codemirror or Editor None should be enabled
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('COUNT(*)')
             ->from('#__extensions as a')
             ->where(
@@ -890,13 +896,7 @@ class TemplateModel extends FormModel
         }
 
         // Get the form.
-        $form = $this->loadForm('com_templates.source', 'source', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+        return $this->loadForm('com_templates.source', 'source', ['control' => 'jform', 'load_data' => $loadData]);
     }
 
     /**
@@ -1660,7 +1660,7 @@ class TemplateModel extends FormModel
     {
         $app   = Factory::getApplication();
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select($db->quoteName(['id', 'client_id']));
         $query->from($db->quoteName('#__template_styles'));
@@ -2042,14 +2042,16 @@ class TemplateModel extends FormModel
         $media->addChild('folder', 'images');
         $media->addChild('folder', 'scss');
 
-        $xml->name = $template->element . '_' . $newName;
+        $element = (!empty($template->xmldata->parent) ? $template->xmldata->parent : $template->element);
+
+        $xml->name = $element . '_' . $newName;
 
         if (isset($xml->namespace)) {
             $xml->namespace .= '_' . ucfirst($newName);
         }
 
         $xml->inheritable = 0;
-        $files            = $xml->addChild('parent', $template->element);
+        $files            = $xml->addChild('parent', $element);
 
         $dom                     = new \DOMDocument();
         $dom->preserveWhiteSpace = false;
@@ -2094,7 +2096,7 @@ class TemplateModel extends FormModel
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select($db->quoteName(['id', 'title']))
             ->from($db->quoteName('#__template_styles'))
@@ -2128,7 +2130,7 @@ class TemplateModel extends FormModel
         $db = $this->getDatabase();
 
         // Create a new query object.
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select($db->quoteName(['title', 'params']))
             ->from($db->quoteName('#__template_styles'))
@@ -2145,7 +2147,7 @@ class TemplateModel extends FormModel
         }
 
         foreach ($parentStyle as $style) {
-            $query     = $db->getQuery(true);
+            $query     = $db->createQuery();
             $styleName = Text::sprintf('COM_TEMPLATES_COPY_CHILD_TEMPLATE_STYLES', ucfirst($template->element . '_' . $newName), $style->title);
 
             // Insert columns and values

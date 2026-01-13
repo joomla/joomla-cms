@@ -12,7 +12,6 @@ namespace Joomla\CMS\Installer;
 use Joomla\Archive\Archive;
 use Joomla\CMS\Event\Installer\BeforePackageDownloadEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -21,6 +20,7 @@ use Joomla\CMS\Version;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
+use Joomla\Http\HttpFactory;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -78,15 +78,15 @@ abstract class InstallerHelper
         $dispatcher = Factory::getApplication()->getDispatcher();
         PluginHelper::importPlugin('installer', null, true, $dispatcher);
         $event = new BeforePackageDownloadEvent('onInstallerBeforePackageDownload', [
-            'url'     => &$url, // @todo: Remove reference in Joomla 6, see BeforePackageDownloadEvent::__constructor()
-            'headers' => &$headers, // @todo: Remove reference in Joomla 6, see BeforePackageDownloadEvent::__constructor()
+            'url'     => &$url, // @todo: Remove reference in Joomla 7, see BeforePackageDownloadEvent::__constructor()
+            'headers' => &$headers, // @todo: Remove reference in Joomla 7, see BeforePackageDownloadEvent::__constructor()
         ]);
         $dispatcher->dispatch('onInstallerBeforePackageDownload', $event);
         $url     = $event->getArgument('url', $url);
         $headers = $event->getArgument('headers', $headers);
 
         try {
-            $response = HttpFactory::getHttp()->get($url, $headers);
+            $response = (new HttpFactory())->getHttp()->get($url, $headers);
         } catch (\RuntimeException $exception) {
             Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $exception->getMessage()), Log::WARNING, 'jerror');
 
@@ -94,14 +94,14 @@ abstract class InstallerHelper
         }
 
         // Convert keys of headers to lowercase, to accommodate for case variations
-        $headers = array_change_key_case($response->headers, CASE_LOWER);
+        $headers = array_change_key_case($response->getHeaders(), CASE_LOWER);
 
-        if (302 == $response->code && !empty($headers['location'])) {
+        if (302 == $response->getStatusCode() && !empty($headers['location'])) {
             return self::downloadPackage($headers['location']);
         }
 
-        if (200 != $response->code) {
-            Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code), Log::WARNING, 'jerror');
+        if (200 != $response->getStatusCode()) {
+            Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->getStatusCode()), Log::WARNING, 'jerror');
 
             return false;
         }
@@ -125,7 +125,7 @@ abstract class InstallerHelper
         }
 
         // Fix Indirect Modification of Overloaded Property
-        $body = $response->body;
+        $body = (string) $response->getBody();
 
         // Write buffer to file
         File::write($target, $body);
@@ -352,7 +352,7 @@ abstract class InstallerHelper
         foreach ($hashes as $hash) {
             if ($updateObject->get($hash, false)) {
                 $hashPackage = hash_file($hash, $packagefile);
-                $hashRemote  = $updateObject->$hash->_data;
+                $hashRemote  = trim($updateObject->$hash->_data);
                 $hashOnFile  = true;
 
                 if ($hashPackage !== strtolower($hashRemote)) {

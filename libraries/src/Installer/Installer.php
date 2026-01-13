@@ -53,7 +53,7 @@ class Installer implements DatabaseAwareInterface
      * Array of installer adapters
      *
      * @var    string[]|InstallerAdapter[]
-     * @since  __DEPLOY_VERSION__
+     * @since  6.0.0
      */
     private $adapters = [];
 
@@ -61,7 +61,7 @@ class Installer implements DatabaseAwareInterface
      * Adapter Class Prefix
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  6.0.0
      */
     private $classprefix = '\\Joomla\\CMS\\Installer\\Adapter';
 
@@ -69,7 +69,7 @@ class Installer implements DatabaseAwareInterface
      * Base Path for the installer adapters
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  6.0.0
      */
     private $adapterfolder;
 
@@ -580,7 +580,7 @@ class Installer implements DatabaseAwareInterface
                 case 'extension':
                     // Get database connector object
                     $db     = $this->getDatabase();
-                    $query  = $db->getQuery(true);
+                    $query  = $db->createQuery();
                     $stepId = (int) $step['id'];
 
                     // Remove the entry from the #__extensions table
@@ -1186,7 +1186,7 @@ class Installer implements DatabaseAwareInterface
                     usort($files, 'version_compare');
 
                     // Update the database
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->delete('#__schemas')
                         ->where('extension_id = :extension_id')
                         ->bind(':extension_id', $eid, ParameterType::INTEGER);
@@ -1272,7 +1272,7 @@ class Installer implements DatabaseAwareInterface
         $files = str_replace('.sql', '', $files);
         usort($files, 'version_compare');
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('version_id')
             ->from('#__schemas')
             ->where('extension_id = :extension_id')
@@ -1401,7 +1401,7 @@ class Installer implements DatabaseAwareInterface
              */
             $db->transactionStart();
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete('#__schemas')
                 ->where('extension_id = :extension_id')
                 ->bind(':extension_id', $eid, ParameterType::INTEGER);
@@ -2156,7 +2156,7 @@ class Installer implements DatabaseAwareInterface
     public function cleanDiscoveredExtension($type, $element, $folder = '', $client = 0)
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__extensions'))
             ->where('type = :type')
             ->where('element = :element')
@@ -2389,7 +2389,7 @@ class Installer implements DatabaseAwareInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  6.0.0
      */
     protected function loadAdapters()
     {
@@ -2468,7 +2468,7 @@ class Installer implements DatabaseAwareInterface
      * @return  InstallerAdapter
      *
      * @throws  \InvalidArgumentException
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function getAdapter($name, $options = [])
     {
@@ -2511,7 +2511,7 @@ class Installer implements DatabaseAwareInterface
      *
      * @throws  \InvalidArgumentException
      * @since   3.4
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated  6.0.0 will be removed in 7.0
      *              Use getAdapter() instead
      */
     public function loadAdapter($adapter, $options = [])
@@ -2527,7 +2527,7 @@ class Installer implements DatabaseAwareInterface
      *
      * @return  boolean  True if successful
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function setAdapter($name, $adapter)
     {
