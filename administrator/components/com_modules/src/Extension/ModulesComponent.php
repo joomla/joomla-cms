@@ -16,6 +16,7 @@ use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\Component\Modules\Administrator\Service\HTML\Modules;
+use Joomla\Database\DatabaseInterface;
 use Psr\Container\ContainerInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -47,6 +48,9 @@ class ModulesComponent extends MVCComponent implements BootableExtensionInterfac
      */
     public function boot(ContainerInterface $container)
     {
-        $this->getRegistry()->register('modules', new Modules());
+        $modules = new Modules();
+        $modules->setDatabase($container->get(DatabaseInterface::class));
+
+        $this->getRegistry()->register('modules', $modules);
     }
 }

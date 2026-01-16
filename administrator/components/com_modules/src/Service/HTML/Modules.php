@@ -18,6 +18,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -32,6 +33,8 @@ use Joomla\Utilities\ArrayHelper;
  */
 class Modules
 {
+    use DatabaseAwareTrait;
+
     /**
      * Generate the markup to display the item associations
      *
@@ -53,7 +56,7 @@ class Modules
 
         if ($associations) {
             // Get the associated menu items
-            $db    = Factory::getDbo();
+            $db    = $this->getDatabase();
             $query = $db->createQuery()
                 ->select(
                     [
@@ -306,7 +309,7 @@ class Modules
     public function positionList($clientId = 0)
     {
         $clientId = (int) $clientId;
-        $db       = Factory::getDbo();
+        $db       = $this->getDatabase();
         $query    = $db->createQuery()
             ->select('DISTINCT ' . $db->quoteName('position', 'value'))
             ->select($db->quoteName('position', 'text'))
