@@ -27,7 +27,7 @@ foreach ($menu as $label => $value) {
 
     if (is_array($value)) {
         // This is a folder list item
-            $icon = "<span class=\"icon-folder icon-fw\" aria-hidden=\"true\"></span>";
+            $icon = "<span class=\"icon-folder\" aria-hidden=\"true\"></span>";
         $wrap_label = "<span class=\"item-title\">{$text}</span>";
         echo "<li class=\"item parent item-level-{$this->toclevel}\">";
         echo "<a href=\"#\" class=\"has-arrow\">";
@@ -39,7 +39,7 @@ foreach ($menu as $label => $value) {
         echo "</li>\n";
     } else {
         // This is an article list item.
-        $icon = "<span class=\"icon-file-alt icon-fw\" aria-hidden=\"true\"></span>";
+        $icon = "<span class=\"icon-file-alt\" aria-hidden=\"true\"></span>";
         // The url is help.joomla.org + $label (the help key).
         $url = Help::createUrl($label);
         $link = "<a data-id=\"{$lclabel}\" href=\"{$url}\" target=\"helpFrame\">{$icon}{$text}</a>\n";
