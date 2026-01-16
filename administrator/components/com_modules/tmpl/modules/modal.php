@@ -19,9 +19,7 @@ use Joomla\CMS\Session\Session;
 
 /** @var \Joomla\Component\Modules\Administrator\View\Modules\HtmlView $this */
 
-$app = Factory::getApplication();
-
-if ($app->isClient('site')) {
+if (Factory::getApplication()->isClient('site')) {
     Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
