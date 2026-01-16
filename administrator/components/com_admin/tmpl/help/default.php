@@ -37,7 +37,6 @@ include_once 'toc-src.php';
                     // WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call
                     $this->renderSubmenu(JPATH_ADMINISTRATOR . '/components/com_admin/tmpl/help/toc-build.php', $menu);
                 ?>
-                <?php //echo renderHelpMenu(); ?>
             </ul>
         </nav>
     </div>
