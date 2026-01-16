@@ -3,8 +3,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-((document) => {
-  'use strict';
+(document => {
 
   // Selectors used by this script
   const debugSectionTogglerSelector = '.dbg-header';
@@ -14,7 +13,7 @@
    * Toggle an element by id
    * @param {string} id - The ID of the element to toggle
    */
-  const toggle = (id) => {
+  const toggle = id => {
     document.getElementById(id).classList.toggle('hidden');
   };
 
@@ -22,8 +21,8 @@
    * Register events for debug section togglers
    */
   const registerEvents = () => {
-    document.querySelectorAll(debugSectionTogglerSelector).forEach((toggler) => {
-      toggler.addEventListener('click', (event) => {
+    document.querySelectorAll(debugSectionTogglerSelector).forEach(toggler => {
+      toggler.addEventListener('click', event => {
         event.preventDefault();
         toggle(toggler.getAttribute(toggleTargetAttribute));
       });
@@ -40,18 +39,16 @@
    *
    * @param {HTMLElement} settingsForm - The settings form element to fix
    */
-  const addAccessibleAttributesToForm = (settingsForm) => {
+  const addAccessibleAttributesToForm = settingsForm => {
     if (!settingsForm) {
       return;
     }
 
     // Get all form rows within the settings panel
     const formRows = settingsForm.querySelectorAll('.phpdebugbar-form-row');
-
     formRows.forEach((row, index) => {
       const labelDiv = row.querySelector('.phpdebugbar-form-label');
       const inputDiv = row.querySelector('.phpdebugbar-form-input');
-
       if (!labelDiv || !inputDiv) {
         return;
       }
@@ -110,7 +107,7 @@
      * Process the debugbar element and fix any settings forms found
      * @param {HTMLElement} debugbar - The debugbar container element
      */
-    const processDebugBar = (debugbar) => {
+    const processDebugBar = debugbar => {
       // Find and fix the settings form
       const settingsForm = debugbar.querySelector('form.phpdebugbar-settings');
       if (settingsForm) {
@@ -119,7 +116,7 @@
     };
 
     // Create a MutationObserver to watch for the debugbar being rendered
-    const observer = new MutationObserver((mutations) => {
+    const observer = new MutationObserver(mutations => {
       for (const mutation of mutations) {
         // Check added nodes for debugbar elements
         for (const node of mutation.addedNodes) {
