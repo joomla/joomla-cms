@@ -40,9 +40,9 @@ $wa->useScript('joomla.batch-copymove');
     <select name="batch[category_id]" class="form-select" id="batch-category-id">
         <option value=""><?php echo Text::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
         <?php if (isset($addRoot) && $addRoot) : ?>
-            <?php echo HTMLHelper::_('select.options', HTMLHelper::_('category.categories', $extension)); ?>
+            <?php echo HTMLHelper::_('select.options', HTMLHelper::_('category.categories', $extension, ['filter.published' => [0, 1, 2]])); ?>
         <?php else : ?>
-            <?php echo HTMLHelper::_('select.options', HTMLHelper::_('category.options', $extension)); ?>
+            <?php echo HTMLHelper::_('select.options', HTMLHelper::_('category.options', $extension, ['filter.published' => [0, 1, 2]])); ?>
         <?php endif; ?>
     </select>
 </div>
