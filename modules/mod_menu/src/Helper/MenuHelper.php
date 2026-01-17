@@ -62,7 +62,15 @@ class MenuHelper
             $start          = (int) $params->get('startLevel', 1);
             $end            = (int) $params->get('endLevel', 0);
             $showAll        = $params->get('showAllChildren', 1);
-            $items          = $menu->getItems('menutype', $params->get('menutype'));
+            $attributes     = [];
+            $values         = [];
+
+            $attributes[] = 'menutype';
+            $values[]     = $params->get('menutype');
+            $attributes[] = 'language';
+            $values[]     = $base->language;
+
+            $items          = $menu->getItems($attributes,$values);
             $hidden_parents = [];
             $lastitem       = 0;
 
