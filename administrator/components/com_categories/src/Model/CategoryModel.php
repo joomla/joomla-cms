@@ -580,7 +580,7 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
         $oldTable->load();
 
         // Set the new parent id if parent id not matched OR while New/Save as Copy .
-        if (empty($table->id) || $table->parent_id !== $oldTable->parent_id) {
+        if (empty($table->id) || (int) $table->parent_id !== (int) $oldTable->parent_id) {
             $table->setLocation($table->parent_id, 'last-child');
         }
     }
