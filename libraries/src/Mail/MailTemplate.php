@@ -246,7 +246,7 @@ class MailTemplate
     {
         $config = ComponentHelper::getParams('com_mails');
 
-        $mail = self::getTemplate($this->template_id, $this->language);
+        $mail = static::getTemplate($this->template_id, $this->language);
 
         // If the Mail Template was not found in the db, we cannot send an email.
         if ($mail === null) {
@@ -512,7 +512,7 @@ class MailTemplate
     public static function getTemplate($key, $language)
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select('*')
             ->from($db->quoteName('#__mail_templates'))
             ->where($db->quoteName('template_id') . ' = :key')
@@ -603,7 +603,7 @@ class MailTemplate
     public static function deleteTemplate($key)
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->delete($db->quoteName('#__mail_templates'))
             ->where($db->quoteName('template_id') . ' = :key')
             ->bind(':key', $key);

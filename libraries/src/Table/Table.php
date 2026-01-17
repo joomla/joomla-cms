@@ -281,7 +281,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      *
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the MvcFactory instead or instantiate the table class directly.
      *              Example: Factory::getApplication()->bootComponent('...')->getMVCFactory()->createTable($name, $prefix, $config);
      *              $table = new \Joomla\CMS\Table\Content($db);
@@ -361,7 +361,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      *
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Should not be used anymore as tables are loaded through the MvcFactory
      */
     public static function addIncludePath($path = null)
@@ -813,7 +813,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         }
 
         // Initialise the query.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*')
             ->from($db->quoteName($this->_tbl));
         $fields = array_keys($this->getProperties());
@@ -991,7 +991,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
                 // Update the asset_id field in this table.
                 $this->asset_id = (int) $asset->id;
 
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->update($db->quoteName($this->_tbl))
                     ->set('asset_id = ' . (int) $this->asset_id);
                 $this->appendPrimaryKeys($query);
@@ -1057,9 +1057,6 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
             $this->reorder($orderingFilter ? $db->quoteName($orderingFilter) . ' = ' . $db->quote($filterValue) : '');
         }
 
-        // Set the error to empty and return true.
-        $this->setError('');
-
         return true;
     }
 
@@ -1123,7 +1120,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         }
 
         // Delete the row by primary key.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName($this->_tbl));
         $this->appendPrimaryKeys($query, $pk);
 
@@ -1206,7 +1203,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         $time = Factory::getDate()->toSql();
 
         // Check the row out by primary key.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName($this->_tbl))
             ->set($db->quoteName($checkedOutField) . ' = ' . (int) $userId)
             ->set($db->quoteName($checkedOutTimeField) . ' = ' . $db->quote($time));
@@ -1289,7 +1286,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         $nullID   = $this->_supportNullValue ? 'NULL' : '0';
 
         // Check the row in by primary key.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName($this->_tbl))
             ->set($db->quoteName($checkedOutField) . ' = ' . $nullID)
             ->set($db->quoteName($checkedOutTimeField) . ' = ' . $nullDate);
@@ -1337,7 +1334,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
                 $empty = $empty && empty($this->$key);
             }
         } else {
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select('COUNT(*)')
                 ->from($db->quoteName($this->_tbl));
             $this->appendPrimaryKeys($query);
@@ -1406,7 +1403,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         $hitsField = $this->getColumnAlias('hits');
 
         // Check the row in by primary key.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName($this->_tbl))
             ->set($db->quoteName($hitsField) . ' = (' . $db->quoteName($hitsField) . ' + 1)');
         $this->appendPrimaryKeys($query, $pk);
@@ -1457,7 +1454,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         // This last check can only be relied on if tracking session metadata
         if (Factory::getApplication()->get('session_metadata', true)) {
             $db    = Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select('COUNT(userid)')
                 ->from($db->quoteName('#__session'))
                 ->where($db->quoteName('userid') . ' = ' . (int) $against);
@@ -1494,7 +1491,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         }
 
         // Get the largest ordering value for a given where clause.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('MAX(' . $db->quoteName($this->getColumnAlias('ordering')) . ')')
             ->from($db->quoteName($this->_tbl));
 
@@ -1552,11 +1549,11 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
 
         $quotedOrderingField = $db->quoteName($this->getColumnAlias('ordering'));
 
-        $subquery = $db->getQuery(true)
+        $subquery = $db->createQuery()
             ->from($db->quoteName($this->_tbl))
             ->selectRowNumber($quotedOrderingField, 'new_ordering');
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName($this->_tbl))
             ->set($quotedOrderingField . ' = sq.new_ordering');
 
@@ -1640,7 +1637,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         }
 
         $row   = null;
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the primary key and ordering values from the table.
         $query->select(implode(',', $this->_tbl_keys) . ', ' . $quotedOrderingField)
@@ -1791,7 +1788,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
 
         foreach ($pks as $pk) {
             // Update the publishing state for rows with the given primary keys.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->update($db->quoteName($this->_tbl))
                 ->set($db->quoteName($publishedField) . ' = ' . (int) $state);
 
@@ -1846,8 +1843,6 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
                 $this->$publishedField = $state;
             }
         }
-
-        $this->setError('');
 
         // Pre-processing by observers
         $event = AbstractEvent::create(
