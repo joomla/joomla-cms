@@ -736,13 +736,13 @@ class ModuleModel extends AdminModel
                 $this->_cache[$pk]->xml = null;
             }
 
-            // Load associated content items
+            // Load associated module items
             $assoc = Associations::isEnabled();
 
             if ($assoc) {
                 $this->_cache[$pk]->associations = [];
 
-                if ($this->_cache[$pk]->id != null) {
+                if ($this->_cache[$pk]->id != null && $this->_cache[$pk]->client_id === 0) {
                     $associations = Associations::getAssociations('com_modules', '#__modules', 'com_modules.item', $this->_cache[$pk]->id, 'id', '', '');
 
                     foreach ($associations as $tag => $association) {

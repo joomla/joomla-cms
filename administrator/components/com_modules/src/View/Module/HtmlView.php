@@ -191,7 +191,7 @@ class HtmlView extends BaseHtmlView
 
             $toolbar->cancel('module.cancel');
 
-            if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations')) {
+            if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations') && $this->item->client_id === 0) {
                 $toolbar->standardButton('associations', 'JTOOLBAR_ASSOCIATIONS', 'module.editAssociations')
                     ->icon('icon-contract')
                     ->listCheck(false);

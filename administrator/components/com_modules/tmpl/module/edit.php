@@ -43,8 +43,9 @@ $this->getDocument()->getWebAssetManager()
     ->useScript('form.validate')
     ->useScript('awesomplete');
 
-$assoc = Associations::isEnabled();
-$input = Factory::getApplication()->getInput();
+$clientId  = (int) $this->item->client_id;
+$assoc     = Associations::isEnabled() && $clientId == 0;
+$input     = Factory::getApplication()->getInput();
 
 // In case of modal
 $isModal = $input->get('layout') === 'modal';
