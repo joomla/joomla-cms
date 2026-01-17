@@ -70,7 +70,7 @@ class MenuHelper
             $attributes[] = 'language';
             $values[]     = $base->language;
 
-            $items          = $menu->getItems($attributes,$values);
+            $items          = $menu->getItems($attributes, $values);
             $hidden_parents = [];
             $lastitem       = 0;
 
