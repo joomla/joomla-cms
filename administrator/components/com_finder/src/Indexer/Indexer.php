@@ -157,7 +157,7 @@ class Indexer
         }
 
         // If we couldn't load from the internal state, try the session.
-        $session = Factory::getSession();
+        $session = Factory::getApplication()->getSession();
         $data    = $session->get('_finder.state', null);
 
         // If the state is empty, load the values for the first time.
@@ -244,7 +244,7 @@ class Indexer
         static::$state = $data;
 
         // Set the new session state.
-        Factory::getSession()->set('_finder.state', $data);
+        Factory::getApplication()->getSession()->set('_finder.state', $data);
 
         return true;
     }
@@ -262,7 +262,7 @@ class Indexer
         self::$state = null;
 
         // Reset the session state to null.
-        Factory::getSession()->set('_finder.state', null);
+        Factory::getApplication()->getSession()->set('_finder.state', null);
     }
 
     /**

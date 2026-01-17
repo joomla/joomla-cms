@@ -96,7 +96,7 @@ class HtmlView extends BaseHtmlView
 
         // Add form control fields
         $this->filterForm
-            ->addControlField('task', '')
+            ->addControlField('task')
             ->addControlField('boxchecked', '0');
 
         $this->addToolbar();
