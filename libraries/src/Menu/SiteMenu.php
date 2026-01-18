@@ -236,7 +236,7 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
         if ($this->app->isClient('site')) {
             // Filter by language if not set
             if (($key = array_search('language', $attributes)) === false) {
-                if (Multilanguage::isEnabled()) {
+                if (Multilanguage::isEnabled() && $this->app->getLanguage()) {
                     $attributes[] = 'language';
                     $values[]     = [$this->app->getLanguage()->getTag(), '*'];
                 }
