@@ -55,6 +55,9 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
      *
      * @var    Language
      * @since  3.5
+     *
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 8.0.
+     *              Use language from the application.
      */
     protected $language;
 
@@ -235,7 +238,7 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
             if (($key = array_search('language', $attributes)) === false) {
                 if (Multilanguage::isEnabled()) {
                     $attributes[] = 'language';
-                    $values[]     = [$this->language->getTag(), '*'];
+                    $values[]     = [$this->app->getLanguage()->getTag(), '*'];
                 }
             } elseif ($values[$key] === null) {
                 unset($attributes[$key], $values[$key]);
