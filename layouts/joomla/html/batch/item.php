@@ -32,41 +32,11 @@ $options = [
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->useScript('joomla.batch-copymove');
 
-// Get category options
+// Get category options with archived categories separated
 if (isset($addRoot) && $addRoot) {
-    $categoryOptions = HTMLHelper::_('category.categories', $extension, ['filter.published' => [0, 1, 2]]);
+    $categoryOptions = HTMLHelper::_('category.categoriesWithArchived', $extension);
 } else {
-    $categoryOptions = HTMLHelper::_('category.options', $extension, ['filter.published' => [0, 1, 2]]);
-}
-
-// Get published states from database (as it is not included in category.options result)
-$categoryIds = [];
-
-foreach ($categoryOptions as $option) {
-    if (!empty($option->value)) {
-        $categoryIds[] = (int) $option->value;
-    }
-}
-
-$publishedStates = [];
-
-if (!empty($categoryIds)) {
-    $db = Factory::getDbo();
-    $query = $db->getQuery(true)
-        ->select([$db->quoteName('id'), $db->quoteName('published')])
-        ->from($db->quoteName('#__categories'))
-        ->whereIn($db->quoteName('id'), $categoryIds);
-
-    $publishedStates = $db->setQuery($query)->loadObjectList('id');
-}
-
-// Add brackets around non-archived category names
-foreach ($categoryOptions as $option) {
-    $catId = (int) $option->value;
-
-    if (isset($publishedStates[$catId]) && $publishedStates[$catId]->published != 1) {
-        $option->text = '[' . $option->text . ']';
-    }
+    $categoryOptions = HTMLHelper::_('category.optionsWithArchived', $extension);
 }
 
 ?>
