@@ -472,7 +472,7 @@ class CategoryeditField extends ListField
         // Add separator and archived categories if any exist
         if (!empty($processedArchivedOptions)) {
             $options[] = HTMLHelper::_('select.option', '-1', Text::_('JARCHIVED_CATEGORIES'), 'value', 'text', true);
-            $options = array_merge($options, $processedArchivedOptions);
+            $options   = array_merge($options, $processedArchivedOptions);
         }
 
         // Merge any additional options in the XML definition.

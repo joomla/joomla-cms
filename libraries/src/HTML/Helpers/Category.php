@@ -291,4 +291,3 @@ abstract class Category
         );
     }
 }
-
