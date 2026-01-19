@@ -180,6 +180,7 @@ $assoc = Associations::isEnabled();
                                 'task' => 'articles.runTransition',
                                 'disabled' => !$canExecuteTransition,
                             ];
+                            $dataTransitionsAttribute = '';
 
                             if ($canExecuteTransition) {
                                 $transitions = ContentHelper::filterTransitions($this->transitions, (int) $item->stage_id, (int) $item->workflow_id);
@@ -194,7 +195,7 @@ $assoc = Associations::isEnabled();
 
                             ?>
                             <tr class="row<?php echo $i % 2; ?>"<?php echo $featured === '1' ? '' : ' data-draggable-group="' . $item->catid . '"'; ?>
-                                <?php echo $dataTransitionsAttribute ?? '' ?>
+                                <?php echo $dataTransitionsAttribute ?>
                             >
                                 <td class="text-center">
                                     <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
