@@ -212,6 +212,41 @@ div.subform-repeatable-group {
   }
 }
 
+// Subform Grid layout
+.subform-repeatable-grid>.subform-repeatable-group {
+  padding-top: 16px;
+}
+.subform-grid-row {
+  display: flex;
+  flex-flow: row wrap;
+  column-gap: 1rem;
+
+  > .control-group {
+    flex: 1 1 220px;
+    flex-flow: column;
+
+    > .control-label {
+      width: 100%;
+    }
+
+    > .controls {
+      width: 100%;
+      min-width: unset;
+    }
+  }
+
+  // For groupByFieldset="true"
+  > fieldset {
+    flex: 1 1 220px;
+
+    > .control-group {
+      > .control-label {
+        width: 100%;
+      }
+    }
+  }
+}
+
 // Highlight draggable section
 .subform-repeatable-group[draggable="true"] {
   // For non table layout

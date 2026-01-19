@@ -8,6 +8,7 @@ services:
       - ./xdebug.ini:/usr/local/etc/php/conf.d/99-xdebug.ini
     ports:
       - "80:80"
+      - "443:443"
       - "3306:3306"
       - "6080:6080"
     command: sleep infinity
@@ -23,6 +24,12 @@ services:
       MYSQL_PASSWORD: joomla_ut
     volumes:
       - "mysql-data:/var/lib/mysql"
+
+  mailpit:
+    image: axllent/mailpit:latest
+    restart: unless-stopped
+    ports:
+      - "8025:8025"
 
 volumes:
   mysql-data:

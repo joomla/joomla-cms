@@ -147,7 +147,7 @@ class NewsfeedsModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $user  = $this->getCurrentUser();
 
         // Select the required fields from the table.
@@ -191,7 +191,7 @@ class NewsfeedsModel extends ListModel
 
         // Join over the associations.
         if (Associations::isEnabled()) {
-            $subQuery = $db->getQuery(true)
+            $subQuery = $db->createQuery()
                 ->select('COUNT(' . $db->quoteName('asso1.id') . ') > 1')
                 ->from($db->quoteName('#__associations', 'asso1'))
                 ->join('INNER', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
@@ -278,7 +278,7 @@ class NewsfeedsModel extends ListModel
                 $includeNone = true;
             }
 
-            $subQuery = $db->getQuery(true)
+            $subQuery = $db->createQuery()
                 ->select('DISTINCT ' . $db->quoteName('content_item_id'))
                 ->from($db->quoteName('#__contentitem_tag_map'))
                 ->where(
@@ -295,7 +295,7 @@ class NewsfeedsModel extends ListModel
             );
 
             if ($includeNone) {
-                $subQuery2 = $db->getQuery(true)
+                $subQuery2 = $db->createQuery()
                     ->select('DISTINCT ' . $db->quoteName('content_item_id'))
                     ->from($db->quoteName('#__contentitem_tag_map'))
                     ->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_newsfeeds.newsfeed'));
@@ -313,7 +313,7 @@ class NewsfeedsModel extends ListModel
             $tag = (int) $tag;
 
             if ($tag === 0) {
-                $subQuery = $db->getQuery(true)
+                $subQuery = $db->createQuery()
                     ->select('DISTINCT ' . $db->quoteName('content_item_id'))
                     ->from($db->quoteName('#__contentitem_tag_map'))
                     ->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_newsfeeds.newsfeed'));
