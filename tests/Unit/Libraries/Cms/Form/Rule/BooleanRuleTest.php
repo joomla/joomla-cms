@@ -45,7 +45,7 @@ class BooleanRuleTest extends UnitTestCase
             [true, $xml, 'True'],
             [true, $xml, 'False'],
             [false, $xml, ''],
-            [false, $xml, 'ture'],
+            [false, $xml, 'tu re'],
             [false, $xml, 'false1'],
             [false, $xml, 'none'],
         ];
