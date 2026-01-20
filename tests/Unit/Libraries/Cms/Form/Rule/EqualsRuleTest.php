@@ -89,7 +89,7 @@ class EqualsRuleTest extends UnitTestCase
      */
     public function testRule(bool|string $expected, \SimpleXMLElement $element, string|int $value, ?string $group, ?Registry $input, ?Form $form): void
     {
-        if (is_string($expected) && class_exists($expected)) {
+        if (\is_string($expected) && class_exists($expected)) {
             $this->expectException($expected);
             (new EqualsRule())->test($element, $value, $group, $input, $form);
         }
