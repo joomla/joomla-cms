@@ -37,6 +37,7 @@ class EmailRuleTest extends UnitTestCase
 
         return [
             [true, $xml, 'user@example.com'],
+            [true, $xml, 'user@example'],
             [true, $xml, 'firstname.name@example.de'],
             [true, $xml, 'user+alias@example-mail.de'],
             [true, $xml, 'john_doe@example123.net'],
