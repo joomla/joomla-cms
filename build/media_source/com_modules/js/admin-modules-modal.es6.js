@@ -47,4 +47,11 @@
       }
     });
   });
+
+    // Save a cookie that expires in one hour to notify that the module has to be imported if saved.
+  document.getElementById('importnewmodule').addEventListener('click', () => {
+    const expirationTime = new Date();
+    expirationTime.setTime(expirationTime.getTime() + (60 * 60 * 1000));
+    document.cookie = `com_modules_importOnSave=1;expires=${expirationTime.toUTCString()}`;
+  });
 })();
