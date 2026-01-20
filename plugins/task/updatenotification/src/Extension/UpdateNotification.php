@@ -221,7 +221,7 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
             }
         }
 
-        $this->logTask('UpdateNotification end');
+        $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_UPDATENOTIFICATION_END'), 'info');
 
         return Status::OK;
     }
