@@ -137,7 +137,10 @@ class HtmlView extends BaseHtmlView
             // We do not need to filter by language when multilingual is disabled
             if (!Multilanguage::isEnabled()) {
                 unset($this->activeFilters['language']);
-                $this->filterForm->removeField('language', 'filter');
+
+                if ($this->filterForm !== null) {
+                    $this->filterForm->removeField('language', 'filter');
+                }
             }
         } else {
             // In article associations modal we need to remove language filter if forcing a language.
@@ -156,13 +159,17 @@ class HtmlView extends BaseHtmlView
                 $this->filterForm->setFieldAttribute('category_id', 'language', '*,' . $forcedLanguage, 'filter');
             }
 
-            $this->filterForm->addControlField('forcedLanguage', $forcedLanguage);
+            if ($this->filterForm !== null) {
+                $this->filterForm->addControlField('forcedLanguage', $forcedLanguage);
+            }
         }
 
         // Add form control fields
-        $this->filterForm
-            ->addControlField('task', '')
-            ->addControlField('boxchecked', '0');
+        if ($this->filterForm !== null) {
+            $this->filterForm
+                ->addControlField('task', '')
+                ->addControlField('boxchecked', '0');
+        }
 
         parent::display($tpl);
     }
