@@ -358,7 +358,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
             $path  = $uri->getPath();
             $parts = explode('/', $path);
             $sef   = StringHelper::strtolower($parts[0]);
-            $lang  = $uri->getVar('lang');
+            $lang  = $uri->getVar('lang', '');
 
             if (isset($this->sefs[$sef])) {
                 // We found a matching language to the lang code
