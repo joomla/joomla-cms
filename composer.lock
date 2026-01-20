@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/algo26-matthias/idna-convert.git",
-                "reference": "bc263b9d9dd6bf82845cda763a4abea3481d0f83"
+                "reference": "87bfcab8e453d7ede78eeec15d75c75f0e926f3c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/algo26-matthias/idna-convert/zipball/bc263b9d9dd6bf82845cda763a4abea3481d0f83",
-                "reference": "bc263b9d9dd6bf82845cda763a4abea3481d0f83",
+                "url": "https://api.github.com/repos/algo26-matthias/idna-convert/zipball/87bfcab8e453d7ede78eeec15d75c75f0e926f3c",
+                "reference": "87bfcab8e453d7ede78eeec15d75c75f0e926f3c",
                 "shasum": ""
             },
             "require": {
@@ -60,7 +60,7 @@
                 "issues": "https://github.com/algo26-matthias/idna-convert/issues",
                 "source": "https://github.com/algo26-matthias/idna-convert/tree/v4.2.1"
             },
-            "time": "2025-08-11T09:03:12+00:00"
+            "time": "2025-10-10T11:39:49+00:00"
         },
         {
             "name": "brick/math",
@@ -9603,5 +9603,5 @@
     "platform-overrides": {
         "php": "8.3.0"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
