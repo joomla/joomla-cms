@@ -13,7 +13,6 @@ namespace Joomla\Component\Actionlogs\Administrator\Helper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
 use Joomla\Filesystem\Path;
 use Joomla\String\StringHelper;
@@ -146,26 +145,6 @@ class ActionlogsHelper
     }
 
     /**
-     * Get parameters to be
-     *
-     * @param   string  $context  The context of the content
-     *
-     * @return  mixed  An object contains content type parameters, or null if not found
-     *
-     * @since   3.9.0
-     *
-     * @deprecated  4.3 will be removed in 6.0
-     *              Use the action log config model instead
-     *              Example: Factory::getApplication()->bootComponent('actionlogs')->getMVCFactory()
-     *                       ->createModel('ActionlogConfig', 'Administrator')->getLogContentTypeParams($context);
-     */
-    public static function getLogContentTypeParams($context)
-    {
-        return Factory::getApplication()->bootComponent('actionlogs')->getMVCFactory()
-            ->createModel('ActionlogConfig', 'Administrator')->getLogContentTypeParams($context);
-    }
-
-    /**
      * Get human readable log message for a User Action Log
      *
      * @param   \stdClass  $log            A User Action log message record
@@ -232,7 +211,7 @@ class ActionlogsHelper
      * @param   string     $contentType
      * @param   integer    $id
      * @param   string     $urlVar
-     * @param   CMSObject  $object
+     * @param   \stdClass  $object
      *
      * @return  string  Link to the content item
      *
@@ -284,7 +263,7 @@ class ActionlogsHelper
         $db   = Factory::getDbo();
 
         // Get all (both enabled and disabled) actionlog plugins
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 $db->quoteName(
                     [
