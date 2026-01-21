@@ -126,7 +126,7 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
         // Contact plugins
         PluginHelper::importPlugin('contact');
 
-        Form::addFormPath(JPATH_COMPONENT_SITE . '/forms');
+        Form::addFormPath(JPATH_SITE . '/components/com_contact/forms');
 
         // Validate the posted data.
         $form = $model->getForm();

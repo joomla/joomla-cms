@@ -491,6 +491,24 @@ class ArticlesModel extends ListModel
             $query->where($authorWhere . $authorAliasWhere);
         }
 
+        // Filter by checked_out status
+        $checkedOut = $this->getState('filter.checked_out', null);
+
+        if (is_numeric($checkedOut)) {
+            if ($checkedOut == -1) {
+                // Only checked out articles
+                $query->where($db->quoteName('a.checked_out') . ' > 0');
+            } elseif ($checkedOut == 0) {
+                // Only not checked out articles
+                $query->where('(' . $db->quoteName('a.checked_out') . ' = 0 OR ' . $db->quoteName('a.checked_out') . ' IS NULL)');
+            } else {
+                // Checked out by specific user
+                $checkedOut = (int) $checkedOut;
+                $query->where($db->quoteName('a.checked_out') . ' = :checkedOutUser')
+                    ->bind(':checkedOutUser', $checkedOut, ParameterType::INTEGER);
+            }
+        }
+
         // Filter by start and end dates.
         if (
             !(is_numeric($condition) && $condition == ContentComponent::CONDITION_UNPUBLISHED)

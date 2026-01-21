@@ -14,11 +14,9 @@ Joomla = window.Joomla || {};
 Joomla.toggleAllNextElements = (element, className) => {
   const getNextSiblings = (el) => {
     const siblings = [];
-    /* eslint-disable no-cond-assign,no-param-reassign */
     do {
       siblings.push(el);
     } while ((el = el.nextElementSibling) !== null);
-    /* eslint-enable no-cond-assign,no-param-reassign */
     return siblings;
   };
 

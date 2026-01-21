@@ -65,6 +65,7 @@ Joomla! CMS™
 12- Do you want to improve Joomla?
 	* Where to request a feature? https://issues.joomla.org
 	* How do you report a bug? https://docs.joomla.org/Special:MyLanguage/Filing_bugs_and_issues
+	* How to submit code to the Joomla CMS using a Pull Request? https://manual.joomla.org/docs/get-started/git/
 	* Get Involved: Joomla! is a community developed software. Join the community at https://volunteers.joomla.org
 	* Documentation for Developers: https://manual.joomla.org/
 	* Documentation for Web designers: https://docs.joomla.org/Special:MyLanguage/Web_designers

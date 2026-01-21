@@ -13,7 +13,6 @@ namespace Joomla\Component\Fields\Administrator\View\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -67,17 +66,13 @@ class HtmlView extends BaseHtmlView
     {
         /** @var FieldModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->form  = $model->getForm();
         $this->item  = $model->getItem();
         $this->state = $model->getState();
 
         $this->canDo = ContentHelper::getActions($this->state->get('field.component'), 'field', $this->item->id);
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
