@@ -11,8 +11,8 @@
 namespace Joomla\Plugin\System\Webauthn;
 
 use Lcobucci\JWT\Encoding\JoseEncoder;
-use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Token\Parser;
+use Lcobucci\JWT\Token\Plain;
 use Webauthn\MetadataService\MetadataStatementRepository;
 use Webauthn\MetadataService\Statement\MetadataStatement;
 
