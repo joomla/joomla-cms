@@ -547,7 +547,6 @@ abstract class Select
             $key = (string) $key;
 
             if ($key === '<OPTGROUP>' && $options['groups']) {
-
                 @trigger_error(
                     'Support for optgroup workaround is deprecated and will be removed in 8.0. Use select.groupedlist instead.',
                     E_USER_DEPRECATED
