@@ -35,7 +35,7 @@ final class Crop extends MediaActionPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      * @note    The $data parameter is required by the Joomla event interface but is not used in this method.
      */
     public function onContentPrepareForm(Form $form, $data): void
@@ -78,7 +78,7 @@ final class Crop extends MediaActionPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     private function injectAspectRatios(Form $form, array $aspectRatios): void
     {
