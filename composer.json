@@ -74,7 +74,7 @@
     "joomla/string": "^3.0.4",
     "joomla/uri": "~3.0",
     "joomla/utilities": "~3.0",
-    "algo26-matthias/idna-convert": "^3.2.0",
+    "algo26-matthias/idna-convert": "^3.2.1",
     "defuse/php-encryption": "^2.4.0",
     "doctrine/inflector": "^1.4.4",
     "fig/link-util": "^1.2.0",
