@@ -275,13 +275,13 @@ abstract class Select
                 }
 
                 if (isset($options['group.class'], $group->{$options['group.class']})) {
-                    $groupClass   = $group->{$options['group.class']};
-                    $noGroup = false;
+                    $groupClass = $group->{$options['group.class']};
+                    $noGroup    = false;
                 }
 
                 if (isset($options['group.attr'], $group->{$options['group.attr']})) {
-                    $groupAttribs      = $group->{$options['group.attr']};
-                    $noGroup = false;
+                    $groupAttribs = $group->{$options['group.attr']};
+                    $noGroup      = false;
                 }
             } else {
                 throw new \RuntimeException('Invalid group contents.', 1);
