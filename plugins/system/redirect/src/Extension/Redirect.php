@@ -79,15 +79,6 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
     private SiteApplication $siteApp;
 
     /**
-     * The Site Router in guest context
-     *
-     * @var  SiteRouter|null
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    private ?SiteRouter $router = null;
-
-    /**
      * Language Factory to create a language for the item
      *
      * @var  LanguageFactoryInterface
@@ -587,10 +578,6 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
      */
     protected function getRouter($language = '*'): ?SiteRouter
     {
-        if ($this->router instanceof SiteRouter) {
-            return $this->router;
-        }
-
         if (Multilanguage::isEnabled() && $language !== '*') {
             $lang = $this->languageFactory->createLanguage($language);
         }
@@ -609,9 +596,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
 
         $menu = $this->menuFactory->createMenu('site', $options);
 
-        $this->router = new SiteRouter($this->siteApp, $menu);
-
-        return $this->router;
+        return new SiteRouter($this->siteApp, $menu);
     }
 
     /**
