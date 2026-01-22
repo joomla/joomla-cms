@@ -3,47 +3,42 @@
 
 .awesomplete {
   display: block;
-}
 
-.awesomplete > ul {
-  z-index: 3;
-  color: var(--body-color);
-  background-color: var(--body-bg);
-  border: 1px solid var(--border);
-  box-shadow: 0 0 0 .25rem #2a69b740;
-}
+  ul {
+    z-index: 3;
+    color: var(--body-color);
+    background-color: var(--body-bg);
+    border: 1px solid var(--border);
+    box-shadow: 0 0 0 .25rem #2a69b740;
+  
+    li {
+      margin: 2px;
+      background-color: inherit;
+      border-radius: 3px;
+    }
+    li:hover {
+      color: var(--body-color);
+      background-color: var(--focus-ring-color);
+    }
+    li[aria-selected="true"] {
+      color: var(--body-color);
+      background-color: var(--focus-ring-color);
+    }
+  }
 
-.awesomplete > ul:before {
-  background-color: inherit;
-}
-
-.awesomplete > ul > li {
-  margin: 2px;
-  background-color: inherit;
-  border-radius: 3px;
-}
-
-.awesomplete > ul > li:hover {
-  color: var(--body-color);
-  background-color: var(--focus-ring-color);
-}
-
-.awesomplete > ul > li[aria-selected="true"] {
-  color: var(--body-color);
-  background-color: var(--focus-ring-color);
-}
-
-.awesomplete mark {
-  color: var(--body-color);
-  background-color: var(--focus);
-}
-
-.awesomplete li:hover mark {
-  color: var(--body-color);
-  background-color: var(--focus);
-}
-
-.awesomplete li[aria-selected="true"] mark {
-  color: var(--body-color);
-  background-color: var(--focus);
+  ul:before {
+    background-color: inherit;
+  }
+  mark {
+    color: var(--body-color);
+    background-color: var(--focus);
+  }
+  li:hover mark {
+    color: var(--body-color);
+    background-color: var(--focus);
+  }
+  li[aria-selected="true"] mark {
+    color: var(--body-color);
+    background-color: var(--focus);
+  }
 }
