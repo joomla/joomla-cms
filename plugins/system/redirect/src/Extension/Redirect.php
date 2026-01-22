@@ -12,9 +12,11 @@ namespace Joomla\Plugin\System\Redirect\Extension;
 
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
 use Joomla\CMS\Event\ErrorEvent;
 use Joomla\CMS\Event\Model\AfterSaveEvent;
 use Joomla\CMS\Event\Model\BeforeSaveEvent;
+use Joomla\CMS\Event\Model\PrepareDataEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\HelperRedirectAwareInterface;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -113,9 +115,11 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'onError' => 'handleError',
-            'onContentAfterSave' => 'onContentAfterSave',
-            'onContentBeforeSave' => 'onContentBeforeSave',
+            'onAfterInitialiseDocument' => 'onAfterInitialiseDocument',
+            'onContentAfterSave'        => 'onContentAfterSave',
+            'onContentBeforeSave'       => 'onContentBeforeSave',
+            'onContentPrepareData'      => 'onContentPrepareData',
+            'onError'                   => 'handleError',
         ];
     }
 
@@ -130,7 +134,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
      */
     public function onContentBeforeSave(BeforeSaveEvent $event): void
     {
-        if (!(bool) $this->params->get('show_aftersave_info', 1)) {
+        if (!(bool) $this->params->get('show_aftersave_info', 1) || !$this->getApplication()->isClient('administrator')) {
             return;
         }
 
@@ -163,7 +167,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $table   = $event->getItem();
+        $table = $event->getItem();
 
         if (!$table instanceof Table) {
             return;
@@ -202,10 +206,12 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
      * @param   AfterSaveEvent $event  The event instance.
      *
      * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
      */
     public function onContentAfterSave(AfterSaveEvent $event): void
     {
-        if (!(bool) $this->params->get('show_aftersave_info', 1)) {
+        if (!(bool) $this->params->get('show_aftersave_info', 1) || !$this->getApplication()->isClient('administrator')) {
             return;
         }
 
@@ -233,7 +239,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $table   = $event->getItem();
+        $table = $event->getItem();
 
         if (!$table instanceof Table) {
             return;
@@ -264,9 +270,9 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
             $langString = Text::sprintf('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_CHANGED_NO_PERMISSION');
 
             if ($canCreateRedirect) {
-                $button = 'index.php?option=com_redirect&task=link.add&old_url=' . base64_encode((string) $this->oldLink) . '&new_url=' . base64_encode((string) $newLink);
+                $button = 'index.php?option=com_redirect&task=link.add&layout=modal&tmpl=component&old_url=' . base64_encode((string) $this->oldLink) . '&new_url=' . base64_encode((string) $link);
 
-                $langString = Text::sprintf('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_CHANGED', HTMLHelper::_('link', $button, Text::_('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_CHANGED_CREATE_REDIRECT'), ['class' => 'btn btn-success btn-sm']));
+                $langString = Text::sprintf('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_CHANGED', HTMLHelper::_('link', $button, Text::_('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_CHANGED_CREATE_REDIRECT'), ['class' => 'btn btn-success btn-sm', 'data-joomla-dialog' => '', 'data-close-on-message' => 'true'] ));
             }
 
             $this->getApplication()->enqueueMessage($langString, 'warning');
@@ -276,13 +282,83 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
             $langString = Text::sprintf('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_NOT_CHANGED_NO_PERMISSION');
 
             if ($canCreateRedirect) {
-                $button = 'index.php?option=com_redirect&task=link.add&new_url=' . base64_encode((string) $newLink);
+                $button = 'index.php?option=com_redirect&task=link.add&layout=modal&tmpl=component&new_url=' . base64_encode((string) $link);
 
-                $langString = Text::sprintf('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_NOT_CHANGED_CREATE_REDIRECT', HTMLHelper::_('link', $button, Text::_('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_CHANGED_CREATE_REDIRECT'), ['class' => 'btn btn-success btn-sm']));
+                $langString = Text::sprintf('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_NOT_CHANGED_CREATE_REDIRECT', HTMLHelper::_('link', $button, Text::_('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_CHANGED_CREATE_REDIRECT'), ['class' => 'btn btn-success btn-sm', 'data-joomla-dialog' => '', 'data-close-on-message' => 'true'] ));
             }
 
             $this->getApplication()->enqueueMessage($langString, 'warning');
         }
+    }
+
+    /**
+     * Extract old/new url and store it in the session
+     *
+     * @param AfterInitialiseDocumentEvent $event
+     *
+     * @return void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onAfterInitialiseDocument(AfterInitialiseDocumentEvent $event): void
+    {
+        $input = $this->getApplication()->getInput();
+
+        $option = $input->getCmd('option', '');
+        $task   = $input->getCmd('task', '');
+
+        if ($option === 'com_redirect' && $task === 'link.add') {
+            $oldUrl = $input->getBase64('old_url');
+            $newUrl = $input->getBase64('new_url');
+
+            $oldUrlDecoded = base64_decode($oldUrl, true);
+            $newUrlDecoded = base64_decode($newUrl, true);
+
+            $data = array_filter([
+                'old_url' => $oldUrl ? $oldUrlDecoded : '',
+                'new_url' => $newUrl ? $newUrlDecoded : '',
+            ]);
+
+            $this->getApplication()->setUserState('plg_system_redirect.create.link', $data);
+        }
+    }
+
+    /**
+     * Set new/old link when redirect is created
+     *
+     * @param PrepareDataEvent $event
+     *
+     * @return void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onContentPrepareData(PrepareDataEvent $event)
+    {
+        $context = $event->getContext();
+
+        if ($context !== 'com_redirect.link') {
+            return;
+        }
+
+        $data = $event->getData();
+
+        if (!is_array($data)) {
+            $data = (array) $data;
+        }
+
+        $id = ArrayHelper::getValue($data, 'id', 0, 'int');
+
+        // We need to create it
+        if (!empty($id)) {
+            return;
+        }
+
+        $storedData = $this->getApplication()->getUserState('plg_system_redirect.create.link', []);
+
+        $data = array_merge($data, $storedData);
+
+        $event->setArgument('data', $data);
+
     }
 
     /**
@@ -538,6 +614,15 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
         return $this->router;
     }
 
+    /**
+     * Sets the internal site application.
+     *
+     * @param  SiteApplication  $siteApp  The site application
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
     public function setSiteApplication(SiteApplication $siteApp): void
     {
         $this->siteApp = $siteApp;
@@ -550,7 +635,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
      *
      * @return void
      *
-     * @since  __DEPLOY_VERSION_
+     * @since  __DEPLOY_VERSION__
      */
     public function setMenuFactory(MenuFactoryInterface $menuFactory): void
     {
@@ -564,7 +649,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
      *
      * @return void
      *
-     * @since  __DEPLOY_VERSION_
+     * @since  __DEPLOY_VERSION__
      */
     public function setLanguageFactory(LanguageFactoryInterface $languageFactory): void
     {
