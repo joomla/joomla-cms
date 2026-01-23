@@ -70,6 +70,10 @@ class UsersController extends ApiController
             if (!\array_key_exists('password', $body)) {
                 unset($data['password']);
             }
+
+            if (!isset($data['goups'])) {
+				$data['groups'] = UserHelper::getUserGroups($data['id']);
+			}
         }
 
         if ($this->input->getMethod() === 'POST') {
