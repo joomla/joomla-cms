@@ -73,8 +73,8 @@ class UsersController extends ApiController
             }
 
             if (!isset($data['groups'])) {
-				$data['groups'] = UserHelper::getUserGroups($data['id']);
-			}
+                $data['groups'] = UserHelper::getUserGroups($data['id']);
+            }
         }
 
         if ($this->input->getMethod() === 'POST') {
