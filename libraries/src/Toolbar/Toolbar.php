@@ -134,7 +134,7 @@ class Toolbar
      *
      * @since       1.5
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use the ToolbarFactoryInterface instead
      *              Example:
      *              Factory::getContainer()->get(ToolbarFactoryInterface::class)->createToolbar($name)
@@ -402,7 +402,7 @@ class Toolbar
      *
      * @since       1.5
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              ToolbarButton classes should be autoloaded via namespaces
      */
     public function addButtonPath($path)
@@ -439,7 +439,7 @@ class Toolbar
      * @return  array
      *
      * @since   4.0.0
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              ToolbarButton buttons should be autoloaded via namespaces
      */
     public function getButtonPath(): array

@@ -202,7 +202,7 @@ class ContenthistoryHelper
         if (isset($lookup->sourceColumn, $lookup->targetTable, $lookup->targetColumn, $lookup->displayColumn)) {
             $db    = Factory::getDbo();
             $value = (int) $value;
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
             $query->select($db->quoteName($lookup->displayColumn))
                 ->from($db->quoteName($lookup->targetTable))
                 ->where($db->quoteName($lookup->targetColumn) . ' = :value')
@@ -361,8 +361,24 @@ class ContenthistoryHelper
                     $sourceColumn = $lookup->sourceColumn ?? false;
                     $sourceValue  = $object->$sourceColumn->value ?? false;
 
-                    if ($sourceColumn && $sourceValue && ($lookupValue = static::getLookupValue($lookup, $sourceValue))) {
-                        $object->$sourceColumn->value = $lookupValue;
+                    if (!\is_array($sourceValue)) {
+                        if ($sourceColumn && $sourceValue && ($lookupValue = static::getLookupValue($lookup, $sourceValue))) {
+                            $object->$sourceColumn->value = $lookupValue;
+                        }
+
+                        continue;
+                    }
+
+                    if (\is_array($sourceValue)) {
+                        $result = [];
+
+                        foreach ($sourceValue as $key => $subValue) {
+                            if ($sourceColumn && $subValue && ($lookupValue = static::getLookupValue($lookup, $subValue))) {
+                                $result[$key] = $lookupValue;
+                            }
+
+                            $object->$sourceColumn->value = $result;
+                        }
                     }
                 }
             }

@@ -87,7 +87,7 @@ class NewsfeedModel extends ItemModel
         if (!isset($this->_item[$pk])) {
             try {
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select(
                         [
                             $this->getState('item.select', $db->quoteName('a') . '.*'),

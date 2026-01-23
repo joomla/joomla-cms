@@ -201,7 +201,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
                     $profileKey = 'guidedtour.id.' . $tour->id;
 
                     // Check if the tour state has already been saved some time before.
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->select($db->quoteName('profile_value'))
                         ->from($db->quoteName('#__user_profiles'))
                         ->where($db->quoteName('user_id') . ' = :user_id')
