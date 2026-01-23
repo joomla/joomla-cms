@@ -72,7 +72,7 @@ class UsersController extends ApiController
                 unset($data['password']);
             }
 
-            if (!isset($data['goups'])) {
+            if (!isset($data['groups'])) {
 				$data['groups'] = UserHelper::getUserGroups($data['id']);
 			}
         }
