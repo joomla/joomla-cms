@@ -42,6 +42,7 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $app     = Factory::getApplication();
+                $config  = (array) PluginHelper::getPlugin('system', 'webauthn');
                 $session = $container->has('session') ? $container->get('session') : $this->getSession($app);
 
                 $db                    = $container->get(DatabaseInterface::class);
@@ -63,7 +64,7 @@ return new class () implements ServiceProviderInterface {
                     : new Authentication($app, $session, $credentialsRepository, $metadataRepository);
 
                 $plugin = new Webauthn(
-                    (array) PluginHelper::getPlugin('system', 'webauthn'),
+                    $config,
                     $authenticationHelper
                 );
                 $plugin->setApplication($app);
