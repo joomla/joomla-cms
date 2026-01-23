@@ -114,11 +114,12 @@ abstract class AssociationExtensionHelper implements AssociationExtensionInterfa
         $title   = '';
 
         return [
-            'fields'  => $fields,
-            'support' => $support,
-            'tables'  => $tables,
-            'joins'   => $joins,
-            'title'   => $title,
+            'fields'     => $fields,
+            'support'    => $support,
+            'tables'     => $tables,
+            'joins'      => $joins,
+            'title'      => $title,
+            'urlOptions' => $this->getUrlOptions($typeName),
         ];
     }
 
@@ -245,6 +246,20 @@ abstract class AssociationExtensionHelper implements AssociationExtensionInterfa
         }
 
         return substr($tmp, $pos + 1);
+    }
+
+    /**
+     * Get a table field name for a type
+     *
+     * @param   string  $typeName   The item type
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getUrlOptions($type = '')
+    {
+        return [];
     }
 
     /**

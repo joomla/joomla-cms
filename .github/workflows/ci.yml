@@ -18,7 +18,9 @@ jobs:
       - uses: actions/cache@v4
         id: cache-php
         with:
-          path: libraries/vendor
+          path: |
+            libraries/vendor
+            plugins/system/webauthn/fido.jwt
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
       - name: Install PHP dependencies
         if: steps.cache-php.outputs.cache-hit != 'true'
@@ -339,7 +341,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/cache/restore@v4
         with:
-          path: libraries/vendor
+          path: |
+            libraries/vendor
+            plugins/system/webauthn/fido.jwt
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
       - uses: actions/cache/restore@v4
         with:
