@@ -61,15 +61,6 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
     private ?Uri $oldLink = null;
 
     /**
-     * Holds the alias of the item before it's saved
-     *
-     * @var string
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    private string $oldAlias = '';
-
-    /**
      * The Site Application for the special redirect handling
      *
      * @var  SiteApplication
@@ -183,10 +174,6 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
         $router = $this->getRouter($lang);
 
         $this->oldLink = $router->build($link);
-
-        if ($tempTable->hasField('alias')) {
-            $this->oldAlias = $tempTable->{$tempTable->getColumnAlias('alias')};
-        }
     }
 
     /**
@@ -268,18 +255,6 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
 
             $this->getApplication()->enqueueMessage($langString, 'warning');
         }
-        elseif ($table->hasField('alias') && $this->oldAlias && $newAlias && $this->oldAlias !== $newAlias) {
-
-            $langString = Text::sprintf('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_NOT_CHANGED_NO_PERMISSION');
-
-            if ($canCreateRedirect) {
-                $button = 'index.php?option=com_redirect&task=link.add&layout=modal&tmpl=component&new_url=' . base64_encode((string) $link);
-
-                $langString = Text::sprintf('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_NOT_CHANGED_CREATE_REDIRECT', HTMLHelper::_('link', $button, Text::_('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_CHANGED_CREATE_REDIRECT'), ['class' => 'btn btn-success btn-sm', 'data-joomla-dialog' => '', 'data-close-on-message' => 'true'] ));
-            }
-
-            $this->getApplication()->enqueueMessage($langString, 'warning');
-        }
     }
 
     /**
@@ -293,6 +268,10 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
      */
     public function onAfterInitialiseDocument(AfterInitialiseDocumentEvent $event): void
     {
+        if (!(bool) $this->params->get('show_aftersave_info', 1) || !$this->getApplication()->isClient('administrator')) {
+            return;
+        }
+
         $input = $this->getApplication()->getInput();
 
         $option = $input->getCmd('option', '');
@@ -325,6 +304,10 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
      */
     public function onContentPrepareData(PrepareDataEvent $event)
     {
+        if (!(bool) $this->params->get('show_aftersave_info', 1) || !$this->getApplication()->isClient('administrator')) {
+            return;
+        }
+
         $context = $event->getContext();
 
         if ($context !== 'com_redirect.link') {
