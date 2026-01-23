@@ -600,7 +600,7 @@ final class SiteApplication extends CMSApplication
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected function detectLanguage(User $user): string
+    private function detectLanguage(User $user): string
     {
         // Detect language from input
         $lang = $this->input->getString('language');
