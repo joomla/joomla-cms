@@ -14,6 +14,7 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
+use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
