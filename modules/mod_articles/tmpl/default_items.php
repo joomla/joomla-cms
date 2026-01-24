@@ -24,7 +24,7 @@ if ($params->get('articles_layout') == 1) {
         <?php
         $displayInfo = $item->displayHits || $item->displayAuthorName || $item->displayCategoryTitle || $item->displayDate;
         ?>
-        <?php if ($params->get('item_title') || $displayInfo || $params->get('show_tags') || $params->get('show_introtext') || $params->get('img_intro_full') || $params->get('show_readmore')) : ?>
+        <?php if ($params->get('item_title') || $displayInfo || $params->get('show_tags') || $params->get('show_introtext') || $params->get('img_intro_full')  && !empty($item->imageSrc)|| $params->get('show_readmore')) : ?>
             <li>
                 <article class="mod-articles-item" itemscope itemtype="https://schema.org/Article">
                     <div class="mod-articles-item-content">
