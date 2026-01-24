@@ -189,7 +189,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
             'label'   => Text::sprintf(
                 'PLG_SYSTEM_WEBAUTHN_LBL_DEFAULT_AUTHENTICATOR_LABEL',
                 $defaultName,
-                $this->formatDate('now')
+                $this->formatDate('now', null, $user->id)
             ),
             'credential' => json_encode($publicKeyCredentialSource),
         ];
@@ -469,7 +469,8 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         $query = $db->createQuery()
             ->select('COUNT(*)')
             ->from($db->quoteName('#__webauthn_credentials'))
-            ->where($db->quoteName('user_id') . ' = ' . $db->q($userHandle));
+            ->where($db->quoteName('user_id') . ' = :userHandle')
+            ->bind(':userHandle', $userHandle);
 
         try {
             $numRecords = $db->setQuery($query)->loadResult();
@@ -490,7 +491,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
                 '(' .
                 $db->quoteName('activation') . ' IS NULL OR ' .
                 $db->quoteName('activation') . ' = 0 OR ' .
-                $db->quoteName('activation') . ' = ' . $db->q('') .
+                $db->quoteName('activation') . ' = ' . $db->quote('') .
                 ')'
             );
 
@@ -603,12 +604,12 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
      * @param   string|\DateTime  $date     The date to format
      * @param   string|null       $format   The format string, default is Joomla's DATE_FORMAT_LC6 (usually "Y-m-d
      *                                      H:i:s")
-     * @param   bool              $tzAware  Should the format be timezone aware? See notes above.
+     * @param   bool|int          $tzAware  Should the format be timezone aware? See notes above.
      *
      * @return  string
      * @since   4.2.0
      */
-    private function formatDate($date, ?string $format = null, bool $tzAware = true): string
+    private function formatDate($date, ?string $format = null, bool|int $tzAware = true): string
     {
         $utcTimeZone = new \DateTimeZone('UTC');
         $jDate       = new Date($date, $utcTimeZone);
