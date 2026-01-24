@@ -146,7 +146,7 @@ class CategoryeditField extends ListField
     protected function getOptions()
     {
         $options   = [];
-        $published = $this->element['published'] ? explode(',', (string) $this->element['published']) : [0, 1];
+        $published = $this->element['published'] ? explode(',', (string) $this->element['published']) : [0, 1, 2];
         $name      = (string) $this->element['name'];
 
         // Let's get the id for the current item, either category or content item.
@@ -238,23 +238,25 @@ class CategoryeditField extends ListField
         // Get the options.
         $db->setQuery($query);
 
+        $allCategories = [];
+
         try {
-            $options = $db->loadObjectList();
+            $allCategories = $db->loadObjectList();
         } catch (\RuntimeException $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
         }
 
         // Pad the option text with spaces using depth level as a multiplier.
-        foreach ($options as $option) {
+        foreach ($allCategories as $option) {
             // Translate ROOT
             if ($isParentCategoryField && $option->level == 0) {
                 $option->text = Text::_('JGLOBAL_ROOT_PARENT');
             }
 
-            if ($option->published == 1) {
-                $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . $option->text;
-            } else {
+            if ($option->published == 0) {
                 $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . '[' . $option->text . ']';
+            } else {
+                $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . $option->text;
             }
 
             // Displays language code if not set to All
@@ -265,13 +267,13 @@ class CategoryeditField extends ListField
 
         // For new items we want a list of categories you are allowed to create in.
         if ($oldCat == 0) {
-            foreach ($options as $i => $option) {
+            foreach ($allCategories as $i => $option) {
                 /*
                  * To take save or create in a category you need to have create rights for that category unless the item is already in that category.
                  * Unset the option if the user isn't authorised for it. In this field assets are always categories.
                  */
                 if ($option->level != 0 && !$user->authorise('core.create', $extension . '.category.' . $option->value)) {
-                    unset($options[$i]);
+                    unset($allCategories[$i]);
                 }
             }
         } else {
@@ -281,16 +283,16 @@ class CategoryeditField extends ListField
              * option to change the category parent for a category or the category for a content item,
              * but you should be able to save in that category.
              */
-            foreach ($options as $i => $option) {
+            foreach ($allCategories as $i => $option) {
                 $assetKey = $extension . '.category.' . $oldCat;
 
                 if ($option->level != 0 && !isset($oldParent) && $option->value != $oldCat && !$user->authorise('core.edit.state', $assetKey)) {
-                    unset($options[$i]);
+                    unset($allCategories[$i]);
                     continue;
                 }
 
                 if ($option->level != 0 && isset($oldParent) && $option->value != $oldParent && !$user->authorise('core.edit.state', $assetKey)) {
-                    unset($options[$i]);
+                    unset($allCategories[$i]);
                     continue;
                 }
 
@@ -301,15 +303,30 @@ class CategoryeditField extends ListField
                 $assetKey = $extension . '.category.' . $option->value;
 
                 if ($option->level != 0 && !isset($oldParent) && $option->value != $oldCat && !$user->authorise('core.create', $assetKey)) {
-                    unset($options[$i]);
+                    unset($allCategories[$i]);
                     continue;
                 }
 
                 if ($option->level != 0 && isset($oldParent) && $option->value != $oldParent && !$user->authorise('core.create', $assetKey)) {
-                    unset($options[$i]);
+                    unset($allCategories[$i]);
                 }
             }
         }
+
+        // Separate active and archived categories
+        $activeOptions   = [];
+        $archivedOptions = [];
+
+        foreach ($allCategories as $option) {
+            if ($option->published == 2) {
+                $archivedOptions[] = $option;
+            } else {
+                $activeOptions[] = $option;
+            }
+        }
+
+        // Use active options as the main options array
+        $options = $activeOptions;
 
         if (
             $oldCat != 0 && $isParentCategoryField
@@ -340,139 +357,10 @@ class CategoryeditField extends ListField
             array_unshift($options, HTMLHelper::_('select.option', '0', Text::_('JGLOBAL_ROOT')));
         }
 
-
-        // Query archived categories with the same filters
-        $archivedQuery = $db->createQuery()
-            ->select(
-                [
-                    $db->quoteName('a.id', 'value'),
-                    $db->quoteName('a.title', 'text'),
-                    $db->quoteName('a.level'),
-                    $db->quoteName('a.published'),
-                    $db->quoteName('a.lft'),
-                    $db->quoteName('a.language'),
-                ]
-            )
-            ->from($db->quoteName('#__categories', 'a'))
-            ->where($db->quoteName('a.published') . ' = 2');
-
-        // Filter by the extension type
-        if ($isParentCategoryField) {
-            $archivedQuery->where('(' . $db->quoteName('a.extension') . ' = :extension2 OR ' . $db->quoteName('a.parent_id') . ' = 0)')
-                ->bind(':extension2', $extension);
-        } else {
-            $archivedQuery->where($db->quoteName('a.extension') . ' = :extension2')
-                ->bind(':extension2', $extension);
-        }
-
-        // Filter language
-        if (isset($this->element['language'])) {
-            if (str_contains($this->element['language'], ',')) {
-                $language = explode(',', $this->element['language']);
-            } else {
-                $language = $this->element['language'];
-            }
-
-            $archivedQuery->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
-        }
-
-        // Filter categories on User Access Level
-        if (!$user->authorise('core.admin')) {
-            $groups = $user->getAuthorisedViewLevels();
-            $archivedQuery->whereIn($db->quoteName('a.access'), $groups);
-        }
-
-        if ($oldCat != 0 && $isParentCategoryField) {
-            $archivedQuery->join(
-                'LEFT',
-                $db->quoteName('#__categories', 'p2'),
-                $db->quoteName('p2.id') . ' = :oldcat2'
-            )
-                ->bind(':oldcat2', $oldCat, ParameterType::INTEGER)
-                ->where('NOT(' . $db->quoteName('a.lft') . ' >= ' . $db->quoteName('p2.lft')
-                    . ' AND ' . $db->quoteName('a.rgt') . ' <= ' . $db->quoteName('p2.rgt') . ')');
-        }
-
-        $archivedQuery->order($db->quoteName('a.lft') . ' ASC');
-
-        $db->setQuery($archivedQuery);
-
-        try {
-            $archivedOptions = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-            $archivedOptions = [];
-        }
-
-        // Process archived options with same formatting and ACL (mirrors active categories logic exactly)
-        $processedArchivedOptions = [];
-
-        // Format archived options
-        foreach ($archivedOptions as $option) {
-            if ($isParentCategoryField && $option->level == 0) {
-                $option->text = Text::_('JGLOBAL_ROOT_PARENT');
-            }
-
-            $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . $option->text;
-
-            if ($option->language !== '*') {
-                $option->text .= ' (' . $option->language . ')';
-            }
-        }
-
-        // For new items we want a list of categories you are allowed to create in.
-        if ($oldCat == 0) {
-            foreach ($archivedOptions as $option) {
-                /*
-                 * To save or create in a category you need to have create rights for that category.
-                 * Skip the option if the user isn't authorised for it.
-                 */
-                if ($option->level != 0 && !$user->authorise('core.create', $extension . '.category.' . $option->value)) {
-                    continue;
-                }
-
-                $processedArchivedOptions[] = $option;
-            }
-        } else {
-            // If you have an existing category id things are more complex.
-            /*
-             * If you are only allowed to edit in this category but not edit.state, you should not get any
-             * option to change the category parent for a category or the category for a content item,
-             * but you should be able to save in that category.
-             */
-            foreach ($archivedOptions as $option) {
-                $assetKey = $extension . '.category.' . $oldCat;
-
-                if ($option->level != 0 && !isset($oldParent) && $option->value != $oldCat && !$user->authorise('core.edit.state', $assetKey)) {
-                    continue;
-                }
-
-                if ($option->level != 0 && isset($oldParent) && $option->value != $oldParent && !$user->authorise('core.edit.state', $assetKey)) {
-                    continue;
-                }
-
-                /*
-                 * However, if you can edit.state you can also move this to another category for which you have
-                 * create permission and you should also still be able to save in the current category.
-                 */
-                $targetAssetKey = $extension . '.category.' . $option->value;
-
-                if ($option->level != 0 && !isset($oldParent) && $option->value != $oldCat && !$user->authorise('core.create', $targetAssetKey)) {
-                    continue;
-                }
-
-                if ($option->level != 0 && isset($oldParent) && $option->value != $oldParent && !$user->authorise('core.create', $targetAssetKey)) {
-                    continue;
-                }
-
-                $processedArchivedOptions[] = $option;
-            }
-        }
-
         // Add separator and archived categories if any exist
-        if (!empty($processedArchivedOptions)) {
+        if (!empty($archivedOptions)) {
             $options[] = HTMLHelper::_('select.option', '-1', Text::_('JARCHIVED_CATEGORIES'), 'value', 'text', true);
-            $options   = array_merge($options, $processedArchivedOptions);
+            $options   = array_merge($options, $archivedOptions);
         }
 
         // Merge any additional options in the XML definition.
