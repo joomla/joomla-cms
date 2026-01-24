@@ -32,11 +32,11 @@ $options = [
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->useScript('joomla.batch-copymove');
 
-// Get category options with archived categories separated
+// Get category options
 if (isset($addRoot) && $addRoot) {
-    $categoryOptions = HTMLHelper::_('category.categoriesWithArchived', $extension);
+    $categoryOptions = HTMLHelper::_('category.categories', $extension, ['filter.published' => [0, 1, 2]]);
 } else {
-    $categoryOptions = HTMLHelper::_('category.optionsWithArchived', $extension);
+    $categoryOptions = HTMLHelper::_('category.options', $extension, ['filter.published' => [0, 1, 2]]);
 }
 
 ?>

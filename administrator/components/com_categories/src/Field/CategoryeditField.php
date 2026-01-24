@@ -238,23 +238,25 @@ class CategoryeditField extends ListField
         // Get the options.
         $db->setQuery($query);
 
-        $allCategories = [];
-
         try {
-            $allCategories = $db->loadObjectList();
+            $options = $db->loadObjectList();
         } catch (\RuntimeException $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
         }
 
         // Pad the option text with spaces using depth level as a multiplier.
-        foreach ($allCategories as $option) {
+        foreach ($options as $option) {
             // Translate ROOT
             if ($isParentCategoryField && $option->level == 0) {
                 $option->text = Text::_('JGLOBAL_ROOT_PARENT');
             }
 
             if ($option->published == 0) {
+                // Add square brackets around unpublished categories
                 $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . '[' . $option->text . ']';
+            } elseif ($option->published == 2) {
+                // Add curly braces around archived categories
+                $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . '{' . $option->text . '}';
             } else {
                 $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . $option->text;
             }
@@ -267,13 +269,13 @@ class CategoryeditField extends ListField
 
         // For new items we want a list of categories you are allowed to create in.
         if ($oldCat == 0) {
-            foreach ($allCategories as $i => $option) {
+            foreach ($options as $i => $option) {
                 /*
                  * To take save or create in a category you need to have create rights for that category unless the item is already in that category.
                  * Unset the option if the user isn't authorised for it. In this field assets are always categories.
                  */
                 if ($option->level != 0 && !$user->authorise('core.create', $extension . '.category.' . $option->value)) {
-                    unset($allCategories[$i]);
+                    unset($options[$i]);
                 }
             }
         } else {
@@ -283,16 +285,16 @@ class CategoryeditField extends ListField
              * option to change the category parent for a category or the category for a content item,
              * but you should be able to save in that category.
              */
-            foreach ($allCategories as $i => $option) {
+            foreach ($options as $i => $option) {
                 $assetKey = $extension . '.category.' . $oldCat;
 
                 if ($option->level != 0 && !isset($oldParent) && $option->value != $oldCat && !$user->authorise('core.edit.state', $assetKey)) {
-                    unset($allCategories[$i]);
+                    unset($options[$i]);
                     continue;
                 }
 
                 if ($option->level != 0 && isset($oldParent) && $option->value != $oldParent && !$user->authorise('core.edit.state', $assetKey)) {
-                    unset($allCategories[$i]);
+                    unset($options[$i]);
                     continue;
                 }
 
@@ -303,30 +305,15 @@ class CategoryeditField extends ListField
                 $assetKey = $extension . '.category.' . $option->value;
 
                 if ($option->level != 0 && !isset($oldParent) && $option->value != $oldCat && !$user->authorise('core.create', $assetKey)) {
-                    unset($allCategories[$i]);
+                    unset($options[$i]);
                     continue;
                 }
 
                 if ($option->level != 0 && isset($oldParent) && $option->value != $oldParent && !$user->authorise('core.create', $assetKey)) {
-                    unset($allCategories[$i]);
+                    unset($options[$i]);
                 }
             }
         }
-
-        // Separate active and archived categories
-        $activeOptions   = [];
-        $archivedOptions = [];
-
-        foreach ($allCategories as $option) {
-            if ($option->published == 2) {
-                $archivedOptions[] = $option;
-            } else {
-                $activeOptions[] = $option;
-            }
-        }
-
-        // Use active options as the main options array
-        $options = $activeOptions;
 
         if (
             $oldCat != 0 && $isParentCategoryField
@@ -355,12 +342,6 @@ class CategoryeditField extends ListField
             }
 
             array_unshift($options, HTMLHelper::_('select.option', '0', Text::_('JGLOBAL_ROOT')));
-        }
-
-        // Add separator and archived categories if any exist
-        if (!empty($archivedOptions)) {
-            $options[] = HTMLHelper::_('select.option', '-1', Text::_('JARCHIVED_CATEGORIES'), 'value', 'text', true);
-            $options   = array_merge($options, $archivedOptions);
         }
 
         // Merge any additional options in the XML definition.

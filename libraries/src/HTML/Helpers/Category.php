@@ -120,9 +120,11 @@ abstract class Category
                 $repeat      = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
                 $item->title = str_repeat('- ', $repeat) . $item->title;
 
-                // Add brackets around unpublished categories
+                // Add brackets around unpublished archived categories
                 if (isset($item->published) && $item->published == 0) {
                     $item->title = '[' . $item->title . ']';
+                } elseif (isset($item->published) && $item->published == 2) {
+                    $item->title = '{' . $item->title . '}';
                 }
 
                 if ($item->language !== '*') {
@@ -200,9 +202,11 @@ abstract class Category
                 $repeat      = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
                 $item->title = str_repeat('- ', $repeat) . $item->title;
 
-                // Add brackets around unpublished categories
+                // Add brackets around unpublished and archived categories
                 if (isset($item->published) && $item->published == 0) {
                     $item->title = '[' . $item->title . ']';
+                } elseif (isset($item->published) && $item->published == 2) {
+                    $item->title = '{' . $item->title . '}';
                 }
 
                 if ($item->language !== '*') {
@@ -217,77 +221,5 @@ abstract class Category
         }
 
         return static::$items[$hash];
-    }
-
-    /**
-     * Returns an array of categories with archived categories listed separately at the end.
-     *
-     * @param   string  $extension  The extension option e.g. com_something.
-     * @param   array   $config     An array of configuration options.
-     *
-     * @return  array   Array of option objects with archived categories separated
-     *
-     * @since   6.1
-     */
-    public static function optionsWithArchived($extension, $config = [])
-    {
-        $config = (array) $config;
-
-        // Get published/unpublished categories
-        $activeOptions = static::options($extension, array_merge($config, ['filter.published' => [0, 1]]));
-
-        // Get archived categories
-        $archivedOptions = static::options($extension, array_merge($config, ['filter.published' => [2]]));
-
-        // If there are no archived categories, just return active ones
-        if (empty($archivedOptions)) {
-            return $activeOptions;
-        }
-
-        // Add separator and archived categories
-        return array_merge(
-            $activeOptions,
-            [HTMLHelper::_('select.option', '-1', Text::_('JARCHIVED_CATEGORIES'), 'value', 'text', true)],
-            $archivedOptions
-        );
-    }
-
-    /**
-     * Returns an array of categories with archived categories listed separately at the end (with root option).
-     *
-     * @param   string  $extension  The extension option.
-     * @param   array   $config     An array of configuration options.
-     *
-     * @return  array   Array of option objects with archived categories separated
-     *
-     * @since   6.1
-     */
-    public static function categoriesWithArchived($extension, $config = [])
-    {
-        $config = (array) $config;
-
-        // Get published/unpublished categories
-        $activeOptions = static::categories($extension, array_merge($config, ['filter.published' => [0, 1]]));
-
-        // Remove the 'Add to root' option temporarily (it's the last item)
-        $addToRootOption = array_pop($activeOptions);
-
-        // Get archived categories
-        $archivedOptions = static::options($extension, array_merge($config, ['filter.published' => [2]]));
-
-        // If there are no archived categories, return active ones with root option
-        if (empty($archivedOptions)) {
-            $activeOptions[] = $addToRootOption;
-
-            return $activeOptions;
-        }
-
-        // Add separator, archived categories, and root option at the end
-        return array_merge(
-            $activeOptions,
-            [HTMLHelper::_('select.option', '-1', Text::_('JARCHIVED_CATEGORIES'), 'value', 'text', true)],
-            $archivedOptions,
-            [$addToRootOption]
-        );
     }
 }
