@@ -1796,7 +1796,7 @@ class TemplateModel extends FormModel
                     return false;
                 }
             } else {
-                $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_FONT_FILE_NOT_FOUND'), 'error');
+                $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_ARCHIVE_NOT_FOUND'), 'error');
 
                 return false;
             }
