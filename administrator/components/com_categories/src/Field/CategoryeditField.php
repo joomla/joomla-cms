@@ -251,10 +251,10 @@ class CategoryeditField extends ListField
                 $option->text = Text::_('JGLOBAL_ROOT_PARENT');
             }
 
-            if ($option->published == 0) {
+            if ($option->published === 0) {
                 // Add square brackets around unpublished categories
                 $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . '[' . $option->text . ']';
-            } elseif ($option->published == 2) {
+            } elseif ($option->published === 2) {
                 // Add curly braces around archived categories
                 $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . '{' . $option->text . '}';
             } else {

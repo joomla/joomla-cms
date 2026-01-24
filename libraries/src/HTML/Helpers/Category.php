@@ -121,9 +121,9 @@ abstract class Category
                 $item->title = str_repeat('- ', $repeat) . $item->title;
 
                 // Add brackets around unpublished archived categories
-                if (isset($item->published) && $item->published == 0) {
+                if (isset($item->published) && $item->published === 0) {
                     $item->title = '[' . $item->title . ']';
-                } elseif (isset($item->published) && $item->published == 2) {
+                } elseif (isset($item->published) && $item->published === 2) {
                     $item->title = '{' . $item->title . '}';
                 }
 
@@ -203,9 +203,9 @@ abstract class Category
                 $item->title = str_repeat('- ', $repeat) . $item->title;
 
                 // Add brackets around unpublished and archived categories
-                if (isset($item->published) && $item->published == 0) {
+                if (isset($item->published) && $item->published === 0) {
                     $item->title = '[' . $item->title . ']';
-                } elseif (isset($item->published) && $item->published == 2) {
+                } elseif (isset($item->published) && $item->published === 2) {
                     $item->title = '{' . $item->title . '}';
                 }
 
