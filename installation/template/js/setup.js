@@ -197,7 +197,22 @@ Joomla.checkDbCredentials = function() {
   if (document.getElementById('step2')) {
     document.getElementById('step2').addEventListener('click', function(e) {
       e.preventDefault();
-      if (Joomla.checkFormField(['#jform_admin_user', '#jform_admin_email', '#jform_admin_password'])) {
+      Joomla.removeMessages();
+      // Check required fields
+      const username = document.getElementById('jform_admin_username').value.trim();
+      const password = document.getElementById('jform_admin_password').value;
+      let errors = [];
+      if (username === '') {
+        errors.push('Username is required');
+      }
+      if (password.length < 12) {
+        errors.push('Password must be at least 12 characters long');
+      }
+      if (errors.length > 0) {
+        Joomla.renderMessages({'error': errors});
+        return;
+      }
+      if (Joomla.checkFormField(['#jform_admin_user', '#jform_admin_username', '#jform_admin_email', '#jform_admin_password'])) {
         if (document.getElementById('installStep3')) {
           document.getElementById('installStep3').classList.add('active');
           document.getElementById('installStep2').classList.remove('active');
@@ -216,7 +231,29 @@ Joomla.checkDbCredentials = function() {
     document.getElementById('setupButton').addEventListener('click', function(e) {
       e.preventDefault();
       e.stopPropagation();
-      Joomla.checkInputs();
+      Joomla.removeMessages();
+      // Check database connection before proceeding
+      var form = document.getElementById('adminForm');
+      var data = Joomla.serialiseForm(form);
+      data += '&task=installation.dbcheck&format=json';
+      Joomla.request({
+        url: Joomla.baseUrl,
+        method: 'POST',
+        data: data,
+        perform: true,
+        onSuccess: function(response, xhr){
+          var r = JSON.parse(response);
+          if (r.error || !r.validated) {
+            Joomla.renderMessages({'error': ['Database connection failed. Please check your database credentials.']});
+            return;
+          }
+          // Proceed with form validation and submit
+          Joomla.checkInputs();
+        },
+        onError: function(xhr){
+          Joomla.renderMessages({'error': ['Database check failed.']});
+        }
+      });
     })
   }
 })();

@@ -187,6 +187,32 @@ class PasswordStrength {
         }
         return false;
       });
+
+      // Override the password handler for fields with strength meter to enforce minimum length
+      document.formvalidator.setHandler('password', value => {
+        const strengthElements = document.querySelectorAll('.js-password-strength');
+        if (strengthElements.length > 0) {
+          const minLength = strengthElements[0].getAttribute('data-min-length');
+          const configuredMinLength = parseInt(minLength, 10) || 12;
+          // Block if starts or ends with space
+          if (value !== value.trim()) {
+            return false;
+          }
+          // Allow empty passwords
+          if (value.length === 0) {
+            return true;
+          }
+          // Block if less than configured minimum length
+          if (value.length < configuredMinLength) {
+            return false;
+          }
+          return true;
+        } else {
+          // Use default password validation
+          const regex = /^\S[\S ]{10,98}\S$/;
+          return regex.test(value);
+        }
+      });
     }
   });
 })(Joomla, document);
