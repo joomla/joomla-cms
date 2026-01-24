@@ -56,6 +56,11 @@ final class LoadModule extends CMSPlugin implements SubscriberInterface
      */
     public function onContentPrepare(ContentPrepareEvent $event)
     {
+        if ($this->getApplication()->isClient('api')) {
+            // Skip processing loadmodule/loadmoduleid tags for API
+            return;
+        }
+
         $context = $event->getContext();
         $article = $event->getItem();
 
@@ -193,12 +198,6 @@ final class LoadModule extends CMSPlugin implements SubscriberInterface
     private function load($position, $style = 'none')
     {
         $document = $this->getApplication()->getDocument();
-
-        if ($document->getType() !== 'html') {
-            // Output the original tag
-            return "{loadposition $position" . ($style !== 'none' ? " $style" : "") . "}";
-        }
-
         $renderer = $document->loadRenderer('module');
         $modules  = ModuleHelper::getModules($position);
         $params   = ['style' => $style];
@@ -226,20 +225,6 @@ final class LoadModule extends CMSPlugin implements SubscriberInterface
     private function loadModule($module, $title, $style = 'none')
     {
         $document = $this->getApplication()->getDocument();
-
-        if ($document->getType() !== 'html') {
-            // Output the original tag
-            $tag = "{loadmodule $module";
-            if ($title !== '') {
-                $tag .= ",$title";
-            }
-            if ($style !== 'none') {
-                $tag .= ",$style";
-            }
-            $tag .= "}";
-            return $tag;
-        }
-
         $renderer = $document->loadRenderer('module');
         $mod      = ModuleHelper::getModule($module, $title);
 
@@ -272,14 +257,8 @@ final class LoadModule extends CMSPlugin implements SubscriberInterface
     private function loadID($id)
     {
         $document = $this->getApplication()->getDocument();
-
-        if ($document->getType() !== 'html') {
-            // Output the original tag
-            return "{loadmoduleid $id}";
-        }
-
-        $modules  = ModuleHelper::getModuleById($id);
         $renderer = $document->loadRenderer('module');
+        $modules  = ModuleHelper::getModuleById($id);
         $params   = ['style' => 'none'];
         ob_start();
 
