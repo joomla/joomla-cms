@@ -370,12 +370,14 @@ class TemplateModel extends FormModel
             $path   = Path::clean($client->path . '/templates/' . $template->element . '/');
             $lang   = Factory::getLanguage();
 
-            // Load the core and/or local language file(s).
+            // Load the parent and child overrides for template language constants
+            if (!empty($template->xmldata->parent)) {
+                $lang->load('tpl_' . $template->xmldata->parent, $client->path)
+                    || $lang->load('tpl_' . $template->xmldata->parent, $client->path . '/templates/' . $template->xmldata->parent);
+            }
+
             $lang->load('tpl_' . $template->element, $client->path)
-            || (!empty($template->xmldata->parent) && $lang->load('tpl_' . $template->xmldata->parent, $client->path))
-            || $lang->load('tpl_' . $template->element, $client->path . '/templates/' . $template->element)
-            || (!empty($template->xmldata->parent) && $lang->load('tpl_' . $template->xmldata->parent, $client->path . '/templates/' . $template->xmldata->parent));
-            $this->element = $path;
+                || $lang->load('tpl_' . $template->element, $client->path . '/templates/' . $template->element);
 
             if (!is_writable($path)) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_DIRECTORY_NOT_WRITABLE'), 'error');
