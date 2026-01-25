@@ -377,13 +377,13 @@ class HtmlView extends AbstractView implements CurrentUserInterface
                 $lang = Factory::getApplication()->getLanguage();
             }
 
-            $lang->load('tpl_' . $template->template, JPATH_BASE)
-                || $lang->load('tpl_' . $template->template, JPATH_THEMES . '/' . $template->template);
-
             if ($template->parent) {
                 $lang->load('tpl_' . $template->parent, JPATH_THEMES . '/' . $template->parent)
                     || $lang->load('tpl_' . $template->parent, JPATH_BASE);
             }
+
+            $lang->load('tpl_' . $template->template, JPATH_BASE)
+                || $lang->load('tpl_' . $template->template, JPATH_THEMES . '/' . $template->template);
         }
 
         // Change the template folder if alternative layout is in different template
