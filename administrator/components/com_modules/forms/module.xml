@@ -5,14 +5,6 @@
 	</config>
 	<fieldset addfieldprefix="Joomla\Component\Modules\Administrator\Field">
 		<field
-			name="id"
-			type="number"
-			label="JGLOBAL_FIELD_ID_LABEL"
-			default="0"
-			readonly="true"
-		/>
-
-		<field
 			name="title"
 			type="text"
 			label="JGLOBAL_TITLE"
@@ -131,6 +123,11 @@
 
 		<field
 			name="assigned"
+			type="hidden"
+		/>
+
+		<field
+			name="id"
 			type="hidden"
 		/>
 
