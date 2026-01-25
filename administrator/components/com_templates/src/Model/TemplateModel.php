@@ -1695,7 +1695,7 @@ class TemplateModel extends FormModel
      */
     public function getFont()
     {
-        if ($template = $this->getTemplate(true)) {
+        if ($template = $this->getTemplate()) {
             $app          = Factory::getApplication();
             $client       = ApplicationHelper::getClientInfo($template->client_id);
             $relPath      = base64_decode($app->getInput()->get('file'));
