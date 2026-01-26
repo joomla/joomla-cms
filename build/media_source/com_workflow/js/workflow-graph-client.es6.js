@@ -11,6 +11,7 @@ Joomla = window.Joomla || {};
   const MIN_ZOOM = 0.5;
   const MAX_ZOOM = 2;
   const ZOOM_SENSITIVITY = 0.1;
+  const CORNER_RADIUS = 10;
 
   // This central state object holds all data needed for rendering.
   const state = {
@@ -21,10 +22,10 @@ Joomla = window.Joomla || {};
     panX: 0,
     panY: 0,
     isDraggingStage: false,
-    highlightedEdge: null,
+    highlightedEdge: null
   };
 
-  // --- API Communication & Error Handling ---
+  // --- Translation ---
   const translate = (string) => {
     return Joomla.Text._(string);
   };
@@ -34,16 +35,19 @@ Joomla = window.Joomla || {};
     let i = 0;
     return base.replace(/%((%)|s|d)/g, (m) => {
       let val = args[i];
-
       if (m === '%d') {
         val = parseFloat(val);
-        if (Number.isNaN(val)) {
-          val = 0;
-        }
+        if (Number.isNaN(val)) val = 0;
       }
       i += 1;
       return val;
     });
+  };
+
+  // Get full url for marker to avoid issues with base tags
+  const getMarkerUrl = (id) => {
+      const location = window.location.href.split('#')[0];
+      return `url(${location}#${id})`;
   };
 
   function showMessageInModal(message, type) {
@@ -61,10 +65,9 @@ Joomla = window.Joomla || {};
   async function makeRequest(url) {
     try {
       const paths = Joomla.getOptions('system.paths');
-      const baseUri = `${paths ? `${paths.rootFull}/administrator/index.php` : window.location.pathname}`;
+      const baseUri = `${paths ? `${paths.baseFull}index.php` : window.location.pathname}`;
       const uri = `${baseUri}?option=com_workflow&extension=com_content&layout=modal&view=graph${url}`;
       const response = await fetch(uri, { credentials: 'same-origin' });
-
       if (!response.ok) {
         let message = 'COM_WORKFLOW_GRAPH_ERROR_UNKNOWN';
         if (response.status === 401) message = 'COM_WORKFLOW_GRAPH_ERROR_NOT_AUTHENTICATED';
@@ -83,158 +86,176 @@ Joomla = window.Joomla || {};
     }
   }
 
-  // --- Layout Calculation ---
+  // --- Initial Layout Creation ---
   function calculateAutoLayout(stages) {
     const withNoPosition = stages.filter(stage => !stage.position || isNaN(stage.position.x) || isNaN(stage.position.y));
     if (withNoPosition.length === 0) return stages;
 
-    // special node
     const fromAnyStage = stages.find(s => s.id === 'From Any');
     const transitionStages = stages.filter(s => s.id !== 'From Any');
 
-    const verticalSpacing = 80;
-    const horizontalOffset = 350;
-    const startY = 50;
+    const gapX = 400;
+    const gapY = 300;
+    const paddingX = 100;
+    const paddingY = 100;
+    const columns = Math.min(4, Math.ceil(Math.sqrt(transitionStages.length) + 1));
 
     transitionStages.forEach((stage, index) => {
       if (withNoPosition.some(s => s.id === stage.id)) {
+        const col = index % columns;
+        const row = Math.floor(index / columns);
         stage.position = {
-          x: horizontalOffset,
-          y: startY + (index * verticalSpacing)
+          x: col * gapX + paddingX,
+          y: row * gapY + paddingY
         };
       }
     });
 
     if (fromAnyStage && withNoPosition.some(s => s.id === fromAnyStage.id)) {
       if (!fromAnyStage.position || isNaN(fromAnyStage.position.x) || isNaN(fromAnyStage.position.y)) {
-        fromAnyStage.position = {
-          x: 600,
-          y: -200
-        };
+        fromAnyStage.position = { x: 600, y: -200 };
       }
     }
-
     return stages;
   }
 
-  function getSmoothStepPath(sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition, centerX, centerY) {
-    let path = `M ${sourceX},${sourceY}`;
-    const midX = centerX || (sourceX + targetX) / 2;
-    const midY = centerY || (sourceY + targetY) / 2;
-    const branchDistance = 30;
+  function buildPathFromPoints(points) {
+    let path = `M ${points[0].x} ${points[0].y  - 50}`;
+    for (let i = 1; i < points.length - 1; i++) {
+        const prev = points[i-1];
+        const curr = points[i];
+        const next = points[i+1];
+        
+        const dx1 = prev.x - curr.x;
+        const dy1 = prev.y - curr.y;
+        const len1 = Math.sqrt(dx1*dx1 + dy1*dy1);
+        
+        const dx2 = next.x - curr.x;
+        const dy2 = next.y - curr.y;
+        const len2 = Math.sqrt(dx2*dx2 + dy2*dy2);
+        
+        if (len1 < 1 || len2 < 1) {
+             path += ` L ${curr.x} ${curr.y}`;
+             continue;
+        }
 
-    if (sourcePosition === 'left' || sourcePosition === 'right') {
-      const branchX = sourcePosition === 'left' ? sourceX - branchDistance : sourceX + branchDistance;
-      path += ` L ${branchX},${sourceY} L ${branchX},${midY} L ${midX},${midY}`;
-      const mergeX = targetPosition === 'left' ? targetX - branchDistance : targetX + branchDistance;
-      path += ` L ${mergeX},${midY} L ${mergeX},${targetY} L ${targetX},${targetY}`;
-    } else if (sourcePosition === 'top' || sourcePosition === 'bottom') {
-      const branchY = sourcePosition === 'top' ? sourceY - branchDistance : sourceY + branchDistance;
-      path += ` L ${sourceX},${branchY} L ${midX},${branchY} L ${midX},${midY}`;
-      const mergeY = targetPosition === 'top' ? targetY - branchDistance : targetY + branchDistance;
-      path += ` L ${midX},${mergeY} L ${midX},${targetY} L ${targetX},${targetY}`;
-    } else {
-      const branchX = sourceX + (targetX > sourceX ? branchDistance : -branchDistance);
-      path += ` L ${branchX},${sourceY} L ${branchX},${midY} L ${midX},${midY}`;
-      const mergeX = targetX + (targetX > sourceX ? -branchDistance : branchDistance);
-      path += ` L ${mergeX},${midY} L ${mergeX},${targetY} L ${targetX},${targetY}`;
+        const r = Math.min(CORNER_RADIUS, len1/2, len2/2);
+        
+        const startX = curr.x + (dx1 / len1) * r;
+        const startY = curr.y + (dy1 / len1) * r;
+        
+        const endX = curr.x + (dx2 / len2) * r;
+        const endY = curr.y + (dy2 / len2) * r;
+        
+        path += ` L ${startX} ${startY}`;
+        path += ` Q ${curr.x} ${curr.y} ${endX} ${endY}`;
     }
-    return [path, midX, midY];
+    path += ` L ${points[points.length-1].x} ${points[points.length-1].y}`;
+    return path;
+  }
+
+  function getVerticalStepPath(sourceX, sourceY, targetX, targetY, midY) {
+    const points = [
+      { x: sourceX, y: sourceY },       
+      { x: sourceX, y: midY },          
+      { x: targetX, y: midY },          
+      { x: targetX, y: targetY }        
+    ];
+    return [buildPathFromPoints(points), (sourceX + targetX) / 2, midY];
+  }
+
+  function getHorizontalStepPath(sourceX, sourceY, targetX, targetY, midX) {
+    const startStubY = sourceY + 30; 
+    const endStubY = targetY - 30;   
+    
+    const points = [
+      { x: sourceX, y: sourceY },      
+      { x: sourceX, y: startStubY },   
+      { x: midX, y: startStubY },      
+      { x: midX, y: endStubY },        
+      { x: targetX, y: endStubY },     
+      { x: targetX, y: targetY }       
+    ];
+    return [buildPathFromPoints(points), midX, (startStubY + endStubY) / 2];
   }
 
   function generateEdges(transitions, stages) {
     const stageMap = new Map(stages.map(s => [s.id, s]));
     const edgeGroups = {};
-
+    
+    // Undirected Grouping to prevent overlaps on bi-directional edges
     transitions.forEach(tr => {
       const fromId = tr.from_stage_id === -1 ? 'From Any' : tr.from_stage_id;
       const toId = tr.to_stage_id;
-      const key = `${fromId}->${toId}`;
+      const s1 = String(fromId);
+      const s2 = String(toId);
+      const key = s1 < s2 ? `${s1}|${s2}` : `${s2}|${s1}`;
+      
       if (!edgeGroups[key]) edgeGroups[key] = [];
       edgeGroups[key].push(tr);
     });
+    
+    Object.values(edgeGroups).forEach(group => group.sort((a, b) => a.id - b.id));
 
-    const edgePairs = new Set(transitions.map(tr => `${tr.from_stage_id}->${tr.to_stage_id}`));
     return transitions.flatMap(tr => {
       const fromId = tr.from_stage_id === -1 ? 'From Any' : tr.from_stage_id;
       const toId = tr.to_stage_id;
       const fromStage = stageMap.get(fromId);
       const toStage = stageMap.get(toId);
+      
+      if (!(fromStage != null && fromStage.position) || !(toStage != null && toStage.position)) return [];
 
-      if (!fromStage?.position || !toStage?.position) return [];
+      const sourceX = fromStage.position.x + STAGE_WIDTH / 2;
+      const sourceY = fromStage.position.y + STAGE_HEIGHT; 
+      const targetX = toStage.position.x + STAGE_WIDTH / 2;
+      const targetY = toStage.position.y; 
 
-      // Calculate source and target positions for step-wise edges
-      let sourceX = fromStage.position.x + STAGE_WIDTH / 2;
-      let sourceY = fromStage.position.y + STAGE_HEIGHT / 2;
-      let targetX = toStage.position.x + STAGE_WIDTH / 2;
-      let targetY = toStage.position.y + STAGE_HEIGHT / 2;
-      let sourcePosition = 'center', targetPosition = 'center';
-
-      // If target is to the left/right, connect to left/right edge
-      if (Math.abs(toStage.position.x - fromStage.position.x) > Math.abs(toStage.position.y - fromStage.position.y)) {
-        if (toStage.position.x < fromStage.position.x) {
-          sourceX = fromStage.position.x;
-          targetX = toStage.position.x + STAGE_WIDTH;
-          sourcePosition = 'left';
-          targetPosition = 'right';
-        } else {
-          sourceX = fromStage.position.x + STAGE_WIDTH;
-          targetX = toStage.position.x;
-          sourcePosition = 'right';
-          targetPosition = 'left';
-        }
-      } else {
-        // If target is above/below, connect to top/bottom edge
-        if (toStage.position.y < fromStage.position.y) {
-          sourceY = fromStage.position.y;
-          targetY = toStage.position.y + STAGE_HEIGHT;
-          sourcePosition = 'top';
-          targetPosition = 'bottom';
-        } else {
-          sourceY = fromStage.position.y + STAGE_HEIGHT;
-          targetY = toStage.position.y;
-          sourcePosition = 'bottom';
-          targetPosition = 'top';
-        }
-      }
-
-      const groupKey = `${fromId}->${toStage.id}`;
+      const s1 = String(fromId);
+      const s2 = String(toId);
+      const groupKey = s1 < s2 ? `${s1}|${s2}` : `${s2}|${s1}`;
       const group = edgeGroups[groupKey] || [tr];
       const transitionIndex = group.findIndex(t => t.id === tr.id);
-      const offsetIndex = transitionIndex - (group.length - 1) / 2;
+      
+      let offsetIndex = transitionIndex - (group.length - 1) / 2;
+      const bundleSpacing = 40; 
+      
+      let pathData, labelX, labelY;
 
-      // Calculate perpendicular offset
-      const dx = targetX - sourceX;
-      const dy = targetY - sourceY;
-      const length = Math.sqrt(dx * dx + dy * dy) || 1;
-      const perpX = -dy / length;
-      const perpY = dx / length;
-      const curveMagnitude = 40 * offsetIndex;
-      const centerX = (sourceX + targetX) / 2 + perpX * curveMagnitude;
-      const centerY = (sourceY + targetY) / 2 + perpY * curveMagnitude;
-
-      // Generate sharp step path
-      const [pathData, labelX, labelY] = getSmoothStepPath(
-        sourceX,
-        sourceY,
-        targetX,
-        targetY,
-        sourcePosition,
-        targetPosition,
-        centerX,
-        centerY,
-      );
-
-      // Determine arrowhead direction based on final segment
-      let arrowDirection = 'right';
-      if (Math.abs(targetX - centerX) > Math.abs(targetY - centerY)) {
-        arrowDirection = (targetX > centerX) ? 'right' : 'left';
-      } else {
-        arrowDirection = (targetY > centerY) ? 'down' : 'up';
+      // Obstruction Check
+      let isVerticalObstructed = false;
+      const distX = Math.abs(sourceX - targetX);
+      const isVerticallyAligned = distX < STAGE_WIDTH;
+      
+      if (isVerticallyAligned && targetY > sourceY) {
+         isVerticalObstructed = stages.some(stage => {
+            if (stage.id === fromId || stage.id === toId) return false;
+            const sTop = stage.position.y;
+            const sBottom = stage.position.y + STAGE_HEIGHT;
+            const isBetweenY = (sTop > sourceY && sBottom < targetY);
+            const sLeft = stage.position.x;
+            const sRight = stage.position.x + STAGE_WIDTH;
+            const pathX = sourceX; 
+            const isBlockingX = (pathX > sLeft - 20 && pathX < sRight + 20);
+            return isBetweenY && isBlockingX;
+         });
       }
 
-      // Mark as bidirectional if the reverse exists
-      const isBidirectional = edgePairs.has(`${toId}->${tr.from_stage_id}`);
+      const isStacked = (targetY > (sourceY + 50)) && !isVerticalObstructed && distX > 40;
+
+      if (isStacked) {
+          let midY = (sourceY + targetY) / 2;
+          midY += offsetIndex * bundleSpacing; 
+          [pathData, labelX, labelY] = getVerticalStepPath(sourceX, sourceY, targetX, targetY, midY);
+          labelX += offsetIndex * 60; // Stagger X
+      } else {
+          let midX = (sourceX + targetX) / 2;
+          if (distX < STAGE_WIDTH || isVerticalObstructed) {
+             midX = Math.max(sourceX, targetX) + STAGE_WIDTH / 2 + 60;
+          }
+          midX += offsetIndex * bundleSpacing;
+          [pathData, labelX, labelY] = getHorizontalStepPath(sourceX, sourceY, targetX, targetY, midX);
+          labelY += offsetIndex * 35; // Stagger Y
+      }
 
       return {
         id: `transition-${tr.id}`,
@@ -242,9 +263,7 @@ Joomla = window.Joomla || {};
         label: tr.title,
         labelPosition: { x: labelX, y: labelY },
         fromId,
-        toId,
-        isBidirectional,
-        arrowDirection
+        toId
       };
     }).filter(Boolean);
   }
@@ -255,7 +274,7 @@ Joomla = window.Joomla || {};
     const svg = modal.querySelector('#connections');
     if (!graph || !stageContainer || !svg) return;
 
-    // Remove all existing stage elements before rendering to avoid duplicates
+    // Render Stages
     stageContainer.querySelectorAll('[id^="stage-"]').forEach(el => el.remove());
     state.stages.forEach(stage => {
       let stageEl = document.createElement('div');
@@ -265,108 +284,108 @@ Joomla = window.Joomla || {};
       stageEl.className = `stage ${stage.default ? 'default' : ''} ${isVirtual ? 'virtual' : ''}`;
       stageEl.style.left = `${stage.position.x}px`;
       stageEl.style.top = `${stage.position.y}px`;
-      let newHTML;
-      if (isVirtual) {
-        newHTML = `
-              <div class="stage-title text-truncate" title="${stage.title}">${stage.title}</div>
-              <div class="d-flex align-items-center gap-2">
-                <div class="stage-description text-truncate small"></div>
-              </div>
-              <div class="d-flex justify-content-between align-items-center mt-2">
-                <div class="badge bg-info rounded-pill p-1"></div>
-              </div>
-              `;
-      } else {
-        newHTML = `
-              <div class="stage-title text-truncate" title="${stage.title}">${stage.title}</div>
-              <div class="d-flex align-items-center gap-2">
-                ${stage.description ? `<div class="stage-description text-truncate small" title="${stage?.description}">${stage?.description}</div>` : ''}
-              </div>
-              <div class="d-flex justify-content-between align-items-center mt-2">
-                ${typeof stage.published !== 'undefined' ? `<div class="badge ${stage.published == 1 ? 'bg-success' : 'bg-danger'} rounded-pill p-1">${stage.published === 1 ? translate('COM_WORKFLOW_GRAPH_ENABLED') : translate('COM_WORKFLOW_GRAPH_DISABLED')}</div>` : ''}
-                ${stage.default ? `<div class="badge bg-warning rounded-pill p-1">${translate('COM_WORKFLOW_GRAPH_DEFAULT')}</div>` : ''}
-              </div>`;
-      }
+      
+      let newHTML = isVirtual 
+        ? `<div class="stage-title text-truncate">${stage.title}</div>
+           <div class="d-flex justify-content-between align-items-center mt-2"><div class="badge bg-info rounded-pill p-1"></div></div>`
+        : `<div class="stage-title text-truncate" title="${stage.title}">${stage.title}</div>
+           <div class="d-flex align-items-center gap-2">
+             ${stage.description ? `<div class="stage-description text-truncate small">${stage.description}</div>` : ''}
+           </div>
+           <div class="d-flex justify-content-between align-items-center mt-2">
+             ${typeof stage.published !== 'undefined' ? `<div class="badge ${stage.published == '1' ? 'bg-success' : 'bg-danger'} rounded-pill p-1">${stage.published == '1' ? translate('COM_WORKFLOW_GRAPH_ENABLED') : translate('COM_WORKFLOW_GRAPH_DISABLED')}</div>` : ''}
+             ${stage.default ? `<div class="badge bg-warning rounded-pill p-1">${translate('COM_WORKFLOW_GRAPH_DEFAULT')}</div>` : ''}
+           </div>`;
+      
       stageEl.innerHTML = newHTML;
       stageContainer.appendChild(stageEl);
     });
 
+    // --- Setting up path SVG layers ---
+    let pathsLayer = svg.querySelector('g.layers-paths');
+    let labelsLayer = svg.querySelector('g.layers-labels');
+
+    if (!pathsLayer) {
+        pathsLayer = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        pathsLayer.classList.add('layers-paths');
+        svg.appendChild(pathsLayer);
+    }
+    if (!labelsLayer) {
+        labelsLayer = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        labelsLayer.classList.add('layers-labels');
+        svg.appendChild(labelsLayer);
+    } else {
+        svg.appendChild(labelsLayer); // Ensure it is last (top)
+    }
+
     const edges = generateEdges(state.transitions, state.stages);
-    svg.querySelectorAll('g.edge-group').forEach(group => {
-      if (!edges.find(e => e.id === group.dataset.edgeId)) group.remove();
+
+    // Cleanup orphans
+    pathsLayer.querySelectorAll('path[data-edge-id]').forEach(el => {
+         if (!edges.find(e => e.id === el.dataset.edgeId)) el.remove();
+    });
+    labelsLayer.querySelectorAll('foreignObject[data-edge-id]').forEach(el => {
+         if (!edges.find(e => e.id === el.dataset.edgeId)) el.remove();
     });
 
     edges.forEach(edge => {
-      let group = svg.querySelector(`g.edge-group[data-edge-id="${edge.id}"]`);
-      if (!group) {
-        group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        group.setAttribute('class', 'edge-group');
-        group.dataset.edgeId = edge.id;
-
-        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      let path = pathsLayer.querySelector(`path[data-edge-id="${edge.id}"]`);
+      if (!path) {
+        path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.dataset.edgeId = edge.id;
         path.setAttribute('class', 'transition-path');
-        path.setAttribute('marker-end', 'url(#arrowhead)');
+        pathsLayer.appendChild(path);
+      }
+      path.setAttribute('d', edge.pathData);
+      path.classList.toggle('highlighted', state.highlightedEdge === edge.id);
+      path.setAttribute('marker-end', getMarkerUrl('arrowhead'));
 
-        const foreignObject = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
-        foreignObject.setAttribute('width', '1');
-        foreignObject.setAttribute('height', '1');
+      let foreignObject = labelsLayer.querySelector(`foreignObject[data-edge-id="${edge.id}"]`);
+      let labelDiv;
+
+      if (!foreignObject) {
+        foreignObject = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
+        foreignObject.dataset.edgeId = edge.id;
         foreignObject.style.overflow = 'visible';
-
-        const labelDiv = document.createElement('div');
+        
+        labelDiv = document.createElement('div');
         labelDiv.className = 'transition-label-content';
-        labelDiv.addEventListener('click', e => {
+        labelDiv.addEventListener('click', (e) => {
           e.stopPropagation();
           state.highlightedEdge = state.highlightedEdge === edge.id ? null : edge.id;
           renderGraph(modal);
         });
-
         foreignObject.appendChild(labelDiv);
-        group.appendChild(path);
-        group.appendChild(foreignObject);
-        svg.appendChild(group);
+        labelsLayer.appendChild(foreignObject);
+      } else {
+        labelDiv = foreignObject.querySelector('div');
       }
-
-      const path = group.querySelector('path');
-      const foreignObject = group.querySelector('foreignObject');
-      const labelDiv = foreignObject.querySelector('div');
-
-      path.setAttribute('d', edge.pathData);
-      path.classList.toggle('highlighted', state.highlightedEdge === edge.id);
-      // Update marker for existing path as well
-      let markerId = 'arrowhead';
-      if (edge.arrowDirection === 'up') markerId = 'arrowhead-up';
-      else if (edge.arrowDirection === 'down') markerId = 'arrowhead-down';
-      else if (edge.arrowDirection === 'left') markerId = 'arrowhead-left';
-      path.setAttribute('marker-end', `url(#${markerId})`);
-
+      
       labelDiv.textContent = edge.label;
       labelDiv.classList.toggle('highlighted', state.highlightedEdge === edge.id);
-
+      graph.style.transform = `translate(${state.panX}px, ${state.panY}px) scale(${state.scale})`;
+      
       requestAnimationFrame(() => {
-        // Use max-content for label width
         labelDiv.style.width = 'max-content';
-        const measuredWidth = labelDiv.getBoundingClientRect().width;
-        foreignObject.setAttribute('width', measuredWidth);
-        foreignObject.setAttribute('height', '32');
-        // Center the label at the control point
-        let labelY = edge.labelPosition.y - 16;
-        if (edge.isBidirectional && typeof edge.fromId !== 'undefined' && typeof edge.toId !== 'undefined') {
-          labelY += (edge.fromId < edge.toId ? -18 : 18);
-        }
-        foreignObject.setAttribute('x', edge.labelPosition.x - measuredWidth / 2);
-        foreignObject.setAttribute('y', labelY);
+        const rect = labelDiv.getBoundingClientRect();
+        if (rect.width === 0 && rect.height === 0) return;
+        const measuredWidth = rect.width / state.scale;
+        const measuredHeight = (rect.height / state.scale) || 24;
+        
+        foreignObject.setAttribute('width', measuredWidth + 4); 
+        foreignObject.setAttribute('height', measuredHeight + 4);
+        
+        foreignObject.setAttribute('x', edge.labelPosition.x - (measuredWidth / 2));
+        foreignObject.setAttribute('y', edge.labelPosition.y - (measuredHeight / 2));
       });
     });
 
-    // Apply transform to graph
-    graph.style.transform = `translate(${state.panX}px, ${state.panY}px) scale(${state.scale})`;
-
-    // Apply transforms to background pattern if it exists
+    
+    // Grid Background
     const workflowGraph = modal.querySelector('#workflow-graph');
     if (workflowGraph) {
-      // Create a dynamic radial gradient where both dot size and spacing scale with zoom
-      const dotSize = Math.max(0.5, Math.min(1, state.scale)) * 1; // Dot size scales but has limits
-      const spacing = 15 * state.scale; // Grid spacing scales with zoom
+      const dotSize = Math.max(0.5, Math.min(1, state.scale)) * 1;
+      const spacing = 15 * state.scale;
       workflowGraph.style.backgroundImage = `radial-gradient(circle at 1px 1px, var(--wf-dot-color) ${dotSize}px, transparent ${dotSize}px)`;
       workflowGraph.style.backgroundSize = `${spacing}px ${spacing}px`;
       workflowGraph.style.backgroundPosition = `${state.panX}px ${state.panY}px`;
@@ -377,9 +396,13 @@ Joomla = window.Joomla || {};
     if (draggedStage.id === 'From Any') return;
     const stageElement = document.getElementById(`stage-${draggedStage.id}`);
     state.isDraggingStage = true;
-    const dragStart = { x: startEvent.clientX, y: startEvent.clientY, stageX: draggedStage.position.x, stageY: draggedStage.position.y };
+    const dragStart = {
+      x: startEvent.clientX,
+      y: startEvent.clientY,
+      stageX: draggedStage.position.x,
+      stageY: draggedStage.position.y
+    };
     stageElement.classList.add('dragging');
-
     const onMouseMove = moveEvent => {
       const newX = dragStart.stageX + (moveEvent.clientX - dragStart.x) / state.scale;
       const newY = dragStart.stageY + (moveEvent.clientY - dragStart.y) / state.scale;
@@ -390,7 +413,6 @@ Joomla = window.Joomla || {};
       }
       renderGraph(document.querySelector('#workflow-graph'));
     };
-
     const onMouseUp = () => {
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
@@ -403,44 +425,20 @@ Joomla = window.Joomla || {};
 
   async function init(modal) {
     const container = modal.querySelector('#workflow-graph');
-
-    if (!container || container.dataset.initialized) {
-      return;
-    }
+    if (!container || container.dataset.initialized) return;
     container.dataset.initialized = 'true';
-
+    
     const workflowContainer = container.querySelector('#workflow-container');
-
     const workflowId = parseInt(workflowContainer.dataset.workflowId, 10);
-
     if (!workflowId) return showMessageInModal('COM_WORKFLOW_GRAPH_ERROR_INVALID_ID', 'error');
-
-    const graph = modal.querySelector('#graph');
-    const svg = modal.querySelector('#connections');
-
-    // Vue Flow style arrowhead markers
-    svg.innerHTML = `<defs>
-    <marker id="arrowhead" viewBox="-10 -10 20 20" refX="0" refY="0" 
-      markerWidth="10" markerHeight="10" markerUnits="strokeWidth" orient="auto-start-reverse">
-      <polyline points="-5,-4 0,0 -5,4" stroke="#2071c6" stroke-width="1" 
-        stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-    </marker>
-    <marker id="arrowhead-up" viewBox="-10 -10 20 20" refX="0" refY="0" 
-      markerWidth="10" markerHeight="10" markerUnits="strokeWidth" orient="auto-start-reverse">
-      <polyline points="-4,-5 0,0 4,-5" stroke="#2071c6" stroke-width="1" 
-        stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-    </marker>
-    <marker id="arrowhead-down" viewBox="-10 -10 20 20" refX="0" refY="0" 
-      markerWidth="10" markerHeight="10" markerUnits="strokeWidth" orient="auto-start-reverse">
-      <polyline points="-4,5 0,0 4,5" stroke="#2071c6" stroke-width="1" 
-        stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-    </marker>
-    <marker id="arrowhead-left" viewBox="-10 -10 20 20" refX="0" refY="0" 
-      markerWidth="10" markerHeight="10" markerUnits="strokeWidth" orient="auto-start-reverse">
-      <polyline points="-5,-4 0,0 -5,4" stroke="#2071c6" stroke-width="1" 
-        stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-    </marker>
-  </defs>`;
+    
+    // Standard Arrowhead definition (points right, orient=auto handles the rest)
+    modal.querySelector('#connections').innerHTML = `<defs>
+      <marker id="arrowhead" viewBox="0 0 10 10" refX="10" refY="5"
+        markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#2071c6" />
+      </marker>
+    </defs>`;
 
     try {
       const workflowData = await makeRequest(`&task=graph.getWorkflow&workflow_id=${workflowId}&format=json`);
@@ -452,48 +450,32 @@ Joomla = window.Joomla || {};
 
       state.workflow = workflowData?.data || {};
       let stages = stagesData?.data || [];
-      let transitions = transitionsData?.data || [];
+      state.transitions = transitionsData?.data || [];
 
-      if (!stages.length) {
-        showMessageInModal('COM_WORKFLOW_GRAPH_ERROR_STAGES_NOT_FOUND', 'error');
-        return;
-      }
-
-      const hasStart = transitions.some(tr => tr.from_stage_id === -1);
-      // Only add 'From Any' once
-      if (hasStart && !stages.some(s => s.id === 'From Any')) {
+      if (!stages.length) return showMessageInModal('COM_WORKFLOW_GRAPH_ERROR_STAGES_NOT_FOUND', 'error');
+      
+      if (state.transitions.some(tr => tr.from_stage_id === -1) && !stages.some(s => s.id === 'From Any')) {
         stages.unshift({ id: 'From Any', title: 'From Any', position: null });
       }
-
       state.stages = stages.map(s => ({ ...s, position: s.position || { x: NaN, y: NaN } }));
-      state.transitions = transitions;
       state.stages = calculateAutoLayout(state.stages, state.transitions);
-
-      modal.querySelector('#workflow-main-title').textContent = state.workflow.title || translate('COM_WORKFLOW_GRAPH_WORKFLOW');
-      const statusBadge = modal.querySelector('.badge[role="status"]');
-      if (statusBadge) {
-        const isPublished = state.workflow.published == 1;
-        statusBadge.className = `badge ${isPublished ? 'bg-success' : 'bg-warning'}`;
-        statusBadge.textContent = isPublished ? translate('COM_WORKFLOW_GRAPH_ENABLED') : translate('COM_WORKFLOW_GRAPH_DISABLED');
-      }
+      
+      // Update UI Counts
+      modal.querySelector('.joomla-dialog-header h3').textContent = state.workflow.title || translate('COM_WORKFLOW_GRAPH_WORKFLOW');
+      const realStagesCount = state.stages.filter(s => s.id !== 'From Any').length;
       const stageCount = modal.querySelector('#workflow-stage-count');
-      if (stageCount) {
-        const realStagesCount = state.stages.filter(s => s.id !== 'From Any').length;
-        stageCount.textContent = `${realStagesCount} ${realStagesCount === 1 ? translate('COM_WORKFLOW_GRAPH_STAGE') : translate('COM_WORKFLOW_GRAPH_STAGES')}`;
-      }
+      if (stageCount) stageCount.textContent = `${realStagesCount} ${realStagesCount === 1 ? translate('COM_WORKFLOW_GRAPH_STAGE') : translate('COM_WORKFLOW_GRAPH_STAGES')}`;
+      
       const transitionCount = modal.querySelector('#workflow-transition-count');
-      if (transitionCount) {
-        transitionCount.textContent = `${state.transitions.length} ${state.transitions.length === 1 ? translate('COM_WORKFLOW_GRAPH_TRANSITION') : translate('COM_WORKFLOW_GRAPH_TRANSITIONS')}`;
-      }
-
+      if (transitionCount) transitionCount.textContent = `${state.transitions.length} ${state.transitions.length === 1 ? translate('COM_WORKFLOW_GRAPH_TRANSITION') : translate('COM_WORKFLOW_GRAPH_TRANSITIONS')}`;
       renderGraph(modal);
       setTimeout(() => fitToScreen(modal), 150);
-
     } catch (error) {
       showMessageInModal(error.message, 'error');
       return;
     }
 
+    // Zoom & Pan Logic
     let isPanning = false, panStart = {};
     container.addEventListener("mousedown", e => {
       if (e.target.closest('.stage') || e.target.closest('.zoom-controls') || e.button !== 0) return;
@@ -501,18 +483,15 @@ Joomla = window.Joomla || {};
       panStart = { x: e.clientX - state.panX, y: e.clientY - state.panY };
       graph.classList.add('dragging');
     });
-
     document.addEventListener("mousemove", e => {
       if (!isPanning) return;
       state.panX = e.clientX - panStart.x;
       state.panY = e.clientY - panStart.y;
       renderGraph(modal);
     });
-
     const stopPanning = () => { isPanning = false; graph.classList.remove('dragging'); };
     document.addEventListener("mouseup", stopPanning);
     container.addEventListener("mouseleave", stopPanning);
-
     container.addEventListener("wheel", e => {
       e.preventDefault();
       const rect = container.getBoundingClientRect();
@@ -526,12 +505,11 @@ Joomla = window.Joomla || {};
       state.panY = mouseY - (mouseY - state.panY) * factor;
       renderGraph(modal);
     });
-
     const zoomControls = container.querySelector('.zoom-controls');
     zoomControls.querySelector('.zoom-in').addEventListener('click', () => applyZoom(1.2, modal));
     zoomControls.querySelector('.zoom-out').addEventListener('click', () => applyZoom(1 / 1.2, modal));
     zoomControls.querySelector('.fit-screen').addEventListener('click', () => fitToScreen(modal));
-
+    
     function applyZoom(factor, modalContext) {
       const rect = modalContext.querySelector('#workflow-graph').getBoundingClientRect();
       const centerX = rect.width / 2;
@@ -543,44 +521,79 @@ Joomla = window.Joomla || {};
       state.panY = centerY - (centerY - state.panY) * scaleRatio;
       renderGraph(modalContext);
     }
-
-    function getBoundingBox() {
-      if (!state.stages.length) return null;
+    function fitToScreen(modalContext) {
+      if (!state.stages.length) return;
       let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
-      state.stages.forEach(stage => {
-        if (stage.position) {
-          minX = Math.min(minX, stage.position.x);
-          minY = Math.min(minY, stage.position.y);
-          maxX = Math.max(maxX, stage.position.x + STAGE_WIDTH);
-          maxY = Math.max(maxY, stage.position.y + STAGE_HEIGHT);
+      state.stages.forEach(s => {
+        if (s.position) {
+          minX = Math.min(minX, s.position.x);
+          minY = Math.min(minY, s.position.y);
+          maxX = Math.max(maxX, s.position.x + STAGE_WIDTH);
+          maxY = Math.max(maxY, s.position.y + STAGE_HEIGHT);
         }
       });
-      if (minX === Infinity) return null;
-      return { minX, minY, maxX, maxY, width: maxX - minX, height: maxY - minY };
-    }
-
-    function fitToScreen(modalContext) {
-      const bounds = getBoundingBox();
-      if (!bounds) return;
+      if (minX === Infinity) return;
       const containerRect = modalContext.querySelector('#workflow-graph').getBoundingClientRect();
       const padding = 50;
-      const scaleX = (containerRect.width - padding) / bounds.width;
-      const scaleY = (containerRect.height - padding) / bounds.height;
-      state.scale = Math.max(MIN_ZOOM, Math.min(scaleX, scaleY, MAX_ZOOM));
-      state.panX = (containerRect.width - bounds.width * state.scale) / 2 - bounds.minX * state.scale;
-      state.panY = (containerRect.height - bounds.height * state.scale) / 2 - bounds.minY * state.scale;
+      const w = maxX - minX;
+      const h = maxY - minY;
+      state.scale = Math.max(MIN_ZOOM, Math.min((containerRect.width - padding) / w, (containerRect.height - padding) / h, MAX_ZOOM));
+      state.panX = (containerRect.width - w * state.scale) / 2 - minX * state.scale;
+      state.panY = (containerRect.height - h * state.scale) / 2 - minY * state.scale;
       renderGraph(modalContext);
     }
-  }
 
-  // Listen for dialog open events
-  document.addEventListener('joomla-dialog:open', (event) => {
-    const dialog = event.target;
-    const workflowContainer = dialog.querySelector('#workflow-container');
+    // --- Keyboard Shortcuts ---
+  document.addEventListener('keydown', (e) => {
+    if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
 
-    if (workflowContainer) {
-      init(dialog);
+    const PAN_STEP = 30; // Pixels to move
+    const ZOOM_STEP = 1.1; // Multiplier
+
+    switch (e.key) {
+      // Zooming
+      case '+':
+      case '=':
+        applyZoom(ZOOM_STEP, modal);
+        break;
+      case '-':
+      case '_':
+        applyZoom(1 / ZOOM_STEP, modal);
+        break;
+      
+      // Panning (Arrows)
+      case 'ArrowLeft':
+      case 'a':
+        state.panX += PAN_STEP;
+        renderGraph(modal);
+        break;
+      case 'ArrowRight':
+      case 'd':
+        state.panX -= PAN_STEP;
+        renderGraph(modal);
+        break;
+      case 'ArrowUp':
+      case 'w':
+        state.panY += PAN_STEP;
+        renderGraph(modal);
+        break;
+      case 'ArrowDown':
+      case 's':
+        state.panY -= PAN_STEP;
+        renderGraph(modal);
+        break;
+      
+      // Reset / Fit to Screen
+      case '0':
+      case 'f':
+        fitToScreen(modal);
+        break;
     }
   });
+  }
 
+  document.addEventListener('joomla-dialog:open', event => {
+    const dialog = event.target;
+    if (dialog.querySelector('#workflow-container')) init(dialog);
+  });
 })();

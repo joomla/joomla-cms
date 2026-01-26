@@ -4,13 +4,14 @@
 /* Color Variables */
 :root {
   --wf-bg: var(--bg-primary);
+  --wf-bg: var(--bg-primary);
   --wf-border: var(--border-color);
   --wf-border-hover: var(--border-color-translucent);
   --wf-dot-color: var(--body-color);
   --stage-bg: rgb(var(--primary-rgb));
   --stage-border: var(--border-color);
   --stage-text: var(--white);
-  --stage-desc: var(--ext-secondary);
+  --stage-desc: #ffffffc0 !important;
   --stage-virtual-bg: #800080;
   --transition-hover: var(--border-color-hover);
   --transition-label-bg: #2071c6;
@@ -21,6 +22,15 @@
   --zoom-btn-hover: var(--border-color);
   --zoom-btn-color: var(--text-primary);
   --vf-custom-controls-bgcolor: var(--secondary);
+}
+
+@keyframes dashmove {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -36;
+  }
 }
 
 #workflow-graph {
@@ -107,11 +117,9 @@
 
 .stage.virtual {
   background: var(--stage-virtual-bg);
-  border-style: dashed;
-  border-width: 2px;
+  border-width: 1px;
 }
 
-/* Stage content */
 .stage-title {
   margin: 0 0 6px;
   font-size: 14px;
@@ -143,20 +151,21 @@
 }
 
 /* ================================
-   Transitions
+   Transition Styling
    ================================ */
 .transition-path {
   stroke: var(--transition-stroke);
-  stroke-width: 3;
+  stroke-width: 3px;
   fill: none;
   opacity: .8;
-  transition: stroke .2s ease, stroke-width .2s ease;
+  transition: stroke .2s, stroke-width .2s;
 }
 
 .transition-path:hover {
-  stroke-width: 3;
+  stroke-width: 3px;
   opacity: 1;
   stroke: var(--transition-hover);
+  animation-duration: .5s;
 }
 
 .arrow-marker {
@@ -168,17 +177,13 @@
   fill: var(--transition-hover);
 }
 
-/* Highlighted transitions */
 .transition-path.highlighted {
   stroke: var(--transition-highlight);
-  stroke-width: 5;
-  stroke-dasharray: 8 6;
-  animation: dashmove 1s linear infinite;
+  stroke-width: 5px;
+  stroke-dasharray: 12 6;
+  animation: dashmove .5s linear infinite;
 }
 
-/* ================================
-   Transition Labels
-   ================================ */
 .transition-label-content {
   position: absolute;
   z-index: 20;
@@ -192,6 +197,7 @@
   text-align: center;
   white-space: nowrap;
   pointer-events: auto;
+  cursor: pointer;
   user-select: none;
   background: var(--transition-label-bg) !important;
   border: 2px solid var(--transition-stroke);
@@ -202,14 +208,14 @@
 
 .transition-label-content.highlighted {
   font-weight: 700;
-  transition: transform .2s ease;
+  border-color: var(--transition-highlight);
+  transition: transform .2s;
   transform: scale(1.1);
 }
 
 /* ================================
    Zoom Controls
    ================================ */
-
 .zoom-controls {
   position: absolute;
   right: 20px;
@@ -231,6 +237,6 @@
 }
 
 .zoom-btn:active {
-  transition: transform .05s ease;
+  transition: transform .5s ease;
   transform: scale(.95);
 }

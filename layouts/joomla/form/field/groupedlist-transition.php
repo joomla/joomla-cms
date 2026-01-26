@@ -150,10 +150,8 @@ $popupOptions = json_encode([
 <div class="p-3">
     <section
         class="d-flex flex-wrap align-items-center justify-content-between"
-        aria-labelledby="workflow-main-title"
     >
         <div class="col-md-6 d-flex flex-column">
-            <h3 id="workflow-main-title" class="mb-2"></h3>
             <dl class="d-flex align-items-center flex-wrap mb-0">
                 <dt class="visually-hidden"><?php echo Text::_('COM_WORKFLOW_GRAPH_STATUS'); ?>:</dt>
                 <dd class="me-3 mb-1 d-flex mb-0">

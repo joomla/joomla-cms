@@ -396,4 +396,20 @@ class GraphController extends AdminController
 
         $this->app->close();
     }
+
+    /**
+     * Method to get a model object, loading it if required.
+     *
+     * @param   string  $name    The model name. Optional.
+     * @param   string  $prefix  The class prefix. Optional.
+     * @param   array   $config  Configuration array for model. Optional.
+     *
+     * @return  BaseDatabaseModel|boolean  Model object on success; otherwise false on failure.
+     *
+     * @since   __DEPLOYMENT_VERSION__
+     */
+    public function getModel($name = '', $prefix = 'Administrator', $config = ['ignore_request' => true])
+    {
+        return parent::getModel($name, $prefix, $config);
+    }
 }

@@ -34,17 +34,24 @@ class Dispatcher extends ComponentDispatcher
         $input      = $this->app->getInput();
         $view       = $input->getCmd('view');
         $layout     = $input->getCmd('layout');
+        $task       = $input->getCmd('task');
         $extension  = $input->getCmd('extension');
         $parts      = explode('.', $extension);
 
+        $allowedTasks = [
+            'graph.getWorkflow',
+            'graph.getStages',
+            'graph.getTransitions',
+        ];
+
         // Allow access to the 'graph' view for all users with access
-        if ($this->app->isClient('administrator') && $view === 'graph' && $layout === 'modal') {
+        if ($this->app->isClient('administrator') && $view === 'graph' && in_array($task, $allowedTasks, true)) {
             return;
         }
 
-        // Check the user has permission to access this component if in the backend
-        if ($this->app->isClient('administrator') && !$this->app->getIdentity()->authorise('core.manage.workflow', $parts[0])) {
-            throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+        // Check the user has permission to edit this component
+        if (!$this->app->getIdentity()->authorise('core.manage.workflow', $parts[0])) {
+             throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
     }
 }
