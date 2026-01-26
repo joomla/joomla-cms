@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
-	<fieldset name="default" label="COM_USERS_RESET_REQUEST_LABEL">
+	<fieldset name="default" legend="COM_USERS_RESET" description="COM_USERS_RESET_REQUEST_LABEL">
 		<field
 			name="email"
 			type="email"
