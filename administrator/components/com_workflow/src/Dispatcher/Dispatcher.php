@@ -45,13 +45,13 @@ class Dispatcher extends ComponentDispatcher
         ];
 
         // Allow access to the 'graph' view for all users with access
-        if ($this->app->isClient('administrator') && $view === 'graph' && in_array($task, $allowedTasks, true)) {
+        if ($this->app->isClient('administrator') && $view === 'graph' && \in_array($task, $allowedTasks, true)) {
             return;
         }
 
         // Check the user has permission to edit this component
         if (!$this->app->getIdentity()->authorise('core.manage.workflow', $parts[0])) {
-             throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
     }
 }

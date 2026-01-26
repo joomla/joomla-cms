@@ -61,7 +61,7 @@ class Dispatcher extends ComponentDispatcher
         ];
 
         // Check the user has permission to access this component if in the backend
-        if ($this->app->getIdentity()->guest || $view !== 'graph' || !in_array($task, $allowedTasks, true)) {
+        if ($this->app->getIdentity()->guest || $view !== 'graph' || !\in_array($task, $allowedTasks, true)) {
             throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
     }
