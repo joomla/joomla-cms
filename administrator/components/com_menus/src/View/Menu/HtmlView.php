@@ -146,6 +146,7 @@ class HtmlView extends BaseHtmlView
         }
 
         $toolbar->divider();
+        $toolbar->inlinehelp();
         $toolbar->help('Menus:_Edit');
     }
 }
