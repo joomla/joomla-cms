@@ -1010,7 +1010,7 @@ class Installer implements DatabaseAwareInterface
         // Load the adapter
         $adapter = $this->getAdapter($type, $params);
 
-        // Ensure cached adapter points always to the current extension
+        // Ensure cached adapter always points to the current extension
         $adapter->setManifest($params['manifest']);
         $adapter->setRoute($params['route']);
 
