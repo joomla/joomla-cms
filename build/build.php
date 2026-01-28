@@ -172,6 +172,10 @@ function clean_checkout(string $dir)
     run_and_check('rm -rf libraries/vendor/symfony/console/Resources');
     run_and_check('rm -rf libraries/vendor/symfony/string/Resources/bin');
 
+    // symfony/http-client*
+    run_and_check('rm -rf libraries/vendor/symfony/http-client-contracts/Test');
+    run_and_check('rm -rf libraries/vendor/symfony/http-client/Test');
+
     // tobscure/json-api
     run_and_check('rm -rf libraries/vendor/tobscure/json-api/tests');
 
@@ -453,8 +457,6 @@ $doNotPackage = [
     'phpstan.neon',
     'phpunit-windows.xml.dist',
     'phpunit.xml.dist',
-    'libraries/vendor/symfony/http-client-contracts/Test',
-    'libraries/vendor/symfony/http-client/Test',
     'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.ini',
     'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.sys.ini',
     'plugins/sampledata/testing/testing.php',
