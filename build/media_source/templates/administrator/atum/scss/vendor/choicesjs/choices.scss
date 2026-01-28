@@ -49,7 +49,7 @@
 }
 
 .choices__list--dropdown {
-  z-index: $zindex-popover;
+  z-index: $zindex-popover !important;
 }
 
 .choices__list--single {

@@ -78,7 +78,6 @@ class UpdateModel extends BaseDatabaseModel
 
         // Register a logger for update process
         $options = [
-            'format'    => '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}',
             'text_file' => 'joomla_update.php',
         ];
 
@@ -809,7 +808,7 @@ class UpdateModel extends BaseDatabaseModel
      * @return  boolean
      * @since   2.5.1
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use "createUpdateFile" instead
      *              Example: $updateModel->createUpdateFile($basename);
      */
