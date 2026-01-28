@@ -453,6 +453,8 @@ $doNotPackage = [
     'phpstan.neon',
     'phpunit-windows.xml.dist',
     'phpunit.xml.dist',
+    'libraries/vendor/symfony/http-client-contracts/Test',
+    'libraries/vendor/symfony/http-client/Test',
     'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.ini',
     'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.sys.ini',
     'plugins/sampledata/testing/testing.php',
