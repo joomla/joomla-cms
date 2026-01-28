@@ -60,7 +60,7 @@ abstract class UserHelper
      * @var    integer
      * @since  4.0.0
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use UserHelper::HASH_ARGON2I instead
      */
     public const HASH_ARGON2I_BC = 2;
@@ -83,7 +83,7 @@ abstract class UserHelper
      * @var    integer
      * @since  4.0.0
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use UserHelper::HASH_ARGON2ID instead
      */
     public const HASH_ARGON2ID_BC = 3;
@@ -102,7 +102,7 @@ abstract class UserHelper
      * @var    integer
      * @since  4.0.0
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use UserHelper::HASH_BCRYPT instead
      */
     public const HASH_BCRYPT_BC = 1;
@@ -113,7 +113,7 @@ abstract class UserHelper
      * @var    string
      * @since  4.0.0
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Support for MD5 hashed passwords will be removed use any of the other hashing methods
      */
     public const HASH_MD5 = 'md5';
@@ -124,7 +124,7 @@ abstract class UserHelper
      * @var    string
      * @since  4.0.0
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Support for PHPass hashed passwords will be removed use any of the other hashing methods
      */
     public const HASH_PHPASS = 'phpass';
@@ -196,7 +196,7 @@ abstract class UserHelper
         $temp         = User::getInstance($userId);
         $temp->groups = $user->groups;
 
-        if (Factory::getSession()->getId()) {
+        if (Factory::getApplication()->getSession()->getId()) {
             // Set the group data for the user object in the session.
             $temp = Factory::getUser();
 
@@ -305,7 +305,7 @@ abstract class UserHelper
         $temp         = Factory::getUser((int) $userId);
         $temp->groups = $user->groups;
 
-        if (Factory::getSession()->getId()) {
+        if (Factory::getApplication()->getSession()->getId()) {
             // Set the group data for the user object in the session.
             $temp = Factory::getUser();
 
@@ -592,8 +592,10 @@ abstract class UserHelper
      */
     public static function destroyUserSessions($userId, $keepCurrent = false, $clientId = null)
     {
+        $app = Factory::getApplication();
+
         // Destroy all sessions for the user account if able
-        if (!Factory::getApplication()->get('session_metadata', true)) {
+        if (!$app->get('session_metadata', true)) {
             return false;
         }
 
@@ -629,7 +631,7 @@ abstract class UserHelper
 
         // If true, removes the current session id from the purge list
         if ($keepCurrent) {
-            $sessionIds = array_diff($sessionIds, [Factory::getSession()->getId()]);
+            $sessionIds = array_diff($sessionIds, [$app->getSession()->getId()]);
         }
 
         // If there aren't any active sessions then there's nothing to do here

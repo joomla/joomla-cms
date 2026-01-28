@@ -148,7 +148,7 @@ class Task implements LoggerAwareInterface
         if ($this->get('params.individual_log')) {
             $logFile = $this->get('params.log_file') ?? 'task_' . $this->get('id') . '.log.php';
 
-            $options['text_entry_format'] = '{DATE}	{TIME}	{PRIORITY}	{MESSAGE}';
+            $options['text_entry_format'] = "{DATE}\t{TIME}\t{PRIORITY}\t{MESSAGE}";
             $options['text_file']         = $logFile;
             Log::addLogger($options, Log::ALL, [$this->logCategory]);
         }
