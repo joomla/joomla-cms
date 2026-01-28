@@ -44,6 +44,14 @@ class CategoryController extends FormController
     }
 
     /**
+     * The prefix to use with controller messages.
+     *
+     * @var    string
+     * @since   __DEPLOY_VERSION__
+     */
+    protected $text_prefix = 'COM_CONTENT_CATEGORY';
+
+    /**
      * The URL view item variable.
      *
      * @var    string
