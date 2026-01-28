@@ -608,7 +608,9 @@ class ComponentAdapter extends InstallerAdapter
         $this->parent->parseMedia($this->getManifest()->media);
         $this->parent->parseLanguages($this->getManifest()->languages);
         $this->parent->parseLanguages($this->getManifest()->administration->languages, 1);
-        $this->parent->parseLanguages($this->getManifest()->api->languages, 3);
+        if ($this->getManifest()->api->languages) {
+            $this->parent->parseLanguages($this->getManifest()->api->languages, 3);
+        }
     }
 
     /**
@@ -722,7 +724,9 @@ class ComponentAdapter extends InstallerAdapter
         $this->parent->removeFiles($this->getManifest()->media);
         $this->parent->removeFiles($this->getManifest()->languages);
         $this->parent->removeFiles($this->getManifest()->administration->languages, 1);
-        $this->parent->removeFiles($this->getManifest()->api->languages, 3);
+        if ($this->getManifest()->api->languages) {
+            $this->parent->removeFiles($this->getManifest()->api->languages, 3);
+        }
     }
 
     /**
