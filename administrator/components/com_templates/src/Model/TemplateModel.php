@@ -1781,6 +1781,12 @@ class TemplateModel extends FormModel
             $app  = Factory::getApplication();
             $path = $this->getBasePath() . base64_decode($app->getInput()->get('file'));
 
+            // Check if the ZipArchive class exists
+            if (!class_exists('ZipArchive')) {
+                $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_ZIPARCHIVE_NOT_ENABLED'), 'error');
+                return false;
+            }
+
             if (file_exists(Path::clean($path))) {
                 $files = [];
                 $zip   = new \ZipArchive();
@@ -1796,7 +1802,7 @@ class TemplateModel extends FormModel
                     return false;
                 }
             } else {
-                $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_FONT_FILE_NOT_FOUND'), 'error');
+                $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_ARCHIVE_NOT_FOUND'), 'error');
 
                 return false;
             }
