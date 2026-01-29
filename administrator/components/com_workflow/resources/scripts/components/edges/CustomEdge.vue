@@ -18,7 +18,6 @@
         role="button"
         :data-edge-id="data?.id"
         :aria-pressed="data?.isSelected ? 'true' : 'false'"
-        :aria-describedby="`transition-${data?.id}-description`"
         :style="{
           width: maxWidth + 10 + 'px',
           height: '30px',

@@ -32,7 +32,7 @@ export function generatePositionedNodes(stages, options = {}) {
       data: {
         stage: {
           ...stage,
-          color: stage?.color || getColorForStage(stage),
+          color: getColorForStage(stage),
         },
         isSelected: false,
         onSelect: () => {},

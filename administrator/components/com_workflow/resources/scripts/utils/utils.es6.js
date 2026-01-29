@@ -5,8 +5,7 @@
  * @returns {string} HSL color string.
  */
 export function getColorForStage(stage) {
-  const hue = (parseInt(stage?.id, 10) * 137) % 360;
-  return `hsl(${hue}, 70%, 85%)`;
+  return stage?.color || "rgb(var(--primary-rgb))";
 }
 
 /**

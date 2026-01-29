@@ -447,7 +447,7 @@ export default {
 
     const positionedNodes = computed(() => {
       const nodes = generatePositionedNodes(stages.value);
-      const special = createSpecialNode('from_any', { x: 600, y: -200 }, '#ffff00', 'From Any', selectStage, false);
+      const special = createSpecialNode('from_any', { x: 600, y: -200 }, 'purple', 'From Any', selectStage, false);
       return [...nodes.map((n) => ({
         ...n,
         data: {
