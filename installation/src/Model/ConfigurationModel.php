@@ -235,7 +235,7 @@ class ConfigurationModel extends BaseInstallationModel
      */
     protected static function generateRandUserId()
     {
-        $session    = Factory::getSession();
+        $session    = Factory::getApplication()->getSession();
         $randUserId = $session->get('randUserId');
 
         if (empty($randUserId)) {
@@ -258,7 +258,7 @@ class ConfigurationModel extends BaseInstallationModel
     {
         self::$userId = 0;
 
-        Factory::getSession()->set('randUserId', self::$userId);
+        Factory::getApplication()->getSession()->set('randUserId', self::$userId);
     }
 
     /**
@@ -475,7 +475,7 @@ class ConfigurationModel extends BaseInstallationModel
         }
 
         // Get the session
-        $session = Factory::getSession();
+        $session = Factory::getApplication()->getSession();
 
         if ($canWrite) {
             file_put_contents($path, $buffer);

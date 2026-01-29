@@ -98,17 +98,14 @@ class ContactModel extends FormModel
      * @param   array    $data      An optional array of data for the form to interrogate.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
         $form = $this->loadForm('com_contact.contact', 'contact', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         $temp    = clone $this->getState('params');
         $contact = $this->getItem($this->getState('contact.id'));
@@ -362,6 +359,10 @@ class ContactModel extends FormModel
             $contact->articles = $db->loadObjectList();
         } else {
             $contact->articles = null;
+        }
+
+        if (empty($contact->user_id)) {
+            return;
         }
 
         // Get the profile information for the linked user

@@ -547,9 +547,19 @@ abstract class Select
             $key = (string) $key;
 
             if ($key === '<OPTGROUP>' && $options['groups']) {
+                @trigger_error(
+                    'Support for optgroup workaround is deprecated and will be removed in 8.0. Use select.groupedlist instead.',
+                    E_USER_DEPRECATED
+                );
+
                 $html .= $baseIndent . '<optgroup label="' . ($options['list.translate'] ? Text::_($text) : $text) . '">' . $options['format.eol'];
                 $baseIndent = str_repeat($options['format.indent'], ++$options['format.depth']);
             } elseif ($key === '</OPTGROUP>' && $options['groups']) {
+                @trigger_error(
+                    'Support for optgroup workaround is deprecated and will be removed in 8.0. Use select.groupedlist instead.',
+                    E_USER_DEPRECATED
+                );
+
                 $baseIndent = str_repeat($options['format.indent'], --$options['format.depth']);
                 $html .= $baseIndent . '</optgroup>' . $options['format.eol'];
             } else {
