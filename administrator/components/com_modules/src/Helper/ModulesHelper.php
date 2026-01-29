@@ -12,6 +12,7 @@ namespace Joomla\Component\Modules\Administrator\Helper;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -27,6 +28,27 @@ use Joomla\Utilities\ArrayHelper;
  */
 abstract class ModulesHelper
 {
+    /**
+     * Get the associations
+     *
+     * @param   integer  $pk  Module item id
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function getAssociations($pk)
+    {
+        $langAssociations = Associations::getAssociations('com_modules', '#__modules', 'com_modules.item', $pk, 'id', '', '');
+        $associations     = [];
+
+        foreach ($langAssociations as $langAssociation) {
+            $associations[$langAssociation->language] = $langAssociation->id;
+        }
+
+        return $associations;
+    }
+
     /**
      * Get a list of filter options for the state of a module.
      *
