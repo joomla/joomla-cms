@@ -15,6 +15,8 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -47,6 +49,14 @@ class ModuleModel extends AdminModel
      * @since    3.4
      */
     public $typeAlias = 'com_modules.module';
+
+    /**
+     * The context used for the associations table
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $associationsContext = 'com_modules.item';
 
     /**
      * @var    string  The prefix to use with controller messages.
@@ -725,6 +735,21 @@ class ModuleModel extends AdminModel
             } else {
                 $this->_cache[$pk]->xml = null;
             }
+
+            // Load associated module items
+            $assoc = Associations::isEnabled();
+
+            if ($assoc) {
+                $this->_cache[$pk]->associations = [];
+
+                if ($this->_cache[$pk]->id != null && $this->_cache[$pk]->client_id === 0) {
+                    $associations = Associations::getAssociations('com_modules', '#__modules', 'com_modules.item', $this->_cache[$pk]->id, 'id', '', '');
+
+                    foreach ($associations as $tag => $association) {
+                        $this->_cache[$pk]->associations[$tag] = $association->id;
+                    }
+                }
+            }
         }
 
         return $this->_cache[$pk];
@@ -859,6 +884,35 @@ class ModuleModel extends AdminModel
             }
         }
 
+        // Association for modules
+        if (Associations::isEnabled()) {
+            $languages = LanguageHelper::getContentLanguages(false, false, null, 'ordering', 'asc');
+
+            if (\count($languages) > 1) {
+                $addform = new \SimpleXMLElement('<form />');
+                $fields  = $addform->addChild('fields');
+                $fields->addAttribute('name', 'associations');
+                $fieldset = $fields->addChild('fieldset');
+                $fieldset->addAttribute('name', 'item_associations');
+                $fieldset->addAttribute('addfieldprefix', 'Joomla\Component\Modules\Administrator\Field');
+
+                foreach ($languages as $language) {
+                    $field = $fieldset->addChild('field');
+                    $field->addAttribute('name', $language->lang_code);
+                    $field->addAttribute('type', 'modal_module');
+                    $field->addAttribute('language', $language->lang_code);
+                    $field->addAttribute('label', $language->title);
+                    $field->addAttribute('translate_label', 'false');
+                    $field->addAttribute('select', 'true');
+                    $field->addAttribute('new', 'true');
+                    $field->addAttribute('edit', 'true');
+                    $field->addAttribute('clear', 'true');
+                    $field->addAttribute('propagate', 'true');
+                }
+
+                $form->load($addform, false);
+            }
+        }
         // Trigger the default form events.
         parent::preprocessForm($form, $data, $group);
     }
@@ -922,50 +976,24 @@ class ModuleModel extends AdminModel
             }
         }
 
-        // Bind the data.
-        if (!$table->bind($data)) {
-            $this->setError($table->getError());
-
-            return false;
-        }
-
-        // Prepare the row for saving
-        $this->prepareTable($table);
-
-        // Check the data.
-        if (!$table->check()) {
-            $this->setError($table->getError());
-
-            return false;
-        }
-
-        // Trigger the before save event.
-        $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, $isNew]);
-
-        if (\in_array(false, $result, true)) {
-            $this->setError($table->getError());
-
-            return false;
-        }
-
-        // Store the data.
-        if (!$table->store()) {
-            $this->setError($table->getError());
-
+        if (!parent::save($data)) {
             return false;
         }
 
         // Process the menu link mappings.
         $assignment = $data['assignment'] ?? 0;
 
-        $table->id = (int) $table->id;
+        $id = $this->getState('module.id');
+
+        // Reload Table
+        $table->load($id);
 
         // Delete old module to menu item associations
         $db    = $this->getDatabase();
         $query = $db->createQuery()
             ->delete($db->quoteName('#__modules_menu'))
             ->where($db->quoteName('moduleid') . ' = :moduleid')
-            ->bind(':moduleid', $table->id, ParameterType::INTEGER);
+            ->bind(':moduleid', $id, ParameterType::INTEGER);
         $db->setQuery($query);
 
         try {
@@ -994,7 +1022,7 @@ class ModuleModel extends AdminModel
                     ->insert($db->quoteName('#__modules_menu'))
                     ->columns($db->quoteName(['moduleid', 'menuid']))
                     ->values(implode(', ', [':moduleid', 0]))
-                    ->bind(':moduleid', $table->id, ParameterType::INTEGER);
+                    ->bind(':moduleid', $id, ParameterType::INTEGER);
                 $db->setQuery($query);
 
                 try {
@@ -1013,7 +1041,7 @@ class ModuleModel extends AdminModel
                     ->columns($db->quoteName(['moduleid', 'menuid']));
 
                 foreach ($data['assigned'] as &$pk) {
-                    $query->values((int) $table->id . ',' . (int) $pk * $sign);
+                    $query->values((int) $id . ',' . (int) $pk * $sign);
                 }
 
                 $db->setQuery($query);
@@ -1053,7 +1081,6 @@ class ModuleModel extends AdminModel
         }
 
         $this->setState('module.extension_id', $extensionId);
-        $this->setState('module.id', $table->id);
 
         // Clear modules cache
         $this->cleanCache();

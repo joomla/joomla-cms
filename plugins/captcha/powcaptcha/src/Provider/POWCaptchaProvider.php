@@ -29,7 +29,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @package  Joomla\Plugin\Captcha\POWCaptcha\Provider
  *
- * @since __DEPLOY_VERSION__
+ * @since 6.1.0
  */
 final class POWCaptchaProvider implements CaptchaProviderInterface
 {
