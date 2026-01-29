@@ -25,6 +25,7 @@
     border: var(--state-info-border);
     a {
       color: var(--state-info-text);
+      text-decoration: underline;
     }
   }
 
@@ -34,6 +35,7 @@
     border: var(--state-warning-border);
     a {
       color: var(--state-warning-text);
+      text-decoration: underline;
     }
   }
 
@@ -43,6 +45,7 @@
     border: var(--state-success-border);
     a {
       color: var(--state-success-text);
+      text-decoration: underline;
     }
   }
 
@@ -52,6 +55,7 @@
     border: var(--state-error-border);
     a {
       color: var(--state-error-text);
+      text-decoration: underline;
     }
   }
 
@@ -61,6 +65,7 @@
     border-color: var(--state-danger-border);
     a {
       color: var(--state-danger-text);
+      text-decoration: underline;
     }
   }
 }

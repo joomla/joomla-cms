@@ -138,19 +138,9 @@ final class MetadataRepository implements MetadataStatementRepository
 
         unset($rawJwt);
 
-        $entriesMapper = function (object $entry) {
+        $entriesMapper = function (array $entry): ?MetadataStatement {
             try {
-                $array = json_decode(json_encode($entry->metadataStatement), true);
-
-                /**
-                 * This prevents an error when we're asking for attestation on authenticators which
-                 * don't allow it. We are really not interested in the attestation per se, but
-                 * requiring an attestation is the only way we can get the AAGUID of the
-                 * authenticator.
-                 */
-                if (isset($array['attestationTypes'])) {
-                    unset($array['attestationTypes']);
-                }
+                $array = json_decode(json_encode($entry['metadataStatement']), true);
 
                 return MetadataStatement::createFromArray($array);
             } catch (\Exception) {

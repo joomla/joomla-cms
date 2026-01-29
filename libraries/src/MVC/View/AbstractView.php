@@ -50,7 +50,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
      * @var    Document
      * @since  3.0
      *
-     * @deprecated 4.4.0 will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 7.0
      *             Use $this->getDocument() instead
      */
     public $document;

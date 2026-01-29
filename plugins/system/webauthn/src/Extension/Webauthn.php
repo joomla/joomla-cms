@@ -75,7 +75,7 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
      * @var    boolean
      * @since  4.2.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Implement your plugin methods accepting an AbstractEvent object
      *              Example:
      *              onEventTriggerName(AbstractEvent $event) {
@@ -123,7 +123,7 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
 
         Log::addLogger([
             'text_file'         => "webauthn_system.php",
-            'text_entry_format' => '{DATETIME}	{PRIORITY} {CLIENTIP}	{MESSAGE}',
+            'text_entry_format' => "{DATETIME}\t{PRIORITY}\t{CLIENTIP}\t{MESSAGE}",
         ], $logLevels, ["webauthn.system"]);
 
         $this->authenticationHelper = $authHelper ?? (new Authentication());

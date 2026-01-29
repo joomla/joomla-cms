@@ -824,6 +824,11 @@ class TemplateModel extends FormModel
         $oldName  = $template->element;
         $manifest = json_decode($template->manifest_cache);
 
+        // When copying a child template we need to prefix it with the parent template name
+        if (!empty($template->xmldata->parent)) {
+            $newName = $template->xmldata->parent . '_' . $newName;
+        }
+
         foreach ($files as $file) {
             $newFile = '/' . str_replace($oldName, $newName, basename($file));
 
@@ -863,9 +868,10 @@ class TemplateModel extends FormModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|boolean    A Form object on success, false on failure
+     * @return  Form    A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -890,13 +896,7 @@ class TemplateModel extends FormModel
         }
 
         // Get the form.
-        $form = $this->loadForm('com_templates.source', 'source', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+        return $this->loadForm('com_templates.source', 'source', ['control' => 'jform', 'load_data' => $loadData]);
     }
 
     /**
@@ -2042,14 +2042,16 @@ class TemplateModel extends FormModel
         $media->addChild('folder', 'images');
         $media->addChild('folder', 'scss');
 
-        $xml->name = $template->element . '_' . $newName;
+        $element = (!empty($template->xmldata->parent) ? $template->xmldata->parent : $template->element);
+
+        $xml->name = $element . '_' . $newName;
 
         if (isset($xml->namespace)) {
             $xml->namespace .= '_' . ucfirst($newName);
         }
 
         $xml->inheritable = 0;
-        $files            = $xml->addChild('parent', $template->element);
+        $files            = $xml->addChild('parent', $element);
 
         $dom                     = new \DOMDocument();
         $dom->preserveWhiteSpace = false;
