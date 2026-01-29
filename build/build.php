@@ -172,9 +172,8 @@ function clean_checkout(string $dir)
     run_and_check('rm -rf libraries/vendor/symfony/console/Resources');
     run_and_check('rm -rf libraries/vendor/symfony/string/Resources/bin');
 
-    // symfony/http-client*
-    run_and_check('rm -rf libraries/vendor/symfony/http-client-contracts/Test');
-    run_and_check('rm -rf libraries/vendor/symfony/http-client/Test');
+    // Remove Symfony Test directories
+    run_and_check('rm -rf libraries/vendor/symfony/*/Test');
 
     // tobscure/json-api
     run_and_check('rm -rf libraries/vendor/tobscure/json-api/tests');
