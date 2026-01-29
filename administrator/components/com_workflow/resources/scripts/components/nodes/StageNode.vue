@@ -115,6 +115,7 @@
           {{ translate(stage.title) }}
         </span>
         <span
+          :id="`stage-${stage?.id}-description`"
           class="card-text text-white-50 mb-0 text-truncate d-block"
           :title="translate(stage?.description ? stage.description : '')"
         >

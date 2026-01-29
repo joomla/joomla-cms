@@ -1,5 +1,5 @@
 /**
- * @copyright (C) 2025 Open Source Matters
+ * @copyright (C) 2026 Open Source Matters
  * @license  GNU GPL v2 or later; see LICENSE.txt
  */
 

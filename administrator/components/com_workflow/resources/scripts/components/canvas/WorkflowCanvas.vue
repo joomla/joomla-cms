@@ -71,7 +71,6 @@
           position="bottom-left"
           pannable
           zoomable
-          role="img"
           :aria-label="translate('COM_WORKFLOW_GRAPH_MINIMAP_LABEL')"
           :node-color="(node) => node.data?.stage?.color || '#0d6efd'"
           :mask-color="'rgba(255, 255, 255, .6)'"
