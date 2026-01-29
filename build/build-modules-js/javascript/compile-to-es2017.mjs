@@ -1,7 +1,7 @@
 import { writeFile } from 'node:fs/promises';
 import { basename, sep, resolve } from 'node:path';
 
-import { rolldown as rollup } from 'rolldown';
+import { rolldown } from 'rolldown';
 import { babel } from '@rollup/plugin-babel';
 
 import { minifyCode } from './minify.mjs';
@@ -47,7 +47,7 @@ export const handleESMFile = async (file) => {
   // Make sure externals are collected
   collectExternals();
 
-  const bundle = await rollup({
+  const bundle = await rolldown({
     input: resolve(file),
     plugins: [
       babel({
@@ -72,20 +72,19 @@ export const handleESMFile = async (file) => {
     external: externalModules,
   });
 
-  bundle.write({
-    format: file.endsWith('core.es6.js') ? 'iife' : 'es',
-    sourcemap: false,
-    file: resolve(`${newPath}.js`),
-  })
-    .then((value) => minifyCode(value.output[0].code))
-    .then((content) => {
-      console.log(`✅ ES2017 file: ${basename(file).replace('.es6.js', '.js')}: transpiled`);
-
-      return writeFile(resolve(`${newPath}.min.js`), content.code, { encoding: 'utf8', mode: 0o644 });
-    })
-    .catch((error) => {
-      throw new Error(error);
+  try {
+    const value = await bundle.write({
+      format: file.endsWith('core.es6.js') ? 'iife' : 'es',
+      sourcemap: false,
+      file: resolve(`${newPath}.js`),
     });
+
+    const content = await minifyCode(value.output[0].code);
+    console.log(`✅ ES2017 file: ${basename(file).replace('.es6.js', '.js')}: transpiled`);
+    await writeFile(resolve(`${newPath}.min.js`), content.code, { encoding: 'utf8', mode: 0o644 });
+  } catch (error) {
+    throw new Error(error);
+  }
 
   // closes the bundle
   await bundle.close();

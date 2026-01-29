@@ -7,7 +7,8 @@ import { createRequire } from 'node:module';
 
 import { babel } from '@rollup/plugin-babel';
 import cliProgress from 'cli-progress';
-import { rolldown as rollup } from 'rolldown';
+import { rolldown } from 'rolldown';
+import { replacePlugin } from 'rolldown/plugins';
 import { transform } from 'esbuild';
 
 const require = createRequire(import.meta.url);
@@ -19,11 +20,18 @@ import {
 
 // Build the module
 const buildModule = async (module, externalModules, destFile) => {
-  const build = await rollup({
+  const build = await rolldown({
     input: module,
-    define: { preventAssignment: JSON.stringify('true'), 'process.env.NODE_ENV': JSON.stringify('production')},
     external: externalModules || [],
     plugins: [
+      replacePlugin(
+        {
+          'process.env.NODE_ENV': JSON.stringify('production'),
+        },
+        {
+          preventAssignment: false,
+        },
+      ),
       babel({
         exclude: 'node_modules/core-js/**',
         babelHelpers: 'bundled',

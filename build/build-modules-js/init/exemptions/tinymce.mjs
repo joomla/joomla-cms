@@ -60,7 +60,7 @@ export const tinyMCE = async (packageName, version) => {
   const promises = [];
   const majorVersion = version.split('.')[0];
   if (existsSync(join(RootPath, `node_modules/tinymce-i18n/langs${majorVersion}`))) {
-    promises.push(copy(join(RootPath, `node_modules/tinymce-i18n/langs${majorVersion}`), join(RootPath, `media/vendor/${packageName.replace(/.+\//, '')}/langs`), { preserveTimestamps: true }));
+    promises.push(copy(join(RootPath, `node_modules/tinymce-i18n/langs${majorVersion}`), join(RootPath, `media/vendor/${packageName.replace(/.+\//, '')}/langs`), { preserveTimestamps: true, recursive: true }));
   }
   await Promise.all(promises);
 

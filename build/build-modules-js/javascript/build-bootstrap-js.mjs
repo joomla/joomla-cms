@@ -4,7 +4,8 @@ import {
 import { existsSync, mkdirSync, rmSync} from 'node:fs';
 import { resolve } from 'node:path';
 import { transform } from 'esbuild';
-import { rolldown as rollup } from 'rolldown';
+import { rolldown } from 'rolldown';
+import { replacePlugin } from 'rolldown/plugins';
 import { babel } from '@rollup/plugin-babel';
 
 import opts from '../../../package.json' with { type: 'json' };
@@ -33,13 +34,17 @@ const createMinified = async (file) => {
 const build = async () => {
   console.log('Building ES6 Components...');
 
-  const bundle = await rollup({
+  const bundle = await rolldown({
     input: resolve(inputFolder, 'index.es6.js'),
-    define: {
-      preventAssignment: JSON.stringify('always'),
-      'process.env.NODE_ENV': JSON.stringify('production'),
-    },
     plugins: [
+      replacePlugin(
+        {
+          'process.env.NODE_ENV': JSON.stringify('production'),
+        },
+        {
+          preventAssignment: false,
+        },
+      ),
       babel({
         exclude: 'node_modules/core-js/**',
         babelHelpers: 'bundled',
@@ -66,7 +71,7 @@ const build = async () => {
     sourcemap: false,
     dir: outputFolder,
     chunkFileNames: '[name].js',
-    advancedChunks: {
+    codeSplitting: {
       groups: [
         { name: 'popper', test: (moduleId) => moduleId.includes('@popperjs/core'), priority: 2000},
         { name: 'popper', test: (moduleId) => moduleId === 'rolldown:runtime', priority: 1500 },
