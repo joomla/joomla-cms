@@ -78,12 +78,10 @@ class HtmlView extends ListView
         $this->categories = $model->getCategoryOrders();
         $this->canDo      = ContentHelper::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
 
+        // We do not need to filter by language when multilingual is disabled
         if (!Multilanguage::isEnabled()) {
             unset($this->activeFilters['language']);
-
-            if ($this->filterForm !== null) {
-                $this->filterForm->removeField('language', 'filter');
-            }
+            $this->filterForm->removeField('language', 'filter');
         }
     }
 }
