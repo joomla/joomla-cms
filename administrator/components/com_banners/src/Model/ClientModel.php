@@ -135,5 +135,39 @@ class ClientModel extends AdminModel implements VersionableModelInterface
     protected function prepareTable($table)
     {
         $table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
+
+        // Handle duplicate names for "Save as Copy" operations
+        if (!$table->id) {
+            $db = $this->getDatabase();
+            $query = $db->createQuery()
+                ->select('COUNT(*)')
+                ->from($db->quoteName('#__banner_clients'))
+                ->where($db->quoteName('name') . ' = :name')
+                ->bind(':name', $table->name);
+
+            $db->setQuery($query);
+
+            // If a client with this name exists, generate a unique name
+            if ($db->loadResult() > 0) {
+                $originalName = $table->name;
+
+                // Use StringHelper::increment() to generate incremental names
+                while (true) {
+                    $table->name = \Joomla\String\StringHelper::increment($table->name);
+
+                    $query->clear()
+                        ->select('COUNT(*)')
+                        ->from($db->quoteName('#__banner_clients'))
+                        ->where($db->quoteName('name') . ' = :name')
+                        ->bind(':name', $table->name);
+
+                    $db->setQuery($query);
+
+                    if ($db->loadResult() == 0) {
+                        break;
+                    }
+                }
+            }
+        }
     }
 }
