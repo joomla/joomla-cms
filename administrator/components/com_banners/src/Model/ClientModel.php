@@ -137,7 +137,7 @@ class ClientModel extends AdminModel
 
         // Handle duplicate names for "Save as Copy" operations
         if (!$table->id) {
-            $db = $this->getDatabase();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->select('COUNT(*)')
                 ->from($db->quoteName('#__banner_clients'))
@@ -160,7 +160,7 @@ class ClientModel extends AdminModel
 
                     $db->setQuery($query);
 
-                    if ($db->loadResult() == 0) {
+                    if ($db->loadResult() === 0) {
                         break;
                     }
                 }
