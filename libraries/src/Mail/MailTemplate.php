@@ -483,7 +483,7 @@ class MailTemplate
                             }
                         }
 
-                        $text = str_replace($match, $replacement, $text);
+                        $text = str_ireplace($match, $replacement, $text);
                     }
                 }
             } else {
@@ -492,7 +492,7 @@ class MailTemplate
                     $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
                 }
 
-                $text = str_replace('{' . strtoupper($key) . '}', $value, $text);
+                $text = str_ireplace('{' . strtoupper($key) . '}', $value, $text);
             }
         }
 
