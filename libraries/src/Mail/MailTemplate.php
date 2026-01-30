@@ -453,6 +453,13 @@ class MailTemplate
                 $value = '';
             }
 
+            $escapeIfNecessary = function($value) use ($isHtml, $key): string {
+                if ($isHtml && \in_array(strtoupper($key), $this->unsafe_tags, true)) {
+                    return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+                }
+                return $value;
+            };
+
             if (\is_array($value)) {
                 $matches = [];
                 $pregKey = preg_quote(strtoupper($key), '/');
@@ -464,21 +471,12 @@ class MailTemplate
                         foreach ($value as $name => $subvalue) {
                             if (\is_array($subvalue) && $name == $matches[1][$i]) {
                                 $subvalue = implode("\n", $subvalue);
-
-                                // Escape if necessary
-                                if ($isHtml && \in_array(strtoupper($key), $this->unsafe_tags, true)) {
-                                    $subvalue = htmlspecialchars($subvalue, ENT_QUOTES, 'UTF-8');
-                                }
-
-                                $replacement .= implode("\n", $subvalue);
+                                $subvalue = $escapeIfNecessary($subvalue);
+                                $replacement .= $subvalue;
                             } elseif (\is_array($subvalue)) {
                                 $replacement .= $this->replaceTags($matches[1][$i], $subvalue, $isHtml);
                             } elseif (\is_string($subvalue) && $name == $matches[1][$i]) {
-                                // Escape if necessary
-                                if ($isHtml && \in_array(strtoupper($key), $this->unsafe_tags, true)) {
-                                    $subvalue = htmlspecialchars($subvalue, ENT_QUOTES, 'UTF-8');
-                                }
-
+                                $subvalue = $escapeIfNecessary($subvalue);
                                 $replacement .= $subvalue;
                             }
                         }
@@ -487,11 +485,7 @@ class MailTemplate
                     }
                 }
             } else {
-                // Escape if necessary
-                if ($isHtml && \in_array(strtoupper($key), $this->unsafe_tags, true)) {
-                    $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-                }
-
+                $value = $escapeIfNecessary($value);
                 $text = str_ireplace('{' . strtoupper($key) . '}', $value, $text);
             }
         }
