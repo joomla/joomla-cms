@@ -86,7 +86,7 @@
     "symfony/ldap": "^7",
     "symfony/options-resolver": "^7",
     "symfony/polyfill-mbstring": "^1.33.0",
-    "symfony/web-link": "^v6.4.32",
+    "symfony/web-link": "^6.4.32",
     "symfony/yaml": "^6.4.30",
     "wamania/php-stemmer": "^4.0.0",
     "tobscure/json-api": "dev-joomla-backports",
