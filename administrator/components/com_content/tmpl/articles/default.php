@@ -166,7 +166,7 @@ $assoc = Associations::isEnabled();
                             $canEditParCat        = $user->authorise('core.edit', 'com_content.category.' . $item->parent_category_id);
                             $canEditOwnParCat     = $user->authorise('core.edit.own', 'com_content.category.' . $item->parent_category_id) && $item->parent_category_uid == $userId;
                             $canManageUsers       = $user->authorise('core.manage', 'com_users');
-                            
+
                             // Transition button options
                             $options = [
                                 'title' => Text::_($item->stage_title),
@@ -327,7 +327,7 @@ $assoc = Associations::isEnabled();
                                             <?php echo $this->escape($item->author_name); ?>
                                         </a>
                                     <?php else : ?>
-                                        <?php echo !empty($item->author_name) ? $this->escape($item->author_name) : '[' . Text::_('JNONE') . ']'    ; ?>
+                                        <?php echo !empty($item->author_name) ? $this->escape($item->author_name) : '[' . Text::_('JNONE') . ']'; ?>
                                     <?php endif; ?>
                                     <?php if ($item->created_by_alias) : ?>
                                         <div class="smallsub"><?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
