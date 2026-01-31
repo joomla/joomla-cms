@@ -531,8 +531,9 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
     public function onWorkflowFunctionalityUsed(WorkflowFunctionalityUsedEvent $event): void
     {
         $functionality = $event->getArgument('functionality');
+        $context       = $event->getArgument('extension');
 
-        if ($functionality !== 'core.featured') {
+        if ($functionality !== 'core.featured' || !$this->isSupported($context)) {
             return;
         }
 

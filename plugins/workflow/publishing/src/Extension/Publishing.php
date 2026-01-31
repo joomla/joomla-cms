@@ -538,8 +538,9 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
     public function onWorkflowFunctionalityUsed(WorkflowFunctionalityUsedEvent $event): void
     {
         $functionality = $event->getArgument('functionality');
+        $context       = $event->getArgument('extension');
 
-        if ($functionality !== 'core.state') {
+        if ($functionality !== 'core.state' || !$this->isSupported($context)) {
             return;
         }
 
