@@ -59,6 +59,27 @@ class TransitionTable extends Table
     }
 
     /**
+     * Overloaded check function
+     *
+     * @return  boolean  True on success
+     *
+     * @see     Table::check()
+     * @since   __DEPLOY_VERSION__
+     */
+    public function check(): bool
+    {
+        $return = parent::check();
+
+        if ($return) {
+            if (empty($this->options)) {
+                $this->options = '{}';
+            }
+        }
+
+        return $return;
+    }
+
+    /**
      * Method to bind an associative array or object to the Table instance.
      * This method only binds properties that are publicly accessible and optionally
      * takes an array of properties to ignore when binding.
