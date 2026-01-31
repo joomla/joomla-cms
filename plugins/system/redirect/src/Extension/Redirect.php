@@ -30,6 +30,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\SiteRouter;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\CMS\User\User;
 use Joomla\Database\DatabaseAwareTrait;
@@ -47,7 +48,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-final class Redirect extends CMSPlugin implements SubscriberInterface
+final class Redirect extends CMSPlugin implements CurrentUserInterface, SubscriberInterface
 {
     use DatabaseAwareTrait;
     use CurrentUserTrait;

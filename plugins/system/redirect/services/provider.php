@@ -45,6 +45,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setDatabase($container->get(DatabaseInterface::class));
                 $plugin->setMenuFactory($container->get(MenuFactoryInterface::class));
                 $plugin->setLanguageFactory($container->get(LanguageFactoryInterface::class));
+                $plugin->setCurrentUser(Factory::getApplication()->getIdentity());
 
                 return $plugin;
             }
