@@ -59,7 +59,7 @@ describe('Test in backend that the workflow form', () => {
     cy.get('h1.page-title').should('contain', 'Add Workflow');
   });
 
-  it('check redirection to list view', () => {
+  it('redirects to the correct list view', () => {
     cy.visit('/administrator/index.php?option=com_workflow&task=workflow.add&extension=com_content.article');
     cy.intercept('**/administrator/index.php?option=com_workflow&view=workflows&extension=com_content.article').as('listview');
     cy.clickToolbarButton('Cancel');

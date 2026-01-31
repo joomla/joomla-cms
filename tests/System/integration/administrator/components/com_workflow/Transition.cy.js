@@ -56,7 +56,7 @@ describe('Test in backend that the transition form', () => {
     cy.get('h1.page-title').should('contain', 'Add Transition');
   });
 
-  it('check redirection to list view', () => {
+  it('redirects to the correct list view', () => {
     cy.visit('/administrator/index.php?option=com_workflow&task=transition.add&workflow_id=1&extension=com_content.article');
     cy.intercept('**/administrator/index.php?option=com_workflow&view=transitions&workflow_id=1&extension=com_content.article').as('listview');
     cy.clickToolbarButton('Cancel');
