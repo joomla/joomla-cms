@@ -27,5 +27,9 @@ if ($params->get('backgroundimage')) {
 ?>
 
 <div id="<?php echo $modId; ?>" class="mod-custom custom">
-    <?php echo $module->content; ?>
+    <?php 
+		$content = $module->content;
+		$content = preg_replace('/src=["\'](?!http|https|\/\/|\/)([^"\']+)["\']/', 'src="' . Uri::root(true) . '/$1"', $content);
+		echo $content;
+    ?>
 </div>
