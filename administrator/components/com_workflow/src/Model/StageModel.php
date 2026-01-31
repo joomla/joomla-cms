@@ -359,7 +359,7 @@ class StageModel extends AdminModel
      */
     protected function preprocessForm(Form $form, $data, $group = 'content')
     {
-        $extension = Factory::getApplication()->getInput()->get('extension');
+        $extension = Factory::getApplication()->getInput()->get('extension', '');
 
         $parts = explode('.', $extension);
 
