@@ -233,7 +233,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
 
         $link = $extension->getLinkForRedirect($table);
 
-        if (empty($link)) {
+        if (empty($link) || empty($this->oldLink)) {
             return;
         }
 
