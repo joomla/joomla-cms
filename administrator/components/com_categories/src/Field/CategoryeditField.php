@@ -45,6 +45,14 @@ class CategoryeditField extends ListField
     protected $customPrefix;
 
     /**
+     * Optional scope root category ID to limit visible categories.
+     *
+     * @var    integer
+     * @since  6.1.0
+     */
+    protected $scopeRoot;
+
+    /**
      * A flexible category list that respects access controls
      *
      * @var    string
@@ -81,6 +89,7 @@ class CategoryeditField extends ListField
         if ($return) {
             $this->allowAdd     = isset($this->element['allowAdd']) ? (bool) $this->element['allowAdd'] : false;
             $this->customPrefix = (string) $this->element['customPrefix'];
+            $this->scopeRoot    = isset($this->element['scope_root']) ? (int) $this->element['scope_root'] : 0;
         }
 
         return $return;
@@ -102,6 +111,8 @@ class CategoryeditField extends ListField
                 return (bool) $this->$name;
             case 'customPrefix':
                 return $this->$name;
+            case 'scopeRoot':
+                return (int) $this->$name;
         }
 
         return parent::__get($name);
@@ -128,6 +139,9 @@ class CategoryeditField extends ListField
                 break;
             case 'customPrefix':
                 $this->$name = (string) $value;
+                break;
+            case 'scopeRoot':
+                $this->$name = (int) $value;
                 break;
             default:
                 parent::__set($name, $value);
@@ -217,6 +231,32 @@ class CategoryeditField extends ListField
         if (!$user->authorise('core.admin')) {
             $groups = $user->getAuthorisedViewLevels();
             $query->whereIn($db->quoteName('a.access'), $groups);
+        }
+
+        // Filter by scope root category if specified (limit to parent category and descendants)
+        if ($this->scopeRoot > 0 && !$isParentCategoryField) {
+            // Get the lft and rgt values for the scope root category
+            $scopeQuery = $db->createQuery()
+                ->select([$db->quoteName('lft'), $db->quoteName('rgt')])
+                ->from($db->quoteName('#__categories'))
+                ->where($db->quoteName('id') . ' = :scoperoot')
+                ->bind(':scoperoot', $this->scopeRoot, ParameterType::INTEGER);
+            $db->setQuery($scopeQuery);
+            
+            try {
+                $scopeCategory = $db->loadObject();
+                
+                if ($scopeCategory) {
+                    // Filter to only show the scope category and its descendants using nested set model
+                    $query->where($db->quoteName('a.lft') . ' >= :scopelft')
+                        ->where($db->quoteName('a.rgt') . ' <= :scopergt')
+                        ->bind(':scopelft', $scopeCategory->lft, ParameterType::INTEGER)
+                        ->bind(':scopergt', $scopeCategory->rgt, ParameterType::INTEGER);
+                }
+            } catch (\RuntimeException $e) {
+                // If scope category not found, continue without scope filter
+                Factory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
+            }
         }
 
         $query->order($db->quoteName('a.lft') . ' ASC');

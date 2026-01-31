@@ -177,6 +177,16 @@ class HtmlView extends BaseHtmlView
             $this->form->setFieldAttribute('language', 'default', $lang);
         }
 
+        // Apply category scope filtering if enabled (limit to parent category and subcategories)
+        if (empty($this->item->id) && $params->get('enable_category') == 1 && $params->get('limit_category_scope') == 1) {
+            $catid = $this->state->get('params')->get('catid');
+            
+            if ($catid) {
+                // Set the scope_root attribute on the catid field to limit visible categories
+                $this->form->setFieldAttribute('catid', 'scope_root', $catid);
+            }
+        }
+
         $captchaSet = $params->get('captcha', Factory::getApplication()->get('captcha', '0'));
 
         foreach (PluginHelper::getPlugin('captcha') as $plugin) {
