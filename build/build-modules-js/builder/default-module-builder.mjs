@@ -41,7 +41,7 @@ export default class DefaultModuleBuilder{
    * @returns {Promise<void>}
    */
   async clear() {
-    return fse.remove(this.targetPath);
+    // return fse.remove(this.targetPath);
   }
 
   /**
@@ -83,9 +83,7 @@ export default class DefaultModuleBuilder{
       return this.copy().then(() => this.css());
     }
 
-    console.log('Building css task ...');
-
-    console.log(this.copyDone)
+    //console.log('Building css task ...');
   }
 
   /**
@@ -99,6 +97,6 @@ export default class DefaultModuleBuilder{
     }
 
     // @TODO Task "js"
-    console.log('Building js task ...');
+    //console.log('Building js task ...');
   }
 }

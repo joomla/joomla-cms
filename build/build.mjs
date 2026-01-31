@@ -5,6 +5,8 @@
 import { Command } from 'commander';
 import semver from 'semver';
 import path from 'node:path';
+//import { Listr } from 'listr2';
+import logUpdate from 'log-update';
 import pkgOptions from '../package.json' with { type: 'json' };
 import { BuilderFactory } from './build-modules-js/builder/builder-factory.mjs';
 
@@ -16,8 +18,8 @@ if (semver.gte(semver.minVersion(pkgOptions.engines.node), semver.clean(process.
 // List of builders
 const builders = [
   // Libraries
-  'vendor',
-  'system',
+  //'vendor',
+  //'system',
   // Components
   'com_actionlogs',
   'com_admin',
@@ -37,7 +39,7 @@ const builders = [
   'com_joomlaupdate',
   'com_languages',
   'com_mails',
-  'com_media',
+  //'com_media',
   'com_menus',
   'com_modules',
   'com_scheduler',
@@ -113,13 +115,34 @@ program
       path.resolve('./media'),
     );
 
+    // const tasksList = new Listr([], { concurrent: true });
+    // const tasksCtx = {};
+    // buildersToRun.forEach((name) => {
+    //   tasksList.add([{
+    //     title: `Building "${name}" ...`,
+    //     task: async (ctx, task) => {
+    //       return new Promise((resolve) => {
+    //         task.output = 'I will push an output. [0]';
+    //
+    //         setTimeout(() => {
+    //           task.output = 'I will push an output. [1]';
+    //
+    //           resolve();
+    //         }, 1000);
+    //       });
+    //     },
+    //   }]);
+    // });
+    // tasksList.run(tasksCtx);
+
     // Run each builder
     buildersToRun.forEach((name) => {
       factory.createBuilder(name).then((builder) => {
         if (!builder.getTasks) {
           program.error(`Builder module for "${name}" should implement provide "getTasks()" method. Which used to determine which task can be run for the builder.`)
         }
-console.log(builder)
+        console.log(`Building "${name}" ...`);
+
         // Run tasks for given builder
         const builderTasks = builder.getTasks();
         let lastPromise = Promise.resolve();
@@ -132,6 +155,8 @@ console.log(builder)
             }
             return;
           }
+
+          console.log(`Running task "${taskName}" ...`);
 
           // Execute the task sequentially, this is needed because task may depend on each other
           lastPromise = lastPromise.then(() => builder[taskName]());
