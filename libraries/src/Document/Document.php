@@ -211,7 +211,7 @@ class Document
      * @var    string
      * @since  1.7.0
      */
-    public $_type = null;
+    public $_type = '';
 
     /**
      * Array of buffered output
