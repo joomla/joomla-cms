@@ -253,7 +253,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
         $newLink = $router->build($link);
 
         if ((string) $this->oldLink !== (string) $newLink) {
-            $user = $this->getApplication()->getIdentity();
+            $user = $this->getCurrentUser();
 
             // In admin we have to create the redirect manually if seletected
             if ($app->isClient('administrator') && (int) $componentParams->get('redirect_on_save_admin', 1) === 2) {
