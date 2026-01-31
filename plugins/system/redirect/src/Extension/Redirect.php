@@ -408,7 +408,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $input = $app->getInput();
+        $input     = $app->getInput();
         $component = $input->getCmd('component', '');
 
         if (empty($component)) {
