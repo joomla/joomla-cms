@@ -13,7 +13,8 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\ContentHistory;
+use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Database\ParameterType;
 
@@ -25,6 +26,9 @@ use Joomla\Database\ParameterType;
  * Handle the versioning of content items
  *
  * @since  4.0.0
+ *
+ * @deprecated  6.0.0  will be removed in 8.0 without direct replacement,
+ *              use the new versioning concept (LINK TO DOCUMENTATION)
  */
 class Versioning
 {
@@ -42,7 +46,7 @@ class Versioning
     {
         $db     = Factory::getDbo();
         $itemid = $typeAlias . '.' . $id;
-        $query  = $db->getQuery(true);
+        $query  = $db->createQuery();
         $query->select($db->quoteName('h.version_note') . ',' . $db->quoteName('h.save_date') . ',' . $db->quoteName('u.name'))
             ->from($db->quoteName('#__history', 'h'))
             ->leftJoin($db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('h.editor_user_id'))
@@ -68,7 +72,7 @@ class Versioning
     {
         $db     = Factory::getDbo();
         $itemid = $typeAlias . '.' . $id;
-        $query  = $db->getQuery(true);
+        $query  = $db->createQuery();
         $query->delete($db->quoteName('#__history'))
             ->where($db->quoteName('item_id') . ' = :item_id')
             ->bind(':item_id', $itemid, ParameterType::STRING);
@@ -92,10 +96,10 @@ class Versioning
      */
     public static function store($typeAlias, $id, $data, $note = '')
     {
-        $typeTable = Table::getInstance('ContentType', '\\Joomla\\CMS\\Table\\');
+        $typeTable = new ContentType(Factory::getDbo());
         $typeTable->load(['type_alias' => $typeAlias]);
 
-        $historyTable          = Table::getInstance('ContentHistory', '\\Joomla\\CMS\\Table\\');
+        $historyTable          = new ContentHistory(Factory::getDbo());
         $historyTable->item_id = $typeAlias . '.' . $id;
 
         $aliasParts = explode('.', $typeAlias);
@@ -123,6 +127,19 @@ class Versioning
             Factory::getApplication()->getDispatcher()->dispatch('onContentVersioningPrepareTable', $event);
         }
 
+        // Fix for null ordering - set to 0 if null
+        if (\is_object($data)) {
+            if (property_exists($data, 'ordering') && $data->ordering === null) {
+                $data->ordering = 0;
+            }
+        } elseif (\is_array($data)) {
+            if (\array_key_exists('ordering', $data) && $data['ordering'] === null) {
+                $data['ordering'] = 0;
+            }
+        }
+
+        // Mark this as a legacy version so that it will be restored using legacy way
+        $historyTable->is_legacy    = 1;
         $historyTable->version_data = json_encode($data);
         $historyTable->version_note = $note;
 

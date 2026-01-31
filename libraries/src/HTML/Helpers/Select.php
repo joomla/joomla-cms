@@ -145,7 +145,7 @@ abstract class Select
                 ->registerAndUseScript(
                     'webcomponent.select-colour',
                     'system/fields/select-colour.min.js',
-                    ['dependencies' => ['wcpolyfill']],
+                    ['dependencies' => ['core']],
                     ['type'         => 'module']
                 );
         }
@@ -244,7 +244,7 @@ abstract class Select
                     $noGroup = false;
                 }
 
-                if (isset($options['group.id']) && isset($group[$options['group.id']])) {
+                if (isset($options['group.id'], $group[$options['group.id']])) {
                     $id      = $group[$options['group.id']];
                     $noGroup = false;
                 }
@@ -257,7 +257,7 @@ abstract class Select
                     $noGroup = false;
                 }
 
-                if (isset($options['group.id']) && isset($group->{$options['group.id']})) {
+                if (isset($options['group.id'], $group->{$options['group.id']})) {
                     $id      = $group->{$options['group.id']};
                     $noGroup = false;
                 }
@@ -488,46 +488,46 @@ abstract class Select
                 $key  = $options['option.key'] === null ? $elementKey : $element[$options['option.key']];
                 $text = $element[$options['option.text']];
 
-                if (isset($element[$options['option.attr']])) {
+                if ($options['option.attr'] !== null && isset($element[$options['option.attr']])) {
                     $attr = $element[$options['option.attr']];
                 }
 
-                if (isset($element[$options['option.id']])) {
+                if ($options['option.id'] !== null && isset($element[$options['option.id']])) {
                     $id = $element[$options['option.id']];
                 }
 
-                if (isset($element[$options['option.label']])) {
+                if ($options['option.label'] !== null && isset($element[$options['option.label']])) {
                     $label = $element[$options['option.label']];
                 }
 
-                if (isset($element[$options['option.disable']]) && $element[$options['option.disable']]) {
+                if ($options['option.disable'] !== null && isset($element[$options['option.disable']]) && $element[$options['option.disable']]) {
                     $extra .= ' disabled="disabled"';
                 }
             } elseif (\is_object($element)) {
                 $key  = $options['option.key'] === null ? $elementKey : $element->{$options['option.key']};
                 $text = $element->{$options['option.text']};
 
-                if (isset($element->{$options['option.attr']})) {
+                if ($options['option.attr'] !== null && isset($element->{$options['option.attr']})) {
                     $attr = $element->{$options['option.attr']};
                 }
 
-                if (isset($element->{$options['option.id']})) {
+                if ($options['option.id'] !== null && isset($element->{$options['option.id']})) {
                     $id = $element->{$options['option.id']};
                 }
 
-                if (isset($element->{$options['option.label']})) {
+                if ($options['option.label'] !== null && isset($element->{$options['option.label']})) {
                     $label = $element->{$options['option.label']};
                 }
 
-                if (isset($element->{$options['option.disable']}) && $element->{$options['option.disable']}) {
+                if ($options['option.disable'] !== null && isset($element->{$options['option.disable']}) && $element->{$options['option.disable']}) {
                     $extra .= ' disabled="disabled"';
                 }
 
-                if (isset($element->{$options['option.class']}) && $element->{$options['option.class']}) {
+                if ($options['option.class'] !== null && isset($element->{$options['option.class']}) && $element->{$options['option.class']}) {
                     $extra .= ' class="' . $element->{$options['option.class']} . '"';
                 }
 
-                if (isset($element->{$options['option.onclick']}) && $element->{$options['option.onclick']}) {
+                if ($options['option.onclick'] !== null && isset($element->{$options['option.onclick']}) && $element->{$options['option.onclick']}) {
                     $extra .= ' onclick="' . $element->{$options['option.onclick']} . '"';
                 }
             } else {
@@ -547,9 +547,19 @@ abstract class Select
             $key = (string) $key;
 
             if ($key === '<OPTGROUP>' && $options['groups']) {
+                @trigger_error(
+                    'Support for optgroup workaround is deprecated and will be removed in 8.0. Use select.groupedlist instead.',
+                    E_USER_DEPRECATED
+                );
+
                 $html .= $baseIndent . '<optgroup label="' . ($options['list.translate'] ? Text::_($text) : $text) . '">' . $options['format.eol'];
                 $baseIndent = str_repeat($options['format.indent'], ++$options['format.depth']);
             } elseif ($key === '</OPTGROUP>' && $options['groups']) {
+                @trigger_error(
+                    'Support for optgroup workaround is deprecated and will be removed in 8.0. Use select.groupedlist instead.',
+                    E_USER_DEPRECATED
+                );
+
                 $baseIndent = str_repeat($options['format.indent'], --$options['format.depth']);
                 $html .= $baseIndent . '</optgroup>' . $options['format.eol'];
             } else {

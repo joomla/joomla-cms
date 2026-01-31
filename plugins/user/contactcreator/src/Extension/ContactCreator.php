@@ -108,7 +108,7 @@ final class ContactCreator extends CMSPlugin implements SubscriberInterface
 
             // Check if the contact already exists to generate new name & alias if required
             if ($contact->id == 0) {
-                list($name, $alias) = $this->generateAliasAndName($contact->alias, $contact->name, $categoryId);
+                [$name, $alias] = $this->generateAliasAndName($contact->alias, $contact->name, $categoryId);
 
                 $contact->name  = $name;
                 $contact->alias = $alias;

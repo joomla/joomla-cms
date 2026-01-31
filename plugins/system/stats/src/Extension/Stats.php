@@ -15,13 +15,13 @@ use Joomla\CMS\Event\Application\AfterDispatchEvent;
 use Joomla\CMS\Event\Application\AfterInitialiseEvent;
 use Joomla\CMS\Event\Plugin\AjaxEvent;
 use Joomla\CMS\Event\Plugin\System\Stats\GetStatsDataEvent;
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Http\HttpFactory;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -477,7 +477,7 @@ final class Stats extends CMSPlugin implements SubscriberInterface
         $paramsJson = $this->params->toString('JSON');
         $db         = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__extensions'))
             ->set($db->quoteName('params') . ' = :params')
             ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -498,7 +498,7 @@ final class Stats extends CMSPlugin implements SubscriberInterface
             $result = $db->setQuery($query)->execute();
 
             $this->clearCacheGroups(['com_plugins']);
-        } catch (\Exception $exc) {
+        } catch (\Exception) {
             // If we failed to execute
             $db->unlockTables();
             $result = false;
@@ -507,7 +507,7 @@ final class Stats extends CMSPlugin implements SubscriberInterface
         try {
             // Unlock the tables after writing
             $db->unlockTables();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // If we can't lock the tables assume we have somehow failed
             $result = false;
         }
@@ -530,12 +530,12 @@ final class Stats extends CMSPlugin implements SubscriberInterface
 
         try {
             // Don't let the request take longer than 2 seconds to avoid page timeout issues
-            $response = HttpFactory::getHttp()->post($this->serverUrl, $this->getStatsData(), [], 2);
+            $response = (new HttpFactory())->getHttp()->post($this->serverUrl, $this->getStatsData(), [], 2);
 
             if (!$response) {
                 $error = 'Could not send site statistics to remote server: No response';
-            } elseif ($response->code !== 200) {
-                $data = json_decode($response->body);
+            } elseif ($response->getStatusCode() !== 200) {
+                $data = json_decode((string) $response->getBody());
 
                 $error = 'Could not send site statistics to remote server: ' . $data->message;
             }
@@ -585,7 +585,7 @@ final class Stats extends CMSPlugin implements SubscriberInterface
 
                 $cache = Cache::getInstance('callback', $options);
                 $cache->clean();
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // Ignore it
             }
         }
@@ -603,7 +603,7 @@ final class Stats extends CMSPlugin implements SubscriberInterface
     {
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__extensions'))
             ->set($db->quoteName('enabled') . ' = 0')
             ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -623,7 +623,7 @@ final class Stats extends CMSPlugin implements SubscriberInterface
             $result = $db->setQuery($query)->execute();
 
             $this->clearCacheGroups(['com_plugins']);
-        } catch (\Exception $exc) {
+        } catch (\Exception) {
             // If we failed to execute
             $db->unlockTables();
             $result = false;
@@ -632,7 +632,7 @@ final class Stats extends CMSPlugin implements SubscriberInterface
         try {
             // Unlock the tables after writing
             $db->unlockTables();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // If we can't lock the tables assume we have somehow failed
             $result = false;
         }

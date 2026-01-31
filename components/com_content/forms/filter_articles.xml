@@ -50,7 +50,8 @@
 			hint="JOPTION_SELECT_AUTHOR"
 			onchange="this.form.submit();"
 			>
-			<option value="0">JNONE</option>
+			<option value="0">JNONE_FILTER</option>
+			<option value="by_me">COM_CONTENT_FILTER_AUTHORS_BY_ME</option>
 		</field>
 
 		<field
@@ -94,7 +95,7 @@
 			type="list"
 			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
-			default="a.title ASC"
+			default="a.id DESC"
 			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>

@@ -1956,7 +1956,7 @@ if ($enabled) {
             @unlink($basePath . 'update.php');
 
             // Import a custom finalisation file
-            $filename = \dirname(__FILE__) . '/finalisation.php';
+            $filename = __DIR__ . '/finalisation.php';
 
             if (file_exists($filename)) {
                 clearFileInOPCache($filename);

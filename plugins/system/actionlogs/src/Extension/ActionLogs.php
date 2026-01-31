@@ -174,7 +174,7 @@ final class ActionLogs extends CMSPlugin implements SubscriberInterface
         $db = $this->getDatabase();
         $id = (int) $data->id;
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['notify', 'extensions']))
             ->from($db->quoteName('#__action_logs_users'))
             ->where($db->quoteName('user_id') . ' = :userid')
@@ -182,7 +182,7 @@ final class ActionLogs extends CMSPlugin implements SubscriberInterface
 
         try {
             $values = $db->setQuery($query)->loadObject();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return;
         }
 
@@ -231,7 +231,7 @@ final class ActionLogs extends CMSPlugin implements SubscriberInterface
         $userid     = (int) $user['id'];
         $db         = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('COUNT(*)')
             ->from($db->quoteName('#__action_logs_users'))
             ->where($db->quoteName('user_id') . ' = :userid')
@@ -292,7 +292,7 @@ final class ActionLogs extends CMSPlugin implements SubscriberInterface
 
         try {
             $db->setQuery($query)->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             // Do nothing.
         }
     }
@@ -318,14 +318,14 @@ final class ActionLogs extends CMSPlugin implements SubscriberInterface
         $db     = $this->getDatabase();
         $userid = (int) $user['id'];
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__action_logs_users'))
             ->where($db->quoteName('user_id') . ' = :userid')
             ->bind(':userid', $userid, ParameterType::INTEGER);
 
         try {
             $db->setQuery($query)->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             // Do nothing.
         }
     }
@@ -393,13 +393,13 @@ final class ActionLogs extends CMSPlugin implements SubscriberInterface
 
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['user_id', 'notify', 'extensions']))
             ->from($db->quoteName('#__action_logs_users'));
 
         try {
             $values = $db->setQuery($query)->loadObjectList();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return;
         }
 
@@ -420,7 +420,7 @@ final class ActionLogs extends CMSPlugin implements SubscriberInterface
 
             try {
                 $db->setQuery($query)->execute();
-            } catch (ExecutionFailureException $e) {
+            } catch (ExecutionFailureException) {
                 // Do nothing.
             }
         }

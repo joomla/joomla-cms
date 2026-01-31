@@ -16,6 +16,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
@@ -28,8 +30,10 @@ use Joomla\Event\SubscriberInterface;
  *
  * @since  4.2.0
  */
-final class Shortcut extends CMSPlugin implements SubscriberInterface
+final class Shortcut extends CMSPlugin implements SubscriberInterface, DispatcherAwareInterface
 {
+    use DispatcherAwareTrait;
+
     /**
      * Returns an array of events this subscriber will listen to.
      *

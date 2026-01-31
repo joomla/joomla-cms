@@ -55,7 +55,7 @@ abstract class Number
             $oBytes = $bytes;
         } else {
             preg_match('/(.*?)\s?((?:[KMGTPEZY]i?)?B?)$/i', trim($bytes), $matches);
-            list(, $oBytes, $oUnit) = $matches;
+            [, $oBytes, $oUnit] = $matches;
 
             if ($oUnit && is_numeric($oBytes)) {
                 $oBase  = $iec && !str_contains($oUnit, 'i') ? 1000 : 1024;

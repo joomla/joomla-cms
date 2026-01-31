@@ -39,7 +39,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const MAJOR_VERSION = 5;
+    public const MAJOR_VERSION = 6;
 
     /**
      * Minor release version.
@@ -47,7 +47,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const MINOR_VERSION = 3;
+    public const MINOR_VERSION = 1;
 
     /**
      * Patch release version.
@@ -66,7 +66,7 @@ final class Version
      * @var    string
      * @since  3.8.0
      */
-    public const EXTRA_VERSION = 'beta2-dev';
+    public const EXTRA_VERSION = 'alpha4-dev';
 
     /**
      * Development status.
@@ -82,7 +82,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const CODENAME = 'Timu';
+    public const CODENAME = 'TBD';
 
     /**
      * Release date.
@@ -90,7 +90,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELDATE = '18-February-2025';
+    public const RELDATE = '20-January-2026';
 
     /**
      * Release time.
@@ -106,7 +106,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELTZ = 'GMT';
+    public const RELTZ = 'UTC';
 
     /**
      * Copyright Notice.

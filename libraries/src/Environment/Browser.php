@@ -562,7 +562,7 @@ class Browser
                 $this->setBrowser('edge');
 
                 if (str_contains($version[1], '.')) {
-                    list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+                    [$this->majorVersion, $this->minorVersion] = explode('.', $version[1]);
                 } else {
                     $this->majorVersion = $version[1];
                     $this->minorVersion = 0;
@@ -574,11 +574,11 @@ class Browser
                  */
                 $this->setBrowser('edg');
 
-                list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+                [$this->majorVersion, $this->minorVersion] = explode('.', $version[1]);
             } elseif (preg_match('|Opera[\/ ]([0-9.]+)|', $this->agent, $version)) {
                 $this->setBrowser('opera');
 
-                list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+                [$this->majorVersion, $this->minorVersion] = explode('.', $version[1]);
 
                 /*
                  * Due to changes in Opera UA, we need to check Version/xx.yy,
@@ -591,7 +591,7 @@ class Browser
                 // Opera 15+
                 $this->setBrowser('opera');
 
-                list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+                [$this->majorVersion, $this->minorVersion] = explode('.', $version[1]);
             } elseif (
                 preg_match('/Chrome[\/ ]([0-9.]+)/i', $this->agent, $version)
                 || preg_match('/CrMo[\/ ]([0-9.]+)/i', $this->agent, $version)
@@ -599,7 +599,7 @@ class Browser
             ) {
                 $this->setBrowser('chrome');
 
-                list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+                [$this->majorVersion, $this->minorVersion] = explode('.', $version[1]);
             } elseif (
                 str_contains($this->lowerAgent, 'elaine/')
                 || str_contains($this->lowerAgent, 'palmsource')
@@ -620,7 +620,7 @@ class Browser
                 }
 
                 if (str_contains($version[1], '.')) {
-                    list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+                    [$this->majorVersion, $this->minorVersion] = explode('.', $version[1]);
                 } else {
                     $this->majorVersion = $version[1];
                     $this->minorVersion = 0;
@@ -653,7 +653,7 @@ class Browser
             } elseif (preg_match('|Firefox\/([0-9.]+)|', $this->agent, $version)) {
                 $this->setBrowser('firefox');
 
-                list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+                [$this->majorVersion, $this->minorVersion] = explode('.', $version[1]);
             } elseif (preg_match('|Lynx\/([0-9]+)|', $this->agent, $version)) {
                 $this->setBrowser('lynx');
             } elseif (preg_match('|Links \(([0-9]+)|', $this->agent, $version)) {
@@ -683,7 +683,7 @@ class Browser
             } elseif (preg_match('|Mozilla\/([0-9.]+)|', $this->agent, $version)) {
                 $this->setBrowser('mozilla');
 
-                list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+                [$this->majorVersion, $this->minorVersion] = explode('.', $version[1]);
             }
         }
     }
@@ -733,7 +733,7 @@ class Browser
     protected function identifyBrowserVersion()
     {
         if (preg_match('|Version[/ ]([0-9.]+)|', $this->agent, $version)) {
-            list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+            [$this->majorVersion, $this->minorVersion] = explode('.', $version[1]);
 
             return;
         }
@@ -848,8 +848,8 @@ class Browser
      */
     public function isViewable($mimetype)
     {
-        $mimetype             = strtolower($mimetype);
-        list($type, $subtype) = explode('/', $mimetype);
+        $mimetype         = strtolower($mimetype);
+        [$type, $subtype] = explode('/', $mimetype);
 
         if (!empty($this->accept)) {
             $wildcard_match = false;

@@ -12,13 +12,12 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 /** @var \Joomla\Component\Modules\Administrator\View\Module\HtmlView $this */
-
-HTMLHelper::_('behavior.combobox');
 
 $hasContent          = isset($this->item->xml->customContent);
 $hasContentFieldName = 'content';
@@ -39,12 +38,14 @@ Text::script('JTRASHED');
 
 $this->getDocument()->addScriptOptions('module-edit', ['itemId' => $this->item->id, 'state' => (int) $this->item->id == 0 ? 'Add' : 'Edit']);
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->getDocument()->getWebAssetManager();
-$wa->useScript('keepalive')
-    ->useScript('form.validate');
+$this->getDocument()->getWebAssetManager()
+    ->useScript('keepalive')
+    ->useScript('form.validate')
+    ->useScript('awesomplete');
 
-$input = Factory::getApplication()->getInput();
+$clientId  = (int) $this->item->client_id;
+$assoc     = Associations::isEnabled() && $clientId == 0;
+$input     = Factory::getApplication()->getInput();
 
 // In case of modal
 $isModal = $input->get('layout') === 'modal';
@@ -172,9 +173,22 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
         <?php
         $this->fieldsets        = [];
-        $this->ignore_fieldsets = ['basic', 'description'];
+        $this->ignore_fieldsets = ['basic', 'description', 'item_associations'];
         echo LayoutHelper::render('joomla.edit.params', $this);
         ?>
+
+        <?php if (!$isModal && $assoc) : ?>
+            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
+            <fieldset id="fieldset-associations" class="options-form">
+                <legend><?php echo Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
+                <div>
+                    <?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
+                </div>
+            </fieldset>
+            <?php echo HTMLHelper::_('uitab.endTab'); ?>
+        <?php elseif ($isModal && $assoc) : ?>
+            <div class="hidden"><?php echo LayoutHelper::render('joomla.edit.associations', $this); ?></div>
+        <?php endif; ?>
 
         <?php if ($this->canDo->get('core.admin')) : ?>
             <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('COM_MODULES_FIELDSET_RULES')); ?>
@@ -189,10 +203,10 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
         <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
-        <input type="hidden" name="task" value="">
-        <input type="hidden" name="return" value="<?php echo $input->get('return', null, 'BASE64'); ?>">
-        <?php echo HTMLHelper::_('form.token'); ?>
         <?php echo $this->form->getInput('module'); ?>
         <?php echo $this->form->getInput('client_id'); ?>
+        <?php echo $this->form->getInput('id'); ?>
+
+        <?php echo $this->form->renderControlFields(); ?>
     </div>
 </form>

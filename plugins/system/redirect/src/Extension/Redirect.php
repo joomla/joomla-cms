@@ -124,7 +124,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $query = $this->getDatabase()->getQuery(true);
+        $query = $this->getDatabase()->createQuery();
 
         $query->select('*')
             ->from($this->getDatabase()->quoteName('#__redirect_links'))
@@ -214,7 +214,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
 
                 try {
                     $this->getDatabase()->updateObject('#__redirect_links', $redirect, 'id');
-                } catch (\Exception $e) {
+                } catch (\Exception) {
                     // We don't log issues for now
                 }
 

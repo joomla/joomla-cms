@@ -94,7 +94,7 @@ final class Profile extends CMSPlugin implements SubscriberInterface
             if (!isset($data->profile) && $userId > 0) {
                 // Load the profile data from the database.
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select(
                         [
                             $db->quoteName('profile_key'),
@@ -328,7 +328,7 @@ final class Profile extends CMSPlugin implements SubscriberInterface
             try {
                 $date       = new Date($data['profile']['dob']);
                 $this->date = $date->format('Y-m-d H:i:s');
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // Throw an exception if date is not valid.
                 throw new \InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
             }
@@ -377,7 +377,7 @@ final class Profile extends CMSPlugin implements SubscriberInterface
                 $key = 'profile.' . $key;
             }
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__user_profiles'))
                 ->where($db->quoteName('user_id') . ' = :userid')
                 ->whereIn($db->quoteName('profile_key'), $keys, ParameterType::STRING)
@@ -450,7 +450,7 @@ final class Profile extends CMSPlugin implements SubscriberInterface
 
         if ($userId) {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__user_profiles'))
                 ->where($db->quoteName('user_id') . ' = :userid')
                 ->where($db->quoteName('profile_key') . ' LIKE ' . $db->quote('profile.%'))
