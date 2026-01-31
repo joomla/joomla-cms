@@ -119,9 +119,9 @@ final class Requests extends CMSPlugin implements SubscriberInterface
 
         $url      = $params->url;
         $timeout  = $params->timeout;
-        $auth     = (string) $params->auth ?? 0;
-        $authType = (string) $params->authType ?? '';
-        $authKey  = (string) $params->authKey ?? '';
+        $auth     = (string) ($params->auth ?? 0);
+        $authType = (string) ($params->authType ?? '');
+        $authKey  = (string) ($params->authKey ?? '');
         $headers  = [];
 
         if ($auth && $authType && $authKey) {
