@@ -12,6 +12,7 @@ namespace Joomla\Component\Redirect\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -58,21 +59,18 @@ class LinkModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \Joomla\CMS\Form\Form A Form object on success, false on failure
+     * @return  Form A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
         // Get the form.
         $form = $this->loadForm('com_redirect.link', 'link', ['control' => 'jform', 'load_data' => $loadData]);
 
-        if (empty($form)) {
-            return false;
-        }
-
         // Modify the form based on access controls.
-        if ($this->canEditState((object) $data) != true) {
+        if (!$this->canEditState((object)$data)) {
             // Disable fields for display.
             $form->setFieldAttribute('published', 'disabled', 'true');
 
@@ -83,7 +81,7 @@ class LinkModel extends AdminModel
 
         // If in advanced mode then we make sure the new URL field is not compulsory and the header
         // field compulsory in case people select non-3xx redirects
-        if (ComponentHelper::getParams('com_redirect')->get('mode', 0) == true) {
+        if (ComponentHelper::getParams('com_redirect')->get('mode', 0)) {
             $form->setFieldAttribute('new_url', 'required', 'false');
             $form->setFieldAttribute('header', 'required', 'true');
         }
@@ -145,7 +143,7 @@ class LinkModel extends AdminModel
 
         if (!empty($pks)) {
             // Update the link rows.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->update($db->quoteName('#__redirect_links'))
                 ->set($db->quoteName('new_url') . ' = :url')
                 ->set($db->quoteName('published') . ' = 1')
@@ -199,7 +197,7 @@ class LinkModel extends AdminModel
             $date = Factory::getDate()->toSql();
 
             // Update the link rows.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->update($db->quoteName('#__redirect_links'))
                 ->set($db->quoteName('new_url') . ' = :url')
                 ->set($db->quoteName('modified_date') . ' = :date')

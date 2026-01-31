@@ -12,10 +12,7 @@ namespace Joomla\CMS\Helper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\CoreContent;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
-use Joomla\CMS\UCM\UCMContent;
-use Joomla\CMS\UCM\UCMType;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -104,8 +101,14 @@ class TagsHelper extends CMSHelper
         $db     = $table->getDbo();
         $key    = $table->getKeyName();
         $item   = $table->$key;
-        $ucm    = new UCMType($this->typeAlias, $db);
-        $typeId = $ucm->getTypeId();
+        $query  = $db->createQuery()
+            ->select($db->quoteName('ct') . '.type_id')
+            ->from($db->quoteName('#__content_types', 'ct'))
+            ->where($db->quoteName('ct.type_alias') . ' = :alias')
+            ->bind(':alias', $this->typeAlias);
+
+        $db->setQuery($query);
+        $typeId = $db->loadResult();
 
         // Insert the new tag maps
         if (str_contains(implode(',', $tags), '#')) {
@@ -119,7 +122,7 @@ class TagsHelper extends CMSHelper
             return true;
         }
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->insert('#__contentitem_tag_map');
         $query->columns(
             [
@@ -181,7 +184,7 @@ class TagsHelper extends CMSHelper
 
                 $db = Factory::getDbo();
 
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select(
                         [
                             $db->quoteName('alias'),
@@ -323,12 +326,10 @@ class TagsHelper extends CMSHelper
             throw new \InvalidArgumentException('Multiple primary keys are not supported as a content item id');
         }
 
-        $result = $this->unTagItem($contentItemId[$key], $table);
+        $result           = $this->unTagItem($contentItemId[$key], $table);
+        $coreContentTable = new CoreContent(Factory::getDbo());
 
-        /** @var  CoreContent $ucmContentTable */
-        $ucmContentTable = Table::getInstance('CoreContent');
-
-        return $result && $ucmContentTable->deleteByContentId($contentItemId[$key], $this->typeAlias);
+        return $result && $coreContentTable->deleteByContentId($contentItemId[$key], $this->typeAlias);
     }
 
     /**
@@ -349,7 +350,7 @@ class TagsHelper extends CMSHelper
 
         // Initialize some variables.
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('m.tag_id'))
             ->from($db->quoteName('#__contentitem_tag_map', 'm'))
             ->where(
@@ -410,7 +411,7 @@ class TagsHelper extends CMSHelper
         /** @var DatabaseInterface $db */
         $db = Factory::getContainer()->get(DatabaseInterface::class);
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['m.tag_id', 'm.content_item_id']))
             ->from($db->quoteName('#__contentitem_tag_map', 'm'))
             ->where(
@@ -489,7 +490,7 @@ class TagsHelper extends CMSHelper
         $db = Factory::getDbo();
 
         // Load the tags.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('t.id'))
             ->from($db->quoteName('#__tags', 't'))
             ->join('INNER', $db->quoteName('#__contentitem_tag_map', 'm'), $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'))
@@ -535,7 +536,7 @@ class TagsHelper extends CMSHelper
     ) {
         // Create a new query object.
         $db       = Factory::getDbo();
-        $query    = $db->getQuery(true);
+        $query    = $db->createQuery();
         $user     = Factory::getUser();
         $nullDate = $db->getNullDate();
         $nowDate  = Factory::getDate()->toSql();
@@ -713,7 +714,7 @@ class TagsHelper extends CMSHelper
             $tagIds = ArrayHelper::toInteger($tagIds);
 
             $db    = Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('title'))
                 ->from($db->quoteName('#__tags'))
                 ->whereIn($db->quoteName('id'), $tagIds)
@@ -775,7 +776,7 @@ class TagsHelper extends CMSHelper
     {
         // Initialize some variables.
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*');
 
         if (!empty($selectTypes)) {
@@ -827,6 +828,26 @@ class TagsHelper extends CMSHelper
      */
     public function postStoreProcess(TableInterface $table, $newTags = [], $replace = true)
     {
+        @trigger_error('7.0 Method postStoreProcess() is deprecated, use postStore() instead.', \E_USER_DEPRECATED);
+
+        $this->postStore($table, (array) $newTags, (bool) $replace);
+    }
+
+    /**
+     * Function that handles saving tags used in a table class after a store().
+     *
+     * @param   TableInterface  $table    Table being processed.
+     * @param   array           $newTags  Array of new tags.
+     * @param   boolean         $replace  Flag indicating if all existing tags should be replaced.
+     *                                    This flag takes precedence before $remove.
+     * @param   boolean         $remove   Flag indicating if the tags in $newTags should be removed.
+     *
+     * @return  boolean
+     *
+     * @since   6.0.0
+     */
+    public function postStore(TableInterface $table, array $newTags = [], bool $replace = true, bool $remove = false): bool
+    {
         if (!empty($table->newTags) && empty($newTags)) {
             $newTags = $table->newTags;
         }
@@ -839,27 +860,81 @@ class TagsHelper extends CMSHelper
 
         // Process ucm_content and ucm_base if either tags have changed or we have some tags.
         if ($this->tagsChanged || (!empty($newTags) && $newTags[0] != '')) {
-            if (!$newTags && $replace == true) {
+            if (!$newTags && $replace) {
                 // Delete all tags data
                 $key    = $table->getKeyName();
                 $result = $this->deleteTagData($table, $table->$key);
             } else {
                 // Process the tags
-                $data            = $this->getRowData($table);
-                $ucmContentTable = Table::getInstance('CoreContent');
+                $data             = $this->getRowData($table);
+                $coreContentTable = new CoreContent(Factory::getDbo());
+                $db               = Factory::getDbo();
 
-                $ucm     = new UCMContent($table, $this->typeAlias);
-                $ucmData = $data ? $ucm->mapData($data) : $ucm->ucmData;
+                $query = $db->createQuery()
+                    ->select($db->quoteName('ct') . '.*')
+                    ->from($db->quoteName('#__content_types', 'ct'))
+                    ->where($db->quoteName('ct.type_alias') . ' = :alias')
+                    ->bind(':alias', $this->typeAlias);
 
-                $primaryId = $ucm->getPrimaryKey($ucmData['common']['core_type_id'], $ucmData['common']['core_content_item_id']);
-                $result    = $ucmContentTable->load($primaryId);
-                $result    = $result && $ucmContentTable->bind($ucmData['common']);
-                $result    = $result && $ucmContentTable->check();
-                $result    = $result && $ucmContentTable->store();
-                $ucmId     = $ucmContentTable->core_content_id;
+                $db->setQuery($query);
+
+                $contentType = $db->loadObject();
+
+                $fields = json_decode($contentType->field_mappings);
+
+                $ucmData = [];
+
+                $common = \is_object($fields->common) ? $fields->common : $fields->common[0];
+
+                foreach ($common as $i => $field) {
+                    if ($field && $field !== 'null' && \array_key_exists($field, $data)) {
+                        $ucmData['common'][$i] = $data[$field];
+                    }
+                }
+
+                if (\array_key_exists('special', $ucmData)) {
+                    $special = \is_object($fields->special) ? $fields->special : $fields->special[0];
+
+                    foreach ($special as $i => $field) {
+                        if ($field && $field !== 'null' && \array_key_exists($field, $data)) {
+                            $ucmData['special'][$i] = $data[$field];
+                        }
+                    }
+                }
+
+                $ucmData['common']['core_type_alias'] = $contentType->type_alias;
+                $ucmData['common']['core_type_id']    = $contentType->type_id;
+
+                if (isset($ucmData['special'])) {
+                    $ucmData['special']['ucm_id'] = $ucmData['common']['ucm_id'];
+                }
+
+                $query = $db->createQuery()
+                    ->select($db->quoteName('ucm_id'))
+                    ->from($db->quoteName('#__ucm_base'))
+                    ->where(
+                        [
+                            $db->quoteName('ucm_item_id') . ' = :itemId',
+                            $db->quoteName('ucm_type_id') . ' = :typeId',
+                        ]
+                    )
+                    ->bind(':itemId', $ucmData['common']['core_content_item_id'], ParameterType::INTEGER)
+                    ->bind(':typeId', $ucmData['common']['core_type_id'], ParameterType::INTEGER);
+                $db->setQuery($query);
+
+                $primaryId = $db->loadResult();
+                $result    = $coreContentTable->load($primaryId);
+                $result    = $result && $coreContentTable->bind($ucmData['common']);
+                $result    = $result && $coreContentTable->check();
+                $result    = $result && $coreContentTable->store();
+                $ucmId     = $coreContentTable->core_content_id;
 
                 // Store the tag data if the article data was saved and run related methods.
-                $result = $result && $this->tagItem($ucmId, $table, $newTags, $replace);
+                if ($remove) {
+                    $result = $result && $this->unTagItem($ucmId, $table, $newTags);
+                } else {
+                    $result = $result && $this->tagItem($ucmId, $table, $newTags, $replace);
+                }
             }
         }
 
@@ -915,7 +990,7 @@ class TagsHelper extends CMSHelper
     public static function searchTags($filters = [])
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('a.id', 'value'),
@@ -1025,7 +1100,7 @@ class TagsHelper extends CMSHelper
 
         // Delete the old tag maps.
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__contentitem_tag_map'))
             ->where($db->quoteName('tag_id') . ' = :id')
             ->bind(':id', $tagId, ParameterType::INTEGER);
@@ -1089,7 +1164,7 @@ class TagsHelper extends CMSHelper
         $key   = $table->getKeyName();
         $id    = (int) $table->$key;
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__contentitem_tag_map'))
             ->where(
                 [
@@ -1128,7 +1203,7 @@ class TagsHelper extends CMSHelper
             $tagIds = ArrayHelper::toInteger($tagIds);
 
             $db    = Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select([$db->quoteName('id'), $db->quoteName('title')])
                 ->from($db->quoteName('#__tags'))
                 ->whereIn($db->quoteName('id'), $tagIds)

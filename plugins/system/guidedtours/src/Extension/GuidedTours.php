@@ -14,14 +14,12 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Guidedtours\Administrator\Extension\GuidedtoursComponent;
 use Joomla\Component\Guidedtours\Administrator\Model\TourModel;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
@@ -77,17 +75,16 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor
      *
-     * @param   DispatcherInterface  $dispatcher  The object to observe
      * @param   array                $config      An optional associative array of configuration settings.
      * @param   boolean              $enabled     An internal flag whether plugin should listen any event.
      *
      * @since   4.3.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config = [], bool $enabled = false)
+    public function __construct(array $config = [], bool $enabled = false)
     {
         self::$enabled = $enabled;
 
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
     }
 
     /**
@@ -204,7 +201,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
                     $profileKey = 'guidedtour.id.' . $tour->id;
 
                     // Check if the tour state has already been saved some time before.
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->select($db->quoteName('profile_value'))
                         ->from($db->quoteName('#__user_profiles'))
                         ->where($db->quoteName('user_id') . ' = :user_id')
@@ -283,7 +280,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     /**
      * Return a tour and its steps or null if not found
      *
-     * @param   CMSObject  $item  The tour to load
+     * @param   \stdClass  $item  The tour to load
      *
      * @return null|object
      *

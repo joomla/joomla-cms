@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\Workflow\Featuring\Extension;
 
+use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Event\Table\BeforeStoreEvent;
@@ -29,7 +30,6 @@ use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
-use Joomla\String\Inflector;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -195,7 +195,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
         $section   = $event->getArgument('section');
 
         // We need the single model context for checking for workflow
-        $singularsection = Inflector::singularize($section);
+        $singularsection = InflectorFactory::create()->build()->singularize($section);
 
         if (!$this->isSupported($component . '.' . $singularsection)) {
             return;
@@ -270,7 +270,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
             AbstractEvent::create(
                 'onContentBeforeChangeFeatured',
                 [
-                    'eventClass'  => 'Joomla\Component\Content\Administrator\Event\Model\FeatureEvent',
+                    'eventClass'  => FeatureEvent::class,
                     'subject'     => $this,
                     'extension'   => $context,
                     'pks'         => $pks,
