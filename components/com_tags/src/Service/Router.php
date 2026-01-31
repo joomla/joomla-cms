@@ -252,8 +252,10 @@ class Router extends RouterBase
 
             unset($query['view']);
         } else {
-            $segments[] = $query['view'];
-            unset($query['view'], $query['Itemid']);
+            if (isset($query['view'])) {
+                $segments[] = $query['view'];
+                unset($query['view'], $query['Itemid']);
+            }
 
             if (isset($query['id']) && \is_array($query['id'])) {
                 foreach ($query['id'] as $id) {
