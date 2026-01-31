@@ -362,7 +362,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
 
         $data = $event->getData();
 
-        if (!is_array($data)) {
+        if (!\is_array($data)) {
             $data = (array) $data;
         }
 

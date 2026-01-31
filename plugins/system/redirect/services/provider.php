@@ -16,7 +16,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Menu\MenuFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\User\User;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
