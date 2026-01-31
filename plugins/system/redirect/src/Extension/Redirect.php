@@ -614,7 +614,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Get the router prepared by outself
+     * Get the router prepared by ourself
      *
      * @return  SiteRouter
      *
