@@ -365,6 +365,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
+     * @throws  \Exception
      * @since   4.0.0
      */
     public function onContentBeforeSave(Model\BeforeSaveEvent $event): void
@@ -390,10 +391,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
          * As we're setting the field to disabled, no value should be there at all
          */
         if (isset($data[$keyName])) {
-            $this->getApplication()->enqueueMessage(
-                $this->getApplication()->getLanguage()->_('PLG_WORKFLOW_FEATURING_CHANGE_STATE_NOT_ALLOWED'),
-                'error'
-            );
+            throw new \Exception($this->getApplication()->getLanguage()->_('PLG_WORKFLOW_FEATURING_CHANGE_STATE_NOT_ALLOWED'));
         }
     }
 
