@@ -291,17 +291,20 @@ window.addEventListener('joomla:menu-toggle', (event) => {
  *
  * @since 4.4
  */
-document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach((button) => {
+document.querySelectorAll('.header-item [data-bs-toggle="dropdown"], .header-item a, .header-item button').forEach((button) => {
   button.addEventListener('click', () => {
-    document.querySelectorAll('#header [data-bs-toggle="collapse"]').forEach((cb) => {
-      const target = document.querySelector(cb.getAttribute('data-bs-target'));
-      if (target.contains(button)) {
-        return;
-      }
-      const collapseMenu = bootstrap.Collapse.getInstance(target) || new bootstrap.Collapse(target, {
+    if (sidebarWrapper && sidebarWrapper.classList.contains('collapse') && sidebarWrapper.classList.contains('show') && !sidebarWrapper.contains(button)) {
+      const collapseMenu = bootstrap.Collapse.getInstance(sidebarWrapper) || new bootstrap.Collapse(sidebarWrapper, {
         toggle: false,
       });
       collapseMenu.hide();
-    });
+    }
+
+    if (subhead && subhead.classList.contains('collapse') && subhead.classList.contains('show') && !subhead.contains(button)) {
+      const collapseMenu = bootstrap.Collapse.getInstance(subhead) || new bootstrap.Collapse(subhead, {
+        toggle: false,
+      });
+      collapseMenu.hide();
+    }
   });
 });
