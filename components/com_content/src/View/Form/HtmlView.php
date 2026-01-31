@@ -177,12 +177,12 @@ class HtmlView extends BaseHtmlView
             $this->form->setFieldAttribute('language', 'default', $lang);
         }
 
-        // Apply category scope filtering if enabled (limit to parent category and subcategories)
+        // Apply category scope filtering if enabled (limit to selected categories and their subcategories)
         if (empty($this->item->id) && $params->get('enable_category') == 1 && $params->get('limit_category_scope') == 1) {
             $catid = $this->state->get('params')->get('catid');
             
             if ($catid) {
-                // Set the scope_root attribute on the catid field to limit visible categories
+                // catid can be a single ID or comma-separated IDs from modal_categories field
                 $this->form->setFieldAttribute('catid', 'scope_root', $catid);
             }
         }

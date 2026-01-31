@@ -25,7 +25,7 @@
 
 			<field
 				name="catid"
-				type="modal_category"
+				type="modal_categories"
 				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
 				extension="com_content"
 				select="true"

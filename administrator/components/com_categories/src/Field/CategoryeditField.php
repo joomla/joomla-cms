@@ -45,9 +45,10 @@ class CategoryeditField extends ListField
     protected $customPrefix;
 
     /**
-     * Optional scope root category ID to limit visible categories.
+     * Optional scope root category ID(s) to limit visible categories.
+     * Can be a single integer ID or comma-separated string of IDs.
      *
-     * @var    integer
+     * @var    string|integer
      * @since  6.1.0
      */
     protected $scopeRoot;
@@ -89,7 +90,7 @@ class CategoryeditField extends ListField
         if ($return) {
             $this->allowAdd     = isset($this->element['allowAdd']) ? (bool) $this->element['allowAdd'] : false;
             $this->customPrefix = (string) $this->element['customPrefix'];
-            $this->scopeRoot    = isset($this->element['scope_root']) ? (int) $this->element['scope_root'] : 0;
+            $this->scopeRoot    = isset($this->element['scope_root']) ? (string) $this->element['scope_root'] : '';
         }
 
         return $return;
@@ -112,7 +113,7 @@ class CategoryeditField extends ListField
             case 'customPrefix':
                 return $this->$name;
             case 'scopeRoot':
-                return (int) $this->$name;
+                return $this->$name;
         }
 
         return parent::__get($name);
@@ -141,7 +142,7 @@ class CategoryeditField extends ListField
                 $this->$name = (string) $value;
                 break;
             case 'scopeRoot':
-                $this->$name = (int) $value;
+                $this->$name = (string) $value;
                 break;
             default:
                 parent::__set($name, $value);
@@ -233,29 +234,48 @@ class CategoryeditField extends ListField
             $query->whereIn($db->quoteName('a.access'), $groups);
         }
 
-        // Filter by scope root category if specified (limit to parent category and descendants)
-        if ($this->scopeRoot > 0 && !$isParentCategoryField) {
-            // Get the lft and rgt values for the scope root category
-            $scopeQuery = $db->createQuery()
-                ->select([$db->quoteName('lft'), $db->quoteName('rgt')])
-                ->from($db->quoteName('#__categories'))
-                ->where($db->quoteName('id') . ' = :scoperoot')
-                ->bind(':scoperoot', $this->scopeRoot, ParameterType::INTEGER);
-            $db->setQuery($scopeQuery);
+        // Filter by scope root category/categories if specified (limit to selected categories and descendants)
+        if ($this->scopeRoot && !$isParentCategoryField) {
+            // Convert scopeRoot to array - can be single ID or comma-separated IDs
+            $scopeRootIds = is_array($this->scopeRoot) 
+                ? $this->scopeRoot 
+                : array_map('intval', explode(',', (string) $this->scopeRoot));
             
-            try {
-                $scopeCategory = $db->loadObject();
+            // Remove any zero or negative values
+            $scopeRootIds = array_filter($scopeRootIds, function($id) {
+                return $id > 0;
+            });
+            
+            if (!empty($scopeRootIds)) {
+                // Get the lft and rgt values for all scope root categories
+                $scopeQuery = $db->createQuery()
+                    ->select([$db->quoteName('id'), $db->quoteName('lft'), $db->quoteName('rgt')])
+                    ->from($db->quoteName('#__categories'))
+                    ->whereIn($db->quoteName('id'), $scopeRootIds, ParameterType::INTEGER);
+                $db->setQuery($scopeQuery);
                 
-                if ($scopeCategory) {
-                    // Filter to only show the scope category and its descendants using nested set model
-                    $query->where($db->quoteName('a.lft') . ' >= :scopelft')
-                        ->where($db->quoteName('a.rgt') . ' <= :scopergt')
-                        ->bind(':scopelft', $scopeCategory->lft, ParameterType::INTEGER)
-                        ->bind(':scopergt', $scopeCategory->rgt, ParameterType::INTEGER);
+                try {
+                    $scopeCategories = $db->loadObjectList();
+                    
+                    if (!empty($scopeCategories)) {
+                        // Build OR conditions for each scope category and its descendants
+                        $scopeConditions = [];
+                        
+                        foreach ($scopeCategories as $scopeCat) {
+                            // Each category and its descendants match: lft >= cat.lft AND rgt <= cat.rgt
+                            $scopeConditions[] = '(' . $db->quoteName('a.lft') . ' >= ' . (int) $scopeCat->lft 
+                                . ' AND ' . $db->quoteName('a.rgt') . ' <= ' . (int) $scopeCat->rgt . ')';
+                        }
+                        
+                        // Apply OR condition - show categories matching ANY of the scope roots
+                        if (!empty($scopeConditions)) {
+                            $query->where('(' . implode(' OR ', $scopeConditions) . ')');
+                        }
+                    }
+                } catch (\RuntimeException $e) {
+                    // If scope categories not found, continue without scope filter
+                    Factory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
                 }
-            } catch (\RuntimeException $e) {
-                // If scope category not found, continue without scope filter
-                Factory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
             }
         }
 
