@@ -86,9 +86,11 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
      *
      * @param   Model\PrepareFormEvent  $event  The event
      *
+     * @return  void
+     *
      * @since   4.0.0
      */
-    public function onContentPrepareForm(Model\PrepareFormEvent $event)
+    public function onContentPrepareForm(Model\PrepareFormEvent $event): void
     {
         $form = $event->getForm();
         $data = $event->getData();
@@ -116,7 +118,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    protected function enhanceItemForm(Form $form, $data)
+    protected function enhanceItemForm(Form $form, $data): bool
     {
         $context = $form->getName();
 
@@ -184,7 +186,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    public function onAfterDisplay(DisplayEvent $event)
+    public function onAfterDisplay(DisplayEvent $event): void
     {
         if (!$this->getApplication()->isClient('administrator')) {
             return;
@@ -236,24 +238,24 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
      *
      * @param   WorkflowTransitionEvent  $event
      *
-     * @return   boolean
+     * @return  void
      *
      * @since   4.0.0
      */
-    public function onWorkflowBeforeTransition(WorkflowTransitionEvent $event)
+    public function onWorkflowBeforeTransition(WorkflowTransitionEvent $event): void
     {
         $context    = $event->getArgument('extension');
         $transition = $event->getArgument('transition');
         $pks        = $event->getArgument('pks');
 
         if (!$this->isSupported($context) || !is_numeric($transition->options->get('featuring'))) {
-            return true;
+            return;
         }
 
         $value = $transition->options->get('featuring');
 
         if (!is_numeric($value)) {
-            return true;
+            return;
         }
 
         /**
@@ -285,11 +287,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
 
         if ($eventResult->getArgument('abort')) {
             $event->setStopTransition();
-
-            return false;
         }
-
-        return true;
     }
 
     /**
@@ -297,7 +295,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
      *
      * @param   WorkflowTransitionEvent  $event
      *
-     * @return   void
+     * @return  void
      *
      * @since   4.0.0
      */
@@ -338,29 +336,26 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
      *
      * @param   FeatureEvent  $event
      *
-     * @return   boolean
+     * @return  void
      *
-     * @throws   \Exception
      * @since   4.0.0
      */
-    public function onContentBeforeChangeFeatured(FeatureEvent $event)
+    public function onContentBeforeChangeFeatured(FeatureEvent $event): void
     {
         $extension = $event->getArgument('extension');
         $pks       = $event->getArgument('pks');
 
         if (!$this->isSupported($extension)) {
-            return true;
+            return;
         }
 
         // We have allowed the pks, so we're the one who triggered
         // With onWorkflowBeforeTransition => free pass
         if ($this->getApplication()->get('plgWorkflowFeaturing.' . $extension) === $pks) {
-            return true;
+            return;
         }
 
         $event->setAbort('PLG_WORKFLOW_FEATURING_CHANGE_STATE_NOT_ALLOWED');
-
-        return false;
     }
 
     /**
@@ -368,16 +363,16 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
      *
      * @param   Model\BeforeSaveEvent  $event
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   4.0.0
      */
-    public function onContentBeforeSave(Model\BeforeSaveEvent $event)
+    public function onContentBeforeSave(Model\BeforeSaveEvent $event): void
     {
         $context = $event->getContext();
 
         if (!$this->isSupported($context)) {
-            return true;
+            return;
         }
 
         /** @var TableInterface $table */
@@ -399,11 +394,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
                 $this->getApplication()->getLanguage()->_('PLG_WORKFLOW_FEATURING_CHANGE_STATE_NOT_ALLOWED'),
                 'error'
             );
-
-            return false;
         }
-
-        return true;
     }
 
     /**
@@ -415,7 +406,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    public function onContentVersioningPrepareTable(EventInterface $event)
+    public function onContentVersioningPrepareTable(EventInterface $event): void
     {
         $subject = $event->getArgument('subject');
         $context = $event->getArgument('extension');
@@ -446,7 +437,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    public function onTableBeforeStore(BeforeStoreEvent $event)
+    public function onTableBeforeStore(BeforeStoreEvent $event): void
     {
         $subject = $event->getArgument('subject');
 
@@ -484,11 +475,11 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
      *
      * @param   string  $context
      *
-     * @return   boolean
+     * @return  boolean
      *
      * @since   4.0.0
      */
-    protected function isSupported($context)
+    protected function isSupported($context): bool
     {
         if (!$this->checkAllowedAndForbiddenlist($context) || !$this->checkExtensionSupport($context, $this->supportFunctionality)) {
             return false;
@@ -533,9 +524,11 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
      *
      * @param   WorkflowFunctionalityUsedEvent  $event
      *
-     * @since 4.0.0
+     * @return  void
+     *
+     * @since   4.0.0
      */
-    public function onWorkflowFunctionalityUsed(WorkflowFunctionalityUsedEvent $event)
+    public function onWorkflowFunctionalityUsed(WorkflowFunctionalityUsedEvent $event): void
     {
         $functionality = $event->getArgument('functionality');
 
