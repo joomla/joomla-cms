@@ -15,7 +15,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
@@ -31,7 +30,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.5
  */
-class BannerTable extends Table implements VersionableTableInterface
+class BannerTable extends Table
 {
     /**
      * Indicates that columns fully support the NULL value in the database

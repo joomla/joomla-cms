@@ -101,7 +101,7 @@ class HtmlView extends BaseHtmlView
 
         // Add form control fields
         $this->form
-            ->addControlField('task', '');
+            ->addControlField('task');
 
         $this->_prepareDocument();
 

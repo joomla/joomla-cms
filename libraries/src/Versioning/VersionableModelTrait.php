@@ -169,12 +169,48 @@ trait VersionableModelTrait
             $rowArray['ordering'] = 0;
         }
 
+        // Fix null note when restoring history
+        if (\array_key_exists('note', $rowArray) && $rowArray['note'] === null) {
+            $rowArray['note'] = '';
+        }
+
         $historyTable = $this->getHistoryTable($historyId);
 
         $this->setState('save_date', $historyTable->save_date);
         $this->setState('version_note', $historyTable->version_note);
 
-        return $this->save($rowArray);
+        /**
+         * The version history is created prior to Joomla 6.0, so we can only restore item data, not a full
+         * restore like we can do with Joomla 6.0+ version history.
+         */
+        if ($historyTable->is_legacy) {
+            $key = $table->getKeyName();
+
+            /**
+             * Load data from current version before replacing it with data from history to avoid error
+             * if there are some required keys missing in the history data
+             */
+            if (isset($rowArray[$key])) {
+                $table->load($rowArray[$key]);
+            }
+
+            $table->bind($rowArray);
+
+            if (!$table->check() || !$table->store()) {
+                $ret = false;
+            } else {
+                $ret = true;
+            }
+        } else {
+            $ret = $this->save($rowArray);
+        }
+
+        // Mark the restored version as current
+        if ($ret) {
+            $this->markVersionAsCurrent($historyTable->version_id, $historyTable->item_id);
+        }
+
+        return $ret;
     }
 
     /**
@@ -263,12 +299,26 @@ trait VersionableModelTrait
      */
     public function saveHistory(array $data, string $context)
     {
+        if (!$this->versionHistoryEnabled($context)) {
+            return false;
+        }
+
         $id = $this->getState($this->getName() . '.id');
 
-        $versionNote =  '';
+        /**
+         * Merge item data and form data so that we write all data to the history. We have to rel
+         * from database to have default data populated for fields which are not passed in $data array,
+         * avoid error such as Column 'created_by_alias' cannot be null" when restore from version history
+         */
+        $table = $this->getTable();
+        $table->load($id);
+        $itemData = ArrayHelper::fromObject($table);
+        $data     = array_merge($data, $itemData);
+
+        $versionNote = '';
 
         if (\array_key_exists('version_note', $data)) {
-            $versionNote =  $data['version_note'];
+            $versionNote = $data['version_note'];
             unset($data['version_note']);
         }
 
@@ -278,13 +328,7 @@ trait VersionableModelTrait
             }
         }
 
-        $item = $this->getItem($id);
-
-        $hash  = $this->getSha1($item);
-
-        $result = $this->storeHistory($context, $id, ArrayHelper::toObject($data), $versionNote, $hash);
-
-        return $result;
+        return $this->storeHistory($context, $id, ArrayHelper::toObject($data), $versionNote);
     }
 
     /**
@@ -318,14 +362,13 @@ trait VersionableModelTrait
      * @param   mixed    $data       Array or object of data that can be
      *                               en- and decoded into JSON
      * @param   string   $note       Note for the version to store
-     * @param   string   $hash
      *
      * @return  boolean  True on success, otherwise false.
      *
      * @since   6.0.0
      * @throws \Exception
      */
-    public function storeHistory(string $typeAlias, int $id, mixed $data, string $note = '', string $hash = '')
+    protected function storeHistory(string $typeAlias, int $id, mixed $data, string $note = '')
     {
         $typeTable = new ContentType($this->getDatabase());
         $typeTable->load(['type_alias' => $typeAlias]);
@@ -334,11 +377,6 @@ trait VersionableModelTrait
         $historyTable->item_id = $typeAlias . '.' . $id;
 
         [$extension, $type] =  explode('.', $typeAlias);
-
-        // Don't store unless we have a non-zero item id
-        if (!$historyTable->item_id) {
-            return true;
-        }
 
         // We should allow workflow items interact with the versioning
         $component = Factory::getApplication()->bootComponent($extension);
@@ -373,7 +411,7 @@ trait VersionableModelTrait
         $historyTable->version_note = $note;
 
         // Don't save if hash already exists and same version note
-        $historyTable->sha1_hash = $hash;
+        $historyTable->sha1_hash = $this->getSha1($data);
 
         $historyRow = $historyTable->getHashMatch();
 
@@ -400,6 +438,56 @@ trait VersionableModelTrait
             $historyTable->deleteOldVersions($maxVersions);
         }
 
+        // Mark this version as current
+        $this->markVersionAsCurrent($historyTable->version_id, $historyTable->item_id);
+
         return $result;
+    }
+
+    /**
+     * Method to mark a version as current. When a version is marked as current, all other versions of same
+     * content item will be marked as not current.
+     *
+     * @param   integer  $versionId  The version id to mark as current
+     * @param   string   $itemId     The item id of the content item
+     *
+     * @return  void
+     *
+     * @since   6.0.0
+     */
+    protected function markVersionAsCurrent(int $versionId, string $itemId): void
+    {
+        $db    = $this->getDatabase();
+        $query = $db->createQuery()
+            ->update($db->quoteName('#__history'))
+            ->set($db->quoteName('is_current') . ' = 0')
+            ->where($db->quoteName('item_id') . ' = :item_id')
+            ->bind(':item_id', $itemId, ParameterType::STRING);
+        $db->setQuery($query);
+        $db->execute();
+
+        $query->clear()
+            ->update($db->quoteName('#__history'))
+            ->set($db->quoteName('is_current') . ' = 1')
+            ->where($db->quoteName('version_id') . ' = :version_id')
+            ->bind(':version_id', $versionId, ParameterType::INTEGER);
+        $db->setQuery($query);
+        $db->execute();
+    }
+
+    /**
+     * Method to check if version history is enabled for a specific context.
+     *
+     * @param   string  $context  The model context.
+     *
+     * @return  boolean  True if version history is enabled, false otherwise.
+     *
+     * @since   6.0.0
+     */
+    protected function versionHistoryEnabled(string $context): bool
+    {
+        [$extension, $type] = explode('.', $context);
+
+        return (bool) ComponentHelper::getParams($extension)->get('save_history', 0);
     }
 }

@@ -190,7 +190,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
                 return Status::KNOCKOUT;
             }
         }
-        $this->logTask('Remind end');
+        $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_PRIVACYCONSENT_LOG_REMIND_END'), 'info');
 
         return Status::OK;
     }
