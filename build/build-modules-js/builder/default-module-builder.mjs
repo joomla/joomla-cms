@@ -2,6 +2,7 @@
  * Default Assets Builder
  */
 
+import path from 'node:path';
 import fs from 'node:fs';
 import fse from 'fs-extra/esm'
 
@@ -26,6 +27,9 @@ export default class DefaultModuleBuilder{
     if (!basePath || !targetPath) {
       throw new Error(`Arguments "basePath" and "targetPath"  is required for "${name}" ModuleBuilder.`);
     }
+
+    // Internal flag
+    this.copyDone = false;
   }
 
   getTasks() {
@@ -45,10 +49,28 @@ export default class DefaultModuleBuilder{
    * @returns {Promise<void>}
    */
   async copy() {
-    // @TODO Task "copy"
-    console.log('Building copy task ...');
 
-    return fse.mkdirp(this.targetPath);
+    const filterFunc = (src, dest) => {
+      if (dest === this.targetPath) {
+        return true;
+      }
+
+      // Skip build module
+      if (path.basename(src) === 'build.mjs') {
+        return false;
+      }
+
+      // Skip folders for child modules
+      if (fs.existsSync(path.join(src, 'build.mjs'))) {
+        return false;
+      }
+
+      return true;
+    };
+
+    return fse.copy(this.basePath, this.targetPath, { filter: filterFunc }).then(() => {
+      this.copyDone = true;
+    });
   }
 
   /**
@@ -56,8 +78,14 @@ export default class DefaultModuleBuilder{
    * @returns {Promise<void>}
    */
   async css() {
-    // @TODO Task "css"
+    // Make sure files is copied
+    if (!this.copyDone) {
+      return this.copy().then(() => this.css());
+    }
+
     console.log('Building css task ...');
+
+    console.log(this.copyDone)
   }
 
   /**
@@ -65,6 +93,11 @@ export default class DefaultModuleBuilder{
    * @returns {Promise<void>}
    */
   async js() {
+    // Make sure files is copied
+    if (!this.copyDone) {
+      return this.copy().then(() => this.js());
+    }
+
     // @TODO Task "js"
     console.log('Building js task ...');
   }
