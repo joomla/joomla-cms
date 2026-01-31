@@ -17,6 +17,7 @@ use Joomla\CMS\Event\ErrorEvent;
 use Joomla\CMS\Event\Model\AfterSaveEvent;
 use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Event\Model\PrepareDataEvent;
+use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\HelperRedirectAwareInterface;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -101,6 +102,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
             'onContentAfterSave'        => 'onContentAfterSave',
             'onContentBeforeSave'       => 'onContentBeforeSave',
             'onContentPrepareData'      => 'onContentPrepareData',
+            'onContentPrepareForm'      => 'onContentPrepareForm',
             'onError'                   => 'handleError',
         ];
     }
@@ -123,15 +125,6 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $app = $this->getApplication();
-
-        if (
-            (!$this->params->get('redirect_on_save_admin', 1) || !$app->isClient('administrator'))
-            && (!$this->params->get('redirect_on_save_site', 1) || ! $app->isClient('site'))
-        ) {
-            return;
-        }
-
         // Check if the extension supports auto redirect handling
         $context = $event->getContext();
 
@@ -148,9 +141,20 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $extension = $this->getApplication()->bootComponent($component);
+        $app = $this->getApplication();
+
+        $extension = $app->bootComponent($component);
 
         if (!$extension || !$extension instanceof HelperRedirectAwareInterface) {
+            return;
+        }
+
+        $componentParams = ComponentHelper::getParams($component);
+
+        if (
+            (!$componentParams->get('redirect_on_save_admin', 1) || !$app->isClient('administrator'))
+            && (!$componentParams->get('redirect_on_save_site', 1) || ! $app->isClient('site'))
+        ) {
             return;
         }
 
@@ -200,15 +204,6 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $app = $this->getApplication();
-
-        if (
-            (!$this->params->get('redirect_on_save_admin', 1) || !$app->isClient('administrator'))
-            && (!$this->params->get('redirect_on_save_site', 1) || ! $app->isClient('site'))
-        ) {
-            return;
-        }
-
         // Check if the extension supports auto redirect handling
         $context = $event->getContext();
 
@@ -220,9 +215,21 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
             [$component] = explode('.', ArrayHelper::getValue($data, 'extension', ''));
         }
 
+        $app = $this->getApplication();
+
         $extension = $this->getApplication()->bootComponent($component);
 
         if (!$extension || !$extension instanceof HelperRedirectAwareInterface) {
+            return;
+        }
+
+        // Check if the redirect on save is enabled
+        $componentParams = ComponentHelper::getParams($component);
+
+        if (
+            (!$componentParams->get('redirect_on_save_admin', 1) || !$app->isClient('administrator'))
+            && (!$componentParams->get('redirect_on_save_site', 1) || ! $app->isClient('site'))
+        ) {
             return;
         }
 
@@ -249,7 +256,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
             $user = $this->getApplication()->getIdentity();
 
             // In admin we have to create the redirect manually if seletected
-            if ($app->isClient('administrator') && (int) $this->params->get('redirect_on_save_admin', 1) === 2) {
+            if ($app->isClient('administrator') && (int) $componentParams->get('redirect_on_save_admin', 1) === 2) {
                 // Check for com_redirect permissions
                 $canCreateRedirect = $user->authorise('core.create', 'com_redirect');
 
@@ -265,12 +272,12 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
 
                 return;
             } elseif (
-                ($app->isClient('administrator') && (int) $this->params->get('redirect_on_save_admin', 1))
-                || ($app->isClient('site') && (int) $this->params->get('redirect_on_save_site', 1))
+                ($app->isClient('administrator') && (int) $componentParams->get('redirect_on_save_admin', 1))
+                || ($app->isClient('site') && (int) $componentParams->get('redirect_on_save_site', 1))
             ) {
                 $redirectExtension = $app->bootComponent('com_redirect')->getMVCFactory();
 
-                $redirectModel = $redirectExtension->createModel('Link', 'Administrator');
+                $redirectModel = $redirectExtension->createModel('Link', 'Administrator', ['ignore_request' => true]);
 
                 $redirectTable = $redirectModel->getTable();
 
@@ -286,7 +293,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
                 // Create new redirect
                 $data = [
                     'old_url'      => (string) $this->oldLink,
-                    'new_url'      => (string) $newLink,
+                    'new_url'      => (string) $link,
                     'header'       => 301,
                     'published'    => 1,
                     'comment'      => Text::sprintf('PLG_SYSTEM_REDIRECT_AUTOMATICALLY_CREATED_ON_BY', Factory::getDate()->format(Text::_('DATE_FORMAT_LC2')), $user->name, $user->id),
@@ -314,7 +321,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
      */
     public function onAfterInitialiseDocument(AfterInitialiseDocumentEvent $event): void
     {
-        if (!(bool) $this->params->get('show_aftersave_info', 1) || !$this->getApplication()->isClient('administrator')) {
+        if (!$this->getApplication()->isClient('administrator')) {
             return;
         }
 
@@ -350,13 +357,9 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
      */
     public function onContentPrepareData(PrepareDataEvent $event)
     {
-        if (!(bool) $this->params->get('show_aftersave_info', 1) || !$this->getApplication()->isClient('administrator')) {
-            return;
-        }
-
         $context = $event->getContext();
 
-        if ($context !== 'com_redirect.link') {
+        if ($context !== 'com_redirect.link' || !$this->getApplication()->isClient('administrator')) {
             return;
         }
 
@@ -375,9 +378,52 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
 
         $storedData = $this->getApplication()->getUserState('plg_system_redirect.create.link', []);
 
+        $this->getApplication()->setUserState('plg_system_redirect.create.link', []);
+
         $data = array_merge($data, $storedData);
 
         $event->setArgument('data', $data);
+    }
+
+    /**
+     * Adds additional fields to the com_config editing form for components supporting the redirect interface
+     *
+     * @param   PrepareFormEvent $event  The event instance.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION_
+     *
+     * @throws  \Exception
+     */
+    public function onContentPrepareForm(PrepareFormEvent $event): void
+    {
+        $form     = $event->getForm();
+        $data     = $event->getData();
+        $formName = $form->getName();
+
+        $app = $this->getApplication();
+
+        if (!$app->isClient('administrator') || $formName !== 'com_config.component') {
+            return;
+        }
+
+        $input = $app->getInput();
+        $component = $input->getCmd('component', '');
+
+        if (empty($component)) {
+            return;
+        }
+
+        $extension = $app->bootComponent($component);
+
+        if (!$extension instanceof HelperRedirectAwareInterface) {
+            return;
+        }
+
+        $this->loadLanguage();
+
+        $form->loadFile(__DIR__ . '/../../form/config.xml');
     }
 
     /**
