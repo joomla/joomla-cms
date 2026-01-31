@@ -16,7 +16,7 @@ describe('Test in backend that the transition form', () => {
     cy.title().should('contain', 'Edit Transition');
     cy.get('h1.page-title').should('contain', 'Edit Transition');
     cy.get('#jform_title').should('have.value', 'AUTOMATED_TEST_TRANSITION');
-    // cy.get('#transition_title_translation').should('have.value', 'Test transition translated');
+    cy.get('#transition_title_translation').should('have.value', 'Test transition translated');
 
     cy.clickToolbarButton('Cancel');
     cy.get('h1.page-title').should('contain', 'Transitions: Basic Workflow');

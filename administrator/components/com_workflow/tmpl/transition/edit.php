@@ -30,14 +30,31 @@ $this->ignore_fieldsets = ['params', 'transition', 'permissions'];
 $this->useCoreUI = true;
 
 // In case of modal
-$isModal = $this->input->get('layout') === 'modal';
-$layout  = $isModal ? 'modal' : 'edit';
-$tmpl    = $isModal || $this->input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
+$isModal  = $this->input->get('layout') === 'modal';
+$layout   = $isModal ? 'modal' : 'edit';
+$tmpl     = $isModal || $this->input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
+$clientId = $this->state->get('item.client_id', 0);
+$lang     = $this->getLanguage()->getTag();
 
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_workflow&view=transition&workflow_id=' . $this->workflowID . '&extension=' . $this->input->getCmd('extension') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="workflow-form" aria-label="<?php echo Text::_('COM_WORKFLOW_TRANSITION_FORM_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
     <?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
+    <?php // Add the translation of the transition item title when client is administrator ?>
+    <?php if ($clientId === 0 && $this->item->id != 0) : ?>
+        <div class="row title-alias form-vertical mb-3">
+            <div class="col-12">
+                <div class="control-group">
+                    <div class="control-label">
+                        <label for="transition_title_translation"><?php echo Text::sprintf('COM_WORKFLOW_TITLE_TRANSLATION', $lang); ?></label>
+                    </div>
+                    <div class="controls">
+                        <input id="transition_title_translation" class="form-control" value="<?php echo Text::_($this->item->title); ?>" readonly="readonly" type="text">
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
     <div class="main-card">
         <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'details', 'recall' => true, 'breakpoint' => 768]); ?>
 
