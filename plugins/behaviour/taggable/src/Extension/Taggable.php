@@ -127,6 +127,10 @@ final class Taggable extends CMSPlugin implements SubscriberInterface
 
         $newTags = $table->newTags ?? [];
 
+        if (empty($newTags) && !empty($table->tags)) {
+            $newTags = $table->tags;
+        }
+
         if (empty($newTags)) {
             $tagsHelper->preStoreProcess($table);
         } else {
@@ -169,6 +173,10 @@ final class Taggable extends CMSPlugin implements SubscriberInterface
         $tagsHelper->typeAlias = $table->getTypeAlias();
 
         $newTags = $table->newTags ?? [];
+
+        if (empty($newTags) && !empty($table->tags)) {
+            $newTags = $table->tags;
+        }
 
         if (empty($newTags)) {
             $result = $tagsHelper->postStore($table);

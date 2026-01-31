@@ -33,6 +33,22 @@ trait TaggableTableTrait
     public $tagsHelper;
 
     /**
+     * The tags to be stored
+     *
+     * @var    array
+     * @since  4.0.0
+     */
+    public $tags = [];
+
+    /**
+     * The new tags to be stored
+     *
+     * @var    array
+     * @since  4.0.0
+     */
+    public $newTags = [];
+
+    /**
      * Get the tags helper
      *
      * @return  TagsHelper  The tags helper object
