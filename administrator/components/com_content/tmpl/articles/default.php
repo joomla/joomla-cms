@@ -165,7 +165,8 @@ $assoc = Associations::isEnabled();
                             $canEditOwnCat        = $user->authorise('core.edit.own', 'com_content.category.' . $item->catid) && $item->category_uid == $userId;
                             $canEditParCat        = $user->authorise('core.edit', 'com_content.category.' . $item->parent_category_id);
                             $canEditOwnParCat     = $user->authorise('core.edit.own', 'com_content.category.' . $item->parent_category_id) && $item->parent_category_uid == $userId;
-
+                            $canManageUsers       = $user->authorise('core.manage', 'com_users');
+                            
                             // Transition button options
                             $options = [
                                 'title' => Text::_($item->stage_title),
@@ -321,12 +322,12 @@ $assoc = Associations::isEnabled();
                                     <?php echo $this->escape($item->access_level); ?>
                                 </td>
                                 <td class="small d-none d-md-table-cell">
-                                    <?php if (!empty($item->author_name)) : ?>
+                                    <?php if (!empty($item->author_name) && $canManageUsers) : ?>
                                         <a href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>">
                                             <?php echo $this->escape($item->author_name); ?>
                                         </a>
                                     <?php else : ?>
-                                        [ <?php echo Text::_('JNONE'); ?> ]
+                                        <?php echo !empty($item->author_name) ? $this->escape($item->author_name) : '[' . Text::_('JNONE') . ']'    ; ?>
                                     <?php endif; ?>
                                     <?php if ($item->created_by_alias) : ?>
                                         <div class="smallsub"><?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
