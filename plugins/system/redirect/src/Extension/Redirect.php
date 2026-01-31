@@ -144,7 +144,8 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
             $component = ArrayHelper::getValue($data, 'extension', '');
         }
 
-        if (empty($component)) {
+        // Don't do, when we're ignoring this component
+        if (empty($component) || \in_array($component, (array) $this->params->get('ignored_components', []))) {
             return;
         }
 
@@ -218,6 +219,11 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
             $data = $event->getData();
 
             [$component] = explode('.', ArrayHelper::getValue($data, 'extension', ''));
+        }
+
+        // Don't do, when we're ignoring this component
+        if (empty($component) || \in_array($component, (array) $this->params->get('ignored_components', []))) {
+            return;
         }
 
         $extension = $this->getApplication()->bootComponent($component);
@@ -314,7 +320,12 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
      */
     public function onAfterInitialiseDocument(AfterInitialiseDocumentEvent $event): void
     {
-        if (!(bool) $this->params->get('show_aftersave_info', 1) || !$this->getApplication()->isClient('administrator')) {
+        $app = $this->getApplication();
+
+        if (
+            (!$this->params->get('redirect_on_save_admin', 1) || !$app->isClient('administrator'))
+            && (!$this->params->get('redirect_on_save_site', 1) || ! $app->isClient('site'))
+        ) {
             return;
         }
 
@@ -350,7 +361,12 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
      */
     public function onContentPrepareData(PrepareDataEvent $event)
     {
-        if (!(bool) $this->params->get('show_aftersave_info', 1) || !$this->getApplication()->isClient('administrator')) {
+        $app = $this->getApplication();
+
+        if (
+            (!$this->params->get('redirect_on_save_admin', 1) || !$app->isClient('administrator'))
+            && (!$this->params->get('redirect_on_save_site', 1) || ! $app->isClient('site'))
+        ) {
             return;
         }
 

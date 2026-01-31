@@ -81,6 +81,16 @@
 					<option value="0" class="btn btn-outline-danger">JNO</option>
 					<option value="1" class="btn btn-outline-success">JYES</option>
 				</field>
+
+				<field
+					name="ignored_components"
+					type="RedirectComponents"
+					label="PLG_SYSTEM_REDIRECT_IGNORED_COMPONENTS_LABEL"
+					description="PLG_SYSTEM_REDIRECT_IGNORED_COMPONENTS_DESCRIPTION"
+					multiple="multiple"
+					layout="joomla.form.field.list-fancy-select"
+					showon="redirect_on_save_admin:1[OR]redirect_on_save_admin:2[OR]redirect_on_save_site:1"
+				/>
 			</fieldset>
 		</fields>
 	</config>
