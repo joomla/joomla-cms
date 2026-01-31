@@ -192,6 +192,38 @@ abstract class Category
                 }
             }
 
+            // Filter on the language
+            if (isset($config['filter.language'])) {
+                if (\is_string($config['filter.language'])) {
+                    $query->where($db->quoteName('a.language') . ' = :language')
+                        ->bind(':language', $config['filter.language']);
+                } elseif (\is_array($config['filter.language'])) {
+                    $query->whereIn($db->quoteName('a.language'), $config['filter.language'], ParameterType::STRING);
+                }
+            }
+
+            // Filter on the access
+            if (isset($config['filter.access'])) {
+                if (is_numeric($config['filter.access'])) {
+                    $query->where($db->quoteName('a.access') . ' = :access')
+                        ->bind(':access', $config['filter.access'], ParameterType::INTEGER);
+                } elseif (\is_array($config['filter.access'])) {
+                    $config['filter.access'] = ArrayHelper::toInteger($config['filter.access']);
+                    $query->whereIn($db->quoteName('a.access'), $config['filter.access']);
+                }
+            }
+
+            // Filter on excluded categories
+            if (isset($config['filter.exclude'])) {
+                if (is_numeric($config['filter.exclude'])) {
+                    $query->where($db->quoteName('a.id') . ' != :exclude')
+                        ->bind(':exclude', $config['filter.exclude'], ParameterType::INTEGER);
+                } elseif (\is_array($config['filter.exclude'])) {
+                    $config['filter.exclude'] = ArrayHelper::toInteger($config['filter.exclude']);
+                    $query->whereNotIn($db->quoteName('a.id'), $config['filter.exclude']);
+                }
+            }
+
             $query->order($db->quoteName('a.lft'));
 
             $db->setQuery($query);
