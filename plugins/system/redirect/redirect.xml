@@ -52,16 +52,34 @@
 					formsource="plugins/system/redirect/form/excludes.xml"
 					layout="joomla.form.field.subform.repeatable-table"
 				/>
+
 				<field
-					name="show_aftersave_info"
+					name="redirect_on_save_admin"
 					type="radio"
-					layout="joomla.form.field.radio.switcher"
-					label="PLG_SYSTEM_REDIRECT_FIELD_SHOW_AFTERSAVE_INFO_LABEL"
+					label="PLG_SYSTEM_REDIRECT_FIELD_REDIRECT_ON_SAVE_ADMIN_LABEL"
+					description="PLG_SYSTEM_REDIRECT_FIELD_REDIRECT_ON_SAVE_ADMIN_DESC"
+					class="btn-group btn-group-yesno"
 					default="1"
 					filter="integer"
+					layout="joomla.form.field.radio.buttons"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0" class="btn btn-outline-danger">JNO</option>
+					<option value="2" class="btn btn-outline-warning">PLG_SYSTEM_REDIRECT_FIELD_REDIRECT_ON_SAVE_ADMIN_MANUALLY</option>
+					<option value="1" class="btn btn-outline-success">JYES</option>
+				</field>
+
+				<field
+					name="redirect_on_save_site"
+					type="radio"
+					label="PLG_SYSTEM_REDIRECT_FIELD_REDIRECT_ON_SAVE_SITE_LABEL"
+					description="PLG_SYSTEM_REDIRECT_FIELD_REDIRECT_ON_SAVE_SITE_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					filter="integer"
+					layout="joomla.form.field.radio.buttons"
+					>
+					<option value="0" class="btn btn-outline-danger">JNO</option>
+					<option value="1" class="btn btn-outline-success">JYES</option>
 				</field>
 			</fieldset>
 		</fields>
