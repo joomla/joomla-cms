@@ -64,7 +64,18 @@ if ($displayData['active']) {
     if ($app->isClient('administrator')) {
         $link = 'href="#" onclick="document.adminForm.' . $item->prefix . $limit . '; Joomla.submitform();return false;"';
     } elseif ($app->isClient('site')) {
-        $link = 'href="' . $item->link . '"';
+        // Get CSRF token
+        $token = \Joomla\CMS\Session\Session::getFormToken();
+
+        $url = $item->link;
+
+        // Append token if not already present
+        if (strpos($url, $token) === false) {
+            $separator = (strpos($url, '?') === false) ? '?' : '&';
+            $url .= $separator . $token . '=1';
+        }
+
+        $link = 'href="' . $url . '"';
     }
 } else {
     $class = (property_exists($item, 'active') && $item->active) ? 'active' : 'disabled';
