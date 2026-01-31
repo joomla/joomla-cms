@@ -763,26 +763,26 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
         }
 
         // Automatic handling of alias for empty fields
-        if (\in_array($input->get('task'), ['apply', 'save', 'save2new']) && (!isset($data['id']) || (int) $data['id'] == 0)) {
+        if (\in_array($input->get('task'), ['add', 'apply', 'save', 'save2new']) && (!isset($data['id']) || (int) $data['id'] == 0)) {
             if ($data['alias'] == null) {
                 if ($app->get('unicodeslugs') == 1) {
                     $data['alias'] = OutputFilter::stringUrlUnicodeSlug($data['title']);
                 } else {
                     $data['alias'] = OutputFilter::stringURLSafe($data['title']);
                 }
+            }
 
-                $table = $this->getTable();
+            $table = $this->getTable();
 
-                if ($table->load(['alias' => $data['alias'], 'catid' => $data['catid']])) {
-                    $msg = Text::_('COM_CONTENT_SAVE_WARNING');
-                }
+            if ($table->load(['alias' => $data['alias'], 'catid' => $data['catid']])) {
+                $msg = Text::_('COM_CONTENT_SAVE_WARNING');
+            }
 
-                [$title, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
-                $data['alias']   = $alias;
+            [$title, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+            $data['alias']   = $alias;
 
-                if (isset($msg)) {
-                    $app->enqueueMessage($msg, 'warning');
-                }
+            if (isset($msg)) {
+                $app->enqueueMessage($msg, 'warning');
             }
         }
 
