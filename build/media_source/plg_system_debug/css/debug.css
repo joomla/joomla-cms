@@ -13,3 +13,11 @@ a.phpdebugbar-tab.phpdebugbar-tab-settings i:before {
   font-weight: 900;
   content: "\f1de";
 }
+
+.phpdebugbar-widgets-timeline .phpdebugbar-widgets-measure:hover {
+  background-color: #eee;
+}
+
+.phpdebugbar[data-theme="dark"] .phpdebugbar-widgets-measure:hover {
+  background-color: #404040;
+}
