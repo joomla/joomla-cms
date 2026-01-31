@@ -125,8 +125,10 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
 
         $app = $this->getApplication();
 
-        if ((!$this->params->get('redirect_on_save_admin', 1) || !$app->isClient('administrator'))
-            && (!$this->params->get('redirect_on_save_site', 1) || ! $app->isClient('site'))) {
+        if (
+            (!$this->params->get('redirect_on_save_admin', 1) || !$app->isClient('administrator'))
+            && (!$this->params->get('redirect_on_save_site', 1) || ! $app->isClient('site'))
+        ) {
             return;
         }
 
@@ -200,8 +202,10 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
 
         $app = $this->getApplication();
 
-        if ((!$this->params->get('redirect_on_save_admin', 1) || !$app->isClient('administrator'))
-            && (!$this->params->get('redirect_on_save_site', 1) || ! $app->isClient('site'))) {
+        if (
+            (!$this->params->get('redirect_on_save_admin', 1) || !$app->isClient('administrator'))
+            && (!$this->params->get('redirect_on_save_site', 1) || ! $app->isClient('site'))
+        ) {
             return;
         }
 
@@ -254,14 +258,16 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
                 if ($canCreateRedirect) {
                     $button = 'index.php?option=com_redirect&task=link.add&layout=modal&tmpl=component&old_url=' . base64_encode((string) $this->oldLink) . '&new_url=' . base64_encode((string) $link);
 
-                    $langString = Text::sprintf('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_CHANGED', HTMLHelper::_('link', $button, Text::_('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_CHANGED_CREATE_REDIRECT'), ['class' => 'btn btn-success btn-sm', 'data-joomla-dialog' => '', 'data-close-on-message' => 'true'] ));
+                    $langString = Text::sprintf('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_CHANGED', HTMLHelper::_('link', $button, Text::_('PLG_SYSTEM_REDIRECT_AFTER_SAVE_LINK_CHANGED_CREATE_REDIRECT'), ['class' => 'btn btn-success btn-sm', 'data-joomla-dialog' => '', 'data-close-on-message' => 'true']));
                 }
 
                 $this->getApplication()->enqueueMessage($langString, 'info');
 
                 return;
-            } elseif (($app->isClient('administrator') && (int) $this->params->get('redirect_on_save_admin', 1))
-                || ($app->isClient('site') && (int) $this->params->get('redirect_on_save_site', 1))) {
+            } elseif (
+                ($app->isClient('administrator') && (int) $this->params->get('redirect_on_save_admin', 1))
+                || ($app->isClient('site') && (int) $this->params->get('redirect_on_save_site', 1))
+            ) {
                 $redirectExtension = $app->bootComponent('com_redirect')->getMVCFactory();
 
                 $redirectModel = $redirectExtension->createModel('Link', 'Administrator');
@@ -293,8 +299,6 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
                 } catch (\Throwable $th) {
                     // Do nothing
                 }
-
-
             }
         }
     }
@@ -374,7 +378,6 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
         $data = array_merge($data, $storedData);
 
         $event->setArgument('data', $data);
-
     }
 
     /**

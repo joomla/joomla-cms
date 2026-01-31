@@ -316,8 +316,7 @@ class ContentComponent extends MVCComponent implements
         // Content link
         if ($table instanceof ArticleTable) {
             return RouteHelper::getArticleRoute($table->id . ':' . $table->alias, $table->catid, $table->language);
-        }
-        elseif ($table instanceof CategoryTable) {
+        } elseif ($table instanceof CategoryTable) {
             return RouteHelper::getCategoryRoute($table->id . ':' . $table->alias, $table->language);
         }
 
