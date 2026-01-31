@@ -1681,7 +1681,7 @@ class Form implements CurrentUserInterface
      *
      * @since   1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the FormFactory service from the container
      *              Example: Factory::getContainer()->get(FormFactoryInterface::class)->createForm($name, $options);
      *
@@ -1706,11 +1706,11 @@ class Form implements CurrentUserInterface
 
             // Load the data.
             if (str_starts_with($data, '<')) {
-                if ($forms[$name]->load($data, $replace, $xpath) == false) {
+                if (!$forms[$name]->load($data, $replace, $xpath)) {
                     throw new \RuntimeException(\sprintf('%s() could not load form', __METHOD__));
                 }
             } else {
-                if ($forms[$name]->loadFile($data, $replace, $xpath) == false) {
+                if (!$forms[$name]->loadFile($data, $replace, $xpath)) {
                     throw new \RuntimeException(\sprintf('%s() could not load file', __METHOD__));
                 }
             }

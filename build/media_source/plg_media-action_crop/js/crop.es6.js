@@ -2,12 +2,28 @@
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-// eslint-disable-next-line  import/no-unresolved
 import Cropper from 'cropper-module';
 
 let formElements;
 let activated = false;
 let instance;
+
+/**
+ * Parse aspect ratio value from string format to number
+ * Accepts either a plain number (e.g. "1") or numerator/denominator format (e.g. "16/9")
+ * @param {string} value - The aspect ratio value
+ * @returns {number} The calculated aspect ratio as a number
+ */
+const parseAspectRatio = (value) => {
+  if (typeof value !== 'string' || !value.trim()) {
+    return NaN;
+  }
+  if (value.includes('/')) {
+    const [numerator, denominator] = value.split('/').map(parseFloat);
+    return isNaN(numerator) || isNaN(denominator) || denominator === 0 ? NaN : numerator / denominator;
+  }
+  return parseFloat(value);
+};
 
 const addListeners = () => {
   formElements.cropX.addEventListener('change', ({ currentTarget }) => {
@@ -23,7 +39,7 @@ const addListeners = () => {
     instance.setData({ height: parseInt(currentTarget.value, 10) });
   });
   formElements.aspectRatio.addEventListener('change', ({ currentTarget }) => {
-    instance.setAspectRatio(currentTarget.value);
+    instance.setAspectRatio(parseAspectRatio(currentTarget.value));
   });
   activated = true;
 };
@@ -67,7 +83,7 @@ const init = (image) => {
     addListeners();
   }
 
-  instance.setAspectRatio(formElements.cropAspectRatioOption.value);
+  instance.setAspectRatio(parseAspectRatio(formElements.cropAspectRatioOption.value));
 };
 
 // Register the Events

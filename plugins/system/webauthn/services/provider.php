@@ -18,7 +18,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\System\Webauthn\Authentication;
 use Joomla\Plugin\System\Webauthn\CredentialRepository;
 use Joomla\Plugin\System\Webauthn\Extension\Webauthn;
@@ -43,6 +42,7 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $app     = Factory::getApplication();
+                $config  = (array) PluginHelper::getPlugin('system', 'webauthn');
                 $session = $container->has('session') ? $container->get('session') : $this->getSession($app);
 
                 $db                    = $container->get(DatabaseInterface::class);
@@ -64,8 +64,7 @@ return new class () implements ServiceProviderInterface {
                     : new Authentication($app, $session, $credentialsRepository, $metadataRepository);
 
                 $plugin = new Webauthn(
-                    $container->get(DispatcherInterface::class),
-                    (array) PluginHelper::getPlugin('system', 'webauthn'),
+                    $config,
                     $authenticationHelper
                 );
                 $plugin->setApplication($app);

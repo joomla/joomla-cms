@@ -15,8 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\Versioning\VersionableTableInterface;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
@@ -31,7 +30,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.5
  */
-class BannerTable extends Table implements VersionableTableInterface
+class BannerTable extends Table
 {
     /**
      * Indicates that columns fully support the NULL value in the database
@@ -44,12 +43,12 @@ class BannerTable extends Table implements VersionableTableInterface
     /**
      * Constructor
      *
-     * @param   DatabaseDriver        $db          Database connector object
+     * @param   DatabaseInterface     $db          Database connector object
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.5
      */
-    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = 'com_banners.banner';
 
@@ -68,14 +67,15 @@ class BannerTable extends Table implements VersionableTableInterface
     public function clicks()
     {
         $id    = (int) $this->id;
-        $query = $this->_db->getQuery(true)
-            ->update($this->_db->quoteName('#__banners'))
-            ->set($this->_db->quoteName('clicks') . ' = ' . $this->_db->quoteName('clicks') . ' + 1')
-            ->where($this->_db->quoteName('id') . ' = :id')
+        $db    = $this->getDatabase();
+        $query = $db->createQuery()
+            ->update($db->quoteName('#__banners'))
+            ->set($db->quoteName('clicks') . ' = ' . $db->quoteName('clicks') . ' + 1')
+            ->where($db->quoteName('id') . ' = :id')
             ->bind(':id', $id, ParameterType::INTEGER);
 
-        $this->_db->setQuery($query);
-        $this->_db->execute();
+        $db->setQuery($query);
+        $db->execute();
     }
 
     /**
@@ -144,7 +144,10 @@ class BannerTable extends Table implements VersionableTableInterface
             $this->ordering = 0;
         } elseif (empty($this->ordering)) {
             // Set ordering to last if ordering was 0
-            $this->ordering = $this->getNextOrder($this->_db->quoteName('catid') . ' = ' . ((int) $this->catid) . ' AND ' . $this->_db->quoteName('state') . ' >= 0');
+            $db             = $this->getDatabase();
+            $this->ordering = $this->getNextOrder(
+                $db->quoteName('catid') . ' = ' . ((int)$this->catid) . ' AND ' . $db->quoteName('state') . ' >= 0'
+            );
         }
 
         // Set modified to created if not set
@@ -214,7 +217,16 @@ class BannerTable extends Table implements VersionableTableInterface
      */
     public function store($updateNulls = true)
     {
-        $db = $this->getDbo();
+        $db = $this->getDatabase();
+
+        // Verify that the alias is unique
+        $table = new self($db, $this->getDispatcher());
+
+        if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
+            $this->setError(Text::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
+
+            return false;
+        }
 
         if (empty($this->id)) {
             $purchaseType = $this->purchase_type;
@@ -261,22 +273,13 @@ class BannerTable extends Table implements VersionableTableInterface
                 $this->setError($oldrow->getError());
             }
 
-            // Verify that the alias is unique
-            $table = new self($db, $this->getDispatcher());
-
-            if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
-                $this->setError(Text::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
-
-                return false;
-            }
-
             // Store the new row
             parent::store($updateNulls);
 
             // Need to reorder ?
             if ($oldrow->state >= 0 && ($this->state < 0 || $oldrow->catid != $this->catid)) {
                 // Reorder the oldrow
-                $this->reorder($this->_db->quoteName('catid') . ' = ' . ((int) $oldrow->catid) . ' AND ' . $this->_db->quoteName('state') . ' >= 0');
+                $this->reorder($db->quoteName('catid') . ' = ' . ((int) $oldrow->catid) . ' AND ' . $db->quoteName('state') . ' >= 0');
             }
         }
 
@@ -318,7 +321,7 @@ class BannerTable extends Table implements VersionableTableInterface
         }
 
         // Get an instance of the table
-        $table = new self($this->getDbo(), $this->getDispatcher());
+        $table = new self($this->getDatabase(), $this->getDispatcher());
 
         // For all keys
         foreach ($pks as $pk) {
