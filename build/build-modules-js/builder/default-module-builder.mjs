@@ -45,17 +45,22 @@ export default class DefaultModuleBuilder{
   }
 
   /**
-   * Copy files to target location
+   * Copy files to target location.
+   * Skip:
+   *  - css and js files
+   *  - build.mjs and src/ and folders contain build.mjs or .buildignore
+   *
    * @returns {Promise<void>}
    */
   async copy() {
     const ignoreName = {
       'build.mjs': true,
       'src': true,
+      '.buildignore': true,
     };
     const ignoreExt = {
-      'js': true,
-      'css': true,
+      '.js': true,
+      '.css': true,
     }
 
     const filterFunc = (src, dest) => {
@@ -76,8 +81,8 @@ export default class DefaultModuleBuilder{
         return false;
       }
 
-      // Skip folders for child modules
-      if (fs.existsSync(path.join(src, 'build.mjs'))) {
+      // Skip folders for child modules or explicitly ignored
+      if (fs.existsSync(path.join(src, 'build.mjs')) || fs.existsSync(path.join(src, '.buildignore'))) {
         return false;
       }
 
