@@ -17,7 +17,7 @@ if (semver.gte(semver.minVersion(pkgOptions.engines.node), semver.clean(process.
 const builders = [
   // Libraries
   //'vendor',
-  //'system',
+  'system',
   // Components
   'com_actionlogs',
   'com_admin',

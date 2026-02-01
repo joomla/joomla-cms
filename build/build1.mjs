@@ -186,17 +186,17 @@ if (cliOptions.prepare) {
   const bench = new Timer('Build');
   allowedVersion();
   recreateMediaFolder(options)
-    .then(() => cleanVendors())
-    .then(() => localisePackages(options))
-    .then(() => patchPackages(options))
-    .then(() => minifyVendor())
-    .then(() => createErrorPages(options))
+    // .then(() => cleanVendors())
+    // .then(() => localisePackages(options))
+    // .then(() => patchPackages(options))
+    // .then(() => minifyVendor())
+    // .then(() => createErrorPages(options))
     .then(() => stylesheets(options, Program.args[0]))
-    .then(() => cssVersioningVendor())
-    .then(() => scripts(options, Program.args[0]))
-    .then(() => mediaManager())
-    .then(() => bootstrapJs())
-    .then(() => compileCodemirror())
+    // .then(() => cssVersioningVendor())
+    // .then(() => scripts(options, Program.args[0]))
+    // .then(() => mediaManager())
+    // .then(() => bootstrapJs())
+    // .then(() => compileCodemirror())
     .then(() => bench.stop('Build'))
     .catch((err) => handleError(err, -1));
 }

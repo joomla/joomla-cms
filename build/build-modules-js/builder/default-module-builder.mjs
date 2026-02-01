@@ -2,9 +2,12 @@
  * Default Assets Builder
  */
 
-import path from 'node:path';
 import fs from 'node:fs';
 import fse from 'fs-extra/esm'
+import fsp from 'node:fs/promises';
+import path from 'node:path';
+import { cssMinify } from '../stylesheets/css-handler.mjs';
+import { handleScss } from '../stylesheets/scss-handler.mjs';
 
 export default class DefaultModuleBuilder{
   /**
@@ -48,13 +51,13 @@ export default class DefaultModuleBuilder{
    * Copy files to target location.
    * Skip:
    *  - css and js files
-   *  - build.mjs and src/ and folders contain build.mjs or .buildignore
+   *  - build.mjs and src/ and folders contain builder.mjs or .buildignore
    *
    * @returns {Promise<void>}
    */
   async copy() {
     const ignoreName = {
-      'build.mjs': true,
+      'builder.mjs': true,
       'src': true,
       '.buildignore': true,
     };
@@ -82,7 +85,7 @@ export default class DefaultModuleBuilder{
       }
 
       // Skip folders for child modules or explicitly ignored
-      if (fs.existsSync(path.join(src, 'build.mjs')) || fs.existsSync(path.join(src, '.buildignore'))) {
+      if (fs.existsSync(path.join(src, 'builder.mjs')) || fs.existsSync(path.join(src, '.buildignore'))) {
         return false;
       }
 
@@ -96,7 +99,7 @@ export default class DefaultModuleBuilder{
 
   /**
    * Process CSS files
-   * @returns {Promise<void>}
+   * @returns { Promise }
    */
   async css() {
     // Make sure files is copied
@@ -104,7 +107,36 @@ export default class DefaultModuleBuilder{
       return this.copy().then(() => this.css());
     }
 
-    //console.log('Building css task ...');
+    // Collect files
+    const cssFiles = [];
+    const scssFiles = [];
+
+    return fsp.readdir(this.basePath, { recursive: true, withFileTypes: true })
+      .then((files) => {
+        // Filter the files
+        files.forEach((file) => {
+          if (!file.isFile()) return;
+
+          const baseName = file.name;
+          const ext = path.extname(baseName);
+          const fullSrcPath = path.join(file.path, file.name);
+          const relativePath = fullSrcPath.replace(this.basePath, '');
+
+          if (ext === '.css' && !baseName.endsWith('.min.css')){
+            cssFiles.push(cssMinify(
+              fullSrcPath,
+              path.join(this.targetPath, relativePath))
+            );
+          } else if (ext === '.scss' && baseName[0] !== '_') {
+            scssFiles.push(handleScss(
+              fullSrcPath,
+              path.join(this.targetPath, relativePath.replace('.scss', '.css')),
+            ));
+          }
+        });
+console.log(scssFiles);
+        return Promise.all([...cssFiles, ...scssFiles]);
+      });
   }
 
   /**
