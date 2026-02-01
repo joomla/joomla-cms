@@ -33,7 +33,7 @@ export default function buildCommand(program, cmdOptions = {}, builders = [], pk
       }
     });
   }
-console.log(cmdOptions);
+
   // Get list of tasks to run
   let tasksToRun = [];
   if (cmdOptions.task) {
