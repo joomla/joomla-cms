@@ -114,7 +114,7 @@ export default class DefaultModuleBuilder{
 
     return fsp.readdir(this.basePath, { recursive: true, withFileTypes: true })
       .then((files) => {
-        // Filter the files
+        // Filter and handle the files
         files.forEach((file) => {
           if (!file.isFile()) return;
 
@@ -124,11 +124,13 @@ export default class DefaultModuleBuilder{
           const relativePath = fullSrcPath.replace(this.basePath, '');
 
           if (ext === '.css' && !baseName.endsWith('.min.css')){
+            // Handle the CSS file
             cssFiles.push(handleCSSFile(
               fullSrcPath,
               path.join(this.targetPath, relativePath))
             );
           } else if (ext === '.scss' && baseName[0] !== '_') {
+            // Handle the SCSS file
             scssFiles.push(handleSCSSFile(
               fullSrcPath,
               path.join(this.targetPath, relativePath.replace(`${sep}scss${sep}`, `${sep}css${sep}`).replace('.scss', '.css')),
