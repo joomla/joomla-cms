@@ -5,7 +5,7 @@ import path from 'node:path';
 import fs from 'node:fs';
 import DefaultModuleBuilder from './default-module-builder.mjs';
 
-//class BuilderRunner {]
+//class BuilderRunner {}
 
 export class BuilderFactory{
   constructor(basePath = '', targetPath = '') {
@@ -14,21 +14,17 @@ export class BuilderFactory{
   }
 
   async createBuilder(name) {
-    // Module base path
-    const modBasePath = path.join(this.basePath, name);
-    const modTargetPath = path.join(this.targetPath, name);
-    let modulePath = path.join(modBasePath, 'builder.mjs');
+    // Module path
+    let modulePath = path.join(this.basePath, name, 'builder.mjs');
 
-    // Check if we have builder module
-    try {
-      fs.statSync(modulePath);
-    } catch (e) {
+    // Check if we have the builder module
+    if (!fs.existsSync(modulePath)) {
       // Use default module
-      return new DefaultModuleBuilder(name, modBasePath, modTargetPath);
+      return new DefaultModuleBuilder(name, this.basePath, this.targetPath);
     }
 
     return import(modulePath).then((module) => {
-      return new module.default(name, modBasePath, modTargetPath);
+      return new module.default(name, this.basePath, this.targetPath);
     });
   }
 }

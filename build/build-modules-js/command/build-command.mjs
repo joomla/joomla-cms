@@ -78,9 +78,9 @@ export default function buildCommand(program, cmdOptions = {}, builders = [], pk
           console.log(`Start task [${name}.${taskName}]`);
 
           return builder[taskName]().then(async () => {
-            console.log('\x1b[32m%s\x1b[0m', `Complete task [${name}.${taskName}]`);
+            console.log('\x1b[32m%s\x1b[0m', `Completed task [${name}.${taskName}]`);
           }).catch((error) => {
-            console.log('\x1b[31m%s\x1b[0m', `Task error [${name}.${taskName}]`);
+            console.log('\x1b[31m%s\x1b[0m', `Failed Task [${name}.${taskName}]`);
             console.trace(error);
             program.error(error.message);
           });

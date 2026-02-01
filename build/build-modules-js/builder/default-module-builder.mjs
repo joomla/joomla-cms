@@ -16,10 +16,6 @@ export default class DefaultModuleBuilder{
   tasks = ['clear', 'copy', 'css', 'js'];
 
   constructor(name = '', basePath = '', targetPath = '') {
-    this.name = name;
-    this.basePath = basePath;
-    this.targetPath = targetPath;
-
     if (!name) {
       throw new Error(`Argument "name" is required for ModuleBuilder.`);
     }
@@ -27,6 +23,10 @@ export default class DefaultModuleBuilder{
     if (!basePath || !targetPath) {
       throw new Error(`Arguments "basePath" and "targetPath"  is required for "${name}" ModuleBuilder.`);
     }
+
+    this.name = name;
+    this.basePath = path.join(basePath, name);
+    this.targetPath = path.join(targetPath, name);
 
     // Internal flag
     this.copyDone = false;
@@ -49,14 +49,30 @@ export default class DefaultModuleBuilder{
    * @returns {Promise<void>}
    */
   async copy() {
+    const ignoreName = {
+      'build.mjs': true,
+      'src': true,
+    };
+    const ignoreExt = {
+      'js': true,
+      'css': true,
+    }
 
     const filterFunc = (src, dest) => {
       if (dest === this.targetPath) {
         return true;
       }
 
-      // Skip build module
-      if (path.basename(src) === 'build.mjs') {
+      const baseName = path.basename(src);
+      const fileStat = fs.statSync(src);
+
+      // Skip ignored files/folders
+      if (ignoreName[baseName]) {
+        return false;
+      }
+
+      // Skip files with extensions
+      if (fileStat.isFile() && ignoreExt[path.extname(baseName)]){
         return false;
       }
 
@@ -82,7 +98,7 @@ export default class DefaultModuleBuilder{
     if (!this.copyDone) {
       return this.copy().then(() => this.css());
     }
-throw new Error('test')
+
     //console.log('Building css task ...');
   }
 
