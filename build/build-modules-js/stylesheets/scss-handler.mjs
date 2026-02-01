@@ -7,7 +7,7 @@ import fsp from "node:fs/promises";
 import { composeVisitors, Features, transform as transformCss } from "lightningcss";
 import { urlVersioning } from "./css-versioning.mjs";
 
-export const handleScss = async (srcPath, targetPath) => {
+export const handleSCSS = async (srcPath, targetPath) => {
   return compileAsync(srcPath).then(async ({ css: content }) => {
 
     if (targetPath.endsWith('-rtl.css')) {
