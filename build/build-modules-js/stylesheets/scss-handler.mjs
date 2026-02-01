@@ -3,7 +3,7 @@
  */
 import rtlcss from "rtlcss";
 import { compileAsync } from 'sass-embedded';
-import { fsp } from "node:fs/promises";
+import fsp from "node:fs/promises";
 import { composeVisitors, Features, transform as transformCss } from "lightningcss";
 import { urlVersioning } from "./css-versioning.mjs";
 
@@ -28,7 +28,7 @@ export const handleScss = async (srcPath, targetPath) => {
     // Run url() versioning for the source
     await fsp.writeFile(
       targetPath,
-      contents.startsWith('@charset "UTF-8";') ? css : `@charset "UTF-8";
+      content.startsWith('@charset "UTF-8";') ? css : `@charset "UTF-8";
 ${css}`,
       { encoding: 'utf8', mode: 0o644 },
     );

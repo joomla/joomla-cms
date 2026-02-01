@@ -5,7 +5,7 @@
 import fs from 'node:fs';
 import fse from 'fs-extra/esm'
 import fsp from 'node:fs/promises';
-import path from 'node:path';
+import path, { sep } from 'node:path';
 import { cssMinify } from '../stylesheets/css-handler.mjs';
 import { handleScss } from '../stylesheets/scss-handler.mjs';
 
@@ -130,11 +130,11 @@ export default class DefaultModuleBuilder{
           } else if (ext === '.scss' && baseName[0] !== '_') {
             scssFiles.push(handleScss(
               fullSrcPath,
-              path.join(this.targetPath, relativePath.replace('.scss', '.css')),
+              path.join(this.targetPath, relativePath.replace(`${sep}scss${sep}`, `${sep}css${sep}`).replace('.scss', '.css')),
             ));
           }
         });
-console.log(scssFiles);
+
         return Promise.all([...cssFiles, ...scssFiles]);
       });
   }
