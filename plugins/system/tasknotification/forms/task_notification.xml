@@ -20,7 +20,6 @@
 					multiple="true"
 					layout="joomla.form.field.list-fancy-select"
 					checksuperusergroup="0"
-					default="8"
 					showon="success_mail:1"
 				>
 				</field>
@@ -41,7 +40,6 @@
 					multiple="true"
 					layout="joomla.form.field.list-fancy-select"
 					checksuperusergroup="0"
-					default="8"
 					showon="failure_mail:1"
 				>
 				</field>
@@ -62,7 +60,6 @@
 					multiple="true"
 					layout="joomla.form.field.list-fancy-select"
 					checksuperusergroup="0"
-					default="8"
 					showon="fatal_failure_mail:1"
 				>
 				</field>
@@ -83,7 +80,6 @@
 					multiple="true"
 					layout="joomla.form.field.list-fancy-select"
 					checksuperusergroup="0"
-					default="8"
 					showon="orphan_mail:1"
 				>				
 				</field>
