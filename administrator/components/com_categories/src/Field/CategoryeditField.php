@@ -54,6 +54,14 @@ class CategoryeditField extends ListField
     protected $scopeRoot;
 
     /**
+     * Maximum number of scope root categories to prevent performance issues.
+     *
+     * @var    integer
+     * @since  6.1.0
+     */
+    const MAX_SCOPE_ROOTS = 50;
+
+    /**
      * A flexible category list that respects access controls
      *
      * @var    string
@@ -236,45 +244,90 @@ class CategoryeditField extends ListField
 
         // Filter by scope root category/categories if specified (limit to selected categories and descendants)
         if ($this->scopeRoot && !$isParentCategoryField) {
-            // Convert scopeRoot to array - can be single ID or comma-separated IDs
-            $scopeRootIds = is_array($this->scopeRoot) 
-                ? $this->scopeRoot 
-                : array_map('intval', explode(',', (string) $this->scopeRoot));
+            $scopeRootInput = trim((string) $this->scopeRoot);
             
-            // Remove any zero or negative values
-            $scopeRootIds = array_filter($scopeRootIds, function($id) {
-                return $id > 0;
-            });
+            // Validate input format - only accept numbers and commas
+            if (!preg_match('/^[\d,\s]+$/', $scopeRootInput)) {
+                Factory::getApplication()->enqueueMessage(
+                    Text::_('COM_CATEGORIES_INVALID_SCOPE_ROOT_FORMAT'),
+                    'warning'
+                );
+                $scopeRootInput = '';
+            }
             
-            if (!empty($scopeRootIds)) {
-                // Get the lft and rgt values for all scope root categories
-                $scopeQuery = $db->createQuery()
-                    ->select([$db->quoteName('id'), $db->quoteName('lft'), $db->quoteName('rgt')])
-                    ->from($db->quoteName('#__categories'))
-                    ->whereIn($db->quoteName('id'), $scopeRootIds, ParameterType::INTEGER);
-                $db->setQuery($scopeQuery);
+            if ($scopeRootInput) {
+                // Parse the IDs
+                $scopeRootIds = array_map('intval', explode(',', str_replace(' ', '', $scopeRootInput)));
                 
-                try {
-                    $scopeCategories = $db->loadObjectList();
+                // Filter out invalid IDs
+                $scopeRootIds = array_filter($scopeRootIds, function($id) {
+                    return $id > 0 && $id <= PHP_INT_MAX;
+                });
+                
+                // Remove duplicates
+                $scopeRootIds = array_unique($scopeRootIds);
+                
+                // Limit to reasonable number to prevent performance issues
+                if (count($scopeRootIds) > self::MAX_SCOPE_ROOTS) {
+                    $scopeRootIds = array_slice($scopeRootIds, 0, self::MAX_SCOPE_ROOTS);
+                    Factory::getApplication()->enqueueMessage(
+                        Text::sprintf('COM_CATEGORIES_SCOPE_ROOT_LIMIT_EXCEEDED', self::MAX_SCOPE_ROOTS),
+                        'warning'
+                    );
+                }
+                
+                if (!empty($scopeRootIds)) {
+                    // Get the lft and rgt values for all scope root categories
+                    $scopeQuery = $db->createQuery()
+                        ->select([$db->quoteName('id'), $db->quoteName('lft'), $db->quoteName('rgt')])
+                        ->from($db->quoteName('#__categories'))
+                        ->whereIn($db->quoteName('id'), $scopeRootIds, ParameterType::INTEGER);
+                    $db->setQuery($scopeQuery);
                     
-                    if (!empty($scopeCategories)) {
-                        // Build OR conditions for each scope category and its descendants
-                        $scopeConditions = [];
+                    try {
+                        $scopeCategories = $db->loadObjectList();
                         
-                        foreach ($scopeCategories as $scopeCat) {
-                            // Each category and its descendants match: lft >= cat.lft AND rgt <= cat.rgt
-                            $scopeConditions[] = '(' . $db->quoteName('a.lft') . ' >= ' . (int) $scopeCat->lft 
-                                . ' AND ' . $db->quoteName('a.rgt') . ' <= ' . (int) $scopeCat->rgt . ')';
+                        if (!empty($scopeCategories)) {
+                            $scopeConditions = [];
+                            
+                            foreach ($scopeCategories as $i => $scopeCat) {
+                                // Make sure we have valid nested set data
+                                if (!isset($scopeCat->lft, $scopeCat->rgt) 
+                                    || !is_numeric($scopeCat->lft) 
+                                    || !is_numeric($scopeCat->rgt)
+                                    || $scopeCat->lft < 0 
+                                    || $scopeCat->rgt < 0
+                                    || $scopeCat->lft >= $scopeCat->rgt) {
+                                    continue;
+                                }
+                                
+                                // Build condition for this category and its descendants
+                                $lftParam = ':scopelft' . $i;
+                                $rgtParam = ':scopergt' . $i;
+                                $scopeConditions[] = '(' . $db->quoteName('a.lft') . ' >= ' . $lftParam
+                                    . ' AND ' . $db->quoteName('a.rgt') . ' <= ' . $rgtParam . ')';
+                                $query->bind($lftParam, (int) $scopeCat->lft, ParameterType::INTEGER)
+                                      ->bind($rgtParam, (int) $scopeCat->rgt, ParameterType::INTEGER);
+                            }
+                            
+                            // Apply the scope filter if we have any valid conditions
+                            if (!empty($scopeConditions)) {
+                                $query->where('(' . implode(' OR ', $scopeConditions) . ')');
+                            }
                         }
+                    } catch (\RuntimeException $e) {
+                        // Log for debugging but don't expose internal errors to users
+                        \Joomla\CMS\Log\Log::add(
+                            'Error loading scope categories: ' . $e->getMessage(),
+                            \Joomla\CMS\Log\Log::WARNING,
+                            'com_categories'
+                        );
                         
-                        // Apply OR condition - show categories matching ANY of the scope roots
-                        if (!empty($scopeConditions)) {
-                            $query->where('(' . implode(' OR ', $scopeConditions) . ')');
-                        }
+                        Factory::getApplication()->enqueueMessage(
+                            Text::_('COM_CATEGORIES_ERROR_LOADING_SCOPE_FILTER'),
+                            'warning'
+                        );
                     }
-                } catch (\RuntimeException $e) {
-                    // If scope categories not found, continue without scope filter
-                    Factory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
                 }
             }
         }
