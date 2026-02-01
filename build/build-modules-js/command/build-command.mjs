@@ -33,7 +33,7 @@ export default function buildCommand(program, cmdOptions = {}, builders = [], pk
       }
     });
   }
-
+console.log(cmdOptions);
   // Get list of tasks to run
   let tasksToRun = [];
   if (cmdOptions.task) {
@@ -50,6 +50,7 @@ export default function buildCommand(program, cmdOptions = {}, builders = [], pk
   const factory = new BuilderFactory(
     path.resolve('./build/media_source'),
     path.resolve('./media'),
+    cmdOptions,
   );
 
   // Run each builder

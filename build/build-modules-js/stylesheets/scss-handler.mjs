@@ -9,10 +9,15 @@ import { handleAndStoreCSSContent } from './css-handler.mjs';
  *
  * @param { String } srcPath
  * @param { String } targetPath
+ * @param { boolean } silent
  * @returns { Promise }
  */
-export const handleSCSSFile = async (srcPath, targetPath) => {
-  return compileAsync(srcPath).then(({ css: content }) => {
-    return handleAndStoreCSSContent(targetPath, content);
-  });
+export const handleSCSSFile = async (srcPath, targetPath, silent = false) => {
+  return compileAsync(srcPath, {
+    quietDeps: true,
+    silenceDeprecations: silent ? ['if-function', 'import', 'global-builtin'] : []
+  })
+    .then(({ css: content }) => {
+      return handleAndStoreCSSContent(targetPath, content);
+    });
 };

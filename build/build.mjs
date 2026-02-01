@@ -79,6 +79,7 @@ program
   .option('-a,--all', 'build all assets')
   .option('-n,--name <builder_name,builder_name>', 'run specified builder(s)')
   .option('-t,--task <builder_task,builder_task>', 'task(s) to run for specified asset')
+  .option('--sass-silent', 'hide SASS deprecations and warnings')
   .action((options) => {
     buildCommand(program, options, builders, pkgOptions, buildSettings);
   });

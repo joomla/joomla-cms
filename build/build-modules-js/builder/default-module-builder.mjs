@@ -18,7 +18,7 @@ export default class DefaultModuleBuilder{
    */
   tasks = ['clear', 'copy', 'css', 'js'];
 
-  constructor(name = '', basePath = '', targetPath = '') {
+  constructor(name = '', basePath = '', targetPath = '', options = {}) {
     if (!name) {
       throw new Error(`Argument "name" is required for ModuleBuilder.`);
     }
@@ -30,6 +30,7 @@ export default class DefaultModuleBuilder{
     this.name = name;
     this.basePath = path.join(basePath, name);
     this.targetPath = path.join(targetPath, name);
+    this.options = options;
 
     // Internal flag
     this.copyDone = false;
@@ -131,6 +132,7 @@ export default class DefaultModuleBuilder{
             scssFiles.push(handleSCSSFile(
               fullSrcPath,
               path.join(this.targetPath, relativePath.replace(`${sep}scss${sep}`, `${sep}css${sep}`).replace('.scss', '.css')),
+              this.options.sassSilent
             ));
           }
         });

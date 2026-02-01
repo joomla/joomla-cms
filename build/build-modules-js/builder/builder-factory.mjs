@@ -8,9 +8,10 @@ import DefaultModuleBuilder from './default-module-builder.mjs';
 //class BuilderRunner {}
 
 export class BuilderFactory{
-  constructor(basePath = '', targetPath = '') {
+  constructor(basePath = '', targetPath = '', cmdOptions = {}) {
     this.basePath = basePath;
     this.targetPath = targetPath;
+    this.cmdOptions = cmdOptions;
   }
 
   async createBuilder(name) {
@@ -20,11 +21,11 @@ export class BuilderFactory{
     // Check if we have the builder module
     if (!fs.existsSync(modulePath)) {
       // Use default module
-      return new DefaultModuleBuilder(name, this.basePath, this.targetPath);
+      return new DefaultModuleBuilder(name, this.basePath, this.targetPath, this.cmdOptions);
     }
 
     return import(modulePath).then((module) => {
-      return new module.default(name, this.basePath, this.targetPath);
+      return new module.default(name, this.basePath, this.targetPath, this.cmdOptions);
     });
   }
 }
