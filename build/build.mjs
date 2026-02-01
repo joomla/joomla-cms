@@ -4,11 +4,9 @@
 
 import { Command } from 'commander';
 import semver from 'semver';
-import path from 'node:path';
-//import { Listr } from 'listr2';
-import logUpdate from 'log-update';
 import pkgOptions from '../package.json' with { type: 'json' };
-import { BuilderFactory } from './build-modules-js/builder/builder-factory.mjs';
+import buildSettings from './build-modules-js/settings.json' with { type: 'json' };
+import buildCommand from './build-modules-js/command/build-command.mjs';
 
 // Check minimum Node version
 if (semver.gte(semver.minVersion(pkgOptions.engines.node), semver.clean(process.version))) {
@@ -82,87 +80,7 @@ program
   .option('-n,--name <builder_name,builder_name>', 'run specified builder(s)')
   .option('-t,--task <builder_task,builder_task>', 'task(s) to run for specified asset')
   .action((options) => {
-    // Get list of builders to run
-    let buildersToRun = [];
-    let runAll = false;
-    if (options.all) {
-      runAll = true;
-      buildersToRun = builders;
-    } else if (options.name) {
-      options.name.split(',').forEach((name) => {
-        // Check if builder exists
-        if (builders.includes(name)) {
-          buildersToRun.push(name);
-        }
-      });
-    }
-
-    // Get list of tasks to run
-    let tasksToRun = [];
-    if (options.task) {
-      options.task.split(',').forEach((name) => {
-          tasksToRun.push(name);
-      });
-    }
-
-    if (!buildersToRun.length) {
-      console.log('Nothing to run. Please specify the builder name or use -a to run all builders');
-      return;
-    }
-
-    const factory = new BuilderFactory(
-      path.resolve('./build/media_source'),
-      path.resolve('./media'),
-    );
-
-    // const tasksList = new Listr([], { concurrent: true });
-    // const tasksCtx = {};
-    // buildersToRun.forEach((name) => {
-    //   tasksList.add([{
-    //     title: `Building "${name}" ...`,
-    //     task: async (ctx, task) => {
-    //       return new Promise((resolve) => {
-    //         task.output = 'I will push an output. [0]';
-    //
-    //         setTimeout(() => {
-    //           task.output = 'I will push an output. [1]';
-    //
-    //           resolve();
-    //         }, 1000);
-    //       });
-    //     },
-    //   }]);
-    // });
-    // tasksList.run(tasksCtx);
-
-    // Run each builder
-    buildersToRun.forEach((name) => {
-      factory.createBuilder(name).then((builder) => {
-        if (!builder.getTasks) {
-          program.error(`Builder module for "${name}" should implement provide "getTasks()" method. Which used to determine which task can be run for the builder.`)
-        }
-        console.log(`Building "${name}" ...`);
-
-        // Run tasks for given builder
-        const builderTasks = builder.getTasks();
-        let lastPromise = Promise.resolve();
-        (tasksToRun.length ? tasksToRun : builderTasks).forEach((taskName) => {
-          // Check whether the task is allowed for active builder
-          if (!builderTasks.includes(taskName)) {
-            // Show error when the builder and the task was specified, and it is not applicable for active builder.
-            if (!runAll) {
-              program.error(`Task "${taskName}" is not applicable for "${name}" builder.`)
-            }
-            return;
-          }
-
-          console.log(`Running task "${taskName}" ...`);
-
-          // Execute the task sequentially, this is needed because task may depend on each other
-          lastPromise = lastPromise.then(() => builder[taskName]());
-        });
-      });
-    });
+    buildCommand(program, options, builders, pkgOptions, buildSettings);
   });
 
 program.parse(process.argv)
