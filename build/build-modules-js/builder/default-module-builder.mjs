@@ -6,8 +6,8 @@ import fs from 'node:fs';
 import fse from 'fs-extra/esm'
 import fsp from 'node:fs/promises';
 import path, { sep } from 'node:path';
-import { handleCSS } from '../stylesheets/css-handler.mjs';
-import { handleSCSS } from '../stylesheets/scss-handler.mjs';
+import { handleCSSFile } from '../stylesheets/css-handler.mjs';
+import { handleSCSSFile } from '../stylesheets/scss-handler.mjs';
 
 export default class DefaultModuleBuilder{
   /**
@@ -123,12 +123,12 @@ export default class DefaultModuleBuilder{
           const relativePath = fullSrcPath.replace(this.basePath, '');
 
           if (ext === '.css' && !baseName.endsWith('.min.css')){
-            cssFiles.push(handleCSS(
+            cssFiles.push(handleCSSFile(
               fullSrcPath,
               path.join(this.targetPath, relativePath))
             );
           } else if (ext === '.scss' && baseName[0] !== '_') {
-            scssFiles.push(handleSCSS(
+            scssFiles.push(handleSCSSFile(
               fullSrcPath,
               path.join(this.targetPath, relativePath.replace(`${sep}scss${sep}`, `${sep}css${sep}`).replace('.scss', '.css')),
             ));

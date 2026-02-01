@@ -2,9 +2,11 @@
  * CSS handler
  */
 
+import rtlcss from 'rtlcss';
 import fsp from 'node:fs/promises';
 import { composeVisitors, transform as transformCss } from 'lightningcss';
-import { urlVersioning } from './css-versioning.mjs';
+import { urlVersioning2 } from './css-versioning.mjs';
+import { createHash } from "node:crypto";
 
 /**
  * Preprocess Css content
@@ -12,16 +14,20 @@ import { urlVersioning } from './css-versioning.mjs';
  * @param { String } content
  * @returns { Promise<string> }
  */
-export const preprocessCss = async (content = '') => {
+export const preprocessCSS = async (content = '') => {
   // Remove @charset "UTF-8" at beginning to preserve the license
   // Because the license comment needs to start at the beginning of the file to be saved
   content = content.startsWith('@charset "UTF-8";\n') ? content.replace('@charset "UTF-8";\n', '') : content;
 
   // Run url() versioning for the source
+  const hash = createHash('md5');
+  hash.update(content);
+  const hashStr = hash.digest('hex').substring(0, 6);
+
   const { code: css } = transformCss({
     code: Buffer.from(content),
     minify: false,
-    visitor: composeVisitors([urlVersioning(srcPath)]), // Adds a hash to the url() parts of the static css
+    visitor: composeVisitors([ urlVersioning2(hashStr) ]), // Adds a hash to the url() parts of the static css
   });
 
   return css.toString();
@@ -32,36 +38,59 @@ export const preprocessCss = async (content = '') => {
  * @param { String } content
  * @returns { Promise<string> }
  */
-export const cssMinify = async (content = '') => {
-  // Minify the file
+export const minifyCSS = async (content = '') => {
+
   const { code: cssMin } = transformCss({
-    code: Buffer.from(css),
+    code: Buffer.from(content),
     minify: true,
   });
 
   return cssMin.toString();
 };
 
-export const handleCSS = async (srcPath, targetPath) => {
-  return fsp.readFile(srcPath, { encoding: 'utf8' }).then(async (content) => {
-    const css = await preprocessCss(content);
-    const cssMin = await preprocessCss(content);
+/**
+ * Handle CSS content and store it at the destination.
+ * Store source and minified version.
+ *
+ * @param { String } targetPath
+ * @param { String } content
+ * @returns { Promise }
+ */
+export const handleAndStoreCSSContent = async (targetPath, content = '') => {
+  if (targetPath.endsWith('-rtl.css')) {
+    content = rtlcss.process(content);
+  }
 
-    const save = fsp.writeFile(
-      targetPath,
-      content.startsWith('@charset "UTF-8";') ? css : `@charset "UTF-8";
+  const css = await preprocessCSS(content);
+  const cssMin = await minifyCSS(content);
+
+  const save = fsp.writeFile(
+    targetPath,
+    content.startsWith('@charset "UTF-8";') ? css : `@charset "UTF-8";
 ${css}`,
-      { encoding: 'utf8', mode: 0o644 },
-    );
+    { encoding: 'utf8', mode: 0o644 },
+  );
 
-    // Save minified css file
-    const saveMin = fsp.writeFile(
-      targetPath.replace('.css', '.min.css'),
-      `@charset "UTF-8";${cssMin}`,
-      { encoding: 'utf8', mode: 0o644 }
-    );
+  // Save minified css file
+  const saveMin = fsp.writeFile(
+    targetPath.replace('.css', '.min.css'),
+    `@charset "UTF-8";${cssMin}`,
+    { encoding: 'utf8', mode: 0o644 }
+  );
 
-    return Promise.all(save, saveMin);
+  return Promise.all([save, saveMin]);
+};
+
+/**
+ * Read source CSS, handle its content and store it at the destination.
+ *
+ * @param { String } srcPath
+ * @param { String } targetPath
+ * @returns { Promise }
+ */
+export const handleCSSFile = async (srcPath, targetPath) => {
+  return fsp.readFile(srcPath, { encoding: 'utf8' }).then((content) => {
+    return handleAndStoreCSSContent(targetPath, content);
   });
 };
 
