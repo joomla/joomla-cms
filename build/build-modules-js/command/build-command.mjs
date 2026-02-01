@@ -52,27 +52,6 @@ export default function buildCommand(program, cmdOptions = {}, builders = [], pk
     path.resolve('./media'),
   );
 
-
-  // const tasksList = new Listr([], { concurrent: true });
-  // const tasksCtx = {};
-  // buildersToRun.forEach((name) => {
-  //   tasksList.add([{
-  //     title: `Building "${name}" ...`,
-  //     task: async (ctx, task) => {
-  //       return new Promise((resolve) => {
-  //         task.output = 'I will push an output. [0]';
-  //
-  //         setTimeout(() => {
-  //           task.output = 'I will push an output. [1]';
-  //
-  //           resolve();
-  //         }, 1000);
-  //       });
-  //     },
-  //   }]);
-  // });
-  // tasksList.run(tasksCtx);
-
   // Run each builder
   buildersToRun.forEach((name) => {
     factory.createBuilder(name).then((builder) => {
