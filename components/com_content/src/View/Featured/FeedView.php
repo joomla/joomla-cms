@@ -20,6 +20,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Component\Content\Site\Model\FeaturedModel;
 use Joomla\CMS\Uri\Uri;
 
 
@@ -54,7 +55,7 @@ class FeedView extends AbstractView
         if ($params->get('show_feed_link', 1) == 0) {
             throw new \Exception(Text::_('JGLOBAL_RESOURCE_NOT_FOUND'), 404);
         }
-
+        
         $this->getDocument()->link = Route::_('index.php?option=com_content&view=featured');
 
         // Get some data from the model
@@ -64,7 +65,7 @@ class FeedView extends AbstractView
         /** @var FeaturedModel $model */
         $model = $this->getModel();
         $rows  = $model->getItems();
-
+        
         foreach ($rows as $row) {
             $title = htmlspecialchars($row->title, ENT_QUOTES, 'UTF-8');
             $title = html_entity_decode($title, ENT_COMPAT, 'UTF-8'); 
@@ -106,8 +107,7 @@ class FeedView extends AbstractView
             for ($item_category = $categories->get($row->catid); $item_category !== null; $item_category = $item_category->getParent()) 
                 if ($item_category->id > 1 && $item_category->title != 'ROOT') $feedItem->category[] = $item_category->title;
 
-            //$feedItem->category[] = Text::_('JFEATURED');
-            $feedItem->category[] = $siteName;
+            $feedItem->category[] = Text::_('JFEATURED');
             $feedItem->category = array_reverse($feedItem->category);
             $feedItem->category = implode(' / ', $feedItem->category);
             
