@@ -183,7 +183,7 @@ $assoc = Associations::isEnabled();
                                     $transition_ids = ArrayHelper::getColumn($transitions, 'value');
                                     $transition_ids = ArrayHelper::toInteger($transition_ids);
 
-                                    $dataTransitionsAttribute = 'data-transitions="' . implode(',', $transition_ids) . '"';
+                                    $dataTransitionsAttribute = $transition_ids ? 'data-transitions="' . implode(',', $transition_ids) . '"' : '';
 
                                     $options = array_merge($options, ['transitions' => $transitions]);
                                 }
