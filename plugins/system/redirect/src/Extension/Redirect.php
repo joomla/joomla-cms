@@ -13,6 +13,7 @@ namespace Joomla\Plugin\System\Redirect\Extension;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
+use Joomla\CMS\Event\Application\AfterInitialiseEvent;
 use Joomla\CMS\Event\ErrorEvent;
 use Joomla\CMS\Event\Model\AfterSaveEvent;
 use Joomla\CMS\Event\Model\BeforeSaveEvent;
@@ -36,6 +37,8 @@ use Joomla\CMS\User\User;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Plugin\System\LanguageFilter\Extension\LanguageFilter;
+use Joomla\Plugin\System\Sef\Extension\Sef;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
@@ -671,7 +674,28 @@ final class Redirect extends CMSPlugin implements CurrentUserInterface, Subscrib
 
         $menu = $this->menuFactory->createMenu('site', $options);
 
-        return new SiteRouter($this->siteApp, $menu);
+        $router = new SiteRouter($this->siteApp, $menu);
+
+        // Add SEF rules
+        /** @var Sef */
+        $sefPlugin = clone $this->getApplication()->bootPlugin('sef', 'system');
+        $sefPlugin->setSiteRouter($router);
+
+        $onAfterInitialiseEvent = new AfterInitialiseEvent('onAfterInitialise', ['subject' => $this->siteApp]);
+
+        $sefPlugin->onAfterInitialise($onAfterInitialiseEvent);
+
+        // Add multilanguage routes if necessary
+        if (Multilanguage::isEnabled()) {
+            /** @var LanguageFilter */
+            $languageFilter = clone $this->getApplication()->bootPlugin( 'languagefilter', 'system');
+
+            $languageFilter->setSiteRouter($router);
+
+            $languageFilter->onAfterInitialise($onAfterInitialiseEvent);
+        }
+
+        return $router;
     }
 
     /**
