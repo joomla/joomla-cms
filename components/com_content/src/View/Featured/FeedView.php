@@ -12,13 +12,16 @@ namespace Joomla\Component\Content\Site\View\Featured;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Document\Feed\FeedItem;
+use Joomla\CMS\Document\Feed\FeedEnclosure;
+use Joomla\CMS\Document\Feed\FeedView as BaseFeedView;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
-use Joomla\Component\Content\Site\Model\FeaturedModel;
+use Joomla\CMS\Uri\Uri;
+
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -45,6 +48,7 @@ class FeedView extends AbstractView
         $params    = $app->getParams();
         $feedEmail = $app->get('feed_email', 'none');
         $siteEmail = $app->get('mailfrom');
+        $date_type = $params->get('date_feed_type', 1);
 
         // If the feed has been disabled, we want to bail out here
         if ($params->get('show_feed_link', 1) == 0) {
@@ -62,63 +66,62 @@ class FeedView extends AbstractView
         $rows  = $model->getItems();
 
         foreach ($rows as $row) {
-            // Strip html from feed item title
             $title = htmlspecialchars($row->title, ENT_QUOTES, 'UTF-8');
-            $title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
-
-            // Compute the article slug
+            $title = html_entity_decode($title, ENT_COMPAT, 'UTF-8'); 
             $row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
 
-            // URL link to article
             $link = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language);
-
             $description = '';
-            $obj         = json_decode($row->images);
 
-            if (!empty($obj->image_intro)) {
-                $description = '<p>' . HTMLHelper::_('image', $obj->image_intro, $obj->image_intro_alt) . '</p>';
-            }
-
-            $description .= ($params->get('feed_summary', 0) ? $row->introtext . $row->fulltext : $row->introtext);
+            $description = ($params->get('feed_summary', 0) ? $row->introtext . $row->fulltext : $row->introtext);
             $author      = $row->created_by_alias ?: $row->author;
+            
+            $feedItem           = new FeedItem();
+            $feedItem->title    = $title;
+            $feedItem->link     = Route::_($link);
 
-            // Load individual item creator class
-            $item           = new FeedItem();
-            $item->title    = $title;
-            $item->link     = Route::_($link);
-            $item->date     = $row->publish_up;
-            $item->category = [];
-
-            // All featured articles are categorized as "Featured"
-            $item->category[] = Text::_('JFEATURED');
-
-            for ($item_category = $categories->get($row->catid); $item_category !== null; $item_category = $item_category->getParent()) {
-                // Only add non-root categories
-                if ($item_category->id > 1) {
-                    $item->category[] = $item_category->title;
-                }
+            switch ($date_type) {
+                case 0:   $feedItem->date = $row->created;    break;
+                case 1:   $feedItem->date = $row->publish_up; break;
+                case 2:   $feedItem->date = $row->modified;   break;
+                default:  $feedItem->date = $row->created;
             }
 
-            $item->author = $author;
+            $images = json_decode($row->images, false);
+            if (!empty($images->image_intro)) {
 
-            if ($feedEmail === 'site') {
-                $item->authorEmail = $siteEmail;
-            } elseif ($feedEmail === 'author') {
-                $item->authorEmail = $row->author_email;
+                if (preg_match('/^([^#]*)/', $images->image_intro, $matches)) $url_img = $matches[1]; else  $url_img = $images->image_intro;
+                
+                $lastDotPos = strrpos($url_img, '.');
+                if ($lastDotPos !== false) { $extension = substr($url_img, $lastDotPos + 1); $extension = mb_strtolower($extension); } else $extension = '-';
+                
+                $feedEnclosure          = new FeedEnclosure();
+                $feedEnclosure->url     = Uri::root().$url_img;
+                $feedEnclosure->length  = filesize($url_img);
+                $feedEnclosure->type    = 'image/'.$extension;
+                $feedItem->enclosure    = $feedEnclosure;
             }
+            
+            $feedItem->category = [];
+            for ($item_category = $categories->get($row->catid); $item_category !== null; $item_category = $item_category->getParent()) 
+                if ($item_category->id > 1 && $item_category->title != 'ROOT') $feedItem->category[] = $item_category->title;
 
-            // Add readmore link to description if introtext is shown, show_readmore is true and fulltext exists
+            //$feedItem->category[] = Text::_('JFEATURED');
+            $feedItem->category[] = $siteName;
+            $feedItem->category = array_reverse($feedItem->category);
+            $feedItem->category = implode(' / ', $feedItem->category);
+            
+            $feedItem->author = $author;
+            if ($feedEmail === 'site') { $feedItem->authorEmail = $siteEmail; } elseif ($feedEmail === 'author') { $feedItem->authorEmail = $row->author_email; }
+
             if (!$params->get('feed_summary', 0) && $params->get('feed_show_readmore', 0) && $row->fulltext) {
                 $link = Route::_($link, true, $app->get('force_ssl') == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE, true);
                 $description .= '<p class="feed-readmore"><a target="_blank" href="' . $link . '" rel="noopener">'
-                    . Text::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
+                . Text::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
             }
 
-            // Load item description and add div
-            $item->description = '<div class="feed-description">' . $description . '</div>';
-
-            // Loads item info into rss array
-            $this->getDocument()->addItem($item);
+            $feedItem->description = '<div class="feed-description">' . $description . '</div>';
+            $this->getDocument()->addItem($feedItem);
         }
     }
 }
