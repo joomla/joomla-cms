@@ -9,33 +9,20 @@
 
 namespace Joomla\CMS\MVC\View;
 
+use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Document\Feed\FeedItem;
+use Joomla\CMS\Document\Feed\FeedEnclosure;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\RouteHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-
-// phpcs:disable PSR1.Files.SideEffects
+use Joomla\CMS\UCM\UCMType;
+use Joomla\CMS\Uri\Uri;
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
-/**
- * Base feed View class for a category
- *
- * @since  3.2
- */
 class CategoryFeedView extends AbstractView
 {
-    /**
-     * Execute and display a template script.
-     *
-     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-     *
-     * @return  void
-     *
-     * @since   3.2
-     * @throws  \Exception
-     */
+    
     public function display($tpl = null)
     {
         $app      = Factory::getApplication();
@@ -78,9 +65,11 @@ class CategoryFeedView extends AbstractView
         }
 
         // Get some data from the model
-        $items    = $this->get('Items');
-        $category = $this->get('Category');
-        $params   = $app->getParams();
+        $items      = $this->get('Items');
+        $category   = $this->get('Category');
+        $params     = $app->getParams();
+        $categories = Categories::getInstance('Content');
+        $date_type  = $params->get('date_feed_type', 1);
 
         // If the feed has been disabled, we want to bail out here
         if ($params->get('show_feed_link', 1) == 0) {
@@ -94,61 +83,58 @@ class CategoryFeedView extends AbstractView
 
         foreach ($items as $item) {
             $this->reconcileNames($item);
+            $title= '';
+            $title = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8');
+            $title = html_entity_decode($title, ENT_QUOTES, 'UTF-8');
 
-            // Strip html from feed item title
-            if ($titleField) {
-                $title = htmlspecialchars($item->$titleField, ENT_QUOTES, 'UTF-8');
-                $title = html_entity_decode($title, ENT_QUOTES, 'UTF-8');
-            } else {
-                $title = '';
-            }
-
-            // URL link to article
-            $router = new RouteHelper();
-            $link   = Route::_($router->getRoute($item->id, $contentType, null, null, $item->catid));
-
-            // Strip HTML from feed item description text.
+            $router        = new RouteHelper();
+            $link          = Route::_($router->getRoute($item->id, $contentType, null, null, $item->catid));
             $description   = $item->description;
             $author        = $item->created_by_alias ?: $item->author;
-            $categoryTitle = $item->category_title ?? $category->title;
+            
+            $item->category = [];
+            for ($item_category = $categories->get($item->catid); $item_category !== null; $item_category = $item_category->getParent()) 
+                if ($item_category->id > 1 && $item_category->title != 'ROOT') $item->category[] = $item_category->title;
+            
+            $item->category[] = $siteName;
+            $item->category   = array_reverse($item->category);
+            $item->category   = implode(' / ', $item->category);
+            $item->category   = htmlspecialchars($item->category, ENT_QUOTES, 'UTF-8');        
 
-            if ($createdField) {
-                $date = isset($item->$createdField) ? date('r', strtotime($item->$createdField)) : '';
-            } else {
-                $date = '';
-            }
-
-            // Load individual item creator class.
             $feeditem              = new FeedItem();
             $feeditem->title       = $title;
             $feeditem->link        = $link;
             $feeditem->description = $description;
-            $feeditem->date        = $date;
-            $feeditem->category    = $categoryTitle;
+            $feeditem->category    = $item->category;
             $feeditem->author      = $author;
-
-            // We don't have the author email so we have to use site in both cases.
-            if ($feedEmail === 'site') {
-                $feeditem->authorEmail = $siteEmail;
-            } elseif ($feedEmail === 'author') {
-                $feeditem->authorEmail = $item->author_email;
+            
+            switch ($date_type) {
+                case 0:   $feeditem->date = date('r', strtotime($item->created));    break;
+                case 1:   $feeditem->date = date('r', strtotime($item->publish_up)); break;
+                case 2:   $feeditem->date = date('r', strtotime($item->modified));   break;
+                default:  $feeditem->date = date('r', strtotime($item->created));
             }
 
-            // Loads item information into RSS array
+            $images = json_decode($item->images, false);
+            if (!empty($images->image_intro)) {
+                
+                if (preg_match('/^([^#]*)/', $images->image_intro, $matches)) $url_img = $matches[1]; else  $url_img = $images->image_intro;
+
+                $lastDotPos = strrpos($url_img, '.');
+                if ($lastDotPos !== false) { $extension = substr($url_img, $lastDotPos + 1); $extension = mb_strtolower($extension); } else $extension = '-';
+
+                $feedEnclosure         = new FeedEnclosure();
+                $feedEnclosure->url    = Uri::root().$url_img;
+                $feedEnclosure->length = filesize($url_img);
+                $feedEnclosure->type   = 'image/'.$extension;
+                $feeditem->enclosure   = $feedEnclosure;
+            }
+
+            if ($feedEmail === 'site') $feeditem->authorEmail = $siteEmail; elseif ($feedEmail === 'author') $feeditem->authorEmail = $item->author_email;
             $document->addItem($feeditem);
         }
     }
 
-    /**
-     * Method to reconcile non standard names from components to usage in this class.
-     * Typically overridden in the component feed view class.
-     *
-     * @param   object  $item  The item for a feed, an element of the $items array.
-     *
-     * @return  void
-     *
-     * @since   3.2
-     */
     protected function reconcileNames($item)
     {
         if (!property_exists($item, 'title') && property_exists($item, 'name')) {
