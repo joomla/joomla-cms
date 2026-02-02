@@ -222,18 +222,3 @@ div.subform-repeatable-group {
     background-color: $teal;
   }
 }
-
-// Calendar Highlighting in Frontend 
-.js-calendar .calendar-container .day.selected {
-  color: #fff;
-  background-color: var(--cassiopeia-color-primary);
-  border: 1px solid var(--cassiopeia-color-primary);
-  border-radius: 4px;
-}
-
-// Hover Effect
-.js-calendar .calendar-container .day:not(.disabled):not(.othermonth):hover {
-  color: #fff;
-  cursor: pointer;
-  background-color: var(--cassiopeia-color-primary);
-}
