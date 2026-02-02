@@ -16,7 +16,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\RouteHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\UCM\UCMType;
 use Joomla\CMS\Uri\Uri;
 \defined('_JEXEC') or die;
 
