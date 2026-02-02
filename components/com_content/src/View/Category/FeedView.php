@@ -53,10 +53,6 @@ class FeedView extends CategoryFeedView
         $item->description = '';
         $obj               = json_decode($item->images);
 
-        if (!empty($obj->image_intro)) {
-            $item->description = '<p>' . HTMLHelper::_('image', $obj->image_intro, $obj->image_intro_alt) . '</p>';
-        }
-
         $item->description .= ($params->get('feed_summary', 0) ? $item->introtext . $item->fulltext : $item->introtext);
 
         // Add readmore link to description if introtext is shown, show_readmore is true and fulltext exists
