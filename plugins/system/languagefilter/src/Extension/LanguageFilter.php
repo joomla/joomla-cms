@@ -136,6 +136,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
         $this->sefs         = LanguageHelper::getLanguages('sef');
         $this->lang_codes   = LanguageHelper::getLanguages('lang_code');
         $this->default_lang = ComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+        $installedLanguages = LanguageHelper::getInstalledLanguages(0);
 
         // If language filter plugin is executed in a site page.
         if ($app->isClient('site')) {
@@ -146,7 +147,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
                 // we also check if frontend language exists and is enabled
                 if (
                     ($language->access && !\in_array($language->access, $levels))
-                    || (!\array_key_exists($language->lang_code, LanguageHelper::getInstalledLanguages(0)))
+                    || (!\array_key_exists($language->lang_code, $installedLanguages))
                 ) {
                     unset($this->lang_codes[$language->lang_code], $this->sefs[$language->sef]);
                 }
@@ -157,7 +158,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
             $this->current_lang = isset($this->lang_codes[$this->default_lang]) ? $this->default_lang : 'en-GB';
 
             foreach ($this->sefs as $sef => $language) {
-                if (!\array_key_exists($language->lang_code, LanguageHelper::getInstalledLanguages(0))) {
+                if (!\array_key_exists($language->lang_code, $installedLanguages)) {
                     unset($this->lang_codes[$language->lang_code], $this->sefs[$language->sef]);
                 }
             }
