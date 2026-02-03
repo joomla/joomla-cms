@@ -13,14 +13,14 @@ tinymce.PluginManager.add('abbr', function (editor) {
 
     if (!selectedText) {
       editor.notificationManager.open({
-        text: 'Please select text or place the cursor inside an abbreviation.',
+        text: Joomla.Text._('PLG_TINY_ABBREVIATION_WARNING_NO_SELECTION'),
         type: 'warning'
       });
       return;
     }
 
     editor.windowManager.open({
-      title: abbr ? 'Edit Abbreviation' : 'Insert Abbreviation',
+      title: abbr ? Joomla.Text._('PLG_TINY_ABBREVIATION_EDIT') : Joomla.Text._('PLG_TINY_ABBREVIATION_INSERT'),
 
     initialData: {
       title: abbr ? abbr.getAttribute('title') || '' : ''
@@ -32,7 +32,7 @@ tinymce.PluginManager.add('abbr', function (editor) {
           {
             type: 'input',
             name: 'title',
-            label: 'Abbreviation description',
+            label: Joomla.Text._('PLG_TINY_ABBREVIATION_DESCRIPTION_LABEL'),
             placeholder: 'e.g. Web Content Accessibility Guidelines'
           }
         ]
@@ -50,7 +50,7 @@ tinymce.PluginManager.add('abbr', function (editor) {
 
         if (!data.title) {
           editor.notificationManager.open({
-            text: 'Please enter a description for the abbreviation.',
+            text: Joomla.Text._('PLG_TINY_ABBREVIATION_WARNING_NO_DESCRIPTION'),
             type: 'warning'
           });
           return;
@@ -74,7 +74,7 @@ tinymce.PluginManager.add('abbr', function (editor) {
 
     if (!abbr) {
       editor.notificationManager.open({
-        text: 'Cursor is not inside an abbreviation.',
+        text: Joomla.Text._('PLG_TINY_ABBREVIATION_WARNING_REMOVE'),
         type: 'warning'
       });
       return;
