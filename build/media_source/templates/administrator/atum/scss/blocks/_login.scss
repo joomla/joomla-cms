@@ -286,9 +286,13 @@ label {
   }
 
   .login-methods {
-    display: flex;
+    display: none; // Hidden by default when JavaScript is disabled
     flex-direction: column;
     gap: .5rem;
+
+    .js-enabled & {
+      display: flex; // Show only when JavaScript is enabled
+    }
 
     .btn {
       inline-size: 100%;
