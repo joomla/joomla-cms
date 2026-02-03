@@ -550,43 +550,48 @@ Joomla = window.Joomla || {};
     const PAN_STEP = 30; // Pixels to move
     const ZOOM_STEP = 1.1; // Multiplier
 
-    switch (e.key) {
-      // Zooming
-      case '+':
-      case '=':
+    switch (e.code) {
+      /* ---------- Zoom ---------- */
+      case 'Equal':   // + / =
         applyZoom(ZOOM_STEP, modal);
         break;
-      case '-':
-      case '_':
+
+      case 'Minus':   // - / _
         applyZoom(1 / ZOOM_STEP, modal);
         break;
-      
-      // Panning (Arrows)
+
+      /* ---------- Panning ---------- */
       case 'ArrowLeft':
-      case 'a':
+      case 'KeyA':
         state.panX += PAN_STEP;
         renderGraph(modal);
         break;
+
       case 'ArrowRight':
-      case 'd':
+      case 'KeyD':
         state.panX -= PAN_STEP;
         renderGraph(modal);
         break;
+
       case 'ArrowUp':
-      case 'w':
+      case 'KeyW':
         state.panY += PAN_STEP;
         renderGraph(modal);
         break;
+
       case 'ArrowDown':
-      case 's':
+      case 'KeyS':
         state.panY -= PAN_STEP;
         renderGraph(modal);
         break;
-      
-      // Reset / Fit to Screen
-      case '0':
-      case 'f':
+
+      /* ---------- Reset / Fit ---------- */
+      case 'Digit0':
+      case 'KeyF':
         fitToScreen(modal);
+        break;
+
+      default:
         break;
     }
   });

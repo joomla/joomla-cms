@@ -26,13 +26,10 @@ export function setupGlobalShortcuts({
   clearSelection, zoomIn, zoomOut, fitView,
   viewport, state, store,
 }) {
-  function isModifierPressed(e, key) {
-    return (e.ctrlKey || e.metaKey) && [key.toLowerCase(), key.toUpperCase()].includes(e.key);
-  }
   function handleKey(e) {
     const iframe = document.querySelector('joomla-dialog dialog[open]');
     if (iframe) {
-      if (e.key === 'Escape') {
+      if (e.code === 'Escape') {
         e.preventDefault();
         iframe.close();
         return;
@@ -51,77 +48,79 @@ export function setupGlobalShortcuts({
 
     function moveNode(stageId, direction, fast = false) {
       const el = document.querySelector(`.stage-node[data-stage-id='${stageId}']`);
-      if (!el) return;
+      if (!el || !store) return;
 
       const moveBy = fast ? 20 : 5;
-      if (!store) return;
 
       const stageIndex = store.getters.stages.findIndex((s) => s.id === parseInt(stageId, 10));
       if (stageIndex === -1) return;
       const currentPosition = store.getters.stages[stageIndex].position || { x: 0, y: 0 };
       if (!currentPosition) return;
 
-      let newX = currentPosition.x;
-      let newY = currentPosition.y;
+      let { x, y } = currentPosition;
 
       switch (direction) {
-        case 'ArrowUp': newY -= moveBy; break;
-        case 'ArrowDown': newY += moveBy; break;
-        case 'ArrowLeft': newX -= moveBy; break;
-        case 'ArrowRight': newX += moveBy; break;
-        default: break;
+        case 'ArrowUp': y -= moveBy; break;
+        case 'ArrowDown': y += moveBy; break;
+        case 'ArrowLeft': x -= moveBy; break;
+        case 'ArrowRight': x += moveBy; break;
+        default: return;
       }
 
-      store.dispatch('updateStagePosition', { id: stageId, x: newX, y: newY });
+      store.dispatch('updateStagePosition', { id: stageId, x, y });
       setSaveStatus('unsaved');
       updateSaveMessage();
       saveNodePosition();
     }
 
     switch (true) {
-      case e.altKey && ['n', 'N'].includes(e.key):
+      /* ---------- Add Stage / Transition ---------- */
+      case e.altKey && e.code === 'KeyN':
         e.preventDefault();
         addStage();
         announce(state.liveRegion, 'Add stage');
         break;
 
-      case e.altKey && ['m', 'M'].includes(e.key):
+      case e.altKey && e.code === 'KeyM':
         e.preventDefault();
         addTransition();
         announce(state.liveRegion, 'Add transition');
         break;
 
-      case e.key === 'e' || e.key === 'E':
+      /* ---------- Edit / Delete ---------- */
+      case e.code === 'KeyE':
         e.preventDefault();
         editItem();
         break;
 
-      case e.key === 'Delete' || e.key === 'Backspace':
+      case e.code === 'Delete' || e.code === 'Backspace':
         e.preventDefault();
         deleteItem();
         break;
 
-      case e.key === 'Escape':
+      case e.code === 'Escape':
         e.preventDefault();
         clearSelection();
         break;
 
-      case ['+', '='].includes(e.key):
+      /* ---------- Zoom / View ---------- */
+      case e.code === 'Equal': // + / =
         e.preventDefault();
         zoomIn();
         break;
 
-      case ['-', '_'].includes(e.key):
+      case e.code === 'Minus': // - / _
         e.preventDefault();
         zoomOut();
         break;
 
-      case ['f', 'F'].includes(e.key):
+      case e.code === 'KeyF':
         e.preventDefault();
         fitView({ padding: 0.5, duration: 300 });
         break;
 
-      case e.key === 'Tab': {
+      /* ---------- Focus Mode Cycling ---------- */
+      case e.code === 'Tab': {
         e.preventDefault();
         cycleMode(['buttons', 'stages', 'transitions', 'toolbar', 'actions', 'links'], state.currentFocusMode, state.liveRegion);
         const tabSelector = groupSelectors[state.currentFocusMode.value];
@@ -132,25 +131,22 @@ export function setupGlobalShortcuts({
         break;
       }
 
-      case ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key):
+      /* ---------- Arrow Navigation ---------- */
+      case ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code):
         e.preventDefault();
         if (state.selectedStage.value) {
           if (e.shiftKey) {
-            moveNode(state.selectedStage.value.toString(), e.key, e.shiftKey);
+            moveNode(state.selectedStage.value.toString(), e.code, true);
           } else {
             const buttonSelector = `.stage-node[data-stage-id='${state.selectedStage.value}'] button[tabindex="0"]`;
-            if (buttonSelector) {
-              cycleFocus(buttonSelector, 0);
-            }
+            if (buttonSelector) cycleFocus(buttonSelector, 0);
           }
         } else if (state.selectedTransition.value) {
           const buttonSelector = `.edge-label[data-edge-id='${state.selectedTransition.value}'] button[tabindex="0"]`;
-          if (buttonSelector) {
-            cycleFocus(buttonSelector, 0);
-          }
+          if (buttonSelector) cycleFocus(buttonSelector, 0);
         } else if (e.shiftKey) {
           const panStep = 20;
-          switch (e.key) {
+          switch (e.code) {
             case 'ArrowUp': viewport.value.y += panStep; break;
             case 'ArrowDown': viewport.value.y -= panStep; break;
             case 'ArrowLeft': viewport.value.x += panStep; break;
@@ -158,12 +154,9 @@ export function setupGlobalShortcuts({
             default: break;
           }
         } else {
-          const reverse = ['ArrowLeft', 'ArrowUp'].includes(e.key);
+          const reverse = ['ArrowLeft', 'ArrowUp'].includes(e.code);
           const selector = groupSelectors[state.currentFocusMode.value];
-          if (selector) {
-            cycleFocus(selector, reverse);
-          }
-          break;
+          if (selector) cycleFocus(selector, reverse);
         }
         break;
 

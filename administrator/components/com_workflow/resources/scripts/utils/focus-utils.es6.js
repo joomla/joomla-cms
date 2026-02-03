@@ -80,7 +80,7 @@ function handleDialogIframeLoad(iframe) {
       }
 
       iframeDoc.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
+        if (e.code === 'Escape') {
           e.preventDefault();
           const parentDialog = document.querySelector('joomla-dialog dialog[open]');
           if (parentDialog && parentDialog.close) {
@@ -112,7 +112,7 @@ function handleDialogClose(previouslyFocusedElement, store) {
  * @param e - The keyboard event
  */
 function handleDialogKeydown(e) {
-  if (e.key === 'Escape') {
+  if (e.code === 'Escape') {
     e.preventDefault();
     const dialog = e.currentTarget;
     if (dialog && dialog.close) {
