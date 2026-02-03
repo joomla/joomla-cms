@@ -12,13 +12,13 @@ namespace Joomla\Component\Tags\Site\View\Tag;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Document\Feed\FeedItem;
-use Joomla\CMS\Document\Feed\FeedEnclosure; 
+use Joomla\CMS\Document\Feed\FeedEnclosure;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Tags\Site\Model\TagModel;
+use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -49,14 +49,19 @@ class FeedView extends BaseHtmlView
         $params     = $app->getParams();
 
         // If the feed has been disabled, we want to bail out here
-        if ($params->get('show_feed_link', 1) == 0) { throw new \Exception(Text::_('JGLOBAL_RESOURCE_NOT_FOUND'), 404); }
+        if ($params->get('show_feed_link', 1) == 0) {
+            throw new \Exception(Text::_('JGLOBAL_RESOURCE_NOT_FOUND'), 404);
+        }
 
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);
-        foreach ($ids as $id) { if ($i !== 0) $tagIds .= '&'; $tagIds .= 'id[' . $i . ']=' . $id; $i++; }
+        foreach ($ids as $id) {
+            if ($i !== 0) $tagIds .= '&';
+            $tagIds .= 'id[' . $i . ']=' . $id;
+            $i++;
+        }
 
         $this->getDocument()->link = Route::_('index.php?option=com_tags&view=tag&' . $tagIds);
-
         $app->getInput()->set('limit', $app->get('feed_limit'));
         $siteEmail = $app->get('mailfrom');
         $fromName  = $app->get('fromname');
@@ -71,7 +76,6 @@ class FeedView extends BaseHtmlView
 
         if ($items !== false) {
             foreach ($items as $item) {
-                
                 // Load individual item creator class
                 $feeditem              = new FeedItem();
                 $feeditem->title       = html_entity_decode($this->escape($item->core_title), ENT_COMPAT, 'UTF-8');
@@ -83,11 +87,14 @@ class FeedView extends BaseHtmlView
                 
                 $images = json_decode($item->core_images,false);
                 if (!empty($images->image_intro)) {
+                    if (preg_match('/^([^#]*)/', $images->image_intro, $matches)) $url_img = $matches[1];
+                    else $url_img = $images->image_intro;
 
-                    if (preg_match('/^([^#]*)/', $images->image_intro, $matches)) $url_img = $matches[1]; else $url_img = $images->image_intro;
-                    
                     $lastDotPos = strrpos($url_img, '.');
-                    if ($lastDotPos !== false) { $extension = substr($url_img, $lastDotPos + 1); $extension = mb_strtolower($extension); } else $extension = '-';
+                    if ($lastDotPos !== false) {
+                        $extension = substr($url_img, $lastDotPos + 1);
+                        $extension = mb_strtolower($extension);
+                    } else $extension = '-';
 
                     // Use of Joomla FeedEnclosure class for items intro images
                     $feedEnclosure         = new FeedEnclosure();
@@ -97,7 +104,9 @@ class FeedView extends BaseHtmlView
                     $feeditem->enclosure   = $feedEnclosure;
                 }
 
-                if ($feedEmail === 'site') $item->authorEmail = $siteEmail; elseif ($feedEmail === 'author') $item->authorEmail = $item->author_email; 
+                if ($feedEmail === 'site') $item->authorEmail = $siteEmail;
+                elseif ($feedEmail === 'author') $item->authorEmail = $item->author_email;
+
                 $this->getDocument()->addItem($feeditem);
             }
         }
