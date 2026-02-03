@@ -193,7 +193,8 @@ class AdministratorApplication extends CMSApplication
             ['option' => 'com_users', 'task' => 'user.edit'],
             ['option' => 'com_users', 'task' => 'user.save'],
             ['option' => 'com_users', 'task' => 'user.apply'],
-            ['option' => 'com_users', 'view' => 'captivate'],
+            ['option' => 'com_users', 'view' => 'captive'],
+            ['option' => 'com_users', 'task' => 'captive.validate'],
             ['option' => 'com_login', 'task' => 'logout'],
             ['option' => 'com_users', 'view' => 'methods'],
             ['option' => 'com_users', 'view' => 'method'],
@@ -218,7 +219,7 @@ class AdministratorApplication extends CMSApplication
      *
      * @since      3.2
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Inject the router or load it from the dependency injection container
      *              Example:
      *              Factory::getContainer()->get(AdministratorRouter::class);
@@ -396,7 +397,7 @@ class AdministratorApplication extends CMSApplication
      *
      * @since   3.2
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Purge the messages through the messages model
      *              Example:
      *              Factory::getApplication()->bootComponent('messages')->getMVCFactory()
