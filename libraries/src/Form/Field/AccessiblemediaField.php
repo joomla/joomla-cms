@@ -238,7 +238,6 @@ XML;
 				label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_LABEL"
 				description="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DESC"
 				filter="string"
-				default="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DEFAULT_VALUE"
 				hint="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DEFAULT_VALUE"
 		/>
 XML;
@@ -253,5 +252,39 @@ XML;
         $this->layout = 'joomla.form.field.media.accessiblemedia';
 
         return true;
+    }
+
+    /**
+     * Method to get the field input markup.
+     *
+     * @return  string  The field input markup.
+     *
+     * @since   6.1.0
+     */
+    protected function getInput()
+    {
+        $subForm = $this->loadSubForm();
+
+        $mediaTypes = explode(',', $this->types);
+        $labels     = [];
+
+        foreach ($mediaTypes as $type) {
+            $const = 'JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_MEDIA_TYPE_' . strtoupper($type);
+            $labels[] = Text::_($const);
+        }
+
+        if (!empty($labels) && $subForm->getField('imagefile')) {
+            $label = Text::sprintf('JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_LABEL', implode(', ', $labels));
+
+            $subForm->setFieldAttribute('imagefile', 'label', $label);
+        }
+        
+        if ($subForm && $subForm->getField('linktext')) {
+            $subForm->setFieldAttribute('linktext', 'default', Text::_('JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DEFAULT_VALUE'));
+        }
+
+        $this->form = $subForm;
+
+        return parent::getInput();
     }
 }
