@@ -399,6 +399,8 @@ trait DisplayTrait
         if (!empty($allButtons['abbr'])) {
             $wa->useScript('plg_editors_tinymce.abbr');
             $plugins[] = 'abbr';
+            Text::script('PLG_TINY_TOOLBAR_BUTTON_ABBREVIATION');
+            Text::script('PLG_TINY_TOOLBAR_BUTTON_REMOVE_ABBREVIATION');
         }
 
         // User custom plugins and buttons

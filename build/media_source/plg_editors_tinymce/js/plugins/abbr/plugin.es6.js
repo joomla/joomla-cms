@@ -94,14 +94,14 @@ tinymce.PluginManager.add('abbr', function (editor) {
   editor.ui.registry.addButton('abbr', {
     title: 'Abbr',
     icon: 'abbr',
-    tooltip: 'Insert or edit abbreviation',
+    tooltip: Joomla.Text._('PLG_TINY_TOOLBAR_BUTTON_ABBREVIATION'),
     onAction: openDialog,
   });
 
   editor.ui.registry.addButton('abbr_remove', {
     title: 'Remove Abbr',
     icon: 'abbr_remove',
-    tooltip: 'Remove abbreviation',
+    tooltip: Joomla.Text._('PLG_TINY_TOOLBAR_BUTTON_REMOVE_ABBREVIATION'),
     onAction: removeAbbr,
   });
 
