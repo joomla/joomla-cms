@@ -5,8 +5,7 @@
  * @subpackage  com_tags
  *
  * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- *              Enclosure FIX by Tomás Berjoyo Fernández 2025
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt 
  */
 
 namespace Joomla\Component\Tags\Site\View\Tag;
@@ -85,11 +84,12 @@ class FeedView extends BaseHtmlView
                 $images = json_decode($item->core_images,false);
                 if (!empty($images->image_intro)) {
 
-                    if (preg_match('/^([^#]*)/', $images->image_intro, $matches)) $url_img = $matches[1]; else  $url_img = $images->image_intro;
+                    if (preg_match('/^([^#]*)/', $images->image_intro, $matches)) $url_img = $matches[1]; else $url_img = $images->image_intro;
                     
                     $lastDotPos = strrpos($url_img, '.');
                     if ($lastDotPos !== false) { $extension = substr($url_img, $lastDotPos + 1); $extension = mb_strtolower($extension); } else $extension = '-';
-                    
+
+                    // Use of Joomla FeedEnclosure class for items intro images
                     $feedEnclosure         = new FeedEnclosure();
                     $feedEnclosure->url    = Uri::root().$url_img;
                     $feedEnclosure->length = filesize($url_img);
