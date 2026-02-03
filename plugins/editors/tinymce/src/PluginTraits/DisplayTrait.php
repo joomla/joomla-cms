@@ -395,6 +395,12 @@ trait DisplayTrait
                 . $levelParams->get('content_template_path') . '&' . $csrf . '=1';
         }
 
+        // Load the abbreviation plugin?
+        if (!empty($allButtons['abbr'])) {
+            $wa->useScript('plg_editors_tinymce.abbr');
+            $plugins[] = 'abbr';
+        }
+
         // User custom plugins and buttons
         $custom_plugin = trim($levelParams->get('custom_plugin', ''));
         $custom_button = trim($levelParams->get('custom_button', ''));

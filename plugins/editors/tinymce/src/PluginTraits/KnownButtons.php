@@ -81,6 +81,8 @@ trait KnownButtons
             'language' => ['label' => 'Language'],
 
             // Buttons from the plugins
+            'abbr'           => ['label' => 'Abbreviation', 'plugin' => 'abbr'],
+            'abbr_remove'    => ['label' => 'Remove abbreviation', 'plugin' => 'abbr'],
             'accordion'      => ['label' => 'Accordion', 'plugin' => 'accordion'],
             'anchor'         => ['label' => 'Anchor', 'plugin' => 'anchor'],
             'hr'             => ['label' => 'Horizontal line'],
