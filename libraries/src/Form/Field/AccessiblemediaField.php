@@ -266,7 +266,7 @@ XML;
         $subForm = $this->loadSubForm();
 
         $mediaTypes = explode(',', $this->types);
-        $labels     = [];
+        $labels = [];
 
         foreach ($mediaTypes as $type) {
             $const = 'JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_MEDIA_TYPE_' . strtoupper($type);
