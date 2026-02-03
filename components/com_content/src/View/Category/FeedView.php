@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     Joomla.Site
  * @subpackage  com_content
@@ -11,9 +10,9 @@
 namespace Joomla\Component\Content\Site\View\Category;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\View\CategoryFeedView;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\CategoryFeedView;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
@@ -47,7 +46,7 @@ class FeedView extends CategoryFeedView
      */
     protected function reconcileNames($item)
     {
-        // Get description, intro_image, author and date
+        // Get description, author and date (into image are set in feddEnclosure class in Joomla\CMS\MVC\View\CategoryFeedView (library);
         $app               = Factory::getApplication();
         $params            = $app->getParams();
         $item->description = '';
