@@ -24,6 +24,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\SiteRouter;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\User;
 use Joomla\DI\Container;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
@@ -571,49 +572,7 @@ final class SiteApplication extends CMSApplication
         }
 
         if (empty($options['language'])) {
-            // Detect the specified language
-            $lang = $this->input->getString('language', null);
-
-            // Make sure that the user's language exists
-            if ($lang && LanguageHelper::exists($lang)) {
-                $options['language'] = $lang;
-            }
-        }
-
-        if (empty($options['language']) && $this->getLanguageFilter()) {
-            // Detect cookie language
-            $lang = $this->input->cookie->get(md5($this->get('secret') . 'language'), null, 'string');
-
-            // Make sure that the user's language exists
-            if ($lang && LanguageHelper::exists($lang)) {
-                $options['language'] = $lang;
-            }
-        }
-
-        if (empty($options['language'])) {
-            // Detect user language
-            $lang = $user->getParam('language');
-
-            // Make sure that the user's language exists
-            if ($lang && LanguageHelper::exists($lang)) {
-                $options['language'] = $lang;
-            }
-        }
-
-        if (empty($options['language']) && $this->getDetectBrowser()) {
-            // Detect browser language
-            $lang = LanguageHelper::detectLanguage();
-
-            // Make sure that the user's language exists
-            if ($lang && LanguageHelper::exists($lang)) {
-                $options['language'] = $lang;
-            }
-        }
-
-        if (empty($options['language'])) {
-            // Detect default language
-            $params              = ComponentHelper::getParams('com_languages');
-            $options['language'] = $params->get('site', $this->get('language', 'en-GB'));
+            $options['language'] = $this->detectLanguage($user);
         }
 
         // One last check to make sure we have something
@@ -630,6 +589,53 @@ final class SiteApplication extends CMSApplication
 
         // Finish initialisation
         parent::initialiseApp($options);
+    }
+
+    /**
+     * Detect the language to use for the application
+     *
+     * @param   User  $user  The user object
+     *
+     * @return  string  The detected language
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function detectLanguage(User $user): string
+    {
+        // Detect language from input
+        $lang = $this->input->getString('language');
+
+        if ($lang && LanguageHelper::exists($lang)) {
+            return $lang;
+        }
+
+        if ($this->getLanguageFilter()) {
+            // Detect cookie language
+            $lang = $this->input->cookie->get(md5($this->get('secret') . 'language'), null, 'string');
+
+            if ($lang && LanguageHelper::exists($lang)) {
+                return $lang;
+            }
+        }
+
+        // Detect user language
+        $lang = $user->getParam('language');
+
+        if ($lang && LanguageHelper::exists($lang)) {
+            return $lang;
+        }
+
+        if ($this->getDetectBrowser()) {
+            // Detect browser language
+            $lang = LanguageHelper::detectLanguage();
+
+            if ($lang && LanguageHelper::exists($lang)) {
+                return $lang;
+            }
+        }
+
+        // Use default language
+        return ComponentHelper::getParams('com_languages')->get('site', $this->get('language', 'en-GB'));
     }
 
     /**

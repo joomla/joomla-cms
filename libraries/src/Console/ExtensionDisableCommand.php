@@ -26,7 +26,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Console command to disable extensions
  *
- * @since  __DEPLOY_VERSION__
+ * @since  6.1.0
  */
 class ExtensionDisableCommand extends AbstractCommand
 {
@@ -36,61 +36,61 @@ class ExtensionDisableCommand extends AbstractCommand
      * The default command name
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  6.1.0
      */
     protected static $defaultName = 'extension:disable';
 
     /**
      * @var InputInterface
-     * @since __DEPLOY_VERSION__
+     * @since 6.1.0
      */
     private $cliInput;
 
     /**
      * @var SymfonyStyle
-     * @since __DEPLOY_VERSION__
+     * @since 6.1.0
      */
     private $ioStyle;
 
     /**
      * Exit Code for extensions already enabled\disabled
-     * @since __DEPLOY_VERSION__
+     * @since 6.1.0
      */
     public const DISABLE_NOCHANGE = 3;
 
     /**
      * Exit Code for extensions enable\disable failure
-     * @since __DEPLOY_VERSION__
+     * @since 6.1.0
      */
     public const DISABLE_FAILED = 1;
 
     /**
      * Exit Code for disable parent template with child failure
-     * @since __DEPLOY_VERSION__
+     * @since 6.1.0
      */
     public const DISABLE_WITHCHILD_NOT_PERMITTED = 5;
 
     /**
      * Exit Code for disable home template failure
-     * @since __DEPLOY_VERSION__
+     * @since 6.1.0
      */
     public const DISABLE_HOME_NOT_PERMITTED = 6;
 
     /**
      * Exit Code for extensions protected enable\disable failure
-     * @since __DEPLOY_VERSION__
+     * @since 6.1.0
      */
     public const DISABLE_PROTECTED = 4;
 
     /**
      * Exit Code for extensions not found
-     * @since __DEPLOY_VERSION__
+     * @since 6.1.0
      */
     public const DISABLE_NOT_FOUND = 2;
 
     /**
      * Exit Code for extensions enable\disable success
-     * @since __DEPLOY_VERSION__
+     * @since 6.1.0
      */
     public const DISABLE_SUCCESSFUL = 0;
 
@@ -99,7 +99,7 @@ class ExtensionDisableCommand extends AbstractCommand
      *
      * @param   DatabaseInterface  $db  The database
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     public function __construct(DatabaseInterface $db)
     {
@@ -116,7 +116,7 @@ class ExtensionDisableCommand extends AbstractCommand
      *
      * @return void
      *
-     * @since __DEPLOY_VERSION__
+     * @since 6.1.0
      *
      */
     private function configureIO(InputInterface $input, OutputInterface $output): void
@@ -130,7 +130,7 @@ class ExtensionDisableCommand extends AbstractCommand
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function configure(): void
     {
@@ -157,7 +157,7 @@ class ExtensionDisableCommand extends AbstractCommand
      *
      * @return  integer  The command exit code
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
