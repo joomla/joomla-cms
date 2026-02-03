@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Joomla! Content Management System
  *
@@ -17,6 +16,7 @@ use Joomla\CMS\Helper\RouteHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+
 \defined('_JEXEC') or die;
 
 class CategoryFeedView extends AbstractView
@@ -122,6 +122,7 @@ class CategoryFeedView extends AbstractView
                 $lastDotPos = strrpos($url_img, '.');
                 if ($lastDotPos !== false) { $extension = substr($url_img, $lastDotPos + 1); $extension = mb_strtolower($extension); } else $extension = '-';
 
+                // Use of Joomla FeedEnclosure class for items intro images
                 $feedEnclosure         = new FeedEnclosure();
                 $feedEnclosure->url    = Uri::root().$url_img;
                 $feedEnclosure->length = filesize($url_img);
