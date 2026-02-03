@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_content
@@ -47,12 +48,11 @@ class FeedView extends CategoryFeedView
     protected function reconcileNames($item)
     {
         // Get description, author and date (into image are set in feddEnclosure class in Joomla\CMS\MVC\View\CategoryFeedView (library);
-        $app               = Factory::getApplication();
-        $params            = $app->getParams();
-        $item->description = '';
-        $obj               = json_decode($item->images);
+        $app = Factory::getApplication();
+        $params = $app->getParams();
+        $obj = json_decode($item->images);
 
-        $item->description .= ($params->get('feed_summary', 0) ? $item->introtext . $item->fulltext : $item->introtext);
+        $item->description = ($params->get('feed_summary', 0) ? $item->introtext . $item->fulltext : $item->introtext);
 
         // Add readmore link to description if introtext is shown, show_readmore is true and fulltext exists
         if (!$item->params->get('feed_summary', 0) && $item->params->get('feed_show_readmore', 0) && $item->fulltext) {
@@ -67,8 +67,7 @@ class FeedView extends CategoryFeedView
                 true
             );
 
-            $item->description .= '<p class="feed-readmore"><a target="_blank" href="' . $link . '" rel="noopener">'
-                . Text::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
+            $item->description .= '<p class="feed-readmore"><a target="_blank" href="' . $link . '" rel="noopener">' . Text::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
         }
 
         $item->author = $item->created_by_alias ?: $item->author;
