@@ -278,7 +278,7 @@ XML;
 
             $subForm->setFieldAttribute('imagefile', 'label', $label);
         }
-        
+
         if ($subForm && $subForm->getField('linktext')) {
             $subForm->setFieldAttribute('linktext', 'default', Text::_('JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DEFAULT_VALUE'));
         }
