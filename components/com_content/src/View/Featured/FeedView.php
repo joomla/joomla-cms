@@ -11,10 +11,10 @@
 namespace Joomla\Component\Content\Site\View\Featured;
 
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Document\Feed\FeedEnclosure;
 use Joomla\CMS\Document\Feed\FeedView as BaseFeedView;
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\AbstractView;
@@ -81,6 +81,7 @@ class FeedView extends AbstractView
             $feedItem->title    = $title;
             $feedItem->link     = Route::_($link);
 
+            // Global article configuration for date type
             switch ($date_type) {
                 case 0:   $feedItem->date = $row->created;    break;
                 case 1:   $feedItem->date = $row->publish_up; break;
@@ -91,11 +92,12 @@ class FeedView extends AbstractView
             $images = json_decode($row->images, false);
             if (!empty($images->image_intro)) {
 
-                if (preg_match('/^([^#]*)/', $images->image_intro, $matches)) $url_img = $matches[1]; else  $url_img = $images->image_intro;
+                if (preg_match('/^([^#]*)/', $images->image_intro, $matches)) $url_img = $matches[1]; else $url_img = $images->image_intro;
                 
                 $lastDotPos = strrpos($url_img, '.');
                 if ($lastDotPos !== false) { $extension = substr($url_img, $lastDotPos + 1); $extension = mb_strtolower($extension); } else $extension = '-';
-                
+
+                // Use of Joomla FeedEnclosure class for items intro images
                 $feedEnclosure          = new FeedEnclosure();
                 $feedEnclosure->url     = Uri::root().$url_img;
                 $feedEnclosure->length  = filesize($url_img);
@@ -116,8 +118,7 @@ class FeedView extends AbstractView
 
             if (!$params->get('feed_summary', 0) && $params->get('feed_show_readmore', 0) && $row->fulltext) {
                 $link = Route::_($link, true, $app->get('force_ssl') == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE, true);
-                $description .= '<p class="feed-readmore"><a target="_blank" href="' . $link . '" rel="noopener">'
-                . Text::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
+                $description .= '<p class="feed-readmore"><a target="_blank" href="' . $link . '" rel="noopener">' . Text::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
             }
 
             $feedItem->description = '<div class="feed-description">' . $description . '</div>';
