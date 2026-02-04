@@ -2483,6 +2483,16 @@ class JoomlaInstallerScript
             '/modules/mod_login/mod_login.php',
             '/modules/mod_menu/mod_menu.php',
             '/modules/mod_whosonline/mod_whosonline.php',
+            // From 5.4.2 to 5.4.3
+            '/libraries/vendor/symfony/http-client-contracts/Test/Fixtures/web/index.php',
+            '/libraries/vendor/symfony/http-client-contracts/Test/HttpClientTestCase.php',
+            '/libraries/vendor/symfony/http-client-contracts/Test/TestHttpServer.php',
+            '/libraries/vendor/symfony/http-client/Test/HarFileResponseFactory.php',
+            '/libraries/vendor/symfony/service-contracts/Test/ServiceLocatorTest.php',
+            '/libraries/vendor/symfony/service-contracts/Test/ServiceLocatorTestCase.php',
+            '/libraries/vendor/symfony/translation-contracts/Test/TranslatorTest.php',
+            '/libraries/vendor/symfony/validator/Test/ConstraintValidatorTestCase.php',
+            '/libraries/vendor/symfony/var-dumper/Test/VarDumperTestTrait.php',
         ];
 
         $folders = [
@@ -2775,6 +2785,15 @@ class JoomlaInstallerScript
             '/libraries/vendor/maximebf/debugbar/src',
             '/libraries/vendor/maximebf/debugbar',
             '/libraries/vendor/maximebf',
+            // From 5.4.2 to 5.4.3
+            '/libraries/vendor/symfony/var-dumper/Test',
+            '/libraries/vendor/symfony/validator/Test',
+            '/libraries/vendor/symfony/translation-contracts/Test',
+            '/libraries/vendor/symfony/service-contracts/Test',
+            '/libraries/vendor/symfony/http-client/Test',
+            '/libraries/vendor/symfony/http-client-contracts/Test/Fixtures/web',
+            '/libraries/vendor/symfony/http-client-contracts/Test/Fixtures',
+            '/libraries/vendor/symfony/http-client-contracts/Test',
         ];
 
         $status['files_checked']   = $files;
