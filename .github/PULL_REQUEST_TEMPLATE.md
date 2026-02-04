@@ -1,4 +1,4 @@
-Pull Request fixes # .
+Pull Request resolves # .
 
 ### Summary of Changes
 
