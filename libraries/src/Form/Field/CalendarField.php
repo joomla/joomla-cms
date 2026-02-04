@@ -402,14 +402,14 @@ class CalendarField extends FormField
         }
 
         if ($this->filterFormat) {
-			$date = \DateTime::createFromFormat($this->filterFormat, $value);
-			if ($date === false) {
-				// Result: "Invalid form: Date"
-				Factory::getApplication()->enqueueMessage(Text::_('JGLOBAL_VALIDATION_FORM_FAILED') . ': ' . Text::_('JDATE'), 'warning');
-				return '';
-			}
-			$value = $date->format('Y-m-d H:i:s');
-		}
+            $date = \DateTime::createFromFormat($this->filterFormat, $value);
+            if ($date === false) {
+                // Result: "Invalid form: Date"
+                Factory::getApplication()->enqueueMessage(Text::_('JGLOBAL_VALIDATION_FORM_FAILED') . ': ' . Text::_('JDATE'), 'warning');
+                return '';
+            }
+            $value = $date->format('Y-m-d H:i:s');
+        }
 
         $app = Factory::getApplication();
 
