@@ -65,4 +65,50 @@ describe('Test that content API endpoint', () => {
     cy.db_createArticle({ title: 'automated test article', state: -2 })
       .then((article) => cy.api_delete(`/content/articles/${article.id}`));
   });
+
+    it('creates unique alias when duplicate article is created', () => {
+    cy.db_createCategory({ extension: 'com_content' })
+      .then((categoryId) => {
+        // Create first article
+        return cy.api_post('/content/articles', {
+          title: 'test article',
+          alias: 'test-article',
+          catid: categoryId,
+          introtext: '',
+          fulltext: '',
+          state: 1,
+          access: 1,
+          language: '*',
+          created: '2023-01-01 20:00:00',
+          modified: '2023-01-01 20:00:00',
+          images: '',
+          urls: '',
+          attribs: '',
+          metadesc: '',
+          metadata: '',
+        }).then(() => {
+          // Create second article with same title and alias
+          return cy.api_post('/content/articles', {
+            title: 'test article',
+            alias: 'test-article',
+            catid: categoryId,
+            introtext: '',
+            fulltext: '',
+            state: 1,
+            access: 1,
+            language: '*',
+            created: '2023-01-01 20:00:00',
+            modified: '2023-01-01 20:00:00',
+            images: '',
+            urls: '',
+            attribs: '',
+            metadesc: '',
+            metadata: '',
+          });
+        });
+      })
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
+        .its('alias')
+        .should('equal', 'test-article-2'));
+  });
 });
