@@ -1702,14 +1702,17 @@ class TemplateModel extends FormModel
             $explodeArray = explode('/', $relPath);
             $fileName     = end($explodeArray);
             $path         = $this->getBasePath() . base64_decode($app->getInput()->get('file'));
+            $isModern     = $template->xmldata->inheritable || !empty($template->xmldata->parent);
 
             if (stristr($client->path, 'administrator') === false) {
-                $folder = '/templates/';
+                $folder = $isModern ? '/media/templates/site/' : '/templates/';
             } else {
-                $folder = '/administrator/templates/';
+                $folder = $isModern ? '/media/templates/administrator/' : '/administrator/templates/';
             }
 
-            $uri = Uri::root(true) . $folder . $template->element;
+            $uri = $isModern
+                ? (str_replace('/administrator/', '/', Uri::root(true))) . $folder . $template->element
+                : Uri::root(true) . $folder . $template->element;
 
             if (file_exists(Path::clean($path))) {
                 $font['address'] = $uri . $relPath;
@@ -1780,6 +1783,12 @@ class TemplateModel extends FormModel
         if ($this->getTemplate()) {
             $app  = Factory::getApplication();
             $path = $this->getBasePath() . base64_decode($app->getInput()->get('file'));
+
+            // Check if the ZipArchive class exists
+            if (!class_exists('ZipArchive')) {
+                $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_ZIPARCHIVE_NOT_ENABLED'), 'error');
+                return false;
+            }
 
             if (file_exists(Path::clean($path))) {
                 $files = [];

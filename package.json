@@ -61,7 +61,7 @@
     "choices.js": "^9.1.0",
     "chosen-js": "^1.8.7",
     "cropperjs": "^1.6.2",
-    "diff": "^5.2.0",
+    "diff": "^5.2.2",
     "dotenv": "^16.6.1",
     "dragula": "^3.7.3",
     "es-module-shims": "^1.10.1",
