@@ -50,7 +50,7 @@ class FieldsHelper
     private static $fieldCache = null;
 
     /**
-     * Cached field-to-category assignments for non-recursive filtering.
+     * Cached field-to-category assignments for non-inherited filtering.
      *
      * @var    array|null
      * @since  __DEPLOY_VERSION__
@@ -163,7 +163,7 @@ class FieldsHelper
                 $assignedCatIds = explode(',', $assignedCatIds);
             }
 
-            // Keep the direct category IDs for non-recursive filtering below
+            // Keep the direct category IDs for non-inherited filtering below
             $directCatIds = array_map('intval', $assignedCatIds);
             $directCatIds = array_filter($directCatIds);
 
@@ -179,27 +179,27 @@ class FieldsHelper
             return [];
         }
 
-        // Filter out non-recursive fields that don't directly match the item's category
+        // Filter out non-inherited fields that don't directly match the item's category
         if ($directCatIds) {
-            $nonRecursiveFieldIds = [];
+            $nonInheritedFieldIds = [];
 
             foreach ($fields as $field) {
-                if ((int) $field->params->get('category_recursive', 1) === 0) {
-                    $nonRecursiveFieldIds[] = (int) $field->id;
+                if ((int) $field->params->get('category_inheritance', 1) === 0) {
+                    $nonInheritedFieldIds[] = (int) $field->id;
                 }
             }
 
-            if ($nonRecursiveFieldIds) {
+            if ($nonInheritedFieldIds) {
                 // Sort IDs for a stable cache key regardless of field order
-                sort($nonRecursiveFieldIds, SORT_NUMERIC);
-                $cacheKey = implode(',', $nonRecursiveFieldIds);
+                sort($nonInheritedFieldIds, SORT_NUMERIC);
+                $cacheKey = implode(',', $nonInheritedFieldIds);
 
                 if (!isset(self::$fieldCategoryCache[$cacheKey])) {
                     $db    = Factory::getContainer()->get(DatabaseInterface::class);
                     $query = $db->createQuery()
                         ->select($db->quoteName(['field_id', 'category_id']))
                         ->from($db->quoteName('#__fields_categories'))
-                        ->whereIn($db->quoteName('field_id'), $nonRecursiveFieldIds);
+                        ->whereIn($db->quoteName('field_id'), $nonInheritedFieldIds);
                     $db->setQuery($query);
                     $assignments = $db->loadObjectList();
 
@@ -219,7 +219,7 @@ class FieldsHelper
                 $fields = array_filter(
                     $fields,
                     function ($field) use ($fieldCategoryMap, $directCatIdLookup) {
-                        if ((int) $field->params->get('category_recursive', 1) !== 0) {
+                        if ((int) $field->params->get('category_inheritance', 1) !== 0) {
                             return true;
                         }
 
