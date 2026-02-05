@@ -1498,7 +1498,7 @@ class Nested extends Table
         // Prepare a list of correct published states.
         $subquery = (string) $query->clear()
             ->select("c2.$key AS newId")
-            ->select("CASE WHEN MIN($newState) > 0 THEN MAX($newState) ELSE MIN($newState) END AS newPublished")
+            ->select("CASE WHEN MIN($newState) > 0 THEN MAX($newState) ELSE MIN($newState) END AS " . $db->quoteName("newPublished"))
             ->from("$table AS c2")
             ->innerJoin("$table AS p2 ON p2.lft <= c2.lft AND c2.rgt <= p2.rgt")
             ->where("c2.$key IN (" . implode(',', $pks) . ")")
@@ -1508,7 +1508,7 @@ class Nested extends Table
         $query->clear()
             ->update($table)
             ->innerJoin("($subquery) AS c2")
-            ->set("$published = " . $db->quoteName("c2.newpublished"))
+            ->set("$published = " . $db->quoteName("c2.newPublished"))
             ->where("$key = c2.newId")
             ->where("$key IN (" . implode(',', $pks) . ")");
 
