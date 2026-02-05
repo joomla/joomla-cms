@@ -79,7 +79,7 @@
       <Handle
         type="target"
         class="edge-handler bg-success position-absolute top-0 start-50 translate-middle-x rounded-circle"
-        :class="{ 'invisible': !isHoveredOrFocused || showActions }"
+        :class="{ 'invisible': !isHoveredOrFocused || showActions || !isConnecting }"
         :position="Position.Top"
         aria-hidden="true"
       />
@@ -93,7 +93,7 @@
       <Handle
         type="target"
         class="edge-handler bg-success position-absolute top-50 start-0 translate-middle-y rounded-circle"
-        :class="{ 'invisible': !isHoveredOrFocused || showActions }"
+        :class="{ 'invisible': !isHoveredOrFocused || showActions ||!isConnecting }"
         :position="Position.Left"
         aria-hidden="true"
       />
@@ -174,10 +174,14 @@
 </template>
 
 <script>
-import { Handle, Position } from '@vue-flow/core';
+import { Handle, Position, useVueFlow } from '@vue-flow/core';
 
 export default {
   name: 'StageNode',
+  setup() {
+    const { connectionStartHandle } = useVueFlow();
+    return { connectionStartHandle };
+  },
   components: { Handle },
   props: {
     data: {
@@ -194,6 +198,9 @@ export default {
     };
   },
   computed: {
+    isConnecting() {
+      return !!this.connectionStartHandle;
+    },
     Position() {
       return Position;
     },
