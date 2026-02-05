@@ -54,9 +54,6 @@
 @import "vendor/minicolors";
 @import "vendor/tinymce";
 
-// System
-@import "system/fields/calendar";
-
 // Finally add the cassiopeia colours
 :root {
   @each $color, $value in $cassiopeia-colors {
