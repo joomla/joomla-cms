@@ -44,5 +44,10 @@ describe('Test installation page password strength validation', () => {
     cy.get('#jform_db_pass').clear();
     cy.get('#jform_db_pass').blur();
     cy.get('#jform_db_pass').should('have.value', '');
+    cy.clearCookies();
+    cy.clearLocalStorage();
+    cy.window().then((win) => {
+      win.sessionStorage.clear();
+    });
   });
 });
