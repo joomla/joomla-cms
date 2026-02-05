@@ -102,7 +102,6 @@ class ArticleController extends FormController
             $link = 'index.php?option=com_content&view=article';
             $type = 'component';
 
-            $editState['id']            = $id;
             $editState['link']          = $link;
             $editState['title']         = $model->getItem($id)->title;
             $editState['type']          = $type;
