@@ -21,7 +21,6 @@
 @import "blocks/alerts";
 @import "blocks/back-to-top";
 @import "blocks/banner";
-@import "blocks/calendar";
 @import "blocks/footer";
 @import "blocks/form";
 @import "blocks/frontend-edit";
@@ -54,6 +53,9 @@
 @import "vendor/metismenu/metismenu";
 @import "vendor/minicolors";
 @import "vendor/tinymce";
+
+// System
+@import "system/fields/calendar";
 
 // Finally add the cassiopeia colours
 :root {
