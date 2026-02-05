@@ -404,9 +404,8 @@ class CalendarField extends FormField
         if ($this->filterFormat) {
             $date = \DateTime::createFromFormat($this->filterFormat, $value);
             if ($date === false) {
-                // Result: "Invalid field: Date"
-                Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', Text::_('JDATE')), 'warning');
-                return '';
+                // Result: Exception page that shows: "Invalid field: Date"
+                throw new \Exception(Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', Text::_('JDATE')));
             }
             $value = $date->format('Y-m-d H:i:s');
         }
