@@ -24,6 +24,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Component\Fields\Administrator\Model\FieldsModel;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
 
@@ -194,7 +195,7 @@ class FieldsHelper
                 $cacheKey = implode(',', $nonRecursiveFieldIds);
 
                 if (!isset(self::$fieldCategoryCache[$cacheKey])) {
-                    $db    = Factory::getDbo();
+                    $db    = Factory::getContainer()->get(DatabaseInterface::class);
                     $query = $db->createQuery()
                         ->select($db->quoteName(['field_id', 'category_id']))
                         ->from($db->quoteName('#__fields_categories'))
