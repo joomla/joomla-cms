@@ -185,5 +185,105 @@ function deleteInsertedItems(config) {
   // Return the promise which waits for all delete queries
   return Promise.all(promises);
 }
+/**
+ * Drops all tables in the database to ensure a clean state for installation.
+ * Supports both MySQL/MariaDB and PostgreSQL.
+ *
+ * @param {object} config The configuration
+ * @returns {Promise<null>}
+ */
+async function dbClean(config) {
+  const isPostgres = config.env.db_type === 'pgsql' || config.env.db_type === 'PostgreSQL (PDO)';
 
-export { queryTestDB, deleteInsertedItems };
+  if (isPostgres) {
+    if (postgresConnectionPool === null) {
+      let hostOrUnixPath = config.env.db_host;
+      if (hostOrUnixPath.startsWith('unix:/')) {
+        hostOrUnixPath = hostOrUnixPath.replace('unix:', '');
+      }
+      postgresConnectionPool = new Pool({
+        host: hostOrUnixPath,
+        port: config.env.db_port,
+        database: config.env.db_name,
+        user: config.env.db_user,
+        password: config.env.db_password,
+        max: 10,
+      });
+    }
+
+    const client = await postgresConnectionPool.connect();
+    try {
+      // Get all tables in the 'public' schema
+      const res = await client.query(`
+        SELECT tablename FROM pg_catalog.pg_tables 
+        WHERE schemaname = 'public'
+      `);
+      
+      for (const row of res.rows) {
+        // Use CASCADE to handle dependencies automatically in Postgres
+        await client.query(`DROP TABLE IF EXISTS "${row.tablename}" CASCADE`);
+      }
+    } finally {
+      client.release();
+    }
+  } else {
+    // MariaDB / MySQL Logic
+    let connectionConfig;
+    if (config.env.db_host.startsWith('unix:/')) {
+      connectionConfig = {
+        socketPath: config.env.db_host.replace('unix:', ''),
+        user: config.env.db_user,
+        password: config.env.db_password,
+        database: config.env.db_name,
+      };
+    } else {
+      connectionConfig = {
+        host: config.env.db_host,
+        port: config.env.db_port,
+        user: config.env.db_user,
+        password: config.env.db_password,
+        database: config.env.db_name,
+      };
+    }
+
+    const connection = mysql.createConnection(connectionConfig);
+
+    return new Promise((resolve, reject) => {
+      // Disable foreign keys to drop tables in any order
+      connection.query('SET FOREIGN_KEY_CHECKS = 0', (err) => {
+        if (err) return reject(err);
+
+        connection.query('SHOW TABLES', (err, results) => {
+          if (err) return reject(err);
+
+          const promises = results.map((row) => {
+            const tableName = Object.values(row)[0];
+            return new Promise((res, rej) => {
+              connection.query(`DROP TABLE IF EXISTS \`${tableName}\``, (e) => (e ? rej(e) : res()));
+            });
+          });
+
+          Promise.all(promises)
+            .then(() => {
+              connection.query('SET FOREIGN_KEY_CHECKS = 1', () => {
+                connection.end();
+                resolve(null);
+              });
+            })
+            .catch((e) => {
+              connection.end();
+              reject(e);
+            });
+        });
+      });
+    });
+  }
+  
+  // Clear the insert cache since tables are gone
+  insertedItems = [];
+  return null;
+}
+
+// Update your export statement at the bottom
+export { queryTestDB, deleteInsertedItems, dbClean };
+//export { queryTestDB, deleteInsertedItems };
