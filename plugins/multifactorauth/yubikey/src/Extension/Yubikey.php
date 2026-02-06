@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
+use Joomla\CMS\Version;
 use Joomla\Component\Users\Administrator\DataShape\CaptiveRenderOptions;
 use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
 use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
@@ -27,6 +28,7 @@ use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Http\HttpFactory;
 use Joomla\Input\Input;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -369,7 +371,10 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 
         $gotResponse = false;
 
-        $http     = (new HttpFactory())->getHttp();
+        $options = new Registry();
+        $options->set('userAgent', (new Version())->getUserAgent('Joomla', true, false));
+
+        $http     = (new HttpFactory())->getHttp($options);
         $token    = $this->getApplication()->getFormToken();
         $nonce    = md5($token . uniqid(random_int(0, mt_getrandmax())));
         $response = null;
