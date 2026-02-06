@@ -27,6 +27,7 @@ describe('Install Joomla', () => {
       document.cookie = "joomla_session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     });
     cy.wait(1000);
+    cy.visit('installation/index.php', { timeout: 60000 });
     cy.installJoomla(config);
 
     // Disable compat plugin
