@@ -239,7 +239,7 @@ class FieldsModel extends ListModel
                         if ($parent) {
                             // Traverse the tree up to get all the fields which are attached to a parent
                             while ($parent->getParent() && $parent->getParent()->id != 'root') {
-                                $parent               = $parent->getParent();
+                                $parent                = $parent->getParent();
                                 $inheritedCategories[] = (int) $parent->id;
                             }
                         }
