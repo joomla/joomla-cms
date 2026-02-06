@@ -24,7 +24,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Component\Fields\Administrator\Model\FieldsModel;
-use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
 
@@ -48,14 +47,6 @@ class FieldsHelper
      * @var    FieldModel
      */
     private static $fieldCache = null;
-
-    /**
-     * Cached field-to-category assignments for non-inherited filtering.
-     *
-     * @var    array|null
-     * @since  __DEPLOY_VERSION__
-     */
-    private static $fieldCategoryCache = null;
 
     /**
      * Extracts the component and section from the context string which has to
@@ -154,18 +145,12 @@ class FieldsHelper
          * If item has assigned_cat_ids parameter display only fields which
          * belong to the category
          */
-        $directCatIds = [];
-
         if ($item && (isset($item->catid) || isset($item->fieldscatid))) {
             $assignedCatIds = $item->catid ?? $item->fieldscatid;
 
             if (!\is_array($assignedCatIds)) {
                 $assignedCatIds = explode(',', $assignedCatIds);
             }
-
-            // Keep the direct category IDs for non-inherited filtering below
-            $directCatIds = array_map('intval', $assignedCatIds);
-            $directCatIds = array_filter($directCatIds);
 
             // Fields without any category assigned should show as well
             $assignedCatIds[] = 0;
@@ -177,75 +162,6 @@ class FieldsHelper
 
         if ($fields === false) {
             return [];
-        }
-
-        // Filter out non-inherited fields that don't directly match the item's category
-        if ($directCatIds) {
-            $nonInheritedFieldIds = [];
-
-            foreach ($fields as $field) {
-                if ((int) $field->params->get('category_inheritance', 1) === 0) {
-                    $nonInheritedFieldIds[] = (int) $field->id;
-                }
-            }
-
-            if ($nonInheritedFieldIds) {
-                // Sort IDs for a stable cache key regardless of field order
-                sort($nonInheritedFieldIds, SORT_NUMERIC);
-                $cacheKey = implode(',', $nonInheritedFieldIds);
-
-                if (!isset(self::$fieldCategoryCache[$cacheKey])) {
-                    $db    = Factory::getContainer()->get(DatabaseInterface::class);
-                    $query = $db->createQuery()
-                        ->select($db->quoteName(['field_id', 'category_id']))
-                        ->from($db->quoteName('#__fields_categories'))
-                        ->whereIn($db->quoteName('field_id'), $nonInheritedFieldIds);
-                    $db->setQuery($query);
-                    $assignments = $db->loadObjectList();
-
-                    $fieldCategoryMap = [];
-
-                    foreach ($assignments as $assignment) {
-                        $fieldCategoryMap[(int) $assignment->field_id][] = (int) $assignment->category_id;
-                    }
-
-                    self::$fieldCategoryCache[$cacheKey] = $fieldCategoryMap;
-                }
-
-                $fieldCategoryMap  = self::$fieldCategoryCache[$cacheKey];
-                $directCatIdLookup = array_flip($directCatIds);
-
-                // Remove fields that don't directly match the item's category
-                $fields = array_filter(
-                    $fields,
-                    function ($field) use ($fieldCategoryMap, $directCatIdLookup) {
-                        if ((int) $field->params->get('category_inheritance', 1) !== 0) {
-                            return true;
-                        }
-
-                        // Fields assigned to "All" (no entries or category_id 0) always remain
-                        if (!isset($fieldCategoryMap[(int) $field->id])) {
-                            return true;
-                        }
-
-                        $assignedCats = $fieldCategoryMap[(int) $field->id];
-
-                        if (\in_array(0, $assignedCats, true)) {
-                            return true;
-                        }
-
-                        foreach ($assignedCats as $catId) {
-                            if (isset($directCatIdLookup[$catId])) {
-                                return true;
-                            }
-                        }
-
-                        return false;
-                    }
-                );
-
-                $fields = array_values($fields);
-            }
         }
 
         if ($item && isset($item->id)) {
@@ -791,8 +707,7 @@ class FieldsHelper
      */
     public static function clearFieldsCache()
     {
-        self::$fieldCache         = null;
-        self::$fieldsCache        = null;
-        self::$fieldCategoryCache = null;
+        self::$fieldCache  = null;
+        self::$fieldsCache = null;
     }
 }

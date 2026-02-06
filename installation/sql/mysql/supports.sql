@@ -149,6 +149,7 @@ CREATE TABLE IF NOT EXISTS `#__fields` (
   `state` tinyint NOT NULL DEFAULT 0,
   `required` tinyint NOT NULL DEFAULT 0,
   `only_use_in_subform` tinyint NOT NULL DEFAULT 0,
+  `category_inheritance` tinyint NOT NULL DEFAULT 1,
   `checked_out` int unsigned,
   `checked_out_time` datetime,
   `ordering` int NOT NULL DEFAULT 0,

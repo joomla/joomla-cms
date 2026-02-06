@@ -63,6 +63,7 @@ $wa->useScript('keepalive')
                         ],
                         'group_id',
                         'assigned_cat_ids',
+                        'category_inheritance',
                         'access',
                         'language',
                         'note',
