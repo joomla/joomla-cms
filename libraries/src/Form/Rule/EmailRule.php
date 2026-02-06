@@ -13,6 +13,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
 use Joomla\CMS\Language\Text;
+use Algo26\IdnaConvert\Exception\InvalidCharacterException;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
@@ -80,7 +81,11 @@ class EmailRule extends FormRule implements DatabaseAwareInterface
 
         if (!$multiple) {
             // Handle idn email addresses by converting to punycode.
-            $value = PunycodeHelper::emailToPunycode($value);
+            try {
+                $value = PunycodeHelper::emailToPunycode($value);
+            } catch (InvalidCharacterException) {
+                throw new \UnexpectedValueException(Text::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
+            }
 
             // Test the value against the regular expression.
             if (!parent::test($element, $value, $group, $input, $form)) {
@@ -91,7 +96,11 @@ class EmailRule extends FormRule implements DatabaseAwareInterface
 
             foreach ($values as $value) {
                 // Handle idn email addresses by converting to punycode.
-                $value = PunycodeHelper::emailToPunycode($value);
+                try {
+                    $value = PunycodeHelper::emailToPunycode($value);
+                } catch (InvalidCharacterException) {
+                    throw new \UnexpectedValueException(Text::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
+                }
 
                 // Test the value against the regular expression.
                 if (!parent::test($element, $value, $group, $input, $form)) {
