@@ -294,7 +294,7 @@
 			title="COM_CONTENT_MENUS_FEATURED"
 			type="component"
 			element="com_content"
-			link="index.php?option=com_content&amp;view=featured"
+			link="index.php?option=com_content&amp;view=articles&amp;filter[featured]=1"
 		/>
 
 		<menuitem

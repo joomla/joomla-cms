@@ -173,7 +173,6 @@ class ExtensionHelper
         ['plugin', 'ldap', 'authentication', 0],
 
         // Core plugin extensions - behaviour
-        ['plugin', 'compat', 'behaviour', 0],
         ['plugin', 'compat6', 'behaviour', 0],
         ['plugin', 'taggable', 'behaviour', 0],
         ['plugin', 'versionable', 'behaviour', 0],
@@ -220,6 +219,8 @@ class ExtensionHelper
         ['plugin', 'integer', 'fields', 0],
         ['plugin', 'list', 'fields', 0],
         ['plugin', 'media', 'fields', 0],
+        ['plugin', 'note', 'fields', 0],
+        ['plugin', 'number', 'fields', 0],
         ['plugin', 'radio', 'fields', 0],
         ['plugin', 'sql', 'fields', 0],
         ['plugin', 'subform', 'fields', 0],
@@ -365,6 +366,7 @@ class ExtensionHelper
 
         // Core template extensions - site
         ['template', 'cassiopeia', '', 0],
+        ['template', 'cassiopeia_extended', '', 0],
     ];
 
     /**
@@ -404,7 +406,7 @@ class ExtensionHelper
         }
 
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions'));
 
@@ -480,7 +482,7 @@ class ExtensionHelper
 
         if (!\array_key_exists($key, self::$loadedExtensions)) {
             $db    = Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select('*')
                 ->from($db->quoteName('#__extensions'))
                 ->where(

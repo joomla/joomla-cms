@@ -22,7 +22,6 @@ use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Asset;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
@@ -144,7 +143,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
                     if ($replyId = (int) $this->getState('reply.id')) {
                         // If replying to a message, preload some data.
                         $db    = $this->getDatabase();
-                        $query = $db->getQuery(true)
+                        $query = $db->createQuery()
                             ->select($db->quoteName(['subject', 'user_id_from', 'user_id_to']))
                             ->from($db->quoteName('#__messages'))
                             ->where($db->quoteName('message_id') . ' = :messageid')
@@ -164,11 +163,12 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
                             return false;
                         }
 
-                        $this->item->set('user_id_to', $message->user_id_from);
+                        $this->item->user_id_to = $message->user_id_from;
+
                         $re = Text::_('COM_MESSAGES_RE');
 
                         if (stripos($message->subject, $re) !== 0) {
-                            $this->item->set('subject', $re . ' ' . $message->subject);
+                            $this->item->subject = $re . ' ' . $message->subject;
                         }
                     }
                 } elseif ($this->item->user_id_to != $this->getCurrentUser()->id) {
@@ -178,7 +178,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
                 } else {
                     // Mark message read
                     $db    = $this->getDatabase();
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->update($db->quoteName('#__messages'))
                         ->set($db->quoteName('state') . ' = 1')
                         ->where($db->quoteName('message_id') . ' = :messageid')
@@ -189,7 +189,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
 
             // Get the user name for an existing message.
             if ($this->item->user_id_from && $fromUser = new User($this->item->user_id_from)) {
-                $this->item->set('from_user_name', $fromUser->name);
+                $this->item->from_user_name = $fromUser->name;
             }
         }
 
@@ -430,8 +430,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
         $db = $this->getDatabase();
 
         try {
-            /** @var Asset $table */
-            $table  = Table::getInstance('Asset');
+            $table  = new Asset($db);
             $rootId = $table->getRootId();
 
             /** @var Rule[] $rules */
@@ -458,7 +457,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
                 return false;
             }
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('map.user_id'))
                 ->from($db->quoteName('#__user_usergroup_map', 'map'))
                 ->join(

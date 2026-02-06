@@ -6,14 +6,14 @@ Build Status
 
 | Actions                                                                                                                                         | PHP                                                                           | Node                                                                                 | npm                                                                              |
 |-------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
-| [![Build Status](https://github.com/joomla/joomla-cms/actions/workflows/ci.yml/badge.svg?branch=5.4-dev)](https://github.com/joomla/joomla-cms) | [![PHP](https://img.shields.io/badge/PHP-V8.1.0-green)](https://www.php.net/) | [![node-lts](https://img.shields.io/badge/Node-V20.0-green)](https://nodejs.org/en/) | [![npm](https://img.shields.io/badge/npm-v10.1.0-green)](https://nodejs.org/en/) |
+| [![Build Status](https://github.com/joomla/joomla-cms/actions/workflows/ci.yml/badge.svg?branch=6.0-dev)](https://github.com/joomla/joomla-cms) | [![PHP](https://img.shields.io/badge/PHP-V8.3.0-green)](https://www.php.net/) | [![node-lts](https://img.shields.io/badge/Node-V20.0-green)](https://nodejs.org/en/) | [![npm](https://img.shields.io/badge/npm-v10.1.0-green)](https://nodejs.org/en/) |
 
 Overview
 ---------------------
-* This is the source of Joomla! 5.x.
+* This is the source of Joomla! 6.x.
 * Joomla's [Official website](https://www.joomla.org).
-* Joomla! 5.4 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_5.4_version_history).
-* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/5.4-dev).
+* Joomla! 6.0 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_6.0_version_history).
+* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/6.0-dev).
 
 What is Joomla?
 ---------------------
@@ -46,9 +46,9 @@ git clone https://github.com/joomla/joomla-cms.git
 ```bash
 cd joomla-cms
 ```
-- Go to the 5.4-dev branch:
+- Go to the 6.0-dev branch:
 ```bash
-git checkout 5.4-dev
+git checkout 6.0-dev
 ```
 - Install all the needed composer packages:
 ```bash

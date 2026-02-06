@@ -258,14 +258,14 @@ class QuickIconHelper
             if ($params->get('show_featured')) {
                 $tmp = [
                     'image'  => 'icon-star featured',
-                    'link'   => Route::_('index.php?option=com_content&view=featured'),
+                    'link'   => Route::_('index.php?option=com_content&view=articles&filter[featured]=1'),
                     'name'   => 'MOD_QUICKICON_FEATURED_MANAGER',
                     'access' => ['core.manage', 'com_content'],
                     'group'  => 'MOD_QUICKICON_SITE',
                 ];
 
                 if ($params->get('show_featured') == 2) {
-                    $tmp['ajaxurl'] = 'index.php?option=com_content&amp;task=featured.getQuickiconContent&amp;format=json';
+                    $tmp['ajaxurl'] = 'index.php?option=com_content&amp;task=articles.getQuickiconFeatured&amp;format=json';
                 }
 
                 $this->buttons[$key][] = $tmp;
