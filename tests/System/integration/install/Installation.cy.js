@@ -15,6 +15,10 @@ describe('Install Joomla', () => {
       db_prefix: Cypress.env('db_prefix'),
     };
 
+    cy.task('db_clean');
+    // If exists, delete PHP configuration file to force a new installation
+    cy.task('deleteRelativePath', 'configuration.php');
+    cy.installJoomla(config);
 
     // Disable compat plugin
     cy.db_enableExtension(0, 'plg_behaviour_compat');
