@@ -1041,8 +1041,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
 
         $this->workflowPreprocessForm($form, $data);
 
-        $form->setFieldAttribute('transition', 'layout', 'joomla.form.field.groupedlist-transition');
-
         parent::preprocessForm($form, $data, $group);
     }
 
