@@ -26,6 +26,7 @@ describe('Install Joomla', () => {
       // Forcefully expire the Joomla cookie if it exists
       document.cookie = "joomla_session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     });
+    cy.wait(1000);
     cy.installJoomla(config);
 
     // Disable compat plugin
