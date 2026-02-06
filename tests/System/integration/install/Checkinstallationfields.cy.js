@@ -1,7 +1,10 @@
 describe('Test installation page password strength validation', () => {
   beforeEach(() => {
-    // If exists, delete PHP configuration file to force a new installation
+    // 1. CLEAR EVERYTHING - This is the key fix
+    cy.task('db_clean'); 
     cy.task('deleteRelativePath', 'configuration.php');
+    
+    // 2. Visit the page
     cy.visit('/installation/index.php');
     cy.get('#jform_site_name').clear().type(Cypress.env('sitename'));
   });
