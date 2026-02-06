@@ -16,11 +16,16 @@ describe('Install Joomla', () => {
     };
 
 
-    cy.task('db_clean');
-    cy.clearCookies();
-    cy.clearLocalStorage();
+    cy.task('db_clean');    
     // If exists, delete PHP configuration file to force a new installation
     cy.task('deleteRelativePath', 'configuration.php');
+    cy.clearCookies();
+    cy.clearLocalStorage();
+    cy.window().then((win) => {
+      win.sessionStorage.clear();
+      // Forcefully expire the Joomla cookie if it exists
+      document.cookie = "joomla_session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    });
     cy.installJoomla(config);
 
     // Disable compat plugin
