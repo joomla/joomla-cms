@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f577684c10af21b55e694ebddac803ca",
+    "content-hash": "c042b3291a38f5e7c0bf873b33acb298",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/algo26-matthias/idna-convert.git",
-                "reference": "bc263b9d9dd6bf82845cda763a4abea3481d0f83"
+                "reference": "87bfcab8e453d7ede78eeec15d75c75f0e926f3c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/algo26-matthias/idna-convert/zipball/bc263b9d9dd6bf82845cda763a4abea3481d0f83",
-                "reference": "bc263b9d9dd6bf82845cda763a4abea3481d0f83",
+                "url": "https://api.github.com/repos/algo26-matthias/idna-convert/zipball/87bfcab8e453d7ede78eeec15d75c75f0e926f3c",
+                "reference": "87bfcab8e453d7ede78eeec15d75c75f0e926f3c",
                 "shasum": ""
             },
             "require": {
@@ -60,7 +60,7 @@
                 "issues": "https://github.com/algo26-matthias/idna-convert/issues",
                 "source": "https://github.com/algo26-matthias/idna-convert/tree/v4.2.1"
             },
-            "time": "2025-08-11T09:03:12+00:00"
+            "time": "2025-10-10T11:39:49+00:00"
         },
         {
             "name": "brick/math",
@@ -1628,16 +1628,16 @@
         },
         {
             "name": "joomla/filter",
-            "version": "4.0.0",
+            "version": "4.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filter.git",
-                "reference": "63a30dd72de04a76f34fa09f475135fe708c75d4"
+                "reference": "fcde280785f188e93530f7da68102f7dd8f9f723"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/63a30dd72de04a76f34fa09f475135fe708c75d4",
-                "reference": "63a30dd72de04a76f34fa09f475135fe708c75d4",
+                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/fcde280785f188e93530f7da68102f7dd8f9f723",
+                "reference": "fcde280785f188e93530f7da68102f7dd8f9f723",
                 "shasum": ""
             },
             "require": {
@@ -1673,22 +1673,22 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/filter/issues",
-                "source": "https://github.com/joomla-framework/filter/tree/4.0.0"
+                "source": "https://github.com/joomla-framework/filter/tree/4.0.1"
             },
-            "time": "2025-07-23T19:57:09+00:00"
+            "time": "2025-09-30T15:42:06+00:00"
         },
         {
             "name": "joomla/http",
-            "version": "4.0.0",
+            "version": "4.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/http.git",
-                "reference": "c1631de6f88f5cb0c720360f6dc63a832359a1f7"
+                "reference": "3c494722385f556e022ea57b9e9c7474d95452c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/http/zipball/c1631de6f88f5cb0c720360f6dc63a832359a1f7",
-                "reference": "c1631de6f88f5cb0c720360f6dc63a832359a1f7",
+                "url": "https://api.github.com/repos/joomla-framework/http/zipball/3c494722385f556e022ea57b9e9c7474d95452c3",
+                "reference": "3c494722385f556e022ea57b9e9c7474d95452c3",
                 "shasum": ""
             },
             "require": {
@@ -1728,9 +1728,9 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/http/issues",
-                "source": "https://github.com/joomla-framework/http/tree/4.0.0"
+                "source": "https://github.com/joomla-framework/http/tree/4.0.2"
             },
-            "time": "2025-07-23T20:11:41+00:00"
+            "time": "2026-01-08T07:18:39+00:00"
         },
         {
             "name": "joomla/input",
@@ -2555,16 +2555,16 @@
         },
         {
             "name": "paragonie/sodium_compat",
-            "version": "v1.21.2",
+            "version": "v1.24.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/sodium_compat.git",
-                "reference": "d3043fd10faacb72e9eeb2df4c21a13214b45c33"
+                "reference": "2cb48f26130919f92f30650bdcc30e6f4ebe45ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/d3043fd10faacb72e9eeb2df4c21a13214b45c33",
-                "reference": "d3043fd10faacb72e9eeb2df4c21a13214b45c33",
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/2cb48f26130919f92f30650bdcc30e6f4ebe45ac",
+                "reference": "2cb48f26130919f92f30650bdcc30e6f4ebe45ac",
                 "shasum": ""
             },
             "require": {
@@ -2635,9 +2635,9 @@
             ],
             "support": {
                 "issues": "https://github.com/paragonie/sodium_compat/issues",
-                "source": "https://github.com/paragonie/sodium_compat/tree/v1.21.2"
+                "source": "https://github.com/paragonie/sodium_compat/tree/v1.24.0"
             },
-            "time": "2025-09-19T16:14:19+00:00"
+            "time": "2025-12-30T16:16:35+00:00"
         },
         {
             "name": "php-debugbar/php-debugbar",
@@ -6586,16 +6586,16 @@
         },
         {
             "name": "joomla/test",
-            "version": "4.0",
+            "version": "4.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/test.git",
-                "reference": "5c5651800bed4a657d596929db56a200da063600"
+                "reference": "cfc3ca98f363dc76c4e3cf7a0cd089eeb93e2480"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/test/zipball/5c5651800bed4a657d596929db56a200da063600",
-                "reference": "5c5651800bed4a657d596929db56a200da063600",
+                "url": "https://api.github.com/repos/joomla-framework/test/zipball/cfc3ca98f363dc76c4e3cf7a0cd089eeb93e2480",
+                "reference": "cfc3ca98f363dc76c4e3cf7a0cd089eeb93e2480",
                 "shasum": ""
             },
             "require": {
@@ -6633,9 +6633,9 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/test/issues",
-                "source": "https://github.com/joomla-framework/test/tree/4.0"
+                "source": "https://github.com/joomla-framework/test/tree/4.0.1"
             },
-            "time": "2025-07-23T18:26:34+00:00"
+            "time": "2025-10-17T08:21:47+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -7299,16 +7299,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.6.29",
+            "version": "9.6.34",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "9ecfec57835a5581bc888ea7e13b51eb55ab9dd3"
+                "reference": "b36f02317466907a230d3aa1d34467041271ef4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/9ecfec57835a5581bc888ea7e13b51eb55ab9dd3",
-                "reference": "9ecfec57835a5581bc888ea7e13b51eb55ab9dd3",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/b36f02317466907a230d3aa1d34467041271ef4a",
+                "reference": "b36f02317466907a230d3aa1d34467041271ef4a",
                 "shasum": ""
             },
             "require": {
@@ -7330,7 +7330,7 @@
                 "phpunit/php-timer": "^5.0.3",
                 "sebastian/cli-parser": "^1.0.2",
                 "sebastian/code-unit": "^1.0.8",
-                "sebastian/comparator": "^4.0.9",
+                "sebastian/comparator": "^4.0.10",
                 "sebastian/diff": "^4.0.6",
                 "sebastian/environment": "^5.1.5",
                 "sebastian/exporter": "^4.0.8",
@@ -7382,7 +7382,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.29"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.34"
             },
             "funding": [
                 {
@@ -7406,7 +7406,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-09-24T06:29:11+00:00"
+            "time": "2026-01-27T05:45:00+00:00"
         },
         {
             "name": "react/cache",
@@ -8103,16 +8103,16 @@
         },
         {
             "name": "sebastian/comparator",
-            "version": "4.0.9",
+            "version": "4.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/comparator.git",
-                "reference": "67a2df3a62639eab2cc5906065e9805d4fd5dfc5"
+                "reference": "e4df00b9b3571187db2831ae9aada2c6efbd715d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/67a2df3a62639eab2cc5906065e9805d4fd5dfc5",
-                "reference": "67a2df3a62639eab2cc5906065e9805d4fd5dfc5",
+                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/e4df00b9b3571187db2831ae9aada2c6efbd715d",
+                "reference": "e4df00b9b3571187db2831ae9aada2c6efbd715d",
                 "shasum": ""
             },
             "require": {
@@ -8165,7 +8165,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/comparator/issues",
-                "source": "https://github.com/sebastianbergmann/comparator/tree/4.0.9"
+                "source": "https://github.com/sebastianbergmann/comparator/tree/4.0.10"
             },
             "funding": [
                 {
@@ -8185,7 +8185,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-08-10T06:51:50+00:00"
+            "time": "2026-01-24T09:22:56+00:00"
         },
         {
             "name": "sebastian/complexity",
@@ -9409,16 +9409,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "v7.3.3",
+            "version": "v7.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "32241012d521e2e8a9d713adb0812bb773b907f1"
+                "reference": "608476f4604102976d687c483ac63a79ba18cc97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/32241012d521e2e8a9d713adb0812bb773b907f1",
-                "reference": "32241012d521e2e8a9d713adb0812bb773b907f1",
+                "url": "https://api.github.com/repos/symfony/process/zipball/608476f4604102976d687c483ac63a79ba18cc97",
+                "reference": "608476f4604102976d687c483ac63a79ba18cc97",
                 "shasum": ""
             },
             "require": {
@@ -9450,7 +9450,7 @@
             "description": "Executes commands in sub-processes",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/process/tree/v7.3.3"
+                "source": "https://github.com/symfony/process/tree/v7.4.5"
             },
             "funding": [
                 {
@@ -9470,7 +9470,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-08-18T09:42:54+00:00"
+            "time": "2026-01-26T15:07:59+00:00"
         },
         {
             "name": "symfony/stopwatch",
@@ -9603,5 +9603,5 @@
     "platform-overrides": {
         "php": "8.3.0"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }

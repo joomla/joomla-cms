@@ -342,7 +342,7 @@ class Document
      *
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the \Joomla\CMS\Document\FactoryInterface instead
      *              Example: Factory::getApplication()->getDocument();
      */

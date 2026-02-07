@@ -32,7 +32,7 @@ final class Note extends FieldsPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function prepareForm(PrepareFormEvent $event)
     {
@@ -47,7 +47,6 @@ final class Note extends FieldsPlugin implements SubscriberInterface
             return;
         }
 
-        $form->removeField('default_value');
         $form->removeField('required');
         $form->removeField('hint', 'params');
         $form->removeField('class', 'params');

@@ -30,7 +30,8 @@
     // Default settings for the Nav class
     static defaultSettings = {
       menuHoverClass: 'show-menu',
-      dir: 'ltr'
+      dir: 'ltr',
+      preventSubmenuOpenOnload: 'nav-active-open'
     };
 
     constructor(nav, settings = {}) {
@@ -79,6 +80,10 @@
 
       nav.addEventListener('keydown', this.onMenuKeyDown.bind(this));
       nav.addEventListener('click', this.onClick.bind(this));
+
+      if (this.nav.classList.contains(this.settings.preventSubmenuOpenOnload)) {
+        this.toggleAllForCurrentActive();
+      }
     }
 
     onMenuKeyDown(event) {
@@ -203,7 +208,7 @@
         ulChild.setAttribute('aria-hidden', open ? 'false' : 'true');
         ulChild.classList.toggle(this.settings.menuHoverClass, open);
       });
-      target.querySelector(':scope > [aria-expanded]').setAttribute('aria-expanded', open ? 'true' : 'false');
+      target.querySelector(':scope > [aria-expanded]')?.setAttribute('aria-expanded', open ? 'true' : 'false');
     }
 
     focusTabbable(direction = 1) {
@@ -231,6 +236,22 @@
         currentLi = parentUl ? parentUl.closest('li') : null;
       }
       return currentLi; // top-level li or null if not found, or the
+    }
+
+    toggleAllForCurrentActive() {
+      const active = this.nav.querySelector('.current.active');
+      if (active) {
+        const $parentTopLevel = this.getTopLevelParentLi(active);
+        let currentLi = active;
+        while (currentLi && !Array.from(this.topLevelNodes).includes(currentLi)) {
+          const parentUl = currentLi.parentElement.closest('ul');
+          currentLi = parentUl ? parentUl.closest('li') : null;
+          if (currentLi) {
+            const subLists = currentLi.querySelectorAll('ul');
+            this.toggleSubMenu(currentLi, subLists, subLists[0]?.getAttribute('aria-hidden') === 'true');
+          }
+        }
+      }
     }
   }
 
