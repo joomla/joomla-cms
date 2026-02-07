@@ -64,6 +64,20 @@ class Uri extends \Joomla\Uri\Uri
         if (empty(static::$instances[$uri])) {
             // Are we obtaining the URI from the server?
             if ($uri === 'SERVER') {
+                try {
+                    $applicationUriRequest = Factory::getApplication()->get('uri.request');
+
+                    if ($applicationUriRequest !== null) {
+                        static::$instances[$uri] = new static($applicationUriRequest);
+
+                        return static::$instances[$uri];
+                    }
+                } catch (\Exception $e) {
+                    @trigger_error('The application should be set into Factory', E_USER_DEPRECATED);
+                }
+
+                @trigger_error('The application should provide the request URI from Joomla 5.0.0', E_USER_DEPRECATED);
+
                 // Determine if the request was over SSL (HTTPS).
                 if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) !== 'off')) {
                     $https = 's://';
