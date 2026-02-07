@@ -1,0 +1,109 @@
+/**
+ * JS handler
+ */
+
+import fsp from 'node:fs/promises';
+import { transform } from 'esbuild';
+import { rollup } from 'rollup';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import { babel } from '@rollup/plugin-babel';
+
+/**
+ * Minify JS content
+ *
+ * @param   { String } content
+ * @returns { Promise<String> }
+ */
+export const minifyJSContent = async (content = '') => transform(content, { minify: true })
+  .then((result) => result.code);
+
+/**
+ * Handle JS file without extra processing. Just minification.
+ *
+ * @param { String } srcPath
+ * @param { String } targetPath
+ * @returns { Promise }
+ */
+export const handleJSFile = async (srcPath, targetPath) => {
+  return fsp.readFile(srcPath, { encoding: 'utf8' }).then((content) => {
+    return minifyJSContent(content).then((jsMin) => {
+      // Copy source
+      const saveCopy = fsp.copyFile(srcPath, targetPath);
+
+      // Store minified version
+      const saveMin = fsp.writeFile(
+        targetPath.replace('.js', '.min.js'),
+        jsMin,
+        { encoding: 'utf8', mode: 0o644 }
+      );
+
+      return Promise.all([saveCopy, saveMin]);
+    });
+  });
+};
+
+/**
+ * Handle JS file which requires extra processing.
+ *
+ * @param { String } srcPath
+ * @param { String } targetPath
+ * @returns { Promise }
+ */
+export const handleMJSFile = async (srcPath, targetPath) => {
+  console.log(srcPath, targetPath);
+
+  const externalModules = [];
+
+  return rollup({
+    input: srcPath,
+    plugins: [
+      nodeResolve({ preferBuiltins: false }),
+      babel({
+        exclude: 'node_modules/core-js/**',
+        babelHelpers: 'bundled',
+        babelrc: false,
+        presets: [
+          [
+            '@babel/preset-env',
+            {
+              targets: {
+                browsers: [
+                  '> 1%',
+                  'not op_mini all',
+                  /** https://caniuse.com/es6-module */
+                  'chrome >= 61',
+                  'safari >= 11',
+                  'edge >= 16',
+                  'Firefox >= 60',
+                ],
+              },
+              bugfixes: true,
+              loose: true,
+            },
+          ],
+        ],
+      }),
+    ],
+    external: externalModules,
+  }).then(( bundle) => {
+    // Process and store source file
+    const result = bundle.write({
+      format: targetPath.endsWith('core.js') ? 'iife' : 'es',
+      sourcemap: false,
+      file: targetPath,
+    });
+
+    // Minify the code and store
+    const saveMin = result
+      .then(( value ) => minifyJSContent(value.output[0].code))
+      .then(( jsMin ) => {
+        return fsp.writeFile(
+          targetPath.replace('.js', '.min.js'),
+          jsMin,
+          { encoding: 'utf8', mode: 0o644 }
+        );
+      });
+
+    return saveMin.then(() => bundle.close());
+  });
+};

@@ -8,6 +8,7 @@ import fsp from 'node:fs/promises';
 import path, { sep } from 'node:path';
 import { handleCSSFile } from '../stylesheets/css-handler.mjs';
 import { handleSCSSFile } from '../stylesheets/scss-handler.mjs';
+import { handleMJSFile, handleJSFile} from "../javascript/js-handle.mjs";
 
 export default class DefaultModuleBuilder{
   /**
@@ -153,7 +154,35 @@ export default class DefaultModuleBuilder{
       return this.copy().then(() => this.js());
     }
 
-    // @TODO Task "js"
-    //console.log('Building js task ...');
+    // Collect files
+    const jsFiles = [];
+    const mjsFiles = [];
+
+    return fsp.readdir(this.basePath, { recursive: true, withFileTypes: true })
+      .then((files) => {
+        // Filter and handle the files
+        files.forEach((file) => {
+          if (!file.isFile()) return;
+
+          const baseName = file.name;
+          const ext = path.extname(baseName);
+          const fullSrcPath = path.join(file.path, file.name);
+          const relativePath = fullSrcPath.replace(this.basePath, '');
+
+          if ((ext !== '.js' && ext !== '.mjs') || baseName.endsWith('.min.js')) return;
+
+          if ((ext === '.mjs' || baseName.endsWith('.es6.js') || baseName.endsWith('.w-c.es6.js')) && !baseName.startsWith('_')) {
+            mjsFiles.push(handleMJSFile(
+              fullSrcPath,
+              path.join(this.targetPath, relativePath.replace(/\.w-c\.es6\.js$/, '.js').replace(/\.es6\.js$/, '.js'))
+            ));
+          } else {
+            jsFiles.push(handleJSFile(
+              fullSrcPath,
+              path.join(this.targetPath, relativePath)
+            ));
+          }
+        });
+      });
   }
 }
