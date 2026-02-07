@@ -18,12 +18,13 @@ describe('Install Joomla', () => {
     // If exists, delete PHP configuration file to force a new installation
     cy.task('deleteRelativePath', 'configuration.php');
     cy.installJoomla(config);
-    cy.db_enableExtension(0, 'plg_system_stats');
+
     // Disable compat plugin
-    cy.db_enableExtension(0, 'plg_behaviour_compat6');
+    cy.db_enableExtension(0, 'plg_behaviour_compat');
 
     cy.doAdministratorLogin(config.username, config.password, false);
     cy.cancelTour();
+    cy.disableStatistics();
     cy.setErrorReportingToDevelopment();
     cy.doAdministratorLogout();
 
