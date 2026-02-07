@@ -16,9 +16,14 @@ if (semver.gte(semver.minVersion(pkgOptions.engines.node), semver.clean(process.
 // List of builders
 const builders = [
   // Libraries
-  //'vendor',
-  //'system',
+  'vendor', // Many extensions depending on it, should be run first
+  'system',
+  'layouts',
+  'legacy',
+  'mailto',
+
   // Components
+  'cache',
   'com_actionlogs',
   'com_admin',
   'com_associations',
@@ -46,10 +51,54 @@ const builders = [
   'com_users',
   'com_workflow',
   'com_wrapper',
+
   // Modules
-  // @TODO modules
+  'mod_articles',
+  'mod_articles_news',
+  'mod_languages',
+  'mod_login',
+  'mod_menu',
+  'mod_quickicon',
+  'mod_sampledata',
+
   // Plugins
-  // @TODO plugins
+  'plg_behaviour_compat6',
+  'plg_content_vote',
+  'plg_editors-xtd_image',
+  //'plg_editors_codemirror',
+  'plg_editors_none',
+  'plg_editors_tinymce',
+  'plg_installer_folderinstaller',
+  'plg_installer_packageinstaller',
+  'plg_installer_urlinstaller',
+  'plg_installer_webinstaller',
+  'plg_media-action_crop',
+  'plg_media-action_resize',
+  'plg_media-action_rotate',
+  'plg_multifactorauth_email',
+  'plg_multifactorauth_fixed',
+  'plg_multifactorauth_totp',
+  'plg_multifactorauth_webauthn',
+  'plg_multifactorauth_yubikey',
+  'plg_quickicon_autoupdate',
+  'plg_quickicon_eos',
+  'plg_quickicon_extensionupdate',
+  'plg_quickicon_joomlaupdate',
+  'plg_quickicon_overridecheck',
+  'plg_quickicon_privacycheck',
+  //'plg_system_debug',
+  'plg_system_guidedtours',
+  'plg_system_jooa11y',
+  'plg_system_schedulerunner',
+  'plg_system_shortcut',
+  'plg_system_stats',
+  'plg_system_webauthn',
+  'plg_user_token',
+
+  // Templates
+  'templates/administrator/atum',
+  'templates/site/cassiopeia',
+  'templates/site/cassiopeia_extended',
 ];
 
 // The command line, initialize
