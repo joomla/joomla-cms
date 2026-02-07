@@ -1042,6 +1042,16 @@ class JoomlaInstallerScript
             '/media/com_guidedtours/images/5_2/mailtemplate.png',
             '/media/com_guidedtours/images/5_3/filesdirectory.jpg',
             '/media/com_guidedtours/images/5_4/automated-updates.jpg',
+            // From 6.0.2 to 6.0.3
+            '/libraries/vendor/symfony/http-client-contracts/Test/Fixtures/web/index.php',
+            '/libraries/vendor/symfony/http-client-contracts/Test/HttpClientTestCase.php',
+            '/libraries/vendor/symfony/http-client-contracts/Test/TestHttpServer.php',
+            '/libraries/vendor/symfony/http-client/Test/HarFileResponseFactory.php',
+            '/libraries/vendor/symfony/service-contracts/Test/ServiceLocatorTest.php',
+            '/libraries/vendor/symfony/service-contracts/Test/ServiceLocatorTestCase.php',
+            '/libraries/vendor/symfony/translation-contracts/Test/TranslatorTest.php',
+            '/libraries/vendor/symfony/validator/Test/ConstraintValidatorTestCase.php',
+            '/libraries/vendor/symfony/var-dumper/Test/VarDumperTestTrait.php',
             // From 6.1.0-alpha1 to 6.1.0-alpha2
             '/libraries/vendor/symfony/var-dumper/Cloner/Internal/NoDefault.php',
             '/libraries/vendor/webmozart/assert/LICENSE',
@@ -1115,6 +1125,15 @@ class JoomlaInstallerScript
             '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector',
             '/libraries/vendor/doctrine/inflector/lib/Doctrine',
             '/libraries/vendor/doctrine/inflector/lib',
+            // From 6.0.2 to 6.0.3
+            '/libraries/vendor/symfony/var-dumper/Test',
+            '/libraries/vendor/symfony/validator/Test',
+            '/libraries/vendor/symfony/translation-contracts/Test',
+            '/libraries/vendor/symfony/service-contracts/Test',
+            '/libraries/vendor/symfony/http-client/Test',
+            '/libraries/vendor/symfony/http-client-contracts/Test/Fixtures/web',
+            '/libraries/vendor/symfony/http-client-contracts/Test/Fixtures',
+            '/libraries/vendor/symfony/http-client-contracts/Test',
             // From 6.1.0-alpha1 to 6.1.0-alpha2
             '/libraries/vendor/webmozart/assert/src',
             '/libraries/vendor/webmozart/assert',
