@@ -65,7 +65,7 @@ export default class DefaultModuleBuilder{
    * @returns { Promise }
    */
   async clear() {
-    if (!fs.existsSync(!this.targetPath)) {
+    if (!fs.existsSync(this.targetPath)) {
       return;
     }
 

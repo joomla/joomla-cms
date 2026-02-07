@@ -187,7 +187,7 @@ if (cliOptions.prepare) {
   allowedVersion();
   recreateMediaFolder(options)
     // .then(() => cleanVendors())
-    // .then(() => localisePackages(options))
+    .then(() => localisePackages(options))
     // .then(() => patchPackages(options))
     // .then(() => minifyVendor())
     // .then(() => createErrorPages(options))

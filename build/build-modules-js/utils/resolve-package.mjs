@@ -1,6 +1,7 @@
 /**
  * Resolve Package Helper
  */
+import path from 'node:path';
 import { existsSync, readdirSync } from 'node:fs';
 import { createRequire } from 'node:module';
 
@@ -12,11 +13,12 @@ import { createRequire } from 'node:module';
  * @returns {string|boolean}
  */
 export const resolvePackageFile = (relativePath) => {
+  // Get list of node.js include paths
+  const paths = createRequire(import.meta.url).resolve.paths('node');
 
+  for (let i = 0, l = paths.length; i < l; i += 1) {
+    const fullPath = path.join(paths[i], relativePath);
 
-  for (let i = 0, l = module.paths.length; i < l; i += 1) {
-    const path = module.paths[i];
-    const fullPath = `${path}/${relativePath}`;
     if (existsSync(fullPath)) {
       return fullPath;
     }
@@ -40,8 +42,8 @@ export const getPackagesUnderScope = (scope) => {
 
   // Get the scope roots
   const roots = [];
-  paths.forEach((path) => {
-    const fullPath = `${path}/${scope}`;
+  paths.forEach((pathBase) => {
+    const fullPath = path.join(pathBase, scope);
     if (existsSync(fullPath)) {
       roots.push(fullPath);
     }
@@ -50,7 +52,7 @@ export const getPackagesUnderScope = (scope) => {
   // List of modules
   roots.forEach((rootPath) => {
     readdirSync(rootPath).forEach((subModule) => {
-      cmModules.add(`${scope}/${subModule}`);
+      cmModules.add(path.join(scope, subModule));
     });
   });
 
