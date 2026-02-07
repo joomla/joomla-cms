@@ -24,6 +24,10 @@
   direction: ltr;
 }
 
+[dir="rtl"] .vue-flow__node, [dir="rtl"] .edge-label, [dir="rtl"] .vue-flow__panel {
+  direction: rtl;
+}
+
 .vue-flow__container {
   position: absolute;
   top: 0;

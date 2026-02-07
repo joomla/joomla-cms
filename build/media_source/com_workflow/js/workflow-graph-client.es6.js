@@ -384,9 +384,15 @@ Joomla = window.Joomla || {};
     // Grid Background
     const workflowGraph = modal.querySelector('#workflow-graph');
     if (workflowGraph) {
-      const dotSize = Math.max(0.5, Math.min(1, state.scale)) * 1;
-      const spacing = 15 * state.scale;
-      workflowGraph.style.backgroundImage = `radial-gradient(circle at 1px 1px, var(--wf-dot-color) ${dotSize}px, transparent ${dotSize}px)`;
+      const dotSize = Math.max(0.3, Math.min(1, state.scale));
+      const spacing = 20 * state.scale;
+      workflowGraph.style.backgroundImage = `
+        radial-gradient(circle,
+          color-mix(in srgb, var(--body-color) 80%, transparent) 0px,
+          color-mix(in srgb, var(--body-color) 60%, transparent) ${dotSize}px,
+          transparent ${dotSize * 2}px
+        )
+      `;
       workflowGraph.style.backgroundSize = `${spacing}px ${spacing}px`;
       workflowGraph.style.backgroundPosition = `${state.panX}px ${state.panY}px`;
     }
@@ -463,6 +469,11 @@ Joomla = window.Joomla || {};
       
       // Update UI Counts
       modal.querySelector('.joomla-dialog-header h3').textContent = state.workflow.title || translate('COM_WORKFLOW_GRAPH_WORKFLOW');
+      const statusBadge = modal.querySelector('#workflow-status-badge');
+      if (statusBadge) {
+        statusBadge.textContent = state.workflow.published == '1' ? translate('COM_WORKFLOW_GRAPH_ENABLED') : translate('COM_WORKFLOW_GRAPH_DISABLED');
+        statusBadge.classList.add(state.workflow.published == '1' ? 'bg-success' : 'bg-warning');
+      }
       const realStagesCount = state.stages.filter(s => s.id !== 'From Any').length;
       const stageCount = modal.querySelector('#workflow-stage-count');
       if (stageCount) stageCount.textContent = `${realStagesCount} ${realStagesCount === 1 ? translate('COM_WORKFLOW_GRAPH_STAGE') : translate('COM_WORKFLOW_GRAPH_STAGES')}`;

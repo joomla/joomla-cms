@@ -152,7 +152,7 @@ $popupOptions = json_encode([
             <dl class="d-flex align-items-center flex-wrap mb-0">
                 <dt class="visually-hidden"><?php echo Text::_('COM_WORKFLOW_GRAPH_STATUS'); ?>:</dt>
                 <dd class="me-3 mb-1 d-flex mb-0">
-                    <span class="badge" role="status"></span>
+                    <span class="badge" role="status" id="workflow-status-badge"></span>
                 </dd>
                 <dt class="visually-hidden"><?php echo Text::_('COM_WORKFLOW_GRAPH_STAGE_COUNT'); ?>:</dt>
                 <dd class="me-3 mb-1 d-flex mb-0" id="workflow-stage-count">
@@ -178,7 +178,7 @@ $popupOptions = json_encode([
                 aria-labelledby="canvas-controls-title"
               >
                 <h2 id="canvas-controls-title" class="visually-hidden"><?php echo Text::_('COM_WORKFLOW_GRAPH_CANVAS_VIEW_CONTROLS'); ?></h2>
-                <ul class="d-flex flex-column gap-1 list-unstyled mb-0">
+                <ul class="d-flex flex-column gap-1 list-unstyled mb-0 px-0">
                   <li>
                     <button class="toolbar-button custom-controls-button zoom-btn zoom-in" title="<?php echo Text::_('COM_WORKFLOW_GRAPH_ZOOM_IN'); ?>">
                       <span class="icon icon-plus" aria-hidden="true"></span>

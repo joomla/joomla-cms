@@ -7,7 +7,7 @@
   >
     <span id="canvas-controls-title" class="visually-hidden">{{ translate('COM_WORKFLOW_GRAPH_CANVAS_VIEW_CONTROLS') }}</span>
 
-    <ul class="d-flex flex-column gap-1 list-unstyled mb-0">
+    <ul class="d-flex flex-column gap-1 list-unstyled mb-0 px-0">
       <li>
         <button
           class="toolbar-button custom-controls-button"
