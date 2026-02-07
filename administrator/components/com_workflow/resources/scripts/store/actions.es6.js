@@ -122,7 +122,7 @@ export default {
    * @returns {Promise<boolean>}
    */
   async updateStagePositionAjax({ commit, state }) {
-    const response = workflowGraphApi.updateStagePosition(
+    const response = await workflowGraphApi.updateStagePosition(
       state.workflowId,
       state.stages.reduce((acc, stage) => {
         if (stage.position) {

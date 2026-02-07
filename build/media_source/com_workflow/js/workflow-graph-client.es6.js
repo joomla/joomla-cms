@@ -72,7 +72,7 @@ Joomla = window.Joomla || {};
         let message = 'COM_WORKFLOW_GRAPH_ERROR_UNKNOWN';
         if (response.status === 401) message = 'COM_WORKFLOW_GRAPH_ERROR_NOT_AUTHENTICATED';
         else if (response.status >= 403) message = 'COM_WORKFLOW_GRAPH_ERROR_NO_PERMISSION';
-        else message = sprintf('COM_WORKFLOW_GRAPH_ERROR_REQUEST_FAILED', response.status);
+        else if (response.status != 200) message = sprintf('COM_WORKFLOW_GRAPH_ERROR_REQUEST_FAILED', response.status);
         throw new Error(message);
       }
       const responseData = await response.json();
@@ -425,6 +425,7 @@ Joomla = window.Joomla || {};
 
   async function init(modal) {
     const container = modal.querySelector('#workflow-graph');
+    const graph = modal.querySelector('#graph');
     if (!container || container.dataset.initialized) return;
     container.dataset.initialized = 'true';
     
@@ -458,7 +459,7 @@ Joomla = window.Joomla || {};
         stages.unshift({ id: 'From Any', title: 'From Any', position: null });
       }
       state.stages = stages.map(s => ({ ...s, position: s.position || { x: NaN, y: NaN } }));
-      state.stages = calculateAutoLayout(state.stages, state.transitions);
+      state.stages = calculateAutoLayout(state.stages);
       
       // Update UI Counts
       modal.querySelector('.joomla-dialog-header h3').textContent = state.workflow.title || translate('COM_WORKFLOW_GRAPH_WORKFLOW');
@@ -481,7 +482,7 @@ Joomla = window.Joomla || {};
       if (e.target.closest('.stage') || e.target.closest('.zoom-controls') || e.button !== 0) return;
       isPanning = true;
       panStart = { x: e.clientX - state.panX, y: e.clientY - state.panY };
-      graph.classList.add('dragging');
+      if (graph) graph.classList.add('dragging');
     });
     document.addEventListener("mousemove", e => {
       if (!isPanning) return;
@@ -489,7 +490,10 @@ Joomla = window.Joomla || {};
       state.panY = e.clientY - panStart.y;
       renderGraph(modal);
     });
-    const stopPanning = () => { isPanning = false; graph.classList.remove('dragging'); };
+    const stopPanning = () => { 
+      isPanning = false;
+      if (graph) graph.classList.remove('dragging'); 
+    };
     document.addEventListener("mouseup", stopPanning);
     container.addEventListener("mouseleave", stopPanning);
     container.addEventListener("wheel", e => {
