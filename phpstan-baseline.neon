@@ -4056,6 +4056,17 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getError$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: administrator/components/com_modules/src/Controller/ModuleController.php
+
+		-
+			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
