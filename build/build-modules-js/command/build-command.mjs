@@ -28,9 +28,10 @@ export default function buildCommand(program, cmdOptions = {}, builders = [], pk
   } else if (cmdOptions.name) {
     cmdOptions.name.split(',').forEach((name) => {
       // Check if builder exists
-      if (builders.includes(name)) {
-        buildersToRun.push(name);
+      if (!builders.includes(name)) {
+        program.error(`Builder "${name}" does not exists.`);
       }
+      buildersToRun.push(name);
     });
   }
 
