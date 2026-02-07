@@ -1,6 +1,7 @@
 /**
  * Assets Builder
  */
+import buildSettings from '../../build-modules-js/settings.json' with { type: 'json' };
 import DefaultModuleBuilder from '../../build-modules-js/builder/default-module-builder.mjs';
 import path from 'node:path';
 import fsp from "node:fs/promises";
