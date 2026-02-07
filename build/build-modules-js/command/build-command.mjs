@@ -15,10 +15,8 @@ import { BuilderFactory } from '../builder/builder-factory.mjs';
  * @param { Command } program       CMD program instance
  * @param { Object } cmdOptions     Command options and arguments
  * @param { Array } builders        List of builder names
- * @param { Object } pkgOptions     Object of package.json
- * @param { Object } buildSettings  Object of settings.json
  */
-export default function buildCommand(program, cmdOptions = {}, builders = [], pkgOptions = {}, buildSettings = {}) {
+export default function buildCommand(program, cmdOptions = {}, builders = []) {
   // Get list of builders to run
   let buildersToRun = [];
   let runAll = false;

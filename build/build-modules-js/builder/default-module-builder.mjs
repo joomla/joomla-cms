@@ -3,7 +3,6 @@
  */
 
 import fs from 'node:fs';
-import fse from 'fs-extra/esm'
 import fsp from 'node:fs/promises';
 import path, { sep } from 'node:path';
 import { handleCSSFile } from '../stylesheets/css-handler.mjs';
@@ -66,7 +65,11 @@ export default class DefaultModuleBuilder{
    * @returns {Promise<void>}
    */
   async clear() {
-    return fse.remove(this.targetPath);
+    if (!fs.existsSync(!this.targetPath)) {
+      return;
+    }
+
+    return fsp.rm(this.targetPath, { recursive: true });
   }
 
   /**
@@ -114,7 +117,7 @@ export default class DefaultModuleBuilder{
       return true;
     };
 
-    return fse.copy(this.basePath, this.targetPath, { filter: filterFunc }).then(() => {
+    return fsp.cp(this.basePath, this.targetPath, { filter: filterFunc, recursive: true }).then(() => {
       this.copyDone = true;
     });
   }

@@ -130,7 +130,7 @@ program
   .option('-t,--task <builder_task,builder_task>', 'task(s) to run for specified asset')
   .option('--sass-silent', 'hide SASS deprecations and warnings')
   .action((options) => {
-    buildCommand(program, options, builders, pkgOptions, buildSettings);
+    buildCommand(program, options, builders);
   });
 
 program.parse(process.argv)
