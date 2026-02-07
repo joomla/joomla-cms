@@ -7,6 +7,39 @@ import { transform } from 'esbuild';
 import { rollup } from 'rollup';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import { babel } from '@rollup/plugin-babel';
+import { getPackagesUnderScope } from '../utils/resolve-package.mjs';
+
+// List of external modules that should not be resolved by rollup
+// @TODO: Make it configurable somehow?
+const externalModules = [];
+const getExternalModules = async () => {
+  if (externalModules.length) {
+    return externalModules;
+  }
+
+  // Joomla and Vendor modules
+  externalModules.push(
+    'cropper-module',
+    'codemirror',
+    'joomla.dialog',
+    'editor-api',
+    'editor-decorator',
+    'sa11y',
+    'sa11y-lang',
+  );
+
+  // Codemirror modules
+  const cmModules = getPackagesUnderScope('@codemirror');
+  if (cmModules) {
+    externalModules.push(...cmModules);
+  }
+  const lezerModules = getPackagesUnderScope('@lezer');
+  if (lezerModules) {
+    externalModules.push(...lezerModules);
+  }
+
+  return externalModules;
+};
 
 /**
  * Minify JS content
@@ -52,7 +85,7 @@ export const handleJSFile = async (srcPath, targetPath) => {
 export const handleMJSFile = async (srcPath, targetPath) => {
   console.log(srcPath, targetPath);
 
-  const externalModules = [];
+  const externalModules =  await getExternalModules();
 
   return rollup({
     input: srcPath,
