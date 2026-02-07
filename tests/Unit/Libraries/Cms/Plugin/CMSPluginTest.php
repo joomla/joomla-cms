@@ -469,4 +469,69 @@ class CMSPluginTest extends UnitTestCase
 
         $this->assertEquals(['test', 'unit'], $event->getArgument('result'));
     }
+
+    /**
+     * @testdox  listeners registered with dispatcher passed to registerListeners()
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function testRegisterListenersDispatcherUsed()
+    {
+        $constructorDispatcher = new Dispatcher();
+        $setterDispatcher      = new Dispatcher();
+        $interfaceDispatcher   = new Dispatcher();
+
+        $plugin = new class ($constructorDispatcher, []) extends CMSPlugin {
+            public function onLegacyEvent(stdClass $argument)
+            {
+            }
+
+            public function onEvent(EventInterface $event)
+            {
+            }
+        };
+
+        $plugin->setDispatcher($setterDispatcher);
+        $plugin->registerListeners($interfaceDispatcher);
+
+        $this->assertSame(0, $constructorDispatcher->countListeners('onLegacyEvent'));
+        $this->assertSame(0, $constructorDispatcher->countListeners('onEvent'));
+        $this->assertSame(0, $setterDispatcher->countListeners('onLegacyEvent'));
+        $this->assertSame(0, $setterDispatcher->countListeners('onEvent'));
+        $this->assertSame(1, $interfaceDispatcher->countListeners('onLegacyEvent'));
+        $this->assertSame(1, $interfaceDispatcher->countListeners('onEvent'));
+    }
+
+    /**
+     * @testdox  listeners registered with dispatcher set with setDispatcher()
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function testSetterDispatcherUsed()
+    {
+        $constructorDispatcher = new Dispatcher();
+        $setterDispatcher      = new Dispatcher();
+
+        $plugin = new class ($constructorDispatcher, []) extends CMSPlugin {
+            public function onLegacyEvent(stdClass $argument)
+            {
+            }
+
+            public function onEvent(EventInterface $event)
+            {
+            }
+        };
+
+        $plugin->setDispatcher($setterDispatcher);
+        $plugin->registerListeners(null);
+
+        $this->assertSame(0, $constructorDispatcher->countListeners('onLegacyEvent'));
+        $this->assertSame(0, $constructorDispatcher->countListeners('onEvent'));
+        $this->assertSame(1, $setterDispatcher->countListeners('onLegacyEvent'));
+        $this->assertSame(1, $setterDispatcher->countListeners('onEvent'));
+    }
 }

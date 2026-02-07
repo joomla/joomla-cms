@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Extension;
 
 use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -20,20 +21,20 @@ use Joomla\Event\DispatcherAwareInterface;
  *
  * @since  4.0.0
  *
- * @TODO  Starting from 7.0 the class will no longer extend DispatcherAwareInterface
+ * @todo  Starting from 7.0 the class will no longer extend DispatcherAwareInterface
  */
 interface PluginInterface extends DispatcherAwareInterface
 {
     /**
      * Registers its listeners.
      *
+     * @param   ?DispatcherInterface  Dispatcher instance to register listeners with
+     *
      * @return  void
      *
      * @since   4.0.0
      *
-     * @deprecated  5.4.0 will be removed in 7.0
-     *              Plugin should implement SubscriberInterface.
-     *              These plugins will be added to dispatcher in PluginHelper::import().
+     * @todo  In 7.0 $dispatcher argument will no longer be nullable
      */
-    public function registerListeners();
+    public function registerListeners(?DispatcherInterface $dispatcher = null);
 }

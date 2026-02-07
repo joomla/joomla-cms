@@ -18,7 +18,6 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageAwareInterface;
 use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\Event\AbstractEvent;
-use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\EventInterface;
@@ -34,9 +33,9 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  *
- * @TODO  Starting from 7.0 the class will no longer implement DispatcherAwareInterface and LanguageAwareInterface
+ * @todo  Starting from 7.0 the class will no longer implement DispatcherAwareInterface and LanguageAwareInterface
  */
-abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, LanguageAwareInterface
+abstract class CMSPlugin implements PluginInterface, LanguageAwareInterface
 {
     use DispatcherAwareTrait {
         setDispatcher as traitSetDispatcher;
@@ -122,9 +121,9 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
     /**
      * Constructor
      *
-     * @param array $config      An optional associative array of configuration settings.
-     *                           Recognized key values include 'name', 'group', 'params', 'language'
-     *                           (this list is not meant to be comprehensive).
+     * @param   array  $config    An optional associative array of configuration settings.
+     *                            Recognized key values include 'name', 'group', 'params', 'language'
+     *                            (this list is not meant to be comprehensive).
      *
      * @since   1.5
      */
@@ -133,8 +132,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
         if ($config instanceof DispatcherInterface) {
             @trigger_error(
                 \sprintf(
-                    'Passing an instance of %1$s to %2$s() will not be supported in 7.0. '
-                    . 'Starting from 7.0 CMSPlugin class will no longer implement DispatcherAwareInterface.',
+                    'Passing an instance of %1$s to %2$s() will not be supported in 7.0.',
                     DispatcherInterface::class,
                     __METHOD__
                 ),
@@ -285,19 +283,37 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      * This method additionally supports Joomla\Event\SubscriberInterface and plugins implementing this will be
      * registered to the dispatcher as a subscriber.
      *
+     * @param   ?DispatcherInterface  $dispatcher  Dispatcher instance to register listeners with
+     *
      * @return  void
      *
      * @since   4.0.0
      *
-     * @deprecated  5.4.0 will be removed in 7.0
-     *              Plugin should implement SubscriberInterface.
-     *              These plugins will be added to dispatcher in PluginHelper::import().
+     * @todo   In 7.0 $dispatcher argument will no longer be nullable.
      */
-    public function registerListeners()
+    public function registerListeners(?DispatcherInterface $dispatcher = null)
     {
+        // Make sure we have a dispatcher.
+        if ($dispatcher === null) {
+            @trigger_error(
+                \sprintf(
+                    'Passing an instance of %1$s to %2$s() will be required in 7.0.',
+                    DispatcherInterface::class,
+                    __METHOD__
+                ),
+                \E_USER_DEPRECATED
+            );
+
+            try {
+                $dispatcher = $this->getDispatcher();
+            } catch (\UnexpectedValueException) {
+                $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
+            }
+        }
+
         // Plugins which are SubscriberInterface implementations are handled without legacy layer support
         if ($this instanceof SubscriberInterface) {
-            $this->getDispatcher()->addSubscriber($this);
+            $dispatcher->addSubscriber($this);
 
             return;
         }
@@ -315,7 +331,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
 
             // Save time if I'm not to detect legacy listeners
             if (!$this->allowLegacyListeners) {
-                $this->registerListener($method->name);
+                $this->registerListener($method->name, $dispatcher);
 
                 continue;
             }
@@ -325,7 +341,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
 
             // If the parameter count is not 1 it is by definition a legacy listener
             if (\count($parameters) !== 1) {
-                $this->registerLegacyListener($method->name);
+                $this->registerLegacyListener($method->name, $dispatcher);
 
                 continue;
             }
@@ -336,13 +352,13 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
 
             // No type hint / type hint class not an event or parameter name is not "event"? It's a legacy listener.
             if ($paramName !== 'event' || !$this->parameterImplementsEventInterface($param)) {
-                $this->registerLegacyListener($method->name);
+                $this->registerLegacyListener($method->name, $dispatcher);
 
                 continue;
             }
 
             // Everything checks out, this is a proper listener.
-            $this->registerListener($method->name);
+            $this->registerListener($method->name, $dispatcher);
         }
     }
 
@@ -354,18 +370,27 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      * into old style method arguments and call your on<Something> method with them. The result will be passed back to
      * the Event, as an element into an array argument called 'result'.
      *
-     * @param   string  $methodName  The method name to register
+     * @param   string                $methodName  The method name to register
+     * @param   ?DispatcherInterface  $dispatcher  Dispatcher instance to register listeners with
      *
      * @return  void
      *
      * @since   4.0.0
      *
-     * @deprecated  5.4.0 will be removed in 7.0
-     *              Plugin should implement SubscriberInterface.
+     * @deprecated  6.0  Without replacement
      */
-    final protected function registerLegacyListener(string $methodName)
+    final protected function registerLegacyListener(string $methodName, ?DispatcherInterface $dispatcher = null)
     {
-        $this->getDispatcher()->addListener(
+        // Make sure we have a dispatcher.
+        if ($dispatcher === null) {
+            try {
+                $dispatcher = $this->getDispatcher();
+            } catch (\UnexpectedValueException) {
+                $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
+            }
+        }
+
+        $dispatcher->addListener(
             $methodName,
             function (AbstractEvent $event) use ($methodName) {
                 // Get the event arguments
@@ -405,18 +430,27 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      * Registers a proper event listener, i.e. a method which accepts an AbstractEvent as its sole argument. This is the
      * preferred way to implement plugins in Joomla! 4.x and will be the only possible method with Joomla! 5.x onwards.
      *
-     * @param   string  $methodName  The method name to register
+     * @param   string               $methodName  The method name to register
+     * @param   ?DispatcherInterface $dispatcher  Dispatcher instance to register listeners with
      *
      * @return  void
      *
      * @since   4.0.0
      *
-     * @deprecated  5.4.0 will be removed in 7.0
-     *              Plugin should implement SubscriberInterface.
+     * @deprecated  6.0  Use \Joomla\Event\DispatcherInterface::addListener() directly
      */
-    final protected function registerListener(string $methodName)
+    final protected function registerListener(string $methodName, ?DispatcherInterface $dispatcher = null)
     {
-        $this->getDispatcher()->addListener($methodName, [$this, $methodName]);
+        // Make sure we have a dispatcher.
+        if ($dispatcher === null) {
+            try {
+                $dispatcher = $this->getDispatcher();
+            } catch (\UnexpectedValueException) {
+                $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
+            }
+        }
+
+        $dispatcher->addListener($methodName, [$this, $methodName]);
     }
 
     /**
