@@ -83,8 +83,6 @@ export const handleJSFile = async (srcPath, targetPath) => {
  * @returns { Promise }
  */
 export const handleMJSFile = async (srcPath, targetPath) => {
-  console.log(srcPath, targetPath);
-
   const externalModules =  await getExternalModules();
 
   return rollup({
