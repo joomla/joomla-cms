@@ -1,6 +1,6 @@
 <template>
   <Panel
-    position="top-left"
+    :position="panelPosition"
     role="list"
     aria-labelledby="controls-panel-title"
     class="d-flex gap-2 p-2"
@@ -41,10 +41,16 @@
 
 <script>
 import { Panel } from '@vue-flow/core';
+import { isRTL } from '../../utils/utils.es6';
 
 export default {
   name: 'ControlsPanel',
   components: { Panel },
   emits: ['add-stage', 'add-transition'],
+  computed: {
+    panelPosition() {
+      return isRTL() ? 'top-right' : 'top-left';
+    },
+  },
 };
 </script>

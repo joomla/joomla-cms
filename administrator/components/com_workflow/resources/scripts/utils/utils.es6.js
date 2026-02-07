@@ -45,3 +45,11 @@ export function debounce(func, delay) {
     timer = setTimeout(() => func.apply(this, args), delay);
   };
 }
+
+/**
+ * Utility function to check if the document is in right-to-left (RTL) mode.
+ * @returns {boolean} True if RTL, false otherwise.
+ */
+export function isRTL() {
+  return document.dir === 'rtl';
+}
