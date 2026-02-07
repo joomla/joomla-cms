@@ -36,9 +36,33 @@ class CleanupModel extends BaseInstallationModel
     {
         // First, we try to delete the installation folder
         try {
+            /**
+             * Windows workaround: The installation folder may fail to be deleted
+             * because the php process still holds a lock on index.php until
+             * the request ends. This can be solved by moving the index.php out
+             * of the installation folder before deleting the folder.
+             * The index.php will be deleted immediately after the move.
+             * The OS will finish the deletion after the php process ends.
+             */
+            if (PHP_OS_FAMILY === 'Windows') {
+                // Create a temporary unique filename in case the file couldn't be deleted
+                $tmpFile = JPATH_ROOT . '/tmp/deleted_' . uniqid() . '.php';
+                try {
+                    File::move(JPATH_INSTALLATION . '/index.php', $tmpFile);
+                    File::delete($tmpFile);
+                } catch (FilesystemException $e) {
+                    /**
+                     * We ignore this exception and expect that deletion works
+                     * in the next step.
+                     */
+                }
+            }
+
             Folder::delete(JPATH_INSTALLATION);
         } catch (FilesystemException $e) {
             /**
+             * If the first Windows workaround failed, we check fall back here.
+             *
              * Windows quirk: The installation folder may fail to delete because
              * index.php, though already deleted, remains locked by PHP until
              * the request ends. If no subfolders and only that file is present,
