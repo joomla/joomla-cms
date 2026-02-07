@@ -57,17 +57,17 @@ export default function buildCommand(program, cmdOptions = {}, builders = [], pk
   // Run each builder
   buildersToRun.forEach((name) => {
     factory.createBuilder(name).then((builder) => {
-      if (!builder.getTasks) {
-        program.error(`Builder module for "${name}" should implement provide "getTasks()" method. Which used to determine which task can be run for the builder.`)
+      if (!builder.getAllTasks || !builder.getBuildTasks) {
+        program.error(`Builder module for "${name}" should implement provide "getBuildTasks()" and "getAllTasks()" method. Which used to determine which task can be run for the builder.`)
       }
       console.log(`Initialize build [${name}]`);
 
       // Run tasks for given builder
-      const builderTasks = builder.getTasks();
+      const allTasks = builder.getAllTasks();
       let lastPromise = Promise.resolve();
-      (tasksToRun.length ? tasksToRun : builderTasks).forEach((taskName) => {
+      (tasksToRun.length ? tasksToRun : builder.getBuildTasks()).forEach((taskName) => {
         // Check whether the task is allowed for active builder
-        if (!builderTasks.includes(taskName)) {
+        if (!allTasks.includes(taskName)) {
           // Show error when the builder and the task was specified, and it is not applicable for active builder.
           if (!runAll) {
             program.error(`Task "${taskName}" is not applicable for "${name}" builder.`);

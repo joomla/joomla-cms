@@ -11,14 +11,30 @@ import { handleSCSSFile } from '../stylesheets/scss-handler.mjs';
 import { handleMJSFile, handleJSFile} from "../javascript/js-handle.mjs";
 
 export default class DefaultModuleBuilder{
+
   /**
-   * List of task the builder can run.
+   * List of tasks to be executed by default for the build process.
    * Basically list of the class methods that allowed to be called from CLI.
    *
    * @type {string[]}
    */
-  tasks = ['clear', 'copy', 'css', 'js'];
+  tasksBuild = ['clear', 'copy', 'css', 'js'];
 
+  /**
+   * List of extra tasks that the builder can run, but which is not executed during the build process.
+   *
+   * @type {string[]}
+   */
+  tasksExtras = [];
+
+  /**
+   * Class constructor.
+   *
+   * @param { string } name        The folder (builder) name.
+   * @param { string } basePath    Base path to the media source, without builder name.
+   * @param { string } targetPath  Path to the media target, without builder name.
+   * @param { object } options     Options object, from cmd or etc.
+   */
   constructor(name = '', basePath = '', targetPath = '', options = {}) {
     if (!name) {
       throw new Error(`Argument "name" is required for ModuleBuilder.`);
@@ -37,8 +53,12 @@ export default class DefaultModuleBuilder{
     this.copyDone = false;
   }
 
-  getTasks() {
-    return this.tasks;
+  getAllTasks() {
+    return [ ...this.tasksBuild, ...this.tasksExtras ];
+  }
+
+  getBuildTasks() {
+    return this.tasksBuild;
   }
 
   /**
