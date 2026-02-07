@@ -19,5 +19,7 @@ export const handleSCSSFile = async (srcPath, targetPath, silent = false) => {
   })
     .then(({ css: content }) => {
       return handleAndStoreCSSContent(targetPath, content);
+    }).catch((error) => {
+      throw new Error(`Processing failed for "${srcPath}".`, { cause: error });
     });
 };

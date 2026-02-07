@@ -171,6 +171,11 @@ export default class DefaultModuleBuilder{
 
           if ((ext !== '.js' && ext !== '.mjs') || baseName.endsWith('.min.js')) return;
 
+          // This should never happen
+          if (baseName === 'builder.mjs') {
+            throw new Error(`Trying to build script from another builder "${fullSrcPath}". Make sure that each builder is separated.`);
+          }
+
           if ((ext === '.mjs' || baseName.endsWith('.es6.js') || baseName.endsWith('.w-c.es6.js')) && !baseName.startsWith('_')) {
             mjsFiles.push(handleMJSFile(
               fullSrcPath,
@@ -183,6 +188,8 @@ export default class DefaultModuleBuilder{
             ));
           }
         });
+
+        return Promise.all([...jsFiles, ...mjsFiles]);
       });
   }
 }

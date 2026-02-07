@@ -72,6 +72,8 @@ export const handleJSFile = async (srcPath, targetPath) => {
 
       return Promise.all([saveCopy, saveMin]);
     });
+  }).catch((error) => {
+    throw new Error(`Processing failed for "${srcPath}".`, { cause: error });
   });
 };
 
@@ -136,5 +138,7 @@ export const handleMJSFile = async (srcPath, targetPath) => {
       });
 
     return saveMin.then(() => bundle.close());
+  }).catch((error) => {
+    throw new Error(`Processing failed for "${srcPath}".`, { cause: error });
   });
 };

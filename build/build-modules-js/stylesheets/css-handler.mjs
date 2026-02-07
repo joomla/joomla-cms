@@ -91,6 +91,8 @@ ${css}`,
 export const handleCSSFile = async (srcPath, targetPath) => {
   return fsp.readFile(srcPath, { encoding: 'utf8' }).then((content) => {
     return handleAndStoreCSSContent(targetPath, content);
+  }).catch((error) => {
+    throw new Error(`Processing failed for "${srcPath}".`, { cause: error });
   });
 };
 
