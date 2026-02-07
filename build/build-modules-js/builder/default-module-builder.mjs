@@ -62,7 +62,7 @@ export default class DefaultModuleBuilder{
 
   /**
    * Remove files on target location
-   * @returns {Promise<void>}
+   * @returns { Promise }
    */
   async clear() {
     if (!fs.existsSync(!this.targetPath)) {
@@ -78,7 +78,7 @@ export default class DefaultModuleBuilder{
    *  - css and js files
    *  - build.mjs and src/ and folders contain builder.mjs or .buildignore
    *
-   * @returns {Promise<void>}
+   * @returns { Promise }
    */
   async copy() {
     const ignoreName = {
@@ -169,7 +169,7 @@ export default class DefaultModuleBuilder{
 
   /**
    * Process JavaScript files and Modules
-   * @returns {Promise<void>}
+   * @returns { Promise }
    */
   async js() {
     // Make sure files is copied
