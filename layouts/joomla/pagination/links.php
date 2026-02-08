@@ -164,61 +164,45 @@ $last  = $first + $list['limit'] - 1;
 $last  = $last > $total ? $total : $last;
 
 ?>
-<?php
-if (!empty($pages) || $showItemPosition) : ?>
+<?php if (!empty($pages) || $showItemPosition) : ?>
     <nav class="pagination__wrapper" aria-label="<?php
     echo Text::_('JLIB_HTML_PAGINATION'); ?>">
-        <?php
-        if ($showItemPosition) : ?>
+        <?php if ($showItemPosition) : ?>
             <div class="text-end me-3">
-                <?php
-                echo Text::sprintf('JLIB_HTML_PAGINATION_NUMBERS', $first, $last, $total); ?>
+                <?php echo Text::sprintf('JLIB_HTML_PAGINATION_NUMBERS', $first, $last, $total); ?>
             </div>
-        <?php
-        endif; ?>
+        <?php endif; ?>
 
         <div class="pagination-toolbar text-center mt-0">
 
-            <?php
-            if ($showLimitBox) : ?>
+            <?php if ($showLimitBox) : ?>
                 <div class="limit float-end">
-                    <?php
-                    echo Text::_('JGLOBAL_DISPLAY_NUM') . $list['limitfield']; ?>
+                    <?php echo Text::_('JGLOBAL_DISPLAY_NUM') . $list['limitfield']; ?>
                 </div>
-            <?php
-            endif; ?>
+            <?php endif; ?>
 
-            <?php
-            if ($showPagesLinks && !empty($pages)) : ?>
+            <?php if ($showPagesLinks && !empty($pages)) : ?>
                 <ul class="pagination ms-auto me-0" data-current-page="<?php
                 echo $currentPage; ?>"
                     data-total-pages="<?php
                     echo $totalPages; ?>">
 
-                    <?php
-                    echo LayoutHelper::render('joomla.pagination.link', $pages['previous']); ?>
+                    <?php echo LayoutHelper::render('joomla.pagination.link', $pages['previous']); ?>
 
-                    <?php
-                    if (!empty($pages['start']['data'])) : ?>
-                        <?php
-                        echo renderPageNumber($pages, 'first', $currentPage, $totalPages); ?>
-                    <?php
-                    endif; ?>
+                    <?php if (!empty($pages['start']['data'])) : ?>
+                        <?php echo renderPageNumber($pages, 'first', $currentPage, $totalPages); ?>
+                    <?php endif; ?>
 
-                    <?php
-                    if ($showStartEllipsis) : ?>
-                        <?php
-                        echo LayoutHelper::render('joomla.pagination.link', [
+                    <?php if ($showStartEllipsis) : ?>
+                        <?php echo LayoutHelper::render('joomla.pagination.link', [
                             'data'     => (object)['text' => '...'],
                             'active'   => false,
                             'modifier' => 'ellipsis ellipsis--start'
                         ]);
                         ?>
-                    <?php
-                    endif; ?>
+                    <?php endif; ?>
 
-                    <?php
-                    foreach ($pages['pages'] as $k => $page) : ?>
+                    <?php foreach ($pages['pages'] as $k => $page) : ?>
                         <?php
                         $isFirstPage = ($k === 1);
                         $isLastPage  = ($k === $totalPages);
@@ -241,45 +225,33 @@ if (!empty($pages) || $showItemPosition) : ?>
                         $page['extraClasses'] = $visibilityClasses;
                         echo LayoutHelper::render('joomla.pagination.link', $page);
                         ?>
-                    <?php
-                    endforeach; ?>
+                    <?php endforeach; ?>
 
-                    <?php
-                    if ($showEndEllipsis) : ?>
-                        <?php
-                        echo LayoutHelper::render('joomla.pagination.link', [
+                    <?php if ($showEndEllipsis) : ?>
+                        <?php echo LayoutHelper::render('joomla.pagination.link', [
                             'data'     => (object)['text' => '...'],
                             'active'   => false,
                             'modifier' => 'ellipsis ellipsis--end'
                         ]);
                         ?>
-                    <?php
-                    endif; ?>
+                    <?php endif; ?>
 
-                    <?php
-                    if (!empty($pages['end']['data'])) : ?>
-                        <?php
-                        echo renderPageNumber($pages, 'last', $currentPage, $totalPages); ?>
-                    <?php
-                    endif; ?>
+                    <?php if (!empty($pages['end']['data'])) : ?>
+                        <?php echo renderPageNumber($pages, 'last', $currentPage, $totalPages); ?>
+                    <?php endif; ?>
 
-                    <?php
-                    echo LayoutHelper::render('joomla.pagination.link', $pages['next']); ?>
+                    <?php echo LayoutHelper::render('joomla.pagination.link', $pages['next']); ?>
 
                 </ul>
-            <?php
-            endif; ?>
+            <?php endif; ?>
 
-            <?php
-            if ($showLimitStart) : ?>
+            <?php if ($showLimitStart) : ?>
                 <input type="hidden" name="<?php
                 echo $list['prefix']; ?>limitstart"
                        value="<?php
                        echo $list['limitstart']; ?>">
-            <?php
-            endif; ?>
+            <?php endif; ?>
 
         </div>
     </nav>
-<?php
-endif; ?>
+<?php endif; ?>
