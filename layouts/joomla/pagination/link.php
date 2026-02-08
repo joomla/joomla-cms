@@ -1,11 +1,6 @@
 <?php
 
 /**
- * Layout file for individual pagination link
- *
- * This layout renders a single pagination item (page number, previous, next, or ellipsis).
- * Uses modern PHP 8.0+ features including match expressions and nullsafe operators.
- *
  * @package         Joomla.Site
  * @subpackage      Layout
  *
@@ -13,6 +8,14 @@
  * @license         GNU General Public License version 2 or later; see LICENSE.txt
  *
  * @since           6.1
+ */
+
+/**
+ * Layout file for individual pagination link
+ *
+ * This layout renders a single pagination item (page number, previous, next, or ellipsis).
+ * Uses modern PHP 8.0+ features including match expressions and nullsafe operators.
+ *
  */
 
 defined('_JEXEC') or die;
