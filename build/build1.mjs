@@ -186,7 +186,7 @@ if (cliOptions.prepare) {
   const bench = new Timer('Build');
   allowedVersion();
   recreateMediaFolder(options)
-     .then(() => cleanVendors())
+    .then(() => cleanVendors())
     .then(() => localisePackages(options))
     .then(() => patchPackages(options))
     .then(() => minifyVendor())

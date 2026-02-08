@@ -7,7 +7,7 @@ import fsp from 'node:fs/promises';
 import path, { sep } from 'node:path';
 import { handleCSSFile } from '../stylesheets/css-handler.mjs';
 import { handleSCSSFile } from '../stylesheets/scss-handler.mjs';
-import { handleMJSFile, handleJSFile} from "../javascript/js-handle.mjs";
+import { handleMJSFile, handleJSFile } from "../javascript/js-handle.mjs";
 
 export default class DefaultModuleBuilder{
 

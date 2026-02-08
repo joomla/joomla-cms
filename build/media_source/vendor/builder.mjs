@@ -9,6 +9,7 @@ import pkgOptions from '../../../package.json' with { type: 'json' };
 import buildSettings from '../../build-modules-js/settings.json' with { type: 'json' };
 import DefaultModuleBuilder from '../../build-modules-js/builder/default-module-builder.mjs';
 import { resolvePackageFile } from '../../build-modules-js/utils/resolve-package.mjs';
+import { handleJSFile } from '../../build-modules-js/javascript/js-handle.mjs';
 
 /**
  * Copy package files.
@@ -235,5 +236,43 @@ export default class VendorModuleBuilder extends DefaultModuleBuilder
    * Process JavaScript files and Modules
    * @returns { Promise }
    */
-  async js() {}
+  async js() {
+    // Minify few non minified files
+    const folders = [
+      'diff/js',
+      'es-module-shims/js',
+      'qrcode/js',
+    ];
+
+    const promises = [];
+    folders.forEach((folder) => {
+      const basePath = path.join(this.targetPath, folder);
+
+      promises.push(
+        fsp.readdir(basePath, { recursive: false, withFileTypes: true })
+          .then((files) => {
+            const jsFiles = [];
+
+            files.forEach((file) => {
+              if (!file.isFile()) return;
+
+              const baseName = file.name;
+              const ext = path.extname(baseName);
+              const fullSrcPath = path.join(file.path, file.name);
+
+              if (ext !== '.js' || baseName.endsWith('.min.js')) return;
+
+              jsFiles.push(handleJSFile(
+                fullSrcPath,
+                fullSrcPath
+              ));
+            });
+
+            return Promise.all(jsFiles);
+          })
+      );
+    });
+
+    return Promise.all(promises);
+  }
 };

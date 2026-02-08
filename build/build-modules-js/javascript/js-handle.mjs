@@ -70,7 +70,7 @@ export const handleJSFile = async (srcPath, targetPath) => {
   return fsp.readFile(srcPath, { encoding: 'utf8' }).then((content) => {
     return minifyJSContent(content).then((jsMin) => {
       // Copy source
-      const saveCopy = fsp.copyFile(srcPath, targetPath);
+      const saveCopy = (srcPath !== targetPath) ? fsp.copyFile(srcPath, targetPath) : Promise.resolve();
 
       // Store minified version
       const saveMin = fsp.writeFile(
