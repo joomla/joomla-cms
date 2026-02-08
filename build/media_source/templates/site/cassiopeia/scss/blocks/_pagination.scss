@@ -1,0 +1,85 @@
+// Pagination
+
+.pagination__wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.pagination-toolbar {
+  container-type: inline-size;
+  container-name: pagination;
+}
+
+.pagination {
+  --pagination-gap: 0;
+
+  margin: 1rem;
+  gap: var(--pagination-gap);
+  justify-content: flex-end;
+}
+
+.page-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  block-size: 2.5em;
+  min-inline-size: 2.5em;
+}
+
+.pager {
+  .pagination {
+    justify-content: center;
+  }
+}
+
+// Override Bootstrap: hide all numbered page items by default.
+// Visibility is controlled by container queries + show-at-* classes generated in PHP.
+.page-item {
+  display: none;
+
+  // Always visible: prev, next, first, last, ellipsis
+  &:first-child,
+  &:last-child,
+  &.page-item--first,
+  &.page-item--last,
+  &.ellipsis {
+    display: flex;
+  }
+
+  &.ellipsis {
+    pointer-events: none;
+    user-select: none;
+  }
+
+  // Container query breakpoints matching PHP BREAKPOINT_CONFIGS in links.php
+  @container pagination (max-width: 29.99rem) {
+    &.show-at-narrow {
+      display: flex;
+    }
+  }
+
+  @container pagination (min-width: 30rem) and (max-width: 39.99rem) {
+    &.show-at-small {
+      display: flex;
+    }
+  }
+
+  @container pagination (min-width: 40rem) and (max-width: 47.99rem) {
+    &.show-at-medium {
+      display: flex;
+    }
+  }
+
+  @container pagination (min-width: 48rem) and (max-width: 55.99rem) {
+    &.show-at-large {
+      display: flex;
+    }
+  }
+
+  @container pagination (min-width: 56rem) {
+    &.show-at-xlarge {
+      display: flex;
+    }
+  }
+}
