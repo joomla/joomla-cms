@@ -395,6 +395,12 @@ trait DisplayTrait
                 . $levelParams->get('content_template_path') . '&' . $csrf . '=1';
         }
 
+        // Paste from word plugin
+        if ($levelParams->get('paste_from_word', 0)) {
+            $wa->useScript('plg_editors_tinymce.pastefromword');
+            $plugins[] = 'pastefromword';
+        }
+
         // User custom plugins and buttons
         $custom_plugin = trim($levelParams->get('custom_plugin', ''));
         $custom_button = trim($levelParams->get('custom_button', ''));
