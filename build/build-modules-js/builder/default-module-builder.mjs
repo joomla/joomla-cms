@@ -194,8 +194,14 @@ export default class DefaultModuleBuilder{
 
           if ((ext !== '.js' && ext !== '.mjs') || baseName.endsWith('.min.js')) return;
 
-          // This should never happen
+
           if (baseName === 'builder.mjs') {
+            // Ignore builders of active asset, which is in the root of the asset folder
+            if (relativePath.replace('/', '').replace('\\', '') === 'builder.mjs') {
+              return;
+            }
+
+            // This should never happen
             throw new Error(`Trying to build script from another builder "${fullSrcPath}". Make sure that each builder is separated.`);
           }
 

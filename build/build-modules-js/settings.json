@@ -644,7 +644,7 @@
       },
       "tinymce": {
         "name": "tinymce",
-        "licenseFilename": "license.txt"
+        "licenseFilename": "license.md"
       },
       "accessibility": {
         "name": "accessibility",

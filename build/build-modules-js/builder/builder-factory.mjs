@@ -5,8 +5,6 @@ import path from 'node:path';
 import fs from 'node:fs';
 import DefaultModuleBuilder from './default-module-builder.mjs';
 
-//class BuilderRunner {}
-
 export class BuilderFactory{
   constructor(basePath = '', targetPath = '', cmdOptions = {}) {
     this.basePath = basePath;
