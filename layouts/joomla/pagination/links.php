@@ -65,8 +65,8 @@ $lastVisiblePage  = !empty($visiblePages) ? max($visiblePages) : $totalPages;
 $showStartEllipsis = ($firstVisiblePage > 2);
 $showEndEllipsis   = ($lastVisiblePage < $totalPages - 1);
 
-// Define breakpoint configurations (cached for performance)
-const BREAKPOINT_CONFIGS = [
+// Define breakpoint configurations
+$breakpointConfigs = [
     'narrow' => ['range' => 0, 'maxPages' => 1, 'edgeThreshold' => 3],   // < 480px
     'small'  => ['range' => 1, 'maxPages' => 3, 'edgeThreshold' => 4],   // 480-640px
     'medium' => ['range' => 2, 'maxPages' => 5, 'edgeThreshold' => 5],   // 640-768px
@@ -75,7 +75,7 @@ const BREAKPOINT_CONFIGS = [
 ];
 
 // Define pagination breakpoint names
-const PAGINATION_BREAKPOINTS = ['narrow', 'small', 'medium', 'large', 'xlarge'];
+$paginationBreakpoints = ['narrow', 'small', 'medium', 'large', 'xlarge'];
 
 /**
  * Calculate which pages should be visible at each breakpoint
@@ -90,9 +90,8 @@ const PAGINATION_BREAKPOINTS = ['narrow', 'small', 'medium', 'large', 'xlarge'];
  *
  * @since   6.1
  */
-function getPagesForBreakpoint(int $pageNum, int $currentPage, int $totalPages, string $breakpoint): bool
-{
-    $config = BREAKPOINT_CONFIGS[$breakpoint] ?? BREAKPOINT_CONFIGS['narrow'];
+$getPagesForBreakpoint = static function (int $pageNum, int $currentPage, int $totalPages, string $breakpoint) use ($breakpointConfigs): bool {
+    $config = $breakpointConfigs[$breakpoint] ?? $breakpointConfigs['narrow'];
     ['range' => $range, 'maxPages' => $maxPages, 'edgeThreshold' => $edgeThreshold] = $config;
 
     // Determine if we're near the start or end
@@ -123,7 +122,7 @@ function getPagesForBreakpoint(int $pageNum, int $currentPage, int $totalPages, 
 
     // Check if this page should be shown
     return ($pageNum >= $start && $pageNum <= $end);
-}
+};
 
 /**
  * Helper function to render first or last page
@@ -137,8 +136,7 @@ function getPagesForBreakpoint(int $pageNum, int $currentPage, int $totalPages, 
  *
  * @since   6.1
  */
-function renderPageNumber(array $pages, string $type, int $currentPage, int $totalPages): string
-{
+$renderPageNumber = static function (array $pages, string $type, int $currentPage, int $totalPages): string {
     [$pageNum, $dataKey] = match ($type) {
         'first' => [1, 'start'],
         'last' => [$totalPages, 'end'],
@@ -157,7 +155,7 @@ function renderPageNumber(array $pages, string $type, int $currentPage, int $tot
         'active'   => !$isActive,
         'modifier' => $type
     ]);
-}
+};
 
 $first = ($currentPage - 1) * $list['limit'] + 1;
 $last  = $first + $list['limit'] - 1;
@@ -190,7 +188,7 @@ $last  = $last > $total ? $total : $last;
                     <?php echo LayoutHelper::render('joomla.pagination.link', $pages['previous']); ?>
 
                     <?php if (!empty($pages['start']['data'])) : ?>
-                        <?php echo renderPageNumber($pages, 'first', $currentPage, $totalPages); ?>
+                        <?php echo $renderPageNumber($pages, 'first', $currentPage, $totalPages); ?>
                     <?php endif; ?>
 
                     <?php if ($showStartEllipsis) : ?>
@@ -215,8 +213,8 @@ $last  = $last > $total ? $total : $last;
                         // Calculate visibility classes for each breakpoint
                         $visibilityClasses = [];
 
-                        foreach (PAGINATION_BREAKPOINTS as $breakpoint) {
-                            if (getPagesForBreakpoint($k, $currentPage, $totalPages, $breakpoint)) {
+                        foreach ($paginationBreakpoints as $breakpoint) {
+                            if ($getPagesForBreakpoint($k, $currentPage, $totalPages, $breakpoint)) {
                                 $visibilityClasses[] = 'show-at-' . $breakpoint;
                             }
                         }
@@ -237,7 +235,7 @@ $last  = $last > $total ? $total : $last;
                     <?php endif; ?>
 
                     <?php if (!empty($pages['end']['data'])) : ?>
-                        <?php echo renderPageNumber($pages, 'last', $currentPage, $totalPages); ?>
+                        <?php echo $renderPageNumber($pages, 'last', $currentPage, $totalPages); ?>
                     <?php endif; ?>
 
                     <?php echo LayoutHelper::render('joomla.pagination.link', $pages['next']); ?>
@@ -248,8 +246,7 @@ $last  = $last > $total ? $total : $last;
             <?php if ($showLimitStart) : ?>
                 <input type="hidden" name="<?php
                 echo $list['prefix']; ?>limitstart"
-                       value="<?php
-                       echo $list['limitstart']; ?>">
+                       value="<?php echo $list['limitstart']; ?>">
             <?php endif; ?>
 
         </div>
