@@ -176,6 +176,17 @@ Joomla.JoomlaTinyMCE = {
         }
       }, true);
 
+      editor.on('PostRender', () => {
+        // Check for the load event on iframe
+        if (editor.iframeElement) {
+          editor.iframeElement.addEventListener('load', () => {
+            editor.remove();
+            JoomlaEditor.unregister(element.id);
+            Joomla.JoomlaTinyMCE.setupEditor(element, pluginOptions);
+          });
+        }
+      });
+
       // Find out when editor is interacted
       editor.on('focus', () => {
         JoomlaEditor.setActive(jEditor);
@@ -186,17 +197,7 @@ Joomla.JoomlaTinyMCE = {
     };
 
     // Create a new instance
-    tinymce.init(options)
-      // Re-initialise the editor when iframe is reloaded.
-      .then((editors) => {
-        editors.forEach((editor) => {
-          editor.iframeElement.addEventListener('load', () => {
-            editor.remove();
-            JoomlaEditor.unregister(element.id);
-            Joomla.JoomlaTinyMCE.setupEditor(element, pluginOptions);
-          });
-        });
-      });
+    tinymce.init(options);
   },
 };
 
