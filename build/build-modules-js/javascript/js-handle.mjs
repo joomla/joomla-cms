@@ -3,6 +3,9 @@
  */
 
 import fsp from 'node:fs/promises';
+import path from "node:path";
+import fs from "node:fs";
+
 import { transform } from 'esbuild';
 import { rollup } from 'rollup';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
@@ -58,6 +61,12 @@ export const minifyJSContent = async (content = '') => transform(content, { mini
  * @returns { Promise }
  */
 export const handleJSFile = async (srcPath, targetPath) => {
+  const targetFolder = path.dirname(targetPath);
+
+  if (!fs.existsSync(targetFolder)) {
+    fs.mkdirSync(targetFolder, { mode: 0o755, recursive: true });
+  }
+
   return fsp.readFile(srcPath, { encoding: 'utf8' }).then((content) => {
     return minifyJSContent(content).then((jsMin) => {
       // Copy source
@@ -86,6 +95,11 @@ export const handleJSFile = async (srcPath, targetPath) => {
  */
 export const handleMJSFile = async (srcPath, targetPath) => {
   const externalModules =  await getExternalModules();
+  const targetFolder = path.dirname(targetPath);
+
+  if (!fs.existsSync(targetFolder)) {
+    fs.mkdirSync(targetFolder, { mode: 0o755, recursive: true });
+  }
 
   return rollup({
     input: srcPath,

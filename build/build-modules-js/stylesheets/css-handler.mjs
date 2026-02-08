@@ -3,7 +3,10 @@
  */
 
 import rtlcss from 'rtlcss';
+import path from 'node:path';
 import fsp from 'node:fs/promises';
+import fs from "node:fs";
+
 import { composeVisitors, transform as transformCss } from 'lightningcss';
 import { urlVersioning2 } from './css-versioning.mjs';
 import { createHash } from "node:crypto";
@@ -63,6 +66,11 @@ export const handleAndStoreCSSContent = async (targetPath, content = '') => {
 
   const css = await preprocessCSS(content);
   const cssMin = await minifyCSS(content);
+  const targetFolder = path.dirname(targetPath);
+
+  if (!fs.existsSync(targetFolder)) {
+    fs.mkdirSync(targetFolder, { mode: 0o755, recursive: true });
+  }
 
   const save = fsp.writeFile(
     targetPath,

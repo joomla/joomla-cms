@@ -1,7 +1,7 @@
 /**
  * Assets Builder
  */
-import path, {join} from 'node:path';
+import path from 'node:path';
 import fsp from "node:fs/promises";
 import fs from "node:fs";
 
