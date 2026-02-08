@@ -227,6 +227,7 @@ Joomla.JoomlaTinyMCE = {
 
     // Create a new instance
     const ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager);
+
     // Create a decorator
     const jEditor = new TinyMCEDecorator(ed, 'tinymce', element.id);
 
