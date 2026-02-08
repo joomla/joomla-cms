@@ -120,12 +120,9 @@ if ($displayData['active']) {
 ?>
 <li <?php
 echo ArrayHelper::toString($liAttributes); ?>>
-    <?php
-    if ($displayData['active'] || (isset($item->active) && $item->active)) : ?>
+    <?php  if ($displayData['active'] || (isset($item->active) && $item->active)) : ?>
         <?php echo HTMLHelper::_('link', $url, $display, $anchorAttributes); ?>
-    <?php
-    else : ?>
+    <?php else : ?>
         <span class="page-link" aria-hidden="true"><?php echo $display; ?></span>
-    <?php
-    endif; ?>
+    <?php endif; ?>
 </li>
