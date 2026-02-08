@@ -189,7 +189,6 @@ Joomla.JoomlaTinyMCE = {
     tinymce.init(options)
       // Re-initialise the editor when iframe is reloaded.
       .then((editors) => {
-        debugger;
         editors.forEach((editor) => {
           editor.iframeElement.addEventListener('load', () => {
             editor.remove();
