@@ -29,7 +29,7 @@ defined('_JEXEC') or die;
             </p>
         <?php endif; ?>
 
-        <?php echo $this->pagination->getPagesLinks(); ?>
+        <?php echo $this->pagination->getPaginationLinks(); ?>
     </div>
 <?php endif; ?>
 </div>

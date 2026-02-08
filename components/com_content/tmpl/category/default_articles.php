@@ -334,7 +334,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                     </p>
                 <?php endif; ?>
                 <div class="com-content-category__pagination">
-                    <?php echo $this->pagination->getPagesLinks(); ?>
+                    <?php echo $this->pagination->getPaginationLinks(); ?>
                 </div>
             </div>
         <?php endif; ?>
