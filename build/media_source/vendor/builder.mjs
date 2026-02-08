@@ -1,7 +1,7 @@
 /**
  * Assets Builder
  */
-import path from 'node:path';
+import path, {join} from 'node:path';
 import fsp from "node:fs/promises";
 import fs from "node:fs";
 
@@ -11,18 +11,15 @@ import DefaultModuleBuilder from '../../build-modules-js/builder/default-module-
 import { resolvePackageFile } from '../../build-modules-js/utils/resolve-package.mjs';
 
 /**
- * Method to resolve each vendor package.
- * Copy package files and prepare data for the registry for the package.
+ * Copy package files.
  *
  * @param {Object} vendor           Vendor info from settings.json
  * @param {String} packageName      Original package name. This may be different from vendor.name.
  * @param {String} mediaVendorPath  Full path to /media/vendor
- * @param {Object} options
- * @param {Object} registry
  *
  * @returns { Promise }
  */
-const prepareVendorPackage = async (vendor, packageName, mediaVendorPath, options11, registry11) => {
+const copyVendorFiles = async (vendor, packageName, mediaVendorPath) => {
   const vendorName = vendor.name || packageName;
   const modulePathJson = resolvePackageFile(path.join(packageName, 'package.json'));
 
@@ -32,11 +29,11 @@ const prepareVendorPackage = async (vendor, packageName, mediaVendorPath, option
 
   const modulePathRoot = path.dirname(modulePathJson);
   const modulePathTarget = path.join(mediaVendorPath, vendorName);
-  const moduleOptions = await import(modulePathJson, { with: { type: 'json' } });
+
 
   if (packageName === 'tinymce') {
     console.warn('Skipping tinymce!!!1111111 Fix me!!!!111');
-    return;
+    return [];
   }
 
   if (!fs.existsSync(modulePathTarget)) {
@@ -50,11 +47,72 @@ const prepareVendorPackage = async (vendor, packageName, mediaVendorPath, option
     const files = vendor[type];
 
     for (const srcFile in files) {
-      promises.push(fsp.cp(path.join(modulePathRoot, srcFile), path.join(modulePathTarget, files[srcFile]), { preserveTimestamps: true }));
+      promises.push(fsp.cp(
+        path.join(modulePathRoot, srcFile),
+        path.join(modulePathTarget, files[srcFile]),
+        { preserveTimestamps: true, recursive: true }
+      ));
     }
   });
 
-  console.log(modulePathTarget);
+  // Copy the license if exists
+  const licensePath = vendor.licenseFilename ? resolvePackageFile(path.join(packageName, vendor.licenseFilename)) : false;
+  if (licensePath) {
+    promises.push(fsp.cp(licensePath, path.join(modulePathTarget, vendor.licenseFilename), { preserveTimestamps: true }));
+  }
+
+  return Promise.all(promises);
+};
+
+/**
+ * Create Asset entries for the Registry
+ *
+ * @param {Object} vendor           Vendor info from settings.json
+ * @param {String} packageName      Original package name. This may be different from vendor.name.
+ *
+ * @returns { Promise<[]> }       List of asset entries for the vendor.
+ */
+const prepareVendorAssets = async (vendor, packageName) => {
+  if (!vendor.provideAssets || !vendor.provideAssets.length) {
+    return [];
+  }
+
+  const vendorName = vendor.name || packageName;
+  const modulePathJson = resolvePackageFile(path.join(packageName, 'package.json'));
+
+  if (!modulePathJson) {
+    throw new Error(`Package "${packageName}" not found`);
+  }
+
+  const moduleOptions = await import(modulePathJson, { with: { type: 'json' } });
+
+  const entries = [];
+  vendor.provideAssets.forEach((assetInfo) => {
+    const entryBase = {
+      package: packageName,
+      name: assetInfo.name || vendorName,
+      version: moduleOptions.default.version,
+      type: assetInfo.type,
+    };
+
+    const entry = Object.assign(assetInfo, entryBase);
+
+    // Update path to file
+    if (assetInfo.uri && (assetInfo.type === 'script' || assetInfo.type === 'style' || assetInfo.type === 'webcomponent')) {
+      let itemPath = assetInfo.uri;
+
+      // Check for external path
+      if (!itemPath.startsWith('http://') && !itemPath.startsWith('https://') && !itemPath.startsWith('//')) {
+        itemPath = `vendor/${vendorName}/${itemPath}`;
+      }
+
+      entry.uri = itemPath;
+    }
+
+    entries.push(entry);
+  });
+
+  return entries;
 };
 
 export default class VendorModuleBuilder extends DefaultModuleBuilder
@@ -119,6 +177,27 @@ export default class VendorModuleBuilder extends DefaultModuleBuilder
       fs.mkdirSync(this.targetPath, { recursive: true, mode: 0o755});
     }
 
+    const promises = [];
+    // Store entries as object to keep sorting steady
+    const assets = {};
+
+    // Loop the vendors
+    Object.keys(buildSettings.settings.vendors).forEach((packageName) => {
+      const vendor = buildSettings.settings.vendors[packageName];
+      const vendorName = vendor.name || packageName;
+      // Keep sorting steady
+      assets[vendorName] = [];
+
+      promises.push(
+        copyVendorFiles(vendor, packageName, this.targetPath)
+          .then(() => prepareVendorAssets(vendor, packageName))
+          .then((entries) => {
+            if (!entries.length) return;
+            assets[vendorName] = entries;
+          })
+      );
+    });
+
     // Prepare registry data
     const registry = {
       $schema: 'https://developer.joomla.org/schemas/json-schema/web_assets.json',
@@ -128,16 +207,24 @@ export default class VendorModuleBuilder extends DefaultModuleBuilder
       license: pkgOptions.license,
       assets: [],
     };
-    const promises = [];
 
-    // Loop the vendors
-    for (const packageName in buildSettings.settings.vendors) {
-      const vendor = buildSettings.settings.vendors[packageName];
+    return Promise.all(promises).then(() => {
+      // Finalize and save the Registry file
+      const assetsArray = [];
 
-      promises.push(prepareVendorPackage(vendor, packageName, this.targetPath, pkgOptions, registry));
-      break;
-    }
+      // Transform from Object to List
+      Object.keys(assets).forEach((vendorName) => {
+        assetsArray.push(...assets[vendorName]);
+      });
 
+      registry.assets = assetsArray;
+
+      return fsp.writeFile(
+        path.join(this.targetPath, 'joomla.asset.json'),
+        JSON.stringify(registry, null, 2),
+        { encoding: 'utf8', mode: 0o644 }
+      );
+    });
   }
 
   /**
