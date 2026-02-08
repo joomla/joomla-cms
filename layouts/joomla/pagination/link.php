@@ -122,8 +122,7 @@ echo ArrayHelper::toString($liAttributes); ?>>
         <?php echo HTMLHelper::_('link', $url, $display, $anchorAttributes); ?>
     <?php
     else : ?>
-        <span class="page-link" aria-hidden="true"><?php
-            echo $display; ?></span>
+        <span class="page-link" aria-hidden="true"><?php echo $display; ?></span>
     <?php
     endif; ?>
 </li>
