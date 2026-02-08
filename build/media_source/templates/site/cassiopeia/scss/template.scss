@@ -33,6 +33,7 @@
 @import "blocks/utilities";
 @import "blocks/toolbar";
 @import "blocks/legacy";
+@import "blocks/pagination";
 @import "blocks/tags";
 @import "blocks/css-grid"; // Last to allow fallback
 
@@ -46,7 +47,6 @@
 @import "vendor/bootstrap/lists";
 @import "vendor/bootstrap/modal";
 @import "vendor/bootstrap/nav";
-@import "vendor/bootstrap/pagination";
 @import "vendor/bootstrap/table";
 @import "vendor/dragula";
 @import "vendor/metismenu/metismenu";
