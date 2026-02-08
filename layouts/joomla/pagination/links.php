@@ -1,6 +1,16 @@
 <?php
 
 /**
+ * @package         Joomla.Site
+ * @subpackage      Layout
+ *
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ *
+ * @since           6.1
+ */
+
+/**
  * Layout file for complete pagination links
  *
  * This layout renders the full pagination structure with responsive visibility
@@ -14,13 +24,6 @@
  * - large   (768-896px): 7 pages around active
  * - xlarge  (896px+):    9 pages around active
  *
- * @package         Joomla.Site
- * @subpackage      Layout
- *
- * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
- *
- * @since           6.1
  */
 
 defined('_JEXEC') or die;
