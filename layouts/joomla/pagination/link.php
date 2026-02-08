@@ -119,8 +119,7 @@ if ($displayData['active']) {
 echo ArrayHelper::toString($liAttributes); ?>>
     <?php
     if ($displayData['active'] || (isset($item->active) && $item->active)) : ?>
-        <?php
-        echo HTMLHelper::_('link', $url, $display, $anchorAttributes); ?>
+        <?php echo HTMLHelper::_('link', $url, $display, $anchorAttributes); ?>
     <?php
     else : ?>
         <span class="page-link" aria-hidden="true"><?php
