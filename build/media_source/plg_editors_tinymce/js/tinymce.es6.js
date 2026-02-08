@@ -193,30 +193,32 @@ Joomla.JoomlaTinyMCE = {
         }
       }, true);
 
-      if (!editor.inline) {
-        const listenIframeReload = () => {
-          const $iframe = editor.getContentAreaContainer().querySelector('iframe');
-
-          $iframe.addEventListener('load', () => {
-            debounceReInit(editor, element, pluginOptions);
-          });
-        };
-
-        // Make sure iframe is fully loaded.
-        // This works differently in different browsers, so have to listen both "load" and "PostRender" events.
-        editor.on('load', () => {
-          isReady = true;
-          if (isRendered) {
-            listenIframeReload();
-          }
-        });
-        editor.on('PostRender', () => {
-          isRendered = true;
-          if (isReady) {
-            listenIframeReload();
-          }
-        });
+      if (editor.inline) {
+        return;
       }
+
+      const listenIframeReload = () => {
+        const $iframe = editor.getContentAreaContainer().querySelector('iframe');
+
+        $iframe.addEventListener('load', () => {
+          debounceReInit(editor, element, pluginOptions);
+        });
+      };
+
+      // Make sure iframe is fully loaded.
+      // This works differently in different browsers, so have to listen both "load" and "PostRender" events.
+      editor.on('load', () => {
+        isReady = true;
+        if (isRendered) {
+          listenIframeReload();
+        }
+      });
+      editor.on('PostRender', () => {
+        isRendered = true;
+        if (isReady) {
+          listenIframeReload();
+        }
+      });
     };
 
     // Create a new instance
