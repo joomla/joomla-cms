@@ -6,28 +6,6 @@ import { JoomlaEditor, JoomlaEditorDecorator } from 'editor-api';
 
 /* global tinymce, tinyMCE */
 
-// Debounce ReInit per editor ID
-const reInitQueue = {};
-
-/**
- * Debounce the re-initialization of the editor when iframe is reloaded.
- *
- * @param {{}} editor
- * @param {HTMLElement} element
- * @param {{}} pluginOptions
- * @returns {void}
- */
-function debounceReInit(editor, element, pluginOptions) {
-  if (reInitQueue[element.id]) {
-    clearTimeout(reInitQueue[element.id]);
-  }
-  reInitQueue[element.id] = setTimeout(() => {
-    editor.remove();
-    JoomlaEditor.unregister(element.id);
-    Joomla.JoomlaTinyMCE.setupEditor(element, pluginOptions);
-  }, 500);
-}
-
 /**
  * TinyMCE Decorator for JoomlaEditor
  */
@@ -186,42 +164,40 @@ Joomla.JoomlaTinyMCE = {
     }
 
     options.setup = (editor) => {
+      // Create a decorator
+      const jEditor = new TinyMCEDecorator(editor, 'tinymce', element.id);
+
       editor.mode.set(readOnlyMode ? 'readonly' : 'design');
+
+      // We'll take over the onSubmit event
+      editor.on('submit', () => {
+        if (editor.isHidden()) {
+          editor.show();
+        }
+      }, true);
+
+      // Find out when editor is interacted
+      editor.on('focus', () => {
+        JoomlaEditor.setActive(jEditor);
+      });
+
+      // Register the editor's instance to JoomlaEditor
+      JoomlaEditor.register(jEditor);
     };
 
     // Create a new instance
-    const ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager);
-
-    // Create a decorator
-    const jEditor = new TinyMCEDecorator(ed, 'tinymce', element.id);
-
-    // We'll take over the onSubmit event
-    ed.on('submit', () => {
-      if (ed.isHidden()) {
-        ed.show();
-      }
-    }, true);
-
-    // Bind the iframe reload logic
-    ed.on('init', () => {
-      if (!ed.inline) {
-        const $iframe = ed.getContentAreaContainer().querySelector('iframe');
-        $iframe.addEventListener('load', () => {
-          debounceReInit(ed, element, pluginOptions);
+    tinymce.init(options)
+      // Re-initialise the editor when iframe is reloaded.
+      .then((editors) => {
+        debugger;
+        editors.forEach((editor) => {
+          editor.iframeElement.addEventListener('load', () => {
+            editor.remove();
+            JoomlaEditor.unregister(element.id);
+            Joomla.JoomlaTinyMCE.setupEditor(element, pluginOptions);
+          });
         });
-      }
-    });
-
-    // Find out when editor is interacted
-    ed.on('focus', () => {
-      JoomlaEditor.setActive(jEditor);
-    });
-
-    // Render the editor
-    ed.render();
-
-    // Register the editor's instance to JoomlaEditor
-    JoomlaEditor.register(jEditor);
+      });
   },
 };
 
