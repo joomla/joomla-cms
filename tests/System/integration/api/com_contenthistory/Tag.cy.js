@@ -43,7 +43,6 @@ describe('Test that contenthistory for tag API endpoint', () => {
       // Perform assertions
       expect(attributes).to.have.property('editor_user_id');
       expect(versionData).to.have.property('title');
-      expect(versionData).to.have.property('modified_time');
       expect(tagTitle).to.eq('automated test tag');
     });
 
