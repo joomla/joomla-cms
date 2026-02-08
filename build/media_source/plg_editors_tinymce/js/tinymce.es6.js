@@ -184,6 +184,11 @@ Joomla.JoomlaTinyMCE = {
       editor.mode.set(readOnlyMode ? 'readonly' : 'design');
     };
 
+    // Work around iframe behavior, when iframe element changes location in DOM and losing its content.
+    // Re init editor when iframe is reloaded.
+    let isReady = false;
+    let isRendered = false;
+
     // We'll take over the onSubmit event
     options.init_instance_callback = (editor) => {
       editor.on('submit', () => {
@@ -191,41 +196,39 @@ Joomla.JoomlaTinyMCE = {
           editor.show();
         }
       }, true);
+
+      if (editor.inline) {
+        return;
+      }
+
+      const listenIframeReload = () => {
+        const $iframe = editor.getContentAreaContainer().querySelector('iframe');
+
+        $iframe.addEventListener('load', () => {
+          debounceReInit(editor, element, pluginOptions);
+        });
+      };
+
+      // Make sure iframe is fully loaded.
+      // This works differently in different browsers, so have to listen both "load" and "PostRender" events.
+      editor.on('load', () => {
+        isReady = true;
+        if (isRendered) {
+          listenIframeReload();
+        }
+      });
+      editor.on('PostRender', () => {
+        isRendered = true;
+        if (isReady) {
+          listenIframeReload();
+        }
+      });
     };
 
     // Create a new instance
     const ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager);
     // Create a decorator
     const jEditor = new TinyMCEDecorator(ed, 'tinymce', element.id);
-
-    // Work around iframe behavior, when iframe element changes location in DOM and losing its content.
-    // Re init editor when iframe is reloaded.
-    if (!ed.inline) {
-      let isReady = false;
-      let isRendered = false;
-      const listenIframeReload = () => {
-        const $iframe = ed.getContentAreaContainer().querySelector('iframe');
-
-        $iframe.addEventListener('load', () => {
-          debounceReInit(ed, element, pluginOptions);
-        });
-      };
-
-      // Make sure iframe is fully loaded.
-      // This works differently in different browsers, so have to listen both "load" and "PostRender" events.
-      ed.on('load', () => {
-        isReady = true;
-        if (isRendered) {
-          listenIframeReload();
-        }
-      });
-      ed.on('PostRender', () => {
-        isRendered = true;
-        if (isReady) {
-          listenIframeReload();
-        }
-      });
-    }
 
     // Find out when editor is interacted
     ed.on('focus', () => {
