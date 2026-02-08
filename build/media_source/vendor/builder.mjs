@@ -227,7 +227,9 @@ export default class VendorModuleBuilder extends DefaultModuleBuilder
    * Process CSS files
    * @returns { Promise }
    */
-  async css() {}
+  async css() {
+    // Nothing to do here
+  }
 
   /**
    * Process JavaScript files and Modules
