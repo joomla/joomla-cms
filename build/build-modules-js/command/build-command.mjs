@@ -3,7 +3,7 @@
  */
 
 import path from 'node:path';
-import { BuilderFactory } from '../builder/builder-factory.mjs';
+import { BuilderFactory, createAndRunBuilder } from '../builder/builder-factory.mjs';
 
 /**
  * Build command:
@@ -12,11 +12,14 @@ import { BuilderFactory } from '../builder/builder-factory.mjs';
  *  build -t css,js
  *  build -n builder1,builder2 -t css,js
  *
- * @param { Command } program       CMD program instance
- * @param { Object } cmdOptions     Command options and arguments
- * @param { Array } builders        List of builder names
+ * @param { Command } program        CMD program instance
+ * @param { Object } cmdOptions      Command options and arguments
+ * @param { Array } builders         List of builder names
+ * @param { Array } blockingBuilders List of blocking builder names
+ *
+ * @return { Promise }
  */
-export default function buildCommand(program, cmdOptions = {}, builders = []) {
+export default async function buildCommand(program, cmdOptions = {}, builders = [], blockingBuilders = []) {
   // Get list of builders to run
   let buildersToRun = [];
   let runAll = false;
@@ -52,48 +55,34 @@ export default function buildCommand(program, cmdOptions = {}, builders = []) {
     cmdOptions,
   );
 
-  // Run each builder
-  const buildPromises = [];
+  // Create builder queue
+  const queue = [];
   buildersToRun.forEach((name) => {
-    const builderPromise = factory.createBuilder(name).then((builder) => {
-      if (!builder.getAllTasks || !builder.getBuildTasks) {
-        program.error(`Builder module for "${name}" should implement provide "getBuildTasks()" and "getAllTasks()" method. Which used to determine which task can be run for the builder.`)
-      }
-      console.log(`Initialize build [${name}]`);
-
-      // Run tasks for given builder
-      const allTasks = builder.getAllTasks();
-      let lastPromise = Promise.resolve();
-      (tasksToRun.length ? tasksToRun : builder.getBuildTasks()).forEach((taskName) => {
-        // Check whether the task is allowed for active builder
-        if (!allTasks.includes(taskName)) {
-          // Show error when the builder and the task was specified, and it is not applicable for active builder.
-          if (!runAll) {
-            program.error(`Task "${taskName}" is not applicable for "${name}" builder.`);
-          }
-          return;
-        }
-
-        // Execute the task sequentially, this is needed because task may depend on each other
-        lastPromise = lastPromise.then(() => {
-          console.log(`Start task [${name}.${taskName}]`);
-
-          return builder[taskName]().then(async () => {
-            console.log('\x1b[32m%s\x1b[0m', `Completed task [${name}.${taskName}]`);
-          }).catch((error) => {
-            console.log('\x1b[31m%s\x1b[0m', `Failed Task [${name}.${taskName}]`);
-            console.trace(error);
-            program.error(error.message);
-          });
-        });
-      });
-      return lastPromise;
-    }).then(() => {
-      console.log('\x1b[32m%s\x1b[0m', `Completed build [${name}]`);
-    });
-
-    buildPromises.push(builderPromise);
+    queue.push([
+      name,
+      blockingBuilders.includes(name),
+    ]);
   });
 
-  return Promise.all(buildPromises);
+  // Go through queue and execute each builder.
+  // The blocking builder will halt Queue lookup.
+  const danglingPromises = [];
+  const checkQueue = async () => {
+    if (!queue.length) return;
+    const [ name, isBlocking ] = queue.shift();
+
+    if (isBlocking) {
+      // Halt Queue lookup until the builder completes
+      return createAndRunBuilder(name, factory, tasksToRun).then(() => checkQueue())
+    }
+
+    // Collect dangling promises to be sure all is resolved in the end
+    danglingPromises.push(createAndRunBuilder(name, factory, tasksToRun));
+
+    return checkQueue();
+  };
+
+  return checkQueue().then(() => {
+    return Promise.all(danglingPromises);
+  });
 };

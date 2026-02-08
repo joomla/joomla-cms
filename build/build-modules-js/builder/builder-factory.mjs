@@ -29,3 +29,51 @@ export class BuilderFactory{
     });
   }
 }
+
+/**
+ * Create and run the builder
+ *
+ * @param { String } name
+ * @param { BuilderFactory } factory
+ * @param { string[] } tasksToRun
+ * @return { Promise }
+ */
+export const createAndRunBuilder = async (name, factory, tasksToRun = []) => {
+  return factory.createBuilder(name)
+    .then((builder) => {
+      if (!builder.getAllTasks || !builder.getBuildTasks) {
+        program.error(`Builder module for "${name}" should implement provide "getBuildTasks()" and "getAllTasks()" method. Which used to determine which task can be run for the builder.`)
+      }
+      console.log(`Initialize build [${name}]`);
+
+      // Run tasks for given builder
+      const allTasks = builder.getAllTasks();
+      let lastPromise = Promise.resolve();
+      (tasksToRun.length ? tasksToRun : builder.getBuildTasks()).forEach((taskName) => {
+        // Check whether the task is allowed for active builder
+        if (!allTasks.includes(taskName)) {
+          // Show error when the builder and the task was specified, and it is not applicable for active builder.
+          if (!runAll) {
+            program.error(`Task "${taskName}" is not applicable for "${name}" builder.`);
+          }
+          return;
+        }
+
+        // Execute the task sequentially, this is needed because task may depend on each other
+        lastPromise = lastPromise.then(() => {
+          console.log(`Start task [${name}.${taskName}]`);
+
+          return builder[taskName]().then(async () => {
+            console.log('\x1b[32m%s\x1b[0m', `Completed task [${name}.${taskName}]`);
+          }).catch((error) => {
+            console.log('\x1b[31m%s\x1b[0m', `Failed Task [${name}.${taskName}]`);
+            console.trace(error);
+            program.error(error.message);
+          });
+        });
+      });
+      return lastPromise;
+    }).then(() => {
+      console.log('\x1b[32m%s\x1b[0m', `Completed build [${name}]`);
+    });
+};

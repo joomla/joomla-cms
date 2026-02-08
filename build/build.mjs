@@ -139,7 +139,7 @@ program
   .option('--sass-silent', 'hide SASS deprecations and warnings')
   .action((options) => {
     const bench = new Timer('Build command');
-    buildCommand(program, options, builders)
+    buildCommand(program, options, builders, blockingBuilders)
       .then(() => bench.stop('Build command'));
   });
 
