@@ -7,6 +7,7 @@ import semver from 'semver';
 import pkgOptions from '../package.json' with { type: 'json' };
 import buildSettings from './build-modules-js/settings.json' with { type: 'json' };
 import buildCommand from './build-modules-js/command/build-command.mjs';
+import { Timer } from './build-modules-js/utils/timer.mjs';
 
 // Check minimum Node version
 if (semver.gte(semver.minVersion(pkgOptions.engines.node), semver.clean(process.version))) {
@@ -102,6 +103,11 @@ const builders = [
   'templates/site/cassiopeia',
   'templates/site/cassiopeia_extended',
 ];
+// Builders which should be completed before any following builder start.
+// Used for mass-execution to prevent collisions.
+const blockingBuilders = [
+  'vendor',
+];
 
 // The command line, initialize
 const program = new Command();
@@ -132,7 +138,9 @@ program
   .option('-t,--task <builder_task,builder_task>', 'task(s) to run for specified asset')
   .option('--sass-silent', 'hide SASS deprecations and warnings')
   .action((options) => {
-    buildCommand(program, options, builders);
+    const bench = new Timer('Build command');
+    buildCommand(program, options, builders)
+      .then(() => bench.stop('Build command'));
   });
 
 program.parse(process.argv)

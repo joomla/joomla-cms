@@ -53,8 +53,9 @@ export default function buildCommand(program, cmdOptions = {}, builders = []) {
   );
 
   // Run each builder
+  const buildPromises = [];
   buildersToRun.forEach((name) => {
-    factory.createBuilder(name).then((builder) => {
+    const builderPromise = factory.createBuilder(name).then((builder) => {
       if (!builder.getAllTasks || !builder.getBuildTasks) {
         program.error(`Builder module for "${name}" should implement provide "getBuildTasks()" and "getAllTasks()" method. Which used to determine which task can be run for the builder.`)
       }
@@ -86,6 +87,13 @@ export default function buildCommand(program, cmdOptions = {}, builders = []) {
           });
         });
       });
+      return lastPromise;
+    }).then(() => {
+      console.log('\x1b[32m%s\x1b[0m', `Completed build [${name}]`);
     });
+
+    buildPromises.push(builderPromise);
   });
+
+  return Promise.all(buildPromises);
 };
