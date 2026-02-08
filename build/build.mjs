@@ -15,6 +15,7 @@ if (semver.gte(semver.minVersion(pkgOptions.engines.node), semver.clean(process.
 
 // List of builders
 // The folder (extension) name under media_source/
+// The builder may provide own builder.mjs script. By default, will be used DefaultModuleBuilder class.
 const builders = [
   // Libraries
   'vendor', // Many extensions depending on it, should be run first
