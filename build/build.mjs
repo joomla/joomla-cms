@@ -68,7 +68,7 @@ const builders = [
   'plg_behaviour_compat6',
   'plg_content_vote',
   'plg_editors-xtd_image',
-  //'plg_editors_codemirror',
+  'plg_editors_codemirror',
   'plg_editors_none',
   'plg_editors_tinymce',
   'plg_installer_folderinstaller',
