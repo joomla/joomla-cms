@@ -156,6 +156,7 @@ export default class VendorModuleBuilder extends DefaultModuleBuilder
 
   /**
    * Copy all vendor files according to Joomla's specs from build/settings.json
+   * And create vendor/joomla.asset.json registry.
    *
    * @returns { Promise }
    */
