@@ -8,7 +8,16 @@ import { JoomlaEditor, JoomlaEditorDecorator } from 'editor-api';
 
 // Debounce ReInit per editor ID
 const reInitQueue = {};
-const debounceReInit = (editor, element, pluginOptions) => {
+
+/**
+ * Debounce the re-initialization of the editor when iframe is reloaded.
+ *
+ * @param {{}} editor
+ * @param {HTMLElement} element
+ * @param {{}} pluginOptions
+ * @returns {void}
+ */
+function debounceReInit(editor, element, pluginOptions) {
   if (reInitQueue[element.id]) {
     clearTimeout(reInitQueue[element.id]);
   }
@@ -17,7 +26,22 @@ const debounceReInit = (editor, element, pluginOptions) => {
     JoomlaEditor.unregister(element.id);
     Joomla.JoomlaTinyMCE.setupEditor(element, pluginOptions);
   }, 500);
-};
+}
+
+/**
+ * Listen for iframe reload and re-initialize the editor when iframe is reloaded.
+ * @param {{}} editor
+ * @param {HTMLElement} element
+ * @param {{}} pluginOptions
+ * @return {void}
+ */
+function listenIframeReload(editor, element, pluginOptions) {
+  const $iframe = editor.getContentAreaContainer().querySelector('iframe');
+
+  $iframe.addEventListener('load', () => {
+    debounceReInit(editor, element, pluginOptions);
+  });
+}
 
 /**
  * TinyMCE Decorator for JoomlaEditor
@@ -180,8 +204,7 @@ Joomla.JoomlaTinyMCE = {
       editor.mode.set(readOnlyMode ? 'readonly' : 'design');
     };
 
-    // Work around iframe behavior, when iframe element changes location in DOM and losing its content.
-    // Re init editor when iframe is reloaded.
+    // Editor state flags for iframe reload debounce
     let isRendered = false;
     let isReady = false;
 
@@ -197,26 +220,18 @@ Joomla.JoomlaTinyMCE = {
         return;
       }
 
-      const listenIframeReload = () => {
-        const $iframe = editor.getContentAreaContainer().querySelector('iframe');
-
-        $iframe.addEventListener('load', () => {
-          debounceReInit(editor, element, pluginOptions);
-        });
-      };
-
       // Make sure iframe is fully loaded.
       // This works differently in different browsers, so have to listen both "load" and "PostRender" events.
       editor.on('load', () => {
         isReady = true;
         if (isRendered) {
-          listenIframeReload();
+          listenIframeReload(editor, element, pluginOptions);
         }
       });
       editor.on('PostRender', () => {
         isRendered = true;
         if (isReady) {
-          listenIframeReload();
+          listenIframeReload(editor, element, pluginOptions);
         }
       });
     };
@@ -234,6 +249,7 @@ Joomla.JoomlaTinyMCE = {
 
     // Render the editor
     ed.render();
+
     // Register the editor's instance to JoomlaEditor
     JoomlaEditor.register(jEditor);
   },
