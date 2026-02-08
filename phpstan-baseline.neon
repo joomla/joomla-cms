@@ -13153,7 +13153,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 12
+			count: 11
 			path: libraries/src/Table/Nested.php
 
 		-
@@ -13228,7 +13228,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 8
+			count: 6
 			path: libraries/src/Table/Table.php
 
 		-
