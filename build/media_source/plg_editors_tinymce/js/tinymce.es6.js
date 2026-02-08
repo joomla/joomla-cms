@@ -202,7 +202,7 @@ Joomla.JoomlaTinyMCE = {
           });
         };
 
-        // Make sure iframe is fully loadeditor.
+        // Make sure iframe is fully loaded.
         // This works differently in different browsers, so have to listen both "load" and "PostRender" events.
         editor.on('load', () => {
           isReady = true;
