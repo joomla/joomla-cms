@@ -11,6 +11,7 @@ namespace Joomla\CMS\Categories;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
@@ -121,7 +122,6 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         $options['published']   ??= 1;
         $options['countItems']  ??= 0;
         $options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
-        $options['respectPublishDates'] ??= false;
 
         $this->_options = $options;
     }
@@ -360,18 +360,30 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
             if ($this->_options['published'] == 1) {
                 $subQuery->where($db->quoteName($db->escape('i.' . $this->_statefield)) . ' = 1');
 
-                if (!empty($this->_options['respectPublishDates'])) {
-                    $tableColumns = $db->getTableColumns($this->_table);
+                try {
+                    // Get table instance to check for publish date columns with proper aliases
+                    $table = Table::getInstance(ucfirst(str_replace('com_', '', $this->_extension)), 'Joomla\\CMS\\Table\\');
 
-                    if (isset($tableColumns['publish_up'], $tableColumns['publish_down'])) {
-                        $nowDate = $db->quote(Factory::getDate()->toSql());
-                        $subQuery->where(
-                            '(' . $db->quoteName('i.publish_up') . ' IS NULL OR ' . $db->quoteName('i.publish_up') . ' <= ' . $nowDate . ')'
-                        );
-                        $subQuery->where(
-                            '(' . $db->quoteName('i.publish_down') . ' IS NULL OR ' . $db->quoteName('i.publish_down') . ' >= ' . $nowDate . ')'
-                        );
+                    if ($table) {
+                        // Get the aliased column names
+                        $publishUpField   = $table->getColumnAlias('publish_up');
+                        $publishDownField = $table->getColumnAlias('publish_down');
+
+                        // Verify these columns actually exist in the table
+                        $tableColumns = $db->getTableColumns($this->_table);
+
+                        if (isset($tableColumns[$publishUpField], $tableColumns[$publishDownField])) {
+                            $nowDate = $db->quote(Factory::getDate()->toSql());
+                            $subQuery->where(
+                                '(' . $db->quoteName('i.' . $publishUpField) . ' IS NULL OR ' . $db->quoteName('i.' . $publishUpField) . ' <= ' . $nowDate . ')'
+                            );
+                            $subQuery->where(
+                                '(' . $db->quoteName('i.' . $publishDownField) . ' IS NULL OR ' . $db->quoteName('i.' . $publishDownField) . ' >= ' . $nowDate . ')'
+                            );
+                        }
                     }
+                } catch (\Exception $e) {
+                    // Silently continue if table can't be loaded - ensures backward compatibility
                 }
             }
 
