@@ -14,13 +14,13 @@
  * - large   (768-896px): 7 pages around active
  * - xlarge  (896px+):    9 pages around active
  *
- * @package     Joomla.Site
- * @subpackage  Layout
+ * @package         Joomla.Site
+ * @subpackage      Layout
  *
  * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @license         GNU General Public License version 2 or later; see LICENSE.txt
  *
- * @since       6.1
+ * @since           6.1
  */
 
 defined('_JEXEC') or die;
@@ -42,7 +42,7 @@ $showItemPosition = $options->get('showItemPosition', true);
 
 // Calculate current page and total pages
 $currentPage = 1;
-$totalPages = $list['pagesTotal'] ?? 0;
+$totalPages  = $list['pagesTotal'] ?? 0;
 
 if (!empty($pages['pages'])) {
     foreach ($pages['pages'] as $k => $page) {
@@ -54,21 +54,21 @@ if (!empty($pages['pages'])) {
 }
 
 // Determine which pages to show (let Joomla decide the range)
-$visiblePages = array_keys($pages['pages'] ?? []);
+$visiblePages     = array_keys($pages['pages'] ?? []);
 $firstVisiblePage = !empty($visiblePages) ? min($visiblePages) : 1;
-$lastVisiblePage = !empty($visiblePages) ? max($visiblePages) : $totalPages;
+$lastVisiblePage  = !empty($visiblePages) ? max($visiblePages) : $totalPages;
 
 // Show ellipsis when there's a gap
 $showStartEllipsis = ($firstVisiblePage > 2);
-$showEndEllipsis = ($lastVisiblePage < $totalPages - 1);
+$showEndEllipsis   = ($lastVisiblePage < $totalPages - 1);
 
 // Define breakpoint configurations (cached for performance)
 const BREAKPOINT_CONFIGS = [
-    'narrow'  => ['range' => 0, 'maxPages' => 1, 'edgeThreshold' => 3],   // < 480px
-    'small'   => ['range' => 1, 'maxPages' => 3, 'edgeThreshold' => 4],   // 480-640px
-    'medium'  => ['range' => 2, 'maxPages' => 5, 'edgeThreshold' => 5],   // 640-768px
-    'large'   => ['range' => 3, 'maxPages' => 7, 'edgeThreshold' => 6],   // 768-896px
-    'xlarge'  => ['range' => 4, 'maxPages' => 9, 'edgeThreshold' => 8],   // 896px+
+    'narrow' => ['range' => 0, 'maxPages' => 1, 'edgeThreshold' => 3],   // < 480px
+    'small'  => ['range' => 1, 'maxPages' => 3, 'edgeThreshold' => 4],   // 480-640px
+    'medium' => ['range' => 2, 'maxPages' => 5, 'edgeThreshold' => 5],   // 640-768px
+    'large'  => ['range' => 3, 'maxPages' => 7, 'edgeThreshold' => 6],   // 768-896px
+    'xlarge' => ['range' => 4, 'maxPages' => 9, 'edgeThreshold' => 8],   // 896px+
 ];
 
 // Define pagination breakpoint names
@@ -87,33 +87,34 @@ const PAGINATION_BREAKPOINTS = ['narrow', 'small', 'medium', 'large', 'xlarge'];
  *
  * @since   6.1
  */
-function getPagesForBreakpoint(int $pageNum, int $currentPage, int $totalPages, string $breakpoint): bool {
+function getPagesForBreakpoint(int $pageNum, int $currentPage, int $totalPages, string $breakpoint): bool
+{
     $config = BREAKPOINT_CONFIGS[$breakpoint] ?? BREAKPOINT_CONFIGS['narrow'];
     ['range' => $range, 'maxPages' => $maxPages, 'edgeThreshold' => $edgeThreshold] = $config;
 
     // Determine if we're near the start or end
     $nearStart = ($currentPage <= $edgeThreshold);
-    $nearEnd = ($currentPage >= $totalPages - $edgeThreshold + 1);
+    $nearEnd   = ($currentPage >= $totalPages - $edgeThreshold + 1);
 
     if ($nearStart) {
         // Show consecutive pages from page 2 (page 1 is separate)
         $start = 2;
-        $end = min($totalPages - 1, max($currentPage, 2 + $maxPages - 1));
+        $end   = min($totalPages - 1, max($currentPage, 2 + $maxPages - 1));
     } elseif ($nearEnd) {
         // Show consecutive pages to page totalPages-1 (last page is separate)
-        $end = $totalPages - 1;
+        $end   = $totalPages - 1;
         $start = max(2, min($currentPage, $end - $maxPages + 1));
     } else {
         // Show centered window around active page
         $start = max(2, $currentPage - $range);
-        $end = min($totalPages - 1, $currentPage + $range);
+        $end   = min($totalPages - 1, $currentPage + $range);
 
         // Ensure we show at least maxPages
         $pagesInWindow = $end - $start + 1;
         if ($pagesInWindow < $maxPages) {
             $deficit = $maxPages - $pagesInWindow;
-            $end = min($totalPages - 1, $end + ceil($deficit / 2));
-            $start = max(2, $start - floor($deficit / 2));
+            $end     = min($totalPages - 1, $end + ceil($deficit / 2));
+            $start   = max(2, $start - floor($deficit / 2));
         }
     }
 
@@ -133,23 +134,24 @@ function getPagesForBreakpoint(int $pageNum, int $currentPage, int $totalPages, 
  *
  * @since   6.1
  */
-function renderPageNumber(array $pages, string $type, int $currentPage, int $totalPages): string {
+function renderPageNumber(array $pages, string $type, int $currentPage, int $totalPages): string
+{
     [$pageNum, $dataKey] = match ($type) {
         'first' => [1, 'start'],
         'last' => [$totalPages, 'end'],
     };
 
-    $isActive = ($currentPage === $pageNum);
-    $pageData = $pages[$dataKey]['data'];
-    $pageData->text = (string) $pageNum;
+    $isActive       = ($currentPage === $pageNum);
+    $pageData       = $pages[$dataKey]['data'];
+    $pageData->text = (string)$pageNum;
 
     if ($isActive) {
         $pageData->active = true;
     }
 
     return LayoutHelper::render('joomla.pagination.link', [
-        'data' => $pageData,
-        'active' => !$isActive,
+        'data'     => $pageData,
+        'active'   => !$isActive,
         'modifier' => $type
     ]);
 }
@@ -159,45 +161,64 @@ $last  = $first + $list['limit'] - 1;
 $last  = $last > $total ? $total : $last;
 
 ?>
-<?php if (!empty($pages) || $showItemPosition) : ?>
-    <nav class="pagination__wrapper" aria-label="<?php echo Text::_('JLIB_HTML_PAGINATION'); ?>">
-        <?php if ($showItemPosition) : ?>
+<?php
+if (!empty($pages) || $showItemPosition) : ?>
+    <nav class="pagination__wrapper" aria-label="<?php
+    echo Text::_('JLIB_HTML_PAGINATION'); ?>">
+        <?php
+        if ($showItemPosition) : ?>
             <div class="text-end me-3">
-                <?php echo Text::sprintf('JLIB_HTML_PAGINATION_NUMBERS', $first, $last, $total); ?>
+                <?php
+                echo Text::sprintf('JLIB_HTML_PAGINATION_NUMBERS', $first, $last, $total); ?>
             </div>
-        <?php endif; ?>
+        <?php
+        endif; ?>
 
         <div class="pagination-toolbar text-center mt-0">
 
-            <?php if ($showLimitBox) : ?>
+            <?php
+            if ($showLimitBox) : ?>
                 <div class="limit float-end">
-                    <?php echo Text::_('JGLOBAL_DISPLAY_NUM') . $list['limitfield']; ?>
+                    <?php
+                    echo Text::_('JGLOBAL_DISPLAY_NUM') . $list['limitfield']; ?>
                 </div>
-            <?php endif; ?>
+            <?php
+            endif; ?>
 
-            <?php if ($showPagesLinks && !empty($pages)) : ?>
-                <ul class="pagination ms-auto me-0" data-current-page="<?php echo $currentPage; ?>" data-total-pages="<?php echo $totalPages; ?>">
+            <?php
+            if ($showPagesLinks && !empty($pages)) : ?>
+                <ul class="pagination ms-auto me-0" data-current-page="<?php
+                echo $currentPage; ?>"
+                    data-total-pages="<?php
+                    echo $totalPages; ?>">
 
-                    <?php echo LayoutHelper::render('joomla.pagination.link', $pages['previous']); ?>
+                    <?php
+                    echo LayoutHelper::render('joomla.pagination.link', $pages['previous']); ?>
 
-                    <?php if (!empty($pages['start']['data'])) : ?>
-                        <?php echo renderPageNumber($pages, 'first', $currentPage, $totalPages); ?>
-                    <?php endif; ?>
+                    <?php
+                    if (!empty($pages['start']['data'])) : ?>
+                        <?php
+                        echo renderPageNumber($pages, 'first', $currentPage, $totalPages); ?>
+                    <?php
+                    endif; ?>
 
-                    <?php if ($showStartEllipsis) : ?>
+                    <?php
+                    if ($showStartEllipsis) : ?>
                         <?php
                         echo LayoutHelper::render('joomla.pagination.link', [
-                            'data' => (object)['text' => '...'],
-                            'active' => false,
+                            'data'     => (object)['text' => '...'],
+                            'active'   => false,
                             'modifier' => 'ellipsis ellipsis--start'
                         ]);
                         ?>
-                    <?php endif; ?>
+                    <?php
+                    endif; ?>
 
-                    <?php foreach ($pages['pages'] as $k => $page) : ?>
+                    <?php
+                    foreach ($pages['pages'] as $k => $page) : ?>
                         <?php
                         $isFirstPage = ($k === 1);
-                        $isLastPage = ($k === $totalPages);
+                        $isLastPage  = ($k === $totalPages);
 
                         // Skip first and last pages (rendered separately)
                         if ($isFirstPage || $isLastPage) {
@@ -217,31 +238,45 @@ $last  = $last > $total ? $total : $last;
                         $page['extraClasses'] = $visibilityClasses;
                         echo LayoutHelper::render('joomla.pagination.link', $page);
                         ?>
-                    <?php endforeach; ?>
+                    <?php
+                    endforeach; ?>
 
-                    <?php if ($showEndEllipsis) : ?>
+                    <?php
+                    if ($showEndEllipsis) : ?>
                         <?php
                         echo LayoutHelper::render('joomla.pagination.link', [
-                            'data' => (object)['text' => '...'],
-                            'active' => false,
+                            'data'     => (object)['text' => '...'],
+                            'active'   => false,
                             'modifier' => 'ellipsis ellipsis--end'
                         ]);
                         ?>
-                    <?php endif; ?>
+                    <?php
+                    endif; ?>
 
-                    <?php if (!empty($pages['end']['data'])) : ?>
-                        <?php echo renderPageNumber($pages, 'last', $currentPage, $totalPages); ?>
-                    <?php endif; ?>
+                    <?php
+                    if (!empty($pages['end']['data'])) : ?>
+                        <?php
+                        echo renderPageNumber($pages, 'last', $currentPage, $totalPages); ?>
+                    <?php
+                    endif; ?>
 
-                    <?php echo LayoutHelper::render('joomla.pagination.link', $pages['next']); ?>
+                    <?php
+                    echo LayoutHelper::render('joomla.pagination.link', $pages['next']); ?>
 
                 </ul>
-            <?php endif; ?>
+            <?php
+            endif; ?>
 
-            <?php if ($showLimitStart) : ?>
-                <input type="hidden" name="<?php echo $list['prefix']; ?>limitstart" value="<?php echo $list['limitstart']; ?>">
-            <?php endif; ?>
+            <?php
+            if ($showLimitStart) : ?>
+                <input type="hidden" name="<?php
+                echo $list['prefix']; ?>limitstart"
+                       value="<?php
+                       echo $list['limitstart']; ?>">
+            <?php
+            endif; ?>
 
         </div>
     </nav>
-<?php endif; ?>
+<?php
+endif; ?>

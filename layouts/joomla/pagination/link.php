@@ -21,7 +21,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
-use PwtBase\Template\Helper;
 
 $item    = $displayData['data'];
 $display = $item->text;
@@ -33,12 +32,14 @@ $isEllipsis = str_contains($displayData['modifier'] ?? '', 'ellipsis');
 if ($isEllipsis) {
     // Build minimal li attributes for ellipsis and return early
     $liAttributes = [
-        'class' => 'page-item ' . $displayData['modifier'],
+        'class'       => 'page-item ' . $displayData['modifier'],
         'aria-hidden' => 'true'
     ];
     ?>
-    <li <?php echo ArrayHelper::toString($liAttributes); ?>>
-        <span class="page-link"><?php echo $display; ?></span>
+    <li <?php
+    echo ArrayHelper::toString($liAttributes); ?>>
+        <span class="page-link"><?php
+            echo $display; ?></span>
     </li>
     <?php
     return;
@@ -114,10 +115,16 @@ if ($displayData['active']) {
 }
 
 ?>
-<li <?php echo ArrayHelper::toString($liAttributes); ?>>
-    <?php if ($displayData['active'] || (isset($item->active) && $item->active)) : ?>
-        <?php echo HTMLHelper::_('link', $url, $display, $anchorAttributes); ?>
-    <?php else : ?>
-        <span class="page-link" aria-hidden="true"><?php echo $display; ?></span>
-    <?php endif; ?>
+<li <?php
+echo ArrayHelper::toString($liAttributes); ?>>
+    <?php
+    if ($displayData['active'] || (isset($item->active) && $item->active)) : ?>
+        <?php
+        echo HTMLHelper::_('link', $url, $display, $anchorAttributes); ?>
+    <?php
+    else : ?>
+        <span class="page-link" aria-hidden="true"><?php
+            echo $display; ?></span>
+    <?php
+    endif; ?>
 </li>
