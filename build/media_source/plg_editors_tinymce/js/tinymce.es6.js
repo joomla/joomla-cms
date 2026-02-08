@@ -29,21 +29,6 @@ function debounceReInit(editor, element, pluginOptions) {
 }
 
 /**
- * Listen for iframe reload and re-initialize the editor when iframe is reloaded.
- * @param {{}} editor
- * @param {HTMLElement} element
- * @param {{}} pluginOptions
- * @return {void}
- */
-function listenIframeReload(editor, element, pluginOptions) {
-  const $iframe = editor.getContentAreaContainer().querySelector('iframe');
-
-  $iframe.addEventListener('load', () => {
-    debounceReInit(editor, element, pluginOptions);
-  });
-}
-
-/**
  * TinyMCE Decorator for JoomlaEditor
  */
 class TinyMCEDecorator extends JoomlaEditorDecorator {
@@ -204,43 +189,28 @@ Joomla.JoomlaTinyMCE = {
       editor.mode.set(readOnlyMode ? 'readonly' : 'design');
     };
 
-    // Editor state flags for iframe reload debounce
-    let isRendered = false;
-    let isReady = false;
-
-    // We'll take over the onSubmit event
-    options.init_instance_callback = (editor) => {
-      editor.on('submit', () => {
-        if (editor.isHidden()) {
-          editor.show();
-        }
-      }, true);
-
-      if (editor.inline) {
-        return;
-      }
-
-      // Make sure iframe is fully loaded.
-      // This works differently in different browsers, so have to listen both "load" and "PostRender" events.
-      editor.on('load', () => {
-        isReady = true;
-        if (isRendered) {
-          listenIframeReload(editor, element, pluginOptions);
-        }
-      });
-      editor.on('PostRender', () => {
-        isRendered = true;
-        if (isReady) {
-          listenIframeReload(editor, element, pluginOptions);
-        }
-      });
-    };
-
     // Create a new instance
     const ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager);
 
     // Create a decorator
     const jEditor = new TinyMCEDecorator(ed, 'tinymce', element.id);
+
+    // We'll take over the onSubmit event
+    ed.on('submit', () => {
+      if (ed.isHidden()) {
+        ed.show();
+      }
+    }, true);
+
+    // Bind the iframe reload logic
+    ed.on('init', () => {
+      if (!ed.inline) {
+        const $iframe = ed.getContentAreaContainer().querySelector('iframe');
+        $iframe.addEventListener('load', () => {
+          debounceReInit(ed, element, pluginOptions);
+        });
+      }
+    });
 
     // Find out when editor is interacted
     ed.on('focus', () => {
