@@ -14,9 +14,9 @@
 .pagination {
   --pagination-gap: 0;
 
-  margin: 1rem;
   gap: var(--pagination-gap);
   justify-content: flex-end;
+  margin: 1rem;
 }
 
 .page-link {
