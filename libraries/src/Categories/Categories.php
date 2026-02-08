@@ -11,7 +11,6 @@ namespace Joomla\CMS\Categories;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
@@ -361,15 +360,16 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
                 $subQuery->where($db->quoteName($db->escape('i.' . $this->_statefield)) . ' = 1');
 
                 try {
-                    // Get table instance to check for publish date columns with proper aliases
-                    $table = Table::getInstance(ucfirst(str_replace('com_', '', $this->_extension)), 'Joomla\\CMS\\Table\\');
 
-                    if ($table) {
-                        // Get the aliased column names
+                    $tableName = ucfirst(str_replace('com_', '', $this->_extension));
+                    $tableClass = '\\Joomla\\CMS\\Table\\' . $tableName . 'Table';
+
+                    if (class_exists($tableClass)) {
+                        $table = new $tableClass($db);
+
                         $publishUpField   = $table->getColumnAlias('publish_up');
                         $publishDownField = $table->getColumnAlias('publish_down');
 
-                        // Verify these columns actually exist in the table
                         $tableColumns = $db->getTableColumns($this->_table);
 
                         if (isset($tableColumns[$publishUpField], $tableColumns[$publishDownField])) {
@@ -383,7 +383,6 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
                         }
                     }
                 } catch (\Exception $e) {
-                    // Silently continue if table can't be loaded - ensures backward compatibility
                 }
             }
 
