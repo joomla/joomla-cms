@@ -30,12 +30,7 @@ const copyVendorFiles = async (vendor, packageName, mediaVendorPath) => {
   const modulePathRoot = path.dirname(modulePathJson);
   const modulePathTarget = path.join(mediaVendorPath, vendorName);
 
-
-  if (packageName === 'tinymce') {
-    console.warn('Skipping tinymce!!!1111111 Fix me!!!!111');
-    return [];
-  }
-
+  // Make sure target folder exists
   if (!fs.existsSync(modulePathTarget)) {
     fs.mkdirSync(modulePathTarget);
   }
@@ -120,7 +115,7 @@ export default class VendorModuleBuilder extends DefaultModuleBuilder
   /**
    * List of Joomla custom stuff in /vendor dirs
    * @returns { Promise<[]> }
-   */
+   * /
   getExcludedFolders () {
     return fsp.readdir(this.basePath, { recursive: false, withFileTypes: true })
       .then((files) => {
@@ -138,7 +133,7 @@ export default class VendorModuleBuilder extends DefaultModuleBuilder
   /**
    * Remove files on target location
    * @returns { Promise }
-   */
+   * /
   async clear() {
     // Remove all except Joomla custom
     return this.getExcludedFolders().then((exclude) => {
@@ -157,7 +152,7 @@ export default class VendorModuleBuilder extends DefaultModuleBuilder
           return Promise.all(rms);
         });
     });
-  }
+  }//*/
 
   /**
    * Copy all vendor files according to Joomla's specs from build/settings.json
