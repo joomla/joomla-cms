@@ -128,9 +128,10 @@ export default class DefaultModuleBuilder{
    */
   async css() {
     // Make sure files is copied
-    if (!this.copyDone) {
-      return this.copy().then(() => this.css());
-    }
+    // @TODO: This extra check produces "double call" for child classes which implement this method
+    // if (!this.copyDone) {
+    //   return this.copy().then(() => this.css());
+    // }
 
     // Collect files
     const cssFiles = [];
@@ -173,9 +174,10 @@ export default class DefaultModuleBuilder{
    */
   async js() {
     // Make sure files is copied
-    if (!this.copyDone) {
-      return this.copy().then(() => this.js());
-    }
+    // @TODO: This extra check produces "double call" for child classes which implement this method
+    // if (!this.copyDone) {
+    //   return this.copy().then(() => this.js());
+    // }
 
     // Collect files
     const jsFiles = [];
