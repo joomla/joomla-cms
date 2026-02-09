@@ -282,12 +282,14 @@ abstract class PluginHelper
                             'element',
                             'params',
                             'extension_id',
+                            'custom_data',
                         ],
                         [
                             'type',
                             'name',
                             'params',
                             'id',
+                            null,
                         ]
                     )
                 )

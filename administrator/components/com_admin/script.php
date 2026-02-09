@@ -1048,6 +1048,8 @@ class JoomlaInstallerScript
             '/libraries/vendor/webmozart/assert/src/Assert.php',
             '/libraries/vendor/webmozart/assert/src/InvalidArgumentException.php',
             '/libraries/vendor/webmozart/assert/src/Mixin.php',
+            // From 6.1.0-alpha2 to 6.1.0-alpha3
+            '/build.xml',
         ];
 
         $folders = [
