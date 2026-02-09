@@ -179,9 +179,19 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
                     'name'     => $user->name,
                     'email'    => PunycodeHelper::emailToPunycode($user->email),
                     'title'    => $article->title,
-                    'url'      => Route::link('administrator', 'index.php?option=com_content&view=articles&filter[search]=id:' . $article->id, false, $linkMode, true),
                 ];
 
+                if ($receiver->authorise('core.login.admin') && $receiver->authorise('core.manage', 'com_content')) {
+                    $templateData['url'] = Route::link('administrator', 'index.php?option=com_content&view=articles&filter[search]=id:' . $article->id, false, $linkMode, true);
+                } elseif ($article->state === 1 && \in_array($article->access, $receiver->getAuthorisedViewLevels())) {
+                    $templateData['url'] = Route::link('site', 'index.php?option=com_content&view=article&id=' . $article->id, false, $linkMode, true);
+                } elseif ($article->state !== 1 && $receiver->authorise('core.edit', 'com_content.article.' . $article->id)) {
+                    $templateData['url'] = Route::link('site', 'index.php?option=com_content&view=article&id=' . $article->id, false, $linkMode, true);
+                } elseif ($article->state !== 1) {
+                    $templateData['url'] = Text::_('JNOTPUBLISHEDYET');
+                } else {
+                    $templateData['url'] = Text::_('JERROR_ALERTNOAUTHOR');
+                }
                 // Send email
                 try {
                     $mailer = new MailTemplate('plg_content_joomla.newarticle', $receiver->getParam('admin_language', $this->getLanguage()->getTag()));
