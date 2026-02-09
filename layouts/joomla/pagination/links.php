@@ -7,7 +7,7 @@
  * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license         GNU General Public License version 2 or later; see LICENSE.txt
  *
- * @since           6.1
+ * @since           __DEPLOY_VERSION__
  */
 
 /**
@@ -88,7 +88,7 @@ $paginationBreakpoints = ['narrow', 'small', 'medium', 'large', 'xlarge'];
  *
  * @return  bool  True if the page should be visible at this breakpoint
  *
- * @since   6.1
+ * @since   __DEPLOY_VERSION__
  */
 $getPagesForBreakpoint = static function (int $pageNum, int $currentPage, int $totalPages, string $breakpoint) use ($breakpointConfigs): bool {
     $config = $breakpointConfigs[$breakpoint] ?? $breakpointConfigs['narrow'];
@@ -134,7 +134,7 @@ $getPagesForBreakpoint = static function (int $pageNum, int $currentPage, int $t
  *
  * @return  string  Rendered HTML for the page link
  *
- * @since   6.1
+ * @since   __DEPLOY_VERSION__
  */
 $renderPageNumber = static function (array $pages, string $type, int $currentPage, int $totalPages): string {
     [$pageNum, $dataKey] = match ($type) {

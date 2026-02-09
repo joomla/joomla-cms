@@ -7,7 +7,7 @@
  * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license         GNU General Public License version 2 or later; see LICENSE.txt
  *
- * @since           6.1
+ * @since           __DEPLOY_VERSION__
  */
 
 /**
