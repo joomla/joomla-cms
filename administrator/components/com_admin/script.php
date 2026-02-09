@@ -920,6 +920,9 @@ class JoomlaInstallerScript
             '/media/vendor/tinymce/langs/bg.js',
             '/media/vendor/tinymce/langs/bg.min.js',
             '/media/vendor/tinymce/langs/bg.min.js.gz',
+            '/media/vendor/tinymce/langs/bs.js',
+            '/media/vendor/tinymce/langs/bs.min.js',
+            '/media/vendor/tinymce/langs/bs.min.js.gz',
             '/media/vendor/tinymce/langs/fo.js',
             '/media/vendor/tinymce/langs/fo.min.js',
             '/media/vendor/tinymce/langs/fo.min.js.gz',
@@ -1050,6 +1053,16 @@ class JoomlaInstallerScript
             '/libraries/vendor/webmozart/assert/src/Mixin.php',
             // From 6.1.0-alpha2 to 6.1.0-alpha3
             '/build.xml',
+            // From 6.0.2 to 6.0.3
+            '/libraries/vendor/symfony/http-client-contracts/Test/Fixtures/web/index.php',
+            '/libraries/vendor/symfony/http-client-contracts/Test/HttpClientTestCase.php',
+            '/libraries/vendor/symfony/http-client-contracts/Test/TestHttpServer.php',
+            '/libraries/vendor/symfony/http-client/Test/HarFileResponseFactory.php',
+            '/libraries/vendor/symfony/service-contracts/Test/ServiceLocatorTest.php',
+            '/libraries/vendor/symfony/service-contracts/Test/ServiceLocatorTestCase.php',
+            '/libraries/vendor/symfony/translation-contracts/Test/TranslatorTest.php',
+            '/libraries/vendor/symfony/validator/Test/ConstraintValidatorTestCase.php',
+            '/libraries/vendor/symfony/var-dumper/Test/VarDumperTestTrait.php',
         ];
 
         $folders = [
@@ -1120,6 +1133,15 @@ class JoomlaInstallerScript
             '/libraries/vendor/webmozart/assert',
             '/libraries/vendor/webmozart',
             '/libraries/vendor/symfony/var-dumper/Cloner/Internal',
+            // From 6.0.2 to 6.0.3
+            '/libraries/vendor/symfony/var-dumper/Test',
+            '/libraries/vendor/symfony/validator/Test',
+            '/libraries/vendor/symfony/translation-contracts/Test',
+            '/libraries/vendor/symfony/service-contracts/Test',
+            '/libraries/vendor/symfony/http-client/Test',
+            '/libraries/vendor/symfony/http-client-contracts/Test/Fixtures/web',
+            '/libraries/vendor/symfony/http-client-contracts/Test/Fixtures',
+            '/libraries/vendor/symfony/http-client-contracts/Test',
         ];
 
         $status['files_checked']   = $files;
