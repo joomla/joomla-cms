@@ -320,6 +320,8 @@
 					type="number"
 					default="1"
 					label="TPL_CASSIOPEIA_BODY_SIZE"
+					validate="number"
+					min="0"
 				/>
 
 				<field
@@ -327,6 +329,8 @@
 					type="number"
 					default="2"
 					label="TPL_CASSIOPEIA_H1_SIZE"
+					validate="number"
+					min="0"
 				/>
 
 				<field
@@ -334,6 +338,8 @@
 					type="number"
 					default="1.7"
 					label="TPL_CASSIOPEIA_H2_SIZE"
+					validate="number"
+					min="0"
 				/>
 
 				<field
@@ -341,6 +347,8 @@
 					type="number"
 					default="1.5"
 					label="TPL_CASSIOPEIA_H3_SIZE"
+					validate="number"
+					min="0"
 				/>
 			</fieldset>
 		</fields>
