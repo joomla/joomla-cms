@@ -31,12 +31,12 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Logout::class, function (Container $container) {
                 return new Logout(
                     (array) PluginHelper::getPlugin('system', 'logout'),
                     Factory::getApplication()
                 );
-            }
+            })
         );
     }
 };
