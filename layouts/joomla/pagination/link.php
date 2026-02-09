@@ -48,9 +48,6 @@ if ($isEllipsis) {
     return;
 }
 
-// Cache RTL check for performance
-$isRtl = $app->getLanguage()->isRtl();
-
 // Build li attributes array
 $liAttributes = ['class' => 'page-item'];
 
@@ -72,11 +69,11 @@ if (is_numeric($item->text)) {
 // Determine icon and aria label using match expression
 [$icon, $aria] = match ($item->text) {
     Text::_('JPREV') => [
-        $isRtl ? 'icon-angle-right' : 'icon-angle-left',
+        $app->getLanguage()->isRtl() ? 'icon-angle-right' : 'icon-angle-left',
         Text::_('JLIB_HTML_GOTO_POSITION_PREVIOUS')
     ],
     Text::_('JNEXT') => [
-        $isRtl ? 'icon-angle-left' : 'icon-angle-right',
+        $app->getLanguage()->isRtl() ? 'icon-angle-left' : 'icon-angle-right',
         Text::_('JLIB_HTML_GOTO_POSITION_NEXT')
     ],
     default => [
