@@ -252,11 +252,11 @@ class CategoryeditField extends ListField
             }
 
             if ($option->published === 0) {
-                // Add square brackets around unpublished categories
-                $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . '[' . $option->text . ']';
+                // Add ' ( Unpublished )' after every unpublished category
+                $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . $option->text . ' (' . Text::_('JUNPUBLISHED') . ')';
             } elseif ($option->published === 2) {
-                // Add curly braces around archived categories
-                $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . '{' . $option->text . '}';
+                // Add ' ( Archived )' after every archived category
+                $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . $option->text . ' (' . Text::_('JARCHIVED') . ')';
             } else {
                 $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . $option->text;
             }

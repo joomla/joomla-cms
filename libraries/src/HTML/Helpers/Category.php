@@ -120,11 +120,11 @@ abstract class Category
                 $repeat      = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
                 $item->title = str_repeat('- ', $repeat) . $item->title;
 
-                // Add brackets around unpublished archived categories
+                // Add status text for unpublished and archived categories
                 if (isset($item->published) && $item->published === 0) {
-                    $item->title = '[' . $item->title . ']';
+                    $item->title .= ' (' . Text::_('JUNPUBLISHED') . ')';
                 } elseif (isset($item->published) && $item->published === 2) {
-                    $item->title = '{' . $item->title . '}';
+                    $item->title .= ' (' . Text::_('JARCHIVED') . ')';
                 }
 
                 if ($item->language !== '*') {
@@ -202,11 +202,11 @@ abstract class Category
                 $repeat      = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
                 $item->title = str_repeat('- ', $repeat) . $item->title;
 
-                // Add brackets around unpublished and archived categories
+                // Add status text for unpublished and archived categories
                 if (isset($item->published) && $item->published === 0) {
-                    $item->title = '[' . $item->title . ']';
+                    $item->title .= ' (' . Text::_('JUNPUBLISHED') . ')';
                 } elseif (isset($item->published) && $item->published === 2) {
-                    $item->title = '{' . $item->title . '}';
+                    $item->title .= ' (' . Text::_('JARCHIVED') . ')';
                 }
 
                 if ($item->language !== '*') {
