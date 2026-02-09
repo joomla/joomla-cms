@@ -343,7 +343,6 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
             $siteSchema['image'] = ['@id' => $siteSchema['logo']['@id']];
         }
 
-
         // Social media accounts
         $socialMedia = (array) $this->params->get('socialmedia', []);
 
