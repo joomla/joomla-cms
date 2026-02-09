@@ -358,7 +358,6 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
 
             if ($this->_options['published'] == 1) {
                 $subQuery->where($db->quoteName($db->escape('i.' . $this->_statefield)) . ' = 1');
-
                 try {
 
                     $tableName = ucfirst(str_replace('com_', '', $this->_extension));
