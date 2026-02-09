@@ -164,14 +164,35 @@ Joomla.checkDbCredentials = function() {
     document.getElementById('jform_site_name').focus();
   }
 
-  // Select language
-  var languageEl = document.getElementById('jform_language');
+  // Handle language chooser
+  const languageForm = document.getElementById('languageForm');
 
-  if (languageEl) {
-    languageEl.addEventListener('change', function(e) {
-      var form = document.getElementById('languageForm');
-      Joomla.setlanguage(form)
-    })
+  // It's a template(!!!)
+  const languageTemplate = document.getElementById('languageSelect');
+
+  if (languageForm && languageTemplate) {
+    // Check if we have the language field
+    const languageEl = languageTemplate.content.getElementById('jform_language');
+
+    if (languageEl) {
+      // We use event bubbling to handle the change event
+      languageForm.addEventListener('change', function (e) {
+
+        if (e.target.id === 'jform_language') {
+          e.target.closest('dialog').close();
+
+          // Set the language
+          Joomla.setlanguage(languageForm);
+        }
+      })
+
+      // Show language name
+      const currentLanguageName = document.getElementById('languageForm-current');
+
+      if (currentLanguageName) {
+        currentLanguageName.innerText = languageEl.options[languageEl.selectedIndex].text;
+      }
+    }
   }
 
   if (document.getElementById('step1')) {

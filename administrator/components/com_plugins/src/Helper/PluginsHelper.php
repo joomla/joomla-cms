@@ -13,7 +13,6 @@ namespace Joomla\Component\Plugins\Administrator\Helper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Installer\Installer;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -52,7 +51,7 @@ class PluginsHelper
     public static function folderOptions()
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('DISTINCT(folder) AS value, folder AS text')
             ->from('#__extensions')
             ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -77,7 +76,7 @@ class PluginsHelper
     public static function elementOptions()
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('DISTINCT(element) AS value, element AS text')
             ->from('#__extensions')
             ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -99,11 +98,11 @@ class PluginsHelper
      * @param   string  $templateBaseDir  Base path to the template directory.
      * @param   string  $templateDir      Template directory.
      *
-     * @return  CMSObject|bool
+     * @return  \stdClass|bool
      */
     public function parseXMLTemplateFile($templateBaseDir, $templateDir)
     {
-        $data = new CMSObject();
+        $data = new \stdClass();
 
         // Check of the xml file exists.
         $filePath = Path::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
