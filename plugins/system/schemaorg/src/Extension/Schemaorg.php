@@ -319,10 +319,9 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         }
 
         $siteSchema['url'] = $domain;
-
        
         // Image
-        $image = $this->params->get('image') ? HTMLHelper::_('cleanimageUrl', $this->params->get('image')) : false;
+        $image = $this->params->get('image') ? HTMLHelper::_('cleanImageUrl', $this->params->get('image')) : false;
 
         if ($image !== false) {
             $logoUrl = $image->url;
