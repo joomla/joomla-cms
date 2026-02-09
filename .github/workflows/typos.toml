@@ -6,10 +6,10 @@
 [files]
 extend-exclude = [
     "/templates/system/*.html",
-    "/administrator/components/com_admin/sql/*",
     "/build/media_source/vendor/tinymce/langs/*",
     "/installation/language/*",
-    "includes/*.html",
+    "!/installation/language/en-GB/",
+    "/includes/*.html",
     "/plugins/sampledata/testing/*",
 ]
 
@@ -40,9 +40,3 @@ supercedes="supercedes"     # Valid spelling rejected https://github.com/crate-c
 ue="ue"                     # selector in queries
 vertexes="vertexes"         # Valid spelling waiting fix https://github.com/crate-ci/typos/issues/1150
 wheres="wheres"             # $wheres in modules\mod_related_items\src\Helper\RelatedItemsHelper.php
-
-# deprecated strings can be removed in 6.0
-configurated="configurated"
-discernable="discernable"
-hilight="hilight"
-mis="mis"

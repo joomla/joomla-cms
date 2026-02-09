@@ -131,7 +131,7 @@ class HtmlView extends BaseHtmlView
 
         // Add form control fields
         $this->form
-            ->addControlField('task', '')
+            ->addControlField('task')
             ->addControlField('forcedLanguage', $forcedLanguage)
             ->addControlField('menutype', $input->get('menutype', ''))
             ->addControlField('fieldtype', '', ['id' => 'fieldtype']);
