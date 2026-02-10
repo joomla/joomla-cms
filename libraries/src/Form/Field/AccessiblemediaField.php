@@ -286,7 +286,7 @@ XML;
         $subForm = $this->loadSubForm();
 
         $mediaTypes = explode(',', $this->types);
-        $label = '';
+        $label      = '';
         if (\count($mediaTypes) > 1) {
             $labels = [];
 
