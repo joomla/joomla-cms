@@ -47,9 +47,6 @@ export default class DefaultModuleBuilder{
     this.basePath = path.join(basePath, name);
     this.targetPath = path.join(targetPath, name);
     this.options = options;
-
-    // Internal flag
-    this.copyDone = false;
   }
 
   getAllTasks() {
@@ -127,12 +124,6 @@ export default class DefaultModuleBuilder{
    * @returns { Promise }
    */
   async css() {
-    // Make sure files is copied
-    // @TODO: This extra check produces "double call" for child classes which implement this method
-    // if (!this.copyDone) {
-    //   return this.copy().then(() => this.css());
-    // }
-
     // Collect files
     const cssFiles = [];
     const scssFiles = [];
@@ -173,12 +164,6 @@ export default class DefaultModuleBuilder{
    * @returns { Promise }
    */
   async js() {
-    // Make sure files is copied
-    // @TODO: This extra check produces "double call" for child classes which implement this method
-    // if (!this.copyDone) {
-    //   return this.copy().then(() => this.js());
-    // }
-
     // Collect files
     const jsFiles = [];
     const mjsFiles = [];

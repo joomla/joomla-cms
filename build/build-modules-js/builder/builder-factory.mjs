@@ -39,13 +39,13 @@ export class BuilderFactory{
 export const createAndRunBuilder = async (name, factory, tasksToRun = []) => {
   return factory.createBuilder(name)
     .then((builder) => {
-      if (!builder.getAllTasks || !builder.getBuildTasks) {
-        program.error(`Builder module for "${name}" should implement provide "getBuildTasks()" and "getAllTasks()" method. Which used to determine which task can be run for the builder.`)
+      if (!builder.getBuildTasks) {
+        program.error(`Builder module for "${name}" should implement provide "getBuildTasks()" method. Which used to determine which task can be run for the builder.`)
       }
       console.log(`Initialize build [${name}]`);
 
       // Run tasks for given builder
-      const allTasks = builder.getAllTasks();
+      const allTasks = builder.getAllTasks ? builder.getAllTasks() : builder.getBuildTasks();
       let lastPromise = Promise.resolve();
       (tasksToRun.length ? tasksToRun : builder.getBuildTasks()).forEach((taskName) => {
         // Check whether the task is allowed for active builder
