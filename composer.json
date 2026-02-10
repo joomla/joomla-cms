@@ -109,7 +109,7 @@
     "altcha-org/altcha": "^1.3.1"
   },
   "require-dev": {
-    "phpunit/phpunit": "^9.6.31",
+    "phpunit/phpunit": "^9.6.34",
     "friendsofphp/php-cs-fixer": "^3.92.5",
     "squizlabs/php_codesniffer": "^3.13.5",
     "joomla/mediawiki": "^4.0",
