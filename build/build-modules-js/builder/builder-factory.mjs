@@ -59,12 +59,12 @@ export const createAndRunBuilder = async (name, factory, tasksToRun = []) => {
 
         // Execute the task sequentially, this is needed because task may depend on each other
         lastPromise = lastPromise.then(() => {
-          console.log(`Start task [${name}.${taskName}]`);
+          console.log(`Start task [${name}::${taskName}]`);
 
           return builder[taskName]().then(async () => {
-            console.log('\x1b[32m%s\x1b[0m', `Completed task [${name}.${taskName}]`);
+            console.log('\x1b[32m%s\x1b[0m', `Completed task [${name}::${taskName}]`);
           }).catch((error) => {
-            console.log('\x1b[31m%s\x1b[0m', `Failed Task [${name}.${taskName}]`);
+            console.log('\x1b[31m%s\x1b[0m', `Failed Task [${name}::${taskName}]`);
             console.trace(error);
             program.error(error.message);
           });
