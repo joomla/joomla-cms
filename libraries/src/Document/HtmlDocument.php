@@ -873,6 +873,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
                 }
             }
 
+
             $this->_template_tags = $template_tags_first + $messages + $template_tags_last;
         }
 
