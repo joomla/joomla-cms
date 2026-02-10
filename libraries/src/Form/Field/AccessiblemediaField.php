@@ -192,6 +192,8 @@ class AccessiblemediaField extends SubformField
         $this->previewHeight = isset($this->element['preview_height']) ? (int) $this->element['preview_height'] : 200;
         $this->previewWidth  = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 200;
         $this->types         = isset($this->element['types']) ? (string) $this->element['types'] : 'images';
+        $mediaTypes = explode(',', $this->types);
+        $fieldName =(\in_array('images', $mediaTypes)) ? 'imagefile':'file';
 
         // Build the form source
         $xml = <<<XML
@@ -202,7 +204,7 @@ class AccessiblemediaField extends SubformField
 		label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_LABEL"
 	>
 		<field
-			name="imagefile"
+			name="$fieldName"
 			type="media"
 			label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_IMAGEFILE_LABEL"
 			directory="$this->directory"
@@ -215,7 +217,6 @@ class AccessiblemediaField extends SubformField
 			relative="true"
 		/>
 XML;
-        $mediaTypes = explode(',', $this->types);
         if (\in_array('images', $mediaTypes)) {
             $xml .= <<<XML
 		<field
@@ -275,10 +276,10 @@ XML;
             $labels[] = Text::_($const);
         }
 
-        if (!empty($labels) && $subForm->getField('imagefile')) {
+        $fieldName =(\in_array('images', $mediaTypes)) ? 'imagefile':'file';
+        if (!empty($labels) && $subForm->getField($fieldName)) {
             $label = Text::sprintf('JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_LABEL', implode(', ', $labels));
-
-            $subForm->setFieldAttribute('imagefile', 'label', $label);
+            $subForm->setFieldAttribute($fieldName, 'label', $label);
         }
 
         if ($subForm && $subForm->getField('linktext')) {

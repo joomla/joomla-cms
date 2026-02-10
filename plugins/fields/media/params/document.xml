@@ -22,15 +22,15 @@
 			</field>
 
 			<field
-				name="image_class"
+				name="css_class"
 				type="textarea"
-				label="PLG_FIELDS_MEDIA_PARAMS_IMAGE_CLASS_LABEL"
+				label="PLG_FIELDS_MEDIA_PARAMS_CSS_CLASS_LABEL"
 				validate="CssIdentifier"
 			/>
 
 			<field type="hidden"
 				   name="types"
-				   default="images"
+				   default="documents"
 			/>
 		</fieldset>
 	</fields>
