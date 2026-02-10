@@ -55,7 +55,8 @@ $wa->useScript('keepalive')
                 <?php endforeach; ?>
             </div>
             <div class="col-lg-3">
-                <?php $this->fields = [
+                <?php
+                    $sidebarFields = [
                         [
                             'published',
                             'state',
@@ -63,11 +64,18 @@ $wa->useScript('keepalive')
                         ],
                         'group_id',
                         'assigned_cat_ids',
-                        'category_inheritance',
-                        'access',
-                        'language',
-                        'note',
-                    ]; ?>
+                    ];
+
+                    // Only show inheritance toggle when the component supports categories
+                    if ($this->form->getField('assigned_cat_ids')) {
+                        $sidebarFields[] = 'include_childcategories';
+                    }
+
+                    $sidebarFields[] = 'access';
+                    $sidebarFields[] = 'language';
+                    $sidebarFields[] = 'note';
+                    $this->fields    = $sidebarFields;
+                    ?>
                 <?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
                 <?php $this->fields = null; ?>
             </div>
