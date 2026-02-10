@@ -233,6 +233,23 @@ XML;
 		/>
 XML;
         }
+        if (\in_array('videos', $mediaTypes) && $this->element['video_poster'] == 1) {
+            $xml .= <<<XML
+		<field
+			name="poster"
+			type="media"
+			label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_VIDEO_POSTER_LABEL"
+			directory="$this->directory"
+			preview="$this->preview"
+			preview_width="$this->previewWidth"
+			preview_height="$this->previewHeight"
+			types="images"
+			schemes="http,https,ftp,ftps,data,file"
+			validate="url"
+			relative="true"
+		/>
+XML;
+        }
         if (\in_array('documents', $mediaTypes)) {
             $xml .= <<<XML
 		<field
