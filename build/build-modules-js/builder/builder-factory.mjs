@@ -31,12 +31,13 @@ export class BuilderFactory{
 /**
  * Create and run the builder
  *
+ * @param { Command } program
  * @param { String } name
  * @param { BuilderFactory } factory
  * @param { string[] } tasksToRun
  * @return { Promise }
  */
-export const createAndRunBuilder = async (name, factory, tasksToRun = []) => {
+export const createAndRunBuilder = async (program, name, factory, tasksToRun = []) => {
   return factory.createBuilder(name)
     .then((builder) => {
       if (!builder.getBuildTasks) {
