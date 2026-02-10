@@ -151,7 +151,7 @@ class FieldsModel extends ListModel
                 'DISTINCT a.id, a.title, a.name, a.checked_out, a.checked_out_time, a.note' .
                 ', a.state, a.access, a.created_time, a.created_user_id, a.ordering, a.language' .
                 ', a.fieldparams, a.params, a.type, a.default_value, a.context, a.group_id' .
-                ', a.label, a.description, a.required, a.only_use_in_subform'
+                ', a.label, a.description, a.required, a.only_use_in_subform, a.include_childcategories'
             )
         );
         $query->from('#__fields AS a');
@@ -196,6 +196,9 @@ class FieldsModel extends ListModel
             $categories = ArrayHelper::toInteger($categories);
             $parts      = FieldsHelper::extract($context);
 
+            // Parent category IDs found by traversing the tree upward
+            $inheritedCategories = [];
+
             if ($parts) {
                 // Get the categories for this component (and optionally this section, if available)
                 $cat = (
@@ -234,33 +237,44 @@ class FieldsModel extends ListModel
                         $parent = $cat->get($assignedCatIds);
 
                         if ($parent) {
-                            $categories[] = (int) $parent->id;
-
                             // Traverse the tree up to get all the fields which are attached to a parent
                             while ($parent->getParent() && $parent->getParent()->id != 'root') {
-                                $parent       = $parent->getParent();
-                                $categories[] = (int) $parent->id;
+                                $parent                = $parent->getParent();
+                                $inheritedCategories[] = (int) $parent->id;
                             }
                         }
                     }
                 }
             }
 
-            $categories = array_unique($categories);
+            // Remove any inherited IDs that are also direct IDs and deduplicate
+            $inheritedCategories = array_values(array_unique(array_diff($inheritedCategories, $categories)));
+            $categories          = array_values(array_unique($categories));
 
             // Join over the assigned categories
             $query->join('LEFT', $db->quoteName('#__fields_categories') . ' AS fc ON fc.field_id = a.id');
 
-            if (\in_array('0', $categories)) {
-                $query->where(
-                    '(' .
-                        $db->quoteName('fc.category_id') . ' IS NULL OR ' .
-                        $db->quoteName('fc.category_id') . ' IN (' . implode(',', $query->bindArray(array_values($categories), ParameterType::INTEGER)) . ')' .
-                    ')'
-                );
-            } else {
-                $query->whereIn($db->quoteName('fc.category_id'), $categories);
+            $whereParts = [];
+
+            // Fields with no category restriction (assigned to "All")
+            if (\in_array(0, $categories)) {
+                $whereParts[] = $db->quoteName('fc.category_id') . ' IS NULL';
             }
+
+            // Fields directly matching the filtered categories
+            $whereParts[] = $db->quoteName('fc.category_id') . ' IN ('
+                . implode(',', $query->bindArray($categories, ParameterType::INTEGER)) . ')';
+
+            // Fields matching parent categories only when inheritance is not disabled
+            if ($inheritedCategories) {
+                $whereParts[] = '('
+                    . $db->quoteName('fc.category_id') . ' IN ('
+                    . implode(',', $query->bindArray($inheritedCategories, ParameterType::INTEGER)) . ')'
+                    . ' AND ' . $db->quoteName('a.include_childcategories') . ' = 1'
+                    . ')';
+            }
+
+            $query->where('(' . implode(' OR ', $whereParts) . ')');
         }
 
         // Implement View Level Access
