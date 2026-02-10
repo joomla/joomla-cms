@@ -18,8 +18,8 @@ Pull Request for Issue # .
 
 ### Link to documentations
 Please select:
-- [ ] Documentation link for docs.joomla.org: <link>
-- [ ] No documentation changes for docs.joomla.org needed
+- [ ] Documentation link for guide.joomla.org: <link>
+- [ ] No documentation changes for guide.joomla.org needed
 
 - [ ] Pull Request link for manual.joomla.org: <link>
 - [ ] No documentation changes for manual.joomla.org needed

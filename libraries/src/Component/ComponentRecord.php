@@ -66,6 +66,14 @@ class ComponentRecord
     public $enabled;
 
     /**
+     * The component custom data
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    public $custom_data;
+
+    /**
      * Class constructor
      *
      * @param   array  $data  The component record data to load
