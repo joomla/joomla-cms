@@ -106,7 +106,7 @@ const builders = [
   'templates/site/cassiopeia',
   'templates/site/cassiopeia_extended',
 
-  // Additional builders, which not distributed under media/
+  // Additional builders, which is not distributed under media/
   'error-pages',
 ];
 // Builders which should be completed before any following builder start.

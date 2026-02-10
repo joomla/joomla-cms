@@ -35,9 +35,10 @@ export class BuilderFactory{
  * @param { String } name
  * @param { BuilderFactory } factory
  * @param { string[] } tasksToRun
+ * @param { boolean } skipUndefinedTask
  * @return { Promise }
  */
-export const createAndRunBuilder = async (program, name, factory, tasksToRun = []) => {
+export const createAndRunBuilder = async (program, name, factory, tasksToRun = [], skipUndefinedTask = false) => {
   return factory.createBuilder(name)
     .then((builder) => {
       if (!builder.getBuildTasks) {
@@ -52,7 +53,7 @@ export const createAndRunBuilder = async (program, name, factory, tasksToRun = [
         // Check whether the task is allowed for active builder
         if (!allTasks.includes(taskName)) {
           // Show error when the builder and the task was specified, and it is not applicable for active builder.
-          if (!runAll) {
+          if (!skipUndefinedTask) {
             program.error(`Task "${taskName}" is not applicable for "${name}" builder.`);
           }
           return;
