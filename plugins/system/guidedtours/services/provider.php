@@ -33,7 +33,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            $container->lazy(GuidedTours::class, function (Container $container) {
+            function (Container $container) {
                 $app        = Factory::getApplication();
 
                 $plugin = new GuidedTours(
@@ -49,7 +49,7 @@ return new class () implements ServiceProviderInterface {
                 $wa->addRegistryFile('media/plg_system_guidedtours/joomla.asset.json');
 
                 return $plugin;
-            })
+            }
         );
     }
 };
