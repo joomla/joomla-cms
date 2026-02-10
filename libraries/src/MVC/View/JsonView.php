@@ -9,6 +9,9 @@
 
 namespace Joomla\CMS\MVC\View;
 
+use Joomla\CMS\Document\Document;
+use Joomla\CMS\Document\JsonDocument;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -31,14 +34,6 @@ class JsonView extends AbstractView
     protected $_basePath = null;
 
     /**
-     * Charset to use in escaping mechanisms; defaults to urf8 (UTF-8)
-     *
-     * @var    string
-     * @since  4.0.0
-     */
-    protected $_charset = 'UTF-8';
-
-    /**
      * The output of the view.
      *
      * @var    array
@@ -49,14 +44,7 @@ class JsonView extends AbstractView
     /**
      * Constructor
      *
-     * @param   array  $config  A named configuration array for object construction.
-     *                          name: the name (optional) of the view (defaults to the view class name suffix).
-     *                          charset: the character set to use for display
-     *                          escape: the name (optional) of the function to use for escaping strings
-     *                          base_path: the parent path (optional) of the views directory (defaults to the component folder)
-     *                          template_plath: the path (optional) of the layout directory (defaults to base_path + /views/ + view name
-     *                          helper_path: the path (optional) of the helper files (defaults to base_path + /helpers/)
-     *                          layout: the layout (optional) to use to display the view
+     * @param   array  $config  The active document object
      *
      * @since   4.0.0
      */
@@ -64,21 +52,27 @@ class JsonView extends AbstractView
     {
         parent::__construct($config);
 
-        // Set the charset (used by the variable escaping functions)
-        if (\array_key_exists('charset', $config)) {
-            @trigger_error(
-                'Setting a custom charset for escaping is deprecated. Override \JViewLegacy::escape() instead.',
-                E_USER_DEPRECATED
-            );
-            $this->_charset = $config['charset'];
-        }
-
         // Set a base path for use by the view
-        if (\array_key_exists('base_path', $config)) {
-            $this->_basePath = $config['base_path'];
-        } else {
+        if ($this->_basePath === null) {
             $this->_basePath = JPATH_COMPONENT;
         }
+    }
+
+    /**
+     * Method to set the document object
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \InvalidArgumentException
+     */
+    public function setDocument(Document $document): void
+    {
+        if (!$document instanceof JsonDocument) {
+            throw new \InvalidArgumentException(sprintf('%s requires an instance of %s', static::class, JsonDocument::class));
+        }
+
+        parent::setDocument($document);
     }
 
     /**

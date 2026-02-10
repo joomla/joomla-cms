@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
+/** @var  \Joomla\CMS\MVC\View\HtmlView $displayData */
+
 $form = $displayData->getForm();
 
 // JLayout for standard handling of metadata fields in the administrator content edit screens.
