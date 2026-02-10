@@ -53,4 +53,3 @@ if ($fieldParams->get('video_playsinline', 1)) {
 $displayData['preload'] = $fieldParams->get('preload', 'auto');
 
 echo LayoutHelper::render('joomla.html.video', $displayData);
-
