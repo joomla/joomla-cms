@@ -286,16 +286,25 @@ XML;
         $subForm = $this->loadSubForm();
 
         $mediaTypes = explode(',', $this->types);
-        $labels     = [];
+        $label = '';
+        if (count($mediaTypes) > 1) {
+            $labels = [];
 
-        foreach ($mediaTypes as $type) {
-            $const    = 'JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_MEDIA_TYPE_' . strtoupper($type);
-            $labels[] = Text::_($const);
+            foreach ($mediaTypes as $type) {
+                $const    = 'JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_MEDIA_TYPE_' . strtoupper($type);
+                $labels[] = Text::_($const);
+            }
+
+            if (!empty($labels)) {
+                $label = Text::sprintf('JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_LABEL', implode(', ', $labels));
+            }
+
+        } else {
+            $label = Text::_('JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_MEDIA_TYPE_' . strtoupper($mediaTypes[0]));
         }
 
         $fieldName = (\in_array('images', $mediaTypes)) ? 'imagefile' : 'file';
-        if (!empty($labels) && $subForm->getField($fieldName)) {
-            $label = Text::sprintf('JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_LABEL', implode(', ', $labels));
+        if (!empty($label) && $subForm->getField($fieldName)) {
             $subForm->setFieldAttribute($fieldName, 'label', $label);
         }
 
