@@ -112,7 +112,8 @@ const builders = [
 // Builders which should be completed before any following builder start.
 // Used for mass-execution to prevent collisions.
 const blockingBuilders = [
-  'vendor',
+  'vendor', // Blocking many extensions depending on it
+  'system', // Blocking because 'error-pages' writes in to same folder, so 'system' should be completed before that
 ];
 
 // The command line, initialize
