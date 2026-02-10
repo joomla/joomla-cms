@@ -262,7 +262,7 @@ XML;
      *
      * @return  string  The field input markup.
      *
-     * @since   6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function getInput()
     {

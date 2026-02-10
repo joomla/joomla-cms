@@ -28,9 +28,10 @@
 				validate="CssIdentifier"
 			/>
 
-			<field type="hidden"
-				   name="types"
-				   default="images"
+			<field
+				type="hidden"
+				name="types"
+				default="images"
 			/>
 		</fieldset>
 	</fields>
