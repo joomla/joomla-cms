@@ -253,12 +253,12 @@ XML;
         if (\in_array('documents', $mediaTypes)) {
             $xml .= <<<XML
 		<field
-				name="linktext"
-				type="text"
-				label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_LABEL"
-				description="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DESC"
-				filter="string"
-				hint="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DEFAULT_VALUE"
+			name="linktext"
+			type="text"
+			label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_LABEL"
+			description="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DESC"
+			filter="string"
+			hint="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DEFAULT_VALUE"
 		/>
 XML;
         }
