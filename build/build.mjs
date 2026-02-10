@@ -45,7 +45,7 @@ const builders = [
   'com_joomlaupdate',
   'com_languages',
   'com_mails',
-  //'com_media',
+  'com_media',
   'com_menus',
   'com_modules',
   'com_scheduler',
