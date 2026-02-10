@@ -20,10 +20,10 @@ if (semver.gte(semver.minVersion(pkgOptions.engines.node), semver.clean(process.
 const builders = [
   // Libraries
   'vendor', // Many extensions depending on it, should be run first
+  'system',
   'vendor/bootstrap', // Customised bootstrap
   'vendor/jquery', // jQuery extras
   'vendor/short-and-sweet', // Customised short-and-sweet
-  'system',
   'layouts',
   'legacy',
   'mailto',
