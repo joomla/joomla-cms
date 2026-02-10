@@ -287,7 +287,7 @@ XML;
 
         $mediaTypes = explode(',', $this->types);
         $label = '';
-        if (count($mediaTypes) > 1) {
+        if (\count($mediaTypes) > 1) {
             $labels = [];
 
             foreach ($mediaTypes as $type) {
