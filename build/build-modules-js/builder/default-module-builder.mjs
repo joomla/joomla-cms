@@ -29,7 +29,7 @@ export default class DefaultModuleBuilder{
   /**
    * Class constructor.
    *
-   * @param { string } name        The folder (builder) name.
+   * @param { string } name        The folder (builder) name. Relative to media/.
    * @param { string } basePath    Base path to the media source, without builder name.
    * @param { string } targetPath  Path to the media target, without builder name.
    * @param { object } options     Options object, from cmd or etc.
@@ -114,9 +114,7 @@ export default class DefaultModuleBuilder{
       return true;
     };
 
-    return fsp.cp(this.basePath, this.targetPath, { filter: filterFunc, recursive: true }).then(() => {
-      this.copyDone = true;
-    });
+    return fsp.cp(this.basePath, this.targetPath, { filter: filterFunc, recursive: true });
   }
 
   /**
