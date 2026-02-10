@@ -18,7 +18,7 @@ use Joomla\Tests\Unit\UnitTestCase;
 /**
  * Test class for NotequalsRule.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.4.3
  */
 class NotequalsRuleTest extends UnitTestCase
 {
@@ -27,7 +27,7 @@ class NotequalsRuleTest extends UnitTestCase
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.3
      */
     public function dataTest(): array
     {
@@ -81,7 +81,7 @@ class NotequalsRuleTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.3
      * @dataProvider dataTest
      */
     public function testRule(bool|string $expected, \SimpleXMLElement $element, string|int $value, ?string $group, ?Registry $input, ?Form $form): void
