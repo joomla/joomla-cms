@@ -5,7 +5,6 @@
 import path from 'node:path';
 import fsp from "node:fs/promises";
 import fs from "node:fs";
-import cliProgress from 'cli-progress';
 import { createRequire } from 'node:module';
 import DefaultModuleBuilder from '../../build-modules-js/builder/default-module-builder.mjs';
 import { resolvePackageFile, getPackagesUnderScope } from '../../build-modules-js/utils/resolve-package.mjs';
@@ -68,13 +67,6 @@ const compileCodemirror = async (basePath, targetPath) => {
   const tasks = [];
   const modules = [];
 
-  const progressBar = new cliProgress.SingleBar({
-    stopOnComplete: true,
-    format: '{bar} {percentage}% | {value}/{total} files done',
-  }, cliProgress.Presets.shades_classic);
-  const totalSteps = (cmModules.length + lModules.length);
-  progressBar.start(totalSteps, 0);
-
   // Collect @codemirror modules
   cmModules.forEach((module) => {
     const destFile = `${module.replace('@codemirror/', 'codemirror-')}.js`;
@@ -93,14 +85,10 @@ const compileCodemirror = async (basePath, targetPath) => {
 
   // Copy/Compile the modules
   modules.forEach(([ module, destPath ]) => {
-    const task = handleMJSFile(module, destPath).then(() => {
-      progressBar.increment();
-    });
-    tasks.push(task);
+    tasks.push(handleMJSFile(module, destPath));
   });
 
   return Promise.all(tasks).then(() => {
-    progressBar.stop();
     return updateAssetRegistry(modules, externalModules, basePath, targetPath);
   });
 };
