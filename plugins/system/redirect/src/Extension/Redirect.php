@@ -732,7 +732,7 @@ final class Redirect extends CMSPlugin implements CurrentUserInterface, Subscrib
     /**
      * Sets the internal language factory.
      *
-     * @param  LanguageFactoryInterface  $languageFactory  The menu factory
+     * @param  LanguageFactoryInterface  $languageFactory  The language factory
      *
      * @return void
      *
