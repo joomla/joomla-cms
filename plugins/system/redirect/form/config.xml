@@ -27,7 +27,6 @@
 					type="radio"
 					label="PLG_SYSTEM_REDIRECT_FIELD_REDIRECT_ON_SAVE_SITE_LABEL"
 					description="PLG_SYSTEM_REDIRECT_FIELD_REDIRECT_ON_SAVE_SITE_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					filter="integer"
 					layout="joomla.form.field.radio.switcher"
