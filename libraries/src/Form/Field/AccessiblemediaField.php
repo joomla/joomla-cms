@@ -11,6 +11,8 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Language\Text;
 
+use function in_array;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -187,13 +189,13 @@ class AccessiblemediaField extends SubformField
             return false;
         }
 
-        $this->directory     = (string) $this->element['directory'];
-        $this->preview       = (string) $this->element['preview'];
-        $this->previewHeight = isset($this->element['preview_height']) ? (int) $this->element['preview_height'] : 200;
-        $this->previewWidth  = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 200;
-        $this->types         = isset($this->element['types']) ? (string) $this->element['types'] : 'images';
-        $mediaTypes = explode(',', $this->types);
-        $fieldName =(\in_array('images', $mediaTypes)) ? 'imagefile':'file';
+        $this->directory     = (string)$this->element['directory'];
+        $this->preview       = (string)$this->element['preview'];
+        $this->previewHeight = isset($this->element['preview_height']) ? (int)$this->element['preview_height'] : 200;
+        $this->previewWidth  = isset($this->element['preview_width']) ? (int)$this->element['preview_width'] : 200;
+        $this->types         = isset($this->element['types']) ? (string)$this->element['types'] : 'images';
+        $mediaTypes          = explode(',', $this->types);
+        $fieldName           = (in_array('images', $mediaTypes)) ? 'imagefile' : 'file';
 
         // Build the form source
         $xml = <<<XML
@@ -217,7 +219,7 @@ class AccessiblemediaField extends SubformField
 			relative="true"
 		/>
 XML;
-        if (\in_array('images', $mediaTypes)) {
+        if (in_array('images', $mediaTypes)) {
             $xml .= <<<XML
 		<field
 			name="alt_text"
@@ -233,7 +235,7 @@ XML;
 		/>
 XML;
         }
-        if (\in_array('documents', $mediaTypes)) {
+        if (in_array('documents', $mediaTypes)) {
             $xml .= <<<XML
 		<field
 				name="linktext"
@@ -276,7 +278,7 @@ XML;
             $labels[] = Text::_($const);
         }
 
-        $fieldName =(\in_array('images', $mediaTypes)) ? 'imagefile':'file';
+        $fieldName = (in_array('images', $mediaTypes)) ? 'imagefile' : 'file';
         if (!empty($labels) && $subForm->getField($fieldName)) {
             $label = Text::sprintf('JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_LABEL', implode(', ', $labels));
             $subForm->setFieldAttribute($fieldName, 'label', $label);
