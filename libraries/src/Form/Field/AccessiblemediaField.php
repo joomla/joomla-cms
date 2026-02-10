@@ -298,7 +298,6 @@ XML;
             if (!empty($labels)) {
                 $label = Text::sprintf('JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_LABEL', implode(', ', $labels));
             }
-
         } else {
             $label = Text::_('JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_MEDIA_TYPE_' . strtoupper($mediaTypes[0]));
         }
