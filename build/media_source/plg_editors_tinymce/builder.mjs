@@ -29,6 +29,7 @@ export default class TinyMCEModuleBuilder extends DefaultModuleBuilder
     }
 
     const tinySrcPath = path.dirname(modulePathJson);
+    const tinyVendorPath = path.join(path.dirname(this.targetPath), 'vendor', 'tinymce');
     const moduleOptions = await import(modulePathJson, { with: { type: 'json' } });
     const version = moduleOptions.default.version;
     const majorVersion = version.split('.')[0];
@@ -53,7 +54,7 @@ export default class TinyMCEModuleBuilder extends DefaultModuleBuilder
     ].forEach((folder) => {
       promises.push(fsp.cp(
         path.join(tinySrcPath, folder),
-        path.join(this.targetPath, folder),
+        path.join(tinyVendorPath, folder),
         { preserveTimestamps: true, recursive: true, filter: filterFunc }
       ));
     });
@@ -62,7 +63,7 @@ export default class TinyMCEModuleBuilder extends DefaultModuleBuilder
     if (fs.existsSync(tinyLngSrcPath)) {
       promises.push(fsp.cp(
         tinyLngSrcPath,
-        path.join(this.targetPath, 'langs'),
+        path.join(tinyVendorPath, 'langs'),
         { preserveTimestamps: true, recursive: true }
       ));
     }
@@ -79,7 +80,7 @@ export default class TinyMCEModuleBuilder extends DefaultModuleBuilder
     // Copy Joomla template snippets which is in vendor folder
     // @TODO: the templates should be under plugin folder for better consistency?
     const tmplSrcPath = path.join(path.dirname(this.basePath), 'vendor', 'tinymce', 'templates');
-    const tmplTargetPath = path.join(path.dirname(this.targetPath), 'vendor', 'tinymce', 'templates');
+    const tmplTargetPath = path.join(tinyVendorPath, 'templates');
     promises.push(fsp.cp(
       tmplSrcPath,
       tmplTargetPath,

@@ -206,7 +206,7 @@ export default class DefaultModuleBuilder{
           } else {
             jsFiles.push(handleJSFile(
               fullSrcPath,
-              path.join(this.targetPath, relativePath)
+              path.join(this.targetPath, relativePath.replace(/\.es5\.js$/, '.js'))
             ));
           }
         });
