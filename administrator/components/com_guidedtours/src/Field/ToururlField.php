@@ -70,7 +70,7 @@ class ToururlField extends ListField
 
         $options = [];
         if ($items) {
-            $options[] = Html::_('select.option', 'custom', Text::_('COM_GUIDEDTOURS_FIELD_URLTYPE_CUSTOM_URL'));
+            $options[] = Html::_('select.option', 'custom', Text::_('COM_GUIDEDTOURS_FIELD_URL_TYPE_CUSTOM_URL'));
             foreach ($items as $item) {
                 $options[] = Html::_('select.option', '/administrator/index.php?option=' . $item->element, Text::_($item->name) . ' (' . $item->element . ')');
             }
