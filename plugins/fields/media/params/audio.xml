@@ -43,7 +43,7 @@
 				layout="joomla.form.field.radio.switcher"
 				default="1"
 				filter="integer"
-			    >
+				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
@@ -55,7 +55,7 @@
 				layout="joomla.form.field.radio.switcher"
 				default="0"
 				filter="integer"
-			    >
+				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
@@ -67,7 +67,7 @@
 				layout="joomla.form.field.radio.switcher"
 				default="0"
 				filter="integer"
-			    >
+				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
@@ -80,7 +80,7 @@
 				default="0"
 				filter="integer"
 				showon="autoplay:1"
-			    >
+				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
@@ -92,7 +92,7 @@
 				validate="options"
 				default="auto"
 				showon="autoplay:0"
-			    >
+				>
 				<option value="auto">PLG_FIELDS_MEDIA_PARAMS_PRELOAD_AUTO</option>
 				<option value="none">PLG_FIELDS_MEDIA_PARAMS_PRELOAD_NONE</option>
 				<option value="metadata">PLG_FIELDS_MEDIA_PARAMS_PRELOAD_METADATA</option>
