@@ -17,9 +17,9 @@
 					default="1"
 					validate="options"
 					>
-					<option value="0" class="btn btn-outline-danger">JNO</option>
-					<option value="2" class="btn btn-outline-warning">PLG_SYSTEM_REDIRECT_FIELD_REDIRECT_ON_SAVE_ADMIN_MANUALLY</option>
-					<option value="1" class="btn btn-outline-success">JYES</option>
+					<option value="0">JNO</option>
+					<option value="2">PLG_SYSTEM_REDIRECT_FIELD_REDIRECT_ON_SAVE_ADMIN_MANUALLY</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
@@ -31,8 +31,8 @@
 					filter="integer"
 					layout="joomla.form.field.radio.switcher"
 					>
-					<option value="0" class="btn btn-outline-danger">JNO</option>
-					<option value="1" class="btn btn-outline-success">JYES</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 		</fieldset>
     </fieldset>
