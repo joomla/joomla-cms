@@ -14,7 +14,7 @@
   "scripts": {
     "build:com_media": "node --env-file=./build/production.env build/build.mjs --com-media",
     "build:com_media:dev": "node --env-file=./build/development.env build/build.mjs --com-media",
-    "watch": "node build/build.mjs --watch",
+    "watch": "node build/build.mjs watch -n",
     "watch:com_media": "node build/build.mjs --watch-com-media",
     "lint:js": "eslint --config build/eslint.config.mjs build administrator/components/com_media/resources/scripts",
     "lint:testjs": "eslint --config build/eslint-tests.mjs tests/System",

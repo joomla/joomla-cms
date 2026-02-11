@@ -241,6 +241,7 @@ export default class DefaultModuleBuilder{
       persistent: true,
     });
 
+    let lastPromise = Promise.resolve();
     const checkFile = (file) => {
       const ext = path.extname(file);
 
@@ -248,23 +249,23 @@ export default class DefaultModuleBuilder{
         case '.css':
         case '.scss':
           console.log('Watcher updating css/scss...');
-          this.css().catch((error) => {
+          lastPromise = lastPromise.then(() => this.css().catch((error) => {
             console.error('Watcher got an error:');
             console.error(error);
-          });
+          }));
           break;
 
         case '.js':
           console.log('Watcher updating js...');
-          this.js().catch((error) => {
+          lastPromise = lastPromise.then(() => this.js().catch((error) => {
             console.error('Watcher got an error:');
             console.error(error);
-          });
+          }));
           break;
 
         default:
           console.log('Watcher updating static files...');
-          this.copy();
+          lastPromise = lastPromise.then(() => this.copy());
           break;
       }
     };
