@@ -230,4 +230,12 @@ export default class DefaultModuleBuilder{
       return Promise.all(promises);
     });
   }
+
+  /**
+   * Watch handler
+   * @returns { Promise }
+   */
+  async watch() {
+    throw new Error('Stop here');
+  }
 }

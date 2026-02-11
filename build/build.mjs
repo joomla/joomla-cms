@@ -8,6 +8,7 @@ import pkgOptions from '../package.json' with { type: 'json' };
 import buildSettings from './build-modules-js/settings.json' with { type: 'json' };
 import buildCommand from './build-modules-js/command/build-command.mjs';
 import { Timer } from './build-modules-js/utils/timer.mjs';
+import watchCommand from "./build-modules-js/command/watch-command.mjs";
 
 // Check minimum Node version
 if (semver.gte(semver.minVersion(pkgOptions.engines.node), semver.clean(process.version))) {
@@ -148,6 +149,14 @@ program
     const bench = new Timer('Build command');
     buildCommand(program, options, builders, blockingBuilders)
       .then(() => bench.stop('Build command'));
+  });
+
+program
+  .command('watch')
+  .description('Watch specified asset and rebuild on changes')
+  .option('-n,--name <builder_name,builder_name>', 'builder(s) to watch')
+  .action((options) => {
+    watchCommand(program, options, builders);
   });
 
 program.parse(process.argv)

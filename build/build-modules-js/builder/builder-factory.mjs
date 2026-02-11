@@ -42,7 +42,7 @@ export const createAndRunBuilder = async (program, name, factory, tasksToRun = [
   return factory.createBuilder(name)
     .then((builder) => {
       if (!builder.getBuildTasks) {
-        program.error(`Builder module for "${name}" should implement provide "getBuildTasks()" method. Which used to determine which task can be run for the builder.`)
+        program.error(`Builder module for "${name}" should provide "getBuildTasks()" method. Which used to determine which task can be run for the builder.`)
       }
       console.log(`Initialize build [${name}]`);
 
