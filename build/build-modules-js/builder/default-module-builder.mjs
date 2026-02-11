@@ -269,7 +269,7 @@ export default class DefaultModuleBuilder{
         case '.scss':
           console.log(`Watcher updating css/scss for [${this.name}]...`);
           lastPromise = lastPromise.then(() => this.css().catch((error) => {
-            console.error('Watcher got an error:');
+            console.error(`Watcher for [${this.name}] got an error:`);
             console.error(error);
           }));
           break;
@@ -277,7 +277,7 @@ export default class DefaultModuleBuilder{
         case '.js':
           console.log(`Watcher updating js for [${this.name}]...`);
           lastPromise = lastPromise.then(() => this.js().catch((error) => {
-            console.error('Watcher got an error:');
+            console.error(`Watcher for [${this.name}] got an error:`);
             console.error(error);
           }));
           break;
