@@ -143,8 +143,8 @@
 	<field
 		name="url_type"
 		type="toururl"
-		default="custom"
 		label="COM_GUIDEDTOURS_FIELD_URLTYPE_LABEL"
+		default="custom"
 		>
 		<option value="custom">COM_GUIDEDTOURS_FIELD_URLTYPE_CUSTOM_URL</option>
 		<option value="/administrator/index.php?option=com_cpanel&amp;view=cpanel&amp;dashboard=content">COM_GUIDEDTOURS_FIELD_URLTYPE_DASHBOARD_CONTENT</option>
