@@ -24,7 +24,7 @@ use Joomla\Database\DatabaseInterface;
  * Tour URLs Field class.
  * Display a list of enabled URLs for the administration components from the extension table.
  *
- * @since  6.1.0
+ * @since   __DEPLOY_VERSION__
  */
 class ToururlField extends ListField
 {
@@ -32,7 +32,7 @@ class ToururlField extends ListField
      * The form field type.
      *
      * @var    string
-     * @since  6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     protected $type = 'Toururl';
 
@@ -48,7 +48,7 @@ class ToururlField extends ListField
      * @return  boolean  True on success.
      *
      * @see     TourUrlField::setup()
-     * @since   6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     public function setup(\SimpleXMLElement $element, $value, $group = null)
     {
