@@ -14,8 +14,8 @@ import { minifyJSContent } from '../../build-modules-js/javascript/js-handle.mjs
 
 export const buildMediaManager = async (basePath, targetPath) => {
   const srcFile = path.join(basePath, 'src', 'mediamanager.es6.js');
-  const targetFile = path.join(targetPath, 'js', 'mediamanager.js');
-  const targetFileMin = path.join(targetPath, 'js', 'mediamanager.min.js');
+  const targetFile = path.join(targetPath, 'js', 'media-manager.js');
+  const targetFileMin = path.join(targetPath, 'js', 'media-manager.min.js');
   const isProduction = process.env.NODE_ENV !== 'DEVELOPMENT';
 
   return rollup({
