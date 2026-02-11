@@ -165,6 +165,7 @@ const createErrorPages = async (options, basePath) => {
 export default class ErrorPagesModuleBuilder extends DefaultModuleBuilder
 {
   tasksBuild = ['build'];
+  tasksExtras = [];
 
   /**
    * Create the pages

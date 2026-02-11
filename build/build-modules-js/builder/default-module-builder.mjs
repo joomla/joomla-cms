@@ -8,6 +8,7 @@ import path, { sep } from 'node:path';
 import { handleCSSFile } from '../stylesheets/css-handler.mjs';
 import { handleSCSSFile } from '../stylesheets/scss-handler.mjs';
 import { handleMJSFile, handleJSFile } from "../javascript/js-handle.mjs";
+import { compressFileAndSave } from '../utils/compressFile.mjs';
 
 export default class DefaultModuleBuilder{
 
@@ -24,7 +25,7 @@ export default class DefaultModuleBuilder{
    *
    * @type {string[]}
    */
-  tasksExtras = [];
+  tasksExtras = ['gzip'];
 
   /**
    * Class constructor.
@@ -205,5 +206,28 @@ export default class DefaultModuleBuilder{
 
         return Promise.all([...jsFiles, ...mjsFiles]);
       });
+  }
+
+  /**
+   * Create compressed (gzip) .css/.js files
+   * @returns { Promise }
+   */
+  async gzip() {
+    return fsp.readdir(this.targetPath, { recursive: true, withFileTypes: true }).then((files) => {
+      const promises = [];
+
+      files.forEach((file) => {
+        if (!file.isFile()) return;
+
+        const fullSrcPath = path.join(file.path, file.name);
+
+        // Compress only minified
+        if (!file.name.endsWith('.min.js') && !file.name.endsWith('.min.css')) return;
+
+        promises.push(compressFileAndSave(fullSrcPath));
+      });
+
+      return Promise.all(promises);
+    });
   }
 }

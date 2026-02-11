@@ -21,7 +21,7 @@
     "lint:css": "stylelint --config build/.stylelintrc.json \"administrator/components/com_media/resources/**/*.scss\" \"administrator/templates/**/*.scss\" \"build/media_source/**/*.scss\" \"build/media_source/**/*.css\" \"templates/**/*.scss\" \"installation/template/**/*.scss\"",
     "install": "node --env-file=./build/production.env build/build.mjs build -a",
     "update": "node --env-file=./build/production.env build/build.mjs build -a",
-    "gzip": "node build/build.mjs --gzip",
+    "gzip": "node build/build.mjs build -a -t gzip",
     "browserlist:update": "npx browserslist@latest --update-db",
     "cypress:install": "cypress install",
     "cypress:open": "cypress open --config-file cypress.config.mjs",
