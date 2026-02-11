@@ -233,4 +233,12 @@ export default class VendorModuleBuilder extends DefaultModuleBuilder
 
     return Promise.all(promises);
   }
+
+  /**
+   * Watch handler
+   * @returns { Promise }
+   */
+  async watch() {
+    throw new Error(`Watch is not implemented for [${this.name}]`);
+  }
 };

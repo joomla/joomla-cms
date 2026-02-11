@@ -5,6 +5,7 @@
 import fs from 'node:fs';
 import fsp from 'node:fs/promises';
 import path, { sep } from 'node:path';
+import chokidar from 'chokidar';
 import { handleCSSFile } from '../stylesheets/css-handler.mjs';
 import { handleSCSSFile } from '../stylesheets/scss-handler.mjs';
 import { handleMJSFile, handleJSFile } from "../javascript/js-handle.mjs";
@@ -180,7 +181,6 @@ export default class DefaultModuleBuilder{
 
           if ((ext !== '.js' && ext !== '.mjs') || baseName.endsWith('.min.js')) return;
 
-
           if (baseName === 'builder.mjs') {
             // Ignore builders of active asset, which is in the root of the asset folder
             if (relativePath.replace('/', '').replace('\\', '') === 'builder.mjs') {
@@ -236,6 +236,54 @@ export default class DefaultModuleBuilder{
    * @returns { Promise }
    */
   async watch() {
-    throw new Error('Stop here');
+    const watcher = chokidar.watch(this.basePath, {
+      ignored: /(^|[/\\])\../, // ignore dotfiles
+      persistent: true,
+    });
+
+    const checkFile = (file) => {
+      const ext = path.extname(file);
+
+      switch (ext) {
+        case '.css':
+        case '.scss':
+          console.log('Watcher updating css/scss...');
+          this.css().catch((error) => {
+            console.error('Watcher got an error:');
+            console.error(error);
+          });
+          break;
+
+        case '.js':
+          console.log('Watcher updating js...');
+          this.js().catch((error) => {
+            console.error('Watcher got an error:');
+            console.error(error);
+          });
+          break;
+
+        default:
+          console.log('Watcher updating static files...');
+          this.copy();
+          break;
+      }
+    };
+
+    watcher
+      .on('add', checkFile)
+      .on('change', checkFile)
+      .on('unlink', () => {
+        console.log('Watcher rebuild everything...');
+
+        // Rebuild everything
+        const buildTasks = this.getBuildTasks();
+        const nextTask = () => {
+          if (!buildTasks.length) return;
+          const task = buildTasks.shift();
+
+          this[task]().then(() => nextTask());
+        }
+        nextTask();
+      });
   }
 }
