@@ -9,7 +9,7 @@ import VuePlugin from 'rollup-plugin-vue';
 import commonjs from '@rollup/plugin-commonjs';
 import dotenv from 'dotenv';
 
-import { minifyCode } from './minify.mjs';
+import { minifyJSContent } from "./js-handle.mjs";
 
 dotenv.config({ quiet: true });
 
@@ -73,11 +73,11 @@ export const mediaManager = async () => {
       sourcemap: !isProduction ? 'inline' : false,
       file: 'media/com_media/js/media-manager.js',
     })
-    .then((value) => (isProduction ? minifyCode(value.output[0].code) : value.output[0]))
+    .then((value) => (isProduction ? minifyJSContent(value.output[0].code) : value.output[0]))
     .then((content) => {
       if (isProduction) {
         console.log('✅ ES2017 Media Manager ready');
-        return writeFile(resolve('media/com_media/js/media-manager.min.js'), content.code, { encoding: 'utf8', mode: 0o644 });
+        return writeFile(resolve('media/com_media/js/media-manager.min.js'), content, { encoding: 'utf8', mode: 0o644 });
       }
       console.log('✅ ES2017 Media Manager ready');
       return copyFile(resolve('media/com_media/js/media-manager.js'), resolve('media/com_media/js/media-manager.min.js'));
