@@ -124,9 +124,7 @@ final class Redirect extends CMSPlugin implements CurrentUserInterface, Subscrib
     public function onContentBeforeSave(BeforeSaveEvent $event): void
     {
         // No need to redirect if the item is new, so early return
-        $isNew = $event->getIsNew();
-
-        if ($isNew) {
+        if ($event->getIsNew()) {
             return;
         }
 

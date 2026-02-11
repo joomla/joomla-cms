@@ -191,6 +191,10 @@ class HtmlView extends BaseHtmlView
 
             $toolbar->cancel('module.cancel');
 
+            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->get('params')->get('save_history', 1) && $canDo->get('core.edit')) {
+                $toolbar->versions('com_modules.module', $this->item->id);
+            }
+
             if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations') && $this->item->client_id === 0) {
                 $toolbar->standardButton('associations', 'JTOOLBAR_ASSOCIATIONS', 'module.editAssociations')
                     ->icon('icon-contract')
