@@ -178,8 +178,10 @@ Joomla.JoomlaTinyMCE = {
 
       editor.on('PostRender', () => {
         // Check for the load event on iframe
-        if (editor.iframeElement) {
-          editor.iframeElement.addEventListener('load', () => {
+        if (!editor.inline) {
+          const $iframe = editor.getContentAreaContainer().querySelector('iframe');
+
+          $iframe.addEventListener('load', () => {
             editor.remove();
             JoomlaEditor.unregister(element.id);
             Joomla.JoomlaTinyMCE.setupEditor(element, pluginOptions);
