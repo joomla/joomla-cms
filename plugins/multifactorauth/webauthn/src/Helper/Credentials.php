@@ -19,7 +19,6 @@ use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\CMS\WebAuthn\Server;
 use Joomla\Plugin\Multifactorauth\Webauthn\CredentialRepository;
 use Joomla\Session\SessionInterface;
-use Laminas\Diactoros\ServerRequestFactory;
 use Webauthn\AuthenticationExtensions\AuthenticationExtensionsClientInputs;
 use Webauthn\AuthenticatorSelectionCriteria;
 use Webauthn\PublicKeyCredentialCreationOptions;
@@ -126,7 +125,7 @@ abstract class Credentials
         return self::getWebauthnServer($myUser->id)->loadAndCheckAttestationResponse(
             base64_decode($data),
             $publicKeyCredentialCreationOptions,
-            ServerRequestFactory::fromGlobals()
+            Uri::getInstance()->toString(['host'])
         );
     }
 
@@ -220,7 +219,7 @@ abstract class Credentials
             $data,
             $publicKeyCredentialRequestOptions,
             self::getUserEntity($user),
-            ServerRequestFactory::fromGlobals()
+            Uri::getInstance()->toString(['host'])
         );
     }
 

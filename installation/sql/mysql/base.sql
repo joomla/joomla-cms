@@ -1207,6 +1207,7 @@ CREATE TABLE IF NOT EXISTS `#__workflow_stages` (
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `default` tinyint NOT NULL DEFAULT 0,
+  `position` text,
   `checked_out_time` datetime,
   `checked_out` int unsigned,
   PRIMARY KEY (`id`),
