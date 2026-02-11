@@ -246,7 +246,6 @@ export default class DefaultModuleBuilder{
     const rebuild = () => {
       console.log(`Watcher rebuild everything in [${this.name}]...`);
 
-      // Rebuild everything
       const buildTasks = this.getBuildTasks();
       const nextTask = () => {
         if (!buildTasks.length) return;
@@ -256,7 +255,7 @@ export default class DefaultModuleBuilder{
       }
       return nextTask();
     };
-    // Initial rebuild
+    // Wait for initial rebuild
     await rebuild();
 
     // File type checker
