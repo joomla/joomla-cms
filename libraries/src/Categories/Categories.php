@@ -360,12 +360,10 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
                 $subQuery->where($db->quoteName($db->escape('i.' . $this->_statefield)) . ' = 1');
                 // Get actual columns from the database table
                 $tableColumns = $db->getTableColumns($this->_table);
-                
                 // Check if publish date fields exist
                 if (isset($tableColumns['publish_up']) && isset($tableColumns['publish_down'])) {
                     $nowDate = $db->quote(Factory::getDate()->toSql());
-                    $nullDate = $db->quote($db->getNullDate());
-                    
+                    $nullDate = $db->quote($db->getNullDate()); 
                     $subQuery->where(
                         '(' . $db->quoteName('i.publish_up') . ' IS NULL OR '
                         . $db->quoteName('i.publish_up') . ' <= ' . $nowDate . ')'
