@@ -12,14 +12,13 @@
     "npm": ">=10.1.0"
   },
   "scripts": {
-    "build:com_media": "node --env-file=./build/production.env build/build.mjs --com-media",
-    "build:com_media:dev": "node --env-file=./build/development.env build/build.mjs --com-media",
+    "build": "node --env-file=./build/production.env build/build.mjs build -a",
+    "build:dev": "node --env-file=./build/development.env build/build.mjs build -a",
     "watch": "node --env-file=./build/production.env build/build.mjs watch -n",
     "watch:dev": "node --env-file=./build/development.env build/build.mjs watch -n",
-    "watch:com_media": "node build/build.mjs --watch-com-media",
-    "lint:js": "eslint --config build/eslint.config.mjs build administrator/components/com_media/resources/scripts",
+    "lint:js": "eslint --config build/eslint.config.mjs build build/media_source/com_media/src",
     "lint:testjs": "eslint --config build/eslint-tests.mjs tests/System",
-    "lint:css": "stylelint --config build/.stylelintrc.json \"administrator/components/com_media/resources/**/*.scss\" \"administrator/templates/**/*.scss\" \"build/media_source/**/*.scss\" \"build/media_source/**/*.css\" \"templates/**/*.scss\" \"installation/template/**/*.scss\"",
+    "lint:css": "stylelint --config build/.stylelintrc.json \"build/media_source/com_media/src/**/*.scss\" \"administrator/templates/**/*.scss\" \"build/media_source/**/*.scss\" \"build/media_source/**/*.css\" \"templates/**/*.scss\" \"installation/template/**/*.scss\"",
     "install": "node --env-file=./build/production.env build/build.mjs build -a",
     "update": "node --env-file=./build/production.env build/build.mjs build -a",
     "gzip": "node build/build.mjs build -a -t gzip",

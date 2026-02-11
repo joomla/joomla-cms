@@ -139,6 +139,9 @@ export default class DefaultModuleBuilder{
           const fullSrcPath = path.join(file.path, file.name);
           const relativePath = fullSrcPath.replace(this.basePath, '');
 
+          // Ignore paths from src/ those requiring custom builder
+          if (relativePath.includes(`${sep}src${sep}`)) return;
+
           if (ext === '.css' && !baseName.endsWith('.min.css')){
             // Handle the CSS file
             cssFiles.push(handleCSSFile(
@@ -179,6 +182,10 @@ export default class DefaultModuleBuilder{
           const fullSrcPath = path.join(file.path, file.name);
           const relativePath = fullSrcPath.replace(this.basePath, '');
 
+          // Ignore paths from src/ those requiring custom builder
+          if (relativePath.includes(`${sep}src${sep}`)) return;
+
+          // Pick only js files
           if ((ext !== '.js' && ext !== '.mjs') || baseName.endsWith('.min.js')) return;
 
           if (baseName === 'builder.mjs') {
@@ -274,6 +281,7 @@ export default class DefaultModuleBuilder{
           break;
 
         case '.js':
+        case '.vue':
           console.log(`Watcher updating js for [${this.name}]...`);
           lastPromise = lastPromise.then(() => this.js().catch((error) => {
             console.error(`Watcher for [${this.name}] got an error:`);
