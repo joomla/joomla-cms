@@ -9,9 +9,11 @@
 
 namespace Joomla\CMS\Captcha\Google;
 
+use Joomla\CMS\Version;
 use Joomla\Http\Exception\InvalidResponseCodeException;
 use Joomla\Http\Http;
 use Joomla\Http\HttpFactory;
+use Joomla\Registry\Registry;
 use ReCaptcha\RequestMethod;
 use ReCaptcha\RequestParameters;
 
@@ -51,7 +53,10 @@ final class HttpBridgePostRequestMethod implements RequestMethod
      */
     public function __construct(?Http $http = null)
     {
-        $this->http = $http ?: (new HttpFactory())->getHttp();
+        $options = new Registry();
+        $options->set('userAgent', (new Version())->getUserAgent('Joomla', true, false));
+
+        $this->http = $http ?: (new HttpFactory())->getHttp($options);
     }
 
     /**
