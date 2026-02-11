@@ -143,7 +143,8 @@
 	<field
 		name="url_type"
 		type="toururl"
-		label="COM_GUIDEDTOURS_FIELD_URLTYPE_LABEL"
+		label="COM_GUIDEDTOURS_FIELD_URL_TYPE_LABEL"
+		description="COM_GUIDEDTOURS_FIELD_URL_TYPE_DESC"
 		default="custom"
 		>
 		<option value="custom">COM_GUIDEDTOURS_FIELD_URLTYPE_CUSTOM_URL</option>
