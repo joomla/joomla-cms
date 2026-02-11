@@ -239,8 +239,27 @@ export default class DefaultModuleBuilder{
     const watcher = chokidar.watch(this.basePath, {
       ignored: /(^|[/\\])\../, // ignore dotfiles
       persistent: true,
+      ignoreInitial: true,
     });
 
+    // Rebuild everything
+    const rebuild = () => {
+      console.log(`Watcher rebuild everything in [${this.name}]...`);
+
+      // Rebuild everything
+      const buildTasks = this.getBuildTasks();
+      const nextTask = () => {
+        if (!buildTasks.length) return;
+        const task = buildTasks.shift();
+
+        return this[task]().then(() => nextTask());
+      }
+      return nextTask();
+    };
+    // Initial rebuild
+    await rebuild();
+
+    // File type checker
     let lastPromise = Promise.resolve();
     const checkFile = (file) => {
       const ext = path.extname(file);
@@ -248,7 +267,7 @@ export default class DefaultModuleBuilder{
       switch (ext) {
         case '.css':
         case '.scss':
-          console.log('Watcher updating css/scss...');
+          console.log(`Watcher updating css/scss for [${this.name}]...`);
           lastPromise = lastPromise.then(() => this.css().catch((error) => {
             console.error('Watcher got an error:');
             console.error(error);
@@ -256,7 +275,7 @@ export default class DefaultModuleBuilder{
           break;
 
         case '.js':
-          console.log('Watcher updating js...');
+          console.log(`Watcher updating js for [${this.name}]...`);
           lastPromise = lastPromise.then(() => this.js().catch((error) => {
             console.error('Watcher got an error:');
             console.error(error);
@@ -264,27 +283,16 @@ export default class DefaultModuleBuilder{
           break;
 
         default:
-          console.log('Watcher updating static files...');
+          console.log(`Watcher updating static files for [${this.name}]...`);
           lastPromise = lastPromise.then(() => this.copy());
           break;
       }
     };
 
+    // Go and watch
     watcher
       .on('add', checkFile)
       .on('change', checkFile)
-      .on('unlink', () => {
-        console.log('Watcher rebuild everything...');
-
-        // Rebuild everything
-        const buildTasks = this.getBuildTasks();
-        const nextTask = () => {
-          if (!buildTasks.length) return;
-          const task = buildTasks.shift();
-
-          this[task]().then(() => nextTask());
-        }
-        nextTask();
-      });
+      .on('unlink', rebuild);
   }
 }
