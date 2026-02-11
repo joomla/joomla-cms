@@ -34,7 +34,7 @@ class TourController extends FormController
      *
      * @return  boolean  True if successful, false otherwise.
      *
-     * @since   1.6
+     * @since   6.1.0
      */
     public function save($key = null, $urlVar = null)
     {
