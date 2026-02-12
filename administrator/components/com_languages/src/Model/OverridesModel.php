@@ -116,6 +116,59 @@ class OverridesModel extends ListModel
     }
 
     /**
+     * Retrieves overrides for all installed languages for the current client.
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getLanguageOverrides()
+    {
+        $store = $this->getStoreId('languageOverrides');
+
+        if (!empty($this->cache[$store])) {
+            return $this->cache[$store];
+        }
+
+        $client    = strtoupper($this->getState('filter.client'));
+        $languages = $this->getLanguages();
+        $overrides = [];
+        $basePath  = \constant('JPATH_' . $client) . '/language/overrides/';
+
+        foreach ($languages as $tag => $language) {
+            $fileName        = $basePath . $tag . '.override.ini';
+            $overrides[$tag] = LanguageHelper::parseIniFile($fileName);
+        }
+
+        $this->cache[$store] = $overrides;
+
+        return $this->cache[$store];
+    }
+
+    /**
+     * Retrieves installed languages for the current client.
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getLanguages()
+    {
+        $store = $this->getStoreId('languages');
+
+        if (!empty($this->cache[$store])) {
+            return $this->cache[$store];
+        }
+
+        $client = strtoupper($this->getState('filter.client'));
+        $path   = \constant('JPATH_' . $client);
+
+        $this->cache[$store] = LanguageHelper::getKnownLanguages($path);
+
+        return $this->cache[$store];
+    }
+
+    /**
      * Method to get the total number of overrides.
      *
      * @return  integer  The total number of overrides.

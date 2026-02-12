@@ -4056,6 +4056,17 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getError$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: administrator/components/com_modules/src/Controller/ModuleController.php
+
+		-
+			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
@@ -5022,7 +5033,7 @@ parameters:
 				             Catch thrown Exceptions instead of getError$#
 			'''
 			identifier: method.deprecated
-			count: 8
+			count: 20
 			path: administrator/components/com_tags/src/Model/TagModel.php
 
 		-
@@ -5033,7 +5044,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 9
+			count: 29
 			path: administrator/components/com_tags/src/Model/TagModel.php
 
 		-
@@ -14261,6 +14272,16 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 4
+			path: plugins/system/cache/src/Extension/Cache.php
+
+		-
+			message: '''
+				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\System\\Cache\\Extension\\Cache\:
+				5\.2 will be removed in 7\.0
+				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
 			path: plugins/system/cache/src/Extension/Cache.php
 
 		-

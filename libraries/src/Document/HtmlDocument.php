@@ -853,28 +853,28 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
     {
         $matches = [];
 
-        if (preg_match_all('#<jdoc:include\ type="([^"]+)"(.*)\/>#iU', $this->_template, $matches)) {
+        if (preg_match_all('#<jdoc:include\ type="([^"]+)"(.*)\/>#iU', $this->_template, $matches, PREG_SET_ORDER)) {
             $messages            = [];
             $template_tags_first = [];
             $template_tags_last  = [];
 
-            // Step through the jdocs in reverse order.
-            for ($i = \count($matches[0]) - 1; $i >= 0; $i--) {
-                $type    = $matches[1][$i];
-                $attribs = empty($matches[2][$i]) ? [] : Utility::parseAttributes($matches[2][$i]);
+            foreach ($matches as $match) {
+                $type    = $match[1];
+                $attribs = empty($match[2]) ? [] : Utility::parseAttributes($match[2]);
                 $name    = $attribs['name'] ?? null;
 
                 // Separate buffers to be executed first and last
                 if ($type === 'module' || $type === 'modules') {
-                    $template_tags_first[$matches[0][$i]] = ['type' => $type, 'name' => $name, 'attribs' => $attribs];
+                    $template_tags_first[$match[0]] = ['type' => $type, 'name' => $name, 'attribs' => $attribs];
                 } elseif ($type === 'message') {
-                    $messages = [$matches[0][$i] => ['type' => $type, 'name' => $name, 'attribs' => $attribs]];
+                    $messages = [$match[0] => ['type' => $type, 'name' => $name, 'attribs' => $attribs]];
                 } else {
-                    $template_tags_last[$matches[0][$i]] = ['type' => $type, 'name' => $name, 'attribs' => $attribs];
+                    $template_tags_last[$match[0]] = ['type' => $type, 'name' => $name, 'attribs' => $attribs];
                 }
             }
 
-            $this->_template_tags = $template_tags_first + $messages + array_reverse($template_tags_last);
+
+            $this->_template_tags = $template_tags_first + $messages + $template_tags_last;
         }
 
         return $this;
