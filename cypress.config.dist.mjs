@@ -26,7 +26,7 @@ export default defineConfig({
     screenshotOnRunFailure: true,
     video: false,
   },
-  env: {
+  expose: {
     sitename: 'Joomla CMS Test',
     name: 'jane doe',
     email: 'admin@example.com',
