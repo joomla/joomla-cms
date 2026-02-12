@@ -60,7 +60,7 @@ jobs:
     needs: [composer]
     strategy:
       matrix:
-        command: ['php-cs-fixer fix -vvv', 'phpcs --extensions=php -p --standard=ruleset.xml .']
+        command: ['php-cs-fixer fix -vvv', 'phpcbf --extensions=php -p --standard=ruleset.xml .']
     steps:
       - uses: actions/checkout@v4
       - uses: actions/cache/restore@v4
