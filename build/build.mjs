@@ -40,8 +40,8 @@ program
   .command('build')
   .description('Build all or only specified asset')
   .option('-a,--all', 'build all assets')
-  .option('-n,--name <builder_name,builder_name>', 'run specified builder(s)')
-  .option('-t,--task <builder_task,builder_task>', 'task(s) to run for specified asset')
+  .option('-n,--name <resource_name,resource_name>', 'build specific resource(s)')
+  .option('-t,--task <builder_task,builder_task>', 'task(s) to run for specified resource(s)')
   .option('--sass-silent', 'hide SASS deprecations and warnings')
   .action((options) => {
     const bench = new Timer('Build command');
