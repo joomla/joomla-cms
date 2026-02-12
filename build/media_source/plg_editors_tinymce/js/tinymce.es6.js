@@ -163,6 +163,9 @@ Joomla.JoomlaTinyMCE = {
       readOnlyMode = element.readOnly;
     }
 
+    // Capture the original ID for cleanup later
+    const origId = element.id;
+
     options.setup = (editor) => {
       // Create a decorator
       const jEditor = new TinyMCEDecorator(editor, 'tinymce', element.id);
@@ -176,18 +179,63 @@ Joomla.JoomlaTinyMCE = {
         }
       }, true);
 
-      editor.on('PostRender', () => {
-        // Check for the load event on iframe
-        if (!editor.inline) {
+      // Save the content on change and blur to ensure the textarea is always up to date
+      // This is crucial for things like the subform where the editor might be moved in the DOM
+      editor.on('change blur', () => {
+        editor.save();
+      });
+
+      // Work around iframe behavior, when iframe element changes location in DOM and losing its content.
+      // Re init editor when iframe is reloaded.
+      if (!editor.inline) {
+        editor.on('init', () => {
           const $iframe = editor.getContentAreaContainer().querySelector('iframe');
 
-          $iframe.addEventListener('load', () => {
-            editor.remove();
-            JoomlaEditor.unregister(element.id);
-            Joomla.JoomlaTinyMCE.setupEditor(element, pluginOptions);
-          });
-        }
-      });
+          if ($iframe) {
+            // Settle time to avoid infinite loop on initial load
+            setTimeout(() => {
+              // Make sure iframe is fully loaded.
+              $iframe.addEventListener('load', () => {
+                // Use setTimeout to detach from the load event and allow DOM to settle
+                setTimeout(() => {
+                  // Ensure the element is still in the DOM
+                  if (!element.id || !document.getElementById(element.id)) {
+                    return;
+                  }
+
+                  // Cleanup old editor
+                  editor.off();
+                  try {
+                    editor.remove();
+                  } catch (e) {
+                    // Ignore errors during removal of a broken editor
+                  }
+
+                  // Force cleanup from global manager if still present under old ID
+                  if (tinymce.get(origId)) {
+                    try {
+                      tinymce.get(origId).remove();
+                    } catch (e) {
+                      // Ignore
+                    }
+                  }
+
+                  // Unregister from Joomla using both IDs
+                  JoomlaEditor.unregister(origId);
+                  JoomlaEditor.unregister(element.id);
+
+                  // Make sure the element is visible before re-init
+                  // eslint-disable-next-line no-param-reassign
+                  element.style.display = '';
+                  element.removeAttribute('aria-hidden');
+
+                  Joomla.JoomlaTinyMCE.setupEditor(element, pluginOptions);
+                }, 100);
+              }, { once: true });
+            }, 100);
+          }
+        });
+      }
 
       // Find out when editor is interacted
       editor.on('focus', () => {
@@ -212,3 +260,4 @@ document.addEventListener('DOMContentLoaded', () => { Joomla.JoomlaTinyMCE.setup
  * Initialize when a part of the page was updated
  */
 document.addEventListener('joomla:updated', ({ target }) => Joomla.JoomlaTinyMCE.setupEditors(target));
+
