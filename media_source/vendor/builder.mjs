@@ -22,17 +22,7 @@ import { handleJSFile } from '../../build/build-modules-js/javascript/js-handle.
  */
 const copyVendorFiles = async (vendor, packageName, mediaVendorPath) => {
   const vendorName = vendor.name || packageName;
-  //const modulePathJson = resolvePackageFile(path.join(packageName, 'package.json'));
-  if (!packageName) {
-    throw new Error('vendorName: ' + vendorName)
-  }
-  let modulePathJson;
-  try {
-    modulePathJson = resolvePackageFile(path.join(packageName, 'package.json'));
-  } catch (error) {
-    throw new Error('vendorName: ' + vendorName, { cause: error });
-  }
-
+  const modulePathJson = resolvePackageFile(path.join(packageName, 'package.json'));
 
   if (!modulePathJson) {
     throw new Error(`Package "${packageName}" not found`);
@@ -226,7 +216,15 @@ export default class VendorModuleBuilder extends DefaultModuleBuilder
 
               const baseName = file.name;
               const ext = path.extname(baseName);
-              const fullSrcPath = path.join(file.path, file.name);
+              //const fullSrcPath = path.join(file.path, file.name);
+
+              let fullSrcPath;
+              try {
+                fullSrcPath = path.join(file.path, file.name);
+              } catch (error) {
+                console.log(file);
+                throw new Error('file.name: ' + file.name, { cause: error });
+              }
 
               if (ext !== '.js' || baseName.endsWith('.min.js')) return;
 
