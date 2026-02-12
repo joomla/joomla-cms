@@ -358,20 +358,37 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
 
             if ($this->_options['published'] == 1) {
                 $subQuery->where($db->quoteName($db->escape('i.' . $this->_statefield)) . ' = 1');
-                // Get actual columns from the database table
+
+                // Try to get publish date column names via MVC factory (supports column aliases)
+                $publishUpField   = 'publish_up';
+                $publishDownField = 'publish_down';
+
+                try {
+                    $table = Factory::getApplication()
+                        ->bootComponent($this->_extension)
+                        ->getMVCFactory()
+                        ->createTable(ucfirst(str_replace('com_', '', $this->_extension)), 'Administrator');
+
+                    if ($table) {
+                        $publishUpField   = $table->getColumnAlias('publish_up');
+                        $publishDownField = $table->getColumnAlias('publish_down');
+                    }
+                } catch (\Exception $e) {
+                    // Fallback to default column names
+                }
+
+                // Check if columns exist in the table
                 $tableColumns = $db->getTableColumns($this->_table);
-                // Check if publish date fields exist
-                if (isset($tableColumns['publish_up']) && isset($tableColumns['publish_down'])) {
-                    $nowDate = $db->quote(Factory::getDate()->toSql());
-                    $nullDate = $db->quote($db->getNullDate()); 
+
+                if (isset($tableColumns[$publishUpField], $tableColumns[$publishDownField])) {
+                    $nowDate  = $db->quote(Factory::getDate()->toSql());
                     $subQuery->where(
-                        '(' . $db->quoteName('i.publish_up') . ' IS NULL OR '
-                        . $db->quoteName('i.publish_up') . ' <= ' . $nowDate . ')'
+                        '(' . $db->quoteName('i.' . $publishUpField) . ' IS NULL OR ' 
+                        . $db->quoteName('i.' . $publishUpField) . ' <= ' . $nowDate . ')'
                     );
                     $subQuery->where(
-                        '(' . $db->quoteName('i.publish_down') . ' IS NULL OR '
-                        . $db->quoteName('i.publish_down') . ' = ' . $nullDate . ' OR '
-                        . $db->quoteName('i.publish_down') . ' >= ' . $nowDate . ')'
+                        '(' . $db->quoteName('i.' . $publishDownField) . ' IS NULL OR ' 
+                        . $db->quoteName('i.' . $publishDownField) . ' >= ' . $nowDate . ')'
                     );
                 }
             }
