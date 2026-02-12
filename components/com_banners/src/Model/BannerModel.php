@@ -168,7 +168,8 @@ class BannerModel extends BaseDatabaseModel
             $id = (int) $this->getState('banner.id');
 
             // For PHP 5.3 compat we can't use $this in the lambda function below, so grab the database driver now to use it
-            $db = $this->getDatabase();
+            $db      = $this->getDatabase();
+            $nowDate = Factory::getDate()->toSql();
 
             $loader = function ($id) use ($db) {
                 $query = $db->getQuery(true);
@@ -184,7 +185,33 @@ class BannerModel extends BaseDatabaseModel
                     ->from($db->quoteName('#__banners', 'a'))
                     ->join('LEFT', $db->quoteName('#__banner_clients', 'cl'), $db->quoteName('cl.id') . ' = ' . $db->quoteName('a.cid'))
                     ->where($db->quoteName('a.id') . ' = :id')
-                    ->bind(':id', $id, ParameterType::INTEGER);
+                    ->where($db->quoteName('a.state') . ' = 1')
+                    ->extendWhere(
+                        'AND',
+                        [
+                            $db->quoteName('a.publish_up') . ' IS NULL',
+                            $db->quoteName('a.publish_up') . ' <= :nowDate1',
+                        ],
+                        'OR'
+                    )
+                    ->extendWhere(
+                        'AND',
+                        [
+                            $db->quoteName('a.publish_down') . ' IS NULL',
+                            $db->quoteName('a.publish_down') . ' >= :nowDate2',
+                        ],
+                        'OR'
+                    )
+                    ->extendWhere(
+                        'AND',
+                        [
+                            $db->quoteName('a.imptotal') . ' = 0',
+                            $db->quoteName('a.impmade') . ' < ' . $db->quoteName('a.imptotal'),
+                        ],
+                        'OR'
+                    )
+                    ->bind(':id', $id, ParameterType::INTEGER)
+                    ->bind([':nowDate1', ':nowDate2'], $nowDate);
 
                 $db->setQuery($query);
 
