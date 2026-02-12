@@ -136,7 +136,7 @@ export default class DefaultModuleBuilder{
 
           const baseName = file.name;
           const ext = path.extname(baseName);
-          const fullSrcPath = path.join(file.path, file.name);
+          const fullSrcPath = path.join(file.parentPath, file.name);
           const relativePath = fullSrcPath.replace(this.basePath, '');
 
           // Ignore paths from src/ those requiring custom builder
@@ -179,7 +179,7 @@ export default class DefaultModuleBuilder{
 
           const baseName = file.name;
           const ext = path.extname(baseName);
-          const fullSrcPath = path.join(file.path, file.name);
+          const fullSrcPath = path.join(file.parentPath, file.name);
           const relativePath = fullSrcPath.replace(this.basePath, '');
 
           // Ignore paths from src/ those requiring custom builder
@@ -226,7 +226,7 @@ export default class DefaultModuleBuilder{
       files.forEach((file) => {
         if (!file.isFile()) return;
 
-        const fullSrcPath = path.join(file.path, file.name);
+        const fullSrcPath = path.join(file.parentPath, file.name);
 
         // Compress only minified
         if (!file.name.endsWith('.min.js') && !file.name.endsWith('.min.css')) return;

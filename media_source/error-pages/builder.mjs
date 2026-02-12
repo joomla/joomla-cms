@@ -131,7 +131,7 @@ const createErrorPages = async (options, basePath) => {
     if (file.isDirectory() || file.name.endsWith('langmetadata.xml')) {
       return;
     }
-    const iniFile = path.join(file.path, file.name);
+    const iniFile = path.join(file.parentPath, file.name);
 
     iniFilesProcess.push(processIni(iniFile, state).catch((error) => {
       throw new Error(`Parsing INI file failed for "${iniFile}".`, { cause: error });

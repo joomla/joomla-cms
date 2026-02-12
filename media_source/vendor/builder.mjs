@@ -216,15 +216,7 @@ export default class VendorModuleBuilder extends DefaultModuleBuilder
 
               const baseName = file.name;
               const ext = path.extname(baseName);
-              //const fullSrcPath = path.join(file.path, file.name);
-
-              let fullSrcPath;
-              try {
-                fullSrcPath = path.join(file.path, file.name);
-              } catch (error) {
-                console.log(file);
-                throw new Error('file.name: ' + file.name, { cause: error });
-              }
+              const fullSrcPath = path.join(file.parentPath, file.name);
 
               if (ext !== '.js' || baseName.endsWith('.min.js')) return;
 
