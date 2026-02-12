@@ -17,6 +17,7 @@ Read more at [CMS Media source](../media_source/README.md).
 
 ## NPM Commands
 
+- `npm run builders-list` Show list of available builders in order of execution.
 - `npm run build` Build assets with production env. Extra arguments is required check [CMS Media source](../media_source/README.md#building-assets).
 - `npm run build:dev` Build assets with development env. Extra arguments is required check [CMS Media source](../media_source/README.md#building-assets).
 - `npm run watch` Start files watcher for specified asset with production env. Example `npm run watch -- -n com_content` for `com_content` assets.

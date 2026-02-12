@@ -12,6 +12,7 @@
     "npm": ">=10.1.0"
   },
   "scripts": {
+    "builders-list": "node --env-file=./build/production.env build/build.mjs builders-list",
     "build": "node --env-file=./build/production.env build/build.mjs build",
     "build:dev": "node --env-file=./build/development.env build/build.mjs build",
     "watch": "node --env-file=./build/production.env build/build.mjs watch",
