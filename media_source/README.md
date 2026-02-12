@@ -66,6 +66,8 @@ To use custom builder add `builder.mjs` with custom logic in to the root of the 
 Each builder receives the base path (path to `media_source/`) and target path (path to `media/`) as input, also cmd options.
 The builder should provide list of tasks which it is able to run and expose public methods for each task to do so.
 
+**ATTENTION**: While coding the custom builder avoid writing in to folders outside the current asset scope. This could lead to unexpected collisions.
+
 Example builder:
 
 ```javascript
