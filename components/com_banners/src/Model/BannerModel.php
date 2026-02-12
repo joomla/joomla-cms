@@ -202,14 +202,6 @@ class BannerModel extends BaseDatabaseModel
                         ],
                         'OR'
                     )
-                    ->extendWhere(
-                        'AND',
-                        [
-                            $db->quoteName('a.imptotal') . ' = 0',
-                            $db->quoteName('a.impmade') . ' < ' . $db->quoteName('a.imptotal'),
-                        ],
-                        'OR'
-                    )
                     ->bind(':id', $id, ParameterType::INTEGER)
                     ->bind([':nowDate1', ':nowDate2'], $nowDate);
 
