@@ -12,8 +12,8 @@
     "npm": ">=10.1.0"
   },
   "scripts": {
-    "build": "node --env-file=./build/production.env build/build.mjs build -a",
-    "build:dev": "node --env-file=./build/development.env build/build.mjs build -a",
+    "build": "node --env-file=./build/production.env build/build.mjs build",
+    "build:dev": "node --env-file=./build/development.env build/build.mjs build",
     "watch": "node --env-file=./build/production.env build/build.mjs watch -n",
     "watch:dev": "node --env-file=./build/development.env build/build.mjs watch -n",
     "lint:js": "eslint --config build/eslint.config.mjs build build/media_source/com_media/src",
