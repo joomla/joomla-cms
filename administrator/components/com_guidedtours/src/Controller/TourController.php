@@ -88,9 +88,17 @@ class TourController extends FormController
         }
 
         $result = parent::save($key, $urlVar);
-        $this->setRedirect(
-            Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false)
-        );
+		
+		if ($this->getTask() === 'save2menu') {
+			$this->setRedirect(
+				Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false)
+			);
+		} elseif ($this->input->get('layout') === 'modal' && $this->task === 'save') {
+            // When editing in modal then redirect to modalreturn layout
+            $id     = $model->getState('guidedtour.id', '');
+            $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id);
+            $this->setRedirect(Route::_($return, false));
+        }		
 
         return $result;
     }
