@@ -25,8 +25,18 @@ $lang  = $this->getLanguage()->getTag();
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
-$wa->useScript('keepalive')
-    ->useScript('form.validate');
+$wa->useScript('keepalive')->useScript('form.validate');
+$wa->addInlineScript("
+document.addEventListener('DOMContentLoaded', function() {
+    const fieldUrlType = document.getElementById('jform_url_type');
+    const fieldUrl   = document.getElementById('jform_url');
+	fieldUrlType.addEventListener('change', function() {
+		if (this.value!='custom') {
+			fieldUrl.value = this.value;
+		}
+    });
+});
+");	
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_guidedtours&view=tour&layout=edit&id=' .
