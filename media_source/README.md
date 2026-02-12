@@ -19,20 +19,21 @@ In default configuration the builder uses following tasks:
 - `js` process JavaScript files. Copy or compile in to JS when needed (example for `.es6.js` and `.vue` etc.).
 - `gzip` prepare compressed version of css,js files.
 
-To execute specific tast use `-t` argument:
+To execute specific task use `-t` argument:
 - `npm run build -- -a -t <task_name>,<task_name>` Will apply specified task to all asset builders.
-- `npm run build -- -n <resource_name>,<resource_name> -t <task_name>,<task_name>` Will apply specified task to specific asset builders.
+- `npm run build -- -n <resource_name>,<resource_name> -t <task_name>,<task_name>` Will apply specified task to specified asset builders.
 
-Use watchers while develop the extension, allows to automaticlay refresh the assets while editing.
+Use watchers while develop the extension allows to automatically refresh the assets while editing.
 - `npm run watch -- -n <resource_name>` Will start watching on files changes for specific asset.
 
 ## Adding new assets
 
 To add new resource follow next steps:
-- Create folder under `media_source/<com_example>/` with name of future asset.
+- Create folder under `media_source/` with name of future asset. Example for `com_example` it will be `media_source/com_example/`.
 - Add Stylesheets, JavaScript and other needed files for the asset.
 - Add the asset name in to `build/build-modules-js/builders-registry.mjs` in to list of `builders` so CLI know it exists.
-- (Optionally) When need extra processing add custom builder in to root of the newly created folder `media_source/<com_example>/builder.mjs`.
+- (Optionally) When need extra processing add custom builder in to root of the newly created folder `media_source/com_example/builder.mjs`.
+- Source files of complex Application (for example Vue based script) place under `src/` like `media_source/com_example/src/` and use custom builder to build the Applictaion.
 
 Done. And do not forget to run build.
 
@@ -62,7 +63,7 @@ To use custom builder add `builder.mjs` with custom logic in to the root of the 
 
 #### Anatomy of custom builder
 
-Each builder receives the source path and target path as input, also cmd options.
+Each builder receives the base path (path to `media_source/`) and target path (path to `media/`) as input, also cmd options.
 The builder should provide list of tasks which it is able to run and expose public methods for each task to do so.
 
 Example builder:
@@ -107,7 +108,7 @@ export default class ExampleModuleBuilder
 
 The list of tasks is not strict, and depending on the builder needs.
 However, it is required the builder to implement `getBuildTasks()` so the main script know which tasks need to run while running the complete build.
-Method `getAllTasks()` is optional, needed only when builder have a tasks that can be executed from CLI but which does not participate in the complete build.
+Method `getAllTasks()` is optional, needed only when builder have the tasks that can be executed from CLI but which does not participate in the complete build.
 
 To simplify the codding it is possible to extend `DefaultModuleBuilder` class.
 
