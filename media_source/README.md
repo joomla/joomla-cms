@@ -31,7 +31,7 @@ Use watchers while develop the extension allows to automatically refresh the ass
 To add new resource follow next steps:
 - Create folder under `media_source/` with name of future asset. Example for `com_example` it will be `media_source/com_example/`.
 - Add Stylesheets, JavaScript and other needed files for the asset.
-- Add the asset name in to `build/build-modules-js/builders-registry.mjs` in to list of `builders` so CLI know it exists.
+- Add the resource name in to `build/build-modules-js/builders-registry.mjs` in to list of `builders` so CLI know it exists.
 - (Optionally) When need extra processing add custom builder in to root of the newly created folder `media_source/com_example/builder.mjs`.
 - Source files of complex Application (for example Vue based script) place under `src/` like `media_source/com_example/src/` and use custom builder to build the Applictaion.
 
