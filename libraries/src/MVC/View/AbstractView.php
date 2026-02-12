@@ -249,7 +249,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
                 $className = \get_class($this);
                 $viewPos   = strpos($className, 'View');
 
-                if ($viewPos != false) {
+                if ($viewPos !== false) {
                     $this->_name = strtolower(substr($className, $viewPos + 4));
                 }
             }

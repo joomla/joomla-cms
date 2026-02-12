@@ -6,14 +6,14 @@ Build Status
 
 | Actions                                                                                                                                         | PHP                                                                           | Node                                                                                 | npm                                                                              |
 |-------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
-| [![Build Status](https://github.com/joomla/joomla-cms/actions/workflows/ci.yml/badge.svg?branch=5.3-dev)](https://github.com/joomla/joomla-cms) | [![PHP](https://img.shields.io/badge/PHP-V8.1.0-green)](https://www.php.net/) | [![node-lts](https://img.shields.io/badge/Node-V20.0-green)](https://nodejs.org/en/) | [![npm](https://img.shields.io/badge/npm-v10.1.0-green)](https://nodejs.org/en/) |
+| [![Build Status](https://github.com/joomla/joomla-cms/actions/workflows/ci.yml/badge.svg?branch=5.4-dev)](https://github.com/joomla/joomla-cms) | [![PHP](https://img.shields.io/badge/PHP-V8.1.0-green)](https://www.php.net/) | [![node-lts](https://img.shields.io/badge/Node-V20.0-green)](https://nodejs.org/en/) | [![npm](https://img.shields.io/badge/npm-v10.1.0-green)](https://nodejs.org/en/) |
 
 Overview
 ---------------------
 * This is the source of Joomla! 5.x.
 * Joomla's [Official website](https://www.joomla.org).
-* Joomla! 5.3 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_5.3_version_history).
-* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/5.3-dev).
+* Joomla! 5.4 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_5.4_version_history).
+* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/5.4-dev).
 
 What is Joomla?
 ---------------------
@@ -46,9 +46,9 @@ git clone https://github.com/joomla/joomla-cms.git
 ```bash
 cd joomla-cms
 ```
-- Go to the 5.3-dev branch:
+- Go to the 5.4-dev branch:
 ```bash
-git checkout 5.3-dev
+git checkout 5.4-dev
 ```
 - Install all the needed composer packages:
 ```bash
@@ -68,10 +68,26 @@ Do you want to improve Joomla?
 --------------------
 * Where to [request a feature](https://issues.joomla.org)?
 * How do you [report a bug](https://docs.joomla.org/Special:MyLanguage/Filing_bugs_and_issues) on the [Issue Tracker](https://issues.joomla.org)?
+* How to [submit code](https://manual.joomla.org/docs/get-started/git/) to the Joomla CMS using a Pull Request?
 * Get Involved: Joomla! is community developed software. [Join the community](https://volunteers.joomla.org).
 * Documentation for [Developers](https://manual.joomla.org/).
 * Documentation for [Web designers](https://docs.joomla.org/Special:MyLanguage/Web_designers).
 * Provide a translation for Joomla: [Joomla Crowdin Project](https://joomla.crowdin.com/cms)
+
+Which branch should my Pull Request target?
+--------------------
+Using a simple classification keeps the project **stable**, **transparent**, and **easy** for everyone to contribute.
+
+| Type of change | What it means | Target branch |
+|---|---|---|
+| **Bug / Patch release** | The change fixes an actual error. The software crashes, produces the wrong result, or behaves contrary to its specification. It can be resolved without large‑scale refactoring or new functionality. | **[5.4-dev](https://github.com/joomla/joomla-cms/tree/5.4-dev)** (6.0-dev) **\*** |
+| **Feature / Minor release** | Anything that isn’t a strict bug – new behavior, refactoring, performance improvements, enhancements, UI tweaks, etc. These changes are bundled together for the next minor version. | **[6.1-dev](https://github.com/joomla/joomla-cms/tree/6.1-dev)** |
+
+**\*** All bugs that already exist in version 5.4.x should be fixed in `5.4-dev`. Only bugs that are introduced for the first time in version 6.0.x should target the [`6.0-dev`](https://github.com/joomla/joomla-cms/tree/6.0-dev) branch.
+
+A member of the maintainer or bug squad team confirms the classification and sets the appropriate labels when a PR is opened. If a PR is opened in the wrong branch, a maintainer will simply ask you to retarget it to the proper branch.
+
+
 
 Copyright
 ---------------------

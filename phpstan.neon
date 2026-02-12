@@ -45,3 +45,13 @@ parameters:
 				- plugins/*
 		-
 			message: '#Call to deprecated method \_\(\) of class Joomla\\CMS\\Language\\Language.*#'
+
+		# PrepareableInterface and LimitableInterface will be removed and be part of the QueryInterface.
+		# Since we don't use these interfaces directly, we can ignore these errors.
+		# It is already fixed in joomla 6.0 with database framework version 4.
+		-
+			message: '#Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface.*#'
+		-
+			message: '#Call to method getBounded\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface.*#'
+		-
+			message: '#Call to method setLimit\(\) of deprecated interface Joomla\\Database\\Query\\LimitableInterface.*#'

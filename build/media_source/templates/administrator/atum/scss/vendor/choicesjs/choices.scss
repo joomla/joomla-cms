@@ -239,3 +239,24 @@
     }
   }
 }
+
+// Mark already selected elements with checkmark
+.choices[data-type*="select-multiple"] {
+  .choices__item.is-selected {
+    &::before {
+      position: absolute;
+      top: 50%;
+      inset-inline-end: .2em;
+      display: block;
+      padding: 0 .2em;
+      font-size: 1.2em;
+      font-weight: bold;
+      color: var(--success);
+      content: " ✓";
+      background: var(--body-bg);
+      border-radius: 2.5px;
+      opacity: 1;
+      transform: translateY(-50%);
+    }
+  }
+}

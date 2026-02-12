@@ -313,6 +313,10 @@ class SysinfoModel extends BaseDatabaseModel
         $db = $this->getDatabase();
 
         $this->info = [
+            'version'                => (new Version())->getLongVersion(),
+            'compatpluginenabled'    => PluginHelper::isEnabled('behaviour', 'compat'),
+            'compatpluginparameters' => $this->getCompatPluginParameters(),
+            'phpversion'             => PHP_VERSION,
             'php'                    => php_uname(),
             'dbserver'               => $db->getServerType(),
             'dbversion'              => $db->getVersion(),
@@ -320,12 +324,8 @@ class SysinfoModel extends BaseDatabaseModel
             'dbconnectioncollation'  => $db->getConnectionCollation(),
             'dbconnectionencryption' => $db->getConnectionEncryption(),
             'dbconnencryptsupported' => $db->isConnectionEncryptionSupported(),
-            'phpversion'             => PHP_VERSION,
             'server'                 => $_SERVER['SERVER_SOFTWARE'] ?? getenv('SERVER_SOFTWARE'),
             'sapi_name'              => PHP_SAPI,
-            'version'                => (new Version())->getLongVersion(),
-            'compatpluginenabled'    => PluginHelper::isEnabled('behaviour', 'compat'),
-            'compatpluginparameters' => $this->getCompatPluginParameters(),
             'useragent'              => $_SERVER['HTTP_USER_AGENT'] ?? '',
         ];
 
