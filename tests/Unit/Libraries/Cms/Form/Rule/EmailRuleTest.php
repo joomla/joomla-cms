@@ -17,7 +17,7 @@ use Joomla\Tests\Unit\UnitTestCase;
 /**
  * Test class for EmailRule.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  6.0.3
  */
 class EmailRuleTest extends UnitTestCase
 {
@@ -26,7 +26,7 @@ class EmailRuleTest extends UnitTestCase
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.3
      */
     public function dataTest(): array
     {
@@ -66,7 +66,7 @@ class EmailRuleTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.3
      * @dataProvider dataTest
      */
     public function testRule(bool $expected, \SimpleXMLElement $element, string $value): void

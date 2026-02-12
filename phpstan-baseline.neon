@@ -5033,7 +5033,7 @@ parameters:
 				             Catch thrown Exceptions instead of getError$#
 			'''
 			identifier: method.deprecated
-			count: 8
+			count: 20
 			path: administrator/components/com_tags/src/Model/TagModel.php
 
 		-
@@ -5044,7 +5044,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 9
+			count: 29
 			path: administrator/components/com_tags/src/Model/TagModel.php
 
 		-

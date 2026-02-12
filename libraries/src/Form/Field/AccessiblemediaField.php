@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\Form\Field;
 
+use Joomla\CMS\Language\Text;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -69,6 +71,14 @@ class AccessiblemediaField extends SubformField
     protected $layout;
 
     /**
+     * Media types like 'images, audios, documents, videos'
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $types;
+
+    /**
      * Method to get certain otherwise inaccessible properties from the form field object.
      *
      * @param   string  $name  The property name for which to get the value.
@@ -84,6 +94,7 @@ class AccessiblemediaField extends SubformField
             case 'preview':
             case 'previewHeight':
             case 'previewWidth':
+            case 'types':
                 return $this->$name;
         }
 
@@ -105,6 +116,7 @@ class AccessiblemediaField extends SubformField
         switch ($name) {
             case 'directory':
             case 'preview':
+            case 'types':
                 $this->$name = (string) $value;
                 break;
 
@@ -175,11 +187,15 @@ class AccessiblemediaField extends SubformField
             return false;
         }
 
-        $this->directory     = (string) $this->element['directory'];
-        $this->preview       = (string) $this->element['preview'];
-        $this->previewHeight = isset($this->element['preview_height']) ? (int) $this->element['preview_height'] : 200;
-        $this->previewWidth  = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 200;
+        $this->directory     = (string)$this->element['directory'];
+        $this->preview       = (string)$this->element['preview'];
+        $this->previewHeight = isset($this->element['preview_height']) ? (int)$this->element['preview_height'] : 200;
+        $this->previewWidth  = isset($this->element['preview_width']) ? (int)$this->element['preview_width'] : 200;
+        $this->types         = isset($this->element['types']) ? (string)$this->element['types'] : 'images';
+        $mediaTypes          = explode(',', $this->types);
+        $fieldName           = (\in_array('images', $mediaTypes)) ? 'imagefile' : 'file';
 
+        // Build the form source
         $xml = <<<XML
 <?xml version="1.0" encoding="utf-8"?>
 <form>
@@ -188,18 +204,21 @@ class AccessiblemediaField extends SubformField
 		label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_LABEL"
 	>
 		<field
-			name="imagefile"
+			name="$fieldName"
 			type="media"
 			label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_IMAGEFILE_LABEL"
 			directory="$this->directory"
 			preview="$this->preview"
 			preview_width="$this->previewWidth"
 			preview_height="$this->previewHeight"
+			types="$this->types"
 			schemes="http,https,ftp,ftps,data,file"
 			validate="url"
 			relative="true"
 		/>
-
+XML;
+        if (\in_array('images', $mediaTypes)) {
+            $xml .= <<<XML
 		<field
 			name="alt_text"
 			type="text"
@@ -212,13 +231,88 @@ class AccessiblemediaField extends SubformField
 			label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_ALT_EMPTY_LABEL"
 			description="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_ALT_EMPTY_DESC"
 		/>
+XML;
+        }
+        if (\in_array('videos', $mediaTypes) && $this->element['video_poster'] == 1) {
+            $xml .= <<<XML
+		<field
+			name="poster"
+			type="media"
+			label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_VIDEO_POSTER_LABEL"
+			directory="$this->directory"
+			preview="$this->preview"
+			preview_width="$this->previewWidth"
+			preview_height="$this->previewHeight"
+			types="images"
+			schemes="http,https,ftp,ftps,data,file"
+			validate="url"
+			relative="true"
+		/>
+XML;
+        }
+        if (\in_array('documents', $mediaTypes)) {
+            $xml .= <<<XML
+		<field
+			name="linktext"
+			type="text"
+			label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_LABEL"
+			description="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DESC"
+			filter="string"
+			hint="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DEFAULT_VALUE"
+		/>
+XML;
+        }
+        $xml .= <<<XML
 	</fieldset>
 </form>
 XML;
+
         $this->formsource = $xml;
 
         $this->layout = 'joomla.form.field.media.accessiblemedia';
 
         return true;
+    }
+
+    /**
+     * Method to get the field input markup.
+     *
+     * @return  string  The field input markup.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getInput()
+    {
+        $subForm = $this->loadSubForm();
+
+        $mediaTypes = explode(',', $this->types);
+        $label      = '';
+        if (\count($mediaTypes) > 1) {
+            $labels = [];
+
+            foreach ($mediaTypes as $type) {
+                $const    = 'JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_MEDIA_TYPE_' . strtoupper($type);
+                $labels[] = Text::_($const);
+            }
+
+            if (!empty($labels)) {
+                $label = Text::sprintf('JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_LABEL', implode(', ', $labels));
+            }
+        } else {
+            $label = Text::_('JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_MEDIA_TYPE_' . strtoupper($mediaTypes[0]));
+        }
+
+        $fieldName = (\in_array('images', $mediaTypes)) ? 'imagefile' : 'file';
+        if (!empty($label) && $subForm->getField($fieldName)) {
+            $subForm->setFieldAttribute($fieldName, 'label', $label);
+        }
+
+        if ($subForm && $subForm->getField('linktext')) {
+            $subForm->setFieldAttribute('linktext', 'default', Text::_('JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DEFAULT_VALUE'));
+        }
+
+        $this->form = $subForm;
+
+        return parent::getInput();
     }
 }
