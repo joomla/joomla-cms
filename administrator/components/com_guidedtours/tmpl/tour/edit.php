@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
     });
 });
-");	
+");
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_guidedtours&view=tour&layout=edit&id=' .
