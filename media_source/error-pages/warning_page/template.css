@@ -1,15 +1,10 @@
 html {
-  background: #ee2a00;
-  background: -moz-radial-gradient(center, ellipse cover, rgba(241, 241, 241, 1) 0, rgb(238, 42, 0) 100%);
-  background: -webkit-radial-gradient(center, ellipse cover, rgba(241, 241, 241, 1) 0, rgb(238, 42, 0) 100%);
-  background: radial-gradient(ellipse at center, rgba(241, 241, 241, 1) 0, rgb(238, 42, 0) 100%);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  background: #ee2a00 radial-gradient(ellipse at center, rgba(241, 241, 241, 1) 0, rgb(238, 42, 0) 100%) no-repeat fixed;
 }
 
 body {
-  margin: 0;
   padding: 0;
+  margin: 0;
   font: 14px / 18px sans-serif;
   color: #555;
   background-color: transparent;
@@ -35,35 +30,35 @@ p a {
 }
 
 .container {
+  position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  position: relative;
-  margin: 0 auto;
+  justify-content: center;
   width: 100%;
   height: 100vh;
+  margin: 0 auto;
   overflow: hidden;
 }
 
 .alert-main {
-  display: block;
   position: relative;
-  background: #fff;
-  border: 1px solid rgba(0,0,0,0.1);
-  border-radius: 5px;
+  display: block;
   padding: 20px 60px;
   margin: 0 20px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.1);
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,.05);
 }
 
 svg {
   position: absolute;
-  bottom: -120px;
   right: -70px;
+  bottom: -120px;
+  z-index: -1;
   width: 400px;
   transform: rotate(10deg);
-  z-index: -1;
 }
 
 h1, p {
@@ -91,27 +86,27 @@ p, label {
 
 p a {
   font-weight: bold;
-  color: #1C3D5C;
+  color: #1c3d5c;
 }
 
 .link-help {
   padding: .4rem .85rem;
   font-size: 1rem;
   font-weight: normal;
-  border-radius: .25rem;
   text-decoration: none;
   background-color: #f5f5f5;
-  border: 1px solid rgba(0,0,0,0.1);
+  border: 1px solid rgba(0,0,0,.1);
+  border-radius: .25rem;
 }
 .link-help:hover {
-  background-color: #eee;
   text-decoration: none;
+  background-color: #eee;
 }
 
 .footer {
   margin: 8px 20px;
-  text-align: left;
   font-size: 11px;
+  text-align: left;
 }
 
 .footer ul {
@@ -125,20 +120,20 @@ p a {
 }
 
 .footer li, .footer a {
-  color: #1C3D5C;
+  color: #1c3d5c;
 }
 
 .footer a:hover {
-  color: #59B0FF;
+  color: #59b0ff;
 }
 
 .links {
   display: block;
-  text-align: center;
   margin-top: 4rem;
-  margin-left: auto;
   margin-right: auto;
+  margin-left: auto;
   font-size: 1rem;
+  text-align: center;
 }
 .links li {
   display: inline-block;
