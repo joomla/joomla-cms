@@ -9,8 +9,8 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
 import { babel } from '@rollup/plugin-babel';
-import DefaultModuleBuilder from '../../build-modules-js/builder/default-module-builder.mjs';
-import { minifyJSContent } from '../../build-modules-js/javascript/js-handle.mjs';
+import DefaultModuleBuilder from '../../build/build-modules-js/builder/default-module-builder.mjs';
+import { minifyJSContent } from '../../build/build-modules-js/javascript/js-handle.mjs';
 
 export const buildWorkflowModule = async (basePath, targetPath) => {
   const srcFile = path.join(basePath, 'src', 'workflowgraph.es6.js');

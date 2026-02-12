@@ -4,7 +4,7 @@
 import path from 'node:path';
 import fsp from "node:fs/promises";
 import fs from "node:fs";
-import DefaultModuleBuilder from '../../build-modules-js/builder/default-module-builder.mjs';
+import DefaultModuleBuilder from '../../build/build-modules-js/builder/default-module-builder.mjs';
 
 export default class PlgDebugModuleBuilder extends DefaultModuleBuilder
 {

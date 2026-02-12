@@ -1,27 +1,27 @@
 // Bootstrap functions
-@import "../../../../../../media/vendor/bootstrap/scss/functions";
+@import "../../../../../media/vendor/bootstrap/scss/functions";
 
 // Atum Variables
 @import "variables";
 @import "variables-dark";
 
-@import "../../../../../../media/vendor/bootstrap/scss/variables";
-@import "../../../../../../media/vendor/bootstrap/scss/variables-dark";
-@import "../../../../../../media/vendor/bootstrap/scss/maps";
+@import "../../../../../media/vendor/bootstrap/scss/variables";
+@import "../../../../../media/vendor/bootstrap/scss/variables-dark";
+@import "../../../../../media/vendor/bootstrap/scss/maps";
 @import "maps-atum";
-@import "../../../../../../media/vendor/bootstrap/scss/mixins";
-@import "../../../../../../media/vendor/bootstrap/scss/utilities";
+@import "../../../../../media/vendor/bootstrap/scss/mixins";
+@import "../../../../../media/vendor/bootstrap/scss/utilities";
 
 // Bootstrap other
-@import "../../../../../../media/vendor/bootstrap/scss/bootstrap";
+@import "../../../../../media/vendor/bootstrap/scss/bootstrap";
 
 // Fonts
-@import "../../../../../../media/vendor/roboto-fontface/scss/roboto/sass/roboto-fontface";
+@import "../../../../../media/vendor/roboto-fontface/scss/roboto/sass/roboto-fontface";
 
 @import "blocks/global"; // Leave this first
 
 // jQuery Minicolors
-@import "../../../../../../media/system/scss/jquery-minicolors";
+@import "../../../../../media/system/scss/jquery-minicolors";
 
 // System overrides
 @import "system/fields/calendar";

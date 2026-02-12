@@ -6,9 +6,9 @@ import path from 'node:path';
 import fsp from "node:fs/promises";
 import fs from "node:fs";
 import { createRequire } from 'node:module';
-import DefaultModuleBuilder from '../../build-modules-js/builder/default-module-builder.mjs';
-import { resolvePackageFile, getPackagesUnderScope } from '../../build-modules-js/utils/resolve-package.mjs';
-import { handleMJSFile } from '../../build-modules-js/javascript/js-handle.mjs';
+import DefaultModuleBuilder from '../../build/build-modules-js/builder/default-module-builder.mjs';
+import { resolvePackageFile, getPackagesUnderScope } from '../../build/build-modules-js/utils/resolve-package.mjs';
+import { handleMJSFile } from '../../build/build-modules-js/javascript/js-handle.mjs';
 
 /**
  * Update joomla.asset.json for codemirror

@@ -5,11 +5,11 @@ import path from 'node:path';
 import fsp from "node:fs/promises";
 import fs from "node:fs";
 
-import pkgOptions from '../../../package.json' with { type: 'json' };
-import buildSettings from '../../build-modules-js/settings.json' with { type: 'json' };
-import DefaultModuleBuilder from '../../build-modules-js/builder/default-module-builder.mjs';
-import { resolvePackageFile } from '../../build-modules-js/utils/resolve-package.mjs';
-import { handleJSFile } from '../../build-modules-js/javascript/js-handle.mjs';
+import pkgOptions from '../../package.json' with { type: 'json' };
+import buildSettings from '../../build/build-modules-js/settings.json' with { type: 'json' };
+import DefaultModuleBuilder from '../../build/build-modules-js/builder/default-module-builder.mjs';
+import { resolvePackageFile } from '../../build/build-modules-js/utils/resolve-package.mjs';
+import { handleJSFile } from '../../build/build-modules-js/javascript/js-handle.mjs';
 
 /**
  * Copy package files.

@@ -8,9 +8,9 @@ import { rollup } from 'rollup';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import { babel } from '@rollup/plugin-babel';
-import DefaultModuleBuilder from '../../../build-modules-js/builder/default-module-builder.mjs';
-import { resolvePackageFile } from '../../../build-modules-js/utils/resolve-package.mjs';
-import { minifyJSContent } from '../../../build-modules-js/javascript/js-handle.mjs';
+import DefaultModuleBuilder from '../../../build/build-modules-js/builder/default-module-builder.mjs';
+import { resolvePackageFile } from '../../../build/build-modules-js/utils/resolve-package.mjs';
+import { minifyJSContent } from '../../../build/build-modules-js/javascript/js-handle.mjs';
 
 const minifyBootstrapModule = async (targetFile, code, bsVersion) => {
   const code2 = code.replace('./popper.js', `./popper.min.js?${bsVersion}`)
@@ -69,17 +69,17 @@ const compileBootstrapJS = async (basePath, targetPath) => {
       dir: path.join(targetPath, 'js'),
       chunkFileNames: '[name].js',
       manualChunks: {
-        alert: ['build/media_source/vendor/bootstrap/js/alert.es6.js'],
-        button: ['build/media_source/vendor/bootstrap/js/button.es6.js'],
-        carousel: ['build/media_source/vendor/bootstrap/js/carousel.es6.js'],
-        collapse: ['build/media_source/vendor/bootstrap/js/collapse.es6.js'],
-        dropdown: ['build/media_source/vendor/bootstrap/js/dropdown.es6.js'],
-        modal: ['build/media_source/vendor/bootstrap/js/modal.es6.js'],
-        offcanvas: ['build/media_source/vendor/bootstrap/js/offcanvas.es6.js'],
-        popover: ['build/media_source/vendor/bootstrap/js/popover.es6.js'],
-        scrollspy: ['build/media_source/vendor/bootstrap/js/scrollspy.es6.js'],
-        tab: ['build/media_source/vendor/bootstrap/js/tab.es6.js'],
-        toast: ['build/media_source/vendor/bootstrap/js/toast.es6.js'],
+        alert: ['media_source/vendor/bootstrap/js/alert.es6.js'],
+        button: ['media_source/vendor/bootstrap/js/button.es6.js'],
+        carousel: ['media_source/vendor/bootstrap/js/carousel.es6.js'],
+        collapse: ['media_source/vendor/bootstrap/js/collapse.es6.js'],
+        dropdown: ['media_source/vendor/bootstrap/js/dropdown.es6.js'],
+        modal: ['media_source/vendor/bootstrap/js/modal.es6.js'],
+        offcanvas: ['media_source/vendor/bootstrap/js/offcanvas.es6.js'],
+        popover: ['media_source/vendor/bootstrap/js/popover.es6.js'],
+        scrollspy: ['media_source/vendor/bootstrap/js/scrollspy.es6.js'],
+        tab: ['media_source/vendor/bootstrap/js/tab.es6.js'],
+        toast: ['media_source/vendor/bootstrap/js/toast.es6.js'],
         popper: ['@popperjs/core'],
         dom: [
           'node_modules/bootstrap/js/src/base-component.js',

@@ -50,7 +50,7 @@ export default async function buildCommand(program, cmdOptions = {}, builders = 
   }
 
   const factory = new BuilderFactory(
-    path.resolve('./build/media_source'),
+    path.resolve('./media_source'),
     path.resolve('./media'),
     cmdOptions,
   );

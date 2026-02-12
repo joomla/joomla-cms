@@ -5,10 +5,10 @@ import fs from 'node:fs';
 import fsp from 'node:fs/promises';
 import path from 'node:path';
 import Ini from 'ini';
-import buildSettings from '../../build-modules-js/settings.json' with { type: 'json' };
-import DefaultModuleBuilder from '../../build-modules-js/builder/default-module-builder.mjs';
-import { minifyCSS } from '../../build-modules-js/stylesheets/css-handler.mjs';
-import { minifyJSContent } from '../../build-modules-js/javascript/js-handle.mjs';
+import buildSettings from '../../build/build-modules-js/settings.json' with { type: 'json' };
+import DefaultModuleBuilder from '../../build/build-modules-js/builder/default-module-builder.mjs';
+import { minifyCSS } from '../../build/build-modules-js/stylesheets/css-handler.mjs';
+import { minifyJSContent } from '../../build/build-modules-js/javascript/js-handle.mjs';
 
 const processIni = async (file, state) => {
   const languageStrings = Ini.parse(fs.readFileSync(file, { encoding: 'utf8' }));
