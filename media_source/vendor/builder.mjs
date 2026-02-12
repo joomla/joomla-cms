@@ -22,6 +22,10 @@ import { handleJSFile } from '../../build/build-modules-js/javascript/js-handle.
  */
 const copyVendorFiles = async (vendor, packageName, mediaVendorPath) => {
   const vendorName = vendor.name || packageName;
+  if (!packageName) {
+    throw new Error('vendorName: ' + vendorName)
+  }
+
   const modulePathJson = resolvePackageFile(path.join(packageName, 'package.json'));
 
   if (!modulePathJson) {
