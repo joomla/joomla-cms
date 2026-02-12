@@ -56,6 +56,7 @@ $wa->useScript('keepalive')
         <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', empty($this->item->id) ? Text::_('COM_GUIDEDTOURS_NEW_TOUR') : Text::_('COM_GUIDEDTOURS_EDIT_TOUR')); ?>
         <div class="row">
             <div class="col-lg-9">
+                <?php echo $this->form->renderField('url_type'); ?>                
                 <?php echo $this->form->renderField('url'); ?>
                 <?php echo $this->form->renderField('description'); ?>
 
