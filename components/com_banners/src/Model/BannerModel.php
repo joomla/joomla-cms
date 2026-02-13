@@ -169,9 +169,9 @@ class BannerModel extends BaseDatabaseModel
 
             // For PHP 5.3 compat we can't use $this in the lambda function below, so grab the database driver now to use it
             $db      = $this->getDatabase();
-            $nowDate = Factory::getDate()->toSql();
 
             $loader = function ($id) use ($db) {
+                $nowDate = Factory::getDate()->toSql();
                 $query = $db->getQuery(true);
 
                 $query->select(
