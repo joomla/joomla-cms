@@ -172,7 +172,7 @@ class BannerModel extends BaseDatabaseModel
 
             $loader = function ($id) use ($db) {
                 $nowDate = Factory::getDate()->toSql();
-                $query = $db->getQuery(true);
+                $query   = $db->getQuery(true);
 
                 $query->select(
                     [
