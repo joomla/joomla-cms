@@ -203,7 +203,7 @@ class BannerModel extends BaseDatabaseModel
                         'OR'
                     )
                     ->bind(':id', $id, ParameterType::INTEGER)
-                    ->bind([':nowDate1', ':nowDate2'], $nowDate);
+                    ->bind(':nowDate', $nowDate);
 
                 $db->setQuery($query);
 
