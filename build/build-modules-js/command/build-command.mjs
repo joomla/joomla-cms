@@ -76,7 +76,7 @@ export default async function buildCommand(program, cmdOptions = {}, builders = 
       return createAndRunBuilder(program, name, factory, tasksToRun, runAll).then(() => checkQueue())
     }
 
-    // Collect dangling promises to be sure all is resolved in the end
+    // Collect dangling promises to be sure all are resolved in the end
     danglingPromises.push(createAndRunBuilder(program, name, factory, tasksToRun, runAll));
 
     return checkQueue();
