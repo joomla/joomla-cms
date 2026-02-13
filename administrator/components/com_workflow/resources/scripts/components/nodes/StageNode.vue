@@ -211,7 +211,7 @@ export default {
       return this.data.isSelected;
     },
     stageStyle() {
-      return {                                
+      return {
         borderColor: `var(--code-color) !important`,
         borderWidth: this.isSelected ? '3px !important' : '0 !important',
         background: this.data.isSpecial ? 'purple !important' : 'rgb(var(--primary-rgb)) !important',

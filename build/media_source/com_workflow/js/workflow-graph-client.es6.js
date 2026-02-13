@@ -125,28 +125,28 @@ Joomla = window.Joomla || {};
         const prev = points[i-1];
         const curr = points[i];
         const next = points[i+1];
-        
+
         const dx1 = prev.x - curr.x;
         const dy1 = prev.y - curr.y;
         const len1 = Math.sqrt(dx1*dx1 + dy1*dy1);
-        
+
         const dx2 = next.x - curr.x;
         const dy2 = next.y - curr.y;
         const len2 = Math.sqrt(dx2*dx2 + dy2*dy2);
-        
+
         if (len1 < 1 || len2 < 1) {
              path += ` L ${curr.x} ${curr.y}`;
              continue;
         }
 
         const r = Math.min(CORNER_RADIUS, len1/2, len2/2);
-        
+
         const startX = curr.x + (dx1 / len1) * r;
         const startY = curr.y + (dy1 / len1) * r;
-        
+
         const endX = curr.x + (dx2 / len2) * r;
         const endY = curr.y + (dy2 / len2) * r;
-        
+
         path += ` L ${startX} ${startY}`;
         path += ` Q ${curr.x} ${curr.y} ${endX} ${endY}`;
     }
@@ -156,25 +156,25 @@ Joomla = window.Joomla || {};
 
   function getVerticalStepPath(sourceX, sourceY, targetX, targetY, midY) {
     const points = [
-      { x: sourceX, y: sourceY },       
-      { x: sourceX, y: midY },          
-      { x: targetX, y: midY },          
-      { x: targetX, y: targetY }        
+      { x: sourceX, y: sourceY },
+      { x: sourceX, y: midY },
+      { x: targetX, y: midY },
+      { x: targetX, y: targetY }
     ];
     return [buildPathFromPoints(points), (sourceX + targetX) / 2, midY];
   }
 
   function getHorizontalStepPath(sourceX, sourceY, targetX, targetY, midX) {
-    const startStubY = sourceY + 30; 
-    const endStubY = targetY - 30;   
-    
+    const startStubY = sourceY + 30;
+    const endStubY = targetY - 30;
+
     const points = [
-      { x: sourceX, y: sourceY },      
-      { x: sourceX, y: startStubY },   
-      { x: midX, y: startStubY },      
-      { x: midX, y: endStubY },        
-      { x: targetX, y: endStubY },     
-      { x: targetX, y: targetY }       
+      { x: sourceX, y: sourceY },
+      { x: sourceX, y: startStubY },
+      { x: midX, y: startStubY },
+      { x: midX, y: endStubY },
+      { x: targetX, y: endStubY },
+      { x: targetX, y: targetY }
     ];
     return [buildPathFromPoints(points), midX, (startStubY + endStubY) / 2];
   }
@@ -182,7 +182,7 @@ Joomla = window.Joomla || {};
   function generateEdges(transitions, stages) {
     const stageMap = new Map(stages.map(s => [s.id, s]));
     const edgeGroups = {};
-    
+
     // Undirected Grouping to prevent overlaps on bi-directional edges
     transitions.forEach(tr => {
       const fromId = tr.from_stage_id === -1 ? 'From Any' : tr.from_stage_id;
@@ -190,11 +190,11 @@ Joomla = window.Joomla || {};
       const s1 = String(fromId);
       const s2 = String(toId);
       const key = s1 < s2 ? `${s1}|${s2}` : `${s2}|${s1}`;
-      
+
       if (!edgeGroups[key]) edgeGroups[key] = [];
       edgeGroups[key].push(tr);
     });
-    
+
     Object.values(edgeGroups).forEach(group => group.sort((a, b) => a.id - b.id));
 
     return transitions.flatMap(tr => {
@@ -202,30 +202,30 @@ Joomla = window.Joomla || {};
       const toId = tr.to_stage_id;
       const fromStage = stageMap.get(fromId);
       const toStage = stageMap.get(toId);
-      
+
       if (!(fromStage != null && fromStage.position) || !(toStage != null && toStage.position)) return [];
 
       const sourceX = fromStage.position.x + STAGE_WIDTH / 2;
-      const sourceY = fromStage.position.y + STAGE_HEIGHT; 
+      const sourceY = fromStage.position.y + STAGE_HEIGHT;
       const targetX = toStage.position.x + STAGE_WIDTH / 2;
-      const targetY = toStage.position.y; 
+      const targetY = toStage.position.y;
 
       const s1 = String(fromId);
       const s2 = String(toId);
       const groupKey = s1 < s2 ? `${s1}|${s2}` : `${s2}|${s1}`;
       const group = edgeGroups[groupKey] || [tr];
       const transitionIndex = group.findIndex(t => t.id === tr.id);
-      
+
       let offsetIndex = transitionIndex - (group.length - 1) / 2;
-      const bundleSpacing = 40; 
-      
+      const bundleSpacing = 40;
+
       let pathData, labelX, labelY;
 
       // Obstruction Check
       let isVerticalObstructed = false;
       const distX = Math.abs(sourceX - targetX);
       const isVerticallyAligned = distX < STAGE_WIDTH;
-      
+
       if (isVerticallyAligned && targetY > sourceY) {
          isVerticalObstructed = stages.some(stage => {
             if (stage.id === fromId || stage.id === toId) return false;
@@ -234,7 +234,7 @@ Joomla = window.Joomla || {};
             const isBetweenY = (sTop > sourceY && sBottom < targetY);
             const sLeft = stage.position.x;
             const sRight = stage.position.x + STAGE_WIDTH;
-            const pathX = sourceX; 
+            const pathX = sourceX;
             const isBlockingX = (pathX > sLeft - 20 && pathX < sRight + 20);
             return isBetweenY && isBlockingX;
          });
@@ -244,7 +244,7 @@ Joomla = window.Joomla || {};
 
       if (isStacked) {
           let midY = (sourceY + targetY) / 2;
-          midY += offsetIndex * bundleSpacing; 
+          midY += offsetIndex * bundleSpacing;
           [pathData, labelX, labelY] = getVerticalStepPath(sourceX, sourceY, targetX, targetY, midY);
           labelX += offsetIndex * 60; // Stagger X
       } else {
@@ -284,8 +284,8 @@ Joomla = window.Joomla || {};
       stageEl.className = `stage ${stage.default ? 'default' : ''} ${isVirtual ? 'virtual' : ''}`;
       stageEl.style.left = `${stage.position.x}px`;
       stageEl.style.top = `${stage.position.y}px`;
-      
-      let newHTML = isVirtual 
+
+      let newHTML = isVirtual
         ? `<div class="stage-title text-truncate">${stage.title}</div>
            <div class="d-flex justify-content-between align-items-center mt-2"><div class="badge bg-info rounded-pill p-1"></div></div>`
         : `<div class="stage-title text-truncate" title="${stage.title}">${stage.title}</div>
@@ -296,7 +296,7 @@ Joomla = window.Joomla || {};
              ${typeof stage.published !== 'undefined' ? `<div class="badge ${stage.published == '1' ? 'bg-success' : 'bg-danger'} rounded-pill p-1">${stage.published == '1' ? translate('COM_WORKFLOW_GRAPH_ENABLED') : translate('COM_WORKFLOW_GRAPH_DISABLED')}</div>` : ''}
              ${stage.default ? `<div class="badge bg-warning rounded-pill p-1">${translate('COM_WORKFLOW_GRAPH_DEFAULT')}</div>` : ''}
            </div>`;
-      
+
       stageEl.innerHTML = newHTML;
       stageContainer.appendChild(stageEl);
     });
@@ -347,7 +347,7 @@ Joomla = window.Joomla || {};
         foreignObject = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
         foreignObject.dataset.edgeId = edge.id;
         foreignObject.style.overflow = 'visible';
-        
+
         labelDiv = document.createElement('div');
         labelDiv.className = 'transition-label-content';
         labelDiv.addEventListener('click', (e) => {
@@ -360,27 +360,27 @@ Joomla = window.Joomla || {};
       } else {
         labelDiv = foreignObject.querySelector('div');
       }
-      
+
       labelDiv.textContent = edge.label;
       labelDiv.classList.toggle('highlighted', state.highlightedEdge === edge.id);
       graph.style.transform = `translate(${state.panX}px, ${state.panY}px) scale(${state.scale})`;
-      
+
       requestAnimationFrame(() => {
         labelDiv.style.width = 'max-content';
         const rect = labelDiv.getBoundingClientRect();
         if (rect.width === 0 && rect.height === 0) return;
         const measuredWidth = rect.width / state.scale;
         const measuredHeight = (rect.height / state.scale) || 24;
-        
-        foreignObject.setAttribute('width', measuredWidth + 4); 
+
+        foreignObject.setAttribute('width', measuredWidth + 4);
         foreignObject.setAttribute('height', measuredHeight + 4);
-        
+
         foreignObject.setAttribute('x', edge.labelPosition.x - (measuredWidth / 2));
         foreignObject.setAttribute('y', edge.labelPosition.y - (measuredHeight / 2));
       });
     });
 
-    
+
     // Grid Background
     const workflowGraph = modal.querySelector('#workflow-graph');
     if (workflowGraph) {
@@ -434,11 +434,11 @@ Joomla = window.Joomla || {};
     const graph = modal.querySelector('#graph');
     if (!container || container.dataset.initialized) return;
     container.dataset.initialized = 'true';
-    
+
     const workflowContainer = container.querySelector('#workflow-container');
     const workflowId = parseInt(workflowContainer.dataset.workflowId, 10);
     if (!workflowId) return showMessageInModal('COM_WORKFLOW_GRAPH_ERROR_INVALID_ID', 'error');
-    
+
     // Standard Arrowhead definition (points right, orient=auto handles the rest)
     modal.querySelector('#connections').innerHTML = `<defs>
       <marker id="arrowhead" viewBox="0 0 10 10" refX="10" refY="5"
@@ -460,13 +460,13 @@ Joomla = window.Joomla || {};
       state.transitions = transitionsData?.data || [];
 
       if (!stages.length) return showMessageInModal('COM_WORKFLOW_GRAPH_ERROR_STAGES_NOT_FOUND', 'error');
-      
+
       if (state.transitions.some(tr => tr.from_stage_id === -1) && !stages.some(s => s.id === 'From Any')) {
         stages.unshift({ id: 'From Any', title: 'From Any', position: null });
       }
       state.stages = stages.map(s => ({ ...s, position: s.position || { x: NaN, y: NaN } }));
       state.stages = calculateAutoLayout(state.stages);
-      
+
       // Update UI Counts
       modal.querySelector('.joomla-dialog-header h3').textContent = state.workflow.title || translate('COM_WORKFLOW_GRAPH_WORKFLOW');
       const statusBadge = modal.querySelector('#workflow-status-badge');
@@ -477,7 +477,7 @@ Joomla = window.Joomla || {};
       const realStagesCount = state.stages.filter(s => s.id !== 'From Any').length;
       const stageCount = modal.querySelector('#workflow-stage-count');
       if (stageCount) stageCount.textContent = `${realStagesCount} ${realStagesCount === 1 ? translate('COM_WORKFLOW_GRAPH_STAGE') : translate('COM_WORKFLOW_GRAPH_STAGES')}`;
-      
+
       const transitionCount = modal.querySelector('#workflow-transition-count');
       if (transitionCount) transitionCount.textContent = `${state.transitions.length} ${state.transitions.length === 1 ? translate('COM_WORKFLOW_GRAPH_TRANSITION') : translate('COM_WORKFLOW_GRAPH_TRANSITIONS')}`;
       renderGraph(modal);
@@ -501,9 +501,9 @@ Joomla = window.Joomla || {};
       state.panY = e.clientY - panStart.y;
       renderGraph(modal);
     });
-    const stopPanning = () => { 
+    const stopPanning = () => {
       isPanning = false;
-      if (graph) graph.classList.remove('dragging'); 
+      if (graph) graph.classList.remove('dragging');
     };
     document.addEventListener("mouseup", stopPanning);
     container.addEventListener("mouseleave", stopPanning);
@@ -524,7 +524,7 @@ Joomla = window.Joomla || {};
     zoomControls.querySelector('.zoom-in').addEventListener('click', () => applyZoom(1.2, modal));
     zoomControls.querySelector('.zoom-out').addEventListener('click', () => applyZoom(1 / 1.2, modal));
     zoomControls.querySelector('.fit-screen').addEventListener('click', () => fitToScreen(modal));
-    
+
     function applyZoom(factor, modalContext) {
       const rect = modalContext.querySelector('#workflow-graph').getBoundingClientRect();
       const centerX = rect.width / 2;

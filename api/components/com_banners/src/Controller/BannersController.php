@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Banners\Api\Controller;
 
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\Controller\ApiController;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -38,4 +39,23 @@ class BannersController extends ApiController
      * @since  3.0
      */
     protected $default_view = 'banners';
+
+    /**
+     * Banner list view amended to add filtering of data
+     *
+     * @return  static  A BaseController object to support chaining.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function displayList()
+    {
+        $apiFilterInfo = $this->input->get('filter', [], 'array');
+        $filter        = InputFilter::getInstance();
+
+        if (\array_key_exists('state', $apiFilterInfo)) {
+            $this->modelState->set('filter.published', $filter->clean($apiFilterInfo['state'], 'INT'));
+        }
+
+        return parent::displayList();
+    }
 }
