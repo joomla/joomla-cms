@@ -190,7 +190,7 @@ class BannerModel extends BaseDatabaseModel
                         'AND',
                         [
                             $db->quoteName('a.publish_up') . ' IS NULL',
-                            $db->quoteName('a.publish_up') . ' <= :nowDate1',
+                            $db->quoteName('a.publish_up') . ' <= :nowDate',
                         ],
                         'OR'
                     )
