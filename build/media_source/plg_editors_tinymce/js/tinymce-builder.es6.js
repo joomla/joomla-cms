@@ -15,6 +15,8 @@ const tinymce = {
   langCode: 'en',
   langStrings: {},
   icons: {
+    abbr: '<svg height="24" width="24"><path d="M5 8a1 1 0 0 0 2 0V7h1a1 1 0 0 0 0-2H7V4a1 1 0 0 0-2 0v1H4a1 1 0 0 0 0 2h1Zm13-3h-6a1 1 0 0 0 0 2h6a1 1 0 0 1 1 1v9.72l-1.57-1.45a1 1 0 0 0-.68-.27H8a1 1 0 0 1-1-1v-3a1 1 0 0 0-2 0v3a3 3 0 0 0 3 3h8.36l3 2.73A1 1 0 0 0 20 21a1.1 1.1 0 0 0 .4-.08A1 1 0 0 0 21 20V8a3 3 0 0 0-3-3Z"></path></svg>',
+    'abbr_remove': '<svg height="24" width="24"><path d="M19,6H15a1,1,0,0,0,0,2h4a1,1,0,0,1,1,1v9.72l-1.57-1.45a1,1,0,0,0-.68-.27H9a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v1a3,3,0,0,0,3,3h8.36l3,2.73A1,1,0,0,0,21,22a1.1,1.1,0,0,0,.4-.08A1,1,0,0,0,22,21V9A3,3,0,0,0,19,6Zm-8.46,4.54A5,5,0,1,0,7,12,5,5,0,0,0,10.54,10.54ZM4,7A3,3,0,0,1,7,4a3,3,0,0,1,1.28.3l-4,4A3,3,0,0,1,4,7ZM9.7,5.71A3,3,0,0,1,10,7,3,3,0,0,1,5.72,9.7Z"></path></svg>',
     'accessibility-check': '<svg width="24" height="24"><path d="M12 2a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2c0-1.1.9-2 2-2zm8 7h-5v12c0 .6-.4 1-1 1a1 1 0 0 1-1-1v-5c0-.6-.4-1-1-1a1 1 0 0 0-1 1v5c0 .6-.4 1-1 1a1 1 0 0 1-1-1V9H4a1 1 0 1 1 0-2h16c.6 0 1 .4 1 1s-.4 1-1 1z" fill-rule="nonzero"/></svg>',
     accordion: '<svg width="24" height="24"><rect x="12" y="7" width="10" height="2" rx="1"/><rect x="12" y="11" width="10" height="2" rx="1"/><rect x="12" y="15" width="6" height="2" rx="1"/><path fill-rule="evenodd" clip-rule="evenodd" d="M2.3 7.3a1 1 0 0 1 1.4 0L6 9.6l2.3-2.3a1 1 0 0 1 1.4 1.4L6 12.4 2.3 8.7a1 1 0 0 1 0-1.4Z"/></svg>',
     'align-center': '<svg width="24" height="24"><path d="M5 5h14c.6 0 1 .4 1 1s-.4 1-1 1H5a1 1 0 1 1 0-2zm3 4h8c.6 0 1 .4 1 1s-.4 1-1 1H8a1 1 0 1 1 0-2zm0 8h8c.6 0 1 .4 1 1s-.4 1-1 1H8a1 1 0 0 1 0-2zm-3-4h14c.6 0 1 .4 1 1s-.4 1-1 1H5a1 1 0 0 1 0-2z" fill-rule="evenodd"/></svg>',
