@@ -15,14 +15,14 @@ export default class DefaultModuleBuilder{
 
   /**
    * List of tasks to be executed by default for the build process.
-   * Basically list of the class methods that allowed to be called from CLI.
+   * Basically list all of the class methods that are allowed to be called from CLI.
    *
    * @type {string[]}
    */
   tasksBuild = ['clear', 'copy', 'css', 'js'];
 
   /**
-   * List of extra tasks that the builder can run, but which is not executed during the build process.
+   * List of extra tasks that the builder can run, but which are not executed during the build process.
    *
    * @type {string[]}
    */

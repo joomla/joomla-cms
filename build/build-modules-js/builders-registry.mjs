@@ -94,13 +94,13 @@ export const builders = [
   'templates/site/cassiopeia',
   'templates/site/cassiopeia_extended',
 
-  // Additional builders, which is not distributed under media/
+  // Additional builders, which are not distributed under media/
   'error-pages',
 ];
 
-// Builders which should be completed before any following builder start.
+// Builders which should be completed before any following builder starts.
 // Used for mass-execution to prevent collisions.
 export const blockingBuilders = [
   'vendor', // Blocking many extensions depending on it
-  'system', // Blocking because 'error-pages' writes in to same folder, so 'system' should be completed before that
+  'system', // Blocking because 'error-pages' writes in to the same folder, so 'system' should be completed before that
 ];

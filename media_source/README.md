@@ -1,38 +1,38 @@
 # CMS Media source
 
 The folder contains source files of CMS client-side resources (Stylesheets, JavaScripts, Images and other assets) needed for extensions to work.
-Each folder is for specific extension with few exceptions like `vendor`, `system`.
+Each folder is for a specific extension with a few exceptions like `vendor`, `system`.
 
 ## Building assets
 
-Before use the assets first it is needed to be built/compiled and placed under `media/` folder.
+Before using the assets they must first be built/compiled and placed under `media/` folder.
 
 Following command helps to build, they will call builder associated with each asset:
-- `npm run build -- -a` Build all assets. Will go through all resources and will build each.
+- `npm run build -- -a` Build all assets. Will go through all resources and will build each asset.
 - `npm run build -- -n <resource_name>,<resource_name>` Build only specific asset.
 
-Additionally, each builder may provide own task, that can be executed separately without running whole rebuild.
+Additionally, each builder may provide their own task, that can be executed separately without running the whole rebuild.
 In default configuration the builder uses following tasks:
 - `clear` remove all associated files from `media/`.
 - `copy` copy static files to `media/`
-- `css` process Stylesheets files. Copy or compile in to CSS when needed (example for SCSS etc.).
-- `js` process JavaScript files. Copy or compile in to JS when needed (example for `.es6.js` and `.vue` etc.).
+- `css` process Stylesheets files. Copy or compile to CSS when needed (example for SCSS etc.).
+- `js` process JavaScript files. Copy or compile to JS when needed (example for `.es6.js` and `.vue` etc.).
 - `gzip` prepare compressed version of css,js files.
 
 To execute specific task use `-t` argument:
 - `npm run build -- -a -t <task_name>,<task_name>` Will apply specified task to all asset builders.
 - `npm run build -- -n <resource_name>,<resource_name> -t <task_name>,<task_name>` Will apply specified task to specified asset builders.
 
-Use watchers while develop the extension allows to automatically refresh the assets while editing.
-- `npm run watch -- -n <resource_name>` Will start watching on files changes for specific asset.
+Use watchers while developing an extension allows to automatically refresh the assets while editing.
+- `npm run watch -- -n <resource_name>` Will start watching files changes for specific asset.
 
 ## Adding new assets
 
 To add new resource follow next steps:
 - Create folder under `media_source/` with name of future asset. Example for `com_example` it will be `media_source/com_example/`.
 - Add Stylesheets, JavaScript and other needed files for the asset.
-- Add the resource name in to `build/build-modules-js/builders-registry.mjs` in to list of `builders` so CLI know it exists.
-- (Optionally) When need extra processing add custom builder in to root of the newly created folder `media_source/com_example/builder.mjs`.
+- Add the resource name in to `build/build-modules-js/builders-registry.mjs` into the list of `builders` so CLI know it exists.
+- (Optionally) When need extra processing add custom builder into the root of the newly created folder `media_source/com_example/builder.mjs`.
 - Source files of complex Application (for example Vue based script) place under `src/` like `media_source/com_example/src/` and use custom builder to build the Applictaion.
 
 Done. And do not forget to run build.
@@ -109,10 +109,10 @@ export default class ExampleModuleBuilder
 ```
 
 The list of tasks is not strict, and depending on the builder needs.
-However, it is required the builder to implement `getBuildTasks()` so the main script know which tasks need to run while running the complete build.
-Method `getAllTasks()` is optional, needed only when builder have the tasks that can be executed from CLI but which does not participate in the complete build.
+However, it is required the builder to implement `getBuildTasks()` so the main script knows which tasks need to run while running the complete build.
+Method `getAllTasks()` is optional, needed only when builder have tasks that can be executed from CLI but which does not participate in the complete build.
 
-To simplify the codding it is possible to extend `DefaultModuleBuilder` class.
+To simplify the coding it is possible to extend `DefaultModuleBuilder` class.
 
 ```javascript
 import DefaultModuleBuilder from '../../build/build-modules-js/builder/default-module-builder.mjs';

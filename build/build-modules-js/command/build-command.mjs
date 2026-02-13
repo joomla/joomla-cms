@@ -45,7 +45,7 @@ export default async function buildCommand(program, cmdOptions = {}, builders = 
   }
 
   if (!buildersToRun.length) {
-    console.log('Nothing to run. Please specify the builder name or use -a to run all builders');
+    console.log('Nothing to run. Please specify the builder name or use -a to run all builders.');
     return;
   }
 
