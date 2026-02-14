@@ -627,7 +627,7 @@ abstract class Bootstrap
      *
      * @since   3.0
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Will be removed without replacement
      *              Load the different scripts with their individual method calls
      */

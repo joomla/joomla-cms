@@ -16,7 +16,7 @@ use Joomla\Tests\Unit\UnitTestCase;
 /**
  * Test class for ModuleLayoutRule.
  *
- * @since  5.4.3
+ * @since  6.0.3
  */
 class ModuleLayoutRuleTest extends UnitTestCase
 {
@@ -25,7 +25,7 @@ class ModuleLayoutRuleTest extends UnitTestCase
      *
      * @return  array
      *
-     * @since   5.4.3
+     * @since   6.0.3
      */
     public function dataTest(): array
     {
@@ -87,7 +87,7 @@ class ModuleLayoutRuleTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   5.4.3
+     * @since   6.0.3
      * @dataProvider dataTest
      */
     public function testRule(bool $expected, \SimpleXMLElement $element, string $value): void
