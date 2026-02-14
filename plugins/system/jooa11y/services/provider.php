@@ -31,14 +31,14 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Jooa11y::class, function (Container $container) {
                 $plugin     = new Jooa11y(
                     (array) PluginHelper::getPlugin('system', 'jooa11y')
                 );
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };
