@@ -78,8 +78,7 @@ switch ($config->error_reporting) {
         break;
 }
 
-//\define('JDEBUG', $config->debug);
-\define('JDEBUG', true);
+\define('JDEBUG', $config->debug);
 
 // Check deprecation logging
 if (empty($config->log_deprecated)) {
