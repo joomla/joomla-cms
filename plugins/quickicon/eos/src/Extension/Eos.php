@@ -222,7 +222,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
                 'id'          => 2,
                 'messageText' => 'PLG_QUICKICON_EOS_MESSAGE_INFO_02',
                 'messageType' => 'info',
-                'messageLink' => 'https://docs.joomla.org/Special:MyLanguage/Pre-Update_Check',
+                'messageLink' => 'https://guide.joomla.org/user-manual/migration/migration-version-update',
                 'snoozable'   => true,
             ];
         }
