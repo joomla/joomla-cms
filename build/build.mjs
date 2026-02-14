@@ -27,7 +27,7 @@ program
     `
 Version: ${pkgOptions.version}
 `,
-  );;
+  );
 
 program
   .command('builders-list')
