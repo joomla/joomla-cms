@@ -628,7 +628,7 @@ class ArticlesModel extends ListModel
                     '(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
                     $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
                 )
-                    ->where($db->quoteName('tagmap.content_item_id') . ' IS NULL');
+                ->where($db->quoteName('tagmap.content_item_id') . ' IS NULL');
             } else {
                 $query->join(
                     'INNER',
