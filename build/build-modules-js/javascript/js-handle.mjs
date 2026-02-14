@@ -91,10 +91,11 @@ export const handleJSFile = async (srcPath, targetPath) => {
  *
  * @param { String } srcPath
  * @param { String } targetPath
+ * @param { string[] } externalModulesList
  * @returns { Promise }
  */
-export const handleMJSFile = async (srcPath, targetPath) => {
-  const externalModules =  await getExternalModules();
+export const handleMJSFile = async (srcPath, targetPath, externalModulesList = []) => {
+  const externalModules =  externalModulesList && externalModulesList.length ? externalModulesList : await getExternalModules();
   const targetFolder = path.dirname(targetPath);
 
   if (!fs.existsSync(targetFolder)) {
