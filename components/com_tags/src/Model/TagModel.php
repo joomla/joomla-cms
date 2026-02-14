@@ -16,7 +16,6 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
 use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
@@ -261,7 +260,7 @@ class TagModel extends ListModel
      *
      * @param   integer  $pk  An optional ID
      *
-     * @return  array
+     * @return  \stdClass|false
      *
      * @since   3.1
      */
@@ -294,9 +293,9 @@ class TagModel extends ListModel
                         continue;
                     }
 
-                    // Convert the Table to a clean CMSObject.
+                    // Convert the Table to a clean object.
                     $properties   = $table->getProperties(1);
-                    $this->item[] = ArrayHelper::toObject($properties, CMSObject::class);
+                    $this->item[] = ArrayHelper::toObject($properties);
                 } catch (\RuntimeException $e) {
                     $this->setError($e->getMessage());
 

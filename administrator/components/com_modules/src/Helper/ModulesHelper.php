@@ -12,6 +12,7 @@ namespace Joomla\Component\Modules\Administrator\Helper;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -27,6 +28,27 @@ use Joomla\Utilities\ArrayHelper;
  */
 abstract class ModulesHelper
 {
+    /**
+     * Get the associations
+     *
+     * @param   integer  $pk  Module item id
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function getAssociations($pk)
+    {
+        $langAssociations = Associations::getAssociations('com_modules', '#__modules', 'com_modules.item', $pk, 'id', '', '');
+        $associations     = [];
+
+        foreach ($langAssociations as $langAssociation) {
+            $associations[$langAssociation->language] = $langAssociation->id;
+        }
+
+        return $associations;
+    }
+
     /**
      * Get a list of filter options for the state of a module.
      *
@@ -71,7 +93,7 @@ abstract class ModulesHelper
     {
         $db       = Factory::getDbo();
         $clientId = (int) $clientId;
-        $query    = $db->getQuery(true)
+        $query    = $db->createQuery()
             ->select('DISTINCT ' . $db->quoteName('position'))
             ->from($db->quoteName('#__modules'))
             ->where($db->quoteName('client_id') . ' = :clientid')
@@ -120,7 +142,7 @@ abstract class ModulesHelper
         $clientId = (int) $clientId;
 
         // Get the database object and a new query object.
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Build the query.
         $query->select($db->quoteName(['element', 'name', 'enabled']))
@@ -157,7 +179,7 @@ abstract class ModulesHelper
     public static function getModules($clientId)
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('element AS value, name AS text')
             ->from('#__extensions as e')
             ->where('e.client_id = ' . (int) $clientId)
