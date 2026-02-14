@@ -15,9 +15,9 @@ describe('Test in backend that the styles list', () => {
   // });
 
   it('can list administrator styles', () => {
-     cy.log('Before visit URL');
-  //   cy.visit('/administrator/index.php?option=com_templates&view=styles&client_id=1');
-  //   cy.log('Opened URL');
+    cy.log('Before visit URL');
+    cy.visit('/administrator/index.php?option=com_templates&view=styles&client_id=1');
+    cy.log('Opened URL');
   //   cy.get('h1.page-title').should('contain.text', 'Templates: Styles (Administrator)');
   //   cy.get('#client_id option:selected').should('have.text', 'Administrator');
   //   cy.get('#styleList tbody a').contains('Atum - Default').click();
