@@ -482,7 +482,7 @@ class ArticlesModel extends ListModel
                     (!empty($authorId)
                         ? ' OR ' . $db->quoteName('a.created_by') . ' IN (' . implode(',', $query->bindArray($authorId)) . ')'
                         : '') .
-                    ')');
+                ')');
             } else {
                 $query->whereIn($db->quoteName('a.created_by'), $authorId);
             }
