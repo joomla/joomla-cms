@@ -8,6 +8,20 @@ describe('Test that content categories API endpoint', () => {
       .then((response) => cy.api_responseContains(response, 'title', 'automated test content category'));
   });
 
+  it('can deliver a list of published categories', () => {
+    cy.db_createCategory({ title: 'automated test content category', extension: 'com_content', published: 1 })
+      .then((id) => cy.db_createArticle({ title: 'automated test article', catid: id }))
+      .then(() => cy.api_get('/content/categories?filter[state]=1'))
+      .then((response) => cy.api_responseContains(response, 'title', 'automated test content category'));
+  });
+
+  it('can deliver a list of unpublished categories', () => {
+    cy.db_createCategory({ title: 'automated test content category', extension: 'com_content', published: 0 })
+      .then((id) => cy.db_createArticle({ title: 'automated test article', catid: id }))
+      .then(() => cy.api_get('/content/categories?filter[state]=0'))
+      .then((response) => cy.api_responseContains(response, 'title', 'automated test content category'));
+  });
+
   it('can deliver a single category', () => {
     cy.db_createCategory({ title: 'automated test content category', extension: 'com_content' })
       .then((id) => cy.api_get(`/content/categories/${id}`))
