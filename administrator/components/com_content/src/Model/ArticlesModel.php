@@ -607,10 +607,10 @@ class ArticlesModel extends ListModel
                         '(' . $subQuery2 . ') AS ' . $db->quoteName('tagmap2'),
                         $db->quoteName('tagmap2.content_item_id') . ' = ' . $db->quoteName('a.id')
                     )
-                        ->where(
-                            '(' . $db->quoteName('tagmap.content_item_id') . ' IS NOT NULL OR '
-                                . $db->quoteName('tagmap2.content_item_id') . ' IS NULL)'
-                        );
+                    ->where(
+                        '(' . $db->quoteName('tagmap.content_item_id') . ' IS NOT NULL OR '
+                            . $db->quoteName('tagmap2.content_item_id') . ' IS NULL)'
+                    );
                 }
             }
         } elseif (is_numeric($tag)) {
