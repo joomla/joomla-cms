@@ -14,8 +14,8 @@ describe('Test in backend that the styles list', () => {
   //   cy.clickToolbarButton('Cancel');
   // });
 
-  // it('can list administrator styles', () => {
-  //   cy.log('Before visit URL');
+  it('can list administrator styles', () => {
+     cy.log('Before visit URL');
   //   cy.visit('/administrator/index.php?option=com_templates&view=styles&client_id=1');
   //   cy.log('Opened URL');
   //   cy.get('h1.page-title').should('contain.text', 'Templates: Styles (Administrator)');
@@ -25,7 +25,7 @@ describe('Test in backend that the styles list', () => {
   //   cy.log('Before Cancel');
   //   cy.clickToolbarButton('Cancel');
   //   cy.log('After Cancel');
-  // });
+  });
 
   // it('can select client', () => {
   //   cy.visit('/administrator/index.php?option=com_templates&view=styles&client_id=0');
