@@ -26,7 +26,7 @@ export default class DefaultModuleBuilder{
    *
    * @type {string[]}
    */
-  tasksExtras = ['gzip'];
+  tasksExtras = ['gzip'];;
 
   /**
    * Class constructor.
