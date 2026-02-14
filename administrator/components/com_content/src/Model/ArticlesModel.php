@@ -559,7 +559,9 @@ class ArticlesModel extends ListModel
                 $tag         = array_filter($tag);
                 $includeNone = true;
             }
+
             $tagMode = $this->getState('filter.tag_mode', 'any');
+
             if ($tagMode === 'all') {
                 // AND logic: article must have ALL tags
                 foreach ($tag as $tagId) {
