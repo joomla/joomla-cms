@@ -13834,24 +13834,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to deprecated property \$tokenBindingHandler of class Joomla\\CMS\\WebAuthn\\Server\:
-				6\.0 Will be removed when we upgrade to WebAuthn library 7\.0 or later$#
-			'''
-			identifier: property.deprecated
-			count: 2
-			path: libraries/src/WebAuthn/Server.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Webauthn\\TokenBinding\\IgnoreTokenBindingHandler\:
-				Since 4\.3\.0 and will be removed in 5\.0\.0$#
-			'''
-			identifier: new.deprecatedClass
-			count: 1
-			path: libraries/src/WebAuthn/Server.php
-
-		-
-			message: '''
 				#^Call to method getDispatcher\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
 				4\.3 will be removed in 7\.0
 				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
@@ -14189,18 +14171,6 @@ parameters:
 			path: plugins/multifactorauth/email/src/Extension/Email.php
 
 		-
-			message: '#^Class Joomla\\CMS\\WebAuthn\\Server constructor invoked with 2 parameters, 3 required\.$#'
-			identifier: arguments.count
-			count: 1
-			path: plugins/multifactorauth/webauthn/src/Helper/Credentials.php
-
-		-
-			message: '#^Class Webauthn\\AuthenticatorSelectionCriteria does not have a constructor and must be instantiated without any parameters\.$#'
-			identifier: new.noConstructor
-			count: 1
-			path: plugins/multifactorauth/webauthn/src/Helper/Credentials.php
-
-		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
@@ -14439,12 +14409,6 @@ parameters:
 			path: plugins/system/stats/src/Field/DataField.php
 
 		-
-			message: '#^Class Webauthn\\AuthenticatorSelectionCriteria does not have a constructor and must be instantiated without any parameters\.$#'
-			identifier: new.noConstructor
-			count: 1
-			path: plugins/system/webauthn/src/Authentication.php
-
-		-
 			message: '''
 				#^Call to deprecated method __construct\(\) of class Joomla\\CMS\\Encrypt\\Aes\:
 				4\.3 \$strength will be removed in 7\.0$#
@@ -14463,15 +14427,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: plugins/system/webauthn/src/Extension/Webauthn.php
-
-		-
-			message: '''
-				#^Call to deprecated method forUnsecuredSigner\(\) of class Lcobucci\\JWT\\Configuration\:
-				Deprecated since v4\.3$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: plugins/system/webauthn/src/MetadataRepository.php
 
 		-
 			message: '#^Access to an undefined property Joomla\\Plugin\\Task\\Checkfiles\\Extension\\Checkfiles\:\:\$app\.$#'
