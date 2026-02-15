@@ -12,6 +12,7 @@
 namespace Joomla\Component\Workflow\Administrator\Model;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
@@ -140,9 +141,11 @@ class StagesModel extends ListModel
                     $db->quoteName('s.ordering'),
                     $db->quoteName('s.default'),
                     $db->quoteName('s.published'),
+                    $db->quoteName('s.workflow_id'),
                     $db->quoteName('s.checked_out'),
                     $db->quoteName('s.checked_out_time'),
                     $db->quoteName('s.description'),
+                    $db->quoteName('s.position'),
                     $db->quoteName('uc.name', 'editor'),
                 ]
             )
@@ -199,5 +202,71 @@ class StagesModel extends ListModel
         }
 
         return (object) $table->getProperties();
+    }
+
+    /**
+     * Update positions for multiple workflow stages
+     *
+     * @param   array  $stages  Array of stage data, each with id, x, y values
+     *
+     *
+     * @return  boolean  True on success, false on failure
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function updatePositions($stagePositions, $workflowId)
+    {
+        if (empty($stagePositions) || !\is_array($stagePositions)) {
+            throw new \InvalidArgumentException(Text::_('COM_WORKFLOW_GRAPH_ERROR_INVALID_STAGE_POSITIONS'));
+        }
+
+        // Convert the stage positions to the expected format
+        $stages = [];
+        foreach ($stagePositions as $id => $position) {
+            if (isset($position['x'], $position['y'])) {
+                $stages[] = [
+                    'id' => (int) $id,
+                    'x'  => (float) $position['x'],
+                    'y'  => (float) $position['y'],
+                ];
+            } else {
+                throw new \InvalidArgumentException(Text::sprintf('COM_WORKFLOW_GRAPH_ERROR_INVALID_POSITION_DATA', $id));
+            }
+        }
+
+        $db = $this->getDatabase();
+
+        try {
+            $db->transactionStart();
+
+            foreach ($stages as $stage) {
+                if (!isset($stage['id']) || !isset($stage['x']) || !isset($stage['y'])) {
+                    throw new \InvalidArgumentException(Text::_('COM_WORKFLOW_GRAPH_ERROR_INVALID_POSITION_DATA', $stage['id']));
+                }
+
+                $id = (int) $stage['id'];
+                $x  = (float) $stage['x'];
+                $y  = (float) $stage['y'];
+
+                // Format the position as a text which can later converted to json
+                $point  = '{"x":' . $x . ', "y":' . $y . '}';
+
+                $query = $db->getQuery(true)
+                    ->update($db->quoteName('#__workflow_stages'))
+                    ->set($db->quoteName('position') . ' = :position')
+                    ->where($db->quoteName('id') . ' = :id')
+                    ->bind(':position', $point, ParameterType::STRING)
+                    ->bind(':id', $id, ParameterType::INTEGER);
+                $db->setQuery($query);
+                $db->execute();
+            }
+
+            $db->transactionCommit();
+        } catch (\Exception $e) {
+            $db->transactionRollback();
+            throw new \RuntimeException(Text::_('COM_WORKFLOW_GRAPH_ERROR_FAILED_TO_UPDATE_STAGE_POSITIONS') . ': ' . $e->getMessage());
+        }
+
+        return true;
     }
 }

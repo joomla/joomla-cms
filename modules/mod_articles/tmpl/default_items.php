@@ -28,10 +28,9 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
         $displayInfo = $item->displayHits || $item->displayAuthorName || $item->displayCategoryTitle || $item->displayDate;
         $canEdit = $item->params->get('access-edit');
         ?>
-        <li>
-            <article class="mod-articles-item" itemscope itemtype="https://schema.org/Article">
-
-                <?php if ($params->get('item_title') || $displayInfo || $params->get('show_tags') || $params->get('show_introtext') || $params->get('show_readmore')) : ?>
+        <?php if ($params->get('item_title') || $displayInfo || $params->get('show_tags') || $params->get('show_introtext') || $params->get('img_intro_full')  && !empty($item->imageSrc) || $params->get('show_readmore')) : ?>
+            <li>
+                <article class="mod-articles-item" itemscope itemtype="https://schema.org/Article">
                     <div class="mod-articles-item-content">
 
                         <?php if ($params->get('item_title')) : ?>
@@ -133,8 +132,8 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                             <?php echo LayoutHelper::render('joomla.content.readmore', ['item' => $item, 'params' => $item->params, 'link' => $item->link]); ?>
                         <?php endif; ?>
                     </div>
-                <?php endif; ?>
-            </article>
-        </li>
+                </article>
+            </li>
+        <?php endif; ?>
     <?php endforeach; ?>
 </ul>

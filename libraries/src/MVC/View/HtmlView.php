@@ -203,7 +203,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
 
         $result = $this->loadTemplate($tpl);
 
-        $eventResult = $app->getDispatcher()->dispatch(
+        $event = $app->getDispatcher()->dispatch(
             'onAfterDisplay',
             AbstractEvent::create(
                 'onAfterDisplay',
@@ -216,9 +216,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
             )
         );
 
-        $eventResult->getArgument('used', false);
-
-        echo $result;
+        echo $event->getArgument('source', $result);
     }
 
     /**

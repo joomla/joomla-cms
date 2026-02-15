@@ -289,7 +289,7 @@ final class InstallationApplication extends CMSApplication
 
         // Parse task in format controller.task
         if ($task !== '') {
-            list($controllerName, $task) = explode('.', $task, 2);
+            [$controllerName, $task] = explode('.', $task, 2);
         }
 
         $factory = new MVCFactory('Joomla\\CMS', $this->getLogger());
@@ -361,30 +361,6 @@ final class InstallationApplication extends CMSApplication
         }
 
         return $langfiles;
-    }
-
-    /**
-     * Gets the name of the current template.
-     *
-     * @param   boolean  $params  True to return the template parameters
-     *
-     * @return  string|\stdClass  The name of the template.
-     *
-     * @since   3.1
-     */
-    public function getTemplate($params = false)
-    {
-        if ($params) {
-            $template              = new \stdClass();
-            $template->template    = 'template';
-            $template->params      = new Registry();
-            $template->inheritable = 0;
-            $template->parent      = '';
-
-            return $template;
-        }
-
-        return 'template';
     }
 
     /**
@@ -562,5 +538,22 @@ final class InstallationApplication extends CMSApplication
     public function getMenu($name = null, $options = [])
     {
         return null;
+    }
+
+    /**
+     * Initialise the template.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function initialiseTemplate(): void
+    {
+        $this->template = (object) [
+            'template'    => 'template',
+            'params'      => new Registry(),
+            'inheritable' => 0,
+            'parent'      => '',
+        ];
     }
 }
