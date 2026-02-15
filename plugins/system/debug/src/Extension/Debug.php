@@ -22,6 +22,7 @@ use Joomla\CMS\Event\Application\BeforeCompileHeadEvent;
 use Joomla\CMS\Event\Application\BeforeRespondEvent;
 use Joomla\CMS\Event\Plugin\AjaxEvent;
 use Joomla\CMS\Event\SubscriberRegistrationCheckerInterface;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger\InMemoryLogger;
@@ -237,7 +238,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface, SubscriberRe
      */
     public function shouldRegisterListeners(): bool
     {
-        $app = $this->getApplication();
+        $app = Factory::getApplication();
 
         return $app->get('debug') || $app->get('debug_lang');
     }

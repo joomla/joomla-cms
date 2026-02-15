@@ -13,6 +13,7 @@ namespace Joomla\Plugin\System\GuidedTours\Extension;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\SubscriberRegistrationCheckerInterface;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -88,7 +89,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface, Subscr
      */
     public function shouldRegisterListeners(): bool
     {
-        return $this->getApplication()->isClient('administrator');
+        return Factory::getApplication()->isClient('administrator');
     }
 
     /**
