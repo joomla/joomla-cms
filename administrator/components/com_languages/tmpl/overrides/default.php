@@ -23,15 +23,19 @@ $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
-$client    = $this->state->get('filter.client') == 'site' ? Text::_('JSITE') : Text::_('JADMINISTRATOR');
-$language  = $this->state->get('filter.language');
-$listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn  = $this->escape($this->state->get('list.direction'));
+$client            = $this->state->get('filter.client') == 'site' ? Text::_('JSITE') : Text::_('JADMINISTRATOR');
+$language          = $this->state->get('filter.language');
+$listOrder         = $this->escape($this->state->get('list.ordering'));
+$listDirn          = $this->escape($this->state->get('list.direction'));
+$filterClientValue = $this->state->get('filter.client') === 'administrator' ? 1 : 0;
 
 $oppositeClient   = $this->state->get('filter.client') == 'administrator' ? Text::_('JSITE') : Text::_('JADMINISTRATOR');
 $oppositeFilename = constant('JPATH_' . strtoupper($this->state->get('filter.client') === 'site' ? 'administrator' : 'site'))
     . '/language/overrides/' . $this->state->get('filter.language', 'en-GB') . '.override.ini';
 $oppositeStrings  = LanguageHelper::parseIniFile($oppositeFilename);
+$languageOverrides = $this->languageOverrides ?? [];
+$installedLanguages = $this->languages ?? [];
+$contentLanguages   = $this->contentLanguages ?? [];
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_languages&view=overrides'); ?>" method="post" name="adminForm" id="adminForm">
@@ -69,10 +73,17 @@ $oppositeStrings  = LanguageHelper::parseIniFile($oppositeFilename);
                                 <th scope="col" class="d-none d-md-table-cell">
                                     <?php echo Text::_('JCLIENT'); ?>
                                 </th>
+                                <th scope="col" class="d-none d-md-table-cell">
+                                    <?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDES_OVERRIDE'); ?>
+                                </th>
+                                <th scope="col" class="d-none d-md-table-cell">
+                                    <?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDES_NO_OVERRIDE'); ?>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                         <?php $canEdit = $this->getCurrentUser()->authorise('core.edit', 'com_languages'); ?>
+                        <?php $canCreate = $this->getCurrentUser()->authorise('core.create', 'com_languages'); ?>
                         <?php $i = 0; ?>
                         <?php foreach ($this->items as $key => $text) : ?>
                             <tr class="row<?php echo $i % 2; ?>" id="overriderrow<?php echo $i; ?>">
@@ -100,6 +111,63 @@ $oppositeStrings  = LanguageHelper::parseIniFile($oppositeFilename);
                                         echo '/' . $oppositeClient;
                                     endif;
                                     ?>
+                                </td>
+                                <?php
+                                $translatedBadges   = [];
+                                $untranslatedBadges = [];
+
+                                foreach ($installedLanguages as $tag => $langData) :
+                                    if ($tag === $language) :
+                                        continue;
+                                    endif;
+
+                                    $hasOverride     = isset($languageOverrides[$tag][$key]);
+                                    $contentLanguage = $contentLanguages[$tag] ?? null;
+                                    $languageTitle   = $contentLanguage->title ?? ($langData['nativeName'] ?? $langData['name'] ?? $tag);
+
+                                    $query = [
+                                        'option'          => 'com_languages',
+                                        'task'            => $hasOverride ? 'override.edit' : 'override.add',
+                                        'filter_language' => $tag,
+                                        'filter_client'   => $filterClientValue,
+                                        'source_language' => $language,
+                                        'source_key'      => $key,
+                                    ];
+
+                                    if ($hasOverride) {
+                                        $query['id'] = $key;
+                                    } else {
+                                        $query['source_text'] = $text;
+                                    }
+
+                                    $link = ($hasOverride && $canEdit) || (!$hasOverride && $canCreate)
+                                        ? Route::_('index.php?' . http_build_query($query, '', '&', PHP_QUERY_RFC3986))
+                                        : '';
+                                    $title = $hasOverride
+                                        ? Text::sprintf('COM_LANGUAGES_VIEW_OVERRIDES_EXISTS', $languageTitle)
+                                        : Text::sprintf('COM_LANGUAGES_VIEW_OVERRIDES_CREATE', $languageTitle);
+                                    $badgeClass = $hasOverride ? 'badge bg-secondary' : 'badge bg-warning';
+
+                                    $badgeHtml = $link
+                                        ? '<a class="' . $badgeClass . '" href="' . $link . '" title="' . $this->escape($title) . '">' . $this->escape($tag) . '</a>'
+                                        : '<span class="' . $badgeClass . '" title="' . $this->escape($title) . '">' . $this->escape($tag) . '</span>';
+
+                                    if ($hasOverride) {
+                                        $translatedBadges[] = $badgeHtml;
+                                    } else {
+                                        $untranslatedBadges[] = $badgeHtml;
+                                    }
+                                endforeach;
+                                ?>
+                                <td class="d-none d-md-table-cell">
+                                    <div class="d-flex flex-wrap gap-1">
+                                        <?php echo implode('', $translatedBadges); ?>
+                                    </div>
+                                </td>
+                                <td class="d-none d-md-table-cell">
+                                    <div class="d-flex flex-wrap gap-1">
+                                        <?php echo implode('', $untranslatedBadges); ?>
+                                    </div>
                                 </td>
                             </tr>
                             <?php $i++; ?>

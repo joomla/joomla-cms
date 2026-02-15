@@ -140,7 +140,7 @@ final class Server
      *
      * @since 5.0.0
      */
-    public function __construct(PublicKeyCredentialRpEntity $relayingParty, PublicKeyCredentialSourceRepository $publicKeyCredentialSourceRepository, ?MetadataStatementRepository $metadataStatementRepository)
+    public function __construct(PublicKeyCredentialRpEntity $relayingParty, PublicKeyCredentialSourceRepository $publicKeyCredentialSourceRepository, ?MetadataStatementRepository $metadataStatementRepository = null)
     {
         $this->rpEntity = $relayingParty;
 
@@ -160,7 +160,6 @@ final class Server
 
         $this->selectedAlgorithms                  = ['RS256', 'RS512', 'PS256', 'PS512', 'ES256', 'ES512', 'Ed25519'];
         $this->publicKeyCredentialSourceRepository = $publicKeyCredentialSourceRepository;
-        $this->tokenBindingHandler                 = null;
         $this->extensionOutputCheckerHandler       = new ExtensionOutputCheckerHandler();
         $this->metadataStatementRepository         = $metadataStatementRepository;
     }
@@ -312,7 +311,7 @@ final class Server
         $authenticatorAttestationResponseValidator = new AuthenticatorAttestationResponseValidator(
             $attestationStatementSupportManager,
             $this->publicKeyCredentialSourceRepository,
-            $this->tokenBindingHandler,
+            null,
             $this->extensionOutputCheckerHandler
         );
 
