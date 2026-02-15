@@ -383,11 +383,11 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
                 if (isset($tableColumns[$publishUpField], $tableColumns[$publishDownField])) {
                     $nowDate  = $db->quote(Factory::getDate()->toSql());
                     $subQuery->where(
-                        '(' . $db->quoteName('i.' . $publishUpField) . ' IS NULL OR ' 
+                        '(' . $db->quoteName('i.' . $publishUpField) . ' IS NULL OR '
                         . $db->quoteName('i.' . $publishUpField) . ' <= ' . $nowDate . ')'
                     );
                     $subQuery->where(
-                        '(' . $db->quoteName('i.' . $publishDownField) . ' IS NULL OR ' 
+                        '(' . $db->quoteName('i.' . $publishDownField) . ' IS NULL OR '
                         . $db->quoteName('i.' . $publishDownField) . ' >= ' . $nowDate . ')'
                     );
                 }
