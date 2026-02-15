@@ -79,12 +79,12 @@ export class AccessibilityFixer {
     if (!this.isInvalidForAriaHidden(element)) {
       element.setAttribute('aria-hidden', 'true');
     }
-    
+
     // Only set role="presentation" on elements where it's valid
     if (!this.isInvalidForPresentationRole(element)) {
       element.setAttribute('role', 'presentation');
     }
-    
+
     // Remove ARIA attributes that shouldn't be on decorative elements
     if (!this.isInvalidForAriaAttributes(element)) {
       element.removeAttribute('aria-label');
@@ -99,12 +99,12 @@ export class AccessibilityFixer {
       if (!this.isInvalidForAriaHidden(child)) {
         child.setAttribute('aria-hidden', 'true');
       }
-      
+
       // Only set role="presentation" on child elements where it's valid
       if (!this.isInvalidForPresentationRole(child)) {
         child.setAttribute('role', 'presentation');
       }
-      
+
       // Remove ARIA attributes from children where appropriate
       if (!this.isInvalidForAriaAttributes(child)) {
         child.removeAttribute('aria-label');
@@ -113,7 +113,7 @@ export class AccessibilityFixer {
       }
     });
   }
-  
+
   /**
    * Check if role="presentation" is invalid for this element
    */
@@ -151,12 +151,12 @@ export class AccessibilityFixer {
    */
   fixTabbableGroups() {
     const groups = document.querySelectorAll('.vue-flow [role="group"][tabindex], [role="group"][tabindex]');
-    
+
     groups.forEach((group) => {
       if (!this.processedElements.has(group)) {
         // Remove tabindex from non-interactive groups
         const hasInteractiveChildren = group.querySelector('button, [role="button"], [role="menuitem"], input, select, textarea, a[href]');
-        
+
         if (!hasInteractiveChildren) {
           group.removeAttribute('tabindex');
           group.style.pointerEvents = 'none';
@@ -167,7 +167,7 @@ export class AccessibilityFixer {
           group.style.webkitUserSelect = 'none';
           group.style.mozUserSelect = 'none';
         }
-        
+
         this.processedElements.add(group);
       }
     });
@@ -178,7 +178,7 @@ export class AccessibilityFixer {
    */
   fixGraphicsDocuments() {
     const graphicsElements = document.querySelectorAll('[role="graphics-document"]');
-    
+
     graphicsElements.forEach((element) => {
       if (!this.processedElements.has(element)) {
         this.hideSVGFromScreenReaders(element);
@@ -192,18 +192,18 @@ export class AccessibilityFixer {
    */
   fixButtonAccessibleNames() {
     const buttons = document.querySelectorAll('.stage-node[role="button"], .edge-label[role="button"]');
-    
+
     buttons.forEach((button) => {
       if (!this.processedElements.has(button)) {
         // Remove any conflicting aria-label that doesn't match visible text
         const currentLabel = button.getAttribute('aria-label');
         const visibleText = this.getVisibleText(button);
-        
+
         if (currentLabel && visibleText && !visibleText.includes(currentLabel) && !currentLabel.includes(visibleText)) {
           // If aria-label doesn't match visible text, remove it to let the browser use visible text
           button.removeAttribute('aria-label');
         }
-        
+
         this.processedElements.add(button);
       }
     });
@@ -215,7 +215,7 @@ export class AccessibilityFixer {
   fixDuplicateSVGIds() {
     const seenIds = new Set();
     const elementsWithIds = document.querySelectorAll('svg [id], .vue-flow [id]');
-    
+
     elementsWithIds.forEach((element) => {
       const id = element.id;
       if (id && seenIds.has(id)) {
@@ -235,12 +235,12 @@ export class AccessibilityFixer {
   generateUniqueId(originalId, seenIds) {
     let counter = 1;
     let newId = `${originalId}-${counter}`;
-    
+
     while (seenIds.has(newId)) {
       counter++;
       newId = `${originalId}-${counter}`;
     }
-    
+
     return newId;
   }
 
@@ -346,7 +346,7 @@ if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
     const fixer = new AccessibilityFixer();
     fixer.init();
-    
+
     // Make it globally available for cleanup
     window.workflowAccessibilityFixer = fixer;
   });
