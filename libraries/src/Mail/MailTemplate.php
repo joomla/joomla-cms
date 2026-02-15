@@ -219,6 +219,20 @@ class MailTemplate
     }
 
     /**
+     * Get the template data.
+     *
+     * @param   bool   $plain Data used for plain-text emails.
+     *
+     * @return array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getTemplateData($plain = false): array
+    {
+        return !$plain ? $this->data : $this->plain_data;
+    }
+
+    /**
      * Mark tags as unsafe to ensure escaping in HTML mails
      *
      * @param   array   $tags  Tag names
@@ -246,7 +260,7 @@ class MailTemplate
     {
         $config = ComponentHelper::getParams('com_mails');
 
-        $mail = self::getTemplate($this->template_id, $this->language);
+        $mail = static::getTemplate($this->template_id, $this->language);
 
         // If the Mail Template was not found in the db, we cannot send an email.
         if ($mail === null) {
@@ -483,7 +497,7 @@ class MailTemplate
                             }
                         }
 
-                        $text = str_replace($match, $replacement, $text);
+                        $text = str_ireplace($match, $replacement, $text);
                     }
                 }
             } else {
@@ -492,7 +506,7 @@ class MailTemplate
                     $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
                 }
 
-                $text = str_replace('{' . strtoupper($key) . '}', $value, $text);
+                $text = str_ireplace('{' . strtoupper($key) . '}', $value, $text);
             }
         }
 
