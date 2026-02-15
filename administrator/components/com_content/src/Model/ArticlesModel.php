@@ -142,6 +142,7 @@ class ArticlesModel extends ListModel
         // Required content filters for the administrator menu
         $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
         $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
+        $this->getUserStateFromRequest($this->context . '.filter.featured', 'filter_featured');
         $this->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
         $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
         $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
@@ -183,6 +184,11 @@ class ArticlesModel extends ListModel
         $id .= ':' . $this->getState('filter.language');
         $id .= ':' . serialize($this->getState('filter.tag'));
         $id .= ':' . $this->getState('filter.checked_out');
+        $id .= ':' . $this->getState('filter.date_filtering');
+        $id .= ':' . $this->getState('filter.date_field');
+        $id .= ':' . $this->getState('filter.start_date_range');
+        $id .= ':' . $this->getState('filter.end_date_range');
+        $id .= ':' . $this->getState('filter.relative_date');
 
         return parent::getStoreId($id);
     }
@@ -605,6 +611,56 @@ class ArticlesModel extends ListModel
         if (!empty($modifiedEndDateTime)) {
             $query->where($db->quoteName('a.modified') . ' <= :endDate')
                 ->bind(':endDate', $modifiedEndDateTime);
+        }
+
+        // Filter by Date Range or Relative Date
+        $dateFiltering = $this->getState('filter.date_filtering', 'off');
+        $dateField     = $this->getState('filter.date_field', 'a.created');
+
+        // Validate the date field to prevent SQL injection
+        $validDateFields = ['a.created', 'a.modified', 'a.publish_up'];
+
+        if (!\in_array($dateField, $validDateFields)) {
+            $dateField = 'a.created';
+        }
+
+        switch ($dateFiltering) {
+            case 'range':
+                $startDateRange = $this->getState('filter.start_date_range', '');
+                $endDateRange   = $this->getState('filter.end_date_range', '');
+
+                if ($startDateRange || $endDateRange) {
+                    $query->where($db->quoteName($dateField) . ' IS NOT NULL');
+
+                    if ($startDateRange) {
+                        $query->where($db->quoteName($dateField) . ' >= :startDateRange')
+                            ->bind(':startDateRange', $startDateRange);
+                    }
+
+                    if ($endDateRange) {
+                        $query->where($db->quoteName($dateField) . ' <= :endDateRange')
+                            ->bind(':endDateRange', $endDateRange);
+                    }
+                }
+
+                break;
+
+            case 'relative':
+                $relativeDate = (int) $this->getState('filter.relative_date', 0);
+
+                if ($relativeDate > 0) {
+                    $nowDate = Factory::getDate()->toSql();
+                    $query->where(
+                        $db->quoteName($dateField) . ' IS NOT NULL AND '
+                        . $db->quoteName($dateField) . ' >= ' . $query->dateAdd($db->quote($nowDate), -1 * $relativeDate, 'DAY')
+                    );
+                }
+
+                break;
+
+            case 'off':
+            default:
+                break;
         }
 
         // Add the list ordering clause.

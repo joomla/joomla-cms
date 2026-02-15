@@ -824,6 +824,11 @@ class TemplateModel extends FormModel
         $oldName  = $template->element;
         $manifest = json_decode($template->manifest_cache);
 
+        // When copying a child template we need to prefix it with the parent template name
+        if (!empty($template->xmldata->parent)) {
+            $newName = $template->xmldata->parent . '_' . $newName;
+        }
+
         foreach ($files as $file) {
             $newFile = '/' . str_replace($oldName, $newName, basename($file));
 
@@ -863,9 +868,10 @@ class TemplateModel extends FormModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|boolean    A Form object on success, false on failure
+     * @return  Form    A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -890,13 +896,7 @@ class TemplateModel extends FormModel
         }
 
         // Get the form.
-        $form = $this->loadForm('com_templates.source', 'source', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+        return $this->loadForm('com_templates.source', 'source', ['control' => 'jform', 'load_data' => $loadData]);
     }
 
     /**
@@ -1702,14 +1702,17 @@ class TemplateModel extends FormModel
             $explodeArray = explode('/', $relPath);
             $fileName     = end($explodeArray);
             $path         = $this->getBasePath() . base64_decode($app->getInput()->get('file'));
+            $isModern     = $template->xmldata->inheritable || !empty($template->xmldata->parent);
 
             if (stristr($client->path, 'administrator') === false) {
-                $folder = '/templates/';
+                $folder = $isModern ? '/media/templates/site/' : '/templates/';
             } else {
-                $folder = '/administrator/templates/';
+                $folder = $isModern ? '/media/templates/administrator/' : '/administrator/templates/';
             }
 
-            $uri = Uri::root(true) . $folder . $template->element;
+            $uri = $isModern
+                ? (str_replace('/administrator/', '/', Uri::root(true))) . $folder . $template->element
+                : Uri::root(true) . $folder . $template->element;
 
             if (file_exists(Path::clean($path))) {
                 $font['address'] = $uri . $relPath;
@@ -1781,6 +1784,12 @@ class TemplateModel extends FormModel
             $app  = Factory::getApplication();
             $path = $this->getBasePath() . base64_decode($app->getInput()->get('file'));
 
+            // Check if the ZipArchive class exists
+            if (!class_exists('ZipArchive')) {
+                $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_ZIPARCHIVE_NOT_ENABLED'), 'error');
+                return false;
+            }
+
             if (file_exists(Path::clean($path))) {
                 $files = [];
                 $zip   = new \ZipArchive();
@@ -1796,7 +1805,7 @@ class TemplateModel extends FormModel
                     return false;
                 }
             } else {
-                $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_FONT_FILE_NOT_FOUND'), 'error');
+                $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_ARCHIVE_NOT_FOUND'), 'error');
 
                 return false;
             }
@@ -2042,14 +2051,16 @@ class TemplateModel extends FormModel
         $media->addChild('folder', 'images');
         $media->addChild('folder', 'scss');
 
-        $xml->name = $template->element . '_' . $newName;
+        $element = (!empty($template->xmldata->parent) ? $template->xmldata->parent : $template->element);
+
+        $xml->name = $element . '_' . $newName;
 
         if (isset($xml->namespace)) {
             $xml->namespace .= '_' . ucfirst($newName);
         }
 
         $xml->inheritable = 0;
-        $files            = $xml->addChild('parent', $template->element);
+        $files            = $xml->addChild('parent', $element);
 
         $dom                     = new \DOMDocument();
         $dom->preserveWhiteSpace = false;

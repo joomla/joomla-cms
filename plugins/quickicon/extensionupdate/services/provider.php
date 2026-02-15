@@ -31,14 +31,14 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Extensionupdate::class, function (Container $container) {
                 $plugin     = new Extensionupdate(
                     (array) PluginHelper::getPlugin('quickicon', 'extensionupdate')
                 );
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

@@ -280,7 +280,7 @@ class HtmlView extends BaseHtmlView
 
         // Add form control fields
         $this->filterForm
-            ->addControlField('task', '')
+            ->addControlField('task')
             ->addControlField('boxchecked', '0');
 
         // Allow a system plugin to insert dynamic menu types to the list shown in menus:

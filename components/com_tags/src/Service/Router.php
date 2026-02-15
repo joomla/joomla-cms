@@ -55,7 +55,7 @@ class Router extends RouterBase
      *
      * @var   Registry
      * @since 5.2.0
-     * @deprecated  5.2.0 will be removed in 6.0
+     * @deprecated  5.2.0 will be removed in 7.0
      *              without replacement
      */
     private $sefparams;
@@ -252,8 +252,10 @@ class Router extends RouterBase
 
             unset($query['view']);
         } else {
-            $segments[] = $query['view'];
-            unset($query['view'], $query['Itemid']);
+            if (isset($query['view'])) {
+                $segments[] = $query['view'];
+                unset($query['view'], $query['Itemid']);
+            }
 
             if (isset($query['id']) && \is_array($query['id'])) {
                 foreach ($query['id'] as $id) {
