@@ -14,6 +14,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Router\Route;
 use Joomla\Input\Input;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -174,5 +175,57 @@ class TransitionController extends FormController
         $append .= '&workflow_id=' . $this->workflowId . '&extension=' . $this->extension;
 
         return $append;
+    }
+
+    /**
+     * Method to save a request.
+     *
+     * @param   string  $key  The name of the primary key of the URL variable.
+     * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+     *
+     * @return  boolean  True if access level checks pass, false otherwise.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function save($key = null, $urlVar = null)
+    {
+        $result  = parent::save($key, $urlVar);
+        $input   = $this->input;
+        $isModal = $input->get('layout') === 'modal' || $input->get('tmpl') === 'component';
+        $task    = $this->getTask();
+
+        if ($isModal && $result && $task === 'save') {
+            $id     = $this->input->get('id');
+            $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id)
+                . '&layout=modalreturn&from-task=save';
+
+            $this->setRedirect(Route::_($return, false));
+        }
+        return $result;
+    }
+
+    /**
+     * Method to cancel an edit.
+     *
+     * @param   string  $key  The name of the primary key of the URL variable.
+     *
+     * @return  boolean  True if access level checks pass, false otherwise.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function cancel($key = null)
+    {
+        $result  = parent::cancel($key);
+        $input   = $this->input;
+        $isModal = $input->get('layout') === 'modal' || $input->get('tmpl') === 'component';
+
+        if ($isModal) {
+            $id     = $this->input->get('id');
+            $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id)
+                . '&layout=modalreturn&from-task=cancel';
+
+            $this->setRedirect(Route::_($return, false));
+        }
+        return $result;
     }
 }
