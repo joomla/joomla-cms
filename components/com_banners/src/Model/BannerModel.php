@@ -172,6 +172,8 @@ class BannerModel extends BaseDatabaseModel
 
             $loader = function ($id) use ($db) {
                 $query = $db->getQuery(true);
+                $now = Factory::getDate();
+                $now = $now->toSql();
 
                 $query->select(
                     [
@@ -184,7 +186,23 @@ class BannerModel extends BaseDatabaseModel
                     ->from($db->quoteName('#__banners', 'a'))
                     ->join('LEFT', $db->quoteName('#__banner_clients', 'cl'), $db->quoteName('cl.id') . ' = ' . $db->quoteName('a.cid'))
                     ->where($db->quoteName('a.id') . ' = :id')
-                    ->bind(':id', $id, ParameterType::INTEGER);
+                    ->where($db->quoteName('a.state') . ' = 1')
+                    ->where(
+                        sprintf(
+                            '(%s IS NULL OR %s <= :now)',
+                            $db->quoteName('a.publish_up'),
+                            $db->quoteName('a.publish_up')
+                        )
+                    )
+                    ->where(
+                        sprintf(
+                            '(%s IS NULL OR %s >= :now)',
+                            $db->quoteName('a.publish_down'),
+                            $db->quoteName('a.publish_down')
+                        )
+                    )
+                    ->bind(':id', $id, ParameterType::INTEGER)
+                    ->bind(':now', $now);
 
                 $db->setQuery($query);
 
