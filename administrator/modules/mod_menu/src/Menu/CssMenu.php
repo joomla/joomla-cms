@@ -549,7 +549,7 @@ class CssMenu implements DatabaseAwareInterface
 
             while ($node !== null) {
                 $node->active = true;
-                $node = $node->getParent();
+                $node         = $node->getParent();
             }
         }
     }
