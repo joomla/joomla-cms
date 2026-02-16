@@ -529,7 +529,7 @@ class CssMenu implements DatabaseAwareInterface
                 $itemUrl = $baseUrl . $itemUrl;
             }
 
-            // Exact match, or prefix match only when the item URL has query params 
+            // Exact match, or prefix match only when the item URL has query params
             // (would otherwise prefix-match every admin URL)
             $isMatch = $currentUrl === $itemUrl || (str_contains($itemUrl, '?') && str_starts_with($currentUrl, $itemUrl));
 
@@ -549,7 +549,7 @@ class CssMenu implements DatabaseAwareInterface
 
             while ($node !== null) {
                 $node->active = true;
-                $node = $node->getParent();
+                $node         = $node->getParent();
             }
         }
     }
