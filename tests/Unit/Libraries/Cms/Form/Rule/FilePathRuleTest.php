@@ -2,7 +2,7 @@
 
 /**
  * @package     Joomla.UnitTest
- * @subpackage  HTML
+ * @subpackage  Form
  *
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -72,16 +72,16 @@ class FilePathRuleTest extends UnitTestCase
     /**
      * Tests the FilePathRule::test method.
      *
-     * @param   string             $expected  The expected test result
-     * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-     * @param   mixed              $value    The form field value to validate.
+     * @param   bool               $expected  The expected test result
+     * @param   \SimpleXMLElement  $element   The SimpleXMLElement object representing the `<field>` tag for the form field object.
+     * @param   string             $value     The form field value to validate.
      *
      * @return  void
      *
      * @since   3.9.26
      * @dataProvider dataTest
      */
-    public function testRule($expected, $element, $value)
+    public function testRule(bool $expected, \SimpleXMLElement $element, string $value): void
     {
         $this->assertEquals($expected, (new FilePathRule())->test($element, $value));
     }
