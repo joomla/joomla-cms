@@ -10,14 +10,13 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Form\Rule;
 
-use Algo26\IdnaConvert\Exception\InvalidCharacterException;
 use Joomla\CMS\Form\Rule\EmailRule;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
  * Test class for EmailRule.
  *
- * @since  6.0.3
+ * @since  5.4.3
  */
 class EmailRuleTest extends UnitTestCase
 {
@@ -26,7 +25,7 @@ class EmailRuleTest extends UnitTestCase
      *
      * @return  array
      *
-     * @since   6.0.3
+     * @since   5.4.3
      */
     public function dataTest(): array
     {
@@ -66,7 +65,7 @@ class EmailRuleTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   6.0.3
+     * @since   5.4.3
      * @dataProvider dataTest
      */
     public function testRule(bool $expected, \SimpleXMLElement $element, string $value): void
@@ -74,12 +73,8 @@ class EmailRuleTest extends UnitTestCase
         if ($expected) {
             $this->assertTrue((new EmailRule())->test($element, $value));
         } else {
-            try {
-                (new EmailRule())->test($element, $value);
-                $this->fail('Expected exception was not thrown');
-            } catch (\UnexpectedValueException | InvalidCharacterException) {
-                $this->assertTrue(true);
-            }
+            $this->expectException(\UnexpectedValueException::class);
+            (new EmailRule())->test($element, $value);
         }
     }
 }
