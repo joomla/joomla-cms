@@ -1119,7 +1119,7 @@
 
 			for (var i = 0; i < elements.length; i++) {
 				var element  = elements[i],
-						instance = element._joomlaCalendar;
+					instance = element._joomlaCalendar;
 
 				if (instance) {
 					instance.setAltValue();
