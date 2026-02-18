@@ -1,6 +1,6 @@
 {
   "name": "joomla",
-  "version": "5.4.3",
+  "version": "5.4.4",
   "description": "Joomla CMS",
   "license": "GPL-2.0-or-later",
   "repository": {
@@ -26,7 +26,7 @@
     "update": "node build/build.mjs --copy-assets && node build/build.mjs --build-pages && node build/build.mjs --compile-js && node build/build.mjs --compile-css && node build/build.mjs --compile-bs && node --env-file=./build/production.env build/build.mjs --com-media",
     "gzip": "node build/build.mjs --gzip",
     "versioning": "node build/build.mjs --versioning",
-    "browserlist:update": "npx browserslist@latest --update-db",
+    "browserlist:update": "npx update-browserslist-db@latest",
     "cypress:install": "cypress install",
     "cypress:open": "cypress open --config-file cypress.config.mjs",
     "cypress:run": "cypress run --config-file cypress.config.mjs"
@@ -61,7 +61,7 @@
     "choices.js": "^9.1.0",
     "chosen-js": "^1.8.7",
     "cropperjs": "^1.6.2",
-    "diff": "^5.2.0",
+    "diff": "^5.2.2",
     "dotenv": "^16.6.1",
     "dragula": "^3.7.3",
     "es-module-shims": "^1.10.1",
