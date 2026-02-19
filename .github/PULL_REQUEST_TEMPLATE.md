@@ -1,4 +1,4 @@
-Pull Request for Issue # .
+Pull Request resolves # .
 
 ### Summary of Changes
 
