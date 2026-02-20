@@ -30,7 +30,7 @@
     "gzip": "node build/build.mjs --gzip",
     "cssversioning": "node build/build.mjs --cssversioning",
     "versioning": "node build/build.mjs --versioning",
-    "browserlist:update": "npx browserslist@latest --update-db",
+    "browserlist:update": "npx update-browserslist-db@latest",
     "cypress:install": "cypress install",
     "cypress:open": "cypress open --config-file cypress.config.mjs",
     "cypress:run": "cypress run --config-file cypress.config.mjs"

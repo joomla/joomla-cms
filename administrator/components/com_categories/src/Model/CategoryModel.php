@@ -571,7 +571,7 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
      *
      * @return  void
      *
-     * @since   __DEPLOYMENT_VERSION__
+     * @since   6.1.0
      */
     protected function prepareTable($table)
     {
