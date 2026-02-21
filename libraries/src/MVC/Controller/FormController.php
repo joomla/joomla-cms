@@ -420,7 +420,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      *
      * @return  string  The redirect URL to the item.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function getRedirectUrlToItem($recordId = null, $urlVar = 'id'): string
     {
@@ -473,7 +473,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      *
      * @return  string  The redirect URL to the list.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function getRedirectUrlToList(): string
     {
@@ -516,7 +516,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function preSaveHook(BaseDatabaseModel $model, array $validData = []): array
     {
@@ -781,7 +781,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      *
      * @return  array  The processed data array.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function preprocessSaveData(array $data): array
     {
@@ -797,7 +797,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      *
      * @return  boolean  True if successful, false otherwise and internal error is set.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function attemptCheckin(BaseDatabaseModel $model, $recordId, $urlVar): bool
     {
@@ -822,7 +822,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      *
      * @return  boolean  True if successful, false otherwise and internal error is set.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function attemptCheckout(BaseDatabaseModel $model, $recordId, $urlVar): bool
     {
@@ -846,7 +846,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      *
      * @return  array  The normalized data.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function normalizeRequestData(Form $form, array $data): array
     {
@@ -871,7 +871,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function handleSaveDataValidationErrorMessages(array $errors): void
     {
@@ -893,7 +893,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      *
      * @return  array  The request data array with filter applied for calendar fields.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function applyFilterForCalendarFieldsToRequestData(Form $form, array $data): array
     {
@@ -925,7 +925,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function setSaveSuccessMessage($recordId): void
     {

@@ -23,7 +23,7 @@
     "install": "node --env-file=./build/production.env build/build.mjs build -a",
     "update": "node --env-file=./build/production.env build/build.mjs build -a",
     "gzip": "node build/build.mjs build -a -t gzip",
-    "browserlist:update": "npx browserslist@latest --update-db",
+    "browserlist:update": "npx update-browserslist-db@latest",
     "cypress:install": "cypress install",
     "cypress:open": "cypress open --config-file cypress.config.mjs",
     "cypress:run": "cypress run --config-file cypress.config.mjs"

@@ -16,7 +16,7 @@ use Joomla\Tests\Unit\UnitTestCase;
 /**
  * Test class for OptionsRule.
  *
- * @since  6.0.3
+ * @since  5.4.3
  */
 class OptionsRuleTest extends UnitTestCase
 {
@@ -25,7 +25,7 @@ class OptionsRuleTest extends UnitTestCase
      *
      * @return  array
      *
-     * @since   6.0.3
+     * @since   5.4.3
      */
     public function dataTest(): array
     {
@@ -75,7 +75,7 @@ class OptionsRuleTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   6.0.3
+     * @since   5.4.3
      * @dataProvider dataTest
      */
     public function testRule(bool $expected, \SimpleXMLElement $element, null|string|array $value): void

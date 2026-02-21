@@ -1411,7 +1411,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function initialiseTemplate(): void
     {
@@ -1431,7 +1431,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @return  bool  True if the template is valid, false otherwise. A template is valid if its index.php file exists
      *                either in the template itself or in its parent template.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function isValidTemplate($template): bool
     {
