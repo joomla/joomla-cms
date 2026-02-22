@@ -936,7 +936,7 @@ class ItemModel extends AdminModel
         if (!$app->isClient('api')) {
             $parentId = $app->getUserState('com_menus.edit.item.parent_id');
 
-            /* 
+            /*
             When editing an existing item, read menutype from request only (don't update session).
             When creating a new item, use getUserStateFromRequest which updates the session
             so that Save & Close returns to the new item's menu.
