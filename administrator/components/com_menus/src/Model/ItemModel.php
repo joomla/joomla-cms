@@ -939,7 +939,7 @@ class ItemModel extends AdminModel
             /**
              * When editing an existing item, read menutype from request only (don't update session).
              * When creating a new item, use getUserStateFromRequest which updates the session so that Save & Close returns to the new item's menu.
-            */
+             */
             if ($pk) {
                 $menuType = $app->getInput()->getString('menutype', '');
             } else {
