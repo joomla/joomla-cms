@@ -25,9 +25,8 @@ describe('Test in backend that the content history list', () => {
     const currentDate = new Date();
     const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`;
     cy.log(formattedDate);
-    cy.wait(5000);
     cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body') // Access the iframe's document body
+      .its('0.contentDocument.body', { timeout: 10000 }) // Access the iframe's document body
       .should('not.be.empty') // Ensure the body is loaded
       .then(cy.wrap) // Wrap the body for further Cypress commands
       .find('a') // Find the specific element containing the string
@@ -40,10 +39,9 @@ describe('Test in backend that the content history list', () => {
     cy.get('#jform_title').clear().type('Test article versions');
     cy.clickToolbarButton('Save');
     cy.clickToolbarButton('Versions');
-    cy.wait(5000);
 
     cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body') // Access the iframe's document body
+      .its('0.contentDocument.body', { timeout: 10000 }) // Access the iframe's document body
       .should('not.be.empty') // Ensure the body is loaded
       .then(cy.wrap) // Wrap the body for further Cypress commands
       .find('a')
@@ -72,16 +70,14 @@ describe('Test in backend that the content history list', () => {
     cy.clickToolbarButton('Save');
     cy.clickToolbarButton('Versions');
 
-    cy.wait(5000);
-
     cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body') // Access the iframe's document body
+      .its('0.contentDocument.body', { timeout: 10000 }) // Access the iframe's document body
       .should('not.be.empty') // Ensure the body is loaded
       .find('input.form-check-input[name="checkall-toggle"]')
       .check();
     // Target the button using its parent id and class
     cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body') // Access the iframe's document body
+      .its('0.contentDocument.body', { timeout: 10000 }) // Access the iframe's document body
       .should('not.be.empty') // Ensure the body is loaded
 
       .find('button.button-compare') // Locate the button inside it
@@ -89,7 +85,7 @@ describe('Test in backend that the content history list', () => {
       .click(); // Perform the click action
     // Verify the text on the new page
     cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body') // Access the iframe's document body
+      .its('0.contentDocument.body', { timeout: 10000 }) // Access the iframe's document body
       .should('not.be.empty')
       .should('contain.text', 'Please select two versions');
   });
@@ -99,27 +95,36 @@ describe('Test in backend that the content history list', () => {
     cy.get('#jform_title').clear().type('Test article versions');
     cy.clickToolbarButton('Save');
     cy.clickToolbarButton('Versions');
-    cy.wait(5000);
 
     cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body') // Access the iframe's document body
+      .its('0.contentDocument.body', { timeout: 10000 }) // Access the iframe's document body
       .should('not.be.empty') // Ensure the body is loaded
       .find('input.form-check-input[name="checkall-toggle"]')
       .check();
     // Target the button using its parent id and class
     cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body') // Access the iframe's document body
+      .its('0.contentDocument.body', { timeout: 10000 }) // Access the iframe's document body
       .should('not.be.empty') // Ensure the body is loaded
 
       .find('button.button-delete') // Locate the button inside it
       .should('contain.text', 'Delete') // Validate the button text
       .click(); // Perform the click action
-    cy.wait(5000);
-    // Verify the text on the new page
-    cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body') // Access the iframe's document body
-      .should('not.be.empty')
-      .should('contain.text', 'History version deleted');
+    // Wait for the iframe to reload after the delete action, then verify the success message.
+    // The iframe navigates during form submission; during this time contentDocument may be
+    // temporarily inaccessible. We use a try-catch inside the .should() callback to convert
+    // any DOMException (from accessing a cross-origin or navigating document) into a failed
+    // assertion that Cypress will properly retry.
+    cy.get('iframe.iframe-content', { timeout: 10000 }).should(($iframe) => {
+      let text = '';
+      try {
+        const body = $iframe[0].contentDocument.body;
+        text = body ? body.textContent : '';
+      } catch (e) {
+        // During navigation, accessing contentDocument may throw; treat as "not ready yet"
+        text = '';
+      }
+      expect(text).to.include('History version deleted');
+    });
   });
 
   it('can keep on a history content item', () => {
@@ -127,27 +132,32 @@ describe('Test in backend that the content history list', () => {
     cy.get('#jform_title').clear().type('Test article versions');
     cy.clickToolbarButton('Save');
     cy.clickToolbarButton('Versions');
-    cy.wait(5000);
 
     cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body') // Access the iframe's document body
+      .its('0.contentDocument.body', { timeout: 10000 }) // Access the iframe's document body
       .should('not.be.empty') // Ensure the body is loaded
       .find('input.form-check-input[name="checkall-toggle"]')
       .check();
     // Target the button using its parent id and class
     cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body') // Access the iframe's document body
+      .its('0.contentDocument.body', { timeout: 10000 }) // Access the iframe's document body
       .should('not.be.empty') // Ensure the body is loaded
 
       .find('button.button-keep') // Locate the button inside it
       .should('contain.text', 'Keep On/Off') // Validate the button text
       .click(); // Perform the click action
-    cy.wait(5000);
-    // Verify the text on the new page
-    cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body') // Access the iframe's document body
-      .should('not.be.empty')
-      .should('contain.text', 'Changed the keep forever value for a history version');
+    // Wait for the iframe to reload after the keep action, then verify the success message
+    cy.get('iframe.iframe-content', { timeout: 10000 }).should(($iframe) => {
+      let text = '';
+      try {
+        const body = $iframe[0].contentDocument.body;
+        text = body ? body.textContent : '';
+      } catch (e) {
+        // During navigation, accessing contentDocument may throw; treat as "not ready yet"
+        text = '';
+      }
+      expect(text).to.include('Changed the keep forever value for a history version');
+    });
   });
 
   it('can restore a history content item', () => {
@@ -155,22 +165,20 @@ describe('Test in backend that the content history list', () => {
     cy.get('#jform_title').clear().type('Test article versions');
     cy.clickToolbarButton('Save');
     cy.clickToolbarButton('Versions');
-    cy.wait(5000);
 
     cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body') // Access the iframe's document body
+      .its('0.contentDocument.body', { timeout: 10000 }) // Access the iframe's document body
       .should('not.be.empty') // Ensure the body is loaded
       .find('input.form-check-input[name="checkall-toggle"]')
       .check();
     // Target the button using its parent id and class
     cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body') // Access the iframe's document body
+      .its('0.contentDocument.body', { timeout: 10000 }) // Access the iframe's document body
       .should('not.be.empty') // Ensure the body is loaded
 
       .find('button.button-load') // Locate the button inside it
       .should('contain.text', 'Restore') // Validate the button text
       .click(); // Perform the click action
-    cy.wait(5000);
     cy.get('.button-close').click();
     // Verify the text
     cy.get('.alert-message')
