@@ -935,7 +935,17 @@ class ItemModel extends AdminModel
 
         if (!$app->isClient('api')) {
             $parentId = $app->getUserState('com_menus.edit.item.parent_id');
-            $menuType = $app->getUserStateFromRequest('com_menus.items.menutype', 'menutype', '', 'string');
+
+            /* 
+            When editing an existing item, read menutype from request only (don't update session).
+            When creating a new item, use getUserStateFromRequest which updates the session
+            so that Save & Close returns to the new item's menu.
+            */
+            if ($pk) {
+                $menuType = $app->getInput()->getString('menutype', '');
+            } else {
+                $menuType = $app->getUserStateFromRequest('com_menus.items.menutype', 'menutype', '', 'string');
+            }
         } else {
             $parentId = null;
             $menuType = $app->getInput()->get('com_menus.items.menutype');
@@ -965,9 +975,11 @@ class ItemModel extends AdminModel
         $forcedClientId = $app->getInput()->get('client_id', null, 'string');
 
         if (!$app->isClient('api')) {
-            // Set the menu type and client id on the list view state, so we return to this menu after saving.
-            $app->setUserState('com_menus.items.menutype', $menuType);
-            $app->setUserState('com_menus.items.client_id', $clientId);
+            // Set the menu type and client id on the list view state (when creating new item), so we return to this menu after saving. )
+            if (!$pk) {
+                $app->setUserState('com_menus.items.menutype', $menuType);
+                $app->setUserState('com_menus.items.client_id', $clientId);
+            }
         }
 
         // Current item if not new, we don't allow changing client id at all
