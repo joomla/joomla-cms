@@ -73,6 +73,11 @@ describe('Test in backend that the content history list', () => {
     cy.get('iframe.iframe-content') // the iframe's selector
       .its('0.contentDocument.body', { timeout: 10000 }) // Access the iframe's document body
       .should('not.be.empty') // Ensure the body is loaded
+      .find('button.button-compare')
+      .should('be.disabled'); // Wait for JS to initialize the button
+
+    cy.get('iframe.iframe-content')
+      .its('0.contentDocument.body', { timeout: 10000 })
       .find('input.form-check-input[name="checkall-toggle"]')
       .check();
     // Target the button using its parent id and class
@@ -81,6 +86,7 @@ describe('Test in backend that the content history list', () => {
       .should('not.be.empty') // Ensure the body is loaded
 
       .find('button.button-compare') // Locate the button inside it
+      .should('not.be.disabled') // Ensure the button is enabled before clicking
       .should('contain.text', 'Compare') // Validate the button text
       .click(); // Perform the click action
     // Verify the text on the new page
@@ -99,16 +105,23 @@ describe('Test in backend that the content history list', () => {
     cy.get('iframe.iframe-content') // the iframe's selector
       .its('0.contentDocument.body', { timeout: 10000 }) // Access the iframe's document body
       .should('not.be.empty') // Ensure the body is loaded
+      .find('button.button-delete')
+      .should('be.disabled'); // Wait for JS to initialize the button
+
+    cy.get('iframe.iframe-content')
+      .its('0.contentDocument.body', { timeout: 10000 })
       .find('input.form-check-input[name="checkall-toggle"]')
       .check();
-    // Target the button using its parent id and class
-    cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body', { timeout: 10000 }) // Access the iframe's document body
-      .should('not.be.empty') // Ensure the body is loaded
-
-      .find('button.button-delete') // Locate the button inside it
-      .should('contain.text', 'Delete') // Validate the button text
-      .click(); // Perform the click action
+    // Wait for the toolbar button to become enabled after the checkbox is checked.
+    // The Joomla toolbar buttons with list-selection start disabled and only enable
+    // when the JS multiselect handler updates the hidden boxchecked field.
+    cy.get('iframe.iframe-content')
+      .its('0.contentDocument.body', { timeout: 10000 })
+      .should('not.be.empty')
+      .find('button.button-delete')
+      .should('not.be.disabled') // Ensure the button is enabled before clicking
+      .should('contain.text', 'Delete')
+      .click();
     // Wait for the iframe to reload after the delete action, then verify the success message.
     // The iframe navigates during form submission; during this time contentDocument may be
     // temporarily inaccessible. We use a try-catch inside the .should() callback to convert
@@ -136,16 +149,21 @@ describe('Test in backend that the content history list', () => {
     cy.get('iframe.iframe-content') // the iframe's selector
       .its('0.contentDocument.body', { timeout: 10000 }) // Access the iframe's document body
       .should('not.be.empty') // Ensure the body is loaded
+      .find('button.button-keep')
+      .should('be.disabled'); // Wait for JS to initialize the button
+
+    cy.get('iframe.iframe-content')
+      .its('0.contentDocument.body', { timeout: 10000 })
       .find('input.form-check-input[name="checkall-toggle"]')
       .check();
-    // Target the button using its parent id and class
-    cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body', { timeout: 10000 }) // Access the iframe's document body
-      .should('not.be.empty') // Ensure the body is loaded
-
-      .find('button.button-keep') // Locate the button inside it
-      .should('contain.text', 'Keep On/Off') // Validate the button text
-      .click(); // Perform the click action
+    // Wait for the toolbar button to become enabled after the checkbox is checked
+    cy.get('iframe.iframe-content')
+      .its('0.contentDocument.body', { timeout: 10000 })
+      .should('not.be.empty')
+      .find('button.button-keep')
+      .should('not.be.disabled') // Ensure the button is enabled before clicking
+      .should('contain.text', 'Keep On/Off')
+      .click();
     // Wait for the iframe to reload after the keep action, then verify the success message
     cy.get('iframe.iframe-content', { timeout: 10000 }).should(($iframe) => {
       let text = '';
@@ -169,16 +187,21 @@ describe('Test in backend that the content history list', () => {
     cy.get('iframe.iframe-content') // the iframe's selector
       .its('0.contentDocument.body', { timeout: 10000 }) // Access the iframe's document body
       .should('not.be.empty') // Ensure the body is loaded
+      .find('button.button-load')
+      .should('be.disabled'); // Wait for JS to initialize the button
+
+    cy.get('iframe.iframe-content')
+      .its('0.contentDocument.body', { timeout: 10000 })
       .find('input.form-check-input[name="checkall-toggle"]')
       .check();
-    // Target the button using its parent id and class
-    cy.get('iframe.iframe-content') // the iframe's selector
-      .its('0.contentDocument.body', { timeout: 10000 }) // Access the iframe's document body
-      .should('not.be.empty') // Ensure the body is loaded
-
-      .find('button.button-load') // Locate the button inside it
-      .should('contain.text', 'Restore') // Validate the button text
-      .click(); // Perform the click action
+    // Wait for the toolbar button to become enabled after the checkbox is checked
+    cy.get('iframe.iframe-content')
+      .its('0.contentDocument.body', { timeout: 10000 })
+      .should('not.be.empty')
+      .find('button.button-load')
+      .should('not.be.disabled') // Ensure the button is enabled before clicking
+      .should('contain.text', 'Restore')
+      .click();
     cy.get('.button-close').click();
     // Verify the text
     cy.get('.alert-message')
