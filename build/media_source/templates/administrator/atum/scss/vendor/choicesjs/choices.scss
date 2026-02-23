@@ -95,6 +95,13 @@
   }
 }
 
+@media (min-width: 640px) {
+  .choices .choices__list--dropdown .choices__item--selectable[data-select-text],
+  .choices .choices__list[aria-expanded] .choices__item--selectable[data-select-text] {
+    padding-inline-end: 10px;
+  }
+}
+
 @if $enable-dark-mode {
   @include color-mode(dark) {
     .choices .choices__list--dropdown {
