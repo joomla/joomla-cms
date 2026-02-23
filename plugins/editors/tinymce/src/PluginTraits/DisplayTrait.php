@@ -236,6 +236,7 @@ trait DisplayTrait
         } else {
             // Use filters from TinyMCE params
             $invalid_elements  = trim($levelParams->get('invalid_elements', 'script,applet,iframe'));
+            $invalid_styles    = trim($levelParams->get('invalid_styles', ''));
             $extended_elements = trim($levelParams->get('extended_elements', ''));
             $valid_elements    = trim($levelParams->get('valid_elements', ''));
         }
@@ -257,6 +258,8 @@ trait DisplayTrait
             'jxtdbuttons',
         ];
         $wa->useScript('plg_editors_tinymce.jxtdbuttons');
+        $wa->useScript('plg_editors_tinymce.modulepreview');
+        $plugins[]  = 'modulepreview';
 
         // Allowed elements
         $elements = [
@@ -512,6 +515,7 @@ trait DisplayTrait
                 'paste_as_text'      => (bool) $levelParams->get('paste_as_text', false),
 
                 'valid_elements'          => $valid_elements,
+                'invalid_styles'          => $invalid_styles,
                 'extended_valid_elements' => implode(',', $elements),
                 'invalid_elements'        => $invalid_elements,
 

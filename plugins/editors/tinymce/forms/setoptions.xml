@@ -205,7 +205,13 @@
 			showon="use_config_textfilters:0"
 			default="script,applet,iframe"
 		/>
-
+		<field
+			name="invalid_styles"
+			type="text"
+			label="PLG_TINY_FIELD_INVALID_STYLES_LABEL"
+			description="PLG_TINY_FIELD_INVALID_STYLES_DESC"
+			showon="use_config_textfilters:0"
+		/>
 		<field
 			name="valid_elements"
 			type="text"
