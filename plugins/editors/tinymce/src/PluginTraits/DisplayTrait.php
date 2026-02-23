@@ -258,8 +258,6 @@ trait DisplayTrait
             'jxtdbuttons',
         ];
         $wa->useScript('plg_editors_tinymce.jxtdbuttons');
-        $wa->useScript('plg_editors_tinymce.modulepreview');
-        $plugins[]  = 'modulepreview';
 
         // Allowed elements
         $elements = [
