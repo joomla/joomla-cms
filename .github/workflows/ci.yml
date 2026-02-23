@@ -60,7 +60,11 @@ jobs:
     needs: [composer]
     strategy:
       matrix:
-        command: ['php-cs-fixer fix -vvv --dry-run --diff', 'phpcs --extensions=php -p --standard=ruleset.xml .']
+        command:
+          [
+            "php-cs-fixer fix -vvv --dry-run --diff",
+            "phpcs --extensions=php -p --standard=ruleset.xml .",
+          ]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/cache/restore@v4
@@ -79,7 +83,7 @@ jobs:
     needs: [composer, npm]
     strategy:
       matrix:
-        check: ['lint:js', 'lint:testjs', 'lint:css']
+        check: ["lint:js", "lint:testjs", "lint:css"]
     steps:
       - uses: actions/setup-node@v4
         with:
@@ -116,13 +120,13 @@ jobs:
     needs: [code-style-php]
     strategy:
       matrix:
-        php_version: ['8.1', '8.2', '8.3', '8.4', '8.5']
+        php_version: ["8.1", "8.2", "8.3", "8.4", "8.5"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/cache/restore@v4
         with:
           path: libraries/vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
       - name: Run Unit tests
         run: ./libraries/vendor/bin/phpunit --testsuite Unit
 
@@ -133,32 +137,32 @@ jobs:
     needs: [code-style-php]
     strategy:
       matrix:
-        php_version: ['8.1', '8.2', '8.3', '8.4', '8.5']
+        php_version: ["8.1", "8.2", "8.3", "8.4", "8.5"]
         config:
-          - my_version: '8.4'
-            engine: 'mysqli'
-            host: 'mysql'
-            user: 'joomla_ut'
-          - my_version: '8.0.13'
-            engine: 'mysqli'
-            host: 'mysql'
-            user: 'joomla_ut'
-          - maria_version: '12.0'
-            engine: 'mysqli'
-            host: 'maria'
-            user: 'joomla_ut'
-          - maria_version: '10.4'
-            engine: 'mysqli'
-            host: 'maria'
-            user: 'joomla_ut'
-          - pg_version: '12.0'
-            engine: 'pgsql'
-            host: 'postgres'
-            user: 'root'
-          - pg_version: '18.0'
-            engine: 'pgsql'
-            host: 'postgres'
-            user: 'root'
+          - my_version: "8.4"
+            engine: "mysqli"
+            host: "mysql"
+            user: "joomla_ut"
+          - my_version: "8.0.13"
+            engine: "mysqli"
+            host: "mysql"
+            user: "joomla_ut"
+          - maria_version: "12.0"
+            engine: "mysqli"
+            host: "maria"
+            user: "joomla_ut"
+          - maria_version: "10.4"
+            engine: "mysqli"
+            host: "maria"
+            user: "joomla_ut"
+          - pg_version: "12.0"
+            engine: "pgsql"
+            host: "postgres"
+            user: "root"
+          - pg_version: "18.0"
+            engine: "pgsql"
+            host: "postgres"
+            user: "root"
     steps:
       - uses: actions/checkout@v4
       - name: Start LDAP container
@@ -168,7 +172,7 @@ jobs:
       - uses: actions/cache/restore@v4
         with:
           path: libraries/vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
       - name: Run Integration tests
         env:
           JTEST_DB_ENGINE: ${{ matrix.config.engine }}
@@ -177,7 +181,7 @@ jobs:
           JTEST_DB_NAME: test_joomla
           JTEST_DB_PASSWORD: joomla_ut
         run: |
-         sleep 3
+          sleep 3
           ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit.xml.dist
       - name: Stop LDAP container
         uses: docker://docker
@@ -211,14 +215,14 @@ jobs:
     needs: [code-style-php]
     strategy:
       matrix:
-        php_version: ['8.1', '8.2', '8.3', '8.4', '8.5']
+        php_version: ["8.1", "8.2", "8.3", "8.4", "8.5"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/cache/restore@v4
         id: cache-php-windows
         with:
           path: libraries/vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -237,13 +241,13 @@ jobs:
     needs: [code-style-php]
     strategy:
       matrix:
-        php_version: ['8.1', '8.2', '8.3', '8.4', '8.5']
+        php_version: ["8.1", "8.2", "8.3", "8.4", "8.5"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/cache/restore@v4
         with:
           path: libraries/vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
       - uses: shogo82148/actions-setup-mysql@v1
         with:
           mysql-version: "mariadb-10.4"
@@ -301,38 +305,38 @@ jobs:
     needs: [tests-system-prepare]
     strategy:
       matrix:
-        browser: ['chrome', 'edge']
+        browser: ["chrome", "edge"]
         config:
-          - php_version: '8.5'
+          - php_version: "8.5"
             test_group: cmysqlmax
             db_engine: mysqli
             db_host: mysql
-            my_version: '8.4'
-          - php_version: '8.1'
+            my_version: "8.4"
+          - php_version: "8.1"
             test_group: cmysql
             db_engine: mysqli
             db_host: mysql
-            my_version: '8.0.13'
-          - php_version: '8.4'
+            my_version: "8.0.13"
+          - php_version: "8.4"
             test_group: cmariamax
             db_engine: mysqli
             db_host: maria
-            maria_version: '12.0'
-          - php_version: '8.1'
+            maria_version: "12.0"
+          - php_version: "8.1"
             test_group: cmaria
             db_engine: mysqli
             db_host: maria
-            maria_version: '10.4'
-          - php_version: '8.1'
+            maria_version: "10.4"
+          - php_version: "8.1"
             test_group: cpostgres
             db_engine: pgsql
             db_host: postgres
-            pg_version: '12.0'
-          - php_version: '8.5'
+            pg_version: "12.0"
+          - php_version: "8.5"
             test_group: cpostgresmax
             db_engine: pgsql
             db_host: postgres
-            pg_version: '18.0'
+            pg_version: "18.0"
     env:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     steps:
@@ -359,7 +363,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: system-test-output
+          name: system-test-output-${{ matrix.config.test_group }}-${{ matrix.browser }}
           path: tests/System/output
           if-no-files-found: ignore
     services:
@@ -388,9 +392,9 @@ jobs:
     name: Check for typos
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout Actions Repository
-      uses: actions/checkout@v4
-    - name: Spell Check Repository
-      uses: crate-ci/typos@v1.34.0
-      with:
-        config: .github/workflows/typos.toml
+      - name: Checkout Actions Repository
+        uses: actions/checkout@v4
+      - name: Spell Check Repository
+        uses: crate-ci/typos@v1.34.0
+        with:
+          config: .github/workflows/typos.toml

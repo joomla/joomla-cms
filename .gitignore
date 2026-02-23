@@ -107,3 +107,6 @@ cypress.config.mjs
 
 # WebAuthn FIDO metadata cache
 /plugins/system/webauthn/fido.jwt
+
+/job.log
+/joomla-artifacts/

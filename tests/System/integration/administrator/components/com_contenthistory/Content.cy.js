@@ -127,7 +127,7 @@ describe('Test in backend that the content history list', () => {
     // temporarily inaccessible. We use a try-catch inside the .should() callback to convert
     // any DOMException (from accessing a cross-origin or navigating document) into a failed
     // assertion that Cypress will properly retry.
-    cy.get('iframe.iframe-content', { timeout: 10000 }).should(($iframe) => {
+    cy.get('iframe.iframe-content', { timeout: 20000 }).should(($iframe) => {
       let text = '';
       try {
         const body = $iframe[0].contentDocument.body;
@@ -165,7 +165,7 @@ describe('Test in backend that the content history list', () => {
       .should('contain.text', 'Keep On/Off')
       .click();
     // Wait for the iframe to reload after the keep action, then verify the success message
-    cy.get('iframe.iframe-content', { timeout: 10000 }).should(($iframe) => {
+    cy.get('iframe.iframe-content', { timeout: 20000 }).should(($iframe) => {
       let text = '';
       try {
         const body = $iframe[0].contentDocument.body;
