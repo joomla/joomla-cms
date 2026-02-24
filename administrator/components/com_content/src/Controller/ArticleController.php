@@ -11,9 +11,14 @@
 namespace Joomla\Component\Content\Administrator\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\CMSWebApplicationInterface;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Controller\AsyncAdminResponseTrait;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Input\Input;
@@ -31,6 +36,7 @@ use Joomla\Utilities\ArrayHelper;
 class ArticleController extends FormController
 {
     use VersionableControllerTrait;
+    use AsyncAdminResponseTrait;
 
     /**
      * Constructor.
@@ -208,5 +214,73 @@ class ArticleController extends FormController
         $this->setRedirect(Route::_('index.php?option=com_content&view=articles' . $this->getRedirectToListAppend(), false));
 
         return parent::batch($model);
+    }
+
+    /**
+     * Autosave endpoint for asynchronous edit-form saving.
+     *
+     * @return  boolean
+     *
+     * @since   6.1.0
+     */
+    public function autosave()
+    {
+        $this->input->post->set('task', 'apply');
+        $this->task = 'apply';
+
+        $result = parent::save();
+
+        if ($this->isAsyncAutosaveRequest()) {
+            $messages = [];
+
+            foreach ((array) $this->app->getMessageQueue() as $message) {
+                if (!isset($message['type'], $message['message'])) {
+                    continue;
+                }
+
+                $messages[$message['type']][] = $message['message'];
+            }
+
+            if (!empty($this->message)) {
+                $messageType               = $this->messageType ?: CMSWebApplicationInterface::MSG_MESSAGE;
+                $messages[$messageType][] = $this->message;
+            }
+
+            echo new JsonResponse(
+                $this->buildAsyncAdminResponseEnvelope(
+                    $result && $this->messageType !== 'error',
+                    $messages,
+                    null,
+                    [],
+                    [
+                        'autosave'   => true,
+                        'autosaveAt' => Factory::getDate()->toSql(),
+                    ]
+                ),
+                null,
+                false,
+                true
+            );
+
+            $this->app->close();
+        }
+
+        return $result;
+    }
+
+    /**
+     * Determine whether current request is an async autosave request.
+     *
+     * @return  boolean
+     *
+     * @since   6.1.0
+     */
+    private function isAsyncAutosaveRequest(): bool
+    {
+        if (!ComponentHelper::getParams('com_content')->get('autosave_enabled', 0)) {
+            return false;
+        }
+
+        return strtolower($this->input->server->getString('HTTP_X_REQUESTED_WITH', '')) === 'xmlhttprequest';
     }
 }

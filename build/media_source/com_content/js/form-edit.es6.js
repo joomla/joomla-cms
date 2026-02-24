@@ -7,19 +7,26 @@
 
   // Selectors used by this script
   const buttonDataSelector = 'data-submit-task';
-  const formId = 'adminForm';
+  const formId = 'item-form';
   const autosaveStatusId = 'com-content-autosave-status';
   let autosaveTimer = null;
   let manualSubmitInProgress = false;
+  let autosaveInProgress = false;
   let currentSignature = '';
   let dirty = false;
+
+  const getForm = () => document.getElementById(formId) || document.forms.adminForm;
 
   /**
    * Submit the task
    * @param task
    */
   const submitTask = (task) => {
-    const form = document.getElementById(formId);
+    const form = getForm();
+
+    if (!form) {
+      return;
+    }
 
     if (task !== 'article.apply') {
       manualSubmitInProgress = true;
@@ -53,7 +60,7 @@
       return statusNode;
     }
 
-    const form = document.getElementById(formId);
+    const form = getForm();
 
     if (!form) {
       return null;
@@ -82,27 +89,55 @@
   };
 
   const runAutosaveCycle = () => {
-    const form = document.getElementById(formId);
+    const form = getForm();
 
-    if (!form || manualSubmitInProgress || !dirty) {
-      return;
+    if (!form || manualSubmitInProgress || autosaveInProgress || !dirty) {
+      return Promise.resolve({ mode: 'skipped' });
     }
 
     if (!document.formvalidator.isValid(form)) {
       updateStatus('COM_CONTENT_AUTOSAVE_STATUS_SKIPPED_INVALID', 'Autosave skipped (validation failed)');
 
-      return;
+      return Promise.resolve({ mode: 'invalid' });
     }
 
+    autosaveInProgress = true;
     updateStatus('COM_CONTENT_AUTOSAVE_STATUS_SAVING', 'Autosaving...');
-    submitTask('article.apply');
 
-    dirty = false;
-    updateStatus('COM_CONTENT_AUTOSAVE_STATUS_SAVED', 'Autosaved');
+    const payload = new URLSearchParams(new FormData(form));
+    payload.set('task', 'article.autosave');
+
+    return Joomla.asyncAdminRequest({
+      url: form.getAttribute('action') || window.location.href,
+      method: 'POST',
+      data: payload.toString(),
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      featureFlagKey: 'com_content.autosave',
+      fallbackOnError: false,
+      onSuccess: (responsePayload) => {
+        dirty = false;
+
+        if (responsePayload?.meta?.autosaveAt) {
+          updateStatus('COM_CONTENT_AUTOSAVE_STATUS_SAVED', `Autosaved (${responsePayload.meta.autosaveAt})`);
+
+          return;
+        }
+
+        updateStatus('COM_CONTENT_AUTOSAVE_STATUS_SAVED', 'Autosaved');
+      },
+      onError: () => {
+        updateStatus('COM_CONTENT_AUTOSAVE_STATUS_FAILED', 'Autosave failed');
+      },
+      onFallback: () => {
+        updateStatus('COM_CONTENT_AUTOSAVE_STATUS_FAILED', 'Autosave failed');
+      },
+    }).finally(() => {
+      autosaveInProgress = false;
+    });
   };
 
   const installDirtyTracking = () => {
-    const form = document.getElementById(formId);
+    const form = getForm();
 
     if (!form) {
       return;
@@ -156,6 +191,11 @@
 
   // Register events
   document.addEventListener('DOMContentLoaded', () => {
+    Joomla.contentAutosave = {
+      run: runAutosaveCycle,
+      setup: installAutosaveScheduler,
+    };
+
     installAutosaveScheduler();
 
     document.querySelectorAll(`[${buttonDataSelector}]`).forEach((button) => {
