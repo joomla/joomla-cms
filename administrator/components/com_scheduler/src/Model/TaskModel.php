@@ -420,11 +420,18 @@ class TaskModel extends AdminModel
      */
     private function hasRunningTasks($db): bool
     {
+        $now       = Factory::getDate('now', 'UTC');
+        $timeout   = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
+        $timeout   = new \DateInterval(\sprintf('PT%dS', $timeout));
+        $threshold = (clone $now)->sub($timeout)->toSql();
+
         $lockCountQuery = $db->getQuery(true)
             ->select('COUNT(id)')
             ->from($db->quoteName(self::TASK_TABLE))
             ->where($db->quoteName('locked') . ' IS NOT NULL')
-            ->where($db->quoteName('state') . ' = 1');
+            ->where($db->quoteName('locked') . ' > :threshold')
+            ->where($db->quoteName('state') . ' = 1')
+            ->bind(':threshold', $threshold);
 
         try {
             $runningCount = $db->setQuery($lockCountQuery)->loadResult();
