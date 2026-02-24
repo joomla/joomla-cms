@@ -567,6 +567,27 @@ class ArticlesModel extends ListModel
             }
         }
 
+        // Filter by selected custom field and optional field value.
+        $customFieldId    = (int) $this->getState('filter.custom_field');
+        $customFieldValue = trim((string) $this->getState('filter.custom_value', ''));
+
+        if ($customFieldId > 0) {
+            $query->join(
+                'INNER',
+                $db->quoteName('#__fields_values', 'cfv'),
+                $db->quoteName('cfv.item_id') . ' = ' . $db->quoteName('a.id')
+            )
+                ->where($db->quoteName('cfv.field_id') . ' = :customFieldId')
+                ->bind(':customFieldId', $customFieldId, ParameterType::INTEGER);
+
+            if ($customFieldValue !== '') {
+                $customFieldValue = '%' . str_replace(' ', '%', $customFieldValue) . '%';
+
+                $query->where($db->quoteName('cfv.value') . ' LIKE :customFieldValue')
+                    ->bind(':customFieldValue', $customFieldValue);
+            }
+        }
+
         // Filter by a single or group of tags.
         $tag = $this->getState('filter.tag');
 

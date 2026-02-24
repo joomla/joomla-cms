@@ -112,6 +112,40 @@ describe('Test in backend that the articles list', () => {
     });
   });
 
+  it('filters articles by selected custom field value', () => {
+    let filterFieldId;
+    let matchingArticleId;
+    let otherArticleId;
+
+    cy.db_createField({ title: 'Article Query Filter Field', context: 'com_content.article' })
+      .then((fieldId) => {
+        filterFieldId = fieldId;
+
+        return cy.db_createArticle({ title: 'Field Match Article' });
+      })
+      .then((article) => {
+        matchingArticleId = article.id;
+
+        return cy.db_createArticle({ title: 'Field Non Match Article' });
+      })
+      .then((article) => {
+        otherArticleId = article.id;
+
+        return cy.task('queryDB', `INSERT INTO #__fields_values (field_id, item_id, value) VALUES (${filterFieldId}, ${matchingArticleId}, 'Needle Value')`);
+      })
+      .then(() => cy.task('queryDB', `INSERT INTO #__fields_values (field_id, item_id, value) VALUES (${filterFieldId}, ${otherArticleId}, 'Other Value')`))
+      .then(() => {
+        cy.visit(`/administrator/index.php?option=com_content&view=articles&filter_custom_field=${filterFieldId}&filter_custom_value=Needle`);
+
+        cy.contains('Field Match Article');
+        cy.contains('Field Non Match Article').should('not.exist');
+
+        cy.task('queryDB', `DELETE FROM #__fields_values WHERE field_id = ${filterFieldId}`);
+        cy.task('queryDB', `DELETE FROM #__fields WHERE id = ${filterFieldId}`);
+        cy.task('queryDB', `DELETE FROM #__content WHERE id IN (${matchingArticleId}, ${otherArticleId})`);
+      });
+  });
+
   it('can open the article form', () => {
     cy.clickToolbarButton('New');
 
