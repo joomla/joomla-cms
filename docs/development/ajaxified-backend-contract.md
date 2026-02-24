@@ -1,14 +1,22 @@
-# Ajaxified Backend Contract (Pilot)
+# Ajaxified Backend Contract
 
 ## Scope
 
 This document defines the technical contract for asynchronous administrator actions in the Ajaxified Backend project.
 
-Initial pilot scope:
+Completed scope:
 
 - Component: `com_content`
-- View: Articles list (`view=articles`)
-- Actions: list state changes, filtering/search, ordering, and pagination (incremental rollout)
+- Views:
+  - Articles list (`view=articles`)
+  - Article edit (`view=article`)
+- Capabilities:
+  - Async list state changes, transitions, search/filter/order/pagination.
+  - Async autosave scheduler and status contract.
+  - Autosave anti-spam policy (unchanged payload skip + minimum interval throttle).
+  - Recover/undo last autosave snapshot (session-local MVP).
+  - Custom-field filters (UI + list query integration).
+  - Reusable core async refresh helper with focus and aria-live handling.
 
 The contract is designed for progressive enhancement and strict backward compatibility.
 
@@ -64,6 +72,22 @@ Notes:
 - `fragments` keys are optional and action-dependent.
 - `messages` should mirror Joomla message queues/categories.
 
+Autosave responses may include policy metadata:
+
+```json
+{
+  "meta": {
+    "autosave": true,
+    "autosaveAt": "2026-02-24 00:00:00",
+    "skipped": true,
+    "reason": "unchanged",
+    "retryAfter": 10
+  }
+}
+```
+
+`reason` values are currently `unchanged` and `throttled`.
+
 ---
 
 ## Error Handling Policy
@@ -89,14 +113,41 @@ No silent failure is allowed.
 ## Accessibility Requirements
 
 - Async message rendering must keep Joomla alert semantics.
-- Focus must move predictably after list fragment replacement.
+- Focus should be restored to the prior active control by id when possible.
+- If focus restoration target does not exist after refresh, focus moves to refreshed container.
+- Async messages should be announced via aria-live region.
 - Keyboard-only workflows must remain equivalent to full-page mode.
+
+---
+
+## Reusable Core Hooks
+
+Shared hooks used by `com_content` and available for extension:
+
+- `Joomla.asyncAdminRequest(...)`
+- `Joomla.refreshAdminFragment(...)`
+- `Joomla.announceAsyncMessages(...)`
+
+---
+
+## PR Readiness Checklist
+
+- All units in [docs/development/ajaxified-backend-plan.md](docs/development/ajaxified-backend-plan.md) marked complete.
+- Targeted lint passes:
+  - `npm run lint:js`
+  - `npm run lint:testjs`
+- PHP syntax checks pass for touched controllers/models.
+- New/updated system tests cover:
+  - async list actions and fragment refresh path,
+  - autosave contract + skip/recover behavior,
+  - custom-field filter controls and query filtering,
+  - accessibility behavior after async refresh.
 
 ---
 
 ## Rollout Strategy
 
-1. Pilot on `com_content` list interactions.
-2. Verify parity through targeted Cypress tests.
-3. Extract reusable infrastructure only after pilot stability.
-4. Expand to more components incrementally.
+1. Keep feature flags default-safe for production environments.
+2. Verify parity through targeted Cypress specs before merge.
+3. Land as incremental commits (already preserved on branch history).
+4. Expand to additional components in follow-up PRs.
