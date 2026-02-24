@@ -101,6 +101,17 @@ describe('Test in backend that the articles list', () => {
     });
   });
 
+  it('shows custom-field filter controls when article custom fields exist', () => {
+    cy.db_createField({ title: 'Article Filter Field', context: 'com_content.article' }).then(() => {
+      cy.reload();
+      cy.task('queryDB', "DELETE FROM #__fields WHERE title = 'Article Filter Field'");
+
+      cy.get('#filter_custom_field').should('exist');
+      cy.get('#filter_custom_field option').contains('Article Filter Field');
+      cy.get('#filter_custom_value').should('exist');
+    });
+  });
+
   it('can open the article form', () => {
     cy.clickToolbarButton('New');
 

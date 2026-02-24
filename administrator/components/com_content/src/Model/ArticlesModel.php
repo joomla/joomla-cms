@@ -101,6 +101,23 @@ class ArticlesModel extends ListModel
     {
         $form = parent::getFilterForm($data, $loadData);
 
+        if ($form) {
+            $customFieldOptions = $this->getCustomFieldFilterOptions();
+
+            if (!empty($customFieldOptions)) {
+                $customFieldXml = new \SimpleXMLElement(
+                    '<field name="custom_field" type="list" label="COM_CONTENT_FILTER_CUSTOM_FIELD_LABEL" class="js-select-submit-on-change" validate="options"><option value="">COM_CONTENT_FILTER_CUSTOM_FIELD_SELECT</option></field>'
+                );
+
+                foreach ($customFieldOptions as $option) {
+                    $customFieldOption = $customFieldXml->addChild('option', htmlspecialchars($option['text'], ENT_COMPAT, 'UTF-8'));
+                    $customFieldOption->addAttribute('value', (string) $option['value']);
+                }
+
+                $form->setField($customFieldXml, 'filter', true);
+            }
+        }
+
         $params = ComponentHelper::getParams('com_content');
 
         if (!$params->get('workflow_enabled')) {
@@ -148,6 +165,8 @@ class ArticlesModel extends ListModel
         $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
         $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
         $this->getUserStateFromRequest($this->context . '.filter.checked_out', 'filter_checked_out', '');
+        $this->getUserStateFromRequest($this->context . '.filter.custom_field', 'filter_custom_field', '');
+        $this->getUserStateFromRequest($this->context . '.filter.custom_value', 'filter_custom_value', '');
 
         // List state information.
         parent::populateState($ordering, $direction);
@@ -189,8 +208,39 @@ class ArticlesModel extends ListModel
         $id .= ':' . $this->getState('filter.start_date_range');
         $id .= ':' . $this->getState('filter.end_date_range');
         $id .= ':' . $this->getState('filter.relative_date');
+        $id .= ':' . $this->getState('filter.custom_field');
+        $id .= ':' . $this->getState('filter.custom_value');
 
         return parent::getStoreId($id);
+    }
+
+    /**
+     * Get custom field options for articles filter form.
+     *
+     * @return  array<int, array{value:int,text:string}>
+     *
+     * @since   6.1.0
+     */
+    private function getCustomFieldFilterOptions(): array
+    {
+        $db    = $this->getDatabase();
+        $query = $db->createQuery()
+            ->select(
+                [
+                    $db->quoteName('id', 'value'),
+                    $db->quoteName('title', 'text'),
+                ]
+            )
+            ->from($db->quoteName('#__fields'))
+            ->where(
+                [
+                    $db->quoteName('context') . ' = ' . $db->quote('com_content.article'),
+                    $db->quoteName('state') . ' = 1',
+                ]
+            )
+            ->order($db->quoteName('title') . ' ASC');
+
+        return (array) $db->setQuery($query)->loadAssocList();
     }
 
     /**
