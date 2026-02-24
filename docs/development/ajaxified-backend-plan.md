@@ -283,4 +283,4 @@ For each unit, run the smallest relevant scope first:
 - [x] Unit 4.2 complete
 - [x] Unit 5.1 complete
 - [x] Unit 5.2 complete
-- [ ] Unit 5.3 complete
+- [x] Unit 5.3 complete
