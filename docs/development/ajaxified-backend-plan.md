@@ -278,7 +278,7 @@ For each unit, run the smallest relevant scope first:
 - [x] Unit 3.1 complete
 - [x] Unit 3.2 complete
 - [x] Unit 3.3 complete
-- [ ] Unit 3.4 complete
+- [x] Unit 3.4 complete
 - [ ] Unit 4.1 complete
 - [ ] Unit 4.2 complete
 - [ ] Unit 5.1 complete

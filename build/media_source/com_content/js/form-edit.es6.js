@@ -14,6 +14,8 @@
   let autosaveInProgress = false;
   let currentSignature = '';
   let dirty = false;
+  let lastAutosaveSnapshot = null;
+  let recoverSourceSnapshot = null;
 
   const getForm = () => document.getElementById(formId) || document.forms.adminForm;
 
@@ -88,6 +90,138 @@
     statusNode.textContent = Joomla.Text._(messageKey, fallbackText);
   };
 
+  const ensureRecoverControls = () => {
+    const statusNode = ensureStatusNode();
+
+    if (!statusNode) {
+      return null;
+    }
+
+    const form = getForm();
+
+    if (!form) {
+      return null;
+    }
+
+    let controlsNode = document.getElementById('com-content-autosave-controls');
+
+    if (!controlsNode) {
+      controlsNode = document.createElement('div');
+      controlsNode.id = 'com-content-autosave-controls';
+      controlsNode.className = 'd-flex gap-2 mt-2';
+
+      const recoverButton = document.createElement('button');
+      recoverButton.type = 'button';
+      recoverButton.id = 'com-content-autosave-recover';
+      recoverButton.className = 'btn btn-sm btn-outline-secondary';
+      recoverButton.textContent = Joomla.Text._('COM_CONTENT_AUTOSAVE_RECOVER_BUTTON', 'Recover autosave');
+      recoverButton.hidden = true;
+
+      const undoButton = document.createElement('button');
+      undoButton.type = 'button';
+      undoButton.id = 'com-content-autosave-undo';
+      undoButton.className = 'btn btn-sm btn-outline-secondary';
+      undoButton.textContent = Joomla.Text._('COM_CONTENT_AUTOSAVE_UNDO_BUTTON', 'Undo recover');
+      undoButton.hidden = true;
+
+      controlsNode.appendChild(recoverButton);
+      controlsNode.appendChild(undoButton);
+
+      statusNode.parentNode.insertBefore(controlsNode, statusNode.nextSibling);
+    }
+
+    return {
+      recoverButton: document.getElementById('com-content-autosave-recover'),
+      undoButton: document.getElementById('com-content-autosave-undo'),
+    };
+  };
+
+  const updateRecoverControls = () => {
+    const controls = ensureRecoverControls();
+
+    if (!controls) {
+      return;
+    }
+
+    controls.recoverButton.hidden = !lastAutosaveSnapshot;
+    controls.undoButton.hidden = !recoverSourceSnapshot;
+  };
+
+  const captureFormSnapshot = (form) => {
+    const values = {};
+
+    Array.from(form.elements).forEach((element) => {
+      if (!element.name || element.disabled || ['button', 'submit', 'reset', 'file'].includes(element.type)) {
+        return;
+      }
+
+      if ((element.type === 'checkbox' || element.type === 'radio') && !element.checked) {
+        return;
+      }
+
+      if (!values[element.name]) {
+        values[element.name] = [];
+      }
+
+      values[element.name].push(element.value);
+    });
+
+    return values;
+  };
+
+  const applyFormSnapshot = (form, snapshot) => {
+    Array.from(form.elements).forEach((element) => {
+      if (!element.name || element.disabled || ['button', 'submit', 'reset', 'file'].includes(element.type)) {
+        return;
+      }
+
+      const targetValues = snapshot[element.name] || [];
+
+      if (element.type === 'checkbox' || element.type === 'radio') {
+        element.checked = targetValues.includes(element.value);
+      } else if (element.tagName === 'SELECT' && element.multiple) {
+        Array.from(element.options).forEach((option) => {
+          option.selected = targetValues.includes(option.value);
+        });
+      } else {
+        element.value = targetValues[0] ?? '';
+      }
+
+      element.dispatchEvent(new Event('change', { bubbles: true }));
+      element.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+  };
+
+  const recoverLastAutosave = () => {
+    const form = getForm();
+
+    if (!form || !lastAutosaveSnapshot) {
+      return;
+    }
+
+    recoverSourceSnapshot = captureFormSnapshot(form);
+    applyFormSnapshot(form, lastAutosaveSnapshot);
+    currentSignature = getFormSignature(form);
+    dirty = false;
+    updateStatus('COM_CONTENT_AUTOSAVE_STATUS_RECOVERED', 'Recovered last autosave');
+    updateRecoverControls();
+  };
+
+  const undoRecoverLastAutosave = () => {
+    const form = getForm();
+
+    if (!form || !recoverSourceSnapshot) {
+      return;
+    }
+
+    applyFormSnapshot(form, recoverSourceSnapshot);
+    recoverSourceSnapshot = null;
+    currentSignature = getFormSignature(form);
+    dirty = true;
+    updateStatus('COM_CONTENT_AUTOSAVE_STATUS_RECOVER_UNDONE', 'Recovery undone');
+    updateRecoverControls();
+  };
+
   const runAutosaveCycle = () => {
     const form = getForm();
 
@@ -130,6 +264,10 @@
         }
 
         if (responsePayload?.meta?.autosaveAt) {
+          lastAutosaveSnapshot = captureFormSnapshot(form);
+          recoverSourceSnapshot = null;
+          updateRecoverControls();
+
           updateStatus('COM_CONTENT_AUTOSAVE_STATUS_SAVED', `Autosaved (${responsePayload.meta.autosaveAt})`);
 
           return;
@@ -193,6 +331,15 @@
 
     installDirtyTracking();
     ensureStatusNode();
+    ensureRecoverControls();
+    updateRecoverControls();
+
+    const controls = ensureRecoverControls();
+
+    if (controls) {
+      controls.recoverButton.addEventListener('click', recoverLastAutosave);
+      controls.undoButton.addEventListener('click', undoRecoverLastAutosave);
+    }
 
     if (autosaveTimer) {
       window.clearInterval(autosaveTimer);
@@ -206,6 +353,8 @@
     Joomla.contentAutosave = {
       run: runAutosaveCycle,
       setup: installAutosaveScheduler,
+      recover: recoverLastAutosave,
+      undoRecover: undoRecoverLastAutosave,
     };
 
     installAutosaveScheduler();

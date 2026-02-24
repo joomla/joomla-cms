@@ -118,6 +118,43 @@ describe('Test in backend that the article form', () => {
     });
   });
 
+  it('can recover and undo the last autosave snapshot', () => {
+    cy.visit('/administrator/index.php?option=com_content&task=article.add');
+
+    cy.window().then((win) => {
+      const originalAsyncRequest = win.Joomla.asyncAdminRequest;
+
+      win.Joomla.loadOptions({ 'com_content.autosave': { enabled: true, interval: 30 } });
+      win.Joomla.asyncAdminRequest = () => Promise.resolve({
+        mode: 'async',
+        payload: {
+          success: true,
+          meta: { autosaveAt: '2026-02-24 00:00:00' },
+        },
+      });
+
+      win.Joomla.contentAutosave.setup();
+
+      const titleField = win.document.getElementById('jform_title');
+      titleField.value = 'Snapshot title';
+      titleField.dispatchEvent(new win.Event('input', { bubbles: true }));
+
+      return win.Joomla.contentAutosave.run()
+        .then(() => {
+          titleField.value = 'Changed after autosave';
+          titleField.dispatchEvent(new win.Event('input', { bubbles: true }));
+
+          win.Joomla.contentAutosave.recover();
+          expect(titleField.value).to.equal('Snapshot title');
+
+          win.Joomla.contentAutosave.undoRecover();
+          expect(titleField.value).to.equal('Changed after autosave');
+
+          win.Joomla.asyncAdminRequest = originalAsyncRequest;
+        });
+    });
+  });
+
   it('can change access level of a test article', () => {
     cy.db_createArticle({ title: 'Test article' }).then((article) => {
       cy.visit(`/administrator/index.php?option=com_content&task=article.edit&id=${article.id}`);
