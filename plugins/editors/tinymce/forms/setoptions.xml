@@ -218,7 +218,7 @@
 		>
 			<form hidden="true" name="invalid_styles" repeat="true">
 				<field
-					name="invalid_styles_element"
+					name="element"
 					type="text"
 					label="PLG_TINY_FIELD_INVALID_STYLES_ELEMENT_LABEL"
 					description="PLG_TINY_FIELD_INVALID_STYLES_ELEMENT_DESC"
@@ -226,7 +226,7 @@
 				/>
 
 				<field
-					name="invalid_styles_style"
+					name="style"
 					type="text"
 					label="PLG_TINY_FIELD_INVALID_STYLES_STYLE_LABEL"
 					description="PLG_TINY_FIELD_INVALID_STYLES_STYLE_DESC"
