@@ -119,6 +119,25 @@ describe('Test in backend that the articles list', () => {
     });
   });
 
+  it('restores focus and announces async messages after fragment refresh', () => {
+    cy.window().then((win) => {
+      const searchInput = win.document.getElementById('filter-search');
+      searchInput.focus();
+
+      return win.Joomla.refreshAdminFragment({
+        url: win.location.href,
+        containerSelector: '#j-main-container',
+        messages: { message: ['Async refresh complete'] },
+      }).then(() => {
+        const liveRegion = win.document.getElementById('joomla-async-live-region');
+
+        expect(liveRegion).to.not.equal(null);
+        expect(liveRegion.textContent).to.contain('Async refresh complete');
+        expect(win.document.activeElement.id).to.equal('filter-search');
+      });
+    });
+  });
+
   it('can display a list of articles', () => {
     cy.db_createArticle({ title: 'Test article' }).then(() => {
       cy.reload();

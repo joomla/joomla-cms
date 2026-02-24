@@ -815,6 +815,8 @@ Joomla.refreshAdminFragment = (options = {}) => {
     url: '',
     containerSelector: '#j-main-container',
     messages: null,
+    manageFocus: true,
+    announceMessages: true,
     onUpdated: null,
   }, options);
 
@@ -827,6 +829,7 @@ Joomla.refreshAdminFragment = (options = {}) => {
     method: 'GET',
     promise: true,
   }).then((xhr) => {
+    const previousActiveId = document.activeElement?.id || '';
     const responseText = xhr.responseText || '';
 
     if (!responseText.length) {
@@ -846,6 +849,21 @@ Joomla.refreshAdminFragment = (options = {}) => {
 
     if (refreshOptions.messages) {
       Joomla.renderMessages(refreshOptions.messages);
+
+      if (refreshOptions.announceMessages) {
+        Joomla.announceAsyncMessages(refreshOptions.messages);
+      }
+    }
+
+    if (refreshOptions.manageFocus) {
+      const focusTarget = previousActiveId ? document.getElementById(previousActiveId) : null;
+
+      if (focusTarget && typeof focusTarget.focus === 'function') {
+        focusTarget.focus();
+      } else {
+        currentContainer.setAttribute('tabindex', '-1');
+        currentContainer.focus();
+      }
     }
 
     if (typeof refreshOptions.onUpdated === 'function') {
@@ -854,6 +872,34 @@ Joomla.refreshAdminFragment = (options = {}) => {
 
     document.dispatchEvent(new CustomEvent('joomla:updated'));
   });
+};
+
+Joomla.announceAsyncMessages = (messages) => {
+  if (!messages || typeof messages !== 'object') {
+    return;
+  }
+
+  let liveRegion = document.getElementById('joomla-async-live-region');
+
+  if (!liveRegion) {
+    liveRegion = document.createElement('div');
+    liveRegion.id = 'joomla-async-live-region';
+    liveRegion.className = 'visually-hidden';
+    liveRegion.setAttribute('role', 'status');
+    liveRegion.setAttribute('aria-live', 'polite');
+    liveRegion.setAttribute('aria-atomic', 'true');
+    document.body.appendChild(liveRegion);
+  }
+
+  const announcement = Object.values(messages)
+    .flatMap((items) => (Array.isArray(items) ? items : [items]))
+    .map((item) => String(item).trim())
+    .filter((item) => item.length > 0)
+    .join('. ');
+
+  if (announcement) {
+    liveRegion.textContent = announcement;
+  }
 };
 
 /**
