@@ -5,6 +5,202 @@
 ((document) => {
   'use strict';
 
+  const asyncTasks = new Set([
+    'articles.publish',
+    'articles.unpublish',
+    'articles.archive',
+    'articles.trash',
+    'articles.featured',
+    'articles.unfeatured',
+    'articles.runTransition',
+  ]);
+
+  const isAsyncEnabled = () => Joomla.getOptions('com_content.async_admin', {}).enabled === true;
+
+  const submitSynchronously = (form) => {
+    form.dataset.asyncBypass = '1';
+    form.submit();
+  };
+
+  const submitListAsync = (form) => {
+    const payload = new URLSearchParams(new FormData(form));
+    const task = payload.get('task') || '';
+
+    Joomla.asyncAdminRequest({
+      url: form.action || window.location.href,
+      method: 'POST',
+      data: payload.toString(),
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      followRedirect: false,
+      featureFlagKey: 'com_content.async_admin',
+      fallbackTask: task,
+      formSelector: `#${form.id}`,
+      fallbackOnError: true,
+      onSuccess: (responsePayload) => {
+        const refreshUrl = responsePayload.redirect || form.action || window.location.href;
+
+        Joomla.refreshAdminFragment({
+          url: refreshUrl,
+          containerSelector: '#j-main-container',
+          messages: responsePayload.messages,
+        });
+      },
+      onFallback: () => {
+        submitSynchronously(form);
+      },
+    });
+  };
+
+  const handleListSubmit = (event) => {
+    const form = event.target;
+
+    if (!(form instanceof HTMLFormElement) || form.id !== 'adminForm') {
+      return;
+    }
+
+    if (form.dataset.asyncBypass === '1') {
+      delete form.dataset.asyncBypass;
+
+      return;
+    }
+
+    if (!isAsyncEnabled()) {
+      return;
+    }
+
+    event.preventDefault();
+    submitListAsync(form);
+  };
+
+  const handlePaginationClick = (event) => {
+    if (!isAsyncEnabled()) {
+      return;
+    }
+
+    const anchor = event.target.closest('.pagination a[href], .page-link[href]');
+
+    if (!anchor) {
+      return;
+    }
+
+    const href = anchor.getAttribute('href');
+
+    if (!href || href.startsWith('#')) {
+      return;
+    }
+
+    event.preventDefault();
+
+    Joomla.refreshAdminFragment({
+      url: href,
+      containerSelector: '#j-main-container',
+    });
+  };
+
+  const installAsyncSubmitHandlers = () => {
+    const originalSubmitbutton = Joomla.submitbutton;
+    const originalListItemTask = Joomla.listItemTask;
+
+    Joomla.submitbutton = (task, formSelector, validate) => {
+      if (!isAsyncEnabled()) {
+        originalSubmitbutton(task, formSelector, validate);
+
+        return;
+      }
+
+      if (!asyncTasks.has(task)) {
+        originalSubmitbutton(task, formSelector, validate);
+
+        return;
+      }
+
+      let form = document.querySelector(formSelector || 'form.form-validate');
+
+      if (typeof formSelector === 'string' && form === null) {
+        form = document.querySelector(`#${formSelector}`);
+      }
+
+      if (!form) {
+        originalSubmitbutton(task, formSelector, validate);
+
+        return;
+      }
+
+      const payload = new URLSearchParams(new FormData(form));
+      payload.set('task', task);
+
+      Joomla.asyncAdminRequest({
+        url: form.action || window.location.href,
+        method: 'POST',
+        data: payload.toString(),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        followRedirect: false,
+        featureFlagKey: 'com_content.async_admin',
+        fallbackTask: task,
+        formSelector,
+        validate,
+        fallbackOnError: true,
+        onSuccess: (responsePayload) => {
+          const refreshUrl = responsePayload.redirect || form.action || window.location.href;
+
+          Joomla.refreshAdminFragment({
+            url: refreshUrl,
+            containerSelector: '#j-main-container',
+            messages: responsePayload.messages,
+          });
+        },
+        onFallback: () => {
+          originalSubmitbutton(task, formSelector, validate);
+        },
+      });
+    };
+
+    Joomla.listItemTask = (id, task, form = null) => {
+      if (!isAsyncEnabled()) {
+        return originalListItemTask(id, task, form);
+      }
+
+      if (!asyncTasks.has(task)) {
+        return originalListItemTask(id, task, form);
+      }
+
+      let newForm = form;
+
+      if (form !== null) {
+        newForm = document.getElementById(form);
+      } else {
+        newForm = document.adminForm;
+      }
+
+      const cb = newForm[id];
+      let i = 0;
+      let cbx;
+
+      if (!cb) {
+        return false;
+      }
+
+      while (true) {
+        cbx = newForm[`cb${i}`];
+
+        if (!cbx) {
+          break;
+        }
+
+        cbx.checked = false;
+
+        i += 1;
+      }
+
+      cb.checked = true;
+      newForm.boxchecked.value = 1;
+
+      Joomla.submitbutton(task, `#${newForm.id}`, false);
+
+      return false;
+    };
+  };
+
   const onClick = () => {
     const form = document.getElementById('adminForm');
     document.getElementById('filter-search').value = '';
@@ -14,6 +210,10 @@
   const onBoot = () => {
     const form = document.getElementById('adminForm');
     const element = form.querySelector('button[type="reset"]');
+
+    installAsyncSubmitHandlers();
+    form.addEventListener('submit', handleListSubmit);
+    document.addEventListener('click', handlePaginationClick);
 
     if (element) {
       element.addEventListener('click', onClick);

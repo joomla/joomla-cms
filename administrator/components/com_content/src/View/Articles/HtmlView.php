@@ -118,13 +118,18 @@ class HtmlView extends BaseHtmlView
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
         $this->vote          = PluginHelper::isEnabled('content', 'vote');
-        $this->hits          = ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1;
+        $params              = ComponentHelper::getParams('com_content');
+        $this->hits          = $params->get('record_hits', 1) == 1;
+
+        $this->getDocument()->addScriptOptions('com_content.async_admin', [
+            'enabled' => (bool) $params->get('async_admin_enabled', 0),
+        ]);
 
         if (!\count($this->items) && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
         }
 
-        if (ComponentHelper::getParams('com_content')->get('workflow_enabled')) {
+        if ($params->get('workflow_enabled')) {
             PluginHelper::importPlugin('workflow');
 
             $this->transitions = $model->getTransitions();

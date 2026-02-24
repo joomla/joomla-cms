@@ -25,6 +25,7 @@ $wa = $this->getDocument()->getWebAssetManager();
 $wa->getRegistry()->addExtensionRegistryFile('com_contenthistory');
 $wa->useScript('keepalive')
     ->useScript('form.validate')
+    ->useScript('com_content.form-edit')
     ->useScript('com_contenthistory.admin-history-versions');
 
 $this->configFieldsets  = ['editorConfig'];

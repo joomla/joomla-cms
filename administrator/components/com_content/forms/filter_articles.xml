@@ -117,6 +117,24 @@
 		</field>
 
 		<field
+			name="custom_field"
+			type="list"
+			label="COM_CONTENT_FILTER_CUSTOM_FIELD_LABEL"
+			class="js-select-submit-on-change"
+			validate="options"
+			>
+			<option value="">COM_CONTENT_FILTER_CUSTOM_FIELD_SELECT</option>
+		</field>
+
+		<field
+			name="custom_value"
+			type="text"
+			inputmode="search"
+			label="COM_CONTENT_FILTER_CUSTOM_VALUE_LABEL"
+			hint="COM_CONTENT_FILTER_CUSTOM_VALUE_LABEL"
+		/>
+
+		<field
 			name="level"
 			type="integer"
 			label="JGLOBAL_MAXLEVEL_LABEL"

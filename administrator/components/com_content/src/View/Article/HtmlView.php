@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Content\Administrator\View\Article;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
@@ -84,6 +85,13 @@ class HtmlView extends FormView
         parent::initializeView();
 
         $this->canDo = ContentHelper::getActions('com_content', 'article', $this->item->id);
+
+        $params = ComponentHelper::getParams('com_content');
+
+        $this->getDocument()->addScriptOptions('com_content.autosave', [
+            'enabled'  => (bool) $params->get('autosave_enabled', 0),
+            'interval' => (int) $params->get('autosave_interval', 30),
+        ]);
 
         $url = RouteHelper::getArticleRoute($this->item->id . ':' . $this->item->alias, $this->item->catid, $this->item->language);
 

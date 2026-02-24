@@ -11,9 +11,14 @@
 namespace Joomla\Component\Content\Administrator\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\CMSWebApplicationInterface;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Controller\AsyncAdminResponseTrait;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Input\Input;
@@ -31,6 +36,7 @@ use Joomla\Utilities\ArrayHelper;
 class ArticleController extends FormController
 {
     use VersionableControllerTrait;
+    use AsyncAdminResponseTrait;
 
     /**
      * Constructor.
@@ -208,5 +214,228 @@ class ArticleController extends FormController
         $this->setRedirect(Route::_('index.php?option=com_content&view=articles' . $this->getRedirectToListAppend(), false));
 
         return parent::batch($model);
+    }
+
+    /**
+     * Autosave endpoint for asynchronous edit-form saving.
+     *
+     * @return  boolean
+     *
+     * @since   6.1.0
+     */
+    public function autosave()
+    {
+        if ($this->isAsyncAutosaveRequest()) {
+            $guardDecision = $this->evaluateAutosaveGuard();
+
+            if ($guardDecision !== null) {
+                echo new JsonResponse(
+                    $this->buildAsyncAdminResponseEnvelope(
+                        true,
+                        [],
+                        null,
+                        [],
+                        $guardDecision
+                    ),
+                    null,
+                    false,
+                    true
+                );
+
+                $this->app->close();
+            }
+        }
+
+        $this->input->post->set('task', 'apply');
+        $this->task = 'apply';
+
+        $result = parent::save();
+
+        if ($this->isAsyncAutosaveRequest()) {
+            $messages = [];
+
+            foreach ((array) $this->app->getMessageQueue() as $message) {
+                if (!isset($message['type'], $message['message'])) {
+                    continue;
+                }
+
+                $messages[$message['type']][] = $message['message'];
+            }
+
+            if (!empty($this->message)) {
+                $messageType               = $this->messageType ?: CMSWebApplicationInterface::MSG_MESSAGE;
+                $messages[$messageType][] = $this->message;
+            }
+
+            $success = $result && $this->messageType !== 'error';
+
+            echo new JsonResponse(
+                $this->buildAsyncAdminResponseEnvelope(
+                    $success,
+                    $messages,
+                    null,
+                    [],
+                    $success ? $this->markAutosaveGuardSaved() : []
+                ),
+                null,
+                false,
+                true
+            );
+
+            $this->app->close();
+        }
+
+        return $result;
+    }
+
+    /**
+     * Determine whether current request is an async autosave request.
+     *
+     * @return  boolean
+     *
+     * @since   6.1.0
+     */
+    private function isAsyncAutosaveRequest(): bool
+    {
+        if (!ComponentHelper::getParams('com_content')->get('autosave_enabled', 0)) {
+            return false;
+        }
+
+        return strtolower($this->input->server->getString('HTTP_X_REQUESTED_WITH', '')) === 'xmlhttprequest';
+    }
+
+    /**
+     * Evaluate whether autosave should be skipped to avoid version/history spam.
+     *
+     * @return  array|null  Meta payload when autosave should be skipped, null when save should continue.
+     *
+     * @since   6.1.0
+     */
+    private function evaluateAutosaveGuard(): ?array
+    {
+        $guardKey = $this->getAutosaveGuardKey();
+
+        if ($guardKey === '') {
+            return null;
+        }
+
+        $session    = $this->app->getSession();
+        $guardState = (array) $session->get($guardKey, []);
+        $hash       = $this->buildAutosavePayloadHash();
+        $now        = time();
+
+        if ($hash !== '' && ($guardState['hash'] ?? '') === $hash) {
+            return [
+                'autosave'   => true,
+                'autosaveAt' => Factory::getDate()->toSql(),
+                'skipped'    => true,
+                'reason'     => 'unchanged',
+            ];
+        }
+
+        $minInterval = max(5, (int) ComponentHelper::getParams('com_content')->get('autosave_interval', 30));
+        $lastSavedAt = (int) ($guardState['savedAt'] ?? 0);
+
+        if ($lastSavedAt > 0 && ($now - $lastSavedAt) < $minInterval) {
+            return [
+                'autosave'   => true,
+                'autosaveAt' => Factory::getDate()->toSql(),
+                'skipped'    => true,
+                'reason'     => 'throttled',
+                'retryAfter' => max(0, $minInterval - ($now - $lastSavedAt)),
+            ];
+        }
+
+        return null;
+    }
+
+    /**
+     * Persist autosave guard state after a successful save and return autosave meta.
+     *
+     * @return  array
+     *
+     * @since   6.1.0
+     */
+    private function markAutosaveGuardSaved(): array
+    {
+        $meta = [
+            'autosave'   => true,
+            'autosaveAt' => Factory::getDate()->toSql(),
+        ];
+
+        if (!$this->isAsyncAutosaveRequest()) {
+            return $meta;
+        }
+
+        $guardKey = $this->getAutosaveGuardKey();
+
+        if ($guardKey === '') {
+            return $meta;
+        }
+
+        $hash = $this->buildAutosavePayloadHash();
+
+        $this->app->getSession()->set($guardKey, [
+            'hash'    => $hash,
+            'savedAt' => time(),
+        ]);
+
+        return $meta;
+    }
+
+    /**
+     * Build a stable session key for autosave guard state.
+     *
+     * @return  string
+     *
+     * @since   6.1.0
+     */
+    private function getAutosaveGuardKey(): string
+    {
+        $articleId = (int) ($this->input->post->get('jform', [], 'array')['id'] ?? 0);
+
+        if ($articleId <= 0) {
+            $articleId = (int) $this->input->getInt('id', 0);
+        }
+
+        $userId = (int) $this->app->getIdentity()->id;
+
+        if ($userId <= 0) {
+            return '';
+        }
+
+        return 'com_content.autosave.guard.' . $userId . '.' . max(0, $articleId);
+    }
+
+    /**
+     * Build a stable hash of autosave payload data.
+     *
+     * @return  string
+     *
+     * @since   6.1.0
+     */
+    private function buildAutosavePayloadHash(): string
+    {
+        $data = (array) $this->input->post->get('jform', [], 'array');
+
+        if (empty($data)) {
+            return '';
+        }
+
+        unset($data['asset_id'], $data['version_note']);
+
+        $normalize = static function (&$value) use (&$normalize): void {
+            if (is_array($value)) {
+                ksort($value);
+
+                foreach ($value as &$childValue) {
+                    $normalize($childValue);
+                }
+            }
+        };
+
+        $normalize($data);
+
+        return hash('sha256', json_encode($data));
     }
 }

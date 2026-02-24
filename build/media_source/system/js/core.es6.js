@@ -726,6 +726,188 @@ Joomla.enqueueRequest = (options) => {
   return lastRequestPromise;
 };
 
+Joomla.asyncAdminRequest = (options = {}) => {
+  const requestOptions = Joomla.extend({
+    url: '',
+    method: 'POST',
+    data: null,
+    headers: null,
+    featureFlagKey: '',
+    fallbackTask: '',
+    formSelector: '',
+    validate: null,
+    fallbackOnError: false,
+    onSuccess: null,
+    onError: null,
+    onFallback: null,
+  }, options);
+
+  const executeFallback = () => {
+    if (typeof requestOptions.onFallback === 'function') {
+      requestOptions.onFallback();
+    } else if (requestOptions.fallbackTask) {
+      Joomla.submitbutton(requestOptions.fallbackTask, requestOptions.formSelector, requestOptions.validate);
+    }
+
+    return { mode: 'fallback' };
+  };
+
+  if (!requestOptions.url) {
+    return Promise.resolve(executeFallback());
+  }
+
+  if (requestOptions.featureFlagKey) {
+    const featureConfig = Joomla.getOptions(requestOptions.featureFlagKey, {});
+
+    if (featureConfig.enabled !== true) {
+      return Promise.resolve(executeFallback());
+    }
+  }
+
+  return Joomla.request({
+    url: requestOptions.url,
+    method: requestOptions.method,
+    data: requestOptions.data,
+    headers: requestOptions.headers,
+    promise: true,
+  }).then((xhr) => {
+    const responseText = xhr.responseText || '';
+    let payload = {};
+
+    if (responseText) {
+      try {
+        payload = JSON.parse(responseText);
+      } catch (error) {
+        return executeFallback();
+      }
+    }
+
+    if (payload && payload.data && typeof payload.data === 'object' && Object.prototype.hasOwnProperty.call(payload.data, 'success')) {
+      payload = payload.data;
+    }
+
+    if (payload.redirect) {
+      const shouldFollowRedirect = requestOptions.followRedirect !== false;
+
+      if (shouldFollowRedirect) {
+        window.location.assign(payload.redirect);
+
+        return { mode: 'redirect', payload };
+      }
+
+      return { mode: 'async', payload, xhr };
+    }
+
+    if (payload.success === false && requestOptions.fallbackOnError) {
+      return executeFallback();
+    }
+
+    if (typeof requestOptions.onSuccess === 'function') {
+      requestOptions.onSuccess(payload, xhr);
+    }
+
+    return { mode: 'async', payload, xhr };
+  }).catch((xhr) => {
+    if (typeof requestOptions.onError === 'function') {
+      requestOptions.onError(xhr);
+    }
+
+    return executeFallback();
+  });
+};
+
+Joomla.refreshAdminFragment = (options = {}) => {
+  const refreshOptions = Joomla.extend({
+    url: '',
+    containerSelector: '#j-main-container',
+    messages: null,
+    manageFocus: true,
+    announceMessages: true,
+    onUpdated: null,
+  }, options);
+
+  if (!refreshOptions.url) {
+    return Promise.resolve();
+  }
+
+  return Joomla.request({
+    url: refreshOptions.url,
+    method: 'GET',
+    promise: true,
+  }).then((xhr) => {
+    const previousActiveId = document.activeElement?.id || '';
+    const responseText = xhr.responseText || '';
+
+    if (!responseText.length) {
+      return;
+    }
+
+    const parser = new DOMParser();
+    const parsedDocument = parser.parseFromString(responseText, 'text/html');
+    const nextContainer = parsedDocument.querySelector(refreshOptions.containerSelector);
+    const currentContainer = document.querySelector(refreshOptions.containerSelector);
+
+    if (!nextContainer || !currentContainer) {
+      return;
+    }
+
+    currentContainer.innerHTML = nextContainer.innerHTML;
+
+    if (refreshOptions.messages) {
+      Joomla.renderMessages(refreshOptions.messages);
+
+      if (refreshOptions.announceMessages) {
+        Joomla.announceAsyncMessages(refreshOptions.messages);
+      }
+    }
+
+    if (refreshOptions.manageFocus) {
+      const focusTarget = previousActiveId ? document.getElementById(previousActiveId) : null;
+
+      if (focusTarget && typeof focusTarget.focus === 'function') {
+        focusTarget.focus();
+      } else {
+        currentContainer.setAttribute('tabindex', '-1');
+        currentContainer.focus();
+      }
+    }
+
+    if (typeof refreshOptions.onUpdated === 'function') {
+      refreshOptions.onUpdated();
+    }
+
+    document.dispatchEvent(new CustomEvent('joomla:updated'));
+  });
+};
+
+Joomla.announceAsyncMessages = (messages) => {
+  if (!messages || typeof messages !== 'object') {
+    return;
+  }
+
+  let liveRegion = document.getElementById('joomla-async-live-region');
+
+  if (!liveRegion) {
+    liveRegion = document.createElement('div');
+    liveRegion.id = 'joomla-async-live-region';
+    liveRegion.className = 'visually-hidden';
+    liveRegion.setAttribute('role', 'status');
+    liveRegion.setAttribute('aria-live', 'polite');
+    liveRegion.setAttribute('aria-atomic', 'true');
+    document.body.appendChild(liveRegion);
+  }
+
+  const announcement = Object.values(messages)
+    .flatMap((items) => (Array.isArray(items) ? items : [items]))
+    .map((item) => String(item).trim())
+    .filter((item) => item.length > 0)
+    .join('. ');
+
+  if (announcement) {
+    liveRegion.textContent = announcement;
+  }
+};
+
 /**
  *
  * @param {string} unsafeHtml The html for sanitization
