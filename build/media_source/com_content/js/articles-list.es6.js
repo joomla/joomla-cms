@@ -39,6 +39,84 @@
     document.dispatchEvent(new CustomEvent('joomla:updated'));
   });
 
+  const isAsyncEnabled = () => Joomla.getOptions('com_content.async_admin', {}).enabled === true;
+
+  const submitSynchronously = (form) => {
+    form.dataset.asyncBypass = '1';
+    form.submit();
+  };
+
+  const submitListAsync = (form) => {
+    const payload = new URLSearchParams(new FormData(form));
+    const task = payload.get('task') || '';
+
+    Joomla.asyncAdminRequest({
+      url: form.action || window.location.href,
+      method: 'POST',
+      data: payload.toString(),
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      featureFlagKey: 'com_content.async_admin',
+      fallbackTask: task,
+      formSelector: `#${form.id}`,
+      fallbackOnError: true,
+      onSuccess: (responsePayload) => {
+        const refreshUrl = responsePayload.redirect || form.action || window.location.href;
+
+        refreshListContainer(refreshUrl).then(() => {
+          if (responsePayload.messages) {
+            Joomla.renderMessages(responsePayload.messages);
+          }
+        });
+      },
+      onFallback: () => {
+        submitSynchronously(form);
+      },
+    });
+  };
+
+  const handleListSubmit = (event) => {
+    const form = event.target;
+
+    if (!(form instanceof HTMLFormElement) || form.id !== 'adminForm') {
+      return;
+    }
+
+    if (form.dataset.asyncBypass === '1') {
+      delete form.dataset.asyncBypass;
+
+      return;
+    }
+
+    if (!isAsyncEnabled()) {
+      return;
+    }
+
+    event.preventDefault();
+    submitListAsync(form);
+  };
+
+  const handlePaginationClick = (event) => {
+    if (!isAsyncEnabled()) {
+      return;
+    }
+
+    const anchor = event.target.closest('.pagination a[href], .page-link[href]');
+
+    if (!anchor) {
+      return;
+    }
+
+    const href = anchor.getAttribute('href');
+
+    if (!href || href.startsWith('#')) {
+      return;
+    }
+
+    event.preventDefault();
+
+    refreshListContainer(href);
+  };
+
   const installAsyncSubmitHandlers = () => {
     const originalSubmitbutton = Joomla.submitbutton;
     const originalListItemTask = Joomla.listItemTask;
@@ -85,7 +163,7 @@
           });
         },
         onFallback: () => {
-          originalSubmitbutton(task, formSelector, validate);
+          submitSynchronously(form);
         },
       });
     };
@@ -143,6 +221,8 @@
     const element = form.querySelector('button[type="reset"]');
 
     installAsyncSubmitHandlers();
+    form.addEventListener('submit', handleListSubmit);
+    document.addEventListener('click', handlePaginationClick);
 
     if (element) {
       element.addEventListener('click', onClick);

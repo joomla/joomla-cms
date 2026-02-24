@@ -73,6 +73,26 @@ describe('Test in backend that the articles list', () => {
     });
   });
 
+  it('uses async helper for list form submit when async backend is enabled', () => {
+    cy.window().then((win) => {
+      const originalAsyncRequest = win.Joomla.asyncAdminRequest;
+      let asyncCalled = false;
+
+      win.Joomla.loadOptions({ 'com_content.async_admin': { enabled: true } });
+      win.Joomla.asyncAdminRequest = (options) => {
+        asyncCalled = true;
+        expect(options).to.have.property('fallbackTask', '');
+
+        return Promise.resolve({ mode: 'fallback' });
+      };
+
+      win.document.getElementById('adminForm').dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+
+      expect(asyncCalled).to.equal(true);
+      win.Joomla.asyncAdminRequest = originalAsyncRequest;
+    });
+  });
+
   it('can display a list of articles', () => {
     cy.db_createArticle({ title: 'Test article' }).then(() => {
       cy.reload();
