@@ -207,11 +207,33 @@
 		/>
 		<field
 			name="invalid_styles"
-			type="text"
+			type="subform"
 			label="PLG_TINY_FIELD_INVALID_STYLES_LABEL"
 			description="PLG_TINY_FIELD_INVALID_STYLES_DESC"
+			layout="joomla.form.field.subform.repeatable-table"
+			icon="list"
+			multiple="true"
+			default=''
 			showon="use_config_textfilters:0"
-		/>
+		>
+			<form hidden="true" name="invalid_styles" repeat="true">
+				<field
+					name="invalid_styles_element"
+					type="text"
+					label="PLG_TINY_FIELD_INVALID_STYLES_ELEMENT_LABEL"
+					description="PLG_TINY_FIELD_INVALID_STYLES_ELEMENT_DESC"
+					filter="string"
+				/>
+
+				<field
+					name="invalid_styles_style"
+					type="text"
+					label="PLG_TINY_FIELD_INVALID_STYLES_STYLE_LABEL"
+					description="PLG_TINY_FIELD_INVALID_STYLES_STYLE_DESC"
+					filter="string"
+				/>
+			</form>
+		</field>
 		<field
 			name="valid_elements"
 			type="text"
