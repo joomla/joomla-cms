@@ -12,6 +12,7 @@
     'articles.trash',
     'articles.featured',
     'articles.unfeatured',
+    'articles.runTransition',
   ]);
 
   const refreshListContainer = (url) => Joomla.request({

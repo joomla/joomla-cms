@@ -157,6 +157,28 @@ class ArticlesController extends AdminController
     }
 
     /**
+     * Method to run workflow transition on list items.
+     *
+     * @return  boolean
+     *
+     * @since   6.1.0
+     */
+    public function runTransition()
+    {
+        $result = parent::runTransition();
+
+        if ($this->isAsyncAdminRequest()) {
+            $this->closeAsyncAdminResponse($result && $this->messageType !== 'error', [
+                'component' => 'com_content',
+                'view'      => $this->view_list,
+                'task'      => $this->getTask(),
+            ]);
+        }
+
+        return $result;
+    }
+
+    /**
      * Determine whether current request is an async admin request.
      *
      * @return  boolean
