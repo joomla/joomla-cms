@@ -33,6 +33,26 @@ describe('Test in backend that the articles list', () => {
     });
   });
 
+  it('uses async helper for publish task when async backend is enabled', () => {
+    cy.window().then((win) => {
+      const originalAsyncRequest = win.Joomla.asyncAdminRequest;
+      let asyncCalled = false;
+
+      win.Joomla.loadOptions({ 'com_content.async_admin': { enabled: true } });
+      win.Joomla.asyncAdminRequest = (options) => {
+        asyncCalled = true;
+        expect(options).to.have.property('fallbackTask', 'articles.publish');
+
+        return Promise.resolve({ mode: 'fallback' });
+      };
+
+      win.Joomla.submitbutton('articles.publish', 'adminForm', false);
+
+      expect(asyncCalled).to.equal(true);
+      win.Joomla.asyncAdminRequest = originalAsyncRequest;
+    });
+  });
+
   it('can display a list of articles', () => {
     cy.db_createArticle({ title: 'Test article' }).then(() => {
       cy.reload();

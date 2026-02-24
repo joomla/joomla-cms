@@ -782,6 +782,10 @@ Joomla.asyncAdminRequest = (options = {}) => {
       }
     }
 
+    if (payload && payload.data && typeof payload.data === 'object' && Object.hasOwn(payload.data, 'success')) {
+      payload = payload.data;
+    }
+
     if (payload.redirect) {
       window.location.assign(payload.redirect);
 

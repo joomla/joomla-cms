@@ -30,7 +30,8 @@ use Joomla\Utilities\ArrayHelper;
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
-    ->useScript('multiselect');
+    ->useScript('multiselect')
+    ->useScript('com_content.articles-list');
 
 $app       = Factory::getApplication();
 $user      = $this->getCurrentUser();

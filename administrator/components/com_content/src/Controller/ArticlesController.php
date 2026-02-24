@@ -11,8 +11,11 @@
 namespace Joomla\Component\Content\Administrator\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\CMSWebApplicationInterface;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\MVC\Controller\AsyncAdminResponseTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
@@ -31,6 +34,8 @@ use Joomla\Utilities\ArrayHelper;
  */
 class ArticlesController extends AdminController
 {
+    use AsyncAdminResponseTrait;
+
     /**
      * Constructor.
      *
@@ -96,6 +101,10 @@ class ArticlesController extends AdminController
 
             $this->setRedirect(Route::_($redirectUrl, false));
 
+            if ($this->isAsyncAdminRequest()) {
+                $this->closeAsyncAdminResponse(false, ['component' => 'com_content', 'view' => $this->view_list, 'task' => $task]);
+            }
+
             return;
         }
 
@@ -107,6 +116,10 @@ class ArticlesController extends AdminController
         if (!$model->featured($ids, $value)) {
             $this->setRedirect(Route::_($redirectUrl, false), $model->getError(), 'error');
 
+            if ($this->isAsyncAdminRequest()) {
+                $this->closeAsyncAdminResponse(false, ['component' => 'com_content', 'view' => $this->view_list, 'task' => $task]);
+            }
+
             return;
         }
 
@@ -117,6 +130,83 @@ class ArticlesController extends AdminController
         }
 
         $this->setRedirect(Route::_($redirectUrl, false), $message);
+
+        if ($this->isAsyncAdminRequest()) {
+            $this->closeAsyncAdminResponse(true, ['component' => 'com_content', 'view' => $this->view_list, 'task' => $task]);
+        }
+    }
+
+    /**
+     * Method to publish a list of items.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    public function publish()
+    {
+        parent::publish();
+
+        if ($this->isAsyncAdminRequest()) {
+            $this->closeAsyncAdminResponse($this->messageType !== 'error', [
+                'component' => 'com_content',
+                'view'      => $this->view_list,
+                'task'      => $this->getTask(),
+            ]);
+        }
+    }
+
+    /**
+     * Determine whether current request is an async admin request.
+     *
+     * @return  boolean
+     *
+     * @since   6.1.0
+     */
+    private function isAsyncAdminRequest(): bool
+    {
+        if (!ComponentHelper::getParams('com_content')->get('async_admin_enabled', 0)) {
+            return false;
+        }
+
+        return strtolower($this->input->server->getString('HTTP_X_REQUESTED_WITH', '')) === 'xmlhttprequest';
+    }
+
+    /**
+     * Close the application with an async admin response envelope.
+     *
+     * @param   boolean  $success  Whether action completed successfully.
+     * @param   array    $meta     Optional metadata payload.
+     *
+     * @return  void
+     *
+     * @since   6.1.0
+     */
+    private function closeAsyncAdminResponse(bool $success, array $meta = []): void
+    {
+        $messages = [];
+
+        foreach ((array) $this->app->getMessageQueue() as $message) {
+            if (!isset($message['type'], $message['message'])) {
+                continue;
+            }
+
+            $messages[$message['type']][] = $message['message'];
+        }
+
+        if (!empty($this->message)) {
+            $messageType               = $this->messageType ?: CMSWebApplicationInterface::MSG_MESSAGE;
+            $messages[$messageType][] = $this->message;
+        }
+
+        echo new JsonResponse(
+            $this->buildAsyncAdminResponseEnvelope($success, $messages, $this->redirect ?: null, [], $meta),
+            null,
+            false,
+            true
+        );
+
+        $this->app->close();
     }
 
     /**
