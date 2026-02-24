@@ -8,6 +8,14 @@ describe('Test in backend that the articles list', () => {
     cy.get('h1.page-title').should('contain.text', 'Articles');
   });
 
+  it('exposes async backend option disabled by default', () => {
+    cy.window().then((win) => {
+      const option = win.Joomla.getOptions('com_content.async_admin', {});
+
+      expect(option).to.have.property('enabled', false);
+    });
+  });
+
   it('can display a list of articles', () => {
     cy.db_createArticle({ title: 'Test article' }).then(() => {
       cy.reload();

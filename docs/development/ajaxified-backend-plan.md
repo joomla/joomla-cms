@@ -268,7 +268,7 @@ For each unit, run the smallest relevant scope first:
 ## Current Status Tracker
 
 - [x] Branch created from `upstream/6.1-dev`
-- [ ] Unit 0.1 complete
+- [x] Unit 0.1 complete
 - [ ] Unit 0.2 complete
 - [ ] Unit 1.1 complete
 - [ ] Unit 1.2 complete
