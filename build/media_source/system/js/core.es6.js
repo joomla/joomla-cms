@@ -810,6 +810,52 @@ Joomla.asyncAdminRequest = (options = {}) => {
   });
 };
 
+Joomla.refreshAdminFragment = (options = {}) => {
+  const refreshOptions = Joomla.extend({
+    url: '',
+    containerSelector: '#j-main-container',
+    messages: null,
+    onUpdated: null,
+  }, options);
+
+  if (!refreshOptions.url) {
+    return Promise.resolve();
+  }
+
+  return Joomla.request({
+    url: refreshOptions.url,
+    method: 'GET',
+    promise: true,
+  }).then((xhr) => {
+    const responseText = xhr.responseText || '';
+
+    if (!responseText.length) {
+      return;
+    }
+
+    const parser = new DOMParser();
+    const parsedDocument = parser.parseFromString(responseText, 'text/html');
+    const nextContainer = parsedDocument.querySelector(refreshOptions.containerSelector);
+    const currentContainer = document.querySelector(refreshOptions.containerSelector);
+
+    if (!nextContainer || !currentContainer) {
+      return;
+    }
+
+    currentContainer.innerHTML = nextContainer.innerHTML;
+
+    if (refreshOptions.messages) {
+      Joomla.renderMessages(refreshOptions.messages);
+    }
+
+    if (typeof refreshOptions.onUpdated === 'function') {
+      refreshOptions.onUpdated();
+    }
+
+    document.dispatchEvent(new CustomEvent('joomla:updated'));
+  });
+};
+
 /**
  *
  * @param {string} unsafeHtml The html for sanitization

@@ -93,6 +93,32 @@ describe('Test in backend that the articles list', () => {
     });
   });
 
+  it('uses reusable core fragment refresh helper on async list success', () => {
+    cy.window().then((win) => {
+      const originalAsyncRequest = win.Joomla.asyncAdminRequest;
+      const originalRefreshAdminFragment = win.Joomla.refreshAdminFragment;
+      let refreshCalled = false;
+
+      win.Joomla.loadOptions({ 'com_content.async_admin': { enabled: true } });
+      win.Joomla.refreshAdminFragment = () => {
+        refreshCalled = true;
+
+        return Promise.resolve();
+      };
+      win.Joomla.asyncAdminRequest = (options) => {
+        options.onSuccess({ success: true, messages: {}, redirect: window.location.href });
+
+        return Promise.resolve({ mode: 'async' });
+      };
+
+      win.document.getElementById('adminForm').dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+
+      expect(refreshCalled).to.equal(true);
+      win.Joomla.asyncAdminRequest = originalAsyncRequest;
+      win.Joomla.refreshAdminFragment = originalRefreshAdminFragment;
+    });
+  });
+
   it('can display a list of articles', () => {
     cy.db_createArticle({ title: 'Test article' }).then(() => {
       cy.reload();

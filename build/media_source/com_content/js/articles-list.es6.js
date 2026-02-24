@@ -15,30 +15,6 @@
     'articles.runTransition',
   ]);
 
-  const refreshListContainer = (url) => Joomla.request({
-    url,
-    method: 'GET',
-    promise: true,
-  }).then((xhr) => {
-    const responseText = xhr.responseText || '';
-
-    if (!responseText.length) {
-      return;
-    }
-
-    const parser = new DOMParser();
-    const parsedDocument = parser.parseFromString(responseText, 'text/html');
-    const nextContainer = parsedDocument.querySelector('#j-main-container');
-    const currentContainer = document.querySelector('#j-main-container');
-
-    if (!nextContainer || !currentContainer) {
-      return;
-    }
-
-    currentContainer.innerHTML = nextContainer.innerHTML;
-    document.dispatchEvent(new CustomEvent('joomla:updated'));
-  });
-
   const isAsyncEnabled = () => Joomla.getOptions('com_content.async_admin', {}).enabled === true;
 
   const submitSynchronously = (form) => {
@@ -62,10 +38,10 @@
       onSuccess: (responsePayload) => {
         const refreshUrl = responsePayload.redirect || form.action || window.location.href;
 
-        refreshListContainer(refreshUrl).then(() => {
-          if (responsePayload.messages) {
-            Joomla.renderMessages(responsePayload.messages);
-          }
+        Joomla.refreshAdminFragment({
+          url: refreshUrl,
+          containerSelector: '#j-main-container',
+          messages: responsePayload.messages,
         });
       },
       onFallback: () => {
@@ -114,7 +90,10 @@
 
     event.preventDefault();
 
-    refreshListContainer(href);
+    Joomla.refreshAdminFragment({
+      url: href,
+      containerSelector: '#j-main-container',
+    });
   };
 
   const installAsyncSubmitHandlers = () => {
@@ -156,10 +135,10 @@
         onSuccess: (responsePayload) => {
           const refreshUrl = responsePayload.redirect || form.action || window.location.href;
 
-          refreshListContainer(refreshUrl).then(() => {
-            if (responsePayload.messages) {
-              Joomla.renderMessages(responsePayload.messages);
-            }
+          Joomla.refreshAdminFragment({
+            url: refreshUrl,
+            containerSelector: '#j-main-container',
+            messages: responsePayload.messages,
           });
         },
         onFallback: () => {
