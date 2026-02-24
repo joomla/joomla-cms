@@ -504,8 +504,7 @@ class TasksModel extends ListModel
         $now = $time->toSql();
 
         $timeout   = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
-        $timeout   = new \DateInterval(\sprintf('PT%dS', $timeout));
-        $threshold = (clone $time)->sub($timeout)->toSql();
+        $threshold = (clone $time)->modify("-$timeout seconds")->toSql();
 
         $query = $db->getQuery(true)
             // Count due tasks

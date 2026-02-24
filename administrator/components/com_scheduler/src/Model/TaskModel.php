@@ -422,8 +422,7 @@ class TaskModel extends AdminModel
     {
         $now       = Factory::getDate('now', 'UTC');
         $timeout   = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
-        $timeout   = new \DateInterval(\sprintf('PT%dS', $timeout));
-        $threshold = (clone $now)->sub($timeout)->toSql();
+        $threshold = (clone $now)->modify("-$timeout seconds")->toSql();
 
         $lockCountQuery = $db->getQuery(true)
             ->select('COUNT(id)')
