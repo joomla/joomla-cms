@@ -63,6 +63,61 @@ describe('Test in backend that the article form', () => {
     });
   });
 
+  it('updates autosave status for skipped autosave policy reasons', () => {
+    cy.visit('/administrator/index.php?option=com_content&task=article.add');
+
+    cy.window().then((win) => {
+      const originalAsyncRequest = win.Joomla.asyncAdminRequest;
+      let invocation = 0;
+
+      win.Joomla.loadOptions({ 'com_content.autosave': { enabled: true, interval: 30 } });
+      win.Joomla.asyncAdminRequest = () => {
+        invocation += 1;
+
+        if (invocation === 1) {
+          return Promise.resolve({
+            mode: 'async',
+            payload: {
+              success: true,
+              meta: { autosave: true, skipped: true, reason: 'unchanged' },
+            },
+          });
+        }
+
+        return Promise.resolve({
+          mode: 'async',
+          payload: {
+            success: true,
+            meta: { autosave: true, skipped: true, reason: 'throttled', retryAfter: 10 },
+          },
+        });
+      };
+
+      win.Joomla.contentAutosave.setup();
+
+      const titleField = win.document.getElementById('jform_title');
+      titleField.value = 'Autosave status policy test';
+      titleField.dispatchEvent(new win.Event('input', { bubbles: true }));
+
+      return win.Joomla.contentAutosave.run()
+        .then(() => {
+          const statusNode = win.document.getElementById('com-content-autosave-status');
+          expect(statusNode.textContent).to.contain('Autosave skipped (no changes)');
+
+          titleField.value = 'Autosave status policy test second pass';
+          titleField.dispatchEvent(new win.Event('input', { bubbles: true }));
+
+          return win.Joomla.contentAutosave.run();
+        })
+        .then(() => {
+          const statusNode = win.document.getElementById('com-content-autosave-status');
+          expect(statusNode.textContent).to.contain('Autosave skipped (too frequent)');
+
+          win.Joomla.asyncAdminRequest = originalAsyncRequest;
+        });
+    });
+  });
+
   it('can change access level of a test article', () => {
     cy.db_createArticle({ title: 'Test article' }).then((article) => {
       cy.visit(`/administrator/index.php?option=com_content&task=article.edit&id=${article.id}`);

@@ -117,6 +117,18 @@
       onSuccess: (responsePayload) => {
         dirty = false;
 
+        if (responsePayload?.meta?.skipped === true) {
+          if (responsePayload.meta.reason === 'throttled') {
+            updateStatus('COM_CONTENT_AUTOSAVE_STATUS_SKIPPED_THROTTLED', 'Autosave skipped (too frequent)');
+
+            return;
+          }
+
+          updateStatus('COM_CONTENT_AUTOSAVE_STATUS_SKIPPED_UNCHANGED', 'Autosave skipped (no changes)');
+
+          return;
+        }
+
         if (responsePayload?.meta?.autosaveAt) {
           updateStatus('COM_CONTENT_AUTOSAVE_STATUS_SAVED', `Autosaved (${responsePayload.meta.autosaveAt})`);
 
