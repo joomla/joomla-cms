@@ -210,7 +210,7 @@
 			type="subform"
 			label="PLG_TINY_FIELD_INVALID_STYLES_LABEL"
 			description="PLG_TINY_FIELD_INVALID_STYLES_DESC"
-			layout="joomla.form.field.subform.repeatable-table"
+			layout="joomla.form.field.subform.repeatable-grid"
 			icon="list"
 			multiple="true"
 			default=''
