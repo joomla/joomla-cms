@@ -16,6 +16,23 @@ describe('Test in backend that the articles list', () => {
     });
   });
 
+  it('falls back when async backend feature is disabled', () => {
+    cy.window().then((win) => {
+      let fallbackCalled = false;
+
+      return win.Joomla.asyncAdminRequest({
+        url: 'index.php?option=com_content&view=articles',
+        featureFlagKey: 'com_content.async_admin',
+        onFallback: () => {
+          fallbackCalled = true;
+        },
+      }).then((result) => {
+        expect(result).to.have.property('mode', 'fallback');
+        expect(fallbackCalled).to.equal(true);
+      });
+    });
+  });
+
   it('can display a list of articles', () => {
     cy.db_createArticle({ title: 'Test article' }).then(() => {
       cy.reload();

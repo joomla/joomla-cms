@@ -726,6 +726,86 @@ Joomla.enqueueRequest = (options) => {
   return lastRequestPromise;
 };
 
+Joomla.asyncAdminRequest = (options = {}) => {
+  const requestOptions = Joomla.extend({
+    url: '',
+    method: 'POST',
+    data: null,
+    headers: null,
+    featureFlagKey: '',
+    fallbackTask: '',
+    formSelector: '',
+    validate: null,
+    fallbackOnError: false,
+    onSuccess: null,
+    onError: null,
+    onFallback: null,
+  }, options);
+
+  const executeFallback = () => {
+    if (typeof requestOptions.onFallback === 'function') {
+      requestOptions.onFallback();
+    } else if (requestOptions.fallbackTask) {
+      Joomla.submitbutton(requestOptions.fallbackTask, requestOptions.formSelector, requestOptions.validate);
+    }
+
+    return { mode: 'fallback' };
+  };
+
+  if (!requestOptions.url) {
+    return Promise.resolve(executeFallback());
+  }
+
+  if (requestOptions.featureFlagKey) {
+    const featureConfig = Joomla.getOptions(requestOptions.featureFlagKey, {});
+
+    if (featureConfig.enabled !== true) {
+      return Promise.resolve(executeFallback());
+    }
+  }
+
+  return Joomla.request({
+    url: requestOptions.url,
+    method: requestOptions.method,
+    data: requestOptions.data,
+    headers: requestOptions.headers,
+    promise: true,
+  }).then((xhr) => {
+    const responseText = xhr.responseText || '';
+    let payload = {};
+
+    if (responseText) {
+      try {
+        payload = JSON.parse(responseText);
+      } catch (error) {
+        return executeFallback();
+      }
+    }
+
+    if (payload.redirect) {
+      window.location.assign(payload.redirect);
+
+      return { mode: 'redirect', payload };
+    }
+
+    if (payload.success === false && requestOptions.fallbackOnError) {
+      return executeFallback();
+    }
+
+    if (typeof requestOptions.onSuccess === 'function') {
+      requestOptions.onSuccess(payload, xhr);
+    }
+
+    return { mode: 'async', payload, xhr };
+  }).catch((xhr) => {
+    if (typeof requestOptions.onError === 'function') {
+      requestOptions.onError(xhr);
+    }
+
+    return executeFallback();
+  });
+};
+
 /**
  *
  * @param {string} unsafeHtml The html for sanitization
