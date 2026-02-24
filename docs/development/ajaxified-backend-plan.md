@@ -270,7 +270,7 @@ For each unit, run the smallest relevant scope first:
 - [x] Branch created from `upstream/6.1-dev`
 - [x] Unit 0.1 complete
 - [x] Unit 0.2 complete
-- [ ] Unit 1.1 complete
+- [x] Unit 1.1 complete
 - [ ] Unit 1.2 complete
 - [ ] Unit 2.1 complete
 - [ ] Unit 2.2 complete
