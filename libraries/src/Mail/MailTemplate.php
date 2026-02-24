@@ -225,7 +225,7 @@ class MailTemplate
      *
      * @return array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     public function getTemplateData($plain = false): array
     {
