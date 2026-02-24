@@ -77,6 +77,10 @@ class HtmlView extends FormView
      */
     protected function initializeView()
     {
+        if ($this->getLayout() == 'pagebreak') {
+            return;
+        }
+
         parent::initializeView();
 
         $this->canDo = ContentHelper::getActions('com_content', 'article', $this->item->id);
