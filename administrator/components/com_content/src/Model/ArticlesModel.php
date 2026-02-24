@@ -544,9 +544,10 @@ class ArticlesModel extends ListModel
                         ->select('DISTINCT ' . $db->quoteName('content_item_id'))
                         ->from($db->quoteName('#__contentitem_tag_map'))
                         ->where([
-                            $db->quoteName('tag_id') . ' = ' . $db->quote($tagId),
+                            $db->quoteName('tag_id') . ' = :tagid',
                             $db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'),
-                        ]);
+                        ])
+                        ->bind(':tagid', $tagId, ParameterType::INTEGER);
 
                     $query->join(
                         'INNER',
