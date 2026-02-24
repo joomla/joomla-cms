@@ -15,6 +15,20 @@ describe('Test in backend that the article form', () => {
     cy.contains('Test article');
   });
 
+  it('exposes autosave options and initializes autosave status node', () => {
+    cy.visit('/administrator/index.php?option=com_content&task=article.add');
+
+    cy.window().then((win) => {
+      win.Joomla.loadOptions({ 'com_content.autosave': { enabled: true, interval: 30 } });
+      const options = win.Joomla.getOptions('com_content.autosave', {});
+
+      expect(options).to.have.property('enabled', true);
+      expect(options).to.have.property('interval', 30);
+    });
+
+    cy.get('#com-content-autosave-status').should('exist');
+  });
+
   it('can change access level of a test article', () => {
     cy.db_createArticle({ title: 'Test article' }).then((article) => {
       cy.visit(`/administrator/index.php?option=com_content&task=article.edit&id=${article.id}`);
