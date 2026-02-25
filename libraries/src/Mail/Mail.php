@@ -197,6 +197,9 @@ class Mail extends PHPMailer implements MailerInterface
     public function setSender($from, $name = '')
     {
         if (\is_array($from)) {
+            // Reset existing Sender which may set with previous call of PHPMailer::setFrom()
+            $this->Sender = '';
+
             // If $from is an array we assume it has an address and a name
             if (isset($from[2])) {
                 // If it is an array with entries, use them
@@ -205,6 +208,9 @@ class Mail extends PHPMailer implements MailerInterface
                 $result = $this->setFrom(MailHelper::cleanLine($from[0]), MailHelper::cleanLine($from[1]));
             }
         } elseif (\is_string($from)) {
+            // Reset existing Sender which may set with previous call PHPMailer::setFrom()
+            $this->Sender = '';
+
             // If it is a string we assume it is just the address
             $result = $this->setFrom(MailHelper::cleanLine($from), $name);
         } else {
