@@ -208,7 +208,7 @@ class Mail extends PHPMailer implements MailerInterface
                 $result = $this->setFrom(MailHelper::cleanLine($from[0]), MailHelper::cleanLine($from[1]));
             }
         } elseif (\is_string($from)) {
-            // Reset existing Sender which may set with previous call PHPMailer::setFrom()
+            // Reset existing Sender which may set with previous call of PHPMailer::setFrom()
             $this->Sender = '';
 
             // If it is a string we assume it is just the address
