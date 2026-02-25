@@ -92,6 +92,20 @@ class HtmlView extends BaseHtmlView
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
 
+        // Apply language translation for titles/descriptions (language overrides support)
+        foreach ($this->items as &$item) {
+            if (isset($item->title) && \is_string($item->title)) {
+                $translated  = Text::_($item->title);
+                $item->title = $translated ?: $item->title;
+            }
+
+            if (isset($item->description) && \is_string($item->description)) {
+                $translated        = Text::_($item->description);
+                $item->description = $translated ?: $item->description;
+            }
+        }
+        unset($item);
+
         // Display a warning if the fields system plugin is disabled
         if (!PluginHelper::isEnabled('system', 'fields')) {
             $link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . FieldsHelper::getFieldsPluginId());
