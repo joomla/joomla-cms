@@ -18,7 +18,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Application\AfterSaveConfigurationEvent;
 use Joomla\CMS\Event\Application\BeforeSaveConfigurationEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
@@ -36,6 +35,7 @@ use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 use Joomla\Filter\OutputFilter;
+use Joomla\Http\HttpFactory;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
@@ -364,7 +364,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                         CURLOPT_PROXYUSERPWD   => null,
                     ]
                 );
-                $response = HttpFactory::getHttp($options)->get('https://' . $host . Uri::root(true) . '/', ['Host' => $host], 10);
+                $response = (new HttpFactory())->getHttp($options)->get('https://' . $host . Uri::root(true) . '/', ['Host' => $host], 10);
 
                 // If available in HTTPS check also the status code.
                 if (!\in_array($response->getStatusCode(), [200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 401], true)) {
@@ -461,7 +461,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         // Purge the database session table if we are changing to the database handler.
         if ($prev['session_handler'] != 'database' && $data['session_handler'] == 'database') {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__session'))
                 ->where($db->quoteName('time') . ' < ' . (time() - 1));
             $db->setQuery($query);
@@ -474,7 +474,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                 // If we are are using the session handler, purge the extra columns, otherwise truncate the whole session table
                 if ($data['session_handler'] === 'database') {
                     $revisedDbo->setQuery(
-                        $revisedDbo->getQuery(true)
+                        $revisedDbo->createQuery()
                             ->update('#__session')
                             ->set(
                                 [
@@ -1034,7 +1034,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             $db = $this->getDatabase();
 
             // Get the asset id by the name of the component.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__assets'))
                 ->where($db->quoteName('name') . ' = :component')

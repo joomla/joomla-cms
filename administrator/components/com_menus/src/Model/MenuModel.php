@@ -341,7 +341,7 @@ class MenuModel extends AdminModel
     {
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('a.id'),
@@ -363,7 +363,7 @@ class MenuModel extends AdminModel
         foreach ($modules as &$module) {
             $params = new Registry($module->params);
 
-            $menuType = $params->get('menutype');
+            $menuType = $params->get('menutype', '');
 
             if (!isset($result[$menuType])) {
                 $result[$menuType] = [];
@@ -387,7 +387,7 @@ class MenuModel extends AdminModel
     public function getExtensionElementsForMenuItems(array $itemIds): array
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query
             ->select($db->quoteName('e.element'))

@@ -279,28 +279,16 @@ Joomla = window.Joomla || {};
 
         i.value = '';
         self.checkFilter(i);
-
-        if (window.jQuery && window.jQuery.chosen) {
-          window.jQuery(i).trigger('chosen:updated');
-        }
       });
 
       if (self.clearListOptions) {
         self.getListFields().forEach((i) => {
           i.value = '';
           self.checkFilter(i);
-
-          if (window.jQuery && window.jQuery.chosen) {
-            window.jQuery(i).trigger('chosen:updated');
-          }
         });
 
         // Special case to limit box to the default config limit
         document.querySelector('#list_limit').value = self.options.defaultLimit;
-
-        if (window.jQuery && window.jQuery.chosen) {
-          window.jQuery('#list_limit').trigger('chosen:updated');
-        }
       }
 
       if (self.theForm.requestSubmit) {
@@ -508,10 +496,6 @@ Joomla = window.Joomla || {};
             }
           }
         });
-
-        if (window.jQuery && window.jQuery.chosen) {
-          window.jQuery(this.orderField).trigger('chosen:updated');
-        }
       }
 
       this.activeOrder = this.orderField.value;
@@ -547,10 +531,6 @@ Joomla = window.Joomla || {};
         }
 
         field.value = newValue;
-        // Trigger the chosen update
-        if (window.jQuery && window.jQuery.chosen) {
-          field.trigger('chosen:updated');
-        }
       }
     }
 

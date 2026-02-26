@@ -255,11 +255,6 @@
       "uri": "system/fields/calendar.css"
     },
     {
-      "name": "field.calendar-rtl",
-      "type": "style",
-      "uri": "system/fields/calendar-rtl.css"
-    },
-    {
       "name": "field.calendar.helper",
       "type": "script",
       "uri": ""
@@ -322,7 +317,7 @@
         "defer": true
       },
       "dependencies": [
-        "wcpolyfill",
+        "core",
         "choicesjs"
       ]
     },
@@ -358,7 +353,7 @@
         "defer": true
       },
       "dependencies": [
-        "wcpolyfill"
+        "core"
       ]
     },
     {
@@ -383,7 +378,7 @@
         "defer": true
       },
       "dependencies": [
-        "wcpolyfill"
+        "core"
       ]
     },
     {
@@ -407,7 +402,7 @@
         "defer": true
       },
       "dependencies": [
-        "wcpolyfill"
+        "core"
       ]
     },
     {
@@ -436,7 +431,7 @@
         "defer": true
       },
       "dependencies": [
-        "wcpolyfill"
+        "core"
       ]
     },
     {
@@ -460,7 +455,7 @@
         "defer": true
       },
       "dependencies": [
-        "wcpolyfill"
+        "core"
       ]
     },
     {
@@ -489,7 +484,7 @@
         "defer": true
       },
       "dependencies": [
-        "wcpolyfill"
+        "core"
       ]
     },
     {
@@ -513,7 +508,7 @@
         "defer": true
       },
       "dependencies": [
-        "wcpolyfill"
+        "core"
       ]
     },
     {
@@ -537,7 +532,7 @@
         "defer": true
       },
       "dependencies": [
-        "wcpolyfill"
+        "core"
       ]
     },
     {
@@ -562,7 +557,7 @@
         "defer": true
       },
       "dependencies": [
-        "wcpolyfill"
+        "core"
       ]
     },
     {
@@ -586,7 +581,7 @@
         "defer": true
       },
       "dependencies": [
-        "wcpolyfill"
+        "core"
       ]
     },
     {
@@ -610,7 +605,7 @@
         "defer": true
       },
       "dependencies": [
-        "wcpolyfill"
+        "core"
       ]
     },
     {
@@ -631,7 +626,6 @@
       "uri": "system/joomla-dialog.min.js",
       "importmap": true,
       "dependencies": [
-        "wcpolyfill",
         "core"
       ]
     },

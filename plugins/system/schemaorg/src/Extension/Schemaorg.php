@@ -97,7 +97,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         if ($itemId > 0) {
             $db = $this->getDatabase();
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select('*')
                 ->from($db->quoteName('#__schemaorg'))
                 ->where($db->quoteName('itemId') . '= :itemId')
@@ -214,7 +214,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
             return;
         }
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select('*')
             ->from($db->quoteName('#__schemaorg'))
@@ -408,7 +408,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
                 throw new UnknownAssetException();
             }
 
-            $webPageSchema['breadcrumbs'] = ['@id' => $breadcrumbs['@id']];
+            $webPageSchema['breadcrumb'] = ['@id' => $breadcrumbs['@id']];
         } catch (UnknownAssetException $e) {
             // No Breadcrumbs Schema found, so we don't add it
         }
@@ -418,7 +418,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         if ($itemId > 0) {
             // Load the table data from the database
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select('*')
                 ->from($db->quoteName('#__schemaorg'))
                 ->where($db->quoteName('itemId') . ' = :itemId')
@@ -435,6 +435,14 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
                 $localSchema->set('isPartOf', ['@id' => $webPageId]);
 
                 $itemSchema = $localSchema->toArray();
+
+                if (!empty($itemSchema['image'])) {
+                    $url = $itemSchema['image'] ?? '';
+
+                    if (!preg_match('#^(https?:)?//#i', $url)) {
+                        $itemSchema['image'] = Uri::root() . HTMLHelper::_('cleanImageUrl', $url)->url;
+                    }
+                }
 
                 $baseSchema['@graph'][] = $itemSchema;
             }
@@ -566,11 +574,14 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
      */
     public function onContentAfterDelete(Model\AfterDeleteEvent $event)
     {
-        if (!$this->isSupported($event->getContext())) {
+        $context = $event->getContext();
+        $itemId  = $event->getItem()->id ?? 0;
+
+        if (!$itemId || !$this->isSupported($context)) {
             return;
         }
 
-        $this->deleteSchemaOrg($event->getItem()->id, $event->getContext());
+        $this->deleteSchemaOrg($itemId, $context);
     }
 
     /**
@@ -586,7 +597,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
     public function deleteSchemaOrg($itemId, $context)
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->delete($db->quoteName('#__schemaorg'))
             ->where($db->quoteName('itemId') . '= :itemId')
