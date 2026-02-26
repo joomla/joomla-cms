@@ -546,9 +546,15 @@ Joomla = window.Joomla || {};
   const onBoot = () => {
     if (Joomla.getOptions('searchtools')) {
       const options = Joomla.getOptions('searchtools');
-      const element = document.querySelector(options.selector);
+      const formSelector = options.formSelector || '#adminForm';
+      const theForm = document.querySelector(formSelector);
 
-      new Searchtools(element, options);
+      // Prevent duplicate Searchtools instances on re-initialisation
+      if (theForm && !theForm.getAttribute('data-stools-loaded')) {
+        const element = document.querySelector(options.selector);
+        new Searchtools(element, options);
+        theForm.setAttribute('data-stools-loaded', 'true');
+      }
     }
 
     const sort = document.getElementById('sorted');
@@ -565,6 +571,7 @@ Joomla = window.Joomla || {};
     }
 
     // Reinitialize for Joomla Updated event
+    document.removeEventListener('joomla:updated', onBoot);
     document.addEventListener('joomla:updated', onBoot);
 
     // Cleanup
