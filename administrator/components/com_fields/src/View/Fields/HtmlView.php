@@ -98,11 +98,6 @@ class HtmlView extends BaseHtmlView
                 $translated  = Text::_($item->title);
                 $item->title = $translated ?: $item->title;
             }
-
-            if (isset($item->description) && \is_string($item->description)) {
-                $translated        = Text::_($item->description);
-                $item->description = $translated ?: $item->description;
-            }
         }
         unset($item);
 
