@@ -779,16 +779,27 @@
 					cell.colSpan = 1;
 				}
 
-				H.addEventListener("change", function (event) {
-					self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
-						event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
-						event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
-				}, false);
-				M.addEventListener("change", function (event) {
-					self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
-						event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
-						event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
-				}, false);
+				if (self.params.weekNumbers) {
+					H.addEventListener("change", function (event) {
+						self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
+							event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
+							event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
+					}, false);
+					M.addEventListener("change", function (event) {
+						self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
+							event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
+							event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
+					}, false);
+				} else {
+					H.addEventListener("change", function (event) {
+						self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
+							event.target.parentNode.parentNode.childNodes[2].childNodes[0].value);
+					}, false);
+					M.addEventListener("change", function (event) {
+						self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
+							event.target.parentNode.parentNode.childNodes[2].childNodes[0].value);
+					}, false);
+				}
 			})();
 		}
 
@@ -1150,14 +1161,14 @@
 
 		/** B/C related code
 		 *
-		 *  @deprecated   4.0 will be removed in 6.0
+		 *  @deprecated   4.0 will be removed in 7.0
 		 *                Use JoomlaCalendar.init instead
 		 */
 		window.Calendar = {};
 
 		/** B/C related code
 		 *
-		 *  @deprecated   4.0 will be removed in 6.0
+		 *  @deprecated   4.0 will be removed in 7.0
 		 *                Use JoomlaCalendar.init instead
 		 */
 		Calendar.setup = function(obj) {

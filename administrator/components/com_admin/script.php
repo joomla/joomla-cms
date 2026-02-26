@@ -170,7 +170,7 @@ class JoomlaInstallerScript
         try {
             // Get the params for the stats plugin
             $params = $db->setQuery(
-                $db->getQuery(true)
+                $db->createQuery()
                     ->select($db->quoteName('params'))
                     ->from($db->quoteName('#__extensions'))
                     ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -192,7 +192,7 @@ class JoomlaInstallerScript
 
         $params = json_encode($params);
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__extensions'))
             ->set($db->quoteName('params') . ' = ' . $db->quote($params))
             ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -295,7 +295,7 @@ class JoomlaInstallerScript
 
         foreach ($extensions as $extension) {
             $row = $db->setQuery(
-                $db->getQuery(true)
+                $db->createQuery()
                     ->select('*')
                     ->from($db->quoteName('#__extensions'))
                     ->where($db->quoteName('type') . ' = ' . $db->quote($extension['type']))
@@ -319,7 +319,7 @@ class JoomlaInstallerScript
 
                 // Unlock and unprotect the plugin so we can uninstall it
                 $db->setQuery(
-                    $db->getQuery(true)
+                    $db->createQuery()
                         ->update($db->quoteName('#__extensions'))
                         ->set($db->quoteName('locked') . ' = 0')
                         ->set($db->quoteName('protected') . ' = 0')
@@ -351,7 +351,7 @@ class JoomlaInstallerScript
 
         // Attempt to refresh manifest caches
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*')
             ->from('#__extensions');
 
@@ -450,6 +450,7 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/mysql/5.3.0-2025-02-09.sql',
             '/administrator/components/com_admin/sql/updates/mysql/5.3.0-2025-02-22.sql',
             '/administrator/components/com_admin/sql/updates/mysql/5.3.0-2025-03-14.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.3.4-2025-09-19.sql',
             '/administrator/components/com_admin/sql/updates/mysql/5.4.0-2025-04-23.sql',
             '/administrator/components/com_admin/sql/updates/mysql/5.4.0-2025-05-10.sql',
             '/administrator/components/com_admin/sql/updates/mysql/5.4.0-2025-08-02.sql',
@@ -487,9 +488,11 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/postgresql/5.3.0-2025-02-22.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.3.0-2025-03-14.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.3.1-2025-04-27.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.3.4-2025-09-19.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.4.0-2025-04-23.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.4.0-2025-05-10.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.4.0-2025-08-02.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.4.0-2025-10-07.sql',
             '/administrator/components/com_content/forms/filter_featured.xml',
             '/administrator/components/com_content/tmpl/featured/default.php',
             '/administrator/components/com_content/tmpl/featured/default.xml',
@@ -895,6 +898,22 @@ class JoomlaInstallerScript
             '/libraries/vendor/symfony/polyfill-php83/Resources/stubs/DateRangeError.php',
             '/libraries/vendor/symfony/polyfill-php83/Resources/stubs/Override.php',
             '/libraries/vendor/symfony/polyfill-php83/Resources/stubs/SQLite3Exception.php',
+            '/media/legacy/js/ajax-chosen.js',
+            '/media/legacy/js/ajax-chosen.min.js',
+            '/media/legacy/js/ajax-chosen.min.js.gz',
+            '/media/legacy/js/joomla-chosen.js',
+            '/media/legacy/js/joomla-chosen.min.js',
+            '/media/legacy/js/joomla-chosen.min.js.gz',
+            '/media/system/js/fields/tag.js',
+            '/media/system/js/fields/tag.min.js',
+            '/media/system/js/fields/tag.min.js.gz',
+            '/media/templates/site/cassiopeia/scss/vendor/_chosen.scss',
+            '/media/vendor/chosen/css/chosen-sprite.png',
+            '/media/vendor/chosen/css/chosen-sprite@2x.png',
+            '/media/vendor/chosen/css/chosen.css',
+            '/media/vendor/chosen/js/chosen.jquery.js',
+            '/media/vendor/chosen/js/chosen.jquery.min.js',
+            '/media/vendor/chosen/js/chosen.jquery.min.js.gz',
             '/media/vendor/tinymce/langs/af.js',
             '/media/vendor/tinymce/langs/af.min.js',
             '/media/vendor/tinymce/langs/af.min.js.gz',
@@ -957,10 +976,118 @@ class JoomlaInstallerScript
             '/media/vendor/tinymce/langs/th.min.js',
             '/media/vendor/tinymce/langs/th.min.js.gz',
             '/media/vendor/tinymce/license.txt',
+            '/media/vendor/webcomponentsjs/js/webcomponents-bundle.js',
+            '/media/vendor/webcomponentsjs/js/webcomponents-bundle.min.js',
+            '/media/vendor/webcomponentsjs/js/webcomponents-bundle.min.js.gz',
+            '/media/vendor/webcomponentsjs/LICENSE.md',
             '/modules/mod_finder/mod_finder.php',
             '/modules/mod_login/mod_login.php',
             '/modules/mod_menu/mod_menu.php',
             '/modules/mod_whosonline/mod_whosonline.php',
+            // From 6.0.0-beta2 to 6.0.0-beta3
+            '/media/templates/site/cassiopeia/css/global/colors_custom.css',
+            '/media/templates/site/cassiopeia/css/global/colors_custom.min.css',
+            '/media/templates/site/cassiopeia/css/global/colors_custom.min.css.gz',
+            '/media/templates/site/cassiopeia/css/global/font_advanced.css',
+            '/media/templates/site/cassiopeia/css/global/font_advanced.min.css',
+            '/media/templates/site/cassiopeia/css/global/font_advanced.min.css.gz',
+            '/media/templates/site/cassiopeia/scss/global/colors_custom.scss',
+            '/media/templates/site/cassiopeia/scss/global/font_advanced.scss',
+            // From 6.0.0-beta3 to 6.0.0-rc1
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_2.ini',
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_2_steps.ini',
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_3.ini',
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_3_steps.ini',
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_4.ini',
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_4_steps.ini',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/CachedWordInflector.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/GenericLanguageInflectorFactory.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Inflector.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/InflectorFactory.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Language.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/LanguageInflectorFactory.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/NoopWordInflector.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/English/Inflectible.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/English/InflectorFactory.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/English/Rules.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/English/Uninflected.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/French/Inflectible.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/French/InflectorFactory.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/French/Rules.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/French/Uninflected.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/NorwegianBokmal/Inflectible.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/NorwegianBokmal/InflectorFactory.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/NorwegianBokmal/Rules.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/NorwegianBokmal/Uninflected.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Pattern.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Patterns.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Portuguese/Inflectible.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Portuguese/InflectorFactory.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Portuguese/Rules.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Portuguese/Uninflected.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Ruleset.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Spanish/Inflectible.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Spanish/InflectorFactory.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Spanish/Rules.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Spanish/Uninflected.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Substitution.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Substitutions.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Transformation.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Transformations.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Turkish/Inflectible.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Turkish/InflectorFactory.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Turkish/Rules.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Turkish/Uninflected.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Word.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/RulesetInflector.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/WordInflector.php',
+            '/media/com_guidedtours/images/5_2/enhancedtourheader.png',
+            '/media/com_guidedtours/images/5_2/mailtemplate.png',
+            '/media/com_guidedtours/images/5_3/filesdirectory.jpg',
+            '/media/com_guidedtours/images/5_4/automated-updates.jpg',
+            // From 6.1.0-alpha1 to 6.1.0-alpha2
+            '/libraries/vendor/symfony/var-dumper/Cloner/Internal/NoDefault.php',
+            '/libraries/vendor/webmozart/assert/LICENSE',
+            '/libraries/vendor/webmozart/assert/src/Assert.php',
+            '/libraries/vendor/webmozart/assert/src/InvalidArgumentException.php',
+            '/libraries/vendor/webmozart/assert/src/Mixin.php',
+            // From 6.1.0-alpha2 to 6.1.0-alpha3
+            '/build.xml',
+            // From 6.0.2 to 6.0.3
+            '/libraries/vendor/symfony/http-client-contracts/Test/Fixtures/web/index.php',
+            '/libraries/vendor/symfony/http-client-contracts/Test/HttpClientTestCase.php',
+            '/libraries/vendor/symfony/http-client-contracts/Test/TestHttpServer.php',
+            '/libraries/vendor/symfony/http-client/Test/HarFileResponseFactory.php',
+            '/libraries/vendor/symfony/service-contracts/Test/ServiceLocatorTest.php',
+            '/libraries/vendor/symfony/service-contracts/Test/ServiceLocatorTestCase.php',
+            '/libraries/vendor/symfony/translation-contracts/Test/TranslatorTest.php',
+            '/libraries/vendor/symfony/validator/Test/ConstraintValidatorTestCase.php',
+            '/libraries/vendor/symfony/var-dumper/Test/VarDumperTestTrait.php',
+            // From 6.1.0-alpha3 to 6.1.0-beta1
+            '/media/vendor/tinymce/langs/cy.js',
+            '/media/vendor/tinymce/langs/cy.min.js',
+            '/media/vendor/tinymce/langs/cy.min.js.gz',
+            '/media/vendor/tinymce/langs/dv.js',
+            '/media/vendor/tinymce/langs/dv.min.js',
+            '/media/vendor/tinymce/langs/dv.min.js.gz',
+            '/media/vendor/tinymce/langs/ga.js',
+            '/media/vendor/tinymce/langs/ga.min.js',
+            '/media/vendor/tinymce/langs/ga.min.js.gz',
+            '/media/vendor/tinymce/langs/ku.js',
+            '/media/vendor/tinymce/langs/ku.min.js',
+            '/media/vendor/tinymce/langs/ku.min.js.gz',
+            '/media/vendor/tinymce/langs/ky.js',
+            '/media/vendor/tinymce/langs/ky.min.js',
+            '/media/vendor/tinymce/langs/ky.min.js.gz',
+            '/media/vendor/tinymce/langs/sq.js',
+            '/media/vendor/tinymce/langs/sq.min.js',
+            '/media/vendor/tinymce/langs/sq.min.js.gz',
+            '/media/vendor/tinymce/langs/uz.js',
+            '/media/vendor/tinymce/langs/uz.min.js',
+            '/media/vendor/tinymce/langs/uz.min.js.gz',
+            '/media/vendor/tinymce/langs/zh-SG.js',
+            '/media/vendor/tinymce/langs/zh-SG.min.js',
+            '/media/vendor/tinymce/langs/zh-SG.min.js.gz',
         ];
 
         $folders = [
@@ -997,6 +1124,11 @@ class JoomlaInstallerScript
             '/administrator/components/com_finder/helpers/indexer',
             '/administrator/components/com_content/tmpl/featured',
             // From 6.0.0-alpha3 to 6.0.0-beta1
+            '/media/vendor/webcomponentsjs/js',
+            '/media/vendor/webcomponentsjs',
+            '/media/vendor/chosen/js',
+            '/media/vendor/chosen/css',
+            '/media/vendor/chosen',
             '/libraries/vendor/symfony/polyfill-php83/Resources/stubs',
             '/libraries/vendor/symfony/polyfill-php83/Resources',
             '/libraries/vendor/symfony/polyfill-php83',
@@ -1007,6 +1139,34 @@ class JoomlaInstallerScript
             '/libraries/vendor/doctrine/inflector/lib/Doctrine/Common/Inflector',
             '/libraries/vendor/doctrine/inflector/lib/Doctrine/Common',
             '/libraries/src/Adapter',
+            // From 6.0.0-beta3 to 6.0.0-rc1
+            '/media/com_guidedtours/images/5_4',
+            '/media/com_guidedtours/images/5_3',
+            '/media/com_guidedtours/images/5_2',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Turkish',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Spanish',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Portuguese',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/NorwegianBokmal',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/French',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/English',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine',
+            '/libraries/vendor/doctrine/inflector/lib',
+            // From 6.1.0-alpha1 to 6.1.0-alpha2
+            '/libraries/vendor/webmozart/assert/src',
+            '/libraries/vendor/webmozart/assert',
+            '/libraries/vendor/webmozart',
+            '/libraries/vendor/symfony/var-dumper/Cloner/Internal',
+            // From 6.0.2 to 6.0.3
+            '/libraries/vendor/symfony/var-dumper/Test',
+            '/libraries/vendor/symfony/validator/Test',
+            '/libraries/vendor/symfony/translation-contracts/Test',
+            '/libraries/vendor/symfony/service-contracts/Test',
+            '/libraries/vendor/symfony/http-client/Test',
+            '/libraries/vendor/symfony/http-client-contracts/Test/Fixtures/web',
+            '/libraries/vendor/symfony/http-client-contracts/Test/Fixtures',
+            '/libraries/vendor/symfony/http-client-contracts/Test',
         ];
 
         $status['files_checked']   = $files;

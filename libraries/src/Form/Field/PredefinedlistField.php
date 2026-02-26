@@ -31,7 +31,7 @@ abstract class PredefinedlistField extends ListField
     protected $type = 'Predefinedlist';
 
     /**
-     * Cached array of the category items.
+     * Cached array of the predefined items.
      *
      * @var    array[]
      * @since  3.2
@@ -98,7 +98,7 @@ abstract class PredefinedlistField extends ListField
     protected function getOptions()
     {
         // Hash for caching
-        $hash = md5($this->element);
+        $hash = md5($this->element->asXML());
         $type = strtolower($this->type);
 
         if (!isset(static::$options[$type][$hash]) && !empty($this->predefinedOptions)) {

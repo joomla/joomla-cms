@@ -48,7 +48,7 @@ class HtmlView extends ListView
      *
      * @param   array  $config  An optional associative array of configuration settings.
      *
-     * @since __DEPLOY_VERSION__
+     * @since 6.0.0
      */
     public function __construct(array $config)
     {
@@ -67,7 +67,7 @@ class HtmlView extends ListView
      *
      * @return  void
      *
-     * @since __DEPLOY_VERSION__
+     * @since 6.0.0
      */
     protected function initializeView()
     {
@@ -79,11 +79,6 @@ class HtmlView extends ListView
 
         // Load all actionlog plugins language files
         ActionlogsHelper::loadActionLogPluginsLanguage();
-
-        // Add form control fields
-        $this->filterForm
-            ->addControlField('task', '')
-            ->addControlField('boxchecked', '0');
     }
 
     /**

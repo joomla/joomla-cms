@@ -21,7 +21,7 @@ use Joomla\Module\Submenu\Administrator\Menu\Menu;
 /**
  * Dispatcher class for mod_submenu
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.4.0
  */
 class Dispatcher extends AbstractModuleDispatcher
 {
@@ -30,7 +30,7 @@ class Dispatcher extends AbstractModuleDispatcher
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      */
     protected function getLayoutData()
     {

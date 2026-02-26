@@ -548,11 +548,14 @@ class Update
      */
     public function loadFromTuf(TufMetadata $metadataTable, string $url, $minimumStability = Updater::STABILITY_STABLE, $channel = null)
     {
+        $options = new Registry();
+        $options->set('userAgent', (new Version())->getUserAgent('Joomla', true, false));
+
         $tufFetcher = new TufFetcher(
             $metadataTable,
             $url,
             Factory::getContainer()->get(DatabaseDriver::class),
-            (new HttpFactory())->getHttp(),
+            (new HttpFactory())->getHttp($options),
             Factory::getApplication(),
         );
 
@@ -562,6 +565,11 @@ class Update
         $constraintChecker = new ConstraintChecker();
 
         foreach ($data['signed']['targets'] as $target) {
+            // Check if this target is older than the currently installed version
+            if (version_compare($target['custom']['version'], JVERSION, '<')) {
+                continue;
+            }
+
             // Check if this target is newer than the current version
             if (isset($this->latest) && version_compare($target['custom']['version'], $this->latest->version, '<')) {
                 continue;
@@ -607,6 +615,19 @@ class Update
 
         // If the latest item is set then we transfer it to where we want to
         if (isset($this->latest)) {
+            // Set generic variables from latest update
+            foreach (get_object_vars($this->latest) as $key => $val) {
+                $this->$key = (object) ['_data' => $val];
+            }
+
+            // Convert infourl into legacy data structure
+            if (!empty($this->latest->infourl) && \is_array($this->latest->infourl)) {
+                $this->infourl = (object) [
+                    '_data' => $this->latest->infourl["url"],
+                    'title' => $this->latest->infourl["title"],
+                ];
+            }
+
             foreach ($this->downloadSources as $source) {
                 $this->downloadurl = (object) [
                     '_data'  => $source->url,
@@ -673,8 +694,6 @@ class Update
 
             return false;
         }
-
-        xml_parser_free($this->xmlParser);
 
         return true;
     }

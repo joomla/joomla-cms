@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Fields\Number\Extension\Number;
 
 return new class () implements ServiceProviderInterface {
@@ -26,21 +25,20 @@ return new class () implements ServiceProviderInterface {
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function register(Container $container)
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Number::class, function (Container $container) {
                 $plugin     = new Number(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('fields', 'number')
                 );
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

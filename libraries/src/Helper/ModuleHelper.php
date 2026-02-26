@@ -411,10 +411,10 @@ abstract class ModuleHelper
         $cacheId = implode(',', $groups) . '.' . $clientId . '.' . $itemId;
 
         $db      = Factory::getDbo();
-        $query   = $db->getQuery(true);
+        $query   = $db->createQuery();
         $nowDate = Factory::getDate()->toSql();
 
-        $query->select($db->quoteName(['m.id', 'm.title', 'm.module', 'm.position', 'm.content', 'm.showtitle', 'm.params', 'mm.menuid']))
+        $query->select($db->quoteName(['m.id', 'm.title', 'm.module', 'm.position', 'm.content', 'm.showtitle', 'm.params', 'mm.menuid', 'e.custom_data']))
             ->from($db->quoteName('#__modules', 'm'))
             ->join(
                 'LEFT',
@@ -716,15 +716,16 @@ abstract class ModuleHelper
      */
     protected static function createDummyModule(): \stdClass
     {
-        $module            = new \stdClass();
-        $module->id        = 0;
-        $module->title     = '';
-        $module->module    = '';
-        $module->position  = '';
-        $module->content   = '';
-        $module->showtitle = 0;
-        $module->control   = '';
-        $module->params    = '';
+        $module                 = new \stdClass();
+        $module->id             = 0;
+        $module->title          = '';
+        $module->module         = '';
+        $module->position       = '';
+        $module->content        = '';
+        $module->showtitle      = 0;
+        $module->control        = '';
+        $module->params         = '';
+        $module->custom_data    = '';
 
         return $module;
     }

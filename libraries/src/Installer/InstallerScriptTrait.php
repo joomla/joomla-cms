@@ -23,7 +23,7 @@ trait InstallerScriptTrait
      * The extension name. This should be set in the installer script.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  6.0.0
      */
     protected string $extension;
 
@@ -31,7 +31,7 @@ trait InstallerScriptTrait
      * Minimum PHP version required to install the extension
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  6.0.0
      */
     protected string $minimumPhp;
 
@@ -39,7 +39,7 @@ trait InstallerScriptTrait
      * Minimum Joomla! version required to install the extension
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  6.0.0
      */
     protected string $minimumJoomla;
 
@@ -49,7 +49,7 @@ trait InstallerScriptTrait
      * Use at your own risk as if there is a change in functionality people may wish to downgrade.
      *
      * @var    boolean
-     * @since  __DEPLOY_VERSION__
+     * @since  6.0.0
      */
     protected bool $allowDowngrades = false;
 
@@ -57,7 +57,7 @@ trait InstallerScriptTrait
      * A list of files to be deleted
      *
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  6.0.0
      */
     protected array $deleteFiles = [];
 
@@ -65,7 +65,7 @@ trait InstallerScriptTrait
      * A list of folders to be deleted
      *
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  6.0.0
      */
     protected array $deleteFolders = [];
 
@@ -74,7 +74,7 @@ trait InstallerScriptTrait
      *
      * @var    CMSApplicationInterface
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  6.0.0
      */
     private CMSApplicationInterface $application;
 
@@ -85,7 +85,7 @@ trait InstallerScriptTrait
      *
      * @return  boolean  True on success
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function install(InstallerAdapter $adapter): bool
     {
@@ -99,7 +99,7 @@ trait InstallerScriptTrait
      *
      * @return  boolean  True on success
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function update(InstallerAdapter $adapter): bool
     {
@@ -113,7 +113,7 @@ trait InstallerScriptTrait
      *
      * @return  boolean  True on success
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function uninstall(InstallerAdapter $adapter): bool
     {
@@ -128,7 +128,7 @@ trait InstallerScriptTrait
      *
      * @return  boolean  True on success
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function preflight(string $type, InstallerAdapter $adapter): bool
     {
@@ -153,7 +153,7 @@ trait InstallerScriptTrait
      *
      * @return  boolean  True on success
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function postflight(string $type, InstallerAdapter $adapter): bool
     {
@@ -167,7 +167,7 @@ trait InstallerScriptTrait
      *
      * @return  boolean  True on success
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected function checkCompatibility(string $type, InstallerAdapter $adapter): bool
     {
@@ -193,7 +193,7 @@ trait InstallerScriptTrait
      *
      * @return  boolean  False when downgrade not allowed and new version is lower than old version otherwise true
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected function checkDowngrade(string $type, InstallerAdapter $adapter): bool
     {
@@ -219,7 +219,7 @@ trait InstallerScriptTrait
      *
      * @return SimpleXMLElement|null
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected function getOldManifest(InstallerAdapter $adapter): ?\SimpleXMLElement
     {
@@ -237,7 +237,7 @@ trait InstallerScriptTrait
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected function removeFiles(): void
     {
@@ -263,7 +263,7 @@ trait InstallerScriptTrait
      *
      * @return  CMSApplicationInterface|null
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected function getApplication(): ?CMSApplicationInterface
     {
@@ -277,7 +277,7 @@ trait InstallerScriptTrait
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function setApplication(CMSApplicationInterface $application): void
     {
@@ -293,7 +293,7 @@ trait InstallerScriptTrait
      * @return  void
      *
      * @throws \Exception
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected function addDashboardMenuModule(string $dashboard, string $preset)
     {

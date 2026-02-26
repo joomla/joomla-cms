@@ -10,19 +10,17 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.combobox');
-
 /** @var \Joomla\Component\Config\Site\View\Modules\HtmlView $this */
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->getDocument()->getWebAssetManager();
-$wa->useScript('keepalive')
+
+$this->getDocument()->getWebAssetManager()
+    ->useScript('keepalive')
     ->useScript('form.validate')
-    ->useScript('com_config.modules');
+    ->useScript('com_config.modules')
+    ->useScript('awesomplete');
 
 $editorText  = false;
 $moduleXml   = JPATH_SITE . '/modules/' . $this->item['module'] . '/' . $this->item['module'] . '.xml';

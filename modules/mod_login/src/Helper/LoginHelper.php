@@ -35,25 +35,29 @@ class LoginHelper
      * @param   string    $type    return type
      * @param   CMSApplicationInterface  $app  The application
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      *
      * @return  string
      */
     public function getReturnUrlString(Registry $params, $type, CMSApplicationInterface $app): string
     {
-        $item = $app->getMenu()->getItem($params->get($type));
-
         // Stay on the same page
         $url = Uri::getInstance()->toString();
 
-        if ($item) {
-            $lang = '';
+        $returnMenuId = $params->get($type, 0);
 
-            if ($item->language !== '*' && Multilanguage::isEnabled()) {
-                $lang = '&lang=' . $item->language;
+        if ($returnMenuId > 0) {
+            $item = $app->getMenu()->getItem($returnMenuId);
+
+            if ($item) {
+                $lang = '';
+
+                if ($item->language !== '*' && Multilanguage::isEnabled()) {
+                    $lang = '&lang=' . $item->language;
+                }
+
+                $url = 'index.php?Itemid=' . $item->id . $lang;
             }
-
-            $url = 'index.php?Itemid=' . $item->id . $lang;
         }
 
         return base64_encode($url);
@@ -66,7 +70,7 @@ class LoginHelper
      *
      * @return string
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.4.0
      */
     public function getUserType(User $user): string
     {
@@ -78,7 +82,7 @@ class LoginHelper
      *
      * @param   Registry  $params  module parameters
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      *
      * @return  string
      */
@@ -111,7 +115,7 @@ class LoginHelper
      *
      * @return  string
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.4.0 will be removed in 7.0
      *             Use the non-static method getReturnUrlString
      *             Example: Factory::getApplication()->bootModule('mod_login', 'site')
      *                          ->getHelper('LoginHelper')
@@ -127,7 +131,7 @@ class LoginHelper
      *
      * @return     string
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.4.0 will be removed in 7.0
      *             Use the non-static method getUserType
      *             Example: Factory::getApplication()->bootModule('mod_login', 'site')
      *                          ->getHelper('LoginHelper')
@@ -147,7 +151,7 @@ class LoginHelper
      *
      * @return     string
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.4.0 will be removed in 7.0
      *             Use the non-static method getRegistrationUrlString
      *             Example: Factory::getApplication()->bootModule('mod_login', 'site')
      *                          ->getHelper('LoginHelper')

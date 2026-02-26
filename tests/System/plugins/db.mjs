@@ -1,4 +1,4 @@
-import mysql from 'mysql';
+import mysql from 'mysql2';
 import pkg from 'pg';
 
 const { Pool } = pkg; // Using Pool from pg for PostgreSQL connections
