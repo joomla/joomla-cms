@@ -673,28 +673,9 @@ final class Redirect extends CMSPlugin implements CurrentUserInterface, Subscrib
 
         $menu = $this->menuFactory->createMenu('site', $options);
 
-        $router = new SiteRouter($this->siteApp, $menu);
+        $router = clone Factory::getContainer()->get(SiteRouter::class);
 
-        $onAfterInitialiseEvent = new AfterInitialiseEvent('onAfterInitialise', ['subject' => $this->siteApp]);
-
-        // Add SEF rules
-        if (PluginHelper::isEnabled('system', 'sef')) {
-            /** @var Sef */
-            $sefPlugin = clone $this->getApplication()->bootPlugin('sef', 'system');
-            $sefPlugin->setSiteRouter($router);
-
-            $sefPlugin->onAfterInitialise($onAfterInitialiseEvent);
-        }
-
-        // Add multilanguage routes if necessary
-        if (Multilanguage::isEnabled() && PluginHelper::isEnabled('system', 'languagefilter')) {
-            /** @var LanguageFilter */
-            $languageFilter = clone $this->getApplication()->bootPlugin('languagefilter', 'system');
-
-            $languageFilter->setSiteRouter($router);
-
-            $languageFilter->onAfterInitialise($onAfterInitialiseEvent);
-        }
+        $router->setMenu($menu);
 
         return $router;
     }
