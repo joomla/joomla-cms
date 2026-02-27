@@ -189,7 +189,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
                 'id'          => 5,
                 'messageText' => 'PLG_QUICKICON_EOS_MESSAGE_ERROR_SUPPORT_ENDED',
                 'messageType' => 'error',
-                'messageLink' => 'https://docs.joomla.org/Special:MyLanguage/Joomla_6.4.x_to_7.x_Planning_and_Upgrade_Step_by_Step',
+                'messageLink' => 'https://guide.joomla.org/user-manual/migration/joomla-6-to-7-planning-and-upgrade-step-by-step',
                 'snoozable'   => false,
             ];
         }
@@ -200,7 +200,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
                 'id'          => 4,
                 'messageText' => 'PLG_QUICKICON_EOS_MESSAGE_WARNING_SUPPORT_ENDING',
                 'messageType' => 'warning',
-                'messageLink' => 'https://docs.joomla.org/Special:MyLanguage/Joomla_6.4.x_to_7.x_Planning_and_Upgrade_Step_by_Step',
+                'messageLink' => 'https://guide.joomla.org/user-manual/migration/joomla-6-to-7-planning-and-upgrade-step-by-step',
                 'snoozable'   => true,
             ];
         }
@@ -211,7 +211,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
                 'id'          => 3,
                 'messageText' => 'PLG_QUICKICON_EOS_MESSAGE_WARNING_SECURITY_ONLY',
                 'messageType' => 'warning',
-                'messageLink' => 'https://docs.joomla.org/Special:MyLanguage/Joomla_6.4.x_to_7.x_Planning_and_Upgrade_Step_by_Step',
+                'messageLink' => 'https://guide.joomla.org/user-manual/migration/joomla-6-to-7-planning-and-upgrade-step-by-step',
                 'snoozable'   => true,
             ];
         }
@@ -222,7 +222,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
                 'id'          => 2,
                 'messageText' => 'PLG_QUICKICON_EOS_MESSAGE_INFO_02',
                 'messageType' => 'info',
-                'messageLink' => 'https://docs.joomla.org/Special:MyLanguage/Pre-Update_Check',
+                'messageLink' => 'https://guide.joomla.org/user-manual/migration/migration-version-update',
                 'snoozable'   => true,
             ];
         }

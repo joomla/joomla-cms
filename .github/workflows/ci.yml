@@ -18,10 +18,13 @@ jobs:
       - uses: actions/cache@v4
         id: cache-php
         with:
-          path: |
-            libraries/vendor
-            plugins/system/webauthn/fido.jwt
+          path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+      - uses: actions/cache@v4
+        id: cache-webauthn
+        with:
+          path: plugins/system/webauthn/fido.jwt
+          key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
       - name: Install PHP dependencies
         if: steps.cache-php.outputs.cache-hit != 'true'
         run: |
@@ -49,10 +52,12 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
       - uses: actions/cache/restore@v4
         with:
-          path: |
-            libraries/vendor
-            plugins/system/webauthn/fido.jwt
+          path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+      - uses: actions/cache/restore@v4
+        with:
+          path: plugins/system/webauthn/fido.jwt
+          key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
       - name: Build assets
         if: steps.cache-assets.outputs.cache-hit != 'true'
         run: npm ci --unsafe-perm
@@ -69,10 +74,12 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/cache/restore@v4
         with:
-          path: |
-            libraries/vendor
-            plugins/system/webauthn/fido.jwt
+          path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+      - uses: actions/cache/restore@v4
+        with:
+          path: plugins/system/webauthn/fido.jwt
+          key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
       - name: Check PHP code style
         env:
           PHP_CS_FIXER_IGNORE_ENV: true
@@ -109,10 +116,12 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/cache/restore@v4
         with:
-          path: |
-            libraries/vendor
-            plugins/system/webauthn/fido.jwt
+          path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+      - uses: actions/cache/restore@v4
+        with:
+          path: plugins/system/webauthn/fido.jwt
+          key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
       - name: Run PHPstan
         run: |
           ./libraries/vendor/bin/phpstan --error-format=github
@@ -129,10 +138,12 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/cache/restore@v4
         with:
-          path: |
-            libraries/vendor
-            plugins/system/webauthn/fido.jwt
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          path: libraries/vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+      - uses: actions/cache/restore@v4
+        with:
+          path: plugins/system/webauthn/fido.jwt
+          key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
       - name: Run Unit tests
         run: ./libraries/vendor/bin/phpunit --testsuite Unit
 
@@ -177,10 +188,12 @@ jobs:
           args: docker run -d --name openldap --network ${{ job.container.network }} --network-alias openldap -e "LDAP_ADMIN_USERNAME=admin" -e "LDAP_ADMIN_PASSWORD=adminpassword" -e "LDAP_USERS=customuser" -e "LDAP_PASSWORDS=custompassword" -e "LDAP_ENABLE_TLS=yes" -e "LDAP_TLS_CERT_FILE=/certs/openldap.crt" -e "LDAP_TLS_KEY_FILE=/certs/openldap.key" -e "LDAP_TLS_CA_FILE=/certs/CA.crt" -e "BITNAMI_DEBUG=true" -e "LDAP_CONFIG_ADMIN_ENABLED=yes" -e "LDAP_CONFIG_ADMIN_USERNAME=admin" -e "LDAP_CONFIG_ADMIN_PASSWORD=configpassword" -v "${{ github.workspace }}/tests/certs/openldap.crt":"/certs/openldap.crt" -v "${{ github.workspace }}/tests/certs/openldap.key":"/certs/openldap.key" -v "${{ github.workspace }}/tests/certs/CA.crt":"/certs/CA.crt" ghcr.io/joomla-projects/mirror-bitnami-openldap:latest
       - uses: actions/cache/restore@v4
         with:
-          path: |
-            libraries/vendor
-            plugins/system/webauthn/fido.jwt
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          path: libraries/vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+      - uses: actions/cache/restore@v4
+        with:
+          path: plugins/system/webauthn/fido.jwt
+          key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
       - name: Run Integration tests
         env:
           JTEST_DB_ENGINE: ${{ matrix.config.engine }}
@@ -229,10 +242,13 @@ jobs:
       - uses: actions/cache/restore@v4
         id: cache-php-windows
         with:
-          path: |
-            libraries/vendor
-            plugins/system/webauthn/fido.jwt
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          path: libraries/vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+      - uses: actions/cache/restore@v4
+        id: cache-webauthn-windows
+        with:
+          path: plugins/system/webauthn/fido.jwt
+          key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -257,7 +273,11 @@ jobs:
       - uses: actions/cache/restore@v4
         with:
           path: libraries/vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+      - uses: actions/cache/restore@v4
+        with:
+          path: plugins/system/webauthn/fido.jwt
+          key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
       - uses: shogo82148/actions-setup-mysql@v1
         with:
           mysql-version: "mariadb-10.4"
@@ -353,10 +373,12 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/cache/restore@v4
         with:
-          path: |
-            libraries/vendor
-            plugins/system/webauthn/fido.jwt
+          path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+      - uses: actions/cache/restore@v4
+        with:
+          path: plugins/system/webauthn/fido.jwt
+          key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
       - uses: actions/cache/restore@v4
         with:
           path: |

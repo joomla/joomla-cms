@@ -31,14 +31,14 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Rotate::class, function (Container $container) {
                 $plugin     = new Rotate(
                     (array) PluginHelper::getPlugin('media-action', 'rotate')
                 );
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

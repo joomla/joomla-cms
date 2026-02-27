@@ -219,6 +219,20 @@ class MailTemplate
     }
 
     /**
+     * Get the template data.
+     *
+     * @param   bool   $plain Data used for plain-text emails.
+     *
+     * @return array
+     *
+     * @since   6.1.0
+     */
+    public function getTemplateData($plain = false): array
+    {
+        return !$plain ? $this->data : $this->plain_data;
+    }
+
+    /**
      * Mark tags as unsafe to ensure escaping in HTML mails
      *
      * @param   array   $tags  Tag names
