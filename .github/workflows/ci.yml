@@ -12,6 +12,7 @@ jobs:
   composer:
     name: Install PHP dependencies
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     container: joomlaprojects/docker-images:php8.4
     steps:
       - uses: actions/checkout@v4
@@ -31,6 +32,7 @@ jobs:
   npm:
     name: Install JS/CSS dependencies and build assets
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     container: joomlaprojects/docker-images:php8.4
     needs: [composer]
     steps:
@@ -57,6 +59,7 @@ jobs:
     name: Check PHP code style
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:php8.4
+    timeout-minutes: 10
     needs: [composer]
     strategy:
       matrix:
@@ -77,6 +80,7 @@ jobs:
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:php8.4
     needs: [composer, npm]
+    timeout-minutes: 10
     strategy:
       matrix:
         check: ['lint:js', 'lint:testjs', 'lint:css']
@@ -99,6 +103,7 @@ jobs:
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:php8.4
     needs: [code-style-php]
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/cache/restore@v4
@@ -113,6 +118,7 @@ jobs:
     name: Run Unit tests
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:php${{ matrix.php_version }}
+    timeout-minutes: 15
     needs: [code-style-php]
     strategy:
       matrix:
@@ -130,6 +136,7 @@ jobs:
     name: Run integration tests
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:php${{ matrix.php_version }}
+    timeout-minutes: 30
     needs: [code-style-php]
     strategy:
       matrix:
@@ -177,7 +184,7 @@ jobs:
           JTEST_DB_NAME: test_joomla
           JTEST_DB_PASSWORD: joomla_ut
         run: |
-         sleep 3
+          sleep 3
           ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit.xml.dist
       - name: Stop LDAP container
         uses: docker://docker
@@ -208,6 +215,7 @@ jobs:
   tests-unit-windows:
     name: Run Unit tests (Windows)
     runs-on: windows-latest
+    timeout-minutes: 15
     needs: [code-style-php]
     strategy:
       matrix:
@@ -234,6 +242,7 @@ jobs:
   tests-integration-windows:
     name: Run integration tests (Windows)
     runs-on: windows-latest
+    timeout-minutes: 30
     needs: [code-style-php]
     strategy:
       matrix:
@@ -241,6 +250,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/cache/restore@v4
+        id: cache-php-windows
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -270,6 +280,7 @@ jobs:
     name: Prepare system tests
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:cypress8.4
+    timeout-minutes: 15
     needs: [composer, npm]
     env:
       CYPRESS_VERIFY_TIMEOUT: 100000
@@ -298,6 +309,7 @@ jobs:
     name: Run system tests
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:cypress${{ matrix.config.php_version }}
+    timeout-minutes: 60
     needs: [tests-system-prepare]
     strategy:
       matrix:
@@ -355,11 +367,11 @@ jobs:
           key: ${{ runner.os }}-cypress-${{ hashFiles('package-lock.json') }}
       - name: Run System tests
         run: bash tests/System/entrypoint.sh "$(pwd)" ${{ matrix.config.test_group }} ${{ matrix.config.db_engine }} ${{ matrix.config.db_host }} ${{ matrix.browser }}
-      - name: Archive test results results
+      - name: Archive test results
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: system-test-output
+          name: system-test-output-${{ matrix.config.test_group }}-${{ matrix.browser }}
           path: tests/System/output
           if-no-files-found: ignore
     services:
@@ -387,6 +399,7 @@ jobs:
   typos:
     name: Check for typos
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
     - name: Checkout Actions Repository
       uses: actions/checkout@v4
