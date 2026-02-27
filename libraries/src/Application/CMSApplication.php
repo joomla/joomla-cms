@@ -706,28 +706,32 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     }
 
     /**
-     * Gets the name of the current template.
+     * Gets current template data
      *
      * @param   boolean  $params  An optional associative array of configuration settings
      *
      * @return  string|\stdClass  The name of the template if the params argument is false. The template object if the params argument is true.
      *
+     * @throws  \InvalidArgumentException
      * @since   3.2
      */
     public function getTemplate($params = false)
     {
-        if ($params) {
-            $template = new \stdClass();
-
-            $template->template    = 'system';
-            $template->params      = new Registry();
-            $template->inheritable = 0;
-            $template->parent      = '';
-
-            return $template;
+        if (!\is_object($this->template)) {
+            $this->initialiseTemplate();
         }
 
-        return 'system';
+        if (!$this->isValidTemplate($this->template)) {
+            throw new \InvalidArgumentException(
+                Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template)
+            );
+        }
+
+        if ($params) {
+            return $this->template;
+        }
+
+        return $this->template->template;
     }
 
     /**
@@ -1400,5 +1404,45 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     public function setMenuFactory(MenuFactoryInterface $menuFactory): void
     {
         $this->menuFactory = $menuFactory;
+    }
+
+    /**
+     * Initialise the template
+     *
+     * @return  void
+     *
+     * @since   6.1.0
+     */
+    protected function initialiseTemplate(): void
+    {
+        $this->template = (object) [
+            'template'    => 'system',
+            'params'      => new Registry(),
+            'inheritable' => 0,
+            'parent'      => '',
+        ];
+    }
+
+    /**
+     * Check if a template is valid
+     *
+     * @param   \stdClass  $template  The template object
+     *
+     * @return  bool  True if the template is valid, false otherwise. A template is valid if its index.php file exists
+     *                either in the template itself or in its parent template.
+     *
+     * @since   6.1.0
+     */
+    protected function isValidTemplate($template): bool
+    {
+        if (!empty($template->template) && is_file(JPATH_THEMES . '/' . $template->template . '/index.php')) {
+            return true;
+        }
+
+        if (!empty($template->parent) && is_file(JPATH_THEMES . '/' . $template->parent . '/index.php')) {
+            return true;
+        }
+
+        return false;
     }
 }
