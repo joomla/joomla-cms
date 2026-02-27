@@ -411,7 +411,6 @@ class Router
     protected function clearCache(): void
     {
         $this->cache = [];
-
     }
 
     /**
