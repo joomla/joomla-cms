@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -197,9 +198,6 @@ class Mail extends PHPMailer implements MailerInterface
     public function setSender($from, $name = '')
     {
         if (\is_array($from)) {
-            // Reset existing Sender which may set with previous call of PHPMailer::setFrom()
-            $this->Sender = '';
-
             // If $from is an array we assume it has an address and a name
             if (isset($from[2])) {
                 // If it is an array with entries, use them
@@ -208,9 +206,6 @@ class Mail extends PHPMailer implements MailerInterface
                 $result = $this->setFrom(MailHelper::cleanLine($from[0]), MailHelper::cleanLine($from[1]));
             }
         } elseif (\is_string($from)) {
-            // Reset existing Sender which may set with previous call of PHPMailer::setFrom()
-            $this->Sender = '';
-
             // If it is a string we assume it is just the address
             $result = $this->setFrom(MailHelper::cleanLine($from), $name);
         } else {
@@ -225,6 +220,29 @@ class Mail extends PHPMailer implements MailerInterface
         }
 
         return $this;
+    }
+
+    /**
+     * Set the From and FromName properties.
+     *
+     * @param string $address
+     * @param string $name
+     * @param bool   $auto    Whether to also set the Sender address, defaults to true
+     *
+     * @throws Exception
+     *
+     * @return bool
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function setFrom($address, $name = '', $auto = true)
+    {
+        if ($auto) {
+            // Reset existing Sender which may set with previous call of PHPMailer::setFrom()
+            $this->Sender = '';
+        }
+
+        return parent::setFrom($address, $name, $auto);
     }
 
     /**
