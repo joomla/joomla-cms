@@ -13,7 +13,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
-use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -229,7 +228,7 @@ class Mail extends PHPMailer implements MailerInterface
      * @param string $name
      * @param bool   $auto    Whether to also set the Sender address, defaults to true
      *
-     * @throws Exception
+     * @throws phpmailerException
      *
      * @return bool
      *
