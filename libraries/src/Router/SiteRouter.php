@@ -635,6 +635,5 @@ class SiteRouter extends Router
         $this->componentRouters = [];
 
         parent::clearCache();
-
     }
 }
