@@ -212,7 +212,7 @@ class StagesModel extends ListModel
      *
      * @return  boolean  True on success, false on failure
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     public function updatePositions($stagePositions, $workflowId)
     {

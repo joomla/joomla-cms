@@ -69,7 +69,7 @@ class ComponentRecord
      * The component custom data
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  6.1.0
      */
     public $custom_data;
 

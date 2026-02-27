@@ -53,7 +53,7 @@ class TagModel extends AdminModel implements VersionableModelInterface
      * the batch copy/move command is not supported.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  6.1.0
      */
     protected $batch_copymove = 'tag_id';
 
@@ -95,7 +95,7 @@ class TagModel extends AdminModel implements VersionableModelInterface
      *
      * @return  \Joomla\Cms\Table\Table|\Joomla\Cms\Table\Nested  A Table object
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     public function getTable($type = 'Tag', $prefix = 'Administrator', $config = [])
     {
@@ -450,7 +450,7 @@ class TagModel extends AdminModel implements VersionableModelInterface
      *
      * @return  array|false  An array of new IDs on success, boolean false on failure.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function batchCopy($value, $pks, $contexts)
     {
@@ -631,7 +631,7 @@ class TagModel extends AdminModel implements VersionableModelInterface
      *
      * @return  boolean  True on success.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function batchMove($value, $pks, $contexts)
     {
