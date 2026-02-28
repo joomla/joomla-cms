@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Filter;
 
+use enshrined\svgSanitize\Sanitizer;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Filter\InputFilter as BaseInputFilter;
 
@@ -488,5 +489,40 @@ class InputFilter extends BaseInputFilter
         }
 
         return preg_replace('/[\xF0-\xF7].../s', "\xE2\xAF\x91", $source);
+    }
+
+    /**
+     * Internal method to strip a tag of disallowed attributes - extended to filter SVG content
+     *
+     * @param   array  $attrSet  Array of attribute pairs to filter
+     *
+     * @return  array  Filtered array of attribute pairs
+     *
+     * @since 5.4.2
+     */
+    protected function cleanAttributes(array $attrSet)
+    {
+        // Do the heavy lifting in the upstream library
+        $attrSet = parent::cleanAttributes($attrSet);
+
+        // Decode and check base64-encoded svgs
+        return array_map(
+            function ($attribute) {
+                // Check for presence of relevant tags
+                if (!preg_match('/"data:.*svg.*;base64,(.*)"/U', $attribute, $matches)) {
+                    return $attribute;
+                }
+
+                // Extract SVG
+                $svg = base64_decode($matches[1], true);
+
+                // Sanitize svg
+                $sanitizer = new Sanitizer();
+
+                // Replace content
+                return str_replace($matches[1], base64_encode($sanitizer->sanitize($svg)), $attribute);
+            },
+            $attrSet,
+        );
     }
 }

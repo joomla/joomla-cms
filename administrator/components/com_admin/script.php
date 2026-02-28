@@ -718,6 +718,7 @@ class JoomlaInstallerScript
             '/libraries/vendor/beberlei/assert/LICENSE',
             '/libraries/vendor/google/recaptcha/ARCHITECTURE.md',
             '/libraries/vendor/jfcherng/php-color-output/src/helpers.php',
+            '/libraries/vendor/joomla/filter/PATCHES.txt',
             '/libraries/vendor/joomla/ldap/LICENSE',
             '/libraries/vendor/joomla/ldap/src/LdapClient.php',
             '/libraries/vendor/laminas/laminas-zendframework-bridge/config/replacements.php',
@@ -2470,6 +2471,28 @@ class JoomlaInstallerScript
             '/libraries/vendor/algo26-matthias/idna-convert/compose.yml',
             '/libraries/vendor/algo26-matthias/idna-convert/src/Exception/Std3AsciiRulesViolationException.php',
             '/libraries/vendor/algo26-matthias/idna-convert/src/TranscodeUnicode/ByteLengthTrait.php',
+            // From 5.4.0-alpha2 to 5.4.0-alpha3
+            '/administrator/modules/mod_menu/mod_menu.php',
+            '/modules/mod_random_image/mod_random_image.php',
+            // From 5.4.0-alpha3 to 5.4.0-beta1
+            '/administrator/modules/mod_latest/mod_latest.php',
+            '/administrator/modules/mod_logged/mod_logged.php',
+            '/administrator/modules/mod_privacy_dashboard/mod_privacy_dashboard.php',
+            '/administrator/modules/mod_submenu/mod_submenu.php',
+            '/modules/mod_finder/mod_finder.php',
+            '/modules/mod_login/mod_login.php',
+            '/modules/mod_menu/mod_menu.php',
+            '/modules/mod_whosonline/mod_whosonline.php',
+            // From 5.4.2 to 5.4.3
+            '/libraries/vendor/symfony/http-client-contracts/Test/Fixtures/web/index.php',
+            '/libraries/vendor/symfony/http-client-contracts/Test/HttpClientTestCase.php',
+            '/libraries/vendor/symfony/http-client-contracts/Test/TestHttpServer.php',
+            '/libraries/vendor/symfony/http-client/Test/HarFileResponseFactory.php',
+            '/libraries/vendor/symfony/service-contracts/Test/ServiceLocatorTest.php',
+            '/libraries/vendor/symfony/service-contracts/Test/ServiceLocatorTestCase.php',
+            '/libraries/vendor/symfony/translation-contracts/Test/TranslatorTest.php',
+            '/libraries/vendor/symfony/validator/Test/ConstraintValidatorTestCase.php',
+            '/libraries/vendor/symfony/var-dumper/Test/VarDumperTestTrait.php',
         ];
 
         $folders = [
@@ -2762,6 +2785,15 @@ class JoomlaInstallerScript
             '/libraries/vendor/maximebf/debugbar/src',
             '/libraries/vendor/maximebf/debugbar',
             '/libraries/vendor/maximebf',
+            // From 5.4.2 to 5.4.3
+            '/libraries/vendor/symfony/var-dumper/Test',
+            '/libraries/vendor/symfony/validator/Test',
+            '/libraries/vendor/symfony/translation-contracts/Test',
+            '/libraries/vendor/symfony/service-contracts/Test',
+            '/libraries/vendor/symfony/http-client/Test',
+            '/libraries/vendor/symfony/http-client-contracts/Test/Fixtures/web',
+            '/libraries/vendor/symfony/http-client-contracts/Test/Fixtures',
+            '/libraries/vendor/symfony/http-client-contracts/Test',
         ];
 
         $status['files_checked']   = $files;

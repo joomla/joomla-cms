@@ -168,6 +168,7 @@ function clean_checkout(string $dir)
 
     // symfony/*
     run_and_check('rm -rf libraries/vendor/symfony/*/Resources/doc');
+    run_and_check('rm -rf libraries/vendor/symfony/*/Test');
     run_and_check('rm -rf libraries/vendor/symfony/*/Tests');
     run_and_check('rm -rf libraries/vendor/symfony/console/Resources');
     run_and_check('rm -rf libraries/vendor/symfony/string/Resources/bin');
@@ -343,10 +344,9 @@ if (!file_exists(rtrim($fullpath, '\\/') . '/plugins/system/webauthn/fido.jwt'))
     exit(1);
 }
 
-run_and_check('npm install --unsafe-perm');
-
+// Install dependencies and build the media assets
 // Create version entries of the urls inside the static css files
-run_and_check('npm run cssversioning');
+run_and_check('npm ci');
 
 // Create gzipped version of the static assets
 run_and_check('npm run gzip');
@@ -452,7 +452,6 @@ $doNotPackage = [
     'package.json',
     'phpstan-baseline.neon',
     'phpstan.neon',
-    'phpunit-pgsql.xml.dist',
     'phpunit-windows.xml.dist',
     'phpunit.xml.dist',
     'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.ini',
