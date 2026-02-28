@@ -126,7 +126,10 @@
 			</fieldset>
 
 			<fieldset name="images" label="TPL_ATUM_IMAGE_SETTINGS_LABEL">
-				<fieldset name="loginLogo" label="TPL_ATUM_LOGIN_LOGO_LABEL">
+				<fieldset
+					name="loginLogo"
+					label="TPL_ATUM_LOGIN_LOGO_LABEL"
+					description="TPL_ATUM_LOGIN_LOGO_DESCRIPTION">
 					<field
 						name="loginLogo"
 						type="media"
@@ -147,7 +150,10 @@
 						description="TPL_ATUM_LOGO_ALT_EMPTY_DESC"
 					/>
 				</fieldset>
-				<fieldset name="logoBrandLarge" label="TPL_ATUM_SITE_LOGO_LABEL">
+				<fieldset
+					name="logoBrandLarge"
+					label="TPL_ATUM_SITE_LOGO_LABEL"
+					description="TPL_ATUM_SITE_LOGO_DESCRIPTION">
 					<field
 						name="logoBrandLarge"
 						type="media"
@@ -168,7 +174,10 @@
 						description="TPL_ATUM_LOGO_ALT_EMPTY_DESC"
 					/>
 				</fieldset>
-				<fieldset name="logoBrandSmall" label="TPL_ATUM_SITE_LOGO_SMALL_LABEL">
+				<fieldset
+					name="logoBrandSmall"
+					label="TPL_ATUM_SITE_LOGO_SMALL_LABEL"
+					description="TPL_ATUM_SITE_LOGO_SMALL_DESCRIPTION">
 					<field
 						name="logoBrandSmall"
 						type="media"
