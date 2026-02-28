@@ -34,7 +34,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Cache::class, function (Container $container) {
                 $plugin                 = PluginHelper::getPlugin('system', 'cache');
                 $dispatcher             = $container->get(DispatcherInterface::class);
                 $documentFactory        = $container->get('document.factory');
@@ -47,7 +47,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };
