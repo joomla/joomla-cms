@@ -65,7 +65,7 @@ echo "✅ Development settings applied."
 # --- 5. Install and Configure phpMyAdmin ---
 PMA_ROOT="${JOOMLA_ROOT}/phpmyadmin"
 echo "--> Downloading phpMyAdmin into $PMA_ROOT..."
-PMA_VERSION=5.2.2
+PMA_VERSION=5.2.3
 mkdir -p $PMA_ROOT
 curl -o /tmp/phpmyadmin.tar.gz https://files.phpmyadmin.net/phpMyAdmin/${PMA_VERSION}/phpMyAdmin-${PMA_VERSION}-all-languages.tar.gz
 tar xf /tmp/phpmyadmin.tar.gz --strip-components=1 -C $PMA_ROOT
