@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Console;
 
 use Joomla\CMS\Application\ConsoleApplication;
+use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateRegisterResultState;
 use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateRegisterState;
 use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 use Joomla\Console\Command\AbstractCommand;
@@ -126,7 +127,7 @@ class AutomatedUpdatesRegisterCommand extends AbstractCommand
 
         $result = $updateModel->changeAutoUpdateRegistration(AutoupdateRegisterState::Subscribe);
 
-        if ($result === false) {
+        if ($result !== AutoupdateRegisterResultState::Success) {
             return Command::FAILURE;
         }
 

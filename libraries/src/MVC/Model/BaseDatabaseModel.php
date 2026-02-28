@@ -98,7 +98,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
         }
 
         /**
-         * @deprecated  4.3 will be Removed in 6.0
+         * @deprecated  4.3 will be Removed in 7.0
          *              Database instance is injected through the setter function,
          *              subclasses should not use the db instance in constructor anymore
          */
@@ -116,8 +116,8 @@ abstract class BaseDatabaseModel extends BaseModel implements
         if (\array_key_exists('table_path', $config)) {
             static::addTablePath($config['table_path']);
         } elseif (\defined('JPATH_COMPONENT_ADMINISTRATOR')) {
-            static::addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
-            static::addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/table');
+            static::addTablePath(JPATH_ADMINISTRATOR . '/components/' . $this->option . '/tables');
+            static::addTablePath(JPATH_ADMINISTRATOR . '/components/' . $this->option . '/table');
         }
 
         // Set the clean cache event
@@ -155,7 +155,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
     protected function _getList($query, $limitstart = 0, $limit = 0)
     {
         if (\is_string($query)) {
-            $query = $this->getDatabase()->getQuery(true)->setQuery($query);
+            $query = $this->getDatabase()->createQuery()->setQuery($query);
         }
 
         $query->setLimit($limit, $limitstart);
@@ -263,6 +263,10 @@ abstract class BaseDatabaseModel extends BaseModel implements
         }
 
         if ($table = $this->_createTable($name, $prefix, $options)) {
+            if ($this->shouldUseExceptions()) {
+                $table->setUseExceptions(true);
+            }
+
             return $table;
         }
 
@@ -336,8 +340,8 @@ abstract class BaseDatabaseModel extends BaseModel implements
     /**
      * Get the event dispatcher.
      *
-     * The override was made to keep a backward compatibility for legacy component.
-     * TODO: Remove the override in 6.0
+     * The override was made to keep a backward compatibility for legacy component .
+     * TODO: Remove the override ONLY when support of Legacy components will be removed (components without Dispatcher and MVCFactory).
      *
      * @return  DispatcherInterface
      *
@@ -348,7 +352,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
     {
         if (!$this->dispatcher) {
             @trigger_error(
-                \sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
+                \sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 7.0', __CLASS__),
                 E_USER_DEPRECATED
             );
 
@@ -367,7 +371,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      *
      * @since   4.1.0
      *
-     * @deprecated 4.4 will be removed in 6.0. Use $this->getDispatcher() directly.
+     * @deprecated 4.4 will be removed in 7.0. Use $this->getDispatcher() directly.
      */
     protected function dispatchEvent(EventInterface $event)
     {
@@ -375,7 +379,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
 
         @trigger_error(
             \sprintf(
-                'Method %s is deprecated and will be removed in 6.0. Use getDispatcher()->dispatch() directly.',
+                'Method %s is deprecated and will be removed in 7.0. Use getDispatcher()->dispatch() directly.',
                 __METHOD__
             ),
             E_USER_DEPRECATED
@@ -390,7 +394,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   4.2.0
      * @throws  \UnexpectedValueException
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use getDatabase() instead
      *              Example: $model->getDatabase();
      */
@@ -412,7 +416,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      *
      * @since   4.2.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use setDatabase() instead
      *              Example: $model->setDatabase($db);
      */
@@ -434,7 +438,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      *
      * @since   4.2.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use getDatabase() instead of directly accessing _db
      */
     public function __get($name)

@@ -42,7 +42,24 @@ describe('Test that contacts API endpoint', () => {
 
   it('can delete a contact', () => {
     cy.db_createContact({ name: 'automated test contact', published: -2 })
-      .then((contact) => cy.api_delete(`/contacts/${contact.id}`));
+      .then((contact) => cy.api_delete(`/contacts/${contact.id}`))
+      .then((result) => expect(result.status).to.eq(204));
+  });
+
+  it('check correct response for delete a not existent contact', () => {
+    cy.api_getBearerToken().then((token) => {
+      cy.request({
+        method: 'DELETE',
+        url: `/api/index.php/v1/contacts/9999`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        failOnStatusCode: false
+      }).then((response) => {
+        expect(response.status).to.equal(404);
+        expect(response.body.data.message).to.include('Resource not found');
+      });
+    });
   });
 
   it('can submit a contact form', () => {

@@ -28,7 +28,7 @@ class AfterUninstallEvent extends AbstractExtensionEvent
      * @var array
      *
      * @since  5.0.0
-     * @deprecated 5.0 will be removed in 6.0
+     * @deprecated 5.0 will be removed in 7.0
      */
     protected $legacyArgumentsOrder = ['installer', 'eid', 'removed'];
 

@@ -15,18 +15,20 @@ use Joomla\CMS\Event\MultiFactor\GetMethod;
 use Joomla\CMS\Event\MultiFactor\GetSetup;
 use Joomla\CMS\Event\MultiFactor\SaveSetup;
 use Joomla\CMS\Event\MultiFactor\Validate;
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
+use Joomla\CMS\Version;
 use Joomla\Component\Users\Administrator\DataShape\CaptiveRenderOptions;
 use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
 use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Http\HttpFactory;
 use Joomla\Input\Input;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -65,7 +67,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
      * @var    boolean
      * @since  4.2.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Implement your plugin methods accepting an AbstractEvent object
      *              Example:
      *              onEventTriggerName(AbstractEvent $event) {
@@ -369,7 +371,10 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 
         $gotResponse = false;
 
-        $http     = HttpFactory::getHttp();
+        $options = new Registry();
+        $options->set('userAgent', (new Version())->getUserAgent('Joomla', true, false));
+
+        $http     = (new HttpFactory())->getHttp($options);
         $token    = $this->getApplication()->getFormToken();
         $nonce    = md5($token . uniqid(random_int(0, mt_getrandmax())));
         $response = null;
@@ -425,7 +430,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
         }
 
         // Parse response
-        $lines = explode("\n", $response->body);
+        $lines = explode("\n", (string) $response->getBody());
         $data  = [];
 
         foreach ($lines as $line) {

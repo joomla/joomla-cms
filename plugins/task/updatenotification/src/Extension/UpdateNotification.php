@@ -97,7 +97,7 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
         $updateParams = ComponentHelper::getParams('com_joomlaupdate');
 
         // Don't send when automated updates are active and working
-        $registrationState = AutoupdateRegisterState::tryFrom($updateParams->get('autoupdate_status', ''));
+        $registrationState = AutoupdateRegisterState::tryFrom($updateParams->get('autoupdate_status', 0));
         $lastUpdateCheck   = date_create_from_format('Y-m-d H:i:s', $updateParams->get('update_last_check', ''));
 
         if ($registrationState === AutoupdateRegisterState::Subscribed && $lastUpdateCheck !== false && $lastUpdateCheck->diff(new \DateTime())->days < 4) {
@@ -221,7 +221,7 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
             }
         }
 
-        $this->logTask('UpdateNotification end');
+        $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_UPDATENOTIFICATION_END'), 'info');
 
         return Status::OK;
     }
@@ -282,7 +282,7 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
 
         // Get the user IDs of users belonging to the SA groups
         try {
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('user_id'))
                 ->from($db->quoteName('#__user_usergroup_map'))
                 ->whereIn($db->quoteName('group_id'), $groups);
@@ -299,7 +299,7 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
 
         // Get the user information for the Super Administrator users
         try {
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName(['id', 'username', 'email']))
                 ->from($db->quoteName('#__users'))
                 ->whereIn($db->quoteName('id'), $userIDs)

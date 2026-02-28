@@ -13,7 +13,6 @@
  * node build.mjs --com-media        will compile the media manager Vue application
  * node build.mjs --watch-com-media  will watch and compile the media manager Vue application
  * node build.mjs --gzip             will create gzip files for all the minified stylesheets and scripts.
- * node build.mjs --cssversioning    will update all the url entries providing accurate versions for stylesheets.
  * node build.mjs --versioning       will update all the joomla.assets.json files providing accurate versions for stylesheets and scripts.
  */
 
@@ -33,11 +32,12 @@ import { cleanVendors } from './build-modules-js/init/cleanup-media.mjs';
 import { recreateMediaFolder } from './build-modules-js/init/recreate-media.mjs';
 import { watching } from './build-modules-js/watch.mjs';
 import { mediaManager, watchMediaManager } from './build-modules-js/javascript/build-com_media-js.mjs';
+import { workflowGraph, watchWorkflowGraph } from './build-modules-js/javascript/build-com_workflow-js.mjs';
 import { compressFiles } from './build-modules-js/compress.mjs';
-import { cssVersioning } from './build-modules-js/css-versioning.mjs';
 import { versioning } from './build-modules-js/versioning.mjs';
 import { Timer } from './build-modules-js/utils/timer.mjs';
 import { compileCodemirror } from './build-modules-js/javascript/build-codemirror.mjs';
+import { cssVersioningVendor } from './build-modules-js/stylesheets/css-versioning.mjs';
 
 const require = createRequire(import.meta.url);
 
@@ -46,7 +46,7 @@ const options = require('../package.json');
 const settings = require('./build-modules-js/settings.json');
 
 const handleError = (err, terminateCode) => {
-  console.error(err); // eslint-disable-line no-console
+  console.error(err);
   process.exitCode = terminateCode;
 };
 
@@ -101,12 +101,13 @@ Program.allowUnknownOption()
     '--watch-com-media',
     'Watch and Compile the Media Manager client side App.',
   )
+  .option('--com-workflow', 'Compile the Workflow Graph client side App.')
+  .option(
+    '--watch-com-workflow',
+    'Watch and Compile the Workflow Graph client side App.',
+  )
   .option('--gzip', 'Compress all the minified stylesheets and scripts.')
   .option('--prepare', 'Run all the needed tasks to initialise the repo')
-  .option(
-    '--cssversioning',
-    'Update all the url() versions on their relative stylesheet files',
-  )
   .option(
     '--versioning',
     'Update all the .js/.css versions on their relative joomla.assets.json',
@@ -130,6 +131,7 @@ if (cliOptions.copyAssets) {
     .then(() => cleanVendors())
     .then(() => localisePackages(options))
     .then(() => patchPackages(options))
+    .then(() => cssVersioningVendor())
     .then(() => minifyVendor())
     .catch((error) => handleError(error, 1));
 }
@@ -149,12 +151,12 @@ if (cliOptions.compileJs) {
   scripts(options, Program.args[0]).catch((err) => handleError(err, 1));
 }
 
-// Compress/transpile the javascript files
+// Watch & Compile the javascript files in the media_source folder
 if (cliOptions.watch) {
   watching(Program.args[0]);
 }
 
-// Gzip js/css files
+// Compile the Bootstrap javascript components
 if (cliOptions.compileBs) {
   bootstrapJs();
 }
@@ -180,14 +182,20 @@ if (cliOptions.watchComMedia) {
   watchMediaManager(true);
 }
 
+// Compile the Workflow Graph
+if (cliOptions.comWorkflow) {
+  // false indicates "no watch"
+  workflowGraph(false);
+}
+
+// Watch & Compile the Workflow Graph
+if (cliOptions.watchComWorkflow) {
+  watchWorkflowGraph(true);
+}
+
 // Update the .js/.css versions
 if (cliOptions.versioning) {
   versioning().catch((err) => handleError(err, 1));
-}
-
-// Update the url() versions in the .css files
-if (cliOptions.cssversioning) {
-  cssVersioning().catch((err) => handleError(err, 1));
 }
 
 // Prepare the repo for dev work
@@ -201,8 +209,10 @@ if (cliOptions.prepare) {
     .then(() => minifyVendor())
     .then(() => createErrorPages(options))
     .then(() => stylesheets(options, Program.args[0]))
+    .then(() => cssVersioningVendor())
     .then(() => scripts(options, Program.args[0]))
     .then(() => mediaManager())
+    .then(() => workflowGraph())
     .then(() => bootstrapJs())
     .then(() => compileCodemirror())
     .then(() => bench.stop('Build'))

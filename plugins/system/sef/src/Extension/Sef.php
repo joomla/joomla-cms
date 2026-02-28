@@ -14,6 +14,7 @@ use Joomla\CMS\Event\Application\AfterDispatchEvent;
 use Joomla\CMS\Event\Application\AfterInitialiseEvent;
 use Joomla\CMS\Event\Application\AfterRenderEvent;
 use Joomla\CMS\Event\Application\AfterRouteEvent;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\Router;
@@ -118,7 +119,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
         if ($router->isTainted()) {
             $parsedVars = $router->getVars();
 
-            if ($app->getLanguageFilter()) {
+            if ($app->getLanguageFilter() && isset($parsedVars['language'])) {
                 $parsedVars['lang'] = $parsedVars['language'];
                 unset($parsedVars['language']);
             }
