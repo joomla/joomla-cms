@@ -254,7 +254,7 @@
 
 		<field
 			name="neverMFAUserGroups"
-			type="UserGroupList"
+			type="usergrouplist"
 			label="COM_USERS_CONFIG_NEVERMFAUSERGROUPS_LABEL"
 			description="COM_USERS_CONFIG_NEVERMFAUSERGROUPS_DESC"
 			layout="joomla.form.field.list-fancy-select"
@@ -267,7 +267,7 @@
 
 		<field
 			name="forceMFAUserGroups"
-			type="UserGroupList"
+			type="usergrouplist"
 			label="COM_USERS_CONFIG_FORCEMFAUSERGROUPS_LABEL"
 			description="COM_USERS_CONFIG_FORCEMFAUSERGROUPS_DESC"
 			layout="joomla.form.field.list-fancy-select"

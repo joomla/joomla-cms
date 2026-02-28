@@ -52,7 +52,7 @@ class LevelModel extends AdminModel
             if ($table->load($pk)) {
                 // Check if the access level is being used.
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select('DISTINCT access');
 
                 // Get all tables that have the access field
@@ -175,8 +175,10 @@ class LevelModel extends AdminModel
     {
         $result = parent::getItem($pk);
 
-        // Convert the params field to an array.
-        $result->rules = $result->rules !== null ? json_decode($result->rules) : [];
+        if ($result) {
+            // Convert the params field to an array.
+            $result->rules = $result->rules !== null ? json_decode($result->rules) : [];
+        }
 
         return $result;
     }

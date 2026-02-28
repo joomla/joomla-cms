@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -105,6 +104,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var SearchesModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $app                 = Factory::getApplication();
         $this->items         = $model->getItems();
@@ -112,7 +112,7 @@ class HtmlView extends BaseHtmlView
         $this->state         = $model->getState();
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
-        $this->enabled       = $this->state->params->get('gather_search_statistics', 0);
+        $this->enabled       = $this->state->get('params')->get('gather_search_statistics', 0);
         $this->canDo         = ContentHelper::getActions('com_finder');
         $uri                 = Uri::getInstance();
         $link                = 'index.php?option=com_config&view=component&component=com_finder&return=' . base64_encode($uri);
@@ -120,11 +120,6 @@ class HtmlView extends BaseHtmlView
 
         if (!\count($this->items) && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Check if component is enabled

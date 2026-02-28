@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Feed;
 
-use Joomla\CMS\Http\HttpFactory;
+use Joomla\Http\HttpFactory;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -54,7 +54,7 @@ class FeedFactory
             $options->set('userAgent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0');
 
             try {
-                $response = HttpFactory::getHttp($options)->get($uri);
+                $response = (new HttpFactory())->getHttp($options)->get($uri);
             } catch (\RuntimeException $e) {
                 throw new \RuntimeException('Unable to open the feed.', $e->getCode(), $e);
             }
