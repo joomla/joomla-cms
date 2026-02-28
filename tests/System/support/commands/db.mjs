@@ -683,6 +683,7 @@ Cypress.Commands.add('db_createWorkflowTransition', (transitionData) => {
     });
 });
 
+/**
  * Creates a scheduler task in the database with the given data. The task contains some default values when
  * not all required fields are passed in the given data. The data of the inserted task is returned.
  *
