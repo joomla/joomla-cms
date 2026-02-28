@@ -13,7 +13,6 @@ namespace Joomla\Component\Languages\Administrator\View\Language;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -71,16 +70,12 @@ class HtmlView extends BaseHtmlView
     {
         /** @var LanguageModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->item  = $model->getItem();
         $this->form  = $model->getForm();
         $this->state = $model->getState();
         $this->canDo = ContentHelper::getActions('com_languages');
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         $this->addToolbar();
         parent::display($tpl);

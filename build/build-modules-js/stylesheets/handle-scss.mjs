@@ -24,8 +24,20 @@ export const handleScssFile = async (file) => {
     contents = rtlcss.process(contents);
   }
 
+  // To preserve the licence the comment needs to start at the beginning of the file
+  contents = contents.startsWith('@charset "UTF-8";\n') ? contents.replace('@charset "UTF-8";\n', '') : contents;
+
   // Ensure the folder exists or create it
   await ensureDir(dirname(cssFile), {});
+
+  const { code: css } = transformCss({
+    code: Buffer.from(contents),
+    minify: false,
+    exclude: Features.VendorPrefixes,
+    visitor: composeVisitors([urlVersioning(file)]), // Adds a hash to the url() parts of the static css
+  });
+
+  // Save optimized css file
   await writeFile(
     cssFile,
     contents.startsWith('@charset "UTF-8";')
@@ -53,6 +65,5 @@ ${contents}`,
     { encoding: 'utf8', mode: 0o644 },
   );
 
-  // eslint-disable-next-line no-console
   console.log(`✅ SCSS File compiled: ${cssFile}`);
 };

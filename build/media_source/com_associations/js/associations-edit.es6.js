@@ -23,7 +23,7 @@ Joomla = window.Joomla || {};
   };
 
   Joomla.showAssociationMessage = () => {
-    const associations = document.getElementById('associations');
+    const associations = document.getElementById('fieldset-associations');
 
     if (associations) {
       const html = document.createElement('joomla-alert');

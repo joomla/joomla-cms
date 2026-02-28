@@ -36,6 +36,7 @@ import { compressFiles } from './build-modules-js/compress.mjs';
 import { versioning } from './build-modules-js/versioning.mjs';
 import { Timer } from './build-modules-js/utils/timer.mjs';
 import { compileCodemirror } from './build-modules-js/javascript/build-codemirror.mjs';
+import { cssVersioningVendor } from './build-modules-js/stylesheets/css-versioning.mjs';
 
 const require = createRequire(import.meta.url);
 
@@ -44,7 +45,7 @@ const options = require('../package.json');
 const settings = require('./build-modules-js/settings.json');
 
 const handleError = (err, terminateCode) => {
-  console.error(err); // eslint-disable-line no-console
+  console.error(err);
   process.exitCode = terminateCode;
 };
 
@@ -124,6 +125,7 @@ if (cliOptions.copyAssets) {
     .then(() => cleanVendors())
     .then(() => localisePackages(options))
     .then(() => patchPackages(options))
+    .then(() => cssVersioningVendor())
     .then(() => minifyVendor())
     .catch((error) => handleError(error, 1));
 }
@@ -190,6 +192,7 @@ if (cliOptions.prepare) {
     .then(() => minifyVendor())
     .then(() => createErrorPages(options))
     .then(() => stylesheets(options, Program.args[0]))
+    .then(() => cssVersioningVendor())
     .then(() => scripts(options, Program.args[0]))
     .then(() => mediaManager())
     .then(() => bootstrapJs())

@@ -364,6 +364,10 @@ class ContactModel extends FormModel
             $contact->articles = null;
         }
 
+        if (empty($contact->user_id)) {
+            return;
+        }
+
         // Get the profile information for the linked user
         $userModel = $this->bootComponent('com_users')->getMVCFactory()
             ->createModel('User', 'Administrator', ['ignore_request' => true]);
@@ -403,9 +407,9 @@ class ContactModel extends FormModel
         return 'CASE WHEN '
             . $query->charLength($alias, '!=', '0')
             . ' THEN '
-            . $query->concatenate([$query->castAsChar($id), $alias], ':')
+            . $query->concatenate([$query->castAs('CHAR', $id), $alias], ':')
             . ' ELSE '
-            . $query->castAsChar($id) . ' END';
+            . $query->castAs('CHAR', $id) . ' END';
     }
 
     /**

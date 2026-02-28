@@ -101,6 +101,9 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 
 // Get the error code
 $errorCode = $this->error->getCode();
+
+// The module renderer will not work properly due to incomplete Application initialisation
+$renderModules = $app->getIdentity() && $app->getLanguage();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -132,7 +135,7 @@ $errorCode = $this->error->getCode();
                 </div>
             </div>
         <?php endif; ?>
-        <?php if ($this->countModules('menu') || $this->countModules('search')) : ?>
+        <?php if ($renderModules && ($this->countModules('menu') || $this->countModules('search'))) : ?>
             <div class="grid-child container-nav">
                 <?php if ($this->countModules('menu')) : ?>
                     <jdoc:include type="modules" name="menu" style="none" />
@@ -148,7 +151,7 @@ $errorCode = $this->error->getCode();
 
     <div class="site-grid">
         <div class="grid-child container-component">
-            <?php if ($this->countModules('error-' . $errorCode)) : ?>
+            <?php if ($renderModules && $this->countModules('error-' . $errorCode)) : ?>
                 <div class="container">
                     <jdoc:include type="message" />
                     <main>
@@ -165,7 +168,7 @@ $errorCode = $this->error->getCode();
                         <p><?php echo Text::_('JERROR_LAYOUT_NOT_ABLE_TO_VISIT'); ?></p>
                         <ul>
                             <li><?php echo Text::_('JERROR_LAYOUT_AN_OUT_OF_DATE_BOOKMARK_FAVOURITE'); ?></li>
-                            <li><?php echo Text::_('JERROR_LAYOUT_MIS_TYPED_ADDRESS'); ?></li>
+                            <li><?php echo Text::_('JERROR_LAYOUT_MISTYPED_ADDRESS'); ?></li>
                             <li><?php echo Text::_('JERROR_LAYOUT_SEARCH_ENGINE_OUT_OF_DATE_LISTING'); ?></li>
                             <li><?php echo Text::_('JERROR_LAYOUT_YOU_HAVE_NO_ACCESS_TO_THIS_PAGE'); ?></li>
                         </ul>
@@ -202,7 +205,7 @@ $errorCode = $this->error->getCode();
             <?php endif; ?>
         </div>
     </div>
-    <?php if ($this->countModules('footer')) : ?>
+    <?php if ($renderModules && $this->countModules('footer')) : ?>
     <footer class="container-footer footer full-width">
         <div class="grid-child">
             <jdoc:include type="modules" name="footer" style="none" />
@@ -210,6 +213,8 @@ $errorCode = $this->error->getCode();
     </footer>
     <?php endif; ?>
 
-    <jdoc:include type="modules" name="debug" style="none" />
+    <?php if ($renderModules) : ?>
+        <jdoc:include type="modules" name="debug" style="none" />
+    <?php endif; ?>
 </body>
 </html>
