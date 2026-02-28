@@ -20,9 +20,8 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
-use Joomla\Component\Scheduler\Administrator\View\Tasks\HtmlView;
 
-/** @var  HtmlView  $this*/
+/** @var  \Joomla\Component\Scheduler\Administrator\View\Tasks\HtmlView  $this*/
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();

@@ -12,9 +12,15 @@ namespace Joomla\CMS\MVC\View;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\TableInterface;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -65,6 +71,13 @@ class FormView extends HtmlView
     protected $canDo;
 
     /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     */
+    public $ignore_fieldsets = [];
+
+    /**
      * The toolbar title
      *
      * @var string
@@ -86,11 +99,32 @@ class FormView extends HtmlView
     protected $previewLink;
 
     /**
+     * The jooa11y link
+     *
+     * @var string
+     */
+    protected $jooa11yLink;
+
+    /**
      * The help link
      *
      * @var string
      */
     protected $helpLink;
+
+    /**
+     * Set to true, if saving to menu should be supported
+     *
+     * @var boolean
+     */
+    protected $supportSaveMenu = false;
+
+    /**
+     * Holds the extension for categories, if available
+     *
+     * @var string
+     */
+    protected $categorySection;
 
     /**
      * Constructor
@@ -103,6 +137,14 @@ class FormView extends HtmlView
 
         if (isset($config['help_link'])) {
             $this->helpLink = $config['help_link'];
+        }
+
+        if (isset($config['preview_link'])) {
+            $this->previewLink = $config['preview_link'];
+        }
+
+        if (isset($config['jooa11y_link'])) {
+            $this->jooa11yLink = $config['jooa11y_link'];
         }
 
         if (isset($config['toolbar_icon'])) {
@@ -127,13 +169,12 @@ class FormView extends HtmlView
      */
     public function display($tpl = null)
     {
+        $model = $this->getModel();
+
+        $model->setUseExceptions(true);
+
         // Prepare view data
         $this->initializeView();
-
-        // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         // Build toolbar
         $this->addToolbar();
@@ -148,10 +189,15 @@ class FormView extends HtmlView
      */
     protected function initializeView()
     {
-        $this->form  = $this->get('Form');
-        $this->item  = $this->get('Item');
-        $this->state = $this->get('State');
-        $table       = $this->get('Table');
+        /**
+         * @var AdminModel
+         */
+        $model = $this->getModel();
+
+        $this->form  = $model->getForm();
+        $this->item  = $model->getItem();
+        $this->state = $model->getState();
+        $table       = $model->getTable();
 
         $this->keyName = $table instanceof TableInterface ? $table->getKeyName() : 'id';
         $action        = empty($this->item->{$this->keyName}) ? '_NEW' : '_EDIT';
@@ -175,8 +221,13 @@ class FormView extends HtmlView
         $userId     = $user->id;
         $isNew      = empty($this->item->{$this->keyName});
         $viewName   = $this->getName();
-        $checkedOut = $this->getModel()->isCheckedOut($this->item);
+        $checkedOut = !$isNew && $this->getModel()->isCheckedOut($this->item);
         $canDo      = $this->canDo;
+
+        /**
+         * @var Toolbar $toolbar
+         */
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(
             $this->toolbarTitle,
@@ -184,72 +235,110 @@ class FormView extends HtmlView
         );
 
         // For new records, check the create permission.
-        if ($isNew && $canDo->get('core.create')) {
-            ToolbarHelper::saveGroup(
-                [
-                    ['apply', $viewName . '.apply'],
-                    ['save', $viewName . '.save'],
-                    ['save2new', $viewName . '.save2new'],
-                ],
-                'btn-success'
-            );
+        if ($isNew) {
+            if ($canDo->get('core.create') || (isset($this->categorySection) && \count($user->getAuthorisedCategories($this->categorySection, 'core.create')) > 0)) {
+                $toolbar->apply($viewName . '.apply');
 
-            ToolbarHelper::cancel($viewName . '.cancel');
+                $saveGroup = $toolbar->dropdownButton('save-group');
+
+                $saveGroup->configure(
+                    function (Toolbar $childBar) use ($user, $viewName) {
+                        $childBar->save($viewName . '.save');
+
+                        if ($this->supportSaveMenu && $user->authorise('core.create', 'com_menus.menu')) {
+                            $childBar->save($viewName . '.save2menu', 'JTOOLBAR_SAVE_TO_MENU');
+                        }
+
+                        $childBar->save2new($viewName . '.save2new');
+                    }
+                );
+            }
+
+            $toolbar->cancel($viewName . '.cancel', 'JTOOLBAR_CANCEL');
         } else {
+            $itemEditable = $canDo->get('core.edit');
+
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
             if (property_exists($this->item, 'created_by')) {
-                $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
-            } else {
-                $itemEditable = $canDo->get('core.edit');
+                $itemEditable = $itemEditable || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
             }
 
-            $toolbarButtons = [];
-
-            // Can't save the record if it's checked out and editable
             if (!$checkedOut && $itemEditable) {
-                $toolbarButtons[] = ['apply', $viewName . '.apply'];
-                $toolbarButtons[] = ['save', $viewName . '.save'];
+                $toolbar->apply($viewName . '.apply');
+            }
 
-                // We can save this record, but check the create permission to see if we can return to make a new one.
-                if ($canDo->get('core.create')) {
-                    $toolbarButtons[] = ['save2new', $viewName . '.save2new'];
+            $saveGroup = $toolbar->dropdownButton('save-group');
+
+            $saveGroup->configure(
+                function (Toolbar $childBar) use ($checkedOut, $itemEditable, $canDo, $user, $viewName) {
+                    // Can't save the record if it's checked out and editable
+                    if (!$checkedOut && $itemEditable) {
+                        $childBar->save($viewName . '.save');
+
+                        // We can save this record, but check the create permission to see if we can return to make a new one.
+                        if ($canDo->get('core.create')) {
+                            $childBar->save2new($viewName . '.save2new');
+                        }
+                    }
+
+                    // If checked out, we can still save2menu
+                    if ($this->supportSaveMenu && $user->authorise('core.create', 'com_menus.menu')) {
+                        $childBar->save($viewName . '.save2menu', 'JTOOLBAR_SAVE_TO_MENU');
+                    }
+
+                    // If checked out, we can still save
+                    if ($canDo->get('core.create')) {
+                        $childBar->save2copy($viewName . '.save2copy');
+                    }
                 }
-            }
-
-            // If checked out, we can still save
-            if ($canDo->get('core.create')) {
-                $toolbarButtons[] = ['save2copy', $viewName . '.save2copy'];
-            }
-
-            ToolbarHelper::saveGroup(
-                $toolbarButtons,
-                'btn-success'
             );
 
-            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable) {
-                ToolbarHelper::versions($this->option . '.' . $viewName, $this->item->id);
+            $toolbar->cancel($viewName . '.cancel', 'JTOOLBAR_CLOSE');
+
+            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->get('params')->get('save_history', 0) && $itemEditable) {
+                $toolbar->versions(
+                    $this->option . '.' . $viewName,
+                    $this->item->{$this->keyName}
+                );
             }
 
-            if (!$isNew && $this->previewLink) {
-                ToolbarHelper::preview($this->previewLink, Text::_('JGLOBAL_PREVIEW'), 'eye', 80, 90);
+            if ($this->previewLink) {
+                $toolbar->preview(Route::link('site', $this->previewLink, true), Text::_('JGLOBAL_PREVIEW'))
+                    ->bodyHeight(80)
+                    ->modalWidth(90);
             }
 
-            ToolbarHelper::cancel($viewName . '.cancel', 'JTOOLBAR_CLOSE');
+            if ($this->jooa11yLink && PluginHelper::isEnabled('system', 'jooa11y')) {
+                $toolbar->jooa11y(Route::link('site', $this->jooa11yLink, true), 'JGLOBAL_JOOA11Y')
+                    ->bodyHeight(80)
+                    ->modalWidth(90);
+            }
+
+            if (
+                Associations::isEnabled() &&
+                ComponentHelper::isEnabled('com_associations') &&
+                AssociationsHelper::hasSupport($this->option)
+            ) {
+                $toolbar->standardButton('contract', 'JTOOLBAR_ASSOCIATIONS', $viewName . '.editAssociations')
+                    ->icon('icon-contract')
+                    ->listCheck(false);
+            }
         }
 
-        ToolbarHelper::divider();
+        $toolbar->divider();
 
         if ($this->form instanceof Form) {
             $formConfig  = $this->form->getXml()->config->inlinehelp;
 
             if ($formConfig && (string) $formConfig['button'] === 'show') {
                 $targetClass = (string) $formConfig['targetclass'] ?: 'hide-aware-inline-help';
-                ToolbarHelper::inlinehelp($targetClass);
+
+                $toolbar->inlinehelp($targetClass);
             }
         }
 
         if ($this->helpLink) {
-            ToolbarHelper::help($this->helpLink);
+            $toolbar->help($this->helpLink);
         }
     }
 }

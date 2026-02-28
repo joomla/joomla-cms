@@ -126,7 +126,7 @@ abstract class WebApplication extends AbstractWebApplication
      * @since       1.7.3
      * @throws      \RuntimeException
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use the application service in the DI container instead
      *              Example: \Joomla\CMS\Factory::getContainer()->get($name)
      */
@@ -246,7 +246,7 @@ abstract class WebApplication extends AbstractWebApplication
     /**
      * Method to get the application document object.
      *
-     * @return  Document  The document object
+     * @return  ?Document  The document object
      *
      * @since   1.7.3
      */
@@ -258,7 +258,7 @@ abstract class WebApplication extends AbstractWebApplication
     /**
      * Method to get the application language object.
      *
-     * @return  Language  The language object
+     * @return  ?Language  The language object
      *
      * @since   1.7.3
      */
@@ -435,5 +435,43 @@ abstract class WebApplication extends AbstractWebApplication
     public function getConfig()
     {
         return $this->config;
+    }
+
+    /**
+     * Proxy to the input property.
+     *
+     * @return  Input | null
+     *
+     * @since       6.0.0
+     * @deprecated  4.0 will be removed in 8.0 use $this->getInput() instead
+     */
+    public function __get($name)
+    {
+        switch ($name) {
+            case 'input':
+                trigger_deprecation(
+                    'cms/application',
+                    '6.0',
+                    'Accessing the input property of %s is deprecated, use the %s::getInput() method instead.',
+                    self::class,
+                    self::class
+                );
+
+                return $this->getInput();
+
+            default:
+                $trace = debug_backtrace();
+                trigger_error(
+                    \sprintf(
+                        'Undefined property via __get(): %1$s in %2$s on line %3$s',
+                        $name,
+                        $trace[0]['file'],
+                        $trace[0]['line']
+                    ),
+                    E_USER_NOTICE
+                );
+
+                return null;
+        }
     }
 }

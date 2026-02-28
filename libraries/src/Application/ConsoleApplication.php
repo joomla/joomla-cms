@@ -170,14 +170,15 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
             self::MSG_EMERGENCY => 'caution',
             self::MSG_ERROR     => 'error',
             self::MSG_INFO      => 'note',
+            self::MSG_MESSAGE   => 'success', // consistent with joomla.system.message layout
             self::MSG_NOTICE    => 'note',
+            self::MSG_SUCCESS   => 'success',
             self::MSG_WARNING   => 'warning',
         ];
 
         // Output any enqueued messages before the app exits
         foreach ($this->getMessageQueue() as $type => $messages) {
             $method = $methodMap[$type] ?? 'comment';
-
             $style->$method($messages);
         }
 
@@ -420,7 +421,7 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
      *
      * @throws     \InvalidArgumentException
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Inject the router or load it from the dependency injection container
      *              Example: Factory::getContainer()->get(ApiRouter::class);
      */
