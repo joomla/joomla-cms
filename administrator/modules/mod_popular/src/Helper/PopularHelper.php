@@ -30,14 +30,14 @@ class PopularHelper
     /**
      * @var CMSApplicationInterface
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected $app;
 
     /**
      * @var Registry
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected $params;
 
@@ -46,7 +46,7 @@ class PopularHelper
      *
      * @param   array  $config  Parameters we are using
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function __construct($config)
     {
@@ -64,7 +64,7 @@ class PopularHelper
      *
      * @throws  \Exception
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function getArticles(Registry $params, ArticlesModel $model): mixed
     {
@@ -131,7 +131,7 @@ class PopularHelper
      *
      * @return  string  The alternate title for the module.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function getModuleTitle(Registry $params): string
     {

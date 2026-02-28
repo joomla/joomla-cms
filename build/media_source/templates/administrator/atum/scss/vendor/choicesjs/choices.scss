@@ -28,9 +28,9 @@
 }
 
 .choices__inner {
-  min-height: 42px;
+  min-block-size: 42px;
   padding: .1rem 1rem;
-  margin-bottom: 0;
+  margin-block-end: 0;
   font-size: 1rem;
   border: none;
   border-radius: 0;
@@ -38,7 +38,7 @@
 
 .choices__input {
   padding: 0;
-  margin-bottom: 0;
+  margin-block-end: 0;
   font-size: 1rem;
   background-color: transparent;
 
@@ -49,7 +49,7 @@
 }
 
 .choices__list--dropdown {
-  z-index: $zindex-popover;
+  z-index: $zindex-popover !important;
 }
 
 .choices__list--single {
@@ -60,7 +60,7 @@
   position: relative;
   margin: 2px;
   color: $choices-list-multiple-item; //$white;
-  background-color: $choices-list-multiple-item-bg; // var(--template-bg-dark);
+  background-color: $choices-list-multiple-item-bg !important; // var(--template-bg-dark);
   margin-inline-end: 2px;
   border: 0;
   border-radius: $border-radius;
@@ -120,10 +120,7 @@
 
   &::before {
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
     display: block;
     text-align: center;
     text-indent: 0;
@@ -196,10 +193,10 @@
 
   .choices__button_joomla {
     position: absolute;
-    top: 50%;
+    inset-block-start: 50%;
     inset-inline-end: 0;
-    width: 20px;
-    height: 20px;
+    inline-size: 20px;
+    block-size: 20px;
     padding: 0;
     margin-block-start: -10px;
     margin-inline-end: 50px;
@@ -236,6 +233,27 @@
   @include color-mode(dark) {
     .choices__heading {
       color: var(--gray-500);
+    }
+  }
+}
+
+// Mark already selected elements with checkmark
+.choices[data-type*="select-multiple"] {
+  .choices__item.is-selected {
+    &::before {
+      position: absolute;
+      top: 50%;
+      inset-inline-end: .2em;
+      display: block;
+      padding: 0 .2em;
+      font-size: 1.2em;
+      font-weight: bold;
+      color: var(--success);
+      content: " ✓";
+      background: var(--body-bg);
+      border-radius: 2.5px;
+      opacity: 1;
+      transform: translateY(-50%);
     }
   }
 }

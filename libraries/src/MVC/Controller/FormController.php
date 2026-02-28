@@ -566,7 +566,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             $urlVar = $key;
         }
 
-        $recordId = $this->input->getInt($urlVar);
+        $recordId = (int) $this->input->getInt($urlVar);
 
         // Populate the row id from the session.
         $data[$key] = $recordId;
@@ -880,7 +880,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      *
      * @since   3.9.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              It is handled by regular save method now.
      */
     public function editAssociations()

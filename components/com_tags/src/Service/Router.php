@@ -55,7 +55,7 @@ class Router extends RouterBase
      *
      * @var   Registry
      * @since 5.2.0
-     * @deprecated  5.2.0 will be removed in 6.0
+     * @deprecated  5.2.0 will be removed in 7.0
      *              without replacement
      */
     private $sefparams;
@@ -107,7 +107,7 @@ class Router extends RouterBase
 
             foreach ($query['id'] as &$item) {
                 if (!strpos($item, ':')) {
-                    $dbquery = $this->db->getQuery(true);
+                    $dbquery = $this->db->createQuery();
                     $id      = (int) $item;
 
                     $dbquery->select($dbquery->quoteName('alias'))
@@ -252,8 +252,10 @@ class Router extends RouterBase
 
             unset($query['view']);
         } else {
-            $segments[] = $query['view'];
-            unset($query['view'], $query['Itemid']);
+            if (isset($query['view'])) {
+                $segments[] = $query['view'];
+                unset($query['view'], $query['Itemid']);
+            }
 
             if (isset($query['id']) && \is_array($query['id'])) {
                 foreach ($query['id'] as $id) {
@@ -363,6 +365,8 @@ class Router extends RouterBase
         $items     = $this->app->getMenu()->getItems(['component_id'], [$component->id]);
 
         foreach ($items as $item) {
+            $itemParams = $item->getParams();
+
             if (!isset($this->lookup[$item->language])) {
                 $this->lookup[$item->language] = ['tags' => [], 'tag' => []];
             }
@@ -372,8 +376,11 @@ class Router extends RouterBase
                 sort($id);
                 $this->lookup[$item->language]['tag'][implode(',', $id)] = $item->id;
 
-                foreach ($id as $i) {
-                    $this->lookup[$item->language]['tag'][$i] = $item->id;
+                // Only apply to menu items with match type any
+                if ($itemParams->get('return_any_or_all') == 1) {
+                    foreach ($id as $i) {
+                        $this->lookup[$item->language]['tag'][$i] = $item->id;
+                    }
                 }
             }
 
@@ -394,7 +401,7 @@ class Router extends RouterBase
                         continue;
                     }
 
-                    $query = $this->db->getQuery(true);
+                    $query = $this->db->createQuery();
                     $query->select($this->db->quoteName('a.id'))
                         ->from($this->db->quoteName('#__tags', 'a'))
                         ->leftJoin(
@@ -429,7 +436,7 @@ class Router extends RouterBase
         // Try to find tag id
         $alias = str_replace(':', '-', $segment);
 
-        $query = $this->db->getQuery(true)
+        $query = $this->db->createQuery()
             ->select($this->db->quoteName('id'))
             ->from($this->db->quoteName('#__tags'))
             ->where($this->db->quoteName('alias') . ' = :alias')
