@@ -99,8 +99,8 @@ HTMLHelper::_('bootstrap.tooltip', '.plg_system_webauth-has-tooltip');
             <tr data-credential_id="<?php echo $method['id'] ?>">
                 <?php
                 if ($attestationSupport) :
-                    $aaguid = ($method['credential'] instanceof PublicKeyCredentialSource) ? $method['credential']->getAaguid() : '';
-                    $authMetadata = $knownAuthenticators[$aaguid->toString()] ?? $knownAuthenticators[''];
+                    $aaguid = ($method['credential'] instanceof PublicKeyCredentialSource) ? (string) $method['credential']->getAaguid() : '';
+                    $authMetadata = $knownAuthenticators[$aaguid] ?? $knownAuthenticators[''];
                     ?>
                 <td class="text-center">
                     <img class="plg_system_webauth-has-tooltip bg-secondary"

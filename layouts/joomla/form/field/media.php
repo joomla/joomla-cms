@@ -155,6 +155,8 @@ if (!$doc->getScriptOptions('media-picker')) {
     ]);
 }
 
+$imagesOnly = count($mediaTypeNames) === 1 && in_array('images', $mediaTypeNames);
+
 ?>
 <joomla-field-media class="field-media-wrapper"
     types="<?php echo $this->escape(implode(',', $mediaTypeNames)); ?>"
@@ -164,7 +166,7 @@ if (!$doc->getScriptOptions('media-picker')) {
     input=".field-media-input"
     button-select=".button-select"
     button-clear=".button-clear"
-    modal-title="<?php echo $this->escape(Text::_('JLIB_FORM_CHANGE_IMAGE')); ?>"
+    modal-title="<?php echo $this->escape(Text::_($imagesOnly ? 'JLIB_FORM_CHANGE_IMAGE' : 'JLIB_FORM_CHANGE_FILE')); ?>"
     preview="static"
     preview-container=".field-media-preview"
     preview-width="<?php echo $previewWidth; ?>"
