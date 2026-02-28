@@ -82,6 +82,7 @@ class HtmlView extends BaseHtmlView
 
         /** @var FormModel $model */
         $model             = $this->getModel();
+        $model->setUseExceptions(true);
         $this->state       = $model->getState();
         $this->item        = $model->getItem();
         $this->form        = $model->getForm();
@@ -106,13 +107,6 @@ class HtmlView extends BaseHtmlView
 
         if (!empty($this->item->id)) {
             $this->item->tags->getItemTags('com_contact.contact', $this->item->id);
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            $app->enqueueMessage(implode("\n", $errors), 'error');
-
-            return false;
         }
 
         // Create a shortcut to the parameters.

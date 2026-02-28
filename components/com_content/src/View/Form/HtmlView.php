@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Site\Model\FormModel;
@@ -116,6 +115,7 @@ class HtmlView extends BaseHtmlView
 
         /** @var FormModel $model */
         $model             = $this->getModel();
+        $model->setUseExceptions(true);
         $this->state       = $model->getState();
         $this->item        = $model->getItem();
         $this->form        = $model->getForm();
@@ -152,11 +152,6 @@ class HtmlView extends BaseHtmlView
             $tmp->images = $this->item->images;
             $tmp->urls   = $this->item->urls;
             $this->form->bind($tmp);
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Create a shortcut to the parameters.

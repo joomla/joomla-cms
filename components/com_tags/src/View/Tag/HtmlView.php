@@ -12,7 +12,6 @@ namespace Joomla\Component\Tags\Site\View\Tag;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Menu\MenuItem;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
@@ -136,6 +135,7 @@ class HtmlView extends BaseHtmlView
 
         /** @var TagModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         // Get some data from the models
         $this->state      = $model->getState();
@@ -148,10 +148,6 @@ class HtmlView extends BaseHtmlView
 
         // Flag indicates to not add limitstart=0 to URL
         $this->pagination->hideEmptyLimitstart = true;
-
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         $this->params = $this->state->get('params');
         /** @var MenuItem $active */

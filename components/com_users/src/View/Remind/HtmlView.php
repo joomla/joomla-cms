@@ -12,7 +12,6 @@ namespace Joomla\Component\Users\Site\View\Remind;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Users\Site\Model\RemindModel;
 
@@ -70,14 +69,10 @@ class HtmlView extends BaseHtmlView
     {
         /** @var RemindModel $model */
         $model        = $this->getModel();
+        $model->setUseExceptions(true);
         $this->form   = $model->getForm();
         $this->state  = $model->getState();
         $this->params = $this->state->get('params');
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         // Check for layout override
         $active = Factory::getApplication()->getMenu()->getActive();

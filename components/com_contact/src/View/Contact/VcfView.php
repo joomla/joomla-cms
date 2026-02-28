@@ -46,12 +46,8 @@ class VcfView extends AbstractView
     {
         /** @var ContactModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
         $item  = $model->getItem();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         $this->getDocument()->setMimeEncoding('text/directory', true);
 

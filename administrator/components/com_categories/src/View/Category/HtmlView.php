@@ -16,7 +16,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -97,6 +96,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var CategoryModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->form  = $model->getForm();
         $this->item  = $model->getItem();
@@ -109,11 +109,6 @@ class HtmlView extends BaseHtmlView
             parent::display($tpl);
 
             return;
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Check if we have a content type for this alias
