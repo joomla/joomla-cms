@@ -114,7 +114,7 @@ if ($this->type == 'font') {
                         <?php echo HTMLHelper::_('form.token'); ?>
                         <p><?php echo Text::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
                         <p>
-                            <a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Template_Overrides" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
+                            <a href="https://guide.joomla.org/user-manual/templates/templates-template-overrides" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
                                 <?php echo Text::_('COM_TEMPLATES_HOME_BUTTON'); ?>
                             </a>
                         </p>
@@ -178,16 +178,18 @@ if ($this->type == 'font') {
                     <legend><?php echo Text::_('COM_TEMPLATES_FILE_CONTENT_PREVIEW'); ?></legend>
                     <form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file . '&isMedia=' . $input->get('isMedia', 0)); ?>" method="post" name="adminForm" id="adminForm">
                         <ul class="nav flex-column well">
-                            <?php foreach ($this->archive as $file) : ?>
-                                <li>
-                                    <?php if (substr($file, -1) === DIRECTORY_SEPARATOR) : ?>
-                                        <span class="icon-folder icon-fw" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
-                                    <?php endif; ?>
-                                    <?php if (substr($file, -1) != DIRECTORY_SEPARATOR) : ?>
-                                        <span class="icon-file icon-fw" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
-                                    <?php endif; ?>
-                                </li>
-                            <?php endforeach; ?>
+                            <?php if (!empty($this->archive) && is_array($this->archive)) : ?>
+                                <?php foreach ($this->archive as $file) : ?>
+                                    <li>
+                                        <?php if (substr($file, -1) === DIRECTORY_SEPARATOR) : ?>
+                                            <span class="icon-folder icon-fw" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
+                                        <?php endif; ?>
+                                        <?php if (substr($file, -1) != DIRECTORY_SEPARATOR) : ?>
+                                            <span class="icon-file icon-fw" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
+                                        <?php endif; ?>
+                                    </li>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </ul>
                         <input type="hidden" name="task" value="">
                         <?php echo HTMLHelper::_('form.token'); ?>
