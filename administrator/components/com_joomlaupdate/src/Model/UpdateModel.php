@@ -78,7 +78,6 @@ class UpdateModel extends BaseDatabaseModel
 
         // Register a logger for update process
         $options = [
-            'format'    => '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}',
             'text_file' => 'joomla_update.php',
         ];
 

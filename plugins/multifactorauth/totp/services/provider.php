@@ -32,13 +32,13 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Totp::class, function (Container $container) {
                 $plugin = new Totp((array) PluginHelper::getPlugin('multifactorauth', 'totp'));
                 $plugin->setApplication(Factory::getApplication());
                 $plugin->setUserFactory($container->get(UserFactoryInterface::class));
 
                 return $plugin;
-            }
+            })
         );
     }
 };

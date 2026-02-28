@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
@@ -37,7 +38,7 @@ $wa->useScript('keepalive')
                     <?php echo $this->form->renderField('plugin'); ?>
                     <?php echo $this->form->renderField('id'); ?>
 
-                    <input id="finder-indexer-token" type="hidden" name="<?php echo Factory::getSession()->getFormToken(); ?>" value="1">
+                    <?php echo HTMLHelper::_('form.token', ['id' => 'finder-indexer-token']); ?>
                 </fieldset>
             </div>
         </div>

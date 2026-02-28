@@ -78,7 +78,7 @@ class HtmlView extends InstallerViewDefault
 
         // Add form control fields
         $this->filterForm
-            ->addControlField('task', '')
+            ->addControlField('task')
             ->addControlField('boxchecked', '0')
             ->addControlField('return', base64_encode('index.php?option=com_installer&view=languages'))
             ->addControlField('install_url', '', ['id' => 'install_url'])
