@@ -21,14 +21,14 @@ use Joomla\CMS\MVC\Controller\BaseController;
 /**
  * ComponentDispatcher class for com_contenthistory
  *
- * @since  __DEPLOYMENT_VERSION__
+ * @since  6.1.0
  */
 class Dispatcher extends ComponentDispatcher
 {
     /**
      * Load the language
      *
-     * @since   __DEPLOYMENT_VERSION__
+     * @since   6.1.0
      *
      * @return  void
      */
@@ -42,7 +42,7 @@ class Dispatcher extends ComponentDispatcher
     /**
      * Method to check component access permission
      *
-     * @since   __DEPLOYMENT_VERSION__
+     * @since   6.1.0
      *
      * @return  void
      *
@@ -75,7 +75,7 @@ class Dispatcher extends ComponentDispatcher
      *
      * @return  BaseController
      *
-     * @since   __DEPLOYMENT_VERSION__
+     * @since   6.1.0
      */
     public function getController(string $name, string $client = '', array $config = []): BaseController
     {
