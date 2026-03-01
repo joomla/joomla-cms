@@ -81,11 +81,12 @@
   }
 }
 
-.choices .choices__list--dropdown {
+.choices .choices__list--dropdown,
+.choices .choices__list[aria-expanded] {
   background-color: var(--body-bg);
 
-  .choices__item {
-    padding-inline-end: 10px;
+  .choices__item--selectable[data-select-text] {
+    padding-inline-end: 25px;
   }
 
   .choices__item--selectable {
