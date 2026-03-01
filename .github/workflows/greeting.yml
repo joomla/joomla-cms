@@ -16,10 +16,12 @@ jobs:
     steps:
       - uses: actions/first-interaction@v3
         with:
+          issue_message: |
+            blank
           pr_message: |
             Hello {{ github.event.pull_request.user.login }},
             thank you for proposing your code change in this PR. We have a process how contributions are handled and would like to inform you what to expect:
-              1. All PRs are started in draft mode, to give you the chance to fix things before our testers and maintainers 
+              1. We suggest starting your PR in draft mode, to give you the chance to fix things before our testers and maintainers 
                 start working on your PR. Make sure that your PR is ready before switching its status!
               2. Does your PR need additional documentation? Does it adhere to our AI policy?
               3. At the bottom of each PR you can find the status of our automated tests. Please check that all of these successfully passed. 
