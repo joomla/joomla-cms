@@ -104,7 +104,7 @@ class HtmlView extends BaseHtmlView
         // Apply language translation for group_title
         foreach ($this->items as &$item) {
             if (isset($item->group_title) && \is_string($item->group_title)) {
-                $translated  = Text::_($item->group_title);
+                $translated        = Text::_($item->group_title);
                 $item->group_title = $translated ?: $item->group_title;
             }
         }
