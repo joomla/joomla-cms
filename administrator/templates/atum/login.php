@@ -148,7 +148,7 @@ HTMLHelper::_('bootstrap.dropdown');
             </section>
         </div>
 
-        <div id="sidebar-wrapper" class="sidebar-wrapper px-3 pb-3">
+        <aside id="sidebar-wrapper" class="sidebar-wrapper px-3 pb-3" aria-labelledby="main-brand">
             <div id="main-brand" class="main-brand">
                 <h1><?php echo $app->get('sitename'); ?></h1>
                 <h2><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h2>
@@ -156,7 +156,7 @@ HTMLHelper::_('bootstrap.dropdown');
             <div id="sidebar">
                 <jdoc:include type="modules" name="sidebar" style="body" />
             </div>
-        </div>
+        </aside>
     </div>
     <jdoc:include type="modules" name="debug" style="none" />
 </body>
