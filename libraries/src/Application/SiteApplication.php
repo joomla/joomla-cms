@@ -24,6 +24,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\SiteRouter;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\User;
 use Joomla\DI\Container;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
@@ -392,166 +393,6 @@ final class SiteApplication extends CMSApplication
     }
 
     /**
-     * Gets the name of the current template.
-     *
-     * @param   boolean  $params  True to return the template parameters
-     *
-     * @return  string|\stdClass  The name of the template if the params argument is false. The template object if the params argument is true.
-     *
-     * @since   3.2
-     * @throws  \InvalidArgumentException
-     */
-    public function getTemplate($params = false)
-    {
-        if (\is_object($this->template)) {
-            if ($this->template->parent) {
-                if (!is_file(JPATH_THEMES . '/' . $this->template->template . '/index.php')) {
-                    if (!is_file(JPATH_THEMES . '/' . $this->template->parent . '/index.php')) {
-                        throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template));
-                    }
-                }
-            } elseif (!is_file(JPATH_THEMES . '/' . $this->template->template . '/index.php')) {
-                throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template));
-            }
-
-            if ($params) {
-                return $this->template;
-            }
-
-            return $this->template->template;
-        }
-
-        // Get the id of the active menu item
-        $menu = $this->getMenu();
-        $item = $menu->getActive();
-
-        if (!$item) {
-            $item = $menu->getItem($this->input->getInt('Itemid', null));
-        }
-
-        $id = 0;
-
-        if (\is_object($item)) {
-            // Valid item retrieved
-            $id = $item->template_style_id;
-        }
-
-        $tid = $this->input->getUint('templateStyle', 0);
-
-        if (is_numeric($tid) && (int) $tid > 0) {
-            $id = (int) $tid;
-        }
-
-        /** @var OutputController $cache */
-        $cache = $this->getCacheControllerFactory()->createCacheController('output', ['defaultgroup' => 'com_templates']);
-
-        if ($this->getLanguageFilter()) {
-            $tag = $this->getLanguage()->getTag();
-        } else {
-            $tag = '';
-        }
-
-        $cacheId = 'templates0' . $tag;
-
-        if ($cache->contains($cacheId)) {
-            $templates = $cache->get($cacheId);
-        } else {
-            $templates = $this->bootComponent('templates')->getMVCFactory()
-                ->createModel('Style', 'Administrator')->getSiteTemplates();
-
-            foreach ($templates as &$template) {
-                // Create home element
-                if ($template->home == 1 && !isset($template_home) || $this->getLanguageFilter() && $template->home == $tag) {
-                    $template_home = clone $template;
-                }
-
-                $template->params = new Registry($template->params);
-            }
-
-            // Unset the $template reference to the last $templates[n] item cycled in the foreach above to avoid editing it later
-            unset($template);
-
-            // Add home element, after loop to avoid double execution
-            if (isset($template_home)) {
-                $template_home->params = new Registry($template_home->params);
-                $templates[0]          = $template_home;
-            }
-
-            $cache->store($templates, $cacheId);
-        }
-
-        $template = $templates[$id] ?? $templates[0];
-
-        // Allows for overriding the active template from the request
-        $template_override = $this->input->getCmd('template', '');
-
-        // Only set template override if it is a valid template (= it exists and is enabled)
-        if (!empty($template_override)) {
-            if (is_file(JPATH_THEMES . '/' . $template_override . '/index.php')) {
-                foreach ($templates as $tmpl) {
-                    if ($tmpl->template === $template_override) {
-                        $template = $tmpl;
-                        break;
-                    }
-                }
-            }
-        }
-
-        // Need to filter the default value as well
-        $template->template = InputFilter::getInstance()->clean($template->template, 'cmd');
-
-        // Fallback template
-        if (!empty($template->parent)) {
-            if (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php')) {
-                if (!is_file(JPATH_THEMES . '/' . $template->parent . '/index.php')) {
-                    $this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
-
-                    // Try to find data for 'cassiopeia' template
-                    $original_tmpl = $template->template;
-
-                    foreach ($templates as $tmpl) {
-                        if ($tmpl->template === 'cassiopeia') {
-                            $template = $tmpl;
-                            break;
-                        }
-                    }
-
-                    // Check, the data were found and if template really exists
-                    if (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php')) {
-                        throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $original_tmpl));
-                    }
-                }
-            }
-        } elseif (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php')) {
-            $this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
-
-            // Try to find data for 'cassiopeia' template
-            $original_tmpl = $template->template;
-
-            foreach ($templates as $tmpl) {
-                if ($tmpl->template === 'cassiopeia') {
-                    $template = $tmpl;
-                    break;
-                }
-            }
-
-            // Check, the data were found and if template really exists
-            if (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php')) {
-                throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $original_tmpl));
-            }
-        }
-
-        // Cache the result
-        $this->template = $template;
-
-        if ($params) {
-            return $template;
-        }
-
-        return $template->template;
-    }
-
-    /**
      * Initialise the application.
      *
      * @param   array  $options  An optional associative array of configuration settings.
@@ -571,49 +412,7 @@ final class SiteApplication extends CMSApplication
         }
 
         if (empty($options['language'])) {
-            // Detect the specified language
-            $lang = $this->input->getString('language', null);
-
-            // Make sure that the user's language exists
-            if ($lang && LanguageHelper::exists($lang)) {
-                $options['language'] = $lang;
-            }
-        }
-
-        if (empty($options['language']) && $this->getLanguageFilter()) {
-            // Detect cookie language
-            $lang = $this->input->cookie->get(md5($this->get('secret') . 'language'), null, 'string');
-
-            // Make sure that the user's language exists
-            if ($lang && LanguageHelper::exists($lang)) {
-                $options['language'] = $lang;
-            }
-        }
-
-        if (empty($options['language'])) {
-            // Detect user language
-            $lang = $user->getParam('language');
-
-            // Make sure that the user's language exists
-            if ($lang && LanguageHelper::exists($lang)) {
-                $options['language'] = $lang;
-            }
-        }
-
-        if (empty($options['language']) && $this->getDetectBrowser()) {
-            // Detect browser language
-            $lang = LanguageHelper::detectLanguage();
-
-            // Make sure that the user's language exists
-            if ($lang && LanguageHelper::exists($lang)) {
-                $options['language'] = $lang;
-            }
-        }
-
-        if (empty($options['language'])) {
-            // Detect default language
-            $params              = ComponentHelper::getParams('com_languages');
-            $options['language'] = $params->get('site', $this->get('language', 'en-GB'));
+            $options['language'] = $this->detectLanguage($user);
         }
 
         // One last check to make sure we have something
@@ -630,6 +429,53 @@ final class SiteApplication extends CMSApplication
 
         // Finish initialisation
         parent::initialiseApp($options);
+    }
+
+    /**
+     * Detect the language to use for the application
+     *
+     * @param   User  $user  The user object
+     *
+     * @return  string  The detected language
+     *
+     * @since   6.1.0
+     */
+    private function detectLanguage(User $user): string
+    {
+        // Detect language from input
+        $lang = $this->input->getString('language');
+
+        if ($lang && LanguageHelper::exists($lang)) {
+            return $lang;
+        }
+
+        if ($this->getLanguageFilter()) {
+            // Detect cookie language
+            $lang = $this->input->cookie->get(md5($this->get('secret') . 'language'), null, 'string');
+
+            if ($lang && LanguageHelper::exists($lang)) {
+                return $lang;
+            }
+        }
+
+        // Detect user language
+        $lang = $user->getParam('language');
+
+        if ($lang && LanguageHelper::exists($lang)) {
+            return $lang;
+        }
+
+        if ($this->getDetectBrowser()) {
+            // Detect browser language
+            $lang = LanguageHelper::detectLanguage();
+
+            if ($lang && LanguageHelper::exists($lang)) {
+                return $lang;
+            }
+        }
+
+        // Use default language
+        return ComponentHelper::getParams('com_languages')->get('site', $this->get('language', 'en-GB'));
     }
 
     /**
@@ -894,5 +740,156 @@ final class SiteApplication extends CMSApplication
             $this->set('theme', $this->template->template);
             $this->set('themeParams', $this->template->params);
         }
+    }
+
+    /**
+     * Initialise the template
+     *
+     * @return  void
+     *
+     * @since   6.1.0
+     *
+     * @throws  \InvalidArgumentException
+     */
+    protected function initialiseTemplate(): void
+    {
+        $id = $this->getTemplateStyleId();
+
+        $templates = $this->getTemplates();
+
+        $template = $templates[$id] ?? $templates[0];
+
+        // Allows for overriding the active template from the request
+        $template_override = $this->input->getCmd('template', '');
+
+        // Only set template override if it is a valid template (= it exists and is enabled)
+        if (!empty($template_override)) {
+            $tmpl = $this->findTemplate($templates, $template_override);
+
+            if ($tmpl) {
+                $template = $tmpl;
+            }
+        }
+
+        // Need to filter the default value as well
+        $template->template = InputFilter::getInstance()->clean($template->template, 'cmd');
+
+        // Fallback template
+        if (!$this->isValidTemplate($template)) {
+            $this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
+
+            // Try to find data for 'cassiopeia' template
+            $original_tmpl = $template->template;
+
+            $template = $this->findTemplate($templates, 'cassiopeia');
+
+            if ($template === null) {
+                throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $original_tmpl));
+            }
+        }
+
+        // Cache the result
+        $this->template = $template;
+    }
+
+    /**
+     * Get the template style ID
+     *
+     * @return  int  The template style ID
+     *
+     * @since   6.1.0
+     */
+    private function getTemplateStyleId(): int
+    {
+        $menu = $this->getMenu();
+        $item = $menu->getActive();
+
+        if (!$item) {
+            $item = $menu->getItem($this->input->getInt('Itemid', 0));
+        }
+
+        $id = 0;
+
+        if ($item) {
+            // Valid item retrieved
+            $id = $item->template_style_id;
+        }
+
+        $tid = $this->input->getUint('templateStyle', 0);
+
+        if ($tid > 0) {
+            $id = $tid;
+        }
+
+        return $id;
+    }
+
+    /**
+     * Get all site templates
+     *
+     * @return  array  An array of template objects
+     *
+     * @since   6.1.0
+     */
+    private function getTemplates(): array
+    {
+        /** @var OutputController $cache */
+        $cache = $this->getCacheControllerFactory()
+            ->createCacheController('output', ['defaultgroup' => 'com_templates']);
+
+        if ($this->getLanguageFilter()) {
+            $tag = $this->getLanguage()->getTag();
+        } else {
+            $tag = '';
+        }
+
+        $cacheId = 'templates0' . $tag;
+
+        if ($cache->contains($cacheId)) {
+            $templates = $cache->get($cacheId);
+        } else {
+            $templates = $this->bootComponent('templates')->getMVCFactory()
+                ->createModel('Style', 'Administrator')->getSiteTemplates();
+
+            foreach ($templates as $template) {
+                // Create home element
+                if ($template->home == 1 && !isset($template_home) || $this->getLanguageFilter() && $template->home == $tag) {
+                    $template_home = clone $template;
+                }
+
+                $template->params = new Registry($template->params);
+            }
+
+            // Add home element, after loop to avoid double execution
+            if (isset($template_home)) {
+                $template_home->params = new Registry($template_home->params);
+                $templates[0]          = $template_home;
+            }
+
+            $cache->store($templates, $cacheId);
+        }
+
+        return $templates;
+    }
+
+    /**
+     * Find a valid template by name
+     *
+     * @param   array   $templates     An array of template objects
+     * @param   string  $templateName  The template name
+     *
+     * @return  ?\stdClass  The template object if found, null otherwise
+     *
+     * @since   6.1.0
+     */
+    private function findTemplate(array $templates, string $templateName): ?\stdClass
+    {
+        foreach ($templates as $template) {
+            if ($template->template === $templateName && $this->isValidTemplate($template)) {
+                return $template;
+            }
+        }
+
+        return null;
     }
 }

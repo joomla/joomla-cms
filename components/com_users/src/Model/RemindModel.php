@@ -38,20 +38,14 @@ class RemindModel extends FormModel
      * @param   array    $data      An optional array of data for the form to interrogate.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|bool A Form object on success, false on failure
+     * @return  Form A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
-        // Get the form.
-        $form = $this->loadForm('com_users.remind', 'remind', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+        return $this->loadForm('com_users.remind', 'remind', ['control' => 'jform', 'load_data' => $loadData]);
     }
 
     /**

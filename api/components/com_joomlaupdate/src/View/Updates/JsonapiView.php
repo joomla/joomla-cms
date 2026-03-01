@@ -136,13 +136,19 @@ class JsonapiView extends BaseApiView
         $model->resetUpdateSource();
 
         $success = true;
+        $errors  = [];
 
+        // Append any errors to the API response for debugging purposes
         if ($model->getErrors()) {
             $success = false;
+
+            $errors = array_map(function ($error) {
+                return (string) $error;
+            }, $model->getErrors());
         }
 
-        $element = (new Resource((object) ['success' => $success, 'id' => 'finalizeUpdate'], $this->serializer))
-            ->fields(['updates' => ['success']]);
+        $element = (new Resource((object) ['success' => $success, 'id' => 'finalizeUpdate', 'errors' => $errors], $this->serializer))
+            ->fields(['updates' => ['success', 'errors']]);
 
         $this->getDocument()->setData($element);
         $this->getDocument()->addLink('self', Uri::current());

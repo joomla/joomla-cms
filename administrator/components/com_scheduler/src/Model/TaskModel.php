@@ -153,7 +153,7 @@ class TaskModel extends AdminModel
      * @param   array  $data      Data that needs to go into the form
      * @param   bool   $loadData  Should the form load its data from the DB?
      *
-     * @return Form|boolean  A Form object on success, false on failure.
+     * @return Form  A Form object
      *
      * @since  4.1.0
      * @throws \Exception
@@ -168,10 +168,6 @@ class TaskModel extends AdminModel
          *  $form->bind($data).
          */
         $form = $this->loadForm('com_scheduler.task', 'task', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         $user = $this->app->getIdentity();
 
