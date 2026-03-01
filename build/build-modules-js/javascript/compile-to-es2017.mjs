@@ -22,6 +22,7 @@ const collectExternals = () => {
     'joomla.dialog',
     'editor-api',
     'editor-decorator',
+    'joomla.menu-base',
     'sa11y',
     'sa11y-lang',
   );

@@ -1,5 +1,10 @@
 // Sidebar
 
+// Make the web component wrapper transparent to layout
+joomla-admin-menu {
+  display: contents;
+}
+
 .sidebar-wrapper {
   z-index: $zindex-sidebar;
   min-block-size: calc(100vh - 66px);
@@ -19,6 +24,7 @@
     list-style-type: none;
 
     a,
+    button.has-arrow,
     .menu-dashboard,
     .menu-quicktask {
       color: $sidebar-item-color; /* $sidebar-item-color $white */
@@ -31,7 +37,8 @@
       }
     }
 
-    > a {
+    > a,
+    > button.has-arrow {
       position: relative;
       display: flex;
       flex-grow: 1;
@@ -48,7 +55,8 @@
     }
 
     @for $level from 2 through 10 {
-      &-level-#{$level} > a {
+      &-level-#{$level} > a,
+      &-level-#{$level} > button.has-arrow {
         $pad: 3rem + (($level - 2) * .75rem);
         padding-inline-start: $pad;
       }
@@ -131,6 +139,14 @@
 
   // Dropdown indicator
   .has-arrow {
+    // Reset <button> browser defaults (harmless on <a>)
+    padding: 0;
+    font: inherit;
+    text-align: start;
+    cursor: pointer;
+    background: none;
+    border: none;
+
     .sidebar-item-title {
       margin-inline-end: auto;
     }
@@ -146,32 +162,47 @@
     }
   }
 
+  // @deprecated `a.mm-active`. Will be removed in Joomla 7.0.
+  a.menu-active,
   a.mm-active {
-    background-color: $main-nav-mm-active-bg; /* main-nav-mm-active-bg: var(--template-bg-dark-70) */
+    background-color: $main-nav-menu-active-bg; /* main-nav-menu-active-bg: var(--template-bg-dark-70) */
   }
 
+  // @deprecated `a.mm-active + .menu-quicktask`. Will be removed in Joomla 7.0.
+  a.menu-active + .menu-quicktask,
   a.mm-active + .menu-quicktask {
-    background-color: $main-nav-mm-active-quicktask-bg; /* main-nav-mm-active-quicktask-bg: var(--template-bg-dark-60) */
+    background-color: $main-nav-menu-active-quicktask-bg; /* main-nav-menu-active-quicktask-bg: var(--template-bg-dark-60) */
   }
 
+  // @deprecated `.mm-active > .has-arrow::after`. Will be removed in Joomla 7.0.
+  .menu-active > .has-arrow::after,
   .mm-active > .has-arrow::after {
     content: "\f078";
   }
 
+  // @deprecated `.mm-collapse` / `.mm-show`. Will be removed in Joomla 7.0.
+  .submenu-collapse,
   .mm-collapse {
     display: none;
 
-    &.mm-collapsed,
+    &.submenu-show,
     &.mm-show {
       display: block;
     }
   }
 
+  // @deprecated `.mm-collapsing`. Will be removed in Joomla 7.0.
+  .submenu-collapsing,
   .mm-collapsing {
     position: relative;
+    display: block;
     block-size: 0;
     overflow: hidden;
-    transition: all .35s ease;
+    transition: block-size .35s ease;
+
+    @media (prefers-reduced-motion: reduce) {
+      transition-duration: 0s;
+    }
   }
 
   .badge {
@@ -200,12 +231,14 @@
     max-inline-size: 3rem;
   }
 
-  .main-nav a:hover {
+  .main-nav a:hover,
+  .main-nav button.has-arrow:hover {
     position: relative;
     max-inline-size: 3rem;
   }
 
-  .main-nav a:hover .sidebar-item-title {
+  .main-nav a:hover .sidebar-item-title,
+  .main-nav button.has-arrow:hover .sidebar-item-title {
     position: absolute;
     inset-inline-start: 100%;
     display: flex;

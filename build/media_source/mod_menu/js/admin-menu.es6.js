@@ -1,15 +1,66 @@
 /**
  * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ *
+ * @deprecated __DEPLOY_VERSION__ Will be removed in Joomla 7.0. Use mod_menu/joomla-admin-menu.min.js instead.
  */
 
-document.querySelectorAll('ul.main-nav').forEach((menu) => {
-  new MetisMenu(menu);
-});
+if (window.console && console.warn) {
+  console.warn('[DEPRECATED] mod_menu/admin-menu.js is deprecated since __DEPLOY_VERSION__ and will be removed in Joomla 7.0. Use mod_menu/joomla-admin-menu.min.js instead.');
+}
 
 const wrapper = document.getElementById('wrapper');
 const sidebar = document.getElementById('sidebar-wrapper');
 const menuToggleIcon = document.getElementById('menu-collapse-icon');
+
+// Strip server-side mm-show/mm-active, then re-apply after init (no visual flash).
+// Workaround for MetisMenu to avoid isTransitioning lock when server-side active state is pre-rendered.
+document.querySelectorAll('ul.main-nav').forEach((menu) => {
+  // @deprecated Since __DEPLOY_VERSION__. Will be removed in 7.0.
+  // Shim to normalise new submenu-* class names to mm-* so MetisMenu can manage them correctly.
+  // Required when a new default_submenu.php override is used with the old default.php.
+  menu.querySelectorAll('.submenu-collapse').forEach((ul) => {
+    ul.classList.add('mm-collapse');
+    ul.classList.remove('submenu-collapse');
+    if (ul.classList.contains('submenu-show')) {
+      ul.classList.add('mm-show');
+      ul.classList.remove('submenu-show');
+    }
+  });
+
+  const prerenderedShown = [];
+
+  menu.querySelectorAll('ul.mm-show').forEach((ul) => {
+    ul.classList.remove('mm-show');
+    prerenderedShown.push(ul);
+
+    const li = ul.parentElement;
+
+    if (li) {
+      li.classList.remove('mm-active');
+    }
+  });
+
+  new MetisMenu(menu);
+
+  // Re-apply the pre-rendered active state after MetisMenu has completed its clean initialisation.
+  prerenderedShown.forEach((ul) => {
+    ul.classList.add('mm-show');
+
+    const li = ul.parentElement;
+
+    if (li) {
+      li.classList.add('mm-active');
+
+      // MetisMenu set aria-expanded="false" on all triggers during init
+      const trigger = li.querySelector(':scope > a');
+
+      if (trigger) {
+        trigger.setAttribute('aria-expanded', 'true');
+      }
+    }
+  });
+});
 
 // If the sidebar doesn't exist, for example, on edit views, then remove the "closed" class
 if (!sidebar) {
@@ -52,30 +103,35 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
   });
 
   // Sidebar Nav
-  const currentUrl = window.location.href;
   const mainNav = document.querySelector('ul.main-nav');
 
-  // Set active class
-  wrapper.querySelectorAll('a.no-dropdown, a.collapse-arrow, .menu-dashboard > a').forEach((link) => {
-    if (
-      (!link.href.match(/index\.php$/) && currentUrl.indexOf(link.href) === 0)
-      || (link.href.match(/index\.php$/) && currentUrl.match(/index\.php$/))) {
-      link.setAttribute('aria-current', 'page');
-      link.classList.add('mm-active');
+  // Active path is normally pre-rendered server-side via CssMenu::setActivePath().
+  // This client-side fallback only runs if server-side detection failed.
+  if (!wrapper.querySelector('.mm-active')) {
+    const currentUrl = window.location.href;
 
-      // Auto Expand Levels
-      if (!link.parentNode.classList.contains('parent')) {
-        let tempParent = link.parentNode;
+    // Set active class
+    wrapper.querySelectorAll('a.no-dropdown, .menu-dashboard > a').forEach((link) => {
+      if (
+        (!link.href.match(/index\.php$/) && currentUrl.indexOf(link.href) === 0)
+        || (link.href.match(/index\.php$/) && currentUrl.match(/index\.php$/))) {
+        link.setAttribute('aria-current', 'page');
+        link.classList.add('mm-active');
 
-        while (tempParent && !tempParent.classList.contains('metismenu')) {
-          tempParent.parentNode.classList.add('mm-active');
-          tempParent.classList.add('mm-show');
+        // Auto Expand Levels
+        if (!link.parentNode.classList.contains('parent')) {
+          let tempParent = link.parentNode;
 
-          tempParent = tempParent.parentNode.closest('ul');
+          while (tempParent && !tempParent.classList.contains('metismenu')) {
+            tempParent.parentNode.classList.add('mm-active');
+            tempParent.classList.add('mm-show');
+
+            tempParent = tempParent.parentNode.closest('ul');
+          }
         }
       }
-    }
-  });
+    });
+  }
 
   // Child open toggle
   const openToggle = ({ currentTarget }) => {
@@ -113,7 +169,7 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
     }));
   };
 
-  document.querySelectorAll('ul.main-nav li.parent > a').forEach((parent) => {
+  document.querySelectorAll('ul.main-nav li.parent > a, ul.main-nav li.parent > button').forEach((parent) => {
     parent.addEventListener('click', openToggle);
     parent.addEventListener('keyup', openToggle);
   });

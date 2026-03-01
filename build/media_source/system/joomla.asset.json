@@ -635,6 +635,12 @@
       ]
     },
     {
+      "name": "joomla.menu-base",
+      "type": "script",
+      "uri": "system/joomla-menu-base.min.js",
+      "importmap": true
+    },
+    {
       "name": "joomla.dialog-autocreate",
       "type": "script",
       "uri": "system/joomla-dialog-autocreate.min.js",

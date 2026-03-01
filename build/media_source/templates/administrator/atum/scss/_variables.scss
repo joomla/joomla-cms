@@ -218,8 +218,12 @@ $atum-colors: (
   main-nav-divider-bg:             var(--template-bg-dark-60),
   main-nav-item-title:             var(--template-bg-dark-30),
   main-nav-item-title-hvr-bg:      var(--template-bg-dark-60),
-  main-nav-mm-active-bg:           var(--template-bg-dark-70),
-  main-nav-mm-active-quicktask-bg: var(--template-bg-dark-60),
+  // @deprecated Use `main-nav-menu-active-bg`. Will be removed in Joomla 7.0.
+  main-nav-mm-active-bg:               var(--template-bg-dark-70),
+  main-nav-menu-active-bg:             var(--template-bg-dark-70),
+  // @deprecated Use `main-nav-menu-active-quicktask-bg`. Will be removed in Joomla 7.0.
+  main-nav-mm-active-quicktask-bg:     var(--template-bg-dark-60),
+  main-nav-menu-active-quicktask-bg:   var(--template-bg-dark-60),
   main-nav-badge:                  var(--template-bg-dark-60),
   mobile-menu-collapse-bg:         var(--template-bg-dark-50),
 
@@ -605,8 +609,12 @@ $sidebar-toggle-link:              var(--sidebar-toggle-link);
 $main-nav-ul-bg:                   var(--main-nav-ul-bg);
 $main-nav-divider-bg:              var(--main-nav-divider-bg);
 $main-nav-item-title:              var(--main-nav-item-title);
-$main-nav-mm-active-bg:            var(--main-nav-mm-active-bg);
-$main-nav-mm-active-quicktask-bg:  var(--main-nav-mm-active-quicktask-bg);
+// @deprecated Use $main-nav-menu-active-bg. Will be removed in Joomla 7.0.
+$main-nav-mm-active-bg:                var(--main-nav-mm-active-bg);
+$main-nav-menu-active-bg:              var(--main-nav-menu-active-bg);
+// @deprecated Use $main-nav-menu-active-quicktask-bg. Will be removed in Joomla 7.0.
+$main-nav-mm-active-quicktask-bg:      var(--main-nav-mm-active-quicktask-bg);
+$main-nav-menu-active-quicktask-bg:    var(--main-nav-menu-active-quicktask-bg);
 $main-nav-badge:                   var(--main-nav-badge);
 $main-nav-item-title-hvr-bg:       var(--main-nav-item-title-hvr-bg);
 $mobile-menu-collapse-bg:          var(--mobile-menu-collapse-bg);

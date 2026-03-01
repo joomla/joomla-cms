@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
@@ -19,17 +19,19 @@ $class     = $enabled ? 'nav flex-column main-nav' : 'nav flex-column main-nav d
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $doc->getWebAssetManager();
 $wa->getRegistry()->addExtensionRegistryFile('com_cpanel');
-$wa->useScript('metismenujs')
-    ->registerAndUseScript('mod_menu.admin-menu', 'mod_menu/admin-menu.min.js', [], ['defer' => true], ['metismenujs'])
+$wa->getRegistry()->addExtensionRegistryFile('mod_menu');
+$wa->useScript('mod_menu.joomla-admin-menu')
     ->useScript('com_cpanel.admin-system-loader');
 
 // Recurse through children of root node if they exist
 if ($root->hasChildren()) {
+    echo '<joomla-admin-menu>';
     echo '<nav class="main-nav-container" aria-label="' . Text::_('MOD_MENU_ARIA_MAIN_MENU') . '">';
     echo '<ul id="menu' . $module->id . '" class="' . $class . '">' . "\n";
 
     // WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call
     $menu->renderSubmenu(ModuleHelper::getLayoutPath('mod_menu', 'default_submenu'), $root);
 
-    echo "</ul></nav>\n";
+    echo "</ul></nav>";
+    echo "</joomla-admin-menu>\n";
 }

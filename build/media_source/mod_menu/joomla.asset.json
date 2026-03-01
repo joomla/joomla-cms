@@ -6,6 +6,18 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
+      "name": "mod_menu.joomla-admin-menu",
+      "type": "script",
+      "uri": "mod_menu/joomla-admin-menu.min.js",
+      "dependencies": [
+        "core",
+        "joomla.menu-base"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
       "name": "mod_menu.admin-menu",
       "type": "script",
       "uri": "mod_menu/admin-menu.min.js",

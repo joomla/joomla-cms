@@ -105,7 +105,7 @@
   *, ::before, ::after {
     background-attachment: initial !important;
     transition-delay: 0s !important;
-    // temp fix until https://github.com/onokumus/metismenujs/issues/9 is addressed
+    // Ensure near-instant transitions for accessibility
     transition-duration: .001ms !important;
     animation-duration: 1ms !important;
     animation-delay: -1ms !important;

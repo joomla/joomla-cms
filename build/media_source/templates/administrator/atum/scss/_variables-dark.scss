@@ -158,8 +158,12 @@ $atum-colors-dark: (
   main-nav-ul-bg:                      #20262d,
   main-nav-divider-bg:                 #495057,
   main-nav-item-title:                 var(--template-bg-dark-30),
+  // @deprecated Use `main-nav-menu-active-bg`. Will be removed in Joomla 7.0.
   main-nav-mm-active-bg:               $btn-primary-dark,
+  main-nav-menu-active-bg:             $btn-primary-dark,
+  // @deprecated Use `main-nav-menu-active-quicktask-bg`. Will be removed in Joomla 7.0.
   main-nav-mm-active-quicktask-bg:     color.adjust($btn-primary-dark, $lightness: -10%),
+  main-nav-menu-active-quicktask-bg:   color.adjust($btn-primary-dark, $lightness: -10%),
   main-nav-badge:                      var(--template-bg-dark-60),
   main-nav-item-title-hvr-bg:          $btn-primary-dark,
   mobile-menu-collapse-bg:             var(--template-bg-dark-50),

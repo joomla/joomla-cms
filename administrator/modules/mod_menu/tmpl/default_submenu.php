@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -36,6 +36,12 @@ if (!$this->enabled) {
 
 $class .= ' item-level-' . (int) $current->level;
 
+$isActive = !empty($current->active);
+
+if ($isActive && $current->hasChildren()) {
+    $class .= ' menu-active';
+}
+
 // Set the correct aria role and print the item
 if ($current->type == 'separator') {
     echo '<li class="' . $class . '" role="presentation">';
@@ -44,19 +50,44 @@ if ($current->type == 'separator') {
 }
 
 // Print a link if it exists
-$linkClass  = [];
-$iconClass  = '';
+$linkClass     = [];
+$iconClass     = '';
 $itemIconClass = '';
-$itemImage  = '';
+$itemImage     = '';
+
+// Build aria attributes for active and expand state
+$ariaExpanded = '';
+$ariaCurrent  = '';
 
 if ($current->hasChildren()) {
-    $linkClass[] = 'has-arrow';
+    $linkClass[]  = 'has-arrow';
+    $ariaExpanded = ' aria-expanded="' . ($isActive ? 'true' : 'false') . '"';
 } else {
     $linkClass[] = 'no-dropdown';
+
+    if ($isActive) {
+        // @deprecated Since __DEPLOY_VERSION__: mm-active. Will be removed in 7.0. Use menu-active instead.
+        $linkClass[] = 'menu-active mm-active';
+        $ariaCurrent = ' aria-current="page"';
+    }
 }
 
+// Pre-generate submenu ID to match aria-controls for the <ul>.
+$submenuId = null;
+
+if ($current->hasChildren()) {
+    if ($current->level > 1) {
+        $submenuId = $current->id ? 'menu-' . strtolower($current->id) : null;
+    } else {
+        $submenuId = 'collapse' . $this->getCounter();
+    }
+}
+
+$ariaControls = $submenuId ? ' aria-controls="' . $submenuId . '"' : '';
+
 // Implode out $linkClass for rendering
-$linkClass = ' class="' . implode(' ', $linkClass) . '" ';
+$linkClass      = ' class="' . implode(' ', $linkClass) . '" ';
+$ariaAttributes = $ariaExpanded . $ariaCurrent . $ariaControls;
 
 // Get the menu link
 $link = $current->link;
@@ -96,16 +127,21 @@ if ($icon == '' && $iconClass == '' && $current->level == 1 && $current->target 
     $iconClass = '<span aria-hidden="true" class="icon-fw"></span>';
 }
 
-if ($link != '' && $current->target != '') {
-    echo '<a' . $linkClass . ' href="' . $link . '" target="' . $current->target . '">'
+if ($current->hasChildren() && ($link == '' || $link == '#')) {
+    echo '<button type="button"' . $linkClass . $ariaAttributes . '>'
+        . $iconClass
+        . '<span class="sidebar-item-title">' . $itemImage . Text::_($current->title) . '</span>' . $ajax
+        . '</button>';
+} elseif ($link != '' && $current->target != '') {
+    echo '<a' . $linkClass . $ariaAttributes . ' href="' . $link . '" target="' . $current->target . '">'
         . $iconClass
         . '<span class="sidebar-item-title">' . $itemImage . Text::_($current->title) . '</span>' . $ajax . '</a>';
 } elseif ($link != '' && $current->type !== 'separator') {
-    echo '<a' . $linkClass . ' href="' . $link . '" aria-label="' . Text::_($current->title) . '">'
+    echo '<a' . $linkClass . $ariaAttributes . ' href="' . $link . '" aria-label="' . Text::_($current->title) . '">'
         . $iconClass
         . '<span class="sidebar-item-title">' . $itemImage . Text::_($current->title) . '</span>' . $iconImage . '</a>';
 } elseif ($current->title != '' && $current->type !== 'separator') {
-    echo '<a' . $linkClass . ' href="#">'
+    echo '<a' . $linkClass . $ariaAttributes . ' href="#">'
         . $iconClass
         . '<span class="sidebar-item-title">' . $itemImage . Text::_($current->title) . '</span>' . $ajax . '</a>';
 } elseif ($current->title != '' && $current->type === 'separator') {
@@ -115,13 +151,13 @@ if ($link != '' && $current->target != '') {
 }
 
 if ($currentParams->get('menu-quicktask') && (int) $this->params->get('shownew', 1) === 1) {
-    $params = $current->getParams();
-    $user = $this->application->getIdentity();
-    $link = $params->get('menu-quicktask');
-    $icon = $params->get('menu-quicktask-icon', 'plus');
-    $title = $params->get('menu-quicktask-title', 'MOD_MENU_QUICKTASK_NEW');
+    $params     = $current->getParams();
+    $user       = $this->application->getIdentity();
+    $link       = $params->get('menu-quicktask');
+    $icon       = $params->get('menu-quicktask-icon', 'plus');
+    $title      = $params->get('menu-quicktask-title', 'MOD_MENU_QUICKTASK_NEW');
     $permission = $params->get('menu-quicktask-permission');
-    $scope = $current->scope !== 'default' ? $current->scope : null;
+    $scope      = $current->scope !== 'default' ? $current->scope : null;
 
     if (!$permission || $user->authorise($permission, $scope)) {
         echo '<span class="menu-quicktask"><a href="' . $link . '">';
@@ -156,12 +192,18 @@ if (!empty($current->dashboard)) {
 
 // Recurse through children if they exist
 if ($this->enabled && $current->hasChildren()) {
-    if ($current->level > 1) {
-        $id = $current->id ? ' id="menu-' . strtolower($current->id) . '"' : '';
+    $submenuClass = 'submenu-collapse';
 
-        echo '<ul' . $id . ' class="mm-collapse collapse-level-' . $current->level . '">' . "\n";
+    if ($isActive) {
+        $submenuClass .= ' submenu-show';
+    }
+
+    if ($current->level > 1) {
+        $id = $submenuId ? ' id="' . $submenuId . '"' : '';
+
+        echo '<ul' . $id . ' class="' . $submenuClass . ' collapse-level-' . $current->level . '">' . "\n";
     } else {
-        echo '<ul id="collapse' . $this->getCounter() . '" class="collapse-level-1 mm-collapse">' . "\n";
+        echo '<ul id="' . $submenuId . '" class="collapse-level-1 ' . $submenuClass . '">' . "\n";
     }
 
     // WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call
