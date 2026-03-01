@@ -14,6 +14,7 @@ use Joomla\CMS\Event\Model\PrepareDataEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Api\Helper\ContentHelper;
@@ -201,6 +202,9 @@ class JsonapiView extends BaseApiView
         // Process the content plugins.
         PluginHelper::importPlugin('content');
         Factory::getApplication()->triggerEvent('onContentPrepare', ['com_content.article', &$item, &$item->params]);
+
+        // Convert relative URLs to absolute URLs in the text
+        $item->text = MailHelper::convertRelativeToAbsoluteUrls($item->text);
 
         foreach (FieldsHelper::getFields('com_content.article', $item, true) as $field) {
             $item->{$field->name} = $field->apivalue ?? $field->rawvalue;

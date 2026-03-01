@@ -29,6 +29,14 @@ describe('Test that content API endpoint', () => {
         .should('include', 'automated test article'));
   });
 
+  it('can deliver a single article with a full url in the text', () => {
+    cy.db_createArticle({ title: 'automated test article', introtext: '<a href="test/link">link</a>' })
+      .then((article) => cy.api_get(`/content/articles/${article.id}`))
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
+        .its('text')
+        .should('include', '<a href="' + Cypress.config().baseUrl + '/test/link">link</a>'));
+  });
+
   it('can create an article', () => {
     cy.db_createCategory({ extension: 'com_content' })
       .then((categoryId) => cy.api_post('/content/articles', {
