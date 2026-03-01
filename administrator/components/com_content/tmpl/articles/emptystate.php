@@ -17,7 +17,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 $displayData = [
     'textPrefix' => 'COM_CONTENT',
     'formURL'    => 'index.php?option=com_content&view=articles',
-    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Adding_a_new_article',
+    'helpURL'    => 'https://guide.joomla.org/user-manual/articles',
     'icon'       => 'icon-copy article',
 
     'controlFields' => $this->filterForm->renderControlFields(),

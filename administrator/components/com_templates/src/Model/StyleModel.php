@@ -653,7 +653,7 @@ class StyleModel extends AdminModel
     {
         $db    = $this->getDatabase();
         $query = $db->createQuery()
-            ->select($db->quoteName(['s.template', 's.params', 's.inheritable', 's.parent']))
+            ->select($db->quoteName(['s.template', 's.params', 's.inheritable', 's.parent', 'e.custom_data']))
             ->from($db->quoteName('#__template_styles', 's'))
             ->join(
                 'LEFT',
@@ -698,7 +698,7 @@ class StyleModel extends AdminModel
     {
         $db    = $this->getDatabase();
         $query = $db->createQuery()
-            ->select($db->quoteName(['id', 'home', 'template', 's.params', 'inheritable', 'parent']))
+            ->select($db->quoteName(['id', 'home', 'template', 's.params', 'inheritable', 'parent', 'e.custom_data']))
             ->from($db->quoteName('#__template_styles', 's'))
             ->where(
                 [
