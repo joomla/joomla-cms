@@ -11,6 +11,7 @@
 namespace Joomla\Component\Fields\Administrator\Model;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
@@ -234,6 +235,12 @@ class GroupsModel extends ListModel
             foreach ($result as $group) {
                 $group->params = new Registry($group->params);
             }
+
+        // Translate title if it is a language constant
+        if(isset($group->title) && is_string($group->title)) {
+            $translated   = text::_($group->title);
+            $group->title = $translated ?: $group->title;
+        }
         }
 
         return $result;

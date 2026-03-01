@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Fields\Administrator\Field;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\Utilities\ArrayHelper;
 
@@ -65,6 +66,11 @@ class FieldgroupsField extends ListField
         $options = $db->loadObjectList();
 
         foreach ($options as $option) {
+            if (is_string($option->text)) {
+                $translated   = Text::_($option->text);
+                $option->text = $translated ?: $option->text;
+            }
+
             if ($option->state == 0) {
                 $option->text = '[' . $option->text . ']';
             }
