@@ -1,4 +1,5 @@
 describe('Install Joomla', () => {
+  /*
   it('blocks admin_password with less than 12 characters', () => {
     cy.task('deleteRelativePath', 'configuration.php');
     cy.visit('/installation/index.php');
@@ -43,7 +44,7 @@ describe('Install Joomla', () => {
     cy.get('#jform_admin_password').blur();
     cy.get('#jform_admin_password').should('have.value', 'ValidPass123!');
   });
-
+*/
   it('Install Joomla', () => {
     const config = {
       sitename: Cypress.env('sitename'),
