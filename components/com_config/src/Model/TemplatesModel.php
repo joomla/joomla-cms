@@ -91,11 +91,14 @@ class TemplatesModel extends FormModel
 
         $templateObj = Factory::getApplication()->getTemplate(true);
 
-        // Load the core and/or local language file(s).
+        // Load the parent and child overrides for template language constants
+        if (!empty($templateObj->parent)) {
+            $lang->load('tpl_' . $templateObj->parent, JPATH_BASE)
+                || $lang->load('tpl_' . $templateObj->parent, JPATH_BASE . '/templates/' . $templateObj->parent);
+        }
+
         $lang->load('tpl_' . $templateObj->template, JPATH_BASE)
-        || (!empty($templateObj->parent) && $lang->load('tpl_' . $templateObj->parent, JPATH_BASE))
-        || $lang->load('tpl_' . $templateObj->template, JPATH_BASE . '/templates/' . $templateObj->template)
-        || (!empty($templateObj->parent) && $lang->load('tpl_' . $templateObj->parent, JPATH_BASE . '/templates/' . $templateObj->parent));
+            || $lang->load('tpl_' . $templateObj->template, JPATH_BASE . '/templates/' . $templateObj->template);
 
         // Look for com_config.xml, which contains fields to display
         $formFile = Path::clean(JPATH_BASE . '/templates/' . $templateObj->template . '/com_config.xml');

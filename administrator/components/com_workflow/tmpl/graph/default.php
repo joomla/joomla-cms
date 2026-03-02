@@ -6,7 +6,7 @@
  *
  * @copyright   (C) 2026 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       __DEPLOY_VERSION__
+ * @since       6.1.0
  */
 
 // phpcs:disable PSR1.Files.SideEffects
