@@ -1,4 +1,49 @@
 describe('Install Joomla', () => {
+  it('blocks admin_password with less than 12 characters', () => {
+    cy.task('deleteRelativePath', 'configuration.php');
+    cy.visit('/installation/index.php');
+    cy.get('#jform_site_name').clear().type(Cypress.env('sitename'));
+    cy.get('#step1').click();
+    cy.get('#jform_admin_user').clear().type(Cypress.env('name'));
+    cy.get('#jform_admin_username').clear().type(Cypress.env('username'));
+    cy.get('#jform_admin_password').clear().type('Short1!');
+    cy.get('#jform_admin_password').blur();
+    cy.contains('Password doesn\'t meet the site\'s requirements');
+  });
+
+  it('allows admin_password with 12 or more characters', () => {
+    cy.visit('/installation/index.php');
+    cy.get('#jform_site_name').clear().type(Cypress.env('sitename'));
+    cy.get('#step1').click();
+    cy.get('#jform_admin_user').clear().type(Cypress.env('name'));
+    cy.get('#jform_admin_username').clear().type(Cypress.env('username'));
+    cy.get('#jform_admin_password').clear().type('ValidPass123!');
+    cy.get('#jform_admin_password').blur();
+    cy.get('#jform_admin_password').should('have.value', 'ValidPass123!');
+  });
+
+  it('allows spaces in the middle of admin_password', () => {
+    cy.visit('/installation/index.php');
+    cy.get('#jform_site_name').clear().type(Cypress.env('sitename'));
+    cy.get('#step1').click();
+    cy.get('#jform_admin_user').clear().type(Cypress.env('name'));
+    cy.get('#jform_admin_username').clear().type(Cypress.env('username'));
+    cy.get('#jform_admin_password').clear().type('Valid Pass 123!');
+    cy.get('#jform_admin_password').blur();
+    cy.get('#jform_admin_password').should('have.value', 'Valid Pass 123!');
+  });
+
+  it('trims spaces from beginning and end of admin_password', () => {
+    cy.visit('/installation/index.php');
+    cy.get('#jform_site_name').clear().type(Cypress.env('sitename'));
+    cy.get('#step1').click();
+    cy.get('#jform_admin_user').clear().type(Cypress.env('name'));
+    cy.get('#jform_admin_username').clear().type(Cypress.env('username'));
+    cy.get('#jform_admin_password').clear().type(' ValidPass123! ');
+    cy.get('#jform_admin_password').blur();
+    cy.get('#jform_admin_password').should('have.value', 'ValidPass123!');
+  });
+
   it('Install Joomla', () => {
     const config = {
       sitename: Cypress.env('sitename'),
@@ -15,23 +60,12 @@ describe('Install Joomla', () => {
       db_prefix: Cypress.env('db_prefix'),
     };
 
-
-    cy.task('db_clean');    
     // If exists, delete PHP configuration file to force a new installation
     cy.task('deleteRelativePath', 'configuration.php');
-    cy.clearCookies();
-    cy.clearLocalStorage();
-    cy.window().then((win) => {
-      win.sessionStorage.clear();
-      // Forcefully expire the Joomla cookie if it exists
-      document.cookie = "joomla_session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    });
-    cy.wait(1000);
-    cy.visit('installation/index.php', { timeout: 60000 });
     cy.installJoomla(config);
 
     // Disable compat plugin
-    cy.db_enableExtension(0, 'plg_behaviour_compat');
+    cy.db_enableExtension(0, 'plg_behaviour_compat6');
 
     cy.doAdministratorLogin(config.username, config.password, false);
     cy.cancelTour();
