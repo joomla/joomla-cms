@@ -13,7 +13,7 @@ describe('Test that console command config', () => {
 
   it('can not set invalid database name', () => {
     cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php config:set db=invalid`, { failOnNonZeroExit: false }).then((result) => {
-      cy.wrap(result).its('code')
+      cy.wrap(result).its('exitCode')
         .should('equal', 4);
       cy.wrap(result).its('stdout')
         .should('contain', '[ERROR] Cannot connect to database');
