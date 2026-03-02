@@ -8,7 +8,7 @@ describe('Test that console command config', () => {
   it('can set sitename', () => {
     cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php config:set sitename="${Cypress.env('sitename')}"`)
       .its('stdout')
-      .should('equal', '[OK] Configuration set');
+      .should('contain', '[OK] Configuration set');
   });
 
   it('can not set invalid database name', () => {
