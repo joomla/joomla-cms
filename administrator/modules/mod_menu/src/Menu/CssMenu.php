@@ -164,11 +164,15 @@ class CssMenu implements DatabaseAwareInterface
 
                 $this->root->addChild(new AdministratorMenuItem(['title' => 'MOD_MENU_RECOVERY_EXIT', 'type' => 'url', 'link' => $uri->toString()]));
 
+                $this->setActivePath();
+
                 return $this->root;
             }
         }
 
         $this->preprocess($this->root);
+
+        $this->setActivePath();
 
         return $this->root;
     }
@@ -492,6 +496,61 @@ class CssMenu implements DatabaseAwareInterface
 
         if ($last && $last->type === 'separator' && $last->getSibling(false) && $last->getSibling(false)->type === 'separator') {
             $parent->removeChild($last);
+        }
+    }
+
+    /**
+     * Set the active path in the menu tree based on the current URL
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function setActivePath()
+    {
+        $currentUrl     = Uri::getInstance()->toString();
+        $baseUrl        = rtrim(Uri::base(), '/') . '/';
+        $items          = $this->root->getChildren(true);
+        $bestMatch      = null;
+        $bestMatchLen   = 0;
+
+        foreach ($items as $item) {
+            if (\in_array($item->type, ['separator', 'heading', 'container']) || empty($item->link)) {
+                continue;
+            }
+
+            if ($item->hasChildren()) {
+                continue;
+            }
+
+            $itemUrl = htmlspecialchars_decode($item->link);
+
+            if (str_starts_with($itemUrl, 'index.php')) {
+                $itemUrl = $baseUrl . $itemUrl;
+            }
+
+            // Exact match, or prefix match only when the item URL has query params
+            // (would otherwise prefix-match every admin URL)
+            $isMatch = $currentUrl === $itemUrl || (str_contains($itemUrl, '?') && str_starts_with($currentUrl, $itemUrl));
+
+            if (!$isMatch) {
+                continue;
+            }
+
+            // Keep the most specific match
+            if (\strlen($itemUrl) > $bestMatchLen) {
+                $bestMatch    = $item;
+                $bestMatchLen = \strlen($itemUrl);
+            }
+        }
+
+        if ($bestMatch !== null) {
+            $node = $bestMatch;
+
+            while ($node !== null) {
+                $node->active = true;
+                $node         = $node->getParent();
+            }
         }
     }
 
