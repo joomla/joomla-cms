@@ -231,29 +231,7 @@ Joomla.checkDbCredentials = function() {
     document.getElementById('setupButton').addEventListener('click', function(e) {
       e.preventDefault();
       e.stopPropagation();
-      Joomla.removeMessages();
-      // Check database connection before proceeding
-      var form = document.getElementById('adminForm');
-      var data = Joomla.serialiseForm(form);
-      data += '&task=installation.dbcheck&format=json';
-      Joomla.request({
-        url: Joomla.baseUrl,
-        method: 'POST',
-        data: data,
-        perform: true,
-        onSuccess: function(response, xhr){
-          var r = JSON.parse(response);
-          if (r.error || !r.validated) {
-            Joomla.renderMessages({'error': ['Database connection failed. Please check your database credentials.']});
-            return;
-          }
-          // Proceed with form validation and submit
-          Joomla.checkInputs();
-        },
-        onError: function(xhr){
-          Joomla.renderMessages({'error': ['Database check failed.']});
-        }
-      });
+      Joomla.checkInputs();
     })
   }
 })();
