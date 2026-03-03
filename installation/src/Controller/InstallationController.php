@@ -11,10 +11,14 @@
 namespace Joomla\CMS\Installation\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Console\DotenvDumpCommand;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Session\Session;
+use Joomla\Filesystem\File;
 use Joomla\Input\Input;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\NullOutput;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -65,12 +69,14 @@ class InstallationController extends JSONController
         $r->view = 'setup';
 
         /** @var \Joomla\CMS\Installation\Model\SetupModel $model */
-        $model = $this->getModel('Setup');
-        $data  = $this->app->getInput()->post->get('jform', [], 'array');
+        $model      = $this->getModel('Setup');
+        $data       = $this->app->getInput()->post->get('jform', [], 'array');
+        $envOptions = $model->getEnvironmentOptions();
 
-        if ($model->validate($data, 'setup') === false) {
+        if ($model->validate(array_merge($data, $envOptions), 'setup') === false) {
             $this->app->enqueueMessage(Text::_('INSTL_DATABASE_VALIDATION_ERROR'), 'error');
             $r->validated = false;
+
             $this->sendJsonResponse($r);
 
             return;
@@ -90,6 +96,10 @@ class InstallationController extends JSONController
         }
 
         $data = $model->storeOptions($data);
+
+        // Merge with environment options if any
+        $data = array_merge($data, $envOptions);
+
 
         if (!$model->validateDbConnection($data)) {
             $r->validated = false;
@@ -115,12 +125,14 @@ class InstallationController extends JSONController
         $r = new \stdClass();
 
         /** @var \Joomla\CMS\Installation\Model\DatabaseModel $databaseModel */
-        $databaseModel = $this->getModel('Database');
-        $options       = $databaseModel->getOptions();
+        $databaseModel   = $this->getModel('Database');
+        $options         = $databaseModel->getOptions();
+        $envOptions      = $databaseModel->getEnvironmentOptions();
+        $optionsWithEnvs = array_merge($options, $envOptions);
 
         // Create Db
         try {
-            $dbCreated = $databaseModel->createDatabase($options);
+            $dbCreated = $databaseModel->createDatabase($optionsWithEnvs);
         } catch (\RuntimeException $e) {
             $this->app->enqueueMessage($e->getMessage(), 'error');
 
@@ -131,10 +143,12 @@ class InstallationController extends JSONController
             $r->view  = 'setup';
             $r->error = true;
         } else {
-            // Re-fetch options from the session as the create database call might modify them.
-            $updatedOptions = $databaseModel->getOptions();
+            $updatedOptions = array_merge(['db_created' => 1], $options);
+            $this->app->getSession()->set('setup.options', $updatedOptions);
 
-            if (!$databaseModel->handleOldDatabase($updatedOptions)) {
+            $updatedOptionsWithEnvs = array_merge($updatedOptions, $envOptions);
+
+            if (!$databaseModel->handleOldDatabase($updatedOptionsWithEnvs)) {
                 $r->view  = 'setup';
                 $r->error = true;
             }
@@ -158,7 +172,7 @@ class InstallationController extends JSONController
         $model = $this->getModel('Database');
 
         $r       = new \stdClass();
-        $options = $model->getOptions();
+        $options = array_merge($model->getOptions(), $model->getEnvironmentOptions());
         $db      = $model->initialise($options);
         $files   = [
             'populate1' => 'base',
@@ -208,7 +222,8 @@ class InstallationController extends JSONController
         $setUpModel = $this->getModel('Setup');
 
         // Get the options from the session
-        $options = $setUpModel->getOptions();
+        $options    = $setUpModel->getOptions();
+        $envOptions = $setUpModel->getEnvironmentOptions();
 
         $r       = new \stdClass();
         $r->view = 'remove';
@@ -217,9 +232,22 @@ class InstallationController extends JSONController
         $configurationModel = $this->getModel('Configuration');
 
         // Attempt to setup the configuration.
-        if (!$configurationModel->setup($options)) {
+        if (!$configurationModel->setup($options, $envOptions)) {
             $r->view  = 'setup';
             $r->error = true;
+        }
+
+        // When environment variables in use then generate a cache and remove raw .env for production environment
+        if ($envOptions && $_ENV['JOOMLA_ENV'] === 'prod') {
+            $dumpCmd    = new DotenvDumpCommand();
+            $dumpResult = $dumpCmd->execute(new ArrayInput([]), new NullOutput());
+
+            if ($dumpResult === 0 && is_file(JPATH_ROOT . '/.env')) {
+                try {
+                    File::delete(JPATH_ROOT . '/.env');
+                } catch (\Exception) {
+                }
+            }
         }
 
         $this->sendJsonResponse($r);

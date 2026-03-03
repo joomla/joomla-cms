@@ -50,6 +50,11 @@ Options -Indexes
 #	Header always set Cross-Origin-Embedder-Policy "require-corp"
 #</IfModule>
 
+## Disable access to dot files and folders
+<FilesMatch "^\.">
+    Deny from all
+</FilesMatch>
+
 ## Disable inline JavaScript when directly opening SVG files or embedding them with the object-tag
 <FilesMatch "\.svg$">
   <IfModule mod_headers.c>

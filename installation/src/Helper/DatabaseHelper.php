@@ -131,7 +131,7 @@ abstract class DatabaseHelper
     public static function getEncryptionSettings($options)
     {
         return [
-            'dbencryption'          => $options->db_encryption,
+            'dbencryption'          => $options->db_encryption ?? 0,
             'dbsslverifyservercert' => $options->db_sslverifyservercert,
             'dbsslkey'              => $options->db_sslkey,
             'dbsslcert'             => $options->db_sslcert,
@@ -177,14 +177,15 @@ abstract class DatabaseHelper
     /**
      * Validate and clean up database connection parameters.
      *
-     * @param   \stdClass       $options  The session options
+     * @param   \stdClass       $options        The session options
+     * @param   boolean         $ignoreChanges  Parameter to prevent writing the $options in to session
      *
      * @return  string|boolean  A string with the translated error message if
      *                          validation error, otherwise false.
      *
      * @since   4.0.0
      */
-    public static function validateConnectionParameters($options)
+    public static function validateConnectionParameters($options, bool $ignoreChanges = false)
     {
         // Ensure a database type was selected.
         if (empty($options->db_type)) {
@@ -235,7 +236,7 @@ abstract class DatabaseHelper
         // Validate and clean up database connection encryption options
         $optionsChanged = false;
 
-        if ($options->db_encryption === 0) {
+        if (empty($options->db_encryption)) {
             // Reset unused options
             if (!empty($options->db_sslkey)) {
                 $options->db_sslkey = '';
@@ -316,7 +317,7 @@ abstract class DatabaseHelper
         }
 
         // Save options to session data if changed
-        if ($optionsChanged) {
+        if ($optionsChanged && !$ignoreChanges) {
             $optsArr = ArrayHelper::fromObject($options);
             Factory::getApplication()->getSession()->set('setup.options', $optsArr);
         }
@@ -337,7 +338,7 @@ abstract class DatabaseHelper
     {
         // Security check for remote db hosts: Check env var if disabled. Also disable in CLI.
         $shouldCheckLocalhost = getenv('JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK') !== '1'
-            && !\defined('_JCLI_INSTALLATION');
+            && !\defined('_JCLI_INSTALLATION') && empty($_ENV['JOOMLA_DB_HOST']);
 
         // Per default allowed DB hosts: localhost / 127.0.0.1 / ::1 (optionally with port)
         $localhost = '/^(((localhost|127\.0\.0\.1|\[\:\:1\])(\:[1-9]{1}[0-9]{0,4})?)|(\:\:1))$/';

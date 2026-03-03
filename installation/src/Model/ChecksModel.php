@@ -219,6 +219,48 @@ class ChecksModel extends BaseInstallationModel
     }
 
     /**
+     * Check whether the Environment variables is in use, and whether they are sufficient to continue installation.
+     * Without validation of their values.
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     *
+     * @throws \UnexpectedValueException  When provided Environment variables are not sufficient to continue the installation
+     */
+    public function checkEnvironmentVariables(): void
+    {
+        $envMap = $this->getEnvironmentMap();
+
+        // Environment variables not in use
+        if (!$envMap) {
+            return;
+        }
+
+        // Check required Database options, all or nothing.
+        $dbRequired = [
+            'JOOMLA_DB_TYPE',
+            'JOOMLA_DB_HOST',
+            'JOOMLA_DB_USER',
+            'JOOMLA_DB_PASSWORD',
+            'JOOMLA_DB_NAME',
+            'JOOMLA_DB_PREFIX',
+        ];
+        $presentDbKeys = array_values(array_intersect(array_keys($envMap), $dbRequired));
+
+        if ($presentDbKeys && $dbRequired !== $presentDbKeys) {
+            throw new \UnexpectedValueException(
+                Text::sprintf(
+                    'INSTL_ENV_ERROR_INCOMPLETE_DB',
+                    implode(', ', $dbRequired),
+                    implode(', ', array_diff_key($dbRequired, $presentDbKeys))
+                ),
+                500
+            );
+        }
+    }
+
+    /**
      * Method to get the form.
      *
      * @param   string|null  $view  The view being processed.

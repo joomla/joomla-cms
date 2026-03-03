@@ -74,7 +74,23 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
      */
     public function getForm($data = [], $loadData = true)
     {
-        return $this->loadForm('com_config.application', 'application', ['control' => 'jform', 'load_data' => $loadData]);
+        // Get the form.
+        $form = $this->loadForm('com_config.application', 'application', ['control' => 'jform', 'load_data' => $loadData]);
+
+        if (empty($form)) {
+            return false;
+        }
+
+        // Check for parameters provided by $_ENV
+        $envMap   = Factory::getContainer()->get('config.env-map');
+        $usedEnvs = array_intersect_key($envMap, $_ENV);
+
+        foreach ($usedEnvs as $fieldName) {
+            $form->setFieldAttribute($fieldName, 'readonly', 'true');
+            $form->setFieldAttribute($fieldName, 'required', 'false');
+        }
+
+        return $form;
     }
 
     /**

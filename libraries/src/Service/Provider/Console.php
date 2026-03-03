@@ -11,6 +11,8 @@ namespace Joomla\CMS\Service\Provider;
 
 use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
 use Joomla\CMS\Console\CoreUpdateChannelCommand;
+use Joomla\CMS\Console\DotenvDebugCommand;
+use Joomla\CMS\Console\DotenvDumpCommand;
 use Joomla\CMS\Console\ExtensionDisableCommand;
 use Joomla\CMS\Console\ExtensionDiscoverCommand;
 use Joomla\CMS\Console\ExtensionDiscoverInstallCommand;
@@ -119,7 +121,7 @@ class Console implements ServiceProviderInterface
         $container->share(
             SetConfigurationCommand::class,
             function (Container $container) {
-                return new SetConfigurationCommand();
+                return new SetConfigurationCommand($container->get('config.env-map') ?: []);
             },
             true
         );
@@ -260,6 +262,20 @@ class Console implements ServiceProviderInterface
             CoreUpdateChannelCommand::class,
             function (Container $container) {
                 return new CoreUpdateChannelCommand($container->get(DatabaseInterface::class));
+            }
+        );
+
+        $container->share(
+            DotenvDebugCommand::class,
+            function (Container $container) {
+                return new DotenvDebugCommand();
+            }
+        );
+
+        $container->share(
+            DotenvDumpCommand::class,
+            function (Container $container) {
+                return new DotenvDumpCommand();
             }
         );
     }

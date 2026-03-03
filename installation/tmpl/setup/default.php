@@ -22,7 +22,6 @@ $wa = $this->getDocument()->getWebAssetManager();
 
 $wa->useScript('joomla.dialog-autocreate');
 ?>
-
 <div id="installer-view" data-page-name="setup">
     <form action="index.php" method="post" id="adminForm" class="form-validate">
         <fieldset id="installStep1" class="j-install-step active">
@@ -56,11 +55,16 @@ $wa->useScript('joomla.dialog-autocreate');
                     <?php echo $this->form->renderField('admin_email'); ?>
                 </div>
                 <div class="mt-4 mb-3">
-                    <button id="step2" class="btn btn-primary w-100"><?php echo Text::_('INSTL_CONNECT_DB'); ?> <span class="icon-chevron-<?php echo $direction; ?>" aria-hidden="true"></span></button>
+                    <?php if (!$this->hideDbSection) : ?>
+                        <button id="step2" class="btn btn-primary w-100"><?php echo Text::_('INSTL_CONNECT_DB'); ?> <span class="icon-chevron-<?php echo $direction; ?>" aria-hidden="true"></span></button>
+                    <?php else : ?>
+                        <button id="setupButton" class="btn btn-primary w-100"><?php echo Text::_('INSTL_INSTALL_JOOMLA'); ?> <span class="icon-chevron-<?php echo $direction; ?>" aria-hidden="true"></span></button>
+                    <?php endif; ?>
                 </div>
             </div>
         </fieldset>
-        <fieldset id="installStep3" class="j-install-step" >
+
+        <fieldset id="installStep3" class="j-install-step"<?php echo $this->hideDbSection ? ' hidden' : '' ?>>
             <legend class="j-install-step-header">
                 <span class="icon-database" aria-hidden="true"></span> <?php echo Text::_('INSTL_DATABASE'); ?>
             </legend>
@@ -105,11 +109,14 @@ $wa->useScript('joomla.dialog-autocreate');
                     <?php //echo $this->form->getLabel('db_old'); ?>
                     <?php echo $this->form->getInput('db_old'); ?>
                 </div>
+                <?php if (!$this->hideDbSection) : ?>
                 <div class="mt-4 mb-3">
                     <button id="setupButton" class="btn btn-primary w-100"><?php echo Text::_('INSTL_INSTALL_JOOMLA'); ?> <span class="icon-chevron-<?php echo $direction; ?>" aria-hidden="true"></span></button>
                 </div>
+                <?php endif; ?>
             </div>
         </fieldset>
+
         <fieldset id="installStep4" class="j-install-step" >
             <legend class="j-install-step-header">
                 <span class="icon-cogs" aria-hidden="true"></span> <?php echo Text::_('INSTL_PROGRESS'); ?>
