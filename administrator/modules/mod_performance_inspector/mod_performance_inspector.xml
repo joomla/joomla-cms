@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" client="administrator" method="upgrade">
+    <name>MOD_PERFORMANCE_INSPECTOR</name>
+    <author>Joomla Community</author>
+    <creationDate>March 3, 2024</creationDate>
+    <copyright>(C) 2024 Open Source Matters, Inc.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <authorEmail>admin@joomla.org</authorEmail>
+    <authorUrl>https://www.joomla.org</authorUrl>
+    <version>5.0.0</version>
+    <description>MOD_PERFORMANCE_INSPECTOR_DESCRIPTION</description>
+    <namespace path="src">Joomla\Module\PerformanceInspector</namespace>
+
+    <!-- Filesystem -->
+    <files>
+        <folder>img</folder>
+        <folder>src</folder>
+        <folder>tmpl</folder>
+        <file>mod_performance_inspector.php</file>
+        <file>helpers.php</file>
+    </files>
+
+    <!-- Language files -->
+    <languages>
+        <language tag="en-GB">en-GB.mod_performance_inspector.ini</language>
+        <language tag="en-GB">en-GB.mod_performance_inspector.sys.ini</language>
+    </languages>
+
+    <!-- Configuration -->
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                    name="show_execution_time"
+                    type="radio"
+                    label="MOD_PERFORMANCE_INSPECTOR_SHOW_EXECUTION_TIME"
+                    description="MOD_PERFORMANCE_INSPECTOR_SHOW_EXECUTION_TIME_DESC"
+                    default="1">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+                <field
+                    name="show_queries"
+                    type="radio"
+                    label="MOD_PERFORMANCE_INSPECTOR_SHOW_QUERIES"
+                    description="MOD_PERFORMANCE_INSPECTOR_SHOW_QUERIES_DESC"
+                    default="1">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+                <field
+                    name="show_memory"
+                    type="radio"
+                    label="MOD_PERFORMANCE_INSPECTOR_SHOW_MEMORY"
+                    description="MOD_PERFORMANCE_INSPECTOR_SHOW_MEMORY_DESC"
+                    default="1">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+                <field
+                    name="show_slowest_query"
+                    type="radio"
+                    label="MOD_PERFORMANCE_INSPECTOR_SHOW_SLOWEST_QUERY"
+                    description="MOD_PERFORMANCE_INSPECTOR_SHOW_SLOWEST_QUERY_DESC"
+                    default="1">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+                <field
+                    name="show_cache_info"
+                    type="radio"
+                    label="MOD_PERFORMANCE_INSPECTOR_SHOW_CACHE_INFO"
+                    description="MOD_PERFORMANCE_INSPECTOR_SHOW_CACHE_INFO_DESC"
+                    default="1">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+                <field
+                    name="max_query_length"
+                    type="integer"
+                    label="MOD_PERFORMANCE_INSPECTOR_MAX_QUERY_LENGTH"
+                    description="MOD_PERFORMANCE_INSPECTOR_MAX_QUERY_LENGTH_DESC"
+                    default="200"
+                    min="50"
+                    max="1000" />
+            </fieldset>
+
+            <fieldset name="advanced">
+                <field
+                    name="update_interval"
+                    type="integer"
+                    label="MOD_PERFORMANCE_INSPECTOR_UPDATE_INTERVAL"
+                    description="MOD_PERFORMANCE_INSPECTOR_UPDATE_INTERVAL_DESC"
+                    default="5000"
+                    min="1000"
+                    max="30000" />
+
+                <field
+                    name="debug_mode"
+                    type="radio"
+                    label="MOD_PERFORMANCE_INSPECTOR_DEBUG_MODE"
+                    description="MOD_PERFORMANCE_INSPECTOR_DEBUG_MODE_DESC"
+                    default="0">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+                <field
+                    name="position_x"
+                    type="list"
+                    label="MOD_PERFORMANCE_INSPECTOR_POSITION_X"
+                    description="MOD_PERFORMANCE_INSPECTOR_POSITION_X_DESC"
+                    default="right">
+                    <option value="left">MOD_PERFORMANCE_INSPECTOR_LEFT</option>
+                    <option value="right">MOD_PERFORMANCE_INSPECTOR_RIGHT</option>
+                </field>
+
+                <field
+                    name="position_y"
+                    type="list"
+                    label="MOD_PERFORMANCE_INSPECTOR_POSITION_Y"
+                    description="MOD_PERFORMANCE_INSPECTOR_POSITION_Y_DESC"
+                    default="top">
+                    <option value="top">MOD_PERFORMANCE_INSPECTOR_TOP</option>
+                    <option value="bottom">MOD_PERFORMANCE_INSPECTOR_BOTTOM</option>
+                </field>
+            </fieldset>
+
+            <fieldset name="assignment">
+                <field
+                    name="assignment"
+                    type="moduleassignment" />
+            </fieldset>
+        </fields>
+    </config>
+</extension>
