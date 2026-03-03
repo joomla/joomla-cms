@@ -65,7 +65,7 @@ export const handleAndStoreCSSContent = async (targetPath, content = '') => {
   }
 
   const css = await preprocessCSS(content);
-  const cssMin = await minifyCSS(content);
+  const cssMin = await minifyCSS(css);
   const targetFolder = path.dirname(targetPath);
 
   if (!fs.existsSync(targetFolder)) {
