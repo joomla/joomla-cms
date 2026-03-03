@@ -1092,6 +1092,9 @@ class JoomlaInstallerScript
             '/media/system/css/fields/calendar-rtl.css',
             '/media/system/css/fields/calendar-rtl.min.css',
             '/media/system/css/fields/calendar-rtl.min.css.gz',
+            // From 6.1.0-beta1 to 6.1.0-beta2
+            '/libraries/vendor/altcha-org/altcha/phpstan-baseline.neon',
+            '/libraries/vendor/altcha-org/altcha/tests/AltchaTest.php',
         ];
 
         $folders = [
@@ -1171,6 +1174,8 @@ class JoomlaInstallerScript
             '/libraries/vendor/symfony/http-client-contracts/Test/Fixtures/web',
             '/libraries/vendor/symfony/http-client-contracts/Test/Fixtures',
             '/libraries/vendor/symfony/http-client-contracts/Test',
+            // From 6.1.0-beta1 to 6.1.0-beta2
+            '/libraries/vendor/altcha-org/altcha/tests',
         ];
 
         $status['files_checked']   = $files;
