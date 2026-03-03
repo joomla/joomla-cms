@@ -275,6 +275,7 @@ export default {
 
       dialog.addEventListener('joomla-dialog:close', () => {
         window.removeEventListener('message', msgListener);
+        dialog.destroy();
       });
 
       dialog.show();
