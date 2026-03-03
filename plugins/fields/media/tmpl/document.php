@@ -25,7 +25,7 @@ if (empty((new Uri($fileUrl))->getHost())) {
     $fileUrl     = JPATH_SITE . DIRECTORY_SEPARATOR . $fileUrl;
     $isLocalFile = true;
 }
-if ($isLocalFile && !is_file($fileUrl)) {
+if ($isLocalFile && !\is_file($fileUrl)) {
     return;
 }
 
