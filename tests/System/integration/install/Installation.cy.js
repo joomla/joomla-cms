@@ -1,5 +1,4 @@
 describe('Install Joomla', () => {
-  /*
   it('blocks admin_password with less than 12 characters', () => {
     cy.task('deleteRelativePath', 'configuration.php');
     cy.visit('/installation/index.php');
@@ -44,7 +43,7 @@ describe('Install Joomla', () => {
     cy.get('#jform_admin_password').blur();
     cy.get('#jform_admin_password').should('have.value', 'ValidPass123!');
   });
-*/
+
   it('Install Joomla', () => {
     const config = {
       sitename: Cypress.env('sitename'),
@@ -66,7 +65,7 @@ describe('Install Joomla', () => {
     cy.installJoomla(config);
 
     // Disable compat plugin
-    cy.db_enableExtension(0, 'plg_behaviour_compat6');
+    cy.db_enableExtension(0, 'plg_behaviour_compat');
 
     cy.doAdministratorLogin(config.username, config.password, false);
     cy.cancelTour();
