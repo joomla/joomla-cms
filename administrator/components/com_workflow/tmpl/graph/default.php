@@ -57,7 +57,7 @@ $renderColumn    = function ($column) {
     foreach ($column as $item) {
         $html .= '<tr>';
         $html .= '<th scope="row" class="fw-bold text-nowrap"><kbd>' . htmlspecialchars($item['key']) . '</kbd></th>';
-        $html .= '<td>' . Text::_($item['description']) . '</td>';
+        $html .= '<td>' . $item['description'] . '</td>';
         $html .= '</tr>';
     }
     $html .= '</table></div>';

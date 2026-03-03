@@ -1088,6 +1088,10 @@ class JoomlaInstallerScript
             '/media/vendor/tinymce/langs/zh-SG.js',
             '/media/vendor/tinymce/langs/zh-SG.min.js',
             '/media/vendor/tinymce/langs/zh-SG.min.js.gz',
+            // From 6.0.3 to 6.0.4
+            '/media/system/css/fields/calendar-rtl.css',
+            '/media/system/css/fields/calendar-rtl.min.css',
+            '/media/system/css/fields/calendar-rtl.min.css.gz',
         ];
 
         $folders = [
