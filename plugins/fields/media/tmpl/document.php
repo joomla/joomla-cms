@@ -10,8 +10,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Helper\MediaHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Uri\Uri;
 
@@ -25,7 +25,7 @@ if (empty((new Uri($fileUrl))->getHost())) {
     $fileUrl     = JPATH_SITE . DIRECTORY_SEPARATOR . $fileUrl;
     $isLocalFile = true;
 }
-if ($isLocalFile && !\is_file($fileUrl)) {
+if ($isLocalFile && !is_file($fileUrl)) {
     return;
 }
 
@@ -36,7 +36,7 @@ if ($class) {
     $options['class'] = $class;
 }
 $linkText = $field->value['linktext'] ?? Text::_('JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DEFAULT_VALUE');
-$fileUrl = $isLocalFile ? $field->value['file'] : $fileUrl;
+$fileUrl  = $isLocalFile ? $field->value['file'] : $fileUrl;
 if (str_contains($linkText, '{filename}')) {
     $linkText = str_replace('{filename}', basename($fileUrl), $linkText);
 }
