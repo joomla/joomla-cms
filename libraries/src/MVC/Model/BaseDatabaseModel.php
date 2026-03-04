@@ -398,7 +398,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      *              Use getDatabase() instead
      *              Example: $model->getDatabase();
      */
-    public function getDbo()
+    public function getDbo(): DatabaseInterface
     {
         try {
             return $this->getDatabase();
