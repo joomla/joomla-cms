@@ -22,6 +22,7 @@
 			buttons="false"
 			rows="20"
 			class="form-control"
+			width="100%"
 			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 		/>
 		<field
@@ -31,6 +32,7 @@
 			buttons="true"
 			hide="fields,pagebreak,readmore,module"
 			class="inputbox"
+			width="100%"
 			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 		/>
 	</fieldset>
