@@ -178,7 +178,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      *
      * @since   3.0
      */
-    protected function _getListCount($query)
+    protected function _getListCount($query): int
     {
         // Use fast COUNT(*) on DatabaseQuery objects if there is no GROUP BY or HAVING clause:
         if (
@@ -280,7 +280,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      *
      * @return  bool
      */
-    public function isCheckedOut($item)
+    public function isCheckedOut($item): bool
     {
         $table           = $this->getTable();
         $checkedOutField = $table->getColumnAlias('checked_out');
