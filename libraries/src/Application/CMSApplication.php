@@ -225,8 +225,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @param   string  $msg   The message to enqueue.
      * @param   string  $type  The message type. Default is message.
      *
-     * @return  void
-     *
      * @since   3.2
      */
     public function enqueueMessage($msg, $type = self::MSG_INFO): void
@@ -258,8 +256,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
     /**
      * Ensure several core system input variables are not arrays.
-     *
-     * @return  void
      *
      * @since   3.9
      */
@@ -505,8 +501,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
     /**
      * Gets the client id of the current running application.
-     *
-     * @return  integer  A client identifier.
      *
      * @since   3.2
      */
