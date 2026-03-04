@@ -196,12 +196,20 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
 
         $sitename = $this->getApplication()->get('sitename');
 
+        $url  = Uri::base();
+        $link = $uri->toString();
+
+        if (str_contains($url, 'joomla.invalid')) {
+            $url  = $jLanguage->_('PLG_TASK_UPDATENOTIFICATION_CLI_URL_FALLBACK');
+            $link = $jLanguage->_('PLG_TASK_UPDATENOTIFICATION_CLI_LINK_FALLBACK');
+        }
+
         $substitutions = [
             'newversion'  => $newVersion,
             'curversion'  => $currentVersion,
             'sitename'    => $sitename,
-            'url'         => Uri::base(),
-            'link'        => $uri->toString(),
+            'url'         => $url,
+            'link'        => $link,
             'releasenews' => 'https://www.joomla.org/announcements/release-news/',
         ];
 
