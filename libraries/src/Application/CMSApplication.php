@@ -510,7 +510,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since   3.2
      */
-    public function getClientId()
+    public function getClientId(): int
     {
         return $this->clientId;
     }
