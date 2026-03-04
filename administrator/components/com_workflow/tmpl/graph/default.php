@@ -6,7 +6,7 @@
  *
  * @copyright   (C) 2026 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       __DEPLOY_VERSION__
+ * @since       6.1.0
  */
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -57,7 +57,7 @@ $renderColumn    = function ($column) {
     foreach ($column as $item) {
         $html .= '<tr>';
         $html .= '<th scope="row" class="fw-bold text-nowrap"><kbd>' . htmlspecialchars($item['key']) . '</kbd></th>';
-        $html .= '<td>' . Text::_($item['description']) . '</td>';
+        $html .= '<td>' . $item['description'] . '</td>';
         $html .= '</tr>';
     }
     $html .= '</table></div>';

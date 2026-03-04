@@ -185,7 +185,7 @@ class TransitionController extends FormController
      *
      * @return  boolean  True if access level checks pass, false otherwise.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     public function save($key = null, $urlVar = null)
     {
@@ -211,7 +211,7 @@ class TransitionController extends FormController
      *
      * @return  boolean  True if access level checks pass, false otherwise.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     public function cancel($key = null)
     {

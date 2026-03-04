@@ -16,7 +16,7 @@ use Joomla\Tests\Unit\UnitTestCase;
 /**
  * Test class for UrlRule.
  *
- * @since  6.0.3
+ * @since  5.4.3
  */
 class UrlRuleTest extends UnitTestCase
 {
@@ -25,7 +25,7 @@ class UrlRuleTest extends UnitTestCase
      *
      * @return  array
      *
-     * @since   6.0.3
+     * @since   5.4.3
      */
     public function dataTest(): array
     {
@@ -84,7 +84,7 @@ class UrlRuleTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   6.0.3
+     * @since   5.4.3
      * @dataProvider dataTest
      */
     public function testRule(bool $expected, \SimpleXMLElement $element, string $value): void
