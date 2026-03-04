@@ -174,8 +174,6 @@ abstract class BaseDatabaseModel extends BaseModel implements
      *
      * @param   DatabaseQuery|string  $query  The query.
      *
-     * @return  integer  Number of rows for query.
-     *
      * @since   3.0
      */
     protected function _getListCount($query): int
@@ -277,8 +275,6 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * Method to check if the given record is checked out by the current user
      *
      * @param   \stdClass  $item  The record to check
-     *
-     * @return  bool
      */
     public function isCheckedOut($item): bool
     {
@@ -394,10 +390,6 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   4.2.0
      * @throws  \UnexpectedValueException
      *
-     * @deprecated  4.3 will be removed in 6.0
-     *              Use getDatabase() instead
-     *              Example: $model->getDatabase();
-     */
     public function getDbo(): DatabaseInterface
     {
         try {
