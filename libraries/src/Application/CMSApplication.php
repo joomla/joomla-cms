@@ -229,7 +229,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since   3.2
      */
-    public function enqueueMessage($msg, $type = self::MSG_INFO)
+    public function enqueueMessage($msg, $type = self::MSG_INFO): void
     {
         // Don't add empty messages.
         if ($msg === null || trim($msg) === '') {
@@ -263,7 +263,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since   3.9
      */
-    private function sanityCheckSystemVariables()
+    private function sanityCheckSystemVariables(): void
     {
         $input = $this->input;
 
