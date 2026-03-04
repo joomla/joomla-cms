@@ -88,7 +88,6 @@ Using a simple classification keeps the project **stable**, **transparent**, and
 A member of the maintainer or bug squad team confirms the classification and sets the appropriate labels when a PR is opened. If a PR is opened in the wrong branch, a maintainer will simply ask you to retarget it to the proper branch.
 
 
-
 Copyright
 ---------------------
 * (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
