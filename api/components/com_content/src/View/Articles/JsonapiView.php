@@ -147,7 +147,9 @@ class JsonapiView extends BaseApiView
     public function displayList(?array $items = null)
     {
         foreach (FieldsHelper::getFields('com_content.article') as $field) {
-            $this->fieldsToRenderList[] = $field->name;
+            if (!\in_array($field->name, $this->fieldsToRenderList, true)) {
+                $this->fieldsToRenderList[] = $field->name;
+            }
         }
 
         return parent::displayList();
@@ -167,7 +169,9 @@ class JsonapiView extends BaseApiView
         $this->relationship[] = 'modified_by';
 
         foreach (FieldsHelper::getFields('com_content.article') as $field) {
-            $this->fieldsToRenderItem[] = $field->name;
+            if (!\in_array($field->name, $this->fieldsToRenderItem, true)) {
+                $this->fieldsToRenderItem[] = $field->name;
+            }
         }
 
         if (Multilanguage::isEnabled()) {
@@ -200,6 +204,11 @@ class JsonapiView extends BaseApiView
         Factory::getApplication()->triggerEvent('onContentPrepare', ['com_content.article', &$item, &$item->params]);
 
         foreach (FieldsHelper::getFields('com_content.article', $item, true) as $field) {
+            // Keep core article properties when a custom field uses the same name.
+            if (\property_exists($item, $field->name)) {
+                continue;
+            }
+
             $item->{$field->name} = $field->apivalue ?? $field->rawvalue;
         }
 
