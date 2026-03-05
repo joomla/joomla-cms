@@ -25,6 +25,6 @@ describe('Test in backend that the Installer', () => {
     cy.contains('Uninstall').click();
     cy.clickDialogConfirm(true);
     // Check if the uninstallation was successful
-    cy.contains('Uninstalling the component was successful');
+    cy.contains('Uninstalling the component com_patchtester was successful.');
   });
 });

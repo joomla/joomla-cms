@@ -92,13 +92,11 @@ class Multilanguage
     /**
      * Method to return a list of language home page menu items.
      *
-     * @param   ?DatabaseInterface  $db  The database
-     *
      * @return  MenuItem[] array of menu item objects.
      *
      * @since   3.5
      */
-    public static function getSiteHomePages((?DatabaseInterface $db = null)
+    public static function getSiteHomePages(?DatabaseInterface $db = null)
     {
         $app = Factory::getApplication();
 

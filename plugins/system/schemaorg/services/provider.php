@@ -34,7 +34,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Schemaorg::class, function (Container $container) {
                 $plugin = new Schemaorg(
                     (array) PluginHelper::getPlugin('system', 'schemaorg')
                 );
@@ -44,7 +44,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setUserFactory($container->get(UserFactoryInterface::class));
 
                 return $plugin;
-            }
+            })
         );
     }
 };
