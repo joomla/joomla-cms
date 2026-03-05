@@ -76,6 +76,11 @@ trait DisplayTrait
         $externalPlugins = [];
         $theme           = 'silver';
 
+        // Reset the old default 750px width of the editor to 100%
+        if (!$width || $width === '750px' || $width === '750') {
+            $width = '100%';
+        }
+
         // Register assets
         $wa->getRegistry()->addExtensionRegistryFile('plg_editors_tinymce');
 
@@ -332,7 +337,7 @@ trait DisplayTrait
             $uploadPath = $levelParams->get('path', ComponentHelper::getParams('com_media')->get('image_path', 'images'));
 
             // Make sure the path is full, and contain the media adapter in it.
-            $mediaHelper = new class () {
+            $mediaHelper = new class() {
                 use ProviderManagerHelperTrait;
 
                 public function prepareTinyMCEUploadPath(string $path): string
