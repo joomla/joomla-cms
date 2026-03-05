@@ -200,7 +200,9 @@ class JsonapiView extends BaseApiView
         Factory::getApplication()->triggerEvent('onContentPrepare', ['com_content.article', &$item, &$item->params]);
 
         foreach (FieldsHelper::getFields('com_content.article', $item, true) as $field) {
-            $item->{$field->name} = $field->apivalue ?? $field->rawvalue;
+            if (!property_exists($item, $field->name)) {
+                $item->{$field->name} = $field->apivalue ?? $field->rawvalue;
+            }
         }
 
         if (Multilanguage::isEnabled() && !empty($item->associations)) {
