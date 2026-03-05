@@ -104,7 +104,7 @@ class HtmlView extends BaseHtmlView
         $this->form  = $model->getForm();
         $this->item  = $model->getItem();
         $this->state = $model->getState();
-        $this->canDo = ContentHelper::getActions('com_content', 'article', $this->item->id);
+        $this->canDo = ContentHelper::getActions('com_content', 'article', $this->item?->id ?? 0);
 
         if ($this->getLayout() === 'modalreturn') {
             parent::display($tpl);
@@ -157,8 +157,8 @@ class HtmlView extends BaseHtmlView
         Factory::getApplication()->getInput()->set('hidemainmenu', true);
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
-        $isNew      = ($this->item->id == 0);
-        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        $isNew      = ($this->item?->id ?? 0) == 0;
+        $checkedOut = !(\is_null($this->item?->checked_out) || $this->item?->checked_out == $userId);
         $toolbar    = $this->getDocument()->getToolbar();
 
         // Built the actions for new and existing records.
@@ -190,7 +190,7 @@ class HtmlView extends BaseHtmlView
             $toolbar->cancel('article.cancel', 'JTOOLBAR_CANCEL');
         } else {
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
-            $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
+            $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item?->created_by == $userId);
 
             if (!$checkedOut && $itemEditable) {
                 $toolbar->apply('article.apply');
@@ -267,8 +267,8 @@ class HtmlView extends BaseHtmlView
     {
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
-        $isNew      = ($this->item->id == 0);
-        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        $isNew      = ($this->item?->id ?? 0) == 0;
+        $checkedOut = !(\is_null($this->item?->checked_out) || $this->item?->checked_out == $userId);
         $toolbar    = $this->getDocument()->getToolbar();
 
         // Build the actions for new and existing records.
@@ -280,7 +280,7 @@ class HtmlView extends BaseHtmlView
         );
 
         $canCreate = $isNew && (\count($user->getAuthorisedCategories('com_content', 'core.create')) > 0);
-        $canEdit   = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
+        $canEdit   = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item?->created_by == $userId);
 
         // For new records, check the create permission.
         if ($canCreate || $canEdit) {
