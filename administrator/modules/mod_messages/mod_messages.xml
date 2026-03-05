@@ -8,6 +8,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
+	<permissions>core.admin</permissions>
 	<description>MOD_MESSAGES_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\Messages</namespace>
 	<files>

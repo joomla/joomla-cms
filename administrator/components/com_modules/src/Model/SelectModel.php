@@ -130,14 +130,24 @@ class SelectModel extends ListModel
 
         $client = ApplicationHelper::getClientInfo($this->getState('client_id', 0));
         $lang   = Factory::getLanguage();
+        $user   = Factory::getApplication()->getIdentity();
 
         // Loop through the results to add the XML metadata,
         // and load language support.
-        foreach ($items as &$item) {
+        foreach ($items as $key => &$item) {
             $path = Path::clean($client->path . '/modules/' . $item->module . '/' . $item->module . '.xml');
 
             if (file_exists($path)) {
                 $item->xml = simplexml_load_file($path);
+
+                if (isset($item->xml->permissions)) {
+                    $requiredPermission = (string) $item->xml->permissions;
+
+                    if (!$user->authorise($requiredPermission)) {
+                        unset($items[$key]);
+                        continue;
+                    }
+                }
             } else {
                 $item->xml = null;
             }

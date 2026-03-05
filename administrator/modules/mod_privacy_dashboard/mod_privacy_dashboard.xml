@@ -8,6 +8,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.9.0</version>
+	<permissions>core.admin</permissions>
 	<description>MOD_PRIVACY_DASHBOARD_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\PrivacyDashboard</namespace>
 	<files>
