@@ -205,8 +205,24 @@ class EditorField extends TextareaField
         $result = parent::setup($element, $value, $group);
 
         if ($result === true) {
-            $this->height      = $this->element['height'] ? (string) $this->element['height'] : '';
-            $this->width       = $this->element['width'] ? (string) $this->element['width'] : '';
+            // Get the configured editor attributes
+            $globalEditor = Factory::getApplication()->get('editor');
+            $editorAttr   = (string) $this->element['editor'] ? (string) $this->element['editor'] : '';
+
+            // Set default values for editor width & height based on editor type
+            // TinyMCE uses plugin settings for sizing, while other editors need explicit dimensions
+            if (
+                $globalEditor === 'tinymce' &&
+                $editorAttr !== 'none' &&
+                $editorAttr !== 'codemirror'
+            ) {
+                $this->height = $this->element['height'] ? (string) $this->element['height'] : '';
+                $this->width  = $this->element['width'] ? (string) $this->element['width'] : '';
+            } else {
+                $this->height = $this->element['height'] ? (string) $this->element['height'] : '500';
+                $this->width  = $this->element['width'] ? (string) $this->element['width'] : '100%';
+            }
+
             $this->assetField  = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
             $this->authorField = $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
             $this->asset       = $this->form->getValue($this->assetField) ?: (string) $this->element['asset_id'];
