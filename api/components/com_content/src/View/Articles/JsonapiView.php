@@ -203,7 +203,7 @@ class JsonapiView extends BaseApiView
             $value = $field->apivalue ?? $field->rawvalue ?? null;
 
             // Decode JSON strings (media fields etc.)
-            if (is_string($value) && $value !== '' && ($value[0] === '{' || $value[0] === '[')) {
+            if (\is_string($value) && $value !== '' && ($value[0] === '{' || $value[0] === '[')) {
                 $decoded = json_decode($value, true);
                 if (json_last_error() === JSON_ERROR_NONE) {
                     $value = $decoded;
@@ -212,11 +212,11 @@ class JsonapiView extends BaseApiView
 
             // Prevent custom fields from overriding existing article properties
             if (property_exists($item, $field->name)) {
-                $key = 'custom_field_' . $field->name;
+                $key          = 'custom_field_' . $field->name;
                 $item->{$key} = $value;
 
                 //To ensure Serializer renders it 
-                if (!in_array($key, $this->fieldsToRenderItem, true)) {
+                if (!\in_array($key, $this->fieldsToRenderItem, true)) {
                     $this->fieldsToRenderItem[] = $key;
                 }
             } else {
