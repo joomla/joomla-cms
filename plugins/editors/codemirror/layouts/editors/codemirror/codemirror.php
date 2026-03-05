@@ -31,16 +31,15 @@ extract($displayData);
  * @var   string                        $buttons     Editor XTD buttons
  */
 
-if (empty($options->width)) {
-    $options->width = '100%';
-}
+$option  = ' options="' . $this->escape(json_encode($options)) . '"';
+$style   = '';
 
-if (empty($options->height)) {
-    $options->height = '500px';
+if ($options->width) {
+    $style .= 'width:' . $options->width . ';';
 }
-
-$option = ' options="' . $this->escape(json_encode($options)) . '"';
-$style  = 'width:' . $options->width . ';height:' . $options->height . ';';
+if ($options->height) {
+    $style .= 'height:' . $options->height . ';';
+}
 
 // Fullscreen combo
 $fsCombo = '';
