@@ -215,7 +215,7 @@ class JsonapiView extends BaseApiView
                 $key          = 'custom_field_' . $field->name;
                 $item->{$key} = $value;
 
-                //To ensure Serializer renders it 
+                // To ensure Serializer renders it
                 if (!\in_array($key, $this->fieldsToRenderItem, true)) {
                     $this->fieldsToRenderItem[] = $key;
                 }
