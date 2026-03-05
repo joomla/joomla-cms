@@ -200,8 +200,27 @@ class JsonapiView extends BaseApiView
         Factory::getApplication()->triggerEvent('onContentPrepare', ['com_content.article', &$item, &$item->params]);
 
         foreach (FieldsHelper::getFields('com_content.article', $item, true) as $field) {
-            if (!property_exists($item, $field->name)) {
-                $item->{$field->name} = $field->apivalue ?? $field->rawvalue;
+            $value = $field->apivalue ?? $field->rawvalue ?? null;
+
+            // Decode JSON strings (media fields etc.)
+            if (is_string($value) && $value !== '' && ($value[0] === '{' || $value[0] === '[')) {
+                $decoded = json_decode($value, true);
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    $value = $decoded;
+                }
+            }
+
+            // Prevent custom fields from overriding existing article properties
+            if (property_exists($item, $field->name)) {
+                $key = 'custom_field_' . $field->name;
+                $item->{$key} = $value;
+
+                //To ensure Serializer renders it 
+                if (!in_array($key, $this->fieldsToRenderItem, true)) {
+                    $this->fieldsToRenderItem[] = $key;
+                }
+            } else {
+                $item->{$field->name} = $value;
             }
         }
 
