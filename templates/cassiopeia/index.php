@@ -225,9 +225,9 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
         <?php endif; ?>
 
         <?php if ($this->countModules('bottom-a', true)) : ?>
-            <div class="grid-child container-bottom-a">
+            <aside class="grid-child container-bottom-a">
                 <jdoc:include type="modules" name="bottom-a" style="card" />
-            </div>
+            </aside>
         <?php endif; ?>
 
         <?php if ($this->countModules('bottom-b', true)) : ?>
@@ -246,9 +246,11 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
     <?php endif; ?>
 
     <?php if ($this->params->get('backTop') == 1) : ?>
-        <a href="#top" id="back-top" class="back-to-top-link" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?>">
-            <span class="icon-arrow-up icon-fw" aria-hidden="true"></span>
-        </a>
+        <div role="region" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP_LABEL'); ?>">
+            <a href="#top" id="back-top" class="back-to-top-link" role="button" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?>">
+                <span class="icon-arrow-up icon-fw" aria-hidden="true"></span>
+            </a>
+        </div>
     <?php endif; ?>
 
     <jdoc:include type="modules" name="debug" style="none" />
