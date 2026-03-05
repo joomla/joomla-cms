@@ -12,9 +12,10 @@ import DefaultModuleBuilder from '../../../build/build-modules-js/builder/defaul
 import { resolvePackageFile } from '../../../build/build-modules-js/utils/resolve-package.mjs';
 import { minifyJSContent } from '../../../build/build-modules-js/javascript/js-handle.mjs';
 
-const minifyBootstrapModule = async (targetFile, code, bsVersion) => {
-  const code2 = code.replace('./popper.js', `./popper.min.js?${bsVersion}`)
-      .replace('./dom.js', `./dom.min.js?${bsVersion}`);
+const minifyBootstrapModule = async (targetFile, code) => {
+  const code2 = code
+    .replace('./popper.js', './popper.min.js')
+    .replace('./dom.js', './dom.min.js');
 
   return minifyJSContent(code2).then((jsMin) => {
     return fsp.writeFile(
@@ -61,6 +62,14 @@ const compileBootstrapJS = async (basePath, targetPath) => {
           ],
         ],
       }),
+      {
+        name: 'bootstrap-version-plugin',
+        renderChunk(code) {
+          return code
+            .replace('./popper.js', `./popper.js?${bsVersion}`)
+            .replace('./dom.js', `./dom.js?${bsVersion}`);
+        }
+      }
     ],
   }).then((build) => {
     return build.write({
@@ -96,8 +105,7 @@ const compileBootstrapJS = async (basePath, targetPath) => {
 
         promises.push(minifyBootstrapModule(
           path.join(targetPath, 'js', chunk.fileName),
-          chunk.code,
-          bsVersion
+          chunk.code
         ));
       });
 
