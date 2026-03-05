@@ -22,6 +22,12 @@ export const preprocessCSS = async (content = '') => {
   // Because the license comment needs to start at the beginning of the file to be saved
   content = content.startsWith('@charset "UTF-8";\n') ? content.replace('@charset "UTF-8";\n', '') : content;
 
+  // Check the header comments and make sure it starts with /*!
+  // This need to force lightningcss to keep the license comments
+  if (content.substring(0, 50).includes('/**')) {
+    content = content.replace('/**', '/*!');
+  }
+
   // Run url() versioning for the source
   const hash = createHash('md5');
   hash.update(content);
@@ -74,8 +80,7 @@ export const handleAndStoreCSSContent = async (targetPath, content = '') => {
 
   const save = fsp.writeFile(
     targetPath,
-    content.startsWith('@charset "UTF-8";') ? css : `@charset "UTF-8";
-${css}`,
+    `@charset "UTF-8";\n${css}`, // Force "UTF-8" for all, also it is removed by preprocessCSS
     { encoding: 'utf8', mode: 0o644 },
   );
 
