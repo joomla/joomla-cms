@@ -200,7 +200,7 @@ class JsonapiView extends BaseApiView
         Factory::getApplication()->triggerEvent('onContentPrepare', ['com_content.article', &$item, &$item->params]);
 
         foreach (FieldsHelper::getFields('com_content.article', $item, true) as $field) {
-            $value = $field->apivalue ?? $field->rawvalue ?? null;
+            $value = $field->apivalue ?? $field->rawvalue ?? $field->value ?? null;
 
             // Decode JSON strings (media fields etc.)
             if (\is_string($value) && $value !== '' && ($value[0] === '{' || $value[0] === '[')) {
@@ -218,6 +218,10 @@ class JsonapiView extends BaseApiView
                 // To ensure Serializer renders it
                 if (!\in_array($key, $this->fieldsToRenderItem, true)) {
                     $this->fieldsToRenderItem[] = $key;
+                }
+
+                if (!\in_array($key, $this->fieldsToRenderList, true)) {
+                    $this->fieldsToRenderList[] = $key;
                 }
             } else {
                 $item->{$field->name} = $value;
