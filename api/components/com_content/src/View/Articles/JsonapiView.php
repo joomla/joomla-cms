@@ -205,7 +205,7 @@ class JsonapiView extends BaseApiView
 
         foreach (FieldsHelper::getFields('com_content.article', $item, true) as $field) {
             // Keep core article properties when a custom field uses the same name.
-            if (\property_exists($item, $field->name)) {
+            if (property_exists($item, $field->name)) {
                 continue;
             }
 
