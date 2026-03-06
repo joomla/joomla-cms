@@ -147,7 +147,13 @@ class JsonapiView extends BaseApiView
     public function displayList(?array $items = null)
     {
         foreach (FieldsHelper::getFields('com_content.article') as $field) {
-            $this->fieldsToRenderList[] = $field->name;
+            $fieldKey = \in_array($field->name, $this->fieldsToRenderList, true)
+                ? 'cf_' . $field->name
+                : $field->name;
+
+            if (!\in_array($fieldKey, $this->fieldsToRenderList, true)) {
+                $this->fieldsToRenderList[] = $fieldKey;
+            }
         }
 
         return parent::displayList();
@@ -167,7 +173,13 @@ class JsonapiView extends BaseApiView
         $this->relationship[] = 'modified_by';
 
         foreach (FieldsHelper::getFields('com_content.article') as $field) {
-            $this->fieldsToRenderItem[] = $field->name;
+            $fieldKey = \in_array($field->name, $this->fieldsToRenderItem, true)
+                ? 'cf_' . $field->name
+                : $field->name;
+
+            if (!\in_array($fieldKey, $this->fieldsToRenderItem, true)) {
+                $this->fieldsToRenderItem[] = $fieldKey;
+            }
         }
 
         if (Multilanguage::isEnabled()) {
@@ -200,7 +212,18 @@ class JsonapiView extends BaseApiView
         Factory::getApplication()->triggerEvent('onContentPrepare', ['com_content.article', &$item, &$item->params]);
 
         foreach (FieldsHelper::getFields('com_content.article', $item, true) as $field) {
-            $item->{$field->name} = $field->apivalue ?? $field->rawvalue;
+            $value    = $field->apivalue ?? $field->rawvalue ?? null;
+            $fieldKey = property_exists($item, $field->name) ? 'cf_' . $field->name : $field->name;
+
+            $item->{$fieldKey} = $value;
+
+            if (!\in_array($fieldKey, $this->fieldsToRenderItem, true)) {
+                $this->fieldsToRenderItem[] = $fieldKey;
+            }
+
+            if (!\in_array($fieldKey, $this->fieldsToRenderList, true)) {
+                $this->fieldsToRenderList[] = $fieldKey;
+            }
         }
 
         if (Multilanguage::isEnabled() && !empty($item->associations)) {
