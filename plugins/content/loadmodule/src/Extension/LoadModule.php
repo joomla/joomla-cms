@@ -142,11 +142,11 @@ final class LoadModule extends CMSPlugin implements SubscriberInterface
             // If no matches, skip this
             if ($matchesmod) {
                 foreach ($matchesmod as $matchmod) {
-                    if (isset(self::$recursionProtection[$match[1]])) {
+                    if (isset(self::$recursionProtection[$matchmod[1]])) {
                         continue;
                     }
 
-                    self::$recursionProtection[$match[1]] = true;
+                    self::$recursionProtection[$matchmod[1]] = true;
 
                     $matchesmodlist = explode(',', $matchmod[1]);
 
@@ -174,7 +174,7 @@ final class LoadModule extends CMSPlugin implements SubscriberInterface
                         $article->text = substr_replace($article->text, $output, $start, \strlen($matchmod[0]));
                     }
 
-                    unset(self::$recursionProtection[$match[1]]);
+                    unset(self::$recursionProtection[$matchmod[1]]);
                 }
             }
         }
