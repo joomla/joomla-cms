@@ -1,4 +1,4 @@
-import { DragDropManager } from '@dnd-kit/dom';
+import {DragDropManager, Accessibility} from '@dnd-kit/dom';
 import { Sortable, isSortable } from '@dnd-kit/dom/sortable';
 
 // let containerSelector = 'table tbody';
@@ -9,8 +9,6 @@ import { Sortable, isSortable } from '@dnd-kit/dom/sortable';
 let itemSelector = 'tr';
 let handleSelector = '.sortable-handler';
 
-
-
 const { containerSelector, saveOrderingUrl, formSelector, direction, isNested } = Joomla.getOptions('dnd-options');
 
 const container = document.querySelector(`${containerSelector}`);
@@ -19,9 +17,29 @@ if (typeof container !== 'object' || container === null) {
   throw new Error(`Container not found for selector: ${containerSelector}`);
 }
 
-
 // DND Manager
-const manager = new DragDropManager();
+const manager = new DragDropManager({
+  plugins: (defaults) => [
+    ...defaults,
+    Accessibility.configure({
+      announcements: {
+        dragstart({operation: {source}}) {
+          if (!source) return;
+          return Joomla.Text._('JGLOBAL_DRAGANDDROP_STARTED').replace('{{source}}', source.id);
+        },
+        dragover({operation: {source, target}}) {
+          if (!source || !target) return;
+          return Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGOVER').replace('{{source}}', source.id).replace('{{target}}', target.id);
+        },
+        dragend({operation: {source, target}, canceled}) {
+          if (!source) return;
+          if (canceled) return Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGEND_CANCELED').replace('{{source}}', source.id);
+          return Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGEND_DROPPED').replace('{{source}}', source.id).replace('{{target}}', target?.id ?? Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGEND_NO_ELEMENT'));
+        },
+      },
+    }),
+  ],
+});
 
 // Create draggables
 let rows = container.querySelectorAll('tr');

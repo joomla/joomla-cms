@@ -55,13 +55,19 @@ if ($section === 'categories') {
 
 if ($saveOrder && !empty($this->items)) {
     $saveOrderingUrl = 'index.php?option=com_tags&task=tags.saveOrderAjax&' . Session::getFormToken() . '=1';
+    Text::script('JGLOBAL_DRAGANDDROP_STARTED');
+    Text::script('JGLOBAL_DRAGANDDROP_DRAGOVER');
+    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_DROPPED');
+    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_NO_ELEMENT');
+    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_CANCELED');
+
     $this->getDocument()->addScriptOptions(
         'dnd-options',
         [
             'containerSelector' => '#tagList tbody',
             'formSelector'      => '#adminForm',
             'sortDirection'     => $listDirn,
-            'saveOrderingUrl'   => $saveOrderingUrl . '&' . Session::getFormToken() . '=1',
+            'saveOrderingUrl'   => $saveOrderingUrl,
             'nestedList'        => false,
         ]
     );

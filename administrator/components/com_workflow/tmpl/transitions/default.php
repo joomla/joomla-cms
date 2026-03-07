@@ -34,13 +34,19 @@ $saveOrder = ($listOrder == 't.ordering');
 
 if ($saveOrder) {
     $saveOrderingUrl = 'index.php?option=com_workflow&task=transitions.saveOrderAjax&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->escape($this->workflow->extension) . '&' . Session::getFormToken() . '=1';
+    Text::script('JGLOBAL_DRAGANDDROP_STARTED');
+    Text::script('JGLOBAL_DRAGANDDROP_DRAGOVER');
+    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_DROPPED');
+    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_NO_ELEMENT');
+    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_CANCELED');
+
     $this->getDocument()->addScriptOptions(
         'dnd-options',
         [
             'containerSelector' => '#transitionList tbody',
             'formSelector'      => '#adminForm',
             'sortDirection'     => $listDirn,
-            'saveOrderingUrl'   => $saveOrderingUrl . '&' . Session::getFormToken() . '=1',
+            'saveOrderingUrl'   => $saveOrderingUrl,
             'nestedList'        => false,
         ]
     );

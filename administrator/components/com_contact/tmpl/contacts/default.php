@@ -34,13 +34,19 @@ $assoc     = Associations::isEnabled();
 
 if ($saveOrder && !empty($this->items)) {
     $saveOrderingUrl = 'index.php?option=com_contact&task=contacts.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
+    Text::script('JGLOBAL_DRAGANDDROP_STARTED');
+    Text::script('JGLOBAL_DRAGANDDROP_DRAGOVER');
+    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_DROPPED');
+    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_NO_ELEMENT');
+    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_CANCELED');
+
     $this->getDocument()->addScriptOptions(
         'dnd-options',
         [
             'containerSelector' => '#contactList tbody',
             'formSelector'      => '#adminForm',
             'sortDirection'     => $listDirn,
-            'saveOrderingUrl'   => $saveOrderingUrl . '&' . Session::getFormToken() . '=1',
+            'saveOrderingUrl'   => $saveOrderingUrl,
             'nestedList'        => false,
         ]
     );
