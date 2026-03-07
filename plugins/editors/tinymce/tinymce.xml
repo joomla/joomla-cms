@@ -48,7 +48,6 @@
 					name="html_height"
 					type="text"
 					label="PLG_TINY_FIELD_HTMLHEIGHT_LABEL"
-					description="PLG_TINY_FIELD_HTMLHEIGHT_DESC"
 					default="550px"
 				/>
 
@@ -56,8 +55,7 @@
 					name="html_width"
 					type="text"
 					label="PLG_TINY_FIELD_HTMLWIDTH_LABEL"
-					description="PLG_TINY_FIELD_HTMLWIDTH_DESC"
-					default="100%"
+					default=""
 				/>
 			</fieldset>
 		</fields>
