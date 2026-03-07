@@ -114,7 +114,7 @@
     "postcss-scss": "^4.0.9",
     "recursive-readdir": "^2.2.3",
     "rimraf": "^6.0.1",
-    "rollup": "^4.52.2",
+    "rollup": "^4.59.0",
     "rollup-plugin-vue": "^6.0.0",
     "rtlcss": "^4.3.0",
     "sass-embedded": "^1.93.2",
