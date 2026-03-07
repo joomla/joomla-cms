@@ -54,7 +54,17 @@ if (strpos($listOrder, 'publish_up') !== false) {
 if ($saveOrder && !empty($this->items)) {
     $controller = $featured === '1' ? 'featured' : 'articles';
     $saveOrderingUrl = 'index.php?option=com_content&task=' . $controller . '.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
-    HTMLHelper::_('draggablelist.draggable');
+    $this->getDocument()->addScriptOptions(
+        'dnd-options',
+        [
+            'containerSelector' => '#articleList tbody',
+            'formSelector'      => '#adminForm',
+            'sortDirection'     => $listDirn,
+            'saveOrderingUrl'   => $saveOrderingUrl,
+            'nestedList'        => $featured !== '1'
+        ]
+    );
+    $wa->useScript('joomla.dnd');
 }
 
 $workflow_enabled  = ComponentHelper::getParams('com_content')->get('workflow_enabled');

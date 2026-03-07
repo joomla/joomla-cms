@@ -34,7 +34,17 @@ $assoc     = Associations::isEnabled();
 
 if ($saveOrder && !empty($this->items)) {
     $saveOrderingUrl = 'index.php?option=com_contact&task=contacts.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
-    HTMLHelper::_('draggablelist.draggable');
+    $this->getDocument()->addScriptOptions(
+        'dnd-options',
+        [
+            'containerSelector' => '#contactList tbody',
+            'formSelector'      => '#adminForm',
+            'sortDirection'     => $listDirn,
+            'saveOrderingUrl'   => $saveOrderingUrl . '&' . Session::getFormToken() . '=1',
+            'nestedList'        => false,
+        ]
+    );
+    $wa->useScript('joomla.dnd');
 }
 ?>
 <form action="<?php echo Route::_('index.php?option=com_contact'); ?>" method="post" name="adminForm" id="adminForm">

@@ -35,7 +35,17 @@ $saveOrder = ($listOrder == 's.ordering');
 
 if ($saveOrder) {
     $saveOrderingUrl = 'index.php?option=com_workflow&task=stages.saveOrderAjax&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->escape($this->extension) . '&' . Session::getFormToken() . '=1';
-    HTMLHelper::_('draggablelist.draggable');
+    $this->getDocument()->addScriptOptions(
+        'dnd-options',
+        [
+            'containerSelector' => '#stageList tbody',
+            'formSelector'      => '#adminForm',
+            'sortDirection'     => $listDirn,
+            'saveOrderingUrl'   => $saveOrderingUrl . '&' . Session::getFormToken() . '=1',
+            'nestedList'        => false,
+        ]
+    );
+    $wa->useScript('joomla.dnd');
 }
 ?>
 <form action="<?php echo Route::_('index.php?option=com_workflow&view=stages&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->extension); ?>" method="post" name="adminForm" id="adminForm">

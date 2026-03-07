@@ -203,6 +203,14 @@
       ]
     },
     {
+      "name": "joomla.dnd",
+      "type": "script",
+      "uri": "system/dnd.min.js",
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
       "name": "highlight-legacy",
       "type": "script",
       "deprecated": true,

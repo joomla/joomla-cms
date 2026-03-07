@@ -48,7 +48,17 @@ if (!$category) {
 
 if ($saveOrder && !empty($this->items)) {
     $saveOrderingUrl = 'index.php?option=com_fields&task=fields.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
-    HTMLHelper::_('draggablelist.draggable');
+    $this->getDocument()->addScriptOptions(
+        'dnd-options',
+        [
+            'containerSelector' => '#fieldList tbody',
+            'formSelector'      => '#adminForm',
+            'sortDirection'     => $listDirn,
+            'saveOrderingUrl'   => $saveOrderingUrl . '&' . Session::getFormToken() . '=1',
+            'nestedList'        => false,
+        ]
+    );
+    $wa->useScript('joomla.dnd');
 }
 
 $searchToolsOptions = [];

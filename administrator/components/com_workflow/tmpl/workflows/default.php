@@ -38,7 +38,17 @@ if (strpos($listOrder, 'modified') !== false) {
 
 if ($saveOrder) {
     $saveOrderingUrl = 'index.php?option=com_workflow&task=workflows.saveOrderAjax&tmpl=component&extension=' . $this->escape($this->extension) . '&' . Session::getFormToken() . '=1';
-    HTMLHelper::_('draggablelist.draggable');
+    $this->getDocument()->addScriptOptions(
+        'dnd-options',
+        [
+            'containerSelector' => '#workflowList tbody',
+            'formSelector'      => '#adminForm',
+            'sortDirection'     => $listDirn,
+            'saveOrderingUrl'   => $saveOrderingUrl . '&' . Session::getFormToken() . '=1',
+            'nestedList'        => false,
+        ]
+    );
+    $wa->useScript('joomla.dnd');
 }
 
 $extension = $this->escape($this->state->get('filter.extension'));

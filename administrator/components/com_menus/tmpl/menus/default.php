@@ -44,7 +44,17 @@ $saveOrder = $listOrder == 'a.ordering';
 
 if ($saveOrder) {
     $saveOrderingUrl = 'index.php?option=com_menus&task=menus.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
-    HTMLHelper::_('draggablelist.draggable');
+    $this->getDocument()->addScriptOptions(
+        'dnd-options',
+        [
+            'containerSelector' => '#menusList tbody',
+            'formSelector'      => '#adminForm',
+            'sortDirection'     => $listDirn,
+            'saveOrderingUrl'   => $saveOrderingUrl . '&' . Session::getFormToken() . '=1',
+            'nestedList'        => false,
+        ]
+    );
+    $wa->useScript('joomla.dnd');
 }
 
 $this->getDocument()->addScriptOptions('menus-default', ['items' => $itemIds]);
