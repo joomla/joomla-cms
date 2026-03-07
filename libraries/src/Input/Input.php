@@ -79,27 +79,6 @@ class Input extends \Joomla\Input\Input
     }
 
     /**
-     * Normalizes scalar parameters like id, catid and Itemid when sent as arrays.
-     *
-     * @param   string  $name
-     * @param   mixed   $default
-     * @param   string  $filter
-     *
-     * @return  mixed
-     */
-    public function get($name, $default = null, $filter = 'cmd')
-    {
-        $value = parent::get($name, $default, $filter);
-
-        // Only normalize arrays for typical ID parameters
-        if (is_array($value) && in_array($name, ['id', 'catid', 'Itemid'], true) && count($value) === 1) {
-            $value = reset($value);
-        }
-
-        return $value;
-    }
-
-    /**
      * Magic method to get an input object
      *
      * @param   mixed  $name  Name of the input object to retrieve.

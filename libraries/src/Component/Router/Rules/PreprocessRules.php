@@ -103,7 +103,7 @@ class PreprocessRules implements RulesInterface
         $parent_key = $this->view->parent_key;
 
         // We have to have at least the ID or something to repair
-        if (!isset($query[$key]) || !is_scalar($query[$key]) || (strpos((string) $query[$key], ':') && isset($query[$parent_key]))) {
+        if (!isset($query[$key]) || !\is_scalar($query[$key]) || (strpos((string) $query[$key], ':') && isset($query[$parent_key]))) {
             return;
         }
 
