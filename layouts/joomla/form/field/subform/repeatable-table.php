@@ -59,9 +59,18 @@ if (!empty($groupByFieldset)) {
     }
 
     $sublayout = 'section-byfieldsets';
-} else {
+} 
+else 
+{
     $fields = $tmpl->getGroup('');
-    $th_width = 92 / count($fields);
+$visibleFields = 0;
+
+foreach ($fields as $field) {
+    if (!$field->hidden) {
+        $visibleFields++;
+    }
+}
+$th_width = $visibleFields ? 92 / $visibleFields : 92;
     foreach ($fields as $field) {
         $table_head .= '<th scope="col" style="width:' . $th_width . '%">' . strip_tags($field->label);
 
