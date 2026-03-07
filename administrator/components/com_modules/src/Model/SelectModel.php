@@ -141,9 +141,10 @@ class SelectModel extends ListModel
                 $item->xml = simplexml_load_file($path);
 
                 if (isset($item->xml->permissions)) {
-                    $requiredPermission = (string) $item->xml->permissions;
+                    $action = (string) $item->xml->permissions;
+                    $asset  = isset($item->xml->permissions->attributes()->asset) ? (string) $item->xml->permissions->attributes()->asset : null;
 
-                    if (!$user->authorise($requiredPermission)) {
+                    if (!$user->authorise($action, $asset)) {
                         unset($items[$key]);
                         continue;
                     }
