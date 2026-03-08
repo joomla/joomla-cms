@@ -29,7 +29,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
 
 if ($saveOrder && !empty($this->items)) {
-    $saveOrderingUrl = 'index.php?option=com_languages&task=languages.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
+    $saveOrderingUrl = 'index.php?option=com_languages&task=languages.reorderAjax&tmpl=component&' . Session::getFormToken() . '=1';
     Text::script('JGLOBAL_DRAGANDDROP_STARTED');
     Text::script('JGLOBAL_DRAGANDDROP_DRAGOVER');
     Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_DROPPED');
@@ -40,10 +40,8 @@ if ($saveOrder && !empty($this->items)) {
         'dnd-options',
         [
             'containerSelector' => '#languageList tbody',
-            'formSelector'      => '#adminForm',
             'sortDirection'     => $listDirn,
             'saveOrderingUrl'   => $saveOrderingUrl,
-            'nestedList'        => false,
         ]
     );
     $wa->useScript('joomla.dnd');

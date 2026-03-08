@@ -1,139 +1,155 @@
-import {DragDropManager, Accessibility} from '@dnd-kit/dom';
+import { DragDropManager, Accessibility } from '@dnd-kit/dom';
 import { Sortable, isSortable } from '@dnd-kit/dom/sortable';
 
-// let containerSelector = 'table tbody';
-// let saveOrderingUrl = location.href;
-// let formSelector = '#adminForm';
-// let direction = 'asc';
-// let isNested = false;
-let itemSelector = 'tr';
-let handleSelector = '.sortable-handler';
+const options = Joomla.getOptions('dnd-options');
 
-const { containerSelector, saveOrderingUrl, formSelector, direction, isNested } = Joomla.getOptions('dnd-options');
-
-const container = document.querySelector(`${containerSelector}`);
-
-if (typeof container !== 'object' || container === null) {
-  throw new Error(`Container not found for selector: ${containerSelector}`);
+if (!options) {
+  throw new Error('DND options not found. Please ensure Joomla.getOptions("dnd-options") returns the necessary configuration.');
 }
 
-// DND Manager
-const manager = new DragDropManager({
-  plugins: (defaults) => [
-    ...defaults,
-    Accessibility.configure({
-      announcements: {
-        dragstart({operation: {source}}) {
-          if (!source) return;
-          return Joomla.Text._('JGLOBAL_DRAGANDDROP_STARTED').replace('{{source}}', source.id);
-        },
-        dragover({operation: {source, target}}) {
-          if (!source || !target) return;
-          return Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGOVER').replace('{{source}}', source.id).replace('{{target}}', target.id);
-        },
-        dragend({operation: {source, target}, canceled}) {
-          if (!source) return;
-          if (canceled) return Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGEND_CANCELED').replace('{{source}}', source.id);
-          return Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGEND_DROPPED').replace('{{source}}', source.id).replace('{{target}}', target?.id ?? Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGEND_NO_ELEMENT'));
-        },
-      },
-    }),
-  ],
-});
+// @TODO make it a module and import it
+export class DND {
+  constructor(options) {
+    this.containerSelector = options.containerSelector || 'table tbody';
+    this.saveOrderingUrl = options.saveOrderingUrl || location.href;
+    this.formSelector = options.formSelector || '#adminForm';
+    this.direction = options.direction || 'asc';
+    this.isNested = options.isNested || false;
+    this.itemSelector = options.itemSelector || 'tr';
+    this.handleSelector = options.handleSelector || '.sortable-handler';
 
-// Create draggables
-let rows = container.querySelectorAll('tr');
+    this.onDragEnd = this.onDragEnd.bind(this);
 
-rows.forEach((row, index) => {
-  const handle = row.querySelector('.sortable-handler');
-
-  if (!handle) {
-    console.warn(`Handle not found for row ${index}, skipping draggable initialization.`);
-    return;
+    this.init();
   }
 
-  new Sortable(
-    {
-      id: `row-${index}`,
-      index,
-      element: row,
-      handle: handle,
-    },
-    manager,
-  );
+  init() {
+    this.container = document.querySelector(this.containerSelector);
 
-  row.dataset.dndDraggableId = `row-${index}`;
-});
+    if (!this.container) {
+      throw new Error(`Container not found for selector: ${this.containerSelector}`);
+    }
 
-// Drag end
-manager.monitor.addEventListener('dragend', async (event) => {
-  if (event.canceled) return;
+    this.manager = new DragDropManager({
+      plugins: (defaults) => [
+        ...defaults,
+        Accessibility.configure({
+          announcements: {
+            dragstart: ({operation: {source}}) => {
+              if (!source) return;
+              return Joomla.Text._('JGLOBAL_DRAGANDDROP_STARTED')
+                .replace('{{source}}', source.id);
+            },
+            dragover: ({operation: {source, target}}) => {
+              if (!source || !target) return;
+              return Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGOVER')
+                .replace('{{source}}', source.id)
+                .replace('{{target}}', target.id);
+            },
+            dragend: ({operation: {source, target}, canceled}) => {
+              if (!source) return;
 
-  const {source} = event.operation;
+              if (canceled) {
+                return Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGEND_CANCELED')
+                  .replace('{{source}}', source.id);
+              }
 
-  if (isSortable(source)) {
+              return Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGEND_DROPPED')
+                .replace('{{source}}', source.id)
+                .replace('{{target}}', target?.id ?? Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGEND_NO_ELEMENT'));
+            },
+          },
+        }),
+      ],
+    });
+
+    const rows = this.container.querySelectorAll(this.itemSelector);
+
+    rows.forEach((row, index) => {
+      const handle = row.querySelector(this.handleSelector);
+
+      if (!handle) return;
+
+      new Sortable({ id: `row-${index}`, index, element: row, handle }, this.manager);
+
+      row.dataset.dndDraggableId = `row-${index}`;
+    });
+
+    this.manager.monitor.addEventListener('dragend', this.onDragEnd);
+  }
+
+  destroy() {
+    this.manager.monitor.removeEventListener('dragend', this.onDragEnd);
+    this.manager.destroy();
+  }
+
+  async onDragEnd(event) {
+    const { source, target } = event.operation;
+
+    if (!isSortable(source)) return;
+
     const { initialIndex, index } = source;
 
-    console.log('dragend', source.element, { initialIndex, index });
-    if (initialIndex !== index) {
-      // Reorder your data: move the item from initialIndex to index
-      const newItems = [...rows];
-      const [removed] = newItems.splice(initialIndex, 1);
-      newItems.splice(index, 0, removed);
-      rows = newItems;
+    // No valid target
+    if (!target) {
+      // @TODO A11Y: Announce error via screen reader and reverted position
+      event.canceled = true;
+      return;
+    }
 
-      const saveTheOrder = await saveOrder();
-      if (!saveTheOrder) {
-        console.error('Failed to save the order');
-        return;
+    // Item moved
+    if (initialIndex !== index) {
+      const saved = await this.saveOrder();
+
+      if (!saved) {
+        // @TODO A11Y: Announce error via screen reader and reverted position
+        event.canceled = true;
       }
     }
   }
-});
 
-// Joomla order save
-async function saveOrder() {
-  if (!saveOrderingUrl) {
-    throw new Error('Save ordering URL not provided in options');
-  }
+  async saveOrder() {
+    if (!this.saveOrderingUrl) {
+      throw new Error('Save ordering URL not provided');
+    }
 
-  const form = document.querySelector(formSelector);
+    const rows = this.container.querySelectorAll('[name="order[]"]');
+    const ids = this.container.querySelectorAll('[name="cid[]"]');
 
-  if (!form) {
-    throw new Error(`Form not found for selector: ${formSelector}`);
-  }
-  const rows = container.querySelectorAll('[name="order[]"]');
-  const inputRows = container.querySelectorAll('[name="cid[]"]');
+    const orderedItems = [];
 
-  const result = [];
-
-  rows.forEach((row, i) => {
-    result.push(`order[]=${encodeURIComponent(i + 1)}`);
-    result.push(`cid[]=${encodeURIComponent(inputRows[i].value)}`);
-  });
-
-  const formData = new FormData(form);
-  formData.delete('task');
-  formData.delete('order[]');
-  const task = document.querySelector('[name="task"]');
-
-  if (task) task.setAttribute('name', 'tmp_task');
-
-  // console.log(`${new URLSearchParams(formData).toString()}&${result.join('&')}`);
-  try {
-    await Joomla.request({
-      url: saveOrderingUrl,
-      method: 'POST',
-      data: `${new URLSearchParams(formData).toString()}&${result.join('&')}`,
-      perform: true,
-      promise: true,
+    rows.forEach((row, i) => {
+      orderedItems.push({
+        id: ids[i].value,
+        order: i + 1,
+      });
     });
-  } catch (error) {
-    console.error('Error saving order:', error);
-    if (task) task.setAttribute('name', 'task');
-    return false;
-  }
 
-  if (task) task.setAttribute('name', 'task');
-  return true;
+    try {
+      await Joomla.request({
+        url: this.saveOrderingUrl,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: JSON.stringify(orderedItems),
+        perform: true,
+        promise: true,
+      })
+      .then((response) => {
+        if (response.status !== 200) {
+          throw new Error(`Unexpected response status: ${response.status}`);
+        }
+      })
+      .catch((error) => {
+        return false;
+      });
+
+      return true;
+    } catch {
+      return false;
+    }
+  }
 }
+
+new DND(options);

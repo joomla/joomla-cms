@@ -65,10 +65,8 @@ if ($saveOrder && !empty($this->items)) {
         'dnd-options',
         [
             'containerSelector' => '#tagList tbody',
-            'formSelector'      => '#adminForm',
             'sortDirection'     => $listDirn,
             'saveOrderingUrl'   => $saveOrderingUrl,
-            'nestedList'        => false,
         ]
     );
     $wa->useScript('joomla.dnd');

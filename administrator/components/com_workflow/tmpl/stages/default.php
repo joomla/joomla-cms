@@ -34,7 +34,7 @@ $saveOrderingUrl = '';
 $saveOrder = ($listOrder == 's.ordering');
 
 if ($saveOrder) {
-    $saveOrderingUrl = 'index.php?option=com_workflow&task=stages.saveOrderAjax&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->escape($this->extension) . '&' . Session::getFormToken() . '=1';
+    $saveOrderingUrl = 'index.php?option=com_workflow&task=stages.reorderAjax&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->escape($this->extension) . '&' . Session::getFormToken() . '=1';
     Text::script('JGLOBAL_DRAGANDDROP_STARTED');
     Text::script('JGLOBAL_DRAGANDDROP_DRAGOVER');
     Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_DROPPED');
@@ -45,10 +45,8 @@ if ($saveOrder) {
         'dnd-options',
         [
             'containerSelector' => '#stageList tbody',
-            'formSelector'      => '#adminForm',
             'sortDirection'     => $listDirn,
             'saveOrderingUrl'   => $saveOrderingUrl,
-            'nestedList'        => false,
         ]
     );
     $wa->useScript('joomla.dnd');
