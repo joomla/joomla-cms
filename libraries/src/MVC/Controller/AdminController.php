@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Model\WorkflowModelInterface;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
@@ -395,6 +396,56 @@ class AdminController extends BaseController
         }
 
         // Close the application
+        $this->app->close();
+    }
+
+    /**
+     * Method to save the submitted ordering values for records via AJAX.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function reorderAjax(): void
+    {
+        // Check for request forgeries.
+        if (!$this->checkToken('post', false)) {
+            echo new JsonResponse([
+                'success' => false,
+                'message' => Text::_('JINVALID_TOKEN'),
+            ]);
+
+            $this->app->close();
+        }
+
+        // Get the input data
+        $list = (array) $this->input->json->getArray();
+
+        if (empty($list) || !is_array($list) || count($list) === 0) {
+            echo new JsonResponse([
+                'success' => false,
+                'message' => Text::_('JLIB_APPLICATION_ERROR_NO_ITEMS_SELECTED'),
+            ]);
+
+            $this->app->close();
+        }
+
+        // Remove zero PKs and corresponding order values resulting from input filter for PK
+        foreach ($list as $listItem) {
+            if (isset($listItem['id']) && (int) $listItem['id'] === 0) {
+                unset($listItem);
+                continue;
+            }
+        }
+
+        // Save the ordering
+        $return = $this->getModel()->saveorder(array_column($list, 'id'), array_column($list, 'order'));
+
+        echo new JsonResponse([
+            'success' => $return,
+            'message' => $return ? Text::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED') : Text::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError()),
+        ]);
+
         $this->app->close();
     }
 

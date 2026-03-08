@@ -43,7 +43,7 @@ $ordering  = ($listOrder == 'a.ordering');
 $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
 
 if ($saveOrder && !empty($this->items)) {
-    $saveOrderingUrl = 'index.php?option=com_fields&task=groups.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
+    $saveOrderingUrl = 'index.php?option=com_fields&task=groups.reorderAjax&tmpl=component&' . Session::getFormToken() . '=1';
     Text::script('JGLOBAL_DRAGANDDROP_STARTED');
     Text::script('JGLOBAL_DRAGANDDROP_DRAGOVER');
     Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_DROPPED');
@@ -54,10 +54,8 @@ if ($saveOrder && !empty($this->items)) {
         'dnd-options',
         [
             'containerSelector' => '#fieldgroupList tbody',
-            'formSelector'      => '#adminForm',
             'sortDirection'     => $listDirn,
             'saveOrderingUrl'   => $saveOrderingUrl,
-            'nestedList'        => false,
         ]
     );
     $wa->useScript('joomla.dnd');

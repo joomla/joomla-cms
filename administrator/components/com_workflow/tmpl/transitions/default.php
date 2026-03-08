@@ -44,10 +44,8 @@ if ($saveOrder) {
         'dnd-options',
         [
             'containerSelector' => '#transitionList tbody',
-            'formSelector'      => '#adminForm',
             'sortDirection'     => $listDirn,
             'saveOrderingUrl'   => $saveOrderingUrl,
-            'nestedList'        => false,
         ]
     );
     $wa->useScript('joomla.dnd');

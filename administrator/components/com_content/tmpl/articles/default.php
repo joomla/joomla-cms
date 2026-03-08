@@ -53,17 +53,17 @@ if (strpos($listOrder, 'publish_up') !== false) {
 
 if ($saveOrder && !empty($this->items)) {
     $controller = $featured === '1' ? 'featured' : 'articles';
-    $saveOrderingUrl = 'index.php?option=com_content&task=' . $controller . '.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
+    $saveOrderingUrl = 'index.php?option=com_content&task=' . $controller . '.reorderAjax&tmpl=component&' . Session::getFormToken() . '=1';
     Text::script('JGLOBAL_DRAGANDDROP_STARTED');
     Text::script('JGLOBAL_DRAGANDDROP_DRAGOVER');
     Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_DROPPED');
     Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_NO_ELEMENT');
+    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_CANCELED');
 
     $this->getDocument()->addScriptOptions(
         'dnd-options',
         [
             'containerSelector' => '#articleList tbody',
-            'formSelector'      => '#adminForm',
             'sortDirection'     => $listDirn,
             'saveOrderingUrl'   => $saveOrderingUrl,
             'nestedList'        => $featured !== '1'

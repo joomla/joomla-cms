@@ -37,7 +37,7 @@ if (strpos($listOrder, 'modified') !== false) {
 }
 
 if ($saveOrder) {
-    $saveOrderingUrl = 'index.php?option=com_workflow&task=workflows.saveOrderAjax&tmpl=component&extension=' . $this->escape($this->extension) . '&' . Session::getFormToken() . '=1';
+    $saveOrderingUrl = 'index.php?option=com_workflow&task=workflows.reorderAjax&tmpl=component&extension=' . $this->escape($this->extension) . '&' . Session::getFormToken() . '=1';
     Text::script('JGLOBAL_DRAGANDDROP_STARTED');
     Text::script('JGLOBAL_DRAGANDDROP_DRAGOVER');
     Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_DROPPED');
@@ -48,10 +48,8 @@ if ($saveOrder) {
         'dnd-options',
         [
             'containerSelector' => '#workflowList tbody',
-            'formSelector'      => '#adminForm',
             'sortDirection'     => $listDirn,
             'saveOrderingUrl'   => $saveOrderingUrl,
-            'nestedList'        => false,
         ]
     );
     $wa->useScript('joomla.dnd');

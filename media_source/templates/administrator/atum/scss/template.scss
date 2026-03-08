@@ -66,7 +66,6 @@
 
 // These DO NOT BELONG HERE!!!
 @import "vendor/codemirror";
-@import "vendor/dragula";
 @import "vendor/tinymce";
 
 // Also these DO NOT BELONG HERE!!!
@@ -242,4 +241,21 @@
 
 kbd {
   padding: .2rem .4rem;
+}
+
+// DND styles
+.sortable-handler {
+  cursor: pointer;
+  width: 2rem;
+  height: 2rem;
+  display: block;
+}
+
+[data-dnd-draggable-id] {
+  border: inherit;
+}
+
+[data-dnd-draggable-id]:has([aria-grabbed="true"]) {
+   cursor: grabbing;
+   border: 2px dashed var(--primary);
 }
