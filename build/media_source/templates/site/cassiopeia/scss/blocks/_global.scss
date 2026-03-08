@@ -9,7 +9,7 @@
   }
 
   &:has(.sticky-top) {
-    [id] {
+    [id]:not(#top) {
       scroll-margin-top: var(--cassiopeia-scroll-margin-top, 10rem);
     }
   }

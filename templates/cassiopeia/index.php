@@ -142,7 +142,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
     . $hasClass
     . ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
-    <header class="header container-header full-width<?php echo $stickyHeader ? ' ' . $stickyHeader : ''; ?>">
+    <header id="top" class="header container-header full-width<?php echo $stickyHeader ? ' ' . $stickyHeader : ''; ?>">
 
         <?php if ($this->countModules('topbar')) : ?>
             <div class="container-topbar">
@@ -210,12 +210,16 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 
         <div class="grid-child container-component">
             <jdoc:include type="modules" name="breadcrumbs" style="none" />
-            <jdoc:include type="modules" name="main-top" style="card" />
-            <jdoc:include type="message" />
             <main>
+                <?php if ($this->countModules('main-top', true)) : ?>
+                    <jdoc:include type="modules" name="main-top" style="card" />
+                <?php endif; ?>
+                <jdoc:include type="message" />
                 <jdoc:include type="component" />
+                <?php if ($this->countModules('main-bottom', true)) : ?>
+                    <jdoc:include type="modules" name="main-bottom" style="card" />
+                <?php endif; ?>
             </main>
-            <jdoc:include type="modules" name="main-bottom" style="card" />
         </div>
 
         <?php if ($this->countModules('sidebar-right', true)) : ?>
@@ -237,18 +241,19 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
         <?php endif; ?>
     </div>
 
-    <?php if ($this->countModules('footer', true)) : ?>
+    <?php if ($this->countModules('footer', true) || $this->params->get('backTop') == 1) : ?>
         <footer class="container-footer footer full-width">
-            <div class="grid-child">
-                <jdoc:include type="modules" name="footer" style="none" />
-            </div>
+            <?php if ($this->countModules('footer', true)) : ?>
+                <div class="grid-child">
+                    <jdoc:include type="modules" name="footer" style="none" />
+                </div>
+            <?php endif; ?>
+            <?php if ($this->params->get('backTop') == 1) : ?>
+                <a href="#top" id="back-top" class="back-to-top-link" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?>">
+                    <span class="icon-arrow-up icon-fw" aria-hidden="true"></span>
+                </a>
+            <?php endif; ?>
         </footer>
-    <?php endif; ?>
-
-    <?php if ($this->params->get('backTop') == 1) : ?>
-        <a href="#top" id="back-top" class="back-to-top-link" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?>">
-            <span class="icon-arrow-up icon-fw" aria-hidden="true"></span>
-        </a>
     <?php endif; ?>
 
     <jdoc:include type="modules" name="debug" style="none" />
