@@ -24,6 +24,12 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
+					name="noteSuperUsers"
+					type="note"
+					description="COM_MODULES_SUPERUSERS"
+					class="alert alert-info w-100"
+				/>
+				<field
 					name="count"
 					type="number"
 					label="MOD_LATESTACTIONS_FIELD_COUNT_LABEL"
