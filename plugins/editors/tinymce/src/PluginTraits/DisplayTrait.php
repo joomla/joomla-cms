@@ -102,13 +102,13 @@ trait DisplayTrait
             $options['tinyMCE'][$fieldName] = [];
         }
 
-        // Width and height
+        // Add editor Width and height to options if not already set
         if ($width && empty($options['tinyMCE'][$fieldName]['width'])) {
-            $options['tinyMCE'][$fieldName]['width'] = $width;
+            $options['tinyMCE'][$fieldName]['width'] = $textarea->width;
         }
 
         if ($height && empty($options['tinyMCE'][$fieldName]['height'])) {
-            $options['tinyMCE'][$fieldName]['height'] = $height;
+            $options['tinyMCE'][$fieldName]['height'] = $textarea->height;
         }
 
         // Set editor to readonly mode

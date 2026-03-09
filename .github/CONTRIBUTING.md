@@ -27,8 +27,9 @@ before it will be accepted, we ask that you follow these simple guidelines:
   for security issues. Find [here](https://github.com/joomla/joomla-cms?tab=security-ov-file#readme) more information
   about the [Security Policies and Procedures](https://github.com/joomla/joomla-cms?tab=security-ov-file#readme).
 
-Please be patient as not all items will be viewed or tested immediately (remember, all bug testing for the Joomla! CMS
-is done by volunteers) and be receptive to feedback about your code.
+* Please follow our [Generative AI policy](https://developer.joomla.org/generative-ai-policy.html) when using AI to contribute to the Joomla! project
+
+Please be patient as not all items will be viewed or tested immediately (remember, all bug testing for the Joomla! CMS is done by volunteers) and be receptive to feedback about your code.
 
 #### Branches
 Bug fixing PRs should be made to the `5.4-dev` branch. Merged bugfixes will be upmerged into the current branches. New features that do not break backwards compatibility should be made to the `6.1-dev`.
