@@ -60,6 +60,7 @@ class ArticlesModel extends ListModel
                 'access', 'a.access', 'access_level',
                 'created', 'a.created',
                 'created_by', 'a.created_by',
+                'author', 'author',
                 'ordering', 'a.ordering',
                 'featured', 'a.featured',
                 'language', 'a.language',
