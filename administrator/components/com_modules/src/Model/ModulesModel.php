@@ -241,7 +241,7 @@ class ModulesModel extends ListModel
                     }
                 }
             }
-            
+
             $lang->load("$extension.sys", $clientPath)
                 || $lang->load("$extension.sys", $source);
             $item->name = Text::_($item->name);
