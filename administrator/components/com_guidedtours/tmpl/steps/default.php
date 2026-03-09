@@ -17,6 +17,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Guidedtours\Administrator\Extension\GuidedtoursComponent;
+use Joomla\Utilities\ArrayHelper;
 
 /** @var  \Joomla\Component\Guidedtours\Administrator\View\Steps\HtmlView  $this */
 
@@ -41,20 +42,13 @@ $hasCheckinPermission = $user->authorise('core.manage', 'com_checkin');
 
 if ($saveOrder && !empty($this->items)) {
     $saveOrderingUrl = 'index.php?option=com_guidedtours&task=steps.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
-    Text::script('JGLOBAL_DRAGANDDROP_STARTED');
-    Text::script('JGLOBAL_DRAGANDDROP_DRAGOVER');
-    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_DROPPED');
-    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_NO_ELEMENT');
-    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_CANCELED');
+    $dndAttributes   = [
+        'class'                  => 'js-draggable',
+        'data-dnd-item-selector' => 'tr',
+        'data-dnd-url'           => $saveOrderingUrl,
+        'data-dnd-direction'     => strtolower($listDirn),
+    ];
 
-    $this->getDocument()->addScriptOptions(
-        'dnd-options',
-        [
-            'containerSelector' => '#stepsList tbody',
-            'sortDirection'     => $listDirn,
-            'saveOrderingUrl'   => $saveOrderingUrl,
-        ]
-    );
     $wa->useScript('joomla.dnd');
 }
 ?>
@@ -148,9 +142,7 @@ if ($saveOrder && !empty($this->items)) {
                 </thead>
 
                 <!-- Table body begins -->
-                <tbody <?php if ($saveOrder) : ?>
-                    class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true" <?php
-                       endif; ?>>
+                <tbody<?php echo $saveOrder ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
                 <?php foreach ($this->items as $i => $item) :
                     $canEditOwn = $canEditOwnTour && $item->created_by == $userId;
                     $canCheckin = $hasCheckinPermission || $item->checked_out == $userId || is_null($item->checked_out);

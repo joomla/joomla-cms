@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Utilities\ArrayHelper;
 
 /** @var \Joomla\Component\Categories\Administrator\View\Categories\HtmlView $this */
 
@@ -47,20 +48,13 @@ if (count($parts) > 1) {
 
 if ($saveOrder && !empty($this->items)) {
     $saveOrderingUrl = 'index.php?option=com_categories&task=categories.reorderAjax&tmpl=component&' . Session::getFormToken() . '=1';
-    Text::script('JGLOBAL_DRAGANDDROP_STARTED');
-    Text::script('JGLOBAL_DRAGANDDROP_DRAGOVER');
-    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_DROPPED');
-    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_NO_ELEMENT');
-    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_CANCELED');
+    $dndAttributes   = [
+        'class'                  => 'js-draggable',
+        'data-dnd-item-selector' => 'tr',
+        'data-dnd-url'           => $saveOrderingUrl,
+        'data-dnd-direction'     => strtolower($listDirn),
+    ];
 
-    $this->getDocument()->addScriptOptions(
-        'dnd-options',
-        [
-            'containerSelector' => '#categoryList tbody',
-            'sortDirection'     => $listDirn,
-            'saveOrderingUrl'   => $saveOrderingUrl,
-        ]
-    );
     $wa->useScript('joomla.dnd');
 }
 ?>
@@ -140,9 +134,7 @@ if ($saveOrder && !empty($this->items)) {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody <?php if ($saveOrder) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false" <?php
-                               endif; ?>>
+                        <tbody<?php echo $saveOrder ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
                             <?php foreach ($this->items as $i => $item) : ?>
                                 <?php
                                 $canEdit    = $user->authorise('core.edit', $extension . '.category.' . $item->id);

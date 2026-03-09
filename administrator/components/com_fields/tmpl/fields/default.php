@@ -19,6 +19,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /** @var \Joomla\Component\Fields\Administrator\View\Fields\HtmlView $this */
 
@@ -48,20 +49,13 @@ if (!$category) {
 
 if ($saveOrder && !empty($this->items)) {
     $saveOrderingUrl = 'index.php?option=com_fields&task=fields.reorderAjax&tmpl=component&' . Session::getFormToken() . '=1';
-    Text::script('JGLOBAL_DRAGANDDROP_STARTED');
-    Text::script('JGLOBAL_DRAGANDDROP_DRAGOVER');
-    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_DROPPED');
-    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_NO_ELEMENT');
-    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_CANCELED');
+    $dndAttributes   = [
+        'class'                  => 'js-draggable',
+        'data-dnd-item-selector' => 'tr',
+        'data-dnd-url'           => $saveOrderingUrl,
+        'data-dnd-direction'     => strtolower($listDirn),
+    ];
 
-    $this->getDocument()->addScriptOptions(
-        'dnd-options',
-        [
-            'containerSelector' => '#fieldList tbody',
-            'sortDirection'     => $listDirn,
-            'saveOrderingUrl'   => $saveOrderingUrl,
-        ]
-    );
     $wa->useScript('joomla.dnd');
 }
 
@@ -123,9 +117,7 @@ if (count($this->filterForm->getField('context')->options) > 1) {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody <?php if ($saveOrder) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php
-                               endif; ?>>
+                        <tbody<?php echo $saveOrder ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
                             <?php foreach ($this->items as $i => $item) : ?>
                                 <?php $ordering   = ($listOrder == 'a.ordering'); ?>
                                 <?php $canEdit    = $user->authorise('core.edit', $component . '.field.' . $item->id); ?>

@@ -53,22 +53,15 @@ if (strpos($listOrder, 'publish_up') !== false) {
 
 if ($saveOrder && !empty($this->items)) {
     $controller = $featured === '1' ? 'featured' : 'articles';
-    $saveOrderingUrl = 'index.php?option=com_content&task=' . $controller . '.reorderAjax&tmpl=component&' . Session::getFormToken() . '=1';
-    Text::script('JGLOBAL_DRAGANDDROP_STARTED');
-    Text::script('JGLOBAL_DRAGANDDROP_DRAGOVER');
-    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_DROPPED');
-    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_NO_ELEMENT');
-    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_CANCELED');
+    $saveOrderingUrl = 'index.php?option=com_content&task=' . $controller . '.reorderAjax&' . Session::getFormToken() . '=1';
+    $dndAttributes   = [
+        'class'                  => 'js-draggable',
+        'data-dnd-item-selector' => 'tr',
+        'data-dnd-url'           => $saveOrderingUrl,
+        'data-dnd-direction'     => strtolower($listDirn),
+        'data-dnd-nested'        => $featured === '1' ? 'false' : 'true'
+    ];
 
-    $this->getDocument()->addScriptOptions(
-        'dnd-options',
-        [
-            'containerSelector' => '#articleList tbody',
-            'sortDirection'     => $listDirn,
-            'saveOrderingUrl'   => $saveOrderingUrl,
-            'nestedList'        => $featured !== '1'
-        ]
-    );
     $wa->useScript('joomla.dnd');
 }
 
@@ -169,9 +162,7 @@ $assoc = Associations::isEnabled();
                                 </th>
                             </tr>
                         </thead>
-                        <tbody<?php if ($saveOrder) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>"<?php echo $featured === '1' ? '' : ' data-nested="true"'; ?><?php
-                              endif; ?>>
+                        <tbody<?php echo $saveOrder ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
                         <?php foreach ($this->items as $i => $item) :
                             $item->max_ordering = 0;
                             $ordering             = ($listOrder == 'fp.ordering');
@@ -227,7 +218,7 @@ $assoc = Associations::isEnabled();
                                     }
                                     ?>
                                     <span class="sortable-handler<?php echo $iconClass ?>">
-                                        <span class="icon-ellipsis-v" aria-hidden="true"></span>
+                                        <span class="fa fa-2x fa-bars" aria-hidden="true"></span>
                                     </span>
                                     <?php if ($canChange && $saveOrder) : ?>
                                         <input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
