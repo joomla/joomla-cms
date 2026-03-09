@@ -42,14 +42,25 @@ $finder = PhpCsFixer\Finder::create()
             __DIR__ . '/includes',
             __DIR__ . '/installation',
             __DIR__ . '/language',
-            __DIR__ . '/layouts',
             __DIR__ . '/libraries/src',
             __DIR__ . '/modules',
             __DIR__ . '/plugins',
             __DIR__ . '/templates',
             __DIR__ . '/tests',
         ]
-    );
+    )
+    // Ignore template files as PHP CS fixer can't handle them properly
+    // https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/3702#issuecomment-396717120
+    ->notPath('/tmpl/')
+    ->notPath('/layouts/')
+    ->notPath('/cassiopeia/')
+    ->notPath('/atum/')
+    // Ingore cache and logs
+    ->notPath('/cache/')
+    ->notPath('/logs/')
+    // Ignore psr12 scripts because they contain invalid syntax
+    ->notPath('/psr12/')
+    ->notName('github_rebase.php');
 
 $config = new PhpCsFixer\Config();
 $config
