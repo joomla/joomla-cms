@@ -403,7 +403,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
 
     /**
      * Registers a proper event listener, i.e. a method which accepts an AbstractEvent as its sole argument. This is the
-     * preferred way to implement plugins in Joomla! 4.x and will be the only possible method with Joomla! 7.x onwards.
+     * preferred way to implement plugins in Joomla! 4.x and will be the only possible method with Joomla! 7.0 onwards.
      *
      * @param   string  $methodName  The method name to register
      *
