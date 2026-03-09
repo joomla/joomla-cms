@@ -220,10 +220,28 @@ class ModulesModel extends ListModel
     {
         $lang       = Factory::getLanguage();
         $clientPath = $this->getState('client_id') ? JPATH_ADMINISTRATOR : JPATH_SITE;
+        $user       = Factory::getApplication()->getIdentity();
 
-        foreach ($items as $item) {
+        foreach ($items as $key => $item) {
             $extension = $item->module;
             $source    = $clientPath . "/modules/$extension";
+
+            $path = $source . '/' . $extension . '.xml';
+
+            if (file_exists($path)) {
+                $xml = simplexml_load_file($path);
+
+                if (isset($xml->permissions)) {
+                    $action = (string) $xml->permissions;
+                    $asset  = isset($xml->permissions->attributes()->asset) ? (string) $xml->permissions->attributes()->asset : null;
+
+                    if (!$user->authorise($action, $asset)) {
+                        unset($items[$key]);
+                        continue;
+                    }
+                }
+            }
+            
             $lang->load("$extension.sys", $clientPath)
                 || $lang->load("$extension.sys", $source);
             $item->name = Text::_($item->name);
