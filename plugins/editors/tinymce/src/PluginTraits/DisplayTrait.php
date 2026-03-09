@@ -76,11 +76,6 @@ trait DisplayTrait
         $externalPlugins = [];
         $theme           = 'silver';
 
-        // Reset the old default 750px width of the editor to 100%
-        if (!$width || $width === '750px' || $width === '750') {
-            $width = '100%';
-        }
-
         // Register assets
         $wa->getRegistry()->addExtensionRegistryFile('plg_editors_tinymce');
 
