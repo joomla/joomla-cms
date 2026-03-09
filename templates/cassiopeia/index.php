@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -27,13 +27,13 @@ $this->addHeadLink(HTMLHelper::_('image', 'favicon.ico', '', [], true, 1), 'alte
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], true, 1), 'mask-icon', 'rel', ['color' => '#000']);
 
 // Detecting Active Variables
-$option   = $input->getCmd('option', '');
-$view     = $input->getCmd('view', '');
-$layout   = $input->getCmd('layout', '');
-$task     = $input->getCmd('task', '');
-$itemid   = $input->getCmd('Itemid', '');
-$sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
-$menu     = $app->getMenu()->getActive();
+$option    = $input->getCmd('option', '');
+$view      = $input->getCmd('view', '');
+$layout    = $input->getCmd('layout', '');
+$task      = $input->getCmd('task', '');
+$itemid    = $input->getCmd('Itemid', '');
+$sitename  = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
+$menu      = $app->getMenu()->getActive();
 $pageclass = $menu !== null ? $menu->getParams()->get('pageclass_sfx', '') : '';
 
 // Color Theme

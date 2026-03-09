@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -22,13 +22,13 @@ $input = $app->getInput();
 $wa    = $this->getWebAssetManager();
 
 // Detecting Active Variables
-$option   = $input->getCmd('option', '');
-$view     = $input->getCmd('view', '');
-$layout   = $input->getCmd('layout', '');
-$task     = $input->getCmd('task', '');
-$itemid   = $input->getCmd('Itemid', '');
-$sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
-$menu     = $app->getMenu()->getActive();
+$option    = $input->getCmd('option', '');
+$view      = $input->getCmd('view', '');
+$layout    = $input->getCmd('layout', '');
+$task      = $input->getCmd('task', '');
+$itemid    = $input->getCmd('Itemid', '');
+$sitename  = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
+$menu      = $app->getMenu()->getActive();
 $pageclass = $menu !== null ? $menu->getParams()->get('pageclass_sfx', '') : '';
 
 // Color Theme
@@ -153,7 +153,7 @@ $renderModules = $app->getIdentity() && $app->getLanguage();
     . ($task ? ' task-' . $task : ' no-task')
     . ($itemid ? ' itemid-' . $itemid : '')
     . ' ' . $pageclass;
-    echo ($this->direction == 'rtl' ? ' rtl' : '');
+echo $this->direction == 'rtl' ? ' rtl' : '';
 ?>">
     <header class="header container-header full-width">
         <?php if ($this->params->get('brand', 1)) : ?>
@@ -219,11 +219,11 @@ $renderModules = $app->getIdentity() && $app->getLanguage();
             <?php if ($this->debug) : ?>
                 <div>
                     <?php echo $this->renderBacktrace(); ?>
-                    <?php // Check if there are more Exceptions and render their data as well ?>
+                    <?php // Check if there are more Exceptions and render their data as well?>
                     <?php if ($this->error->getPrevious()) : ?>
                         <?php $loop = true; ?>
-                        <?php // Reference $this->_error here and in the loop as setError() assigns errors to this property and we need this for the backtrace to work correctly ?>
-                        <?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions ?>
+                        <?php // Reference $this->_error here and in the loop as setError() assigns errors to this property and we need this for the backtrace to work correctly?>
+                        <?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions?>
                         <?php $this->setError($this->_error->getPrevious()); ?>
                         <?php while ($loop === true) : ?>
                             <p><strong><?php echo Text::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
@@ -231,7 +231,7 @@ $renderModules = $app->getIdentity() && $app->getLanguage();
                             <?php echo $this->renderBacktrace(); ?>
                             <?php $loop = $this->setError($this->_error->getPrevious()); ?>
                         <?php endwhile; ?>
-                        <?php // Reset the main error object to the base error ?>
+                        <?php // Reset the main error object to the base error?>
                         <?php $this->setError($this->error); ?>
                     <?php endif; ?>
                 </div>

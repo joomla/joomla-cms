@@ -8,7 +8,7 @@
  * @since       4.0.0
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -61,14 +61,14 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
 // Get the hue value
 preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
 
-$linkColor = $this->params->get('link-color', '#2a69b8');
+$linkColor       = $this->params->get('link-color', '#2a69b8');
 list($r, $g, $b) = sscanf($linkColor, "#%02x%02x%02x");
 
-$linkColorDark = $this->params->get('link-color-dark', '#6fbfdb');
-list($rd, $gd, $bd) = sscanf($linkColorDark, "#%02x%02x%02x");
+$linkColorDark                           = $this->params->get('link-color-dark', '#6fbfdb');
+list($rd, $gd, $bd)                      = sscanf($linkColorDark, "#%02x%02x%02x");
 list($lighterRd, $lighterGd, $lighterBd) = adjustColorLightness($rd, $gd, $bd, 10);
 
-$linkColorDarkHvr = sprintf("%d, %d, %d", $lighterRd, $lighterGd, $lighterBd);
+$linkColorDarkHvr = \sprintf("%d, %d, %d", $lighterRd, $lighterGd, $lighterBd);
 
 function adjustColorLightness($r, $g, $b, $percent)
 {
@@ -145,12 +145,12 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 
 <jdoc:include type="modules" name="customtop" style="none" />
 
-<?php // Header ?>
+<?php // Header?>
 <header id="header" class="header">
     <div class="header-inside">
         <div class="header-title d-flex">
             <div class="d-flex align-items-center">
-                <?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
+                <?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons)?>
                 <?php if ($hiddenMenu || $cpanel) : ?>
                     <div class="logo <?php echo $sidebarState === 'closed' ? 'small' : ''; ?>">
                         <?php echo HTMLHelper::_('image', $logoBrandLarge, $logoBrandLargeAlt, ['loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
@@ -169,9 +169,9 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
     </div>
 </header>
 
-<?php // Wrapper ?>
+<?php // Wrapper?>
 <div id="wrapper" class="d-flex wrapper<?php echo $hiddenMenu ? '0' : ''; ?> <?php echo $sidebarState; ?>">
-    <?php // Sidebar ?>
+    <?php // Sidebar?>
     <?php if (!$hiddenMenu) : ?>
         <?php HTMLHelper::_('bootstrap.collapse', '.toggler-burger'); ?>
         <button class="navbar-toggler toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
@@ -191,10 +191,10 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
         </div>
     <?php endif; ?>
 
-    <?php // container-fluid ?>
+    <?php // container-fluid?>
     <div class="container-fluid container-main">
         <?php if (!$cpanel) : ?>
-            <?php // Subheader ?>
+            <?php // Subheader?>
             <?php HTMLHelper::_('bootstrap.collapse', '.toggler-toolbar'); ?>
             <button class="navbar-toggler toggler-toolbar toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#subhead-container" aria-controls="subhead-container" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>">
                 <span class="toggler-toolbar-icon"></span>
@@ -208,7 +208,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
             </div>
         <?php endif; ?>
         <section id="content" class="content">
-            <?php // Begin Content ?>
+            <?php // Begin Content?>
             <jdoc:include type="modules" name="top" style="html5" />
             <div class="row">
                 <div class="col-md-12">
@@ -221,7 +221,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
                     <jdoc:include type="modules" name="bottom" style="html5" />
                 <?php endif; ?>
             </div>
-            <?php // End Content ?>
+            <?php // End Content?>
         </section>
     </div>
 </div>

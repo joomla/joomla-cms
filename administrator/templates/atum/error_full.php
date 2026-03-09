@@ -8,7 +8,7 @@
  * @since       4.0.0
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -51,17 +51,17 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
     : htmlspecialchars($this->params->get('logoBrandSmallAlt', ''), ENT_COMPAT, 'UTF-8');
 
 
-    // Get the hue value
-    preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
+// Get the hue value
+preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
 
-    $linkColor = $this->params->get('link-color', '#2a69b8');
-    list($r, $g, $b) = sscanf($linkColor, "#%02x%02x%02x");
+$linkColor       = $this->params->get('link-color', '#2a69b8');
+list($r, $g, $b) = sscanf($linkColor, "#%02x%02x%02x");
 
-    // Enable assets
-    $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
-        ->useStyle('template.active.language')
-        ->useStyle('template.user')
-        ->addInlineStyle(':root {
+// Enable assets
+$wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
+    ->useStyle('template.active.language')
+    ->useStyle('template.user')
+    ->addInlineStyle(':root {
 			--hue: ' . $matches[1] . ';
 			--template-bg-light: ' . $this->params->get('bg-light', '#f0f4fb') . ';
 			--template-text-dark: ' . $this->params->get('text-dark', '#495057') . ';
@@ -72,36 +72,36 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
 		}');
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
-    $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
+$wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
 
 // Set some meta data
-    $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
+$this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
-    $monochrome    = (bool) $this->params->get('monochrome');
-    $colorScheme   = $this->params->get('colorScheme', 'os');
-    $themeModeAttr = '';
+$monochrome    = (bool) $this->params->get('monochrome');
+$colorScheme   = $this->params->get('colorScheme', 'os');
+$themeModeAttr = '';
 
-    if ($colorScheme) {
-        $themeModes   = ['os' => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
-        // Check for User choose, for now this have a priority over the parameters
-        $userColorScheme = $app->getInput()->cookie->get('userColorScheme', '');
-        if ($userColorScheme && !empty($themeModes[$userColorScheme])) {
-            $themeModeAttr = $themeModes[$userColorScheme];
-        } else {
-            // Check parameters first (User and Template), then look if we have detected the OS color scheme (if it set to 'os')
-            $colorScheme   = $app->getIdentity()?->getParam('colorScheme', $colorScheme) ?? 'os';
-            $osColorScheme = $colorScheme === 'os' ? $app->getInput()->cookie->get('osColorScheme', '') : '';
-            $themeModeAttr = ($themeModes[$colorScheme] ?? '') . ($themeModes[$osColorScheme] ?? '');
-        }
+if ($colorScheme) {
+    $themeModes   = ['os' => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
+    // Check for User choose, for now this have a priority over the parameters
+    $userColorScheme = $app->getInput()->cookie->get('userColorScheme', '');
+    if ($userColorScheme && !empty($themeModes[$userColorScheme])) {
+        $themeModeAttr = $themeModes[$userColorScheme];
+    } else {
+        // Check parameters first (User and Template), then look if we have detected the OS color scheme (if it set to 'os')
+        $colorScheme   = $app->getIdentity()?->getParam('colorScheme', $colorScheme) ?? 'os';
+        $osColorScheme = $colorScheme === 'os' ? $app->getInput()->cookie->get('osColorScheme', '') : '';
+        $themeModeAttr = ($themeModes[$colorScheme] ?? '') . ($themeModes[$osColorScheme] ?? '');
     }
+}
 
-    // The module renderer will not work properly due to incomplete Application initialisation
-    $renderModules = $app->getIdentity() && $app->getLanguage();
+// The module renderer will not work properly due to incomplete Application initialisation
+$renderModules = $app->getIdentity() && $app->getLanguage();
 
-    // @see administrator/templates/atum/html/layouts/status.php
-    $statusModules = $renderModules ? LayoutHelper::render('status', ['modules' => 'status']) : '';
+// @see administrator/templates/atum/html/layouts/status.php
+$statusModules = $renderModules ? LayoutHelper::render('status', ['modules' => 'status']) : '';
 
-    ?>
+?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $themeModeAttr; ?>>
 <head>
@@ -167,11 +167,11 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
                         <?php if ($this->debug) : ?>
                             <div>
                                 <?php echo $this->renderBacktrace(); ?>
-                                <?php // Check if there are more Exceptions and render their data as well ?>
+                                <?php // Check if there are more Exceptions and render their data as well?>
                                 <?php if ($this->error->getPrevious()) : ?>
                                     <?php $loop = true; ?>
-                                    <?php // Reference $this->_error here and in the loop as setError() assigns errors to this property and we need this for the backtrace to work correctly ?>
-                                    <?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions ?>
+                                    <?php // Reference $this->_error here and in the loop as setError() assigns errors to this property and we need this for the backtrace to work correctly?>
+                                    <?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions?>
                                     <?php $this->setError($this->_error->getPrevious()); ?>
                                     <?php while ($loop === true) : ?>
                                         <p><strong><?php echo Text::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
@@ -179,7 +179,7 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
                                         <?php echo $this->renderBacktrace(); ?>
                                         <?php $loop = $this->setError($this->_error->getPrevious()); ?>
                                     <?php endwhile; ?>
-                                    <?php // Reset the main error object to the base error ?>
+                                    <?php // Reset the main error object to the base error?>
                                     <?php $this->setError($this->error); ?>
                                 <?php endif; ?>
                             </div>

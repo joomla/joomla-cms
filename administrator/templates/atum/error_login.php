@@ -8,7 +8,7 @@
  * @since       4.0.0
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -55,10 +55,10 @@ $loginLogoAlt = empty($this->params->get('loginLogoAlt')) && empty($this->params
     ? ''
     : htmlspecialchars($this->params->get('loginLogoAlt', ''), ENT_COMPAT, 'UTF-8');
 
-    // Get the hue value
+// Get the hue value
 preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
 
-$linkColor = $this->params->get('link-color', '#2a69b8');
+$linkColor       = $this->params->get('link-color', '#2a69b8');
 list($r, $g, $b) = sscanf($linkColor, "#%02x%02x%02x");
 
 // Enable assets
@@ -154,11 +154,11 @@ $statusModules = $renderModules ? LayoutHelper::render('status', ['modules' => '
                             <?php if ($this->debug) : ?>
                                 <div>
                                     <?php echo $this->renderBacktrace(); ?>
-                                    <?php // Check if there are more Exceptions and render their data as well ?>
+                                    <?php // Check if there are more Exceptions and render their data as well?>
                                     <?php if ($this->error->getPrevious()) : ?>
                                         <?php $loop = true; ?>
-                                        <?php // Reference $this->_error here and in the loop as setError() assigns errors to this property and we need this for the backtrace to work correctly ?>
-                                        <?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions ?>
+                                        <?php // Reference $this->_error here and in the loop as setError() assigns errors to this property and we need this for the backtrace to work correctly?>
+                                        <?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions?>
                                         <?php $this->setError($this->_error->getPrevious()); ?>
                                         <?php while ($loop === true) : ?>
                                             <p><strong><?php echo Text::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
@@ -166,7 +166,7 @@ $statusModules = $renderModules ? LayoutHelper::render('status', ['modules' => '
                                             <?php echo $this->renderBacktrace(); ?>
                                             <?php $loop = $this->setError($this->_error->getPrevious()); ?>
                                         <?php endwhile; ?>
-                                        <?php // Reset the main error object to the base error ?>
+                                        <?php // Reset the main error object to the base error?>
                                         <?php $this->setError($this->error); ?>
                                     <?php endif; ?>
                                 </div>

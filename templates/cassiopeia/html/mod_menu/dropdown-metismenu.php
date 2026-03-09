@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -46,14 +46,14 @@ $start = (int) $params->get('startLevel', 1);
         $class[] = 'current';
     }
 
-    if (in_array($item->id, $path)) {
+    if (\in_array($item->id, $path)) {
         $class[] = 'active';
     } elseif ($item->type === 'alias') {
         $aliasToId = $itemParams->get('aliasoptions');
 
-        if (count($path) > 0 && $aliasToId == $path[count($path) - 1]) {
+        if (\count($path) > 0 && $aliasToId == $path[\count($path) - 1]) {
             $class[] = 'active';
-        } elseif (in_array($aliasToId, $path)) {
+        } elseif (\in_array($aliasToId, $path)) {
             $class[] = 'alias-parent-active';
         }
     }
@@ -92,13 +92,13 @@ $start = (int) $params->get('startLevel', 1);
             echo '<ul class="mm-collapse">';
             break;
 
-        // The next item is shallower.
+            // The next item is shallower.
         case $item->shallower:
             echo '</li>';
             echo str_repeat('</ul></li>', $item->level_diff);
             break;
 
-        // The next item is on the same level.
+            // The next item is on the same level.
         default:
             echo '</li>';
             break;

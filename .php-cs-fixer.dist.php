@@ -53,8 +53,6 @@ $finder = PhpCsFixer\Finder::create()
     // https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/3702#issuecomment-396717120
     ->notPath('/tmpl/')
     ->notPath('/layouts/')
-    ->notPath('/cassiopeia/')
-    ->notPath('/atum/')
     // Ingore cache and logs
     ->notPath('/cache/')
     ->notPath('/logs/')
