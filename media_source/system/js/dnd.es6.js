@@ -1,18 +1,11 @@
 import { DragDropManager, Accessibility } from '@dnd-kit/dom';
 import { Sortable, isSortable } from '@dnd-kit/dom/sortable';
 
-const options = Joomla.getOptions('dnd-options');
-
-if (!options) {
-  throw new Error('DND options not found. Please ensure Joomla.getOptions("dnd-options") returns the necessary configuration.');
-}
-
 // @TODO make it a module and import it
 export class DND {
   constructor(options) {
-    this.containerSelector = options.containerSelector || 'table tbody';
-    this.saveOrderingUrl = options.saveOrderingUrl || location.href;
-    this.formSelector = options.formSelector || '#adminForm';
+    this.container = options.container;
+    this.saveOrderingUrl = options.saveOrderingUrl;
     this.direction = options.direction || 'asc';
     this.isNested = options.isNested || false;
     this.itemSelector = options.itemSelector || 'tr';
@@ -24,8 +17,6 @@ export class DND {
   }
 
   init() {
-    this.container = document.querySelector(this.containerSelector);
-
     if (!this.container) {
       throw new Error(`Container not found for selector: ${this.containerSelector}`);
     }
@@ -152,4 +143,15 @@ export class DND {
   }
 }
 
-new DND(options);
+for (const draggable of document.querySelectorAll('.js-draggable')) {
+  const options = {
+    container: draggable,
+    saveOrderingUrl: draggable.dataset.dndUrl,
+    direction: draggable.dataset.dndDirection,
+    isNested: draggable.dataset.dndNested === 'true',
+    itemSelector: draggable.dataset.dndItemSelector || 'tr',
+  };
+
+  new DND(options);
+}
+

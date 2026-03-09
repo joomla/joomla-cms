@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Utilities\ArrayHelper;
 
 /** @var \Joomla\Component\Workflow\Administrator\View\Workflows\HtmlView $this */
 
@@ -38,20 +39,13 @@ if (strpos($listOrder, 'modified') !== false) {
 
 if ($saveOrder) {
     $saveOrderingUrl = 'index.php?option=com_workflow&task=workflows.reorderAjax&tmpl=component&extension=' . $this->escape($this->extension) . '&' . Session::getFormToken() . '=1';
-    Text::script('JGLOBAL_DRAGANDDROP_STARTED');
-    Text::script('JGLOBAL_DRAGANDDROP_DRAGOVER');
-    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_DROPPED');
-    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_NO_ELEMENT');
-    Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_CANCELED');
+    $dndAttributes   = [
+        'class'                  => 'js-draggable',
+        'data-dnd-item-selector' => 'tr',
+        'data-dnd-url'           => $saveOrderingUrl,
+        'data-dnd-direction'     => strtolower($listDirn),
+    ];
 
-    $this->getDocument()->addScriptOptions(
-        'dnd-options',
-        [
-            'containerSelector' => '#workflowList tbody',
-            'sortDirection'     => $listDirn,
-            'saveOrderingUrl'   => $saveOrderingUrl,
-        ]
-    );
     $wa->useScript('joomla.dnd');
 }
 
@@ -120,9 +114,7 @@ $userId = $user->id;
                                 </th>
                             </tr>
                         </thead>
-                        <tbody <?php if ($saveOrder) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php
-                               endif; ?>>
+                        <tbody<?php echo $saveOrder ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
                         <?php foreach ($this->workflows as $i => $item) :
                             $states = Route::_('index.php?option=com_workflow&view=stages&workflow_id=' . $item->id . '&extension=' . $extension);
                             $transitions = Route::_('index.php?option=com_workflow&view=transitions&workflow_id=' . $item->id . '&extension=' . $extension);

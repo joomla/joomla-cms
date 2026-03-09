@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Model\WorkflowModelInterface;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
@@ -408,12 +409,12 @@ class AdminController extends BaseController
      */
     public function reorderAjax(): void
     {
+        $this->app->setHeader('Content-Type', 'application/json');
+        $this->app->sendHeaders();
+
         // Check for request forgeries.
-        if (!$this->checkToken('post', false)) {
-            echo new JsonResponse([
-                'success' => false,
-                'message' => Text::_('JINVALID_TOKEN'),
-            ]);
+        if (Session::getFormToken() !== $this->app->getInput()->server->get('HTTP_X_CSRF_TOKEN', '', 'alnum')) {
+            echo new JsonResponse('', Text::_('JINVALID_TOKEN'), true);
 
             $this->app->close();
         }
@@ -422,10 +423,7 @@ class AdminController extends BaseController
         $list = (array) $this->input->json->getArray();
 
         if (empty($list) || !is_array($list) || count($list) === 0) {
-            echo new JsonResponse([
-                'success' => false,
-                'message' => Text::_('JLIB_APPLICATION_ERROR_NO_ITEMS_SELECTED'),
-            ]);
+            echo new JsonResponse('', Text::_('JLIB_APPLICATION_ERROR_NO_ITEMS_SELECTED'), true);
 
             $this->app->close();
         }
@@ -441,10 +439,7 @@ class AdminController extends BaseController
         // Save the ordering
         $return = $this->getModel()->saveorder(array_column($list, 'id'), array_column($list, 'order'));
 
-        echo new JsonResponse([
-            'success' => $return,
-            'message' => $return ? Text::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED') : Text::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError()),
-        ]);
+        echo new JsonResponse('', $return ? Text::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED') : Text::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError()), !$return);
 
         $this->app->close();
     }
