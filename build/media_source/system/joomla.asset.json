@@ -255,11 +255,6 @@
       "uri": "system/fields/calendar.css"
     },
     {
-      "name": "field.calendar-rtl",
-      "type": "style",
-      "uri": "system/fields/calendar-rtl.css"
-    },
-    {
       "name": "field.calendar.helper",
       "type": "script",
       "uri": ""
