@@ -129,12 +129,21 @@ class HtmlView extends ListView
             if (Factory::getApplication()->isClient('site')) {
                 unset($this->activeFilters['state'], $this->activeFilters['language']);
             }
-        }
 
-        // Add form control fields
-        $this->filterForm
-            ->addControlField('task', '')
-            ->addControlField('boxchecked', '0');
+            // In menu associations modal we need to remove language filter if forcing a language.
+            $forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'CMD');
+
+            if ($forcedLanguage) {
+                // If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
+                $languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
+                $this->filterForm->setField($languageXml, 'filter', true);
+
+                // Also, unset the active language filter so the search tools is not open by default with this filter.
+                unset($this->activeFilters['language']);
+            }
+
+            $this->filterForm->addControlField('forcedLanguage', $forcedLanguage);
+        }
     }
 
     /**
@@ -147,7 +156,6 @@ class HtmlView extends ListView
     protected function addToolbar()
     {
         $canDo = $this->canDo;
-        $user  = $this->getCurrentUser();
 
         $canCreate = $canDo->get('core.create');
 

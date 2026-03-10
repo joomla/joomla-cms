@@ -31,4 +31,28 @@ interface VersionableModelInterface
      * @since   6.0.0
      */
     public function loadHistory(int $historyId);
+
+    /**
+     * Method to save the history.
+     *
+     * @param   array   $data     The form data.
+     * @param   string  $context  The model context.
+     *
+     * @return  boolean  True on success, False on error.
+     *
+     * @since   6.0.0
+     */
+    public function saveHistory(array $data, string $context);
+
+    /**
+     * Method to delete the history for an item.
+     *
+     * @param   string   $typeAlias  Typealias of the content type
+     * @param   integer  $id         ID of the content item to delete
+     *
+     * @return  boolean  true on success, otherwise false.
+     *
+     * @since   6.0.0
+     */
+    public function deleteHistory($typeAlias, $id);
 }

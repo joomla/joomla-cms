@@ -33,8 +33,8 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
-                $plugin     = new TaskNotification(
+            $container->lazy(TaskNotification::class, function (Container $container) {
+                $plugin = new TaskNotification(
                     (array) PluginHelper::getPlugin('system', 'tasknotification')
                 );
                 $plugin->setApplication(Factory::getApplication());
@@ -42,7 +42,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setUserFactory($container->get(UserFactoryInterface::class));
 
                 return $plugin;
-            }
+            })
         );
     }
 };
