@@ -422,7 +422,7 @@ class AdminController extends BaseController
         // Get the input data
         $list = (array) $this->input->json->getArray();
 
-        if (empty($list) || !is_array($list) || count($list) === 0) {
+        if (empty($list) || !\is_array($list) || \count($list) === 0) {
             echo new JsonResponse('', Text::_('JLIB_APPLICATION_ERROR_NO_ITEMS_SELECTED'), true);
 
             $this->app->close();
