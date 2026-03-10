@@ -29,8 +29,7 @@ before it will be accepted, we ask that you follow these simple guidelines:
 
 * Please follow our [Generative AI policy](https://developer.joomla.org/generative-ai-policy.html) when using AI to contribute to the Joomla! project
 
-Please be patient as not all items will be viewed or tested immediately (remember, all bug testing for the Joomla! CMS
-is done by volunteers) and be receptive to feedback about your code.
+Please be patient as not all items will be viewed or tested immediately (remember, all bug testing for the Joomla! CMS is done by volunteers) and be receptive to feedback about your code.
 
 #### Branches
 Bug fixing PRs should be made to the `5.4-dev` branch. Merged bugfixes will be upmerged into the current branches. New features that do not break backwards compatibility should be made to the `6.1-dev`.
