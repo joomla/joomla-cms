@@ -1,0 +1,36 @@
+name: Convert Question Issues to Discussion
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+  discussions: write
+
+jobs:
+  convert:
+    if: github.event.issue.issue_type == 'Feature'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Convert Issue to Discussion
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issueNodeId = context.payload.issue.node_id;
+
+            await github.graphql(`
+              mutation($issueId: ID!) {
+                convertIssueToDiscussion(input: {
+                  issueId: $issueId
+                  categoryId: "DIC_kwDOACWcjM4C27nv"
+                }) {
+                  discussion {
+                    id
+                    url
+                  }
+                }
+              }
+            `, { issueId: issueNodeId });

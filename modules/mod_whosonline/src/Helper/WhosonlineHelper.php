@@ -36,7 +36,7 @@ class WhosonlineHelper implements DatabaseAwareInterface
      *
      * @return  array  The number of Users and Guests online.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      **/
     public function getOnlineUsersCount(CMSApplicationInterface $app): array
     {
@@ -49,7 +49,7 @@ class WhosonlineHelper implements DatabaseAwareInterface
 
         $whereCondition = $app->get('shared_session', '0') ? 'IS NULL' : '= 0';
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('guest, client_id')
             ->from('#__session')
             ->where('client_id ' . $whereCondition);
@@ -89,14 +89,14 @@ class WhosonlineHelper implements DatabaseAwareInterface
      *
      * @return  array   (array) $db->loadObjectList()  The names of the online users.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      **/
     public function fetchOnlineUserNames(CMSApplicationInterface $app, Registry $params): array
     {
         $whereCondition = $app->get('shared_session', '0') ? 'IS NULL' : '= 0';
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['a.username', 'a.userid', 'a.client_id']))
             ->from($db->quoteName('#__session', 'a'))
             ->where($db->quoteName('a.userid') . ' != 0')
@@ -134,7 +134,7 @@ class WhosonlineHelper implements DatabaseAwareInterface
      *
      * @since   1.5
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.4.0 will be removed in 7.0
      *             Use the non-static method getOnlineUsersCount
      *             Example: Factory::getApplication()->bootModule('mod_whosonline', 'site')
      *                          ->getHelper('WhosonlineHelper')
@@ -157,7 +157,7 @@ class WhosonlineHelper implements DatabaseAwareInterface
      *
      * @since   1.5
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.4.0 will be removed in 7.0
      *             Use the non-static method fetchOnlineUserNames
      *             Example: Factory::getApplication()->bootModule('mod_whosonline', 'site')
      *                          ->getHelper('WhosonlineHelper')

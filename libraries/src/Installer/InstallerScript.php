@@ -175,7 +175,7 @@ class InstallerScript
         $extension = $this->extension;
 
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the item(s) and retrieve the id
         if ($isModule) {
@@ -211,7 +211,9 @@ class InstallerScript
             return false;
         }
 
-        $params = $this->getItemArray('params', $this->paramTable, 'id', $id);
+        $column = ($this->paramTable === '#__extensions') ? 'extension_id' : 'id';
+
+        $params = $this->getItemArray('params', $this->paramTable, $column, $id);
 
         return $params[$name];
     }
@@ -236,7 +238,9 @@ class InstallerScript
             return false;
         }
 
-        $params = $this->getItemArray('params', $this->paramTable, 'id', $id);
+        $column = ($this->paramTable === '#__extensions') ? 'extension_id' : 'id';
+
+        $params = $this->getItemArray('params', $this->paramTable, $column, $id);
 
         if ($paramArray) {
             foreach ($paramArray as $name => $value) {
@@ -259,10 +263,10 @@ class InstallerScript
         $paramsString = json_encode($params);
 
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName($this->paramTable))
             ->set('params = :params')
-            ->where('id = :id')
+            ->where($column . ' = :id')
             ->bind(':params', $paramsString)
             ->bind(':id', $id, ParameterType::INTEGER);
 
@@ -294,7 +298,7 @@ class InstallerScript
         $paramType = is_numeric($identifier) ? ParameterType::INTEGER : ParameterType::STRING;
 
         // Build the query
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName($element))
             ->from($db->quoteName($table))
             ->where($db->quoteName($column) . ' = :id')
