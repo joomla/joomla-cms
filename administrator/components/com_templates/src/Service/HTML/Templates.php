@@ -80,7 +80,7 @@ class Templates
     /**
      * Renders the html for the modal linked to thumb.
      *
-     * @param   string|object  $template  The template object.
+     * @param   object  $template  The template object.
      *
      * @return  string  The html string
      *
