@@ -11,6 +11,7 @@
 namespace Joomla\Component\Languages\Administrator\Model;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -34,18 +35,15 @@ class OverrideModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \Joomla\CMS\Form\Form|bool  A Form object on success, false on failure.
+     * @return  Form  A Form object
      *
      * @since   2.5
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
         // Get the form.
         $form = $this->loadForm('com_languages.override', 'override', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         $client   = $this->getState('filter.client', 'site');
         $language = $this->getState('filter.language', 'en-GB');
@@ -74,10 +72,38 @@ class OverrideModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_languages.edit.override.data', []);
+        $data  = Factory::getApplication()->getUserState('com_languages.edit.override.data', []);
+        $input = Factory::getApplication()->getInput();
 
         if (empty($data)) {
             $data = $this->getItem();
+        }
+
+        $currentKey      = \is_object($data) ? ($data->key ?? '') : ($data['key'] ?? '');
+        $currentOverride = \is_object($data) ? ($data->override ?? '') : ($data['override'] ?? '');
+
+        if ($currentKey === '') {
+            $sourceKey = $input->get('source_key', '', 'cmd');
+
+            if ($sourceKey !== '') {
+                if (\is_object($data)) {
+                    $data->key = $sourceKey;
+                } else {
+                    $data['key'] = $sourceKey;
+                }
+            }
+        }
+
+        if ($currentOverride === '') {
+            $sourceText = $input->getString('source_text', '');
+
+            if ($sourceText !== '') {
+                if (\is_object($data)) {
+                    $data->override = $sourceText;
+                } else {
+                    $data['override'] = $sourceText;
+                }
+            }
         }
 
         $this->preprocessData('com_languages.override', $data);

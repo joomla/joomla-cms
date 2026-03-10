@@ -190,31 +190,6 @@ final class ApiApplication extends CMSApplication
     }
 
     /**
-     * Gets the name of the current template.
-     *
-     * @param   boolean  $params  True to return the template parameters
-     *
-     * @return  string|\stdClass
-     *
-     * @since   4.0.0
-     */
-    public function getTemplate($params = false)
-    {
-        // The API application should not need to use a template
-        if ($params) {
-            $template              = new \stdClass();
-            $template->template    = 'system';
-            $template->params      = new Registry();
-            $template->inheritable = 0;
-            $template->parent      = '';
-
-            return $template;
-        }
-
-        return 'system';
-    }
-
-    /**
      * Route the application.
      *
      * Routing is the process of examining the request environment to determine which
@@ -390,7 +365,7 @@ final class ApiApplication extends CMSApplication
      *
      * @since      4.0.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Inject the router or load it from the dependency injection container
      *              Example:
      *              Factory::getContainer()->get(ApiRouter::class);

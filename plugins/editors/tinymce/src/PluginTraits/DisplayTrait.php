@@ -10,11 +10,13 @@
 
 namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Media\Administrator\Exception\ProviderAccountNotFoundException;
 use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
 use Joomla\Registry\Registry;
 
@@ -100,13 +102,13 @@ trait DisplayTrait
             $options['tinyMCE'][$fieldName] = [];
         }
 
-        // Width and height
+        // Add editor Width and height to options if not already set
         if ($width && empty($options['tinyMCE'][$fieldName]['width'])) {
-            $options['tinyMCE'][$fieldName]['width'] = $width;
+            $options['tinyMCE'][$fieldName]['width'] = $textarea->width;
         }
 
         if ($height && empty($options['tinyMCE'][$fieldName]['height'])) {
-            $options['tinyMCE'][$fieldName]['height'] = $height;
+            $options['tinyMCE'][$fieldName]['height'] = $textarea->height;
         }
 
         // Set editor to readonly mode
@@ -327,7 +329,7 @@ trait DisplayTrait
             $wa->useScript('plg_editors_tinymce.jdragndrop');
             $plugins[]  = 'jdragndrop';
             $uploadUrl  = Uri::base(true) . '/index.php?option=com_media&format=json&url=1&task=api.files';
-            $uploadPath = $levelParams->get('path', '');
+            $uploadPath = $levelParams->get('path', ComponentHelper::getParams('com_media')->get('image_path', 'images'));
 
             // Make sure the path is full, and contain the media adapter in it.
             $mediaHelper = new class () {
@@ -335,6 +337,21 @@ trait DisplayTrait
 
                 public function prepareTinyMCEUploadPath(string $path): string
                 {
+                    // Check for the path includes the adapter
+                    if (!str_contains($path, ':')) {
+                        try {
+                            /*
+                             * We got old folder name without adapter eg "images".
+                             * Look whether the adapter exists for this folder, otherwise everything will fallback to default.
+                             */
+                            $this->getAdapter('local-' . $path);
+                            // Adapter exists, update the path
+                            $path = 'local-' . $path . ':/';
+                        } catch (ProviderAccountNotFoundException) {
+                            // Nothing found
+                        }
+                    }
+
                     $result = $this->resolveAdapterAndPath($path);
 
                     return implode(':', $result);
@@ -369,13 +386,27 @@ trait DisplayTrait
             }
         }
 
-        // Should load the template plugin?
+        // Load the template plugin?
         if (!empty($allButtons['jtemplate'])) {
             $wa->useScript('plg_editors_tinymce.jtemplate');
             $plugins[] = 'jtemplate';
 
             $scriptOptions['jtemplates'] = Uri::base(true) . '/index.php?option=com_ajax&plugin=tinymce&group=editors&format=json&format=json&template='
                 . $levelParams->get('content_template_path') . '&' . $csrf . '=1';
+        }
+
+        // Load the abbreviation plugin?
+        if (!empty($allButtons['abbr'])) {
+            $wa->useScript('plg_editors_tinymce.abbr');
+            $plugins[] = 'abbr';
+            Text::script('PLG_TINY_ABBREVIATION_DESCRIPTION_LABEL');
+            Text::script('PLG_TINY_ABBREVIATION_EDIT');
+            Text::script('PLG_TINY_ABBREVIATION_INSERT');
+            Text::script('PLG_TINY_ABBREVIATION_WARNING_NO_DESCRIPTION');
+            Text::script('PLG_TINY_ABBREVIATION_WARNING_NO_SELECTION');
+            Text::script('PLG_TINY_ABBREVIATION_WARNING_REMOVE');
+            Text::script('PLG_TINY_TOOLBAR_BUTTON_ABBREVIATION');
+            Text::script('PLG_TINY_TOOLBAR_BUTTON_REMOVE_ABBREVIATION');
         }
 
         // User custom plugins and buttons
@@ -429,6 +460,21 @@ trait DisplayTrait
                     array_push($imgClasses, ['title' => $imgClassList->img_class_name, 'value' => $imgClassList->img_class_list]);
                 }
             }
+        }
+
+        // Add the current domain to the sandbox_iframes_exclusions list
+        $sandboxIframesExclusions = Uri::getInstance()->getHost();
+
+        // Build the list of additional domains to add to the sandbox_iframes_exclusions list
+        if (isset($extraOptions->sandbox_iframes_exclusions) && $extraOptions->sandbox_iframes_exclusions) {
+            $exclusionsArray = [];
+            foreach ($extraOptions->sandbox_iframes_exclusions as $value) {
+                if (isset($value->exclusion_domain)) {
+                    $exclusionsArray[] = $value->exclusion_domain;
+                }
+            }
+            // Join the URLs into a comma-separated string and add to the sandbox_iframes_exclusions list
+            $sandboxIframesExclusions .= ', ' . implode(', ', $exclusionsArray);
         }
 
         // Build the final options set
@@ -485,7 +531,7 @@ trait DisplayTrait
                 'image_caption'     => true,
                 'importcss_append'  => true,
                 'height'            => $this->params->get('html_height', '550px'),
-                'width'             => $this->params->get('html_width', ''),
+                'width'             => $this->params->get('html_width', '100%'),
                 'elementpath'       => (bool) $levelParams->get('element_path', true),
                 'resize'            => $resizing,
                 'external_plugins'  => empty($externalPlugins) ? null : $externalPlugins,
@@ -506,10 +552,13 @@ trait DisplayTrait
                 'branding'  => false,
                 'promotion' => false,
 
+                // Set License
+                'license_key' => 'gpl',
+
                 // Hardened security
-                // @todo enable with TinyMCE 7 using https://www.tiny.cloud/docs/tinymce/latest/content-filtering/#sandbox-iframes-exclusions otherwise all embed PDFs are broken
-                'sandbox_iframes'       => (bool) $levelParams->get('sandbox_iframes', true),
-                'convert_unsafe_embeds' => true,
+                'sandbox_iframes'            => (bool) $levelParams->get('sandbox_iframes', true),
+                'sandbox_iframes_exclusions' => $sandboxIframesExclusions,
+                'convert_unsafe_embeds'      => true,
 
                 // Specify the attributes to be used when previewing a style. This prevents white text on a white background making the preview invisible.
                 'preview_styles' => 'font-family font-size font-weight font-style text-decoration text-transform background-color border border-radius outline text-shadow',

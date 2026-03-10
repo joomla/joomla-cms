@@ -154,7 +154,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('sendEmail') . ' = 1')
@@ -179,9 +179,19 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
                     'name'     => $user->name,
                     'email'    => PunycodeHelper::emailToPunycode($user->email),
                     'title'    => $article->title,
-                    'url'      => Route::link('administrator', 'index.php?option=com_content&view=articles&filter[search]=id:' . $article->id, false, $linkMode, true),
                 ];
 
+                if ($receiver->authorise('core.login.admin') && $receiver->authorise('core.manage', 'com_content')) {
+                    $templateData['url'] = Route::link('administrator', 'index.php?option=com_content&view=articles&filter[search]=id:' . $article->id, false, $linkMode, true);
+                } elseif ($article->state === 1 && \in_array($article->access, $receiver->getAuthorisedViewLevels())) {
+                    $templateData['url'] = Route::link('site', 'index.php?option=com_content&view=article&id=' . $article->id, false, $linkMode, true);
+                } elseif ($article->state !== 1 && $receiver->authorise('core.edit', 'com_content.article.' . $article->id)) {
+                    $templateData['url'] = Route::link('site', 'index.php?option=com_content&view=article&id=' . $article->id, false, $linkMode, true);
+                } elseif ($article->state !== 1) {
+                    $templateData['url'] = Text::_('JNOTPUBLISHEDYET');
+                } else {
+                    $templateData['url'] = Text::_('JERROR_ALERTNOAUTHOR');
+                }
                 // Send email
                 try {
                     $mailer = new MailTemplate('plg_content_joomla.newarticle', $receiver->getParam('admin_language', $this->getLanguage()->getTag()));
@@ -392,7 +402,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
                     $aContext = 'com_content.article';
 
                     // Load the schema data from the database
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->select('*')
                         ->from($db->quoteName('#__schemaorg'))
                         ->whereIn($db->quoteName('itemId'), $articleIds)
@@ -884,7 +894,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
     private function countItemsInCategory($table, $catid)
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Count the items in this category
         $query->select('COUNT(' . $db->quoteName('id') . ')')
@@ -937,7 +947,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
             return false;
         }
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select('COUNT(' . $db->quoteName('b.id') . ')')
             ->from($db->quoteName('#__workflow_associations', 'wa'))
@@ -985,7 +995,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         // Make sure we only do the query if we have some categories to look in
         if (\count($childCategoryIds)) {
             // Count the items in this category
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select('COUNT(' . $db->quoteName('id') . ')')
                 ->from($db->quoteName($table))
                 ->whereIn($db->quoteName('catid'), $childCategoryIds);
@@ -1035,7 +1045,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('core_content_id'))
             ->from($db->quoteName('#__ucm_content'))
             ->where($db->quoteName('core_type_alias') . ' = :context')

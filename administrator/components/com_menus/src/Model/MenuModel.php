@@ -153,18 +153,15 @@ class MenuModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|boolean    A Form object on success, false on failure
+     * @return  Form    A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
         // Get the form.
         $form = $this->loadForm('com_menus.menu', 'menu', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         if (!$this->getState('client_id', 0)) {
             $form->removeField('preset');
@@ -341,7 +338,7 @@ class MenuModel extends AdminModel
     {
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('a.id'),
@@ -363,7 +360,7 @@ class MenuModel extends AdminModel
         foreach ($modules as &$module) {
             $params = new Registry($module->params);
 
-            $menuType = $params->get('menutype');
+            $menuType = $params->get('menutype', '');
 
             if (!isset($result[$menuType])) {
                 $result[$menuType] = [];
@@ -387,7 +384,7 @@ class MenuModel extends AdminModel
     public function getExtensionElementsForMenuItems(array $itemIds): array
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query
             ->select($db->quoteName('e.element'))
