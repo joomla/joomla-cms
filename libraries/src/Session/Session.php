@@ -150,7 +150,7 @@ class Session extends BaseSession
      *
      * @since   1.5
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Load the session service from the dependency injection container or via $app->getSession()
      *              Example: Factory::getApplication()->getSession();
      */
@@ -202,7 +202,7 @@ class Session extends BaseSession
          * This is no longer the case in Joomla 4 and will be converted
          * when saving new values in `self::set()`
          */
-        if (strpos($name, '.') !== false && parent::has('__' . $name)) {
+        if (str_contains($name, '.') && parent::has('__' . $name)) {
             return parent::get('__' . $name, $default);
         }
 
@@ -281,7 +281,7 @@ class Session extends BaseSession
          * This is no longer the case in Joomla 4 and will be converted
          * when saving new values in `self::set()`
          */
-        if (strpos($name, '.') !== false && parent::has('__' . $name)) {
+        if (str_contains($name, '.') && parent::has('__' . $name)) {
             return true;
         }
 

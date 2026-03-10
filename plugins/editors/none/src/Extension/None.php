@@ -12,6 +12,8 @@ namespace Joomla\Plugin\Editors\None\Extension;
 
 use Joomla\CMS\Event\Editor\EditorSetupEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\Editors\None\Provider\EditorNoneProvider;
 
@@ -24,8 +26,10 @@ use Joomla\Plugin\Editors\None\Provider\EditorNoneProvider;
  *
  * @since  1.5
  */
-final class None extends CMSPlugin implements SubscriberInterface
+final class None extends CMSPlugin implements SubscriberInterface, DispatcherAwareInterface
 {
+    use DispatcherAwareTrait;
+
     /**
      * Returns an array of events this subscriber will listen to.
      *

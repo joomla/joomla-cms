@@ -12,7 +12,6 @@ namespace Joomla\Component\Contact\Site\Controller;
 
 use Joomla\CMS\Event\Contact\SubmitContactEvent;
 use Joomla\CMS\Event\Contact\ValidateContactEvent;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
@@ -129,7 +128,7 @@ class ContactController extends FormController implements UserFactoryAwareInterf
 
         // Check for a valid session cookie
         if ($contact->params->get('validate_session', 0)) {
-            if (Factory::getSession()->getState() !== 'active') {
+            if ($app->getSession()->getState() !== 'active') {
                 $this->app->enqueueMessage(Text::_('JLIB_ENVIRONMENT_SESSION_INVALID'), 'warning');
 
                 // Save the data in the session.
@@ -287,7 +286,7 @@ class ContactController extends FormController implements UserFactoryAwareInterf
             $sent = $mailer->send();
 
             // If we are supposed to copy the sender, do so.
-            if ($emailCopyToSender == true && !empty($data['contact_email_copy'])) {
+            if ($emailCopyToSender && !empty($data['contact_email_copy'])) {
                 $mailer = new MailTemplate('com_contact.mail.copy', $app->getLanguage()->getTag());
                 $mailer->addRecipient($templateData['email']);
                 $mailer->setReplyTo($templateData['email'], $templateData['name']);
@@ -344,7 +343,7 @@ class ContactController extends FormController implements UserFactoryAwareInterf
      */
     protected function allowEdit($data = [], $key = 'id')
     {
-        $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
+        $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
 
         if (!$recordId) {
             return false;
@@ -364,7 +363,7 @@ class ContactController extends FormController implements UserFactoryAwareInterf
 
             // Fallback on edit.own.
             if ($user->authorise('core.edit.own', $this->option . '.category.' . $categoryId)) {
-                return ($record->created_by === $user->id);
+                return $record->created_by === $user->id;
             }
 
             return false;

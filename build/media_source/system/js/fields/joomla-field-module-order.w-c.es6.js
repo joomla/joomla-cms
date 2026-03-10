@@ -60,20 +60,15 @@ customElements.define('joomla-field-module-order', class extends HTMLElement {
     selectNode.setAttribute('name', selectProperties.name);
     selectNode.id = selectProperties.id;
 
-    // eslint-disable-next-line no-restricted-syntax
     for (const x in source) {
-      // eslint-disable-next-line no-prototype-builtins
       if (!source.hasOwnProperty(x)) {
-        // eslint-disable-next-line no-continue
         continue;
       }
 
       const node = document.createElement('option');
       const item = source[x];
 
-      // eslint-disable-next-line prefer-destructuring
       node.value = item[1];
-      // eslint-disable-next-line prefer-destructuring
       node.innerHTML = Joomla.sanitizeHtml(item[2]);
 
       if ((originalPositionName && originalPositionValue === item[1])
@@ -111,7 +106,6 @@ customElements.define('joomla-field-module-order', class extends HTMLElement {
           try {
             response = JSON.parse(resp);
           } catch (e) {
-            // eslint-disable-next-line no-console
             console.error(e);
           }
 

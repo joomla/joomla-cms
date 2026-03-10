@@ -44,7 +44,7 @@ class StatsAdminHelper
         $user = $app->getIdentity();
 
         $rows  = [];
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $serverinfo = $params->get('serverinfo', 0);
         $siteinfo   = $params->get('siteinfo', 0);
@@ -96,7 +96,7 @@ class StatsAdminHelper
 
             try {
                 $items = $db->loadResult();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 $items = false;
             }
 
@@ -131,7 +131,7 @@ class StatsAdminHelper
         foreach ($arrays as $response) {
             foreach ($response as $row) {
                 // We only add a row if the title and data are given
-                if (isset($row['title']) && isset($row['data'])) {
+                if (isset($row['title'], $row['data'])) {
                     $rows[$i]        = new \stdClass();
                     $rows[$i]->title = $row['title'];
                     $rows[$i]->icon  = $row['icon'] ?? 'info';

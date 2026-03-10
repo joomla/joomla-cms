@@ -12,7 +12,9 @@ namespace Joomla\Component\Modules\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
@@ -33,12 +35,13 @@ class ModulesModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \JController
      * @since   1.6
      */
-    public function __construct($config = [])
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -61,9 +64,13 @@ class ModulesModel extends ListModel
                 'name', 'e.name',
                 'menuitem',
             ];
+
+            if (Associations::isEnabled()) {
+                $config['filter_fields'][] = 'association';
+            }
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -82,11 +89,17 @@ class ModulesModel extends ListModel
     {
         $app = Factory::getApplication();
 
-        $layout = $app->getInput()->get('layout', '', 'cmd');
+        $forcedLanguage = $app->getInput()->get('forcedLanguage', '', 'cmd');
+        $layout         = $app->getInput()->get('layout', '', 'cmd');
 
         // Adjust the context to support modal layouts.
         if ($layout) {
             $this->context .= '.' . $layout;
+        }
+
+        // Adjust the context to support forced languages.
+        if ($forcedLanguage) {
+            $this->context .= '.' . $forcedLanguage;
         }
 
         // Make context client aware
@@ -119,6 +132,11 @@ class ModulesModel extends ListModel
 
         // List state information.
         parent::populateState($ordering, $direction);
+
+        // Force a language.
+        if (!empty($forcedLanguage)) {
+            $this->setState('filter.language', $forcedLanguage);
+        }
     }
 
     /**
@@ -247,7 +265,7 @@ class ModulesModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the required fields.
         $query->select(
@@ -344,7 +362,7 @@ class ModulesModel extends ListModel
             } else {
                 // If user selected the modules assigned to some particular page (menu item).
                 // Modules in "All" pages.
-                $subQuery1 = $db->getQuery(true);
+                $subQuery1 = $db->createQuery();
                 $subQuery1->select('MIN(' . $db->quoteName('menuid') . ')')
                     ->from($db->quoteName('#__modules_menu'))
                     ->where($db->quoteName('moduleid') . ' = ' . $db->quoteName('a.id'));
@@ -352,13 +370,13 @@ class ModulesModel extends ListModel
                 // Modules in "Selected" pages that have the chosen menu item id.
                 $menuItemId      = (int) $menuItemId;
                 $minusMenuItemId = $menuItemId * -1;
-                $subQuery2       = $db->getQuery(true);
+                $subQuery2       = $db->createQuery();
                 $subQuery2->select($db->quoteName('moduleid'))
                     ->from($db->quoteName('#__modules_menu'))
                     ->where($db->quoteName('menuid') . ' = :menuitemid2');
 
                 // Modules in "All except selected" pages that doesn't have the chosen menu item id.
-                $subQuery3 = $db->getQuery(true);
+                $subQuery3 = $db->createQuery();
                 $subQuery3->select($db->quoteName('moduleid'))
                     ->from($db->quoteName('#__modules_menu'))
                     ->where($db->quoteName('menuid') . ' = :menuitemid3');
@@ -406,6 +424,22 @@ class ModulesModel extends ListModel
                 $query->where($db->quoteName('a.language') . ' = :language')
                     ->bind(':language', $language);
             }
+        }
+
+        // Join over the associations.
+        if (Associations::isEnabled()) {
+            $subQuery = $db->createQuery()
+                ->select('COUNT(' . $db->quoteName('asso1.id') . ') > 1')
+                ->from($db->quoteName('#__associations', 'asso1'))
+                ->join('INNER', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
+                ->where(
+                    [
+                        $db->quoteName('asso1.id') . ' = ' . $db->quoteName('a.id'),
+                        $db->quoteName('asso1.context') . ' = ' . $db->quote('com_modules.item'),
+                    ]
+                );
+
+            $query->select('(' . $subQuery . ') AS ' . $db->quoteName('association'));
         }
 
         return $query;

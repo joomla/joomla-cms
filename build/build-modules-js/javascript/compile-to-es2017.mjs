@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies, global-require, import/no-dynamic-require */
-
 import { writeFile } from 'node:fs/promises';
 import { basename, sep, resolve } from 'node:path';
 
@@ -9,13 +7,6 @@ import { babel } from '@rollup/plugin-babel';
 
 import { minifyCode } from './minify.mjs';
 import { getPackagesUnderScope } from '../init/common/resolve-package.cjs';
-
-function esmOrIife(file) {
-  if (file.endsWith('core.es6.js') || file.endsWith('validate.es6.js')) {
-    return 'iife';
-  }
-  return 'es';
-}
 
 // List of external modules that should not be resolved by rollup
 const externalModules = [];
@@ -91,19 +82,17 @@ export const handleESMFile = async (file) => {
   });
 
   bundle.write({
-    format: esmOrIife(file),
+    format: file.endsWith('core.es6.js') ? 'iife' : 'es',
     sourcemap: false,
     file: resolve(`${newPath}.js`),
   })
     .then((value) => minifyCode(value.output[0].code))
     .then((content) => {
-      // eslint-disable-next-line no-console
       console.log(`✅ ES2017 file: ${basename(file).replace('.es6.js', '.js')}: transpiled`);
 
       return writeFile(resolve(`${newPath}.min.js`), content.code, { encoding: 'utf8', mode: 0o644 });
     })
     .catch((error) => {
-      // eslint-disable-next-line no-console
       console.error(error);
     });
 

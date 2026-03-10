@@ -112,7 +112,15 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
         // Check for valid cookie value
         if (\count($cookieArray) !== 2) {
             // Destroy the cookie in the browser.
-            $app->getInput()->cookie->set($cookieName, '', 1, $app->get('cookie_path', '/'), $app->get('cookie_domain', ''));
+            $app->getInput()->cookie->set(
+                $cookieName,
+                '',
+                [
+                    'expires' => 1,
+                    'path'    => $app->get('cookie_path', '/'),
+                    'domain'  => $app->get('cookie_domain', ''),
+                ]
+            );
             Log::add('Invalid cookie detected.', Log::WARNING, 'error');
 
             return;
@@ -128,7 +136,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
 
         // Remove expired tokens
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__user_keys'))
             ->where($db->quoteName('time') . ' < :now')
             ->bind(':now', $now);
@@ -140,7 +148,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
         }
 
         // Find the matching record if it exists.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['user_id', 'token', 'series', 'time']))
             ->from($db->quoteName('#__user_keys'))
             ->where($db->quoteName('series') . ' = :series')
@@ -159,7 +167,15 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
 
         if (\count($results) !== 1) {
             // Destroy the cookie in the browser.
-            $app->getInput()->cookie->set($cookieName, '', 1, $app->get('cookie_path', '/'), $app->get('cookie_domain', ''));
+            $app->getInput()->cookie->set(
+                $cookieName,
+                '',
+                [
+                    'expires' => 1,
+                    'path'    => $app->get('cookie_path', '/'),
+                    'domain'  => $app->get('cookie_domain', ''),
+                ]
+            );
             $response->status = Authentication::STATUS_FAILURE;
 
             return;
@@ -172,7 +188,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
              * Either the series was guessed correctly or a cookie was stolen and used twice (once by attacker and once by victim).
              * Delete all tokens for this user!
              */
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__user_keys'))
                 ->where($db->quoteName('user_id') . ' = :userid')
                 ->bind(':userid', $results[0]->user_id);
@@ -189,7 +205,15 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
             }
 
             // Destroy the cookie in the browser.
-            $app->getInput()->cookie->set($cookieName, '', 1, $app->get('cookie_path', '/'), $app->get('cookie_domain', ''));
+            $app->getInput()->cookie->set(
+                $cookieName,
+                '',
+                [
+                    'expires' => 1,
+                    'path'    => $app->get('cookie_path', '/'),
+                    'domain'  => $app->get('cookie_domain', ''),
+                ]
+            );
 
             // Issue warning by email to user and/or admin?
             Log::add(Text::sprintf('PLG_AUTHENTICATION_COOKIE_ERROR_LOG_LOGIN_FAILED', $results[0]->user_id), Log::WARNING, 'security');
@@ -199,7 +223,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
         }
 
         // Make sure there really is a user with this name and get the data for the session.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['id', 'username', 'password']))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('username') . ' = :userid')
@@ -208,7 +232,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
 
         try {
             $result = $db->setQuery($query)->loadObject();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $response->status = Authentication::STATUS_FAILURE;
 
             return;
@@ -273,7 +297,15 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
                 $cookieValue   = $app->getInput()->cookie->get($oldCookieName);
 
                 // Destroy the old cookie in the browser
-                $app->getInput()->cookie->set($oldCookieName, '', 1, $app->get('cookie_path', '/'), $app->get('cookie_domain', ''));
+                $app->getInput()->cookie->set(
+                    $oldCookieName,
+                    '',
+                    [
+                        'expires' => 1,
+                        'path'    => $app->get('cookie_path', '/'),
+                        'domain'  => $app->get('cookie_domain', ''),
+                    ]
+                );
             }
 
             $cookieArray = explode('.', $cookieValue);
@@ -291,7 +323,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
 
             do {
                 $series = UserHelper::genRandomPassword(20);
-                $query  = $db->getQuery(true)
+                $query  = $db->createQuery()
                     ->select($db->quoteName('series'))
                     ->from($db->quoteName('#__user_keys'))
                     ->where($db->quoteName('series') . ' = :series')
@@ -303,7 +335,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
                     if ($results === null) {
                         $unique = true;
                     }
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException) {
                     $errorCount++;
 
                     // We'll let this query fail up to 5 times before giving up, there's probably a bigger issue at this point
@@ -328,14 +360,16 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
         $app->getInput()->cookie->set(
             $cookieName,
             $cookieValue,
-            time() + $lifetime,
-            $app->get('cookie_path', '/'),
-            $app->get('cookie_domain', ''),
-            $app->isHttpsForced(),
-            true
+            [
+                'expires'  => time() + $lifetime,
+                'path'     => $app->get('cookie_path', '/'),
+                'domain'   => $app->get('cookie_domain', ''),
+                'secure'   => $app->isHttpsForced(),
+                'httponly' => true,
+            ]
         );
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         if (!empty($options['remember'])) {
             $future = (time() + $lifetime);
@@ -370,7 +404,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
 
         try {
             $db->setQuery($query)->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // We aren't concerned with errors from this query, carry on
         }
     }
@@ -409,18 +443,26 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
 
         // Remove the record from the database
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__user_keys'))
             ->where($db->quoteName('series') . ' = :series')
             ->bind(':series', $series);
 
         try {
             $db->setQuery($query)->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // We aren't concerned with errors from this query, carry on
         }
 
         // Destroy the cookie
-        $app->getInput()->cookie->set($cookieName, '', 1, $app->get('cookie_path', '/'), $app->get('cookie_domain', ''));
+        $app->getInput()->cookie->set(
+            $cookieName,
+            '',
+            [
+                'expires' => 1,
+                'path'    => $app->get('cookie_path', '/'),
+                'domain'  => $app->get('cookie_domain', ''),
+            ]
+        );
     }
 }

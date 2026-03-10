@@ -59,7 +59,7 @@ class SetupModel extends BaseInstallationModel
         }
 
         // Get the session
-        $session            = Factory::getSession();
+        $session            = Factory::getApplication()->getSession();
         $options['helpurl'] = $session->get('setup.helpurl', null);
 
         // Merge the new setup options into the current ones and store in the session.
@@ -85,7 +85,7 @@ class SetupModel extends BaseInstallationModel
         }
 
         // Get the form.
-        Form::addFormPath(JPATH_COMPONENT . '/forms');
+        Form::addFormPath(JPATH_BASE . '/forms');
 
         try {
             $form = Form::getInstance('jform', $view, ['control' => 'jform']);

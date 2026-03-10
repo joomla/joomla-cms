@@ -35,7 +35,6 @@ const headerItemWidths = headerExpandedItems
 
 // Get the ellipsis button width
 headerCondensedItemContainer.classList.remove('d-none');
-// eslint-disable-next-line no-unused-expressions
 headerCondensedItemContainer.paddingTop;
 const ellipsisWidth = headerCondensedItemContainer.getBoundingClientRect().width;
 headerCondensedItemContainer.classList.add('d-none');
@@ -288,13 +287,13 @@ window.addEventListener('joomla:menu-toggle', (event) => {
 });
 
 /**
- * Close any open data-bs-toggle="collapse" when opening a data-bs-toggle="dropdown"
+ * Close any open data-bs-toggle="collapse" in the header when opening a data-bs-toggle="dropdown"
  *
  * @since 4.4
  */
 document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach((button) => {
   button.addEventListener('click', () => {
-    document.querySelectorAll('[data-bs-toggle="collapse"]').forEach((cb) => {
+    document.querySelectorAll('#header [data-bs-toggle="collapse"]').forEach((cb) => {
       const target = document.querySelector(cb.getAttribute('data-bs-target'));
       if (target.contains(button)) {
         return;

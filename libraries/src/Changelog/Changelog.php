@@ -9,12 +9,11 @@
 
 namespace Joomla\CMS\Changelog;
 
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Version;
+use Joomla\Http\HttpFactory;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -28,7 +27,6 @@ use Joomla\Registry\Registry;
  */
 class Changelog
 {
-    use LegacyErrorHandlingTrait;
     use LegacyPropertyManagementTrait;
 
     /**
@@ -288,8 +286,7 @@ class Changelog
                         $this->$key = $val;
                     }
 
-                    unset($this->latest);
-                    unset($this->currentChangelog);
+                    unset($this->latest, $this->currentChangelog);
                 } elseif (isset($this->currentChangelog)) {
                     // The update might be for an older version of j!
                     unset($this->currentChangelog);
@@ -352,13 +349,13 @@ class Changelog
         $httpOption->set('userAgent', $version->getUserAgent('Joomla', true, false));
 
         try {
-            $http     = HttpFactory::getHttp($httpOption);
+            $http     = (new HttpFactory())->getHttp($httpOption);
             $response = $http->get($url);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $response = null;
         }
 
-        if ($response === null || $response->code !== 200) {
+        if ($response === null || $response->getStatusCode() !== 200) {
             // @todo: Add a 'mark bad' setting here somehow
             Log::add(Text::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), Log::WARNING, 'jerror');
 
@@ -368,11 +365,10 @@ class Changelog
         $this->currentChangelog = new \stdClass();
 
         $this->xmlParser = xml_parser_create('');
-        xml_set_object($this->xmlParser, $this);
-        xml_set_element_handler($this->xmlParser, 'startElement', 'endElement');
-        xml_set_character_data_handler($this->xmlParser, 'characterData');
+        xml_set_element_handler($this->xmlParser, [$this, 'startElement'], [$this, 'endElement']);
+        xml_set_character_data_handler($this->xmlParser, [$this, 'characterData']);
 
-        if (!xml_parse($this->xmlParser, $response->body)) {
+        if (!xml_parse($this->xmlParser, (string) $response->getBody())) {
             Log::add(
                 \sprintf(
                     'XML error: %s at line %d',
@@ -385,8 +381,6 @@ class Changelog
 
             return false;
         }
-
-        xml_parser_free($this->xmlParser);
 
         return true;
     }

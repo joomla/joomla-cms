@@ -16,7 +16,7 @@ namespace Joomla\CMS\String;
 /**
  * A transitioning interface to PHP implicit \Stringable interface
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.3.0
  */
 interface StringableInterface
 {
@@ -25,7 +25,7 @@ interface StringableInterface
      *
      * @return string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.3.0
      */
     public function __toString(): string;
 }

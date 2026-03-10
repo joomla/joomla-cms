@@ -27,7 +27,7 @@ module.exports.resolvePackageFile = (relativePath) => {
  * @returns {[]}
  */
 module.exports.getPackagesUnderScope = (scope) => {
-  const cmModules = [];
+  const cmModules = new Set();
 
   // Get the scope roots
   const roots = [];
@@ -41,9 +41,9 @@ module.exports.getPackagesUnderScope = (scope) => {
   // List of modules
   roots.forEach((rootPath) => {
     readdirSync(rootPath).forEach((subModule) => {
-      cmModules.push(`${scope}/${subModule}`);
+      cmModules.add(`${scope}/${subModule}`);
     });
   });
 
-  return cmModules;
+  return [...cmModules];
 };

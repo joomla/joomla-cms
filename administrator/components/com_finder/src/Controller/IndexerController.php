@@ -57,7 +57,6 @@ class IndexerController extends BaseController
         $dispatcher = $this->getDispatcher();
 
         if ($params->get('enable_logging', '0')) {
-            $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
             $options['text_file'] = 'indexer.php';
             Log::addLogger($options);
         }
@@ -65,7 +64,7 @@ class IndexerController extends BaseController
         // Log the start
         try {
             Log::add('Starting the indexer', Log::INFO);
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
 
@@ -129,7 +128,6 @@ class IndexerController extends BaseController
         $dispatcher = $this->getDispatcher();
 
         if ($params->get('enable_logging', '0')) {
-            $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
             $options['text_file'] = 'indexer.php';
             Log::addLogger($options);
         }
@@ -137,7 +135,7 @@ class IndexerController extends BaseController
         // Log the start
         try {
             Log::add('Starting the indexer batch process', Log::INFO);
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
 
@@ -196,7 +194,7 @@ class IndexerController extends BaseController
             // Log batch completion and memory high-water mark.
             try {
                 Log::add('Batch completed, peak memory usage: ' . number_format(memory_get_peak_usage(true)) . ' bytes', Log::INFO);
-            } catch (\RuntimeException $exception) {
+            } catch (\RuntimeException) {
                 // Informational log only
             }
 
@@ -284,7 +282,6 @@ class IndexerController extends BaseController
         $params = ComponentHelper::getParams('com_finder');
 
         if ($params->get('enable_logging', '0')) {
-            $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
             $options['text_file'] = 'indexer.php';
             Log::addLogger($options);
         }
@@ -293,7 +290,7 @@ class IndexerController extends BaseController
         if ($data instanceof \Exception) {
             try {
                 Log::add($data->getMessage(), Log::ERROR);
-            } catch (\RuntimeException $exception) {
+            } catch (\RuntimeException) {
                 // Informational log only
             }
 
@@ -365,7 +362,7 @@ class IndexerController extends BaseController
             $output .= '<dl class="row">';
 
             foreach (DebugIndexer::$item as $key => $value) {
-                $output .= '<dt class="col-sm-2">' . $key . '</dt><dd class="col-sm-10">' . $value . '</dd>';
+                $output .= '<dt class="col-sm-2">' . $key . '</dt><dd class="col-sm-10 text-break">' . $value . '</dd>';
             }
 
             $output .= '</dl>';
@@ -375,7 +372,7 @@ class IndexerController extends BaseController
             $output .= '<dl class="row">';
 
             foreach (DebugIndexer::$item->getElements() as $key => $element) {
-                $output .= '<dt class="col-sm-2">' . $key . '</dt><dd class="col-sm-10">' . $element . '</dd>';
+                $output .= '<dt class="col-sm-2">' . $key . '</dt><dd class="col-sm-10 text-break">' . $element . '</dd>';
             }
 
             $output .= '</dl>';
@@ -392,7 +389,7 @@ class IndexerController extends BaseController
             ];
 
             foreach (DebugIndexer::$item->getInstructions() as $key => $element) {
-                $output .= '<dt class="col-sm-2">' . $contexts[$key] . '</dt><dd class="col-sm-10">' . json_encode($element) . '</dd>';
+                $output .= '<dt class="col-sm-2">' . $contexts[$key] . '</dt><dd class="col-sm-10 text-break">' . json_encode($element) . '</dd>';
             }
 
             $output .= '</dl>';
@@ -402,7 +399,7 @@ class IndexerController extends BaseController
             $output .= '<dl class="row">';
 
             foreach (DebugIndexer::$item->getTaxonomy() as $key => $element) {
-                $output .= '<dt class="col-sm-2">' . $key . '</dt><dd class="col-sm-10">' . json_encode($element) . '</dd>';
+                $output .= '<dt class="col-sm-2">' . $key . '</dt><dd class="col-sm-10 text-break">' . json_encode($element) . '</dd>';
             }
 
             $output .= '</dl>';
