@@ -31,7 +31,6 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Event\ConnectionEvent;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\System\Debug\DataCollector\InfoCollector;
@@ -162,16 +161,15 @@ final class Debug extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * @param   DispatcherInterface      $dispatcher  The object to observe -- event dispatcher.
      * @param   array                    $config      An optional associative array of configuration settings.
      * @param   CMSApplicationInterface  $app         The app
      * @param   DatabaseInterface        $db          The db
      *
      * @since   1.5
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, CMSApplicationInterface $app, DatabaseInterface $db)
+    public function __construct(array $config, CMSApplicationInterface $app, DatabaseInterface $db)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->setApplication($app);
         $this->setDatabase($db);
@@ -344,11 +342,12 @@ final class Debug extends CMSPlugin implements SubscriberInterface
         }
 
         $debugBarRenderer = new JavascriptRenderer($this->debugBar, Uri::root(true) . '/media/vendor/debugbar/');
-        $openHandlerUrl   = Uri::base(true) . '/index.php?option=com_ajax&plugin=debug&group=system&format=raw&action=openhandler';
-        $openHandlerUrl .= '&' . ($formToken ?? Session::getFormToken()) . '=1';
 
-        $debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);
-
+        if ($this->params->get('track_request_history', false)) {
+            $openHandlerUrl   = Uri::base(true) . '/index.php?option=com_ajax&plugin=debug&group=system&format=raw&action=openhandler';
+            $openHandlerUrl .= '&' . ($formToken ?? Session::getFormToken()) . '=1';
+            $debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);
+        }
         /**
          * @todo disable highlightjs from the DebugBar, import it through NPM
          *       and deliver it through Joomla's API
@@ -501,7 +500,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
 
                 if ((stripos($query, 'select') === 0) || ($dbVersion56 && ((stripos($query, 'delete') === 0) || (stripos($query, 'update') === 0)))) {
                     try {
-                        $queryInstance = $db->getQuery(true);
+                        $queryInstance = $db->createQuery();
                         $queryInstance->setQuery('EXPLAIN ' . ($dbVersion56 ? 'EXTENDED ' : '') . $query);
 
                         if ($boundParams[$k]) {
@@ -531,7 +530,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
      *
      * @since   3.1
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use \Joomla\CMS\Log\Log::add(LogEntry $entry) instead
      */
     public function logger(LogEntry $entry)

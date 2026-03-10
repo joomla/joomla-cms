@@ -134,7 +134,11 @@ document.getElementById('target-association').addEventListener('load', ({ target
   // We need to check if we are not loading a blank iframe.
   if (target.getAttribute('src') !== '') {
     document.getElementById('toolbar-target').classList.remove('hidden');
-    document.getElementById('toolbar-copy').classList.remove('hidden');
+
+    const toolbarCopy = document.getElementById('toolbar-copy');
+    if (toolbarCopy) {
+      toolbarCopy.classList.remove('hidden');
+    }
     document.getElementById('select-change').classList.remove('hidden');
 
     const targetLanguage = target.getAttribute('data-language');
@@ -247,7 +251,6 @@ document.getElementById('target-association').addEventListener('load', ({ target
 
         const formAssociationId = content.querySelector(`#jform_associations_${langAssociation}_id`);
         if (formAssociationId) {
-          // eslint-disable-next-line prefer-destructuring
           content.querySelector(`#jform_associations_${langAssociation}_id`).value = parse[1];
         }
 
@@ -255,7 +258,6 @@ document.getElementById('target-association').addEventListener('load', ({ target
         chosenField = content.querySelector(`#jform_associations_${langAssociation}`);
         if (chosenField) {
           chosenField.appendChild(createOption(parse[1], ''));
-          // eslint-disable-next-line prefer-destructuring
           chosenField.value = parse[1];
         }
       }

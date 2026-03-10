@@ -112,7 +112,6 @@ function clean_checkout(string $dir)
     run_and_check('find libraries/vendor -name .php_cs.dist | xargs rm -rf -');
     run_and_check('find libraries/vendor -name phpcs.xsd | xargs rm -rf -');
     run_and_check('find libraries/vendor -name phpcs.xml | xargs rm -rf -');
-    run_and_check('find libraries/vendor -name build.xml | xargs rm -rf -');
     run_and_check('find libraries/vendor -name infection.json.dist | xargs rm -rf -');
     run_and_check('find libraries/vendor -name phpbench.json | xargs rm -rf -');
     run_and_check('find libraries/vendor -name phpstan.neon.dist | xargs rm -rf -');
@@ -168,6 +167,7 @@ function clean_checkout(string $dir)
 
     // symfony/*
     run_and_check('rm -rf libraries/vendor/symfony/*/Resources/doc');
+    run_and_check('rm -rf libraries/vendor/symfony/*/Test');
     run_and_check('rm -rf libraries/vendor/symfony/*/Tests');
     run_and_check('rm -rf libraries/vendor/symfony/console/Resources');
     run_and_check('rm -rf libraries/vendor/symfony/string/Resources/bin');
@@ -343,10 +343,9 @@ if (!file_exists(rtrim($fullpath, '\\/') . '/plugins/system/webauthn/fido.jwt'))
     exit(1);
 }
 
-run_and_check('npm install --unsafe-perm');
-
+// Install dependencies and build the media assets
 // Create version entries of the urls inside the static css files
-run_and_check('npm run cssversioning');
+run_and_check('npm ci');
 
 // Create gzipped version of the static assets
 run_and_check('npm run gzip');
@@ -433,19 +432,15 @@ $filesArray = [
  * Because this is a fresh copy from a git tag, local environment files may be ignored
  */
 $doNotPackage = [
-    '.appveyor.yml',
     '.drone.yml',
     '.editorconfig',
     '.github',
     '.gitignore',
-    '.phan',
     '.php-cs-fixer.dist.php',
     'acceptance.suite.yml',
     // Media Manager Node Assets
     'administrator/components/com_media/resources',
-    'appveyor-phpunit.xml',
     'build',
-    'build.xml',
     'CODE_OF_CONDUCT.md',
     'composer.json',
     'composer.lock',
@@ -455,7 +450,7 @@ $doNotPackage = [
     'package.json',
     'phpstan-baseline.neon',
     'phpstan.neon',
-    'phpunit-pgsql.xml.dist',
+    'phpunit-windows.xml.dist',
     'phpunit.xml.dist',
     'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.ini',
     'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.sys.ini',

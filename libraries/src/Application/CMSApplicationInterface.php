@@ -24,7 +24,7 @@ use Joomla\Input\Input;
  *
  * @since  4.0.0
  * @note   In Joomla 6 this interface will no longer extend EventAwareInterface
- * @property-read   Input  $input  {@deprecated 4.0 will be removed in 6.0} The Joomla Input property. Deprecated in favour of getInput()
+ * @property-read   Input  $input  {@deprecated 4.0 will be removed in 7.0} The Joomla Input property. Deprecated in favour of getInput()
  */
 interface CMSApplicationInterface extends ExtensionManagerInterface, ConfigurationAwareApplicationInterface, EventAwareInterface
 {
@@ -91,6 +91,22 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
      * @since  4.0.0
      */
     public const MSG_DEBUG = 'debug';
+
+    /**
+     * Constant defining an enqueued message message
+     *
+     * @var    string
+     * @since  6.0.2
+     */
+    public const MSG_MESSAGE = 'message';
+
+    /**
+     * Constant defining an enqueued success message
+     *
+     * @var    string
+     * @since  6.0.2
+     */
+    public const MSG_SUCCESS = 'success';
 
     /**
      * Enqueue a system message.

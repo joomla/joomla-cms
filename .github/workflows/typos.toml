@@ -6,10 +6,10 @@
 [files]
 extend-exclude = [
     "/templates/system/*.html",
-    "/administrator/components/com_admin/sql/*",
     "/build/media_source/vendor/tinymce/langs/*",
     "/installation/language/*",
-    "includes/*.html",
+    "!/installation/language/en-GB/",
+    "/includes/*.html",
     "/plugins/sampledata/testing/*",
 ]
 

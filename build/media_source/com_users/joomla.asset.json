@@ -37,6 +37,17 @@
       "attributes": {
         "type": "module"
       }
+    },
+    {
+      "name": "com_users.activate-user-send-email",
+      "type": "script",
+      "uri": "com_users/activate-user-send-email.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      }
     }
   ]
 }
