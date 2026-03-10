@@ -224,9 +224,10 @@ class StyleModel extends AdminModel
      * @param   array    $data      An optional array of data for the form to interrogate.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -652,7 +653,7 @@ class StyleModel extends AdminModel
     {
         $db    = $this->getDatabase();
         $query = $db->createQuery()
-            ->select($db->quoteName(['s.template', 's.params', 's.inheritable', 's.parent']))
+            ->select($db->quoteName(['s.template', 's.params', 's.inheritable', 's.parent', 'e.custom_data']))
             ->from($db->quoteName('#__template_styles', 's'))
             ->join(
                 'LEFT',
@@ -697,7 +698,7 @@ class StyleModel extends AdminModel
     {
         $db    = $this->getDatabase();
         $query = $db->createQuery()
-            ->select($db->quoteName(['id', 'home', 'template', 's.params', 'inheritable', 'parent']))
+            ->select($db->quoteName(['id', 'home', 'template', 's.params', 'inheritable', 'parent', 'e.custom_data']))
             ->from($db->quoteName('#__template_styles', 's'))
             ->where(
                 [
