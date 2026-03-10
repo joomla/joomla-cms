@@ -2,14 +2,14 @@
 
 .sidebar-wrapper {
   z-index: $zindex-sidebar;
-  min-height: calc(100vh - 66px);
+  min-block-size: calc(100vh - 66px);
   overflow: hidden;
   background-color: $sidebarwrapper-bg;
   box-shadow: var(--atum-box-shadow);
 
   .sidebar-sticky {
     position: sticky;
-    top: 0;
+    inset-block-start: 0;
   }
 
   .item {
@@ -36,7 +36,7 @@
       display: flex;
       flex-grow: 1;
       align-items: center;
-      min-height: 40px;
+      min-block-size: 40px;
 
       [class^="#{$jicon-css-prefix}-"],
       [class*=" #{$jicon-css-prefix}-"],
@@ -47,24 +47,23 @@
       }
     }
 
-    &-level-2 > a {
-      padding-inline-start: 3rem;
-    }
-
-    &-level-3 > a {
-      padding-inline-start: 3.75rem;
+    @for $level from 2 through 10 {
+      &-level-#{$level} > a {
+        $pad: 3rem + (($level - 2) * .75rem);
+        padding-inline-start: $pad;
+      }
     }
   }
 
   @include media-breakpoint-up(sm) {
     flex: 1 0 $sidebar-width;
-    max-width: $sidebar-width;
+    max-inline-size: $sidebar-width;
     transition: all .3s ease-in-out;
   }
 
   @include media-breakpoint-down(sm) {
     &.sidebar-menu {
-      top: auto;
+      inset-block-start: auto;
     }
   }
 
@@ -83,12 +82,12 @@
 
 // Sidebar navigation
 .main-nav {
-  width: $sidebar-width;
+  inline-size: $sidebar-width;
   padding: 0;
   font-size: .95rem;
 
   @include media-breakpoint-down(sm) {
-    width: 100%;
+    inline-size: 100%;
   }
 
   // All list items
@@ -100,28 +99,28 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 40px;
-        height: 100%;
+        inline-size: 40px;
+        block-size: 100%;
       }
     }
   }
 
   // 2nd level items
   ul {
-    width: 100%;
+    inline-size: 100%;
     padding: 0;
     background-color: $main-nav-ul-bg; /* main-nav-ul-bg: var(--template-bg-dark-75) */
   }
 
   .divider {
-    height: 1px;
+    block-size: 1px;
     margin: 0 0 0 48px;
     list-style: none;
     background-color: $main-nav-divider-bg; /* main-nav-divider-bg: var(--template-bg-dark-60) */
   }
 
   .menuitem-group {
-    margin-top: .65rem;
+    margin-block-start: .65rem;
     font-size: .75rem;
     padding-inline-start: 3rem;
 
@@ -140,7 +139,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 2rem;
+      inline-size: 2rem;
       font-family: "Font Awesome 6 Free";
       font-weight: 900;
       content: "\f054" #{"/*!rtl:\"\f053\"*/"};
@@ -170,7 +169,7 @@
 
   .mm-collapsing {
     position: relative;
-    height: 0;
+    block-size: 0;
     overflow: hidden;
     transition: all .35s ease;
   }
@@ -186,7 +185,7 @@
 .closed {
   .sidebar-wrapper {
     flex: 1 0 $sidebar-width-closed;
-    max-width: $sidebar-width-closed;
+    max-inline-size: $sidebar-width-closed;
     overflow: visible;
   }
 
@@ -198,12 +197,12 @@
 
   .main-nav,
   .main-nav li {
-    max-width: 3rem;
+    max-inline-size: 3rem;
   }
 
   .main-nav a:hover {
     position: relative;
-    max-width: 3rem;
+    max-inline-size: 3rem;
   }
 
   .main-nav a:hover .sidebar-item-title {
@@ -211,7 +210,7 @@
     inset-inline-start: 100%;
     display: flex;
     align-items: center;
-    height: 100%;
+    block-size: 100%;
     padding: 0 1rem;
     white-space: nowrap;
     pointer-events: none;
@@ -223,7 +222,7 @@
   }
 
   .main-nav > li > ul {
-    height: 0;
+    block-size: 0;
     padding: 0;
     visibility: hidden;
   }
@@ -244,8 +243,8 @@
 
   .toggler-burger {
     position: fixed;
-    right: 0;
-    bottom: 0;
+    inset-inline-end: 0;
+    inset-block-end: 0;
     z-index: $zindex-mobile-toggle;
     padding: 10px 15px;
 
@@ -277,12 +276,12 @@
     &.show,
     &.collapsing {
       position: fixed;
-      bottom: 55px;
+      inset-block-end: 55px;
       z-index: $zindex-mobile-menu;
       display: block;
-      width: 100%;
-      min-height: auto;
-      max-height: calc(100vh - 72px);
+      inline-size: 100%;
+      min-block-size: auto;
+      max-block-size: calc(100vh - 72px);
       overflow-y: auto;
     }
   }
@@ -291,8 +290,7 @@
 @if $enable-dark-mode {
   @include color-mode(dark) {
     .sidebar-wrapper {
-      border: 1px solid rgba(255, 255, 255, .05);
-      box-shadow: none;
+      --atum-box-shadow: 1px 0 0 0 rgba(255, 255, 255, .05);
       .main-nav {
         .badge {
           color: map-get($atum-colors-dark, "btn-primary-color");

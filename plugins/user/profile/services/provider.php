@@ -16,7 +16,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\User\Profile\Extension\Profile;
 
 return new class () implements ServiceProviderInterface {
@@ -33,16 +32,15 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Profile::class, function (Container $container) {
                 $plugin     = new Profile(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('user', 'profile')
                 );
                 $plugin->setApplication(Factory::getApplication());
                 $plugin->setDatabase($container->get(DatabaseInterface::class));
 
                 return $plugin;
-            }
+            })
         );
     }
 };

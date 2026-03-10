@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Contact\Api\Controller;
 
+use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Contact\SubmitContactEvent;
 use Joomla\CMS\Event\Contact\ValidateContactEvent;
@@ -29,7 +30,6 @@ use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
-use Joomla\String\Inflector;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
@@ -99,7 +99,8 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
             $id = $this->input->post->get('id', 0, 'int');
         }
 
-        $modelName = Inflector::singularize($this->contentType);
+        $inflector = InflectorFactory::create()->build();
+        $modelName = $inflector->singularize($this->contentType);
 
         /** @var  \Joomla\Component\Contact\Site\Model\ContactModel $model */
         $model = $this->getModel($modelName, 'Site');

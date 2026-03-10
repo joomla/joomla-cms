@@ -3,19 +3,19 @@
 .com_cpanel {
 
   .content {
-    margin-top: 2rem;
+    margin-block-start: 2rem;
   }
 
   .card {
     p:last-child {
-      margin-bottom: 0;
+      margin-block-end: 0;
     }
 
     .list-group,
     .table {
       padding: 0;
-      margin-bottom: unset;
-      border-top: 1px solid var(--border-color);
+      margin-block-end: unset;
+      border-block-start: 1px solid var(--border-color);
     }
 
   }
@@ -28,8 +28,7 @@
     }
 
     .btn {
-      margin-top: .25em;
-      margin-bottom: .25em;
+      margin-block: .25em;
     }
   }
 
@@ -37,8 +36,8 @@
     padding: 0;
     overflow: hidden;
     background-color: $card-body-bg;
-    border-bottom-right-radius: $border-radius;
-    border-bottom-left-radius: $border-radius;
+    border-end-end-radius: $border-radius;
+    border-end-start-radius: $border-radius;
   }
 
   .module-actions {
@@ -56,8 +55,8 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-end;
-    width: 100%;
-    min-height: 130px;
+    inline-size: 100%;
+    min-block-size: 130px;
     padding: 0 1rem;
     font-size: .875rem;
     font-weight: 700;
@@ -90,7 +89,7 @@
 
 .cpanel-modules {
   .list-group {
-    border-top: 1px solid $atum-list-group-border-color;
+    border-block-start: 1px solid $atum-list-group-border-color;
   }
 
   .list-group-item {
@@ -153,7 +152,7 @@
   }
 
   h2 {
-    margin-bottom: 0;
+    margin-block-end: 0;
     font-size: $h4-font-size;
   }
 
@@ -180,7 +179,7 @@
 }
 
 .sample-data__icon {
-  width: 1.3rem;
+  inline-size: 1.3rem;
   text-align: center;
 }
 
@@ -194,12 +193,11 @@
   @include color-mode(dark) {
     .com_cpanel {
       .card {
-        border: 1px solid rgba(255, 255, 255, .1);
-        box-shadow: 1px 1px 2px rgba(0, 0, 0, .1);
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, .1), 1px 1px 2px rgba(0, 0, 0, .1);
 
         .list-group-item:last-child {
-          border-bottom-right-radius: var(--border-radius);
-          border-bottom-left-radius: var(--border-radius);
+          border-end-end-radius: var(--border-radius);
+          border-end-start-radius: var(--border-radius);
         }
 
         .list-group-item {
