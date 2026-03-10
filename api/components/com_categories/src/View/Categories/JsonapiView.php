@@ -106,7 +106,13 @@ class JsonapiView extends BaseApiView
     public function displayList(?array $items = null)
     {
         foreach (FieldsHelper::getFields('com_content.categories') as $field) {
-            $this->fieldsToRenderList[] = $field->name;
+            $fieldKey = \in_array($field->name, $this->fieldsToRenderList, true)
+                ? 'cf_' . $field->name
+                : $field->name;
+
+            if (!\in_array($fieldKey, $this->fieldsToRenderList, true)) {
+                $this->fieldsToRenderList[] = $fieldKey;
+            }
         }
 
         return parent::displayList();
@@ -124,7 +130,13 @@ class JsonapiView extends BaseApiView
     public function displayItem($item = null)
     {
         foreach (FieldsHelper::getFields('com_content.categories') as $field) {
-            $this->fieldsToRenderItem[] = $field->name;
+            $fieldKey = \in_array($field->name, $this->fieldsToRenderItem, true)
+                ? 'cf_' . $field->name
+                : $field->name;
+
+            if (!\in_array($fieldKey, $this->fieldsToRenderItem, true)) {
+                $this->fieldsToRenderItem[] = $fieldKey;
+            }
         }
 
         if ($item === null) {
@@ -156,7 +168,18 @@ class JsonapiView extends BaseApiView
     protected function prepareItem($item)
     {
         foreach (FieldsHelper::getFields('com_content.categories', $item, true) as $field) {
-            $item->{$field->name} = $field->apivalue ?? $field->rawvalue;
+            $value    = $field->apivalue ?? $field->rawvalue ?? null;
+            $fieldKey = property_exists($item, $field->name) ? 'cf_' . $field->name : $field->name;
+
+            $item->{$fieldKey} = $value;
+
+            if (!\in_array($fieldKey, $this->fieldsToRenderItem, true)) {
+                $this->fieldsToRenderItem[] = $fieldKey;
+            }
+
+            if (!\in_array($fieldKey, $this->fieldsToRenderList, true)) {
+                $this->fieldsToRenderList[] = $fieldKey;
+            }
         }
 
         return parent::prepareItem($item);
