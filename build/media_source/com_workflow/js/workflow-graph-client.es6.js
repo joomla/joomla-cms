@@ -91,8 +91,8 @@ Joomla = window.Joomla || {};
     const withNoPosition = stages.filter(stage => !stage.position || isNaN(stage.position.x) || isNaN(stage.position.y));
     if (withNoPosition.length === 0) return stages;
 
-    const fromAnyStage = stages.find(s => s.id === 'From Any');
-    const transitionStages = stages.filter(s => s.id !== 'From Any');
+    const fromAnyStage = stages.find(s => s.id === 'from_any');
+    const transitionStages = stages.filter(s => s.id !== 'from_any');
 
     const gapX = 400;
     const gapY = 300;
@@ -185,7 +185,7 @@ Joomla = window.Joomla || {};
 
     // Undirected Grouping to prevent overlaps on bi-directional edges
     transitions.forEach(tr => {
-      const fromId = tr.from_stage_id === -1 ? 'From Any' : tr.from_stage_id;
+      const fromId = tr.from_stage_id === -1 ? 'from_any' : tr.from_stage_id;
       const toId = tr.to_stage_id;
       const s1 = String(fromId);
       const s2 = String(toId);
@@ -198,7 +198,7 @@ Joomla = window.Joomla || {};
     Object.values(edgeGroups).forEach(group => group.sort((a, b) => a.id - b.id));
 
     return transitions.flatMap(tr => {
-      const fromId = tr.from_stage_id === -1 ? 'From Any' : tr.from_stage_id;
+      const fromId = tr.from_stage_id === -1 ? 'from_any' : tr.from_stage_id;
       const toId = tr.to_stage_id;
       const fromStage = stageMap.get(fromId);
       const toStage = stageMap.get(toId);
@@ -280,7 +280,7 @@ Joomla = window.Joomla || {};
       let stageEl = document.createElement('div');
       stageEl.id = `stage-${stage.id}`;
       stageEl.addEventListener('mousedown', e => { if (e.button === 0) handleNodeDrag(e, stage); });
-      const isVirtual = stage.id === 'From Any';
+      const isVirtual = stage.id === 'from_any';
       stageEl.className = `stage ${stage.default ? 'default' : ''} ${isVirtual ? 'virtual' : ''}`;
       stageEl.style.left = `${stage.position.x}px`;
       stageEl.style.top = `${stage.position.y}px`;
@@ -399,7 +399,7 @@ Joomla = window.Joomla || {};
   }
 
   function handleNodeDrag(startEvent, draggedStage) {
-    if (draggedStage.id === 'From Any') return;
+    if (draggedStage.id === 'from_any') return;
     const stageElement = document.getElementById(`stage-${draggedStage.id}`);
     state.isDraggingStage = true;
     const dragStart = {
@@ -461,8 +461,8 @@ Joomla = window.Joomla || {};
 
       if (!stages.length) return showMessageInModal('COM_WORKFLOW_GRAPH_ERROR_STAGES_NOT_FOUND', 'error');
 
-      if (state.transitions.some(tr => tr.from_stage_id === -1) && !stages.some(s => s.id === 'From Any')) {
-        stages.unshift({ id: 'From Any', title: 'From Any', position: null });
+      if (state.transitions.some(tr => tr.from_stage_id === -1) && !stages.some(s => s.id === 'from_any')) {
+        stages.unshift({ id: 'from_any', title: translate('COM_WORKFLOW_GRAPH_FROM_ANY'), position: null });
       }
       state.stages = stages.map(s => ({ ...s, position: s.position || { x: NaN, y: NaN } }));
       state.stages = calculateAutoLayout(state.stages);
@@ -474,7 +474,7 @@ Joomla = window.Joomla || {};
         statusBadge.textContent = state.workflow.published == '1' ? translate('COM_WORKFLOW_GRAPH_ENABLED') : translate('COM_WORKFLOW_GRAPH_DISABLED');
         statusBadge.classList.add(state.workflow.published == '1' ? 'bg-success' : 'bg-warning');
       }
-      const realStagesCount = state.stages.filter(s => s.id !== 'From Any').length;
+      const realStagesCount = state.stages.filter(s => s.id !== 'from_any').length;
       const stageCount = modal.querySelector('#workflow-stage-count');
       if (stageCount) stageCount.textContent = `${realStagesCount} ${realStagesCount === 1 ? translate('COM_WORKFLOW_GRAPH_STAGE') : translate('COM_WORKFLOW_GRAPH_STAGES')}`;
 
