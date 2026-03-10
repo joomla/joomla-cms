@@ -164,7 +164,7 @@ if (!empty($prNumber)) {
 
 $list = json_decode($json, true);
 
-echo "\nFound " . count($list) . " pull request(s).\n";
+echo "\nFound " . \count($list) . " pull request(s).\n";
 
 foreach ($list as $pr) {
     echo "Checkout #" . $pr['number'] . "\n";
@@ -194,10 +194,10 @@ foreach ($list as $pr) {
 
     echo "Run PSR-12 converter script\n";
 
-    $cmd = $git . ' diff --name-only psr12anchor..HEAD';
+    $cmd    = $git . ' diff --name-only psr12anchor..HEAD';
     $output = [];
     exec($cmd, $output, $result);
-    if (count($output) > 500) {
+    if (\count($output) > 500) {
         var_dump([$cmd, $output, $result]);
         echo 'Too many files changed between psr12anchor and HEAD pr #' . $pr['number'] ."\n";
         continue;

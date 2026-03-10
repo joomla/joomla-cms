@@ -9,15 +9,15 @@
  */
 
 // Set defaults
-$root      = dirname(dirname(__DIR__));
+$root      = \dirname(\dirname(__DIR__));
 $php       = 'php';
 $git       = 'git';
 $checkPath = false;
 $tasks     = [
-    'CBF'   => false,
-    'CS'    => false,
-    'CLEAN' => false,
-    'CMS'   => false,
+    'CBF'    => false,
+    'CS'     => false,
+    'CLEAN'  => false,
+    'CMS'    => false,
     'BRANCH' => false,
 ];
 
@@ -213,7 +213,7 @@ unset($cleanItems, $item);
 
 $cbfOptions = "-p --standard=" . __DIR__ . "/ruleset.xml --extensions=php";
 $csOptions  = "--standard=" . __DIR__ . "/ruleset.xml --extensions=php";
-$csOptions  .= " --report=" . __DIR__ . "/phpcs.joomla.report.php";
+$csOptions .= " --report=" . __DIR__ . "/phpcs.joomla.report.php";
 
 foreach ($items as $item) {
     if ($tasks['CBF']) {

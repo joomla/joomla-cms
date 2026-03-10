@@ -12,17 +12,6 @@ namespace Joomla\Reports;
 
 use PHP_CodeSniffer\Files\File;
 
-use function array_keys;
-use function array_merge;
-use function file_exists;
-use function file_get_contents;
-use function file_put_contents;
-use function json_encode;
-use function str_replace;
-
-use const JSON_OBJECT_AS_ARRAY;
-use const JSON_PRETTY_PRINT;
-
 class Joomla implements \PHP_CodeSniffer\Reports\Report
 {
     private $tmpDir = __DIR__ . '/../tmp/psr12';
@@ -100,45 +89,45 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
     {
         switch ($error['source']) {
             case 'PSR1.Files.SideEffects.FoundWithSymbols':
-                $fileContent = file_get_contents($file);
+                $fileContent = \file_get_contents($file);
 
                 if (
                     strpos($fileContent, "defined('_JEXEC')") !== false
                     || strpos($fileContent, "defined('JPATH_BASE')") !== false
                 ) {
                     $this->preProcessing[] = [
-                        'file' => $file,
-                        'line' => $line,
-                        'column' => $column,
+                        'file'    => $file,
+                        'line'    => $line,
+                        'column'  => $column,
                         'cleanup' => 'definedJEXEC',
                     ];
                 } else {
-                    $targetFile = $this->tmpDir . '/' . $error['source'] . '.txt';
+                    $targetFile  = $this->tmpDir . '/' . $error['source'] . '.txt';
                     $fileContent = '';
-                    if (file_exists($targetFile)) {
-                        $fileContent = file_get_contents($targetFile);
+                    if (\file_exists($targetFile)) {
+                        $fileContent = \file_get_contents($targetFile);
                     }
 
                     static $replace = null;
 
                     if ($replace === null) {
                         $replace = [
-                            "\\" => '/',
-                            dirname(dirname(__DIR__)) . '/' => '',
-                            '.' => '\.',
+                            "\\"                              => '/',
+                            \dirname(\dirname(__DIR__)) . '/' => '',
+                            '.'                               => '\.',
                         ];
                     }
 
-                    $fileContent .= "        <exclude-pattern>" . str_replace(array_keys($replace), $replace, $file) . "</exclude-pattern>\n";
-                    file_put_contents($targetFile, $fileContent);
+                    $fileContent .= "        <exclude-pattern>" . \str_replace(\array_keys($replace), $replace, $file) . "</exclude-pattern>\n";
+                    \file_put_contents($targetFile, $fileContent);
                 }
                 break;
 
             case 'PSR1.Classes.ClassDeclaration.MissingNamespace':
                 $this->preProcessing[] = [
-                    'file' => $file,
-                    'line' => $line,
-                    'column' => $column,
+                    'file'    => $file,
+                    'line'    => $line,
+                    'column'  => $column,
                     'cleanup' => 'MissingNamespace',
                 ];
                 break;
@@ -156,18 +145,18 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
 
             case 'Squiz.ControlStructures.ControlSignature.SpaceAfterCloseBrace':
                 $this->preProcessing[] = [
-                    'file' => $file,
-                    'line' => $line,
-                    'column' => $column,
+                    'file'    => $file,
+                    'line'    => $line,
+                    'column'  => $column,
                     'cleanup' => 'SpaceAfterCloseBrace',
                 ];
                 break;
 
             case 'PSR12.Properties.ConstantVisibility.NotFound':
                 $this->preProcessing[] = [
-                    'file' => $file,
-                    'line' => $line,
-                    'column' => $column,
+                    'file'    => $file,
+                    'line'    => $line,
+                    'column'  => $column,
                     'cleanup' => 'ConstantVisibility',
                 ];
                 break;
@@ -176,24 +165,24 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
             case 'PSR2.Methods.MethodDeclaration.Underscore':
             case 'PSR1.Classes.ClassDeclaration.MultipleClasses':
             case 'PSR1.Methods.CamelCapsMethodName.NotCamelCaps':
-                $targetFile = $this->tmpDir . '/' . $error['source'] . '.txt';
+                $targetFile  = $this->tmpDir . '/' . $error['source'] . '.txt';
                 $fileContent = '';
-                if (file_exists($targetFile)) {
-                    $fileContent = file_get_contents($targetFile);
+                if (\file_exists($targetFile)) {
+                    $fileContent = \file_get_contents($targetFile);
                 }
 
                 static $replace = null;
 
                 if ($replace === null) {
                     $replace = [
-                        "\\" => '/',
-                        dirname(dirname(__DIR__)) . '/' => '',
-                        '.' => '\.',
+                        "\\"                              => '/',
+                        \dirname(\dirname(__DIR__)) . '/' => '',
+                        '.'                               => '\.',
                     ];
                 }
 
-                $fileContent .= "        <exclude-pattern>" . str_replace(array_keys($replace), $replace, $file) . "</exclude-pattern>\n";
-                file_put_contents($targetFile, $fileContent);
+                $fileContent .= "        <exclude-pattern>" . \str_replace(\array_keys($replace), $replace, $file) . "</exclude-pattern>\n";
+                \file_put_contents($targetFile, $fileContent);
                 break;
         }
     }
@@ -226,12 +215,12 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
         $toScreen = true
     ) {
         $preprocessing = [];
-        if (file_exists($this->tmpDir . '/cleanup.json')) {
-            $preprocessing = json_decode(file_get_contents($this->tmpDir . '/cleanup.json'), JSON_OBJECT_AS_ARRAY);
+        if (\file_exists($this->tmpDir . '/cleanup.json')) {
+            $preprocessing = json_decode(\file_get_contents($this->tmpDir . '/cleanup.json'), \JSON_OBJECT_AS_ARRAY);
         }
 
-        $preprocessing = array_merge($this->preProcessing, $preprocessing);
-        file_put_contents($this->tmpDir . '/cleanup.json', json_encode($preprocessing, JSON_PRETTY_PRINT));
+        $preprocessing = \array_merge($this->preProcessing, $preprocessing);
+        \file_put_contents($this->tmpDir . '/cleanup.json', \json_encode($preprocessing, \JSON_PRETTY_PRINT));
     }
 
     private function getTemplate($section)
@@ -261,7 +250,7 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
                         </body>
                         </html>
                         HTML,
-            'line'   => <<<HTML
+            'line' => <<<HTML
                         <div class="span12">
                             <h3>%HEADLINE%</h3>
                             <p>%TEXT%</p>
@@ -281,27 +270,27 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
 
         $replace = [
             '%HEADLINE%' => $headline,
-            '%TEXT%' => $text,
-            '%ERROR%' => $error,
+            '%TEXT%'     => $text,
+            '%ERROR%'    => $error,
         ];
 
-        $this->html .= str_replace(array_keys($replace), $replace, $line);
+        $this->html .= \str_replace(\array_keys($replace), $replace, $line);
     }
 
     private function writeFile()
     {
         $file = $this->tmpDir . '/result.html';
 
-        if (file_exists($file)) {
-            $html = file_get_contents($file);
+        if (\file_exists($file)) {
+            $html = \file_get_contents($file);
         } else {
             $html = $this->getTemplate('header');
             $html .= '<span class="hidden">%PHPCS_NEXT_BLOCK%</span>';
             $html .= $this->getTemplate('footer');
         }
 
-        $html = str_replace('<span class="hidden">%PHPCS_NEXT_BLOCK%</span>', $this->html . '<span class="hidden">%PHPCS_NEXT_BLOCK%</span>', $html);
+        $html = \str_replace('<span class="hidden">%PHPCS_NEXT_BLOCK%</span>', $this->html . '<span class="hidden">%PHPCS_NEXT_BLOCK%</span>', $html);
 
-        file_put_contents($this->tmpDir . '/result.html', $html);
+        \file_put_contents($this->tmpDir . '/result.html', $html);
     }
 }

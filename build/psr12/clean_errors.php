@@ -8,7 +8,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-$tmpDir = dirname(__DIR__) . '/tmp/psr12';
+$tmpDir = \dirname(__DIR__) . '/tmp/psr12';
 
 $cleaned = [];
 
@@ -58,7 +58,7 @@ foreach ($data as $error) {
                                 ], '', $file);
             break;
 
-        // Not all files need a namespace
+            // Not all files need a namespace
         case 'MissingNamespace':
             // We search for the end of the first doc block and add the exception for this file
             $pos  = strpos($file, ' */');
@@ -70,7 +70,7 @@ foreach ($data as $error) {
             );
 
             break;
-        // Not all classes have to be camelcase
+            // Not all classes have to be camelcase
         case 'ValidClassNameNotCamelCaps':
             // We search for the end of the first doc block and add the exception for this file
             $pos  = strpos($file, ' */');
@@ -134,7 +134,7 @@ foreach ($data as $error) {
             $targetLineNo = $sourceLineEndNo + 1;
 
             // Adjust the indentation to match the next line of code
-            for ($indent = 0; $indent <= strlen($fileContent[$targetLineNo]); $indent++) {
+            for ($indent = 0; $indent <= \strlen($fileContent[$targetLineNo]); $indent++) {
                 if ($fileContent[$targetLineNo][$indent] !== ' ') {
                     break;
                 }
@@ -156,7 +156,7 @@ foreach ($data as $error) {
             }
             array_unshift($replace, $fileContent[$sourceLineEndNo]);
 
-            array_splice($fileContent, $sourceLineStartNo, count($replace), $replace);
+            array_splice($fileContent, $sourceLineStartNo, \count($replace), $replace);
 
             $file = implode('', $fileContent);
 

@@ -57,10 +57,7 @@ $finder = PhpCsFixer\Finder::create()
     ->notPath('/atum/')
     // Ingore cache and logs
     ->notPath('/cache/')
-    ->notPath('/logs/')
-    // Ignore psr12 scripts because they contain invalid syntax
-    ->notPath('/psr12/')
-    ->notName('github_rebase.php');
+    ->notPath('/logs/');
 
 $config = new PhpCsFixer\Config();
 $config
