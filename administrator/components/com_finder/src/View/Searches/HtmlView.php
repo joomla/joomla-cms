@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -105,6 +104,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var SearchesModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $app                 = Factory::getApplication();
         $this->items         = $model->getItems();
@@ -122,11 +122,6 @@ class HtmlView extends BaseHtmlView
             $this->setLayout('emptystate');
         }
 
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
-
         // Check if component is enabled
         if (!$this->enabled) {
             // Check if the user has access to the component options
@@ -139,7 +134,7 @@ class HtmlView extends BaseHtmlView
 
         // Add form control fields
         $this->filterForm
-            ->addControlField('task', '')
+            ->addControlField('task')
             ->addControlField('boxchecked', '0');
 
         // Prepare the view.

@@ -10,14 +10,18 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 
-$app    = Factory::getApplication();
-$form   = $displayData->getForm();
-$input  = $app->getInput();
+$app       = Factory::getApplication();
+$form      = $displayData->getForm();
+$input     = $app->getInput();
+$component = $input->getCmd('option', 'com_content');
 
-$fields = $displayData->fields ?? [
+$saveHistory = ComponentHelper::getParams($component)->get('save_history', 0);
+
+$fields = $displayData->get('fields') ?: [
     ['parent', 'parent_id'],
     ['published', 'state', 'enabled'],
     ['category', 'catid'],
@@ -30,7 +34,11 @@ $fields = $displayData->fields ?? [
     'version_note',
 ];
 
-$hiddenFields = $displayData->hidden_fields ?? [];
+$hiddenFields = $displayData->get('hidden_fields') ?: [];
+
+if (!$saveHistory) {
+    $hiddenFields[] = 'version_note';
+}
 
 if (!ModuleHelper::isAdminMultilang()) {
     $hiddenFields[] = 'language';

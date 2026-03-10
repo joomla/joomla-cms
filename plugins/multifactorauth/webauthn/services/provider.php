@@ -16,7 +16,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Multifactorauth\Webauthn\Extension\Webauthn;
 
 return new class () implements ServiceProviderInterface {
@@ -33,13 +32,13 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
-                $plugin = new Webauthn($container->get(DispatcherInterface::class), (array) PluginHelper::getPlugin('multifactorauth', 'webauthn'));
+            $container->lazy(Webauthn::class, function (Container $container) {
+                $plugin = new Webauthn((array) PluginHelper::getPlugin('multifactorauth', 'webauthn'));
                 $plugin->setApplication(Factory::getApplication());
                 $plugin->setUserFactory($container->get(UserFactoryInterface::class));
 
                 return $plugin;
-            }
+            })
         );
     }
 };

@@ -35,5 +35,5 @@ class HtmlView extends CategoriesView
      * @var    string  The name of the extension for the category
      * @since  3.2
      */
-    public $extension = 'com_newsfeeds';
+    protected $extension = 'com_newsfeeds';
 }
