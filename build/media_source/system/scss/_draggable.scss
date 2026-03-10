@@ -1,11 +1,11 @@
 // DND styles
 .sortable-handler {
-  block-size: 26px;
-  cursor: pointer;
   display: block;
-  inline-size: 26px;
   font-size: 1rem;
   line-height: 22px;
+  cursor: pointer;
+  block-size: 26px;
+  inline-size: 26px;
 }
 
 [data-dnd-draggable-id] {
@@ -13,6 +13,6 @@
 }
 
 [data-dnd-draggable-id]:has([aria-grabbed="true"]) {
-   cursor: grabbing;
-   border: 2px dashed var(--primary);
+  cursor: grabbing;
+  border: 2px dashed var(--primary);
 }
