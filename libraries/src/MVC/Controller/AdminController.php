@@ -436,8 +436,10 @@ class AdminController extends BaseController
             }
         }
 
+        $model = $this->getModel();
+
         // Save the ordering
-        $return = $this->getModel()->saveorder(array_column($list, 'id'), array_column($list, 'order'));
+        $return = $model->saveorder(array_column($list, 'id'), array_column($list, 'order'));
 
         echo new JsonResponse('', $return ? Text::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED') : Text::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError()), !$return);
 
