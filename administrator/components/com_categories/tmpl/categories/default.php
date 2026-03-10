@@ -33,16 +33,20 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
 $parts     = explode('.', $extension, 2);
 $component = $parts[0];
-$section   = null;
 
 if (count($parts) > 1) {
     $section = $parts[1];
-
-    $inflector = Inflector::getInstance();
-
-    if (!$inflector->isPlural($section)) {
-        $section = $inflector->toPlural($section);
+} else {
+    $section = str_replace('com_', '', $component);
+    if ($section === 'content') {
+        $section = 'article';
     }
+}
+
+$inflector = Inflector::getInstance();
+
+if (!$inflector->isPlural($section)) {
+    $section = $inflector->toPlural($section);
 }
 
 if ($saveOrder && !empty($this->items)) {
