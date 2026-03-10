@@ -45,7 +45,7 @@ const Translate = {
         return Translate.translate(key);
       },
       sprintf(key, ...args) {
-        return Translate.sprintf(key, args);
+        return Translate.sprintf(key, ...args);
       },
     },
   }),
