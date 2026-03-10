@@ -100,7 +100,7 @@
             :key="`stage-${node.id}`"
             :id="`stage-list-${node.id}`"
           >
-            {{ sprintf('COM_WORKFLOW_GRAPH_STAGE_REF', node.data.stage?.title) }} - 
+            {{ sprintf('COM_WORKFLOW_GRAPH_STAGE_REF', node.data.stage?.title) }} -
             {{ node.data.stage.published ? sprintf('COM_WORKFLOW_GRAPH_STAGE_STATUS_ENABLED', node.data.stage?.title) : sprintf('COM_WORKFLOW_GRAPH_STAGE_STATUS_DISABLED', node.data.stage?.title) }}.
             <span v-if="node.data.stage.default">({{ translate('COM_WORKFLOW_GRAPH_STAGE_DEFAULT') }})</span>
             {{ node.data.stage?.description ? sprintf('COM_WORKFLOW_GRAPH_STAGE_DESCRIPTION', node.data.stage?.description) : '' }}
@@ -119,7 +119,7 @@
             :key="`transition-${edge.id}`"
             :id="`transition-list-${edge.id}`"
           >
-            {{ sprintf('COM_WORKFLOW_GRAPH_TRANSITION_REF', edge.data.title, stages.find((s) => s.id === parseInt(edge.source, 10))?.title, stages.find((s) => s.id === parseInt(edge.target, 10))?.title) }}
+            {{ sprintf('COM_WORKFLOW_GRAPH_TRANSITION_REF', edge.data.title, stages.find((s) => s.id === parseInt(edge.source, 10))?.title || translate('COM_WORKFLOW_GRAPH_FROM_ANY'), stages.find((s) => s.id === parseInt(edge.target, 10))?.title) }}
             {{ edge.data.published ? sprintf('COM_WORKFLOW_GRAPH_TRANSITION_STATUS_ENABLED', edge.data.title) : sprintf('COM_WORKFLOW_GRAPH_TRANSITION_STATUS_DISABLED', edge.data.title) }}
           </li>
         </ul>
@@ -275,6 +275,7 @@ export default {
 
       dialog.addEventListener('joomla-dialog:close', () => {
         window.removeEventListener('message', msgListener);
+        dialog.destroy();
       });
 
       dialog.show();
@@ -446,7 +447,7 @@ export default {
 
     const positionedNodes = computed(() => {
       const nodes = generatePositionedNodes(stages.value);
-      const special = createSpecialNode('from_any', { x: 600, y: -200 }, 'purple', 'From Any', selectStage, false);
+      const special = createSpecialNode('from_any', { x: 600, y: -200 }, 'purple', translate('COM_WORKFLOW_GRAPH_FROM_ANY'), selectStage, false);
       return [...nodes.map((n) => ({
         ...n,
         data: {
