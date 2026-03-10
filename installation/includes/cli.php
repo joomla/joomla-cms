@@ -19,7 +19,7 @@ require_once __DIR__ . '/defines.php';
 if (!file_exists(JPATH_LIBRARIES . '/vendor/autoload.php') || !is_dir(JPATH_ROOT . '/media/vendor')) {
     echo 'It looks like you are trying to run Joomla! from our git repository.' . PHP_EOL;
     echo 'To do so requires you complete a couple of extra steps first.' . PHP_EOL;
-    echo 'Please see https://docs.joomla.org/Special:MyLanguage/J5.x:Setting_Up_Your_Local_Environment for further details.' . PHP_EOL;
+    echo 'Please see https://guide.joomla.org/user-manual/hosting/local-environment-setup for further details.' . PHP_EOL;
 
     exit;
 }
@@ -31,7 +31,6 @@ require_once __DIR__ . '/framework.php';
 if (is_writable(JPATH_ADMINISTRATOR . '/logs')) {
     \Joomla\CMS\Log\Log::addLogger(
         [
-            'format'    => '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}',
             'text_file' => 'error.php',
         ],
         \Joomla\CMS\Log\Log::ALL,

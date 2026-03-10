@@ -408,10 +408,26 @@ class JoomlaFieldSubform extends HTMLElement {
         }
       }
 
+      // Find row position before sorting
+      const fromPosition = Array.from(src.parentElement.children)
+        .filter((row) => row.matches(that.repeatableElement)).indexOf(src);
+
       if (isRowBefore) {
         dest.parentNode.insertBefore(src, dest);
       } else {
         dest.parentNode.insertBefore(src, dest.nextSibling);
+      }
+
+      // Find final row position, after sorting
+      const toPosition = Array.from(src.parentElement.children)
+        .filter((row) => row.matches(that.repeatableElement)).indexOf(src);
+
+      // Dispatch order-changed event
+      if (fromPosition !== toPosition) {
+        that.dispatchEvent(new CustomEvent('subform-order-changed', {
+          detail: { row: src, fromPosition, toPosition },
+          bubbles: true,
+        }));
       }
     }
 

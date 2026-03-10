@@ -391,7 +391,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         }
 
         // Determine the methods to exclude from the base class.
-        $xMethods = get_class_methods('\\Joomla\\CMS\\MVC\\Controller\\BaseController');
+        $xMethods = get_class_methods(BaseController::class);
 
         // Get the public methods in this class using reflection.
         $r        = new \ReflectionClass($this);
