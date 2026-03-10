@@ -25,18 +25,26 @@ class DND {
           announcements: {
             dragstart: ({operation: {source}}) => {
               if (!source) return;
-              return Joomla.Text._('JGLOBAL_DRAGANDDROP_STARTED')
+              return Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGEND_STARTED')
                 .replace('{{source}}', source.id);
             },
             dragover: ({operation: {source, target}}) => {
-              if (!source || !target) return;
-              return Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGOVER')
-                .replace('{{source}}', source.id)
-                .replace('{{target}}', target.id);
+              if (!source) return;
+              if (!target) {
+                return Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGOVER_NO_ELEMENT')
+                  .replace('{{source}}', source.id);
+              }
+              return Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGOVER_ELEMENT')
+                  .replace('{{source}}', source.id)
+                  .replace('{{target}}', target.id);
             },
             dragend: ({operation: {source, target}, canceled}) => {
               if (!source) return;
 
+              if (!target) {
+                return Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGEND_DROPPED_NO_ELEMENT')
+                  .replace('{{source}}', source.id);
+              }
               if (canceled) {
                 return Joomla.Text._('JGLOBAL_DRAGANDDROP_DRAGEND_CANCELED')
                   .replace('{{source}}', source.id);
