@@ -18,7 +18,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 $displayData = [
     'textPrefix' => 'COM_FINDER',
     'formURL'    => 'index.php?option=com_finder&view=filters',
-    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Smart_Search_quickstart_guide',
+    'helpURL'    => 'https://guide.joomla.org/user-manual/smart-search/smart-search-smart-search-quickstart-guide',
     'icon'       => 'icon-search-plus finder',
     'btnadd'     => Text::_('COM_FINDER_FILTERS_EMPTYSTATE_BUTTON_ADD'),
     'content'    => Text::_('COM_FINDER_FILTERS_EMPTYSTATE_CONTENT'),

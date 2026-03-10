@@ -38,7 +38,7 @@
     .actions,
     .actions-th1 {
       @include media-breakpoint-down(md) {
-        width: 28%;
+        inline-size: 28%;
       }
     }
   }
@@ -54,7 +54,7 @@
       &:last-of-type {
         th,
         td {
-          border-bottom: 0;
+          border-block-end: 0;
         }
       }
     }
@@ -86,7 +86,7 @@
   th,
   td {
     label {
-      margin-bottom: 0;
+      margin-block-end: 0;
     }
 
     .inactive [class^="#{$jicon-css-prefix}-"],
