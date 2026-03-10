@@ -38,10 +38,11 @@ class DragAndDropAssetItem extends WebAssetItem implements WebAssetAttachBehavio
     public function onAttachCallback(Document $doc)
     {
         // Add dnd.js language strings
-        Text::script('JGLOBAL_DRAGANDDROP_STARTED');
-        Text::script('JGLOBAL_DRAGANDDROP_DRAGOVER');
-        Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_DROPPED');
+        Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_STARTED');
+        Text::script('JGLOBAL_DRAGANDDROP_DRAGOVER_NO_ELEMENT');
+        Text::script('JGLOBAL_DRAGANDDROP_DRAGOVER_ELEMENT');
         Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_NO_ELEMENT');
-        Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_CANCELED');
+        Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_DROPPED_NO_ELEMENT');
+        Text::script('JGLOBAL_DRAGANDDROP_DRAGEND_DROPPED');
     }
 }
