@@ -1,7 +1,7 @@
 -- --------------------------------------------------------
 -- The following statement replaces the statement which has been disabled
 -- in file "6.1.0-2026-01-29.sql" with 6.1.0-beta3.
--- See https://github.com/joomla/joomla-cms/pull/XXXXX for details.
+-- See https://github.com/joomla/joomla-cms/pull/47361 for details.
 --
 INSERT INTO "#__content_types" ("type_title", "type_alias", "table", "rules", "field_mappings", "router", "content_history_options")
 SELECT 'Module', 'com_modules.module', '{"special":{"dbtable":"#__modules","key":"id","type":"Module","prefix":"Joomla\\\\CMS\\\\Table\\\\"}}', '', '{}', ''
