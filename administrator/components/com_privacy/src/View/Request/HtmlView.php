@@ -13,7 +13,6 @@ namespace Joomla\Component\Privacy\Administrator\View\Request;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
@@ -77,7 +76,9 @@ class HtmlView extends BaseHtmlView
     public function display($tpl = null)
     {
         /** @var RequestModel $model */
-        $model       = $this->getModel();
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
+
         $this->item  = $model->getItem();
         $this->state = $model->getState();
 
@@ -100,12 +101,7 @@ class HtmlView extends BaseHtmlView
 
             // Add form control fields
             $this->form
-                ->addControlField('task', '');
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
+                ->addControlField('task');
         }
 
         $this->addToolbar();
