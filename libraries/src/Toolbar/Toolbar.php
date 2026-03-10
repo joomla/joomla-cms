@@ -198,7 +198,7 @@ class Toolbar
 
         @trigger_error(
             \sprintf(
-                '%s::appendButton() should only accept %s instance in Joomla 6.0.',
+                '%s::appendButton() should only accept %s instance in Joomla 7.0.',
                 static::class,
                 ToolbarButton::class
             ),
@@ -275,7 +275,7 @@ class Toolbar
 
         @trigger_error(
             \sprintf(
-                '%s::prependButton() should only accept %s instance in Joomla 6.0.',
+                '%s::prependButton() should only accept %s instance in Joomla 7.0.',
                 static::class,
                 ToolbarButton::class
             ),
