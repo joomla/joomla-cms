@@ -197,7 +197,8 @@ class ConstraintCheckerTest extends UnitTestCase
             [(array) ["name" => "foobar", "version" => "4.*"], false],
             [(array) ["name" => "joomla", "version" => "1.*"], false],
             [(array) ["name" => "joomla", "version" => "3.1.2"], false],
-            [(array) ["name" => "joomla", "version" => "6.*"], true],
+            [(array) ["name" => "joomla", "version" => "6.*"], false],
+            [(array) ["name" => "joomla", "version" => "7.*"], true],
             [(array) ["name" => "joomla", "version" => ""], true],
             [(array) ["name" => "joomla", "version" => ".*"], true],
             [(array) ["name" => "joomla", "version" => JVERSION], true],
@@ -219,7 +220,6 @@ class ConstraintCheckerTest extends UnitTestCase
     {
         $reflectionClass = new \ReflectionClass($this->checker);
         $method          = $reflectionClass->getMethod($method);
-        $method->setAccessible(true);
 
         return $method;
     }
