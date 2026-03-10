@@ -409,7 +409,7 @@ class Toolbar
     {
         @trigger_error(
             \sprintf(
-                'Registering lookup paths for toolbar buttons is deprecated and will be removed in Joomla 6.0.'
+                'Registering lookup paths for toolbar buttons is deprecated and will be removed in Joomla 7.0.'
                     . ' %1$s objects should be autoloaded or a custom %2$s implementation supporting path lookups provided.',
                 ToolbarButton::class,
                 ToolbarFactoryInterface::class
@@ -446,7 +446,7 @@ class Toolbar
     {
         @trigger_error(
             \sprintf(
-                'Lookup paths for %s objects is deprecated and will be removed in Joomla 6.0.',
+                'Lookup paths for %s objects is deprecated and will be removed in Joomla 7.0.',
                 ToolbarButton::class
             ),
             E_USER_DEPRECATED
