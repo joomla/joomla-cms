@@ -128,7 +128,7 @@ class DND {
         return;
       }
 
-      this.postMoveCallback(element, this.container);
+      this.postDropCallback(element, this.container);
     }
   }
 
