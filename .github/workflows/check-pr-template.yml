@@ -126,7 +126,7 @@ jobs:
             // 3. Issue reference — silent when PR is otherwise clean
             if (!/resolves\s+#\d+/i.test(body)) {
               advisory.push(
-                '- ⚠️ **Issue reference** — Consider linking this PR to an issue ' +
+                '- ⚠️ **Issue reference** — Consider linking this PR to an issue or discussion item ' +
                 '(e.g. `Pull Request resolves #123`). Skip if no issue exists.'
               );
             }
