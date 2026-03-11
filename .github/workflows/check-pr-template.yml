@@ -4,7 +4,7 @@ name: "PR Template Checker"
 # can write to PRs opened from forks as well.
 on:
   pull_request_target:
-    types: [opened, reopened, ready_for_review]
+    types: [opened, edited, reopened, ready_for_review]
 
 jobs:
   check-template:
@@ -14,16 +14,40 @@ jobs:
       issues: write        # required for label management
 
     steps:
-      - name: Check PR template and manage draft state / label
+      - name: Check PR template and manage label / comment
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
+            // Skip PRs opened before the workflow was introduced (2026-02-19)
+            const CUTOFF = new Date('2026-02-19T15:10:00Z');
+            if (new Date(context.payload.pull_request.created_at) < CUTOFF) {
+              core.info('PR predates workflow cutoff (2026-02-19) — skipping template check.');
+              return;
+            }
+
+            // Skip title-only edits — body unchanged, nothing to re-check
+            if (context.eventName === 'pull_request_target' &&
+                context.payload.action === 'edited' &&
+                !context.payload.changes?.body) {
+              core.info('PR title edited but body unchanged — skipping template check.');
+              return;
+            }
+
             const body       = context.payload.pull_request.body ?? '';
             const prNum      = context.payload.pull_request.number;
-            const prId       = context.payload.pull_request.node_id;
-            const alreadyDraft = context.payload.pull_request.draft;
             const LABEL      = 'template-incomplete';
+
+            // ── Find existing bot template-check comment ──────────────────────
+            const { data: comments } = await github.rest.issues.listComments({
+              owner:        context.repo.owner,
+              repo:         context.repo.repo,
+              issue_number: prNum,
+            });
+            const botComment = comments.find(
+              c => c.user.login === 'github-actions[bot]' &&
+                   c.body.startsWith('## :warning: PR Template Incomplete')
+            );
 
             // ── Helper: does this PR already carry the label? ─────────────────
             const currentLabels = (context.payload.pull_request.labels ?? [])
@@ -41,14 +65,14 @@ jobs:
             }
 
             // ═════════════════════════════════════════════════════════════════
-            //  MANDATORY checks — any failure → draft + label + comment
+            //  MANDATORY checks — any failure → label + comment
             // ═════════════════════════════════════════════════════════════════
             const mandatory = [];
 
             // 1. AI Policy checkbox
             if (!/- \[[xX]\] I read the \[Generative AI policy\]/m.test(body)) {
               mandatory.push(
-                '- ❌ **Generative AI policy** — Please tick the AI policy checkbox.'
+                '- ❌ **Generative AI policy** — Please tick (or readd and tick) the [Generative AI policy](https://developer.joomla.org/generative-ai-policy.html) checkbox.'
               );
             }
 
@@ -61,7 +85,7 @@ jobs:
               if (!guideChecked) {
                 mandatory.push(
                   '- ❌ **Documentation (guide.joomla.org)** — Please tick one of the ' +
-                  'guide.joomla.org options (or "No documentation changes").'
+                  '[guide.joomla.org](https://guide.joomla.org/) options (or "No documentation changes").'
                 );
               }
 
@@ -71,7 +95,7 @@ jobs:
               if (!manualChecked) {
                 mandatory.push(
                   '- ❌ **Documentation (manual.joomla.org)** — Please tick one of the ' +
-                  'manual.joomla.org options (or "No documentation changes").'
+                  '[manual.joomla.org](https://manual.joomla.org/) options (or "No documentation changes").'
                 );
               }
             } else {
@@ -129,6 +153,14 @@ jobs:
 
             if (mandatory.length === 0) {
               // ── All mandatory checks pass ──────────────────────────────────
+              if (botComment) {
+                await github.rest.issues.deleteComment({
+                  owner:      context.repo.owner,
+                  repo:       context.repo.repo,
+                  comment_id: botComment.id,
+                });
+                core.info('Deleted existing bot comment — template is now complete.');
+              }
               if (hasLabel) {
                 await github.rest.issues.removeLabel({
                   owner:        context.repo.owner,
@@ -145,23 +177,6 @@ jobs:
 
             // ── Mandatory failures exist ───────────────────────────────────
 
-            // Convert to draft (skip if already draft)
-            if (!alreadyDraft) {
-              try {
-                await github.graphql(
-                  `mutation ($prId: ID!) {
-                    convertPullRequestToDraft(input: { pullRequestId: $prId }) {
-                      pullRequest { id isDraft }
-                    }
-                  }`,
-                  { prId }
-                );
-                core.info('PR converted to draft.');
-              } catch (err) {
-                core.warning(`Could not convert PR to draft: ${err.message}`);
-              }
-            }
-
             // Add label
             if (!hasLabel) {
               await github.rest.issues.addLabels({
@@ -177,9 +192,9 @@ jobs:
             const sections = [
               '## :warning: PR Template Incomplete',
               '',
-              'This pull request has been set to **Draft** because the PR template',
-              'is not fully filled out. Please address the items below, then mark',
-              'the PR as **Ready for Review** when done.',
+              'This pull request has been labelled **template-incomplete** because the PR template is not fully filled out.',
+              'If you have overwritten one of these mandatory sections, you can simply copy it back from the pull request template.',
+              'Please address the items below before we can evaluate the pull request.',
               '',
               '### Required',
               '',
@@ -198,9 +213,17 @@ jobs:
             sections.push(
               '',
               '---',
-              '_This check runs automatically on every `opened`, `reopened`, and_',
-              '_`ready_for_review` event._'
+              '_This check runs automatically on every `opened`, `edited`, `reopened`, and `ready_for_review` event._'
             );
+
+            if (botComment) {
+              await github.rest.issues.deleteComment({
+                owner:      context.repo.owner,
+                repo:       context.repo.repo,
+                comment_id: botComment.id,
+              });
+              core.info('Deleted stale bot comment before posting updated one.');
+            }
 
             await github.rest.issues.createComment({
               owner:        context.repo.owner,
