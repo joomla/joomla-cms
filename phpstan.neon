@@ -17,9 +17,15 @@ parameters:
 	paths:
 		- libraries/src
 		- administrator
+		- api
+		- cli
 		- components
+		- includes
 		- installation
+		- layouts
+		- modules
 		- plugins
+		- templates
 	excludePaths:
 		- administrator/cache
 		- administrator/components/com_joomlaupdate/finalisation.php
@@ -39,9 +45,5 @@ parameters:
 			paths:
 				- components/*
 				- administrator/components/*
-		-
-			message: '#Call to protected method [a-zA-Z0-9\\_]+\(\) of class Joomla\\CMS\\.*\.#'
-			paths:
-				- plugins/*
 		-
 			message: '#Call to deprecated method \_\(\) of class Joomla\\CMS\\Language\\Language.*#'
