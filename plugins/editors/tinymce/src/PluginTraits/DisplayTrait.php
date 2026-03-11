@@ -61,10 +61,12 @@ trait DisplayTrait
         $csrf            = Session::getFormToken();
 
         // Editor variables
+        $defaultWidth    = $this->params->get('html_width', '100%');
+        $defaultHeight   = $this->params->get('html_height', '550px');
         $col             = $attributes['col'] ?? '';
         $row             = $attributes['row'] ?? '';
-        $width           = $attributes['width'] ?? '';
-        $height          = $attributes['height'] ?? '';
+        $width           = ($attributes['width'] ?? '') ?: $defaultWidth;
+        $height          = ($attributes['height'] ?? '') ?: $defaultHeight;
         $id              = $attributes['id'] ?? $name;
         $id              = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
         $nameGroup       = explode('[', preg_replace('/\[\]|\]/', '', $name));
@@ -530,8 +532,8 @@ trait DisplayTrait
                 'document_base_url' => Uri::root(true) . '/',
                 'image_caption'     => true,
                 'importcss_append'  => true,
-                'height'            => $this->params->get('html_height', '550px'),
-                'width'             => $this->params->get('html_width', '100%'),
+                'height'            => $defaultHeight,
+                'width'             => $defaultWidth,
                 'elementpath'       => (bool) $levelParams->get('element_path', true),
                 'resize'            => $resizing,
                 'external_plugins'  => empty($externalPlugins) ? null : $externalPlugins,
