@@ -72,7 +72,7 @@ jobs:
             // 1. AI Policy checkbox
             if (!/- \[[xX]\] I read the \[Generative AI policy\]/m.test(body)) {
               mandatory.push(
-                '- ❌ **Generative AI policy** — Please tick (or readd and tick) the [Generative AI policy](https://developer.joomla.org/generative-ai-policy.html) checkbox.'
+                '- ❌ **Generative AI policy** — Please tick (or re-add and tick) the [Generative AI policy](https://developer.joomla.org/generative-ai-policy.html) checkbox.'
               );
             }
 
