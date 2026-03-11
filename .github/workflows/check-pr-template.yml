@@ -1,0 +1,210 @@
+name: "PR Template Checker"
+
+# pull_request_target runs in the base repo context so GITHUB_TOKEN
+# can write to PRs opened from forks as well.
+on:
+  pull_request_target:
+    types: [opened, reopened, ready_for_review]
+
+jobs:
+  check-template:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      issues: write        # required for label management
+
+    steps:
+      - name: Check PR template and manage draft state / label
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const body       = context.payload.pull_request.body ?? '';
+            const prNum      = context.payload.pull_request.number;
+            const prId       = context.payload.pull_request.node_id;
+            const alreadyDraft = context.payload.pull_request.draft;
+            const LABEL      = 'template-incomplete';
+
+            // ── Helper: does this PR already carry the label? ─────────────────
+            const currentLabels = (context.payload.pull_request.labels ?? [])
+              .map(l => l.name);
+            const hasLabel = currentLabels.includes(LABEL);
+
+            // ── Helper: extract text between two ### headings ─────────────────
+            function sectionContent(heading) {
+              const re = new RegExp(
+                `###\\s*${heading.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*\\n([\\s\\S]*?)(?=###|$)`,
+                'i'
+              );
+              const m = body.match(re);
+              return m ? m[1].trim() : null;
+            }
+
+            // ═════════════════════════════════════════════════════════════════
+            //  MANDATORY checks — any failure → draft + label + comment
+            // ═════════════════════════════════════════════════════════════════
+            const mandatory = [];
+
+            // 1. AI Policy checkbox
+            if (!/- \[[xX]\] I read the \[Generative AI policy\]/m.test(body)) {
+              mandatory.push(
+                '- ❌ **Generative AI policy** — Please tick the AI policy checkbox.'
+              );
+            }
+
+            // 2. Documentation checkboxes
+            const docSection = sectionContent('Link to documentations');
+            if (docSection !== null) {
+              const guideChecked =
+                /- \[[xX]\] Documentation link for guide\.joomla\.org/m.test(docSection) ||
+                /- \[[xX]\] No documentation changes for guide\.joomla\.org/m.test(docSection);
+              if (!guideChecked) {
+                mandatory.push(
+                  '- ❌ **Documentation (guide.joomla.org)** — Please tick one of the ' +
+                  'guide.joomla.org options (or "No documentation changes").'
+                );
+              }
+
+              const manualChecked =
+                /- \[[xX]\] Pull Request link for manual\.joomla\.org/m.test(docSection) ||
+                /- \[[xX]\] No documentation changes for manual\.joomla\.org/m.test(docSection);
+              if (!manualChecked) {
+                mandatory.push(
+                  '- ❌ **Documentation (manual.joomla.org)** — Please tick one of the ' +
+                  'manual.joomla.org options (or "No documentation changes").'
+                );
+              }
+            } else {
+              mandatory.push(
+                '- ❌ **Link to documentations** — The documentation section appears to be missing.'
+              );
+            }
+
+            // ═════════════════════════════════════════════════════════════════
+            //  ADVISORY checks — only shown when a comment is posted anyway
+            // ═════════════════════════════════════════════════════════════════
+            const advisory = [];
+
+            // 1. Summary of Changes - not a hard blocker
+            if (!sectionContent('Summary of Changes')) {
+              advisory.push(
+                '- ⚠️  **Summary of Changes** — Please describe what was changed and why.'
+              );
+            }
+
+            // 2. Testing Instructions - not a hard blocker
+            if (!sectionContent('Testing Instructions')) {
+              advisory.push(
+                '- ⚠️  **Testing Instructions** — Please provide step-by-step testing instructions.'
+              );
+            }
+
+            // 3. Issue reference — silent when PR is otherwise clean
+            if (!/resolves\s+#\d+/i.test(body)) {
+              advisory.push(
+                '- ⚠️ **Issue reference** — Consider linking this PR to an issue ' +
+                '(e.g. `Pull Request resolves #123`). Skip if no issue exists.'
+              );
+            }
+
+            // 4. Actual result BEFORE - not a hard blocker
+            if (!sectionContent('Actual result BEFORE applying this Pull Request')) {
+              advisory.push(
+                '- ⚠️ **Actual result BEFORE** — If this is a bug fix, please describe ' +
+                'the behaviour before your change. Skip if not applicable.'
+              );
+            }
+
+            // 5. Expected result AFTER — not a hard blocker
+            if (!sectionContent('Expected result AFTER applying this Pull Request')) {
+              advisory.push(
+                '- ⚠️ **Expected result AFTER** — If not already covered in your summary, ' +
+                'describe the expected behaviour once the PR is merged.'
+              );
+            }
+
+            // ═════════════════════════════════════════════════════════════════
+            //  DECISION TREE
+            // ═════════════════════════════════════════════════════════════════
+
+            if (mandatory.length === 0) {
+              // ── All mandatory checks pass ──────────────────────────────────
+              if (hasLabel) {
+                await github.rest.issues.removeLabel({
+                  owner:        context.repo.owner,
+                  repo:         context.repo.repo,
+                  issue_number: prNum,
+                  name:         LABEL,
+                });
+                core.info(`Label '${LABEL}' removed — template is now complete.`);
+              }
+              // Advisory issues are suppressed when everything mandatory is fine.
+              core.info('PR template is complete — no action needed.');
+              return;
+            }
+
+            // ── Mandatory failures exist ───────────────────────────────────
+
+            // Convert to draft (skip if already draft)
+            if (!alreadyDraft) {
+              try {
+                await github.graphql(
+                  `mutation ($prId: ID!) {
+                    convertPullRequestToDraft(input: { pullRequestId: $prId }) {
+                      pullRequest { id isDraft }
+                    }
+                  }`,
+                  { prId }
+                );
+                core.info('PR converted to draft.');
+              } catch (err) {
+                core.warning(`Could not convert PR to draft: ${err.message}`);
+              }
+            }
+
+            // Add label
+            if (!hasLabel) {
+              await github.rest.issues.addLabels({
+                owner:        context.repo.owner,
+                repo:         context.repo.repo,
+                issue_number: prNum,
+                labels:       [LABEL],
+              });
+              core.info(`Label '${LABEL}' added.`);
+            }
+
+            // Build and post comment
+            const sections = [
+              '## :warning: PR Template Incomplete',
+              '',
+              'This pull request has been set to **Draft** because the PR template',
+              'is not fully filled out. Please address the items below, then mark',
+              'the PR as **Ready for Review** when done.',
+              '',
+              '### Required',
+              '',
+              ...mandatory,
+            ];
+
+            if (advisory.length > 0) {
+              sections.push(
+                '',
+                '### Advisory (recommended but not blocking)',
+                '',
+                ...advisory
+              );
+            }
+
+            sections.push(
+              '',
+              '---',
+              '_This check runs automatically on every `opened`, `reopened`, and_',
+              '_`ready_for_review` event._'
+            );
+
+            await github.rest.issues.createComment({
+              owner:        context.repo.owner,
+              repo:         context.repo.repo,
+              issue_number: prNum,
+              body:         sections.join('\n'),
+            });
