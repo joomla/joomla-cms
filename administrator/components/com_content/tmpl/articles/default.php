@@ -53,7 +53,7 @@ if (strpos($listOrder, 'publish_up') !== false) {
 
 if ($saveOrder && !empty($this->items)) {
     $controller = $featured === '1' ? 'featured' : 'articles';
-    $saveOrderingUrl = 'index.php?option=com_content&task=' . $controller . '.reorderAjax&' . Session::getFormToken() . '=1';
+    $saveOrderingUrl = 'index.php?option=com_content&task=' . $controller . '.reorderAjax&format=json';
     $dndAttributes   = [
         'class'                  => 'js-draggable',
         'data-dnd-item-selector' => 'tr',

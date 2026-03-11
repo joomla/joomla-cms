@@ -37,7 +37,7 @@ $saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
 $menuType  = (string) $app->getUserState('com_menus.items.menutype', '');
 
 if ($saveOrder && $menuType && !empty($this->items)) {
-    $saveOrderingUrl = 'index.php?option=com_menus&task=items.reorderAjax&tmpl=component&' . Session::getFormToken() . '=1';
+    $saveOrderingUrl = 'index.php?option=com_menus&task=items.reorderAjax&tmpl=component&format=json';
     $dndAttributes   = [
         'class'                  => 'js-draggable',
         'data-dnd-item-selector' => 'tr',

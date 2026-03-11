@@ -35,7 +35,7 @@ $saveOrderingUrl = '';
 $saveOrder = ($listOrder == 's.ordering');
 
 if ($saveOrder) {
-    $saveOrderingUrl = 'index.php?option=com_workflow&task=stages.reorderAjax&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->escape($this->extension) . '&' . Session::getFormToken() . '=1';
+    $saveOrderingUrl = 'index.php?option=com_workflow&task=stages.reorderAjax&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->escape($this->extension) . '&format=json';
     $dndAttributes   = [
         'class'                  => 'js-draggable',
         'data-dnd-item-selector' => 'tr',
