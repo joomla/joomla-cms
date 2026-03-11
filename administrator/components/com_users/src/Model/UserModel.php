@@ -934,7 +934,19 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
 
         if (empty($userId)) {
             $result = [];
-            $form   = $this->getForm();
+
+            // Check active group filter in the userss list session 
+            $filters = (array) Factory::getApplication()->getUserState('com_users.users.default.filter');
+            $groupId = $filters['group_id'] ?? null;
+
+            if (!empty($groupId)) {
+                $groupId = (array) $groupId;
+
+                return [(int) reset($groupId)];
+            }
+
+            $form      = $this->getForm();
+            $groupsIDs = null;
 
             if ($form) {
                 $groupsIDs = $form->getValue('groups');
@@ -946,7 +958,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
                 $params = ComponentHelper::getParams('com_users');
 
                 if ($groupId = $params->get('new_usertype', $params->get('guest_usergroup', 1))) {
-                    $result[] = $groupId;
+                    $result[] = (int) $groupId;
                 }
             }
         } else {
