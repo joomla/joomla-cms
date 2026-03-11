@@ -193,7 +193,6 @@ jobs:
               '## :warning: PR Template Incomplete',
               '',
               'This pull request has been labelled **template-incomplete** because the PR template is not fully filled out.',
-              'If you have overwritten one of these mandatory sections, you can simply copy it back from the pull request template.',
               'Please address the items below before we can evaluate the pull request.',
               '',
               '### Required',
@@ -209,6 +208,15 @@ jobs:
                 ...advisory
               );
             }
+
+            sections.push(
+              '',
+              '### How to fix this',
+              '',
+              '1. Click the "Edit" button (pencil icon) at the top right of your PR description.',
+              '2. Fill out the missing sections as indicated above. Refer to the [PR template](https://github.com/joomla/joomla-cms/blob/-/.github/PULL_REQUEST_TEMPLATE.md) for guidance.',
+              '3. Save your changes to update the PR description and re-trigger this check.'
+            );
 
             sections.push(
               '',
