@@ -192,7 +192,7 @@ jobs:
             const sections = [
               '## :warning: PR Template Incomplete',
               '',
-              'This pull request has been labelled **template-incomplete** because the PR template is not fully filled out.',
+              'This pull request has been labelled **template-incomplete** because the template was not completed according to the guidelines.',
               'Please address the items below before we can evaluate the pull request.',
               '',
               '### Required',
