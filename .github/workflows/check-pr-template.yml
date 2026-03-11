@@ -100,7 +100,7 @@ jobs:
               }
             } else {
               mandatory.push(
-                '- ❌ **Link to documentations** — The documentation section appears to be missing.'
+                '- ❌ **Link to documentation** — The documentation section appears to be missing.'
               );
             }
 
