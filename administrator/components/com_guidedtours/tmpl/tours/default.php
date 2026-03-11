@@ -47,7 +47,7 @@ $canEditStateTour     = $user->authorise('core.edit.state', 'com_guidedtours');
 $hasCheckinPermission = $user->authorise('core.manage', 'com_checkin');
 
 if ($saveOrder && !empty($this->items)) {
-    $saveOrderingUrl = 'index.php?option=com_guidedtours&task=tours.reorderAjax&tmpl=component&' . Session::getFormToken() . '=1';
+    $saveOrderingUrl = 'index.php?option=com_guidedtours&task=tours.reorderAjax&tmpl=component&format=json';
     $dndAttributes   = [
         'class'                  => 'js-draggable',
         'data-dnd-item-selector' => 'tr',

@@ -38,7 +38,7 @@ if (strpos($listOrder, 'modified') !== false) {
 }
 
 if ($saveOrder) {
-    $saveOrderingUrl = 'index.php?option=com_workflow&task=workflows.reorderAjax&tmpl=component&extension=' . $this->escape($this->extension) . '&' . Session::getFormToken() . '=1';
+    $saveOrderingUrl = 'index.php?option=com_workflow&task=workflows.reorderAjax&tmpl=component&extension=' . $this->escape($this->extension) . '&format=json';
     $dndAttributes   = [
         'class'                  => 'js-draggable',
         'data-dnd-item-selector' => 'tr',

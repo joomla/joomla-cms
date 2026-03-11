@@ -409,23 +409,16 @@ class AdminController extends BaseController
      */
     public function reorderAjax(): void
     {
-        $this->app->setHeader('Content-Type', 'application/json');
-        $this->app->sendHeaders();
-
         // Check for request forgeries.
-        if (Session::getFormToken() !== $this->app->getInput()->server->get('HTTP_X_CSRF_TOKEN', '', 'alnum')) {
-            echo new JsonResponse('', Text::_('JINVALID_TOKEN'), true);
-
-            $this->app->close();
+        if (!$this->checkToken()) {
+            throw new \RuntimeException(Text::_('JINVALID_TOKEN'), 403);
         }
 
         // Get the input data
         $list = (array) $this->input->json->getArray();
 
         if (empty($list) || !\is_array($list) || \count($list) === 0) {
-            echo new JsonResponse('', Text::_('JLIB_APPLICATION_ERROR_NO_ITEMS_SELECTED'), true);
-
-            $this->app->close();
+            throw new \InvalidArgumentException(Text::_('JLIB_APPLICATION_ERROR_NO_ITEMS_SELECTED'), 400);
         }
 
         // Remove zero PKs and corresponding order values resulting from input filter for PK
@@ -441,9 +434,13 @@ class AdminController extends BaseController
         // Save the ordering
         $return = $model->saveorder(array_column($list, 'id'), array_column($list, 'order'));
 
-        echo new JsonResponse('', $return ? Text::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED') : Text::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError()), !$return);
+        // Return the data
+        if ($return) {
+            echo new JsonResponse(false, Text::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError()));
+            return;
+        }
 
-        $this->app->close();
+        echo new JsonResponse(true);
     }
 
     /**
