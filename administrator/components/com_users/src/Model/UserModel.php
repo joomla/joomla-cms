@@ -935,7 +935,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
         if (empty($userId)) {
             $result = [];
 
-            // Check active group filter in the userss list session
+            // Check active group filter in the users list session
             $filters = (array) Factory::getApplication()->getUserState('com_users.users.default.filter');
             $groupId = $filters['group_id'] ?? null;
 
