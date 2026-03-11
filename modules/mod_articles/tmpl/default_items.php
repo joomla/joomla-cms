@@ -24,10 +24,9 @@ if ($params->get('articles_layout') == 1) {
         <?php
         $displayInfo = $item->displayHits || $item->displayAuthorName || $item->displayCategoryTitle || $item->displayDate;
         ?>
-        <li>
-            <article class="mod-articles-item" itemscope itemtype="https://schema.org/Article">
-
-                <?php if ($params->get('item_title') || $displayInfo || $params->get('show_tags') || $params->get('show_introtext') || $params->get('show_readmore')) : ?>
+        <?php if ($params->get('item_title') || $displayInfo || $params->get('show_tags') || $params->get('show_introtext') || $params->get('img_intro_full')  && !empty($item->imageSrc) || $params->get('show_readmore')) : ?>
+            <li>
+                <article class="mod-articles-item" itemscope itemtype="https://schema.org/Article">
                     <div class="mod-articles-item-content">
 
                         <?php if ($params->get('item_title')) : ?>
@@ -109,7 +108,7 @@ if ($params->get('articles_layout') == 1) {
 
                         <?php echo $item->event->afterDisplayContent; ?>
 
-                        <?php if ($params->get('show_readmore')) : ?>
+                        <?php if ($params->get('show_readmore') && !empty($item->fulltext)) : ?>
                             <?php if ($params->get('show_readmore_title', '') !== '') : ?>
                                 <?php $item->params->set('show_readmore_title', $params->get('show_readmore_title')); ?>
                                 <?php $item->params->set('readmore_limit', $params->get('readmore_limit')); ?>
@@ -117,8 +116,8 @@ if ($params->get('articles_layout') == 1) {
                             <?php echo LayoutHelper::render('joomla.content.readmore', ['item' => $item, 'params' => $item->params, 'link' => $item->link]); ?>
                         <?php endif; ?>
                     </div>
-                <?php endif; ?>
-            </article>
-        </li>
+                </article>
+            </li>
+        <?php endif; ?>
     <?php endforeach; ?>
 </ul>
