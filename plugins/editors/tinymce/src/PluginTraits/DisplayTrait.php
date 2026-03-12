@@ -531,7 +531,7 @@ trait DisplayTrait
                 'image_caption'     => true,
                 'importcss_append'  => true,
                 'height'            => $this->params->get('html_height', '550px'),
-                'width'             => $this->params->get('html_width', ''),
+                'width'             => $this->params->get('html_width', '100%'),
                 'elementpath'       => (bool) $levelParams->get('element_path', true),
                 'resize'            => $resizing,
                 'external_plugins'  => empty($externalPlugins) ? null : $externalPlugins,

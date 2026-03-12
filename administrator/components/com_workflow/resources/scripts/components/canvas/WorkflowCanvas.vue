@@ -119,7 +119,7 @@
             :key="`transition-${edge.id}`"
             :id="`transition-list-${edge.id}`"
           >
-            {{ sprintf('COM_WORKFLOW_GRAPH_TRANSITION_REF', edge.data.title, stages.find((s) => s.id === parseInt(edge.source, 10))?.title, stages.find((s) => s.id === parseInt(edge.target, 10))?.title) }}
+            {{ sprintf('COM_WORKFLOW_GRAPH_TRANSITION_REF', edge.data.title, stages.find((s) => s.id === parseInt(edge.source, 10))?.title || translate('COM_WORKFLOW_GRAPH_FROM_ANY'), stages.find((s) => s.id === parseInt(edge.target, 10))?.title) }}
             {{ edge.data.published ? sprintf('COM_WORKFLOW_GRAPH_TRANSITION_STATUS_ENABLED', edge.data.title) : sprintf('COM_WORKFLOW_GRAPH_TRANSITION_STATUS_DISABLED', edge.data.title) }}
           </li>
         </ul>
