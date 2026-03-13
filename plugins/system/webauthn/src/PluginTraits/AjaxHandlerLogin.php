@@ -12,6 +12,7 @@ namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Authentication\AuthenticationResponse;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxLogin;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -230,6 +231,8 @@ trait AjaxHandlerLogin
             );
             $dispatcher->dispatch($event->getName(), $event);
 
+            $this->markSilentLoginMfaAsCompleted($options);
+
             return;
         }
 
@@ -301,6 +304,49 @@ trait AjaxHandlerLogin
         }
 
         return false;
+    }
+
+    /**
+     * Mark MFA as complete when configuration allows skipping it for silent logins.
+     *
+     * @param   array  $options  The login options passed to the user plugins.
+     *
+     * @return  void
+     */
+    private function markSilentLoginMfaAsCompleted(array $options): void
+    {
+        try {
+            $params = ComponentHelper::getParams('com_users');
+        } catch (\Throwable) {
+            return;
+        }
+
+        if ($params->get('mfaonsilent', 0) == 1) {
+            return;
+        }
+
+        $responseType = strtolower(trim($options['responseType'] ?? ''));
+
+        if ($responseType === '') {
+            return;
+        }
+
+        $silentResponseTypes = array_filter(
+            array_map(
+                static fn ($value) => strtolower(trim($value)),
+                explode(',', (string) $params->get('silentresponses', ''))
+            )
+        );
+
+        if (!$silentResponseTypes) {
+            $silentResponseTypes = ['cookie', 'passwordless'];
+        }
+
+        if (!\in_array($responseType, $silentResponseTypes, true)) {
+            return;
+        }
+
+        $this->getApplication()->getSession()->set('com_users.mfa_checked', 1);
     }
 
     /**
