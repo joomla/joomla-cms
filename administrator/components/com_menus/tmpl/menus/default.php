@@ -44,7 +44,7 @@ foreach ($this->items as $item) {
 $saveOrder = $listOrder == 'a.ordering';
 
 if ($saveOrder) {
-    $saveOrderingUrl = 'index.php?option=com_menus&task=menus.reorderAjax&tmpl=component&format=json';
+    $saveOrderingUrl = 'index.php?option=com_menus&task=menus.reorderAjax&format=json';
     $dndAttributes   = [
         'class'                  => 'js-draggable',
         'data-dnd-item-selector' => 'tr',

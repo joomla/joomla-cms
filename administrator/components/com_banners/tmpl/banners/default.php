@@ -32,7 +32,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
 
 if ($saveOrder && !empty($this->items)) {
-    $saveOrderingUrl = 'index.php?option=com_banners&task=banners.reorderAjax&tmpl=component&format=json';
+    $saveOrderingUrl = 'index.php?option=com_banners&task=banners.reorderAjax&format=json';
     $dndAttributes   = [
         'class'                  => 'js-draggable',
         'data-dnd-item-selector' => 'tr',
