@@ -1,5 +1,5 @@
 Cypress.Commands.add('config_setParameter', (parameter, value) => {
-  const configPath = `${Cypress.env('cmsPath')}/configuration.php`;
+  const configPath = `${Cypress.expose('cmsPath')}/configuration.php`;
 
   // Return a Cypress chainable for chaining
   return cy.readFile(configPath).then((fileContent) => {
