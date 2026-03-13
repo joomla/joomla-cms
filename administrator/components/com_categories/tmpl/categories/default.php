@@ -47,7 +47,7 @@ if (count($parts) > 1) {
 }
 
 if ($saveOrder && !empty($this->items)) {
-    $saveOrderingUrl = 'index.php?option=com_categories&task=categories.reorderAjax&tmpl=component&format=json';
+    $saveOrderingUrl = 'index.php?option=com_categories&task=categories.reorderAjax&format=json';
     $dndAttributes   = [
         'class'                  => 'js-draggable',
         'data-dnd-item-selector' => 'tr',

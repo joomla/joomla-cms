@@ -61,7 +61,7 @@ $section = null;
 $mode = false;
 
 if ($saveOrder && !empty($this->items)) {
-    $saveOrderingUrl = 'index.php?option=com_scheduler&task=tasks.reorderAjax&tmpl=component&format=json';
+    $saveOrderingUrl = 'index.php?option=com_scheduler&task=tasks.reorderAjax&format=json';
     $dndAttributes   = [
         'class'                  => 'js-draggable',
         'data-dnd-item-selector' => 'tr',

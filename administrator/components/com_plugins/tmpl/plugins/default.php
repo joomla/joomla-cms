@@ -30,7 +30,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'ordering';
 
 if ($saveOrder) {
-    $saveOrderingUrl = 'index.php?option=com_plugins&task=plugins.reorderAjax&tmpl=component&format=json';
+    $saveOrderingUrl = 'index.php?option=com_plugins&task=plugins.reorderAjax&format=json';
     $dndAttributes   = [
         'class'                  => 'js-draggable',
         'data-dnd-item-selector' => 'tr',
