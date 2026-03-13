@@ -10,6 +10,12 @@
 #
 # For more information about the robots.txt standard, see:
 # https://www.robotstxt.org/orig.html
+#
+# For syntax checking, see:
+# robots.txt Validator and Testing Tool
+# Check if a URL is blocked, which statement is blocking it and for which user agent. 
+# You can also check if the resources for the page (CSS, JavaScript, images) are disallowed.
+# https://technicalseo.com/tools/robots-txt/
 
 User-agent: *
 Disallow: /administrator/
