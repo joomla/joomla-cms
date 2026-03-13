@@ -20,8 +20,10 @@ Please be patient as not all items will be viewed or tested immediately (remembe
 Bug fixing PRs should be made to the `5.4-dev` branch. Merged bugfixes will be upmerged into the current branches. New features that do not break backwards compatibility should be made to the `6.1-dev`.
 
 
-| Branch  | Purpose                                                                                 |
-|---------|-----------------------------------------------------------------------------------------|
-| 5.4-dev | Branch for the current 5.x Joomla version.                                              |
-| 6.0-dev | Branch for the current 6.x Joomla version. Bugfixes only for 6.x go into this branch.   |
-| 6.1-dev | Branch for the next minor 6.x Joomla version. New features have to go into this branch. |
+| Branch  | Purpose                                                                                                      |
+|---------|--------------------------------------------------------------------------------------------------------------|
+| 5.4-dev | Branch for the current 5.x Joomla version.                                                                   |
+| 6.0-dev | Branch for the current 6.x Joomla version. Bugfixes only for 6.0 go into this branch.                        |
+| 6.1-dev | Branch for the next minor 6.x Joomla version. Bugfixes only for 6.1 go into this branch.                     |
+| 6.2-dev | Branch for the next minor 6.x Joomla version. New features have to go into this branch.                      |
+| 7.0-dev | Branch for the next major Joomla version. New features that include a b/c break have to go into this branch. |
