@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Updater;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Update as UpdateTable;
 use Joomla\Database\DatabaseAwareInterface;
@@ -30,7 +29,6 @@ use Joomla\DI\ContainerAwareInterface;
 class Updater implements DatabaseAwareInterface
 {
     use DatabaseAwareTrait;
-    use LegacyPropertyManagementTrait;
 
     /**
      * Development snapshots, nightly builds, pre-release versions and so on

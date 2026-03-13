@@ -14,7 +14,6 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
-use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Table\Tuf as TufMetadata;
 use Joomla\CMS\TUF\TufFetcher;
 use Joomla\CMS\Version;
@@ -36,7 +35,6 @@ use Joomla\Registry\Registry;
 class Update
 {
     use LegacyErrorHandlingTrait;
-    use LegacyPropertyManagementTrait;
 
     /**
      * Update manifest `<name>` element

@@ -124,16 +124,14 @@ final class ButtonsRegistry implements ButtonsRegistryInterface, DispatcherAware
             @trigger_error('7.0 Button "' . $plugin->name . '" instance should be set up onEditorButtonsSetup event.', \E_USER_DEPRECATED);
 
             // Transform Legacy buttons to Button object
-            if ($legacyButton instanceof CMSObject || $legacyButton instanceof Registry) {
+            if ($legacyButton instanceof Registry) {
                 $legacyButton = [$legacyButton];
             }
 
             if (\is_array($legacyButton)) {
                 foreach ($legacyButton as $i => $item) {
                     // Extract button properties
-                    if ($item instanceof CMSObject) {
-                        $props = $item->getProperties();
-                    } elseif ($item instanceof Registry) {
+                    if ($item instanceof Registry) {
                         $props = $item->toArray();
                     } else {
                         continue;

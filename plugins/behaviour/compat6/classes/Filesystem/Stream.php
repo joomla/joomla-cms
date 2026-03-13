@@ -37,7 +37,6 @@ use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 class Stream
 {
     use LegacyErrorHandlingTrait;
-    use LegacyPropertyManagementTrait;
 
     /**
      * File Mode
