@@ -103,6 +103,6 @@ trigger:
 
 ---
 kind: signature
-hmac: TBD
+hmac: 70fdb9fa9d2c11c29dc6186a0d05b3f57d4279ea332530e481f7c81e41ac8f1e
 
 ...
