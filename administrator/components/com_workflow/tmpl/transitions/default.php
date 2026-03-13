@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Utilities\ArrayHelper;
 
 /** @var \Joomla\Component\Workflow\Administrator\View\Transitions\HtmlView $this */
 
@@ -33,8 +34,15 @@ $saveOrderingUrl = '';
 $saveOrder = ($listOrder == 't.ordering');
 
 if ($saveOrder) {
-    $saveOrderingUrl = 'index.php?option=com_workflow&task=transitions.saveOrderAjax&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->escape($this->workflow->extension) . '&' . Session::getFormToken() . '=1';
-    HTMLHelper::_('draggablelist.draggable');
+    $saveOrderingUrl = 'index.php?option=com_workflow&task=transitions.saveOrderAjax&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->escape($this->workflow->extension) . '&format=json';
+    $dndAttributes   = [
+        'class'                  => 'js-draggable',
+        'data-dnd-item-selector' => 'tr',
+        'data-dnd-url'           => $saveOrderingUrl,
+        'data-dnd-direction'     => strtolower($listDirn),
+    ];
+
+    $wa->useScript('joomla.dnd');
 }
 ?>
 <form action="<?php echo Route::_('index.php?option=com_workflow&view=transitions&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->escape($this->workflow->extension)); ?>" method="post" name="adminForm" id="adminForm">
@@ -91,7 +99,7 @@ if ($saveOrder) {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>">
+                        <tbody<?php echo $saveOrder ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
                             <?php foreach ($this->transitions as $i => $item) :
                                 $edit = Route::_('index.php?option=com_workflow&task=transition.edit&id=' . $item->id . '&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->escape($this->workflow->extension));
 

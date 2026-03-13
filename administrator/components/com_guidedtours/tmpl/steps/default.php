@@ -17,6 +17,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Guidedtours\Administrator\Extension\GuidedtoursComponent;
+use Joomla\Utilities\ArrayHelper;
 
 /** @var  \Joomla\Component\Guidedtours\Administrator\View\Steps\HtmlView  $this */
 
@@ -40,8 +41,15 @@ $canEditStateTour     = $user->authorise('core.edit.state', 'com_guidedtours');
 $hasCheckinPermission = $user->authorise('core.manage', 'com_checkin');
 
 if ($saveOrder && !empty($this->items)) {
-    $saveOrderingUrl = 'index.php?option=com_guidedtours&task=steps.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
-    HTMLHelper::_('draggablelist.draggable');
+    $saveOrderingUrl = 'index.php?option=com_guidedtours&task=steps.saveOrderAjax&format=json';
+    $dndAttributes   = [
+        'class'                  => 'js-draggable',
+        'data-dnd-item-selector' => 'tr',
+        'data-dnd-url'           => $saveOrderingUrl,
+        'data-dnd-direction'     => strtolower($listDirn),
+    ];
+
+    $wa->useScript('joomla.dnd');
 }
 ?>
 
@@ -134,9 +142,7 @@ if ($saveOrder && !empty($this->items)) {
                 </thead>
 
                 <!-- Table body begins -->
-                <tbody <?php if ($saveOrder) : ?>
-                    class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true" <?php
-                       endif; ?>>
+                <tbody<?php echo $saveOrder ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
                 <?php foreach ($this->items as $i => $item) :
                     $canEditOwn = $canEditOwnTour && $item->created_by == $userId;
                     $canCheckin = $hasCheckinPermission || $item->checked_out == $userId || is_null($item->checked_out);

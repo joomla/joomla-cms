@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Model\WorkflowModelInterface;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
@@ -396,6 +397,49 @@ class AdminController extends BaseController
 
         // Close the application
         $this->app->close();
+    }
+
+    /**
+     * Method to save the submitted ordering values for records via AJAX.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function reorderAjax(): void
+    {
+        // Check for request forgeries.
+        if (!$this->checkToken()) {
+            throw new \RuntimeException(Text::_('JINVALID_TOKEN'), 403);
+        }
+
+        // Get the input data
+        $list = (array) $this->input->json->getArray();
+
+        if (empty($list) || !\is_array($list) || \count($list) === 0) {
+            throw new \InvalidArgumentException(Text::_('JLIB_APPLICATION_ERROR_NO_ITEMS_SELECTED'), 400);
+        }
+
+        // Remove zero PKs and corresponding order values resulting from input filter for PK
+        foreach ($list as $listItem) {
+            if (isset($listItem['id']) && (int) $listItem['id'] === 0) {
+                unset($listItem);
+                continue;
+            }
+        }
+
+        $model = $this->getModel();
+
+        // Save the ordering
+        $return = $model->saveorder(array_column($list, 'id'), array_column($list, 'order'));
+
+        // Return the data
+        if ($return) {
+            echo new JsonResponse(false, Text::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError()));
+            return;
+        }
+
+        echo new JsonResponse(true);
     }
 
     /**

@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Utilities\ArrayHelper;
 
 /** @var \Joomla\Component\Banners\Administrator\View\Banners\HtmlView $this */
 
@@ -31,8 +32,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
 
 if ($saveOrder && !empty($this->items)) {
-    $saveOrderingUrl = 'index.php?option=com_banners&task=banners.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
-    HTMLHelper::_('draggablelist.draggable');
+    $saveOrderingUrl = 'index.php?option=com_banners&task=banners.reorderAjax&format=json';
+    $dndAttributes   = [
+        'class'                  => 'js-draggable',
+        'data-dnd-item-selector' => 'tr',
+        'data-dnd-url'           => $saveOrderingUrl,
+        'data-dnd-direction'     => strtolower($listDirn),
+    ];
+
+    $wa->useScript('joomla.dnd');
 }
 ?>
 <form action="<?php echo Route::_('index.php?option=com_banners&view=banners'); ?>" method="post" name="adminForm" id="adminForm">
@@ -91,9 +99,7 @@ if ($saveOrder && !empty($this->items)) {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody <?php if ($saveOrder) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php
-                               endif; ?>>
+                        <tbody<?php echo $saveOrder ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
                             <?php foreach ($this->items as $i => $item) :
                                 $ordering  = ($listOrder == 'ordering');
                                 $item->cat_link = Route::_('index.php?option=com_categories&extension=com_banners&task=edit&type=other&cid[]=' . $item->catid);

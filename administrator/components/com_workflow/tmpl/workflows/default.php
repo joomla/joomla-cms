@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Utilities\ArrayHelper;
 
 /** @var \Joomla\Component\Workflow\Administrator\View\Workflows\HtmlView $this */
 
@@ -37,8 +38,15 @@ if (strpos($listOrder, 'modified') !== false) {
 }
 
 if ($saveOrder) {
-    $saveOrderingUrl = 'index.php?option=com_workflow&task=workflows.saveOrderAjax&tmpl=component&extension=' . $this->escape($this->extension) . '&' . Session::getFormToken() . '=1';
-    HTMLHelper::_('draggablelist.draggable');
+    $saveOrderingUrl = 'index.php?option=com_workflow&task=workflows.reorderAjax&extension=' . $this->escape($this->extension) . '&format=json';
+    $dndAttributes   = [
+        'class'                  => 'js-draggable',
+        'data-dnd-item-selector' => 'tr',
+        'data-dnd-url'           => $saveOrderingUrl,
+        'data-dnd-direction'     => strtolower($listDirn),
+    ];
+
+    $wa->useScript('joomla.dnd');
 }
 
 $extension = $this->escape($this->state->get('filter.extension'));
@@ -106,9 +114,7 @@ $userId = $user->id;
                                 </th>
                             </tr>
                         </thead>
-                        <tbody <?php if ($saveOrder) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php
-                               endif; ?>>
+                        <tbody<?php echo $saveOrder ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
                         <?php foreach ($this->workflows as $i => $item) :
                             $states = Route::_('index.php?option=com_workflow&view=stages&workflow_id=' . $item->id . '&extension=' . $extension);
                             $transitions = Route::_('index.php?option=com_workflow&view=transitions&workflow_id=' . $item->id . '&extension=' . $extension);

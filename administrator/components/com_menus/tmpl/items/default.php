@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Utilities\ArrayHelper;
 
 /** @var \Joomla\Component\Menus\Administrator\View\Items\HtmlView $this */
 
@@ -36,8 +37,15 @@ $saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
 $menuType  = (string) $app->getUserState('com_menus.items.menutype', '');
 
 if ($saveOrder && $menuType && !empty($this->items)) {
-    $saveOrderingUrl = 'index.php?option=com_menus&task=items.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
-    HTMLHelper::_('draggablelist.draggable');
+    $saveOrderingUrl = 'index.php?option=com_menus&task=items.reorderAjax&format=json';
+    $dndAttributes   = [
+        'class'                  => 'js-draggable',
+        'data-dnd-item-selector' => 'tr',
+        'data-dnd-url'           => $saveOrderingUrl,
+        'data-dnd-direction'     => strtolower($listDirn),
+    ];
+
+    $wa->useScript('joomla.dnd');
 }
 
 $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') == 0;
@@ -101,9 +109,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                             </th>
                         </tr>
                         </thead>
-                        <tbody <?php if ($saveOrder && $menuType) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php
-                               endif; ?>>
+                        <tbody<?php echo $saveOrder ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
                         <?php
                         foreach ($this->items as $i => $item) :
                             $orderkey = array_search($item->id, $this->ordering[$item->parent_id]);

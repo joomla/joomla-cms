@@ -1,0 +1,18 @@
+// DND styles
+.sortable-handler {
+  display: block;
+  font-size: 1rem;
+  line-height: 22px;
+  cursor: pointer;
+  block-size: 26px;
+  inline-size: 26px;
+}
+
+[data-dnd-draggable-id] {
+  border: inherit;
+}
+
+[data-dnd-draggable-id]:has([aria-grabbed="true"]) {
+  cursor: grabbing;
+  border: 2px dashed var(--primary);
+}

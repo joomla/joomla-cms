@@ -20,6 +20,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
+use Joomla\Utilities\ArrayHelper;
 
 /** @var  \Joomla\Component\Scheduler\Administrator\View\Tasks\HtmlView  $this*/
 
@@ -60,8 +61,15 @@ $section = null;
 $mode = false;
 
 if ($saveOrder && !empty($this->items)) {
-    $saveOrderingUrl = 'index.php?option=com_scheduler&task=tasks.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
-    HTMLHelper::_('draggablelist.draggable');
+    $saveOrderingUrl = 'index.php?option=com_scheduler&task=tasks.reorderAjax&format=json';
+    $dndAttributes   = [
+        'class'                  => 'js-draggable',
+        'data-dnd-item-selector' => 'tr',
+        'data-dnd-url'           => $saveOrderingUrl,
+        'data-dnd-direction'     => strtolower($listDirn),
+    ];
+
+    $wa->useScript('joomla.dnd');
 }
 
 // When there are due Tasks show that information to the user
@@ -158,9 +166,7 @@ if ($this->hasDueTasks === true) {
                 </thead>
 
                 <!-- Table body begins -->
-                <tbody <?php if ($saveOrder) : ?>
-                    class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true" <?php
-                       endif; ?>>
+                <tbody<?php echo $saveOrder ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
                 <?php foreach ($this->items as $i => $item) :
                     $canCreate  = $user->authorise('core.create', 'com_scheduler');
                     $canEdit    = $user->authorise('core.edit', 'com_scheduler');

@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Utilities\ArrayHelper;
 
 /** @var \Joomla\Component\Newsfeeds\Administrator\View\Newsfeeds\HtmlView $this */
 
@@ -32,8 +33,15 @@ $saveOrder = $listOrder == 'a.ordering';
 $assoc     = Associations::isEnabled();
 
 if ($saveOrder && !empty($this->items)) {
-    $saveOrderingUrl = 'index.php?option=com_newsfeeds&task=newsfeeds.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
-    HTMLHelper::_('draggablelist.draggable');
+    $saveOrderingUrl = 'index.php?option=com_newsfeeds&task=newsfeeds.reorderAjax&format=json';
+    $dndAttributes   = [
+        'class'                  => 'js-draggable',
+        'data-dnd-item-selector' => 'tr',
+        'data-dnd-url'           => $saveOrderingUrl,
+        'data-dnd-direction'     => strtolower($listDirn),
+    ];
+
+    $wa->useScript('joomla.dnd');
 }
 ?>
 <form action="<?php echo Route::_('index.php?option=com_newsfeeds&view=newsfeeds'); ?>" method="post" name="adminForm" id="adminForm">
@@ -91,9 +99,7 @@ if ($saveOrder && !empty($this->items)) {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody <?php if ($saveOrder) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php
-                               endif; ?>>
+                        <tbody<?php echo $saveOrder ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
                         <?php foreach ($this->items as $i => $item) :
                             $ordering   = ($listOrder == 'a.ordering');
                             $canCreate  = $user->authorise('core.create', 'com_newsfeeds.category.' . $item->catid);

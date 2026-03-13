@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Utilities\ArrayHelper;
 
 /** @var \Joomla\Component\Categories\Administrator\View\Categories\HtmlView $this */
 
@@ -46,8 +47,15 @@ if (count($parts) > 1) {
 }
 
 if ($saveOrder && !empty($this->items)) {
-    $saveOrderingUrl = 'index.php?option=com_categories&task=categories.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
-    HTMLHelper::_('draggablelist.draggable');
+    $saveOrderingUrl = 'index.php?option=com_categories&task=categories.reorderAjax&format=json';
+    $dndAttributes   = [
+        'class'                  => 'js-draggable',
+        'data-dnd-item-selector' => 'tr',
+        'data-dnd-url'           => $saveOrderingUrl,
+        'data-dnd-direction'     => strtolower($listDirn),
+    ];
+
+    $wa->useScript('joomla.dnd');
 }
 ?>
 <form action="<?php echo Route::_('index.php?option=com_categories&view=categories&extension=' . $this->state->get('filter.extension')); ?>" method="post" name="adminForm" id="adminForm">
@@ -126,9 +134,7 @@ if ($saveOrder && !empty($this->items)) {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody <?php if ($saveOrder) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false" <?php
-                               endif; ?>>
+                        <tbody<?php echo $saveOrder ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
                             <?php foreach ($this->items as $i => $item) : ?>
                                 <?php
                                 $canEdit    = $user->authorise('core.edit', $extension . '.category.' . $item->id);

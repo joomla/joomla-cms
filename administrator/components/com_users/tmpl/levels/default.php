@@ -17,6 +17,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Users\Administrator\Helper\UsersHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /** @var \Joomla\Component\Users\Administrator\View\Levels\HtmlView $this */
 
@@ -31,8 +32,15 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 $saveOrder  = $listOrder == 'a.ordering';
 
 if ($saveOrder && !empty($this->items)) {
-    $saveOrderingUrl = 'index.php?option=com_users&task=levels.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
-    HTMLHelper::_('draggablelist.draggable');
+    $saveOrderingUrl = 'index.php?option=com_users&task=levels.reorderAjax&format=json';
+    $dndAttributes   = [
+        'class'                  => 'js-draggable',
+        'data-dnd-item-selector' => 'tr',
+        'data-dnd-url'           => $saveOrderingUrl,
+        'data-dnd-direction'     => strtolower($listDirn),
+    ];
+
+    $wa->useScript('joomla.dnd');
 }
 ?>
 <form action="<?php echo Route::_('index.php?option=com_users&view=levels'); ?>" method="post" id="adminForm" name="adminForm">
@@ -72,9 +80,7 @@ if ($saveOrder && !empty($this->items)) {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody<?php if ($saveOrder) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>"<?php
-                              endif; ?>>
+                        <tbody<?php echo $saveOrder ? ' ' . ArrayHelper::toString($dndAttributes) : ''; ?>>
                         <?php $count = count($this->items); ?>
                         <?php foreach ($this->items as $i => $item) :
                             $ordering  = ($listOrder == 'a.ordering');
