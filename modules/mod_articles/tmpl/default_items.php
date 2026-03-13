@@ -124,7 +124,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 
                         <?php echo $item->event->afterDisplayContent; ?>
 
-                        <?php if ($params->get('show_readmore')) : ?>
+                        <?php if ($params->get('show_readmore') && !empty($item->fulltext)) : ?>
                             <?php if ($params->get('show_readmore_title', '') !== '') : ?>
                                 <?php $item->params->set('show_readmore_title', $params->get('show_readmore_title')); ?>
                                 <?php $item->params->set('readmore_limit', $params->get('readmore_limit')); ?>
