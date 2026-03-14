@@ -31,6 +31,13 @@
   padding-left: $col-gutter-width * .5;
 }
 
+@media (max-width: 1200px) {
+  .media-sidebar {
+    flex: 0 0 240px;
+    max-width: 240px;
+  }
+}
+
 @media (min-width: 768px) {
   [class^="media-col"], [class*=" media-col"] {
     flex: 0 0 100%;
