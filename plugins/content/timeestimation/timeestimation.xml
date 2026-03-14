@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="content" method="upgrade">
+
+    <name>PLG_CONTENT_TIMEESTIMATION</name>
+	<author>Joomla! Project</author>
+	<creationDate>2026-3</creationDate>
+	<copyright>(C) 2026 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
+    <description>PLG_CONTENT_TIMEESTIMATION_DESCRIPTION</description>
+<namespace path="src">Joomla\Plugin\Content\Timeestimation</namespace>
+
+    <files>
+        <folder plugin="timeestimation">services</folder>
+        <folder>src</folder>
+        <folder>language</folder>
+    </files>
+
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_content_timeestimation.ini</language>
+		<language tag="en-GB">language/en-GB/plg_content_timeestimation.sys.ini</language>
+	</languages>
+
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                    name="words_per_minute"
+                    type="text"
+                    label="PLG_CONTENT_TIMEESTIMATION_WPM_LABEL"
+                    description="PLG_CONTENT_TIMEESTIMATION_WPM_DESC"
+                    default="200"
+                    filter="integer"
+                />
+
+            </fieldset>
+        </fields>
+    </config>
+
+</extension>
