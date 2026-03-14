@@ -1,3 +1,4 @@
+---
 kind: pipeline
 name: package
 
@@ -47,14 +48,13 @@ steps:
   - name: prepare
     image: joomlaprojects/docker-images:packager
     commands:
-      - export MINORVERSION=${DRONE_BRANCH%-*}
       - composer --version
       - mkdir -p transfer
-      - date +%s > transfer/$MINORVERSION-time.txt
-      - git rev-parse origin/$MINORVERSION-dev > transfer/$MINORVERSION.txt
-      - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-gzip --disable-patch-packages
+      - date +%s > transfer/${DRONE_BRANCH%%-dev}-time.txt
+      - git rev-parse origin/${DRONE_BRANCH} > transfer/${DRONE_BRANCH%%-dev}.txt
+      - php build/build.php --remote=origin/${DRONE_BRANCH} --exclude-gzip --disable-patch-packages
       - mv build/tmp/packages/* transfer/
-      - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-zip --exclude-gzip --exclude-bzip2 --debug-build
+      - php build/build.php --remote=origin/${DRONE_BRANCH} --exclude-zip --exclude-gzip --exclude-bzip2 --debug-build
       - mv build/tmp/packages/* transfer/
 
   - name: upload
@@ -69,7 +69,6 @@ steps:
       MATTERMOST_NIGHTLY_HOOK:
         from_secret: mattermost_nightly_hook
     commands:
-      - export MINORVERSION=${DRONE_BRANCH%-*}
       - mkdir -p ~/.ssh
       - eval $(ssh-agent -s)
       - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
@@ -77,10 +76,10 @@ steps:
       - chmod 600 ~/.ssh/id_rsa
       - ssh-add
       - rclone config create nightly sftp host $nightly_host user $nightly_user port 22
-      - rclone delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_$MINORVERSION.*"
+      - rclone delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_${DRONE_BRANCH%%-dev}.*"
       - rclone delete nightly:/home/devj/public_html/cache/com_content/
       - rclone copy ./transfer/ nightly:/home/devj/public_html/nightlies/
-      - curl -i -X POST -H 'Content-Type:application/json' -d "{\"text\":\"Nightly Build for [Joomla ${MINORVERSION}]\(https://developer.joomla.org/nightly-builds.html\) successfully built.\"}" $MATTERMOST_NIGHTLY_HOOK
+      - curl -i -X POST -H 'Content-Type:application/json' -d "{\"text\":\"Nightly Build for [Joomla ${DRONE_BRANCH%%-dev}]\(https://developer.joomla.org/nightly-builds.html\) successfully built.\"}" $MATTERMOST_NIGHTLY_HOOK
 
   - name: buildfailure
     image: joomlaprojects/docker-images:packager
@@ -88,8 +87,7 @@ steps:
       MATTERMOST_NIGHTLY_HOOK:
         from_secret: mattermost_nightly_hook
     commands:
-      - export MINORVERSION=${DRONE_BRANCH%-*}
-      - curl -i -X POST -H 'Content-Type:application/json' -d "{\"text\":\"Nightly Build for [Joomla ${MINORVERSION}]\(https://developer.joomla.org/nightly-builds.html\) FAILED to built.\"}" $MATTERMOST_NIGHTLY_HOOK
+      - curl -i -X POST -H 'Content-Type:application/json' -d "{\"text\":\"Nightly Build for [Joomla ${DRONE_BRANCH%%-dev}]\(https://developer.joomla.org/nightly-builds.html\) FAILED to built.\"}" $MATTERMOST_NIGHTLY_HOOK
     when:
       status:
         - failure
@@ -103,6 +101,6 @@ trigger:
 
 ---
 kind: signature
-hmac: dbf262662924f48bedafef14e77392ce81cfb9cc13addefb045079c73aa6fd5f
+hmac: 012063411f32259cf6eb06a5adca9b09bddb8d5be6422c49880a056d21ca50a5
 
 ...
