@@ -80,7 +80,7 @@ steps:
       - rclone delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_$MINORVERSION.*"
       - rclone delete nightly:/home/devj/public_html/cache/com_content/
       - rclone copy ./transfer/ nightly:/home/devj/public_html/nightlies/
-      - curl -i -X POST -H 'Content-Type:application/json' -d "{\"text\":\"Nightly Build for [Joomla ${MINORVERSION}](https://developer.joomla.org/nightly-builds.html) successfully built.\"}" $MATTERMOST_NIGHTLY_HOOK
+      - curl -i -X POST -H 'Content-Type:application/json' -d "{\"text\":\"Nightly Build for [Joomla ${MINORVERSION}]\(https://developer.joomla.org/nightly-builds.html\) successfully built.\"}" $MATTERMOST_NIGHTLY_HOOK
 
   - name: buildfailure
     image: joomlaprojects/docker-images:packager
@@ -89,7 +89,7 @@ steps:
         from_secret: mattermost_nightly_hook
     commands:
       - export MINORVERSION=${DRONE_BRANCH%-*}
-      - curl -i -X POST -H 'Content-Type:application/json' -d "{\"text\":\"Nightly Build for [Joomla ${MINORVERSION}](https://developer.joomla.org/nightly-builds.html) FAILED to built.\"}" $MATTERMOST_NIGHTLY_HOOK
+      - curl -i -X POST -H 'Content-Type:application/json' -d "{\"text\":\"Nightly Build for [Joomla ${MINORVERSION}]\(https://developer.joomla.org/nightly-builds.html\) FAILED to built.\"}" $MATTERMOST_NIGHTLY_HOOK
     when:
       status:
         - failure
@@ -103,6 +103,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 70fdb9fa9d2c11c29dc6186a0d05b3f57d4279ea332530e481f7c81e41ac8f1e
+hmac: dbf262662924f48bedafef14e77392ce81cfb9cc13addefb045079c73aa6fd5f
 
 ...
