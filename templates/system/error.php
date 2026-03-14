@@ -12,6 +12,7 @@
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
 
 /** @var Joomla\CMS\Document\ErrorDocument  $this */
 
@@ -32,6 +33,13 @@ $this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error-
 
 // Get the error code
 $errorCode = $this->error->getCode();
+
+$app                     = Factory::getApplication();
+$input                   = $app->getInput();
+$sharedSessionsEnabled   = (bool) $app->get('shared_session', '0');
+$isPreviewComponent      = $input->getCmd('tmpl') === 'component';
+$isArticleNotFound       = $this->error->getMessage() === Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND');
+$showSharedSessionsHint  = $errorCode === 404 && !$sharedSessionsEnabled && $isPreviewComponent && $isArticleNotFound;
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -58,6 +66,10 @@ $errorCode = $this->error->getCode();
                 <li><?php echo Text::_('JERROR_LAYOUT_REQUESTED_RESOURCE_WAS_NOT_FOUND'); ?></li>
                 <li><?php echo Text::_('JERROR_LAYOUT_ERROR_HAS_OCCURRED_WHILE_PROCESSING_YOUR_REQUEST'); ?></li>
             </ul>
+            <?php if ($showSharedSessionsHint) : ?>
+            <p><strong><?php echo Text::_('JERROR_PREVIEW_SHARED_SESSIONS_HINT_TITLE'); ?></strong></p>
+            <p><?php echo Text::_('JERROR_PREVIEW_SHARED_SESSIONS_HINT_BODY'); ?></p>
+            <?php endif; ?>
             <p><strong><?php echo Text::_('JERROR_LAYOUT_PLEASE_TRY_ONE_OF_THE_FOLLOWING_PAGES'); ?></strong></p>
             <ul>
                 <li><a href="<?php echo Uri::root(true); ?>/index.php"><?php echo Text::_('JERROR_LAYOUT_HOME_PAGE'); ?></a></li>
