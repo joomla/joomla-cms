@@ -312,6 +312,8 @@ trait AjaxHandlerLogin
      * @param   array  $options  The login options passed to the user plugins.
      *
      * @return  void
+        *
+        * @since   __DEPLOY_VERSION__
      */
     private function markSilentLoginMfaAsCompleted(array $options): void
     {
