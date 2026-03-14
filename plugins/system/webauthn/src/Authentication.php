@@ -302,7 +302,10 @@ final class Authentication
 
         try {
             /** @var PublicKeyCredentialCreationOptions|null $publicKeyCredentialCreationOptions */
-            $publicKeyCredentialCreationOptions = unserialize(base64_decode($encodedOptions));
+            $publicKeyCredentialCreationOptions = unserialize(
+                base64_decode($encodedOptions),
+                ['allowed_classes' => [PublicKeyCredentialCreationOptions::class]]
+            );
         } catch (\Exception) {
             Log::add('The plg_system_webauthn.publicKeyCredentialCreationOptions in the session is invalid', Log::NOTICE, 'webauthn.system');
             $publicKeyCredentialCreationOptions = null;
@@ -496,7 +499,10 @@ final class Authentication
         }
 
         try {
-            $publicKeyCredentialRequestOptions = unserialize(base64_decode($encodedOptions));
+            $publicKeyCredentialRequestOptions = unserialize(
+                base64_decode($encodedOptions),
+                ['allowed_classes' => [PublicKeyCredentialRequestOptions::class]]
+            );
         } catch (\Exception) {
             Log::add('Invalid plg_system_webauthn.publicKeyCredentialRequestOptions in the session', Log::NOTICE, 'webauthn.system');
 
