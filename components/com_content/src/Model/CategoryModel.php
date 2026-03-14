@@ -268,6 +268,9 @@ class CategoryModel extends ListModel
             if ($limit >= 0) {
                 $this->_articles = $model->getItems();
 
+                // Adjust alphabetical ordering for specific locales when needed.
+                $this->applyLocaleAwareOrdering();
+
                 if ($this->_articles === false) {
                     $this->setError($model->getError());
                 }
@@ -279,6 +282,60 @@ class CategoryModel extends ListModel
         }
 
         return $this->_articles;
+    }
+
+    /**
+     * Apply locale-aware ordering to the loaded articles when using alphabetical
+     * ordering and a locale which requires special collation (e.g. Danish).
+     *
+     * @return  void
+     *
+     * @since   5.4.0
+     */
+    protected function applyLocaleAwareOrdering(): void
+    {
+        if (empty($this->_articles) || !\class_exists('\\Collator')) {
+            return;
+        }
+
+        $app      = Factory::getApplication();
+        $language = $app->getLanguage()->getTag();
+
+        // Only apply locale-aware sorting for Danish at this stage.
+        if (\stripos($language, 'da-') !== 0 && $language !== 'da') {
+            return;
+        }
+
+        $params         = $this->state->get('params');
+        $articleOrderby = $params->get('orderby_sec', 'rdate');
+
+        if (!\in_array($articleOrderby, ['alpha', 'ralpha'], true)) {
+            return;
+        }
+
+        $collator = new \Collator('da_DK');
+
+        if (!$collator) {
+            return;
+        }
+
+        $ascending = $articleOrderby === 'alpha';
+
+        \usort(
+            $this->_articles,
+            static function ($a, $b) use ($collator, $ascending) {
+                $titleA = $a->title ?? '';
+                $titleB = $b->title ?? '';
+
+                $result = $collator->compare($titleA, $titleB);
+
+                if (!$ascending) {
+                    $result = -$result;
+                }
+
+                return $result;
+            }
+        );
     }
 
     /**
