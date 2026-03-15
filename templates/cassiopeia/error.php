@@ -109,7 +109,6 @@ $renderModules = $app->getIdentity() && $app->getLanguage();
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
     <jdoc:include type="metas" />
-    <base href="<?php echo Uri::base(); ?>" />
     <jdoc:include type="styles" />
     <jdoc:include type="scripts" />
 </head>

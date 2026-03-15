@@ -13,6 +13,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Application\Exception\NotAcceptable;
 use Joomla\CMS\Error\AbstractRenderer;
 use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
+use Joomla\CMS\Event\Application\AfterRenderEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
@@ -160,6 +161,12 @@ class ExceptionHandler
                 $app->allowCache(false);
 
                 $app->setBody($data);
+
+                // Trigger the onAfterRender event (For error Pages)
+                $app->getDispatcher()->dispatch(
+                    'onAfterRender',
+                    new AfterRenderEvent('onAfterRender', ['subject' => $app])
+                );
             }
 
             // This return is needed to ensure the test suite does not trigger the non-Exception handling below
