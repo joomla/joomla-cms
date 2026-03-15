@@ -264,6 +264,8 @@ final class Sef extends CMSPlugin implements SubscriberInterface
             return;
         }
 
+        $this->isRewritten = true;
+
         // Replace src links.
         $base   = Uri::base(true) . '/';
         $buffer = $app->getBody();
@@ -366,9 +368,6 @@ final class Sef extends CMSPlugin implements SubscriberInterface
 
         // Use the replaced HTML body.
         $app->setBody($buffer);
-
-        // Mark as rewritten so it doesn't run again on BeforeRespond
-        $this->isRewritten = true;
     }
 
     /**
