@@ -10,12 +10,12 @@
 
 namespace Joomla\Plugin\System\Sef\Extension;
 
+use Joomla\CMS\Document\ErrorDocument;
 use Joomla\CMS\Event\Application\AfterDispatchEvent;
 use Joomla\CMS\Event\Application\AfterInitialiseEvent;
 use Joomla\CMS\Event\Application\AfterRenderEvent;
 use Joomla\CMS\Event\Application\AfterRouteEvent;
 use Joomla\CMS\Event\Application\BeforeRespondEvent;
-use Joomla\CMS\Document\ErrorDocument;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\Router;
