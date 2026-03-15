@@ -79,7 +79,7 @@ steps:
       - rclone delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_${DRONE_BRANCH%%-dev}.*"
       - rclone delete nightly:/home/devj/public_html/cache/com_content/
       - rclone copy ./transfer/ nightly:/home/devj/public_html/nightlies/
-      - curl -i -X POST -H 'Content-Type:application/json' -d "{\\"text\\":\\"Nightly Build for [Joomla ${DRONE_BRANCH%%-dev}]\(https://developer.joomla.org/nightly-builds.html\) successfully built.\\"}" $MATTERMOST_NIGHTLY_HOOK
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla '"${DRONE_BRANCH%%-dev}"'](https://developer.joomla.org/nightly-builds.html) successfully built."}' $MATTERMOST_NIGHTLY_HOOK
 
   - name: buildfailure
     image: joomlaprojects/docker-images:packager
@@ -87,7 +87,7 @@ steps:
       MATTERMOST_NIGHTLY_HOOK:
         from_secret: mattermost_nightly_hook
     commands:
-      - curl -i -X POST -H 'Content-Type:application/json' -d "{\\"text\\":\\"Nightly Build for [Joomla ${DRONE_BRANCH%%-dev}]\(https://developer.joomla.org/nightly-builds.html\) FAILED to build.\\"}" $MATTERMOST_NIGHTLY_HOOK
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla '"${DRONE_BRANCH%%-dev}"'](https://developer.joomla.org/nightly-builds.html) FAILED to build."}' $MATTERMOST_NIGHTLY_HOOK
     when:
       status:
         - failure
@@ -101,6 +101,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 9f62fa018929c465496161063c9ccd803253ce1b9d4f1180dea24b2b92b4914d
+hmac: b62009a5a3a1303955cdf02e0d38850e7065febe2e8b06731f6c740a89dfd6e9
 
 ...
