@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Error\JsonApi;
 
-use Exception;
 use Joomla\CMS\Application\Exception\OfflineWebsiteException;
 use Tobscure\JsonApi\Exception\Handler\ExceptionHandlerInterface;
 use Tobscure\JsonApi\Exception\Handler\ResponseBag;
@@ -31,7 +30,7 @@ class OfflineWebsiteExceptionHandler implements ExceptionHandlerInterface
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function manages(Exception $e)
+    public function manages(\Exception $e)
     {
         return $e instanceof OfflineWebsiteException;
     }
@@ -39,13 +38,13 @@ class OfflineWebsiteExceptionHandler implements ExceptionHandlerInterface
     /**
      * Handle the provided exception.
      *
-     * @param   Exception  $e  The exception being handled
+     * @param   \Exception  $e  The exception being handled
      *
      * @return  \Tobscure\JsonApi\Exception\Handler\ResponseBag
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function handle(Exception $e)
+    public function handle(\Exception $e)
     {
         $status = 503;
         $error = ['title' => $e->getMessage()];
