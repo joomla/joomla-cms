@@ -47,9 +47,8 @@ class OfflineWebsiteExceptionHandler implements ExceptionHandlerInterface
     public function handle(\Exception $e)
     {
         $status = 503;
-        $error = ['title' => $e->getMessage()];
-
-        $code = $e->getCode();
+        $error  = ['title' => $e->getMessage()];
+        $code   = $e->getCode();
 
         if ($code) {
             $error['code'] = $code;
