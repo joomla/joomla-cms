@@ -39,7 +39,10 @@ final class Sef extends CMSPlugin implements SubscriberInterface
 
     /**
      * Internal flag to make sure we don't process the buffer twice
+     *
      * @var bool
+     *
+     * @since  5.4.0
      */
     protected $isRewritten = false;
 
@@ -236,6 +239,8 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      * @param   BeforeRespondEvent $event  The event instance
      *
      * @return  void
+     *
+     * @since   5.4.0
      */
     public function onBeforeRespond(BeforeRespondEvent $event)
     {
@@ -256,6 +261,8 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      * @param   mixed  $app  The application object
      *
      * @return  void
+     *
+     * @since   5.4.0
      */
     protected function rewriteUrls($app)
     {
