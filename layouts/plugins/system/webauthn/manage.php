@@ -39,7 +39,6 @@ use Webauthn\PublicKeyCredentialSource;
 try {
     $app          = Factory::getApplication();
     $loggedInUser = $app->getIdentity();
-
 } catch (Exception $e) {
     $loggedInUser = new User();
 }
