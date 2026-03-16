@@ -42,7 +42,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      *
      * @var bool
      *
-     * @since  5.4.0
+     * @since  __DEPLOY_VERSION__
      */
     protected $isRewritten = false;
 
@@ -240,7 +240,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   5.4.0
+     * @since   __DEPLOY_VERSION__
      */
     public function onBeforeRespond(BeforeRespondEvent $event)
     {
@@ -263,7 +263,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   5.4.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function rewriteUrls($app)
     {
