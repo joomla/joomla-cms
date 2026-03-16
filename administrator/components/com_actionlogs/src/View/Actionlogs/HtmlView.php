@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
@@ -9,137 +10,106 @@
 
 namespace Joomla\Component\Actionlogs\Administrator\View\Actionlogs;
 
-\defined('_JEXEC') or die;
-
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Pagination\Pagination;
-use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\MVC\View\ListView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
-use Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View class for a list of logs.
  *
  * @since  3.9.0
  */
-class HtmlView extends BaseHtmlView
+class HtmlView extends ListView
 {
-	/**
-	 * An array of items.
-	 *
-	 * @var    array
-	 * @since  3.9.0
-	 */
-	protected $items;
+    /**
+     * Setting if the IP column should be shown
+     *
+     * @var    boolean
+     * @since  3.9.0
+     */
+    protected $showIpColumn = false;
 
-	/**
-	 * The model state
-	 *
-	 * @var    array
-	 * @since  3.9.0
-	 */
-	protected $state;
+    /**
+     * Setting if the date should be displayed relative to the current date.
+     *
+     * @var    boolean
+     * @since  4.1.0
+     */
+    protected $dateRelative = false;
 
-	/**
-	 * The pagination object
-	 *
-	 * @var    Pagination
-	 * @since  3.9.0
-	 */
-	protected $pagination;
+    /**
+     * Constructor
+     *
+     * @param   array  $config  An optional associative array of configuration settings.
+     *
+     * @since 6.0.0
+     */
+    public function __construct(array $config)
+    {
+        if (empty($config['option'])) {
+            $config['option'] = 'com_actionlogs';
+        }
 
-	/**
-	 * Form object for search filters
-	 *
-	 * @var    Form
-	 * @since  3.9.0
-	 */
-	public $filterForm;
+        $config['toolbar_title'] = 'COM_ACTIONLOGS_MANAGER_USERLOGS';
+        $config['toolbar_icon']  = 'list-2 actionlog';
 
-	/**
-	 * The active search filters
-	 *
-	 * @var    array
-	 * @since  3.9.0
-	 */
-	public $activeFilters;
+        parent::__construct($config);
+    }
 
-	/**
-	 * Setting if the IP column should be shown
-	 *
-	 * @var    boolean
-	 * @since  3.9.0
-	 */
-	protected $showIpColumn = false;
+    /**
+     * Prepare view data
+     *
+     * @return  void
+     *
+     * @since 6.0.0
+     */
+    protected function initializeView()
+    {
+        parent::initializeView();
 
-	/**
-	 * Setting if the date should be displayed relative to the current date.
-	 *
-	 * @var    boolean
-	 * @since  4.1.0
-	 */
-	protected $dateRelative = false;
+        $params              = ComponentHelper::getParams('com_actionlogs');
+        $this->showIpColumn  = (bool) $params->get('ip_logging', 0);
+        $this->dateRelative  = (bool) $params->get('date_relative', 1);
 
-	/**
-	 * Method to display the view.
-	 *
-	 * @param   string  $tpl  A template file to load. [optional]
-	 *
-	 * @return  void
-	 *
-	 * @since   3.9.0
-	 *
-	 * @throws  Exception
-	 */
-	public function display($tpl = null)
-	{
-		/** @var ActionlogsModel $model */
-		$model               = $this->getModel();
-		$this->items         = $model->getItems();
-		$this->state         = $model->getState();
-		$this->pagination    = $model->getPagination();
-		$this->filterForm    = $model->getFilterForm();
-		$this->activeFilters = $model->getActiveFilters();
-		$params              = ComponentHelper::getParams('com_actionlogs');
-		$this->showIpColumn  = (bool) $params->get('ip_logging', 0);
-		$this->dateRelative  = (bool) $params->get('date_relative', 1);
+        // Load all actionlog plugins language files
+        ActionlogsHelper::loadActionLogPluginsLanguage();
+    }
 
-		if (\count($errors = $model->getErrors()))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   3.9.0
+     */
+    protected function addToolbar()
+    {
+        ToolbarHelper::title(Text::_('COM_ACTIONLOGS_MANAGER_USERLOGS'), 'icon-list-2');
 
-		$this->addToolbar();
+        $toolbar = $this->getDocument()->getToolbar();
 
-		// Load all actionlog plugins language files
-		ActionlogsHelper::loadActionLogPluginsLanguage();
+        $toolbar->standardButton('download', 'COM_ACTIONLOGS_EXPORT_CSV', 'actionlogs.exportSelectedLogs')
+            ->icon('icon-download')
+            ->listCheck(true);
 
-		parent::display($tpl);
-	}
+        $toolbar->standardButton('download', 'COM_ACTIONLOGS_EXPORT_ALL_CSV', 'actionlogs.exportLogs')
+            ->icon('icon-download')
+            ->listCheck(false);
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.9.0
-	 */
-	protected function addToolbar()
-	{
-		ToolbarHelper::title(Text::_('COM_ACTIONLOGS_MANAGER_USERLOGS'), 'icon-list-2');
+        $toolbar->delete('actionlogs.delete')
+            ->message('JGLOBAL_CONFIRM_DELETE');
 
-		ToolbarHelper::custom('actionlogs.exportSelectedLogs', 'download', '', 'COM_ACTIONLOGS_EXPORT_CSV', true);
-		ToolbarHelper::custom('actionlogs.exportLogs', 'download', '', 'COM_ACTIONLOGS_EXPORT_ALL_CSV', false);
-		ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'actionlogs.delete');
-		$bar = Toolbar::getInstance('toolbar');
-		$bar->appendButton('Confirm', 'COM_ACTIONLOGS_PURGE_CONFIRM', 'delete', 'COM_ACTIONLOGS_TOOLBAR_PURGE', 'actionlogs.purge', false);
-		ToolbarHelper::preferences('com_actionlogs');
-		ToolbarHelper::help('User_Actions_Log');
-	}
+        $toolbar->confirmButton('delete', 'COM_ACTIONLOGS_TOOLBAR_PURGE', 'actionlogs.purge')
+            ->message('COM_ACTIONLOGS_PURGE_CONFIRM')
+            ->listCheck(false);
+
+        $toolbar->preferences('com_actionlogs');
+        $toolbar->help('User_Actions_Log');
+    }
 }

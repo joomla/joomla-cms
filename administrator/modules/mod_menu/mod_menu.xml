@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" client="administrator" method="upgrade">
 	<name>mod_menu</name>
 	<author>Joomla! Project</author>
@@ -11,7 +11,7 @@
 	<description>MOD_MENU_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\Menu</namespace>
 	<files>
-		<filename module="mod_menu">mod_menu.php</filename>
+		<folder module="mod_menu">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>

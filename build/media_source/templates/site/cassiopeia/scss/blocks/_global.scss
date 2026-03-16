@@ -1,4 +1,10 @@
 // Global
+@media screen and (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
 :root {
   scroll-behavior: smooth;
   font-size: $font-size-root;
@@ -6,6 +12,12 @@
   // Disable smooth scroll when the user has set "prefers-reduced-motion"
   @media screen and (prefers-reduced-motion: reduce) {
     scroll-behavior: auto;
+  }
+
+  &:has(.sticky-top) {
+    [id] {
+      scroll-margin-top: var(--cassiopeia-scroll-margin-top, 10rem);
+    }
   }
 }
 
@@ -54,15 +66,14 @@ h6 {
 }
 
 a {
-  color: var(--cassiopeia-color-link);
+  color: var(--#{$prefix}link-color);
+
+  &:hover {
+    color: var(--#{$prefix}link-hover-color);
+  }
 
   &:not([class]) {
     text-decoration: underline;
-  }
-
-  &:hover,
-  &:focus {
-    color: var(--cassiopeia-color-hover);
   }
 
   &.navbar-brand {
@@ -216,9 +227,9 @@ meter {
 }
 
 .page-link {
-  color: var(--cassiopeia-color-link);
+  color: var(--#{$prefix}link-color);
   &:hover {
-    color: var(--cassiopeia-color-link);
+    color: var(--#{$prefix}link-color);
   }
 }
 

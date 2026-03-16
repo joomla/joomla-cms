@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" client="administrator" method="upgrade">
 	<name>mod_privacy_dashboard</name>
 	<author>Joomla! Project</author>
@@ -11,7 +11,7 @@
 	<description>MOD_PRIVACY_DASHBOARD_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\PrivacyDashboard</namespace>
 	<files>
-		<filename module="mod_privacy_dashboard">mod_privacy_dashboard.php</filename>
+		<folder module="mod_privacy_dashboard">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>

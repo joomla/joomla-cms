@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="component" method="upgrade">
 	<name>com_banners</name>
 	<author>Joomla! Project</author>
@@ -23,9 +23,6 @@
 	<files folder="site">
 		<folder>src</folder>
 	</files>
-	<languages folder="site">
-		<language tag="en-GB">language/en-GB/com_banners.ini</language>
-	</languages>
 	<media destination="com_banners" folder="media">
 		<folder>js</folder>
 	</media>

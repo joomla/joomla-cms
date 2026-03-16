@@ -1,24 +1,23 @@
 <?php
 
 /**
- * @package         Joomla.Plugin
- * @subpackage      System.Webauthn
+ * @package     Joomla.Plugin
+ * @subpackage  System.Webauthn
  *
  * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Document\HtmlDocument;
+use Joomla\CMS\Event\User\LoginButtonsEvent;
 use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
-use Joomla\Event\Event;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -51,7 +50,7 @@ trait AdditionalLoginButtons
     /**
      * Creates additional login buttons
      *
-     * @param   Event  $event  The event we are handling
+     * @param   LoginButtonsEvent  $event  The event we are handling
      *
      * @return  void
      *
@@ -59,15 +58,17 @@ trait AdditionalLoginButtons
      *
      * @since   4.0.0
      */
-    public function onUserLoginButtons(Event $event): void
+    public function onUserLoginButtons(LoginButtonsEvent $event): void
     {
-        /** @var string $form The HTML ID of the form we are enclosed in */
-        [$form] = $event->getArguments();
+        $formId = $event->getFormId();
 
         // If we determined we should not inject a button return early
         if (!$this->mustDisplayButton()) {
             return;
         }
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         // Load necessary CSS and Javascript files
         $this->addLoginCSSAndJavascript();
@@ -77,7 +78,7 @@ trait AdditionalLoginButtons
             UserHelper::genRandomPassword(12) . '-' . UserHelper::genRandomPassword(8);
 
         // Get local path to image
-        $image = HTMLHelper::_('image', 'plg_system_webauthn/webauthn.svg', '', '', true, true);
+        $image = HTMLHelper::_('image', 'plg_system_webauthn/fido-passkey-black.svg', '', '', true, true);
 
         // If you can't find the image then skip it
         $image = $image ? JPATH_ROOT . substr($image, \strlen(Uri::root(true))) : '';
@@ -85,16 +86,16 @@ trait AdditionalLoginButtons
         // Extract image if it exists
         $image = file_exists($image) ? file_get_contents($image) : '';
 
-        $this->returnFromEvent($event, [
+        $event->addResult([
             [
                 'label'              => 'PLG_SYSTEM_WEBAUTHN_LOGIN_LABEL',
                 'tooltip'            => 'PLG_SYSTEM_WEBAUTHN_LOGIN_DESC',
                 'id'                 => $randomId,
-                'data-webauthn-form' => $form,
+                'data-webauthn-form' => $formId,
                 'svg'                => $image,
                 'class'              => 'plg_system_webauthn_login_button',
             ],
-            ]);
+        ]);
     }
 
     /**
@@ -136,7 +137,7 @@ trait AdditionalLoginButtons
              */
             try {
                 $document = $this->getApplication()->getDocument();
-            } catch (Exception $e) {
+            } catch (\Exception) {
                 $document = null;
             }
 
@@ -183,7 +184,7 @@ trait AdditionalLoginButtons
         }
 
         if (!$wa->assetExists('script', 'plg_system_webauthn.login')) {
-            $wa->registerScript('plg_system_webauthn.login', 'plg_system_webauthn/login.js', [], ['defer' => true], ['core']);
+            $wa->registerScript('plg_system_webauthn.login', 'plg_system_webauthn/login.js', [], ['defer' => true], ['core', 'messages']);
         }
 
         $wa->useStyle('plg_system_webauthn.button')

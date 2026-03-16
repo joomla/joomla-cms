@@ -48,11 +48,11 @@ class ActionButton
         'icon'    => 'question',
         'title'   => 'Unknown state',
         'options' => [
-            'disabled'  => false,
-            'only_icon' => false,
-            'tip' => true,
-            'tip_title' => '',
-            'task_prefix' => '',
+            'disabled'      => false,
+            'only_icon'     => false,
+            'tip'           => true,
+            'tip_title'     => '',
+            'task_prefix'   => '',
             'checkbox_name' => 'cb',
         ],
     ];
@@ -125,7 +125,7 @@ class ActionButton
             'task'    => $task,
             'icon'    => $icon,
             'title'   => $title,
-            'options' => $options
+            'options' => $options,
         ];
 
         return $this;
@@ -184,14 +184,14 @@ class ActionButton
             $this->unknownState,
             $data,
             [
-                'options' => $this->options->toArray()
+                'options' => $this->options->toArray(),
             ],
             [
-                'options' => $options
+                'options' => $options,
             ]
         );
 
-        $data['row'] = $row;
+        $data['row']  = $row;
         $data['icon'] = $this->fetchIconClass($data['icon']);
 
         return LayoutHelper::render($this->layout, $data);
@@ -317,6 +317,6 @@ class ActionButton
         // It's an ugly hack, but this allows templates to define the icon classes for the toolbar
         $layout = new FileLayout('joomla.button.iconclass');
 
-        return $layout->render(array('icon' => $identifier));
+        return $layout->render(['icon' => $identifier]);
     }
 }

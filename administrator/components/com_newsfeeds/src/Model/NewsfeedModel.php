@@ -17,6 +17,7 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Registry\Registry;
@@ -30,7 +31,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-class NewsfeedModel extends AdminModel
+class NewsfeedModel extends AdminModel implements VersionableModelInterface
 {
     use VersionableModelTrait;
 
@@ -102,18 +103,15 @@ class NewsfeedModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|bool  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_newsfeeds.newsfeed', 'newsfeed', array('control' => 'jform', 'load_data' => $loadData));
-
-        if (empty($form)) {
-            return false;
-        }
+        $form = $this->loadForm('com_newsfeeds.newsfeed', 'newsfeed', ['control' => 'jform', 'load_data' => $loadData]);
 
         // Modify the form based on access controls.
         if (!$this->canEditState((object) $data)) {
@@ -149,15 +147,15 @@ class NewsfeedModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_newsfeeds.edit.newsfeed.data', array());
+        $data = Factory::getApplication()->getUserState('com_newsfeeds.edit.newsfeed.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
 
             // Prime some default values.
             if ($this->getState('newsfeed.id') == 0) {
-                $app = Factory::getApplication();
-                $data->set('catid', $app->input->get('catid', $app->getUserState('com_newsfeeds.newsfeeds.filter.category_id'), 'int'));
+                $app         = Factory::getApplication();
+                $data->catid = $app->getInput()->get('catid', $app->getUserState('com_newsfeeds.newsfeeds.filter.category_id'), 'int');
             }
         }
 
@@ -177,7 +175,7 @@ class NewsfeedModel extends AdminModel
      */
     public function save($data)
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         // Create new category, if needed.
         $createCategory = true;
@@ -191,7 +189,7 @@ class NewsfeedModel extends AdminModel
         if ($createCategory && $this->canCreateCategory()) {
             $category = [
                 // Remove #new# prefix, if exists.
-                'title'     => strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'],
+                'title'     => str_starts_with($data['catid'], '#new#') ? substr($data['catid'], 5) : $data['catid'],
                 'parent_id' => 1,
                 'extension' => 'com_newsfeeds',
                 'language'  => $data['language'],
@@ -215,13 +213,13 @@ class NewsfeedModel extends AdminModel
 
         // Alter the name for save as copy
         if ($input->get('task') == 'save2copy') {
-            $origTable = clone $this->getTable();
+            $origTable = $this->getTable();
             $origTable->load($input->getInt('id'));
 
             if ($data['name'] == $origTable->name) {
-                list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
-                $data['name'] = $name;
-                $data['alias'] = $alias;
+                [$name, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
+                $data['name']   = $name;
+                $data['alias']  = $alias;
             } else {
                 if ($data['alias'] == $origTable->alias) {
                     $data['alias'] = '';
@@ -247,11 +245,11 @@ class NewsfeedModel extends AdminModel
     {
         if ($item = parent::getItem($pk)) {
             // Convert the params field to an array.
-            $registry = new Registry($item->metadata);
+            $registry       = new Registry($item->metadata);
             $item->metadata = $registry->toArray();
 
             // Convert the images field to an array.
-            $registry = new Registry($item->images);
+            $registry     = new Registry($item->images);
             $item->images = $registry->toArray();
         }
 
@@ -259,7 +257,7 @@ class NewsfeedModel extends AdminModel
         $assoc = Associations::isEnabled();
 
         if ($assoc) {
-            $item->associations = array();
+            $item->associations = [];
 
             if ($item->id != null) {
                 $associations = Associations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $item->id);
@@ -271,7 +269,7 @@ class NewsfeedModel extends AdminModel
         }
 
         if (!empty($item->id)) {
-            $item->tags = new  TagsHelper();
+            $item->tags = new TagsHelper();
             $item->tags->getTagIds($item->id, 'com_newsfeeds.newsfeed');
 
             // @todo: We probably don't need this in any client - but needs careful validation
@@ -295,7 +293,7 @@ class NewsfeedModel extends AdminModel
         $date = Factory::getDate();
         $user = $this->getCurrentUser();
 
-        $table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
+        $table->name  = htmlspecialchars_decode($table->name, ENT_QUOTES);
         $table->alias = ApplicationHelper::stringURLSafe($table->alias, $table->language);
 
         if (empty($table->alias)) {
@@ -305,11 +303,12 @@ class NewsfeedModel extends AdminModel
         if (empty($table->id)) {
             // Set the values
             $table->created = $date->toSql();
+            $table->version = 1;
 
             // Set ordering to the last item if not set
             if (empty($table->ordering)) {
-                $db = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $db    = $this->getDatabase();
+                $query = $db->createQuery()
                     ->select('MAX(' . $db->quoteName('ordering') . ')')
                     ->from($db->quoteName('#__newsfeeds'));
                 $db->setQuery($query);
@@ -319,12 +318,10 @@ class NewsfeedModel extends AdminModel
             }
         } else {
             // Set the values
-            $table->modified = $date->toSql();
-            $table->modified_by = $user->get('id');
+            $table->modified    = $date->toSql();
+            $table->modified_by = $user->id;
+            $table->version++;
         }
-
-        // Increment the content version number.
-        $table->version++;
     }
 
     /**
@@ -370,7 +367,7 @@ class NewsfeedModel extends AdminModel
      * @param   array   $data   The data to be injected into the form
      * @param   string  $group  The plugin group to process
      *
-     * @return  array  An array of conditions to add to ordering queries.
+     * @return  void
      *
      * @since   1.6
      */
@@ -387,9 +384,9 @@ class NewsfeedModel extends AdminModel
         if (Associations::isEnabled()) {
             $languages = LanguageHelper::getContentLanguages(false, false, null, 'ordering', 'asc');
 
-            if (count($languages) > 1) {
+            if (\count($languages) > 1) {
                 $addform = new \SimpleXMLElement('<form />');
-                $fields = $addform->addChild('fields');
+                $fields  = $addform->addChild('fields');
                 $fields->addAttribute('name', 'associations');
                 $fieldset = $fields->addChild('fieldset');
                 $fieldset->addAttribute('name', 'item_associations');

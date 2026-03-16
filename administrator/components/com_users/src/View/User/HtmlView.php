@@ -13,13 +13,13 @@ namespace Joomla\Component\Users\Administrator\View\User;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\Helper\Mfa;
+use Joomla\Component\Users\Administrator\Model\UserModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -30,8 +30,10 @@ use Joomla\Component\Users\Administrator\Helper\Mfa;
  *
  * @since  1.5
  */
-class HtmlView extends BaseHtmlView
+class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * The Form object
      *
@@ -64,7 +66,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -77,6 +79,15 @@ class HtmlView extends BaseHtmlView
     protected $mfaConfigurationUI;
 
     /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
+
+    /**
      * Display the view
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -87,47 +98,48 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
+        /** @var UserModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
+
         // If no item found, dont show the edit screen, redirect with message
-        if (false === $this->item = $this->get('Item')) {
+        if (false === $this->item = $model->getItem()) {
             $app = Factory::getApplication();
             $app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_NOT_EXIST'), 'error');
             $app->redirect('index.php?option=com_users&view=users');
         }
 
-        $this->form  = $this->get('Form');
-        $this->state = $this->get('State');
-
-        // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        $this->form  = $model->getForm();
+        $this->state = $model->getState();
 
         // Prevent user from modifying own group(s)
-        $user = Factory::getApplication()->getIdentity();
+        $user = $this->getCurrentUser();
 
         if ((int) $user->id != (int) $this->item->id || $user->authorise('core.admin')) {
-            $this->grouplist = $this->get('Groups');
-            $this->groups    = $this->get('AssignedGroups');
+            $this->grouplist = $model->getGroups();
+            $this->groups    = $model->getAssignedGroups();
         }
 
         $this->form->setValue('password', null);
         $this->form->setValue('password2', null);
 
-        /** @var User $userBeingEdited */
-        $userBeingEdited = Factory::getContainer()
-            ->get(UserFactoryInterface::class)
-            ->loadUserById($this->item->id);
+        $userBeingEdited = $this->getUserFactory()->loadUserById($this->item->id);
 
         if ($this->item->id > 0 && (int) $userBeingEdited->id == (int) $this->item->id) {
             try {
                 $this->mfaConfigurationUI = Mfa::canShowConfigurationInterface($userBeingEdited)
                     ? Mfa::getConfigurationInterface($userBeingEdited)
                     : '';
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // In case something goes really wrong with the plugins; prevents hard breaks.
                 $this->mfaConfigurationUI = null;
             }
         }
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task')
+            ->addControlField('return', Factory::getApplication()->getInput()->getBase64('return', ''));
 
         parent::display($tpl);
 
@@ -144,12 +156,13 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-        $user      = Factory::getApplication()->getIdentity();
+        $user      = $this->getCurrentUser();
         $canDo     = ContentHelper::getActions('com_users');
         $isNew     = ($this->item->id == 0);
         $isProfile = $this->item->id == $user->id;
+        $toolbar   = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(
             Text::_(
@@ -158,29 +171,51 @@ class HtmlView extends BaseHtmlView
             'user ' . ($isNew ? 'user-add' : ($isProfile ? 'user-profile' : 'user-edit'))
         );
 
-        $toolbarButtons = [];
-
         if ($canDo->get('core.edit') || $canDo->get('core.create') || $isProfile) {
-            ToolbarHelper::apply('user.apply');
-            $toolbarButtons[] = ['save', 'user.save'];
+            $toolbar->apply('user.apply');
         }
 
-        if ($canDo->get('core.create') && $canDo->get('core.manage')) {
-            $toolbarButtons[] = ['save2new', 'user.save2new'];
-        }
+        $saveGroup = $toolbar->dropdownButton('save-group');
 
-        ToolbarHelper::saveGroup(
-            $toolbarButtons,
-            'btn-success'
+        $saveGroup->configure(
+            function (Toolbar $childBar) use ($canDo, $isProfile) {
+                if ($canDo->get('core.edit') || $canDo->get('core.create') || $isProfile) {
+                    $childBar->save('user.save');
+                }
+
+                if ($canDo->get('core.create') && $canDo->get('core.manage')) {
+                    $childBar->save2new('user.save2new');
+                }
+            }
         );
 
         if (empty($this->item->id)) {
-            ToolbarHelper::cancel('user.cancel');
+            $toolbar->cancel('user.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            ToolbarHelper::cancel('user.cancel', 'JTOOLBAR_CLOSE');
+            $toolbar->cancel('user.cancel');
         }
 
-        ToolbarHelper::divider();
-        ToolbarHelper::help('Users:_Edit_Profile');
+        // Check lastvisitDate for allow resend the activation email
+        $userIsNotActive = !empty($this->item->activation) || \is_null($this->item->lastvisitDate);
+
+        if ($this->item->id > 0 && $userIsNotActive) {
+            $buttonText = !empty($this->item->activation)
+                ? Text::_('COM_USERS_USER_ACTIVATE_AND_MAIL')
+                : Text::_('COM_USERS_USER_ACTIVATION_REMINDER');
+
+            $toolbar->standardButton('activate', $buttonText)
+                ->buttonClass('btn activate-send-mail')
+                ->attributes([
+                    'data-option' => 'com_users',
+                    'data-task'   => 'user.active',
+                    'data-format' => 'json',
+                    'data-userid' => $this->item->id,
+                ])
+                ->icon('icon-mail')
+                ->onclick('');
+        }
+
+        $toolbar->divider();
+        $toolbar->help('Users:_Edit_Profile');
     }
 }

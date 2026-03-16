@@ -13,6 +13,7 @@ namespace Joomla\Component\Content\Site\Model;
 use Joomla\CMS\Factory;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -51,14 +52,14 @@ class FeaturedModel extends ArticlesModel
         parent::populateState($ordering, $direction);
 
         $app   = Factory::getApplication();
-        $input = $app->input;
+        $input = $app->getInput();
         $user  = $app->getIdentity();
 
         // List state information
         $limitstart = $input->getUint('limitstart', 0);
         $this->setState('list.start', $limitstart);
 
-        $params = $this->state->params;
+        $params = $this->state->get('params');
 
         if ($menu = $app->getMenu()->getActive()) {
             $menuParams = $menu->getParams();
@@ -77,7 +78,7 @@ class FeaturedModel extends ArticlesModel
 
         $this->setState('filter.frontpage', true);
 
-        if ((!$user->authorise('core.edit.state', 'com_content')) &&  (!$user->authorise('core.edit', 'com_content'))) {
+        if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content'))) {
             // Filter on published for those who do not have edit or edit.state rights.
             $this->setState('filter.published', ContentComponent::CONDITION_PUBLISHED);
         } else {
@@ -92,7 +93,7 @@ class FeaturedModel extends ArticlesModel
         }
 
         // Check for category selection
-        if ($params->get('featured_categories') && implode(',', $params->get('featured_categories')) == true) {
+        if ($params->get('featured_categories') && implode(',', $params->get('featured_categories'))) {
             $featuredCategories = $params->get('featured_categories');
             $this->setState('filter.frontpage.categories', $featuredCategories);
         }
@@ -116,7 +117,7 @@ class FeaturedModel extends ArticlesModel
     public function getItems()
     {
         $params = clone $this->getState('params');
-        $limit = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
+        $limit  = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
 
         if ($limit > 0) {
             $this->setState('list.limit', $limit);
@@ -124,7 +125,7 @@ class FeaturedModel extends ArticlesModel
             return parent::getItems();
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -149,7 +150,7 @@ class FeaturedModel extends ArticlesModel
     /**
      * Get the list of items.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      */
     protected function getListQuery()
     {
@@ -159,7 +160,7 @@ class FeaturedModel extends ArticlesModel
         // Filter by categories
         $featuredCategories = $this->getState('filter.frontpage.categories');
 
-        if (is_array($featuredCategories) && !in_array('', $featuredCategories)) {
+        if (\is_array($featuredCategories) && !\in_array('', $featuredCategories)) {
             $query->where('a.catid IN (' . implode(',', ArrayHelper::toInteger($featuredCategories)) . ')');
         }
 

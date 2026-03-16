@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Categories\Api\Controller;
 
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\CMS\Table\Category;
 
@@ -51,10 +52,10 @@ class CategoriesController extends ApiController
      */
     protected function preprocessSaveData(array $data): array
     {
-        $extension = $this->getExtensionFromInput();
+        $extension         = $this->getExtensionFromInput();
         $data['extension'] = $extension;
 
-        // TODO: This is a hack to drop the extension into the global input object - to satisfy how state is built
+        // @todo: This is a hack to drop the extension into the global input object - to satisfy how state is built
         //       we should be able to improve this in the future
         $this->input->set('extension', $extension);
 
@@ -124,6 +125,13 @@ class CategoriesController extends ApiController
      */
     public function displayList()
     {
+        $apiFilterInfo = $this->input->get('filter', [], 'array');
+        $filter        = InputFilter::getInstance();
+
+        if (\array_key_exists('search', $apiFilterInfo)) {
+            $this->modelState->set('filter.search', $filter->clean($apiFilterInfo['search'], 'STRING'));
+        }
+
         $this->modelState->set('filter.extension', $this->getExtensionFromInput());
 
         return parent::displayList();

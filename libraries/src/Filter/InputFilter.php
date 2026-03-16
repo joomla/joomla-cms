@@ -9,11 +9,12 @@
 
 namespace Joomla\CMS\Filter;
 
+use enshrined\svgSanitize\Sanitizer;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Filter\InputFilter as BaseInputFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -34,7 +35,7 @@ class InputFilter extends BaseInputFilter
      */
     public const FORBIDDEN_FILE_EXTENSIONS = [
         'php', 'phps', 'pht', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7', 'asp',
-        'php8', 'phar', 'inc', 'pl', 'cgi', 'fcgi', 'java', 'jar', 'py', 'aspx'
+        'php8', 'phar', 'inc', 'pl', 'cgi', 'fcgi', 'java', 'jar', 'py', 'aspx',
     ];
 
     /**
@@ -51,7 +52,7 @@ class InputFilter extends BaseInputFilter
      * @var    InputFilter[]
      * @since  4.0.0
      */
-    protected static $instances = array();
+    protected static $instances = [];
     /**
      * Constructor for inputFilter class. Only first parameter is required.
      *
@@ -64,7 +65,7 @@ class InputFilter extends BaseInputFilter
      *
      * @since   1.7.0
      */
-    public function __construct($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1, $stripUSC = 0)
+    public function __construct($tagsArray = [], $attrArray = [], $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1, $stripUSC = 0)
     {
         parent::__construct($tagsArray, $attrArray, $tagsMethod, $attrMethod, $xssAuto);
 
@@ -86,9 +87,9 @@ class InputFilter extends BaseInputFilter
      *
      * @since   1.7.0
      */
-    public static function getInstance($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1, $stripUSC = 0)
+    public static function getInstance($tagsArray = [], $attrArray = [], $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1, $stripUSC = 0)
     {
-        $sig = md5(serialize(array($tagsArray, $attrArray, $tagsMethod, $attrMethod, $xssAuto)));
+        $sig = md5(serialize([$tagsArray, $attrArray, $tagsMethod, $attrMethod, $xssAuto]));
 
         if (empty(self::$instances[$sig])) {
             self::$instances[$sig] = new InputFilter($tagsArray, $attrArray, $tagsMethod, $attrMethod, $xssAuto, $stripUSC);
@@ -151,8 +152,11 @@ class InputFilter extends BaseInputFilter
 
         if (preg_match_all($pattern, $text, $matches)) {
             foreach ($matches[0] as $match) {
-                $match  = (string) str_replace(array('?', '"'), '', $match);
-                $text   = (string) str_replace($match, PunycodeHelper::emailToPunycode($match), $text);
+                try {
+                    $match = (string) str_replace(['?', '"'], '', $match);
+                    $text  = (string) str_replace($match, PunycodeHelper::emailToPunycode($match), $text);
+                } catch (\Exception) {
+                }
             }
         }
 
@@ -182,57 +186,57 @@ class InputFilter extends BaseInputFilter
      *
      * @since   3.4
      */
-    public static function isSafeFile($file, $options = array())
+    public static function isSafeFile($file, $options = [])
     {
-        $defaultOptions = array(
+        $defaultOptions = [
 
             // Null byte in file name
-            'null_byte'                  => true,
+            'null_byte' => true,
 
             // Forbidden string in extension (e.g. php matched .php, .xxx.php, .php.xxx and so on)
-            'forbidden_extensions'       => self::FORBIDDEN_FILE_EXTENSIONS,
+            'forbidden_extensions' => self::FORBIDDEN_FILE_EXTENSIONS,
 
             // <?php tag in file contents
-            'php_tag_in_content'         => true,
+            'php_tag_in_content' => true,
 
             // <? tag in file contents
-            'shorttag_in_content'        => true,
+            'shorttag_in_content' => true,
 
             // __HALT_COMPILER()
-            'phar_stub_in_content'        => true,
+            'phar_stub_in_content' => true,
 
             // Which file extensions to scan for short tags
-            'shorttag_extensions'        => array(
+            'shorttag_extensions' => [
                 'inc', 'phps', 'class', 'php3', 'php4', 'php5', 'php6', 'php7', 'php8', 'txt', 'dat', 'tpl', 'tmpl',
-            ),
+            ],
 
             // Forbidden extensions anywhere in the content
-            'fobidden_ext_in_content'    => true,
+            'fobidden_ext_in_content' => true,
 
             // Which file extensions to scan for .php in the content
-            'php_ext_content_extensions' => array('zip', 'rar', 'tar', 'gz', 'tgz', 'bz2', 'tbz', 'jpa'),
-        );
+            'php_ext_content_extensions' => ['zip', 'rar', 'tar', 'gz', 'tgz', 'bz2', 'tbz', 'jpa'],
+        ];
 
         $options = array_merge($defaultOptions, $options);
 
         // Make sure we can scan nested file descriptors
         $descriptors = $file;
 
-        if (isset($file['name']) && isset($file['tmp_name'])) {
+        if (isset($file['name'], $file['tmp_name'])) {
             $descriptors = static::decodeFileData(
-                array(
+                [
                     $file['name'],
                     $file['type'],
                     $file['tmp_name'],
                     $file['error'],
                     $file['size'],
-                )
+                ]
             );
         }
 
         // Handle non-nested descriptors (single files)
         if (isset($descriptors['name'])) {
-            $descriptors = array($descriptors);
+            $descriptors = [$descriptors];
         }
 
         // Scan all descriptors detected
@@ -250,11 +254,11 @@ class InputFilter extends BaseInputFilter
             $intendedNames = $fileDescriptor['name'];
 
             if (!\is_array($tempNames)) {
-                $tempNames = array($tempNames);
+                $tempNames = [$tempNames];
             }
 
             if (!\is_array($intendedNames)) {
-                $intendedNames = array($intendedNames);
+                $intendedNames = [$intendedNames];
             }
 
             $len = \count($tempNames);
@@ -294,7 +298,7 @@ class InputFilter extends BaseInputFilter
                     || $options['shorttag_in_content'] || $options['phar_stub_in_content']
                     || ($options['fobidden_ext_in_content'] && !empty($options['forbidden_extensions']))
                 ) {
-                    $fp = strlen($tempName) ? @fopen($tempName, 'r') : false;
+                    $fp = \strlen($tempName) ? @fopen($tempName, 'r') : false;
 
                     if ($fp !== false) {
                         $data = '';
@@ -314,9 +318,9 @@ class InputFilter extends BaseInputFilter
                                 $suspiciousExtensions = $options['shorttag_extensions'];
 
                                 if (empty($suspiciousExtensions)) {
-                                    $suspiciousExtensions = array(
+                                    $suspiciousExtensions = [
                                         'inc', 'phps', 'class', 'php3', 'php4', 'txt', 'dat', 'tpl', 'tmpl',
-                                    );
+                                    ];
                                 }
 
                                 /*
@@ -345,9 +349,9 @@ class InputFilter extends BaseInputFilter
                                 $suspiciousExtensions = $options['php_ext_content_extensions'];
 
                                 if (empty($suspiciousExtensions)) {
-                                    $suspiciousExtensions = array(
+                                    $suspiciousExtensions = [
                                         'zip', 'rar', 'tar', 'gz', 'tgz', 'bz2', 'tbz', 'jpa',
-                                    );
+                                    ];
                                 }
 
                                 /*
@@ -404,17 +408,17 @@ class InputFilter extends BaseInputFilter
      */
     protected static function decodeFileData(array $data)
     {
-        $result = array();
+        $result = [];
 
         if (\is_array($data[0])) {
             foreach ($data[0] as $k => $v) {
-                $result[$k] = static::decodeFileData(array($data[0][$k], $data[1][$k], $data[2][$k], $data[3][$k], $data[4][$k]));
+                $result[$k] = static::decodeFileData([$data[0][$k], $data[1][$k], $data[2][$k], $data[3][$k], $data[4][$k]]);
             }
 
             return $result;
         }
 
-        return array('name' => $data[0], 'type' => $data[1], 'tmp_name' => $data[2], 'error' => $data[3], 'size' => $data[4]);
+        return ['name' => $data[0], 'type' => $data[1], 'tmp_name' => $data[2], 'error' => $data[3], 'size' => $data[4]];
     }
 
     /**
@@ -428,14 +432,14 @@ class InputFilter extends BaseInputFilter
      */
     protected function decode($source)
     {
-        static $ttr;
+        static $ttr = [];
 
-        if (!\is_array($ttr)) {
+        if (!\count($ttr)) {
             // Entity decode
             $trans_tbl = get_html_translation_table(HTML_ENTITIES, ENT_COMPAT, 'ISO-8859-1');
 
             foreach ($trans_tbl as $k => $v) {
-                $ttr[$v] = utf8_encode($k);
+                $ttr[$v] = mb_convert_encoding($k, 'UTF-8', 'ISO-8859-1');
             }
         }
 
@@ -445,7 +449,7 @@ class InputFilter extends BaseInputFilter
         $source = preg_replace_callback(
             '/&#(\d+);/m',
             function ($m) {
-                return utf8_encode(\chr($m[1]));
+                return mb_convert_encoding(\chr($m[1]), 'UTF-8', 'ISO-8859-1');
             },
             $source
         );
@@ -454,7 +458,7 @@ class InputFilter extends BaseInputFilter
         $source = preg_replace_callback(
             '/&#x([a-f0-9]+);/mi',
             function ($m) {
-                return utf8_encode(\chr('0x' . $m[1]));
+                return mb_convert_encoding(\chr(hexdec($m[1])), 'UTF-8', 'ISO-8859-1');
             },
             $source
         );
@@ -478,7 +482,7 @@ class InputFilter extends BaseInputFilter
         }
 
         if (\is_array($source)) {
-            $filteredArray = array();
+            $filteredArray = [];
 
             foreach ($source as $k => $v) {
                 $filteredArray[$k] = $this->stripUSC($v);
@@ -488,5 +492,40 @@ class InputFilter extends BaseInputFilter
         }
 
         return preg_replace('/[\xF0-\xF7].../s', "\xE2\xAF\x91", $source);
+    }
+
+    /**
+     * Internal method to strip a tag of disallowed attributes - extended to filter SVG content
+     *
+     * @param   array  $attrSet  Array of attribute pairs to filter
+     *
+     * @return  array  Filtered array of attribute pairs
+     *
+     * @since 6.0.2
+     */
+    protected function cleanAttributes(array $attrSet)
+    {
+        // Do the heavy lifting in the upstream library
+        $attrSet = parent::cleanAttributes($attrSet);
+
+        // Decode and check base64-encoded svgs
+        return array_map(
+            function ($attribute) {
+                // Check for presence of relevant tags
+                if (!preg_match('/"data:.*svg.*;base64,(.*)"/U', $attribute, $matches)) {
+                    return $attribute;
+                }
+
+                // Extract SVG
+                $svg = base64_decode($matches[1], true);
+
+                // Sanitize svg
+                $sanitizer = new Sanitizer();
+
+                // Replace content
+                return str_replace($matches[1], base64_encode($sanitizer->sanitize($svg)), $attribute);
+            },
+            $attrSet,
+        );
     }
 }

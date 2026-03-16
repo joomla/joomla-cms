@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -18,7 +17,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 /** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView $this */
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('core')
     ->useScript('com_joomlaupdate.default')
     ->useScript('bootstrap.popover');
@@ -30,7 +29,7 @@ $displayData = [
     'title'      => Text::sprintf('COM_JOOMLAUPDATE_UPDATE_EMPTYSTATE_TITLE', $this->escape($this->updateInfo['latest'])),
     'content'    => Text::sprintf($this->langKey, $this->updateSourceKey),
     'formURL'    => 'index.php?option=com_joomlaupdate&view=joomlaupdate',
-    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Updating_from_an_existing_version',
+    'helpURL'    => 'https://guide.joomla.org/user-manual/migration',
     'icon'       => 'icon-loop joomlaupdate',
     'createURL'  => '#'
 ];
@@ -58,8 +57,11 @@ $displayData['content'] .= '<div class="form-check d-flex justify-content-center
 		</label>
 	</div>';
 
-if (Factory::getApplication()->getIdentity()->authorise('core.admin', 'com_joomlaupdate')) :
-    $displayData['formAppend'] = '<div class="text-center"><a href="' . $uploadLink . '" class="btn btn-sm btn-outline-secondary">' . Text::_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND') . '</a></div>';
+if ($this->getCurrentUser()->authorise('core.admin', 'com_joomlaupdate')) :
+    $displayData['formAppend'] = '
+        <div class="text-center"><a href="' . $uploadLink . '" class="btn btn-sm btn-outline-secondary">' . Text::_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND') . '</a></div>
+        <input type="hidden" name="targetVersion" value="' . $this->updateInfo['latest'] . '" />
+    ';
 endif;
 
 echo '<div id="joomlaupdate-wrapper">';

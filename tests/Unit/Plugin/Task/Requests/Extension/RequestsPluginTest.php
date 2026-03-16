@@ -10,16 +10,15 @@
 
 namespace Joomla\Tests\Unit\Plugin\Task\Requests\Extension;
 
-use Exception;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Http\Http;
 use Joomla\CMS\Language\Language;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
-use Joomla\Event\Dispatcher;
 use Joomla\Filesystem\Folder;
 use Joomla\Http\HttpFactory;
+use Joomla\Http\Response;
 use Joomla\Http\TransportInterface;
 use Joomla\Plugin\Task\Requests\Extension\Requests;
 use Joomla\Tests\Unit\UnitTestCase;
@@ -42,7 +41,7 @@ class RequestsPluginTest extends UnitTestCase
      *
      * @var string
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     private $tmpFolder;
 
@@ -86,15 +85,17 @@ class RequestsPluginTest extends UnitTestCase
      */
     public function testRequest()
     {
-        $transport = new class implements TransportInterface
-        {
+        $transport = new class () implements TransportInterface {
             public $url;
 
             public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
             {
                 $this->url = $uri->toString();
 
-                return (object)['code' => 200, 'body' => 'test'];
+                $response = new Response('php://memory', 200);
+                $response->getBody()->write('test');
+
+                return $response;
             }
 
             public static function isSupported()
@@ -103,7 +104,7 @@ class RequestsPluginTest extends UnitTestCase
             }
         };
 
-        $http = new Http([], $transport);
+        $http    = new Http([], $transport);
         $factory = $this->createStub(HttpFactory::class);
         $factory->method('getHttp')->willReturn($http);
 
@@ -113,7 +114,7 @@ class RequestsPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Requests(new Dispatcher(), [], $factory, $this->tmpFolder);
+        $plugin = new Requests([], $factory, $this->tmpFolder);
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -123,7 +124,7 @@ class RequestsPluginTest extends UnitTestCase
             'test',
             [
                 'subject' => $task,
-                'params' => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => '']
+                'params'  => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => ''],
             ]
         );
         $plugin->standardRoutineHandler($event);
@@ -143,15 +144,17 @@ class RequestsPluginTest extends UnitTestCase
      */
     public function testInvalidRequest()
     {
-        $transport = new class implements TransportInterface
-        {
+        $transport = new class () implements TransportInterface {
             public $url;
 
             public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
             {
                 $this->url = $uri->toString();
 
-                return (object)['code' => 404, 'body' => 'test'];
+                $response = new Response('php://memory', 404);
+                $response->getBody()->write('test');
+
+                return $response;
             }
 
             public static function isSupported()
@@ -160,7 +163,7 @@ class RequestsPluginTest extends UnitTestCase
             }
         };
 
-        $http = new Http([], $transport);
+        $http    = new Http([], $transport);
         $factory = $this->createStub(HttpFactory::class);
         $factory->method('getHttp')->willReturn($http);
 
@@ -170,7 +173,7 @@ class RequestsPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Requests(new Dispatcher(), [], $factory, $this->tmpFolder);
+        $plugin = new Requests([], $factory, $this->tmpFolder);
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -180,7 +183,7 @@ class RequestsPluginTest extends UnitTestCase
             'test',
             [
                 'subject' => $task,
-                'params' => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => '']
+                'params'  => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => ''],
             ]
         );
         $plugin->standardRoutineHandler($event);
@@ -200,15 +203,17 @@ class RequestsPluginTest extends UnitTestCase
      */
     public function testAuthRequest()
     {
-        $transport = new class implements TransportInterface
-        {
+        $transport = new class () implements TransportInterface {
             public $headers;
 
             public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
             {
                 $this->headers = $headers;
 
-                return (object)['code' => 200, 'body' => 'test'];
+                $response = new Response('php://memory', 200);
+                $response->getBody()->write('test');
+
+                return $response;
             }
 
             public static function isSupported()
@@ -217,7 +222,7 @@ class RequestsPluginTest extends UnitTestCase
             }
         };
 
-        $http = new Http([], $transport);
+        $http    = new Http([], $transport);
         $factory = $this->createStub(HttpFactory::class);
         $factory->method('getHttp')->willReturn($http);
 
@@ -227,7 +232,7 @@ class RequestsPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Requests(new Dispatcher(), [], $factory, $this->tmpFolder);
+        $plugin = new Requests([], $factory, $this->tmpFolder);
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -237,12 +242,12 @@ class RequestsPluginTest extends UnitTestCase
             'test',
             [
                 'subject' => $task,
-                'params' => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 1, 'authType' => 'basic', 'authKey' => '123']
+                'params'  => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 1, 'authType' => 'basic', 'authKey' => '123'],
             ]
         );
         $plugin->standardRoutineHandler($event);
 
-        $this->assertEquals(['basic' => '123'], $transport->headers);
+        $this->assertEquals(['Authorization' => 'basic 123'], $transport->headers);
     }
 
     /**
@@ -254,11 +259,10 @@ class RequestsPluginTest extends UnitTestCase
      */
     public function testExceptionInRequest()
     {
-        $transport = new class implements TransportInterface
-        {
+        $transport = new class () implements TransportInterface {
             public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
             {
-                throw new Exception('test');
+                throw new \Exception('test');
             }
 
             public static function isSupported()
@@ -267,7 +271,7 @@ class RequestsPluginTest extends UnitTestCase
             }
         };
 
-        $http = new Http([], $transport);
+        $http    = new Http([], $transport);
         $factory = $this->createStub(HttpFactory::class);
         $factory->method('getHttp')->willReturn($http);
 
@@ -277,7 +281,7 @@ class RequestsPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Requests(new Dispatcher(), [], $factory, $this->tmpFolder);
+        $plugin = new Requests([], $factory, $this->tmpFolder);
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -287,7 +291,7 @@ class RequestsPluginTest extends UnitTestCase
             'test',
             [
                 'subject' => $task,
-                'params' => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => '']
+                'params'  => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => ''],
             ]
         );
         $plugin->standardRoutineHandler($event);
@@ -303,11 +307,13 @@ class RequestsPluginTest extends UnitTestCase
      */
     public function testInvalidFileToWrite()
     {
-        $transport = new class implements TransportInterface
-        {
+        $transport = new class () implements TransportInterface {
             public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
             {
-                return (object)['code' => 200, 'body' => 'test'];
+                $response = new Response('php://memory', 200);
+                $response->getBody()->write('test');
+
+                return $response;
             }
 
             public static function isSupported()
@@ -316,7 +322,7 @@ class RequestsPluginTest extends UnitTestCase
             }
         };
 
-        $http = new Http([], $transport);
+        $http    = new Http([], $transport);
         $factory = $this->createStub(HttpFactory::class);
         $factory->method('getHttp')->willReturn($http);
 
@@ -326,7 +332,7 @@ class RequestsPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Requests(new Dispatcher(), [], $factory, '/proc/invalid');
+        $plugin = new Requests([], $factory, '/proc/invalid');
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -336,7 +342,7 @@ class RequestsPluginTest extends UnitTestCase
             'test',
             [
                 'subject' => $task,
-                'params' => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => '']
+                'params'  => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => ''],
             ]
         );
         $plugin->standardRoutineHandler($event);

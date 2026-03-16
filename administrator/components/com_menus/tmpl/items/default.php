@@ -19,14 +19,16 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Menus\Administrator\View\Items\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
-$user      = Factory::getUser();
+$user      = $this->getCurrentUser();
 $app       = Factory::getApplication();
-$userId    = $user->get('id');
+$userId    = $user->id;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.lft');
@@ -47,7 +49,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
-                <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
+                <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => ['selectorFieldName' => 'menutype']]); ?>
                 <?php if (!empty($this->items)) : ?>
                     <table class="table" id="menuitemList">
                         <caption class="visually-hidden">
@@ -107,7 +109,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                             $orderkey = array_search($item->id, $this->ordering[$item->parent_id]);
                             $canCreate = $user->authorise('core.create', 'com_menus.menu.' . $item->menutype_id);
                             $canEdit = $user->authorise('core.edit', 'com_menus.menu.' . $item->menutype_id);
-                            $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->get('id') || is_null($item->checked_out);
+                            $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->id || is_null($item->checked_out);
                             $canChange = $user->authorise('core.edit.state', 'com_menus.menu.' . $item->menutype_id) && $canCheckin;
 
                             // Get the parents of item for sorting
@@ -159,10 +161,17 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                                     </td>
                                 <?php endif; ?>
                                 <td class="text-center">
-                                    <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'items.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+                                    <?php if ($item->type === 'component' && !$item->enabled) : ?>
+                                        <span class="icon-warning" aria-hidden="true"></span>
+                                        <div role="tooltip" id="warning<?php echo $item->id; ?>">
+                                            <?php echo Text::_($item->enabled === null ? 'JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND' : 'COM_MENUS_LABEL_DISABLED'); ?>
+                                        </div>
+                                    <?php else : ?>
+                                        <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'items.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+                                    <?php endif; ?>
                                 </td>
                                 <th scope="row">
-                                    <?php $prefix = LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
+                                    <?php $prefix = LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
                                     <?php echo $prefix; ?>
                                     <?php if ($item->checked_out) : ?>
                                         <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'items.', $canCheckin); ?>
@@ -215,7 +224,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                                             <?php elseif ($canChange) : ?>
                                                 <a href="<?php echo Route::_('index.php?option=com_menus&task=items.unsetDefault&cid[]=' . $item->id . '&' . Session::getFormToken() . '=1'); ?>">
                                                     <?php if ($item->language_image) : ?>
-                                                        <?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => Text::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
+                                                        <?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, ['title' => Text::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)], true); ?>
                                                     <?php else : ?>
                                                         <span class="badge bg-secondary"
                                                               title="<?php echo Text::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->language; ?></span>
@@ -223,7 +232,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                                                 </a>
                                             <?php else : ?>
                                                 <?php if ($item->language_image) : ?>
-                                                    <?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
+                                                    <?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, ['title' => $item->language_title], true); ?>
                                                 <?php else : ?>
                                                     <span class="badge bg-secondary"
                                                           title="<?php echo $item->language_title; ?>"><?php echo $item->language; ?></span>
@@ -262,21 +271,11 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 
                     <?php // Load the batch processing form if user is allowed ?>
                     <?php if ($user->authorise('core.create', 'com_menus') || $user->authorise('core.edit', 'com_menus')) : ?>
-                        <?php echo HTMLHelper::_(
-                            'bootstrap.renderModal',
-                            'collapseModal',
-                            array(
-                                'title'  => Text::_('COM_MENUS_BATCH_OPTIONS'),
-                                'footer' => $this->loadTemplate('batch_footer')
-                            ),
-                            $this->loadTemplate('batch_body')
-                        ); ?>
+                        <template id="joomla-dialog-batch"><?php echo $this->loadTemplate('batch_body'); ?></template>
                     <?php endif; ?>
                 <?php endif; ?>
 
-                <input type="hidden" name="task" value="">
-                <input type="hidden" name="boxchecked" value="0">
-                <?php echo HTMLHelper::_('form.token'); ?>
+                <?php echo $this->filterForm->renderControlFields(); ?>
             </div>
         </div>
     </div>

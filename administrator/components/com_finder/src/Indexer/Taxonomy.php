@@ -31,7 +31,7 @@ class Taxonomy
      * @var    object[]
      * @since  4.0.0
      */
-    public static $taxonomies = array();
+    public static $taxonomies = [];
 
     /**
      * An internal cache of branch data.
@@ -39,7 +39,7 @@ class Taxonomy
      * @var    object[]
      * @since  4.0.0
      */
-    public static $branches = array();
+    public static $branches = [];
 
     /**
      * An internal cache of taxonomy node data for inserting it.
@@ -47,7 +47,7 @@ class Taxonomy
      * @var    object[]
      * @since  2.5
      */
-    public static $nodes = array();
+    public static $nodes = [];
 
     /**
      * Method to add a branch to the taxonomy tree.
@@ -63,12 +63,11 @@ class Taxonomy
      */
     public static function addBranch($title, $state = 1, $access = 1)
     {
-        $node = new \stdClass();
-        $node->title = $title;
-        $node->state = $state;
-        $node->access = $access;
+        $node            = new \stdClass();
+        $node->title     = $title;
+        $node->access    = $access;
         $node->parent_id = 1;
-        $node->language = '';
+        $node->language  = '*';
 
         return self::storeNode($node, 1);
     }
@@ -87,17 +86,20 @@ class Taxonomy
      * @since   2.5
      * @throws  \RuntimeException on database error.
      */
-    public static function addNode($branch, $title, $state = 1, $access = 1, $language = '')
+    public static function addNode($branch, $title, $state = 1, $access = 1, $language = '*')
     {
+        if ($state != 1) {
+            return 0;
+        }
+
         // Get the branch id, insert it if it does not exist.
         $branchId = static::addBranch($branch);
 
-        $node = new \stdClass();
-        $node->title = $title;
-        $node->state = $state;
-        $node->access = $access;
+        $node            = new \stdClass();
+        $node->title     = $title;
+        $node->access    = $access;
         $node->parent_id = $branchId;
-        $node->language = $language;
+        $node->language  = $language;
 
         return self::storeNode($node, $branchId);
     }
@@ -116,8 +118,12 @@ class Taxonomy
      *
      * @since   4.0.0
      */
-    public static function addNestedNode($branch, NodeInterface $node, $state = 1, $access = 1, $language = '', $branchId = null)
+    public static function addNestedNode($branch, NodeInterface $node, $state = 1, $access = 1, $language = '*', $branchId = null)
     {
+        if ($state != 1) {
+            return 0;
+        }
+
         if (!$branchId) {
             // Get the branch id, insert it if it does not exist.
             $branchId = static::addBranch($branch);
@@ -125,18 +131,25 @@ class Taxonomy
 
         $parent = $node->getParent();
 
+        $pstate    = $node->state ?? ($node->published ?? $state);
+        $paccess   = $node->access ?? $access;
+        $planguage = $node->language ?? $language;
+
         if ($parent && $parent->title != 'ROOT') {
-            $parentId = self::addNestedNode($branch, $parent, $state, $access, $language, $branchId);
+            $parentId = self::addNestedNode($branch, $parent, $pstate, $paccess, $planguage, $branchId);
         } else {
             $parentId = $branchId;
         }
 
-        $temp = new \stdClass();
-        $temp->title = $node->title;
-        $temp->state = $state;
-        $temp->access = $access;
+        if (!$parentId) {
+            return 0;
+        }
+
+        $temp            = new \stdClass();
+        $temp->title     = $node->title;
+        $temp->access    = $access;
         $temp->parent_id = $parentId;
-        $temp->language = $language;
+        $temp->language  = $language;
 
         return self::storeNode($temp, $parentId);
     }
@@ -160,8 +173,8 @@ class Taxonomy
         }
 
         // Check to see if the node is in the table.
-        $db = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $db    = Factory::getDbo();
+        $query = $db->createQuery()
             ->select('*')
             ->from($db->quoteName('#__finder_taxonomy'))
             ->where($db->quoteName('parent_id') . ' = ' . $db->quote($parentId))
@@ -174,7 +187,7 @@ class Taxonomy
         $result = $db->loadObject();
 
         // Check if the database matches the input data.
-        if ((bool) $result && $result->state == $node->state && $result->access == $node->access) {
+        if ((bool) $result && $result->access == $node->access) {
             // The data matches, add the item to the cache.
             static::$nodes[$parentId . ':' . $node->title] = $result;
 
@@ -191,17 +204,15 @@ class Taxonomy
 
         if (empty($result)) {
             // Prepare the node object.
-            $nodeTable->title = $node->title;
-            $nodeTable->state = (int) $node->state;
-            $nodeTable->access = (int) $node->access;
+            $nodeTable->title    = $node->title;
+            $nodeTable->access   = (int) $node->access;
             $nodeTable->language = $node->language;
             $nodeTable->setLocation((int) $parentId, 'last-child');
         } else {
             // Prepare the node object.
-            $nodeTable->id = (int) $result->id;
-            $nodeTable->title = $result->title;
-            $nodeTable->state = (int) ($node->state > 0 ? $node->state : $result->state);
-            $nodeTable->access = (int) $result->access;
+            $nodeTable->id       = (int) $result->id;
+            $nodeTable->title    = $result->title;
+            $nodeTable->access   = (int) $result->access;
             $nodeTable->language = $node->language;
             $nodeTable->setLocation($result->parent_id, 'last-child');
         }
@@ -266,7 +277,7 @@ class Taxonomy
         // Insert the map.
         $db = Factory::getDbo();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('link_id'))
             ->from($db->quoteName('#__finder_taxonomy_map'))
             ->where($db->quoteName('link_id') . ' = ' . (int) $linkId)
@@ -276,7 +287,7 @@ class Taxonomy
         $id = (int) $db->loadResult();
 
         if (!$id) {
-            $map = new \stdClass();
+            $map          = new \stdClass();
             $map->link_id = (int) $linkId;
             $map->node_id = (int) $nodeId;
             $db->insertObject('#__finder_taxonomy_map', $map);
@@ -295,23 +306,29 @@ class Taxonomy
      */
     public static function getBranchTitles()
     {
-        $db = Factory::getDbo();
+        static $titles;
 
-        // Set user variables
-        $groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
+        if ($titles === null) {
+            $db = Factory::getDbo();
 
-        // Create a query to get the taxonomy branch titles.
-        $query = $db->getQuery(true)
-            ->select($db->quoteName('title'))
-            ->from($db->quoteName('#__finder_taxonomy'))
-            ->where($db->quoteName('parent_id') . ' = 1')
-            ->where($db->quoteName('state') . ' = 1')
-            ->where($db->quoteName('access') . ' IN (' . $groups . ')');
+            // Set user variables
+            $groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
 
-        // Get the branch titles.
-        $db->setQuery($query);
+            // Create a query to get the taxonomy branch titles.
+            $query = $db->createQuery()
+                ->select($db->quoteName('title'))
+                ->from($db->quoteName('#__finder_taxonomy'))
+                ->where($db->quoteName('parent_id') . ' = 1')
+                ->where($db->quoteName('state') . ' = 1')
+                ->where($db->quoteName('access') . ' IN (' . $groups . ')');
 
-        return $db->loadColumn();
+            // Get the branch titles.
+            $db->setQuery($query);
+
+            $titles = $db->loadColumn();
+        }
+
+        return $titles;
     }
 
     /**
@@ -333,7 +350,7 @@ class Taxonomy
         $groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
 
         // Create a query to get the node.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('t1.*')
             ->from($db->quoteName('#__finder_taxonomy') . ' AS t1')
             ->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.id = t1.parent_id')
@@ -364,8 +381,8 @@ class Taxonomy
     public static function removeMaps($linkId)
     {
         // Delete the maps.
-        $db = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $db    = Factory::getDbo();
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__finder_taxonomy_map'))
             ->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
         $db->setQuery($query);
@@ -385,11 +402,11 @@ class Taxonomy
     public static function removeOrphanMaps()
     {
         // Delete all orphaned maps
-        $db = Factory::getDbo();
-        $query2 = $db->getQuery(true)
+        $db     = Factory::getDbo();
+        $query2 = $db->createQuery()
             ->select($db->quoteName('link_id'))
             ->from($db->quoteName('#__finder_links'));
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__finder_taxonomy_map'))
             ->where($db->quoteName('link_id') . ' NOT IN (' . $query2 . ')');
         $db->setQuery($query);
@@ -413,7 +430,8 @@ class Taxonomy
         $affectedRows = 0;
         $db           = Factory::getDbo();
         $nodeTable    = new MapTable($db);
-        $query        = $db->getQuery(true);
+        $query        = $db->createQuery();
+        $query2       = $db->createQuery();
 
         $query->select($db->quoteName('t.id'))
             ->from($db->quoteName('#__finder_taxonomy', 't'))
@@ -421,15 +439,22 @@ class Taxonomy
             ->where($db->quoteName('t.parent_id') . ' > 1 ')
             ->where('t.lft + 1 = t.rgt')
             ->where($db->quoteName('m.link_id') . ' IS NULL');
+        $query2->delete($db->quoteName('#__finder_taxonomy'));
 
         do {
             $db->setQuery($query);
             $nodes = $db->loadColumn();
 
-            foreach ($nodes as $node) {
-                $nodeTable->delete($node);
-                $affectedRows++;
+            if (!\count($nodes)) {
+                break;
             }
+
+            $query2->clear('where')->whereIn($db->quoteName('id'), $nodes);
+            $db->setQuery($query2);
+            $db->execute();
+            $affectedRows += $db->getAffectedRows();
+            $nodeTable->rebuild();
+            $nodeTable->rebuildPath();
         } while ($nodes);
 
         return $affectedRows;
@@ -440,17 +465,17 @@ class Taxonomy
      *
      * @param   integer  $id  Id of the taxonomy
      *
-     * @return  object|array  A taxonomy object or an array of all taxonomies
+     * @return  object|object[]  A taxonomy object or an array of all taxonomies
      *
      * @since   4.0.0
      */
     public static function getTaxonomy($id = 0)
     {
-        if (!count(self::$taxonomies)) {
+        if (!\count(self::$taxonomies)) {
             $db    = Factory::getDbo();
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
-            $query->select(array('id','parent_id','lft','rgt','level','path','title','alias','state','access','language'))
+            $query->select(['id','parent_id','lft','rgt','level','path','title','alias','state','access','language'])
                 ->from($db->quoteName('#__finder_taxonomy'))
                 ->order($db->quoteName('lft'));
 
@@ -474,13 +499,13 @@ class Taxonomy
      *
      * @param   string  $title  Title of the branch
      *
-     * @return  object|array  The object with the branch data or an array of all branches
+     * @return  object|object[]  The object with the branch data or an array of all branches
      *
      * @since   4.0.0
      */
     public static function getBranch($title = '')
     {
-        if (!count(self::$branches)) {
+        if (!\count(self::$branches)) {
             $taxonomies = self::getTaxonomy();
 
             foreach ($taxonomies as $t) {

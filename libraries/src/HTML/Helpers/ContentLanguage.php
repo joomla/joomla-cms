@@ -11,10 +11,9 @@ namespace Joomla\CMS\HTML\Helpers;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -48,7 +47,7 @@ abstract class ContentLanguage
         if (empty(static::$items)) {
             // Get the database object and a new query object.
             $db    = Factory::getDbo();
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             // Build the query.
             $query->select(
@@ -68,11 +67,11 @@ abstract class ContentLanguage
         }
 
         if ($all) {
-            $all_option = array(new CMSObject(array('value' => '*', 'text' => $translate ? Text::alt('JALL', 'language') : 'JALL_LANGUAGE')));
+            $all_option = [(object) ['value' => '*', 'text' => $translate ? Text::alt('JALL', 'language') : 'JALL_LANGUAGE']];
 
             return array_merge($all_option, static::$items);
-        } else {
-            return static::$items;
         }
+
+        return static::$items;
     }
 }

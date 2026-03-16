@@ -6,19 +6,12 @@
  * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  *
- * Remove phpcs exception with deprecated autoloading BufferStreamHandler::stream_register();
  * @phpcs:disable PSR1.Files.SideEffects
  */
 
 namespace Joomla\CMS\Utility;
 
-\defined('JPATH_PLATFORM') or die;
-
-/**
- * @deprecated 5.0 Workaround for B/C. (removal missed in 4.0, also remove phpcs exception).
- * If BufferStreamHandler is needed directly call BufferStreamHandler::stream_register();
- */
-BufferStreamHandler::stream_register();
+\defined('_JEXEC') or die;
 
 /**
  * Generic Buffer stream handler
@@ -52,7 +45,7 @@ class BufferStreamHandler
      * @var    array
      * @since  3.0.0
      */
-    public $buffers = array();
+    public $buffers = [];
 
     /**
      * Status of registering the wrapper
@@ -72,7 +65,7 @@ class BufferStreamHandler
     public static function stream_register()
     {
         if (!self::$registered) {
-            stream_wrapper_register('buffer', '\\Joomla\\CMS\\Utility\\BufferStreamHandler');
+            stream_wrapper_register('buffer', BufferStreamHandler::class);
 
             self::$registered = true;
         }
@@ -94,10 +87,10 @@ class BufferStreamHandler
      */
     public function stream_open($path, $mode, $options, &$openedPath)
     {
-        $url = parse_url($path);
-        $this->name = $url['host'];
+        $url                        = parse_url($path);
+        $this->name                 = $url['host'];
         $this->buffers[$this->name] = null;
-        $this->position = 0;
+        $this->position             = 0;
 
         return true;
     }
@@ -134,8 +127,8 @@ class BufferStreamHandler
      */
     public function stream_write($data)
     {
-        $left = substr($this->buffers[$this->name], 0, $this->position);
-        $right = substr($this->buffers[$this->name], $this->position + \strlen($data));
+        $left                       = substr($this->buffers[$this->name], 0, $this->position);
+        $right                      = substr($this->buffers[$this->name], $this->position + \strlen($data));
         $this->buffers[$this->name] = $left . $data . $right;
         $this->position += \strlen($data);
 

@@ -12,9 +12,9 @@ namespace Joomla\Component\Config\Site\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -49,17 +49,17 @@ class TemplatesModel extends FormModel
      * @param   array    $data      An optional array of data for the form to interrogate.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|bool    A JForm object on success, false on failure
+     * @return  Form|false    A Form object on success, false on failure
      *
      * @since   3.2
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         try {
             // Get the form.
-            $form = $this->loadForm('com_config.templates', 'templates', array('load_data' => $loadData));
+            $form = $this->loadForm('com_config.templates', 'templates', ['load_data' => $loadData]);
 
-            $data = array();
+            $data = [];
             $this->preprocessForm($form, $data);
 
             // Load the data into the form
@@ -67,10 +67,6 @@ class TemplatesModel extends FormModel
         } catch (\Exception $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage());
 
-            return false;
-        }
-
-        if (empty($form)) {
             return false;
         }
 
@@ -93,18 +89,23 @@ class TemplatesModel extends FormModel
     {
         $lang = Factory::getLanguage();
 
-        $template = Factory::getApplication()->getTemplate();
+        $templateObj = Factory::getApplication()->getTemplate(true);
 
-        // Load the core and/or local language file(s).
-        $lang->load('tpl_' . $template, JPATH_BASE)
-        || $lang->load('tpl_' . $template, JPATH_BASE . '/templates/' . $template);
+        // Load the parent and child overrides for template language constants
+        if (!empty($templateObj->parent)) {
+            $lang->load('tpl_' . $templateObj->parent, JPATH_BASE)
+                || $lang->load('tpl_' . $templateObj->parent, JPATH_BASE . '/templates/' . $templateObj->parent);
+        }
+
+        $lang->load('tpl_' . $templateObj->template, JPATH_BASE)
+            || $lang->load('tpl_' . $templateObj->template, JPATH_BASE . '/templates/' . $templateObj->template);
 
         // Look for com_config.xml, which contains fields to display
-        $formFile = Path::clean(JPATH_BASE . '/templates/' . $template . '/com_config.xml');
+        $formFile = Path::clean(JPATH_BASE . '/templates/' . $templateObj->template . '/com_config.xml');
 
         if (!file_exists($formFile)) {
             // If com_config.xml not found, fall back to templateDetails.xml
-            $formFile = Path::clean(JPATH_BASE . '/templates/' . $template . '/templateDetails.xml');
+            $formFile = Path::clean(JPATH_BASE . '/templates/' . $templateObj->template . '/templateDetails.xml');
         }
 
         // Get the template form.
@@ -113,7 +114,7 @@ class TemplatesModel extends FormModel
         }
 
         // Attempt to load the xml file.
-        if (!$xml = simplexml_load_file($formFile)) {
+        if (!simplexml_load_file($formFile)) {
             throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
         }
 

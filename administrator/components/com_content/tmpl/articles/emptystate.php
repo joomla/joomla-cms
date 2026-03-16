@@ -10,17 +10,20 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
+
+/** @var \Joomla\Component\Content\Administrator\View\Articles\HtmlView $this */
 
 $displayData = [
     'textPrefix' => 'COM_CONTENT',
     'formURL'    => 'index.php?option=com_content&view=articles',
-    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Adding_a_new_article',
+    'helpURL'    => 'https://guide.joomla.org/user-manual/articles',
     'icon'       => 'icon-copy article',
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
-$user = Factory::getApplication()->getIdentity();
+$user = $this->getCurrentUser();
 
 if ($user->authorise('core.create', 'com_content') || count($user->getAuthorisedCategories('com_content', 'core.create')) > 0) {
     $displayData['createURL'] = 'index.php?option=com_content&task=article.add';

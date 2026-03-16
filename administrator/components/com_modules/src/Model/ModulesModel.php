@@ -12,10 +12,12 @@ namespace Joomla\Component\Modules\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
@@ -33,15 +35,16 @@ class ModulesModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \JController
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'title', 'a.title',
                 'checked_out', 'a.checked_out',
@@ -60,10 +63,14 @@ class ModulesModel extends ListModel
                 'pages',
                 'name', 'e.name',
                 'menuitem',
-            );
+            ];
+
+            if (Associations::isEnabled()) {
+                $config['filter_fields'][] = 'association';
+            }
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -82,31 +89,26 @@ class ModulesModel extends ListModel
     {
         $app = Factory::getApplication();
 
-        $layout = $app->input->get('layout', '', 'cmd');
+        $forcedLanguage = $app->getInput()->get('forcedLanguage', '', 'cmd');
+        $layout         = $app->getInput()->get('layout', '', 'cmd');
 
         // Adjust the context to support modal layouts.
         if ($layout) {
             $this->context .= '.' . $layout;
         }
 
-        // Make context client aware
-        $this->context .= '.' . $app->input->get->getInt('client_id', 0);
+        // Adjust the context to support forced languages.
+        if ($forcedLanguage) {
+            $this->context .= '.' . $forcedLanguage;
+        }
 
-        // Load the filter state.
-        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-        $this->setState('filter.position', $this->getUserStateFromRequest($this->context . '.filter.position', 'filter_position', '', 'string'));
-        $this->setState('filter.module', $this->getUserStateFromRequest($this->context . '.filter.module', 'filter_module', '', 'string'));
-        $this->setState('filter.menuitem', $this->getUserStateFromRequest($this->context . '.filter.menuitem', 'filter_menuitem', '', 'cmd'));
-        $this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'cmd'));
+        // Make context client aware
+        $this->context .= '.' . $app->getInput()->get->getInt('client_id', 0);
 
         // If in modal layout on the frontend, state and language are always forced.
         if ($app->isClient('site') && $layout === 'modal') {
             $this->setState('filter.language', 'current');
             $this->setState('filter.state', 1);
-        } else {
-            // If in backend (modal or not) we get the same fields from the user request.
-            $this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'string'));
-            $this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string'));
         }
 
         // Special case for the client id.
@@ -115,7 +117,7 @@ class ModulesModel extends ListModel
             $clientId = 0;
         } else {
             $clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-            $clientId = (!in_array($clientId, array(0, 1))) ? 0 : $clientId;
+            $clientId = (!\in_array($clientId, [0, 1])) ? 0 : $clientId;
             $this->setState('client_id', $clientId);
         }
 
@@ -130,6 +132,11 @@ class ModulesModel extends ListModel
 
         // List state information.
         parent::populateState($ordering, $direction);
+
+        // Force a language.
+        if (!empty($forcedLanguage)) {
+            $this->setState('filter.language', $forcedLanguage);
+        }
     }
 
     /**
@@ -161,9 +168,9 @@ class ModulesModel extends ListModel
     /**
      * Returns an object list
      *
-     * @param   DatabaseQuery  $query       The query
-     * @param   int            $limitstart  Offset
-     * @param   int            $limit       The number of records
+     * @param   QueryInterface  $query       The query
+     * @param   int             $limitstart  Offset
+     * @param   int             $limit       The number of records
      *
      * @return  array
      */
@@ -175,7 +182,7 @@ class ModulesModel extends ListModel
         $db = $this->getDatabase();
 
         // If ordering by fields that need translate we need to sort the array of objects after translating them.
-        if (in_array($listOrder, array('pages', 'name'))) {
+        if (\in_array($listOrder, ['pages', 'name'])) {
             // Fetch the results.
             $db->setQuery($query);
             $result = $db->loadObjectList();
@@ -187,7 +194,7 @@ class ModulesModel extends ListModel
             $result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) == 'desc' ? -1 : 1, true, true);
 
             // Process pagination.
-            $total = count($result);
+            $total                                      = \count($result);
             $this->cache[$this->getStoreId('getTotal')] = $total;
 
             if ($total < $limitstart) {
@@ -195,7 +202,7 @@ class ModulesModel extends ListModel
                 $this->setState('list.start', 0);
             }
 
-            return array_slice($result, $limitstart, $limit ?: null);
+            return \array_slice($result, $limitstart, $limit ?: null);
         }
 
         // If ordering by fields that doesn't need translate just order the query.
@@ -223,21 +230,21 @@ class ModulesModel extends ListModel
      *
      * @param   array  &$items  The array of objects
      *
-     * @return  array The array of translated objects
+     * @return  void
      */
     protected function translate(&$items)
     {
-        $lang = Factory::getLanguage();
+        $lang       = Factory::getLanguage();
         $clientPath = $this->getState('client_id') ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
         foreach ($items as $item) {
             $extension = $item->module;
-            $source = $clientPath . "/modules/$extension";
+            $source    = $clientPath . "/modules/$extension";
             $lang->load("$extension.sys", $clientPath)
                 || $lang->load("$extension.sys", $source);
             $item->name = Text::_($item->name);
 
-            if (is_null($item->pages)) {
+            if (\is_null($item->pages)) {
                 $item->pages = Text::_('JNONE');
             } elseif ($item->pages < 0) {
                 $item->pages = Text::_('COM_MODULES_ASSIGNED_VARIES_EXCEPT');
@@ -252,13 +259,13 @@ class ModulesModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  DatabaseQuery
+     * @return  QueryInterface
      */
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $db    = $this->getDatabase();
+        $query = $db->createQuery();
 
         // Select the required fields.
         $query->select(
@@ -324,7 +331,7 @@ class ModulesModel extends ListModel
         }
 
         // Filter by published state.
-        $state = $this->getState('filter.state');
+        $state = $this->getState('filter.state', '');
 
         if (is_numeric($state)) {
             $state = (int) $state;
@@ -355,7 +362,7 @@ class ModulesModel extends ListModel
             } else {
                 // If user selected the modules assigned to some particular page (menu item).
                 // Modules in "All" pages.
-                $subQuery1 = $db->getQuery(true);
+                $subQuery1 = $db->createQuery();
                 $subQuery1->select('MIN(' . $db->quoteName('menuid') . ')')
                     ->from($db->quoteName('#__modules_menu'))
                     ->where($db->quoteName('moduleid') . ' = ' . $db->quoteName('a.id'));
@@ -363,23 +370,23 @@ class ModulesModel extends ListModel
                 // Modules in "Selected" pages that have the chosen menu item id.
                 $menuItemId      = (int) $menuItemId;
                 $minusMenuItemId = $menuItemId * -1;
-                $subQuery2       = $db->getQuery(true);
+                $subQuery2       = $db->createQuery();
                 $subQuery2->select($db->quoteName('moduleid'))
                     ->from($db->quoteName('#__modules_menu'))
                     ->where($db->quoteName('menuid') . ' = :menuitemid2');
 
                 // Modules in "All except selected" pages that doesn't have the chosen menu item id.
-                $subQuery3 = $db->getQuery(true);
+                $subQuery3 = $db->createQuery();
                 $subQuery3->select($db->quoteName('moduleid'))
                     ->from($db->quoteName('#__modules_menu'))
                     ->where($db->quoteName('menuid') . ' = :menuitemid3');
 
                 // Filter by modules assigned to the selected menu item.
                 $query->where('(
-					(' . $subQuery1 . ') = 0
-					OR ((' . $subQuery1 . ') > 0 AND ' . $db->quoteName('a.id') . ' IN (' . $subQuery2 . '))
-					OR ((' . $subQuery1 . ') < 0 AND ' . $db->quoteName('a.id') . ' NOT IN (' . $subQuery3 . '))
-					)');
+                    (' . $subQuery1 . ') = 0
+                    OR ((' . $subQuery1 . ') > 0 AND ' . $db->quoteName('a.id') . ' IN (' . $subQuery2 . '))
+                    OR ((' . $subQuery1 . ') < 0 AND ' . $db->quoteName('a.id') . ' NOT IN (' . $subQuery3 . '))
+                    )');
                 $query->bind(':menuitemid2', $menuItemId, ParameterType::INTEGER);
                 $query->bind(':menuitemid3', $minusMenuItemId, ParameterType::INTEGER);
             }
@@ -419,13 +426,29 @@ class ModulesModel extends ListModel
             }
         }
 
+        // Join over the associations.
+        if (Associations::isEnabled()) {
+            $subQuery = $db->createQuery()
+                ->select('COUNT(' . $db->quoteName('asso1.id') . ') > 1')
+                ->from($db->quoteName('#__associations', 'asso1'))
+                ->join('INNER', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
+                ->where(
+                    [
+                        $db->quoteName('asso1.id') . ' = ' . $db->quoteName('a.id'),
+                        $db->quoteName('asso1.context') . ' = ' . $db->quote('com_modules.item'),
+                    ]
+                );
+
+            $query->select('(' . $subQuery . ') AS ' . $db->quoteName('association'));
+        }
+
         return $query;
     }
 
     /**
      * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
      *
-     * @return DatabaseQuery
+     * @return QueryInterface
      *
      * @since 4.0.0
      */

@@ -10,7 +10,17 @@
   "lockFileMaintenance": { "enabled": true },
   "composerIgnorePlatformReqs": ["ext-*", "lib-*"],
   "rangeStrategy": "update-lockfile",
-  "baseBranches": ["4.2-dev", "4.3-dev", "5.0-dev"],
+  "baseBranches": ["4.4-dev", "5.0-dev", "5.1-dev", "5.2-dev", "6.0-dev"],
+  "packageRules": [
+    {
+      "enabled": false,
+      "matchBaseBranches": "6.0-dev",
+      "matchPackagePatterns": ["*"]
+    }
+  ],
+  "vulnerabilityAlerts": {
+    "enabled": true
+  },
   "constraints": {
     "composer": "> 2.3",
     "npm": "> 8.0"

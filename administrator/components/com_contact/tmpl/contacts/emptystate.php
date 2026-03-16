@@ -10,17 +10,20 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
+
+/** @var \Joomla\Component\Contact\Administrator\View\Contacts\HtmlView $this */
 
 $displayData = [
     'textPrefix' => 'COM_CONTACT',
     'formURL'    => 'index.php?option=com_contact',
-    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help4.x:Contacts',
+    'helpURL'    => 'https://guide.joomla.org/user-manual/contacts',
     'icon'       => 'icon-address-book contact',
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
-$user = Factory::getApplication()->getIdentity();
+$user = $this->getCurrentUser();
 
 if ($user->authorise('core.create', 'com_contact') || count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0) {
     $displayData['createURL'] = 'index.php?option=com_contact&task=contact.add';

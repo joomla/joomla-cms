@@ -11,8 +11,6 @@ namespace Joomla\CMS\Installer\Adapter;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
@@ -20,14 +18,16 @@ use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\CMS\Installer\Manifest\PackageManifest;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Event\Event;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -43,7 +43,7 @@ class PackageAdapter extends InstallerAdapter
      * @var    array
      * @since  3.7.0
      */
-    protected $installedIds = array();
+    protected $installedIds = [];
 
     /**
      * The results of each installed extensions
@@ -51,7 +51,7 @@ class PackageAdapter extends InstallerAdapter
      * @var    array
      * @since  3.1
      */
-    protected $results = array();
+    protected $results = [];
 
     /**
      * Flag if the adapter supports discover installs
@@ -115,15 +115,20 @@ class PackageAdapter extends InstallerAdapter
      */
     protected function copyBaseFiles()
     {
-        $folder = (string) $this->getManifest()->files->attributes()->folder;
         $source = $this->parent->getPath('source');
 
-        if ($folder) {
-            $source .= '/' . $folder;
+        $attributes = $this->getManifest()->files->attributes();
+
+        if ($attributes) {
+            $folder = (string) $attributes->folder;
+
+            if ($folder) {
+                $source .= '/' . $folder;
+            }
         }
 
         // Install all necessary files
-        if (!\count($this->getManifest()->files->children())) {
+        if (!$this->getManifest()->files->count()) {
             throw new \RuntimeException(
                 Text::sprintf(
                     'JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_FILES',
@@ -144,8 +149,8 @@ class PackageAdapter extends InstallerAdapter
 
             if (is_dir($file)) {
                 // If it's actually a directory then fill it up
-                $package = array();
-                $package['dir'] = $file;
+                $package         = [];
+                $package['dir']  = $file;
                 $package['type'] = InstallerHelper::detectType($file);
             } else {
                 // If it's an archive
@@ -166,10 +171,10 @@ class PackageAdapter extends InstallerAdapter
                 );
             }
 
-            $this->results[] = array(
+            $this->results[] = [
                 'name'   => (string) $tmpInstaller->manifest->name,
                 'result' => $installResult,
-            );
+            ];
         }
     }
 
@@ -200,13 +205,12 @@ class PackageAdapter extends InstallerAdapter
     protected function finaliseInstall()
     {
         // Clobber any possible pending updates
-        /** @var Update $update */
-        $update = Table::getInstance('update');
-        $uid = $update->find(
-            array(
+        $update = new Update($this->getDatabase());
+        $uid    = $update->find(
+            [
                 'element' => $this->element,
-                'type' => $this->type,
-            )
+                'type'    => $this->type,
+            ]
         );
 
         if ($uid) {
@@ -215,8 +219,8 @@ class PackageAdapter extends InstallerAdapter
 
         // Set the package ID for each of the installed extensions to track the relationship
         if (!empty($this->installedIds)) {
-            $db = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $db    = $this->getDatabase();
+            $query = $db->createQuery()
                 ->update($db->quoteName('#__extensions'))
                 ->set($db->quoteName('package_id') . ' = :id')
                 ->whereIn($db->quoteName('extension_id'), $this->installedIds)
@@ -224,17 +228,17 @@ class PackageAdapter extends InstallerAdapter
 
             try {
                 $db->setQuery($query)->execute();
-            } catch (ExecutionFailureException $e) {
+            } catch (ExecutionFailureException) {
                 Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_SETTING_PACKAGE_ID'), Log::WARNING, 'jerror');
             }
         }
 
         // Lastly, we will copy the manifest file to its appropriate place.
-        $manifest = array();
-        $manifest['src'] = $this->parent->getPath('manifest');
+        $manifest         = [];
+        $manifest['src']  = $this->parent->getPath('manifest');
         $manifest['dest'] = JPATH_MANIFESTS . '/packages/' . basename($this->parent->getPath('manifest'));
 
-        if (!$this->parent->copyFiles(array($manifest), true)) {
+        if (!$this->parent->copyFiles([$manifest], true)) {
             // Install failed, rollback changes
             throw new \RuntimeException(
                 Text::sprintf(
@@ -265,18 +269,19 @@ class PackageAdapter extends InstallerAdapter
                  */
 
                 $this->parent->pushStep(
-                    array(
+                    [
                         'type' => 'folder',
                         'path' => $this->parent->getPath('extension_root'),
-                    )
+                    ]
                 );
             }
 
-            $path['src'] = $this->parent->getPath('source') . '/' . $this->manifest_script;
+            $path         = [];
+            $path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
             $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
             if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
-                if (!$this->parent->copyFiles(array($path))) {
+                if (!$this->parent->copyFiles([$path])) {
                     // Install failed, rollback changes
                     throw new \RuntimeException(
                         Text::sprintf(
@@ -302,7 +307,7 @@ class PackageAdapter extends InstallerAdapter
         $db = $this->getDatabase();
 
         // Remove the schema version
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__schemas'))
             ->where($db->quoteName('extension_id') . ' = :extension_id')
             ->bind(':extension_id', $this->extension->extension_id, ParameterType::INTEGER);
@@ -310,7 +315,7 @@ class PackageAdapter extends InstallerAdapter
         $db->execute();
 
         // Clobber any possible pending updates
-        $update = Table::getInstance('update');
+        $update = new Update($this->getDatabase());
         $uid    = $update->find(
             [
                 'element' => $this->extension->element,
@@ -322,11 +327,15 @@ class PackageAdapter extends InstallerAdapter
             $update->delete($uid);
         }
 
-        File::delete(JPATH_MANIFESTS . '/packages/' . $this->extension->element . '.xml');
+        $file = JPATH_MANIFESTS . '/packages/' . $this->extension->element . '.xml';
+
+        if (is_file($file)) {
+            File::delete($file);
+        }
 
         $folder = $this->parent->getPath('extension_root');
 
-        if (Folder::exists($folder)) {
+        if (is_dir(Path::clean($folder))) {
             Folder::delete($folder);
         }
 
@@ -410,7 +419,7 @@ class PackageAdapter extends InstallerAdapter
     protected function removeExtensionFiles()
     {
         $manifest = new PackageManifest(JPATH_MANIFESTS . '/packages/' . $this->extension->element . '.xml');
-        $error = false;
+        $error    = false;
 
         foreach ($manifest->filelist as $extension) {
             $tmpInstaller = new Installer();
@@ -425,7 +434,7 @@ class PackageAdapter extends InstallerAdapter
                     Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_NOT_PROPER', basename($extension->filename)), Log::WARNING, 'jerror');
                 }
             } else {
-                Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_UNKNOWN_EXTENSION'), Log::WARNING, 'jerror');
+                Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MISSING_EXTENSION', basename($extension->filename)), Log::WARNING, 'jerror');
             }
         }
 
@@ -472,7 +481,7 @@ class PackageAdapter extends InstallerAdapter
     protected function setupUninstall()
     {
         $manifestFile = JPATH_MANIFESTS . '/packages/' . $this->extension->element . '.xml';
-        $manifest = new PackageManifest($manifestFile);
+        $manifest     = new PackageManifest($manifestFile);
 
         // Set the package root path
         $this->parent->setPath('extension_root', JPATH_MANIFESTS . '/packages/' . $manifest->packagename);
@@ -530,7 +539,6 @@ class PackageAdapter extends InstallerAdapter
             $this->extension->name         = $this->name;
             $this->extension->type         = 'package';
             $this->extension->element      = $this->element;
-            $this->extension->changelogurl = $this->changelogurl;
 
             // There is no folder for packages
             $this->extension->folder    = '';
@@ -540,6 +548,9 @@ class PackageAdapter extends InstallerAdapter
             $this->extension->client_id = 0;
             $this->extension->params    = $this->parent->getParams();
         }
+
+        // Update changelogurl
+        $this->extension->changelogurl = $this->changelogurl;
 
         // Update the manifest cache for the entry
         $this->extension->manifest_cache = $this->parent->generateManifestCache();
@@ -556,7 +567,7 @@ class PackageAdapter extends InstallerAdapter
 
         // Since we have created a package item, we add it to the installation step stack
         // so that if we have to rollback the changes we can undo it.
-        $this->parent->pushStep(array('type' => 'extension', 'id' => $this->extension->extension_id));
+        $this->parent->pushStep(['type' => 'extension', 'id' => $this->extension->extension_id]);
     }
 
     /**
@@ -575,8 +586,8 @@ class PackageAdapter extends InstallerAdapter
 
         if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, $method)) {
             switch ($method) {
-                // The preflight method takes the route as a param
                 case 'preflight':
+                    // The preflight method takes the route as a param
                     if ($this->parent->manifestClass->$method($this->route, $this) === false) {
                         // The script failed, rollback changes
                         throw new \RuntimeException(
@@ -589,16 +600,16 @@ class PackageAdapter extends InstallerAdapter
 
                     break;
 
-                // The postflight method takes the route and a results array as params
                 case 'postflight':
+                    // The postflight method takes the route and a results array as params
                     $this->parent->manifestClass->$method($this->route, $this, $this->results);
 
                     break;
 
-                // The install, uninstall, and update methods only pass this object as a param
                 case 'install':
                 case 'uninstall':
                 case 'update':
+                    // The install, uninstall, and update methods only pass this object as a param
                     if ($this->parent->manifestClass->$method($this) === false) {
                         if ($method !== 'uninstall') {
                             // The script failed, rollback changes
@@ -642,7 +653,7 @@ class PackageAdapter extends InstallerAdapter
     {
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions'))
             ->where(
@@ -699,17 +710,18 @@ class PackageAdapter extends InstallerAdapter
     public function refreshManifestCache()
     {
         // Need to find to find where the XML file is since we don't store this normally
-        $manifestPath = JPATH_MANIFESTS . '/packages/' . $this->parent->extension->element . '.xml';
+        $manifestPath           = JPATH_MANIFESTS . '/packages/' . $this->parent->extension->element . '.xml';
         $this->parent->manifest = $this->parent->isManifest($manifestPath);
         $this->parent->setPath('manifest', $manifestPath);
 
-        $manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
+        $manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
         $this->parent->extension->manifest_cache = json_encode($manifest_details);
-        $this->parent->extension->name = $manifest_details['name'];
+        $this->parent->extension->name           = $manifest_details['name'];
+        $this->parent->extension->changelogurl   = $manifest_details['changelogurl'];
 
         try {
             return $this->parent->extension->store();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
             return false;

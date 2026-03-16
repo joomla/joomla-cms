@@ -64,7 +64,7 @@ class TransitionModel extends AdminModel
             return false;
         }
 
-        $app = Factory::getApplication();
+        $app       = Factory::getApplication();
         $extension = $app->getUserStateFromRequest('com_workflow.transition.filter.extension', 'extension', null, 'cmd');
 
         return $this->getCurrentUser()->authorise('core.delete', $extension . '.transition.' . (int) $record->id);
@@ -81,12 +81,12 @@ class TransitionModel extends AdminModel
      */
     protected function canEditState($record)
     {
-        $user = $this->getCurrentUser();
-        $app = Factory::getApplication();
-        $context = $this->option . '.' . $this->name;
+        $user      = $this->getCurrentUser();
+        $app       = Factory::getApplication();
+        $context   = $this->option . '.' . $this->name;
         $extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', null, 'cmd');
 
-        if (!\property_exists($record, 'workflow_id')) {
+        if (!property_exists($record, 'workflow_id')) {
             $workflowID          = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
             $record->workflow_id = $workflowID;
         }
@@ -105,7 +105,7 @@ class TransitionModel extends AdminModel
      *
      * @param   integer  $pk  The id of the primary key.
      *
-     * @return  \Joomla\CMS\Object\CMSObject|boolean  Object on success, false on failure.
+     * @return  \stdClass|boolean  Object on success, false on failure.
      *
      * @since   4.0.0
      */
@@ -114,7 +114,7 @@ class TransitionModel extends AdminModel
         $item = parent::getItem($pk);
 
         if (property_exists($item, 'options')) {
-            $registry = new Registry($item->options);
+            $registry      = new Registry($item->options);
             $item->options = $registry->toArray();
         }
 
@@ -136,7 +136,7 @@ class TransitionModel extends AdminModel
         $context    = $this->option . '.' . $this->name;
         $app        = Factory::getApplication();
         $user       = $app->getIdentity();
-        $input      = $app->input;
+        $input      = $app->getInput();
 
         $workflowID = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
 
@@ -156,7 +156,7 @@ class TransitionModel extends AdminModel
 
         // Make sure we use the correct workflow_id when editing an existing transition
         $key = $table->getKeyName();
-        $pk  = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+        $pk  = $data[$key] ?? (int) $this->getState($this->getName() . '.id');
 
         if ($pk > 0) {
             $table->load($pk);
@@ -167,11 +167,11 @@ class TransitionModel extends AdminModel
         }
 
         if ($input->get('task') == 'save2copy') {
-            $origTable = clone $this->getTable();
+            $origTable = $this->getTable();
 
             // Alter the title for save as copy
             if ($origTable->load(['title' => $data['title']])) {
-                list($title) = $this->generateNewTitle(0, '', $data['title']);
+                [$title]       = $this->generateNewTitle(0, '', $data['title']);
                 $data['title'] = $title;
             }
 
@@ -197,11 +197,11 @@ class TransitionModel extends AdminModel
         // Alter the title & alias
         $table = $this->getTable();
 
-        while ($table->load(array('title' => $title))) {
+        while ($table->load(['title' => $title])) {
             $title = StringHelper::increment($title);
         }
 
-        return array($title, $alias);
+        return [$title, $alias];
     }
 
     /**
@@ -210,25 +210,22 @@ class TransitionModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \Joomla\CMS\Form\Form|boolean  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   4.0.0
+     * @throws  \Exception on failure
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
         $form = $this->loadForm(
             'com_workflow.transition',
             'transition',
-            array(
-                'control' => 'jform',
-                'load_data' => $loadData
-            )
+            [
+                'control'   => 'jform',
+                'load_data' => $loadData,
+            ]
         );
-
-        if (empty($form)) {
-            return false;
-        }
 
         $id = $data['id'] ?? $form->getValue('id');
 
@@ -279,7 +276,7 @@ class TransitionModel extends AdminModel
         // Check the session for previously entered form data.
         $data = Factory::getApplication()->getUserState(
             'com_workflow.edit.transition.data',
-            array()
+            []
         );
 
         if (empty($data)) {
@@ -319,7 +316,7 @@ class TransitionModel extends AdminModel
      */
     protected function preprocessForm(Form $form, $data, $group = 'content')
     {
-        $extension = Factory::getApplication()->input->get('extension');
+        $extension = Factory::getApplication()->getInput()->get('extension');
 
         $parts = explode('.', $extension);
 

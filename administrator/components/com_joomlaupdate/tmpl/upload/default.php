@@ -14,12 +14,11 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Utility\Utility;
-use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 
-/** @var HtmlView $this */
+/** @var \Joomla\Component\Joomlaupdate\Administrator\View\Upload\HtmlView $this */
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('core')
     ->useScript('com_joomlaupdate.default')
     ->useScript('bootstrap.popover');
@@ -29,7 +28,7 @@ Text::script('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG', true);
 Text::script('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', true);
 
 $latestJoomlaVersion = $this->updateInfo['latest'];
-$currentJoomlaVersion = isset($this->updateInfo['installed']) ? $this->updateInfo['installed'] : JVERSION;
+$currentJoomlaVersion = $this->updateInfo['installed'] ?? JVERSION;
 ?>
 
 <div id="joomlaupdate-wrapper" class="main-card mt-3 p-3" data-joomla-target-version="<?php echo $latestJoomlaVersion; ?>" data-joomla-current-version="<?php echo $currentJoomlaVersion; ?>">

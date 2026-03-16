@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
+use Joomla\Component\Media\Administrator\Exception\ProviderAccountNotFoundException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -70,10 +71,11 @@ trait ProviderManagerHelperTrait
     /**
      * Returns a provider for the given id.
      *
+     * @param   string  $id
+     *
      * @return  ProviderInterface
      *
-     * @throws  \Exception
-     *
+     * @throws \Exception
      * @since   4.1.0
      */
     public function getProvider(string $id): ProviderInterface
@@ -84,10 +86,11 @@ trait ProviderManagerHelperTrait
     /**
      * Return an adapter for the given name.
      *
+     * @param   string  $name
+     *
      * @return  AdapterInterface
      *
-     * @throws  \Exception
-     *
+     * @throws \Exception
      * @since   4.1.0
      */
     public function getAdapter(string $name): AdapterInterface
@@ -98,16 +101,17 @@ trait ProviderManagerHelperTrait
     /**
      * Returns an array with the adapter name as key and the path of the file.
      *
+     * @param   string  $path
+     *
      * @return  array
      *
-     * @throws  \InvalidArgumentException
-     *
+     * @throws \Exception
      * @since   4.1.0
      */
     protected function resolveAdapterAndPath(string $path): array
     {
         $result = [];
-        $parts = explode(':', $path, 2);
+        $parts  = explode(':', $path, 2);
 
         // If we have 2 parts, we have both an adapter name and a file path
         if (\count($parts) === 2) {
@@ -145,14 +149,19 @@ trait ProviderManagerHelperTrait
             return $this->defaultAdapterName;
         }
 
-        $defaultAdapter = $this->getAdapter('local-' . ComponentHelper::getParams('com_media')->get('file_path', 'images'));
+        try {
+            // Check for default path in Media config, and whether associated account exists, and use it as default adapter.
+            $defaultFilePath = ComponentHelper::getParams('com_media')->get('file_path', 'files');
+            $defaultAdapter  = $this->getAdapter('local-' . $defaultFilePath);
+            // @TODO: Need a proper configuration for default adapter.
+        } catch (ProviderAccountNotFoundException) {
+            $defaultAdapter = null;
+        }
 
-        if (
-            !$defaultAdapter
-            && $this->getProviderManager()->getProvider('local')
-            && $this->getProviderManager()->getProvider('local')->getAdapters()
-        ) {
-            $defaultAdapter = $this->getProviderManager()->getProvider('local')->getAdapters()[0];
+        if (!$defaultAdapter) {
+            // Default adapter were not found, pick the first available local adapter
+            $localAdapters  = $this->getProviderManager()->getProvider('local')->getAdapters();
+            $defaultAdapter = $localAdapters ? reset($localAdapters) : null;
         }
 
         if (!$defaultAdapter) {

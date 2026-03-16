@@ -45,14 +45,13 @@ class FilterModel extends AdminModel
     /**
      * Custom clean cache method.
      *
-     * @param   string   $group     The component name. [optional]
-     * @param   integer  $clientId  @deprecated   5.0   No longer used.
+     * @param   string  $group  The component name. [optional]
      *
      * @return  void
      *
      * @since   2.5
      */
-    protected function cleanCache($group = 'com_finder', $clientId = 0)
+    protected function cleanCache($group = 'com_finder')
     {
         parent::cleanCache($group);
     }
@@ -85,7 +84,7 @@ class FilterModel extends AdminModel
         if (!empty($filter->data)) {
             $filter->data = explode(',', $filter->data);
         } elseif (empty($filter->data)) {
-            $filter->data = array();
+            $filter->data = [];
         }
 
         return $filter;
@@ -97,20 +96,14 @@ class FilterModel extends AdminModel
      * @param   array    $data      Data for the form. [optional]
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not. [optional]
      *
-     * @return  Form|boolean  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   2.5
+     * @throws  \Exception on failure
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
-        // Get the form.
-        $form = $this->loadForm('com_finder.filter', 'filter', array('control' => 'jform', 'load_data' => $loadData));
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+        return $this->loadForm('com_finder.filter', 'filter', ['control' => 'jform', 'load_data' => $loadData]);
     }
 
     /**
@@ -123,7 +116,7 @@ class FilterModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_finder.edit.filter.data', array());
+        $data = Factory::getApplication()->getUserState('com_finder.edit.filter.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -137,14 +130,14 @@ class FilterModel extends AdminModel
     /**
      * Method to get the total indexed items
      *
-     * @return  number the number of indexed items
+     * @return  integer  The count of indexed items
      *
      * @since  3.5
      */
     public function getTotal()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('MAX(link_id)')
             ->from('#__finder_links');
 

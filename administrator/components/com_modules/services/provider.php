@@ -8,8 +8,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
+use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Dispatcher\ComponentDispatcherFactoryInterface;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Extension\Service\Provider\ComponentDispatcherFactory;
@@ -17,6 +18,7 @@ use Joomla\CMS\Extension\Service\Provider\MVCFactory;
 use Joomla\CMS\HTML\Registry;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Modules\Administrator\Extension\ModulesComponent;
+use Joomla\Component\Modules\Administrator\Helper\AssociationsHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -25,8 +27,7 @@ use Joomla\DI\ServiceProviderInterface;
  *
  * @since  4.0.0
  */
-return new class implements ServiceProviderInterface
-{
+return new class () implements ServiceProviderInterface {
     /**
      * Registers the service provider with a DI container.
      *
@@ -38,6 +39,8 @@ return new class implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
+        $container->set(AssociationExtensionInterface::class, new AssociationsHelper());
+
         $container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Modules'));
         $container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Modules'));
 
@@ -46,8 +49,9 @@ return new class implements ServiceProviderInterface
             function (Container $container) {
                 $component = new ModulesComponent($container->get(ComponentDispatcherFactoryInterface::class));
 
-                $component->setMVCFactory($container->get(MVCFactoryInterface::class));
                 $component->setRegistry($container->get(Registry::class));
+                $component->setMVCFactory($container->get(MVCFactoryInterface::class));
+                $component->setAssociationExtension($container->get(AssociationExtensionInterface::class));
 
                 return $component;
             }

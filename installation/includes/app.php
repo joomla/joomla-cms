@@ -8,10 +8,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 // Define the base path and require the other defines
-define('JPATH_BASE', dirname(__DIR__));
+\define('JPATH_BASE', \dirname(__DIR__));
 
 require_once __DIR__ . '/defines.php';
 
@@ -29,8 +29,7 @@ require_once __DIR__ . '/framework.php';
 if (is_writable(JPATH_ADMINISTRATOR . '/logs')) {
     \Joomla\CMS\Log\Log::addLogger(
         [
-            'format'    => '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}',
-            'text_file' => 'error.php'
+            'text_file' => 'error.php',
         ],
         \Joomla\CMS\Log\Log::ALL,
         ['error']
@@ -60,5 +59,10 @@ $container->alias('session.web', 'session.web.installation')
     ->alias(\Joomla\Session\Session::class, 'session.web.installation')
     ->alias(\Joomla\Session\SessionInterface::class, 'session.web.installation');
 
+/** @var \Joomla\CMS\Installation\Application\InstallationApplication $app */
+$app = $container->get(\Joomla\CMS\Installation\Application\InstallationApplication::class);
+
+\Joomla\CMS\Factory::$application = $app;
+
 // Instantiate and execute the application
-$container->get(\Joomla\CMS\Installation\Application\InstallationApplication::class)->execute();
+$app->execute();

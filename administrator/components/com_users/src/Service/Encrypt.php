@@ -53,7 +53,7 @@ class Encrypt
      */
     public function encrypt(string $data): string
     {
-        if (!is_object($this->aes)) {
+        if (!\is_object($this->aes)) {
             return $data;
         }
 
@@ -67,7 +67,7 @@ class Encrypt
      * Decrypt the ciphertext, prefixed by ###AES128###, and return the plaintext.
      *
      * @param   string  $data    The ciphertext, prefixed by ###AES128###
-     * @param   bool    $legacy  Use legacy key expansion? Use it to decrypt data encrypted with FOF 3.
+     * @param   bool    $legacy  Use legacy key expansion. We recommend against using it.
      *
      * @return  string  The plaintext data
      *
@@ -75,18 +75,18 @@ class Encrypt
      */
     public function decrypt(string $data, bool $legacy = false): string
     {
-        if (substr($data, 0, 12) != '###AES128###') {
+        if (!str_starts_with($data, '###AES128###')) {
             return $data;
         }
 
         $data = substr($data, 12);
 
-        if (!is_object($this->aes)) {
+        if (!\is_object($this->aes)) {
             return $data;
         }
 
         $this->aes->setPassword($this->getPassword(), $legacy);
-        $decrypted = $this->aes->decryptString($data, true, $legacy);
+        $decrypted = $this->aes->decryptString($data, true);
 
         // Decrypted data is null byte padded. We have to remove the padding before proceeding.
         return rtrim($decrypted, "\0");
@@ -100,7 +100,7 @@ class Encrypt
      */
     private function initialize(): void
     {
-        if (is_object($this->aes)) {
+        if (\is_object($this->aes)) {
             return;
         }
 
@@ -125,7 +125,7 @@ class Encrypt
     {
         try {
             return Factory::getApplication()->get('secret', '');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return '';
         }
     }

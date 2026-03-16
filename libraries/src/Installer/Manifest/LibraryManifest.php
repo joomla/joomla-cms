@@ -12,7 +12,7 @@ namespace Joomla\CMS\Installer\Manifest;
 use Joomla\CMS\Installer\Manifest;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -22,6 +22,14 @@ use Joomla\CMS\Installer\Manifest;
  */
 class LibraryManifest extends Manifest
 {
+    /**
+     * Creation date of the library
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    public $creationdate;
+
     /**
      * File system name of the library
      *
@@ -101,7 +109,7 @@ class LibraryManifest extends Manifest
         $this->packagerurl  = (string) $xml->packagerurl;
         $this->update       = (string) $xml->update;
 
-        if (isset($xml->files) && isset($xml->files->file) && \count($xml->files->file)) {
+        if (isset($xml->files, $xml->files->file) && \count($xml->files->file)) {
             foreach ($xml->files->file as $file) {
                 $this->filelist[] = (string) $file;
             }

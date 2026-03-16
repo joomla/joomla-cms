@@ -10,11 +10,10 @@
 
 namespace Joomla\Component\Checkin\Administrator\View\Checkin;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Checkin\Administrator\Model\CheckinModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -35,6 +34,13 @@ class HtmlView extends BaseHtmlView
     protected $items;
 
     /**
+     * Total number of items
+     *
+     * @var    integer
+     */
+    protected $total = 0;
+
+    /**
      * The pagination object
      *
      * @var  \Joomla\CMS\Pagination\Pagination
@@ -44,7 +50,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -84,24 +90,28 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->items         = $this->get('Items');
-        $this->pagination    = $this->get('Pagination');
-        $this->state         = $this->get('State');
-        $this->total         = $this->get('Total');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
+        /** @var CheckinModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
+
+        $this->items         = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->state         = $model->getState();
+        $this->total         = $model->getTotal();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
 
         if (!\count($this->items)) {
             $this->isEmptyState = true;
             $this->setLayout('emptystate');
         }
 
-        // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
-
         $this->addToolbar();
+
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task')
+            ->addControlField('boxchecked', '0');
 
         parent::display($tpl);
     }
@@ -116,17 +126,18 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         ToolbarHelper::title(Text::_('COM_CHECKIN_GLOBAL_CHECK_IN'), 'check-square');
+        $toolbar    = $this->getDocument()->getToolbar();
 
         if (!$this->isEmptyState) {
-            ToolbarHelper::custom('checkin', 'checkin', '', 'JTOOLBAR_CHECKIN', true);
+            $toolbar->checkin('checkin');
         }
 
-        if (Factory::getApplication()->getIdentity()->authorise('core.admin', 'com_checkin')) {
-            ToolbarHelper::divider();
-            ToolbarHelper::preferences('com_checkin');
-            ToolbarHelper::divider();
+        if ($this->getCurrentUser()->authorise('core.admin', 'com_checkin')) {
+            $toolbar->divider();
+            $toolbar->preferences('com_checkin');
+            $toolbar->divider();
         }
 
-        ToolbarHelper::help('Maintenance:_Global_Check-in');
+        $toolbar->help('Maintenance:_Global_Check-in');
     }
 }

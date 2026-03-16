@@ -10,11 +10,10 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Exception;
+use Joomla\CMS\Event\User\AfterDeleteEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
-use Joomla\Database\DatabaseDriver;
-use Joomla\Event\Event;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -33,23 +32,20 @@ trait UserDeletion
      *
      * This method is called after user data is deleted from the database.
      *
-     * @param   Event  $event  The event we are handling
+     * @param   AfterDeleteEvent  $event  The event we are handling
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function onUserAfterDelete(Event $event): void
+    public function onUserAfterDelete(AfterDeleteEvent $event): void
     {
-        /**
-         * @var   array       $user    Holds the user data
-         * @var   bool        $success True if user was successfully stored in the database
-         * @var   string|null $msg     Message
-         */
-        [$user, $success, $msg] = $event->getArguments();
+        $user    = $event->getUser();
+        $success = $event->getDeletingResult();
+        $msg     = $event->getErrorMessage();
 
         if (!$success) {
-            $this->returnFromEvent($event, true);
+            return;
         }
 
         $userId = ArrayHelper::getValue($user, 'id', 0, 'int');
@@ -57,17 +53,19 @@ trait UserDeletion
         if ($userId) {
             Log::add("Removing WebAuthn Passwordless Login information for deleted user #{$userId}", Log::DEBUG, 'webauthn.system');
 
-            /** @var DatabaseDriver $db */
-            $db = Factory::getContainer()->get('DatabaseDriver');
+            /** @var DatabaseInterface $db */
+            $db         = Factory::getContainer()->get(DatabaseInterface::class);
+            $repository = $this->authenticationHelper->getCredentialsRepository();
+            $userHandle = $repository->getHandleFromUserId($userId);
 
-            $query = $db->getQuery(true)
-                ->delete($db->qn('#__webauthn_credentials'))
-                ->where($db->qn('user_id') . ' = :userId')
-                ->bind(':userId', $userId);
+            $query = $db->createQuery()
+                ->delete($db->quoteName('#__webauthn_credentials'))
+                ->where($db->quoteName('user_id') . ' = :userHandle')
+                ->bind(':userHandle', $userHandle);
 
             try {
                 $db->setQuery($query)->execute();
-            } catch (Exception $e) {
+            } catch (\Exception) {
                 // Don't worry if this fails
             }
 

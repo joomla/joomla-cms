@@ -10,13 +10,14 @@
 namespace Joomla\CMS\UCM;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Interface to handle UCM
  *
  * @since  3.1
+ * @deprecated  5.4.0 will be removed in 7.0 without replacement
  */
 interface UCM
 {

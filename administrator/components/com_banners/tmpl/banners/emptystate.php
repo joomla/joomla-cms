@@ -10,17 +10,20 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
+
+/** @var \Joomla\Component\Banners\Administrator\View\Banners\HtmlView $this */
 
 $displayData = [
     'textPrefix' => 'COM_BANNERS',
     'formURL'    => 'index.php?option=com_banners&view=banners',
-    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Banners',
+    'helpURL'    => 'https://guide.joomla.org/user-manual/banners/banners-banners',
     'icon'       => 'icon-bookmark banners',
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
-$user = Factory::getApplication()->getIdentity();
+$user = $this->getCurrentUser();
 
 if ($user->authorise('core.create', 'com_banners') || count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0) {
     $displayData['createURL'] = 'index.php?option=com_banners&task=banner.add';

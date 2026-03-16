@@ -10,12 +10,12 @@
 namespace Joomla\CMS\Installation\Helper;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -36,7 +36,7 @@ abstract class DatabaseHelper
      * @var    string
      * @since  4.0.0
      */
-    protected static $dbMinimumMariaDb = '10.1';
+    protected static $dbMinimumMariaDb = '10.4';
 
     /**
      * The minimum database server version for MySQL databases as required by the CMS.
@@ -45,7 +45,7 @@ abstract class DatabaseHelper
      * @var    string
      * @since  4.0.0
      */
-    protected static $dbMinimumMySql = '5.6';
+    protected static $dbMinimumMySql = '8.0.13';
 
     /**
      * The minimum database server version for PostgreSQL databases as required by the CMS.
@@ -54,7 +54,7 @@ abstract class DatabaseHelper
      * @var    string
      * @since  4.0.0
      */
-    protected static $dbMinimumPostgreSql = '11.0';
+    protected static $dbMinimumPostgreSql = '12.0';
 
     /**
      * Method to get a database driver.
@@ -143,8 +143,8 @@ abstract class DatabaseHelper
     /**
      * Get the minimum required database server version.
      *
-     * @param   DatabaseDriver  $db       Database object
-     * @param   \stdClass       $options  The session options
+     * @param   DatabaseInterface  $db       Database object
+     * @param   \stdClass          $options  The session options
      *
      * @return  string  The minimum required database server version.
      *
@@ -156,7 +156,7 @@ abstract class DatabaseHelper
         $minDbVersionRequired = $db->getMinimum();
 
         // Get minimum database version required by the CMS
-        if (in_array($options->db_type, ['mysql', 'mysqli'])) {
+        if (\in_array($options->db_type, ['mysql', 'mysqli'])) {
             if ($db->isMariaDb()) {
                 $minDbVersionCms = self::$dbMinimumMariaDb;
             } else {
@@ -202,7 +202,7 @@ abstract class DatabaseHelper
         }
 
         // Validate length of database name.
-        if (strlen($options->db_name) > 64) {
+        if (\strlen($options->db_name) > 64) {
             return Text::_('INSTL_DATABASE_NAME_TOO_LONG');
         }
 
@@ -212,21 +212,21 @@ abstract class DatabaseHelper
         }
 
         // Validate length of database table prefix.
-        if (strlen($options->db_prefix) > 15) {
+        if (\strlen($options->db_prefix) > 15) {
             return Text::_('INSTL_DATABASE_FIX_TOO_LONG');
         }
 
         // Validate database name.
-        if (in_array($options->db_type, ['pgsql', 'postgresql']) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options->db_name)) {
+        if (\in_array($options->db_type, ['pgsql', 'postgresql']) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options->db_name)) {
             return Text::_('INSTL_DATABASE_NAME_MSG_POSTGRES');
         }
 
-        if (in_array($options->db_type, ['mysql', 'mysqli']) && preg_match('#[\\\\\/]#', $options->db_name)) {
+        if (\in_array($options->db_type, ['mysql', 'mysqli']) && preg_match('#[\\\\\/]#', $options->db_name)) {
             return Text::_('INSTL_DATABASE_NAME_MSG_MYSQL');
         }
 
         // Workaround for UPPERCASE table prefix for postgresql
-        if (in_array($options->db_type, ['pgsql', 'postgresql'])) {
+        if (\in_array($options->db_type, ['pgsql', 'postgresql'])) {
             if (strtolower($options->db_prefix) != $options->db_prefix) {
                 return Text::_('INSTL_DATABASE_FIX_LOWERCASE');
             }
@@ -273,7 +273,7 @@ abstract class DatabaseHelper
                     return Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_EMPTY', Text::_('INSTL_DATABASE_ENCRYPTION_CA_LABEL'));
                 }
 
-                if (!File::exists(Path::clean($options->db_sslca))) {
+                if (!is_file(Path::clean($options->db_sslca))) {
                     return Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_BAD', Text::_('INSTL_DATABASE_ENCRYPTION_CA_LABEL'));
                 }
             } else {
@@ -290,7 +290,7 @@ abstract class DatabaseHelper
                     return Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_EMPTY', Text::_('INSTL_DATABASE_ENCRYPTION_KEY_LABEL'));
                 }
 
-                if (!File::exists(Path::clean($options->db_sslkey))) {
+                if (!is_file(Path::clean($options->db_sslkey))) {
                     return Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_BAD', Text::_('INSTL_DATABASE_ENCRYPTION_KEY_LABEL'));
                 }
 
@@ -298,7 +298,7 @@ abstract class DatabaseHelper
                     return Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_EMPTY', Text::_('INSTL_DATABASE_ENCRYPTION_CERT_LABEL'));
                 }
 
-                if (!File::exists(Path::clean($options->db_sslcert))) {
+                if (!is_file(Path::clean($options->db_sslcert))) {
                     return Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_BAD', Text::_('INSTL_DATABASE_ENCRYPTION_CERT_LABEL'));
                 }
             } else {
@@ -318,7 +318,7 @@ abstract class DatabaseHelper
         // Save options to session data if changed
         if ($optionsChanged) {
             $optsArr = ArrayHelper::fromObject($options);
-            Factory::getSession()->set('setup.options', $optsArr);
+            Factory::getApplication()->getSession()->set('setup.options', $optsArr);
         }
 
         return false;
@@ -337,14 +337,14 @@ abstract class DatabaseHelper
     {
         // Security check for remote db hosts: Check env var if disabled. Also disable in CLI.
         $shouldCheckLocalhost = getenv('JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK') !== '1'
-            && !defined('_JCLI_INSTALLATION');
+            && !\defined('_JCLI_INSTALLATION');
 
         // Per default allowed DB hosts: localhost / 127.0.0.1 / ::1 (optionally with port)
         $localhost = '/^(((localhost|127\.0\.0\.1|\[\:\:1\])(\:[1-9]{1}[0-9]{0,4})?)|(\:\:1))$/';
 
         // Check the security file if the db_host is not localhost / 127.0.0.1 / ::1
         if ($shouldCheckLocalhost && preg_match($localhost, $options->db_host) !== 1) {
-            $remoteDbFileTestsPassed = Factory::getSession()->get('remoteDbFileTestsPassed', false);
+            $remoteDbFileTestsPassed = Factory::getApplication()->getSession()->get('remoteDbFileTestsPassed', false);
 
             // When all checks have been passed we don't need to do this here again.
             if ($remoteDbFileTestsPassed === false) {
@@ -353,7 +353,7 @@ abstract class DatabaseHelper
                     'https://docs.joomla.org/Special:MyLanguage/J3.x:Secured_procedure_for_installing_Joomla_with_a_remote_database'
                 );
 
-                $remoteDbFile = Factory::getSession()->get('remoteDbFile', false);
+                $remoteDbFile = Factory::getApplication()->getSession()->get('remoteDbFile', false);
 
                 if ($remoteDbFile === false) {
                     // Add the general message
@@ -361,13 +361,14 @@ abstract class DatabaseHelper
 
                     // This is the file you need to remove if you want to use a remote database
                     $remoteDbFile = '_Joomla' . UserHelper::genRandomPassword(21) . '.txt';
-                    Factory::getSession()->set('remoteDbFile', $remoteDbFile);
+                    Factory::getApplication()->getSession()->set('remoteDbFile', $remoteDbFile);
 
                     // Get the path
                     $remoteDbPath = JPATH_INSTALLATION . '/' . $remoteDbFile;
+                    $emptyString  = '';
 
                     // When the path is not writable the user needs to create the file manually
-                    if (!File::write($remoteDbPath, '')) {
+                    if (!File::write($remoteDbPath, $emptyString)) {
                         // Request to create the file manually
                         Factory::getApplication()->enqueueMessage(
                             Text::sprintf(
@@ -379,13 +380,13 @@ abstract class DatabaseHelper
                             'notice'
                         );
 
-                        Factory::getSession()->set('remoteDbFileUnwritable', true);
+                        Factory::getApplication()->getSession()->set('remoteDbFileUnwritable', true);
 
                         return false;
                     }
 
                     // Save the file name to the session
-                    Factory::getSession()->set('remoteDbFileWrittenByJoomla', true);
+                    Factory::getApplication()->getSession()->set('remoteDbFileWrittenByJoomla', true);
 
                     // Request to delete that file
                     Factory::getApplication()->enqueueMessage(
@@ -402,8 +403,8 @@ abstract class DatabaseHelper
                 }
 
                 if (
-                    Factory::getSession()->get('remoteDbFileWrittenByJoomla', false) === true
-                    && File::exists(JPATH_INSTALLATION . '/' . $remoteDbFile)
+                    Factory::getApplication()->getSession()->get('remoteDbFileWrittenByJoomla', false) === true
+                    && is_file(JPATH_INSTALLATION . '/' . $remoteDbFile)
                 ) {
                     // Add the general message
                     Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
@@ -422,7 +423,7 @@ abstract class DatabaseHelper
                     return false;
                 }
 
-                if (Factory::getSession()->get('remoteDbFileUnwritable', false) === true && !File::exists(JPATH_INSTALLATION . '/' . $remoteDbFile)) {
+                if (Factory::getApplication()->getSession()->get('remoteDbFileUnwritable', false) === true && !is_file(JPATH_INSTALLATION . '/' . $remoteDbFile)) {
                     // Add the general message
                     Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
 
@@ -441,7 +442,7 @@ abstract class DatabaseHelper
                 }
 
                 // All tests for this session passed set it to the session
-                Factory::getSession()->set('remoteDbFileTestsPassed', true);
+                Factory::getApplication()->getSession()->set('remoteDbFileTestsPassed', true);
             }
         }
 
@@ -451,8 +452,8 @@ abstract class DatabaseHelper
     /**
      * Check database server parameters after connection
      *
-     * @param   DatabaseDriver  $db       Database object
-     * @param   \stdClass       $options  The session options
+     * @param   DatabaseInterface  $db       Database object
+     * @param   \stdClass          $options  The session options
      *
      * @return  string|boolean  A string with the translated error message if
      *                          some server parameter is not ok, otherwise false.
@@ -468,7 +469,7 @@ abstract class DatabaseHelper
 
         // Check minimum database version
         if (version_compare($dbVersion, $minDbVersionRequired) < 0) {
-            if (in_array($options->db_type, ['mysql', 'mysqli']) && $db->isMariaDb()) {
+            if (\in_array($options->db_type, ['mysql', 'mysqli']) && $db->isMariaDb()) {
                 $errorMessage = Text::sprintf(
                     'INSTL_DATABASE_INVALID_MARIADB_VERSION',
                     $minDbVersionRequired,

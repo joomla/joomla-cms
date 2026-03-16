@@ -14,10 +14,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Users\Administrator\View\Method\HtmlView;
 use Joomla\Utilities\ArrayHelper;
 
-/** @var  HtmlView  $this */
+/** @var  \Joomla\Component\Users\Administrator\View\Method\HtmlView  $this */
 
 $cancelURL = Route::_('index.php?option=com_users&task=methods.display&user_id=' . $this->user->id);
 
@@ -49,7 +48,7 @@ $hideSubmit   = !$this->renderOptions['show_submit'] && !$this->isEditExisting
             <?php if (!empty($this->renderOptions['help_url'])) : ?>
             <span class="float-end">
                 <a href="<?php echo $this->renderOptions['help_url'] ?>"
-                   class="btn btn-sm btn-default btn-inverse btn-dark"
+                   class="btn btn-sm btn-dark"
                    target="_blank"
                 >
                     <span class="icon icon-question-sign" aria-hidden="true"></span>

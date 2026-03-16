@@ -22,6 +22,7 @@ use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -37,16 +38,16 @@ class HistoryModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'version_id',
                 'h.version_id',
                 'version_note',
@@ -55,7 +56,7 @@ class HistoryModel extends ListModel
                 'h.save_date',
                 'editor_user_id',
                 'h.editor_user_id',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -91,11 +92,11 @@ class HistoryModel extends ListModel
         $contentTypeTable = $this->getTable('ContentType');
 
         $typeAlias        = explode('.', $record->item_id);
-        $id = array_pop($typeAlias);
+        $id               = array_pop($typeAlias);
         $typeAlias        = implode('.', $typeAlias);
-        $contentTypeTable->load(array('type_alias' => $typeAlias));
+        $contentTypeTable->load(['type_alias' => $typeAlias]);
         $typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
-        $result = in_array((int) $id, $typeEditables);
+        $result        = \in_array((int) $id, $typeEditables);
 
         return $result;
     }
@@ -126,7 +127,7 @@ class HistoryModel extends ListModel
      */
     public function delete(&$pks)
     {
-        $pks = (array) $pks;
+        $pks   = (array) $pks;
         $table = $this->getTable();
 
         // Iterate the items to delete each one.
@@ -151,20 +152,20 @@ class HistoryModel extends ListModel
                     if ($error) {
                         try {
                             Log::add($error, Log::WARNING, 'jerror');
-                        } catch (\RuntimeException $exception) {
+                        } catch (\RuntimeException) {
                             Factory::getApplication()->enqueueMessage($error, 'warning');
                         }
 
                         return false;
-                    } else {
-                        try {
-                            Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-                        } catch (\RuntimeException $exception) {
-                            Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
-                        }
-
-                        return false;
                     }
+
+                    try {
+                        Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
+                    } catch (\RuntimeException) {
+                        Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
+                    }
+
+                    return false;
                 }
             } else {
                 $this->setError($table->getError());
@@ -191,14 +192,14 @@ class HistoryModel extends ListModel
     public function getItems()
     {
         $items = parent::getItems();
-        $user = $this->getCurrentUser();
+        $user  = $this->getCurrentUser();
 
         if ($items === false) {
             return false;
         }
 
         // This should be an array with at least one element
-        if (!is_array($items) || !isset($items[0])) {
+        if (!\is_array($items) || !isset($items[0])) {
             return $items;
         }
 
@@ -221,7 +222,7 @@ class HistoryModel extends ListModel
      *
      * @since   3.2
      */
-    public function getTable($type = 'ContentHistory', $prefix = 'Joomla\\CMS\\Table\\', $config = array())
+    public function getTable($type = 'ContentHistory', $prefix = 'Joomla\\CMS\\Table\\', $config = [])
     {
         return Table::getInstance($type, $prefix, $config);
     }
@@ -236,7 +237,7 @@ class HistoryModel extends ListModel
      */
     public function keep(&$pks)
     {
-        $pks = (array) $pks;
+        $pks   = (array) $pks;
         $table = $this->getTable();
 
         // Iterate the items to delete each one.
@@ -258,20 +259,20 @@ class HistoryModel extends ListModel
                     if ($error) {
                         try {
                             Log::add($error, Log::WARNING, 'jerror');
-                        } catch (\RuntimeException $exception) {
+                        } catch (\RuntimeException) {
                             Factory::getApplication()->enqueueMessage($error, 'warning');
                         }
 
                         return false;
-                    } else {
-                        try {
-                            Log::add(Text::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), Log::WARNING, 'jerror');
-                        } catch (\RuntimeException $exception) {
-                            Factory::getApplication()->enqueueMessage(Text::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), 'warning');
-                        }
-
-                        return false;
                     }
+
+                    try {
+                        Log::add(Text::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), Log::WARNING, 'jerror');
+                    } catch (\RuntimeException) {
+                        Factory::getApplication()->enqueueMessage(Text::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), 'warning');
+                    }
+
+                    return false;
                 }
             } else {
                 $this->setError($table->getError());
@@ -300,11 +301,10 @@ class HistoryModel extends ListModel
      */
     protected function populateState($ordering = 'h.save_date', $direction = 'DESC')
     {
-        $input = Factory::getApplication()->input;
+        $input  = Factory::getApplication()->getInput();
         $itemId = $input->get('item_id', '', 'string');
 
         $this->setState('item_id', $itemId);
-        $this->setState('sha1_hash', $this->getSha1Hash());
 
         // Load the parameters.
         $params = ComponentHelper::getParams('com_contenthistory');
@@ -317,7 +317,7 @@ class HistoryModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   3.2
      */
@@ -325,7 +325,7 @@ class HistoryModel extends ListModel
     {
         // Create a new query object.
         $db     = $this->getDatabase();
-        $query  = $db->getQuery(true);
+        $query  = $db->createQuery();
         $itemId = $this->getState('item_id');
 
         // Select the required fields from the table.
@@ -342,6 +342,7 @@ class HistoryModel extends ListModel
                     $db->quoteName('h.sha1_hash'),
                     $db->quoteName('h.version_data'),
                     $db->quoteName('h.keep_forever'),
+                    $db->quoteName('h.is_current'),
                 ]
             )
         )
@@ -358,7 +359,7 @@ class HistoryModel extends ListModel
             );
 
         // Add the list ordering clause.
-        $orderCol = $this->state->get('list.ordering');
+        $orderCol  = $this->state->get('list.ordering');
         $orderDirn = $this->state->get('list.direction');
         $query->order($db->quoteName($orderCol) . $orderDirn);
 
@@ -372,21 +373,37 @@ class HistoryModel extends ListModel
      *
      * @since   3.2
      */
-    protected function getSha1Hash()
+    public function getSha1Hash()
     {
+        /**
+         * From Joomla 6, we use is_current field to determine the current version, so no need to calculate sha1 hash
+         * if there is already a current version
+         */
+
+        $items = $this->getItems();
+
+        foreach ($items as $item) {
+            if ($item->is_current == 1) {
+                return $item->sha1_hash;
+            }
+        }
+
+        // Legacy code for history concept before 6.0.0, deprecated 6.0.0 will be removed with 8.0.0
         $result    = false;
-        $item_id   = Factory::getApplication()->input->getCmd('item_id', '');
-        $typeAlias = explode('.', $item_id);
-        Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $typeAlias[0] . '/tables');
+        $item_id   = $this->state->get('item_id', '');
+
+        [$extension, $type, $id] = explode('.', $item_id);
+
+        Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $extension . '/tables');
         $typeTable = $this->getTable('ContentType');
-        $typeTable->load(['type_alias' => $typeAlias[0] . '.' . $typeAlias[1]]);
+        $typeTable->load(['type_alias' => $extension . '.' . $type]);
         $contentTable = $typeTable->getContentTable();
 
-        if ($contentTable && $contentTable->load($typeAlias[2])) {
+        if ($contentTable && $contentTable->load($id)) {
             $helper = new CMSHelper();
 
             $dataObject = $helper->getDataObject($contentTable);
-            $result = $this->getTable('ContentHistory')->getSha1(json_encode($dataObject), $typeTable);
+            $result     = $this->getTable('ContentHistory')->getSha1(json_encode($dataObject), $typeTable);
         }
 
         return $result;

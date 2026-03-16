@@ -22,7 +22,7 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\ExecutionFailureException;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -65,14 +65,14 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
      *
      * @since   1.5
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         // Extract the internal dependencies before calling the parent constructor since it calls $this->load()
         $this->app      = isset($options['app']) && $options['app'] instanceof CMSApplication ? $options['app'] : Factory::getApplication();
-        $this->language = isset($options['language']) && $options['language'] instanceof Language ? $options['language'] : Factory::getLanguage();
+        $this->language = isset($options['language']) && $options['language'] instanceof Language ? $options['language'] : null;
 
         if (!isset($options['db']) || !($options['db'] instanceof DatabaseDriver)) {
-            @trigger_error(sprintf('Database will be mandatory in 5.0.'), E_USER_DEPRECATED);
+            @trigger_error('Database will be mandatory in 5.0.', E_USER_DEPRECATED);
             $options['db'] = Factory::getContainer()->get(DatabaseDriver::class);
         }
 
@@ -93,7 +93,7 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
         $loader = function () {
             $currentDate = Factory::getDate()->toSql();
 
-            $query = $this->db->getQuery(true)
+            $query = $this->db->createQuery()
                 ->select(
                     $this->db->quoteName(
                         [
@@ -176,8 +176,8 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
             /** @var CallbackController $cache */
             $cache = $this->getCacheControllerFactory()->createCacheController('callback', ['defaultgroup' => 'com_menus']);
 
-            $this->items = $cache->get($loader, array(), md5(\get_class($this)), false);
-        } catch (CacheExceptionInterface $e) {
+            $this->items = $cache->get($loader, [], md5(\get_class($this)), false);
+        } catch (CacheExceptionInterface) {
             try {
                 $this->items = $loader();
             } catch (ExecutionFailureException $databaseException) {
@@ -191,9 +191,9 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
             return false;
         }
 
-        foreach ($this->items as &$item) {
+        foreach ($this->items as $item) {
             // Get parent information.
-            $parent_tree = array();
+            $parent_tree = [];
 
             if (isset($this->items[$item->parent_id])) {
                 $item->setParent($this->items[$item->parent_id]);
@@ -233,9 +233,10 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
         if ($this->app->isClient('site')) {
             // Filter by language if not set
             if (($key = array_search('language', $attributes)) === false) {
-                if (Multilanguage::isEnabled()) {
+                if (Multilanguage::isEnabled() && ($this->language || $this->app->getLanguage())) {
+                    $language     = $this->language ?: $this->app->getLanguage();
                     $attributes[] = 'language';
-                    $values[]     = array(Factory::getLanguage()->getTag(), '*');
+                    $values[]     = [$language->getTag(), '*'];
                 }
             } elseif ($values[$key] === null) {
                 unset($attributes[$key], $values[$key]);

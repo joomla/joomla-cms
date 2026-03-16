@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Dispatcher;
@@ -85,7 +85,7 @@ class ComponentDispatcher extends Dispatcher
     {
         // Load common and local language files.
         $this->app->getLanguage()->load($this->option, JPATH_BASE) ||
-        $this->app->getLanguage()->load($this->option, JPATH_COMPONENT);
+        $this->app->getLanguage()->load($this->option, JPATH_BASE . '/components/' . $this->option);
     }
 
     /**
@@ -118,9 +118,9 @@ class ComponentDispatcher extends Dispatcher
         $command = $this->input->getCmd('task', 'display');
 
         // Check for a controller.task command.
-        if (strpos($command, '.') !== false) {
+        if (str_contains($command, '.')) {
             // Explode the controller.task command.
-            list ($controller, $task) = explode('.', $command);
+            [$controller, $task] = explode('.', $command);
 
             $this->input->set('controller', $controller);
             $this->input->set('task', $task);
@@ -131,7 +131,7 @@ class ComponentDispatcher extends Dispatcher
         }
 
         // Build controller config data
-        $config['option'] = $this->option;
+        $config = ['option' => $this->option];
 
         // Set name of controller if it is passed in the request
         if ($this->input->exists('controller')) {
@@ -155,7 +155,7 @@ class ComponentDispatcher extends Dispatcher
      *
      * @since   4.0.0
      */
-    public function getController(string $name, string $client = '', array $config = array()): BaseController
+    public function getController(string $name, string $client = '', array $config = []): BaseController
     {
         // Set up the client
         $client = $client ?: ucfirst($this->app->getName());
@@ -171,7 +171,7 @@ class ComponentDispatcher extends Dispatcher
 
         // Check if the controller could be created
         if (!$controller) {
-            throw new \InvalidArgumentException(Text::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $name));
+            throw new \InvalidArgumentException(Text::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $name), 404);
         }
 
         return $controller;

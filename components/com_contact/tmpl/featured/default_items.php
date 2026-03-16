@@ -16,8 +16,9 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Contact\Site\View\Featured\HtmlView $this */
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_contact.contacts-list')
     ->useScript('core');
 
@@ -64,8 +65,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
             <caption class="visually-hidden">
                 <?php echo Text::_('COM_CONTACT_TABLE_CAPTION'); ?>,
             </caption>
-            <?php if ($this->params->get('show_headings')) : ?>
-                <thead>
+                <thead<?php echo $this->params->get('show_headings', '1') ? '' : ' class="visually-hidden"'; ?>>
                     <tr>
                         <th scope="col" class="item-title">
                             <?php echo HTMLHelper::_('grid.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
@@ -120,17 +120,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                         <?php endif; ?>
                     </tr>
                 </thead>
-            <?php endif; ?>
             <tbody>
                 <?php foreach ($this->items as $i => $item) : ?>
                     <?php if ($this->items[$i]->published == 0) : ?>
                         <tr class="system-unpublished featured-list-row<?php echo $i % 2; ?>">
                     <?php else : ?>
-                        <tr class="featured-list-row<?php echo $i % 2; ?>" itemscope itemtype="https://schema.org/Person">
+                        <tr class="featured-list-row<?php echo $i % 2; ?>">
                     <?php endif; ?>
                     <th scope="row" class="list-title">
-                        <a href="<?php echo Route::_(RouteHelper::getContactRoute($item->slug, $item->catid, $item->language)); ?>" itemprop="url">
-                            <span itemprop="name"><?php echo $this->escape($item->name); ?></span>
+                        <a href="<?php echo Route::_(RouteHelper::getContactRoute($item->slug, $item->catid, $item->language)); ?>">
+                            <span><?php echo $this->escape($item->name); ?></span>
                         </a>
                         <?php if ($item->published == 0) : ?>
                             <div>
@@ -142,50 +141,50 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                     </th>
 
                     <?php if ($this->params->get('show_position_headings')) : ?>
-                        <td class="item-position" itemprop="jobTitle">
+                        <td class="item-position">
                             <?php echo $item->con_position; ?>
                         </td>
                     <?php endif; ?>
 
                     <?php if ($this->params->get('show_email_headings')) : ?>
-                        <td class="item-email" itemprop="email">
+                        <td class="item-email">
                             <?php echo $item->email_to; ?>
                         </td>
                     <?php endif; ?>
 
                     <?php if ($this->params->get('show_telephone_headings')) : ?>
-                        <td class="item-phone" itemprop="telephone">
+                        <td class="item-phone">
                             <?php echo $item->telephone; ?>
                         </td>
                     <?php endif; ?>
 
                     <?php if ($this->params->get('show_mobile_headings')) : ?>
-                        <td class="item-phone" itemprop="telephone">
+                        <td class="item-phone">
                             <?php echo $item->mobile; ?>
                         </td>
                     <?php endif; ?>
 
                     <?php if ($this->params->get('show_fax_headings')) : ?>
-                        <td class="item-phone" itemprop="faxNumber">
+                        <td class="item-phone">
                             <?php echo $item->fax; ?>
                         </td>
                     <?php endif; ?>
 
                     <?php if ($this->params->get('show_suburb_headings')) : ?>
-                        <td class="item-suburb" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-                            <span itemprop="addressLocality"><?php echo $item->suburb; ?></span>
+                        <td class="item-suburb">
+                            <span><?php echo $item->suburb; ?></span>
                         </td>
                     <?php endif; ?>
 
                     <?php if ($this->params->get('show_state_headings')) : ?>
-                        <td class="item-state" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-                            <span itemprop="addressRegion"><?php echo $item->state; ?></span>
+                        <td class="item-state">
+                            <span><?php echo $item->state; ?></span>
                         </td>
                     <?php endif; ?>
 
                     <?php if ($this->params->get('show_country_headings')) : ?>
-                        <td class="item-state" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-                            <span itemprop="addressCountry"><?php echo $item->country; ?></span>
+                        <td class="item-state">
+                            <span><?php echo $item->country; ?></span>
                         </td>
                     <?php endif; ?>
                 <?php endforeach; ?>

@@ -10,13 +10,14 @@
 
 namespace Joomla\Component\Content\Administrator\Controller;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Content;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -61,18 +62,18 @@ class AjaxController extends BaseController
             unset($associations[$excludeLang]);
 
             // Add the title to each of the associated records
-            $contentTable = Table::getInstance('Content', 'JTable');
+            $contentTable = new Content(Factory::getDbo());
 
-            foreach ($associations as $lang => $association) {
+            foreach ($associations as $association) {
                 $contentTable->load($association->id);
-                $associations[$lang]->title = $contentTable->title;
+                $association->title = $contentTable->title;
             }
 
-            $countContentLanguages = count(LanguageHelper::getContentLanguages(array(0, 1), false));
+            $countContentLanguages = \count(LanguageHelper::getContentLanguages([0, 1], false));
 
-            if (count($associations) == 0) {
+            if (\count($associations) == 0) {
                 $message = Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_MESSAGE_NONE');
-            } elseif ($countContentLanguages > count($associations) + 2) {
+            } elseif ($countContentLanguages > \count($associations) + 2) {
                 $tags    = implode(', ', array_keys($associations));
                 $message = Text::sprintf('JGLOBAL_ASSOCIATIONS_PROPAGATE_MESSAGE_SOME', $tags);
             } else {

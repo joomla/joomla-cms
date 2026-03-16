@@ -16,7 +16,7 @@ use Joomla\CMS\WebAsset\WebAssetAttachBehaviorInterface;
 use Joomla\CMS\WebAsset\WebAssetItem;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -42,9 +42,9 @@ class CoreAssetItem extends WebAssetItem implements WebAssetAttachBehaviorInterf
         $doc->addScriptOptions(
             'system.paths',
             [
-                'root' => Uri::root(true),
+                'root'     => Uri::root(true),
                 'rootFull' => Uri::root(),
-                'base' => Uri::base(true),
+                'base'     => Uri::base(true),
                 'baseFull' => Uri::base(),
             ]
         );

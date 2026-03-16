@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <metadata>
 	<layout title="COM_USERS_LOGIN_VIEW_DEFAULT_TITLE" option="COM_USERS_LOGIN_VIEW_DEFAULT_OPTION">
 		<help
@@ -78,6 +78,9 @@
 				<field
 					name="login_image"
 					type="media"
+					schemes="http,https,ftp,ftps,data,file"
+					validate="url"
+					relative="true"
 					label="JFIELD_LOGIN_IMAGE_LABEL"
 				/>
 
@@ -158,6 +161,9 @@
 				<field
 					name="logout_image"
 					type="media"
+					schemes="http,https,ftp,ftps,data,file"
+					validate="url"
+					relative="true"
 					label="JFIELD_LOGOUT_IMAGE_LABEL"
 				/>
 
@@ -173,6 +179,22 @@
 					label="COM_USERS_FIELD_IMAGE_ALT_EMPTY_LABEL"
 					description="COM_USERS_FIELD_IMAGE_ALT_EMPTY_DESC"
 				/>
+			</fieldset>
+
+			<fieldset name="registration" label="COM_USERS_FIELD_OPTIONS_REGISTRATION">
+				<field
+					name="customRegLinkMenu"
+					type="modal_menu"
+					label="COM_USERS_FIELD_REGISTRATION_LABEL"
+					description="COM_USERS_FIELD_REGISTRATION_DESC"
+					disable="separator,alias,heading,url"
+					select="true"
+					new="true"
+					edit="true"
+					clear="true"
+					>
+					<option value="">JOPTION_SELECT_MENU_ITEM</option>
+				</field>
 			</fieldset>
 		</fieldset>
 	</fields>

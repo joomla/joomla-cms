@@ -11,11 +11,11 @@
 namespace Joomla\Component\Languages\Administrator\Model;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Filesystem\File;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -31,19 +31,19 @@ class OverridesModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   2.5
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'key',
                 'text',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -71,11 +71,11 @@ class OverridesModel extends ListModel
         $client = strtoupper($this->getState('filter.client'));
 
         // Parse the override.ini file in order to get the keys and strings.
-        $fileName = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
+        $fileName = \constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
         $strings  = LanguageHelper::parseIniFile($fileName);
 
         // Delete the override.ini file if empty.
-        if (file_exists($fileName) && $strings === array()) {
+        if (file_exists($fileName) && $strings === []) {
             File::delete($fileName);
         }
 
@@ -83,10 +83,10 @@ class OverridesModel extends ListModel
         $search = $this->getState('filter.search');
 
         if ($search != '') {
-            $search = preg_quote($search, '~');
+            $search    = preg_quote($search, '~');
             $matchvals = preg_grep('~' . $search . '~i', $strings);
             $matchkeys = array_intersect_key($strings, array_flip(preg_grep('~' . $search . '~i', array_keys($strings))));
-            $strings = array_merge($matchvals, $matchkeys);
+            $strings   = array_merge($matchvals, $matchkeys);
         }
 
         // Consider the ordering
@@ -106,11 +106,64 @@ class OverridesModel extends ListModel
 
         // Consider the pagination.
         if (!$all && $this->getState('list.limit') && $this->getTotal() > $this->getState('list.limit')) {
-            $strings = array_slice($strings, $this->getStart(), $this->getState('list.limit'), true);
+            $strings = \array_slice($strings, $this->getStart(), $this->getState('list.limit'), true);
         }
 
         // Add the items to the internal cache.
         $this->cache[$store] = $strings;
+
+        return $this->cache[$store];
+    }
+
+    /**
+     * Retrieves overrides for all installed languages for the current client.
+     *
+     * @return  array
+     *
+     * @since   6.1.0
+     */
+    public function getLanguageOverrides()
+    {
+        $store = $this->getStoreId('languageOverrides');
+
+        if (!empty($this->cache[$store])) {
+            return $this->cache[$store];
+        }
+
+        $client    = strtoupper($this->getState('filter.client'));
+        $languages = $this->getLanguages();
+        $overrides = [];
+        $basePath  = \constant('JPATH_' . $client) . '/language/overrides/';
+
+        foreach ($languages as $tag => $language) {
+            $fileName        = $basePath . $tag . '.override.ini';
+            $overrides[$tag] = LanguageHelper::parseIniFile($fileName);
+        }
+
+        $this->cache[$store] = $overrides;
+
+        return $this->cache[$store];
+    }
+
+    /**
+     * Retrieves installed languages for the current client.
+     *
+     * @return  array
+     *
+     * @since   6.1.0
+     */
+    public function getLanguages()
+    {
+        $store = $this->getStoreId('languages');
+
+        if (!empty($this->cache[$store])) {
+            return $this->cache[$store];
+        }
+
+        $client = strtoupper($this->getState('filter.client'));
+        $path   = \constant('JPATH_' . $client);
+
+        $this->cache[$store] = LanguageHelper::getKnownLanguages($path);
 
         return $this->cache[$store];
     }
@@ -133,7 +186,7 @@ class OverridesModel extends ListModel
         }
 
         // Add the total to the internal cache.
-        $this->cache[$store] = count($this->getOverrides(true));
+        $this->cache[$store] = \count($this->getOverrides(true));
 
         return $this->cache[$store];
     }
@@ -202,15 +255,15 @@ class OverridesModel extends ListModel
         $app = Factory::getApplication();
 
         if ($app->isClient('api')) {
-            $cids = (array) $cids;
+            $cids   = (array) $cids;
             $client = $this->getState('filter.client');
         } else {
             $filterclient = Factory::getApplication()->getUserState('com_languages.overrides.filter.client');
-            $client = $filterclient == 0 ? 'site' : 'administrator';
+            $client       = $filterclient == 0 ? 'site' : 'administrator';
         }
 
         // Parse the override.ini file in order to get the keys and strings.
-        $fileName = constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
+        $fileName = \constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
         $strings  = LanguageHelper::parseIniFile($fileName);
 
         // Unset strings that shall be deleted
@@ -227,13 +280,13 @@ class OverridesModel extends ListModel
 
         $this->cleanCache();
 
-        return count($cids);
+        return \count($cids);
     }
 
     /**
      * Removes all of the cached strings from the table.
      *
-     * @return  boolean  result of operation
+     * @return  void|\RuntimeException
      *
      * @since   3.4.2
      */

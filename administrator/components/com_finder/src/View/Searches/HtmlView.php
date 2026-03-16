@@ -14,11 +14,11 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Finder\Administrator\Model\SearchesModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -55,7 +55,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -80,7 +80,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The actions the user is authorised to perform
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var    \Joomla\Registry\Registry
      *
      * @since  4.0.0
      */
@@ -102,31 +102,40 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
+        /** @var SearchesModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
+
         $app                 = Factory::getApplication();
-        $this->items         = $this->get('Items');
-        $this->pagination    = $this->get('Pagination');
-        $this->state         = $this->get('State');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
-        $this->enabled       = $this->state->params->get('gather_search_statistics', 0);
+        $this->items         = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->state         = $model->getState();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
+        $this->enabled       = $this->state->get('params')->get('gather_search_statistics', 0);
         $this->canDo         = ContentHelper::getActions('com_finder');
         $uri                 = Uri::getInstance();
         $link                = 'index.php?option=com_config&view=component&component=com_finder&return=' . base64_encode($uri);
         $output              = HTMLHelper::_('link', Route::_($link), Text::_('JOPTIONS'));
 
-        if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
+        if (!\count($this->items) && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
-        }
-
-        // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Check if component is enabled
         if (!$this->enabled) {
-            $app->enqueueMessage(Text::sprintf('COM_FINDER_LOGGING_DISABLED', $output), 'warning');
+            // Check if the user has access to the component options
+            if ($this->canDo->get('core.admin') || $this->canDo->get('core.options')) {
+                $app->enqueueMessage(Text::sprintf('COM_FINDER_LOGGING_DISABLED', $output), 'warning');
+            } else {
+                $app->enqueueMessage(Text::_('COM_FINDER_LOGGING_DISABLED_NO_AUTH'), 'warning');
+            }
         }
+
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task')
+            ->addControlField('boxchecked', '0');
 
         // Prepare the view.
         $this->addToolbar();
@@ -143,22 +152,25 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo = $this->canDo;
+        $canDo   = $this->canDo;
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_FINDER_MANAGER_SEARCHES'), 'search');
 
         if (!$this->isEmptyState) {
             if ($canDo->get('core.edit.state')) {
-                ToolbarHelper::custom('searches.reset', 'refresh', '', 'JSEARCH_RESET', false);
+                $toolbar->standardButton('reset', 'JSEARCH_RESET', 'searches.reset')
+                    ->icon('icon-refresh')
+                    ->listCheck(false);
             }
 
-            ToolbarHelper::divider();
+            $toolbar->divider();
         }
 
         if ($canDo->get('core.admin') || $canDo->get('core.options')) {
-            ToolbarHelper::preferences('com_finder');
+            $toolbar->preferences('com_finder');
         }
 
-        ToolbarHelper::help('Smart_Search:_Search_Term_Analysis');
+        $toolbar->help('Smart_Search:_Search_Term_Analysis');
     }
 }

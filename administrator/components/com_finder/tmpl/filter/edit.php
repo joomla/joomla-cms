@@ -10,11 +10,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+
+/** @var \Joomla\Component\Finder\Administrator\View\Filter\HtmlView $this */
 
 Text::script('COM_FINDER_FILTER_SHOW_ALL', true);
 Text::script('COM_FINDER_FILTER_HIDE_ALL', true);
@@ -24,7 +25,7 @@ $this->ignore_fieldsets = ['jbasic'];
 $this->useCoreUI = true;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->useScript('com_finder.finder-edit');
@@ -52,7 +53,7 @@ $wa->useScript('keepalive')
                     <hr>
                 <?php endif; ?>
 
-                <?php echo HTMLHelper::_('filter.slider', array('selected_nodes' => $this->filter->data)); ?>
+                <?php echo HTMLHelper::_('filter.slider', ['selected_nodes' => $this->filter->data]); ?>
             </div>
             <div class="col-lg-3">
                 <?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
@@ -85,8 +86,6 @@ $wa->useScript('keepalive')
 
         <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
-        <input type="hidden" name="task" value="">
-        <input type="hidden" name="return" value="<?php echo Factory::getApplication()->input->get('return', '', 'BASE64'); ?>">
-        <?php echo HTMLHelper::_('form.token'); ?>
+        <?php echo $this->form->renderControlFields(); ?>
     </div>
 </form>

@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
@@ -31,15 +32,13 @@ if (!$this->enabled) {
     $class = $current->title ? 'menuitem-group' : 'divider';
 } elseif ($current->hasChildren()) {
     $class .= ' parent';
+
+    if (!empty($current->active)) {
+        $class .= ' mm-active';
+    }
 }
 
-if ($current->level == 1) {
-    $class .= ' item-level-1';
-} elseif ($current->level == 2) {
-    $class .= ' item-level-2';
-} elseif ($current->level == 3) {
-    $class .= ' item-level-3';
-}
+$class .= ' item-level-' . (int) $current->level;
 
 // Set the correct aria role and print the item
 if ($current->type == 'separator') {
@@ -50,23 +49,25 @@ if ($current->type == 'separator') {
 
 // Print a link if it exists
 $linkClass  = [];
-$dataToggle = '';
 $iconClass  = '';
 $itemIconClass = '';
 $itemImage  = '';
 
 if ($current->hasChildren()) {
     $linkClass[] = 'has-arrow';
-
-    if ($current->level > 2) {
-        $dataToggle  = ' data-bs-toggle="dropdown"';
-    }
 } else {
     $linkClass[] = 'no-dropdown';
+
+    if (!empty($current->active)) {
+        $linkClass[] = 'mm-active';
+    }
 }
 
 // Implode out $linkClass for rendering
 $linkClass = ' class="' . implode(' ', $linkClass) . '" ';
+
+// Add aria-current for the active menu item
+$ariaCurrent = (!empty($current->active) && !$current->hasChildren()) ? ' aria-current="page"' : '';
 
 // Get the menu link
 $link = $current->link;
@@ -107,15 +108,15 @@ if ($icon == '' && $iconClass == '' && $current->level == 1 && $current->target 
 }
 
 if ($link != '' && $current->target != '') {
-    echo '<a' . $linkClass . $dataToggle . ' href="' . $link . '" target="' . $current->target . '">'
+    echo '<a' . $linkClass . $ariaCurrent . ' href="' . $link . '" target="' . $current->target . '">'
         . $iconClass
         . '<span class="sidebar-item-title">' . $itemImage . Text::_($current->title) . '</span>' . $ajax . '</a>';
 } elseif ($link != '' && $current->type !== 'separator') {
-    echo '<a' . $linkClass . $dataToggle . ' href="' . $link . '" aria-label="' . Text::_($current->title) . '">'
+    echo '<a' . $linkClass . $ariaCurrent . ' href="' . $link . '" aria-label="' . Text::_($current->title) . '">'
         . $iconClass
         . '<span class="sidebar-item-title">' . $itemImage . Text::_($current->title) . '</span>' . $iconImage . '</a>';
 } elseif ($current->title != '' && $current->type !== 'separator') {
-    echo '<a' . $linkClass . $dataToggle . ' href="#">'
+    echo '<a' . $linkClass . $ariaCurrent . ' href="#">'
         . $iconClass
         . '<span class="sidebar-item-title">' . $itemImage . Text::_($current->title) . '</span>' . $ajax . '</a>';
 } elseif ($current->title != '' && $current->type === 'separator') {
@@ -143,21 +144,37 @@ if ($currentParams->get('menu-quicktask') && (int) $this->params->get('shownew',
 
 if (!empty($current->dashboard)) {
     $titleDashboard = Text::sprintf('MOD_MENU_DASHBOARD_LINK', Text::_($current->title));
+
+    // Prepare the Dashboard icon. We use our own icon, not Fontawesome
+    $pathDashboard = 'media/templates/administrator/atum/images/icons/dashboard.svg';
+    $attrDashboard = [
+        'loading'     => 'eager',
+        'decoding'    => 'async',
+        'aria-hidden' => 'true',
+        'class'       => 'atum-dashboard',
+        'height'      => '18',
+    ];
+
+    $iconDashboard = HTMLHelper::_('image', $pathDashboard, '', $attrDashboard, false, 0);
+
     echo '<span class="menu-dashboard"><a href="'
-        . Route::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $current->dashboard) . '">'
-        . '<span class="icon-th-large" title="' . $titleDashboard . '" aria-hidden="true"></span>'
+        . Route::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $current->dashboard) . '" '
+        . 'title="' . $titleDashboard . '">'
+        . '<span>' . $iconDashboard . '</span>'
         . '<span class="visually-hidden">' . $titleDashboard . '</span>'
         . '</a></span>';
 }
 
 // Recurse through children if they exist
 if ($this->enabled && $current->hasChildren()) {
+    $mmShow = !empty($current->active) ? ' mm-show' : '';
+
     if ($current->level > 1) {
         $id = $current->id ? ' id="menu-' . strtolower($current->id) . '"' : '';
 
-        echo '<ul' . $id . ' class="mm-collapse collapse-level-' . $current->level . '">' . "\n";
+        echo '<ul' . $id . ' class="mm-collapse collapse-level-' . $current->level . $mmShow . '">' . "\n";
     } else {
-        echo '<ul id="collapse' . $this->getCounter() . '" class="collapse-level-1 mm-collapse">' . "\n";
+        echo '<ul id="collapse' . $this->getCounter() . '" class="collapse-level-1 mm-collapse' . $mmShow . '">' . "\n";
     }
 
     // WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call

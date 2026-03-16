@@ -55,8 +55,8 @@ class BannerModel extends BaseDatabaseModel
         $id = (int) $this->getState('banner.id');
 
         // Update click count
-        $db = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $db    = $this->getDatabase();
+        $query = $db->createQuery();
 
         $query->update($db->quoteName('#__banners'))
             ->set($db->quoteName('clicks') . ' = ' . $db->quoteName('clicks') . ' + 1')
@@ -79,7 +79,7 @@ class BannerModel extends BaseDatabaseModel
         }
 
         if ($trackClicks < 0) {
-            $config = ComponentHelper::getParams('com_banners');
+            $config      = ComponentHelper::getParams('com_banners');
             $trackClicks = $config->get('track_clicks');
         }
 
@@ -87,7 +87,7 @@ class BannerModel extends BaseDatabaseModel
             $trackDate = Factory::getDate()->format('Y-m-d H:00:00');
             $trackDate = Factory::getDate($trackDate)->toSql();
 
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             $query->select($db->quoteName('count'))
                 ->from($db->quoteName('#__banner_tracks'))
@@ -111,7 +111,7 @@ class BannerModel extends BaseDatabaseModel
 
             $count = $db->loadResult();
 
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             if ($count) {
                 // Update count
@@ -171,7 +171,8 @@ class BannerModel extends BaseDatabaseModel
             $db = $this->getDatabase();
 
             $loader = function ($id) use ($db) {
-                $query = $db->getQuery(true);
+                $nowDate = Factory::getDate()->toSql();
+                $query   = $db->createQuery();
 
                 $query->select(
                     [
@@ -184,7 +185,25 @@ class BannerModel extends BaseDatabaseModel
                     ->from($db->quoteName('#__banners', 'a'))
                     ->join('LEFT', $db->quoteName('#__banner_clients', 'cl'), $db->quoteName('cl.id') . ' = ' . $db->quoteName('a.cid'))
                     ->where($db->quoteName('a.id') . ' = :id')
-                    ->bind(':id', $id, ParameterType::INTEGER);
+                    ->where($db->quoteName('a.state') . ' = 1')
+                    ->extendWhere(
+                        'AND',
+                        [
+                            $db->quoteName('a.publish_up') . ' IS NULL',
+                            $db->quoteName('a.publish_up') . ' <= :nowDate',
+                        ],
+                        'OR'
+                    )
+                    ->extendWhere(
+                        'AND',
+                        [
+                            $db->quoteName('a.publish_down') . ' IS NULL',
+                            $db->quoteName('a.publish_down') . ' >= :nowDate',
+                        ],
+                        'OR'
+                    )
+                    ->bind(':id', $id, ParameterType::INTEGER)
+                    ->bind(':nowDate', $nowDate);
 
                 $db->setQuery($query);
 
@@ -192,8 +211,8 @@ class BannerModel extends BaseDatabaseModel
             };
 
             try {
-                $this->_item = $cache->get($loader, array($id), md5(__METHOD__ . $id));
-            } catch (CacheExceptionInterface $e) {
+                $this->_item = $cache->get($loader, [$id], md5(__METHOD__ . $id));
+            } catch (CacheExceptionInterface) {
                 $this->_item = $loader($id);
             }
         }
@@ -211,7 +230,7 @@ class BannerModel extends BaseDatabaseModel
     public function getUrl()
     {
         $item = $this->getItem();
-        $url = $item->clickurl;
+        $url  = $item->clickurl;
 
         // Check for links
         if (!preg_match('#http[s]?://|index[2]?\.php#', $url)) {

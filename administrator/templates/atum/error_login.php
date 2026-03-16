@@ -19,7 +19,7 @@ use Joomla\CMS\Uri\Uri;
 /** @var \Joomla\CMS\Document\ErrorDocument $this */
 
 $app   = Factory::getApplication();
-$input = $app->input;
+$input = $app->getInput();
 $wa    = $this->getWebAssetManager();
 
 // Detecting Active Variables
@@ -35,27 +35,31 @@ $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], t
 
 // Template params
 $logoBrandLarge  = $this->params->get('logoBrandLarge')
-    ? Uri::root() . htmlspecialchars($this->params->get('logoBrandLarge'), ENT_QUOTES)
-    : Uri::root() . 'media/templates/administrator/atum/images/logos/brand-large.svg';
-$loginLogo = $this->params->get('loginLogo')
-    ? Uri::root() . $this->params->get('loginLogo')
-    : Uri::root() . 'media/templates/administrator/atum/images/logos/login.svg';
+    ? Uri::root(false) . htmlspecialchars($this->params->get('logoBrandLarge'), ENT_QUOTES)
+    : Uri::root(false) . 'media/templates/administrator/atum/images/logos/brand-large.svg';
 $logoBrandSmall = $this->params->get('logoBrandSmall')
-    ? Uri::root() . htmlspecialchars($this->params->get('logoBrandSmall'), ENT_QUOTES)
-    : Uri::root() . 'media/templates/administrator/atum/images/logos/brand-small.svg';
+    ? Uri::root(false) . htmlspecialchars($this->params->get('logoBrandSmall'), ENT_QUOTES)
+    : Uri::root(false) . 'media/templates/administrator/atum/images/logos/brand-small.svg';
 
 $logoBrandLargeAlt = empty($this->params->get('logoBrandLargeAlt')) && empty($this->params->get('emptyLogoBrandLargeAlt'))
-    ? 'alt=""'
-    : 'alt="' . htmlspecialchars($this->params->get('logoBrandLargeAlt', ''), ENT_COMPAT, 'UTF-8') . '"';
+    ? ''
+    : htmlspecialchars($this->params->get('logoBrandLargeAlt', ''), ENT_COMPAT, 'UTF-8');
 $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($this->params->get('emptyLogoBrandSmallAlt'))
-    ? 'alt=""'
-    : 'alt="' . htmlspecialchars($this->params->get('logoBrandSmallAlt', ''), ENT_COMPAT, 'UTF-8') . '"';
+    ? ''
+    : htmlspecialchars($this->params->get('logoBrandSmallAlt', ''), ENT_COMPAT, 'UTF-8');
+
+$loginLogo = $this->params->get('loginLogo')
+    ? Uri::root(false) . $this->params->get('loginLogo')
+    : Uri::root(false) . 'media/templates/administrator/atum/images/logos/login.svg';
 $loginLogoAlt = empty($this->params->get('loginLogoAlt')) && empty($this->params->get('emptyLoginLogoAlt'))
-    ? 'alt=""'
-    : 'alt="' . htmlspecialchars($this->params->get('loginLogoAlt', ''), ENT_COMPAT, 'UTF-8') . '"';
+    ? ''
+    : htmlspecialchars($this->params->get('loginLogoAlt', ''), ENT_COMPAT, 'UTF-8');
 
     // Get the hue value
 preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
+
+$linkColor = $this->params->get('link-color', '#2a69b8');
+list($r, $g, $b) = sscanf($linkColor, "#%02x%02x%02x");
 
 // Enable assets
 $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
@@ -66,7 +70,8 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 		--template-bg-light: ' . $this->params->get('bg-light', '#f0f4fb') . ';
 		--template-text-dark: ' . $this->params->get('text-dark', '#495057') . ';
 		--template-text-light: ' . $this->params->get('text-light', '#ffffff') . ';
-		--template-link-color: ' . $this->params->get('link-color', '#2a69b8') . ';
+		--link-color: ' . $linkColor . ';
+        --link-color-rgb: ' . $r . ',' . $g . ',' . $b . ';
 		--template-special-color: ' . $this->params->get('special-color', '#001B4C') . ';
 	}');
 
@@ -76,13 +81,32 @@ $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->di
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
-$monochrome = (bool) $this->params->get('monochrome');
+$monochrome    = (bool) $this->params->get('monochrome');
+$colorScheme   = $this->params->get('colorScheme', 'os');
+$themeModeAttr = '';
+
+if ($colorScheme) {
+    $themeModes   = ['os' => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
+    // Check for User choose, for now this have a priority over the parameters
+    $userLastMode = $app->getInput()->cookie->get('userColorScheme', '');
+    if ($userLastMode && !empty($themeModes[$userLastMode])) {
+        $themeModeAttr = $themeModes[$userLastMode];
+    } else {
+        // Check parameters first (User and Template), then look if we have detected the OS color scheme (if it set to 'os')
+        $colorScheme   = $app->getIdentity()?->getParam('colorScheme', $colorScheme) ?? 'os';
+        $lastMode      = $colorScheme === 'os' ? $app->getInput()->cookie->get('osColorScheme', '') : '';
+        $themeModeAttr = ($colorScheme === 'os' ? $themeModes['os'] : '') . ($themeModes[$lastMode] ?? '');
+    }
+}
+
+// The module renderer will not work properly due to incomplete Application initialisation
+$renderModules = $app->getIdentity() && $app->getLanguage();
 
 // @see administrator/templates/atum/html/layouts/status.php
-$statusModules = LayoutHelper::render('status', ['modules' => 'status']);
+$statusModules = $renderModules ? LayoutHelper::render('status', ['modules' => 'status']) : '';
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $themeModeAttr; ?>>
 <head>
     <jdoc:include type="metas" />
     <jdoc:include type="styles" />
@@ -101,11 +125,13 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
         <div class="header-title d-flex">
             <div class="d-flex align-items-center">
                 <div class="logo">
-                    <img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
-                    <img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
+                    <?php echo HTMLHelper::_('image', $logoBrandLarge, $logoBrandLargeAlt, ['loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
+                    <?php echo HTMLHelper::_('image', $logoBrandSmall, $logoBrandSmallAlt, ['class' => 'logo-collapsed', 'loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
                 </div>
             </div>
-            <jdoc:include type="modules" name="title" />
+            <?php if ($renderModules) : ?>
+                <jdoc:include type="modules" name="title" />
+            <?php endif; ?>
         </div>
         <?php echo $statusModules; ?>
     </header>
@@ -117,9 +143,9 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
                     <div id="element-box" class="card">
                         <div class="card-body">
                             <div class="main-brand d-flex align-items-center justify-content-center">
-                                <img src="<?php echo $loginLogo; ?>" <?php echo $loginLogoAlt; ?>>
+                                <?php echo HTMLHelper::_('image', $loginLogo, $loginLogoAlt, ['loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
                             </div>
-                            <h1><?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
+                            <h1 class="text-dark"><?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
                             <jdoc:include type="message" />
                             <blockquote class="blockquote">
                                 <span class="badge bg-secondary"><?php echo $this->error->getCode(); ?></span>
@@ -151,16 +177,21 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
             </section>
         </div>
 
-        <div id="sidebar-wrapper" class="sidebar-wrapper">
+        <aside id="sidebar-wrapper" class="sidebar-wrapper" aria-labelledby="sidebar-section-heading">
+            <h2 id="sidebar-section-heading" class="visually-hidden"><?php echo Text::_('TPL_ATUM_LOGIN_SIDEBAR_HEADING'); ?></h2>
             <div id="main-brand" class="main-brand">
-                <h1><?php echo $app->get('sitename'); ?></h1>
+                <p class="h1"><?php echo $app->get('sitename'); ?></p>
                 <a href="<?php echo Uri::root(); ?>"><?php echo Text::_('TPL_ATUM_LOGIN_SIDEBAR_VIEW_WEBSITE'); ?></a>
             </div>
             <div id="sidebar">
-                <jdoc:include type="modules" name="sidebar" style="body" />
+                <?php if ($renderModules) : ?>
+                    <jdoc:include type="modules" name="sidebar" style="body" />
+                <?php endif; ?>
             </div>
-        </div>
+        </aside>
     </div>
-    <jdoc:include type="modules" name="debug" style="none" />
+    <?php if ($renderModules) : ?>
+        <jdoc:include type="modules" name="debug" style="none" />
+    <?php endif; ?>
 </body>
 </html>

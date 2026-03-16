@@ -17,7 +17,6 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\UserHelper;
-use Joomla\Component\Privacy\Administrator\Table\ConsentTable;
 use Joomla\Database\Exception\ExecutionFailureException;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -43,7 +42,7 @@ class RemindModel extends AdminModel
     public function remindRequest($data)
     {
         // Get the form.
-        $form = $this->getForm();
+        $form          = $this->getForm();
         $data['email'] = PunycodeHelper::emailToPunycode($data['email']);
 
         // Check for an error.
@@ -52,7 +51,7 @@ class RemindModel extends AdminModel
         }
 
         // Filter and validate the form data.
-        $data = $form->filter($data);
+        $data   = $form->filter($data);
         $return = $form->validate($data);
 
         // Check for an error.
@@ -70,11 +69,8 @@ class RemindModel extends AdminModel
             return false;
         }
 
-        /** @var ConsentTable $table */
-        $table = $this->getTable();
-
-        $db = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $db    = $this->getDatabase();
+        $query = $db->createQuery()
             ->select($db->quoteName(['r.id', 'r.user_id', 'r.token']));
         $query->from($db->quoteName('#__privacy_consents', 'r'));
         $query->join(
@@ -89,7 +85,7 @@ class RemindModel extends AdminModel
 
         try {
             $remind = $db->loadObject();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             $this->setError(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REMIND'));
 
             return false;
@@ -132,20 +128,17 @@ class RemindModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|boolean  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   3.9.0
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
         // Get the form.
         $form = $this->loadForm('com_privacy.remind', 'remind', ['control' => 'jform']);
 
-        if (empty($form)) {
-            return false;
-        }
-
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         if ($input->getMethod() === 'GET') {
             $form->setValue('remind_token', '', $input->get->getAlnum('remind_token'));

@@ -68,11 +68,11 @@ class HtmlView extends BaseHtmlView
         $this->setDocumentTitle($params->get('page_title', ''));
 
         if ($params->get('menu-meta_description')) {
-            $this->document->setDescription($params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($params->get('menu-meta_description'));
         }
 
         if ($params->get('robots')) {
-            $this->document->setMetaData('robots', $params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $params->get('robots'));
         }
 
         $wrapper = new \stdClass();
@@ -88,15 +88,15 @@ class HtmlView extends BaseHtmlView
 
         if ($params->def('add_scheme', 1)) {
             // Adds 'http://' or 'https://' if none is set
-            if (strpos($url, '//') === 0) {
+            if (str_starts_with($url, '//')) {
                 // URL without scheme in component. Prepend current scheme.
-                $wrapper->url = Uri::getInstance()->toString(array('scheme')) . substr($url, 2);
-            } elseif (strpos($url, '/') === 0) {
+                $wrapper->url = Uri::getInstance()->toString(['scheme']) . substr($url, 2);
+            } elseif (str_starts_with($url, '/')) {
                 // Relative URL in component. Use scheme + host + port.
-                $wrapper->url = Uri::getInstance()->toString(array('scheme', 'host', 'port')) . $url;
-            } elseif (strpos($url, 'http://') !== 0 && strpos($url, 'https://') !== 0) {
+                $wrapper->url = Uri::getInstance()->toString(['scheme', 'host', 'port']) . $url;
+            } elseif (!str_starts_with($url, 'http://') && !str_starts_with($url, 'https://')) {
                 // URL doesn't start with either 'http://' or 'https://'. Add current scheme.
-                $wrapper->url = Uri::getInstance()->toString(array('scheme')) . $url;
+                $wrapper->url = Uri::getInstance()->toString(['scheme']) . $url;
             } else {
                 // URL starts with either 'http://' or 'https://'. Do not change it.
                 $wrapper->url = $url;

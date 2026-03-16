@@ -37,7 +37,7 @@ abstract class FormModel extends BaseForm
      * @var    array
      * @since  3.2
      */
-    protected $forms = array();
+    protected $forms = [];
 
     /**
      * Method to checkin a row.
@@ -63,7 +63,7 @@ abstract class FormModel extends BaseForm
             }
 
             // Check if this is the user has previously checked out the row.
-            if (!is_null($table->checked_out) && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin')) {
+            if (!\is_null($table->checked_out) && $table->checked_out != $user->id && !$user->authorise('core.admin', 'com_checkin')) {
                 throw new \RuntimeException($table->getError());
             }
 
@@ -99,12 +99,12 @@ abstract class FormModel extends BaseForm
             }
 
             // Check if this is the user having previously checked out the row.
-            if (!is_null($table->checked_out) && $table->checked_out != $user->get('id')) {
+            if (!\is_null($table->checked_out) && $table->checked_out != $user->id) {
                 throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
             }
 
             // Attempt to check the row out.
-            if (!$table->checkOut($user->get('id'), $pk)) {
+            if (!$table->checkOut($user->id, $pk)) {
                 throw new \RuntimeException($table->getError());
             }
         }
@@ -121,12 +121,13 @@ abstract class FormModel extends BaseForm
      * @param   boolean  $clear    Optional argument to force load a new form.
      * @param   string   $xpath    An optional xpath to search for the fields.
      *
-     * @return  mixed  JForm object on success, False on error.
+     * @return  Form  A Form object
      *
-     * @see     JForm
+     * @see     Form
      * @since   3.2
+     * @throws  \Exception on failure
      */
-    protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
+    protected function loadForm($name, $source = null, $options = [], $clear = false, $xpath = false)
     {
         // Handle the optional arguments.
         $options['control'] = ArrayHelper::getValue($options, 'control', false);
@@ -151,7 +152,7 @@ abstract class FormModel extends BaseForm
                 // Get the data for the form.
                 $data = $this->loadFormData();
             } else {
-                $data = array();
+                $data = [];
             }
 
             // Allow for additional modification of the form, and events to be triggered.
@@ -181,7 +182,7 @@ abstract class FormModel extends BaseForm
      */
     protected function loadFormData()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -201,7 +202,7 @@ abstract class FormModel extends BaseForm
         PluginHelper::importPlugin('content');
 
         // Trigger the data preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareData', array($context, $data));
+        Factory::getApplication()->triggerEvent('onContentPrepareData', [$context, $data]);
     }
 
     /**
@@ -223,7 +224,7 @@ abstract class FormModel extends BaseForm
         PluginHelper::importPlugin($group);
 
         // Trigger the form preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
+        Factory::getApplication()->triggerEvent('onContentPrepareForm', [$form, $data]);
     }
 
     /**
@@ -236,7 +237,7 @@ abstract class FormModel extends BaseForm
      * @return  mixed  Array of filtered data if valid, false otherwise.
      *
      * @see     \Joomla\CMS\Form\FormRule
-     * @see     JFilterInput
+     * @see     \Joomla\CMS\Filter\InputFilter
      * @since   3.2
      */
     public function validate($form, $data, $group = null)

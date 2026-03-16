@@ -1,27 +1,44 @@
 <template>
   <div class="media-disk">
-    <h2
-      :id="diskId"
-      class="media-disk-name"
-    >
-      {{ disk.displayName }}
-    </h2>
-    <media-drive
-      v-for="(drive, index) in disk.drives"
-      :key="index"
-      :disk-id="diskId"
-      :counter="index"
-      :drive="drive"
-      :total="disk.drives.length"
-    />
+    <details open>
+      <summary>
+        <h2
+          :id="diskId"
+          class="media-disk-name"
+        >
+          {{ disk.displayName }}
+        </h2>
+      </summary>
+      <MediaDrive
+        v-for="(drive, index) in disk.drives"
+        :key="index"
+        :disk-id="diskId"
+        :counter="index"
+        :drive="drive"
+        :total="disk.drives.length"
+      />
+    </details>
   </div>
 </template>
 
 <script>
+import MediaDrive from './drive.vue';
+
 export default {
   name: 'MediaDisk',
-  // eslint-disable-next-line vue/require-prop-types
-  props: ['disk', 'uid'],
+  components: {
+    MediaDrive,
+  },
+  props: {
+    disk: {
+      type: Object,
+      default: () => {},
+    },
+    uid: {
+      type: String,
+      default: '',
+    },
+  },
   computed: {
     diskId() {
       return `disk-${this.uid + 1}`;

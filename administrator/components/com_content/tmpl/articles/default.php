@@ -25,17 +25,21 @@ use Joomla\CMS\Session\Session;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Utilities\ArrayHelper;
 
+/** @var \Joomla\Component\Content\Administrator\View\Articles\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
 $app       = Factory::getApplication();
-$user      = Factory::getUser();
-$userId    = $user->get('id');
+$user      = $this->getCurrentUser();
+$userId    = $user->id;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$saveOrder = $listOrder == 'a.ordering';
+$featured  = $this->state->get('filter.featured');
+$orderName = $featured === '1' ? 'fp.ordering' : 'a.ordering';
+$saveOrder = $listOrder == $orderName;
 
 if (strpos($listOrder, 'publish_up') !== false) {
     $orderingColumn = 'publish_up';
@@ -48,7 +52,8 @@ if (strpos($listOrder, 'publish_up') !== false) {
 }
 
 if ($saveOrder && !empty($this->items)) {
-    $saveOrderingUrl = 'index.php?option=com_content&task=articles.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
+    $controller = $featured === '1' ? 'featured' : 'articles';
+    $saveOrderingUrl = 'index.php?option=com_content&task=' . $controller . '.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
     HTMLHelper::_('draggablelist.draggable');
 }
 
@@ -63,6 +68,8 @@ if ($workflow_enabled) :
 
     $workflow_state    = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.state', 'com_content.article');
     $workflow_featured = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article');
+
+    $this->filterForm->addControlField('transition_id', '');
 endif;
 
 $assoc = Associations::isEnabled();
@@ -74,7 +81,7 @@ $assoc = Associations::isEnabled();
             <div id="j-main-container" class="j-main-container">
                 <?php
                 // Search tools bar
-                echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+                echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => ['selectorFieldName' => 'featured']]);
                 ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
@@ -84,7 +91,7 @@ $assoc = Associations::isEnabled();
                 <?php else : ?>
                     <table class="table itemList" id="articleList">
                         <caption class="visually-hidden">
-                            <?php echo Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION'); ?>,
+                            <?php echo $featured === '1' ? Text::_('COM_CONTENT_FEATURED_TABLE_CAPTION') : Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION'); ?>,
                             <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
                             <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
@@ -94,15 +101,15 @@ $assoc = Associations::isEnabled();
                                     <?php echo HTMLHelper::_('grid.checkall'); ?>
                                 </td>
                                 <th scope="col" class="w-1 text-center d-none d-md-table-cell">
-                                    <?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
+                                    <?php echo HTMLHelper::_('searchtools.sort', '', $orderName, $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
                                 </th>
                                 <?php if ($workflow_enabled) : ?>
-                                <th scope="col" class="w-1 text-center">
-                                    <?php echo HTMLHelper::_('searchtools.sort', 'JSTAGE', 'ws.title', $listDirn, $listOrder); ?>
-                                </th>
+                                    <th scope="col" class="w-1 text-center">
+                                        <?php echo HTMLHelper::_('searchtools.sort', 'JSTAGE', 'ws.title', $listDirn, $listOrder); ?>
+                                    </th>
                                 <?php endif; ?>
                                 <th scope="col" class="w-1 text-center d-none d-md-table-cell">
-                                    <?php echo HTMLHelper::_('searchtools.sort', 'JFEATURED', 'a.featured', $listDirn, $listOrder); ?>
+                                    <?php echo $featured === '1' ? Text::_('JFEATURED') : HTMLHelper::_('searchtools.sort', 'JFEATURED', 'a.featured', $listDirn, $listOrder); ?>
                                 </th>
                                 <th scope="col" class="w-1 text-center">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
@@ -148,27 +155,49 @@ $assoc = Associations::isEnabled();
                             </tr>
                         </thead>
                         <tbody<?php if ($saveOrder) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php
+                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>"<?php echo $featured === '1' ? '' : ' data-nested="true"'; ?><?php
                               endif; ?>>
                         <?php foreach ($this->items as $i => $item) :
                             $item->max_ordering = 0;
-                            $canEdit          = $user->authorise('core.edit', 'com_content.article.' . $item->id);
-                            $canCheckin       = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
-                            $canEditOwn       = $user->authorise('core.edit.own', 'com_content.article.' . $item->id) && $item->created_by == $userId;
-                            $canChange        = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
-                            $canEditCat       = $user->authorise('core.edit', 'com_content.category.' . $item->catid);
-                            $canEditOwnCat    = $user->authorise('core.edit.own', 'com_content.category.' . $item->catid) && $item->category_uid == $userId;
-                            $canEditParCat    = $user->authorise('core.edit', 'com_content.category.' . $item->parent_category_id);
-                            $canEditOwnParCat = $user->authorise('core.edit.own', 'com_content.category.' . $item->parent_category_id) && $item->parent_category_uid == $userId;
+                            $ordering             = ($listOrder == 'fp.ordering');
+                            $assetId              = 'com_content.article.' . $item->id;
+                            $canCreate            = $user->authorise('core.create', 'com_content.category.' . $item->catid);
+                            $canEdit              = $user->authorise('core.edit', 'com_content.article.' . $item->id);
+                            $canCheckin           = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
+                            $canEditOwn           = $user->authorise('core.edit.own', 'com_content.article.' . $item->id) && $item->created_by == $userId;
+                            $canChange            = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
+                            $canExecuteTransition = $user->authorise('core.execute.transition', 'com_content.article.' . $item->id);
+                            $canEditCat           = $user->authorise('core.edit', 'com_content.category.' . $item->catid);
+                            $canEditOwnCat        = $user->authorise('core.edit.own', 'com_content.category.' . $item->catid) && $item->category_uid == $userId;
+                            $canEditParCat        = $user->authorise('core.edit', 'com_content.category.' . $item->parent_category_id);
+                            $canEditOwnParCat     = $user->authorise('core.edit.own', 'com_content.category.' . $item->parent_category_id) && $item->parent_category_uid == $userId;
 
-                            $transitions = ContentHelper::filterTransitions($this->transitions, (int) $item->stage_id, (int) $item->workflow_id);
+                            // Transition button options
+                            if ($workflow_enabled) {
+                                $options = [
+                                    'title' => Text::_($item->stage_title),
+                                    'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title)),
+                                    'id' => 'workflow-' . $item->id,
+                                    'task' => 'articles.runTransition',
+                                    'disabled' => !$canExecuteTransition,
+                                ];
+                                $dataTransitionsAttribute = '';
 
-                            $transition_ids = ArrayHelper::getColumn($transitions, 'value');
-                            $transition_ids = ArrayHelper::toInteger($transition_ids);
+                                if ($canExecuteTransition) {
+                                    $transitions = ContentHelper::filterTransitions($this->transitions, (int) $item->stage_id, (int) $item->workflow_id);
+
+                                    $transition_ids = ArrayHelper::getColumn($transitions, 'value');
+                                    $transition_ids = ArrayHelper::toInteger($transition_ids);
+
+                                    $dataTransitionsAttribute = $transition_ids ? 'data-transitions="' . implode(',', $transition_ids) . '"' : '';
+
+                                    $options = array_merge($options, ['transitions' => $transitions]);
+                                }
+                            }
 
                             ?>
-                            <tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->catid; ?>"
-                                data-transitions="<?php echo implode(',', $transition_ids); ?>"
+                            <tr class="row<?php echo $i % 2; ?>"<?php echo $featured === '1' ? '' : ' data-draggable-group="' . $item->catid . '"'; ?>
+                                <?php echo $dataTransitionsAttribute ?? '' ?>
                             >
                                 <td class="text-center">
                                     <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
@@ -192,14 +221,6 @@ $assoc = Associations::isEnabled();
                                 <?php if ($workflow_enabled) : ?>
                                 <td class="article-stage text-center">
                                     <?php
-                                    $options = [
-                                    'transitions' => $transitions,
-                                    'title' => Text::_($item->stage_title),
-                                    'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title)),
-                                    'id' => 'workflow-' . $item->id,
-                                    'task' => 'articles.runTransition'
-                                    ];
-
                                     echo (new TransitionButton($options))
                                     ->render(0, $i);
                                     ?>
@@ -261,7 +282,7 @@ $assoc = Associations::isEnabled();
                                                     echo ' &#187; ';
                                                 endif;
                                             endif;
-                                            if (Factory::getLanguage()->isRtl()) {
+                                            if ($this->getLanguage()->isRtl()) {
                                                 if ($canEditCat || $canEditOwnCat) :
                                                     echo '<a href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
                                                 endif;
@@ -309,12 +330,12 @@ $assoc = Associations::isEnabled();
                                     <?php echo $this->escape($item->access_level); ?>
                                 </td>
                                 <td class="small d-none d-md-table-cell">
-                                    <?php if ((int) $item->created_by != 0) : ?>
+                                    <?php if (!empty($item->author_name)) : ?>
                                         <a href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>">
                                             <?php echo $this->escape($item->author_name); ?>
                                         </a>
                                     <?php else : ?>
-                                        <?php echo Text::_('JNONE'); ?>
+                                        [ <?php echo Text::_('JNONE'); ?> ]
                                     <?php endif; ?>
                                     <?php if ($item->created_by_alias) : ?>
                                         <div class="smallsub"><?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
@@ -352,7 +373,7 @@ $assoc = Associations::isEnabled();
                                         </span>
                                     </td>
                                     <td class="d-none d-md-table-cell text-center">
-                                        <span class="badge bg-warning text-dark">
+                                        <span class="badge bg-warning">
                                             <?php echo (int) $item->rating; ?>
                                         </span>
                                     </td>
@@ -375,25 +396,11 @@ $assoc = Associations::isEnabled();
                         && $user->authorise('core.edit', 'com_content')
                         && $user->authorise('core.edit.state', 'com_content')
                     ) : ?>
-                        <?php echo HTMLHelper::_(
-                            'bootstrap.renderModal',
-                            'collapseModal',
-                            array(
-                                'title'  => Text::_('COM_CONTENT_BATCH_OPTIONS'),
-                                'footer' => $this->loadTemplate('batch_footer'),
-                            ),
-                            $this->loadTemplate('batch_body')
-                        ); ?>
+                        <template id="joomla-dialog-batch"><?php echo $this->loadTemplate('batch_body'); ?></template>
                     <?php endif; ?>
                 <?php endif; ?>
 
-                <?php if ($workflow_enabled) : ?>
-                <input type="hidden" name="transition_id" value="">
-                <?php endif; ?>
-
-                <input type="hidden" name="task" value="">
-                <input type="hidden" name="boxchecked" value="0">
-                <?php echo HTMLHelper::_('form.token'); ?>
+                <?php echo $this->filterForm->renderControlFields(); ?>
             </div>
         </div>
     </div>

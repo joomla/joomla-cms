@@ -11,7 +11,9 @@
 namespace Joomla\Component\Menus\Administrator\Helper;
 
 use Joomla\CMS\Association\AssociationExtensionHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Table\Menu;
 use Joomla\CMS\Table\Table;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -41,7 +43,7 @@ class AssociationsHelper extends AssociationExtensionHelper
      *
      * @since   3.7.0
      */
-    protected $itemTypes = array('item');
+    protected $itemTypes = ['item'];
 
     /**
      * Has the extension association support
@@ -117,11 +119,11 @@ class AssociationsHelper extends AssociationExtensionHelper
 
         switch ($typeName) {
             case 'item':
-                $table = Table::getInstance('menu');
+                $table = new Menu(Factory::getDbo());
                 break;
         }
 
-        if (is_null($table)) {
+        if (\is_null($table)) {
             return null;
         }
 
@@ -142,41 +144,41 @@ class AssociationsHelper extends AssociationExtensionHelper
     public function getType($typeName = '')
     {
         $fields  = $this->getFieldsTemplate();
-        $tables  = array();
-        $joins   = array();
+        $tables  = [];
+        $joins   = [];
         $support = $this->getSupportTemplate();
         $title   = '';
 
-        if (in_array($typeName, $this->itemTypes)) {
+        if (\in_array($typeName, $this->itemTypes)) {
             switch ($typeName) {
                 case 'item':
-                    $fields['ordering'] = 'a.lft';
-                    $fields['level'] = 'a.level';
-                    $fields['catid'] = '';
-                    $fields['state'] = 'a.published';
+                    $fields['ordering']        = 'a.lft';
+                    $fields['level']           = 'a.level';
+                    $fields['catid']           = '';
+                    $fields['state']           = 'a.published';
                     $fields['created_user_id'] = '';
-                    $fields['menutype'] = 'a.menutype';
+                    $fields['menutype']        = 'a.menutype';
 
-                    $support['state'] = true;
-                    $support['acl'] = true;
+                    $support['state']    = true;
+                    $support['acl']      = true;
                     $support['checkout'] = true;
-                    $support['level'] = true;
+                    $support['level']    = true;
 
-                    $tables = array(
-                        'a' => '#__menu'
-                    );
+                    $tables = [
+                        'a' => '#__menu',
+                    ];
 
                     $title = 'menu';
                     break;
             }
         }
 
-        return array(
+        return [
             'fields'  => $fields,
             'support' => $support,
             'tables'  => $tables,
             'joins'   => $joins,
-            'title'   => $title
-        );
+            'title'   => $title,
+        ];
     }
 }

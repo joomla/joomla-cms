@@ -10,7 +10,7 @@
 namespace Joomla\CMS\HTML\Helpers;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -37,9 +37,10 @@ abstract class Telephone
      */
     public static function tel($number, $displayplan)
     {
-        $number = explode('.', $number);
+        $display     = [];
+        $number      = explode('.', $number);
         $countrycode = $number[0];
-        $number = $number[1];
+        $number      = $number[1];
 
         if ($displayplan === 'ITU-T' || $displayplan === 'International' || $displayplan === 'int' || $displayplan === 'missdn' || $displayplan == null) {
             $display[0] = '+';
@@ -59,7 +60,7 @@ abstract class Telephone
             $display[2] = '.';
             $display[3] = $number;
         } elseif ($displayplan === 'ARPA' || $displayplan === 'ENUM') {
-            $number = implode('.', str_split(strrev($number), 1));
+            $number     = implode('.', str_split(strrev($number), 1));
             $display[0] = '+';
             $display[1] = $number;
             $display[2] = '.';

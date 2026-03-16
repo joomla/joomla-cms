@@ -44,7 +44,7 @@ class PlugininfoField extends FormField
     protected function getInput()
     {
         $db     = $this->getDatabase();
-        $query  = $db->getQuery(true)
+        $query  = $db->createQuery()
             ->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('folder') . ' = ' . $db->quote('actionlog'))
@@ -57,7 +57,7 @@ class PlugininfoField extends FormField
             'link',
             Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . $result),
             Text::_('PLG_SYSTEM_ACTIONLOGS_JOOMLA_ACTIONLOG_DISABLED'),
-            array('class' => 'alert-link')
+            ['class' => 'alert-link']
         );
 
         return '<div class="alert alert-info">'

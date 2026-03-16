@@ -75,7 +75,7 @@ if ($charcounter) {
     $counterlabel = 'data-counter-label="' . $this->escape(Text::_('JFIELD_META_DESCRIPTION_COUNTER')) . '"';
 }
 
-$attributes = array(
+$attributes = [
     !empty($class) ? 'class="form-control ' . $class . $charcounterclass . '"' : 'class="form-control' . $charcounterclass . '"',
     !empty($size) ? 'size="' . $size . '"' : '',
     !empty($description) ? 'aria-describedby="' . ($id ?: $name) . '-desc"' : '',
@@ -84,19 +84,19 @@ $attributes = array(
     $dataAttribute,
     $list,
     strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
-    $onchange ? ' onchange="' . $onchange . '"' : '',
+    $onchange ? 'onchange="' . $onchange . '"' : '',
     !empty($maxLength) ? $maxLength : '',
     $required ? 'required' : '',
     !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
-    $autofocus ? ' autofocus' : '',
+    $autofocus ? 'autofocus' : '',
     $spellcheck ? '' : 'spellcheck="false"',
     !empty($inputmode) ? $inputmode : '',
     !empty($counterlabel) ? $counterlabel : '',
     !empty($pattern) ? 'pattern="' . $pattern . '"' : '',
 
     // @TODO add a proper string here!!!
-    !empty($validationtext) ? 'data-validation-text="' . $validationtext . '"' : '',
-);
+    !empty($validationtext) ? 'data-validation-text="' . $this->escape(Text::_($validationtext)) . '"' : '',
+];
 
 $addonBeforeHtml = '<span class="input-group-text">' . Text::_($addonBefore) . '</span>';
 $addonAfterHtml  = '<span class="input-group-text">' . Text::_($addonAfter) . '</span>';

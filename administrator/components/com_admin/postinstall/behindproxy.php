@@ -9,9 +9,9 @@
  */
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -34,11 +34,11 @@ function admin_postinstall_behindproxy_condition()
         return false;
     }
 
-    if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER) && !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    if (\array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER) && !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
         return true;
     }
 
-    if (array_key_exists('HTTP_CLIENT_IP', $_SERVER) && !empty($_SERVER['HTTP_CLIENT_IP'])) {
+    if (\array_key_exists('HTTP_CLIENT_IP', $_SERVER) && !empty($_SERVER['HTTP_CLIENT_IP'])) {
         return true;
     }
 
@@ -56,7 +56,7 @@ function admin_postinstall_behindproxy_condition()
 function behindproxy_postinstall_action()
 {
     $prev = ArrayHelper::fromObject(new JConfig());
-    $data = array_merge($prev, array('behind_loadbalancer' => '1'));
+    $data = array_merge($prev, ['behind_loadbalancer' => '1']);
 
     $config = new Registry($data);
 
@@ -71,7 +71,7 @@ function behindproxy_postinstall_action()
     }
 
     // Attempt to write the configuration file as a PHP class named JConfig.
-    $configuration = $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
+    $configuration = $config->toString('PHP', ['class' => 'JConfig', 'closingtag' => false]);
 
     if (!File::write($file, $configuration)) {
         Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'), 'error');

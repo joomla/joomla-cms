@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Log\Logger;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -31,7 +31,7 @@ class W3cLogger extends FormattedtextLogger
      * @var    string
      * @since  1.7.0
      */
-    protected $format = '{DATE}	{TIME}	{PRIORITY}	{CLIENTIP}	{CATEGORY}	{MESSAGE}';
+    protected $format = "{DATE}\t{TIME}\t{PRIORITY}\t{CLIENTIP}\t{CATEGORY}\t{MESSAGE}";
 
     /**
      * Constructor.

@@ -11,11 +11,11 @@
 namespace Joomla\Component\Menus\Administrator\Model;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Event\Menu\AfterGetMenuTypeOptionsEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\Filesystem\Folder;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -33,7 +33,7 @@ class MenutypesModel extends BaseDatabaseModel
      *
      * @var  array
      */
-    protected $rlu = array();
+    protected $rlu = [];
 
     /**
      * Method to auto-populate the model state.
@@ -51,7 +51,7 @@ class MenutypesModel extends BaseDatabaseModel
     {
         parent::populateState();
 
-        $clientId = Factory::getApplication()->input->get('client_id', 0);
+        $clientId = Factory::getApplication()->getInput()->get('client_id', 0);
 
         $this->state->set('client_id', $clientId);
     }
@@ -82,11 +82,11 @@ class MenutypesModel extends BaseDatabaseModel
     public function getTypeOptions()
     {
         $lang = Factory::getLanguage();
-        $list = array();
+        $list = [];
 
         // Get the list of components.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('name'),
@@ -126,16 +126,17 @@ class MenutypesModel extends BaseDatabaseModel
         }
 
         // Allow a system plugin to insert dynamic menu types to the list shown in menus:
-        Factory::getApplication()->triggerEvent('onAfterGetMenuTypeOptions', array(&$list, $this));
-
-        return $list;
+        return $this->getDispatcher()->dispatch('onAfterGetMenuTypeOptions', new AfterGetMenuTypeOptionsEvent('onAfterGetMenuTypeOptions', [
+            'items'   => &$list, // @todo: Remove reference in Joomla 6, see AfterGetMenuTypeOptionsEvent::__constructor()
+            'subject' => $this,
+        ]))->getArgument('items', $list);
     }
 
     /**
      * Method to create the reverse lookup for link-to-name.
      * (can be used from onAfterGetMenuTypeOptions handlers)
      *
-     * @param   CMSObject  $option  Object with request array or string and title public variables
+     * @param   \stdClass  $option  Object with request array or string and title public variables
      *
      * @return  void
      *
@@ -143,7 +144,7 @@ class MenutypesModel extends BaseDatabaseModel
      */
     public function addReverseLookupUrl($option)
     {
-        $this->rlu[MenusHelper::getLinkKey($option->request)] = $option->get('title');
+        $this->rlu[MenusHelper::getLinkKey($option->request)] = $option->title;
     }
 
     /**
@@ -157,7 +158,7 @@ class MenutypesModel extends BaseDatabaseModel
      */
     protected function getTypeOptionsByComponent($component)
     {
-        $options = array();
+        $options = [];
         $client  = ApplicationHelper::getClientInfo($this->getState('client_id'));
         $mainXML = $client->path . '/components/' . $component . '/metadata.xml';
 
@@ -182,13 +183,13 @@ class MenutypesModel extends BaseDatabaseModel
      * @param   string  $file       File path
      * @param   string  $component  Component option as in URL
      *
-     * @return  array|boolean
+     * @return  \stdClass|boolean
      *
      * @since   1.6
      */
     protected function getTypeOptionsFromXml($file, $component)
     {
-        $options = array();
+        $options = [];
 
         // Attempt to load the xml file.
         if (!$xml = simplexml_load_file($file)) {
@@ -198,17 +199,17 @@ class MenutypesModel extends BaseDatabaseModel
         // Look for the first menu node off of the root node.
         if (!$menu = $xml->xpath('menu[1]')) {
             return false;
-        } else {
-            $menu = $menu[0];
         }
+
+        $menu = $menu[0];
 
         // If we have no options to parse, just add the base component to the list of options.
         if (!empty($menu['options']) && $menu['options'] == 'none') {
             // Create the menu option for the component.
-            $o = new CMSObject();
+            $o              = new \stdClass();
             $o->title       = (string) $menu['name'];
             $o->description = (string) $menu['msg'];
-            $o->request     = array('option' => $component);
+            $o->request     = ['option' => $component];
 
             $options[] = $o;
 
@@ -218,9 +219,9 @@ class MenutypesModel extends BaseDatabaseModel
         // Look for the first options node off of the menu node.
         if (!$optionsNode = $menu->xpath('options[1]')) {
             return false;
-        } else {
-            $optionsNode = $optionsNode[0];
         }
+
+        $optionsNode = $optionsNode[0];
 
         // Make sure the options node has children.
         if (!$children = $optionsNode->children()) {
@@ -231,18 +232,18 @@ class MenutypesModel extends BaseDatabaseModel
         foreach ($children as $child) {
             if ($child->getName() == 'option') {
                 // Create the menu option for the component.
-                $o = new CMSObject();
+                $o              = new \stdClass();
                 $o->title       = (string) $child['name'];
                 $o->description = (string) $child['msg'];
-                $o->request     = array('option' => $component, (string) $optionsNode['var'] => (string) $child['value']);
+                $o->request     = ['option' => $component, (string) $optionsNode['var'] => (string) $child['value']];
 
                 $options[] = $o;
             } elseif ($child->getName() == 'default') {
                 // Create the menu option for the component.
-                $o = new CMSObject();
+                $o              = new \stdClass();
                 $o->title       = (string) $child['name'];
                 $o->description = (string) $child['msg'];
-                $o->request     = array('option' => $component);
+                $o->request     = ['option' => $component];
 
                 $options[] = $o;
             }
@@ -256,14 +257,14 @@ class MenutypesModel extends BaseDatabaseModel
      *
      * @param   string  $component  Component option like in URLs
      *
-     * @return  array|boolean
+     * @return  \stdClass[]|boolean
      *
      * @since   1.6
      */
     protected function getTypeOptionsFromMvc($component)
     {
-        $options = array();
-        $views   = array();
+        $options = [];
+        $views   = [];
 
         foreach ($this->getFolders($component) as $path) {
             if (!is_dir($path)) {
@@ -277,7 +278,7 @@ class MenutypesModel extends BaseDatabaseModel
             $view = basename($viewPath);
 
             // Ignore private views.
-            if (strpos($view, '_') !== 0) {
+            if (!str_starts_with($view, '_')) {
                 // Determine if a metadata file exists for the view.
                 $file = $viewPath . '/metadata.xml';
 
@@ -305,18 +306,18 @@ class MenutypesModel extends BaseDatabaseModel
                                     foreach ($children as $child) {
                                         if ($child->getName() == 'option') {
                                             // Create the menu option for the component.
-                                            $o = new CMSObject();
+                                            $o              = new \stdClass();
                                             $o->title       = (string) $child['name'];
                                             $o->description = (string) $child['msg'];
-                                            $o->request     = array('option' => $component, 'view' => $view, (string) $optionsNode['var'] => (string) $child['value']);
+                                            $o->request     = ['option' => $component, 'view' => $view, (string) $optionsNode['var'] => (string) $child['value']];
 
                                             $options[] = $o;
                                         } elseif ($child->getName() == 'default') {
                                             // Create the menu option for the component.
-                                            $o = new CMSObject();
+                                            $o              = new \stdClass();
                                             $o->title       = (string) $child['name'];
                                             $o->description = (string) $child['msg'];
-                                            $o->request     = array('option' => $component, 'view' => $view);
+                                            $o->request     = ['option' => $component, 'view' => $view];
 
                                             $options[] = $o;
                                         }
@@ -343,7 +344,7 @@ class MenutypesModel extends BaseDatabaseModel
      *
      * @param   string  $component  Component option like in URLs
      *
-     * @return  array|boolean
+     * @return  \stdClass[]|boolean
      *
      * @since   3.7.0
      */
@@ -365,21 +366,21 @@ class MenutypesModel extends BaseDatabaseModel
             return false;
         }
 
-        $options = array();
+        $options = [];
 
         // Start with the component root menu.
         $rootMenu = $manifest->administration->menu;
 
         // If the menu item doesn't exist or is hidden do nothing.
-        if (!$rootMenu || in_array((string) $rootMenu['hidden'], array('true', 'hidden'))) {
+        if (!$rootMenu || \in_array((string) $rootMenu['hidden'], ['true', 'hidden'])) {
             return $options;
         }
 
         // Create the root menu option.
-        $ro = new \stdClass();
+        $ro              = new \stdClass();
         $ro->title       = (string) trim($rootMenu);
         $ro->description = '';
-        $ro->request     = array('option' => $component);
+        $ro->request     = ['option' => $component];
 
         // Process submenu options.
         $submenu = $manifest->administration->submenu;
@@ -391,14 +392,14 @@ class MenutypesModel extends BaseDatabaseModel
         foreach ($submenu->menu as $child) {
             $attributes = $child->attributes();
 
-            $o = new \stdClass();
+            $o              = new \stdClass();
             $o->title       = (string) trim($child);
             $o->description = '';
 
             if ((string) $attributes->link) {
                 parse_str((string) $attributes->link, $request);
             } else {
-                $request = array();
+                $request = [];
 
                 $request['option']     = $component;
                 $request['act']        = (string) $attributes->act;
@@ -409,17 +410,24 @@ class MenutypesModel extends BaseDatabaseModel
                 $request['sub']        = (string) $attributes->sub;
             }
 
-            $o->request = array_filter($request, 'strlen');
-            $options[]  = new CMSObject($o);
+            $o->request = array_filter($request, function ($value) {
+                if (\is_array($value)) {
+                    return !empty($value);
+                }
+
+                return \strlen($value);
+            });
+
+            $options[]  = $o;
 
             // Do not repeat the default view link (index.php?option=com_abc).
-            if (count($o->request) == 1) {
+            if (\count($o->request) == 1) {
                 $ro = null;
             }
         }
 
         if ($ro) {
-            $options[] = new CMSObject($ro);
+            $options[] = $ro;
         }
 
         return $options;
@@ -431,15 +439,15 @@ class MenutypesModel extends BaseDatabaseModel
      * @param   string  $component  Component option as in URLs
      * @param   string  $view       Name of the view
      *
-     * @return  array
+     * @return  \stdClass[]
      *
      * @since   1.6
      */
     protected function getTypeOptionsFromLayouts($component, $view)
     {
-        $options     = array();
-        $layouts     = array();
-        $layoutNames = array();
+        $options     = [];
+        $layouts     = [];
+        $layoutNames = [];
         $lang        = Factory::getLanguage();
         $client      = ApplicationHelper::getClientInfo($this->getState('client_id'));
 
@@ -461,7 +469,7 @@ class MenutypesModel extends BaseDatabaseModel
         // Build list of standard layout names
         foreach ($layouts as $layout) {
             // Ignore private layouts.
-            if (strpos(basename($layout), '_') === false) {
+            if (!str_contains(basename($layout), '_')) {
                 // Get the layout name.
                 $layoutNames[] = basename($layout, '.xml');
             }
@@ -472,7 +480,7 @@ class MenutypesModel extends BaseDatabaseModel
         $folders = Folder::folders($client->path . '/templates', '', false, true);
 
         // Array to hold association between template file names and templates
-        $templateName = array();
+        $templateName = [];
 
         foreach ($folders as $folder) {
             if (is_dir($folder . '/html/' . $component . '/' . $view)) {
@@ -500,17 +508,17 @@ class MenutypesModel extends BaseDatabaseModel
         // Process the found layouts.
         foreach ($layouts as $layout) {
             // Ignore private layouts.
-            if (strpos(basename($layout), '_') === false) {
+            if (!str_contains(basename($layout), '_')) {
                 $file = $layout;
 
                 // Get the layout name.
                 $layout = basename($layout, '.xml');
 
                 // Create the menu option for the layout.
-                $o = new CMSObject();
+                $o              = new \stdClass();
                 $o->title       = ucfirst($layout);
                 $o->description = '';
-                $o->request     = array('option' => $component, 'view' => $view);
+                $o->request     = ['option' => $component, 'view' => $view];
 
                 // Only add the layout request argument if not the default layout.
                 if ($layout != 'default') {
@@ -528,8 +536,7 @@ class MenutypesModel extends BaseDatabaseModel
 
                             // If the view is hidden from the menu, discard it and move on to the next view.
                             if (!empty($menu['hidden']) && $menu['hidden'] == 'true') {
-                                unset($xml);
-                                unset($o);
+                                unset($xml, $o);
                                 continue;
                             }
 
@@ -567,14 +574,14 @@ class MenutypesModel extends BaseDatabaseModel
         $client  = ApplicationHelper::getClientInfo($this->getState('client_id'));
 
         if (!is_dir($client->path . '/components/' . $component)) {
-            return array();
+            return [];
         }
 
         $folders = Folder::folders($client->path . '/components/' . $component, '^view[s]?$', false, true);
         $folders = array_merge($folders, Folder::folders($client->path . '/components/' . $component, '^tmpl?$', false, true));
 
         if (!$folders) {
-            return array();
+            return [];
         }
 
         return $folders;

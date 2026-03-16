@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -122,8 +122,8 @@ class MenuItemByTypeField extends GroupedlistField
             case 'language':
             case 'published':
             case 'disable':
-                $value = (string) $value;
-                $this->$name = $value ? explode(',', $value) : array();
+                $value       = (string) $value;
+                $this->$name = $value ? explode(',', $value) : [];
                 break;
 
             default:
@@ -132,7 +132,7 @@ class MenuItemByTypeField extends GroupedlistField
     }
 
     /**
-     * Method to attach a JForm object to the field.
+     * Method to attach a Form object to the field.
      *
      * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
      * @param   mixed              $value    The form field value to validate.
@@ -149,20 +149,20 @@ class MenuItemByTypeField extends GroupedlistField
     {
         $result = parent::setup($element, $value, $group);
 
-        if ($result == true) {
+        if ($result) {
             $menuType = (string) $this->element['menu_type'];
 
             if (!$menuType) {
-                $app = Factory::getApplication();
+                $app             = Factory::getApplication();
                 $currentMenuType = $app->getUserState('com_menus.items.menutype', '');
-                $menuType        = $app->input->getString('menutype', $currentMenuType);
+                $menuType        = $app->getInput()->getString('menutype', $currentMenuType);
             }
 
             $this->menuType  = $menuType;
             $this->clientId  = (int) $this->element['client_id'];
-            $this->published = $this->element['published'] ? explode(',', (string) $this->element['published']) : array();
-            $this->disable   = $this->element['disable'] ? explode(',', (string) $this->element['disable']) : array();
-            $this->language  = $this->element['language'] ? explode(',', (string) $this->element['language']) : array();
+            $this->published = $this->element['published'] ? explode(',', (string) $this->element['published']) : [];
+            $this->disable   = $this->element['disable'] ? explode(',', (string) $this->element['disable']) : [];
+            $this->language  = $this->element['language'] ? explode(',', (string) $this->element['language']) : [];
         }
 
         return $result;
@@ -177,7 +177,7 @@ class MenuItemByTypeField extends GroupedlistField
      */
     protected function getGroups()
     {
-        $groups = array();
+        $groups = [];
 
         $menuType = $this->menuType;
 
@@ -188,7 +188,7 @@ class MenuItemByTypeField extends GroupedlistField
         if ($menuType) {
             // If the menutype is empty, group the items by menutype.
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('title'))
                 ->from($db->quoteName('#__menu_types'))
                 ->where($db->quoteName('menutype') . ' = :menuType')
@@ -197,12 +197,12 @@ class MenuItemByTypeField extends GroupedlistField
 
             try {
                 $menuTitle = $db->loadResult();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 $menuTitle = $menuType;
             }
 
             // Initialize the group.
-            $groups[$menuTitle] = array();
+            $groups[$menuTitle] = [];
 
             // Build the options array.
             foreach ($items as $key => $link) {
@@ -229,7 +229,7 @@ class MenuItemByTypeField extends GroupedlistField
                     $levelPrefix . $text . $lang,
                     'value',
                     'text',
-                    in_array($link->type, $this->disable)
+                    \in_array($link->type, $this->disable)
                 );
             }
         } else {
@@ -237,7 +237,7 @@ class MenuItemByTypeField extends GroupedlistField
             // Build the groups arrays.
             foreach ($items as $menu) {
                 // Initialize the group.
-                $groups[$menu->title] = array();
+                $groups[$menu->title] = [];
 
                 // Build the options array.
                 foreach ($menu->links as $link) {
@@ -258,7 +258,7 @@ class MenuItemByTypeField extends GroupedlistField
                         $levelPrefix . $text . $lang,
                         'value',
                         'text',
-                        in_array($link->type, $this->disable)
+                        \in_array($link->type, $this->disable)
                     );
                 }
             }

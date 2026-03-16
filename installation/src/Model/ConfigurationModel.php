@@ -99,7 +99,7 @@ class ConfigurationModel extends BaseInstallationModel
             }
         }
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('extension_id')
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('name') . ' = ' . $db->quote('files_joomla'));
@@ -109,10 +109,10 @@ class ConfigurationModel extends BaseInstallationModel
         $query->clear()
             ->insert($db->quoteName('#__schemas'))
             ->columns(
-                array(
+                [
                     $db->quoteName('extension_id'),
-                    $db->quoteName('version_id')
-                )
+                    $db->quoteName('version_id'),
+                ]
             )
             ->values($eid . ', ' . $db->quote($version));
         $db->setQuery($query);
@@ -141,7 +141,9 @@ class ConfigurationModel extends BaseInstallationModel
         }
 
         // This is needed because the installer loads the extension table in constructor, needs to be refactored in 5.0
-        Factory::$database = $db;
+        // It doesn't honor the DatabaseAware interface
+        Factory::getContainer()->set('\Joomla\CMS\Table\Extension', new \Joomla\CMS\Table\Extension($db));
+
         $installer = Installer::getInstance();
 
         foreach ($extensions as $extension) {
@@ -158,19 +160,19 @@ class ConfigurationModel extends BaseInstallationModel
         // Handle default backend language setting. This feature is available for localized versions of Joomla.
         $languages = Factory::getApplication()->getLocaliseAdmin($db);
 
-        if (in_array($options->language, $languages['admin']) || in_array($options->language, $languages['site'])) {
+        if (\in_array($options->language, $languages['admin']) || \in_array($options->language, $languages['site'])) {
             // Build the language parameters for the language manager.
-            $params = array();
+            $params = [];
 
             // Set default administrator/site language to sample data values.
             $params['administrator'] = 'en-GB';
             $params['site']          = 'en-GB';
 
-            if (in_array($options->language, $languages['admin'])) {
+            if (\in_array($options->language, $languages['admin'])) {
                 $params['administrator'] = $options->language;
             }
 
-            if (in_array($options->language, $languages['site'])) {
+            if (\in_array($options->language, $languages['site'])) {
                 $params['site'] = $options->language;
             }
 
@@ -233,7 +235,7 @@ class ConfigurationModel extends BaseInstallationModel
      */
     protected static function generateRandUserId()
     {
-        $session    = Factory::getSession();
+        $session    = Factory::getApplication()->getSession();
         $randUserId = $session->get('randUserId');
 
         if (empty($randUserId)) {
@@ -256,7 +258,7 @@ class ConfigurationModel extends BaseInstallationModel
     {
         self::$userId = 0;
 
-        Factory::getSession()->set('randUserId', self::$userId);
+        Factory::getApplication()->getSession()->set('randUserId', self::$userId);
     }
 
     /**
@@ -274,15 +276,18 @@ class ConfigurationModel extends BaseInstallationModel
         $userId = self::getUserId();
 
         // Update all core tables created_by fields of the tables with the random user id.
-        $updatesArray = array(
-            '#__categories'      => array('created_user_id', 'modified_user_id'),
-            '#__tags'            => array('created_user_id', 'modified_user_id'),
-            '#__workflows'       => array('created_by', 'modified_by'),
-        );
+        $updatesArray = [
+            '#__categories'       => ['created_user_id', 'modified_user_id'],
+            '#__guidedtours'      => ['created_by', 'modified_by'],
+            '#__guidedtour_steps' => ['created_by', 'modified_by'],
+            '#__scheduler_tasks'  => ['created_by'],
+            '#__tags'             => ['created_user_id', 'modified_user_id'],
+            '#__workflows'        => ['created_by', 'modified_by'],
+        ];
 
         foreach ($updatesArray as $table => $fields) {
             foreach ($fields as $field) {
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->update($db->quoteName($table))
                     ->set($db->quoteName($field) . ' = ' . $db->quote($userId))
                     ->where($db->quoteName($field) . ' != 0')
@@ -312,22 +317,22 @@ class ConfigurationModel extends BaseInstallationModel
     {
         $version = new Version();
 
-        if (!$version->isInDevelopmentState() || !is_file(JPATH_PLUGINS . '/sampledata/testing/testing.php')) {
+        if (!$version->isInDevelopmentState() || !is_file(JPATH_PLUGINS . '/sampledata/testing/testing.xml')) {
             return;
         }
 
-        $testingPlugin = new \stdClass();
-        $testingPlugin->extension_id = null;
-        $testingPlugin->name = 'plg_sampledata_testing';
-        $testingPlugin->type = 'plugin';
-        $testingPlugin->element = 'testing';
-        $testingPlugin->folder = 'sampledata';
-        $testingPlugin->client_id = 0;
-        $testingPlugin->enabled = 1;
-        $testingPlugin->access = 1;
+        $testingPlugin                 = new \stdClass();
+        $testingPlugin->extension_id   = null;
+        $testingPlugin->name           = 'plg_sampledata_testing';
+        $testingPlugin->type           = 'plugin';
+        $testingPlugin->element        = 'testing';
+        $testingPlugin->folder         = 'sampledata';
+        $testingPlugin->client_id      = 0;
+        $testingPlugin->enabled        = 1;
+        $testingPlugin->access         = 1;
         $testingPlugin->manifest_cache = '';
-        $testingPlugin->params = '{}';
-        $testingPlugin->custom_data = '';
+        $testingPlugin->params         = '{}';
+        $testingPlugin->custom_data    = '';
 
         $db->insertObject('#__extensions', $testingPlugin, 'extension_id');
 
@@ -366,6 +371,7 @@ class ConfigurationModel extends BaseInstallationModel
         $registry->set('captcha', '0');
         $registry->set('list_limit', 20);
         $registry->set('access', 1);
+        $registry->set('frontediting', 1);
 
         // Debug settings.
         $registry->set('debug', false);
@@ -396,6 +402,12 @@ class ConfigurationModel extends BaseInstallationModel
 
         // Locale settings.
         $registry->set('offset', 'UTC');
+
+        // CORS settings.
+        $registry->set('cors', false);
+        $registry->set('cors_allow_origin', '*');
+        $registry->set('cors_allow_methods', '');
+        $registry->set('cors_allow_headers', 'Content-Type,X-Joomla-Token');
 
         // Mail settings.
         $registry->set('mailonline', true);
@@ -442,7 +454,7 @@ class ConfigurationModel extends BaseInstallationModel
         $registry->set('session_metadata', true);
 
         // Generate the configuration class string buffer.
-        $buffer = $registry->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
+        $buffer = $registry->toString('PHP', ['class' => 'JConfig', 'closingtag' => false]);
 
         // Build the configuration file path.
         $path = JPATH_CONFIGURATION . '/configuration.php';
@@ -458,12 +470,12 @@ class ConfigurationModel extends BaseInstallationModel
          * If the file exists but isn't writable OR if the file doesn't exist and the parent directory
          * is not writable the user needs to fix this.
          */
-        if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path) . '/'))) {
+        if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(\dirname($path) . '/'))) {
             return false;
         }
 
         // Get the session
-        $session = Factory::getSession();
+        $session = Factory::getApplication()->getSession();
 
         if ($canWrite) {
             file_put_contents($path, $buffer);
@@ -497,7 +509,7 @@ class ConfigurationModel extends BaseInstallationModel
         date_default_timezone_set('UTC');
         $installdate = date('Y-m-d H:i:s');
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('id') . ' = ' . $db->quote($userId));
@@ -527,7 +539,7 @@ class ConfigurationModel extends BaseInstallationModel
                 ->set($db->quoteName('params') . ' = ' . $db->quote(''))
                 ->where($db->quoteName('id') . ' = ' . $db->quote($userId));
         } else {
-            $columns = array(
+            $columns = [
                 $db->quoteName('id'),
                 $db->quoteName('name'),
                 $db->quoteName('username'),
@@ -538,8 +550,8 @@ class ConfigurationModel extends BaseInstallationModel
                 $db->quoteName('registerDate'),
                 $db->quoteName('lastvisitDate'),
                 $db->quoteName('activation'),
-                $db->quoteName('params')
-            );
+                $db->quoteName('params'),
+            ];
             $query->clear()
                 ->insert('#__users', true)
                 ->columns($columns)
@@ -555,6 +567,18 @@ class ConfigurationModel extends BaseInstallationModel
 
         try {
             $db->execute();
+
+            // Synch the sequence if pgsql
+            if (($db->getServerType() === 'postgresql') && (!$result)) {
+                $query = $db->createQuery()
+                    ->select('MAX(' . $db->quoteName('id') . ') + 1 AS ' . $db->quoteName('id'))
+                    ->from($db->quoteName('#__users'));
+                $db->setQuery($query);
+                $result = $db->loadResult();
+
+                $db->setQuery('SELECT setval(' . $db->quote('#__users_id_seq') . ', ' .  $result . ', false)')
+                    ->execute();
+            }
         } catch (\RuntimeException $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
@@ -577,7 +601,7 @@ class ConfigurationModel extends BaseInstallationModel
         } else {
             $query->clear()
                 ->insert($db->quoteName('#__user_usergroup_map'), false)
-                ->columns(array($db->quoteName('user_id'), $db->quoteName('group_id')))
+                ->columns([$db->quoteName('user_id'), $db->quoteName('group_id')])
                 ->values($db->quote($userId) . ', 8');
         }
 

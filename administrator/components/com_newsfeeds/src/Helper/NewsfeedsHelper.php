@@ -44,7 +44,7 @@ class NewsfeedsHelper extends ContentHelper
     public static function countItems(&$items)
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select(
             [
                 $db->quoteName('published', 'state'),
@@ -58,10 +58,10 @@ class NewsfeedsHelper extends ContentHelper
         $db->setQuery($query);
 
         foreach ($items as $item) {
-            $item->count_trashed = 0;
-            $item->count_archived = 0;
+            $item->count_trashed     = 0;
+            $item->count_archived    = 0;
             $item->count_unpublished = 0;
-            $item->count_published = 0;
+            $item->count_published   = 0;
 
             $id       = (int) $item->id;
             $newfeeds = $db->loadObjectList();
@@ -101,11 +101,11 @@ class NewsfeedsHelper extends ContentHelper
     public static function countTagItems(&$items, $extension)
     {
         $db        = Factory::getDbo();
-        $query     = $db->getQuery(true);
+        $query     = $db->createQuery();
         $parts     = explode('.', $extension);
         $section   = null;
 
-        if (count($parts) > 1) {
+        if (\count($parts) > 1) {
             $section = $parts[1];
         }
 
@@ -136,10 +136,10 @@ class NewsfeedsHelper extends ContentHelper
         $db->setQuery($query);
 
         foreach ($items as $item) {
-            $item->count_trashed = 0;
-            $item->count_archived = 0;
+            $item->count_trashed     = 0;
+            $item->count_archived    = 0;
             $item->count_unpublished = 0;
-            $item->count_published = 0;
+            $item->count_published   = 0;
 
             // Update ID used in database query.
             $id        = (int) $item->id;

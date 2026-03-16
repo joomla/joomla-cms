@@ -12,12 +12,11 @@ namespace Joomla\Component\Users\Administrator\View\Notes;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\User\User;
+use Joomla\Component\Users\Administrator\Model\NotesModel;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -50,7 +49,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state.
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      * @since  2.5
      */
     protected $state;
@@ -99,27 +98,31 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
+        /** @var NotesModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
+
         // Initialise view variables.
-        $this->items         = $this->get('Items');
-        $this->pagination    = $this->get('Pagination');
-        $this->state         = $this->get('State');
-        $this->user          = $this->get('User');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
+        $this->items         = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->state         = $model->getState();
+        $this->user          = $model->getUser();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
 
-        if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
+        if (!\count($this->items) && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
-        }
-
-        // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Turn parameters into registry objects
         foreach ($this->items as $item) {
             $item->cparams = new Registry($item->category_params);
         }
+
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task')
+            ->addControlField('boxchecked', '0');
 
         $this->addToolbar();
         parent::display($tpl);
@@ -134,20 +137,18 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo = ContentHelper::getActions('com_users', 'category', $this->state->get('filter.category_id'));
+        $canDo   = ContentHelper::getActions('com_users', 'category', $this->state->get('filter.category_id'));
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_USERS_VIEW_NOTES_TITLE'), 'users user');
-
-        // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance('toolbar');
 
         if ($canDo->get('core.create')) {
             $toolbar->addNew('note.add');
         }
 
         if (!$this->isEmptyState && ($canDo->get('core.edit.state') || $canDo->get('core.admin'))) {
-            $dropdown = $toolbar->dropdownButton('status-group')
-                ->text('JTOOLBAR_CHANGE_STATUS')
+            /** @var DropdownButton $dropdown */
+            $dropdown = $toolbar->dropdownButton('status-group', 'JTOOLBAR_CHANGE_STATUS')
                 ->toggleSplit(false)
                 ->icon('icon-ellipsis-h')
                 ->buttonClass('btn btn-action')
@@ -168,8 +169,7 @@ class HtmlView extends BaseHtmlView
         }
 
         if (!$this->isEmptyState && $this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
-            $toolbar->delete('notes.delete')
-                ->text('JTOOLBAR_EMPTY_TRASH')
+            $toolbar->delete('notes.delete', 'JTOOLBAR_DELETE_FROM_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }

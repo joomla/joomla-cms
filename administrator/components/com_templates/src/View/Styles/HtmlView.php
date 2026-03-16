@@ -13,9 +13,9 @@ namespace Joomla\Component\Templates\Administrator\View\Styles;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Templates\Administrator\Model\StylesModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -45,7 +45,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -83,12 +83,16 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->items         = $this->get('Items');
-        $this->pagination    = $this->get('Pagination');
-        $this->state         = $this->get('State');
-        $this->total         = $this->get('Total');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
+        /** @var StylesModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
+
+        $this->items         = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->state         = $model->getState();
+        $this->total         = $model->getTotal();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
         $this->preview       = ComponentHelper::getParams('com_templates')->get('template_positions_display');
 
         // Remove the menu item filter for administrator styles.
@@ -97,10 +101,10 @@ class HtmlView extends BaseHtmlView
             $this->filterForm->removeField('menuitem', 'filter');
         }
 
-        // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task')
+            ->addControlField('boxchecked', '0');
 
         $this->addToolbar();
 
@@ -117,10 +121,13 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         $canDo    = ContentHelper::getActions('com_templates');
-        $clientId = (int) $this->get('State')->get('client_id');
+        $clientId = (int) $this->state->get('client_id');
+        $toolbar  = $this->getDocument()->getToolbar();
 
         // Add a shortcut to the templates list view.
-        ToolbarHelper::link('index.php?option=com_templates&view=templates&client_id=' . $clientId, 'COM_TEMPLATES_MANAGER_TEMPLATES', 'icon-code thememanager');
+        $toolbar->linkButton('templates', 'COM_TEMPLATES_MANAGER_TEMPLATES')
+            ->url('index.php?option=com_templates&view=templates&client_id=' . $clientId)
+            ->icon('icon-code thememanager');
 
         // Set the title.
         if ($clientId === 1) {
@@ -130,25 +137,29 @@ class HtmlView extends BaseHtmlView
         }
 
         if ($canDo->get('core.edit.state')) {
-            ToolbarHelper::makeDefault('styles.setDefault', 'COM_TEMPLATES_TOOLBAR_SET_HOME');
-            ToolbarHelper::divider();
+            $toolbar->makeDefault('styles.setDefault', 'COM_TEMPLATES_TOOLBAR_SET_HOME');
+            $toolbar->divider();
         }
 
         if ($canDo->get('core.create')) {
-            ToolbarHelper::custom('styles.duplicate', 'copy', '', 'JTOOLBAR_DUPLICATE', true);
-            ToolbarHelper::divider();
+            $toolbar->standardButton('duplicate', 'JTOOLBAR_DUPLICATE', 'styles.duplicate')
+                ->listCheck(true)
+                ->icon('icon-copy');
+            $toolbar->divider();
         }
 
         if ($canDo->get('core.delete')) {
-            ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'styles.delete', 'JTOOLBAR_DELETE');
-            ToolbarHelper::divider();
+            $toolbar->delete('styles.delete')
+                ->message('JGLOBAL_CONFIRM_DELETE')
+                ->listCheck(true);
+            $toolbar->divider();
         }
 
         if ($canDo->get('core.admin') || $canDo->get('core.options')) {
-            ToolbarHelper::preferences('com_templates');
-            ToolbarHelper::divider();
+            $toolbar->preferences('com_templates');
+            $toolbar->divider();
         }
 
-        ToolbarHelper::help('Templates:_Styles');
+        $toolbar->help('Templates:_Styles');
     }
 }

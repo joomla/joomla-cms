@@ -14,7 +14,9 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-$input = Factory::getApplication()->input;
+/** @var \Joomla\Component\Templates\Administrator\View\Template\HtmlView $this */
+
+$input = Factory::getApplication()->getInput();
 ?>
 <form method="post" action="">
     <input type="hidden" name="option" value="com_templates">

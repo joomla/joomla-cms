@@ -14,7 +14,7 @@ use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Exception\CommandNotFoundException;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -82,7 +82,7 @@ final class WritableContainerLoader implements WritableLoaderInterface
     public function get(string $name): AbstractCommand
     {
         if (!$this->has($name)) {
-            throw new CommandNotFoundException(sprintf('Command "%s" does not exist.', $name));
+            throw new CommandNotFoundException(\sprintf('Command "%s" does not exist.', $name));
         }
 
         return $this->container->get($this->commandMap[$name]);

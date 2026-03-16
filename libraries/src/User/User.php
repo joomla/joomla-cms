@@ -10,17 +10,22 @@
 namespace Joomla\CMS\User;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Application\ConsoleApplication;
+use Joomla\CMS\Event\User\AfterDeleteEvent;
+use Joomla\CMS\Event\User\AfterSaveEvent;
+use Joomla\CMS\Event\User\BeforeDeleteEvent;
+use Joomla\CMS\Event\User\BeforeSaveEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -28,8 +33,12 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.7.0
  */
-class User extends CMSObject
+#[\AllowDynamicProperties]
+class User
 {
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
+
     /**
      * A cached switch for if this user has root access rights.
      *
@@ -140,7 +149,7 @@ class User extends CMSObject
      * @var    array
      * @since  1.7.0
      */
-    public $groups = array();
+    public $groups = [];
 
     /**
      * Guest status
@@ -173,6 +182,38 @@ class User extends CMSObject
      * @since  3.2
      */
     public $requireReset = null;
+
+    /**
+     * The type alias
+     *
+     * @var    string
+     * @since  5.0.0
+     */
+    public $typeAlias = null;
+
+    /**
+     * The otp key
+     *
+     * @var    string
+     * @since  5.0.0
+     */
+    public $otpKey = null;
+
+    /**
+     * The otp
+     *
+     * @var    string
+     * @since  5.0.0
+     */
+    public $otep = null;
+
+    /**
+     * The authentication provider
+     *
+     * @var    string
+     * @since  5.0.0
+     */
+    public $authProvider = null;
 
     /**
      * User parameters
@@ -218,7 +259,7 @@ class User extends CMSObject
      * @var    array  User instances container.
      * @since  1.7.3
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * Constructor activating the default information of the language
@@ -237,10 +278,9 @@ class User extends CMSObject
             $this->load($identifier);
         } else {
             // Initialise
-            $this->id = 0;
+            $this->id        = 0;
             $this->sendEmail = 0;
-            $this->aid = 0;
-            $this->guest = 1;
+            $this->guest     = 1;
         }
     }
 
@@ -252,12 +292,14 @@ class User extends CMSObject
      * @return  User  The User object.
      *
      * @since       1.7.0
-     * @deprecated  5.0  Load the user service from the dependency injection container or via $app->getIdentity()
+     * @deprecated  4.3 will be removed in 7.0
+     *              Load the user service from the dependency injection container or via $app->getIdentity()
+     *              Example: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($id)
      */
     public static function getInstance($identifier = 0)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated. Load the user from the dependency injection container or via %2$s::getApplication()->getIdentity().',
                 __METHOD__,
                 __CLASS__
@@ -268,9 +310,9 @@ class User extends CMSObject
         // Find the user id
         if (!is_numeric($identifier)) {
             return Factory::getContainer()->get(UserFactoryInterface::class)->loadUserByUsername($identifier);
-        } else {
-            $id = $identifier;
         }
+
+        $id = $identifier;
 
         // If the $id is zero, just return an empty User.
         // Note: don't cache this user because it'll have a new ID on save!
@@ -388,7 +430,7 @@ class User extends CMSObject
         // @todo: Modify the way permissions are stored in the db to allow for faster implementation and better scaling
         $db = Factory::getDbo();
 
-        $subQuery = $db->getQuery(true)
+        $subQuery = $db->createQuery()
             ->select($db->quoteName(['id', 'asset_id']))
             ->from($db->quoteName('#__categories'))
             ->where(
@@ -398,14 +440,14 @@ class User extends CMSObject
                 ]
             );
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['c.id', 'a.name']))
             ->from('(' . $subQuery . ') AS ' . $db->quoteName('c'))
             ->join('INNER', $db->quoteName('#__assets', 'a'), $db->quoteName('c.asset_id') . ' = ' . $db->quoteName('a.id'))
             ->bind(':component', $component);
         $db->setQuery($query);
-        $allCategories = $db->loadObjectList('id');
-        $allowedCategories = array();
+        $allCategories     = $db->loadObjectList('id');
+        $allowedCategories = [];
 
         foreach ($allCategories as $category) {
             if ($this->authorise($action, $category->name)) {
@@ -426,7 +468,7 @@ class User extends CMSObject
     public function getAuthorisedViewLevels()
     {
         if ($this->_authLevels === null) {
-            $this->_authLevels = array();
+            $this->_authLevels = [];
         }
 
         if (empty($this->_authLevels)) {
@@ -446,7 +488,7 @@ class User extends CMSObject
     public function getAuthorisedGroups()
     {
         if ($this->_authGroups === null) {
-            $this->_authGroups = array();
+            $this->_authGroups = [];
         }
 
         if (empty($this->_authGroups)) {
@@ -467,7 +509,7 @@ class User extends CMSObject
     {
         $this->_authLevels = null;
         $this->_authGroups = null;
-        $this->isRoot = null;
+        $this->isRoot      = null;
         Access::clearStatics();
     }
 
@@ -484,7 +526,7 @@ class User extends CMSObject
     {
         // Create the user table object
         /** @var \Joomla\CMS\Table\User $table */
-        $table = $this->getTable();
+        $table = static::getTable();
         $table->load($this->id);
 
         return $table->setLastVisit($timestamp);
@@ -501,7 +543,7 @@ class User extends CMSObject
      */
     public function getTimezone()
     {
-        $timezone = $this->getParam('timezone', Factory::getApplication()->get('offset', 'GMT'));
+        $timezone = $this->getParam('timezone', Factory::getApplication()->get('offset', 'UTC'));
 
         return new \DateTimeZone($timezone);
     }
@@ -535,24 +577,22 @@ class User extends CMSObject
      * @note    At 4.0 this method will no longer be static
      * @since   1.7.0
      */
-    public static function getTable($type = null, $prefix = 'JTable')
+    public static function getTable($type = null, $prefix = '\\Joomla\\CMS\\Table\\')
     {
         static $tabletype;
 
         // Set the default tabletype;
         if (!isset($tabletype)) {
-            $tabletype['name'] = 'user';
-            $tabletype['prefix'] = 'JTable';
+            $tabletype = \Joomla\CMS\Table\User::class;
         }
 
         // Set a custom table type is defined
         if (isset($type)) {
-            $tabletype['name'] = $type;
-            $tabletype['prefix'] = $prefix;
+            $tabletype = rtrim($prefix, '\\') . '\\' . $type;
         }
 
         // Create the user table object
-        return Table::getInstance($tabletype['name'], $tabletype['prefix']);
+        return new $tabletype(Factory::getDbo());
     }
 
     /**
@@ -587,7 +627,7 @@ class User extends CMSObject
             $array['password'] = UserHelper::hashPassword($array['password']);
 
             // Set the registration timestamp
-            $this->set('registerDate', Factory::getDate()->toSql());
+            $this->registerDate = Factory::getDate()->toSql();
         } else {
             // Updating an existing user
             if (!empty($array['password'])) {
@@ -608,17 +648,21 @@ class User extends CMSObject
 
                 $array['password'] = UserHelper::hashPassword($array['password']);
 
-                // Reset the change password flag
-                $array['requireReset'] = 0;
+                // Reset the change password flag if it was set previously
+                if ($this->requireReset) {
+                    $array['requireReset'] = 0;
+                }
             } else {
                 $array['password'] = $this->password;
             }
 
             // Prevent updating internal fields
-            unset($array['registerDate']);
-            unset($array['lastvisitDate']);
-            unset($array['lastResetTime']);
-            unset($array['resetCount']);
+            unset(
+                $array['registerDate'],
+                $array['lastvisitDate'],
+                $array['lastResetTime'],
+                $array['resetCount']
+            );
         }
 
         if (\array_key_exists('params', $array)) {
@@ -634,10 +678,8 @@ class User extends CMSObject
         }
 
         // Bind the array
-        if (!$this->setProperties($array)) {
-            $this->setError(Text::_('JLIB_USER_ERROR_BIND_ARRAY'));
-
-            return false;
+        foreach ($array as $key => $value) {
+            $this->$key = $value;
         }
 
         // Make sure its an integer
@@ -660,9 +702,9 @@ class User extends CMSObject
     public function save($updateOnly = false)
     {
         // Create the user table object
-        $table = $this->getTable();
+        $table        = static::getTable();
         $this->params = (string) $this->_params;
-        $table->bind($this->getProperties());
+        $table->bind(ArrayHelper::fromObject($this, false));
 
         // Allow an exception to be thrown.
         try {
@@ -704,15 +746,8 @@ class User extends CMSObject
                 $iAmRehashingSuperadmin = true;
             }
 
-            // Check if we are using a CLI application
-            $isCli = false;
-
-            if (Factory::getApplication()->isCli()) {
-                $isCli = true;
-            }
-
             // We are only worried about edits to this account if I am not a Super Admin.
-            if ($iAmSuperAdmin != true && $iAmRehashingSuperadmin != true && $isCli != true) {
+            if (!$iAmSuperAdmin && !$iAmRehashingSuperadmin && !Factory::getApplication() instanceof ConsoleApplication) {
                 // I am not a Super Admin, and this one is, so fail.
                 if (!$isNew && Access::check($this->id, 'core.admin')) {
                     throw new \RuntimeException('User not Super Administrator');
@@ -728,10 +763,22 @@ class User extends CMSObject
                 }
             }
 
-            // Fire the onUserBeforeSave event.
-            PluginHelper::importPlugin('user');
+            // Unset the activation token, if the mail address changes - that affects both, activation and PW resets
+            if ($this->email !== $oldUser->email && $this->id !== 0 && !empty($this->activation) && !$this->block) {
+                $table->activation = '';
+            }
 
-            $result = Factory::getApplication()->triggerEvent('onUserBeforeSave', array($oldUser->getProperties(), $isNew, $this->getProperties()));
+            // Fire the onUserBeforeSave event.
+            $dispatcher = Factory::getApplication()->getDispatcher();
+            PluginHelper::importPlugin('user', null, true, $dispatcher);
+
+            $saveEvent = new BeforeSaveEvent('onUserBeforeSave', [
+                'subject' => ArrayHelper::fromObject($oldUser, false),
+                'isNew'   => $isNew,
+                'data'    => ArrayHelper::fromObject($this, false),
+            ]);
+            $dispatcher->dispatch('onUserBeforeSave', $saveEvent);
+            $result = $saveEvent['result'] ?? [];
 
             if (\in_array(false, $result, true)) {
                 // Plugin will have to raise its own error or throw an exception.
@@ -743,7 +790,7 @@ class User extends CMSObject
 
             // Set the id for the User object in case we created a new user.
             if (empty($this->id)) {
-                $this->id = $table->get('id');
+                $this->id = $table->id;
             }
 
             if ($my->id == $table->id) {
@@ -752,7 +799,12 @@ class User extends CMSObject
             }
 
             // Fire the onUserAfterSave event
-            Factory::getApplication()->triggerEvent('onUserAfterSave', array($this->getProperties(), $isNew, $result, $this->getError()));
+            $dispatcher->dispatch('onUserAfterSave', new AfterSaveEvent('onUserAfterSave', [
+                'subject'      => ArrayHelper::fromObject($this),
+                'isNew'        => $isNew,
+                'savingResult' => $result,
+                'errorMessage' => $this->getError() ?? '',
+            ]));
         } catch (\Exception $e) {
             $this->setError($e->getMessage());
 
@@ -771,20 +823,27 @@ class User extends CMSObject
      */
     public function delete()
     {
-        PluginHelper::importPlugin('user');
+        $dispatcher = Factory::getApplication()->getDispatcher();
+        PluginHelper::importPlugin('user', null, true, $dispatcher);
 
         // Trigger the onUserBeforeDelete event
-        Factory::getApplication()->triggerEvent('onUserBeforeDelete', array($this->getProperties()));
+        $dispatcher->dispatch('onUserBeforeDelete', new BeforeDeleteEvent('onUserBeforeDelete', [
+            'subject' => ArrayHelper::fromObject($this, false),
+        ]));
 
         // Create the user table object
-        $table = $this->getTable();
+        $table = static::getTable();
 
         if (!$result = $table->delete($this->id)) {
             $this->setError($table->getError());
         }
 
         // Trigger the onUserAfterDelete event
-        Factory::getApplication()->triggerEvent('onUserAfterDelete', array($this->getProperties(), $result, $this->getError()));
+        $dispatcher->dispatch('onUserAfterDelete', new AfterDeleteEvent('onUserAfterDelete', [
+            'subject'        => ArrayHelper::fromObject($this, false),
+            'deletingResult' => $result,
+            'errorMessage'   => $this->getError() ?? '',
+        ]));
 
         return $result;
     }
@@ -801,14 +860,12 @@ class User extends CMSObject
     public function load($id)
     {
         // Create the user table object
-        $table = $this->getTable();
+        $table = static::getTable();
 
         // Load the UserModel object based on the user id or throw a warning.
         if (!$table->load($id)) {
             // Reset to guest user
             $this->guest = 1;
-
-            Log::add(Text::sprintf('JLIB_USER_ERROR_UNABLE_TO_LOAD_USER', $id), Log::WARNING, 'jerror');
 
             return false;
         }
@@ -824,7 +881,9 @@ class User extends CMSObject
         }
 
         // Assuming all is well at this point let's bind the data
-        $this->setProperties($table->getProperties());
+        foreach ($table->getProperties() as $key => $value) {
+            $this->$key = $value;
+        }
 
         // The user is no longer a guest
         if ($this->id != 0) {
@@ -845,7 +904,7 @@ class User extends CMSObject
      */
     public function __sleep()
     {
-        return array('id');
+        return ['id'];
     }
 
     /**
@@ -866,10 +925,9 @@ class User extends CMSObject
             self::$instances[$this->id] = $this;
         } else {
             // Initialise
-            $this->id = 0;
+            $this->id        = 0;
             $this->sendEmail = 0;
-            $this->aid = 0;
-            $this->guest = 1;
+            $this->guest     = 1;
         }
     }
 }

@@ -10,12 +10,10 @@
 
 namespace Joomla\Plugin\Task\SiteStatus\Extension;
 
-use Exception;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
@@ -40,11 +38,11 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
      * @since 4.1.0
      */
     protected const TASKS_MAP = [
-        'plg_task_toggle_offline'             => [
+        'plg_task_toggle_offline' => [
             'langConstPrefix' => 'PLG_TASK_SITE_STATUS',
             'toggle'          => true,
         ],
-        'plg_task_toggle_offline_set_online'  => [
+        'plg_task_toggle_offline_set_online' => [
             'langConstPrefix' => 'PLG_TASK_SITE_STATUS_SET_ONLINE',
             'toggle'          => false,
             'offline'         => false,
@@ -99,16 +97,15 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor.
      *
-     * @param   DispatcherInterface  $dispatcher  The dispatcher
      * @param   array                $config      An optional associative array of configuration settings
      * @param   array                $oldConfig   The old config
      * @param   string               $configFile  The config
      *
      * @since   4.2.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, array $oldConfig, string $configFile)
+    public function __construct(array $config, array $oldConfig, string $configFile)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->oldConfig  = $oldConfig;
         $this->configFile = $configFile;
@@ -120,11 +117,11 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
      * @return void
      *
      * @since 4.1.0
-     * @throws Exception
+     * @throws \Exception
      */
     public function alterSiteStatus(ExecuteTaskEvent $event): void
     {
-        if (!array_key_exists($event->getRoutineId(), self::TASKS_MAP)) {
+        if (!\array_key_exists($event->getRoutineId(), self::TASKS_MAP)) {
             return;
         }
 
@@ -143,7 +140,7 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
 
         $newStatus = $config['offline'] ? 'offline' : 'online';
         $exit      = $this->writeConfigFile(new Registry($config));
-        $this->logTask(sprintf($this->getApplication()->getLanguage()->_('PLG_TASK_SITE_STATUS_TASK_LOG_SITE_STATUS'), $oldStatus, $newStatus));
+        $this->logTask(\sprintf($this->getApplication()->getLanguage()->_('PLG_TASK_SITE_STATUS_TASK_LOG_SITE_STATUS'), $oldStatus, $newStatus));
 
         $this->endRoutine($event, $exit);
     }
@@ -156,7 +153,7 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
      * @return  integer  The task exit code
      *
      * @since  4.1.0
-     * @throws Exception
+     * @throws \Exception
      */
     private function writeConfigFile(Registry $config): int
     {
@@ -170,16 +167,16 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
 
         try {
             // Attempt to write the configuration file as a PHP class named JConfig.
-            $configuration = $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
+            $configuration = $config->toString('PHP', ['class' => 'JConfig', 'closingtag' => false]);
             File::write($file, $configuration);
-        } catch (Exception $e) {
+        } catch (\Exception) {
             $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_SITE_STATUS_ERROR_WRITE_FAILED'), 'error');
 
             return Status::KNOCKOUT;
         }
 
         // Invalidates the cached configuration file
-        if (function_exists('opcache_invalidate')) {
+        if (\function_exists('opcache_invalidate')) {
             opcache_invalidate($file);
         }
 

@@ -9,7 +9,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     const elCodeField = document.getElementById('users-mfa-code');
     const elValidateButton = document.getElementById('users-mfa-captive-button-submit');
-    const elToolbarButton = document.getElementById('toolbar-user-mfa-submit').querySelector('button');
+    const elToolbarButton = document.getElementById('toolbar-user-mfa-submit')?.querySelector('button');
 
     // Focus the code field. If the code field is hidden, focus the submit button (useful e.g. for WebAuthn)
     if (

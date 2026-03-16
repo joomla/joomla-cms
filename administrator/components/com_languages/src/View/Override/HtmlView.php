@@ -13,9 +13,10 @@ namespace Joomla\Component\Languages\Administrator\View\Override;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Languages\Administrator\Model\OverrideModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -63,9 +64,13 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->form  = $this->get('Form');
-        $this->item  = $this->get('Item');
-        $this->state = $this->get('State');
+        /** @var OverrideModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
+
+        $this->form  = $model->getForm();
+        $this->item  = $model->getItem();
+        $this->state = $model->getState();
 
         $app = Factory::getApplication();
 
@@ -75,11 +80,6 @@ class HtmlView extends BaseHtmlView
             $app->enqueueMessage(Text::_('COM_LANGUAGES_OVERRIDE_FIRST_SELECT_MESSAGE'), 'warning');
 
             $app->redirect('index.php?option=com_languages&view=overrides');
-        }
-
-        // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors));
         }
 
         // Check whether the cache has to be refreshed.
@@ -96,6 +96,11 @@ class HtmlView extends BaseHtmlView
         Text::script('COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS');
         Text::script('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR');
 
+        // Add form control fields
+        $this->form
+            ->addControlField('task')
+            ->addControlField('id', $this->item->key);
+
         $this->addToolbar();
         parent::display($tpl);
     }
@@ -109,37 +114,39 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-        $canDo = ContentHelper::getActions('com_languages');
+        $canDo   = ContentHelper::getActions('com_languages');
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_TITLE'), 'comments langmanager');
 
-        $toolbarButtons = [];
-
         if ($canDo->get('core.edit')) {
-            ToolbarHelper::apply('override.apply');
-
-            $toolbarButtons[] = ['save', 'override.save'];
+            $toolbar->apply('override.apply');
         }
 
-        // This component does not support Save as Copy.
-        if ($canDo->get('core.edit') && $canDo->get('core.create')) {
-            $toolbarButtons[] = ['save2new', 'override.save2new'];
-        }
+        $saveGroup = $toolbar->dropdownButton('save-group');
 
-        ToolbarHelper::saveGroup(
-            $toolbarButtons,
-            'btn-success'
+        $saveGroup->configure(
+            function (Toolbar $childBar) use ($canDo) {
+                if ($canDo->get('core.edit')) {
+                    $childBar->save('override.save');
+                }
+
+                // This component does not support Save as Copy.
+                if ($canDo->get('core.edit') && $canDo->get('core.create')) {
+                    $childBar->save2new('override.save2new');
+                }
+            }
         );
 
         if (empty($this->item->key)) {
-            ToolbarHelper::cancel('override.cancel');
+            $toolbar->cancel('override.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            ToolbarHelper::cancel('override.cancel', 'JTOOLBAR_CLOSE');
+            $toolbar->cancel('override.cancel');
         }
 
-        ToolbarHelper::divider();
-        ToolbarHelper::help('Languages:_Edit_Override');
+        $toolbar->divider();
+        $toolbar->help('Languages:_Edit_Override');
     }
 }

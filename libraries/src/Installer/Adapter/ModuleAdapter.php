@@ -10,17 +10,19 @@
 namespace Joomla\CMS\Installer\Adapter;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Extension;
+use Joomla\CMS\Table\Module;
+use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Folder;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -47,6 +49,17 @@ class ModuleAdapter extends InstallerAdapter
     protected $scriptElement = null;
 
     /**
+     * The list of current files that are installed and is read
+     * from the manifest on disk in the update area to handle doing a diff
+     * and deleting files that are in the old files list and not in the new
+     * files list.
+     *
+     * @var    array
+     * @since  6.1.0
+     * */
+    protected $oldFiles = null;
+
+    /**
      * Method to check if the extension is already present in the database
      *
      * @return  void
@@ -58,11 +71,11 @@ class ModuleAdapter extends InstallerAdapter
     {
         try {
             $this->currentExtensionId = $this->extension->find(
-                array(
+                [
                     'element'   => $this->element,
                     'type'      => $this->type,
                     'client_id' => $this->clientId,
-                )
+                ]
             );
         } catch (\RuntimeException $e) {
             // Install failed, roll back changes
@@ -89,17 +102,18 @@ class ModuleAdapter extends InstallerAdapter
     protected function copyBaseFiles()
     {
         // Copy all necessary files
-        if ($this->parent->parseFiles($this->getManifest()->files, -1) === false) {
+        if ($this->parent->parseFiles($this->getManifest()->files, -1, $this->oldFiles) === false) {
             throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_MOD_COPY_FILES'));
         }
 
         // If there is a manifest script, let's copy it.
         if ($this->manifest_script) {
+            $path         = [];
             $path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
             $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
             if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
-                if (!$this->parent->copyFiles(array($path))) {
+                if (!$this->parent->copyFiles([$path])) {
                     // Install failed, rollback changes
                     throw new \RuntimeException(
                         Text::sprintf(
@@ -121,41 +135,41 @@ class ModuleAdapter extends InstallerAdapter
      */
     public function discover()
     {
-        $results = array();
-        $site_list = Folder::folders(JPATH_SITE . '/modules');
+        $results    = [];
+        $site_list  = Folder::folders(JPATH_SITE . '/modules');
         $admin_list = Folder::folders(JPATH_ADMINISTRATOR . '/modules');
-        $site_info = ApplicationHelper::getClientInfo('site', true);
+        $site_info  = ApplicationHelper::getClientInfo('site', true);
         $admin_info = ApplicationHelper::getClientInfo('administrator', true);
 
         foreach ($site_list as $module) {
             if (file_exists(JPATH_SITE . "/modules/$module/$module.xml")) {
-                $manifest_details = Installer::parseXMLInstallFile(JPATH_SITE . "/modules/$module/$module.xml");
-                $extension = Table::getInstance('extension');
-                $extension->set('type', 'module');
-                $extension->set('client_id', $site_info->id);
-                $extension->set('element', $module);
-                $extension->set('folder', '');
-                $extension->set('name', $module);
-                $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
-                $extension->set('params', '{}');
-                $results[] = clone $extension;
+                $manifest_details          = Installer::parseXMLInstallFile(JPATH_SITE . "/modules/$module/$module.xml");
+                $extension                 = new Extension($this->getDatabase());
+                $extension->type           = 'module';
+                $extension->client_id      = $site_info->id;
+                $extension->element        = $module;
+                $extension->folder         = '';
+                $extension->name           = $module;
+                $extension->state          = -1;
+                $extension->manifest_cache = json_encode($manifest_details);
+                $extension->params         = '{}';
+                $results[]                 = clone $extension;
             }
         }
 
         foreach ($admin_list as $module) {
             if (file_exists(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml")) {
-                $manifest_details = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml");
-                $extension = Table::getInstance('extension');
-                $extension->set('type', 'module');
-                $extension->set('client_id', $admin_info->id);
-                $extension->set('element', $module);
-                $extension->set('folder', '');
-                $extension->set('name', $module);
-                $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
-                $extension->set('params', '{}');
-                $results[] = clone $extension;
+                $manifest_details          = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml");
+                $extension                 = new Extension($this->getDatabase());
+                $extension->type           = 'module';
+                $extension->client_id      = $admin_info->id;
+                $extension->element        = $module;
+                $extension->folder         = '';
+                $extension->name           = $module;
+                $extension->state          = -1;
+                $extension->manifest_cache = json_encode($manifest_details);
+                $extension->params         = '{}';
+                $results[]                 = clone $extension;
             }
         }
 
@@ -173,13 +187,13 @@ class ModuleAdapter extends InstallerAdapter
     protected function finaliseInstall()
     {
         // Clobber any possible pending updates
-        $update = Table::getInstance('update');
+        $update = new Update($this->getDatabase());
         $uid    = $update->find(
-            array(
+            [
                 'element'   => $this->element,
                 'type'      => 'module',
                 'client_id' => $this->clientId,
-            )
+            ]
         );
 
         if ($uid) {
@@ -216,7 +230,7 @@ class ModuleAdapter extends InstallerAdapter
         $retval = true;
 
         // Remove the schema version
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete('#__schemas')
             ->where('extension_id = :extension_id')
             ->bind(':extension_id', $extensionId, ParameterType::INTEGER);
@@ -246,12 +260,11 @@ class ModuleAdapter extends InstallerAdapter
         if (\count($modules)) {
             // Ensure the list is sane
             $modules = ArrayHelper::toInteger($modules);
-            $modID = implode(',', $modules);
 
             // Wipe out any items assigned to menus
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__modules_menu'))
-                ->where($db->quoteName('moduleid') . ' IN (' . $modID . ')');
+                ->whereIn($db->quoteName('moduleid'), $modules);
             $db->setQuery($query);
 
             try {
@@ -262,8 +275,7 @@ class ModuleAdapter extends InstallerAdapter
             }
 
             // Wipe out any instances in the modules table
-            /** @var \Joomla\CMS\Table\Module $module */
-            $module = Table::getInstance('Module');
+            $module = new Module($db);
 
             foreach ($modules as $modInstanceId) {
                 $module->load($modInstanceId);
@@ -277,7 +289,7 @@ class ModuleAdapter extends InstallerAdapter
 
         // Now we will no longer need the module object, so let's delete it and free up memory
         $this->extension->delete($this->extension->extension_id);
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__modules'))
             ->where($db->quoteName('module') . ' = :element')
             ->where($db->quoteName('client_id') . ' = :client_id')
@@ -288,7 +300,7 @@ class ModuleAdapter extends InstallerAdapter
         try {
             // Clean up any other ones that might exist as well
             $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // Ignore the error...
         }
 
@@ -359,14 +371,14 @@ class ModuleAdapter extends InstallerAdapter
             $extension = $this->getElement();
 
             if ($extension) {
-                $source = $path ?: ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $extension;
+                $source = $path ?: $client . '/modules/' . $extension;
                 $folder = (string) $this->getManifest()->files->attributes()->folder;
 
                 if ($folder && file_exists($path . '/' . $folder)) {
                     $source = $path . '/' . $folder;
                 }
 
-                $client = (string) $this->getManifest()->attributes()->client;
+                $client = (string) $this->getManifest()->attributes()->client ?: 'site';
                 $this->doLoadLanguage($extension, $source, \constant('JPATH_' . strtoupper($client)));
             }
         }
@@ -395,8 +407,8 @@ class ModuleAdapter extends InstallerAdapter
      */
     public function prepareDiscoverInstall()
     {
-        $client = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
-        $manifestPath = $client->path . '/modules/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
+        $client                 = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
+        $manifestPath           = $client->path . '/modules/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
         $this->parent->manifest = $this->parent->isManifest($manifestPath);
         $this->parent->setPath('manifest', $manifestPath);
         $this->setManifest($this->parent->getManifest());
@@ -411,21 +423,23 @@ class ModuleAdapter extends InstallerAdapter
      */
     public function refreshManifestCache()
     {
-        $client = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
-        $manifestPath = $client->path . '/modules/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
+        $client                 = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
+        $manifestPath           = $client->path . '/modules/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
         $this->parent->manifest = $this->parent->isManifest($manifestPath);
         $this->parent->setPath('manifest', $manifestPath);
-        $manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
+
+        $manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
         $this->parent->extension->manifest_cache = json_encode($manifest_details);
-        $this->parent->extension->name = $manifest_details['name'];
+        $this->parent->extension->name           = $manifest_details['name'];
+        $this->parent->extension->changelogurl   = $manifest_details['changelogurl'];
 
         if ($this->parent->extension->store()) {
             return true;
-        } else {
-            Log::add(Text::_('JLIB_INSTALLER_ERROR_MOD_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
-
-            return false;
         }
+
+        Log::add(Text::_('JLIB_INSTALLER_ERROR_MOD_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
+
+        return false;
     }
 
     /**
@@ -469,11 +483,11 @@ class ModuleAdapter extends InstallerAdapter
                 );
             }
 
-            $basePath = $client->path;
+            $basePath       = $client->path;
             $this->clientId = $client->id;
         } else {
             // No client attribute was found so we assume the site as the client
-            $basePath = JPATH_SITE;
+            $basePath       = JPATH_SITE;
             $this->clientId = 0;
         }
 
@@ -526,6 +540,28 @@ class ModuleAdapter extends InstallerAdapter
     }
 
     /**
+     * Method to setup the update routine for the adapter
+     *
+     * @return  void
+     *
+     * @since   6.1.0
+     */
+    protected function setupUpdates()
+    {
+        // Create a new installer because findManifest sets stuff; side effects!
+        $tmpInstaller = new Installer();
+        $tmpInstaller->setDatabase($this->getDatabase());
+
+        // Look in the extension root
+        $tmpInstaller->setPath('source', $this->parent->getPath('extension_root'));
+
+        if ($tmpInstaller->findManifest()) {
+            $old_manifest   = $tmpInstaller->getManifest();
+            $this->oldFiles = $old_manifest->files;
+        }
+    }
+
+    /**
      * Method to store the extension to the database
      *
      * @return  void
@@ -540,11 +576,11 @@ class ModuleAdapter extends InstallerAdapter
             $manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 
             $this->extension->manifest_cache = json_encode($manifest_details);
-            $this->extension->state = 0;
-            $this->extension->name = $manifest_details['name'];
-            $this->extension->enabled = 1;
-            $this->extension->params = $this->parent->getParams();
-            $this->extension->changelogurl = (string) $this->manifest->changelogurl;
+            $this->extension->state          = 0;
+            $this->extension->name           = $manifest_details['name'];
+            $this->extension->enabled        = 1;
+            $this->extension->params         = $this->parent->getParams();
+            $this->extension->changelogurl   = (string) $this->manifest->changelogurl;
 
             if (!$this->extension->store()) {
                 // Install failed, roll back changes
@@ -560,7 +596,7 @@ class ModuleAdapter extends InstallerAdapter
                 // Install failed, roll back changes
                 throw new \RuntimeException(
                     Text::sprintf(
-                        'JLIB_INSTALLER_ABORT_MOD_INSTALL_ALLREADY_EXISTS',
+                        'JLIB_INSTALLER_ABORT_ALREADY_EXISTS',
                         Text::_('JLIB_INSTALLER_' . $this->route),
                         $this->name
                     )
@@ -624,17 +660,16 @@ class ModuleAdapter extends InstallerAdapter
             // Since we have created a module item, we add it to the installation step stack
             // so that if we have to rollback the changes we can undo it.
             $this->parent->pushStep(
-                array(
-                    'type' => 'extension',
+                [
+                    'type'         => 'extension',
                     'extension_id' => $this->extension->extension_id,
-                )
+                ]
             );
 
             // Create unpublished module
             $name = preg_replace('#[\*?]#', '', Text::_($this->name));
 
-            /** @var \Joomla\CMS\Table\Module $module */
-            $module            = Table::getInstance('module');
+            $module            = new Module($this->getDatabase());
             $module->title     = $name;
             $module->content   = '';
             $module->module    = $this->element;
@@ -643,6 +678,7 @@ class ModuleAdapter extends InstallerAdapter
             $module->params    = '';
             $module->client_id = $this->clientId;
             $module->language  = '*';
+            $module->position  = '';
 
             $module->store();
         }
@@ -666,7 +702,7 @@ class ModuleAdapter extends InstallerAdapter
         $moduleId = $arg['id'];
 
         // Remove the entry from the #__modules_menu table
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__modules_menu'))
             ->where($db->quoteName('moduleid') . ' = :module_id')
             ->bind(':module_id', $moduleId, ParameterType::INTEGER);
@@ -674,7 +710,7 @@ class ModuleAdapter extends InstallerAdapter
 
         try {
             return $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
     }
@@ -697,7 +733,7 @@ class ModuleAdapter extends InstallerAdapter
         $moduleId = $arg['id'];
 
         // Remove the entry from the #__modules table
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__modules'))
             ->where($db->quoteName('id') . ' = :module_id')
             ->bind(':module_id', $moduleId, ParameterType::INTEGER);
@@ -705,7 +741,7 @@ class ModuleAdapter extends InstallerAdapter
 
         try {
             return $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
     }

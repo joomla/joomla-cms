@@ -15,9 +15,9 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Table\Table;
-use Joomla\Database\DatabaseQuery;
+use Joomla\CMS\Table\ViewLevel;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -33,20 +33,20 @@ class LevelsModel extends ListModel
     /**
      * Override parent constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'title', 'a.title',
                 'ordering', 'a.ordering',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -96,13 +96,13 @@ class LevelsModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  DatabaseQuery
+     * @return  QueryInterface
      */
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $db    = $this->getDatabase();
+        $query = $db->createQuery();
 
         // Select the required fields from the table.
         $query->select(
@@ -150,11 +150,11 @@ class LevelsModel extends ListModel
     public function reorder($pk, $direction = 0)
     {
         // Sanitize the id and adjustment.
-        $pk = (!empty($pk)) ? $pk : (int) $this->getState('level.id');
+        $pk   = (!empty($pk)) ? $pk : (int) $this->getState('level.id');
         $user = $this->getCurrentUser();
 
         // Get an instance of the record's table.
-        $table = Table::getInstance('ViewLevel', 'Joomla\\CMS\Table\\');
+        $table = new ViewLevel($this->getDatabase());
 
         // Load the row.
         if (!$table->load($pk)) {
@@ -191,9 +191,9 @@ class LevelsModel extends ListModel
      */
     public function saveorder($pks, $order)
     {
-        $table = Table::getInstance('viewlevel', 'Joomla\\CMS\Table\\');
-        $user = $this->getCurrentUser();
-        $conditions = array();
+        $table      = new ViewLevel($this->getDatabase());
+        $user       = $this->getCurrentUser();
+        $conditions = [];
 
         if (empty($pks)) {
             Factory::getApplication()->enqueueMessage(Text::_('COM_USERS_ERROR_LEVELS_NOLEVELS_SELECTED'), 'error');

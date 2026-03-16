@@ -73,9 +73,21 @@ class TaskOption
     public function __construct(string $type, string $langConstPrefix)
     {
         $this->id              = $type;
-        $this->title           = Text::_("${langConstPrefix}_TITLE");
-        $this->desc            = Text::_("${langConstPrefix}_DESC");
+        $this->title           = Text::_("{$langConstPrefix}_TITLE");
+        $this->desc            = Text::_("{$langConstPrefix}_DESC");
         $this->langConstPrefix = $langConstPrefix;
+    }
+
+    /**
+     * Method to get the type title.
+     *
+     * @return  string  The type title.
+     *
+     * @since  5.3.0
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
     /**
@@ -97,7 +109,7 @@ class TaskOption
         if ($name === 'type') {
             try {
                 Log::add(
-                    sprintf(
+                    \sprintf(
                         'The %1$s property is deprecated. Use %2$s instead.',
                         $name,
                         'id'
@@ -105,7 +117,7 @@ class TaskOption
                     Log::WARNING,
                     'deprecated'
                 );
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 // Pass
             }
 

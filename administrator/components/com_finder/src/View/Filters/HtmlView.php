@@ -12,10 +12,10 @@ namespace Joomla\Component\Finder\Administrator\View\Filters;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Finder\Administrator\Model\FiltersModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -49,7 +49,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var   \Joomla\Registry\Registry
      *
      * @since  3.6.1
      */
@@ -100,22 +100,22 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
+        /** @var FiltersModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
+
         // Load the view data.
-        $this->items         = $this->get('Items');
-        $this->pagination    = $this->get('Pagination');
-        $this->total         = $this->get('Total');
-        $this->state         = $this->get('State');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
+        $this->items         = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->total         = $model->getTotal();
+        $this->state         = $model->getState();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
 
-        if (\count($this->items) === 0 && $this->isEmptyState = $this->get('IsEmptyState')) {
-            $this->setLayout('emptystate');
-        }
-
-        // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task')
+            ->addControlField('boxchecked', '0');
 
         // Configure the toolbar.
         $this->addToolbar();
@@ -132,20 +132,20 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo = ContentHelper::getActions('com_finder');
+        $canDo   = ContentHelper::getActions('com_finder');
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_FINDER_FILTERS_TOOLBAR_TITLE'), 'search-plus finder');
-        $toolbar = Toolbar::getInstance('toolbar');
 
         if ($canDo->get('core.create')) {
-            ToolbarHelper::addNew('filter.add');
-            ToolbarHelper::divider();
+            $toolbar->addNew('filter.add');
+            $toolbar->divider();
         }
 
         if ($this->isEmptyState === false) {
             if ($canDo->get('core.edit.state')) {
-                $dropdown = $toolbar->dropdownButton('status-group')
-                    ->text('JTOOLBAR_CHANGE_STATUS')
+                /** @var DropdownButton $dropdown */
+                $dropdown = $toolbar->dropdownButton('status-group', 'JTOOLBAR_CHANGE_STATUS')
                     ->toggleSplit(false)
                     ->icon('icon-ellipsis-h')
                     ->buttonClass('btn btn-action')
@@ -159,19 +159,25 @@ class HtmlView extends BaseHtmlView
             }
 
             if ($canDo->get('core.delete')) {
-                ToolbarHelper::deleteList('', 'filters.delete');
-                ToolbarHelper::divider();
+                $toolbar->standardButton('delete', 'JTOOLBAR_DELETE', 'filters.delete')
+                    ->listCheck(true);
+                $toolbar->divider();
             }
 
-            ToolbarHelper::divider();
-            $toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350, '', '', '', Text::_('COM_FINDER_STATISTICS_TITLE'));
-            ToolbarHelper::divider();
+            $toolbar->divider();
+            $toolbar->popupButton('bars', 'COM_FINDER_STATISTICS')
+                ->url('index.php?option=com_finder&view=statistics&tmpl=component')
+                ->iframeWidth(550)
+                ->iframeHeight(350)
+                ->title(Text::_('COM_FINDER_STATISTICS_TITLE'))
+                ->icon('icon-bars');
+            $toolbar->divider();
         }
 
         if ($canDo->get('core.admin') || $canDo->get('core.options')) {
-            ToolbarHelper::preferences('com_finder');
+            $toolbar->preferences('com_finder');
         }
 
-        ToolbarHelper::help('Smart_Search:_Search_Filters');
+        $toolbar->help('Smart_Search:_Search_Filters');
     }
 }

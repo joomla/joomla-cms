@@ -19,11 +19,11 @@ use Joomla\Database\ParameterType;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Components Category field.
+ * Workflow Transitions field.
  *
  * @since  4.0.0
  */
-class TransitionField extends ListField
+class TransitionField extends GroupedlistField
 {
     /**
      * The form field type.
@@ -53,7 +53,7 @@ class TransitionField extends ListField
      *
      * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
      * @param   mixed              $value    The form field value to validate.
-     * @param   string             $group    The field name group control value. This acts as as an array container for the field.
+     * @param   string             $group    The field name group control value. This acts as an array container for the field.
      *                                       For example if the field has name="foo" and the group value is set to "bar" then the
      *                                       full field name would end up being "bar[foo]".
      *
@@ -66,7 +66,7 @@ class TransitionField extends ListField
         $result = parent::setup($element, $value, $group);
 
         if ($result) {
-            $input = Factory::getApplication()->input;
+            $input = Factory::getApplication()->getInput();
 
             if (\strlen($element['extension'])) {
                 $this->extension = (string) $element['extension'];
@@ -79,6 +79,15 @@ class TransitionField extends ListField
             } else {
                 $this->workflowStage = $input->getInt('id');
             }
+
+            $db = $this->getDatabase();
+
+            $query = $db->getQuery(true)
+                ->select($db->quoteName('workflow_id'))
+                ->from($db->quoteName('#__workflow_stages'))
+                ->where($db->quoteName('id') . ' = ' . (int) $this->workflowStage);
+
+            $this->form->setFieldAttribute('transition', 'workflow_id', (int) $db->setQuery($query)->loadResult());
         }
 
         return $result;
@@ -87,21 +96,18 @@ class TransitionField extends ListField
     /**
      * Method to get a list of options for a list input.
      *
-     * @return  array  An array of HTMLHelper options.
+     * @return  array[]  An array of HTMLHelper options.
      *
      * @since  4.0.0
      */
-    protected function getOptions()
+    protected function getGroups()
     {
-        // Let's get the id for the current item, either category or content item.
-        $jinput = Factory::getApplication()->input;
-
         // Initialise variable.
-        $db = $this->getDatabase();
-        $extension = $this->extension;
+        $db            = $this->getDatabase();
+        $extension     = $this->extension;
         $workflowStage = (int) $this->workflowStage;
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('t.id', 'value'),
@@ -138,7 +144,7 @@ class TransitionField extends ListField
         $component = reset($parts);
 
         if (\count($items)) {
-            $user = Factory::getUser();
+            $user = $this->getCurrentUser();
 
             $items = array_filter(
                 $items,
@@ -153,7 +159,7 @@ class TransitionField extends ListField
         }
 
         // Get workflow stage title
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('title'))
             ->from($db->quoteName('#__workflow_stages'))
             ->where($db->quoteName('id') . ' = :stage')
@@ -161,15 +167,19 @@ class TransitionField extends ListField
 
         $workflowName = $db->setQuery($query)->loadResult();
 
-        $default = [HTMLHelper::_('select.option', '', Text::_($workflowName))];
+        $default = [[HTMLHelper::_('select.option', '', Text::_($workflowName))]];
 
-        $options = array_merge(parent::getOptions(), $items);
+        $groups = parent::getGroups();
 
-        if (\count($options)) {
-            $default[] = HTMLHelper::_('select.option', '-1', '--------', ['disable' => true]);
+        if (\count($items)) {
+            $groups[Text::_('COM_CONTENT_RUN_TRANSITION')] = $items;
+        }
+
+        if (\count($groups)) {
+            $default[][] = HTMLHelper::_('select.option', '-1', '--------', ['disable' => true]);
         }
 
         // Merge with defaults
-        return array_merge($default, $options);
+        return array_merge($default, $groups);
     }
 }

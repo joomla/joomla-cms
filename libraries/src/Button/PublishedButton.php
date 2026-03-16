@@ -60,7 +60,7 @@ class PublishedButton extends ActionButton
             $default  = $this->getState($value) ?? $this->unknownState;
 
             $nullDate = Factory::getDbo()->getNullDate();
-            $nowDate = Factory::getDate()->toUnix();
+            $nowDate  = Factory::getDate()->toUnix();
 
             $tz = Factory::getUser()->getTimezone();
 
@@ -71,7 +71,7 @@ class PublishedButton extends ActionButton
             // Create special titles for published items
             if ($value === 1) {
                 // Create tip text, only we have publish up or down settings
-                $tips = array();
+                $tips = [];
 
                 if ($publishUp) {
                     $tips[] = Text::sprintf('JLIB_HTML_PUBLISHED_START', HTMLHelper::_('date', $publishUp, Text::_('DATE_FORMAT_LC5'), 'UTC'));
@@ -90,25 +90,25 @@ class PublishedButton extends ActionButton
 
                 if ($publishUp && $nowDate < $publishUp->toUnix()) {
                     $options['tip_title'] = Text::_('JLIB_HTML_PUBLISHED_PENDING_ITEM');
-                    $default['icon'] = 'pending';
+                    $default['icon']      = 'pending';
                 }
 
                 if ($publishDown && $nowDate > $publishDown->toUnix()) {
                     $options['tip_title'] = Text::_('JLIB_HTML_PUBLISHED_EXPIRED_ITEM');
-                    $default['icon'] = 'expired';
+                    $default['icon']      = 'expired';
                 }
 
-                if (array_key_exists('category_published', $options)) {
+                if (\array_key_exists('category_published', $options)) {
                     $categoryPublished = $options['category_published'];
 
                     if ($categoryPublished === 0) {
                         $options['tip_title'] = Text::_('JLIB_HTML_ITEM_PUBLISHED_BUT_CATEGORY_UNPUBLISHED');
-                        $default['icon'] = 'expired';
+                        $default['icon']      = 'expired';
                     }
 
                     if ($categoryPublished === -2) {
                         $options['tip_title'] = Text::_('JLIB_HTML_ITEM_PUBLISHED_BUT_CATEGORY_TRASHED');
-                        $default['icon'] = 'expired';
+                        $default['icon']      = 'expired';
                     }
                 }
             }

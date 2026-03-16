@@ -35,7 +35,7 @@ class StylesController extends AdminController
         // Check for request forgeries
         $this->checkToken();
 
-        $pks = (array) $this->input->post->get('cid', array(), 'int');
+        $pks = (array) $this->input->post->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $pks = array_filter($pks);
@@ -66,9 +66,9 @@ class StylesController extends AdminController
      *
      * @since   1.6
      */
-    public function getModel($name = 'Style', $prefix = 'Administrator', $config = array())
+    public function getModel($name = 'Style', $prefix = 'Administrator', $config = [])
     {
-        return parent::getModel($name, $prefix, array('ignore_request' => true));
+        return parent::getModel($name, $prefix, ['ignore_request' => true]);
     }
 
     /**
@@ -83,7 +83,7 @@ class StylesController extends AdminController
         // Check for request forgeries
         $this->checkToken();
 
-        $pks = (array) $this->input->post->get('cid', array(), 'int');
+        $pks = (array) $this->input->post->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $pks = array_filter($pks);
@@ -119,7 +119,7 @@ class StylesController extends AdminController
         // Check for request forgeries
         $this->checkToken('request');
 
-        $pks = (array) $this->input->get->get('cid', array(), 'int');
+        $pks = (array) $this->input->get->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $pks = array_filter($pks);

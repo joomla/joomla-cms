@@ -44,8 +44,8 @@ class ExtensionDiscoverInstallCommandTest extends \PHPUnit\Framework\TestCase
     {
         $command = $this->createMock(ExtensionDiscoverInstallCommand::class);
 
-        $countOfDiscoveredExtensions1 = $command->processDiscover(-1);
-        $countOfDiscoveredExtensions0 = $command->processDiscover(0);
+        $countOfDiscoveredExtensions1   = $command->processDiscover(-1);
+        $countOfDiscoveredExtensions0   = $command->processDiscover(0);
         $countOfDiscoveredExtensions245 = $command->processDiscover(245);
 
         $this->assertIsInt($countOfDiscoveredExtensions1);

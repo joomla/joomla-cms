@@ -18,13 +18,15 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 
+/** @var \Joomla\Component\Categories\Administrator\View\Category\HtmlView $this */
+
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
 
 $app = Factory::getApplication();
-$input = $app->input;
+$input = $app->getInput();
 
 $assoc = Associations::isEnabled();
 // Are associations implemented for this extension?
@@ -121,9 +123,6 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
         <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
         <?php echo $this->form->getInput('extension'); ?>
-        <input type="hidden" name="task" value="">
-        <input type="hidden" name="return" value="<?php echo $input->getBase64('return'); ?>">
-        <input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>">
-        <?php echo HTMLHelper::_('form.token'); ?>
+        <?php echo $this->form->renderControlFields(); ?>
     </div>
 </form>

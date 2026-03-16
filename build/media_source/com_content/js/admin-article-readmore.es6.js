@@ -2,28 +2,30 @@
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-(() => {
-  'use strict';
 
-  const options = window.Joomla.getOptions('xtd-readmore');
+import { JoomlaEditor, JoomlaEditorButton } from 'editor-api';
+import JoomlaDialog from 'joomla.dialog';
 
-  window.insertReadmore = (editor) => {
-    if (!options) {
-      // Something went wrong!
-      throw new Error('XTD Button \'read more\' not properly initialized');
-    }
+const insertReadmoreHandler = (editor) => {
+  const content = editor.getValue();
 
-    const content = window.Joomla.editors.instances[editor].getValue();
+  if (!content) {
+    editor.replaceSelection('<hr id="system-readmore">');
+  } else if (content && !content.match(/<hr\s+id=("|')system-readmore("|')\s*\/*>/i)) {
+    editor.replaceSelection('<hr id="system-readmore">');
+  } else {
+    JoomlaDialog.alert(Joomla.Text._('PLG_READMORE_ALREADY_EXISTS'));
+  }
+};
 
-    if (!content) {
-      Joomla.editors.instances[editor].replaceSelection('<hr id="system-readmore">');
-    } else if (content && !content.match(/<hr\s+id=("|')system-readmore("|')\s*\/*>/i)) {
-      Joomla.editors.instances[editor].replaceSelection('<hr id="system-readmore">');
-    } else {
-      // @todo replace with joomla-alert
-      alert(options.exists);
-      return false;
-    }
-    return true;
-  };
-})();
+// @TODO: Remove in Joomla 6
+window.insertReadmore = () => {
+  console.warn('Method window.insertReadmore() is deprecated, use button action "insert-readmore."');
+  const editor = JoomlaEditor.getActive();
+  if (!editor) {
+    throw new Error('An active editor are not available');
+  }
+  insertReadmoreHandler(editor);
+};
+
+JoomlaEditorButton.registerAction('insert-readmore', insertReadmoreHandler);

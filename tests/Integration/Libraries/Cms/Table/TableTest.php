@@ -44,7 +44,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
     {
         parent::setUp();
 
-        $dispatcher = new Dispatcher();
+        $dispatcher   = new Dispatcher();
         $this->object = $this->getMockForAbstractClass(Table::class, ['#__testtable', 'id', $this->getDBDriver(), $dispatcher]);
     }
 
@@ -79,7 +79,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
             'publish_up',
             'publish_down',
             'ordering',
-            'params'
+            'params',
         ];
 
         $this->assertEquals(
@@ -97,10 +97,10 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
     public function testBindWorksWithArraysAndObjects()
     {
         $data = [
-            'title' => 'Test Title',
-            'hits' => 42,
+            'title'     => 'Test Title',
+            'hits'      => 42,
             'published' => 1,
-            'ordering' => 23
+            'ordering'  => 23,
         ];
 
         $this->object->bind($data);
@@ -129,12 +129,12 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
     public function testBindOnlyBindsTableFields()
     {
         $data = [
-            'title' => 'Test Title',
-            'hits' => 42,
-            'fakefield' => 'Not present!',
-            'published' => 1,
-            'ordering' => 23,
-            'fakefield2' => 'Not present either!'
+            'title'      => 'Test Title',
+            'hits'       => 42,
+            'fakefield'  => 'Not present!',
+            'published'  => 1,
+            'ordering'   => 23,
+            'fakefield2' => 'Not present either!',
         ];
 
         $this->object->bind($data);
@@ -156,14 +156,14 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
     public function testBindIgnoresFields()
     {
         $data = [
-            'title' => 'Test Title',
-            'hits' => 42,
+            'title'     => 'Test Title',
+            'hits'      => 42,
             'published' => 1,
-            'ordering' => 23
+            'ordering'  => 23,
         ];
         $ignore = [
             'hits',
-            'ordering'
+            'ordering',
         ];
 
         // Check for ignore fields as array
@@ -192,21 +192,21 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
     public function testBindJSONEncodesFields()
     {
         $data = [
-            'title' => 'Test Title',
-            'hits' => 42,
+            'title'     => 'Test Title',
+            'hits'      => 42,
             'published' => 1,
-            'ordering' => 23,
-            'params' => [
-                'key' => 'value',
+            'ordering'  => 23,
+            'params'    => [
+                'key'    => 'value',
                 'nested' => [
                     'more' => 'values',
-                    'even' => 'more'
+                    'even' => 'more',
                 ],
                 'object' => (object) [
                     'attribute1' => 'value1',
-                    'attribute2' => 'value2'
-                ]
-            ]
+                    'attribute2' => 'value2',
+                ],
+            ],
         ];
 
         $this->object->set('_jsonEncode', ['params']);
@@ -238,10 +238,10 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
     public function testBindFiresEvents()
     {
         $data = [
-            'title' => 'Test Title',
-            'hits' => 42,
+            'title'     => 'Test Title',
+            'hits'      => 42,
             'published' => 1,
-            'ordering' => 23
+            'ordering'  => 23,
         ];
 
         $dispatcherMock = $this->getMockBuilder(DispatcherInterface::class)->getMock();
@@ -267,11 +267,11 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
     {
         $nullDate = $this->getDBDriver()->getNullDate();
 
-        $this->object->id = 25;
-        $this->object->title = 'My Title';
-        $this->object->hits = 42;
+        $this->object->id         = 25;
+        $this->object->title      = 'My Title';
+        $this->object->hits       = 42;
         $this->object->publish_up = '2005-09-22 12:00:00';
-        $this->object->params = '{"test":5}';
+        $this->object->params     = '{"test":5}';
         $this->object->setError('Generic error');
 
         $dispatcherMock = $this->getMockBuilder(DispatcherInterface::class)->getMock();

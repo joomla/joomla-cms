@@ -10,22 +10,24 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Modules\Administrator\View\Modules\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
 $clientId  = (int) $this->state->get('client_id', 0);
-$user      = Factory::getUser();
+$user      = $this->getCurrentUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = ($listOrder == 'a.ordering');
@@ -34,10 +36,13 @@ if ($saveOrder && !empty($this->items)) {
     $saveOrderingUrl = 'index.php?option=com_modules&task=modules.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
     HTMLHelper::_('draggablelist.draggable');
 }
+
+$assoc   = Associations::isEnabled() && $clientId == 0;
+
 ?>
 <form action="<?php echo Route::_('index.php?option=com_modules&view=modules&client_id=' . $clientId); ?>" method="post" name="adminForm" id="adminForm">
     <div id="j-main-container" class="j-main-container">
-        <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+        <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
         <?php if ($this->total > 0) : ?>
             <table class="table" id="moduleList">
                 <caption class="visually-hidden">
@@ -73,8 +78,13 @@ if ($saveOrder && !empty($this->items)) {
                         <th scope="col" class="w-10 d-none d-md-table-cell">
                             <?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'ag.title', $listDirn, $listOrder); ?>
                         </th>
+                        <?php if ($assoc) : ?>
+                            <th scope="col" class="w-10 d-none d-md-table-cell">
+                                <?php echo HTMLHelper::_('searchtools.sort', 'COM_MODULES_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+                            </th>
+                        <?php endif; ?>
                         <?php if (($clientId === 0) && (Multilanguage::isEnabled())) : ?>
-                        <th scope="col" class="w-10 d-none d-md-table-cell">
+                            <th scope="col" class="w-10 d-none d-md-table-cell">
                             <?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.title', $listDirn, $listOrder); ?>
                         </th>
                         <?php elseif ($clientId === 1 && ModuleHelper::isAdminMultilang()) : ?>
@@ -94,7 +104,7 @@ if ($saveOrder && !empty($this->items)) {
                     $ordering   = ($listOrder == 'a.ordering');
                     $canCreate  = $user->authorise('core.create', 'com_modules');
                     $canEdit    = $user->authorise('core.edit', 'com_modules.module.' . $item->id);
-                    $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->get('id') || is_null($item->checked_out);
+                    $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->id || is_null($item->checked_out);
                     $canChange  = $user->authorise('core.edit.state', 'com_modules.module.' . $item->id) && $canCheckin;
                     ?>
                     <tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->position ?: 'none'; ?>">
@@ -169,6 +179,13 @@ if ($saveOrder && !empty($this->items)) {
                         <td class="small d-none d-md-table-cell">
                             <?php echo $this->escape($item->access_level); ?>
                         </td>
+                        <?php if ($assoc) : ?>
+                            <td class="small d-none d-md-table-cell">
+                                <?php if ($item->association) : ?>
+                                    <?php echo HTMLHelper::_('modules.association', $item->id); ?>
+                                <?php endif; ?>
+                            </td>
+                        <?php endif; ?>
                         <?php if (($clientId === 0) && (Multilanguage::isEnabled())) : ?>
                         <td class="small d-none d-md-table-cell">
                             <?php echo LayoutHelper::render('joomla.content.language', $item); ?>
@@ -199,23 +216,10 @@ if ($saveOrder && !empty($this->items)) {
 
         <?php // Load the batch processing form. ?>
         <?php
-        if (
-            $user->authorise('core.create', 'com_modules')
-            && $user->authorise('core.edit', 'com_modules')
-            && $user->authorise('core.edit.state', 'com_modules')
-        ) : ?>
-            <?php echo HTMLHelper::_(
-                'bootstrap.renderModal',
-                'collapseModal',
-                array(
-                    'title'  => Text::_('COM_MODULES_BATCH_OPTIONS'),
-                    'footer' => $this->loadTemplate('batch_footer'),
-                ),
-                $this->loadTemplate('batch_body')
-            ); ?>
+        if ($this->batchAllowed) : ?>
+            <template id="joomla-dialog-batch"><?php echo $this->loadTemplate('batch_body'); ?></template>
         <?php endif; ?>
-        <input type="hidden" name="task" value="">
-        <input type="hidden" name="boxchecked" value="0">
-        <?php echo HTMLHelper::_('form.token'); ?>
+
+        <?php echo $this->filterForm->renderControlFields(); ?>
     </div>
 </form>

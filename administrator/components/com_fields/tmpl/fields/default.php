@@ -20,14 +20,16 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
+/** @var \Joomla\Component\Fields\Administrator\View\Fields\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
 $app       = Factory::getApplication();
-$user      = Factory::getUser();
-$userId    = $user->get('id');
+$user      = $this->getCurrentUser();
+$userId    = $user->id;
 $context   = $this->escape($this->state->get('filter.context'));
 $component = $this->state->get('filter.component');
 $section   = $this->state->get('filter.section');
@@ -61,7 +63,7 @@ if (count($this->filterForm->getField('context')->options) > 1) {
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
-                <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => $searchToolsOptions)); ?>
+                <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => $searchToolsOptions]); ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
                         <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -177,7 +179,7 @@ if (count($this->filterForm->getField('context')->options) > 1) {
                                         <?php echo $this->escape($item->type); ?>
                                     </td>
                                     <td>
-                                        <?php echo $this->escape($item->group_title); ?>
+                                        <?php echo !empty($item->group_title) ? $this->escape($item->group_title) : '[ ' . Text::_('JNONE') . ' ]'; ?>
                                     </td>
                                     <td class="small d-none d-md-table-cell">
                                         <?php echo $this->escape($item->access_level); ?>
@@ -198,27 +200,18 @@ if (count($this->filterForm->getField('context')->options) > 1) {
                     <?php // load the pagination. ?>
                     <?php echo $this->pagination->getListFooter(); ?>
 
-                    <?php //Load the batch processing form. ?>
+                    <?php // Load the batch processing form. ?>
                     <?php
                     if (
                         $user->authorise('core.create', $component)
                         && $user->authorise('core.edit', $component)
                         && $user->authorise('core.edit.state', $component)
                     ) : ?>
-                        <?php echo HTMLHelper::_(
-                            'bootstrap.renderModal',
-                            'collapseModal',
-                            array(
-                                    'title' => Text::_('COM_FIELDS_VIEW_FIELDS_BATCH_OPTIONS'),
-                                    'footer' => $this->loadTemplate('batch_footer')
-                                ),
-                            $this->loadTemplate('batch_body')
-                        ); ?>
+                        <template id="joomla-dialog-batch"><?php echo $this->loadTemplate('batch_body'); ?></template>
                     <?php endif; ?>
                 <?php endif; ?>
-                <input type="hidden" name="task" value="">
-                <input type="hidden" name="boxchecked" value="0">
-                <?php echo HTMLHelper::_('form.token'); ?>
+
+                <?php echo $this->filterForm->renderControlFields(); ?>
             </div>
         </div>
     </div>

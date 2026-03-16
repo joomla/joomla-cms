@@ -10,10 +10,9 @@
 namespace Joomla\CMS\Language;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -29,7 +28,7 @@ class Text
      * @var    array
      * @since  1.7.0
      */
-    protected static $strings = array();
+    protected static $strings = [];
 
     /**
      * Translates a string into the current language.
@@ -59,7 +58,7 @@ class Text
                 $script = (bool) $jsSafe['script'];
             }
 
-            $jsSafe = \array_key_exists('jsSafe', $jsSafe) ? (bool) $jsSafe['jsSafe'] : false;
+            $jsSafe = !empty($jsSafe['jsSafe']);
         }
 
         if (self::passSprintf($string, $jsSafe, $interpretBackSlashes, $script)) {
@@ -92,11 +91,11 @@ class Text
     private static function passSprintf(&$string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
     {
         // Check if string contains a comma
-        if (empty($string) || strpos($string, ',') === false) {
+        if (empty($string) || !str_contains($string, ',')) {
             return false;
         }
 
-        $lang = Factory::getLanguage();
+        $lang         = Factory::getLanguage();
         $string_parts = explode(',', $string);
 
         // Pass all parts through the Text translator
@@ -124,8 +123,8 @@ class Text
         $string = $final_string;
 
         if ($script) {
-            foreach ($string_parts as $i => $str) {
-                static::$strings[$str] = $string_parts[$i];
+            foreach ($string_parts as $str) {
+                static::$strings[$str] = $str;
             }
         }
 
@@ -187,12 +186,12 @@ class Text
      */
     public static function plural($string, $n)
     {
-        $lang = Factory::getLanguage();
-        $args = \func_get_args();
+        $lang  = Factory::getLanguage();
+        $args  = \func_get_args();
         $count = \count($args);
 
         // Try the key from the language plural potential suffixes
-        $found = false;
+        $found    = false;
         $suffixes = $lang->getPluralSuffixes((int) $n);
 
         // Add the count as possible suffix to allow for eg "a dozen" with suffix _12.
@@ -210,10 +209,8 @@ class Text
             }
         }
 
-        if (!$found) {
-            // Not found so revert to the original.
-            $key = $string;
-        }
+        // Not found so revert to the original.
+        $key = !$found ? $string : $key;
 
         if (\is_array($args[$count - 1])) {
             $args[0] = $lang->_(
@@ -257,8 +254,8 @@ class Text
      */
     public static function sprintf($string)
     {
-        $lang = Factory::getLanguage();
-        $args = \func_get_args();
+        $lang  = Factory::getLanguage();
+        $args  = \func_get_args();
         $count = \count($args);
 
         if (\is_array($args[$count - 1])) {
@@ -284,7 +281,7 @@ class Text
     }
 
     /**
-     * Passes a string thru an printf.
+     * Passes a string through a printf.
      *
      * Note that this method can take a mixed number of arguments as for the sprintf function.
      *
@@ -296,8 +293,8 @@ class Text
      */
     public static function printf($string)
     {
-        $lang = Factory::getLanguage();
-        $args = \func_get_args();
+        $lang  = Factory::getLanguage();
+        $args  = \func_get_args();
         $count = \count($args);
 
         if (\is_array($args[$count - 1])) {
@@ -329,7 +326,7 @@ class Text
     {
         if ($string === null) {
             @trigger_error(
-                sprintf(
+                \sprintf(
                     'As of 3.7.0, passing a null value for the first argument of %1$s() is deprecated and will not be supported in 4.0.'
                     . ' Use the %2$s::getScriptStrings() method to get the strings from the JavaScript language store instead.',
                     __METHOD__,
@@ -353,14 +350,22 @@ class Text
 
         // Add the string to the array if not null.
         if ($string !== null) {
+            $app = Factory::getApplication();
+            $doc = $app->getDocument();
+
+            // Get previously added strings
+            $strings = $doc->getScriptOptions('joomla.jtext');
+
             // Normalize the key and translate the string.
-            static::$strings[strtoupper($string)] = Factory::getLanguage()->_($string, $jsSafe, $interpretBackSlashes);
+            $key                   = strtoupper($string);
+            $strings[$key]         = Factory::getLanguage()->_($string, $jsSafe, $interpretBackSlashes);
+            static::$strings[$key] = $strings[$key];
 
             // Load core.js dependency
-            HTMLHelper::_('behavior.core');
+            $doc->getWebAssetManager()->useScript('core');
 
             // Update Joomla.Text script options
-            Factory::getDocument()->addScriptOptions('joomla.jtext', static::$strings, false);
+            $doc->addScriptOptions('joomla.jtext', $strings, false);
         }
 
         return static::getScriptStrings();

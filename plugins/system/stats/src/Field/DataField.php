@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\System\Stats\Field;
 
+use Joomla\CMS\Event\Plugin\System\Stats\GetStatsDataEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 
@@ -53,9 +54,12 @@ class DataField extends AbstractStatsField
 
         PluginHelper::importPlugin('system', 'stats');
 
-        $result = Factory::getApplication()->triggerEvent('onGetStatsData', array('stats.field.data'));
+        $result = Factory::getApplication()->getDispatcher()->dispatch(
+            'onGetStatsData',
+            new GetStatsDataEvent('onGetStatsData', ['context' => 'stats.field.data'])
+        )->getArgument('result', []);
 
-        $data['statsData'] = $result ? reset($result) : array();
+        $data['statsData'] = $result ? reset($result) : [];
 
         return $data;
     }

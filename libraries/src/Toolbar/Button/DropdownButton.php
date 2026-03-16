@@ -12,7 +12,7 @@ namespace Joomla\CMS\Toolbar\Button;
 use Joomla\CMS\Toolbar\ToolbarButton;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -49,9 +49,9 @@ class DropdownButton extends AbstractGroupButton
     {
         parent::prepareOptions($options);
 
-        $childToolbar = $this->getChildToolbar();
+        $childToolbar          = $this->getChildToolbar();
         $options['hasButtons'] = \count($childToolbar->getItems()) > 0;
-        $buttons = $childToolbar->getItems();
+        $buttons               = $childToolbar->getItems();
 
         if ($options['hasButtons']) {
             if ($this->getOption('toggleSplit', true)) {
@@ -60,8 +60,8 @@ class DropdownButton extends AbstractGroupButton
 
                 $childToolbar->setItems($buttons);
 
-                $options['button'] = $button->render();
-                $options['caretClass'] = $options['toggleButtonClass'] ?? $button->getButtonClass();
+                $options['button']        = $button->render();
+                $options['caretClass']    = $options['toggleButtonClass'] ?? $button->getButtonClass();
                 $options['dropdownItems'] = $childToolbar->render(['is_child' => true]);
             } else {
                 $options['dropdownItems'] = $childToolbar->render(['is_child' => true]);
@@ -75,27 +75,13 @@ class DropdownButton extends AbstractGroupButton
                         [
                             'data-bs-toggle' => 'dropdown',
                             'data-bs-target' => '#' . $this->fetchId(),
-                            'aria-haspopup' => 'true',
-                            'aria-expanded' => 'false',
+                            'aria-haspopup'  => 'true',
+                            'aria-expanded'  => 'false',
                         ]
                     )
                     ->render();
             }
         }
-    }
-
-    /**
-     * Render button HTML.
-     *
-     * @param   array  $options  The button options.
-     *
-     * @return  string  The button HTML.
-     *
-     * @since  4.0.0
-     */
-    protected function renderButton(array &$options): string
-    {
-        return parent::renderButton($options);
     }
 
     /**

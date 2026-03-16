@@ -20,7 +20,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Console\InstallCommand;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\Version;
 use Joomla\Console\Application;
@@ -37,7 +36,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Joomla! Installation Application class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.3.0
  */
 final class CliInstallationApplication extends Application implements CMSApplicationInterface
 {
@@ -51,7 +50,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
      * The application input object.
      *
      * @var    Input
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public $input;
 
@@ -59,13 +58,13 @@ final class CliInstallationApplication extends Application implements CMSApplica
      * The application language object.
      *
      * @var    Language
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $language;
 
     /**
      * @var MVCFactory
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     protected $mvcFactory;
 
@@ -73,9 +72,17 @@ final class CliInstallationApplication extends Application implements CMSApplica
      * Object to imitate the session object
      *
      * @var Registry
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     protected $session;
+
+    /**
+     * The client application Id
+     *
+     * @var Integer
+     * @since 5.0.2
+     */
+    protected $clientId;
 
     /**
      * Class constructor.
@@ -91,7 +98,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
      *                                      application's client object, otherwise a default client object is created.
      * @param   Container|null  $container  Dependency injection container.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function __construct(
         ?InputInterface $input = null,
@@ -114,10 +121,6 @@ final class CliInstallationApplication extends Application implements CMSApplica
         // Store the debug value to config based on the JDEBUG flag.
         $this->config->set('debug', JDEBUG);
 
-        \define('JPATH_COMPONENT', JPATH_BASE);
-        \define('JPATH_COMPONENT_SITE', JPATH_SITE);
-        \define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR);
-
         // Register the config to Factory.
         Factory::$config   = $this->config;
         Factory::$language = $language;
@@ -131,7 +134,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function enqueueMessage($msg, $type = 'info')
     {
@@ -143,7 +146,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
      *
      * @return  Registry
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function getConfig()
     {
@@ -155,7 +158,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
      *
      * @return  \Joomla\Console\Command\AbstractCommand[]
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     protected function getDefaultCommands(): array
     {
@@ -184,7 +187,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
      *
      * @return  Language  The language object
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function getLanguage()
     {
@@ -196,7 +199,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
      *
      * @return  boolean  False on failure, array on success.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function getLocalise()
     {
@@ -206,19 +209,19 @@ final class CliInstallationApplication extends Application implements CMSApplica
     /**
      * Returns the installed language files in the administrative and frontend area.
      *
-     * @param   DatabaseInterface|null  $db  Database driver.
+     * @param   ?DatabaseInterface  $db  Database driver.
      *
      * @return  array  Array with installed language packs in admin and site area.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
-    public function getLocaliseAdmin(DatabaseInterface $db = null)
+    public function getLocaliseAdmin(?DatabaseInterface $db = null)
     {
-        $langfiles = array();
+        $langfiles = [];
 
         // If db connection, fetch them from the database.
         if ($db) {
-            foreach (LanguageHelper::getInstalledLanguages() as $clientId => $language) {
+            foreach (LanguageHelper::getInstalledLanguages(null, null, null, null, null, null, $db) as $clientId => $language) {
                 $clientName = $clientId === 0 ? 'site' : 'admin';
 
                 foreach ($language as $languageCode => $lang) {
@@ -236,11 +239,11 @@ final class CliInstallationApplication extends Application implements CMSApplica
 
     /**
      * Get the system message queue. This is a mock
-     * to fullfill the interface requirements and is not functional.
+     * to fulfill the interface requirements and is not functional.
      *
      * @return  array  The system message queue.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function getMessageQueue()
     {
@@ -252,12 +255,12 @@ final class CliInstallationApplication extends Application implements CMSApplica
      *
      * @return  MVCFactory  MVC Factory of the installation application
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     public function getMVCFactory()
     {
         if (!$this->mvcFactory) {
-            $this->mvcFactory = new MVCFactory('Joomla\\CMS', $this);
+            $this->mvcFactory = new MVCFactory('Joomla\\CMS');
         }
 
         return $this->mvcFactory;
@@ -268,7 +271,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
      *
      * @return  SessionInterface  Object imitating the session object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public function getSession()
     {
@@ -282,7 +285,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
      *
      * @return  $this
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function setSession(SessionInterface $session): self
     {
@@ -298,25 +301,10 @@ final class CliInstallationApplication extends Application implements CMSApplica
      *
      * @return  boolean  True if this application is of the given type client interface.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function isClient($identifier)
     {
         return 'cli_installation' === $identifier;
-    }
-
-    /**
-     * Flag if the application instance is a CLI or web based application.
-     *
-     * Helper function, you should use the native PHP functions to detect if it is a CLI application.
-     *
-     * @return  boolean
-     *
-     * @since       __DEPLOY_VERSION__
-     * @deprecated  5.0  Will be removed without replacements
-     */
-    public function isCli()
-    {
-        return $this->isClient('cli_installation');
     }
 }

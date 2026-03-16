@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fields name="filter">
 		<field
@@ -13,7 +13,7 @@
 			name="state"
 			type="userstate"
 			label="JSTATUS"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">COM_USERS_FILTER_STATE</option>
 		</field>
@@ -21,7 +21,7 @@
 			name="mfa"
 			type="list"
 			label="COM_USERS_HEADING_MFA"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">COM_USERS_FILTER_MFA</option>
 			<option value="1">JENABLED</option>
@@ -31,7 +31,7 @@
 			name="active"
 			type="useractive"
 			label="COM_USERS_HEADING_ACTIVATED"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">COM_USERS_FILTER_ACTIVE</option>
 		</field>
@@ -39,7 +39,7 @@
 			name="group_id"
 			type="usergrouplist"
 			label="COM_USERS_HEADING_GROUPS"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">COM_USERS_FILTER_USERGROUP</option>
 		</field>
@@ -47,7 +47,7 @@
 			name="lastvisitrange"
 			type="lastvisitdaterange"
 			label="COM_USERS_HEADING_LAST_VISIT_DATE"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">COM_USERS_OPTION_FILTER_LAST_VISIT_DATE</option>
 		</field>
@@ -55,7 +55,7 @@
 			name="range"
 			type="registrationdaterange"
 			label="COM_USERS_HEADING_REGISTRATION_DATE"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">COM_USERS_OPTION_FILTER_DATE</option>
 		</field>
@@ -65,7 +65,7 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			default="a.name ASC"
 			validate="options"
 			>
@@ -92,7 +92,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 		/>
 	</fields>
 </form>

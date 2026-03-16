@@ -15,8 +15,9 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Users\Administrator\Model\GroupModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -47,10 +48,19 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state.
      *
-     * @var   CMSObject
+     * @var   \Joomla\Registry\Registry
      * @since 1.6
      */
     protected $state;
+
+    /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
 
     /**
      * Display the view
@@ -61,14 +71,21 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state = $this->get('State');
-        $this->item  = $this->get('Item');
-        $this->form  = $this->get('Form');
+        /** @var GroupModel $model */
+        $model = $this->getModel();
+
+        $this->state = $model->getState();
+        $this->item  = $model->getItem();
+        $this->form  = $model->getForm();
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task');
 
         $this->addToolbar();
         parent::display($tpl);
@@ -84,41 +101,43 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-        $isNew = ($this->item->id == 0);
-        $canDo = ContentHelper::getActions('com_users');
+        $isNew   = ($this->item->id == 0);
+        $canDo   = ContentHelper::getActions('com_users');
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_($isNew ? 'COM_USERS_VIEW_NEW_GROUP_TITLE' : 'COM_USERS_VIEW_EDIT_GROUP_TITLE'), 'users-cog groups-add');
 
-        $toolbarButtons = [];
-
         if ($canDo->get('core.edit') || $canDo->get('core.create')) {
-            ToolbarHelper::apply('group.apply');
-            $toolbarButtons[] = ['save', 'group.save'];
+            $toolbar->apply('group.apply');
         }
 
-        if ($canDo->get('core.create')) {
-            $toolbarButtons[] = ['save2new', 'group.save2new'];
-        }
+        $saveGroup = $toolbar->dropdownButton('save-group');
+        $saveGroup->configure(
+            function (Toolbar $childBar) use ($canDo, $isNew) {
+                if ($canDo->get('core.edit') || $canDo->get('core.create')) {
+                    $childBar->save('group.save');
+                }
 
-        // If an existing item, can save to a copy.
-        if (!$isNew && $canDo->get('core.create')) {
-            $toolbarButtons[] = ['save2copy', 'group.save2copy'];
-        }
+                if ($canDo->get('core.create')) {
+                    $childBar->save2new('group.save2new');
+                }
 
-        ToolbarHelper::saveGroup(
-            $toolbarButtons,
-            'btn-success'
+                // If an existing item, can save to a copy.
+                if (!$isNew && $canDo->get('core.create')) {
+                    $childBar->save2copy('group.save2copy');
+                }
+            }
         );
 
         if (empty($this->item->id)) {
-            ToolbarHelper::cancel('group.cancel');
+            $toolbar->cancel('group.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            ToolbarHelper::cancel('group.cancel', 'JTOOLBAR_CLOSE');
+            $toolbar->cancel('group.cancel');
         }
 
-        ToolbarHelper::divider();
-        ToolbarHelper::help('Users:_New_or_Edit_Group');
+        $toolbar->divider();
+        $toolbar->help('Users:_New_or_Edit_Group');
     }
 }

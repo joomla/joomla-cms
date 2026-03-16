@@ -14,6 +14,7 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
+use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
@@ -64,8 +65,22 @@ class UsersController extends ApiController
             }
         }
 
-        if (isset($data['password']) && $this->task !== 'add') {
-            $data['password2'] = $data['password'];
+        if ($this->input->getMethod() === 'PATCH') {
+            $body = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
+
+            if (!\array_key_exists('password', $body)) {
+                unset($data['password']);
+            }
+
+            if (!isset($data['groups'])) {
+                $data['groups'] = UserHelper::getUserGroups($data['id']);
+            }
+        }
+
+        if ($this->input->getMethod() === 'POST') {
+            if (isset($data['password'])) {
+                $data['password2'] = $data['password'];
+            }
         }
 
         return $data;

@@ -10,17 +10,21 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 
-$app    = Factory::getApplication();
-$form   = $displayData->getForm();
-$input  = $app->input;
+$app       = Factory::getApplication();
+$form      = $displayData->getForm();
+$input     = $app->getInput();
+$component = $input->getCmd('option', 'com_content');
 
-$fields = $displayData->get('fields') ?: array(
-    array('parent', 'parent_id'),
-    array('published', 'state', 'enabled'),
-    array('category', 'catid'),
+$saveHistory = ComponentHelper::getParams($component)->get('save_history', 0);
+
+$fields = $displayData->get('fields') ?: [
+    ['parent', 'parent_id'],
+    ['published', 'state', 'enabled'],
+    ['category', 'catid'],
     'featured',
     'sticky',
     'access',
@@ -28,16 +32,20 @@ $fields = $displayData->get('fields') ?: array(
     'tags',
     'note',
     'version_note',
-);
+];
 
-$hiddenFields = $displayData->get('hidden_fields') ?: array();
+$hiddenFields = $displayData->get('hidden_fields') ?: [];
+
+if (!$saveHistory) {
+    $hiddenFields[] = 'version_note';
+}
 
 if (!ModuleHelper::isAdminMultilang()) {
     $hiddenFields[] = 'language';
     $form->setFieldAttribute('language', 'default', '*');
 }
 
-$html   = array();
+$html   = [];
 $html[] = '<fieldset class="form-vertical">';
 
 foreach ($fields as $field) {

@@ -17,8 +17,8 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -38,21 +38,21 @@ class UsersModel extends ListModel
      * @var    array
      * @since  4.0.0
      */
-    protected $filterForbiddenList = array('groups', 'excluded');
+    protected $filterForbiddenList = ['groups', 'excluded'];
 
     /**
      * Override parent constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'name', 'a.name',
                 'username', 'a.username',
@@ -67,8 +67,8 @@ class UsersModel extends ListModel
                 'range',
                 'lastvisitrange',
                 'state',
-                'mfa'
-            );
+                'mfa',
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -89,14 +89,15 @@ class UsersModel extends ListModel
      */
     protected function populateState($ordering = 'a.name', $direction = 'asc')
     {
-        $app = Factory::getApplication();
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
 
         // Adjust the context to support modal layouts.
-        if ($layout = $app->input->get('layout', 'default', 'cmd')) {
+        if ($layout = $input->get('layout', 'default', 'cmd')) {
             $this->context .= '.' . $layout;
         }
 
-        $groups = json_decode(base64_decode($app->input->get('groups', '', 'BASE64')));
+        $groups = json_decode(base64_decode($input->get('groups', '', 'BASE64')));
 
         if (isset($groups)) {
             $groups = ArrayHelper::toInteger($groups);
@@ -104,7 +105,7 @@ class UsersModel extends ListModel
 
         $this->setState('filter.groups', $groups);
 
-        $excluded = json_decode(base64_decode($app->input->get('excluded', '', 'BASE64')));
+        $excluded = json_decode(base64_decode($input->get('excluded', '', 'BASE64')));
 
         if (isset($excluded)) {
             $excluded = ArrayHelper::toInteger($excluded);
@@ -166,8 +167,8 @@ class UsersModel extends ListModel
             $groups  = $this->getState('filter.groups');
             $groupId = $this->getState('filter.group_id');
 
-            if (isset($groups) && (empty($groups) || $groupId && !in_array($groupId, $groups))) {
-                $items = array();
+            if (isset($groups) && (empty($groups) || $groupId && !\in_array($groupId, $groups))) {
+                $items = [];
             } else {
                 $items = parent::getItems();
             }
@@ -183,19 +184,19 @@ class UsersModel extends ListModel
             // Find the information only on the result set.
 
             // First pass: get list of the user ids and reset the counts.
-            $userIds = array();
+            $userIds = [];
 
             foreach ($items as $item) {
                 $userIds[] = (int) $item->id;
 
                 $item->group_count = 0;
                 $item->group_names = '';
-                $item->note_count = 0;
+                $item->note_count  = 0;
             }
 
             // Get the counts from the database only for the users in the list.
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             // Join over the group mapping table.
             $query->select('map.user_id, COUNT(map.group_id) AS group_count')
@@ -234,7 +235,7 @@ class UsersModel extends ListModel
                 return false;
             }
 
-            // Second pass: collect the group counts into the master items array.
+            // Second pass: collect the group counts into the main items array.
             foreach ($items as &$item) {
                 if (isset($userGroups[$item->id])) {
                     $item->group_count = $userGroups[$item->id]->group_count;
@@ -280,7 +281,7 @@ class UsersModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   1.6
      */
@@ -288,7 +289,7 @@ class UsersModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the required fields from the table.
         $query->select(
@@ -302,11 +303,11 @@ class UsersModel extends ListModel
 
         // Include MFA information
         if (PluginHelper::isEnabled('multifactorauth')) {
-            $subQuery = $db->getQuery(true)
+            $subQuery = $db->createQuery()
                 ->select(
                     [
                         'MIN(' . $db->quoteName('user_id') . ') AS ' . $db->quoteName('uid'),
-                        'COUNT(*) AS ' . $db->quoteName('mfaRecords')
+                        'COUNT(*) AS ' . $db->quoteName('mfaRecords'),
                     ]
                 )
                 ->from($db->quoteName('#__user_mfa'))
@@ -359,15 +360,20 @@ class UsersModel extends ListModel
             }
         }
 
+        // If the model is set to check receive system email, add to the query.
+        $receiveSystemEmail = $this->getState('filter.receiveSystemEmail');
+
+        if (is_numeric($receiveSystemEmail)) {
+            $query->where($db->quoteName('a.sendEmail') . ' = :receiveSystemEmail')
+                ->bind(':receiveSystemEmail', $receiveSystemEmail, ParameterType::INTEGER);
+        }
+
         // Filter the items over the group id if set.
         $groupId = $this->getState('filter.group_id');
         $groups  = $this->getState('filter.groups');
 
         if ($groupId || isset($groups)) {
-            $query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id')
-                ->group(
-                    $db->quoteName(
-                        array(
+            $group_by = [
                             'a.id',
                             'a.name',
                             'a.username',
@@ -383,10 +389,15 @@ class UsersModel extends ListModel
                             'a.resetCount',
                             'a.otpKey',
                             'a.otep',
-                            'a.requireReset'
-                        )
-                    )
-                );
+                            'a.requireReset',
+            ];
+
+            if (PluginHelper::isEnabled('multifactorauth')) {
+                $group_by[] = 'mfa.mfaRecords';
+            }
+
+            $query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id')
+                ->group($db->quoteName($group_by));
 
             if ($groupId) {
                 $groupId = (int) $groupId;
@@ -428,9 +439,9 @@ class UsersModel extends ListModel
 
         // Add filter for registration time ranges select list. UI Visitors get a range of predefined
         // values. API users can do a full range based on ISO8601
-        $range = $this->getState('filter.range');
+        $range             = $this->getState('filter.range');
         $registrationStart = $this->getState('filter.registrationDateStart');
-        $registrationEnd = $this->getState('filter.registrationDateEnd');
+        $registrationEnd   = $this->getState('filter.registrationDateEnd');
 
         // Apply the range filter.
         if ($range || ($registrationStart && $registrationEnd)) {
@@ -463,7 +474,7 @@ class UsersModel extends ListModel
         // values. API users can do a full range based on ISO8601
         $lastvisitrange = $this->getState('filter.lastvisitrange');
         $lastVisitStart = $this->getState('filter.lastVisitStart');
-        $lastVisitEnd = $this->getState('filter.lastVisitEnd');
+        $lastVisitEnd   = $this->getState('filter.lastVisitEnd');
 
         // Apply the range filter.
         if ($lastvisitrange || ($lastVisitStart && $lastVisitEnd)) {
@@ -564,16 +575,16 @@ class UsersModel extends ListModel
                 $dStart->setTime(0, 0, 0);
 
                 // Now change the timezone back to UTC.
-                $tz = new \DateTimeZone('GMT');
+                $tz = new \DateTimeZone('UTC');
                 $dStart->setTimezone($tz);
                 break;
             case 'never':
-                $dNow = false;
+                $dNow   = false;
                 $dStart = false;
                 break;
         }
 
-        return array('dNow' => $dNow, 'dStart' => $dStart);
+        return ['dNow' => $dNow, 'dStart' => $dStart];
     }
 
     /**
@@ -586,7 +597,7 @@ class UsersModel extends ListModel
     protected function getUserDisplayedGroups($userId)
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('title'))
             ->from($db->quoteName('#__usergroups', 'ug'))
             ->join('LEFT', $db->quoteName('#__user_usergroup_map', 'map') . ' ON (ug.id = map.group_id)')
@@ -595,8 +606,8 @@ class UsersModel extends ListModel
 
         try {
             $result = $db->setQuery($query)->loadColumn();
-        } catch (\RuntimeException $e) {
-            $result = array();
+        } catch (\RuntimeException) {
+            $result = [];
         }
 
         return implode("\n", $result);

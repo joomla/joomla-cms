@@ -13,7 +13,7 @@ use Joomla\CMS\Editor\Editor;
 use Joomla\CMS\Factory;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -91,7 +91,7 @@ class EditorField extends TextareaField
     /**
      * The hide of the editor.
      *
-     * @var    array
+     * @var    string[]
      * @since  3.2
      */
     protected $hide;
@@ -99,7 +99,7 @@ class EditorField extends TextareaField
     /**
      * The editorType of the editor.
      *
-     * @var    array
+     * @var    string[]
      * @since  3.2
      */
     protected $editorType;
@@ -172,8 +172,8 @@ class EditorField extends TextareaField
                 break;
 
             case 'hide':
-                $value = (string) $value;
-                $this->hide = $value ? explode(',', $value) : array();
+                $value      = (string) $value;
+                $this->hide = $value ? explode(',', $value) : [];
                 break;
 
             case 'editorType':
@@ -205,8 +205,8 @@ class EditorField extends TextareaField
         $result = parent::setup($element, $value, $group);
 
         if ($result === true) {
-            $this->height      = $this->element['height'] ? (string) $this->element['height'] : '500';
-            $this->width       = $this->element['width'] ? (string) $this->element['width'] : '100%';
+            $this->height      = $this->element['height'] ? (string) $this->element['height'] : '';
+            $this->width       = $this->element['width'] ? (string) $this->element['width'] : '';
             $this->assetField  = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
             $this->authorField = $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
             $this->asset       = $this->form->getValue($this->assetField) ?: (string) $this->element['asset_id'];
@@ -220,11 +220,11 @@ class EditorField extends TextareaField
             } elseif ($buttons === 'false' || $buttons === 'no' || $buttons === '0') {
                 $this->buttons = false;
             } else {
-                $this->buttons = !empty($hide) ? explode(',', $buttons) : array();
+                $this->buttons = !empty($hide) ? explode(',', $buttons) : [];
             }
 
-            $this->hide        = !empty($hide) ? explode(',', (string) $this->element['hide']) : array();
-            $this->editorType  = !empty($editorType) ? explode('|', trim($editorType)) : array();
+            $this->hide        = !empty($hide) ? explode(',', (string) $this->element['hide']) : [];
+            $this->editorType  = !empty($editorType) ? explode('|', trim($editorType)) : [];
         }
 
         return $result;
@@ -241,11 +241,11 @@ class EditorField extends TextareaField
     {
         // Get an editor object.
         $editor = $this->getEditor();
-        $params = array(
+        $params = [
             'autofocus' => $this->autofocus,
             'readonly'  => $this->readonly || $this->disabled,
             'syntax'    => (string) $this->element['syntax'],
-        );
+        ];
 
         return $editor->display(
             $this->name,
@@ -283,7 +283,7 @@ class EditorField extends TextareaField
                 $db = $this->getDatabase();
 
                 // Build the query.
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName('element'))
                     ->from($db->quoteName('#__extensions'))
                     ->where(

@@ -9,14 +9,16 @@
 
 namespace Joomla\CMS\Captcha\Google;
 
-use Joomla\CMS\Http\HttpFactory;
+use Joomla\CMS\Version;
 use Joomla\Http\Exception\InvalidResponseCodeException;
 use Joomla\Http\Http;
+use Joomla\Http\HttpFactory;
+use Joomla\Registry\Registry;
 use ReCaptcha\RequestMethod;
 use ReCaptcha\RequestParameters;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -45,13 +47,16 @@ final class HttpBridgePostRequestMethod implements RequestMethod
     /**
      * Class constructor.
      *
-     * @param   Http|null  $http  The HTTP adapter
+     * @param   ?Http  $http  The HTTP adapter
      *
      * @since   3.9.0
      */
-    public function __construct(Http $http = null)
+    public function __construct(?Http $http = null)
     {
-        $this->http = $http ?: HttpFactory::getHttp();
+        $options = new Registry();
+        $options->set('userAgent', (new Version())->getUserAgent('Joomla', true, false));
+
+        $this->http = $http ?: (new HttpFactory())->getHttp($options);
     }
 
     /**
@@ -69,7 +74,7 @@ final class HttpBridgePostRequestMethod implements RequestMethod
             $response = $this->http->post(self::SITE_VERIFY_URL, $params->toArray());
 
             return (string) $response->getBody();
-        } catch (InvalidResponseCodeException $exception) {
+        } catch (InvalidResponseCodeException) {
             return '';
         }
     }

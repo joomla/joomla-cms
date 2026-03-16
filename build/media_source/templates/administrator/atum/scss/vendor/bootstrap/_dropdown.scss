@@ -1,8 +1,8 @@
 // Dropdown
 
 .btn-group .dropdown-menu {
-  min-width: 100%;
-  background: $white;
+  min-inline-size: 100%;
+  background: var(--body-bg);
   box-shadow: $dropdown-box-shadow;
 
   joomla-toolbar-button {
@@ -12,15 +12,18 @@
 }
 
 .dropdown-menu {
-  box-shadow: $atum-box-shadow;
+  box-shadow: var(--atum-box-shadow);
 }
 
 .dropdown-item {
   text-align: start;
-  border-bottom: 1px solid rgba(0, 0, 0, .1);
+  border-block-end: var(--dropdown-item-border-bottom);
 
   &:hover,
   &:focus {
+    --dropdown-link-hover-bg: var(--atum-dropdown-link-hover-bg);
+    --dropdown-link-hover-color: var(--atum-dropdown-link-hover-color);
+
     .btn-primary + .dropdown-menu & {
       background-color: var(--template-bg-dark);
     }
@@ -50,7 +53,7 @@
   }
 
   + .dropdown-item {
-    border-top: 1px solid rgba(0, 0, 0, .1);
+    border-block-start: 1px solid rgba(0, 0, 0, .1);
   }
 
   .dropdown-status-group .dropdown-menu &:not(.disabled) {
@@ -62,16 +65,24 @@
   }
 
   &.first:not(.last) {
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
+    border-end-end-radius: 0;
+    border-end-start-radius: 0;
   }
 
   &.last:not(.first) {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
+    border-start-start-radius: 0;
+    border-start-end-radius: 0;
   }
 
   &:not(.first):not(.last):not(:only-of-type) {
     border-radius: 0;
+  }
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .dropdown-divider {
+      border-block-start: map-get($atum-colors-dark, "dropdown-divider-bg");
+    }
   }
 }

@@ -11,17 +11,18 @@ namespace Joomla\CMS\Installer\Adapter;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Folder;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -51,11 +52,11 @@ class TemplateAdapter extends InstallerAdapter
     {
         try {
             $this->currentExtensionId = $this->extension->find(
-                array(
+                [
                     'element'   => $this->element,
                     'type'      => $this->type,
                     'client_id' => $this->clientId,
-                )
+                ]
             );
         } catch (\RuntimeException $e) {
             // Install failed, roll back changes
@@ -111,11 +112,12 @@ class TemplateAdapter extends InstallerAdapter
 
         // If there is a manifest script, let's copy it.
         if ($this->manifest_script) {
+            $path         = [];
             $path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
             $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
             if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
-                if (!$this->parent->copyFiles(array($path))) {
+                if (!$this->parent->copyFiles([$path])) {
                     throw new \RuntimeException(
                         Text::sprintf(
                             'JLIB_INSTALLER_ABORT_MANIFEST',
@@ -138,15 +140,14 @@ class TemplateAdapter extends InstallerAdapter
     protected function finaliseInstall()
     {
         // Clobber any possible pending updates
-        /** @var Update $update */
-        $update = Table::getInstance('update');
+        $update = new Update($this->getDatabase());
 
         $uid = $update->find(
-            array(
+            [
                 'element'   => $this->element,
                 'type'      => $this->type,
                 'client_id' => $this->clientId,
-            )
+            ]
         );
 
         if ($uid) {
@@ -178,14 +179,14 @@ class TemplateAdapter extends InstallerAdapter
     protected function finaliseUninstall(): bool
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $element     = $this->extension->element;
         $clientId    = $this->extension->client_id;
         $extensionId = $this->extension->extension_id;
 
         // Set menu that assigned to the template back to default template
-        $subQuery = $db->getQuery(true)
+        $subQuery = $db->createQuery()
             ->select($db->quoteName('s.id'))
             ->from($db->quoteName('#__template_styles', 's'))
             ->where(
@@ -206,7 +207,7 @@ class TemplateAdapter extends InstallerAdapter
         $db->execute();
 
         // Remove the template's styles
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__template_styles'))
             ->where(
                 [
@@ -220,7 +221,7 @@ class TemplateAdapter extends InstallerAdapter
         $db->execute();
 
         // Remove the schema version
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__schemas'))
             ->where($db->quoteName('extension_id') . ' = :extension_id')
             ->bind(':extension_id', $extensionId, ParameterType::INTEGER);
@@ -228,7 +229,7 @@ class TemplateAdapter extends InstallerAdapter
         $db->execute();
 
         // Remove any overrides
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__template_overrides'))
             ->where($db->quoteName('template') . ' = :template')
             ->bind(':template', $element);
@@ -236,7 +237,7 @@ class TemplateAdapter extends InstallerAdapter
         $db->execute();
 
         // Clobber any possible pending updates
-        $update = Table::getInstance('update');
+        $update = new Update($db);
         $uid    = $update->find(
             [
                 'element'   => $this->extension->element,
@@ -281,7 +282,7 @@ class TemplateAdapter extends InstallerAdapter
             $client = 'ADMINISTRATOR';
         }
 
-        $base = \constant('JPATH_' . strtoupper($client));
+        $base      = \constant('JPATH_' . strtoupper($client));
         $extension = 'tpl_' . $this->getName();
         $source    = $path ?: $base . '/templates/' . $this->getName();
 
@@ -311,9 +312,9 @@ class TemplateAdapter extends InstallerAdapter
      */
     protected function parseQueries()
     {
-        if (\in_array($this->route, array('install', 'discover_install'))) {
+        if (\in_array($this->route, ['install', 'discover_install'])) {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
             $lang  = Factory::getLanguage();
             $debug = $lang->setDebug(false);
 
@@ -391,7 +392,7 @@ class TemplateAdapter extends InstallerAdapter
         $this->parent->removeFiles($this->getManifest()->languages, $this->extension->client_id);
 
         // Delete the template directory
-        if (Folder::exists($this->parent->getPath('extension_root'))) {
+        if (is_dir(Path::clean($this->parent->getPath('extension_root')))) {
             Folder::delete($this->parent->getPath('extension_root'));
         } else {
             Log::add(Text::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_DIRECTORY'), Log::WARNING, 'jerror');
@@ -461,7 +462,7 @@ class TemplateAdapter extends InstallerAdapter
         }
 
         // Deny removing a parent template if there are children
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('COUNT(*)')
             ->from($db->quoteName('#__template_styles'))
             ->where(
@@ -479,7 +480,7 @@ class TemplateAdapter extends InstallerAdapter
         }
 
         // Deny remove default template
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('COUNT(*)')
             ->from($db->quoteName('#__template_styles'))
             ->where(
@@ -540,11 +541,11 @@ class TemplateAdapter extends InstallerAdapter
             $manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 
             $this->extension->manifest_cache = json_encode($manifest_details);
-            $this->extension->state = 0;
-            $this->extension->name = $manifest_details['name'];
-            $this->extension->enabled = 1;
-            $this->extension->params = $this->parent->getParams();
-            $this->extension->changelogurl = (string) $this->manifest->changelogurl;
+            $this->extension->state          = 0;
+            $this->extension->name           = $manifest_details['name'];
+            $this->extension->enabled        = 1;
+            $this->extension->params         = $this->parent->getParams();
+            $this->extension->changelogurl   = (string) $this->manifest->changelogurl;
 
             if (!$this->extension->store()) {
                 // Install failed, roll back changes
@@ -606,7 +607,7 @@ class TemplateAdapter extends InstallerAdapter
      */
     public function discover()
     {
-        $results    = array();
+        $results    = [];
         $site_list  = Folder::folders(JPATH_SITE . '/templates');
         $admin_list = Folder::folders(JPATH_ADMINISTRATOR . '/templates');
         $site_info  = ApplicationHelper::getClientInfo('site', true);
@@ -619,17 +620,17 @@ class TemplateAdapter extends InstallerAdapter
                     continue;
                 }
 
-                $manifest_details = Installer::parseXMLInstallFile(JPATH_SITE . "/templates/$template/templateDetails.xml");
-                $extension        = Table::getInstance('extension');
-                $extension->set('type', 'template');
-                $extension->set('client_id', $site_info->id);
-                $extension->set('element', $template);
-                $extension->set('folder', '');
-                $extension->set('name', $template);
-                $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
-                $extension->set('params', '{}');
-                $results[] = $extension;
+                $manifest_details          = Installer::parseXMLInstallFile(JPATH_SITE . "/templates/$template/templateDetails.xml");
+                $extension                 = new Extension($this->getDatabase());
+                $extension->type           = 'template';
+                $extension->client_id      = $site_info->id;
+                $extension->element        = $template;
+                $extension->folder         = '';
+                $extension->name           = $template;
+                $extension->state          = -1;
+                $extension->manifest_cache = json_encode($manifest_details);
+                $extension->params         = '{}';
+                $results[]                 = $extension;
             }
         }
 
@@ -640,17 +641,17 @@ class TemplateAdapter extends InstallerAdapter
                     continue;
                 }
 
-                $manifest_details = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/templates/$template/templateDetails.xml");
-                $extension        = Table::getInstance('extension');
-                $extension->set('type', 'template');
-                $extension->set('client_id', $admin_info->id);
-                $extension->set('element', $template);
-                $extension->set('folder', '');
-                $extension->set('name', $template);
-                $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
-                $extension->set('params', '{}');
-                $results[] = $extension;
+                $manifest_details          = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/templates/$template/templateDetails.xml");
+                $extension                 = new Extension($this->getDatabase());
+                $extension->type           = 'template';
+                $extension->client_id      = $admin_info->id;
+                $extension->element        = $template;
+                $extension->folder         = '';
+                $extension->name           = $template;
+                $extension->state          = -1;
+                $extension->manifest_cache = json_encode($manifest_details);
+                $extension->params         = '{}';
+                $results[]                 = $extension;
             }
         }
 
@@ -675,10 +676,11 @@ class TemplateAdapter extends InstallerAdapter
         $manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
         $this->parent->extension->manifest_cache = json_encode($manifest_details);
         $this->parent->extension->name           = $manifest_details['name'];
+        $this->parent->extension->changelogurl   = $manifest_details['changelogurl'];
 
         try {
             return $this->parent->extension->store();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             Log::add(Text::_('JLIB_INSTALLER_ERROR_TPL_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
             return false;

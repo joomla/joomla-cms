@@ -12,7 +12,6 @@ namespace Joomla\Tests\Unit\Component\Finder\Administrator\Indexer;
 
 use Joomla\Component\Finder\Administrator\Indexer\Result;
 use Joomla\Tests\Unit\UnitTestCase;
-use ReflectionClass;
 
 /**
  * Test class for \Joomla\Component\Finder\Administrator\Indexer\Result
@@ -72,6 +71,6 @@ class ResultTest extends UnitTestCase
      */
     private function createNoConstructorMock($class = Result::class): object
     {
-        return (new ReflectionClass($class))->newInstanceWithoutConstructor();
+        return (new \ReflectionClass($class))->newInstanceWithoutConstructor();
     }
 }

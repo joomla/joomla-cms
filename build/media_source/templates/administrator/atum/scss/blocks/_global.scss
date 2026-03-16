@@ -1,7 +1,12 @@
 // Global
+@media screen and (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
 
 html {
-  height: 100%;
+  block-size: 100%;
 
   &.a11y_font {
     font-size: 18px;
@@ -11,24 +16,24 @@ html {
 body {
   display: flex;
   flex-direction: column;
-  min-height: 100%;
+  min-block-size: 100%;
   padding: 0;
   margin: 0;
   text-align: start;
 
-  &.admin {
-    background-color: var(--template-bg-dark-5);
+  &.admin, &#subhead-container {
+    background-color: $admin-background;
   }
 
   &.monochrome {
     filter: grayscale(1);
     &::after {
       position: fixed;
-      top: 0;
-      left: 0;
+      inset-block-start: 0;
+      inset-inline-start: 0;
       z-index: -1;
-      width: 100%;
-      height: 100%;
+      inline-size: 100%;
+      block-size: 100%;
       content: "";
       background: var(--template-bg-dark-5);
     }
@@ -59,6 +64,7 @@ body {
     a.page-link {
       padding: $pagination-padding-y $pagination-padding-x;
     }
+
   }
 }
 
@@ -109,7 +115,7 @@ textarea {
 
 label,
 caption {
-  font-size: $label-font-size;
+  @include font-size($form-label-font-size);
   text-align: start;
 }
 
@@ -122,14 +128,14 @@ caption {
 
 .container-main,
 .system-debug {
-  padding-bottom: 50px;
+  padding-block-end: 50px;
 }
 
 body .container-main {
   order: 1;
   position: relative;
-  padding-right: 0;
-  padding-left: 0;
+  padding-inline: 0;
+  background: var(--main-bg);
 }
 
 .content {
@@ -139,29 +145,24 @@ body .container-main {
     padding: 0 2rem;
 
     .subhead + & {
-      padding-top: 0;
+      padding-block-start: 0;
     }
   }
 }
 
 body:not(.contentpane) .main-card {
-  background: $white;
+  background: $main-card-bg;
   border-radius: $border-radius;
-  box-shadow: 0 2px 10px -8px var(--template-bg-dark-50);
+  box-shadow: var(--atum-box-shadow);
 }
 
 .row-selected {
   background-color: var(--toolbar-bg);
 }
 
-// Chosen (TEMPORARY)
-.chzn-container-single {
-  width: auto !important;
-}
-
 // Multiple buttons wrapping
 .input-group input {
-  min-width: 220px;
+  min-inline-size: 220px;
 }
 
 // Multilingual associations specific
@@ -171,7 +172,7 @@ body:not(.contentpane) .main-card {
 
 .item-associations li {
   display: inline-block;
-  margin-bottom: 3px;
+  margin-block-end: 3px;
   list-style: none;
 }
 
@@ -183,7 +184,7 @@ body:not(.contentpane) .main-card {
 // external links with icons
 a[target="_blank"]::before {
   padding-inline-end: 3px;
-  font-family: "Font Awesome 5 Free";
+  font-family: "Font Awesome 6 Free";
   font-size: 14px;
   font-weight: 900;
   content: "\f35d";
@@ -198,7 +199,7 @@ a[target="_blank"]::before {
 }
 
 .text-muted {
-  color: var(--template-text-dark) !important;
+  color: $text-muted-color;
   opacity: .7;
 }
 
@@ -223,31 +224,50 @@ a[target="_blank"]::before {
 }
 
 .tiny {
-  font-size: $font-size-vsm;
+  @include font-size($form-label-font-size);
   line-height: 1.4rem;
 }
 
 // details
-
 details {
+  --_duration: .2s;
+
   padding: .5rem 1rem;
   margin: 0 0 2rem;
-  background: var(--template-bg-dark-3);
-  border: 1px solid var(--template-bg-dark-10);
+  background: $details-bg;
+  border: $details-border;
   border-radius: $border-radius;
+
+  @media (prefers-reduced-motion: no-preference) {
+    interpolate-size: allow-keywords;
+  }
+
+  &::details-content {
+    overflow-y: clip;
+    opacity: 0;
+    block-size: 0;
+    transition: content-visibility var(--_duration) allow-discrete,
+      opacity var(--_duration),
+      block-size var(--_duration);
+  }
+
+  &[open]::details-content {
+    opacity: 1;
+    block-size: auto;
+  }
 
   summary {
     color: var(--template-link-color);
 
     ~ * {
-      margin-top: 1rem;
+      padding-block-start: 1rem;
     }
   }
 }
 
 // meter element
 meter {
-  width: 100%;
+  inline-size: 100%;
 }
 
 // Bootstrap 4 b/c

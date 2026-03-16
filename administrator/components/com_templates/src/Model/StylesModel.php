@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -31,22 +32,22 @@ class StylesModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'title', 'a.title',
                 'template', 'a.template',
                 'home', 'a.home',
                 'menuitem',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -69,14 +70,9 @@ class StylesModel extends ListModel
         $app = Factory::getApplication();
 
         if (!$app->isClient('api')) {
-            // Load the filter state.
-            $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-            $this->setState('filter.template', $this->getUserStateFromRequest($this->context . '.filter.template', 'filter_template', '', 'string'));
-            $this->setState('filter.menuitem', $this->getUserStateFromRequest($this->context . '.filter.menuitem', 'filter_menuitem', '', 'cmd'));
-
             // Special case for the client id.
             $clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-            $clientId = !in_array($clientId, [0, 1]) ? 0 : $clientId;
+            $clientId = !\in_array($clientId, [0, 1]) ? 0 : $clientId;
             $this->setState('client_id', $clientId);
         }
 
@@ -113,15 +109,15 @@ class StylesModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      */
     protected function getListQuery()
     {
         $clientId = (int) $this->getState('client_id');
 
         // Create a new query object.
-        $db = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $db    = $this->getDatabase();
+        $query = $db->createQuery();
 
         // Select the required fields from the table.
         $query->select(
@@ -204,15 +200,15 @@ class StylesModel extends ListModel
             } else {
                 // If user selected the templates styles assigned to particular pages.
                 // Subquery to get the language of the selected menu item.
-                $menuItemId = (int) $menuItemId;
-                $menuItemLanguageSubQuery = $db->getQuery(true);
+                $menuItemId               = (int) $menuItemId;
+                $menuItemLanguageSubQuery = $db->createQuery();
                 $menuItemLanguageSubQuery->select($db->quoteName('language'))
                     ->from($db->quoteName('#__menu'))
                     ->where($db->quoteName('id') . ' = :menuitemid');
                 $query->bind(':menuitemid', $menuItemId, ParameterType::INTEGER);
 
                 // Subquery to get the language of the selected menu item.
-                $templateStylesMenuItemsSubQuery = $db->getQuery(true);
+                $templateStylesMenuItemsSubQuery = $db->createQuery();
                 $templateStylesMenuItemsSubQuery->select($db->quoteName('id'))
                     ->from($db->quoteName('#__menu'))
                     ->where($db->quoteName('template_style_id') . ' = ' . $db->quoteName('a.id'));
@@ -240,12 +236,12 @@ class StylesModel extends ListModel
                 $query->extendWhere(
                     'AND',
                     [
-                        'LOWER(' . $db->quoteName('a.template') . ') LIKE :template',
+                        'LOWER(' . $db->quoteName('a.template') . ') LIKE :templatesearch',
                         'LOWER(' . $db->quoteName('a.title') . ') LIKE :title',
                     ],
                     'OR'
                 )
-                    ->bind(':template', $search)
+                    ->bind(':templatesearch', $search)
                     ->bind(':title', $search);
             }
         }

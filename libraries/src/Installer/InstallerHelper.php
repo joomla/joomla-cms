@@ -10,19 +10,21 @@
 namespace Joomla\CMS\Installer;
 
 use Joomla\Archive\Archive;
+use Joomla\CMS\Event\Installer\BeforePackageDownloadEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Version;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
+use Joomla\Filesystem\Path;
+use Joomla\Http\HttpFactory;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -68,21 +70,28 @@ abstract class InstallerHelper
      */
     public static function downloadPackage($url, $target = false)
     {
-        // Capture PHP errors
-        $track_errors = ini_get('track_errors');
-        ini_set('track_errors', true);
-
         // Set user agent
         $version = new Version();
         ini_set('user_agent', $version->getUserAgent('Installer'));
 
         // Load installer plugins, and allow URL and headers modification
-        $headers = array();
-        PluginHelper::importPlugin('installer');
-        Factory::getApplication()->triggerEvent('onInstallerBeforePackageDownload', array(&$url, &$headers));
+        $headers    = [];
+        $dispatcher = Factory::getApplication()->getDispatcher();
+        PluginHelper::importPlugin('installer', null, true, $dispatcher);
+        $event = new BeforePackageDownloadEvent('onInstallerBeforePackageDownload', [
+            'url'     => &$url, // @todo: Remove reference in Joomla 7, see BeforePackageDownloadEvent::__constructor()
+            'headers' => &$headers, // @todo: Remove reference in Joomla 7, see BeforePackageDownloadEvent::__constructor()
+        ]);
+        $dispatcher->dispatch('onInstallerBeforePackageDownload', $event);
+        $url     = $event->getArgument('url', $url);
+        $headers = $event->getArgument('headers', $headers);
 
+        $options = new Registry();
+        $options->set('userAgent', $version->getUserAgent('Joomla', true, false));
+
+        // Get the file
         try {
-            $response = HttpFactory::getHttp()->get($url, $headers);
+            $response = (new HttpFactory())->getHttp($options)->get($url, $headers);
         } catch (\RuntimeException $exception) {
             Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $exception->getMessage()), Log::WARNING, 'jerror');
 
@@ -90,12 +99,14 @@ abstract class InstallerHelper
         }
 
         // Convert keys of headers to lowercase, to accommodate for case variations
-        $headers = array_change_key_case($response->headers, CASE_LOWER);
+        $headers = array_change_key_case($response->getHeaders(), CASE_LOWER);
 
-        if (302 == $response->code && !empty($headers['location'])) {
+        if (302 == $response->getStatusCode() && !empty($headers['location'])) {
             return self::downloadPackage($headers['location']);
-        } elseif (200 != $response->code) {
-            Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code), Log::WARNING, 'jerror');
+        }
+
+        if (200 != $response->getStatusCode()) {
+            Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->getStatusCode()), Log::WARNING, 'jerror');
 
             return false;
         }
@@ -105,7 +116,7 @@ abstract class InstallerHelper
             !empty($headers['content-disposition'])
             && preg_match("/\s*filename\s?=\s?(.*)/", $headers['content-disposition'][0], $parts)
         ) {
-            $flds = explode(';', $parts[1]);
+            $flds   = explode(';', $parts[1]);
             $target = trim($flds[0], '"');
         }
 
@@ -118,14 +129,16 @@ abstract class InstallerHelper
             $target = $tmpPath . '/' . basename($target);
         }
 
-        // Write buffer to file
-        File::write($target, $response->body);
+        // Fix Indirect Modification of Overloaded Property
+        $body = (string) $response->getBody();
 
-        // Restore error tracking to what it was before
-        ini_set('track_errors', $track_errors);
+        // Write buffer to file
+        File::write($target, $body);
 
         // Bump the max execution time because not using built in php zip libs are slow
-        @set_time_limit(ini_get('max_execution_time'));
+        if (\function_exists('set_time_limit')) {
+            set_time_limit(\ini_get('max_execution_time'));
+        }
 
         // Return the name of the downloaded package
         return basename($target);
@@ -151,20 +164,20 @@ abstract class InstallerHelper
         $tmpdir = uniqid('install_');
 
         // Clean the paths to use for archive extraction
-        $extractdir = Path::clean(\dirname($packageFilename) . '/' . $tmpdir);
+        $extractdir  = Path::clean(\dirname($packageFilename) . '/' . $tmpdir);
         $archivename = Path::clean($archivename);
 
         // Do the unpacking of the archive
         try {
-            $archive = new Archive(array('tmp_path' => Factory::getApplication()->get('tmp_path')));
+            $archive = new Archive(['tmp_path' => Factory::getApplication()->get('tmp_path')]);
             $extract = $archive->extract($archivename, $extractdir);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             if ($alwaysReturnArray) {
-                return array(
+                return [
                     'extractdir'  => null,
                     'packagefile' => $archivename,
                     'type'        => false,
-                );
+                ];
             }
 
             return false;
@@ -172,11 +185,11 @@ abstract class InstallerHelper
 
         if (!$extract) {
             if ($alwaysReturnArray) {
-                return array(
+                return [
                     'extractdir'  => null,
                     'packagefile' => $archivename,
                     'type'        => false,
-                );
+                ];
             }
 
             return false;
@@ -186,7 +199,8 @@ abstract class InstallerHelper
          * Let's set the extraction directory and package file in the result array so we can
          * cleanup everything properly later on.
          */
-        $retval['extractdir'] = $extractdir;
+        $retval                = [];
+        $retval['extractdir']  = $extractdir;
         $retval['packagefile'] = $archivename;
 
         /*
@@ -199,7 +213,7 @@ abstract class InstallerHelper
         $dirList = array_merge((array) Folder::files($extractdir, ''), (array) Folder::folders($extractdir, ''));
 
         if (\count($dirList) === 1) {
-            if (Folder::exists($extractdir . '/' . $dirList[0])) {
+            if (is_dir(Path::clean($extractdir . '/' . $dirList[0]))) {
                 $extractdir = Path::clean($extractdir . '/' . $dirList[0]);
             }
         }
@@ -218,9 +232,9 @@ abstract class InstallerHelper
 
         if ($alwaysReturnArray || $retval['type']) {
             return $retval;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -281,7 +295,7 @@ abstract class InstallerHelper
     {
         $default = uniqid();
 
-        if (!\is_string($url) || strpos($url, '/') === false) {
+        if (!\is_string($url) || !str_contains($url, '/')) {
             return $default;
         }
 
@@ -305,7 +319,7 @@ abstract class InstallerHelper
      * @param   string  $package    Path to the uploaded package file
      * @param   string  $resultdir  Path to the unpacked extension
      *
-     * @return  boolean  True on success
+     * @return  void
      *
      * @since   3.1
      */
@@ -337,13 +351,13 @@ abstract class InstallerHelper
      */
     public static function isChecksumValid($packagefile, $updateObject)
     {
-        $hashes     = array('sha256', 'sha384', 'sha512');
+        $hashes     = ['sha256', 'sha384', 'sha512'];
         $hashOnFile = false;
 
         foreach ($hashes as $hash) {
             if ($updateObject->get($hash, false)) {
                 $hashPackage = hash_file($hash, $packagefile);
-                $hashRemote  = $updateObject->$hash->_data;
+                $hashRemote  = trim($updateObject->$hash->_data);
                 $hashOnFile  = true;
 
                 if ($hashPackage !== strtolower($hashRemote)) {

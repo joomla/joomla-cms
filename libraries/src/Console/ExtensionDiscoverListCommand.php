@@ -14,7 +14,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -89,7 +89,7 @@ class ExtensionDiscoverListCommand extends ExtensionsListCommand
         $this->ioStyle->title('Discovered Extensions');
 
         $extensions = $this->getExtensions();
-        $state = -1;
+        $state      = -1;
 
         $discovered_extensions = $this->filterExtensionsBasedOnState($extensions, $state);
 

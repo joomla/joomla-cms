@@ -21,7 +21,7 @@ if ($value == '') {
 
 $db    = Factory::getDbo();
 $value = (array) $value;
-$query = $db->getQuery(true);
+$query = $db->createQuery();
 $sql   = $fieldParams->get('query', '');
 
 $bindNames = $query->bindArray($value, ParameterType::STRING);
@@ -38,7 +38,7 @@ try {
     $items = $db->loadObjectList();
 }
 
-$texts = array();
+$texts = [];
 
 foreach ($items as $item) {
     if (in_array($item->value, $value)) {

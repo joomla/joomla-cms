@@ -60,15 +60,21 @@ Text::script('JHIDEPASSWORD');
                 </div>
             <?php else : ?>
                 <label for="modlgn-passwd-<?php echo $module->id; ?>"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
-                <input id="modlgn-passwd-<?php echo $module->id; ?>" type="password" name="password" autocomplete="current-password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
+                <div class="input-group">
+                    <input id="modlgn-passwd-<?php echo $module->id; ?>" type="password" name="password" autocomplete="current-password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
+                    <button type="button" class="btn btn-secondary input-password-toggle">
+                        <span class="icon-eye icon-fw" aria-hidden="true"></span>
+                        <span class="visually-hidden"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
+                    </button>
+                </div>
             <?php endif; ?>
         </div>
 
         <?php if (PluginHelper::isEnabled('system', 'remember')) : ?>
             <div class="mod-login__remember form-group">
                 <div id="form-login-remember-<?php echo $module->id; ?>" class="form-check">
-                    <label class="form-check-label">
-                        <input type="checkbox" name="remember" class="form-check-input" value="yes">
+                    <input type="checkbox" name="remember" class="form-check-input" value="yes" id="form-login-input-remember-<?php echo $module->id; ?>">
+                    <label class="form-check-label" for="form-login-input-remember-<?php echo $module->id; ?>">
                         <?php echo Text::_('MOD_LOGIN_REMEMBER_ME'); ?>
                     </label>
                 </div>

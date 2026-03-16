@@ -15,6 +15,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Installer\Administrator\Model\InstallerModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -30,7 +31,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var   \Joomla\Registry\Registry
      *
      * @since  4.0.0
      */
@@ -71,20 +72,20 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
+        /** @var InstallerModel $model */
+        $model = $this->getModel();
+
         // Get data from the model.
-        $state = $this->get('State');
+        $this->state = $model->getState();
 
         // Are there messages to display?
-        $showMessage = false;
+        $this->showMessage = false;
 
-        if (is_object($state)) {
-            $message1    = $state->get('message');
-            $message2    = $state->get('extension_message');
-            $showMessage = ($message1 || $message2);
+        if (\is_object($this->state)) {
+            $message1          = $this->state->get('message');
+            $message2          = $this->state->get('extension_message');
+            $this->showMessage = ($message1 || $message2);
         }
-
-        $this->showMessage = $showMessage;
-        $this->state       = &$state;
 
         $this->addToolbar();
         parent::display($tpl);
@@ -99,12 +100,14 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo = ContentHelper::getActions('com_installer');
+        $canDo   = ContentHelper::getActions('com_installer');
+        $toolbar = $this->getDocument()->getToolbar();
+
         ToolbarHelper::title(Text::_('COM_INSTALLER_HEADER_' . strtoupper($this->getName())), 'puzzle-piece install');
 
         if ($canDo->get('core.admin') || $canDo->get('core.options')) {
-            ToolbarHelper::preferences('com_installer');
-            ToolbarHelper::divider();
+            $toolbar->preferences('com_installer');
+            $toolbar->divider();
         }
     }
 }

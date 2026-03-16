@@ -12,8 +12,11 @@
 namespace Joomla\Component\Workflow\Administrator\Model;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -29,23 +32,24 @@ class StagesModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     JController
      * @since  4.0.0
      */
-    public function __construct($config = array())
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 's.id',
                 'title', 's.title',
                 'ordering','s.ordering',
-                'published', 's.published'
-            );
+                'published', 's.published',
+            ];
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -69,7 +73,7 @@ class StagesModel extends ListModel
         $app = Factory::getApplication();
 
         $workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 1, 'int');
-        $extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
+        $extension  = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
 
         if ($workflowID) {
             $table = $this->getTable('Workflow', 'Administrator');
@@ -112,7 +116,7 @@ class StagesModel extends ListModel
      *
      * @since  4.0.0
      */
-    public function getTable($type = 'Stage', $prefix = 'Administrator', $config = array())
+    public function getTable($type = 'Stage', $prefix = 'Administrator', $config = [])
     {
         return parent::getTable($type, $prefix, $config);
     }
@@ -120,14 +124,14 @@ class StagesModel extends ListModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  string  The query to database.
+     * @return  QueryInterface  The query to database.
      *
      * @since  4.0.0
      */
     public function getListQuery()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query
             ->select(
@@ -137,9 +141,11 @@ class StagesModel extends ListModel
                     $db->quoteName('s.ordering'),
                     $db->quoteName('s.default'),
                     $db->quoteName('s.published'),
+                    $db->quoteName('s.workflow_id'),
                     $db->quoteName('s.checked_out'),
                     $db->quoteName('s.checked_out_time'),
                     $db->quoteName('s.description'),
+                    $db->quoteName('s.position'),
                     $db->quoteName('uc.name', 'editor'),
                 ]
             )
@@ -196,5 +202,71 @@ class StagesModel extends ListModel
         }
 
         return (object) $table->getProperties();
+    }
+
+    /**
+     * Update positions for multiple workflow stages
+     *
+     * @param   array  $stages  Array of stage data, each with id, x, y values
+     *
+     *
+     * @return  boolean  True on success, false on failure
+     *
+     * @since   6.1.0
+     */
+    public function updatePositions($stagePositions, $workflowId)
+    {
+        if (empty($stagePositions) || !\is_array($stagePositions)) {
+            throw new \InvalidArgumentException(Text::_('COM_WORKFLOW_GRAPH_ERROR_INVALID_STAGE_POSITIONS'));
+        }
+
+        // Convert the stage positions to the expected format
+        $stages = [];
+        foreach ($stagePositions as $id => $position) {
+            if (isset($position['x'], $position['y'])) {
+                $stages[] = [
+                    'id' => (int) $id,
+                    'x'  => (float) $position['x'],
+                    'y'  => (float) $position['y'],
+                ];
+            } else {
+                throw new \InvalidArgumentException(Text::sprintf('COM_WORKFLOW_GRAPH_ERROR_INVALID_POSITION_DATA', $id));
+            }
+        }
+
+        $db = $this->getDatabase();
+
+        try {
+            $db->transactionStart();
+
+            foreach ($stages as $stage) {
+                if (!isset($stage['id']) || !isset($stage['x']) || !isset($stage['y'])) {
+                    throw new \InvalidArgumentException(Text::_('COM_WORKFLOW_GRAPH_ERROR_INVALID_POSITION_DATA', $stage['id']));
+                }
+
+                $id = (int) $stage['id'];
+                $x  = (float) $stage['x'];
+                $y  = (float) $stage['y'];
+
+                // Format the position as a text which can later converted to json
+                $point  = '{"x":' . $x . ', "y":' . $y . '}';
+
+                $query = $db->getQuery(true)
+                    ->update($db->quoteName('#__workflow_stages'))
+                    ->set($db->quoteName('position') . ' = :position')
+                    ->where($db->quoteName('id') . ' = :id')
+                    ->bind(':position', $point, ParameterType::STRING)
+                    ->bind(':id', $id, ParameterType::INTEGER);
+                $db->setQuery($query);
+                $db->execute();
+            }
+
+            $db->transactionCommit();
+        } catch (\Exception $e) {
+            $db->transactionRollback();
+            throw new \RuntimeException(Text::_('COM_WORKFLOW_GRAPH_ERROR_FAILED_TO_UPDATE_STAGE_POSITIONS') . ': ' . $e->getMessage());
+        }
+
+        return true;
     }
 }

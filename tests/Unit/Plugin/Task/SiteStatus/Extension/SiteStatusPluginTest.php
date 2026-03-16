@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Language;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
-use Joomla\Event\Dispatcher;
 use Joomla\Filesystem\Folder;
 use Joomla\Plugin\Task\SiteStatus\Extension\SiteStatus;
 use Joomla\Tests\Unit\UnitTestCase;
@@ -37,7 +36,7 @@ class SiteStatusPluginTest extends UnitTestCase
      *
      * @var string
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     private $tmpFolder;
 
@@ -89,7 +88,7 @@ class SiteStatusPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => true], $this->tmpFolder . '/config.php');
+        $plugin = new SiteStatus([], ['offline' => true], $this->tmpFolder . '/config.php');
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -117,7 +116,7 @@ class SiteStatusPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => false], $this->tmpFolder . '/config.php');
+        $plugin = new SiteStatus([], ['offline' => false], $this->tmpFolder . '/config.php');
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -145,7 +144,7 @@ class SiteStatusPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => false], $this->tmpFolder . '/config.php');
+        $plugin = new SiteStatus([], ['offline' => false], $this->tmpFolder . '/config.php');
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -173,7 +172,7 @@ class SiteStatusPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => true], $this->tmpFolder . '/config.php');
+        $plugin = new SiteStatus([], ['offline' => true], $this->tmpFolder . '/config.php');
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -201,7 +200,7 @@ class SiteStatusPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => false], $this->tmpFolder . '/config.php');
+        $plugin = new SiteStatus([], ['offline' => false], $this->tmpFolder . '/config.php');
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -229,7 +228,7 @@ class SiteStatusPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => true], $this->tmpFolder . '/config.php');
+        $plugin = new SiteStatus([], ['offline' => true], $this->tmpFolder . '/config.php');
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -257,7 +256,7 @@ class SiteStatusPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => true], '/proc/invalid/config.php');
+        $plugin = new SiteStatus([], ['offline' => true], '/proc/invalid/config.php');
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -267,6 +266,6 @@ class SiteStatusPluginTest extends UnitTestCase
         $plugin->alterSiteStatus($event);
 
         $this->assertEquals(Status::KNOCKOUT, $event->getResultSnapshot()['status']);
-        $this->assertFileNotExists('/proc/invalid/config.php');
+        $this->assertFileDoesNotExist('/proc/invalid/config.php');
     }
 }

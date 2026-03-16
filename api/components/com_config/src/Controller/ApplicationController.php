@@ -54,7 +54,7 @@ class ApplicationController extends ApiController
      */
     public function displayList()
     {
-        $viewType = $this->app->getDocument()->getType();
+        $viewType   = $this->app->getDocument()->getType();
         $viewLayout = $this->input->get('layout', 'default', 'string');
 
         try {
@@ -110,10 +110,10 @@ class ApplicationController extends ApiController
 
         // Complete data array if needed
         $oldData = $model->getData();
-        $data = array_replace($oldData, $data);
+        $data    = array_replace($oldData, $data);
 
         // @todo: Not the cleanest thing ever but it works...
-        Form::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . '/forms');
+        Form::addFormPath(JPATH_ADMINISTRATOR . '/components/com_config/forms');
 
         // Must load after serving service-requests
         $form = $model->getForm();

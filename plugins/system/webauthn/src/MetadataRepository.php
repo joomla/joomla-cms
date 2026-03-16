@@ -1,24 +1,20 @@
 <?php
 
 /**
- * @package         Joomla.Plugin
- * @subpackage      System.Webauthn
+ * @package     Joomla.Plugin
+ * @subpackage  System.Webauthn
  *
  * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Webauthn;
 
-use Exception;
-use Joomla\CMS\Date\Date;
-use Joomla\CMS\Http\HttpFactory;
-use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Encoding\JoseEncoder;
+use Lcobucci\JWT\Token\Parser;
 use Lcobucci\JWT\Token\Plain;
-use Webauthn\MetadataService\MetadataStatement;
 use Webauthn\MetadataService\MetadataStatementRepository;
-
-use function defined;
+use Webauthn\MetadataService\Statement\MetadataStatement;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -30,7 +26,7 @@ use function defined;
  * This repository contains the metadata of all FIDO authenticators as published by the FIDO
  * Alliance in their MDS version 3.0.
  *
- * @see   https://fidoalliance.org/metadata/
+ * @link  https://fidoalliance.org/metadata/
  * @since 4.2.0
  */
 final class MetadataRepository implements MetadataStatementRepository
@@ -126,14 +122,14 @@ final class MetadataRepository implements MetadataStatementRepository
         $jwtFilename = JPATH_PLUGINS . '/system/webauthn/fido.jwt';
         $rawJwt      = file_get_contents($jwtFilename);
 
-        if (!is_string($rawJwt) || strlen($rawJwt) < 1024) {
+        if (!\is_string($rawJwt) || \strlen($rawJwt) < 1024) {
             return;
         }
 
         try {
-            $jwtConfig = Configuration::forUnsecuredSigner();
-            $token     = $jwtConfig->parser()->parse($rawJwt);
-        } catch (Exception $e) {
+            $parser = new Parser(new JoseEncoder());
+            $token  = $parser->parse($rawJwt);
+        } catch (\Exception) {
             return;
         }
 
@@ -143,22 +139,12 @@ final class MetadataRepository implements MetadataStatementRepository
 
         unset($rawJwt);
 
-        $entriesMapper = function (object $entry) {
+        $entriesMapper = function (array $entry): ?MetadataStatement {
             try {
-                $array = json_decode(json_encode($entry->metadataStatement), true);
-
-                /**
-                 * This prevents an error when we're asking for attestation on authenticators which
-                 * don't allow it. We are really not interested in the attestation per se, but
-                 * requiring an attestation is the only way we can get the AAGUID of the
-                 * authenticator.
-                 */
-                if (isset($array['attestationTypes'])) {
-                    unset($array['attestationTypes']);
-                }
+                $array = json_decode(json_encode($entry['metadataStatement']), true);
 
                 return MetadataStatement::createFromArray($array);
-            } catch (Exception $e) {
+            } catch (\Exception) {
                 return null;
             }
         };

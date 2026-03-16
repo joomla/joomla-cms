@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Categories\Administrator\Field">
 
 	<field
@@ -96,7 +96,7 @@
 		name="description"
 		type="editor"
 		label="JGLOBAL_DESCRIPTION"
-		filter="JComponentHelper::filterText"
+		filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 		buttons="true"
 		hide="readmore,pagebreak"
 	/>
@@ -140,8 +140,8 @@
 		type="textarea"
 		label="JFIELD_META_DESCRIPTION_LABEL"
 		rows="3"
-		cols="40"
-		maxlength="160"
+		cols="30"
+		maxlength="300"
 		charcounter="true"
 	/>
 
@@ -234,6 +234,9 @@
 				<field
 					name="image"
 					type="media"
+					schemes="http,https,ftp,ftps,data,file"
+					validate="url"
+					relative="true"
 					label="COM_CATEGORIES_FIELD_IMAGE_LABEL"
 				/>
 

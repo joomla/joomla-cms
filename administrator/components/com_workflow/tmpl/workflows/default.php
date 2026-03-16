@@ -11,15 +11,16 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Workflow\Administrator\View\Workflows\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
@@ -42,7 +43,7 @@ if ($saveOrder) {
 
 $extension = $this->escape($this->state->get('filter.extension'));
 
-$user = Factory::getUser();
+$user = $this->getCurrentUser();
 $userId = $user->id;
 ?>
 <form action="<?php echo Route::_('index.php?option=com_workflow&view=workflows&extension=' . $extension); ?>" method="post" name="adminForm" id="adminForm">
@@ -60,7 +61,7 @@ $userId = $user->id;
             <div id="j-main-container" class="j-main-container">
                 <?php
                     // Search tools bar
-                    echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'extension')));
+                    echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => ['selectorFieldName' => 'extension']]);
                 ?>
                 <?php if (empty($this->workflows)) : ?>
                     <div class="alert alert-info">
@@ -97,7 +98,10 @@ $userId = $user->id;
                                 <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                                     <?php echo Text::_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?>
                                 </th>
-                                <th scope="col" class="w-10 d-none d-md-table-cell">
+                                <th scope="col" class="w-10 text-center d-none d-md-table-cell">
+                                    <?php echo Text::_('COM_WORKFLOW_GRAPH'); ?>
+                                </th>
+                                <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_ID', 'w.id', $listDirn, $listOrder); ?>
                                 </th>
                             </tr>
@@ -109,6 +113,7 @@ $userId = $user->id;
                             $states = Route::_('index.php?option=com_workflow&view=stages&workflow_id=' . $item->id . '&extension=' . $extension);
                             $transitions = Route::_('index.php?option=com_workflow&view=transitions&workflow_id=' . $item->id . '&extension=' . $extension);
                             $edit = Route::_('index.php?option=com_workflow&task=workflow.edit&id=' . $item->id . '&extension=' . $extension);
+                            $graph = Route::_('index.php?option=com_workflow&view=graph&id=' . $item->id . '&extension=' . $extension);
 
                             $canEdit    = $user->authorise('core.edit', $extension . '.workflow.' . $item->id);
                             $canCheckin = $user->authorise('core.admin', 'com_workflow') || $item->checked_out == $userId || is_null($item->checked_out);
@@ -165,7 +170,7 @@ $userId = $user->id;
                                     </div>
                                 </td>
                                 <td class="text-center btns d-none d-md-table-cell itemnumber">
-                                    <a class="btn <?php echo ($item->count_transitions > 0) ? 'btn-info' : 'btn-secondary'; ?>"
+                                    <a class="btn <?php echo ($item->count_transitions > 0) ? 'btn-primary' : 'btn-secondary'; ?>"
                                         href="<?php echo Route::_('index.php?option=com_workflow&view=transitions&workflow_id=' . (int) $item->id . '&extension=' . $extension); ?>" aria-describedby="tip-transitions<?php echo $i; ?>">
                                         <?php echo $item->count_transitions; ?>
                                     </a>
@@ -173,19 +178,27 @@ $userId = $user->id;
                                         <?php echo Text::_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?>
                                     </div>
                                 </td>
-                                <td class="d-none d-md-table-cell">
+                                <td class="text-center btns d-none d-md-table-cell">
+                                    <a class="btn btn-primary px-2 py-1" href="<?php echo $graph; ?>" aria-describedby="tip-graph<?php echo $i; ?>">
+                                        <span class="fa fa-diagram-project" aria-hidden="true"></span>
+                                    </a>
+                                    <div role="tooltip" id="tip-graph<?php echo $i; ?>">
+                                        <?php echo Text::_('COM_WORKFLOW_GRAPH'); ?>
+                                    </div>
+                                </td>
+                                <td class="text-center d-none d-md-table-cell">
                                     <?php echo $item->id; ?>
                                 </td>
                             </tr>
                         <?php endforeach ?>
+                        </tbody>
                     </table>
                     <?php // load the pagination. ?>
                     <?php echo $this->pagination->getListFooter(); ?>
 
                 <?php endif; ?>
-                <input type="hidden" name="task" value="">
-                <input type="hidden" name="boxchecked" value="0">
-                <?php echo HTMLHelper::_('form.token'); ?>
+
+                <?php echo $this->filterForm->renderControlFields(); ?>
             </div>
         </div>
     </div>

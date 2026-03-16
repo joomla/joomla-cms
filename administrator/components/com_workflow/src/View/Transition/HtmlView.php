@@ -12,10 +12,11 @@ namespace Joomla\Component\Workflow\Administrator\View\Transition;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Workflow\Administrator\Helper\StageHelper;
+use Joomla\Component\Workflow\Administrator\Model\TransitionModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -64,7 +65,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The application input object.
      *
-     * @var    \Joomla\CMS\Input\Input
+     * @var    \Joomla\Input\Input
      * @since  4.0.0
      */
     protected $input;
@@ -94,6 +95,15 @@ class HtmlView extends BaseHtmlView
     protected $section;
 
     /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
+
+    /**
      * Display item view
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -104,18 +114,16 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->app = Factory::getApplication();
-        $this->input = $this->app->input;
+        $this->app   = Factory::getApplication();
+        $this->input = $this->app->getInput();
 
-        // Get the Data
-        $this->state      = $this->get('State');
-        $this->form       = $this->get('Form');
-        $this->item       = $this->get('Item');
+        /** @var TransitionModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-        // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        $this->state      = $model->getState();
+        $this->form       = $model->getForm();
+        $this->item       = $model->getItem();
 
         $extension = $this->state->get('filter.extension');
 
@@ -129,6 +137,10 @@ class HtmlView extends BaseHtmlView
 
         // Get the ID of workflow
         $this->workflowID = $this->input->getCmd("workflow_id");
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task', 'transition.edit');
 
         // Set the toolbar
         $this->addToolbar();
@@ -146,65 +158,61 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = empty($this->item->id);
-
-        $canDo = StageHelper::getActions($this->extension, 'transition', $this->item->id);
+        $toolbar    = $this->getDocument()->getToolbar();
+        $canDo      = StageHelper::getActions($this->extension, 'transition', $this->item->id);
+        $canCreate  = $canDo->get('core.create');
 
         ToolbarHelper::title(empty($this->item->id) ? Text::_('COM_WORKFLOW_TRANSITION_ADD') : Text::_('COM_WORKFLOW_TRANSITION_EDIT'), 'address');
-
-        $toolbarButtons = [];
-
-        $canCreate = $canDo->get('core.create');
 
         if ($isNew) {
             // For new records, check the create permission.
             if ($canCreate) {
-                ToolbarHelper::apply('transition.apply');
-                $toolbarButtons = [['save', 'transition.save'], ['save2new', 'transition.save2new']];
+                $toolbar->apply('transition.apply');
+
+                $saveGroup = $toolbar->dropdownButton('save-group');
+
+                $saveGroup->configure(
+                    function (Toolbar $childBar) {
+                        // For new records, check the create permission.
+                        $childBar->save('transition.save');
+                        $childBar->save2new('transition.save2new');
+                    }
+                );
             }
 
-            ToolbarHelper::saveGroup(
-                $toolbarButtons,
-                'btn-success'
-            );
-
-            ToolbarHelper::cancel(
-                'transition.cancel'
-            );
+            $toolbar->cancel('transition.cancel', 'JTOOLBAR_CANCEL');
         } else {
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
             $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
             if ($itemEditable) {
-                ToolbarHelper::apply('transition.apply');
-                $toolbarButtons[] = ['save', 'transition.save'];
-
-                // We can save this record, but check the create permission to see if we can return to make a new one.
-                if ($canCreate) {
-                    $toolbarButtons[] = ['save2new', 'transition.save2new'];
-                    $toolbarButtons[] = ['save2copy', 'transition.save2copy'];
-                }
-            }
-
-            if (count($toolbarButtons) > 1) {
-                ToolbarHelper::saveGroup(
-                    $toolbarButtons,
-                    'btn-success'
-                );
+                $toolbar->apply('transition.apply');
             } else {
-                ToolbarHelper::save('transition.save');
+                $toolbar->save('transition.save');
             }
 
-            ToolbarHelper::cancel(
-                'transition.cancel',
-                'JTOOLBAR_CLOSE'
+            $saveGroup = $toolbar->dropdownButton('save-group');
+
+            $saveGroup->configure(
+                function (Toolbar $childBar) use ($canCreate) {
+                    $childBar->save('transition.save');
+
+                    // We can save this record, but check the create permission to see if we can return to make a new one.
+                    if ($canCreate) {
+                        $childBar->save2new('transition.save2new');
+                        $childBar->save2copy('transition.save2copy');
+                    }
+                }
             );
+
+            $toolbar->cancel('transition.cancel');
         }
 
-        ToolbarHelper::divider();
+        $toolbar->divider();
     }
 }

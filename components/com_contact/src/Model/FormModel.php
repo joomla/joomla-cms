@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Contact\Site\Model;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
@@ -55,11 +54,11 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|boolean  A Form object on success, false on failure
+     * @return  Form|boolean  A Form object, false on failure
      *
      * @since   4.0.0
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         $form = parent::getForm($data, $loadData);
 
@@ -82,9 +81,9 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
      *
      * @param   integer  $itemId  The id of the contact.
      *
-     * @return  mixed  Contact item data object on success, false on failure.
+     * @return  \stdClass|false  Contact item data object on success, false on failure.
      *
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since   4.0.0
      */
@@ -100,14 +99,14 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
             if (!$table->load($itemId)) {
                 return false;
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage());
 
             return false;
         }
 
         $properties = $table->getProperties();
-        $value      = ArrayHelper::toObject($properties, \Joomla\CMS\Object\CMSObject::class);
+        $value      = ArrayHelper::toObject($properties);
 
         // Convert field to Registry.
         $value->params = new Registry($value->params);
@@ -146,7 +145,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
      *
      * @since   4.0.0
      *
-     * @throws  Exception
+     * @throws  \Exception
      */
     public function save($data)
     {
@@ -174,26 +173,27 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
      *
      * @since   4.0.0
      *
-     * @throws  Exception
+     * @throws  \Exception
      */
     protected function populateState()
     {
-        $app = Factory::getApplication();
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
 
         // Load state from the request.
-        $pk = $app->input->getInt('id');
+        $pk = $input->getInt('id');
         $this->setState('contact.id', $pk);
 
-        $this->setState('contact.catid', $app->input->getInt('catid'));
+        $this->setState('contact.catid', $input->getInt('catid'));
 
-        $return = $app->input->get('return', '', 'base64');
+        $return = $input->get('return', '', 'base64');
         $this->setState('return_page', base64_decode($return));
 
         // Load the parameters.
         $params = $app->getParams();
         $this->setState('params', $params);
 
-        $this->setState('layout', $app->input->getString('layout'));
+        $this->setState('layout', $input->getString('layout'));
     }
 
     /**
@@ -228,9 +228,9 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
      *
      * @since   4.0.0
 
-     * @throws  Exception
+     * @throws  \Exception
      */
-    public function getTable($name = 'Contact', $prefix = 'Administrator', $options = array())
+    public function getTable($name = 'Contact', $prefix = 'Administrator', $options = [])
     {
         return parent::getTable($name, $prefix, $options);
     }

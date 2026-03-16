@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="Joomla! - Open Source Content Management" -->
+<?xml-stylesheet href="/plugins/system/jce/css/content.css?badb4208be409b1335b815dde676300e" type="text/css"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Joomla! Official News</title>
+		<description><![CDATA[Joomla! - the dynamic portal engine and content management system]]></description>
+		<link>https://www.joomla.org/announcements.html</link>
+		<lastBuildDate>Wed, 12 Apr 2023 19:48:43 +0000</lastBuildDate>
+		<generator>Joomla! - Open Source Content Management</generator>
+		<atom:link rel="self" type="application/rss+xml" href="https://www.joomla.org/announcements.feed?type=rss"/>
+		<language>en-gb</language>
+		<managingEditor>noreply@joomla.org (Joomla!)</managingEditor>
+		<item>
+			<title>Joomla 4.3.0 Release Candidate 3 - test the final package</title>
+			<link>https://www.joomla.org/announcements/release-news/5883-joomla-4-3-0-release-candidate-3-test-the-final-package.html</link>
+			<guid isPermaLink="true">https://www.joomla.org/announcements/release-news/5883-joomla-4-3-0-release-candidate-3-test-the-final-package.html</guid>
+			<description><![CDATA[
+<p class="lead">The Joomla Project is pleased to announce the availability of Joomla 4.3.0 Release Candidate 3 for testing.</p>
+]]></description>
+			<author>feed@example.com (Joomla)</author>
+			<category>Project Release News</category>
+			<pubDate>Wed, 12 Apr 2023 06:56:30 +0000</pubDate>
+		</item>
+		<item>
+			<title>Joomla 4.3.0 Release Candidate 2 - test the final package</title>
+			<link>https://www.joomla.org/announcements/release-news/5881-joomla-4-3-0-release-candidate-2-test-the-final-package.html</link>
+			<guid isPermaLink="true">https://www.joomla.org/announcements/release-news/5881-joomla-4-3-0-release-candidate-2-test-the-final-package.html</guid>
+			<description><![CDATA[
+<p class="lead">The Joomla Project is pleased to announce the availability of Joomla 4.3.0 Release Candidate 2 for testing.</p>
+]]></description>
+			<author>feed@example.com (Joomla)</author>
+			<category>Project Release News</category>
+			<pubDate>Sun, 02 Apr 2023 06:56:30 +0000</pubDate>
+		</item>
+		<item>
+			<title>Joomla 4.3.0 Release Candidate 1 - test the final package</title>
+			<link>https://www.joomla.org/announcements/release-news/5880-joomla-4-3-0-release-candidate-1-test-the-final-package.html</link>
+			<guid isPermaLink="true">https://www.joomla.org/announcements/release-news/5880-joomla-4-3-0-release-candidate-1-test-the-final-package.html</guid>
+			<description><![CDATA[
+<p class="lead">The Joomla Project is pleased to announce the availability of Joomla 4.3.0 Release Candidate 1 for testing.</p>
+]]></description>
+			<author>feed@example.com (Joomla)</author>
+			<category>Project Release News</category>
+			<pubDate>Mon, 20 Mar 2023 06:56:30 +0000</pubDate>
+		</item>
+		<item>
+			<title>Joomla 4.2.9 Bug Fix Release</title>
+			<link>https://www.joomla.org/announcements/release-news/5879-joomla-4-2-9-bug-fix-release.html</link>
+			<guid isPermaLink="true">https://www.joomla.org/announcements/release-news/5879-joomla-4-2-9-bug-fix-release.html</guid>
+			<description><![CDATA[
+<p class="lead">Joomla! 4.2.9 is now available. This is a Bug Fix release for the 4.x series of Joomla!</p>
+]]></description>
+			<author>feed@example.com (Joomla)</author>
+			<category>Project Release News</category>
+			<pubDate>Tue, 14 Mar 2023 06:56:30 +0000</pubDate>
+		</item>
+		<item>
+			<title>Joomla 4.2.8 Security Release</title>
+			<link>https://www.joomla.org/announcements/release-news/5878-joomla-4-2-8-security-release.html</link>
+			<guid isPermaLink="true">https://www.joomla.org/announcements/release-news/5878-joomla-4-2-8-security-release.html</guid>
+			<description><![CDATA[
+<p class="lead">Joomla! 4.2.8 is now available. This is a security release for the 4.x series of Joomla! which addresses a critical security vulnerability in the web services API. We strongly recommend that you update your sites immediately.</p>
+]]></description>
+			<author>feed@example.com (Joomla)</author>
+			<category>Project Release News</category>
+			<pubDate>Thu, 16 Feb 2023 07:56:30 +0000</pubDate>
+		</item>
+		<item>
+			<title>Joomla! 4.2.8 - Important Security Announcement - Patch Available Soon</title>
+			<link>https://www.joomla.org/announcements/release-news/5877-joomla-4-2-8-important-security-announcement-patch-available-soon.html</link>
+			<guid isPermaLink="true">https://www.joomla.org/announcements/release-news/5877-joomla-4-2-8-important-security-announcement-patch-available-soon.html</guid>
+			<description><![CDATA[
+<p class="lead">A Joomla 4.2.8 release containing a security fix will be published on Thursday, 16th February at approximately 16:00 UTC</p>
+]]></description>
+			<author>feed@example.com (Joomla)</author>
+			<category>Project Release News</category>
+			<pubDate>Mon, 13 Feb 2023 17:00:00 +0000</pubDate>
+		</item>
+		<item>
+			<title>Joomla 4.2.7 Security and Bug Fix Release</title>
+			<link>https://www.joomla.org/announcements/release-news/5876-joomla-4-2-7-security-and-bug-fix-release.html</link>
+			<guid isPermaLink="true">https://www.joomla.org/announcements/release-news/5876-joomla-4-2-7-security-and-bug-fix-release.html</guid>
+			<description><![CDATA[
+<p class="lead">Joomla 4.2.7 is now available. This is a security and bug fix release for the 4.x series of Joomla.</p>
+]]></description>
+			<author>feed@example.com (Joomla)</author>
+			<category>Project Release News</category>
+			<pubDate>Tue, 31 Jan 2023 07:56:30 +0000</pubDate>
+		</item>
+		<item>
+			<title>Joomla 4.2.6 Bug Fix Release </title>
+			<link>https://www.joomla.org/announcements/release-news/5875-joomla-4-2-6-bug-fix-release.html</link>
+			<guid isPermaLink="true">https://www.joomla.org/announcements/release-news/5875-joomla-4-2-6-bug-fix-release.html</guid>
+			<description><![CDATA[
+<p class="lead">Joomla 4.2.6 is now available. This is a bug fix release for the 4.x series of Joomla.</p>
+]]></description>
+			<author>feed@example.com (Joomla)</author>
+			<category>Project Release News</category>
+			<pubDate>Tue, 13 Dec 2022 07:56:30 +0000</pubDate>
+		</item>
+		<item>
+			<title>Joomla 4.2.5 Security and Bug Fix release</title>
+			<link>https://www.joomla.org/announcements/release-news/5873-joomla-4-2-5-security-and-bug-fix-release.html</link>
+			<guid isPermaLink="true">https://www.joomla.org/announcements/release-news/5873-joomla-4-2-5-security-and-bug-fix-release.html</guid>
+			<description><![CDATA[
+<p class="lead">Joomla 4.2.5 is now available. This is a security and bug fix release for the 4.x series of Joomla which addresses 1 security vulnerability.</p>
+]]></description>
+			<author>feed@example.com (The Joomla! Project)</author>
+			<category>Project Release News</category>
+			<pubDate>Tue, 08 Nov 2022 06:00:00 +0000</pubDate>
+		</item>
+		<item>
+			<title>Sunset on GLIP as Joomla welcomes Mattermost</title>
+			<link>https://www.joomla.org/announcements/release-news/5874-sunset-on-glip-as-joomla-welcomes-mattermost.html</link>
+			<guid isPermaLink="true">https://www.joomla.org/announcements/release-news/5874-sunset-on-glip-as-joomla-welcomes-mattermost.html</guid>
+			<description><![CDATA[
+<p class="lead" style="margin: 10px 0;">We all have a new home for our daily communication.</p>
+]]></description>
+			<author>feed@example.com (Operations Department)</author>
+			<category>Project Release News</category>
+			<pubDate>Mon, 07 Nov 2022 06:59:32 +0000</pubDate>
+		</item>
+	</channel>
+</rss>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="component" method="upgrade">
 	<name>com_content</name>
 	<author>Joomla! Project</author>
@@ -29,6 +29,8 @@
 			<filename>content.xml</filename>
 			<folder>forms</folder>
 			<folder>helpers</folder>
+			<folder>layouts</folder>
+			<folder>presets</folder>
 			<folder>services</folder>
 			<folder>src</folder>
 			<folder>tmpl</folder>

@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Dispatcher;
@@ -33,7 +33,7 @@ final class ApiDispatcher extends ComponentDispatcher
         // Load common and local language files.
         $this->app->getLanguage()->load($this->option, JPATH_BASE) ||
         $this->app->getLanguage()->load($this->option, JPATH_ADMINISTRATOR) ||
-        $this->app->getLanguage()->load($this->option, JPATH_COMPONENT_ADMINISTRATOR);
+        $this->app->getLanguage()->load($this->option, JPATH_ADMINISTRATOR . '/components/' . $this->option);
     }
 
     /**
@@ -48,7 +48,7 @@ final class ApiDispatcher extends ComponentDispatcher
         $task = $this->input->getCmd('task', 'display');
 
         // Build controller config data
-        $config['option'] = $this->option;
+        $config = ['option' => $this->option];
 
         // Set name of controller if it is passed in the request
         if ($this->input->exists('controller')) {

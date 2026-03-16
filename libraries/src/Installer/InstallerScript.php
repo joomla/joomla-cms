@@ -10,11 +10,12 @@
 namespace Joomla\CMS\Installer;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -57,7 +58,7 @@ class InstallerScript
      * @var    array
      * @since  3.6
      */
-    protected $deleteFiles = array();
+    protected $deleteFiles = [];
 
     /**
      * A list of folders to be deleted
@@ -65,7 +66,7 @@ class InstallerScript
      * @var    array
      * @since  3.6
      */
-    protected $deleteFolders = array();
+    protected $deleteFolders = [];
 
     /**
      * A list of CLI script files to be copied to the cli directory
@@ -73,7 +74,7 @@ class InstallerScript
      * @var    array
      * @since  3.6
      */
-    protected $cliScriptFiles = array();
+    protected $cliScriptFiles = [];
 
     /**
      * Minimum PHP version required to install the extension
@@ -141,7 +142,7 @@ class InstallerScript
 
         // Abort if the extension being installed is not newer than the currently installed version
         if (!$this->allowDowngrades && strtolower($type) === 'update') {
-            $manifest = $this->getItemArray('manifest_cache', '#__extensions', 'element', $this->extension);
+            $manifest = $this->getItemArray('manifest_cache', '#__extensions', 'name', $this->extension);
 
             // Check whether we have an old release installed and skip this check when this here is the initial install.
             if (!isset($manifest['version'])) {
@@ -173,17 +174,17 @@ class InstallerScript
     {
         $extension = $this->extension;
 
-        $db = Factory::getDbo();
-        $query = $db->getQuery(true);
+        $db    = Factory::getDbo();
+        $query = $db->createQuery();
 
         // Select the item(s) and retrieve the id
-        $query->select($db->quoteName('id'));
-
         if ($isModule) {
-            $query->from($db->quoteName('#__modules'))
+            $query->select($db->quoteName('id'))
+                ->from($db->quoteName('#__modules'))
                 ->where($db->quoteName('module') . ' = :extension');
         } else {
-            $query->from($db->quoteName('#__extensions'))
+            $query->select($db->quoteName('extension_id', 'id'))
+                ->from($db->quoteName('#__extensions'))
                 ->where($db->quoteName('element') . ' = :extension');
         }
 
@@ -210,7 +211,9 @@ class InstallerScript
             return false;
         }
 
-        $params = $this->getItemArray('params', $this->paramTable, 'id', $id);
+        $column = ($this->paramTable === '#__extensions') ? 'extension_id' : 'id';
+
+        $params = $this->getItemArray('params', $this->paramTable, $column, $id);
 
         return $params[$name];
     }
@@ -235,7 +238,9 @@ class InstallerScript
             return false;
         }
 
-        $params = $this->getItemArray('params', $this->paramTable, 'id', $id);
+        $column = ($this->paramTable === '#__extensions') ? 'extension_id' : 'id';
+
+        $params = $this->getItemArray('params', $this->paramTable, $column, $id);
 
         if ($paramArray) {
             foreach ($paramArray as $name => $value) {
@@ -257,11 +262,11 @@ class InstallerScript
         // Store the combined new and existing values back as a JSON string
         $paramsString = json_encode($params);
 
-        $db = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $db    = Factory::getDbo();
+        $query = $db->createQuery()
             ->update($db->quoteName($this->paramTable))
             ->set('params = :params')
-            ->where('id = :id')
+            ->where($column . ' = :id')
             ->bind(':params', $paramsString)
             ->bind(':id', $id, ParameterType::INTEGER);
 
@@ -293,7 +298,7 @@ class InstallerScript
         $paramType = is_numeric($identifier) ? ParameterType::INTEGER : ParameterType::STRING;
 
         // Build the query
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName($element))
             ->from($db->quoteName($table))
             ->where($db->quoteName($column) . ' = :id')
@@ -301,7 +306,9 @@ class InstallerScript
         $db->setQuery($query);
 
         // Load the single cell and json_decode data
-        return json_decode($db->loadResult(), true);
+        $result = $db->loadResult();
+
+        return $result === null ? [] : json_decode($result, true);
     }
 
     /**
@@ -315,7 +322,7 @@ class InstallerScript
     {
         if (!empty($this->deleteFiles)) {
             foreach ($this->deleteFiles as $file) {
-                if (file_exists(JPATH_ROOT . $file) && !File::delete(JPATH_ROOT . $file)) {
+                if (is_file(JPATH_ROOT . $file) && !File::delete(JPATH_ROOT . $file)) {
                     echo Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $file) . '<br>';
                 }
             }
@@ -323,7 +330,7 @@ class InstallerScript
 
         if (!empty($this->deleteFolders)) {
             foreach ($this->deleteFolders as $folder) {
-                if (Folder::exists(JPATH_ROOT . $folder) && !Folder::delete(JPATH_ROOT . $folder)) {
+                if (is_dir(Path::clean(JPATH_ROOT . $folder)) && !Folder::delete(JPATH_ROOT . $folder)) {
                     echo Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $folder) . '<br>';
                 }
             }
@@ -364,7 +371,7 @@ class InstallerScript
     public function addDashboardMenu(string $dashboard, string $preset)
     {
         $model  = Factory::getApplication()->bootComponent('com_modules')->getMVCFactory()->createModel('Module', 'Administrator', ['ignore_request' => true]);
-        $module = array(
+        $module = [
             'id'         => 0,
             'asset_id'   => 0,
             'language'   => '*',
@@ -376,7 +383,7 @@ class InstallerScript
             'content'    => '',
             'module'     => 'mod_submenu',
             'position'   => 'cpanel-' . $dashboard,
-        );
+        ];
 
         // Try to get a translated module title, otherwise fall back to a fixed string.
         $titleKey         = strtoupper('COM_' . $this->extension . '_DASHBOARD_' . $dashboard . '_TITLE');
@@ -384,11 +391,11 @@ class InstallerScript
         $module['title']  = ($title === $titleKey) ? ucfirst($dashboard) . ' Dashboard' : $title;
 
         $module['access'] = (int) Factory::getApplication()->get('access', 1);
-        $module['params'] = array(
+        $module['params'] = [
             'menutype' => '*',
             'preset'   => $preset,
             'style'    => 'System-none',
-        );
+        ];
 
         if (!$model->save($module)) {
             Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_FAILED_TO_CREATE_DASHBOARD', $model->getError()));
