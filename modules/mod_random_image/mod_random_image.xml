@@ -11,7 +11,7 @@
 	<description>MOD_RANDOM_IMAGE_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\RandomImage</namespace>
 	<files>
-		<filename module="mod_random_image">mod_random_image.php</filename>
+		<folder module="mod_random_image">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>

@@ -18,6 +18,7 @@ use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Versioning\VersionableControllerTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -30,6 +31,8 @@ use Joomla\CMS\Uri\Uri;
  */
 class ModuleController extends FormController
 {
+    use VersionableControllerTrait;
+
     /**
      * Override parent add method.
      *
