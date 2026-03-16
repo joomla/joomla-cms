@@ -245,6 +245,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
     public function onBeforeRespond(BeforeRespondEvent $event)
     {
         $app = $event->getApplication();
+
         if (!$app->isClient('site')) {
             return;
         }
