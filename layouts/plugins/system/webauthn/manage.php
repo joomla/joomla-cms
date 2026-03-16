@@ -40,8 +40,6 @@ try {
     $app          = Factory::getApplication();
     $loggedInUser = $app->getIdentity();
 
-    $app->getDocument()->getWebAssetManager()
-        ->registerAndUseStyle('plg_system_webauthn.backend', 'plg_system_webauthn/backend.css');
 } catch (Exception $e) {
     $loggedInUser = new User();
 }
