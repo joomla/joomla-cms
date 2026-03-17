@@ -39,9 +39,9 @@
 
 .media-sidebar {
   flex: 1 1 250px;
-  min-width: 250px; 
-  padding: 1rem;
+  min-width: 250px;
   max-width: 100%;
+  padding: 1rem;
   @media (min-width: 1024px) {
     position: sticky;
     top: 75px;
