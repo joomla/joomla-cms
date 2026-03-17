@@ -32,7 +32,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(SiteStatus::class, function (Container $container) {
                 $plugin = new SiteStatus(
                     (array) PluginHelper::getPlugin('task', 'sitestatus'),
                     ArrayHelper::fromObject(new JConfig()),
@@ -41,7 +41,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

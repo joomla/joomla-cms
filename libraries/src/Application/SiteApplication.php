@@ -438,7 +438,7 @@ final class SiteApplication extends CMSApplication
      *
      * @return  string  The detected language
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     private function detectLanguage(User $user): string
     {
@@ -747,7 +747,7 @@ final class SiteApplication extends CMSApplication
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      *
      * @throws  \InvalidArgumentException
      */
@@ -797,7 +797,7 @@ final class SiteApplication extends CMSApplication
      *
      * @return  int  The template style ID
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     private function getTemplateStyleId(): int
     {
@@ -829,7 +829,7 @@ final class SiteApplication extends CMSApplication
      *
      * @return  array  An array of template objects
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     private function getTemplates(): array
     {
@@ -880,7 +880,7 @@ final class SiteApplication extends CMSApplication
      *
      * @return  ?\stdClass  The template object if found, null otherwise
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     private function findTemplate(array $templates, string $templateName): ?\stdClass
     {

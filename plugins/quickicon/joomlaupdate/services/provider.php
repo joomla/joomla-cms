@@ -31,7 +31,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Joomlaupdate::class, function (Container $container) {
                 $plugin = new Joomlaupdate(
                     Factory::getApplication()->getDocument(),
                     (array) PluginHelper::getPlugin('quickicon', 'joomlaupdate')
@@ -39,7 +39,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

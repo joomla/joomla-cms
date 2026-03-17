@@ -25,7 +25,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * The workflow Graphical View and Api controller
  *
- * @since __DEPLOY_VERSION__
+ * @since 6.1.0
  */
 class GraphController extends AdminController
 {
@@ -33,7 +33,7 @@ class GraphController extends AdminController
      * Present workflow id
      *
      * @var    integer
-     * @since  __DEPLOY_VERSION__
+     * @since  6.1.0
      */
     protected $workflowId;
 
@@ -41,7 +41,7 @@ class GraphController extends AdminController
      * The extension
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  6.1.0
      */
     protected $extension;
 
@@ -49,7 +49,7 @@ class GraphController extends AdminController
      * The component name
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  6.1.0
      */
     protected $component;
 
@@ -57,7 +57,7 @@ class GraphController extends AdminController
      * The section of the current extension
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  6.1.0
      */
     protected $section;
 
@@ -65,7 +65,7 @@ class GraphController extends AdminController
      * The prefix to use with controller messages.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  6.1.0
      */
     protected $text_prefix = 'COM_WORKFLOW_GRAPH';
 
@@ -118,7 +118,7 @@ class GraphController extends AdminController
      *
      * @return  void  Outputs a JSON response with workflow data or error message.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     public function getWorkflow(): void
     {
@@ -172,7 +172,7 @@ class GraphController extends AdminController
      *
      * @return  void  Outputs a JSON response with stages data or error message.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     public function getStages()
     {
@@ -233,7 +233,7 @@ class GraphController extends AdminController
      *
      * @return  void  Outputs a JSON response with transitions data or error message.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     public function getTransitions()
     {
@@ -406,7 +406,7 @@ class GraphController extends AdminController
      *
      * @return  BaseDatabaseModel|boolean  Model object on success; otherwise false on failure.
      *
-     * @since   __DEPLOYMENT_VERSION__
+     * @since   6.1.0
      */
     public function getModel($name = '', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {

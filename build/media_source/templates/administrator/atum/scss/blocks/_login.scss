@@ -100,13 +100,14 @@
     box-shadow: $login-focus-box-shadow;
   }
 
-  h1 {
+  .h1 {
     margin-block-end: .25rem;
     color: $white;
     text-align: center;
   }
 
-  h2 {
+  h2,
+  .h2 {
     font-weight: $font-weight-normal;
     color: var(--template-bg-dark-10);
   }

@@ -545,7 +545,7 @@ final class InstallationApplication extends CMSApplication
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function initialiseTemplate(): void
     {
