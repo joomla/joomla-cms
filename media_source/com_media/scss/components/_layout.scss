@@ -23,34 +23,39 @@
   max-width: $col-side-panel-width;
 }
 
-[class^="media-col"], [class*=" media-col"] {
+[class^="media-col"],
+[class*=" media-col"] {
   position: relative;
   width: 100%;
   min-height: 1px;
-  padding-right: $col-gutter-width * .5;
-  padding-left: $col-gutter-width * .5;
-}
-
-@media (min-width: 768px) {
-  [class^="media-col"], [class*=" media-col"] {
-    flex: 0 0 100%;
-    max-width: 100%;
-  }
+  padding-right: $col-gutter-width * 0.5;
+  padding-left: $col-gutter-width * 0.5;
 }
 
 .media-main {
   position: relative;
-  flex: 1 1 600px;
+  flex: 1 1 400px;
   min-height: 75vh;
 }
 
 .media-sidebar {
-  flex: 1 1 300px;
+  flex: 1 1 250px;
+  min-width: 250px;
   padding: 1rem;
-  @media (min-width: 1200px) {
+  max-width: 100%;
+  
+  @media (min-width: 1024px) {
     position: sticky;
     top: 75px;
     align-self: flex-start;
     max-width: 300px;
+  }
+}
+
+@media (max-width: 767px) {
+  .media-main,
+  .media-sidebar {
+    flex: 0 0 100%;
+    max-width: 100%;
   }
 }
