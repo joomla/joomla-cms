@@ -572,7 +572,6 @@ class Email extends CMSPlugin implements SubscriberInterface
                 }
 
                 $mailer = Factory::getMailer();
-                //Add this line here
                 $body = wordwrap($body, 998,"\r\n",true);
                 $mailer->setSubject($subject);
                 $mailer->setBody($body);
