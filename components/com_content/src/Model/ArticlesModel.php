@@ -114,10 +114,10 @@ class ArticlesModel extends ListModel
 
         $this->setState('list.ordering', $orderCol);
 
-        $listOrder = $input->get('filter_order_Dir', 'ASC');
+        $listOrder = $input->get('filter_order_Dir', 'DESC');
 
         if (!\in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
-            $listOrder = 'ASC';
+            $listOrder = 'DESC';
         }
 
         $this->setState('list.direction', $listOrder);
