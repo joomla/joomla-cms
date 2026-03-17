@@ -2,8 +2,6 @@
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-// eslint-disable-next-line import/no-unresolved
 import { JoomlaEditor, JoomlaEditorDecorator } from 'editor-api';
 
 /* global tinymce, tinyMCE */
@@ -167,8 +165,12 @@ Joomla.JoomlaTinyMCE = {
     if ('colorSchemeOs' in document.documentElement.dataset) {
       const mql = window.matchMedia('(prefers-color-scheme: dark)');
       options.skin = mql.matches ? skinDark : skinLight;
+      if (mql.matches) {
+        options.content_css = options.content_css ? `${options.content_css},dark` : 'dark';
+      }
     } else if (document.documentElement.dataset.colorScheme === 'dark') {
       options.skin = skinDark;
+      options.content_css = options.content_css ? `${options.content_css},dark` : 'dark';
     }
 
     // Ensure tinymce is initialised in readonly mode if the textarea has readonly applied
@@ -199,30 +201,26 @@ Joomla.JoomlaTinyMCE = {
     // Work around iframe behavior, when iframe element changes location in DOM and losing its content.
     // Re init editor when iframe is reloaded.
     if (!ed.inline) {
-      let isReady = false;
-      let isRendered = false;
-      const listenIframeReload = () => {
+      // Make sure iframe is fully loaded. This works differently in different browsers,
+      // so have to listen both "load" and "init" events and set our listener in the last one triggered.
+      let listenersCounter = 2;
+      const checkInitIsCompleted = () => {
+        listenersCounter--;
+        // Make sure all listeners were executed. The last call is when the TinyMCE is fully initialized.
+        if (listenersCounter) return;
         const $iframe = ed.getContentAreaContainer().querySelector('iframe');
-
-        $iframe.addEventListener('load', () => {
-          debounceReInit(ed, element, pluginOptions);
-        });
+        if ($iframe.contentDocument.readyState !== 'complete') {
+          // Initialisation were completed. However, the iframe still not loaded. Wait for that. Say Hello to Firefox Developer edition.
+          $iframe.onload = () => {
+            $iframe.onload = null;
+            $iframe.addEventListener('load', () => debounceReInit(ed, element, pluginOptions));
+          };
+        } else {
+          $iframe.addEventListener('load', () => debounceReInit(ed, element, pluginOptions));
+        }
       };
-
-      // Make sure iframe is fully loaded.
-      // This works differently in different browsers, so have to listen both "load" and "PostRender" events.
-      ed.on('load', () => {
-        isReady = true;
-        if (isRendered) {
-          listenIframeReload();
-        }
-      });
-      ed.on('PostRender', () => {
-        isRendered = true;
-        if (isReady) {
-          listenIframeReload();
-        }
-      });
+      ed.on('load', checkInitIsCompleted);
+      ed.on('init', checkInitIsCompleted);
     }
 
     // Find out when editor is interacted

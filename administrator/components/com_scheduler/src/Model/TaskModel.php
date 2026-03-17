@@ -151,7 +151,7 @@ class TaskModel extends AdminModel
      * @param   array  $data      Data that needs to go into the form
      * @param   bool   $loadData  Should the form load its data from the DB?
      *
-     * @return Form|boolean  A Form object on success, false on failure.
+     * @return Form  A Form object
      *
      * @since  4.1.0
      * @throws \Exception
@@ -166,10 +166,6 @@ class TaskModel extends AdminModel
          *  $form->bind($data).
          */
         $form = $this->loadForm('com_scheduler.task', 'task', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         $user = $this->app->getIdentity();
 
@@ -416,11 +412,17 @@ class TaskModel extends AdminModel
      */
     private function hasRunningTasks($db): bool
     {
-        $lockCountQuery = $db->getQuery(true)
+        $now       = Factory::getDate('now', 'UTC');
+        $timeout   = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
+        $threshold = (clone $now)->modify("-$timeout seconds")->toSql();
+
+        $lockCountQuery = $db->createQuery()
             ->select('COUNT(id)')
             ->from($db->quoteName(self::TASK_TABLE))
             ->where($db->quoteName('locked') . ' IS NOT NULL')
-            ->where($db->quoteName('state') . ' = 1');
+            ->where($db->quoteName('locked') . ' > :threshold')
+            ->where($db->quoteName('state') . ' = 1')
+            ->bind(':threshold', $threshold);
 
         try {
             $runningCount = $db->setQuery($lockCountQuery)->loadResult();
@@ -446,7 +448,7 @@ class TaskModel extends AdminModel
      */
     private function buildLockQuery($db, $now, $options)
     {
-        $lockQuery = $db->getQuery(true)
+        $lockQuery = $db->createQuery()
             ->update($db->quoteName(self::TASK_TABLE))
             ->set($db->quoteName('locked') . ' = :now1')
             ->bind(':now1', $now);
@@ -482,7 +484,7 @@ class TaskModel extends AdminModel
      */
     private function getNextTaskId($db, $now, $options)
     {
-        $idQuery = $db->getQuery(true)
+        $idQuery = $db->createQuery()
             ->from($db->quoteName(self::TASK_TABLE))
             ->select($db->quoteName('id'));
 
@@ -530,7 +532,7 @@ class TaskModel extends AdminModel
      */
     private function fetchTask($db, $now): ?\stdClass
     {
-        $getQuery = $db->getQuery(true)
+        $getQuery = $db->createQuery()
             ->select('*')
             ->from($db->quoteName(self::TASK_TABLE))
             ->where($db->quoteName('locked') . ' = :now')

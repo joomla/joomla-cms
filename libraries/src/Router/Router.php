@@ -111,7 +111,7 @@ class Router
      *
      * @throws     \RuntimeException
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Inject the router or load it from the dependency injection container
      *              Example: Factory::getContainer()->get(SiteRouter::class);
      */
@@ -121,15 +121,13 @@ class Router
             // Create a Router object
             $classname = 'JRouter' . ucfirst($client);
 
-            if (!class_exists($classname)) {
-                throw new \RuntimeException(Text::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
-            }
-
-            // Check for a possible service from the container otherwise manually instantiate the class
+            // Check for a possible service from the container, otherwise manually instantiate the class if it exists
             if (Factory::getContainer()->has($classname)) {
                 self::$instances[$client] = Factory::getContainer()->get($classname);
-            } else {
+            } elseif (class_exists($classname)) {
                 self::$instances[$client] = new $classname();
+            } else {
+                throw new \RuntimeException(Text::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
             }
         }
 
