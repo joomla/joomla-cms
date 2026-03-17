@@ -121,10 +121,11 @@ abstract class FormModel extends BaseForm
      * @param   boolean  $clear    Optional argument to force load a new form.
      * @param   string   $xpath    An optional xpath to search for the fields.
      *
-     * @return  mixed  JForm object on success, False on error.
+     * @return  Form  A Form object
      *
-     * @see     JForm
+     * @see     Form
      * @since   3.2
+     * @throws  \Exception on failure
      */
     protected function loadForm($name, $source = null, $options = [], $clear = false, $xpath = false)
     {

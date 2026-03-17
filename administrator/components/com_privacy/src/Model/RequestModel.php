@@ -62,20 +62,14 @@ class RequestModel extends AdminModel implements UserFactoryAwareInterface
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|boolean  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   3.9.0
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
-        // Get the form.
-        $form = $this->loadForm('com_privacy.request', 'request', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+        return $this->loadForm('com_privacy.request', 'request', ['control' => 'jform', 'load_data' => $loadData]);
     }
 
     /**
@@ -264,7 +258,7 @@ class RequestModel extends AdminModel implements UserFactoryAwareInterface
         $db = $this->getDatabase();
 
         $userId = (int) $db->setQuery(
-            $db->getQuery(true)
+            $db->createQuery()
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__users'))
                 ->where('LOWER(' . $db->quoteName('email') . ') = LOWER(:email)')
@@ -411,7 +405,7 @@ class RequestModel extends AdminModel implements UserFactoryAwareInterface
         // Check for an active request for this email address
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('COUNT(id)')
             ->from($db->quoteName('#__privacy_requests'))
             ->where($db->quoteName('email') . ' = :email')

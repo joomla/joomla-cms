@@ -168,7 +168,7 @@ class UserController extends FormController
      *
      * @return void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  6.0.0
      */
     public function active(): void
     {

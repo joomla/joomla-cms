@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Schemaorg\Event\Extension\Event;
 
 return new class () implements ServiceProviderInterface {
@@ -32,16 +31,15 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Event::class, function (Container $container) {
                 $plugin = new Event(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('schemaorg', 'event')
                 );
 
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

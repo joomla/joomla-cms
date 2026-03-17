@@ -44,6 +44,16 @@ $tmpl    = $isModal || $this->input->get('tmpl', '', 'cmd') === 'component' ? '&
         <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_WORKFLOW_TRANSITION')); ?>
         <div class="row">
             <div class="col-lg-9">
+                <?php
+                if ($isModal) {
+                    $fromStage = $app->getInput()->get('from_stage_id');
+                    $toStage = $app->getInput()->get('to_stage_id');
+                    if ($fromStage && $toStage) {
+                        $this->form->setFieldAttribute('from_stage_id', 'default', $fromStage);
+                        $this->form->setFieldAttribute('to_stage_id', 'default', $toStage);
+                    }
+                }
+                ?>
                 <?php echo $this->form->renderField('from_stage_id'); ?>
                 <?php echo $this->form->renderField('to_stage_id'); ?>
                 <?php echo $this->form->renderField('description'); ?>

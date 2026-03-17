@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -35,7 +36,7 @@ $this->useCoreUI        = true;
         </div>
     <?php endif; ?>
 
-    <form action="<?php echo Route::_('index.php?option=com_contact&id=' . (int) $this->item->id); ?>" method="post"
+    <form action="<?php echo Route::_('index.php'); ?>" method="post"
         name="adminForm" id="adminForm" class="form-validate form-vertical">
         <fieldset>
             <?php echo HTMLHelper::_('uitab.startTabSet', $this->tab_name, ['active' => 'details', 'recall' => true, 'breakpoint' => 768]); ?>
@@ -75,7 +76,7 @@ $this->useCoreUI        = true;
                 <span class="icon-times" aria-hidden="true"></span>
                 <?php echo Text::_('JCANCEL'); ?>
             </button>
-            <?php if ($this->params->get('save_history', 0) && $this->item->id) : ?>
+            <?php if ($this->params->get('save_history', 0) && $this->item->id && ComponentHelper::isEnabled('com_contenthistory')) : ?>
                 <?php echo $this->form->getInput('contenthistory'); ?>
             <?php endif; ?>
         </div>
