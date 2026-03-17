@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="template" client="administrator">
 	<name>atum</name>
 	<version>1.0</version>
-	<creationDate>September 2016</creationDate>
+	<creationDate>2016-09</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<copyright>(C) 2016 Open Source Matters, Inc.</copyright>
@@ -88,6 +88,13 @@
 					filter="color"
 				/>
 				<field
+					name="link-color-dark"
+					type="color"
+					label="TPL_ATUM_COLORS_SETTINGS_LINK_COLOR_DARK_LABEL"
+					default="#6fbfdb"
+					filter="color"
+				/>
+				<field
 					name="special-color"
 					type="color"
 					label="TPL_ATUM_COLORS_SETTINGS_SPECIAL_COLOR_LABEL"
@@ -104,13 +111,31 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
+				<field
+					name="colorScheme"
+					type="list"
+					label="TPL_ATUM_COLORSCHEME_LABEL"
+					default="os"
+					validate="options"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="os">TPL_ATUM_COLORSCHEME_OPTION_FOLLOW_OS</option>
+					<option value="light">TPL_ATUM_COLORSCHEME_OPTION_LIGHT</option>
+					<option value="dark">TPL_ATUM_COLORSCHEME_OPTION_DARK</option>
+				</field>
 			</fieldset>
 
 			<fieldset name="images" label="TPL_ATUM_IMAGE_SETTINGS_LABEL">
-				<fieldset name="loginLogo" label="TPL_ATUM_LOGIN_LOGO_LABEL">
+				<fieldset
+					name="loginLogo"
+					label="TPL_ATUM_LOGIN_LOGO_LABEL"
+					description="TPL_ATUM_LOGIN_LOGO_DESCRIPTION">
 					<field
 						name="loginLogo"
 						type="media"
+						schemes="http,https,ftp,ftps,data,file"
+						validate="url"
+						relative="true"
 						label="TPL_ATUM_IMAGE_LABEL"
 					/>
 					<field
@@ -125,10 +150,16 @@
 						description="TPL_ATUM_LOGO_ALT_EMPTY_DESC"
 					/>
 				</fieldset>
-				<fieldset name="logoBrandLarge" label="TPL_ATUM_SITE_LOGO_LABEL">
+				<fieldset
+					name="logoBrandLarge"
+					label="TPL_ATUM_SITE_LOGO_LABEL"
+					description="TPL_ATUM_SITE_LOGO_DESCRIPTION">
 					<field
 						name="logoBrandLarge"
 						type="media"
+						schemes="http,https,ftp,ftps,data,file"
+						validate="url"
+						relative="true"
 						label="TPL_ATUM_IMAGE_LABEL"
 					/>
 					<field
@@ -143,10 +174,16 @@
 						description="TPL_ATUM_LOGO_ALT_EMPTY_DESC"
 					/>
 				</fieldset>
-				<fieldset name="logoBrandSmall" label="TPL_ATUM_SITE_LOGO_SMALL_LABEL">
+				<fieldset
+					name="logoBrandSmall"
+					label="TPL_ATUM_SITE_LOGO_SMALL_LABEL"
+					description="TPL_ATUM_SITE_LOGO_SMALL_DESCRIPTION">
 					<field
 						name="logoBrandSmall"
 						type="media"
+						schemes="http,https,ftp,ftps,data,file"
+						validate="url"
+						relative="true"
 						label="TPL_ATUM_IMAGE_LABEL"
 					/>
 					<field

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_menus
@@ -9,12 +10,14 @@
 
 namespace Joomla\Component\Menus\Administrator\Field;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Administrator Menu Presets list field.
@@ -23,32 +26,31 @@ use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
  */
 class MenuPresetField extends ListField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var     string
-	 *
-	 * @since   3.8.0
-	 */
-	protected $type = 'MenuPreset';
+    /**
+     * The form field type.
+     *
+     * @var     string
+     *
+     * @since   3.8.0
+     */
+    protected $type = 'MenuPreset';
 
-	/**
-	 * Method to get the field options.
-	 *
-	 * @return  array  The field option objects.
-	 *
-	 * @since  3.8.0
-	 */
-	protected function getOptions()
-	{
-		$options = array();
-		$presets = MenusHelper::getPresets();
+    /**
+     * Method to get the field options.
+     *
+     * @return  array  The field option objects.
+     *
+     * @since  3.8.0
+     */
+    protected function getOptions()
+    {
+        $options = [];
+        $presets = MenusHelper::getPresets();
 
-		foreach ($presets as $preset)
-		{
-			$options[] = HTMLHelper::_('select.option', $preset->name, Text::_($preset->title));
-		}
+        foreach ($presets as $preset) {
+            $options[] = HTMLHelper::_('select.option', $preset->name, Text::_($preset->title));
+        }
 
-		return array_merge(parent::getOptions(), $options);
-	}
+        return array_merge(parent::getOptions(), $options);
+    }
 }

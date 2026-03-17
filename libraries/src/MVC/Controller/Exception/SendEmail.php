@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\MVC\Controller\Exception;
 
-\defined('JPATH_PLATFORM') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Send email Exception

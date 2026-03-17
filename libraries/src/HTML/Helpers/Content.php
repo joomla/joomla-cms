@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,14 +9,17 @@
 
 namespace Joomla\CMS\HTML\Helpers;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Utility class to fire onContentPrepare for non-article based content.
@@ -24,69 +28,74 @@ use Joomla\Registry\Registry;
  */
 abstract class Content
 {
-	/**
-	 * Fire onContentPrepare for content that isn't part of an article.
-	 *
-	 * @param   string  $text     The content to be transformed.
-	 * @param   array   $params   The content params.
-	 * @param   string  $context  The context of the content to be transformed.
-	 *
-	 * @return  string   The content after transformation.
-	 *
-	 * @since   1.5
-	 */
-	public static function prepare($text, $params = null, $context = 'text')
-	{
-		if ($params === null)
-		{
-			$params = new CMSObject;
-		}
+    /**
+     * Fire onContentPrepare for content that isn't part of an article.
+     *
+     * @param   string  $text     The content to be transformed.
+     * @param   array   $params   The content params.
+     * @param   string  $context  The context of the content to be transformed.
+     *
+     * @return  string   The content after transformation.
+     *
+     * @since   1.5
+     */
+    public static function prepare($text, $params = null, $context = 'text')
+    {
+        if (!$params instanceof Registry) {
+            $params = new Registry($params);
+        }
 
-		$article = new \stdClass;
-		$article->text = $text;
-		PluginHelper::importPlugin('content');
-		Factory::getApplication()->triggerEvent('onContentPrepare', array($context, &$article, &$params, 0));
+        $article       = new \stdClass();
+        $article->text = $text;
 
-		return $article->text;
-	}
+        $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
 
-	/**
-	 * Returns an array of months.
-	 *
-	 * @param   Registry  $state  The state object.
-	 *
-	 * @return  array
-	 *
-	 * @since   3.9.0
-	 */
-	public static function months($state)
-	{
-		/** @var \Joomla\Component\Content\Administrator\Extension\ContentComponent $contentComponent */
-		$contentComponent = Factory::getApplication()->bootComponent('com_content');
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
+        $dispatcher->dispatch('onContentPrepare', new ContentPrepareEvent('onContentPrepare', [
+            'context' => $context,
+            'subject' => $article,
+            'params'  => $params,
+            'page'    => 0,
+        ]));
 
-		/** @var \Joomla\Component\Content\Site\Model\ArticlesModel $model */
-		$model = $contentComponent->getMVCFactory()
-			->createModel('Articles', 'Site', ['ignore_request' => true]);
+        return $article->text;
+    }
 
-		foreach ($state as $key => $value)
-		{
-			$model->setState($key, $value);
-		}
+    /**
+     * Returns an array of months.
+     *
+     * @param   Registry  $state  The state object.
+     *
+     * @return  array
+     *
+     * @since   3.9.0
+     */
+    public static function months($state)
+    {
+        /** @var \Joomla\Component\Content\Administrator\Extension\ContentComponent $contentComponent */
+        $contentComponent = Factory::getApplication()->bootComponent('com_content');
 
-		$model->setState('filter.category_id', $state->get('category.id'));
-		$model->setState('list.start', 0);
-		$model->setState('list.limit', -1);
-		$model->setState('list.direction', 'asc');
-		$model->setState('list.filter', '');
+        /** @var \Joomla\Component\Content\Site\Model\ArticlesModel $model */
+        $model = $contentComponent->getMVCFactory()
+            ->createModel('Articles', 'Site', ['ignore_request' => true]);
 
-		$items = array();
+        foreach ($state as $key => $value) {
+            $model->setState($key, $value);
+        }
 
-		foreach ($model->countItemsByMonth() as $item)
-		{
-			$date    = new Date($item->d);
-			$items[] = HTMLHelper::_('select.option', $item->d, $date->format('F Y') . ' [' . $item->c . ']');
-		}
+        $model->setState('filter.category_id', $state->get('category.id'));
+        $model->setState('list.start', 0);
+        $model->setState('list.limit', -1);
+        $model->setState('list.direction', 'asc');
+        $model->setState('list.filter', '');
 
-		return $items;
-	}
+        $items = [];
+
+        foreach ($model->countItemsByMonth() as $item) {
+            $date    = new Date($item->d);
+            $items[] = HTMLHelper::_('select.option', $item->d, $date->format('F Y') . ' [' . $item->c . ']');
+        }
+
+        return $items;
+    }
 }

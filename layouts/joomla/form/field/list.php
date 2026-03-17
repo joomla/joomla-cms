@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -44,7 +45,7 @@ extract($displayData);
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
 
-$html = array();
+$html = [];
 $attr = '';
 
 // Initialize the field attributes.
@@ -58,46 +59,37 @@ $attr .= !empty($description) ? ' aria-describedby="' . ($id ?: $name) . '-desc"
 $attr .= $dataAttribute;
 
 // To avoid user's confusion, readonly="readonly" should imply disabled="disabled".
-if ($readonly || $disabled)
-{
-	$attr .= ' disabled="disabled"';
+if ($readonly || $disabled) {
+    $attr .= ' disabled="disabled"';
 }
 
 // Create a read-only list (no name) with hidden input(s) to store the value(s).
-if ($readonly)
-{
-	$html[] = HTMLHelper::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $value, $id);
+if ($readonly) {
+    $html[] = HTMLHelper::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $value, $id);
 
-	// E.g. form field type tag sends $this->value as array
-	if ($multiple && is_array($value))
-	{
-		if (!count($value))
-		{
-			$value[] = '';
-		}
+    // E.g. form field type tag sends $this->value as array
+    if ($multiple && is_array($value)) {
+        if (!count($value)) {
+            $value[] = '';
+        }
 
-		foreach ($value as $val)
-		{
-			$html[] = '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($val, ENT_COMPAT, 'UTF-8') . '">';
-		}
-	}
-	else
-	{
-		$html[] = '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '">';
-	}
-}
-else
-// Create a regular list passing the arguments in an array.
+        foreach ($value as $val) {
+            $html[] = '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($val, ENT_COMPAT, 'UTF-8') . '">';
+        }
+    } else {
+        $html[] = '<input type="hidden" id="' . $id . '-value" name="' . $name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '">';
+    }
+} else // Create a regular list passing the arguments in an array.
 {
-	$listoptions = array();
-	$listoptions['option.key'] = 'value';
-	$listoptions['option.text'] = 'text';
-	$listoptions['list.select'] = $value;
-	$listoptions['id'] = $id;
-	$listoptions['list.translate'] = false;
-	$listoptions['option.attr'] = 'optionattr';
-	$listoptions['list.attr'] = trim($attr);
-	$html[] = HTMLHelper::_('select.genericlist', $options, $name, $listoptions);
+    $listoptions = [];
+    $listoptions['option.key'] = 'value';
+    $listoptions['option.text'] = 'text';
+    $listoptions['list.select'] = $value;
+    $listoptions['id'] = $id;
+    $listoptions['list.translate'] = false;
+    $listoptions['option.attr'] = 'optionattr';
+    $listoptions['list.attr'] = trim($attr);
+    $html[] = HTMLHelper::_('select.genericlist', $options, $name, $listoptions);
 }
 
 echo implode($html);

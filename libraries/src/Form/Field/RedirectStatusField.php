@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\Form\Field;
 
-\defined('JPATH_PLATFORM') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Redirect Status field.
@@ -17,25 +20,25 @@ namespace Joomla\CMS\Form\Field;
  */
 class RedirectStatusField extends PredefinedlistField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  3.8.0
-	 */
-	public $type = 'Redirect_Status';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  3.8.0
+     */
+    public $type = 'RedirectStatus';
 
-	/**
-	 * Available statuses
-	 *
-	 * @var  array
-	 * @since  3.8.0
-	 */
-	protected $predefinedOptions = array(
-		'-2' => 'JTRASHED',
-		'0'  => 'JDISABLED',
-		'1'  => 'JENABLED',
-		'2'  => 'JARCHIVED',
-		'*'  => 'JALL',
-	);
+    /**
+     * Available statuses
+     *
+     * @var  string[]
+     * @since  3.8.0
+     */
+    protected $predefinedOptions = [
+        '-2' => 'JTRASHED',
+        '0'  => 'JDISABLED',
+        '1'  => 'JENABLED',
+        '2'  => 'JARCHIVED',
+        '*'  => 'JALL',
+    ];
 }

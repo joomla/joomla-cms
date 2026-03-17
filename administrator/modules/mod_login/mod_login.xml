@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" client="administrator" method="upgrade">
 	<name>mod_login</name>
 	<author>Joomla! Project</author>
-	<creationDate>March 2005</creationDate>
+	<creationDate>2005-03</creationDate>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -11,7 +11,7 @@
 	<description>MOD_LOGIN_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\Login</namespace>
 	<files>
-		<filename module="mod_login">mod_login.php</filename>
+		<folder module="mod_login">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
@@ -35,7 +35,7 @@
 					name="moduleclass_sfx"
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-				 	rows="3"
+					rows="3"
 					validate="CssIdentifier"
 				/>
 			</fieldset>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_tags
@@ -9,12 +10,16 @@
 
 namespace Joomla\Component\Tags\Site\View\Tags;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Tags\Site\Model\TagsModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTML View class for the Tags component all tags view
@@ -23,65 +28,68 @@ use Joomla\CMS\Router\Route;
  */
 class FeedView extends BaseHtmlView
 {
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
-	 */
-	public function display($tpl = null)
-	{
-		$app                  = Factory::getApplication();
-		$this->document->link = Route::_('index.php?option=com_tags&view=tags');
+    /**
+     * Execute and display a template script.
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        $app                       = Factory::getApplication();
+        $this->getDocument()->link = Route::_('index.php?option=com_tags&view=tags');
+        $params                    = $app->getParams();
 
-		$app->input->set('limit', $app->get('feed_limit'));
-		$siteEmail = $app->get('mailfrom');
-		$fromName  = $app->get('fromname');
-		$feedEmail = $app->get('feed_email', 'none');
+        // If the feed has been disabled, we want to bail out here
+        if ($params->get('show_feed_link', 1) == 0) {
+            throw new \Exception(Text::_('JGLOBAL_RESOURCE_NOT_FOUND'), 404);
+        }
 
-		$this->document->editor = $fromName;
+        $app->getInput()->set('limit', $app->get('feed_limit'));
+        $siteEmail = $app->get('mailfrom');
+        $fromName  = $app->get('fromname');
+        $feedEmail = $app->get('feed_email', 'none');
 
-		if ($feedEmail !== 'none')
-		{
-			$this->document->editorEmail = $siteEmail;
-		}
+        $this->getDocument()->editor = $fromName;
 
-		// Get some data from the model
-		$items = $this->get('Items');
+        if ($feedEmail !== 'none') {
+            $this->getDocument()->editorEmail = $siteEmail;
+        }
 
-		foreach ($items as $item)
-		{
-			// Strip HTML from feed item title
-			$title = $this->escape($item->title);
-			$title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
+        /** @var TagsModel $model */
+        $model = $this->getModel();
+        $items = $model->getItems();
 
-			// Strip HTML from feed item description text
-			$description = $item->description;
-			$author      = $item->created_by_alias ?: $item->created_by_user_name;
-			$date        = $item->created_time ? date('r', strtotime($item->created_time)) : '';
+        foreach ($items as $item) {
+            // Strip HTML from feed item title
+            $title = $this->escape($item->title);
+            $title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
 
-			// Load individual item creator class
-			$feeditem = new FeedItem;
-			$feeditem->title       = $title;
-			$feeditem->link        = '/index.php?option=com_tags&view=tag&id=' . (int) $item->id;
-			$feeditem->description = $description;
-			$feeditem->date        = $date;
-			$feeditem->category    = 'All Tags';
-			$feeditem->author      = $author;
+            // Strip HTML from feed item description text
+            $description = $item->description;
+            $author      = $item->created_by_alias ?: $item->created_by_user_name;
+            $date        = $item->created_time ? date('r', strtotime($item->created_time)) : '';
 
-			if ($feedEmail === 'site')
-			{
-				$feeditem->authorEmail = $siteEmail;
-			}
+            // Load individual item creator class
+            $feeditem              = new FeedItem();
+            $feeditem->title       = $title;
+            $feeditem->link        = '/index.php?option=com_tags&view=tag&id=' . (int) $item->id;
+            $feeditem->description = $description;
+            $feeditem->date        = $date;
+            $feeditem->category    = 'All Tags';
+            $feeditem->author      = $author;
 
-			if ($feedEmail === 'author')
-			{
-				$feeditem->authorEmail = $item->email;
-			}
+            if ($feedEmail === 'site') {
+                $feeditem->authorEmail = $siteEmail;
+            }
 
-			// Loads item info into RSS array
-			$this->document->addItem($feeditem);
-		}
-	}
+            if ($feedEmail === 'author') {
+                $feeditem->authorEmail = $item->email;
+            }
+
+            // Loads item info into RSS array
+            $this->getDocument()->addItem($feeditem);
+        }
+    }
 }

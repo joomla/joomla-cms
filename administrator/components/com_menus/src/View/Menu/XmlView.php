@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_menus
@@ -9,14 +10,17 @@
 
 namespace Joomla\Component\Menus\Administrator\View\Menu;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Menu\AdministratorMenuItem;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The HTML Menus Menu Item View.
@@ -25,158 +29,156 @@ use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
  */
 class XmlView extends BaseHtmlView
 {
-	/**
-	 * @var  \stdClass[]
-	 *
-	 * @since  3.8.0
-	 */
-	protected $items;
+    /**
+     * @var  AdministratorMenuItem[]
+     *
+     * @since  3.8.0
+     */
+    protected $items;
 
-	/**
-	 * @var  \JObject
-	 *
-	 * @since  3.8.0
-	 */
-	protected $state;
+    /**
+     * @var   \Joomla\Registry\Registry
+     *
+     * @since  3.8.0
+     */
+    protected $state;
 
-	/**
-	 * Display the view
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.8.0
-	 */
-	public function display($tpl = null)
-	{
-		$app      = Factory::getApplication();
-		$menutype = $app->input->getCmd('menutype');
+    /**
+     * Display the view
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     *
+     * @since   3.8.0
+     */
+    public function display($tpl = null)
+    {
+        $app      = Factory::getApplication();
+        $menutype = $app->getInput()->getCmd('menutype');
 
-		if ($menutype)
-		{
-			$root = MenusHelper::getMenuItems($menutype, true);
-		}
+        if ($menutype) {
+            $root = MenusHelper::getMenuItems($menutype, true);
+        }
 
-		if (!$root->hasChildren())
-		{
-			Log::add(Text::_('COM_MENUS_SELECT_MENU_FIRST_EXPORT'), Log::WARNING, 'jerror');
+        if (!$root->hasChildren()) {
+            Log::add(Text::_('COM_MENUS_SELECT_MENU_FIRST_EXPORT'), Log::WARNING, 'jerror');
 
-			$app->redirect(Route::_('index.php?option=com_menus&view=menus', false));
+            $app->redirect(Route::_('index.php?option=com_menus&view=menus', false));
 
-			return;
-		}
+            return;
+        }
 
-		$this->items = $root->getChildren(true);
+        $this->items = $root->getChildren();
 
-		$xml = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><menu ' .
-			'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' .
-			'xmlns="urn:joomla.org"	xsi:schemaLocation="urn:joomla.org menu.xsd"' .
-			'></menu>'
-		);
+        $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><menu ' .
+            'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' .
+            'xmlns="urn:joomla.org"	xsi:schemaLocation="urn:joomla.org menu.xsd"' .
+            '></menu>');
 
-		foreach ($this->items as $item)
-		{
-			$this->addXmlChild($xml, $item);
-		}
+        foreach ($this->items as $item) {
+            $this->addXmlChild($xml, $item);
+        }
 
-		if (headers_sent($file, $line))
-		{
-			Log::add("Headers already sent at $file:$line.", Log::ERROR, 'jerror');
+        if (headers_sent($file, $line)) {
+            Log::add("Headers already sent at $file:$line.", Log::ERROR, 'jerror');
 
-			return;
-		}
+            return;
+        }
 
-		header('content-type: application/xml');
-		header('content-disposition: attachment; filename="' . $menutype . '.xml"');
-		header("Cache-Control: no-cache, must-revalidate");
-		header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+        header('content-type: application/xml');
+        header('content-disposition: attachment; filename="' . $menutype . '.xml"');
+        header("Cache-Control: no-cache, must-revalidate");
+        header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 
-		$dom = new \DOMDocument;
-		$dom->preserveWhiteSpace = true;
-		$dom->formatOutput = true;
-		$dom->loadXML($xml->asXML());
+        $dom                     = new \DOMDocument();
+        $dom->preserveWhiteSpace = true;
+        $dom->formatOutput       = true;
+        $dom->loadXML($xml->asXML());
 
-		echo $dom->saveXML();
+        echo $dom->saveXML();
 
-		$app->close();
-	}
+        $app->close();
+    }
 
-	/**
-	 * Add a child node to the xml
-	 *
-	 * @param   \SimpleXMLElement  $xml   The current XML node which would become the parent to the new node
-	 * @param   \stdClass          $item  The menuitem object to create the child XML node from
-	 *
-	 * @return  void
-	 *
-	 * @since   3.8.0
-	 */
-	protected function addXmlChild($xml, $item)
-	{
-		$node = $xml->addChild('menuitem');
+    /**
+     * Add a child node to the xml
+     *
+     * @param   \SimpleXMLElement      $xml   The current XML node which would become the parent to the new node
+     * @param   AdministratorMenuItem  $item  The menuitem object to create the child XML node from
+     *
+     * @return  void
+     *
+     * @since   3.8.0
+     */
+    protected function addXmlChild($xml, $item)
+    {
+        $node = $xml->addChild('menuitem');
 
-		$node['type'] = $item->type;
+        if ($item->title) {
+            $node['title'] = htmlentities($item->title, ENT_XML1);
+        }
 
-		if ($item->title)
-		{
-			$node['title'] = htmlentities($item->title, ENT_XML1);
-		}
+        $node['type'] = $item->type;
 
-		if ($item->link)
-		{
-			$node['link'] = $item->link;
-		}
+        if ($item->element) {
+            $node['element'] = $item->element;
+        }
 
-		if ($item->element)
-		{
-			$node['element'] = $item->element;
-		}
+        if ($item->link) {
+            $node['link'] = $item->link;
+        }
 
-		if (isset($item->class) && $item->class)
-		{
-			$node['class'] = htmlentities($item->class, ENT_XML1);
-		}
+        if (isset($item->class) && trim($item->class)) {
+            $node['class'] = htmlentities(trim($item->class), ENT_XML1);
+        }
 
-		if ($item->access)
-		{
-			$node['access'] = $item->access;
-		}
+        if ($item->access) {
+            $node['access'] = $item->access;
+        }
 
-		if ($item->browserNav)
-		{
-			$node['target'] = '_blank';
-		}
+        if ($item->browserNav) {
+            $node['target'] = '_blank';
+        }
 
-		if (count($item->getParams()))
-		{
-			$hideitems = $item->getParams()->get('hideitems');
+        if ($item->getParams()->get('ajax-badge')) {
+            $node['ajax-badge'] = $item->getParams()->get('ajax-badge');
+        }
 
-			if ($hideitems)
-			{
-				$db    = Factory::getDbo();
-				$query = $db->getQuery(true);
+        if ($item->icon) {
+            $node['icon'] = $item->icon;
+        }
 
-				$query
-					->select($db->quoteName('e.element'))
-					->from($db->quoteName('#__extensions', 'e'))
-					->join('INNER', $db->quoteName('#__menu', 'm'), $db->quoteName('m.component_id') . ' = ' . $db->quoteName('e.extension_id'))
-					->whereIn($db->quoteName('m.id'), $hideitems);
+        if ($item->getParams()->get('menu-quicktask')) {
+            $node['quicktask']       = $item->getParams()->get('menu-quicktask');
 
-				$hideitems = $db->setQuery($query)->loadColumn();
+            if ($item->getParams()->get('menu-quicktask-title')) {
+                $node['quicktask-title'] = $item->getParams()->get('menu-quicktask-title');
+            }
 
-				$item->getParams()->set('hideitems', $hideitems);
-			}
+            if ($item->getParams()->get('menu-quicktask-icon')) {
+                $node['quicktask-icon'] = $item->getParams()->get('menu-quicktask-icon');
+            }
 
-			$node->addChild('params', htmlentities((string) $item->getParams(), ENT_XML1));
-		}
+            if ($item->getParams()->get('menu-quicktask-permission')) {
+                $node['quicktask-permission'] = $item->getParams()->get('menu-quicktask-permission');
+            }
+        }
 
-		if (isset($item->submenu))
-		{
-			foreach ($item->submenu as $sub)
-			{
-				$this->addXmlChild($node, $sub);
-			}
-		}
-	}
+        if ($item->getParams()->get('dashboard')) {
+            $node['dashboard'] = $item->getParams()->get('dashboard');
+        }
+
+        if ($item->getParams() && $hideitems = $item->getParams()->get('hideitems')) {
+            $item->getParams()->set('hideitems', $this->getModel('Menu')->getExtensionElementsForMenuItems($hideitems));
+
+            $node->addChild('params', htmlentities((string) $item->getParams(), ENT_XML1));
+        }
+
+        if ($item->hasChildren()) {
+            foreach ($item->getChildren() as $sub) {
+                $this->addXmlChild($node, $sub);
+            }
+        }
+    }
 }

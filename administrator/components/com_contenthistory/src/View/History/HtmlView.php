@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
@@ -9,17 +10,19 @@
 
 namespace Joomla\Component\Contenthistory\Administrator\View\History;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarFactoryInterface;
+use Joomla\Component\Contenthistory\Administrator\Model\HistoryModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View class for a list of contenthistory.
@@ -28,114 +31,125 @@ use Joomla\CMS\Toolbar\ToolbarFactoryInterface;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * An array of items
-	 *
-	 * @var  array
-	 */
-	protected $items;
+    /**
+     * An array of items
+     *
+     * @var  array
+     */
+    protected $items;
 
-	/**
-	 * The model state
-	 *
-	 * @var  Pagination
-	 */
-	protected $pagination;
+    /**
+     * The model state
+     *
+     * @var  Pagination
+     */
+    protected $pagination;
 
-	/**
-	 * The model state
-	 *
-	 * @var  \JObject
-	 */
-	protected $state;
+    /**
+     * The model state
+     *
+     * @var  \Joomla\Registry\Registry
+     */
+    protected $state;
 
-	/**
-	 * Method to display the view.
-	 *
-	 * @param   string  $tpl  A template file to load. [optional]
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function display($tpl = null)
-	{
-		$this->state = $this->get('State');
-		$this->items = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
+    /**
+     * The toolbar for the history modal. Note this is rendered inside the modal rather than using the regular module
+     *
+     * @var  Toolbar
+     */
+    protected $toolbar;
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+    /**
+     * The SHA1 hash of the current version of the item being viewed
+     *
+     * @var  string
+     */
+    protected $currentVersionHash;
 
-		$this->toolbar = $this->addToolbar();
+    /**
+     * Method to display the view.
+     *
+     * @param   string  $tpl  A template file to load. [optional]
+     *
+     * @return  void
+     *
+     * @since   3.2
+     */
+    public function display($tpl = null)
+    {
+        /** @var HistoryModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-		parent::display($tpl);
-	}
+        $this->state              = $model->getState();
+        $this->items              = $model->getItems();
+        $this->pagination         = $model->getPagination();
+        $this->currentVersionHash = $model->getSha1Hash();
 
-	/**
-	 * Add the page toolbar.
-	 *
-	 * @return  Toolbar
-	 *
-	 * @since  4.0.0
-	 */
-	protected function addToolbar(): Toolbar
-	{
-		/** @var Toolbar $toolbar */
-		$toolbar = Factory::getContainer()->get(ToolbarFactoryInterface::class)->createToolbar('toolbar');
+        $this->toolbar = $this->addToolbar();
 
-		// Cache a session token for reuse throughout.
-		$token = Session::getFormToken();
+        parent::display($tpl);
+    }
 
-		// Clean up input to ensure a clean url.
-		$aliasArray = explode('.', $this->state->item_id);
-		$option     = $aliasArray[1] == 'category'
-			? 'com_categories&amp;extension=' . implode('.', array_slice($aliasArray, 0, count($aliasArray) - 2))
-			: $aliasArray[0];
-		$filter     = InputFilter::getInstance();
-		$task       = $filter->clean($aliasArray[1], 'cmd') . '.loadhistory';
+    /**
+     * Add the page toolbar.
+     *
+     * @return  Toolbar
+     *
+     * @since  4.0.0
+     */
+    protected function addToolbar(): Toolbar
+    {
+        /** @var Toolbar $toolbar */
+        $toolbar = Factory::getContainer()->get(ToolbarFactoryInterface::class)->createToolbar('toolbar');
 
-		// Build the final urls.
-		$loadUrl    = Route::_('index.php?option=' . $filter->clean($option, 'cmd') . '&amp;task=' . $task . '&amp;' . $token . '=1');
-		$previewUrl = Route::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . $token . '=1');
-		$compareUrl = Route::_('index.php?option=com_contenthistory&view=compare&layout=compare&tmpl=component&' . $token . '=1');
+        // Cache a session token for reuse throughout.
+        $token = Session::getFormToken();
 
-		$toolbar->basicButton('load')
-			->attributes(['data-url' => $loadUrl])
-			->icon('icon-upload')
-			->buttonClass('btn btn-success')
-			->text('COM_CONTENTHISTORY_BUTTON_LOAD')
-			->listCheck(true);
+        // Clean up input to ensure a clean url.
+        $filter     = InputFilter::getInstance();
+        $aliasArray = explode('.', $this->state->get('item_id'));
 
-		$toolbar->basicButton('preview')
-			->attributes(['data-url' => $previewUrl])
-			->icon('icon-search')
-			->text('COM_CONTENTHISTORY_BUTTON_PREVIEW')
-			->listCheck(true);
+        if ($aliasArray[1] === 'category') {
+            $option = 'com_categories';
+            $append = '&amp;extension=' . $filter->clean($aliasArray[0], 'cmd');
+        } else {
+            $option = $aliasArray[0];
+            $append = '';
+        }
 
-		$toolbar->basicButton('compare')
-			->attributes(['data-url' => $compareUrl])
-			->icon('icon-search-plus')
-			->text('COM_CONTENTHISTORY_BUTTON_COMPARE')
-			->listCheck(true);
+        $task       = $filter->clean($aliasArray[1], 'cmd') . '.loadhistory';
 
-		$toolbar->basicButton('keep')
-			->task('history.keep')
-			->buttonClass('btn btn-inverse')
-			->icon('icon-lock')
-			->text('COM_CONTENTHISTORY_BUTTON_KEEP')
-			->listCheck(true);
+        // Build the final urls.
+        $loadUrl    = Route::_('index.php?option=' . $filter->clean($option, 'cmd') . $append . '&amp;task=' . $task . '&amp;' . $token . '=1');
+        $previewUrl = Route::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . $token . '=1');
+        $compareUrl = Route::_('index.php?option=com_contenthistory&view=compare&layout=compare&tmpl=component&' . $token . '=1');
 
-		$toolbar->basicButton('delete')
-			->task('history.delete')
-			->buttonClass('btn btn-danger')
-			->icon('icon-times')
-			->text('COM_CONTENTHISTORY_BUTTON_DELETE')
-			->listCheck(true);
+        $toolbar->basicButton('load', 'COM_CONTENTHISTORY_BUTTON_LOAD')
+            ->attributes(['data-url' => $loadUrl])
+            ->icon('icon-upload')
+            ->buttonClass('btn btn-success')
+            ->listCheck(true);
 
-		return $toolbar;
-	}
+        $toolbar->basicButton('preview', 'COM_CONTENTHISTORY_BUTTON_PREVIEW')
+            ->attributes(['data-url' => $previewUrl])
+            ->icon('icon-search')
+            ->listCheck(true);
+
+        $toolbar->basicButton('compare', 'COM_CONTENTHISTORY_BUTTON_COMPARE')
+            ->attributes(['data-url' => $compareUrl])
+            ->icon('icon-search-plus')
+            ->listCheck(true);
+
+        $toolbar->basicButton('keep', 'COM_CONTENTHISTORY_BUTTON_KEEP', 'history.keep')
+            ->icon('icon-lock')
+            ->listCheck(true);
+
+        $toolbar->basicButton('delete', 'COM_CONTENTHISTORY_BUTTON_DELETE', 'history.delete')
+            ->buttonClass('btn btn-danger')
+            ->icon('icon-times')
+            ->listCheck(true);
+
+        return $toolbar;
+    }
 }

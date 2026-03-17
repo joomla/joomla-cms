@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fields name="privacyconsent">
 		<fieldset
@@ -14,7 +14,7 @@
 				required="true"
 				>
 				<option value="1">PLG_SYSTEM_PRIVACYCONSENT_OPTION_AGREE</option>
-				<option value="0">JNO</option>
+				<option value="0">PLG_SYSTEM_PRIVACYCONSENT_OPTION_DO_NOT_AGREE</option>
 			</field>
 		</fieldset>
 	</fields>

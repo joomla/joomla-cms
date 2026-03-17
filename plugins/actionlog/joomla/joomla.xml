@@ -2,15 +2,17 @@
 <extension type="plugin" group="actionlog" method="upgrade">
 	<name>plg_actionlog_joomla</name>
 	<author>Joomla! Project</author>
-	<creationDate>May 2018</creationDate>
+	<creationDate>2018-05</creationDate>
 	<copyright>(C) 2018 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.9.0</version>
 	<description>PLG_ACTIONLOG_JOOMLA_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Actionlog\Joomla</namespace>
 	<files>
-		<filename plugin="joomla">joomla.php</filename>
+		<folder plugin="joomla">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_actionlog_joomla.ini</language>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_content
@@ -9,16 +10,19 @@
 
 namespace Joomla\Component\Content\Site\View\Featured;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Component\Content\Site\Model\FeaturedModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Frontpage View class
@@ -27,96 +31,94 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
  */
 class FeedView extends AbstractView
 {
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
-	 */
-	public function display($tpl = null)
-	{
-		// Parameters
-		$app       = Factory::getApplication();
-		$params    = $app->getParams();
-		$feedEmail = $app->get('feed_email', 'none');
-		$siteEmail = $app->get('mailfrom');
+    /**
+     * Execute and display a template script.
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        // Parameters
+        $app       = Factory::getApplication();
+        $params    = $app->getParams();
+        $feedEmail = $app->get('feed_email', 'none');
+        $siteEmail = $app->get('mailfrom');
 
-		$this->document->link = Route::_('index.php?option=com_content&view=featured');
+        // If the feed has been disabled, we want to bail out here
+        if ($params->get('show_feed_link', 1) == 0) {
+            throw new \Exception(Text::_('JGLOBAL_RESOURCE_NOT_FOUND'), 404);
+        }
 
-		// Get some data from the model
-		$app->input->set('limit', $app->get('feed_limit'));
-		$categories = Categories::getInstance('Content');
-		$rows       = $this->get('Items');
+        $this->getDocument()->link = Route::_('index.php?option=com_content&view=featured');
 
-		foreach ($rows as $row)
-		{
-			// Strip html from feed item title
-			$title = htmlspecialchars($row->title, ENT_QUOTES, 'UTF-8');
-			$title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
+        // Get some data from the model
+        $app->getInput()->set('limit', $app->get('feed_limit'));
+        $categories = Categories::getInstance('Content');
 
-			// Compute the article slug
-			$row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
+        /** @var FeaturedModel $model */
+        $model = $this->getModel();
+        $rows  = $model->getItems();
 
-			// URL link to article
-			$link = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language);
+        foreach ($rows as $row) {
+            // Strip html from feed item title
+            $title = htmlspecialchars($row->title, ENT_QUOTES, 'UTF-8');
+            $title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
 
-			$description = '';
-			$obj = json_decode($row->images);
-			$introImage = $obj->{'image_intro'} ?? '';
+            // Compute the article slug
+            $row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
 
-			if (isset($introImage) && ($introImage != ''))
-			{
-				$image = preg_match('/http/', $introImage) ? $introImage : Uri::root() . $introImage;
-				$description = '<p><img src="' . $image . '"></p>';
-			}
+            // URL link to article
+            $link = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language);
 
-			$description .= ($params->get('feed_summary', 0) ? $row->introtext . $row->fulltext : $row->introtext);
-			$author      = $row->created_by_alias ?: $row->author;
+            $description = '';
+            $obj         = json_decode($row->images);
 
-			// Load individual item creator class
-			$item           = new FeedItem;
-			$item->title    = $title;
-			$item->link     = Route::_($link);
-			$item->date     = $row->publish_up;
-			$item->category = array();
+            if (!empty($obj->image_intro)) {
+                $description = '<p>' . HTMLHelper::_('image', $obj->image_intro, $obj->image_intro_alt) . '</p>';
+            }
 
-			// All featured articles are categorized as "Featured"
-			$item->category[] = Text::_('JFEATURED');
+            $description .= ($params->get('feed_summary', 0) ? $row->introtext . $row->fulltext : $row->introtext);
+            $author      = $row->created_by_alias ?: $row->author;
 
-			for ($item_category = $categories->get($row->catid); $item_category !== null; $item_category = $item_category->getParent())
-			{
-				// Only add non-root categories
-				if ($item_category->id > 1)
-				{
-					$item->category[] = $item_category->title;
-				}
-			}
+            // Load individual item creator class
+            $item           = new FeedItem();
+            $item->title    = $title;
+            $item->link     = Route::_($link);
+            $item->date     = $row->publish_up;
+            $item->category = [];
 
-			$item->author = $author;
+            // All featured articles are categorized as "Featured"
+            $item->category[] = Text::_('JFEATURED');
 
-			if ($feedEmail === 'site')
-			{
-				$item->authorEmail = $siteEmail;
-			}
-			elseif ($feedEmail === 'author')
-			{
-				$item->authorEmail = $row->author_email;
-			}
+            for ($item_category = $categories->get($row->catid); $item_category !== null; $item_category = $item_category->getParent()) {
+                // Only add non-root categories
+                if ($item_category->id > 1) {
+                    $item->category[] = $item_category->title;
+                }
+            }
 
-			// Add readmore link to description if introtext is shown, show_readmore is true and fulltext exists
-			if (!$params->get('feed_summary', 0) && $params->get('feed_show_readmore', 0) && $row->fulltext)
-			{
-				$link = Route::_($link, true, $app->get('force_ssl') == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE, true);
-				$description .= '<p class="feed-readmore"><a target="_blank" href="' . $link . '" rel="noopener">'
-					. Text::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
-			}
+            $item->author = $author;
 
-			// Load item description and add div
-			$item->description = '<div class="feed-description">' . $description . '</div>';
+            if ($feedEmail === 'site') {
+                $item->authorEmail = $siteEmail;
+            } elseif ($feedEmail === 'author') {
+                $item->authorEmail = $row->author_email;
+            }
 
-			// Loads item info into rss array
-			$this->document->addItem($item);
-		}
-	}
+            // Add readmore link to description if introtext is shown, show_readmore is true and fulltext exists
+            if (!$params->get('feed_summary', 0) && $params->get('feed_show_readmore', 0) && $row->fulltext) {
+                $link = Route::_($link, true, $app->get('force_ssl') == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE, true);
+                $description .= '<p class="feed-readmore"><a target="_blank" href="' . $link . '" rel="noopener">'
+                    . Text::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
+            }
+
+            // Load item description and add div
+            $item->description = '<div class="feed-description">' . $description . '</div>';
+
+            // Loads item info into rss array
+            $this->getDocument()->addItem($item);
+        }
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_random_image
@@ -9,10 +10,13 @@
 
 namespace Joomla\Module\RandomImage\Site\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Uri\Uri;
+use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Helper for mod_random_image
@@ -21,136 +25,194 @@ use Joomla\String\StringHelper;
  */
 class RandomImageHelper
 {
-	/**
-	 * Retrieves a random image
-	 *
-	 * @param   \Joomla\Registry\Registry  &$params  module parameters object
-	 * @param   array                      $images   list of images
-	 *
-	 * @return  mixed
-	 */
-	public static function getRandomImage(&$params, $images)
-	{
-		$width  = $params->get('width', 100);
-		$height = $params->get('height', null);
+    /**
+     * Retrieves a random image
+     *
+     * @param   Registry  &$params  module parameters object
+     * @param   array     $images   list of images
+     *
+     * @return  mixed
+     *
+     * @since   5.4.0
+     */
+    public function getImage(Registry &$params, array $images): mixed
+    {
+        $width  = $params->get('width', 100);
+        $height = $params->get('height', null);
 
-		$i = \count($images);
+        $i = \count($images);
 
-		if ($i === 0)
-		{
-			return null;
-		}
+        if ($i === 0) {
+            return null;
+        }
 
-		$random = mt_rand(0, $i - 1);
-		$image  = $images[$random];
-		$size   = getimagesize(JPATH_BASE . '/' . $image->folder . '/' . $image->name);
+        $random = mt_rand(0, $i - 1);
+        $image  = $images[$random];
+        $size   = getimagesize(JPATH_BASE . '/' . $image->folder . '/' . $image->name);
 
-		if ($size[0] < $width)
-		{
-			$width = $size[0];
-		}
+        if ($size[0] < $width) {
+            $width = $size[0];
+        }
 
-		$coeff = $size[0] / $size[1];
+        $coeff = $size[0] / $size[1];
 
-		if ($height === null)
-		{
-			$height = (int) ($width / $coeff);
-		}
-		else
-		{
-			$newheight = min($height, (int) ($width / $coeff));
+        if ($height === null) {
+            $height = (int) ($width / $coeff);
+        } else {
+            $newheight = min($height, (int) ($width / $coeff));
 
-			if ($newheight < $height)
-			{
-				$height = $newheight;
-			}
-			else
-			{
-				$width = $height * $coeff;
-			}
-		}
+            if ($newheight < $height) {
+                $height = $newheight;
+            } else {
+                $width = $height * $coeff;
+            }
+        }
 
-		$image->width  = $width;
-		$image->height = $height;
-		$image->folder = str_replace('\\', '/', $image->folder);
+        $image->width  = $width;
+        $image->height = $height;
+        $image->folder = str_replace('\\', '/', $image->folder);
 
-		return $image;
-	}
+        return $image;
+    }
 
-	/**
-	 * Retrieves images from a specific folder
-	 *
-	 * @param   \Joomla\Registry\Registry  &$params  module params
-	 * @param   string                     $folder   folder to get the images from
-	 *
-	 * @return  array
-	 */
-	public static function getImages(&$params, $folder)
-	{
-		$type   = $params->get('type', 'jpg');
-		$files  = [];
-		$images = [];
+    /**
+     * Retrieves images from a specific folder
+     *
+     * @param   Registry  &$params  module params
+     * @param   string    $folder   folder to get the images from
+     *
+     * @return  array
+     *
+     * @since   5.4.0
+     */
+    public function getImagesFromFolder(Registry &$params, string $folder): array
+    {
+        $type       = $params->get('type', 'jpg');
+        $extensions = array_map('trim', explode(',', $type));
 
-		$dir = JPATH_BASE . '/' . $folder;
+        // Normalize to lowercase and strip leading dots
+        $extensions = array_map(function ($ext) {
+            return ltrim(strtolower($ext), '.');
+        }, $extensions);
 
-		// Check if directory exists
-		if (is_dir($dir))
-		{
-			if ($handle = opendir($dir))
-			{
-				while (false !== ($file = readdir($handle)))
-				{
-					if ($file !== '.' && $file !== '..' && $file !== 'CVS' && $file !== 'index.html')
-					{
-						$files[] = $file;
-					}
-				}
-			}
+        $files  = [];
+        $images = [];
 
-			closedir($handle);
+        $dir = JPATH_BASE . '/' . $folder;
 
-			$i = 0;
+        // Check if directory exists
+        if (is_dir($dir)) {
+            if ($handle = opendir($dir)) {
+                while (false !== ($file = readdir($handle))) {
+                    if ($file !== '.' && $file !== '..' && $file !== 'CVS' && $file !== 'index.html') {
+                        $files[] = $file;
+                    }
+                }
+            }
 
-			foreach ($files as $img)
-			{
-				if (!is_dir($dir . '/' . $img) && preg_match('/' . $type . '/', $img))
-				{
-					$images[$i] = new \stdClass;
+            closedir($handle);
 
-					$images[$i]->name   = $img;
-					$images[$i]->folder = $folder;
-					$i++;
-				}
-			}
-		}
+            $i = 0;
 
-		return $images;
-	}
+            foreach ($files as $img) {
+                if (is_dir($dir . '/' . $img)) {
+                    continue;
+                }
 
-	/**
-	 * Get sanitized folder
-	 *
-	 * @param   \Joomla\Registry\Registry  &$params  module params objects
-	 *
-	 * @return  mixed
-	 */
-	public static function getFolder(&$params)
-	{
-		$folder   = $params->get('folder');
-		$LiveSite = Uri::base();
+                $ext = pathinfo($img, PATHINFO_EXTENSION);
 
-		// If folder includes livesite info, remove
-		if (StringHelper::strpos($folder, $LiveSite) === 0)
-		{
-			$folder = str_replace($LiveSite, '', $folder);
-		}
+                if (\in_array(strtolower($ext), $extensions, true)) {
+                    $images[$i]         = new \stdClass();
+                    $images[$i]->name   = $img;
+                    $images[$i]->folder = $folder;
+                    $i++;
+                }
+            }
+        }
 
-		// If folder includes absolute path, remove
-		if (StringHelper::strpos($folder, JPATH_SITE) === 0)
-		{
-			$folder = str_replace(JPATH_BASE, '', $folder);
-		}
+        return $images;
+    }
 
-		return str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $folder);
-	}
+    /**
+     * Get sanitized folder
+     *
+     * @param   Registry  &$params  module params objects
+     *
+     * @return  mixed
+     *
+     * @since   5.4.0
+     */
+    public function getSanitizedFolder(Registry &$params): mixed
+    {
+        $folder   = $params->get('folder');
+        $liveSite = Uri::base();
+
+        // If folder includes livesite info, remove
+        if (StringHelper::strpos($folder, $liveSite) === 0) {
+            $folder = str_replace($liveSite, '', $folder);
+        }
+
+        // If folder includes absolute path, remove
+        if (StringHelper::strpos($folder, JPATH_SITE) === 0) {
+            $folder = str_replace(JPATH_BASE, '', $folder);
+        }
+
+        return str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $folder);
+    }
+
+    /**
+     * Retrieves a random image
+     *
+     * @param   Registry  &$params  module parameters object
+     * @param   array     $images   list of images
+     *
+     * @return  mixed
+     *
+     * @deprecated 5.4.0 will be removed in 7.0
+     *             Use the non-static method getImage
+     *             Example: Factory::getApplication()->bootModule('mod_random_image', 'site')
+     *                            ->getHelper('RandomImageHelper')
+     *                            ->getImage($params, $images)
+     */
+    public static function getRandomImage(&$params, $images)
+    {
+        return (new self())->getImage($params, $images);
+    }
+
+    /**
+     * Retrieves images from a specific folder
+     *
+     * @param   Registry  &$params  module params
+     * @param   string    $folder   folder to get the images from
+     *
+     * @return  array
+     *
+     * @deprecated 5.4.0 will be removed in 7.0
+     *             Use the non-static method getImagesFromFolder
+     *             Example: Factory::getApplication()->bootModule('mod_random_image', 'site')
+     *                            ->getHelper('RandomImageHelper')
+     *                            ->getImagesFromFolder($params, $folder)
+     */
+    public static function getImages(&$params, $folder)
+    {
+        return (new self())->getImagesFromFolder($params, $folder);
+    }
+
+    /**
+     * Get sanitized folder
+     *
+     * @param   Registry  &$params  module params objects
+     *
+     * @return  mixed
+     *
+     * @deprecated 5.4.0 will be removed in 7.0
+     *             Use the non-static method getSanitizedFolder
+     *             Example: Factory::getApplication()->bootModule('mod_random_image', 'site')
+     *                            ->getHelper('RandomImageHelper')
+     *                            ->getSanitizedFolder($params)
+     */
+    public static function getFolder(&$params)
+    {
+        return (new self())->getSanitizedFolder($params);
+    }
 }

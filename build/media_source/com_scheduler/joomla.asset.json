@@ -6,38 +6,15 @@
   "license": "GNU General Public License version 2 or later; see LICENSE.txt",
   "assets": [
     {
-      "name": "com_scheduler.test-task.es5",
-      "type": "script",
-      "uri": "com_scheduler/admin-view-run-test-task-es5.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_scheduler.test-task",
       "type": "script",
       "uri": "com_scheduler/admin-view-run-test-task.js",
       "dependencies": [
-        "com_scheduler.test-task.es5"
+        "core",
+        "joomla.dialog"
       ],
       "attributes": {
         "type" : "module"
-      }
-    },
-    {
-      "name": "com_scheduler.admin-view-select-task-search.es5",
-      "type": "script",
-      "uri": "com_scheduler/admin-view-select-task-search-es5.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
       }
     },
     {
@@ -45,21 +22,10 @@
       "type": "script",
       "uri": "com_scheduler/admin-view-select-task-search.js",
       "dependencies": [
-        "com_scheduler.admin-view-select-task-search.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
-      "name": "com_scheduler.scheduler-config.es5",
-      "type": "script",
-      "uri": "com_scheduler/scheduler-config-es5.js",
-      "dependencies": [
         "core"
       ],
       "attributes": {
-        "nomodule": true
+        "type": "module"
       }
     },
     {
@@ -67,22 +33,21 @@
       "type": "script",
       "uri": "com_scheduler/scheduler-config.js",
       "dependencies": [
-        "core",
-        "com_scheduler.scheduler-config.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
       }
     },
     {
-      "name": "com_scheduler.admin-view-select-task-css",
-      "type": "style",
-      "uri": "com_scheduler/admin-view-select-task.css"
-    },
-    {
       "name": "com_scheduler.admin-view-task-css",
       "type": "style",
       "uri": "com_scheduler/admin-view-task.css"
+    },
+    {
+      "name": "com_scheduler.admin-view-tasks-css",
+      "type": "style",
+      "uri": "com_scheduler/admin-view-tasks.css"
     }
   ]
 }

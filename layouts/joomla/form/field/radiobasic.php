@@ -1,10 +1,14 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
  *
  * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ *
+ * @deprecated  5.2 will be moved to the b/c plugin in 6.0 and removed in 7.0
+ *
  */
 
 defined('_JEXEC') or die;
@@ -55,35 +59,35 @@ $format = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 $alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 ?>
 <fieldset id="<?php echo $id; ?>" class="<?php echo trim($class . ' radio'); ?>"
-	<?php echo $disabled ? 'disabled' : ''; ?>
-	<?php echo $required ? 'required' : ''; ?>
-	<?php echo $autofocus ? 'autofocus' : ''; ?>
-	<?php echo $dataAttribute; ?>>
+    <?php echo $disabled ? 'disabled' : ''; ?>
+    <?php echo $required ? 'required' : ''; ?>
+    <?php echo $autofocus ? 'autofocus' : ''; ?>
+    <?php echo $dataAttribute; ?>>
 
-	<?php if (!empty($options)) : ?>
-		<?php foreach ($options as $i => $option) : ?>
-			<?php
-				// Initialize some option attributes.
-				$checked     = ((string) $option->value === $value) ? 'checked="checked"' : '';
-				$optionClass = !empty($option->class) ? 'class="' . $option->class . '"' : '';
-				$disabled    = !empty($option->disable) || ($disabled && !$checked) ? 'disabled' : '';
+    <?php if (!empty($options)) : ?>
+        <?php foreach ($options as $i => $option) : ?>
+            <?php
+                // Initialize some option attributes.
+                $checked     = ((string) $option->value === $value) ? 'checked="checked"' : '';
+                $optionClass = !empty($option->class) ? 'class="' . $option->class . '"' : '';
+                $disabled    = !empty($option->disable) || ($disabled && !$checked) ? 'disabled' : '';
 
-				// Initialize some JavaScript option attributes.
-				$onclick    = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
-				$onchange   = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
-				$oid        = $id . $i;
-				$ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-				$attributes = array_filter(array($checked, $optionClass, $disabled, $onchange, $onclick));
-			?>
-			<?php if ($required) : ?>
-				<?php $attributes[] = 'required'; ?>
-			<?php endif; ?>
-			<div class="radio mb-0">
-				<label for="<?php echo $oid; ?>" <?php echo $optionClass; ?>>
-					<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
-					<?php echo Text::alt($option->text, $alt); ?>
-				</label>
-			</div>
-		<?php endforeach; ?>
-	<?php endif; ?>
+                // Initialize some JavaScript option attributes.
+                $onclick    = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
+                $onchange   = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
+                $oid        = $id . $i;
+                $ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
+                $attributes = array_filter([$checked, $optionClass, $disabled, $onchange, $onclick]);
+            ?>
+            <?php if ($required) : ?>
+                <?php $attributes[] = 'required'; ?>
+            <?php endif; ?>
+            <div class="radio mb-0">
+                <label for="<?php echo $oid; ?>" <?php echo $optionClass; ?>>
+                    <?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
+                    <?php echo Text::alt($option->text, $alt); ?>
+                </label>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
 </fieldset>

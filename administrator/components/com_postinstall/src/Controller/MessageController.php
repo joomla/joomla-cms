@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
@@ -9,12 +10,13 @@
 
 namespace Joomla\Component\Postinstall\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Postinstall\Administrator\Helper\PostinstallHelper;
 use Joomla\Component\Postinstall\Administrator\Model\MessagesModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Postinstall message controller.
@@ -23,118 +25,169 @@ use Joomla\Component\Postinstall\Administrator\Model\MessagesModel;
  */
 class MessageController extends BaseController
 {
-	/**
-	 * Resets all post-installation messages of the specified extension.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function reset()
-	{
-		$this->checkToken();
+    /**
+     * Resets all post-installation messages of the specified extension.
+     *
+     * @return  void
+     *
+     * @since   3.2
+     */
+    public function reset()
+    {
+        $this->checkToken('get');
 
-		/** @var MessagesModel $model */
-		$model = $this->getModel('Messages', '', array('ignore_request' => true));
-		$eid = $this->input->getInt('eid');
+        /** @var MessagesModel $model */
+        $model = $this->getModel('Messages', '', ['ignore_request' => true]);
+        $eid   = $this->input->getInt('eid');
 
-		if (empty($eid))
-		{
-			$eid = $model->getJoomlaFilesExtensionId();
-		}
+        if (empty($eid)) {
+            $eid = $model->getJoomlaFilesExtensionId();
+        }
 
-		$model->resetMessages($eid);
+        $model->resetMessages($eid);
 
-		$this->setRedirect('index.php?option=com_postinstall&eid=' . $eid);
-	}
+        $this->setRedirect('index.php?option=com_postinstall&eid=' . $eid);
+    }
 
-	/**
-	 * Unpublishes post-installation message of the specified extension.
-	 *
-	 * @return   void
-	 *
-	 * @since   3.2
-	 */
-	public function unpublish()
-	{
-		$model = $this->getModel('Messages', '', array('ignore_request' => true));
+    /**
+     * Unpublishes post-installation message of the specified extension.
+     *
+     * @return   void
+     *
+     * @since   3.2
+     */
+    public function unpublish()
+    {
+        $this->checkToken('get');
 
-		$id = $this->input->get('id');
+        $model = $this->getModel('Messages', '', ['ignore_request' => true]);
 
-		$eid = (int) $model->getState('eid', $model->getJoomlaFilesExtensionId());
+        $id = $this->input->get('id');
 
-		if (empty($eid))
-		{
-			$eid = $model->getJoomlaFilesExtensionId();
-		}
+        $eid = (int) $model->getState('eid', $model->getJoomlaFilesExtensionId());
 
-		$model->setState('published', 0);
-		$model->unpublishMessage($id);
+        if (empty($eid)) {
+            $eid = $model->getJoomlaFilesExtensionId();
+        }
 
-		$this->setRedirect('index.php?option=com_postinstall&eid=' . $eid);
-	}
+        $model->setState('published', 0);
+        $model->unpublishMessage($id);
 
-	/**
-	 * Executes the action associated with an item.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function action()
-	{
-		$this->checkToken();
+        $this->setRedirect('index.php?option=com_postinstall&eid=' . $eid);
+    }
 
-		$model = $this->getModel('Messages', '', array('ignore_request' => true));
+    /**
+     * Re-Publishes an archived post-installation message of the specified extension.
+     *
+     * @return   void
+     *
+     * @since   4.2.0
+     */
+    public function republish()
+    {
+        $this->checkToken('get');
 
-		$id = $this->input->get('id');
+        $model = $this->getModel('Messages', '', ['ignore_request' => true]);
 
-		$item = $model->getItem($id);
+        $id = $this->input->get('id');
 
-		switch ($item->type)
-		{
-			case 'link':
-				$this->setRedirect($item->action);
+        $eid = (int) $model->getState('eid', $model->getJoomlaFilesExtensionId());
 
-				return;
+        if (empty($eid)) {
+            $eid = $model->getJoomlaFilesExtensionId();
+        }
 
-			case 'action':
-				$helper = new PostinstallHelper;
-				$file = $helper->parsePath($item->action_file);
+        $model->setState('published', 1);
+        $model->republishMessage($id);
 
-				if (File::exists($file))
-				{
-					require_once $file;
+        $this->setRedirect('index.php?option=com_postinstall&eid=' . $eid);
+    }
 
-					call_user_func($item->action);
-				}
-				break;
-		}
+    /**
+     * Archives a published post-installation message of the specified extension.
+     *
+     * @return   void
+     *
+     * @since   4.2.0
+     */
+    public function archive()
+    {
+        $this->checkToken('get');
 
-		$this->setRedirect('index.php?option=com_postinstall');
-	}
+        $model = $this->getModel('Messages', '', ['ignore_request' => true]);
 
-	/**
-	 * Hides all post-installation messages of the specified extension.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.8.7
-	 */
-	public function hideAll()
-	{
-		$this->checkToken();
+        $id = $this->input->get('id');
 
-		/** @var MessagesModel $model */
-		$model = $this->getModel('Messages', '', array('ignore_request' => true));
-		$eid = $this->input->getInt('eid');
+        $eid = (int) $model->getState('eid', $model->getJoomlaFilesExtensionId());
 
-		if (empty($eid))
-		{
-			$eid = $model->getJoomlaFilesExtensionId();
-		}
+        if (empty($eid)) {
+            $eid = $model->getJoomlaFilesExtensionId();
+        }
 
-		$model->hideMessages($eid);
-		$this->setRedirect('index.php?option=com_postinstall&eid=' . $eid);
-	}
+        $model->setState('published', 2);
+        $model->archiveMessage($id);
+
+        $this->setRedirect('index.php?option=com_postinstall&eid=' . $eid);
+    }
+
+    /**
+     * Executes the action associated with an item.
+     *
+     * @return  void
+     *
+     * @since   3.2
+     */
+    public function action()
+    {
+        $this->checkToken('get');
+
+        $model = $this->getModel('Messages', '', ['ignore_request' => true]);
+
+        $id = $this->input->get('id');
+
+        $item = $model->getItem($id);
+
+        switch ($item->type) {
+            case 'link':
+                $this->setRedirect($item->action);
+
+                return;
+
+            case 'action':
+                $helper = new PostinstallHelper();
+                $file   = $helper->parsePath($item->action_file);
+
+                if (is_file($file)) {
+                    require_once $file;
+
+                    \call_user_func($item->action);
+                }
+                break;
+        }
+
+        $this->setRedirect('index.php?option=com_postinstall');
+    }
+
+    /**
+     * Hides all post-installation messages of the specified extension.
+     *
+     * @return  void
+     *
+     * @since   3.8.7
+     */
+    public function hideAll()
+    {
+        $this->checkToken();
+
+        /** @var MessagesModel $model */
+        $model = $this->getModel('Messages', '', ['ignore_request' => true]);
+        $eid   = $this->input->getInt('eid');
+
+        if (empty($eid)) {
+            $eid = $model->getJoomlaFilesExtensionId();
+        }
+
+        $model->hideMessages($eid);
+        $this->setRedirect('index.php?option=com_postinstall&eid=' . $eid);
+    }
 }

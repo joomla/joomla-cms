@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -13,6 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The PublishedButton class.
  *
@@ -20,95 +25,103 @@ use Joomla\CMS\Language\Text;
  */
 class PublishedButton extends ActionButton
 {
-	/**
-	 * Configure this object.
-	 *
-	 * @return  void
-	 *
-	 * @since  4.0.0
-	 */
-	protected function preprocess()
-	{
-		$this->addState(1, 'unpublish', 'publish', Text::_('JLIB_HTML_UNPUBLISH_ITEM'), ['tip_title' => Text::_('JPUBLISHED')]);
-		$this->addState(0, 'publish', 'unpublish', Text::_('JLIB_HTML_PUBLISH_ITEM'), ['tip_title' => Text::_('JUNPUBLISHED')]);
-		$this->addState(2, 'unpublish', 'archive', Text::_('JLIB_HTML_UNPUBLISH_ITEM'), ['tip_title' => Text::_('JARCHIVED')]);
-		$this->addState(-2, 'publish', 'trash', Text::_('JLIB_HTML_PUBLISH_ITEM'), ['tip_title' => Text::_('JTRASHED')]);
-	}
+    /**
+     * Configure this object.
+     *
+     * @return  void
+     *
+     * @since  4.0.0
+     */
+    protected function preprocess()
+    {
+        $this->addState(1, 'unpublish', 'publish', Text::_('JLIB_HTML_UNPUBLISH_ITEM'), ['tip_title' => Text::_('JPUBLISHED')]);
+        $this->addState(0, 'publish', 'unpublish', Text::_('JLIB_HTML_PUBLISH_ITEM'), ['tip_title' => Text::_('JUNPUBLISHED')]);
+        $this->addState(2, 'unpublish', 'archive', Text::_('JLIB_HTML_UNPUBLISH_ITEM'), ['tip_title' => Text::_('JARCHIVED')]);
+        $this->addState(-2, 'publish', 'trash', Text::_('JLIB_HTML_PUBLISH_ITEM'), ['tip_title' => Text::_('JTRASHED')]);
+    }
 
-	/**
-	 * Render action button by item value.
-	 *
-	 * @param   integer|null  $value        Current value of this item.
-	 * @param   integer|null  $row          The row number of this item.
-	 * @param   array         $options      The options to override group options.
-	 * @param   string|Date   $publishUp    The date which item publish up.
-	 * @param   string|Date   $publishDown  The date which item publish down.
-	 *
-	 * @return  string  Rendered HTML.
-	 *
-	 * @since  4.0.0
-	 */
-	public function render(?int $value = null, ?int $row = null, array $options = [], $publishUp = null, $publishDown = null): string
-	{
-		if ($publishUp || $publishDown)
-		{
-			$bakState = $this->getState($value);
-			$default  = $this->getState($value) ?? $this->unknownState;
+    /**
+     * Render action button by item value.
+     *
+     * @param   integer|null  $value        Current value of this item.
+     * @param   integer|null  $row          The row number of this item.
+     * @param   array         $options      The options to override group options.
+     * @param   string|Date   $publishUp    The date which item publish up.
+     * @param   string|Date   $publishDown  The date which item publish down.
+     *
+     * @return  string  Rendered HTML.
+     *
+     * @since  4.0.0
+     */
+    public function render(?int $value = null, ?int $row = null, array $options = [], $publishUp = null, $publishDown = null): string
+    {
+        if ($publishUp || $publishDown) {
+            $bakState = $this->getState($value);
+            $default  = $this->getState($value) ?? $this->unknownState;
 
-			$nullDate = Factory::getDbo()->getNullDate();
-			$nowDate = Factory::getDate()->toUnix();
+            $nullDate = Factory::getDbo()->getNullDate();
+            $nowDate  = Factory::getDate()->toUnix();
 
-			$tz = Factory::getUser()->getTimezone();
+            $tz = Factory::getUser()->getTimezone();
 
-			$publishUp   = ($publishUp !== null && $publishUp !== $nullDate) ? Factory::getDate($publishUp, 'UTC')->setTimezone($tz) : false;
-			$publishDown = ($publishDown !== null && $publishDown !== $nullDate) ? Factory::getDate($publishDown, 'UTC')->setTimezone($tz) : false;
+            $publishUp   = ($publishUp !== null && $publishUp !== $nullDate) ? Factory::getDate($publishUp, 'UTC')->setTimezone($tz) : false;
+            $publishDown = ($publishDown !== null && $publishDown !== $nullDate) ? Factory::getDate($publishDown, 'UTC')->setTimezone($tz) : false;
 
-			// Add tips and special titles
-			// Create special titles for published items
-			if ($value === 1)
-			{
-				// Create tip text, only we have publish up or down settings
-				$tips = array();
+            // Add tips and special titles
+            // Create special titles for published items
+            if ($value === 1) {
+                // Create tip text, only we have publish up or down settings
+                $tips = [];
 
-				if ($publishUp)
-				{
-					$tips[] = Text::sprintf('JLIB_HTML_PUBLISHED_START', HTMLHelper::_('date', $publishUp, Text::_('DATE_FORMAT_LC5'), 'UTC'));
-					$tips[] = Text::_('JLIB_HTML_PUBLISHED_UNPUBLISH');
-				}
+                if ($publishUp) {
+                    $tips[] = Text::sprintf('JLIB_HTML_PUBLISHED_START', HTMLHelper::_('date', $publishUp, Text::_('DATE_FORMAT_LC5'), 'UTC'));
+                    $tips[] = Text::_('JLIB_HTML_PUBLISHED_UNPUBLISH');
+                }
 
-				if ($publishDown)
-				{
-					$tips[] = Text::sprintf('JLIB_HTML_PUBLISHED_FINISHED', HTMLHelper::_('date', $publishDown, Text::_('DATE_FORMAT_LC5'), 'UTC'));
-				}
+                if ($publishDown) {
+                    $tips[] = Text::sprintf('JLIB_HTML_PUBLISHED_FINISHED', HTMLHelper::_('date', $publishDown, Text::_('DATE_FORMAT_LC5'), 'UTC'));
+                }
 
-				$tip = empty($tips) ? false : implode('<br>', $tips);
+                $tip = empty($tips) ? false : implode('<br>', $tips);
 
-				$default['title'] = $tip;
+                $default['title'] = $tip;
 
-				$options['tip_title'] = Text::_('JLIB_HTML_PUBLISHED_ITEM');
+                $options['tip_title'] = Text::_('JLIB_HTML_PUBLISHED_ITEM');
 
-				if ($publishUp && $nowDate < $publishUp->toUnix())
-				{
-					$options['tip_title'] = Text::_('JLIB_HTML_PUBLISHED_PENDING_ITEM');
-					$default['icon'] = 'pending';
-				}
+                if ($publishUp && $nowDate < $publishUp->toUnix()) {
+                    $options['tip_title'] = Text::_('JLIB_HTML_PUBLISHED_PENDING_ITEM');
+                    $default['icon']      = 'pending';
+                }
 
-				if ($publishDown && $nowDate > $publishDown->toUnix())
-				{
-					$options['tip_title'] = Text::_('JLIB_HTML_PUBLISHED_EXPIRED_ITEM');
-					$default['icon'] = 'expired';
-				}
-			}
+                if ($publishDown && $nowDate > $publishDown->toUnix()) {
+                    $options['tip_title'] = Text::_('JLIB_HTML_PUBLISHED_EXPIRED_ITEM');
+                    $default['icon']      = 'expired';
+                }
 
-			$this->states[$value] = $default;
+                if (\array_key_exists('category_published', $options)) {
+                    $categoryPublished = $options['category_published'];
 
-			$html = parent::render($value, $row, $options);
+                    if ($categoryPublished === 0) {
+                        $options['tip_title'] = Text::_('JLIB_HTML_ITEM_PUBLISHED_BUT_CATEGORY_UNPUBLISHED');
+                        $default['icon']      = 'expired';
+                    }
 
-			$this->states[$value] = $bakState;
+                    if ($categoryPublished === -2) {
+                        $options['tip_title'] = Text::_('JLIB_HTML_ITEM_PUBLISHED_BUT_CATEGORY_TRASHED');
+                        $default['icon']      = 'expired';
+                    }
+                }
+            }
 
-			return $html;
-		}
+            $this->states[$value] = $default;
 
-		return parent::render($value, $row, $options);
-	}
+            $html = parent::render($value, $row, $options);
+
+            $this->states[$value] = $bakState;
+
+            return $html;
+        }
+
+        return parent::render($value, $row, $options);
+    }
 }

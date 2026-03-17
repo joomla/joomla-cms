@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <metadata>
 	<layout title="COM_FIELDS_GROUPS_VIEW_DEFAULT_TITLE">
 		<message>
@@ -8,7 +8,7 @@
 	<fieldset name="request">
 		<fields name="request">
 			<field
-				name="extension"
+				name="context"
 				type="ComponentsFieldgroup"
 				label="COM_FIELDS_CHOOSE_CONTEXT_LABEL"
 				required="true"

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
@@ -9,12 +10,16 @@
 
 namespace Joomla\Component\Joomlaupdate\Administrator\View\Upload;
 
-\defined('_JEXEC') or die;
-
-use Joomla\CMS\Factory;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Installer\Administrator\Model\WarningsModel;
+use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! Update's Update View
@@ -23,78 +28,93 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * An array with the Joomla! update information.
-	 *
-	 * @var    array
-	 *
-	 * @since  4.0.0
-	 */
-	protected $updateInfo = null;
+    /**
+     * An array with the Joomla! update information.
+     *
+     * @var    array
+     *
+     * @since  4.0.0
+     */
+    protected $updateInfo = null;
 
-	/**
-	 * Flag if the update component itself has to be updated
-	 *
-	 * @var boolean  True when update is available otherwise false
-	 *
-	 * @since 4.0.0
-	 */
-	protected $selfUpdateAvailable = false;
+    /**
+     * Flag if the update component itself has to be updated
+     *
+     * @var boolean  True when update is available otherwise false
+     *
+     * @since 4.0.0
+     */
+    protected $selfUpdateAvailable = false;
 
-	/**
-	 * Warnings for the upload update
-	 *
-	 * @var array  An array of warnings which could prevent the upload update
-	 *
-	 * @since 4.0.0
-	 */
-	protected $warnings = [];
+    /**
+     * Warnings for the upload update
+     *
+     * @var array  An array of warnings which could prevent the upload update
+     *
+     * @since 4.0.0
+     */
+    protected $warnings = [];
 
-	/**
-	 * Renders the view.
-	 *
-	 * @param   string  $tpl  Template name.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.6.0
-	 */
-	public function display($tpl = null)
-	{
-		// Load com_installer's language
-		$language = Factory::getLanguage();
-		$language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
-		$language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
+    /**
+     * Should I disable the confirmation checkbox for taking a backup before updating?
+     *
+     * @var   boolean
+     * @since 4.2.0
+     */
+    protected $noBackupCheck = false;
 
-		$this->updateInfo = $this->get('UpdateInformation');
-		$this->selfUpdateAvailable = $this->get('CheckForSelfUpdate');
+    /**
+     * Renders the view.
+     *
+     * @param   string  $tpl  Template name.
+     *
+     * @return  void
+     *
+     * @since   3.6.0
+     */
+    public function display($tpl = null)
+    {
+        /** @var UpdateModel $model */
+        $model = $this->getModel();
 
-		if ($this->getLayout() !== 'captive')
-		{
-			$this->warnings = $this->get('Items', 'warnings');
-		}
+        // Load com_installer's language
+        $language = $this->getLanguage();
+        $language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
+        $language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
 
-		$this->addToolbar();
+        $this->updateInfo          = $model->getUpdateInformation();
+        $this->selfUpdateAvailable = $model->getCheckForSelfUpdate();
 
-		// Render the view.
-		parent::display($tpl);
-	}
+        if ($this->getLayout() !== 'captive') {
+            /** @var WarningsModel $warningsModel */
+            $warningsModel  = $this->getModel('warnings');
+            $this->warnings = $warningsModel->getItems();
+        }
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	protected function addToolbar()
-	{
-		// Set the toolbar information.
-		ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'sync install');
+        $params               = ComponentHelper::getParams('com_joomlaupdate');
+        $this->noBackupCheck  = $params->get('backupcheck', 1) == 0;
 
-		$arrow = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
-		ToolbarHelper::link('index.php?option=com_joomlaupdate&' . ($this->getLayout() == 'captive' ? 'view=upload' : ''), 'JTOOLBAR_BACK', $arrow);
-		ToolbarHelper::divider();
-		ToolbarHelper::help('Joomla_Update');
-	}
+        $this->addToolbar();
+
+        // Render the view.
+        parent::display($tpl);
+    }
+
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    protected function addToolbar()
+    {
+        // Set the toolbar information.
+        ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'sync install');
+
+        $arrow = $this->getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
+        ToolbarHelper::link('index.php?option=com_joomlaupdate&' . ($this->getLayout() == 'captive' ? 'view=upload' : ''), 'JTOOLBAR_BACK', $arrow);
+        ToolbarHelper::divider();
+        ToolbarHelper::help('Joomla_Update');
+    }
 }

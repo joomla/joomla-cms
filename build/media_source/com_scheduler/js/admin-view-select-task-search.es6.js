@@ -31,7 +31,6 @@
  * Finally, the search string is saved into session storage on the assumption that the user is
  * probably going to be creating multiple instances of the same task, one after another, as is
  * typical when building a new Joomla! site.
- * phpcs:ignoreFile
  */
 // Make sure the element exists i.e. a template override has not removed it.
 const elSearch = document.getElementById('comSchedulerSelectSearch');
@@ -39,7 +38,6 @@ const elSearchContainer = document.getElementById('comSchedulerSelectSearchConta
 const elSearchHeader = document.getElementById('comSchedulerSelectTypeHeader');
 const elSearchResults = document.getElementById('comSchedulerSelectResultsContainer');
 const alertElement = document.querySelector('.tasks-alert');
-const elCards = [].slice.call(document.querySelectorAll('.comSchedulerSelectCard'));
 
 if (elSearch && elSearchContainer) {
   // Add the keyboard event listener which performs the live search in the cards
@@ -53,7 +51,7 @@ if (elSearch && elSearchContainer) {
     }
 
     // Iterate over all the task cards
-    elCards.forEach((card) => {
+    document.querySelectorAll('.comSchedulerSelectCard').forEach((card) => {
       // First remove the class which hide the task cards
       card.classList.remove('d-none');
 
@@ -63,7 +61,7 @@ if (elSearch && elSearchContainer) {
       }
 
       const cardHeader = card.querySelector('.new-task-title');
-      const cardBody = card.querySelector('.card-body');
+      const cardBody = card.querySelector('.new-task-caption');
       const title = cardHeader ? cardHeader.textContent : '';
       const description = cardBody ? cardBody.textContent : '';
 

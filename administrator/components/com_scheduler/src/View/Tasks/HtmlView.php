@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_scheduler
@@ -9,20 +10,18 @@
 
 namespace Joomla\Component\Scheduler\Administrator\View\Tasks;
 
-// Restrict direct access
-\defined('_JEXEC') or die;
-
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Scheduler\Administrator\Model\TasksModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * MVC View for the Tasks list page.
@@ -31,165 +30,161 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * Array of task items.
-	 *
-	 * @var  array
-	 * @since  4.1.0
-	 */
-	protected $items;
+    /**
+     * Array of task items.
+     *
+     * @var    array
+     * @since  4.1.0
+     */
+    protected $items;
 
-	/**
-	 * The pagination object.
-	 *
-	 * @var  Pagination
-	 * @since  4.1.0
-	 * @todo   Test pagination.
-	 */
-	protected $pagination;
+    /**
+     * The pagination object.
+     *
+     * @var    Pagination
+     * @since  4.1.0
+     * @todo   Test pagination.
+     */
+    protected $pagination;
 
-	/**
-	 * The model state.
-	 *
-	 * @var  CMSObject
-	 * @since  4.1.0
-	 */
-	protected $state;
+    /**
+     * The model state.
+     *
+     * @var    \Joomla\Registry\Registry
+     * @since  4.1.0
+     */
+    protected $state;
 
-	/**
-	 * A Form object for search filters.
-	 *
-	 * @var  Form
-	 * @since  4.1.0
-	 */
-	public $filterForm;
+    /**
+     * A Form object for search filters.
+     *
+     * @var    Form
+     * @since  4.1.0
+     */
+    public $filterForm;
 
-	/**
-	 * The active search filters.
-	 *
-	 * @var  array
-	 * @since  4.1.0
-	 */
-	public $activeFilters;
+    /**
+     * The active search filters.
+     *
+     * @var    array
+     * @since  4.1.0
+     */
+    public $activeFilters;
 
-	/**
-	 * Is this view in an empty state?
-	 *
-	 * @var  boolean
-	 * @since  4.1.0
-	 */
-	private $isEmptyState = false;
+    /**
+     * Is this view in an empty state?
+     *
+     * @var    boolean
+     * @since  4.1.0
+     */
+    private $isEmptyState = false;
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 *
-	 * @since  4.1.0
-	 * @throws  \Exception
-	 */
-	public function display($tpl = null): void
-	{
-		$this->items         = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->state         = $this->get('State');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
+    /**
+     * @inheritDoc
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     *
+     * @since   4.1.0
+     * @throws  \Exception
+     */
+    public function display($tpl = null): void
+    {
+        /** @var TasksModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-		if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
-		{
-			$this->setLayout('empty_state');
-		}
+        $this->items         = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->state         = $model->getState();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
+        $this->hasDueTasks   = $model->getHasDueTasks();
 
-		// Check for errors.
-		if (\count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        if (!\count($this->items) && $this->isEmptyState = $model->getIsEmptyState()) {
+            $this->setLayout('empty_state');
+        }
 
-		// We don't need toolbar in the modal window.
-		if ($this->getLayout() !== 'modal')
-		{
-			$this->addToolbar();
-		}
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task')
+            ->addControlField('boxchecked', '0');
 
-		parent::display($tpl);
-	}
+        $this->addToolbar();
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since  4.1.0
-	 * @throws  \Exception
-	 */
-	protected function addToolbar(): void
-	{
-		$canDo = ContentHelper::getActions('com_scheduler');
-		$user  = Factory::getApplication()->getIdentity();
+        parent::display($tpl);
+    }
 
-		/*
-		* Get the toolbar object instance
-		* !! @todo : Replace usage with ToolbarFactoryInterface
-		*/
-		$toolbar = Toolbar::getInstance();
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since  4.1.0
+     * @throws  \Exception
+     */
+    protected function addToolbar(): void
+    {
+        $canDo   = ContentHelper::getActions('com_scheduler');
+        $user    = $this->getCurrentUser();
+        $toolbar = $this->getDocument()->getToolbar();
 
-		ToolbarHelper::title(Text::_('COM_SCHEDULER_MANAGER_TASKS'), 'clock');
+        ToolbarHelper::title(Text::_('COM_SCHEDULER_MANAGER_TASKS'), 'clock');
 
-		if ($canDo->get('core.create'))
-		{
-			$toolbar->linkButton('new', 'JTOOLBAR_NEW')
-				->url('index.php?option=com_scheduler&view=select&layout=default')
-				->buttonClass('btn btn-success')
-				->icon('icon-new');
-		}
+        if ($canDo->get('core.create')) {
+            $toolbar->linkButton('new', 'JTOOLBAR_NEW')
+                ->url('index.php?option=com_scheduler&view=select&layout=default')
+                ->buttonClass('btn btn-success')
+                ->icon('icon-new');
+        }
 
-		if (!$this->isEmptyState && ($canDo->get('core.edit.state') || $user->authorise('core.admin')))
-		{
-			/** @var  DropdownButton $dropdown */
-			$dropdown = $toolbar->dropdownButton('status-group')
-				->toggleSplit(false)
-				->text('JTOOLBAR_CHANGE_STATUS')
-				->icon('icon-ellipsis-h')
-				->buttonClass('btn btn-action')
-				->listCheck(true);
+        if (!$this->isEmptyState && ($canDo->get('core.edit.state') || $user->authorise('core.admin'))) {
+            /** @var  DropdownButton $dropdown */
+            $dropdown = $toolbar->dropdownButton('status-group')
+                ->toggleSplit(false)
+                ->text('JTOOLBAR_CHANGE_STATUS')
+                ->icon('icon-ellipsis-h')
+                ->buttonClass('btn btn-action')
+                ->listCheck(true);
 
-			$childBar = $dropdown->getChildToolbar();
+            $childBar = $dropdown->getChildToolbar();
 
-			// Add the batch Enable, Disable and Trash buttons if privileged
-			if ($canDo->get('core.edit.state'))
-			{
-				$childBar->addNew('tasks.publish', 'JTOOLBAR_ENABLE')->listCheck(true)->icon('icon-publish');
-				$childBar->addNew('tasks.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true)->icon('icon-unpublish');
+            // Add the batch Enable, Disable and Trash buttons if privileged
+            if ($canDo->get('core.edit.state')) {
+                $childBar->publish('tasks.publish', 'JTOOLBAR_ENABLE')->listCheck(true);
+                $childBar->unpublish('tasks.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true);
 
-				$childBar->checkin('tasks.unlock', 'COM_SCHEDULER_TOOLBAR_UNLOCK')->listCheck(true)->icon('icon-unlock');
+                if ($canDo->get('core.admin')) {
+                    $childBar->checkin('tasks.checkin');
+                }
 
-				// We don't want the batch Trash button if displayed entries are all trashed
-				if ($this->state->get('filter.state') != -2)
-				{
-					$childBar->trash('tasks.trash')->listCheck(true);
-				}
-			}
-		}
+                $childBar->checkin('tasks.unlock', 'COM_SCHEDULER_TOOLBAR_UNLOCK')->icon('icon-unlock');
 
-		// Add "Empty Trash" button if filtering by trashed.
-		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
-		{
-			$toolbar->delete('tasks.delete')
-				->message('JGLOBAL_CONFIRM_DELETE')
-				->text('JTOOLBAR_EMPTY_TRASH')
-				->listCheck(true);
-		}
+                // We don't want the batch Trash button if displayed entries are all trashed
+                if ($this->state->get('filter.state') != -2) {
+                    $childBar->trash('tasks.trash')->listCheck(true);
+                }
+            }
+        }
 
-		// Link to component preferences if user has admin privileges
-		if ($canDo->get('core.admin') || $canDo->get('core.options'))
-		{
-			$toolbar->preferences('com_scheduler');
-		}
+        $toolbar->linkButton('history', 'COM_SCHEDULER_EXECUTION_HISTORY')
+            ->url('index.php?option=com_scheduler&view=logs&layout=default')
+            ->buttonClass('btn btn-info')
+            ->icon('icon-menu');
 
-		$toolbar->help('JHELP_COMPONENTS_SCHEDULED_TASKS_MANAGER');
-	}
+        // Add "Empty Trash" button if filtering by trashed.
+        if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete')) {
+            $toolbar->delete('tasks.delete', 'JTOOLBAR_DELETE_FROM_TRASH')
+                ->message('JGLOBAL_CONFIRM_DELETE')
+                ->listCheck(true);
+        }
+
+        // Link to component preferences if user has admin privileges
+        if ($canDo->get('core.admin') || $canDo->get('core.options')) {
+            $toolbar->preferences('com_scheduler');
+        }
+
+        $toolbar->help('Scheduled_Tasks');
+    }
 }

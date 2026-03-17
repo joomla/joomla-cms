@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fieldset addfieldprefix="Joomla\Component\Categories\Administrator\Field">
 		<field
@@ -46,7 +46,7 @@
 			label="COM_CONTENT_FIELD_ARTICLETEXT_LABEL"
 			hiddenLabel="true"
 			buttons="true"
-			filter="JComponentHelper::filterText"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 			asset_id="com_content"
 		/>
 
@@ -87,7 +87,7 @@
 			showon="featured:1"
 		/>
 
- 		<field
+		<field
 			name="featured_down"
 			type="calendar"
 			label="COM_CONTENT_FIELD_FEATURED_DOWN_LABEL"
@@ -190,9 +190,9 @@
 			name="metadesc"
 			type="textarea"
 			label="JFIELD_META_DESCRIPTION_LABEL"
-			rows="5"
-			cols="50"
-			maxlength="160"
+			rows="3"
+			cols="30"
+			maxlength="300"
 			charcounter="true"
 		/>
 
@@ -217,6 +217,9 @@
 			<field
 				name="image_intro"
 				type="media"
+				schemes="http,https,ftp,ftps,data,file"
+				validate="url"
+				relative="true"
 				label="COM_CONTENT_FIELD_INTRO_LABEL"
 			/>
 
@@ -246,12 +249,17 @@
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
 				size="20"
+				useglobal="true"
+				validate="CssIdentifier"
 			/>
 		</fieldset>
 		<fieldset name="image-full">
 			<field
 				name="image_fulltext"
 				type="media"
+				schemes="http,https,ftp,ftps,data,file"
+				validate="url"
+				relative="true"
 				label="COM_CONTENT_FIELD_FULL_LABEL"
 			/>
 
@@ -281,6 +289,8 @@
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
 				size="20"
+				useglobal="true"
+				validate="CssIdentifier"
 			/>
 		</fieldset>
 	</fields>
@@ -331,7 +341,7 @@
 			name="urlc"
 			type="url"
 			label="COM_CONTENT_FIELD_URLC_LABEL"
- 			validate="url"
+			validate="url"
 			filter="url"
 			relative="true"
 		/>

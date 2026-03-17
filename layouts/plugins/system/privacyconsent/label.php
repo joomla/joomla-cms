@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.privacyconsent
@@ -60,37 +61,34 @@ $required = true;
 $class = 'required';
 $class = !empty($labelclass) ? $class . ' ' . $labelclass : $class;
 
-if ($privacyLink)
-{
-	$attribs = [
-		'data-bs-toggle' => 'modal',
-		'data-bs-target' => '#consentModal',
-		'class' => 'required',
-	];
+if ($privacyLink) {
+    $attribs = [
+        'data-bs-toggle' => 'modal',
+        'data-bs-target' => '#consentModal',
+        'class' => 'required',
+    ];
 
-	$link = HTMLHelper::_('link', Route::_($privacyLink . '&tmpl=component'), $text, $attribs);
+    $link = HTMLHelper::_('link', Route::_($privacyLink . '&tmpl=component'), $text, $attribs);
 
-	echo HTMLHelper::_(
-		'bootstrap.renderModal',
-		'consentModal',
-		[
-			'url'    => Route::_($privacyLink . '&tmpl=component'),
-			'title'  => $text,
-			'height' => '100%',
-			'width'  => '100%',
-			'bodyHeight'  => 70,
-			'modalWidth'  => 80,
-			'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
-				. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
-		]
-	);
-}
-else
-{
-	$link = '<span class="' . $class . '">' . $text . '</span>';
+    echo HTMLHelper::_(
+        'bootstrap.renderModal',
+        'consentModal',
+        [
+            'url'    => Route::_($privacyLink . '&tmpl=component'),
+            'title'  => $text,
+            'height' => '100%',
+            'width'  => '100%',
+            'bodyHeight'  => 70,
+            'modalWidth'  => 80,
+            'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
+                . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
+        ]
+    );
+} else {
+    $link = '<span class="' . $class . '">' . $text . '</span>';
 }
 
 // Add the label text and star.
-$label = $link . '<span class="star">&#160;*</span>';
+$label = $link . '<span class="star" aria-hidden="true">&#160;*</span>';
 
 echo $label;

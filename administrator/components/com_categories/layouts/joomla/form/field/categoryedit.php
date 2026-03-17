@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_categories
@@ -12,6 +13,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+
+/** @var \Joomla\CMS\Layout\FileLayout $this */
 
 extract($displayData);
 
@@ -49,8 +52,8 @@ extract($displayData);
  * @var   string   $customPrefix    Optional prefix for new categories.
  */
 
-$html    = array();
-$classes = array();
+$html    = [];
+$classes = [];
 $attr    = '';
 $attr2   = '';
 
@@ -61,9 +64,8 @@ $attr .= $autofocus ? ' autofocus' : '';
 $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
 
 // To avoid user's confusion, readonly="true" should imply disabled="disabled".
-if ($readonly || $disabled)
-{
-	$attr .= ' disabled="disabled"';
+if ($readonly || $disabled) {
+    $attr .= ' disabled="disabled"';
 }
 
 $attr2 .= !empty($class) ? ' class="' . $class . '"' : '';
@@ -73,85 +75,70 @@ $placeholder = $this->escape(Text::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY'));
 $attr2 .= ' placeholder="' . $placeholder . '" ';
 $attr2 .= ' search-placeholder="' . $placeholder . '" ';
 
-if ($allowCustom)
-{
-	$attr2 .= ' allow-custom';
+if ($allowCustom) {
+    $attr2 .= ' allow-custom';
 
-	if ($customPrefix !== '')
-	{
-		$attr2 .= ' new-item-prefix="' . $customPrefix . '" ';
-	}
+    if ($customPrefix !== '') {
+        $attr2 .= ' new-item-prefix="' . $customPrefix . '" ';
+    }
 }
 
-if ($required)
-{
-	$attr  .= ' required class="required"';
-	$attr2 .= ' required';
+if ($required) {
+    $attr  .= ' required class="required"';
+    $attr2 .= ' required';
 }
 
 // Create a read-only list (no name) with hidden input(s) to store the value(s).
-if ($readonly)
-{
-	$html[] = HTMLHelper::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $value, $id);
+if ($readonly) {
+    $html[] = HTMLHelper::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $value, $id);
 
-	// E.g. form field type tag sends $this->value as array
-	if ($multiple && is_array($value))
-	{
-		if (!count($value))
-		{
-			$value[] = '';
-		}
+    // E.g. form field type tag sends $this->value as array
+    if ($multiple && is_array($value)) {
+        if (!count($value)) {
+            $value[] = '';
+        }
 
-		foreach ($value as $val)
-		{
-			$html[] = '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($val, ENT_COMPAT, 'UTF-8') . '">';
-		}
-	}
-	else
-	{
-		$html[] = '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '">';
-	}
-}
-else
-{
-	// Create a regular list.
-	if (count($options) === 0)
-	{
-		// All Categories have been deleted, so we need a new category (This will create on save if selected).
-		$options[0]            = new \stdClass;
-		$options[0]->value     = 'Uncategorised';
-		$options[0]->text      = 'Uncategorised';
-		$options[0]->level     = '1';
-		$options[0]->published = '1';
-		$options[0]->lft       = '1';
-	}
+        foreach ($value as $val) {
+            $html[] = '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($val, ENT_COMPAT, 'UTF-8') . '">';
+        }
+    } else {
+        $html[] = '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '">';
+    }
+} else {
+    // Create a regular list.
+    if (count($options) === 0) {
+        // All Categories have been deleted, so we need a new category (This will create on save if selected).
+        $options[0]            = new \stdClass();
+        $options[0]->value     = 'Uncategorised';
+        $options[0]->text      = 'Uncategorised';
+        $options[0]->level     = '1';
+        $options[0]->published = '1';
+        $options[0]->lft       = '1';
+    }
 
-	$html[] = HTMLHelper::_('select.genericlist', $options, $name, trim($attr), 'value', 'text', $value, $id);
+    $html[] = HTMLHelper::_('select.genericlist', $options, $name, trim($attr), 'value', 'text', $value, $id);
 }
 
-if ($refreshPage === true)
-{
-	$attr2 .= ' data-refresh-catid="' . $refreshCatId . '" data-refresh-section="' . $refreshSection . '"';
-	$attr2 .= ' onchange="Joomla.categoryHasChanged(this)"';
+if ($refreshPage === true) {
+    $attr2 .= ' data-refresh-catid="' . $refreshCatId . '" data-refresh-section="' . $refreshSection . '"';
+    $attr2 .= ' onchange="Joomla.categoryHasChanged(this)"';
 
-	Factory::getDocument()->getWebAssetManager()
-		->registerAndUseScript('field.category-change', 'layouts/joomla/form/field/category-change.min.js', [], ['defer' => true], ['core'])
-		->useScript('webcomponent.core-loader');
+    Factory::getDocument()->getWebAssetManager()
+        ->registerAndUseScript('field.category-change', 'layouts/joomla/form/field/category-change.min.js', [], ['defer' => true], ['core'])
+        ->useScript('webcomponent.core-loader');
 
-	// Pass the element id to the javascript
-	Factory::getDocument()->addScriptOptions('category-change', $id);
-}
-else
-{
-	$attr2 .= $onchange ? ' onchange="' . $onchange . '"' : '';
+    // Pass the element id to the javascript
+    Factory::getDocument()->addScriptOptions('category-change', $id);
+} else {
+    $attr2 .= $onchange ? ' onchange="' . $onchange . '"' : '';
 }
 
 Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
 
 Factory::getDocument()->getWebAssetManager()
-	->usePreset('choicesjs')
-	->useScript('webcomponent.field-fancy-select');
+    ->usePreset('choicesjs')
+    ->useScript('webcomponent.field-fancy-select');
 ?>
 
 <joomla-field-fancy-select <?php echo $attr2; ?>><?php echo implode($html); ?></joomla-field-fancy-select>

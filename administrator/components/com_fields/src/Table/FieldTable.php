@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_fields
@@ -9,333 +10,312 @@
 
 namespace Joomla\Component\Fields\Administrator\Table;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
-use Joomla\Database\DatabaseDriver;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Fields Table
  *
  * @since  3.7.0
  */
-class FieldTable extends Table
+class FieldTable extends Table implements CurrentUserInterface
 {
-	/**
-	 * Indicates that columns fully support the NULL value in the database
-	 *
-	 * @var    boolean
-	 * @since  4.0.0
-	 */
-	protected $_supportNullValue = true;
+    use CurrentUserTrait;
 
-	/**
-	 * Class constructor.
-	 *
-	 * @param   DatabaseDriver  $db  DatabaseDriver object.
-	 *
-	 * @since   3.7.0
-	 */
-	public function __construct($db = null)
-	{
-		parent::__construct('#__fields', 'id', $db);
+    /**
+     * Indicates that columns fully support the NULL value in the database
+     *
+     * @var    boolean
+     * @since  4.0.0
+     */
+    protected $_supportNullValue = true;
 
-		$this->setColumnAlias('published', 'state');
-	}
+    /**
+     * Class constructor.
+     *
+     * @param   DatabaseInterface     $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
+     *
+     * @since   3.7.0
+     */
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
+    {
+        parent::__construct('#__fields', 'id', $db, $dispatcher);
 
-	/**
-	 * Method to bind an associative array or object to the JTable instance.This
-	 * method only binds properties that are publicly accessible and optionally
-	 * takes an array of properties to ignore when binding.
-	 *
-	 * @param   mixed  $src     An associative array or object to bind to the JTable instance.
-	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.7.0
-	 * @throws  \InvalidArgumentException
-	 */
-	public function bind($src, $ignore = '')
-	{
-		if (isset($src['params']) && is_array($src['params']))
-		{
-			$registry = new Registry;
-			$registry->loadArray($src['params']);
-			$src['params'] = (string) $registry;
-		}
+        $this->setColumnAlias('published', 'state');
+    }
 
-		if (isset($src['fieldparams']) && is_array($src['fieldparams']))
-		{
-			// Make sure $registry->options contains no duplicates when the field type is subform
-			if (isset($src['type']) && $src['type'] == 'subform' && isset($src['fieldparams']['options']))
-			{
-				// Fast lookup map to check which custom field ids we have already seen
-				$seen_customfields = array();
+    /**
+     * Method to bind an associative array or object to the \Joomla\CMS\Table\Table instance.This
+     * method only binds properties that are publicly accessible and optionally
+     * takes an array of properties to ignore when binding.
+     *
+     * @param   mixed  $src     An associative array or object to bind to the \Joomla\CMS\Table\Table instance.
+     * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
+     *
+     * @return  boolean  True on success.
+     *
+     * @since   3.7.0
+     * @throws  \InvalidArgumentException
+     */
+    public function bind($src, $ignore = '')
+    {
+        if (isset($src['params']) && \is_array($src['params'])) {
+            $registry = new Registry();
+            $registry->loadArray($src['params']);
+            $src['params'] = (string) $registry;
+        }
 
-				// Container for the new $src['fieldparams']['options']
-				$options = array();
+        if (isset($src['fieldparams']) && \is_array($src['fieldparams'])) {
+            // Make sure $registry->options contains no duplicates when the field type is subform
+            if (isset($src['type']) && $src['type'] == 'subform' && isset($src['fieldparams']['options'])) {
+                // Fast lookup map to check which custom field ids we have already seen
+                $seen_customfields = [];
 
-				// Iterate through the old options
-				$i = 0;
+                // Container for the new $src['fieldparams']['options']
+                $options = [];
 
-				foreach ($src['fieldparams']['options'] as $option)
-				{
-					// Check whether we have not yet seen this custom field id
-					if (!isset($seen_customfields[$option['customfield']]))
-					{
-						// We haven't, so add it to the final options
-						$seen_customfields[$option['customfield']] = true;
-						$options['option' . $i] = $option;
-						$i++;
-					}
-				}
+                // Iterate through the old options
+                $i = 0;
 
-				// And replace the options with the deduplicated ones.
-				$src['fieldparams']['options'] = $options;
-			}
+                foreach ($src['fieldparams']['options'] as $option) {
+                    // Check whether we have not yet seen this custom field id
+                    if (!isset($seen_customfields[$option['customfield']])) {
+                        // We haven't, so add it to the final options
+                        $seen_customfields[$option['customfield']] = true;
+                        $options['option' . $i]                    = $option;
+                        $i++;
+                    }
+                }
 
-			$registry = new Registry;
-			$registry->loadArray($src['fieldparams']);
-			$src['fieldparams'] = (string) $registry;
-		}
+                // And replace the options with the deduplicated ones.
+                $src['fieldparams']['options'] = $options;
+            }
 
-		// Bind the rules.
-		if (isset($src['rules']) && is_array($src['rules']))
-		{
-			$rules = new Rules($src['rules']);
-			$this->setRules($rules);
-		}
+            $registry = new Registry();
+            $registry->loadArray($src['fieldparams']);
+            $src['fieldparams'] = (string) $registry;
+        }
 
-		return parent::bind($src, $ignore);
-	}
+        // Bind the rules.
+        if (isset($src['rules']) && \is_array($src['rules'])) {
+            $rules = new Rules($src['rules']);
+            $this->setRules($rules);
+        }
 
-	/**
-	 * Method to perform sanity checks on the JTable instance properties to ensure
-	 * they are safe to store in the database.  Child classes should override this
-	 * method to make sure the data they are storing in the database is safe and
-	 * as expected before storage.
-	 *
-	 * @return  boolean  True if the instance is sane and able to be stored in the database.
-	 *
-	 * @link    https://docs.joomla.org/Special:MyLanguage/JTable/check
-	 * @since   3.7.0
-	 */
-	public function check()
-	{
-		// Check for valid name
-		if (trim($this->title) == '')
-		{
-			$this->setError(Text::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_FIELD'));
+        return parent::bind($src, $ignore);
+    }
 
-			return false;
-		}
+    /**
+     * Method to perform sanity checks on the \Joomla\CMS\Table\Table instance properties to ensure
+     * they are safe to store in the database.  Child classes should override this
+     * method to make sure the data they are storing in the database is safe and
+     * as expected before storage.
+     *
+     * @return  boolean  True if the instance is sane and able to be stored in the database.
+     *
+     * @since   3.7.0
+     */
+    public function check()
+    {
+        // Check for valid name
+        if (trim($this->title) == '') {
+            $this->setError(Text::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_FIELD'));
 
-		if (empty($this->name))
-		{
-			$this->name = $this->title;
-		}
+            return false;
+        }
 
-		$this->name = ApplicationHelper::stringURLSafe($this->name, $this->language);
+        if (empty($this->name)) {
+            $this->name = $this->title;
+        }
 
-		if (trim(str_replace('-', '', $this->name)) == '')
-		{
-			$this->name = StringHelper::increment($this->name, 'dash');
-		}
+        $this->name = ApplicationHelper::stringURLSafe($this->name, $this->language);
 
-		$this->name = str_replace(',', '-', $this->name);
+        if (trim(str_replace('-', '', $this->name)) == '') {
+            $this->name = StringHelper::increment($this->name, 'dash');
+        }
 
-		// Verify that the name is unique
-		$table = new static($this->_db);
+        $this->name = str_replace(',', '-', $this->name);
 
-		if ($table->load(array('name' => $this->name)) && ($table->id != $this->id || $this->id == 0))
-		{
-			$this->setError(Text::_('COM_FIELDS_ERROR_UNIQUE_NAME'));
+        // Verify that the name is unique
+        $table = new self($this->getDatabase(), $this->getDispatcher());
 
-			return false;
-		}
+        if ($table->load(['name' => $this->name]) && ($table->id != $this->id || $this->id == 0)) {
+            $this->setError(Text::_('COM_FIELDS_ERROR_UNIQUE_NAME'));
 
-		$this->name = str_replace(',', '-', $this->name);
+            return false;
+        }
 
-		if (empty($this->type))
-		{
-			$this->type = 'text';
-		}
+        $this->name = str_replace(',', '-', $this->name);
 
-		if (empty($this->fieldparams))
-		{
-			$this->fieldparams = '{}';
-		}
+        if (empty($this->type)) {
+            $this->type = 'text';
+        }
 
-		$date = Factory::getDate()->toSql();
-		$user = Factory::getUser();
+        if (empty($this->fieldparams)) {
+            $this->fieldparams = '{}';
+        }
 
-		// Set created date if not set.
-		if (!(int) $this->created_time)
-		{
-			$this->created_time = $date;
-		}
+        $date = Factory::getDate()->toSql();
+        $user = $this->getCurrentUser();
 
-		if ($this->id)
-		{
-			// Existing item
-			$this->modified_time = $date;
-			$this->modified_by = $user->get('id');
-		}
-		else
-		{
-			if (!(int) $this->modified_time)
-			{
-				$this->modified_time = $this->created_time;
-			}
+        // Set created date if not set.
+        if (!(int) $this->created_time) {
+            $this->created_time = $date;
+        }
 
-			if (empty($this->created_user_id))
-			{
-				$this->created_user_id = $user->get('id');
-			}
+        if ($this->id) {
+            // Existing item
+            $this->modified_time = $date;
+            $this->modified_by   = $user->id;
+        } else {
+            if (!(int) $this->modified_time) {
+                $this->modified_time = $this->created_time;
+            }
 
-			if (empty($this->modified_by))
-			{
-				$this->modified_by = $this->created_user_id;
-			}
-		}
+            if (empty($this->created_user_id)) {
+                $this->created_user_id = $user->id;
+            }
 
-		if (empty($this->group_id))
-		{
-			$this->group_id = 0;
-		}
+            if (empty($this->modified_by)) {
+                $this->modified_by = $this->created_user_id;
+            }
+        }
 
-		return true;
-	}
+        if (empty($this->group_id)) {
+            $this->group_id = 0;
+        }
 
-	/**
-	 * Overloaded store function
-	 *
-	 * @param   boolean  $updateNulls  True to update fields even if they are null.
-	 *
-	 * @return  mixed  False on failure, positive integer on success.
-	 *
-	 * @see     Table::store()
-	 * @since   4.0.0
-	 */
-	public function store($updateNulls = true)
-	{
-		return parent::store($updateNulls);
-	}
+        return true;
+    }
 
-	/**
-	 * Method to compute the default name of the asset.
-	 * The default name is in the form table_name.id
-	 * where id is the value of the primary key of the table.
-	 *
-	 * @return  string
-	 *
-	 * @since   3.7.0
-	 */
-	protected function _getAssetName()
-	{
-		$contextArray = explode('.', $this->context);
+    /**
+     * Overloaded store function
+     *
+     * @param   boolean  $updateNulls  True to update fields even if they are null.
+     *
+     * @return  mixed  False on failure, positive integer on success.
+     *
+     * @see     Table::store()
+     * @since   4.0.0
+     */
+    public function store($updateNulls = true)
+    {
+        return parent::store($updateNulls);
+    }
 
-		return $contextArray[0] . '.field.' . (int) $this->id;
-	}
+    /**
+     * Method to compute the default name of the asset.
+     * The default name is in the form table_name.id
+     * where id is the value of the primary key of the table.
+     *
+     * @return  string
+     *
+     * @since   3.7.0
+     */
+    protected function _getAssetName()
+    {
+        $contextArray = explode('.', $this->context);
 
-	/**
-	 * Method to return the title to use for the asset table.  In
-	 * tracking the assets a title is kept for each asset so that there is some
-	 * context available in a unified access manager.  Usually this would just
-	 * return $this->title or $this->name or whatever is being used for the
-	 * primary name of the row. If this method is not overridden, the asset name is used.
-	 *
-	 * @return  string  The string to use as the title in the asset table.
-	 *
-	 * @link    https://docs.joomla.org/Special:MyLanguage/JTable/getAssetTitle
-	 * @since   3.7.0
-	 */
-	protected function _getAssetTitle()
-	{
-		return $this->title;
-	}
+        return $contextArray[0] . '.field.' . (int) $this->id;
+    }
 
-	/**
-	 * Method to get the parent asset under which to register this one.
-	 * By default, all assets are registered to the ROOT node with ID,
-	 * which will default to 1 if none exists.
-	 * The extended class can define a table and id to lookup.  If the
-	 * asset does not exist it will be created.
-	 *
-	 * @param   Table    $table  A JTable object for the asset parent.
-	 * @param   integer  $id     Id to look up
-	 *
-	 * @return  integer
-	 *
-	 * @since   3.7.0
-	 */
-	protected function _getAssetParentId(Table $table = null, $id = null)
-	{
-		$contextArray = explode('.', $this->context);
-		$component = $contextArray[0];
+    /**
+     * Method to return the title to use for the asset table.  In
+     * tracking the assets a title is kept for each asset so that there is some
+     * context available in a unified access manager.  Usually this would just
+     * return $this->title or $this->name or whatever is being used for the
+     * primary name of the row. If this method is not overridden, the asset name is used.
+     *
+     * @return  string  The string to use as the title in the asset table.
+     *
+     * @since   3.7.0
+     */
+    protected function _getAssetTitle()
+    {
+        return $this->title;
+    }
 
-		if ($this->group_id)
-		{
-			$assetId = $this->getAssetId($component . '.fieldgroup.' . (int) $this->group_id);
+    /**
+     * Method to get the parent asset under which to register this one.
+     * By default, all assets are registered to the ROOT node with ID,
+     * which will default to 1 if none exists.
+     * The extended class can define a table and id to lookup.  If the
+     * asset does not exist it will be created.
+     *
+     * @param   ?Table    $table  A Table object for the asset parent.
+     * @param   integer   $id     Id to look up
+     *
+     * @return  integer
+     *
+     * @since   3.7.0
+     */
+    protected function _getAssetParentId(?Table $table = null, $id = null)
+    {
+        $contextArray = explode('.', $this->context);
+        $component    = $contextArray[0];
 
-			if ($assetId)
-			{
-				return $assetId;
-			}
-		}
-		else
-		{
-			$assetId = $this->getAssetId($component);
+        if ($this->group_id) {
+            $assetId = $this->getAssetId($component . '.fieldgroup.' . (int) $this->group_id);
 
-			if ($assetId)
-			{
-				return $assetId;
-			}
-		}
+            if ($assetId) {
+                return $assetId;
+            }
+        } else {
+            $assetId = $this->getAssetId($component);
 
-		return parent::_getAssetParentId($table, $id);
-	}
+            if ($assetId) {
+                return $assetId;
+            }
+        }
 
-	/**
-	 * Returns an asset id for the given name or false.
-	 *
-	 * @param   string  $name  The asset name
-	 *
-	 * @return  number|boolean
-	 *
-	 * @since    3.7.0
-	 */
-	private function getAssetId($name)
-	{
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('id'))
-			->from($db->quoteName('#__assets'))
-			->where($db->quoteName('name') . ' = :name')
-			->bind(':name', $name);
+        return parent::_getAssetParentId($table, $id);
+    }
 
-		// Get the asset id from the database.
-		$db->setQuery($query);
+    /**
+     * Returns an asset id for the given name or false.
+     *
+     * @param   string  $name  The asset name
+     *
+     * @return  number|boolean
+     *
+     * @since    3.7.0
+     */
+    private function getAssetId($name)
+    {
+        $db    = $this->getDatabase();
+        $query = $db->createQuery()
+            ->select($db->quoteName('id'))
+            ->from($db->quoteName('#__assets'))
+            ->where($db->quoteName('name') . ' = :name')
+            ->bind(':name', $name);
 
-		$assetId = null;
+        // Get the asset id from the database.
+        $db->setQuery($query);
 
-		if ($result = $db->loadResult())
-		{
-			$assetId = (int) $result;
+        $assetId = null;
 
-			if ($assetId)
-			{
-				return $assetId;
-			}
-		}
+        if ($result = $db->loadResult()) {
+            $assetId = (int) $result;
 
-		return false;
-	}
+            if ($assetId) {
+                return $assetId;
+            }
+        }
+
+        return false;
+    }
 }

@@ -1,16 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="system" method="upgrade">
 	<name>plg_system_sef</name>
 	<author>Joomla! Project</author>
-	<creationDate>December 2007</creationDate>
+	<creationDate>2007-12</creationDate>
 	<copyright>(C) 2007 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_SEF_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\Sef</namespace>
 	<files>
-		<filename plugin="sef">sef.php</filename>
+		<folder plugin="sef">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_system_sef.ini</language>
@@ -28,6 +30,58 @@
 					filter="url"
 					validate="url"
 				/>
+
+				<field
+					name="enforcesuffix"
+					type="list"
+					label="PLG_SEF_ENFORCESUFFIX_LABEL"
+					description="PLG_SEF_ENFORCESUFFIX_DESCRIPTION"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="boolean"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="indexphp"
+					type="radio"
+					label="PLG_SEF_INDEXPHP_LABEL"
+					description="PLG_SEF_INDEXPHP_DESCRIPTION"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="boolean"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="trailingslash"
+					type="list"
+					label="PLG_SEF_TRAILINGSLASH_LABEL"
+					description="PLG_SEF_TRAILINGSLASH_DESCRIPTION"
+					default="-1"
+					filter="option"
+				>
+					<option value="-1">PLG_SEF_TRAILINGSLASH_OPTION_NONE</option>
+					<option value="0">PLG_SEF_TRAILINGSLASH_OPTION_NO_SLASH</option>
+					<option value="1">PLG_SEF_TRAILINGSLASH_OPTION_SLASH</option>
+				</field>
+
+				<field
+					name="strictrouting"
+					type="radio"
+					label="PLG_SEF_STRICTROUTING_LABEL"
+					description="PLG_SEF_STRICTROUTING_DESCRIPTION"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="boolean"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>

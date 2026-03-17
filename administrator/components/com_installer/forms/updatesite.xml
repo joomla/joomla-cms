@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fieldset name="updateSite">
 		<field
@@ -28,7 +28,6 @@
 			type="text"
 			label="COM_INSTALLER_FIELD_EXTRA_QUERY_LABEL"
 			description="COM_INSTALLER_FIELD_EXTRA_QUERY_DESC"
-			size="40"
 			default=""
 		/>
 		<field

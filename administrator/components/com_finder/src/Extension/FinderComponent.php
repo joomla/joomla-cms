@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -9,8 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\Extension;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Component\Router\RouterServiceInterface;
 use Joomla\CMS\Component\Router\RouterServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
@@ -19,7 +18,12 @@ use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\Component\Finder\Administrator\Service\HTML\Filter;
 use Joomla\Component\Finder\Administrator\Service\HTML\Finder;
 use Joomla\Component\Finder\Administrator\Service\HTML\Query;
+use Joomla\Database\DatabaseInterface;
 use Psr\Container\ContainerInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Component class for com_finder
@@ -28,26 +32,34 @@ use Psr\Container\ContainerInterface;
  */
 class FinderComponent extends MVCComponent implements BootableExtensionInterface, RouterServiceInterface
 {
-	use RouterServiceTrait;
-	use HTMLRegistryAwareTrait;
+    use RouterServiceTrait;
+    use HTMLRegistryAwareTrait;
 
-	/**
-	 * Booting the extension. This is the function to set up the environment of the extension like
-	 * registering new class loaders, etc.
-	 *
-	 * If required, some initial set up can be done from services of the container, eg.
-	 * registering HTML services.
-	 *
-	 * @param   ContainerInterface  $container  The container
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function boot(ContainerInterface $container)
-	{
-		$this->getRegistry()->register('finder', new Finder);
-		$this->getRegistry()->register('filter', new Filter);
-		$this->getRegistry()->register('query', new Query);
-	}
+    /**
+     * Booting the extension. This is the function to set up the environment of the extension like
+     * registering new class loaders, etc.
+     *
+     * If required, some initial set up can be done from services of the container, eg.
+     * registering HTML services.
+     *
+     * @param   ContainerInterface  $container  The container
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function boot(ContainerInterface $container)
+    {
+        $finder = new Finder();
+        $finder->setDatabase($container->get(DatabaseInterface::class));
+
+        $this->getRegistry()->register('finder', $finder);
+
+        $filter = new Filter();
+        $filter->setDatabase($container->get(DatabaseInterface::class));
+
+        $this->getRegistry()->register('filter', $filter);
+
+        $this->getRegistry()->register('query', new Query());
+    }
 }

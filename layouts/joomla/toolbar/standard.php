@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -10,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 extract($displayData, EXTR_OVERWRITE);
 
@@ -30,9 +32,9 @@ extract($displayData, EXTR_OVERWRITE);
  * @var   string  $message          Confirmation message before run the task
  */
 
-Factory::getDocument()->getWebAssetManager()
-	->useScript('core')
-	->useScript('webcomponent.toolbar-button');
+Factory::getApplication()->getDocument()->getWebAssetManager()
+    ->useScript('core')
+    ->useScript('webcomponent.toolbar-button');
 
 $tagName  = $tagName ?? 'button';
 
@@ -43,13 +45,16 @@ $formAttr = !empty($form)           ? ' form="' . $this->escape($form) . '"' : '
 $validate = !empty($formValidation) ? ' form-validation' : '';
 $msgAttr  = !empty($message)        ? ' confirm-message="' . $this->escape($message) . '"' : '';
 
-if (!empty($task))
-{
-	$taskAttr = ' task="' . $task . '"';
+if ($msgAttr) {
+    Text::script('WARNING');
+    Text::script('JYES');
+    Text::script('JNO');
 }
-elseif (!empty($onclick))
-{
-	$htmlAttributes .= ' onclick="' . $onclick . '"';
+
+if (!empty($task)) {
+    $taskAttr = ' task="' . $task . '"';
+} elseif (!empty($onclick)) {
+    $htmlAttributes .= ' onclick="' . $onclick . '"';
 }
 
 ?>
@@ -57,16 +62,16 @@ elseif (!empty($onclick))
 <joomla-toolbar-button <?php echo $idAttr . $taskAttr . $listAttr . $formAttr . $validate . $msgAttr; ?>>
 <?php if (!empty($group)) : ?>
 <a href="#" class="dropdown-item">
-	<span class="<?php echo trim($class ?? ''); ?>"></span>
-	<?php echo $text ?? ''; ?>
+    <span class="<?php echo trim($class ?? ''); ?>"></span>
+    <?php echo $text ?? ''; ?>
 </a>
 <?php else : ?>
 <<?php echo $tagName; ?>
-	class="<?php echo $btnClass ?? ''; ?>"
-	<?php echo $htmlAttributes ?? ''; ?>
-	>
-	<span class="<?php echo trim($class ?? ''); ?>" aria-hidden="true"></span>
-	<?php echo $text ?? ''; ?>
+    class="<?php echo $btnClass ?? ''; ?>"
+    <?php echo $htmlAttributes ?? ''; ?>
+    >
+    <span class="<?php echo trim($class ?? ''); ?>" aria-hidden="true"></span>
+    <?php echo $text ?? ''; ?>
 </<?php echo $tagName; ?>>
 <?php endif; ?>
 </joomla-toolbar-button>

@@ -1,5 +1,5 @@
-import Popover from '../../../../../node_modules/bootstrap/js/src/popover';
-import Tooltip from '../../../../../node_modules/bootstrap/js/src/tooltip';
+import Popover from 'bootstrap/js/src/popover';
+import Tooltip from 'bootstrap/js/src/tooltip';
 
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Popover = Popover;

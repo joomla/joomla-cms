@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-\defined('JPATH_PLATFORM') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Interface for a stateful model.
@@ -17,27 +20,27 @@ namespace Joomla\CMS\MVC\Model;
  */
 interface StatefulModelInterface
 {
-	/**
-	 * Method to get model state variables.
-	 *
-	 * @param   string  $property  Optional parameter name
-	 * @param   mixed   $default   Optional default value
-	 *
-	 * @return  mixed  The property where specified, the state object where omitted
-	 *
-	 * @since   4.0.0
-	 */
-	public function getState($property = null, $default = null);
+    /**
+     * Method to get model state variables.
+     *
+     * @param   string  $property  Optional parameter name
+     * @param   mixed   $default   Optional default value
+     *
+     * @return  mixed  The property where specified, the state object where omitted
+     *
+     * @since   4.0.0
+     */
+    public function getState($property = null, $default = null);
 
-	/**
-	 * Method to set model state variables.
-	 *
-	 * @param   string  $property  The name of the property.
-	 * @param   mixed   $value     The value of the property to set or null.
-	 *
-	 * @return  mixed  The previous value of the property or null if not set.
-	 *
-	 * @since   4.0.0
-	 */
-	public function setState($property, $value = null);
+    /**
+     * Method to set model state variables.
+     *
+     * @param   string  $property  The name of the property.
+     * @param   mixed   $value     The value of the property to set or null.
+     *
+     * @return  mixed  The previous value of the property or null if not set.
+     *
+     * @since   4.0.0
+     */
+    public function setState($property, $value = null);
 }

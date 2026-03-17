@@ -1,16 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="sampledata" method="upgrade">
 	<name>plg_sampledata_testing</name>
 	<author>Joomla! Project</author>
-	<creationDate>July 2017</creationDate>
+	<creationDate>2017-07</creationDate>
 	<copyright>(C) 2017 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>PLG_SAMPLEDATA_TESTING_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\SampleData\Testing</namespace>
 	<files>
 		<folder>language</folder>
-		<filename plugin="testing">testing.php</filename>
+		<folder plugin="testing">services</folder>
+		<folder>src</folder>
 	</files>
 </extension>

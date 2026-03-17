@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="component" method="upgrade">
 	<name>com_associations</name>
 	<author>Joomla! Project</author>
-	<creationDate>January 2017</creationDate>
+	<creationDate>2017-01</creationDate>
 	<copyright>(C) 2017 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>

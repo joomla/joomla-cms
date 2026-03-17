@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Categories\Administrator\Field">
 
 	<field
@@ -24,7 +24,6 @@
 		name="asset_id"
 		type="hidden"
 		filter="unset"
-		label="JFIELD_ASSET_ID_LABEL"
 	/>
 
 	<field
@@ -56,7 +55,6 @@
 		type="text"
 		label="COM_CATEGORIES_PATH_LABEL"
 		class="readonly"
-		size="40"
 		readonly="true"
 	/>
 
@@ -69,7 +67,6 @@
 		name="title"
 		type="text"
 		label="JGLOBAL_TITLE"
-		size="40"
 		required="true"
 	/>
 
@@ -78,7 +75,6 @@
 		type="text"
 		label="JFIELD_ALIAS_LABEL"
 		description="JFIELD_ALIAS_DESC"
-		size="45"
 		hint="JFIELD_ALIAS_PLACEHOLDER"
 	/>
 
@@ -86,7 +82,6 @@
 		name="version_note"
 		type="text"
 		label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
-		size="45"
 		maxlength="255"
 	/>
 
@@ -94,7 +89,6 @@
 		name="note"
 		type="text"
 		label="COM_CATEGORIES_FIELD_NOTE_LABEL"
-		size="40"
 		maxlength="255"
 	/>
 
@@ -102,7 +96,7 @@
 		name="description"
 		type="editor"
 		label="JGLOBAL_DESCRIPTION"
-		filter="JComponentHelper::filterText"
+		filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 		buttons="true"
 		hide="readmore,pagebreak"
 	/>
@@ -113,7 +107,6 @@
 		label="JSTATUS"
 		default="1"
 		class="form-select-color-state"
-		size="1"
 		validate="options"
 		>
 		<option value="1">JPUBLISHED</option>
@@ -147,8 +140,8 @@
 		type="textarea"
 		label="JFIELD_META_DESCRIPTION_LABEL"
 		rows="3"
-		cols="40"
-		maxlength="160"
+		cols="30"
+		maxlength="300"
 		charcounter="true"
 	/>
 
@@ -173,7 +166,6 @@
 		label="JGLOBAL_CREATED_DATE"
 		translateformat="true"
 		showtime="true"
-		size="22"
 		filter="user_utc"
 	/>
 
@@ -194,7 +186,6 @@
 		class="readonly"
 		translateformat="true"
 		showtime="true"
-		size="22"
 		readonly="true"
 		filter="user_utc"
 	/>
@@ -243,6 +234,9 @@
 				<field
 					name="image"
 					type="media"
+					schemes="http,https,ftp,ftps,data,file"
+					validate="url"
+					relative="true"
 					label="COM_CATEGORIES_FIELD_IMAGE_LABEL"
 				/>
 
@@ -250,7 +244,6 @@
 					name="image_alt"
 					type="text"
 					label="COM_CATEGORIES_FIELD_IMAGE_ALT_LABEL"
-					size="20"
 				/>
 
 				<field
@@ -271,7 +264,6 @@
 				name="author"
 				type="text"
 				label="JAUTHOR"
-				size="30"
 			/>
 
 			<field

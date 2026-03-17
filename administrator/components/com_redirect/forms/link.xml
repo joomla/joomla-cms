@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fieldset addfieldprefix="Joomla\Component\Redirect\Administrator\Field">
 		<field
@@ -8,14 +8,13 @@
 			default="0"
 			readonly="true"
 			class="readonly"
-		 />
+		/>
 
 		<field
 			name="old_url"
 			type="text"
 			label="COM_REDIRECT_FIELD_OLD_URL_LABEL"
 			description="COM_REDIRECT_FIELD_OLD_URL_DESC"
-			size="50"
 			required="true"
 		/>
 
@@ -24,7 +23,6 @@
 			type="text"
 			label="COM_REDIRECT_FIELD_NEW_URL_LABEL"
 			description="COM_REDIRECT_FIELD_NEW_URL_DESC"
-			size="50"
 			required="true"
 		/>
 
@@ -32,7 +30,6 @@
 			name="comment"
 			type="text"
 			label="COM_REDIRECT_FIELD_COMMENT_LABEL"
-			size="40"
 		/>
 
 		<field
@@ -40,7 +37,6 @@
 			type="list"
 			label="JSTATUS"
 			class="form-select-color-state"
-			size="1"
 			default="1"
 			validate="options"
 			>
@@ -54,7 +50,6 @@
 			name="referer"
 			type="text"
 			label="COM_REDIRECT_FIELD_REFERRER_LABEL"
-			size="50"
 			readonly="true"
 		/>
 
@@ -63,7 +58,6 @@
 			type="text"
 			label="COM_REDIRECT_FIELD_CREATED_DATE_LABEL"
 			class="readonly"
-			size="20"
 			readonly="true"
 		/>
 
@@ -72,7 +66,6 @@
 			type="text"
 			label="COM_REDIRECT_FIELD_UPDATED_DATE_LABEL"
 			class="readonly"
-			size="20"
 			readonly="true"
 		/>
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\Workflow;
 
-\defined('JPATH_PLATFORM') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The workflow service.
@@ -17,87 +20,87 @@ namespace Joomla\CMS\Workflow;
  */
 interface WorkflowServiceInterface
 {
-	/**
-	 * Check if the functionality is supported by the context
-	 *
-	 * @param   string  $functionality  The functionality
-	 * @param   string  $context        The context of the functionality
-	 *
-	 * @return boolean
-	 *
-	 * @since  4.0.0
-	 */
-	public function supportFunctionality($functionality, $context): bool;
+    /**
+     * Check if the functionality is supported by the context
+     *
+     * @param   string  $functionality  The functionality
+     * @param   string  $context        The context of the functionality
+     *
+     * @return boolean
+     *
+     * @since  4.0.0
+     */
+    public function supportFunctionality($functionality, $context): bool;
 
-	/**
-	 * Returns the model name, based on the context
-	 *
-	 * @param   string  $context  The context of the workflow
-	 *
-	 * @return boolean
-	 */
-	public function getModelName($context): string;
+    /**
+     * Returns the model name, based on the context
+     *
+     * @param   string  $context  The context of the workflow
+     *
+     * @return boolean
+     */
+    public function getModelName($context): string;
 
-	/**
-	 * Check if the workflow is active
-	 *
-	 * @param   string  $context  The context of the workflow
-	 *
-	 * @return boolean
-	 */
-	public function isWorkflowActive($context): bool;
+    /**
+     * Check if the workflow is active
+     *
+     * @param   string  $context  The context of the workflow
+     *
+     * @return boolean
+     */
+    public function isWorkflowActive($context): bool;
 
-	/**
-	 * Method to filter transitions by given id of state.
-	 *
-	 * @param   integer[]  $transitions  Array of transitions to filter for
-	 * @param   integer    $pk           Id of the state on which the transitions are performed
-	 *
-	 * @return  array
-	 *
-	 * @since  4.0.0
-	 */
-	public function filterTransitions(array $transitions, int $pk): array;
+    /**
+     * Method to filter transitions by given id of state.
+     *
+     * @param   integer[]  $transitions  Array of transitions to filter for
+     * @param   integer    $pk           Id of the state on which the transitions are performed
+     *
+     * @return  array
+     *
+     * @since  4.0.0
+     */
+    public function filterTransitions(array $transitions, int $pk): array;
 
-	/**
-	 * Returns an array of possible conditions for the component.
-	 *
-	 * @param   string  $extension  Full extension string
-	 *
-	 * @return  array
-	 *
-	 * @since   4.0.0
-	 */
-	public static function getConditions(string $extension): array;
+    /**
+     * Returns an array of possible conditions for the component.
+     *
+     * @param   string  $extension  Full extension string
+     *
+     * @return  array
+     *
+     * @since   4.0.0
+     */
+    public static function getConditions(string $extension): array;
 
-	/**
-	 * Returns a table name for the state association
-	 *
-	 * @param   string  $section  An optional section to differ different areas in the component
-	 *
-	 * @return  string
-	 *
-	 * @since   4.0.0
-	 */
-	public function getWorkflowTableBySection(?string $section = null): string;
+    /**
+     * Returns a table name for the state association
+     *
+     * @param   ?string  $section  An optional section to differ different areas in the component
+     *
+     * @return  string
+     *
+     * @since   4.0.0
+     */
+    public function getWorkflowTableBySection(?string $section = null): string;
 
-	/**
-	 * Returns valid contexts.
-	 *
-	 * @return  array
-	 *
-	 * @since   4.0.0
-	 */
-	public function getWorkflowContexts(): array;
+    /**
+     * Returns valid contexts.
+     *
+     * @return  array
+     *
+     * @since   4.0.0
+     */
+    public function getWorkflowContexts(): array;
 
-	/**
-	 * Returns the workflow context based on the given category section
-	 *
-	 * @param   string  $section  The section
-	 *
-	 * @return  string|null
-	 *
-	 * @since   4.0.0
-	 */
-	public function getCategoryWorkflowContext(?string $section = null): string;
+    /**
+     * Returns the workflow context based on the given category section
+     *
+     * @param   ?string  $section  The section
+     *
+     * @return  string|null
+     *
+     * @since   4.0.0
+     */
+    public function getCategoryWorkflowContext(?string $section = null): string;
 }

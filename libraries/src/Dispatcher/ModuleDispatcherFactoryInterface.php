@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,10 +9,12 @@
 
 namespace Joomla\CMS\Dispatcher;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\Input\Input;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Module dispatcher factory interface
@@ -20,16 +23,16 @@ use Joomla\Input\Input;
  */
 interface ModuleDispatcherFactoryInterface
 {
-	/**
-	 * Creates a dispatcher.
-	 *
-	 * @param   \stdClass                $module       The module
-	 * @param   CMSApplicationInterface  $application  The application
-	 * @param   Input                    $input        The input object, defaults to the one in the application
-	 *
-	 * @return  DispatcherInterface
-	 *
-	 * @since   4.0.0
-	 */
-	public function createDispatcher(\stdClass $module, CMSApplicationInterface $application, Input $input = null): DispatcherInterface;
+    /**
+     * Creates a dispatcher.
+     *
+     * @param   \stdClass                $module       The module
+     * @param   CMSApplicationInterface  $application  The application
+     * @param   ?Input                   $input        The input object, defaults to the one in the application
+     *
+     * @return  DispatcherInterface
+     *
+     * @since   4.0.0
+     */
+    public function createDispatcher(\stdClass $module, CMSApplicationInterface $application, ?Input $input = null): DispatcherInterface;
 }

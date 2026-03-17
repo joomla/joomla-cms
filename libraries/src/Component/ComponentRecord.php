@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,9 +9,11 @@
 
 namespace Joomla\CMS\Component;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Object representing a component extension record
@@ -19,133 +22,147 @@ use Joomla\Registry\Registry;
  */
 class ComponentRecord
 {
-	/**
-	 * Primary key
-	 *
-	 * @var    integer
-	 * @since  3.7.0
-	 */
-	public $id;
+    /**
+     * Primary key
+     *
+     * @var    integer
+     * @since  3.7.0
+     */
+    public $id;
 
-	/**
-	 * The component name
-	 *
-	 * @var    integer
-	 * @since  3.7.0
-	 */
-	public $option;
+    /**
+     * The component name
+     *
+     * @var    integer
+     * @since  3.7.0
+     */
+    public $option;
 
-	/**
-	 * The component parameters
-	 *
-	 * @var    string|Registry
-	 * @since  3.7.0
-	 * @note   This field is protected to require reading this field to proxy through the getter to convert the params to a Registry instance
-	 */
-	protected $params;
+    /**
+     * The component parameters
+     *
+     * @var    string|Registry
+     * @since  3.7.0
+     * @note   This field is protected to require reading this field to proxy through the getter to convert the params to a Registry instance
+     */
+    protected $params;
 
-	/**
-	 * The extension namespace
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	public $namespace;
+    /**
+     * The extension namespace
+     *
+     * @var    string
+     * @since  4.0.0
+     *
+     * @deprecated  5.3.0 will be removed in 7.0 as it was never used
+     */
+    public $namespace;
 
-	/**
-	 * Indicates if this component is enabled
-	 *
-	 * @var    integer
-	 * @since  3.7.0
-	 */
-	public $enabled;
+    /**
+     * Indicates if this component is enabled
+     *
+     * @var    integer
+     * @since  3.7.0
+     */
+    public $enabled;
 
-	/**
-	 * Class constructor
-	 *
-	 * @param   array  $data  The component record data to load
-	 *
-	 * @since   3.7.0
-	 */
-	public function __construct($data = array())
-	{
-		foreach ((array) $data as $key => $value)
-		{
-			$this->$key = $value;
-		}
-	}
+    /**
+     * The component custom data
+     *
+     * @var    string
+     * @since  6.1.0
+     */
+    public $custom_data;
 
-	/**
-	 * Method to get certain otherwise inaccessible properties from the form field object.
-	 *
-	 * @param   string  $name  The property name for which to get the value.
-	 *
-	 * @return  mixed  The property value or null.
-	 *
-	 * @since   3.7.0
-	 * @deprecated  5.0  Access the item parameters through the `getParams()` method
-	 */
-	public function __get($name)
-	{
-		if ($name === 'params')
-		{
-			return $this->getParams();
-		}
+    /**
+     * Class constructor
+     *
+     * @param   array  $data  The component record data to load
+     *
+     * @since   3.7.0
+     */
+    public function __construct($data = [])
+    {
+        foreach ((array) $data as $key => $value) {
+            $this->$key = $value;
+        }
+    }
 
-		return $this->$name;
-	}
+    /**
+     * Method to get certain otherwise inaccessible properties from the form field object.
+     *
+     * @param   string  $name  The property name for which to get the value.
+     *
+     * @return  mixed  The property value or null.
+     *
+     * @since   3.7.0
+     *
+     * @deprecated  4.3 will be removed in 7.0
+     *              Access the item parameters through the `getParams()` method
+     *              Example:
+     *              $componentRecord->getParams();
+     */
+    public function __get($name)
+    {
+        if ($name === 'params') {
+            return $this->getParams();
+        }
 
-	/**
-	 * Method to set certain otherwise inaccessible properties of the form field object.
-	 *
-	 * @param   string  $name   The property name for which to set the value.
-	 * @param   mixed   $value  The value of the property.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.7.0
-	 * @deprecated  5.0  Set the item parameters through the `setParams()` method
-	 */
-	public function __set($name, $value)
-	{
-		if ($name === 'params')
-		{
-			$this->setParams($value);
+        return $this->$name;
+    }
 
-			return;
-		}
+    /**
+     * Method to set certain otherwise inaccessible properties of the form field object.
+     *
+     * @param   string  $name   The property name for which to set the value.
+     * @param   mixed   $value  The value of the property.
+     *
+     * @return  void
+     *
+     * @since   3.7.0
+     *
+     * @deprecated  4.3 will be removed in 7.0
+     *              Set the item parameters through the `setParams()` method
+     *              Example:
+     *              $componentRecord->setParams($value);
+     */
+    public function __set($name, $value)
+    {
+        if ($name === 'params') {
+            $this->setParams($value);
 
-		$this->$name = $value;
-	}
+            return;
+        }
 
-	/**
-	 * Returns the menu item parameters
-	 *
-	 * @return  Registry
-	 *
-	 * @since   3.7.0
-	 */
-	public function getParams()
-	{
-		if (!($this->params instanceof Registry))
-		{
-			$this->params = new Registry($this->params);
-		}
+        $this->$name = $value;
+    }
 
-		return $this->params;
-	}
+    /**
+     * Returns the menu item parameters
+     *
+     * @return  Registry
+     *
+     * @since   3.7.0
+     */
+    public function getParams()
+    {
+        if (!($this->params instanceof Registry)) {
+            $this->params = new Registry($this->params);
+        }
 
-	/**
-	 * Sets the menu item parameters
-	 *
-	 * @param   Registry|string  $params  The data to be stored as the parameters
-	 *
-	 * @return  void
-	 *
-	 * @since   3.7.0
-	 */
-	public function setParams($params)
-	{
-		$this->params = $params;
-	}
+        return $this->params;
+    }
+
+    /**
+     * Sets the menu item parameters
+     *
+     * @param   Registry|string  $params  The data to be stored as the parameters
+     *
+     * @return  void
+     *
+     * @since   3.7.0
+     */
+    public function setParams($params)
+    {
+        $this->params = $params;
+    }
 }

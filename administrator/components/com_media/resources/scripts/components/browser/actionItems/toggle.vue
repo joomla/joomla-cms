@@ -2,8 +2,8 @@
   <button
     type="button"
     class="action-toggle"
-    :aria-label="translate('COM_MEDIA_OPEN_ITEM_ACTIONS')"
-    :title="translate('COM_MEDIA_OPEN_ITEM_ACTIONS')"
+    :aria-label="sprintf('COM_MEDIA_MANAGE_ITEM', ($parent.$props.item.name))"
+    :title="sprintf('COM_MEDIA_MANAGE_ITEM', ($parent.$props.item.name))"
     @keyup.enter="openActions()"
     @focus="focused(true)"
     @blur="focused(false)"
@@ -22,14 +22,14 @@ export default {
   name: 'MediaBrowserActionItemToggle',
   props: {
     mainAction: { type: Function, default: () => {} },
-    onFocused: { type: Function, default: () => {} },
   },
+  emits: ['on-focused'],
   methods: {
     openActions() {
       this.mainAction();
     },
     focused(bool) {
-      this.onFocused(bool);
+      this.$emit('on-focused', bool);
     },
   },
 };

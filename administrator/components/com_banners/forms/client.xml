@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Banners\Administrator\Field">
 	<fieldset name="details">
 		<field
@@ -14,7 +14,6 @@
 			name="name"
 			type="text"
 			label="COM_BANNERS_FIELD_NAME_LABEL"
-			size="40"
 			required="true"
 		/>
 
@@ -22,7 +21,6 @@
 			name="contact"
 			type="text"
 			label="COM_BANNERS_FIELD_CONTACT_LABEL"
-			size="40"
 			required="true"
 		/>
 
@@ -30,7 +28,6 @@
 			name="email"
 			type="email"
 			label="COM_BANNERS_FIELD_EMAIL_LABEL"
-			size="40"
 			validate="email"
 		/>
 
@@ -39,7 +36,6 @@
 			type="list"
 			label="JSTATUS"
 			class="form-select-color-state"
-			size="1"
 			default="1"
 			validate="options"
 			>
@@ -54,7 +50,6 @@
 			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 			maxlength="255"
-			size="45"
 		/>
 
 		<field

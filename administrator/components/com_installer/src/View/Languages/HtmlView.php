@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
@@ -9,16 +10,16 @@
 
 namespace Joomla\Component\Installer\Administrator\View\Languages;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Access\Exception\NotAllowed;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
-use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Installer\Administrator\Model\LanguagesModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Extension Manager Language Install View
@@ -27,61 +28,86 @@ use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as Installe
  */
 class HtmlView extends InstallerViewDefault
 {
-	/**
-	 * @var object item list
-	 */
-	protected $items;
+    /**
+     * @var object item list
+     */
+    protected $items;
 
-	/**
-	 * @var object pagination information
-	 */
-	protected $pagination;
+    /**
+     * @var object pagination information
+     */
+    protected $pagination;
 
-	/**
-	 * Display the view.
-	 *
-	 * @param   null  $tpl  template to display
-	 *
-	 * @return mixed|void
-	 */
-	public function display($tpl = null)
-	{
-		if (!Factory::getUser()->authorise('core.admin'))
-		{
-			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
-		}
+    /**
+     * Form object for search filters
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    public $filterForm;
 
-		// Get data from the model.
-		$this->items         = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
-		$this->installedLang = LanguageHelper::getInstalledLanguages();
+    /**
+     * The active search filters
+     *
+     * @var  array
+     */
+    public $activeFilters;
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+    /**
+     * Display the view.
+     *
+     * @param   string  $tpl  template to display
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        if (!$this->getCurrentUser()->authorise('core.admin')) {
+            throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+        }
 
-		parent::display($tpl);
-	}
+        /** @var LanguagesModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return void
-	 */
-	protected function addToolbar()
-	{
-		$canDo = ContentHelper::getActions('com_installer');
-		ToolbarHelper::title(Text::_('COM_INSTALLER_HEADER_' . $this->getName()), 'puzzle-piece install');
+        // Get data from the model.
+        $this->items         = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
+        $this->installedLang = LanguageHelper::getInstalledLanguages();
 
-		if ($canDo->get('core.admin'))
-		{
-			parent::addToolbar();
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task')
+            ->addControlField('boxchecked', '0')
+            ->addControlField('return', base64_encode('index.php?option=com_installer&view=languages'))
+            ->addControlField('install_url', '', ['id' => 'install_url'])
+            ->addControlField('installtype', 'url')
+            ->addControlField('package', 'language');
 
-			ToolbarHelper::help('Extensions:_Languages');
-		}
-	}
+        parent::display($tpl);
+    }
+
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return void
+     */
+    protected function addToolbar()
+    {
+        $canDo   = ContentHelper::getActions('com_languages');
+        $toolbar = $this->getDocument()->getToolbar();
+
+        if ($canDo->get('core.manage')) {
+            $toolbar->linkButton('list', 'COM_INSTALLER_TOOLBAR_MANAGE_LANGUAGES')
+                ->url('index.php?option=com_languages&view=installed');
+            $toolbar->linkButton('comments', 'COM_INSTALLER_TOOLBAR_MANAGE_LANGUAGES_CONTENT')
+                ->url('index.php?option=com_languages&view=languages');
+            $toolbar->divider();
+        }
+
+        parent::addToolbar();
+
+        $toolbar->help('Extensions:_Languages');
+    }
 }

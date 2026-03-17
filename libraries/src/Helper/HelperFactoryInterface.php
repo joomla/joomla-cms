@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\Helper;
 
-\defined('JPATH_PLATFORM') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Factory to load helper classes.
@@ -17,15 +20,15 @@ namespace Joomla\CMS\Helper;
  */
 interface HelperFactoryInterface
 {
-	/**
-	 * Returns a helper instance for the given name.
-	 *
-	 * @param   string  $name    The name
-	 * @param   array   $config  The config
-	 *
-	 * @return  \stdClass
-	 *
-	 * @since   4.0.0
-	 */
-	public function getHelper(string $name, array $config = []);
+    /**
+     * Returns a helper instance for the given name.
+     *
+     * @param   string  $name    The name
+     * @param   array   $config  The config
+     *
+     * @return  \stdClass
+     *
+     * @since   4.0.0
+     */
+    public function getHelper(string $name, array $config = []);
 }

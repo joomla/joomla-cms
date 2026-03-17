@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,9 +9,11 @@
 
 namespace Joomla\CMS\Authentication\Password;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\Authentication\Password\BCryptHandler as BaseBCryptHandler;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Password handler for BCrypt hashed passwords
@@ -19,17 +22,17 @@ use Joomla\Authentication\Password\BCryptHandler as BaseBCryptHandler;
  */
 class BCryptHandler extends BaseBCryptHandler implements CheckIfRehashNeededHandlerInterface
 {
-	/**
-	 * Check if the password requires rehashing
-	 *
-	 * @param   string  $hash  The password hash to check
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.0.0
-	 */
-	public function checkIfRehashNeeded(string $hash): bool
-	{
-		return password_needs_rehash($hash, PASSWORD_BCRYPT);
-	}
+    /**
+     * Check if the password requires rehashing
+     *
+     * @param   string  $hash  The password hash to check
+     *
+     * @return  boolean
+     *
+     * @since   4.0.0
+     */
+    public function checkIfRehashNeeded(string $hash): bool
+    {
+        return password_needs_rehash($hash, PASSWORD_BCRYPT);
+    }
 }

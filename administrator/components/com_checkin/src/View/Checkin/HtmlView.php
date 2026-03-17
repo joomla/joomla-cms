@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_checkin
@@ -9,13 +10,14 @@
 
 namespace Joomla\Component\Checkin\Administrator\View\Checkin;
 
-\defined('_JEXEC') or die;
-
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Checkin\Administrator\Model\CheckinModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTML View class for the Checkin component
@@ -24,107 +26,118 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * An array of items
-	 *
-	 * @var  array
-	 */
-	protected $items;
+    /**
+     * An array of items
+     *
+     * @var  array
+     */
+    protected $items;
 
-	/**
-	 * The pagination object
-	 *
-	 * @var  \Joomla\CMS\Pagination\Pagination
-	 */
-	protected $pagination;
+    /**
+     * Total number of items
+     *
+     * @var    integer
+     */
+    protected $total = 0;
 
-	/**
-	 * The model state
-	 *
-	 * @var  \JObject
-	 */
-	protected $state;
+    /**
+     * The pagination object
+     *
+     * @var  \Joomla\CMS\Pagination\Pagination
+     */
+    protected $pagination;
 
-	/**
-	 * Form object for search filters
-	 *
-	 * @var    \JForm
-	 * @since  4.0.0
-	 */
-	public $filterForm;
+    /**
+     * The model state
+     *
+     * @var  \Joomla\Registry\Registry
+     */
+    protected $state;
 
-	/**
-	 * The active search filters
-	 *
-	 * @var    array
-	 * @since  4.0.0
-	 */
-	public $activeFilters;
+    /**
+     * Form object for search filters
+     *
+     * @var    \Joomla\CMS\Form\Form
+     *
+     * @since  4.0.0
+     */
+    public $filterForm;
 
-	/**
-	 * Is this view an Empty State
-	 *
-	 * @var  boolean
-	 * @since 4.0.0
-	 */
-	private $isEmptyState = false;
+    /**
+     * The active search filters
+     *
+     * @var    array
+     *
+     * @since  4.0.0
+     */
+    public $activeFilters;
 
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
-		$this->items         = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->state         = $this->get('State');
-		$this->total         = $this->get('Total');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
+    /**
+     * Is this view an Empty State
+     *
+     * @var   boolean
+     *
+     * @since 4.0.0
+     */
+    private $isEmptyState = false;
 
-		if (!\count($this->items))
-		{
-			$this->isEmptyState = true;
-			$this->setLayout('emptystate');
-		}
+    /**
+     * Execute and display a template script.
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        /** @var CheckinModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-		// Check for errors.
-		if (\count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        $this->items         = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->state         = $model->getState();
+        $this->total         = $model->getTotal();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
 
-		$this->addToolbar();
+        if (!\count($this->items)) {
+            $this->isEmptyState = true;
+            $this->setLayout('emptystate');
+        }
 
-		parent::display($tpl);
-	}
+        $this->addToolbar();
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function addToolbar()
-	{
-		ToolbarHelper::title(Text::_('COM_CHECKIN_GLOBAL_CHECK_IN'), 'check-square');
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task')
+            ->addControlField('boxchecked', '0');
 
-		if (!$this->isEmptyState)
-		{
-			ToolbarHelper::custom('checkin', 'checkin', '', 'JTOOLBAR_CHECKIN', true);
-		}
+        parent::display($tpl);
+    }
 
-		if (Factory::getApplication()->getIdentity()->authorise('core.admin', 'com_checkin'))
-		{
-			ToolbarHelper::divider();
-			ToolbarHelper::preferences('com_checkin');
-			ToolbarHelper::divider();
-		}
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    protected function addToolbar()
+    {
+        ToolbarHelper::title(Text::_('COM_CHECKIN_GLOBAL_CHECK_IN'), 'check-square');
+        $toolbar    = $this->getDocument()->getToolbar();
 
-		ToolbarHelper::help('Maintenance:_Global_Check-in');
-	}
+        if (!$this->isEmptyState) {
+            $toolbar->checkin('checkin');
+        }
+
+        if ($this->getCurrentUser()->authorise('core.admin', 'com_checkin')) {
+            $toolbar->divider();
+            $toolbar->preferences('com_checkin');
+            $toolbar->divider();
+        }
+
+        $toolbar->help('Maintenance:_Global_Check-in');
+    }
 }

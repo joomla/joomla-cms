@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_modules
@@ -9,25 +10,25 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
+/** @var \Joomla\Component\Modules\Administrator\View\Module\HtmlView $this */
 
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
-$wa->addInlineScript('
-    document.addEventListener("DOMContentLoaded", function() {
-        const saveCloseButton = window.parent.document.getElementById("btnModalSaveAndClose");
-        if (saveCloseButton) {
-          saveCloseButton.classList.remove("hidden");
-        }
-    });
-');
-
+// A backward compatibility for bootstrap modals: hide toolbar
+// @TODO: Remove in 6.0
+$this->getDocument()->getWebAssetManager()->addInlineScript('
+if (window.parent.Joomla.Modal) {
+    const modal = window.parent.Joomla.Modal.getCurrent();
+    const toolbar = document.querySelector(".component .subhead")
+    if (modal && modal.nodeName !== "JOOMLA-DIALOG" && toolbar) {
+        toolbar.style.display = "none";
+        console.warn("Update your modal for Module editing to use Joomla Dialog");
+    }
+}
+', ['name' => 'inline.module-modal-fix'], ['type' => 'module']);
 ?>
-<button id="applyBtn" type="button" class="hidden" onclick="Joomla.submitbutton('module.apply');"></button>
-<button id="saveBtn" type="button" class="hidden" onclick="Joomla.submitbutton('module.save');"></button>
-<button id="closeBtn" type="button" class="hidden" onclick="Joomla.submitbutton('module.cancel');"></button>
-
+<div class="subhead noshadow mb-3">
+    <?php echo $this->getDocument()->getToolbar('toolbar')->render(); ?>
+</div>
 <div class="container-popup">
-	<?php $this->setLayout('edit'); ?>
-	<?php echo $this->loadTemplate(); ?>
+    <?php $this->setLayout('edit'); ?>
+    <?php echo $this->loadTemplate(); ?>
 </div>

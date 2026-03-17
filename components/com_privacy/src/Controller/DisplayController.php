@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_privacy
@@ -9,11 +10,11 @@
 
 namespace Joomla\Component\Privacy\Site\Controller;
 
-\defined('_JEXEC') or die;
-
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\Router\Route;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Privacy Controller
@@ -22,36 +23,26 @@ use Joomla\CMS\Router\Route;
  */
 class DisplayController extends BaseController
 {
-	/**
-	 * Method to display a view.
-	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
-	 *
-	 * @return  $this
-	 *
-	 * @since   3.9.0
-	 */
-	public function display($cachable = false, $urlparams = [])
-	{
-		$view = $this->input->get('view', $this->default_view);
+    /**
+     * Method to display a view.
+     *
+     * @param   boolean  $cachable   If true, the view output will be cached
+     * @param   array    $urlparams  An array of safe URL parameters and their variable types.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
+     *
+     * @return  $this
+     *
+     * @since   3.9.0
+     */
+    public function display($cachable = false, $urlparams = [])
+    {
+        $view = $this->input->get('view', $this->default_view);
 
-		// Submitting information requests through the frontend is restricted to authenticated users at this time
-		if ($view === 'request' && $this->app->getIdentity()->guest)
-		{
-			$this->setRedirect(
-				Route::_('index.php?option=com_users&view=login&return=' . base64_encode('index.php?option=com_privacy&view=request'), false)
-			);
+        // Set a Referrer-Policy header for views which require it
+        if (\in_array($view, ['confirm', 'remind'])) {
+            $this->app->setHeader('Referrer-Policy', 'no-referrer', true);
+        }
 
-			return $this;
-		}
-
-		// Set a Referrer-Policy header for views which require it
-		if (in_array($view, ['confirm', 'remind']))
-		{
-			Factory::getApplication()->setHeader('Referrer-Policy', 'no-referrer', true);
-		}
-
-		return parent::display($cachable, $urlparams);
-	}
+        return parent::display($cachable, $urlparams);
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_post_installation_messages
@@ -12,25 +13,24 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-$hideLinks = $app->input->getBool('hidemainmenu');
+$hideLinks = $app->getInput()->getBool('hidemainmenu');
 
-if ($hideLinks || $messagesCount < 1)
-{
-	return;
+if ($hideLinks || $messagesCount < 1) {
+    return;
 }
 ?>
 <?php if ($app->getIdentity()->authorise('core.manage', 'com_postinstall')) : ?>
-	<a class="header-item-content"
-		href="<?php echo Route::_('index.php?option=com_postinstall&eid=' . $joomlaFilesExtensionId); ?>"
-		 title="<?php echo Text::_('MOD_POST_INSTALLATION_MESSAGES'); ?>">
-		<div class="header-item-icon">
-			<div class="w-auto">
-				<span class="icon-bell icon-fw" aria-hidden="true"></span>
-				<small class="header-item-count"><?php echo $messagesCount; ?></small>
-			</div>
-		</div>
-		<div class="header-item-text">
-			<?php echo Text::_('MOD_POST_INSTALLATION_MESSAGES'); ?>
-		</div>
-	</a>
+    <a class="header-item-content"
+        href="<?php echo Route::_('index.php?option=com_postinstall&eid=' . $joomlaFilesExtensionId); ?>"
+         title="<?php echo Text::_('MOD_POST_INSTALLATION_MESSAGES'); ?>">
+        <div class="header-item-icon">
+            <div class="w-auto">
+                <span class="icon-bell icon-fw" aria-hidden="true"></span>
+                <small class="header-item-count"><?php echo $messagesCount; ?></small>
+            </div>
+        </div>
+        <div class="header-item-text">
+            <?php echo Text::_('MOD_POST_INSTALLATION_MESSAGES'); ?>
+        </div>
+    </a>
 <?php endif; ?>

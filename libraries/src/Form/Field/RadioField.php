@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\Form\Field;
 
-\defined('JPATH_PLATFORM') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Form Field class for the Joomla Platform.
@@ -19,38 +22,38 @@ namespace Joomla\CMS\Form\Field;
  */
 class RadioField extends ListField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  1.7.0
-	 */
-	protected $type = 'Radio';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    protected $type = 'Radio';
 
-	/**
-	 * Name of the layout being used to render the field
-	 *
-	 * @var    string
-	 * @since  3.5
-	 */
-	protected $layout = 'joomla.form.field.radio.buttons';
+    /**
+     * Name of the layout being used to render the field
+     *
+     * @var    string
+     * @since  3.5
+     */
+    protected $layout = 'joomla.form.field.radio.buttons';
 
-	/**
-	 * Method to get the data to be passed to the layout for rendering.
-	 *
-	 * @return  array
-	 *
-	 * @since   3.5
-	 */
-	protected function getLayoutData()
-	{
-		$data = parent::getLayoutData();
+    /**
+     * Method to get the data to be passed to the layout for rendering.
+     *
+     * @return  array
+     *
+     * @since   3.5
+     */
+    protected function getLayoutData()
+    {
+        $data = parent::getLayoutData();
 
-		$extraData = array(
-			'options' => $this->getOptions(),
-			'value'   => (string) $this->value,
-		);
+        $extraData = [
+            'options' => $this->getOptions(),
+            'value'   => (string) $this->value,
+        ];
 
-		return array_merge($data, $extraData);
-	}
+        return array_merge($data, $extraData);
+    }
 }

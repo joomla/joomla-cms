@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
@@ -9,19 +10,20 @@
 
 namespace Joomla\Component\Plugins\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Plugin model.
@@ -30,351 +32,339 @@ use Joomla\Utilities\ArrayHelper;
  */
 class PluginModel extends AdminModel
 {
-	/**
-	 * @var     string  The help screen key for the module.
-	 * @since   1.6
-	 */
-	protected $helpKey = 'Plugins:_Name_of_Plugin';
+    /**
+     * @var     string  The help screen key for the module.
+     * @since   1.6
+     */
+    protected $helpKey = 'Plugins:_Name_of_Plugin';
 
-	/**
-	 * @var     string  The help screen base URL for the module.
-	 * @since   1.6
-	 */
-	protected $helpURL;
+    /**
+     * @var     string  The help screen base URL for the module.
+     * @since   1.6
+     */
+    protected $helpURL;
 
-	/**
-	 * @var     array  An array of cached plugin items.
-	 * @since   1.6
-	 */
-	protected $_cache;
+    /**
+     * @var     array  An array of cached plugin items.
+     * @since   1.6
+     */
+    protected $_cache;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MVCFactoryInterface  $factory  The factory.
-	 *
-	 * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
-	 * @since   3.2
-	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null)
-	{
-		$config = array_merge(
-			array(
-				'event_after_save'  => 'onExtensionAfterSave',
-				'event_before_save' => 'onExtensionBeforeSave',
-				'events_map'        => array(
-					'save' => 'extension'
-				)
-			), $config
-		);
+    /**
+     * Constructor.
+     *
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     *
+     * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
+     * @since   3.2
+     */
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
+    {
+        $config = array_merge(
+            [
+                'event_after_save'  => 'onExtensionAfterSave',
+                'event_before_save' => 'onExtensionBeforeSave',
+                'events_map'        => [
+                    'save' => 'extension',
+                ],
+            ],
+            $config
+        );
 
-		parent::__construct($config, $factory);
-	}
+        parent::__construct($config, $factory);
+    }
 
-	/**
-	 * Method to get the record form.
-	 *
-	 * @param   array    $data      Data for the form.
-	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
-	 *
-	 * @return  \JForm    A \JForm object on success, false on failure.
-	 *
-	 * @since   1.6
-	 */
-	public function getForm($data = array(), $loadData = true)
-	{
-		// The folder and element vars are passed when saving the form.
-		if (empty($data))
-		{
-			$item    = $this->getItem();
-			$folder  = $item->folder;
-			$element = $item->element;
-		}
-		else
-		{
-			$folder  = ArrayHelper::getValue($data, 'folder', '', 'cmd');
-			$element = ArrayHelper::getValue($data, 'element', '', 'cmd');
-		}
+    /**
+     * Method to get the record form.
+     *
+     * @param   array    $data      Data for the form.
+     * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+     *
+     * @return  Form  A Form object
+     *
+     * @since   1.6
+     * @throws  \Exception on failure
+     */
+    public function getForm($data = [], $loadData = true)
+    {
+        // The folder and element vars are passed when saving the form.
+        if (empty($data)) {
+            $item    = $this->getItem();
+            $folder  = $item->folder;
+            $element = $item->element;
+        } else {
+            $folder  = ArrayHelper::getValue($data, 'folder', '', 'cmd');
+            $element = ArrayHelper::getValue($data, 'element', '', 'cmd');
+        }
 
-		// Add the default fields directory
-		Form::addFieldPath(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/field');
+        // Add the default fields directory
+        Form::addFieldPath(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/field');
 
-		// These variables are used to add data from the plugin XML files.
-		$this->setState('item.folder', $folder);
-		$this->setState('item.element', $element);
+        // These variables are used to add data from the plugin XML files.
+        $this->setState('item.folder', $folder);
+        $this->setState('item.element', $element);
 
-		// Get the form.
-		$form = $this->loadForm('com_plugins.plugin', 'plugin', array('control' => 'jform', 'load_data' => $loadData));
+        // Get the form.
+        $form = $this->loadForm('com_plugins.plugin', 'plugin', ['control' => 'jform', 'load_data' => $loadData]);
 
-		if (empty($form))
-		{
-			return false;
-		}
+        // Modify the form based on access controls.
+        if (!$this->canEditState((object) $data)) {
+            // Disable fields for display.
+            $form->setFieldAttribute('ordering', 'disabled', 'true');
+            $form->setFieldAttribute('enabled', 'disabled', 'true');
 
-		// Modify the form based on access controls.
-		if (!$this->canEditState((object) $data))
-		{
-			// Disable fields for display.
-			$form->setFieldAttribute('ordering', 'disabled', 'true');
-			$form->setFieldAttribute('enabled', 'disabled', 'true');
+            // Disable fields while saving.
+            // The controller has already verified this is a record you can edit.
+            $form->setFieldAttribute('ordering', 'filter', 'unset');
+            $form->setFieldAttribute('enabled', 'filter', 'unset');
+        }
 
-			// Disable fields while saving.
-			// The controller has already verified this is a record you can edit.
-			$form->setFieldAttribute('ordering', 'filter', 'unset');
-			$form->setFieldAttribute('enabled', 'filter', 'unset');
-		}
+        return $form;
+    }
 
-		return $form;
-	}
+    /**
+     * Method to get the data that should be injected in the form.
+     *
+     * @return  mixed  The data for the form.
+     *
+     * @since   1.6
+     */
+    protected function loadFormData()
+    {
+        // Check the session for previously entered form data.
+        $data = Factory::getApplication()->getUserState('com_plugins.edit.plugin.data', []);
 
-	/**
-	 * Method to get the data that should be injected in the form.
-	 *
-	 * @return  mixed  The data for the form.
-	 *
-	 * @since   1.6
-	 */
-	protected function loadFormData()
-	{
-		// Check the session for previously entered form data.
-		$data = Factory::getApplication()->getUserState('com_plugins.edit.plugin.data', array());
+        if (empty($data)) {
+            $data = $this->getItem();
+        }
 
-		if (empty($data))
-		{
-			$data = $this->getItem();
-		}
+        $this->preprocessData('com_plugins.plugin', $data);
 
-		$this->preprocessData('com_plugins.plugin', $data);
+        return $data;
+    }
 
-		return $data;
-	}
+    /**
+     * Method to get a single record.
+     *
+     * @param   integer  $pk  The id of the primary key.
+     *
+     * @return  mixed  Object on success, false on failure.
+     */
+    public function getItem($pk = null)
+    {
+        $pk = (!empty($pk)) ? $pk : (int) $this->getState('plugin.id');
 
-	/**
-	 * Method to get a single record.
-	 *
-	 * @param   integer  $pk  The id of the primary key.
-	 *
-	 * @return  mixed  Object on success, false on failure.
-	 */
-	public function getItem($pk = null)
-	{
-		$pk = (!empty($pk)) ? $pk : (int) $this->getState('plugin.id');
+        $cacheId = $pk;
 
-		if (!isset($this->_cache[$pk]))
-		{
-			// Get a row instance.
-			$table = $this->getTable();
+        if (\is_array($cacheId)) {
+            $cacheId = serialize($cacheId);
+        }
 
-			// Attempt to load the row.
-			$return = $table->load(array('extension_id' => $pk, 'type' => 'plugin'));
+        if (!isset($this->_cache[$cacheId])) {
+            // Get a row instance.
+            $table = $this->getTable();
 
-			// Check for a table object error.
-			if ($return === false)
-			{
-				return false;
-			}
+            // Attempt to load the row.
+            $return = $table->load(\is_array($pk) ? $pk : ['extension_id' => $pk, 'type' => 'plugin']);
 
-			// Convert to the \JObject before adding other data.
-			$properties = $table->getProperties(1);
-			$this->_cache[$pk] = ArrayHelper::toObject($properties, CMSObject::class);
+            // Check for a table object error.
+            if ($return === false) {
+                return false;
+            }
 
-			// Convert the params field to an array.
-			$registry = new Registry($table->params);
-			$this->_cache[$pk]->params = $registry->toArray();
+            // Convert to an object before adding other data.
+            $properties             = $table->getProperties(1);
+            $this->_cache[$cacheId] = ArrayHelper::toObject($properties);
 
-			// Get the plugin XML.
-			$path = Path::clean(JPATH_PLUGINS . '/' . $table->folder . '/' . $table->element . '/' . $table->element . '.xml');
+            // Convert the params field to an array.
+            $registry                       = new Registry($table->params);
+            $this->_cache[$cacheId]->params = $registry->toArray();
 
-			if (file_exists($path))
-			{
-				$this->_cache[$pk]->xml = simplexml_load_file($path);
-			}
-			else
-			{
-				$this->_cache[$pk]->xml = null;
-			}
-		}
+            // Get the plugin XML.
+            $path = Path::clean(JPATH_PLUGINS . '/' . $table->folder . '/' . $table->element . '/' . $table->element . '.xml');
 
-		return $this->_cache[$pk];
-	}
+            if (file_exists($path)) {
+                $this->_cache[$cacheId]->xml = simplexml_load_file($path);
+            } else {
+                $this->_cache[$cacheId]->xml = null;
+            }
+        }
 
-	/**
-	 * Returns a reference to the Table object, always creating it.
-	 *
-	 * @param   string  $type    The table type to instantiate.
-	 * @param   string  $prefix  A prefix for the table class name. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  Table	A database object
-	 */
-	public function getTable($type = 'Extension', $prefix = 'JTable', $config = array())
-	{
-		return Table::getInstance($type, $prefix, $config);
-	}
+        return $this->_cache[$cacheId];
+    }
 
-	/**
-	 * Auto-populate the model state.
-	 *
-	 * Note. Calling getState in this method will result in recursion.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function populateState()
-	{
-		// Execute the parent method.
-		parent::populateState();
+    /**
+     * Returns a reference to the Table object, always creating it.
+     *
+     * @param   string  $type    The table type to instantiate.
+     * @param   string  $prefix  A prefix for the table class name. Optional.
+     * @param   array   $config  Configuration array for model. Optional.
+     *
+     * @return  Table   A database object
+     */
+    public function getTable($type = 'Extension', $prefix = '\\Joomla\\CMS\\Table\\', $config = [])
+    {
+        return Table::getInstance($type, $prefix, $config);
+    }
 
-		$app = Factory::getApplication();
+    /**
+     * Auto-populate the model state.
+     *
+     * Note. Calling getState in this method will result in recursion.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    protected function populateState()
+    {
+        // Execute the parent method.
+        parent::populateState();
 
-		// Load the User state.
-		$pk = $app->input->getInt('extension_id');
-		$this->setState('plugin.id', $pk);
-	}
+        $app = Factory::getApplication();
 
-	/**
-	 * Preprocess the form.
-	 *
-	 * @param   \JForm  $form   A form object.
-	 * @param   mixed   $data   The data expected for the form.
-	 * @param   string  $group  Cache group name.
-	 *
-	 * @return  mixed  True if successful.
-	 *
-	 * @throws	\Exception if there is an error in the form event.
-	 * @since   1.6
-	 */
-	protected function preprocessForm(Form $form, $data, $group = 'content')
-	{
-		$folder  = $this->getState('item.folder');
-		$element = $this->getState('item.element');
-		$lang    = Factory::getLanguage();
+        // Load the User state.
+        $pk = $app->getInput()->getInt('extension_id');
+        $this->setState('plugin.id', $pk);
+    }
 
-		// Load the core and/or local language sys file(s) for the ordering field.
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('element'))
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-			->where($db->quoteName('folder') . ' = :folder')
-			->bind(':folder', $folder);
-		$db->setQuery($query);
-		$elements = $db->loadColumn();
+    /**
+     * Preprocess the form.
+     *
+     * @param   Form    $form   A form object.
+     * @param   mixed   $data   The data expected for the form.
+     * @param   string  $group  Cache group name.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     *
+     * @throws  \Exception if there is an error in the form event.
+     */
+    protected function preprocessForm(Form $form, $data, $group = 'content')
+    {
+        $folder  = $this->getState('item.folder');
+        $element = $this->getState('item.element');
+        $lang    = Factory::getLanguage();
 
-		foreach ($elements as $elementa)
-		{
-			$lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_ADMINISTRATOR)
-			|| $lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_PLUGINS . '/' . $folder . '/' . $elementa);
-		}
+        // Load the core and/or local language sys file(s) for the ordering field.
+        $db    = $this->getDatabase();
+        $query = $db->createQuery()
+            ->select($db->quoteName('element'))
+            ->from($db->quoteName('#__extensions'))
+            ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+            ->where($db->quoteName('folder') . ' = :folder')
+            ->bind(':folder', $folder);
+        $db->setQuery($query);
+        $elements = $db->loadColumn();
 
-		if (empty($folder) || empty($element))
-		{
-			$app = Factory::getApplication();
-			$app->redirect(Route::_('index.php?option=com_plugins&view=plugins', false));
-		}
+        foreach ($elements as $elementa) {
+            $lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_ADMINISTRATOR)
+                || $lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_PLUGINS . '/' . $folder . '/' . $elementa);
+        }
 
-		$formFile = Path::clean(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/' . $element . '.xml');
+        if (empty($folder) || empty($element)) {
+            $app = Factory::getApplication();
+            $app->redirect(Route::_('index.php?option=com_plugins&view=plugins', false));
+        }
 
-		if (!file_exists($formFile))
-		{
-			throw new \Exception(Text::sprintf('COM_PLUGINS_ERROR_FILE_NOT_FOUND', $element . '.xml'));
-		}
+        $formFile = Path::clean(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/' . $element . '.xml');
 
-		// Load the core and/or local language file(s).
-			$lang->load('plg_' . $folder . '_' . $element, JPATH_ADMINISTRATOR)
-		||	$lang->load('plg_' . $folder . '_' . $element, JPATH_PLUGINS . '/' . $folder . '/' . $element);
+        if (!file_exists($formFile)) {
+            throw new \Exception(Text::sprintf('COM_PLUGINS_ERROR_FILE_NOT_FOUND', $element . '.xml'));
+        }
 
-		if (file_exists($formFile))
-		{
-			// Get the plugin form.
-			if (!$form->loadFile($formFile, false, '//config'))
-			{
-				throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
-			}
-		}
+        // Load the core and/or local language file(s).
+        $lang->load('plg_' . $folder . '_' . $element, JPATH_ADMINISTRATOR)
+            || $lang->load('plg_' . $folder . '_' . $element, JPATH_PLUGINS . '/' . $folder . '/' . $element);
 
-		// Attempt to load the xml file.
-		if (!$xml = simplexml_load_file($formFile))
-		{
-			throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
-		}
+        if (file_exists($formFile)) {
+            // Get the plugin form.
+            if (!$form->loadFile($formFile, false, '//config')) {
+                throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
+            }
+        }
 
-		// Get the help data from the XML file if present.
-		$help = $xml->xpath('/extension/help');
+        // Attempt to load the xml file.
+        if (!$xml = simplexml_load_file($formFile)) {
+            throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
+        }
 
-		if (!empty($help))
-		{
-			$helpKey = trim((string) $help[0]['key']);
-			$helpURL = trim((string) $help[0]['url']);
+        // Get the help data from the XML file if present.
+        $help = $xml->xpath('/extension/help');
 
-			$this->helpKey = $helpKey ?: $this->helpKey;
-			$this->helpURL = $helpURL ?: $this->helpURL;
-		}
+        if (!empty($help)) {
+            $helpKey = trim((string) $help[0]['key']);
+            $helpURL = trim((string) $help[0]['url']);
 
-		// Trigger the default form events.
-		parent::preprocessForm($form, $data, $group);
-	}
+            $this->helpKey = $helpKey ?: $this->helpKey;
+            $this->helpURL = $helpURL ?: $this->helpURL;
+        }
 
-	/**
-	 * A protected method to get a set of ordering conditions.
-	 *
-	 * @param   object  $table  A record object.
-	 *
-	 * @return  array  An array of conditions to add to ordering queries.
-	 *
-	 * @since   1.6
-	 */
-	protected function getReorderConditions($table)
-	{
-		return [
-			$this->_db->quoteName('type') . ' = ' . $this->_db->quote($table->type),
-			$this->_db->quoteName('folder') . ' = ' . $this->_db->quote($table->folder),
-		];
-	}
+        // Trigger the default form events.
+        parent::preprocessForm($form, $data, $group);
+    }
 
-	/**
-	 * Override method to save the form data.
-	 *
-	 * @param   array  $data  The form data.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   1.6
-	 */
-	public function save($data)
-	{
-		// Setup type.
-		$data['type'] = 'plugin';
+    /**
+     * A protected method to get a set of ordering conditions.
+     *
+     * @param   object  $table  A record object.
+     *
+     * @return  array  An array of conditions to add to ordering queries.
+     *
+     * @since   1.6
+     */
+    protected function getReorderConditions($table)
+    {
+        $db = $this->getDatabase();
 
-		return parent::save($data);
-	}
+        return [
+            $db->quoteName('type') . ' = ' . $db->quote($table->type),
+            $db->quoteName('folder') . ' = ' . $db->quote($table->folder),
+        ];
+    }
 
-	/**
-	 * Get the necessary data to load an item help screen.
-	 *
-	 * @return  object  An object with key, url, and local properties for loading the item help screen.
-	 *
-	 * @since   1.6
-	 */
-	public function getHelp()
-	{
-		return (object) array('key' => $this->helpKey, 'url' => $this->helpURL);
-	}
+    /**
+     * Override method to save the form data.
+     *
+     * @param   array  $data  The form data.
+     *
+     * @return  boolean  True on success.
+     *
+     * @since   1.6
+     */
+    public function save($data)
+    {
+        // Setup type.
+        $data['type'] = 'plugin';
 
-	/**
-	 * Custom clean cache method, plugins are cached in 2 places for different clients.
-	 *
-	 * @param   string   $group     Cache group name.
-	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function cleanCache($group = null, $clientId = 0)
-	{
-		parent::cleanCache('com_plugins');
-	}
+        return parent::save($data);
+    }
+
+    /**
+     * Get the necessary data to load an item help screen.
+     *
+     * @return  object  An object with key, url, and local properties for loading the item help screen.
+     *
+     * @since   1.6
+     */
+    public function getHelp()
+    {
+        return (object) ['key' => $this->helpKey, 'url' => $this->helpURL];
+    }
+
+    /**
+     * Custom clean cache method, plugins are cached in 2 places for different clients.
+     *
+     * @param  string  $group  Cache group name.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    protected function cleanCache($group = null)
+    {
+        parent::cleanCache('com_plugins');
+    }
 }

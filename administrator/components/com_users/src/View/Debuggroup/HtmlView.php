@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
@@ -9,16 +10,16 @@
 
 namespace Joomla\Component\Users\Administrator\View\Debuggroup;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Access\Exception\NotAllowed;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Users\Administrator\Model\DebuggroupModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View class for a list of User Group ACL permissions.
@@ -27,113 +28,115 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * List of component actions
-	 *
-	 * @var  array
-	 */
-	protected $actions;
+    /**
+     * List of component actions
+     *
+     * @var  array
+     */
+    protected $actions;
 
-	/**
-	 * The item data.
-	 *
-	 * @var   object
-	 * @since 1.6
-	 */
-	protected $items;
+    /**
+     * The item data.
+     *
+     * @var   object
+     * @since 1.6
+     */
+    protected $items;
 
-	/**
-	 * The pagination object.
-	 *
-	 * @var   \Joomla\CMS\Pagination\Pagination
-	 * @since 1.6
-	 */
-	protected $pagination;
+    /**
+     * The pagination object.
+     *
+     * @var   \Joomla\CMS\Pagination\Pagination
+     * @since 1.6
+     */
+    protected $pagination;
 
-	/**
-	 * The model state.
-	 *
-	 * @var   CMSObject
-	 * @since 1.6
-	 */
-	protected $state;
+    /**
+     * The model state.
+     *
+     * @var   \Joomla\Registry\Registry
+     * @since 1.6
+     */
+    protected $state;
 
-	/**
-	 * The id and title for the user group.
-	 *
-	 * @var   \stdClass
-	 * @since 4.0.0
-	 */
-	protected $group;
+    /**
+     * The id and title for the user group.
+     *
+     * @var   \stdClass
+     * @since 4.0.0
+     */
+    protected $group;
 
-	/**
-	 * Form object for search filters
-	 *
-	 * @var  \JForm
-	 */
-	public $filterForm;
+    /**
+     * Form object for search filters
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    public $filterForm;
 
-	/**
-	 * The active search filters
-	 *
-	 * @var  array
-	 */
-	public $activeFilters;
+    /**
+     * The active search filters
+     *
+     * @var  array
+     */
+    public $activeFilters;
 
-	/**
-	 * Display the view
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
-		// Access check.
-		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
-		{
-			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
-		}
+    /**
+     * Display the view
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        // Access check.
+        if (!$this->getCurrentUser()->authorise('core.manage', 'com_users')) {
+            throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+        }
 
-		$this->actions       = $this->get('DebugActions');
-		$this->items         = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->state         = $this->get('State');
-		$this->group         = $this->get('Group');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
+        /** @var DebuggroupModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        $this->actions       = $model->getDebugActions();
+        $this->items         = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->state         = $model->getState();
+        $this->group         = $model->getGroup();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
 
-		$this->addToolbar();
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task')
+            ->addControlField('boxchecked', '0');
 
-		parent::display($tpl);
-	}
+        $this->addToolbar();
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function addToolbar()
-	{
-		$canDo = ContentHelper::getActions('com_users');
+        parent::display($tpl);
+    }
 
-		ToolbarHelper::title(Text::sprintf('COM_USERS_VIEW_DEBUG_GROUP_TITLE', $this->group->id, $this->escape($this->group->title)), 'users groups');
-		ToolbarHelper::cancel('group.cancel', 'JTOOLBAR_CLOSE');
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    protected function addToolbar()
+    {
+        $canDo   = ContentHelper::getActions('com_users');
+        $toolbar = $this->getDocument()->getToolbar();
 
-		if ($canDo->get('core.admin') || $canDo->get('core.options'))
-		{
-			ToolbarHelper::preferences('com_users');
-			ToolbarHelper::divider();
-		}
+        ToolbarHelper::title(Text::sprintf('COM_USERS_VIEW_DEBUG_GROUP_TITLE', $this->group->id, $this->escape($this->group->title)), 'users groups');
+        $toolbar->cancel('group.cancel');
 
-		ToolbarHelper::help('Permissions_for_Group');
-	}
+        if ($canDo->get('core.admin') || $canDo->get('core.options')) {
+            $toolbar->preferences('com_users');
+            $toolbar->divider();
+        }
+
+        $toolbar->help('Permissions_for_Group');
+    }
 }

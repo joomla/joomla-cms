@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -10,7 +11,9 @@ namespace Joomla\CMS\Console\Loader;
 
 use Joomla\Console\Loader\LoaderInterface;
 
-\defined('JPATH_PLATFORM') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Interface defining a writable command loader.
@@ -19,15 +22,15 @@ use Joomla\Console\Loader\LoaderInterface;
  */
 interface WritableLoaderInterface extends LoaderInterface
 {
-	/**
-	 * Adds a command to the loader.
-	 *
-	 * @param   string  $commandName  The name of the command to load.
-	 * @param   string  $className    The fully qualified class name of the command.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function add(string $commandName, string $className);
+    /**
+     * Adds a command to the loader.
+     *
+     * @param   string  $commandName  The name of the command to load.
+     * @param   string  $className    The fully qualified class name of the command.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function add(string $commandName, string $className);
 }

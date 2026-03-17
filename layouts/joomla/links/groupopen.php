@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -9,8 +10,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Language\Text;
+use Joomla\Filter\OutputFilter;
 
 ?>
 <h2 class="nav-header"><?php echo OutputFilter::ampReplace(Text::_($displayData)); ?></h2>

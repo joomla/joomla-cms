@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\Association;
 
-\defined('JPATH_PLATFORM') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The association service.
@@ -17,12 +20,12 @@ namespace Joomla\CMS\Association;
  */
 interface AssociationServiceInterface
 {
-	/**
-	 * Returns the associations extension helper class.
-	 *
-	 * @return  AssociationExtensionInterface
-	 *
-	 * @since  4.0.0
-	 */
-	public function getAssociationsExtension(): AssociationExtensionInterface;
+    /**
+     * Returns the associations extension helper class.
+     *
+     * @return  AssociationExtensionInterface
+     *
+     * @since  4.0.0
+     */
+    public function getAssociationsExtension(): AssociationExtensionInterface;
 }

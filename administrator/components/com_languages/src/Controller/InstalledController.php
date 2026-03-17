@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_languages
@@ -9,14 +10,16 @@
 
 namespace Joomla\Component\Languages\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Languages Controller.
@@ -25,94 +28,83 @@ use Joomla\CMS\MVC\Controller\BaseController;
  */
 class InstalledController extends BaseController
 {
-	/**
-	 * Task to set the default language.
-	 *
-	 * @return  void
-	 */
-	public function setDefault()
-	{
-		// Check for request forgeries.
-		$this->checkToken();
+    /**
+     * Task to set the default language.
+     *
+     * @return  void
+     */
+    public function setDefault()
+    {
+        // Check for request forgeries.
+        $this->checkToken();
 
-		$cid = $this->input->get('cid', '');
-		$model = $this->getModel('installed');
+        $cid   = (string) $this->input->get('cid', '', 'string');
+        $model = $this->getModel('installed');
 
-		if ($model->publish($cid))
-		{
-			// Switching to the new administrator language for the message
-			if ($model->getState('client_id') == 1)
-			{
-				$language = Factory::getLanguage();
-				$newLang = Language::getInstance($cid);
-				Factory::$language = $newLang;
-				Factory::getApplication()->loadLanguage($language = $newLang);
-				$newLang->load('com_languages', JPATH_ADMINISTRATOR);
-			}
+        if ($model->publish($cid)) {
+            // Switching to the new administrator language for the message
+            if ($model->getState('client_id') == 1) {
+                $language          = Factory::getLanguage();
+                $newLang           = Language::getInstance($cid);
+                Factory::$language = $newLang;
+                $this->app->loadLanguage($language = $newLang);
+                $newLang->load('com_languages', JPATH_ADMINISTRATOR);
+            }
 
-			if (Multilanguage::isEnabled() && $model->getState('client_id') == 0)
-			{
-				$msg = Text::_('COM_LANGUAGES_MSG_DEFAULT_MULTILANG_SAVED');
-				$type = 'message';
-			}
-			else
-			{
-				$msg = Text::_('COM_LANGUAGES_MSG_DEFAULT_LANGUAGE_SAVED');
-				$type = 'message';
-			}
-		}
-		else
-		{
-			$msg = $model->getError();
-			$type = 'error';
-		}
+            if (Multilanguage::isEnabled() && $model->getState('client_id') == 0) {
+                $msg  = Text::_('COM_LANGUAGES_MSG_DEFAULT_MULTILANG_SAVED');
+                $type = 'message';
+            } else {
+                $msg  = Text::_('COM_LANGUAGES_MSG_DEFAULT_LANGUAGE_SAVED');
+                $type = 'message';
+            }
+        } else {
+            $msg  = $model->getError();
+            $type = 'error';
+        }
 
-		$clientId = $model->getState('client_id');
-		$this->setRedirect('index.php?option=com_languages&view=installed&client=' . $clientId, $msg, $type);
-	}
+        $clientId = $model->getState('client_id');
+        $this->setRedirect('index.php?option=com_languages&view=installed&client=' . $clientId, $msg, $type);
+    }
 
-	/**
-	 * Task to switch the administrator language.
-	 *
-	 * @return  void
-	 */
-	public function switchAdminLanguage()
-	{
-		// Check for request forgeries.
-		$this->checkToken();
+    /**
+     * Task to switch the administrator language.
+     *
+     * @return  void
+     */
+    public function switchAdminLanguage()
+    {
+        // Check for request forgeries.
+        $this->checkToken();
 
-		$cid   = $this->input->get('cid', '');
-		$model = $this->getModel('installed');
+        $cid   = (string) $this->input->get('cid', '', 'string');
+        $model = $this->getModel('installed');
 
-		// Fetching the language name from the langmetadata.xml or xx-XX.xml respectively.
-		$file = JPATH_ADMINISTRATOR . '/language/' . $cid . '/langmetadata.xml';
+        // Fetching the language name from the langmetadata.xml or xx-XX.xml respectively.
+        $file = JPATH_ADMINISTRATOR . '/language/' . $cid . '/langmetadata.xml';
 
-		if (!is_file($file))
-		{
-			$file = JPATH_ADMINISTRATOR . '/language/' . $cid . '/' . $cid . '.xml';
-		}
+        if (!is_file($file)) {
+            $file = JPATH_ADMINISTRATOR . '/language/' . $cid . '/' . $cid . '.xml';
+        }
 
-		$info         = LanguageHelper::parseXMLLanguageFile($file);
-		$languageName = $info['nativeName'];
+        $info = LanguageHelper::parseXMLLanguageFile($file);
 
-		if ($model->switchAdminLanguage($cid))
-		{
-			// Switching to the new language for the message
-			$language = Factory::getLanguage();
-			$newLang = Language::getInstance($cid);
-			Factory::$language = $newLang;
-			Factory::getApplication()->loadLanguage($language = $newLang);
-			$newLang->load('com_languages', JPATH_ADMINISTRATOR);
+        if ($model->switchAdminLanguage($cid)) {
+            // Switching to the new language for the message
+            $languageName      = $info['nativeName'];
+            $language          = Factory::getLanguage();
+            $newLang           = Language::getInstance($cid);
+            Factory::$language = $newLang;
+            $this->app->loadLanguage($language = $newLang);
+            $newLang->load('com_languages', JPATH_ADMINISTRATOR);
 
-			$msg = Text::sprintf('COM_LANGUAGES_MSG_SWITCH_ADMIN_LANGUAGE_SUCCESS', $languageName);
-			$type = 'message';
-		}
-		else
-		{
-			$msg = $model->getError();
-			$type = 'error';
-		}
+            $msg  = Text::sprintf('COM_LANGUAGES_MSG_SWITCH_ADMIN_LANGUAGE_SUCCESS', $languageName);
+            $type = 'message';
+        } else {
+            $msg  = $model->getError();
+            $type = 'error';
+        }
 
-		$this->setRedirect('index.php?option=com_languages&view=installed', $msg, $type);
-	}
+        $this->setRedirect('index.php?option=com_languages&view=installed', $msg, $type);
+    }
 }

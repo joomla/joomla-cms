@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_articles_categories
@@ -11,9 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 
-if (!$list)
-{
-	return;
+if (!$list) {
+    return;
 }
 
 ?>

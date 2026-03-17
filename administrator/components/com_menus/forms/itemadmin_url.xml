@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fields name="params">
 		<fieldset name="menu-options"
@@ -21,15 +21,20 @@
 				<option value="alternate"/>
 				<option value="author"/>
 				<option value="bookmark"/>
+				<option value="external"/>
 				<option value="help"/>
 				<option value="license"/>
+				<option value="me"/>
 				<option value="next"/>
 				<option value="nofollow"/>
+				<option value="noopener"/>
 				<option value="noreferrer"/>
 				<option value="prefetch"/>
 				<option value="prev"/>
 				<option value="search"/>
+				<option value="sponsored"/>
 				<option value="tag"/>
+				<option value="ugc"/>
 			</field>
 
 			<field
@@ -37,6 +42,7 @@
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_ICON_TITLE_LABEL"
 				description="COM_MENUS_ITEM_FIELD_ICON_TITLE_DESC"
+				validate="CssIdentifier"
 			/>
 
 			<field
@@ -46,6 +52,9 @@
 			<field
 				name="menu_image"
 				type="media"
+				schemes="http,https,ftp,ftps,data,file"
+				validate="url"
+				relative="true"
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_LABEL"
 			/>
 
@@ -61,7 +70,8 @@
 				type="radio"
 				label="COM_MENUS_ITEM_FIELD_MENU_TEXT_LABEL"
 				layout="joomla.form.field.radio.switcher"
-				default="1" filter="integer"
+				default="1"
+				filter="integer"
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>

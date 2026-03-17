@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_media
@@ -9,7 +10,9 @@
 
 namespace Joomla\Component\Media\Administrator\Event;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Event object for fetch media item.
@@ -18,65 +21,64 @@ namespace Joomla\Component\Media\Administrator\Event;
  */
 final class FetchMediaItemEvent extends AbstractMediaItemValidationEvent
 {
-	/**
-	 * Constructor.
-	 *
-	 * @param   string  $name       The event name.
-	 * @param   array   $arguments  The event arguments.
-	 *
-	 * @throws  \BadMethodCallException
-	 *
-	 * @since  4.1.0
-	 */
-	public function __construct($name, array $arguments = array())
-	{
-		parent::__construct($name, $arguments);
+    /**
+     * Constructor.
+     *
+     * @param   string  $name       The event name.
+     * @param   array   $arguments  The event arguments.
+     *
+     * @throws  \BadMethodCallException
+     *
+     * @since  4.1.0
+     */
+    public function __construct($name, array $arguments = [])
+    {
+        parent::__construct($name, $arguments);
 
-		// Check for required arguments
-		if (!\array_key_exists('item', $arguments) || !is_object($arguments['item']))
-		{
-			throw new \BadMethodCallException("Argument 'item' of event $name is not of the expected type");
-		}
-	}
+        // Check for required arguments
+        if (!\array_key_exists('item', $arguments) || !\is_object($arguments['item'])) {
+            throw new \BadMethodCallException("Argument 'item' of event $name is not of the expected type");
+        }
+    }
 
-	/**
-	 * Validate $item to have all attributes with a valid type
-	 *
-	 * Validation based on \Joomla\Component\Media\Administrator\Adapter\AdapterInterface::getFile()
-	 *
-	 * Properties validated:
-	 * - type:          The type can be file or dir
-	 * - name:          The name of the item
-	 * - path:          The relative path to the root
-	 * - extension:     The file extension
-	 * - size:          The size of the file
-	 * - create_date:   The date created
-	 * - modified_date: The date modified
-	 * - mime_type:     The mime type
-	 * - width:         The width, when available
-	 * - height:        The height, when available
-	 *
-	 * Generation based on \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter::getPathInformation()
-	 *
-	 * Properties generated:
-	 * - created_date_formatted:  DATE_FORMAT_LC5 formatted string based on create_date
-	 * - modified_date_formatted: DATE_FORMAT_LC5 formatted string based on modified_date
-	 *
-	 * @param   \stdClass  $item  The item to set
-	 *
-	 * @return \stdClass
-	 *
-	 * @since   4.1.0
-	 *
-	 * @throws \BadMethodCallException
-	 */
-	protected function setItem(\stdClass $item): \stdClass
-	{
-		// Make immutable object
-		$item = clone $item;
+    /**
+     * Validate $item to have all attributes with a valid type
+     *
+     * Validation based on \Joomla\Component\Media\Administrator\Adapter\AdapterInterface::getFile()
+     *
+     * Properties validated:
+     * - type:          The type can be file or dir
+     * - name:          The name of the item
+     * - path:          The relative path to the root
+     * - extension:     The file extension
+     * - size:          The size of the file
+     * - create_date:   The date created
+     * - modified_date: The date modified
+     * - mime_type:     The mime type
+     * - width:         The width, when available
+     * - height:        The height, when available
+     *
+     * Generation based on \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter::getPathInformation()
+     *
+     * Properties generated:
+     * - created_date_formatted:  DATE_FORMAT_LC5 formatted string based on create_date
+     * - modified_date_formatted: DATE_FORMAT_LC5 formatted string based on modified_date
+     *
+     * @param   \stdClass  $item  The item to set
+     *
+     * @return \stdClass
+     *
+     * @since   4.1.0
+     *
+     * @throws \BadMethodCallException
+     */
+    protected function setItem(\stdClass $item): \stdClass
+    {
+        // Make immutable object
+        $item = clone $item;
 
-		$this->validate($item);
+        $this->validate($item);
 
-		return $item;
-	}
+        return $item;
+    }
 }

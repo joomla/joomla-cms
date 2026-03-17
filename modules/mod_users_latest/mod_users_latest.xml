@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" client="site" method="upgrade">
 	<name>mod_users_latest</name>
 	<author>Joomla! Project</author>
-	<creationDate>December 2009</creationDate>
+	<creationDate>2009-12</creationDate>
 	<copyright>(C) 2009 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -11,7 +11,7 @@
 	<description>MOD_USERS_LATEST_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\UsersLatest</namespace>
 	<files>
-		<filename module="mod_users_latest">mod_users_latest.php</filename>
+		<folder module="mod_users_latest">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>

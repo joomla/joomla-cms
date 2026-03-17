@@ -10,18 +10,26 @@
     >
       <li
         :class="{active: isActive, 'media-tree-item': true, 'media-drive-name': true}"
-        role="treeitem"
-        aria-level="1"
-        :aria-setsize="counter"
-        :aria-posinset="1"
-        :tabindex="getTabindex"
+        role="none"
       >
-        <a>
+        <a
+          ref="drive-root"
+          role="treeitem"
+          aria-level="1"
+          :aria-setsize="counter"
+          :aria-posinset="1"
+          :tabindex="getTabindex"
+          @keyup.right="moveFocusToChildElement(drive.root)"
+          @keyup.enter="onDriveClick"
+        >
           <span class="item-name">{{ drive.displayName }}</span>
         </a>
-        <media-tree
+        <MediaTree
+          :ref="drive.root"
           :root="drive.root"
           :level="2"
+          :parent-index="0"
+          @move-focus-to-parent="restoreFocus"
         />
       </li>
     </ul>
@@ -30,12 +38,32 @@
 
 <script>
 import navigable from '../../mixins/navigable.es6';
+import MediaTree from './tree.vue';
 
 export default {
   name: 'MediaDrive',
+  components: {
+    MediaTree,
+  },
   mixins: [navigable],
-  // eslint-disable-next-line vue/require-prop-types
-  props: ['drive', 'total', 'diskId', 'counter'],
+  props: {
+    drive: {
+      type: Object,
+      default: () => {},
+    },
+    total: {
+      type: Number,
+      default: 0,
+    },
+    diskId: {
+      type: String,
+      default: '',
+    },
+    counter: {
+      type: Number,
+      default: 0,
+    },
+  },
   computed: {
     /* Whether or not the item is active */
     isActive() {
@@ -49,6 +77,23 @@ export default {
     /* Handle the on drive click event */
     onDriveClick() {
       this.navigateTo(this.drive.root);
+
+      window.parent.document.dispatchEvent(
+        new CustomEvent('onMediaFileSelected', {
+          bubbles: true,
+          cancelable: false,
+          detail: {
+            type: 'dir',
+            path: this.drive.root,
+          },
+        }),
+      );
+    },
+    moveFocusToChildElement(nextRoot) {
+      this.$refs[nextRoot].setFocusToFirstChild();
+    },
+    restoreFocus() {
+      this.$refs['drive-root'].focus();
     },
   },
 };

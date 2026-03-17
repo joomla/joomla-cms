@@ -58,7 +58,7 @@ class WebInstaller {
     }
 
     const pattern1 = new RegExp(webInstallerOptions.options.base_url);
-    const pattern2 = new RegExp('^index.php');
+    const pattern2 = /^index\.php/;
 
     if (!(pattern1.test(url) || pattern2.test(url))) {
       window.open(url, '_blank');
@@ -102,8 +102,8 @@ class WebInstaller {
           const jedContainer = document.getElementById('jed-container');
           jedContainer.innerHTML = Joomla.sanitizeHtml(response.data.html, allowList);
 
-          document.getElementById('com-apps-searchbox').addEventListener('keypress', ({ which }) => {
-            if (which === 13) {
+          document.getElementById('com-apps-searchbox').addEventListener('keydown', ({ code }) => {
+            if (code === 'Enter') {
               this.initiateSearch();
             }
           });
@@ -125,9 +125,7 @@ class WebInstaller {
 
           document.getElementById('search-reset').innerHTML = Joomla.sanitizeHtml(Joomla.Text._('JSEARCH_FILTER_CLEAR'));
 
-          // eslint-disable-next-line no-shadow
           const orderingSelect = document.getElementById('com-apps-ordering');
-          // eslint-disable-next-line no-shadow
           const versionSelect = document.getElementById('com-apps-filter-joomla-version');
 
           if (orderingSelect) {
@@ -183,7 +181,7 @@ class WebInstaller {
       WebInstaller.clicker();
 
       if (webInstallerOptions.view !== 'extension') {
-        [].slice.call(document.querySelectorAll('div.load-extension')).forEach((element) => {
+        document.querySelectorAll('div.load-extension').forEach((element) => {
           element.addEventListener('click', (event) => {
             event.preventDefault();
             this.processLinkClick(element.getAttribute('data-url'));
@@ -236,7 +234,7 @@ class WebInstaller {
   }
 
   clickforlinks() {
-    [].slice.call(document.querySelectorAll('a.transcode')).forEach((element) => {
+    document.querySelectorAll('a.transcode').forEach((element) => {
       const ajaxurl = element.getAttribute('href');
 
       element.addEventListener('click', (event) => {
@@ -290,7 +288,7 @@ class WebInstaller {
 
   processLinkClick(url) {
     const pattern1 = new RegExp(webInstallerOptions.options.base_url);
-    const pattern2 = new RegExp('^index.php');
+    const pattern2 = /^index\.php/;
 
     if (pattern1.test(url) || pattern2.test(url)) {
       webInstallerOptions.view = url.replace(/^.+[&?]view=(\w+).*$/, '$1');
@@ -365,7 +363,6 @@ class WebInstaller {
     return true;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   submitButtonUrl() {
     const form = document.getElementById('adminForm');
 
@@ -403,7 +400,7 @@ customElements.whenDefined('joomla-tab').then(() => {
   const installerTabs = document.getElementById('myTab');
   const link = installerTabs.querySelector('button[aria-controls=web]');
 
-  // Abort if the IFW tab cannot be found
+  // Stop if the IFW tab cannot be found
   if (!link) {
     return;
   }
@@ -412,7 +409,7 @@ customElements.whenDefined('joomla-tab').then(() => {
     link.click();
   }
 
-  if (link.hasAttribute('aria-expanded') && link.getAttribute('aria-expanded') === 'true' && !instance) {
+  if (link.hasAttribute('aria-selected') && link.getAttribute('aria-selected') === 'true' && !instance) {
     instance = new WebInstaller();
     instance.initialise();
   }

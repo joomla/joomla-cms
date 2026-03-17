@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_tags
@@ -9,15 +10,18 @@
 
 namespace Joomla\Component\Tags\Administrator\View\Tag;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Tags\Administrator\Model\TagModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTML View class for the Tags component
@@ -26,140 +30,150 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * The \JForm object
-	 *
-	 * @var  \JForm
-	 */
-	protected $form;
+    /**
+     * The Form object
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    protected $form;
 
-	/**
-	 * The active item
-	 *
-	 * @var  object
-	 */
-	protected $item;
+    /**
+     * The active item
+     *
+     * @var  object
+     */
+    protected $item;
 
-	/**
-	 * The model state
-	 *
-	 * @var  \JObject
-	 */
-	protected $state;
+    /**
+     * The model state
+     *
+     * @var  \Joomla\Registry\Registry
+     */
+    protected $state;
 
-	/**
-	 * Flag if an association exists
-	 *
-	 * @var  boolean
-	 */
-	protected $assoc;
+    /**
+     * Flag if an association exists
+     *
+     * @var  boolean
+     */
+    protected $assoc;
 
-	/**
-	 * The actions the user is authorised to perform
-	 *
-	 * @var    \JObject
-	 * @since  4.0.0
-	 */
-	protected $canDo;
+    /**
+     * The actions the user is authorised to perform
+     *
+     * @var    \Joomla\Registry\Registry
+     *
+     * @since  4.0.0
+     */
+    protected $canDo;
 
-	/**
-	 * Display the view
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
-		$this->form  = $this->get('Form');
-		$this->item  = $this->get('Item');
-		$this->state = $this->get('State');
+    /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+    /**
+     * Display the view
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        /** @var TagModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-		$this->addToolbar();
+        $this->form  = $model->getForm();
+        $this->item  = $model->getItem();
+        $this->state = $model->getState();
 
-		parent::display($tpl);
-	}
+        // Add form control fields
+        $this->form
+            ->addControlField('task');
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @since  3.1
-	 *
-	 * @return void
-	 */
-	protected function addToolbar()
-	{
-		Factory::getApplication()->input->set('hidemainmenu', true);
+        $this->addToolbar();
 
-		$user       = Factory::getUser();
-		$userId     = $user->get('id');
-		$isNew      = ($this->item->id == 0);
-		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        parent::display($tpl);
+    }
 
-		$canDo = ContentHelper::getActions('com_tags');
+    /**
+     * Add the page title and toolbar.
+     *
+     * @since  3.1
+     *
+     * @return void
+     */
+    protected function addToolbar()
+    {
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-		ToolbarHelper::title($isNew ? Text::_('COM_TAGS_MANAGER_TAG_NEW') : Text::_('COM_TAGS_MANAGER_TAG_EDIT'), 'tag');
+        $user       = $this->getCurrentUser();
+        $userId     = $user->id;
+        $isNew      = ($this->item->id == 0);
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        $toolbar    = $this->getDocument()->getToolbar();
 
-		// Build the actions for new and existing records.
-		if ($isNew)
-		{
-			ToolbarHelper::apply('tag.apply');
-			ToolbarHelper::saveGroup(
-				[
-					['save', 'tag.save'],
-					['save2new', 'tag.save2new']
-				],
-				'btn-success'
-			);
+        $canDo = ContentHelper::getActions('com_tags');
 
-			ToolbarHelper::cancel('tag.cancel');
-		}
-		else
-		{
-			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
-			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId);
+        ToolbarHelper::title($isNew ? Text::_('COM_TAGS_MANAGER_TAG_NEW') : Text::_('COM_TAGS_MANAGER_TAG_EDIT'), 'tag');
 
-			$toolbarButtons = [];
+        // Build the actions for new and existing records.
+        if ($isNew) {
+            $toolbar->apply('tag.apply');
+            $saveGroup = $toolbar->dropdownButton('save-group');
 
-			// Can't save the record if it's checked out and editable
-			if (!$checkedOut && $itemEditable)
-			{
-				ToolbarHelper::apply('tag.apply');
-				$toolbarButtons[] = ['save', 'tag.save'];
+            $saveGroup->configure(
+                function (Toolbar $childBar) {
+                    $childBar->save('tag.save');
+                    $childBar->save2new('tag.save2new');
+                }
+            );
 
-				// We can save this record, but check the create permission to see if we can return to make a new one.
-				if ($canDo->get('core.create'))
-				{
-					$toolbarButtons[] = ['save2new', 'tag.save2new'];
-				}
-			}
+            $toolbar->cancel('tag.cancel', 'JTOOLBAR_CANCEL');
+        } else {
+            // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
+            $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId);
 
-			// If checked out, we can still save
-			if ($canDo->get('core.create'))
-			{
-				$toolbarButtons[] = ['save2copy', 'tag.save2copy'];
-			}
+            // Can't save the record if it's checked out and editable
+            if (!$checkedOut && $itemEditable) {
+                $toolbar->apply('tag.apply');
+            }
 
-			ToolbarHelper::saveGroup(
-				$toolbarButtons,
-				'btn-success'
-			);
+            $saveGroup = $toolbar->dropdownButton('save-group');
 
-			ToolbarHelper::cancel('tag.cancel', 'JTOOLBAR_CLOSE');
+            $saveGroup->configure(
+                function (Toolbar $childBar) use ($checkedOut, $itemEditable, $canDo) {
+                    // Can't save the record if it's checked out and editable
+                    if (!$checkedOut && $itemEditable) {
+                        $childBar->save('tag.save');
 
-			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
-			{
-				ToolbarHelper::versions('com_tags.tag', $this->item->id);
-			}
-		}
+                        // We can save this record, but check the create permission to see if we can return to make a new one.
+                        if ($canDo->get('core.create')) {
+                            $childBar->save2new('tag.save2new');
+                        }
+                    }
 
-		ToolbarHelper::divider();
-		ToolbarHelper::help('Tags:_New_or_Edit');
-	}
+                    // If checked out, we can still save
+                    if ($canDo->get('core.create')) {
+                        $childBar->save2copy('tag.save2copy');
+                    }
+                }
+            );
+
+            $toolbar->cancel('tag.cancel');
+
+            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->get('params')->get('save_history', 0) && $itemEditable) {
+                $toolbar->versions('com_tags.tag', $this->item->id);
+            }
+        }
+
+        $toolbar->divider();
+        $toolbar->help('Tags:_New_or_Edit');
+    }
 }

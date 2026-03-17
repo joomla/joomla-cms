@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,11 +9,13 @@
 
 namespace Joomla\CMS\Form\Field;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Captcha\Captcha;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Captcha field.
@@ -21,164 +24,166 @@ use Joomla\CMS\Form\FormField;
  */
 class CaptchaField extends FormField
 {
-	/**
-	 * The field type.
-	 *
-	 * @var    string
-	 * @since  2.5
-	 */
-	protected $type = 'Captcha';
+    /**
+     * The field type.
+     *
+     * @var    string
+     * @since  2.5
+     */
+    protected $type = 'Captcha';
 
-	/**
-	 * The captcha base instance of our type.
-	 *
-	 * @var Captcha
-	 */
-	protected $_captcha;
+    /**
+     * The plugin of the captcha field.
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    protected $plugin;
 
-	/**
-	 * Method to get certain otherwise inaccessible properties from the form field object.
-	 *
-	 * @param   string  $name  The property name for which to get the value.
-	 *
-	 * @return  mixed  The property value or null.
-	 *
-	 * @since   3.2
-	 */
-	public function __get($name)
-	{
-		switch ($name)
-		{
-			case 'plugin':
-			case 'namespace':
-				return $this->$name;
-		}
+    /**
+     * The namespace of the captcha field.
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    protected $namespace;
 
-		return parent::__get($name);
-	}
+    /**
+     * The captcha base instance of our type.
+     *
+     * @var ?Captcha
+     */
+    protected $_captcha;
 
-	/**
-	 * Method to set certain otherwise inaccessible properties of the form field object.
-	 *
-	 * @param   string  $name   The property name for which to set the value.
-	 * @param   mixed   $value  The value of the property.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function __set($name, $value)
-	{
-		switch ($name)
-		{
-			case 'plugin':
-			case 'namespace':
-				$this->$name = (string) $value;
-				break;
+    /**
+     * Method to get certain otherwise inaccessible properties from the form field object.
+     *
+     * @param   string  $name  The property name for which to get the value.
+     *
+     * @return  mixed  The property value or null.
+     *
+     * @since   3.2
+     */
+    public function __get($name)
+    {
+        switch ($name) {
+            case 'plugin':
+            case 'namespace':
+                return $this->$name;
+        }
 
-			default:
-				parent::__set($name, $value);
-		}
-	}
+        return parent::__get($name);
+    }
 
-	/**
-	 * Method to attach a Form object to the field.
-	 *
-	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed              $value    The form field value to validate.
-	 * @param   string             $group    The field name group control value. This acts as an array container for the field.
-	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                       full field name would end up being "bar[foo]".
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   2.5
-	 */
-	public function setup(\SimpleXMLElement $element, $value, $group = null)
-	{
-		$result = parent::setup($element, $value, $group);
+    /**
+     * Method to set certain otherwise inaccessible properties of the form field object.
+     *
+     * @param   string  $name   The property name for which to set the value.
+     * @param   mixed   $value  The value of the property.
+     *
+     * @return  void
+     *
+     * @since   3.2
+     */
+    public function __set($name, $value)
+    {
+        switch ($name) {
+            case 'plugin':
+            case 'namespace':
+                $this->$name = (string) $value;
+                break;
 
-		$app = Factory::getApplication();
+            default:
+                parent::__set($name, $value);
+        }
+    }
 
-		$default = $app->get('captcha');
+    /**
+     * Method to attach a Form object to the field.
+     *
+     * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+     * @param   mixed              $value    The form field value to validate.
+     * @param   string             $group    The field name group control value. This acts as an array container for the field.
+     *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+     *                                       full field name would end up being "bar[foo]".
+     *
+     * @return  boolean  True on success.
+     *
+     * @since   2.5
+     */
+    public function setup(\SimpleXMLElement $element, $value, $group = null)
+    {
+        $result = parent::setup($element, $value, $group);
 
-		if ($app->isClient('site'))
-		{
-			$default = $app->getParams()->get('captcha', $default);
-		}
+        $app = Factory::getApplication();
 
-		$plugin = $this->element['plugin'] ?
-			(string) $this->element['plugin'] :
-			$default;
+        $default = $app->get('captcha');
 
-		$this->plugin = $plugin;
+        if ($app->isClient('site')) {
+            $default = $app->getParams()->get('captcha', $default);
+        }
 
-		if ($plugin === 0 || $plugin === '0' || $plugin === '' || $plugin === null)
-		{
-			$this->hidden = true;
+        $plugin = $this->element['plugin'] ?
+            (string) $this->element['plugin'] :
+            $default;
 
-			return false;
-		}
-		else
-		{
-			// Force field to be required. There's no reason to have a captcha if it is not required.
-			// Obs: Don't put required="required" in the xml file, you just need to have validate="captcha"
-			$this->required = true;
+        $this->plugin = $plugin;
 
-			if (strpos($this->class, 'required') === false)
-			{
-				$this->class .= ' required';
-			}
-		}
+        if ($plugin === 0 || $plugin === '0' || $plugin === '' || $plugin === null) {
+            $this->hidden = true;
 
-		$this->namespace = $this->element['namespace'] ? (string) $this->element['namespace'] : $this->form->getName();
+            return false;
+        }
 
-		try
-		{
-			// Get an instance of the captcha class that we are using
-			$this->_captcha = Captcha::getInstance($this->plugin, array('namespace' => $this->namespace));
+        // Force field to be required. There's no reason to have a captcha if it is not required.
+        // Obs: Don't put required="required" in the xml file, you just need to have validate="captcha"
+        $this->required = true;
 
-			/**
-			 * Give the captcha instance a possibility to react on the setup-process,
-			 * e.g. by altering the XML structure of the field, for example hiding the label
-			 * when using invisible captchas.
-			 */
-			$this->_captcha->setupField($this, $element);
-		}
-		catch (\RuntimeException $e)
-		{
-			$this->_captcha = null;
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+        if (!str_contains($this->class, 'required')) {
+            $this->class .= ' required';
+        }
 
-			return false;
-		}
+        $this->namespace = $this->element['namespace'] ? (string) $this->element['namespace'] : $this->form->getName();
 
-		return $result;
-	}
+        try {
+            // Get an instance of the captcha class that we are using
+            $this->_captcha = Captcha::getInstance($this->plugin, ['namespace' => $this->namespace]);
 
-	/**
-	 * Method to get the field input.
-	 *
-	 * @return  string  The field input.
-	 *
-	 * @since   2.5
-	 */
-	protected function getInput()
-	{
-		if ($this->hidden || $this->_captcha == null)
-		{
-			return '';
-		}
+            /**
+             * Give the captcha instance a possibility to react on the setup-process,
+             * e.g. by altering the XML structure of the field, for example hiding the label
+             * when using invisible captchas.
+             */
+            $this->_captcha->setupField($this, $element);
+        } catch (\RuntimeException $e) {
+            $this->_captcha = null;
+            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
-		try
-		{
-			return $this->_captcha->display($this->name, $this->id, $this->class);
-		}
-		catch (\RuntimeException $e)
-		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-		}
+            return false;
+        }
 
-		return '';
-	}
+        return $result;
+    }
+
+    /**
+     * Method to get the field input.
+     *
+     * @return  string  The field input.
+     *
+     * @since   2.5
+     */
+    protected function getInput()
+    {
+        if ($this->hidden || $this->_captcha == null) {
+            return '';
+        }
+
+        try {
+            return $this->_captcha->display($this->name, $this->id, $this->class);
+        } catch (\RuntimeException $e) {
+            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+        }
+
+        return '';
+    }
 }

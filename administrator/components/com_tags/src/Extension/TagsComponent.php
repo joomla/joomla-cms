@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_tags
@@ -9,11 +10,13 @@
 
 namespace Joomla\Component\Tags\Administrator\Extension;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Component\Router\RouterServiceInterface;
 use Joomla\CMS\Component\Router\RouterServiceTrait;
 use Joomla\CMS\Extension\MVCComponent;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Component class for com_tags
@@ -22,5 +25,5 @@ use Joomla\CMS\Extension\MVCComponent;
  */
 class TagsComponent extends MVCComponent implements RouterServiceInterface
 {
-	use RouterServiceTrait;
+    use RouterServiceTrait;
 }

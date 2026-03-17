@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\Tree;
 
-\defined('JPATH_PLATFORM') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Defines the trait for an Immutable Node Class.
@@ -17,143 +20,136 @@ namespace Joomla\CMS\Tree;
  */
 trait ImmutableNodeTrait
 {
-	/**
-	 * Parent node object
-	 *
-	 * @var    NodeInterface
-	 * @since  1.6
-	 */
-	protected $_parent = null;
+    /**
+     * Parent node object
+     *
+     * @var    NodeInterface
+     * @since  1.6
+     */
+    protected $_parent = null;
 
-	/**
-	 * Array of Children
-	 *
-	 * @var    NodeInterface[]
-	 * @since  1.6
-	 */
-	protected $_children = array();
+    /**
+     * Array of Children
+     *
+     * @var    NodeInterface[]
+     * @since  1.6
+     */
+    protected $_children = [];
 
-	/**
-	 * Node left of this one
-	 *
-	 * @var    NodeInterface
-	 * @since  1.6
-	 */
-	protected $_leftSibling = null;
+    /**
+     * Node left of this one
+     *
+     * @var    NodeInterface
+     * @since  1.6
+     */
+    protected $_leftSibling = null;
 
-	/**
-	 * Node right of this one
-	 *
-	 * @var    NodeInterface
-	 * @since  1.6
-	 */
-	protected $_rightSibling = null;
+    /**
+     * Node right of this one
+     *
+     * @var    NodeInterface
+     * @since  1.6
+     */
+    protected $_rightSibling = null;
 
-	/**
-	 * Get the children of this node
-	 *
-	 * @param   boolean  $recursive  False by default
-	 *
-	 * @return  NodeInterface[]  The children
-	 *
-	 * @since   4.0.0
-	 */
-	public function &getChildren($recursive = false)
-	{
-		if ($recursive)
-		{
-			$items = array();
+    /**
+     * Get the children of this node
+     *
+     * @param   boolean  $recursive  False by default
+     *
+     * @return  NodeInterface[]  The children
+     *
+     * @since   4.0.0
+     */
+    public function &getChildren($recursive = false)
+    {
+        if ($recursive) {
+            $items = [];
 
-			foreach ($this->_children as $child)
-			{
-				$items[] = $child;
-				$items = array_merge($items, $child->getChildren(true));
-			}
+            foreach ($this->_children as $child) {
+                $items[] = $child;
+                $items   = array_merge($items, $child->getChildren(true));
+            }
 
-			return $items;
-		}
+            return $items;
+        }
 
-		return $this->_children;
-	}
+        return $this->_children;
+    }
 
-	/**
-	 * Get the parent of this node
-	 *
-	 * @return  NodeInterface|null
-	 *
-	 * @since   4.0.0
-	 */
-	public function getParent()
-	{
-		return $this->_parent;
-	}
+    /**
+     * Get the parent of this node
+     *
+     * @return  NodeInterface|null
+     *
+     * @since   4.0.0
+     */
+    public function getParent()
+    {
+        return $this->_parent;
+    }
 
-	/**
-	 * Get the root of the tree
-	 *
-	 * @return  ImmutableNodeInterface
-	 *
-	 * @since   4.0.0
-	 */
-	public function getRoot()
-	{
-		$root = $this->getParent();
+    /**
+     * Get the root of the tree
+     *
+     * @return  ImmutableNodeInterface
+     *
+     * @since   4.0.0
+     */
+    public function getRoot()
+    {
+        $root = $this->getParent();
 
-		if (!$root)
-		{
-			return $this;
-		}
+        if (!$root) {
+            return $this;
+        }
 
-		while ($root->hasParent())
-		{
-			$root = $root->getParent();
-		}
+        while ($root->hasParent()) {
+            $root = $root->getParent();
+        }
 
-		return $root;
-	}
+        return $root;
+    }
 
-	/**
-	 * Test if this node has children
-	 *
-	 * @return  boolean  True if there is a child
-	 *
-	 * @since   4.0.0
-	 */
-	public function hasChildren()
-	{
-		return (bool) \count($this->_children);
-	}
+    /**
+     * Test if this node has children
+     *
+     * @return  boolean  True if there is a child
+     *
+     * @since   4.0.0
+     */
+    public function hasChildren()
+    {
+        return (bool) \count($this->_children);
+    }
 
-	/**
-	 * Test if this node has a parent
-	 *
-	 * @return  boolean  True if there is a parent
-	 *
-	 * @since   4.0.0
-	 */
-	public function hasParent()
-	{
-		return $this->getParent() != null;
-	}
+    /**
+     * Test if this node has a parent
+     *
+     * @return  boolean  True if there is a parent
+     *
+     * @since   4.0.0
+     */
+    public function hasParent()
+    {
+        return $this->getParent() != null;
+    }
 
-	/**
-	 * Returns the right or left sibling of a node
-	 *
-	 * @param   boolean  $right  If set to false, returns the left sibling
-	 *
-	 * @return  NodeInterface|null  NodeInterface object of the sibling.
-	 *
-	 * @since   4.0.0
-	 */
-	public function getSibling($right = true)
-	{
-		if ($right)
-		{
-			return $this->_rightSibling;
-		}
-		else
-		{
-			return $this->_leftSibling;
-		}
-	}
+    /**
+     * Returns the right or left sibling of a node
+     *
+     * @param   boolean  $right  If set to false, returns the left sibling
+     *
+     * @return  NodeInterface|null  NodeInterface object of the sibling.
+     *
+     * @since   4.0.0
+     */
+    public function getSibling($right = true)
+    {
+        if ($right) {
+            return $this->_rightSibling;
+        }
+
+        return $this->_leftSibling;
+    }
 }

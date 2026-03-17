@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_categories
@@ -9,13 +10,15 @@
 
 namespace Joomla\Component\Categories\Administrator\Extension;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\Component\Categories\Administrator\Service\HTML\AdministratorService;
 use Psr\Container\ContainerInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Component class for com_categories
@@ -24,23 +27,23 @@ use Psr\Container\ContainerInterface;
  */
 class CategoriesComponent extends MVCComponent implements BootableExtensionInterface
 {
-	use HTMLRegistryAwareTrait;
+    use HTMLRegistryAwareTrait;
 
-	/**
-	 * Booting the extension. This is the function to set up the environment of the extension like
-	 * registering new class loaders, etc.
-	 *
-	 * If required, some initial set up can be done from services of the container, eg.
-	 * registering HTML services.
-	 *
-	 * @param   ContainerInterface  $container  The container
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function boot(ContainerInterface $container)
-	{
-		$this->getRegistry()->register('categoriesadministrator', new AdministratorService);
-	}
+    /**
+     * Booting the extension. This is the function to set up the environment of the extension like
+     * registering new class loaders, etc.
+     *
+     * If required, some initial set up can be done from services of the container, eg.
+     * registering HTML services.
+     *
+     * @param   ContainerInterface  $container  The container
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function boot(ContainerInterface $container)
+    {
+        $this->getRegistry()->register('categoriesadministrator', new AdministratorService());
+    }
 }

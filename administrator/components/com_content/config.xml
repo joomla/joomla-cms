@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <config>
 	<help key="Articles:_Options"/>
+	<inlinehelp button="show"/>
 	<fieldset
 		name="articles"
 		label="JGLOBAL_ARTICLES"
@@ -260,6 +261,8 @@
 			type="number"
 			label="JGLOBAL_SHOW_READMORE_LIMIT_LABEL"
 			filter="integer"
+			validate="number"
+			min="0"
 			default="100"
 			showon="show_readmore:1[AND]show_readmore_title:1"
 		/>
@@ -415,6 +418,8 @@
 			type="number"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			filter="integer"
+			validate="number"
+			min="0"
 			default="10"
 			showon="save_history:1"
 		/>
@@ -504,7 +509,7 @@
 			name="float_intro"
 			type="text"
 			label="COM_CONTENT_IMAGE_INTRO_CLASS_LABEL"
-			size="20"
+			validate="CssIdentifier"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 		/>
 
@@ -512,7 +517,7 @@
 			name="float_fulltext"
 			type="text"
 			label="COM_CONTENT_IMAGE_FULLTEXT_CLASS_LABEL"
-			size="20"
+			validate="CssIdentifier"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 		/>
 	</fieldset>
@@ -724,6 +729,8 @@
 			type="number"
 			label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
 			filter="integer"
+			validate="number"
+			min="0"
 			default="1"
 		/>
 
@@ -739,6 +746,8 @@
 			type="number"
 			label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
 			filter="integer"
+			validate="number"
+			min="0"
 			default="4"
 		/>
 
@@ -755,6 +764,8 @@
 			type="number"
 			label="JGLOBAL_NUM_COLUMNS_LABEL"
 			filter="integer"
+			validate="number"
+			min="0"
 			default="1"
 		/>
 
@@ -774,6 +785,8 @@
 			type="number"
 			label="JGLOBAL_NUM_LINKS_LABEL"
 			filter="integer"
+			validate="number"
+			min="0"
 			default="4"
 		/>
 
@@ -864,7 +877,6 @@
 			name="date_format"
 			type="text"
 			label="JGLOBAL_DATE_FORMAT_LABEL"
-			size="15"
 			showon="list_show_date:created,modified,published"
 		/>
 
@@ -888,6 +900,24 @@
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="display_num"
+			type="list"
+			label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL"
+			default="10"
+			validate="options"
+			>
+			<option value="5">J5</option>
+			<option value="10">J10</option>
+			<option value="15">J15</option>
+			<option value="20">J20</option>
+			<option value="25">J25</option>
+			<option value="30">J30</option>
+			<option value="50">J50</option>
+			<option value="100">J100</option>
+			<option value="0">JALL</option>
 		</field>
 
 		<field

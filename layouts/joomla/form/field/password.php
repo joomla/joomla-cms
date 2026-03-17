@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -56,16 +57,14 @@ $document = Factory::getApplication()->getDocument();
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $document->getWebAssetManager();
 
-if ($meter)
-{
-	$wa->useScript('field.passwordstrength');
+if ($meter) {
+    $wa->useScript('field.passwordstrength');
 
-	$class = 'js-password-strength ' . $class;
+    $class = 'js-password-strength ' . $class;
 
-	if ($forcePassword)
-	{
-		$class = $class . ' meteredPassword';
-	}
+    if ($forcePassword) {
+        $class .= ' meteredPassword';
+    }
 }
 
 $wa->useScript('field.passwordview');
@@ -75,92 +74,85 @@ Text::script('JFIELD_PASSWORD_INDICATE_COMPLETE');
 Text::script('JSHOWPASSWORD');
 Text::script('JHIDEPASSWORD');
 
-if ($lock)
-{
-	Text::script('JMODIFY');
-	Text::script('JCANCEL');
+if ($lock) {
+    Text::script('JMODIFY');
+    Text::script('JCANCEL');
 
-	$disabled = true;
-	$hint = str_repeat('•', 10);
-	$value = '';
+    $disabled = true;
+    $hint = str_repeat('•', 10);
+    $value = '';
 }
 
 $ariaDescribedBy = $rules ? $name . '-rules ' : '';
 $ariaDescribedBy .= !empty($description) ? (($id ?: $name) . '-desc') : '';
 
-$attributes = array(
-	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
-	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
-	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
-	!empty($ariaDescribedBy) ? 'aria-describedby="' . trim($ariaDescribedBy) . '"' : '',
-	$readonly ? 'readonly' : '',
-	$disabled ? 'disabled' : '',
-	!empty($size) ? 'size="' . $size . '"' : '',
-	!empty($maxLength) ? 'maxlength="' . $maxLength . '"' : '',
-	$required ? 'required' : '',
-	$autofocus ? 'autofocus' : '',
-	!empty($minLength) ? 'data-min-length="' . $minLength . '"' : '',
-	!empty($minIntegers) ? 'data-min-integers="' . $minIntegers . '"' : '',
-	!empty($minSymbols) ? 'data-min-symbols="' . $minSymbols . '"' : '',
-	!empty($minUppercase) ? 'data-min-uppercase="' . $minUppercase . '"' : '',
-	!empty($minLowercase) ? 'data-min-lowercase="' . $minLowercase . '"' : '',
-	!empty($forcePassword) ? 'data-min-force="' . $forcePassword . '"' : '',
-	$dataAttribute,
-);
+$attributes = [
+    strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
+    !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
+    !empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
+    !empty($ariaDescribedBy) ? 'aria-describedby="' . trim($ariaDescribedBy) . '"' : '',
+    $readonly ? 'readonly' : '',
+    $disabled ? 'disabled' : '',
+    !empty($size) ? 'size="' . $size . '"' : '',
+    !empty($maxLength) ? 'maxlength="' . $maxLength . '"' : '',
+    $required ? 'required' : '',
+    $autofocus ? 'autofocus' : '',
+    !empty($minLength) ? 'data-min-length="' . $minLength . '"' : '',
+    !empty($minIntegers) ? 'data-min-integers="' . $minIntegers . '"' : '',
+    !empty($minSymbols) ? 'data-min-symbols="' . $minSymbols . '"' : '',
+    !empty($minUppercase) ? 'data-min-uppercase="' . $minUppercase . '"' : '',
+    !empty($minLowercase) ? 'data-min-lowercase="' . $minLowercase . '"' : '',
+    !empty($forcePassword) ? 'data-min-force="' . $forcePassword . '"' : '',
+    $dataAttribute,
+];
 
-if ($rules)
-{
-	$requirements = [];
+if ($rules) {
+    $requirements = [];
 
-	if ($minLength)
-	{
-		$requirements[] = Text::sprintf('JFIELD_PASSWORD_RULES_CHARACTERS', $minLength);
-	}
+    if ($minLength) {
+        $requirements[] = Text::sprintf('JFIELD_PASSWORD_RULES_CHARACTERS', $minLength);
+    }
 
-	if ($minIntegers)
-	{
-		$requirements[] = Text::sprintf('JFIELD_PASSWORD_RULES_DIGITS', $minIntegers);
-	}
+    if ($minIntegers) {
+        $requirements[] = Text::sprintf('JFIELD_PASSWORD_RULES_DIGITS', $minIntegers);
+    }
 
-	if ($minSymbols)
-	{
-		$requirements[] = Text::sprintf('JFIELD_PASSWORD_RULES_SYMBOLS', $minSymbols);
-	}
+    if ($minSymbols) {
+        $requirements[] = Text::sprintf('JFIELD_PASSWORD_RULES_SYMBOLS', $minSymbols);
+    }
 
-	if ($minUppercase)
-	{
-		$requirements[] = Text::sprintf('JFIELD_PASSWORD_RULES_UPPERCASE', $minUppercase);
-	}
+    if ($minUppercase) {
+        $requirements[] = Text::sprintf('JFIELD_PASSWORD_RULES_UPPERCASE', $minUppercase);
+    }
 
-	if ($minLowercase)
-	{
-		$requirements[] = Text::sprintf('JFIELD_PASSWORD_RULES_LOWERCASE', $minLowercase);
-	}
+    if ($minLowercase) {
+        $requirements[] = Text::sprintf('JFIELD_PASSWORD_RULES_LOWERCASE', $minLowercase);
+    }
 }
 ?>
 <?php if ($rules) : ?>
-	<div id="<?php echo $name . '-rules'; ?>" class="small text-muted">
-		<?php echo Text::sprintf('JFIELD_PASSWORD_RULES_MINIMUM_REQUIREMENTS', implode(', ', $requirements)); ?>
-	</div>
+    <div id="<?php echo $name . '-rules'; ?>" class="small text-muted">
+        <?php echo Text::sprintf('JFIELD_PASSWORD_RULES_MINIMUM_REQUIREMENTS', implode(', ', $requirements)); ?>
+    </div>
 <?php endif; ?>
 
 <div class="password-group">
-	<div class="input-group">
-		<input
-			type="password"
-			name="<?php echo $name; ?>"
-			id="<?php echo $id; ?>"
-			value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
-			<?php echo implode(' ', $attributes); ?>>
-		<?php if (!$lock): ?>
-		<button type="button" class="btn btn-secondary input-password-toggle">
-			<span class="icon-eye icon-fw" aria-hidden="true"></span>
-			<span class="visually-hidden"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
-		</button>
-		<?php else: ?>
-			<button type="button" id="<?php echo $id; ?>_lock" class="btn btn-info input-password-modify locked">
-				<?php echo Text::_('JMODIFY'); ?>
-			</button>
-		<?php endif; ?>
-	</div>
+    <div class="input-group">
+        <input
+            type="password"
+            name="<?php echo $name; ?>"
+            id="<?php echo $id; ?>"
+            value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+            <?php echo implode(' ', $attributes); ?>>
+        <?php if (!$lock) : ?>
+        <button type="button" class="btn btn-secondary input-password-toggle">
+            <span class="icon-eye icon-fw" aria-hidden="true"></span>
+            <span class="visually-hidden"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
+        </button>
+        <?php else : ?>
+            <button type="button" id="<?php echo $id; ?>_lock" class="btn btn-info input-password-modify locked">
+                <?php echo Text::_('JMODIFY'); ?>
+            </button>
+        <?php endif; ?>
+    </div>
 </div>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -12,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 
-extract($displayData, EXTR_OVERWRITE);
+extract($displayData);
 
 /**
  * Layout variables
@@ -26,16 +27,38 @@ extract($displayData, EXTR_OVERWRITE);
  * @var   string  $tagName
  * @var   bool    $listCheck
  * @var   string  $htmlAttributes
+ * @var   string  $modalWidth
+ * @var   string  $modalHeight
+ * @var   string  $popupType
+ * @var   string  $url
+ * @var   string  $textHeader
  */
 
-Factory::getDocument()->getWebAssetManager()
-	->useScript('core')
-	->useScript('webcomponent.toolbar-button');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+Factory::getApplication()->getDocument()->getWebAssetManager()
+    ->useScript('core')
+    ->useScript('joomla.dialog-autocreate')
+    ->useScript('webcomponent.toolbar-button');
 
-$tagName = $tagName ?? 'button';
+$tagName    = $tagName ?? 'button';
+$modalAttrs = [];
 
-$modalAttrs['data-bs-toggle'] = 'modal';
-$modalAttrs['data-bs-target'] = '#' . $selector;
+// Check for use of Joomla Dialog, otherwise fallback to BS Modal
+if (!empty($popupType)) {
+    $popupOptions = [
+        'popupType'  => $popupType,
+        'src'        => $url,
+        'textHeader' => $textHeader ?? '',
+        'width'      => $modalWidth ?? null,
+        'height'     => $modalHeight ?? null,
+    ];
+
+    $modalAttrs['data-joomla-dialog'] = $this->escape(json_encode($popupOptions));
+} else {
+    // @TODO: Remove this fallback in Joomla 6. Deprecation already triggered in PopupButton class.
+    $modalAttrs['data-bs-toggle'] = 'modal';
+    $modalAttrs['data-bs-target'] = '#' . $selector;
+}
 
 $idAttr   = !empty($id)        ? ' id="' . $id . '"' : '';
 $listAttr = !empty($listCheck) ? ' list-selection' : '';
@@ -43,12 +66,12 @@ $listAttr = !empty($listCheck) ? ' list-selection' : '';
 ?>
 <joomla-toolbar-button <?php echo $idAttr . $listAttr; ?>>
 <<?php echo $tagName; ?>
-	value="<?php echo $doTask; ?>"
-	class="<?php echo $btnClass; ?>"
-	<?php echo $htmlAttributes; ?>
-	<?php echo ArrayHelper::toString($modalAttrs); ?>
+    value="<?php echo $doTask; ?>"
+    class="<?php echo $btnClass; ?>"
+    <?php echo $htmlAttributes; ?>
+    <?php echo ArrayHelper::toString($modalAttrs); ?>
 >
-	<span class="<?php echo $class; ?>" aria-hidden="true"></span>
-	<?php echo $text; ?>
+    <span class="<?php echo $class; ?>" aria-hidden="true"></span>
+    <?php echo $text; ?>
 </<?php echo $tagName; ?>>
 </joomla-toolbar-button>

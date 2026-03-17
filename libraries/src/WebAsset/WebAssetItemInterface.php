@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\WebAsset;
 
-\defined('JPATH_PLATFORM') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Web Asset Item interface
@@ -21,108 +24,107 @@ namespace Joomla\CMS\WebAsset;
  */
 interface WebAssetItemInterface
 {
-	/**
-	 * Return Asset name
-	 *
-	 * @return  string
-	 *
-	 * @since   4.0.0
-	 */
-	public function getName(): string;
+    /**
+     * Return Asset name
+     *
+     * @return  string
+     *
+     * @since   4.0.0
+     */
+    public function getName(): string;
 
-	/**
-	 * Return Asset version
-	 *
-	 * @return  string
-	 *
-	 * @since   4.0.0
-	 */
-	public function getVersion(): string;
+    /**
+     * Return Asset version
+     *
+     * @return  string
+     *
+     * @since   4.0.0
+     */
+    public function getVersion(): string;
 
-	/**
-	 * Return dependencies list
-	 *
-	 * @return  array
-	 *
-	 * @since   4.0.0
-	 */
-	public function getDependencies(): array;
+    /**
+     * Return dependencies list
+     *
+     * @return  array
+     *
+     * @since   4.0.0
+     */
+    public function getDependencies(): array;
 
-	/**
-	 * Get the URI of the asset
-	 *
-	 * @param   boolean  $resolvePath  Whether need to search for a real paths
-	 *
-	 * @return string
-	 *
-	 * @since   4.0.0
-	 */
-	public function getUri($resolvePath = true): string;
+    /**
+     * Get the URI of the asset
+     *
+     * @param   boolean  $resolvePath  Whether need to search for a real paths
+     *
+     * @return string
+     *
+     * @since   4.0.0
+     */
+    public function getUri($resolvePath = true): string;
 
-	/**
-	 * Get the option
-	 *
-	 * @param   string  $key      An option key
-	 * @param   string  $default  A default value
-	 *
-	 * @return mixed
-	 *
-	 * @since   4.0.0
-	 */
-	public function getOption(string $key, $default = null);
+    /**
+     * Get the option
+     *
+     * @param   string  $key      An option key
+     * @param   string  $default  A default value
+     *
+     * @return mixed
+     *
+     * @since   4.0.0
+     */
+    public function getOption(string $key, $default = null);
 
-	/**
-	 * Set the option
-	 *
-	 * @param   string  $key    An option key
-	 * @param   string  $value  An option value
-	 *
-	 * @return self
-	 *
-	 * @since   4.0.0
-	 */
-	public function setOption(string $key, $value = null): WebAssetItemInterface;
+    /**
+     * Set the option
+     *
+     * @param   string  $key    An option key
+     * @param   string  $value  An option value
+     *
+     * @return self
+     *
+     * @since   4.0.0
+     */
+    public function setOption(string $key, $value = null): WebAssetItemInterface;
 
-	/**
-	 * Get all options of the asset
-	 *
-	 * @return array
-	 *
-	 * @since   4.0.0
-	 */
-	public function getOptions(): array;
+    /**
+     * Get all options of the asset
+     *
+     * @return array
+     *
+     * @since   4.0.0
+     */
+    public function getOptions(): array;
 
-	/**
-	 * Get the attribute
-	 *
-	 * @param   string  $key      An attributes key
-	 * @param   string  $default  A default value
-	 *
-	 * @return mixed
-	 *
-	 * @since   4.0.0
-	 */
-	public function getAttribute(string $key, $default = null);
+    /**
+     * Get the attribute
+     *
+     * @param   string  $key      An attributes key
+     * @param   string  $default  A default value
+     *
+     * @return mixed
+     *
+     * @since   4.0.0
+     */
+    public function getAttribute(string $key, $default = null);
 
-	/**
-	 * Set the attribute
-	 *
-	 * @param   string  $key    An attribute key
-	 * @param   string  $value  An attribute value
-	 *
-	 * @return self
-	 *
-	 * @since   4.0.0
-	 */
-	public function setAttribute(string $key, $value = null): WebAssetItemInterface;
+    /**
+     * Set the attribute
+     *
+     * @param   string  $key    An attribute key
+     * @param   string  $value  An attribute value
+     *
+     * @return self
+     *
+     * @since   4.0.0
+     */
+    public function setAttribute(string $key, $value = null): WebAssetItemInterface;
 
-	/**
-	 * Get all attributes
-	 *
-	 * @return array
-	 *
-	 * @since   4.0.0
-	 */
-	public function getAttributes(): array;
-
+    /**
+     * Get all attributes
+     *
+     * @return array
+     *
+     * @since   4.0.0
+     */
+    public function getAttributes(): array;
 }

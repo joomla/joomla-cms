@@ -16,18 +16,12 @@ Joomla.Update = window.Joomla.Update || {
   totalsize: 0,
   ajax_url: null,
   return_url: null,
+  cached_instance: null,
   genericErrorMessage: (message) => {
     const headerDiv = document.getElementById('errorDialogLabel');
     const messageDiv = document.getElementById('errorDialogMessage');
-    const progressDiv = document.getElementById('progress-bar');
-    const titleDiv = document.getElementById('update-title');
-    const helpDiv = document.getElementById('update-help');
-
-    progressDiv.classList.add('bg-danger');
-    progressDiv.classList.remove('bg-success');
-    titleDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_UPDATING_FAIL');
-    helpDiv.classList.remove('d-none');
-    helpDiv.classList.add('d-grid');
+    const progressDiv = document.getElementById('joomlaupdate-progress');
+    const errorDiv = document.getElementById('joomlaupdate-error');
 
     headerDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_GENERIC');
     messageDiv.innerHTML = message;
@@ -36,25 +30,16 @@ Joomla.Update = window.Joomla.Update || {
       messageDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_BODY_INVALIDLOGIN');
     }
 
-    const myModal = new bootstrap.Modal(document.getElementById('errorDialog'), {
-      keyboard: true,
-      backdrop: true,
-    });
-    myModal.show();
+    progressDiv.classList.add('d-none');
+    errorDiv.classList.remove('d-none');
   },
   handleErrorResponse: (xhr) => {
     const isForbidden = xhr.status === 403;
     const headerDiv = document.getElementById('errorDialogLabel');
     const messageDiv = document.getElementById('errorDialogMessage');
-    const progressDiv = document.getElementById('progress-bar');
-    const titleDiv = document.getElementById('update-title');
-    const helpDiv = document.getElementById('update-help');
 
-    progressDiv.classList.add('bg-danger');
-    progressDiv.classList.remove('bg-success');
-    titleDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_UPDATING_FAIL');
-    helpDiv.classList.remove('d-none');
-    helpDiv.classList.add('d-grid');
+    const progressDiv = document.getElementById('joomlaupdate-progress');
+    const errorDiv = document.getElementById('joomlaupdate-error');
 
     if (isForbidden) {
       headerDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_FORBIDDEN');
@@ -64,21 +49,19 @@ Joomla.Update = window.Joomla.Update || {
       messageDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_BODY_SERVERERROR');
     }
 
-    const myModal = new bootstrap.Modal(document.getElementById('errorDialog'), {
-      keyboard: true,
-      backdrop: true,
-    });
-    myModal.show();
+    progressDiv.classList.add('d-none');
+    errorDiv.classList.remove('d-none');
   },
   startExtract: () => {
     // Reset variables
     Joomla.Update.stat_files = 0;
     Joomla.Update.stat_inbytes = 0;
     Joomla.Update.stat_outbytes = 0;
+    Joomla.Update.cached_instance = null;
 
     document.getElementById('extbytesin').innerText = Joomla.Update.formatBytes(Joomla.Update.stat_inbytes);
     document.getElementById('extbytesout').innerText = Joomla.Update.formatBytes(Joomla.Update.stat_outbytes);
-    document.getElementById('extfiles').innerText = Joomla.Update.stat_files;
+    document.getElementById('extfiles').innerText = Joomla.Update.formatFiles(Joomla.Update.stat_files);
 
     const postData = new FormData();
     postData.append('task', 'startExtract');
@@ -112,40 +95,36 @@ Joomla.Update = window.Joomla.Update || {
     }
 
     const progressDiv = document.getElementById('progress-bar');
-    const titleDiv = document.getElementById('update-title');
 
     // Add data to variables
     Joomla.Update.stat_inbytes = data.bytesIn;
     Joomla.Update.stat_percent = data.percent;
     Joomla.Update.stat_percent = Joomla.Update.stat_percent
-      || (100 * (Joomla.Update.stat_inbytes / Joomla.Update.totalsize));
+      || (80 * (Joomla.Update.stat_inbytes / Joomla.Update.totalsize));
 
     // Update GUI
     Joomla.Update.stat_outbytes = data.bytesOut;
     Joomla.Update.stat_files = data.files;
 
-    if (Joomla.Update.stat_percent < 100) {
+    if (Joomla.Update.stat_percent < 80) {
       progressDiv.classList.remove('bg-success');
       progressDiv.style.width = `${Joomla.Update.stat_percent}%`;
       progressDiv.setAttribute('aria-valuenow', Joomla.Update.stat_percent);
-    } else if (Joomla.Update.stat_percent >= 100) {
-      progressDiv.classList.add('bg-success');
-      progressDiv.style.width = '100%';
-      progressDiv.setAttribute('aria-valuenow', 100);
+    } else if (Joomla.Update.stat_percent >= 80) {
+      progressDiv.style.width = '80%';
+      progressDiv.setAttribute('aria-valuenow', 80);
     }
 
     progressDiv.innerText = `${Joomla.Update.stat_percent.toFixed(1)}%`;
 
     document.getElementById('extbytesin').innerText = Joomla.Update.formatBytes(Joomla.Update.stat_inbytes);
     document.getElementById('extbytesout').innerText = Joomla.Update.formatBytes(Joomla.Update.stat_outbytes);
-    document.getElementById('extfiles').innerText = Joomla.Update.stat_files;
+    document.getElementById('extfiles').innerText = Joomla.Update.formatFiles(Joomla.Update.stat_files);
 
     // Are we done extracting?
     if (data.done) {
-      progressDiv.classList.add('bg-success');
-      progressDiv.style.width = '100%';
-      progressDiv.setAttribute('aria-valuenow', 100);
-      titleDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_UPDATING_COMPLETE');
+      progressDiv.style.width = '80%';
+      progressDiv.setAttribute('aria-valuenow', 80);
 
       Joomla.Update.finalizeUpdate();
 
@@ -158,6 +137,8 @@ Joomla.Update = window.Joomla.Update || {
     }, 50);
   },
   delayedStepExtract: (instance) => {
+    Joomla.Update.cached_instance = instance;
+
     const postData = new FormData();
     postData.append('task', 'stepExtract');
     postData.append('password', Joomla.Update.password);
@@ -192,7 +173,19 @@ Joomla.Update = window.Joomla.Update || {
       method: 'POST',
       perform: true,
       onSuccess: () => {
-        window.location = Joomla.Update.return_url;
+        const progressDiv = document.getElementById('progress-bar');
+        const titleDiv = document.getElementById('update-title');
+
+        progressDiv.classList.add('bg-success');
+        progressDiv.style.width = '100%';
+        progressDiv.innerText = '100%';
+        progressDiv.setAttribute('aria-valuenow', 100);
+        titleDiv.innerText = Joomla.Text._('COM_JOOMLAUPDATE_UPDATING_COMPLETE');
+
+        // Allow people to see the completion message
+        window.setTimeout(() => {
+          window.location = Joomla.Update.return_url;
+        }, 1000);
       },
       onError: Joomla.Update.handleErrorResponse,
     });
@@ -218,8 +211,42 @@ Joomla.Update = window.Joomla.Update || {
 
     return `${parseFloat((bytes / (k ** i)).toFixed(dm))} ${sizes[i]}`;
   },
+  formatFiles: (files) => `${files} ${Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPDATE_ITEMS')}`,
+  resumeButtonHandler: (e) => {
+    e.preventDefault();
+
+    document.getElementById('joomlaupdate-progress').classList.remove('d-none');
+    document.getElementById('joomlaupdate-error').classList.add('d-none');
+
+    if (Joomla.Update.cached_instance === false) {
+      Joomla.Update.startExtract();
+    } else {
+      Joomla.Update.delayedStepExtract(Joomla.Update.cached_instance);
+    }
+  },
+  restartButtonHandler: (e) => {
+    e.preventDefault();
+
+    document.getElementById('joomlaupdate-progress').classList.remove('d-none');
+    document.getElementById('joomlaupdate-error').classList.add('d-none');
+
+    Joomla.Update.startExtract();
+  },
 };
 
+// Add click handlers for the Resume and Restart Update buttons in the error pane.
+const elResume = document.getElementById('joomlaupdate-resume');
+const elRestart = document.getElementById('joomlaupdate-restart');
+
+if (elResume) {
+  elResume.addEventListener('click', Joomla.Update.resumeButtonHandler);
+}
+
+if (elRestart) {
+  elRestart.addEventListener('click', Joomla.Update.restartButtonHandler);
+}
+
+// Start the update
 const JoomlaUpdateOptions = Joomla.getOptions('joomlaupdate');
 
 if (JoomlaUpdateOptions && Object.keys(JoomlaUpdateOptions).length) {

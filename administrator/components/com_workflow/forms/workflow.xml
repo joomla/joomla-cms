@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fieldset name="workflow" addfieldprefix="Joomla\Component\Workflow\Administrator\Field">
 		<field
@@ -7,7 +7,6 @@
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			class="readonly"
-			size="10"
 			readonly="true"
 		/>
 		<field
@@ -18,7 +17,6 @@
 			name="title"
 			type="text"
 			label="COM_WORKFLOW_FIELD_NAME_LABEL"
-			size="40"
 			required="true"
 		/>
 		<field

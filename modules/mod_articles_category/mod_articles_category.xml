@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" client="site" method="upgrade">
 	<name>mod_articles_category</name>
 	<author>Joomla! Project</author>
-	<creationDate>February 2010</creationDate>
+	<creationDate>2010-02</creationDate>
 	<copyright>(C) 2010 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -11,7 +11,7 @@
 	<description>MOD_ARTICLES_CATEGORY_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\ArticlesCategory</namespace>
 	<files>
-		<filename module="mod_articles_category">mod_articles_category.php</filename>
+		<folder module="mod_articles_category">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
@@ -251,7 +251,6 @@
 					label="MOD_ARTICLES_CATEGORY_FIELD_STARTDATE_LABEL"
 					translateformat="true"
 					showtime="true"
-					size="22"
 					filter="user_utc"
 					showon="date_filtering:range"
 				/>
@@ -262,7 +261,6 @@
 					label="MOD_ARTICLES_CATEGORY_FIELD_ENDDATE_LABEL"
 					translateformat="true"
 					showtime="true"
-					size="22"
 					filter="user_utc"
 					showon="date_filtering:range"
 				/>

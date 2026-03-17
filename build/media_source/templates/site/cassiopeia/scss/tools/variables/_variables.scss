@@ -1,38 +1,43 @@
+@use "sass:color";
+
+// Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
+$prefix: "";
+
+// Disable dark mode in J4.4 - it's going to cause major b/c breaks to introduce. We will enable it in 5.0
+$enable-dark-mode: false;
+
 // Global
 $cassiopeia-container-main-bg:        hsl(0, 0%, 95%) !default;
 $cassiopeia-border-color:             hsl(210, 14%, 89%) !default;
 $cassiopeia-box-shadow:               1px 1px 4px hsla(0, 0%, 0%, .1) !default;
 $cassiopeia-block-header-bg:          hsl(0, 0%, 96%) !default;
-$cassiopeia-header-grad:              linear-gradient(135deg, var(--cassiopeia-color-primary) 0%, var(--cassiopeia-color-hover) 100%);
-$cassiopeia-header-grad-rtl:          linear-gradient(135deg, var(--cassiopeia-color-hover) 0%, var(--cassiopeia-color-primary) 100%);
-$cassiopeia-inverted-text-color:      var(--cassiopeia-color-hover);
-
-// Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
-$variable-prefix:                     "";
+$cassiopeia-header-grad:              linear-gradient(135deg, var(--cassiopeia-color-primary) 0%, var(--cassiopeia-color-hover) 100%) !default;
+$cassiopeia-header-grad-rtl:          linear-gradient(135deg, var(--cassiopeia-color-hover) 0%, var(--cassiopeia-color-primary) 100%) !default;
+$cassiopeia-inverted-text-color:      var(--cassiopeia-color-hover) !default;
 
 // Color system
 
 // Standard
-$standard-color-primary:              hsl(220, 67%, 20%);
-$standard-color-link:                 hsl(220, 67%, 40%);
-$standard-color-hover:                hsl(242, 30%, 36%);
+$standard-color-primary:              hsl(220, 67%, 20%) !default;
+$standard-color-link:                 hsl(220, 67%, 40%) !default;
+$standard-color-hover:                hsl(242, 30%, 36%) !default;
 
 // Alternative
-$alternative-color-primary:           hsl(351, 54%, 37%);
-$alternative-color-link:              hsl(207, 49%, 37%);
-$alternative-color-hover:             hsl(351, 33%, 44%);
+$alternative-color-primary:           hsl(351, 54%, 37%) !default;
+$alternative-color-link:              hsl(207, 49%, 37%) !default;
+$alternative-color-hover:             hsl(351, 33%, 44%) !default;
 
-$white:                               hsl(0, 0%, 100%);
-$gray-100:                            hsl(210, 17%, 98%);
-$gray-200:                            hsl(210, 16%, 93%);
-$gray-300:                            hsl(210, 14%, 89%);
-$gray-400:                            hsl(210, 14%, 83%);
-$gray-500:                            hsl(210, 11%, 71%);
-$gray-600:                            hsl(210, 7%, 46%);
-$gray-700:                            hsl(210, 9%, 31%);
-$gray-800:                            hsl(210, 10%, 23%);
-$gray-900:                            hsl(210, 11%, 15%);
-$black:                               hsl(0, 0%, 0%);
+$white:                               hsl(0, 0%, 100%) !default;
+$gray-100:                            hsl(210, 17%, 98%) !default;
+$gray-200:                            hsl(210, 16%, 93%) !default;
+$gray-300:                            hsl(210, 14%, 89%) !default;
+$gray-400:                            hsl(210, 14%, 83%) !default;
+$gray-500:                            hsl(210, 11%, 71%) !default;
+$gray-600:                            hsl(210, 7%, 46%) !default;
+$gray-700:                            hsl(210, 9%, 31%) !default;
+$gray-800:                            hsl(210, 10%, 23%) !default;
+$gray-900:                            hsl(210, 11%, 15%) !default;
+$black:                               hsl(0, 0%, 0%) !default;
 
 $grays: (
   100:                                $gray-100,
@@ -44,21 +49,22 @@ $grays: (
   700:                                $gray-700,
   800:                                $gray-800,
   900:                                $gray-900
-);
+) !default;
 
-$blue:                                hsl(240, 98%, 17%);
-$indigo:                              hsl(263, 90%, 51%);
-$purple:                              hsl(261, 51%, 51%);
-$pink:                                hsl(332, 79%, 58%);
-$red:                                 hsl(3, 75%, 37%);
-$orange:                              hsl(27, 98%, 54%);
-$yellow:                              hsl(34, 100%, 34%);
-$green:                               hsl(120, 32%, 39%);
-$teal:                                hsl(194, 66%, 61%);
-$cyan:                                hsl(207, 49%, 37%);
+$blue:                                hsl(240, 98%, 17%) !default;
+$indigo:                              hsl(263, 90%, 51%) !default;
+$purple:                              hsl(261, 51%, 51%) !default;
+$pink:                                hsl(332, 79%, 58%) !default;
+$red:                                 hsl(3, 75%, 37%) !default;
+$orange:                              hsl(27, 98%, 54%) !default;
+$yellow:                              hsl(34, 100%, 34%) !default;
+$green:                               hsl(120, 32%, 39%) !default;
+$teal:                                hsl(194, 66%, 61%) !default;
+$cyan:                                hsl(207, 49%, 37%) !default;
 
 $colors: (
   "blue":                             $blue,
+  "black":                            $black,
   "indigo":                           $indigo,
   "purple":                           $purple,
   "pink":                             $pink,
@@ -69,21 +75,20 @@ $colors: (
   "teal":                             $teal,
   "cyan":                             $cyan,
   "white":                            $white
-);
+) !default;
 
-$primary:                             var(--cassiopeia-color-primary);
-$primaryBS:                           $blue;
-$secondary:                           $gray-600;
-$success:                             $green;
-$info:                                $cyan;
-$warning:                             $yellow;
-$danger:                              $red;
-$light:                               $gray-100;
-$dark:                                $gray-800;
+$primary:                             $blue !default;
+$secondary:                           $gray-600 !default;
+$success:                             $green !default;
+$info:                                $cyan !default;
+$warning:                             $yellow !default;
+$danger:                              $red !default;
+$light:                               $gray-100 !default;
+$dark:                                $gray-800 !default;
 
 
 $theme-colors: (
-  primary:                            $primaryBS,
+  primary:                            $blue,
   secondary:                          $secondary,
   success:                            $success,
   info:                               $info,
@@ -91,7 +96,7 @@ $theme-colors: (
   danger:                             $danger,
   light:                              $light,
   dark:                               $dark
-);
+) !default;
 
 $colors: (
   card-bg:                         rgba(255, 255, 255, .7),
@@ -107,15 +112,18 @@ $colors: (
   white-offset:                    #fefefe,
   focus:                           #39f,
   focus-shadow:                    0 0 0 .2rem #eaeaea,
-  toggle-color:                    $white, //used in sidebar
+  toggle-color:                    $white, // used in sidebar
+) !default;
+
+$cassiopeia-colors: (
   template-sidebar-bg:                 var(--template-bg-dark-80),
   template-sidebar-font-color:         $white,
   template-sidebar-link-color:         $white,
-  template-bg-light:                   #f0f4fb, //light background color, frontend dashboard background
+  template-bg-light:                   #f0f4fb, // light background color, frontend dashboard background
   template-text-light:                 $white,
   template-special-color:              #132f53,
   template-link-color:                 #2a69b8,
-  template-link-hover-color:           darken(#2a69b8, 20%),
+  template-link-hover-color:           color.adjust(#2a69b8, $lightness: -20%),
   template-contrast:                   #2a69b8,
   template-bg-dark:                    hsl(var(--hue), 40%, 20%),
   template-bg-dark-3:                  hsl(var(--hue), 40%, 97%),
@@ -133,34 +141,34 @@ $colors: (
   template-bg-dark-75:                 hsl(var(--hue), 40%, 25%),
   template-bg-dark-80:                 hsl(var(--hue), 40%, 20%),
   template-bg-dark-90:                 hsl(var(--hue), 40%, 10%)
-);
+) !default;
 
 // Links
-$link-color:                          var(--cassiopeia-color-link);
-$link-hover-color:                    var(--cassiopeia-color-hover);
+$link-color:                          $standard-color-link !default;
+$link-hover-color:                    $standard-color-hover !default;
 
 // Breadcrumbs
-$breadcrumb-active-color:             $gray-700;
+$breadcrumb-active-color:             $gray-700 !default;
 
 // Grid columns
 $grid-gutter-width:                   1em !default;
-$cassiopeia-grid-gutter:              $grid-gutter-width;
+$cassiopeia-grid-gutter:              $grid-gutter-width !default;
 
 // Components
-$fa-font-path:                        "../../../media/vendor/fontawesome-free/webfonts";
+$fa-font-path:                        "../../../media/vendor/fontawesome-free/webfonts" !default;
 
 // Treeselect
-$treeselect-line-height:              2.2rem;
+$treeselect-line-height:              2.2rem !default;
 
 // MetisMenu
 $metismenu:                           true !default;
 
 // Toolbar
-$cassiopeia-toolbar-line-height:      1.8rem;
+$cassiopeia-toolbar-line-height:      1.8rem !default;
 
 // Typography
 $font-family-sans-serif:             -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
-$font-family-base:                    var(--cassiopeia-font-family-body, $font-family-sans-serif);
+$font-family-base:                    var(--cassiopeia-font-family-body, $font-family-sans-serif) !default;
 
 // Icons
 $jicon-css-prefix:                    icon !default;
@@ -180,75 +188,73 @@ $table-variants: (
   "danger":     shift-color($danger, $table-bg-scale),
   "light":      $light,
   "dark":       $dark,
-);
+) !default;
 
 // Forms
-$input-padding:                       .6rem 1rem;
-$input-border:                        solid 1px $gray-400;
-$input-btn-padding-y:                 .6rem;
-$input-btn-padding-x:                 1rem;
-$input-max-width:                     100%;
-$input-focus-border-color:            tint-color($standard-color-primary, 50%);
+$input-border-color:                  $gray-400 !default;
+$input-padding:                       .6rem 1rem !default;
+$input-btn-padding-y:                 .6rem !default;
+$input-btn-padding-x:                 1rem !default;
+$input-max-width:                     100% !default;
+$input-focus-border-color:            tint-color($standard-color-primary, 50%) !default;
 
-$cassiopeia-input-focus-shadow:       0 0 0 .2rem hsla(0, 0%, 0%, .1);
+$form-select-indicator-padding:     3rem !default;
+$form-select-bg:                    $gray-200 !default;
+$form-select-bg-size:               116rem !default;
+$form-select-bg-size-sm:            75rem !default;
+$form-select-indicator:             url("../images/select-bg.svg") !default;
+$form-select-indicator-rtl:         url("../images/select-bg-rtl.svg") !default;
+$form-select-indicator-active:      url("../../../images/select-bg.svg") !default;
+$form-select-indicator-active-rtl:  url("../../../images/select-bg-rtl.svg") !default;
+$form-select-background:            $form-select-indicator no-repeat right center / $form-select-bg-size !default; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+$form-select-background-rtl:        $form-select-indicator-rtl no-repeat left center / $form-select-bg-size !default; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+$form-select-multiple-padding-y:    .3rem !default;
 
-$form-select-indicator-padding:     3rem;
-$form-select-bg:                    $gray-200;
-$form-select-bg-size:               116rem;
-$form-select-bg-size-sm:            75rem;
-$form-select-indicator:             url("../images/select-bg.svg");
-$form-select-indicator-rtl:         url("../images/select-bg-rtl.svg");
-$form-select-indicator-active:      url("../../../images/select-bg.svg");
-$form-select-indicator-active-rtl:  url("../../../images/select-bg-rtl.svg");
-$form-select-background:            $form-select-indicator no-repeat right center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
-$form-select-background-rtl:        $form-select-indicator-rtl no-repeat left center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
-$form-select-multiple-padding-y:    .3rem;
+$form-range-thumb-active-bg:        tint-color($standard-color-primary, 70%) !default;
 
-$form-range-thumb-active-bg:        tint-color($standard-color-primary, 70%);
-
-// Z-index master list
-$zindex-negative:                     -1;
-$zindex-actions:                      auto;
-$zindex-toolbar:                      1000;
-$zindex-sidebar:                      1010;
-$zindex-header:                       1020;
-$zindex-alerts:                       1030;
-$zindex-modal-backdrop:               1040;
-$zindex-modal:                        1050;
-$zindex-popover:                      1060;
-$zindex-tooltip:                      1070;
-$zindex-mobile-bottom:                8000;
-$zindex-mobile-toggle:                9999;
-$zindex-mobile-menu:                  9000;
+// Z-index source list
+$zindex-negative:                     -1 !default;
+$zindex-actions:                      auto !default;
+$zindex-toolbar:                      1000 !default;
+$zindex-sidebar:                      1010 !default;
+$zindex-header:                       1020 !default;
+$zindex-alerts:                       1030 !default;
+$zindex-modal-backdrop:               1040 !default;
+$zindex-modal:                        1050 !default;
+$zindex-popover:                      1060 !default;
+$zindex-tooltip:                      1070 !default;
+$zindex-mobile-bottom:                8000 !default;
+$zindex-mobile-toggle:                9999 !default;
+$zindex-mobile-menu:                  9000 !default;
 
 // Navs
-$nav-link-padding-y:                  .5rem;
+$nav-link-padding-y:                  .5rem !default;
 
 // Navs
-$cassiopeia-tabs-header-bg:           $cassiopeia-block-header-bg;
-$cassiopeia-tabs-active-bg:           hsla(0, 0%, 0%, .3);
-$cassiopeia-tabs-active-highlight:    $primaryBS;
+$cassiopeia-tabs-header-bg:           $cassiopeia-block-header-bg !default;
+$cassiopeia-tabs-active-bg:           hsla(0, 0%, 0%, .3) !default;
+$cassiopeia-tabs-active-highlight:    var(--cassiopeia-color-primary) !default;
 
 // Navbar
-$nav-link-height:                     1.5rem + $nav-link-padding-y * 2;
+$nav-link-height:                     1.5rem + $nav-link-padding-y * 2 !default;
 
 // Cards
-$cassiopeia-card-title-bg:            $cassiopeia-block-header-bg;
-$cassiopeia-card-title-icon-bg:       $cassiopeia-block-header-bg;
-$cassiopeia-card-title-icon-bg-hover: scale-color($cassiopeia-card-title-bg, $lightness: 2%);
-$card-bg-color-light:                 $gray-100;
-$card-bg-color-dark:                  var(--cassiopeia-color-primary);
-$card-border-color:                   $cassiopeia-border-color;
+$cassiopeia-card-title-bg:            $cassiopeia-block-header-bg !default;
+$cassiopeia-card-title-icon-bg:       $cassiopeia-block-header-bg !default;
+$cassiopeia-card-title-icon-bg-hover: scale-color($cassiopeia-card-title-bg, $lightness: 2%) !default;
+$card-bg-color-light:                 $gray-100 !default;
+$card-bg-color-dark:                  var(--cassiopeia-color-primary) !default;
+$card-border-color:                   $cassiopeia-border-color !default;
 
 // Badges
-$badge-default-bg:                    $gray-600;
+$badge-default-bg:                    $gray-600 !default;
 
 // Modals
-$modal-header-height:                 3rem;
+$modal-header-height:                 3rem !default;
 
 // Accordion
-$accordion-button-active-bg:          tint-color($standard-color-primary, 90%);
-$accordion-button-active-color:       shade-color($standard-color-primary, 10%);
+$accordion-button-active-bg:          tint-color($standard-color-primary, 90%) !default;
+$accordion-button-active-color:       shade-color($standard-color-primary, 10%) !default;
 
 // Alerts
 $state-success-text:                  $white !default;
@@ -268,4 +274,14 @@ $state-danger-bg:                     $danger !default;
 $state-danger-border:                 scale-color($danger, $lightness: -5%) !default;
 
 // Mark element
+$mark-padding: .1875em 0;
 $mark-bg: #fbeea8 !default;
+
+// scss-docs-start border-radius-variables
+$btn-border-radius: .25rem !default;
+$border-radius: .25rem !default;
+$border-radius-sm: .2rem !default;
+$border-radius-lg: .3rem !default;
+$border-radius-xl: .3rem !default;
+$border-radius-2xl: .3rem !default;
+// scss-docs-end border-radius-variables

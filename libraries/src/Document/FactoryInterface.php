@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\Document;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Interface defining a factory which can create Document objects
@@ -17,28 +20,28 @@ namespace Joomla\CMS\Document;
  */
 interface FactoryInterface
 {
-	/**
-	 * Creates a new Document object for the requested format.
-	 *
-	 * @param   string  $type        The document type to instantiate
-	 * @param   array   $attributes  Array of attributes
-	 *
-	 * @return  Document
-	 *
-	 * @since   4.0.0
-	 */
-	public function createDocument(string $type = 'html', array $attributes = []): Document;
+    /**
+     * Creates a new Document object for the requested format.
+     *
+     * @param   string  $type        The document type to instantiate
+     * @param   array   $attributes  Array of attributes
+     *
+     * @return  Document
+     *
+     * @since   4.0.0
+     */
+    public function createDocument(string $type = 'html', array $attributes = []): Document;
 
-	/**
-	 * Creates a new renderer object.
-	 *
-	 * @param   Document  $document  The Document instance to attach to the renderer
-	 * @param   string    $type      The renderer type to instantiate
-	 * @param   string    $docType   The document type the renderer is part of
-	 *
-	 * @return  RendererInterface
-	 *
-	 * @since   4.0.0
-	 */
-	public function createRenderer(Document $document, string $type, string $docType = ''): RendererInterface;
+    /**
+     * Creates a new renderer object.
+     *
+     * @param   Document  $document  The Document instance to attach to the renderer
+     * @param   string    $type      The renderer type to instantiate
+     * @param   string    $docType   The document type the renderer is part of
+     *
+     * @return  RendererInterface
+     *
+     * @since   4.0.0
+     */
+    public function createRenderer(Document $document, string $type, string $docType = ''): RendererInterface;
 }

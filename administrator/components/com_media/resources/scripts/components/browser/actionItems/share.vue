@@ -2,8 +2,7 @@
   <button
     type="button"
     class="action-url"
-    :aria-label="translate('COM_MEDIA_ACTION_SHARE')"
-    :title="translate('COM_MEDIA_ACTION_SHARE')"
+    @click.stop="openShareUrlModal()"
     @keyup.enter="openShareUrlModal()"
     @keyup.space="openShareUrlModal()"
     @focus="focused(true)"
@@ -13,8 +12,10 @@
     <span
       class="image-browser-action icon-link"
       aria-hidden="true"
-      @click.stop="openShareUrlModal()"
     />
+    <span class="action-text">
+      {{ translate('COM_MEDIA_ACTION_SHARE') }}
+    </span>
   </button>
 </template>
 

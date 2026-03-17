@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_modules
@@ -9,9 +10,11 @@
 
 defined('_JEXEC') or die;
 
+/** @var \Joomla\Component\Modules\Administrator\View\Select\HtmlView $this */
+
 $this->modalLink = '&tmpl=component&view=module&layout=modal';
 ?>
 <div class="container-popup">
-	<?php $this->setLayout('default'); ?>
-	<?php echo $this->loadTemplate(); ?>
+    <?php $this->setLayout('default'); ?>
+    <?php echo $this->loadTemplate(); ?>
 </div>

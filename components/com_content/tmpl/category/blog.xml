@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <metadata>
 	<layout title="COM_CONTENT_CATEGORY_VIEW_BLOG_TITLE" option="COM_CONTENT_CATEGORY_VIEW_BLOG_OPTION">
 		<help key = "Menu_Item:_Category_Blog" />
@@ -30,6 +30,7 @@
 				label="JTAG"
 				multiple="true"
 				mode="nested"
+				custom="deny"
 			/>
 		</fieldset>
 	</fields>
@@ -123,7 +124,7 @@
 				<field
 					name="show_category_heading_title_text"
 					type="list"
-	 				label="JGLOBAL_SHOW_SUBCATEGORY_HEADING"
+					label="JGLOBAL_SHOW_SUBCATEGORY_HEADING"
 					useglobal="true"
 					class="form-select-color-state"
 					validate="options"
@@ -170,13 +171,17 @@
 
 		</fieldset>
 
-		<fieldset name="advanced" label="JGLOBAL_BLOG_LAYOUT_OPTIONS" description="JGLOBAL_SUBSLIDER_BLOG_LAYOUT_LABEL">
+		<fieldset name="advanced" label="JGLOBAL_BLOG_LAYOUT_OPTIONS" description="JGLOBAL_SUBSLIDER_BLOG_LAYOUT_LABEL"
+			addfieldprefix="Joomla\Component\Content\Administrator\Field"
+		>
 
 			<field
 				name="num_leading_articles"
 				type="number"
 				label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
 				filter="integer"
+				validate="number"
+				min="0"
 				useglobal="true"
 				parentclass="stack span-1"
 			/>
@@ -195,6 +200,8 @@
 				type="number"
 				label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
 				filter="integer"
+				validate="number"
+				min="0"
 				useglobal="true"
 				parentclass="stack span-1"
 			/>
@@ -214,6 +221,8 @@
 				type="number"
 				label="JGLOBAL_NUM_COLUMNS_LABEL"
 				filter="integer"
+				validate="number"
+				min="0"
 				parentclass="stack span-1-inline"
 				useglobal="true"
 			/>
@@ -235,6 +244,8 @@
 				type="number"
 				label="JGLOBAL_NUM_LINKS_LABEL"
 				filter="integer"
+				validate="number"
+				min="0"
 				parentclass="stack span-1"
 				useglobal="true"
 			/>
@@ -253,6 +264,29 @@
 				<option value="hide">JHIDE</option>
 				<option value="only">JONLY</option>
 			</field>
+
+			<field
+				name="list_author_filtering_type"
+				type="list"
+				label="COM_CONTENT_FIELD_AUTHORFILTERING_LABEL"
+				default="1"
+				filter="integer"
+				>
+				<option value="0">COM_CONTENT_OPTION_EXCLUSIVE_VALUE</option>
+				<option value="1">COM_CONTENT_OPTION_INCLUSIVE_VALUE</option>
+				<option value="2">COM_CONTENT_OPTION_ONLYCURRENTUSER_VALUE</option>
+			</field>
+
+			<field
+				name="list_author"
+				type="author"
+				label="COM_CONTENT_FIELD_AUTHOR_LABEL"
+				multiple="true"
+				layout="joomla.form.field.list-fancy-select"
+				filter="intarray"
+				class="multipleAuthors"
+				showon="list_author_filtering_type!:2"
+			/>
 
 			<field
 				name="link_intro_image"
@@ -371,7 +405,8 @@
 		>
 
 			<field
-				name="article_layout" type="componentlayout"
+				name="article_layout"
+				type="componentlayout"
 				label="JGLOBAL_FIELD_LAYOUT_LABEL"
 				description="JGLOBAL_FIELD_LAYOUT_DESC"
 				class="form-select"

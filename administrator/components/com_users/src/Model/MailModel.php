@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Users\Administrator\Model;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
@@ -24,6 +23,10 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Database\ParameterType;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Users mail model.
  *
@@ -31,236 +34,206 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
  */
 class MailModel extends AdminModel
 {
-	/**
-	 * Method to get the row form.
-	 *
-	 * @param   array    $data      An optional array of data for the form to interrogate.
-	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
-	 *
-	 * @return  Form	A \JForm object on success, false on failure
-	 *
-	 * @since   1.6
-	 */
-	public function getForm($data = array(), $loadData = true)
-	{
-		// Get the form.
-		$form = $this->loadForm('com_users.mail', 'mail', array('control' => 'jform', 'load_data' => $loadData));
+    /**
+     * Method to get the row form.
+     *
+     * @param   array    $data      An optional array of data for the form to interrogate.
+     * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+     *
+     * @return  Form    A Form object
+     *
+     * @since   1.6
+     * @throws  \Exception on failure
+     */
+    public function getForm($data = [], $loadData = true)
+    {
+        return $this->loadForm('com_users.mail', 'mail', ['control' => 'jform', 'load_data' => $loadData]);
+    }
 
-		if (empty($form))
-		{
-			return false;
-		}
+    /**
+     * Method to get the data that should be injected in the form.
+     *
+     * @return  mixed  The data for the form.
+     *
+     * @since   1.6
+     * @throws  \Exception
+     */
+    protected function loadFormData()
+    {
+        // Check the session for previously entered form data.
+        $data = Factory::getApplication()->getUserState('com_users.display.mail.data', []);
 
-		return $form;
-	}
+        $this->preprocessData('com_users.mail', $data);
 
-	/**
-	 * Method to get the data that should be injected in the form.
-	 *
-	 * @return  mixed  The data for the form.
-	 *
-	 * @since   1.6
-	 * @throws  \Exception
-	 */
-	protected function loadFormData()
-	{
-		// Check the session for previously entered form data.
-		$data = Factory::getApplication()->getUserState('com_users.display.mail.data', array());
+        return $data;
+    }
 
-		$this->preprocessData('com_users.mail', $data);
+    /**
+     * Method to preprocess the form
+     *
+     * @param   Form    $form   A form object.
+     * @param   mixed   $data   The data expected for the form.
+     * @param   string  $group  The name of the plugin group to import (defaults to "content").
+     *
+     * @return  void
+     *
+     * @since   1.6
+     * @throws  \Exception if there is an error loading the form.
+     */
+    protected function preprocessForm(Form $form, $data, $group = 'user')
+    {
+        parent::preprocessForm($form, $data, $group);
+    }
 
-		return $data;
-	}
+    /**
+     * Send the email
+     *
+     * @return  boolean
+     *
+     * @throws  \Exception
+     */
+    public function send()
+    {
+        $app      = Factory::getApplication();
+        $data     = $app->getInput()->post->get('jform', [], 'array');
+        $user     = $this->getCurrentUser();
+        $db       = $this->getDatabase();
+        $language = Factory::getLanguage();
 
-	/**
-	 * Method to preprocess the form
-	 *
-	 * @param   \JForm  $form   A form object.
-	 * @param   mixed   $data   The data expected for the form.
-	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 * @throws  \Exception if there is an error loading the form.
-	 */
-	protected function preprocessForm(Form $form, $data, $group = 'user')
-	{
-		parent::preprocessForm($form, $data, $group);
-	}
+        $mode         = \array_key_exists('mode', $data) ? (int) $data['mode'] : 0;
+        $subject      = \array_key_exists('subject', $data) ? $data['subject'] : '';
+        $grp          = \array_key_exists('group', $data) ? (int) $data['group'] : 0;
+        $recurse      = \array_key_exists('recurse', $data) ? (int) $data['recurse'] : 0;
+        $bcc          = \array_key_exists('bcc', $data) ? (int) $data['bcc'] : 0;
+        $disabled     = \array_key_exists('disabled', $data) ? (int) $data['disabled'] : 0;
+        $message_body = \array_key_exists('message', $data) ? $data['message'] : '';
 
-	/**
-	 * Send the email
-	 *
-	 * @return  boolean
-	 *
-	 * @throws  \Exception
-	 */
-	public function send()
-	{
-		$app      = Factory::getApplication();
-		$data     = $app->input->post->get('jform', array(), 'array');
-		$user     = Factory::getUser();
-		$access   = new Access;
-		$db       = $this->getDbo();
-		$language = Factory::getLanguage();
+        // Automatically removes html formatting
+        if (!$mode) {
+            $message_body = InputFilter::getInstance()->clean($message_body, 'string');
+        }
 
-		$mode         = array_key_exists('mode', $data) ? (int) $data['mode'] : 0;
-		$subject      = array_key_exists('subject', $data) ? $data['subject'] : '';
-		$grp          = array_key_exists('group', $data) ? (int) $data['group'] : 0;
-		$recurse      = array_key_exists('recurse', $data) ? (int) $data['recurse'] : 0;
-		$bcc          = array_key_exists('bcc', $data) ? (int) $data['bcc'] : 0;
-		$disabled     = array_key_exists('disabled', $data) ? (int) $data['disabled'] : 0;
-		$message_body = array_key_exists('message', $data) ? $data['message'] : '';
+        // Check for a message body and subject
+        if (!$message_body || !$subject) {
+            $app->setUserState('com_users.display.mail.data', $data);
+            $this->setError(Text::_('COM_USERS_MAIL_PLEASE_FILL_IN_THE_FORM_CORRECTLY'));
 
-		// Automatically removes html formatting
-		if (!$mode)
-		{
-			$message_body = InputFilter::getInstance()->clean($message_body, 'string');
-		}
+            return false;
+        }
 
-		// Check for a message body and subject
-		if (!$message_body || !$subject)
-		{
-			$app->setUserState('com_users.display.mail.data', $data);
-			$this->setError(Text::_('COM_USERS_MAIL_PLEASE_FILL_IN_THE_FORM_CORRECTLY'));
+        // Get users in the group out of the ACL, if group is provided.
+        $to = $grp !== 0 ? Access::getUsersByGroup($grp, $recurse) : [];
 
-			return false;
-		}
+        // When group is provided but no users are found in the group.
+        if ($grp !== 0 && !$to) {
+            $rows = [];
+        } else {
+            // Get all users email and group except for senders
+            $uid   = (int) $user->id;
+            $query = $db->createQuery()
+                ->select(
+                    [
+                        $db->quoteName('email'),
+                        $db->quoteName('name'),
+                    ]
+                )
+                ->from($db->quoteName('#__users'))
+                ->where($db->quoteName('id') . ' != :id')
+                ->bind(':id', $uid, ParameterType::INTEGER);
 
-		// Get users in the group out of the ACL, if group is provided.
-		$to = $grp !== 0 ? $access->getUsersByGroup($grp, $recurse) : array();
+            if ($grp !== 0) {
+                $query->whereIn($db->quoteName('id'), $to);
+            }
 
-		// When group is provided but no users are found in the group.
-		if ($grp !== 0 && !$to)
-		{
-			$rows = array();
-		}
-		else
-		{
-			// Get all users email and group except for senders
-			$uid = (int) $user->id;
-			$query = $db->getQuery(true)
-				->select(
-					[
-						$db->quoteName('email'),
-						$db->quoteName('name'),
-					]
-				)
-				->from($db->quoteName('#__users'))
-				->where($db->quoteName('id') . ' != :id')
-				->bind(':id', $uid, ParameterType::INTEGER);
+            if ($disabled === 0) {
+                $query->where($db->quoteName('block') . ' = 0');
+            }
 
-			if ($grp !== 0)
-			{
-				$query->whereIn($db->quoteName('id'), $to);
-			}
+            $db->setQuery($query);
+            $rows = $db->loadObjectList();
+        }
 
-			if ($disabled === 0)
-			{
-				$query->where($db->quoteName('block') . ' = 0');
-			}
+        // Check to see if there are any users in this group before we continue
+        if (!$rows) {
+            $app->setUserState('com_users.display.mail.data', $data);
 
-			$db->setQuery($query);
-			$rows = $db->loadObjectList();
-		}
+            if (\in_array($user->id, $to)) {
+                $this->setError(Text::_('COM_USERS_MAIL_ONLY_YOU_COULD_BE_FOUND_IN_THIS_GROUP'));
+            } else {
+                $this->setError(Text::_('COM_USERS_MAIL_NO_USERS_COULD_BE_FOUND_IN_THIS_GROUP'));
+            }
 
-		// Check to see if there are any users in this group before we continue
-		if (!$rows)
-		{
-			$app->setUserState('com_users.display.mail.data', $data);
+            return false;
+        }
 
-			if (in_array($user->id, $to))
-			{
-				$this->setError(Text::_('COM_USERS_MAIL_ONLY_YOU_COULD_BE_FOUND_IN_THIS_GROUP'));
-			}
-			else
-			{
-				$this->setError(Text::_('COM_USERS_MAIL_NO_USERS_COULD_BE_FOUND_IN_THIS_GROUP'));
-			}
+        // Get the Mailer
+        $mailer = new MailTemplate('com_users.massmail.mail', $language->getTag());
+        $params = ComponentHelper::getParams('com_users');
 
-			return false;
-		}
+        try {
+            // Build email message format.
+            $data = [
+                'subject'       => stripslashes($subject),
+                'body'          => $message_body,
+                'subjectprefix' => $params->get('mailSubjectPrefix', ''),
+                'bodysuffix'    => $params->get('mailBodySuffix', ''),
+            ];
+            $mailer->addTemplateData($data);
 
-		// Get the Mailer
-		$mailer = new MailTemplate('com_users.massmail.mail', $language->getTag());
-		$params = ComponentHelper::getParams('com_users');
+            $recipientType = $bcc ? 'bcc' : 'to';
 
-		try
-		{
-			// Build email message format.
-			$data = [
-				'subject' => stripslashes($subject),
-				'body' => $message_body,
-				'subjectprefix' => $params->get('mailSubjectPrefix', ''),
-				'bodysuffix' => $params->get('mailBodySuffix', '')
-			];
-			$mailer->addTemplateData($data);
+            // Add recipients
+            foreach ($rows as $row) {
+                $mailer->addRecipient($row->email, $row->name, $recipientType);
+            }
 
-			$recipientType = $bcc ? 'bcc' : 'to';
+            if ($bcc) {
+                $mailer->addRecipient($app->get('mailfrom'), $app->get('fromname'));
+            }
 
-			// Add recipients
-			foreach ($rows as $row)
-			{
-				$mailer->addRecipient($row->email, $row->name, $recipientType);
-			}
+            // Send the Mail
+            $rs = $mailer->send();
+        } catch (MailDisabledException | phpMailerException $exception) {
+            try {
+                Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
 
-			if ($bcc)
-			{
-				$mailer->addRecipient($app->get('mailfrom'), $app->get('fromname'));
-			}
+                $rs = false;
+            } catch (\RuntimeException $exception) {
+                Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
 
-			// Send the Mail
-			$rs = $mailer->send();
-		}
-		catch (MailDisabledException | phpMailerException $exception)
-		{
-			try
-			{
-				Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+                $rs = false;
+            }
+        }
 
-				$rs = false;
-			}
-			catch (\RuntimeException $exception)
-			{
-				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+        // Check for an error
+        if ($rs !== true) {
+            $app->setUserState('com_users.display.mail.data', $data);
+            $this->setError($mailer->ErrorInfo);
 
-				$rs = false;
-			}
-		}
+            return false;
+        }
 
-		// Check for an error
-		if ($rs !== true)
-		{
-			$app->setUserState('com_users.display.mail.data', $data);
-			$this->setError($mailer->ErrorInfo);
+        if (empty($rs)) {
+            $app->setUserState('com_users.display.mail.data', $data);
+            $this->setError(Text::_('COM_USERS_MAIL_THE_MAIL_COULD_NOT_BE_SENT'));
 
-			return false;
-		}
-		elseif (empty($rs))
-		{
-			$app->setUserState('com_users.display.mail.data', $data);
-			$this->setError(Text::_('COM_USERS_MAIL_THE_MAIL_COULD_NOT_BE_SENT'));
+            return false;
+        }
 
-			return false;
-		}
-		else
-		{
-			/**
-			 * Fill the data (specially for the 'mode', 'group' and 'bcc': they could not exist in the array
-			 * when the box is not checked and in this case, the default value would be used instead of the '0'
-			 * one)
-			 */
-			$data['mode']    = $mode;
-			$data['subject'] = $subject;
-			$data['group']   = $grp;
-			$data['recurse'] = $recurse;
-			$data['bcc']     = $bcc;
-			$data['message'] = $message_body;
-			$app->setUserState('com_users.display.mail.data', array());
-			$app->enqueueMessage(Text::plural('COM_USERS_MAIL_EMAIL_SENT_TO_N_USERS', count($rows)), 'message');
+        /**
+         * Fill the data (specially for the 'mode', 'group' and 'bcc': they could not exist in the array
+         * when the box is not checked and in this case, the default value would be used instead of the '0'
+         * one)
+         */
+        $data['mode']    = $mode;
+        $data['subject'] = $subject;
+        $data['group']   = $grp;
+        $data['recurse'] = $recurse;
+        $data['bcc']     = $bcc;
+        $data['message'] = $message_body;
+        $app->setUserState('com_users.display.mail.data', []);
+        $app->enqueueMessage(Text::plural('COM_USERS_MAIL_EMAIL_SENT_TO_N_USERS', \count($rows)), 'message');
 
-			return true;
-		}
-	}
+        return true;
+    }
 }

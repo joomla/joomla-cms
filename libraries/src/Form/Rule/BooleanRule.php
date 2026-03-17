@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,9 +9,11 @@
 
 namespace Joomla\CMS\Form\Rule;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Form\FormRule;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Form Rule class for the Joomla Platform.
@@ -19,19 +22,19 @@ use Joomla\CMS\Form\FormRule;
  */
 class BooleanRule extends FormRule
 {
-	/**
-	 * The regular expression to use in testing a form field value.
-	 *
-	 * @var    string
-	 * @since  1.7.0
-	 */
-	protected $regex = '^(?:[01]|true|false)$';
+    /**
+     * The regular expression to use in testing a form field value.
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    protected $regex = '^(?:[01]|true|false)$';
 
-	/**
-	 * The regular expression modifiers to use when testing a form field value.
-	 *
-	 * @var    string
-	 * @since  1.7.0
-	 */
-	protected $modifiers = 'i';
+    /**
+     * The regular expression modifiers to use when testing a form field value.
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    protected $modifiers = 'i';
 }

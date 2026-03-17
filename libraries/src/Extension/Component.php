@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,11 +9,13 @@
 
 namespace Joomla\CMS\Extension;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Dispatcher\ComponentDispatcherFactoryInterface;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Access to component specific services.
@@ -21,38 +24,38 @@ use Joomla\CMS\Dispatcher\DispatcherInterface;
  */
 class Component implements ComponentInterface
 {
-	/**
-	 * The dispatcher factory.
-	 *
-	 * @var ComponentDispatcherFactoryInterface
-	 *
-	 * @since  4.0.0
-	 */
-	private $dispatcherFactory;
+    /**
+     * The dispatcher factory.
+     *
+     * @var ComponentDispatcherFactoryInterface
+     *
+     * @since  4.0.0
+     */
+    private $dispatcherFactory;
 
-	/**
-	 * Component constructor.
-	 *
-	 * @param   ComponentDispatcherFactoryInterface  $dispatcherFactory  The dispatcher factory
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct(ComponentDispatcherFactoryInterface $dispatcherFactory)
-	{
-		$this->dispatcherFactory = $dispatcherFactory;
-	}
+    /**
+     * Component constructor.
+     *
+     * @param   ComponentDispatcherFactoryInterface  $dispatcherFactory  The dispatcher factory
+     *
+     * @since   4.0.0
+     */
+    public function __construct(ComponentDispatcherFactoryInterface $dispatcherFactory)
+    {
+        $this->dispatcherFactory = $dispatcherFactory;
+    }
 
-	/**
-	 * Returns the dispatcher for the given application.
-	 *
-	 * @param   CMSApplicationInterface  $application  The application
-	 *
-	 * @return  DispatcherInterface
-	 *
-	 * @since   4.0.0
-	 */
-	public function getDispatcher(CMSApplicationInterface $application): DispatcherInterface
-	{
-		return $this->dispatcherFactory->createDispatcher($application);
-	}
+    /**
+     * Returns the dispatcher for the given application.
+     *
+     * @param   CMSApplicationInterface  $application  The application
+     *
+     * @return  DispatcherInterface
+     *
+     * @since   4.0.0
+     */
+    public function getDispatcher(CMSApplicationInterface $application): DispatcherInterface
+    {
+        return $this->dispatcherFactory->createDispatcher($application);
+    }
 }

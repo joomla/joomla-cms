@@ -1,18 +1,37 @@
 <template>
   <div
     class="media-browser-image"
+    tabindex="0"
     @dblclick="openPreview()"
     @mouseleave="hideActions()"
+    @keyup.enter="openPreview()"
   >
-    <div class="media-browser-item-preview">
+    <div
+      class="media-browser-item-preview"
+      :title="item.name"
+    >
       <div class="image-background">
-        <div
+        <img
+          v-if="thumbURL"
           class="image-cropped"
-          :style="{ backgroundImage: getHashedURL }"
+          :src="thumbURL"
+          :alt="thumbAlt"
+          :loading="thumbLoading"
+          :width="thumbWidth"
+          :height="thumbHeight"
+          @load="setSize"
+        >
+        <span
+          v-if="!thumbURL"
+          class="icon-eye-slash image-placeholder"
+          aria-hidden="true"
         />
       </div>
     </div>
-    <div class="media-browser-item-info">
+    <div
+      class="media-browser-item-info"
+      :title="item.name"
+    >
       {{ item.name }} {{ item.filetype }}
     </div>
     <span
@@ -20,48 +39,70 @@
       :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
       :title="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
     />
-    <media-browser-action-items-container
+    <MediaBrowserActionItemsContainer
       ref="container"
-      :focused="focused"
       :item="item"
       :edit="editItem"
-      :editable="canEdit"
       :previewable="true"
       :downloadable="true"
       :shareable="true"
+      @toggle-settings="toggleSettings"
     />
   </div>
 </template>
 
 <script>
-import { api } from '../../../app/Api.es6';
+import api from '../../../app/Api.es6';
+import MediaBrowserActionItemsContainer from '../actionItems/actionItemsContainer.vue';
 
 export default {
   name: 'MediaBrowserItemImage',
-  // eslint-disable-next-line vue/require-prop-types
-  props: ['item', 'focused'],
+  components: {
+    MediaBrowserActionItemsContainer,
+  },
+  props: {
+    item: { type: Object, required: true },
+    focused: { type: Boolean, required: true, default: false },
+  },
+  emits: ['toggle-settings'],
   data() {
     return {
-      showActions: false,
+      showActions: { type: Boolean, default: false },
     };
   },
   computed: {
-    /* Get the hashed URL */
-    getHashedURL() {
-      if (this.item.adapter.startsWith('local-')) {
-        return `url(${this.item.thumb_path}?${api.mediaVersion})`;
+    thumbURL() {
+      if (!this.item.thumb_path) {
+        return '';
       }
-      return `url(${this.item.thumb_path})`;
+
+      return this.item.thumb_path.split(Joomla.getOptions('system.paths').rootFull).length > 1
+        ? `${this.item.thumb_path}?${this.item.modified_date ? new Date(this.item.modified_date).valueOf() : api.mediaVersion}`
+        : `${this.item.thumb_path}`;
+    },
+    thumbWidth() {
+      return this.item.thumb_width || this.item.width || null;
+    },
+    thumbHeight() {
+      return this.item.thumb_height || this.item.height || null;
+    },
+    thumbLoading() {
+      return this.thumbWidth ? 'lazy' : null;
+    },
+    thumbAlt() {
+      return this.item.name;
     },
   },
   methods: {
-    /* Check if the item is a document to edit */
+    /* Check if the item is an image to edit */
     canEdit() {
       return ['jpg', 'jpeg', 'png'].includes(this.item.extension.toLowerCase());
     },
     /* Hide actions dropdown */
     hideActions() {
-      this.$refs.container.hideActions();
+      if (this.$refs.container) {
+        this.$refs.container.hideActions();
+      }
     },
     /* Preview an item */
     openPreview() {
@@ -69,10 +110,22 @@ export default {
     },
     /* Edit an item */
     editItem() {
-      // TODO should we use relative urls here?
+      // @todo should we use relative urls here?
       const fileBaseUrl = `${Joomla.getOptions('com_media').editViewUrl}&path=`;
 
       window.location.href = fileBaseUrl + this.item.path;
+    },
+    toggleSettings(bool) {
+      this.$emit('toggle-settings', bool);
+    },
+    setSize(event) {
+      if (this.item.mime_type === 'image/svg+xml') {
+        const image = event.target;
+        // Update the item properties
+        this.$store.dispatch('updateItemProperties', { item: this.item, width: image.naturalWidth ? image.naturalWidth : 300, height: image.naturalHeight ? image.naturalHeight : 150 });
+        // @TODO Remove the fallback size (300x150) when https://bugzilla.mozilla.org/show_bug.cgi?id=1328124 is fixed
+        // Also https://github.com/whatwg/html/issues/3510
+      }
     },
   },
 };

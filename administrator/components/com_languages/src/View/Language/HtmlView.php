@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_languages
@@ -9,14 +10,17 @@
 
 namespace Joomla\Component\Languages\Administrator\View\Language;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Languages\Administrator\Model\LanguageModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTML View class for the Languages component.
@@ -25,106 +29,107 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * The active item
-	 *
-	 * @var  object
-	 */
-	public $item;
+    /**
+     * The active item
+     *
+     * @var  object
+     */
+    public $item;
 
-	/**
-	 * The \JForm object
-	 *
-	 * @var  \JForm
-	 */
-	public $form;
+    /**
+     * The Form object
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    public $form;
 
-	/**
-	 * The model state
-	 *
-	 * @var  \JObject
-	 */
-	public $state;
+    /**
+     * The model state
+     *
+     * @var  \Joomla\Registry\Registry
+     */
+    public $state;
 
-	/**
-	 * The actions the user is authorised to perform
-	 *
-	 * @var    \JObject
-	 * @since  4.0.0
-	 */
-	protected $canDo;
+    /**
+     * The actions the user is authorised to perform
+     *
+     * @var    \Joomla\Registry\Registry
+     *
+     * @since  4.0.0
+     */
+    protected $canDo;
 
-	/**
-	 * Display the view.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse.
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
-		$this->item  = $this->get('Item');
-		$this->form  = $this->get('Form');
-		$this->state = $this->get('State');
-		$this->canDo = ContentHelper::getActions('com_languages');
+    /**
+     * Display the view.
+     *
+     * @param   string  $tpl  The name of the template file to parse.
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        /** @var LanguageModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        $this->item  = $model->getItem();
+        $this->form  = $model->getForm();
+        $this->state = $model->getState();
+        $this->canDo = ContentHelper::getActions('com_languages');
 
-		$this->addToolbar();
-		parent::display($tpl);
-	}
+        // Add form control fields
+        $this->form
+            ->addControlField('task');
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function addToolbar()
-	{
-		Factory::getApplication()->input->set('hidemainmenu', 1);
-		$isNew = empty($this->item->lang_id);
-		$canDo = $this->canDo;
+        $this->addToolbar();
+        parent::display($tpl);
+    }
 
-		ToolbarHelper::title(
-			Text::_($isNew ? 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_NEW_TITLE' : 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_EDIT_TITLE'), 'comments-2 langmanager'
-		);
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    protected function addToolbar()
+    {
+        Factory::getApplication()->getInput()->set('hidemainmenu', 1);
+        $isNew   = empty($this->item->lang_id);
+        $canDo   = $this->canDo;
+        $toolbar = $this->getDocument()->getToolbar();
 
-		$toolbarButtons = [];
+        ToolbarHelper::title(
+            Text::_($isNew ? 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_NEW_TITLE' : 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_EDIT_TITLE'),
+            'comments-2 langmanager'
+        );
 
-		if (($isNew && $canDo->get('core.create')) || (!$isNew && $canDo->get('core.edit')))
-		{
-			ToolbarHelper::apply('language.apply');
+        if (($isNew && $canDo->get('core.create')) || (!$isNew && $canDo->get('core.edit'))) {
+            $toolbar->apply('language.apply');
+        }
 
-			$toolbarButtons[] = ['save', 'language.save'];
-		}
+        $saveGroup = $toolbar->dropdownButton('save-group');
 
-		// If an existing item, can save to a copy only if we have create rights.
-		if ($canDo->get('core.create'))
-		{
-			$toolbarButtons[] = ['save2new', 'language.save2new'];
-		}
+        $saveGroup->configure(
+            function (Toolbar $childBar) use ($canDo, $isNew) {
+                if (($isNew && $canDo->get('core.create')) || (!$isNew && $canDo->get('core.edit'))) {
+                    $childBar->save('language.save');
+                }
 
-		ToolbarHelper::saveGroup(
-			$toolbarButtons,
-			'btn-success'
-		);
+                // If an existing item, can save to a copy only if we have create rights.
+                if ($canDo->get('core.create')) {
+                    $childBar->save2new('language.save2new');
+                }
+            }
+        );
 
-		if ($isNew)
-		{
-			ToolbarHelper::cancel('language.cancel');
-		}
-		else
-		{
-			ToolbarHelper::cancel('language.cancel', 'JTOOLBAR_CLOSE');
-		}
+        if ($isNew) {
+            $toolbar->cancel('language.cancel', 'JTOOLBAR_CANCEL');
+        } else {
+            $toolbar->cancel('language.cancel');
+        }
 
-		ToolbarHelper::divider();
-		ToolbarHelper::help('Languages:_Edit_Content_Language');
-	}
+        $toolbar->divider();
+        $toolbar->help('Languages:_Edit_Content_Language');
+    }
 }

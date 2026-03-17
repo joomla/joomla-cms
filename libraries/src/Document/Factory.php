@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,12 @@
 
 namespace Joomla\CMS\Document;
 
+use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
+
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Default factory for creating Document objects
@@ -17,86 +23,91 @@ namespace Joomla\CMS\Document;
  */
 class Factory implements FactoryInterface
 {
-	/**
-	 * Creates a new Document object for the requested format.
-	 *
-	 * @param   string  $type        The document type to instantiate
-	 * @param   array   $attributes  Array of attributes
-	 *
-	 * @return  Document
-	 *
-	 * @since   4.0.0
-	 */
-	public function createDocument(string $type = 'html', array $attributes = []): Document
-	{
-		$type  = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
-		$ntype = null;
+    use CacheControllerFactoryAwareTrait;
 
-		$class = __NAMESPACE__ . '\\' . ucfirst($type) . 'Document';
+    /**
+     * Creates a new Document object for the requested format.
+     *
+     * @param   string  $type        The document type to instantiate
+     * @param   array   $attributes  Array of attributes
+     *
+     * @return  Document
+     *
+     * @since   4.0.0
+     */
+    public function createDocument(string $type = 'html', array $attributes = []): Document
+    {
+        $type  = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
+        $ntype = null;
 
-		if (!class_exists($class))
-		{
-			$class = 'JDocument' . ucfirst($type);
-		}
+        $class = __NAMESPACE__ . '\\' . ucfirst($type) . 'Document';
 
-		if (!class_exists($class))
-		{
-			$ntype = $type;
-			$class = RawDocument::class;
-		}
+        if (!class_exists($class)) {
+            $class = 'JDocument' . ucfirst($type);
+        }
 
-		// Inject this factory into the document unless one was provided
-		if (!isset($attributes['factory']))
-		{
-			$attributes['factory'] = $this;
-		}
+        if (!class_exists($class)) {
+            $ntype = $type;
+            $class = RawDocument::class;
+        }
 
-		/** @var Document $instance */
-		$instance = new $class($attributes);
+        // Inject this factory into the document unless one was provided
+        if (!isset($attributes['factory'])) {
+            $attributes['factory'] = $this;
+        }
 
-		if (!\is_null($ntype))
-		{
-			// Set the type to the Document type originally requested
-			$instance->setType($ntype);
-		}
+        /** @var Document $instance */
+        $instance = new $class($attributes);
 
-		return $instance;
-	}
+        if (!\is_null($ntype)) {
+            // Set the type to the Document type originally requested
+            $instance->setType($ntype);
+        }
 
-	/**
-	 * Creates a new renderer object.
-	 *
-	 * @param   Document  $document  The Document instance to attach to the renderer
-	 * @param   string    $type      The renderer type to instantiate
-	 * @param   string    $docType   The document type the renderer is part of
-	 *
-	 * @return  RendererInterface
-	 *
-	 * @since   4.0.0
-	 */
-	public function createRenderer(Document $document, string $type, string $docType = ''): RendererInterface
-	{
-		$docType = $docType ? ucfirst($docType) : ucfirst($document->getType());
+        if ($instance instanceof CacheControllerFactoryAwareInterface) {
+            $instance->setCacheControllerFactory($this->getCacheControllerFactory());
+        }
 
-		// Determine the path and class
-		$class = __NAMESPACE__ . '\\Renderer\\' . $docType . '\\' . ucfirst($type) . 'Renderer';
+        return $instance;
+    }
 
-		if (!class_exists($class))
-		{
-			$class = 'JDocumentRenderer' . $docType . ucfirst($type);
-		}
+    /**
+     * Creates a new renderer object.
+     *
+     * @param   Document  $document  The Document instance to attach to the renderer
+     * @param   string    $type      The renderer type to instantiate
+     * @param   string    $docType   The document type the renderer is part of
+     *
+     * @return  RendererInterface
+     *
+     * @since   4.0.0
+     */
+    public function createRenderer(Document $document, string $type, string $docType = ''): RendererInterface
+    {
+        $docType = $docType ? ucfirst($docType) : ucfirst($document->getType());
 
-		if (!class_exists($class))
-		{
-			// "Legacy" class name structure
-			$class = '\\JDocumentRenderer' . $type;
+        // Determine the path and class
+        $class = __NAMESPACE__ . '\\Renderer\\' . $docType . '\\' . ucfirst($type) . 'Renderer';
 
-			if (!class_exists($class))
-			{
-				throw new \RuntimeException(sprintf('Unable to load renderer class %s', $type), 500);
-			}
-		}
+        if (!class_exists($class)) {
+            $class = 'JDocumentRenderer' . $docType . ucfirst($type);
+        }
 
-		return new $class($document);
-	}
+        if (!class_exists($class)) {
+            // "Legacy" class name structure
+            $class = '\\JDocumentRenderer' . $type;
+
+            if (!class_exists($class)) {
+                throw new \RuntimeException(\sprintf('Unable to load renderer class %s', $type), 500);
+            }
+        }
+
+        $instance = new $class($document);
+
+        if ($instance instanceof CacheControllerFactoryAwareInterface) {
+            $instance->setCacheControllerFactory($this->getCacheControllerFactory());
+        }
+
+        return $instance;
+    }
 }

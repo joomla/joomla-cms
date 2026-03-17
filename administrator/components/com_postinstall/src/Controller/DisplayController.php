@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
@@ -9,11 +10,13 @@
 
 namespace Joomla\Component\Postinstall\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Postinstall display controller
@@ -23,29 +26,28 @@ use Joomla\CMS\Response\JsonResponse;
 
 class DisplayController extends BaseController
 {
-	/**
-	 * @var		string	The default view.
-	 * @since   1.6
-	 */
-	protected $default_view = 'messages';
+    /**
+     * @var     string  The default view.
+     * @since   1.6
+     */
+    protected $default_view = 'messages';
 
-	/**
-	 * Provide the data for a badge in a menu item via JSON
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 * @throws  \Exception
-	 */
-	public function getMenuBadgeData()
-	{
-		if (!$this->app->getIdentity()->authorise('core.manage', 'com_postinstall'))
-		{
-			throw new \Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
-		}
+    /**
+     * Provide the data for a badge in a menu item via JSON
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     * @throws  \Exception
+     */
+    public function getMenuBadgeData()
+    {
+        if (!$this->app->getIdentity()->authorise('core.manage', 'com_postinstall')) {
+            throw new \Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
+        }
 
-		$model = $this->getModel('Messages');
+        $model = $this->getModel('Messages');
 
-		echo new JsonResponse($model->getItemsCount());
-	}
+        echo new JsonResponse($model->getItemsCount());
+    }
 }

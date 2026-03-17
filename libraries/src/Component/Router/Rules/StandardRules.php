@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,9 +9,11 @@
 
 namespace Joomla\CMS\Component\Router\Rules;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Component\Router\RouterView;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Rule for the standard handling of component routing
@@ -19,300 +22,273 @@ use Joomla\CMS\Component\Router\RouterView;
  */
 class StandardRules implements RulesInterface
 {
-	/**
-	 * Router this rule belongs to
-	 *
-	 * @var    RouterView
-	 * @since  3.4
-	 */
-	protected $router;
+    /**
+     * Router this rule belongs to
+     *
+     * @var    RouterView
+     * @since  3.4
+     */
+    protected $router;
 
-	/**
-	 * Class constructor.
-	 *
-	 * @param   RouterView  $router  Router this rule belongs to
-	 *
-	 * @since   3.4
-	 */
-	public function __construct(RouterView $router)
-	{
-		$this->router = $router;
-	}
+    /**
+     * Class constructor.
+     *
+     * @param   RouterView  $router  Router this rule belongs to
+     *
+     * @since   3.4
+     */
+    public function __construct(RouterView $router)
+    {
+        $this->router = $router;
+    }
 
-	/**
-	 * Dummy method to fulfil the interface requirements
-	 *
-	 * @param   array  &$query  The query array to process
-	 *
-	 * @return  void
-	 *
-	 * @since   3.4
-	 */
-	public function preprocess(&$query)
-	{
-	}
+    /**
+     * Dummy method to fulfil the interface requirements
+     *
+     * @param   array  &$query  The query array to process
+     *
+     * @return  void
+     *
+     * @since   3.4
+     */
+    public function preprocess(&$query)
+    {
+    }
 
-	/**
-	 * Parse the URL
-	 *
-	 * @param   array  &$segments  The URL segments to parse
-	 * @param   array  &$vars      The vars that result from the segments
-	 *
-	 * @return  void
-	 *
-	 * @since   3.4
-	 */
-	public function parse(&$segments, &$vars)
-	{
-		// Get the views and the currently active query vars
-		$views  = $this->router->getViews();
-		$active = $this->router->menu->getActive();
+    /**
+     * Parse the URL
+     *
+     * @param   array  &$segments  The URL segments to parse
+     * @param   array  &$vars      The vars that result from the segments
+     *
+     * @return  void
+     *
+     * @since   3.4
+     */
+    public function parse(&$segments, &$vars)
+    {
+        // Get the views and the currently active query vars
+        $views  = $this->router->getViews();
+        $active = $this->router->menu->getActive();
 
-		if ($active)
-		{
-			$vars = array_merge($active->query, $vars);
-		}
+        if ($active) {
+            $vars = array_merge($active->query, $vars);
+        }
 
-		// We don't have a view or its not a view of this component! We stop here
-		if (!isset($vars['view']) || !isset($views[$vars['view']]))
-		{
-			return;
-		}
+        // We don't have a view or its not a view of this component! We stop here
+        if (!isset($vars['view']) || !isset($views[$vars['view']])) {
+            return;
+        }
 
-		// Copy the segments, so that we can iterate over all of them and at the same time modify the original segments
-		$tempSegments = $segments;
+        // Copy the segments, so that we can iterate over all of them and at the same time modify the original segments
+        $tempSegments = $segments;
 
-		// Iterate over the segments as long as a segment fits
-		foreach ($tempSegments as $segment)
-		{
-			// Our current view is nestable. We need to check first if the segment fits to that
-			if ($views[$vars['view']]->nestable)
-			{
-				if (\is_callable(array($this->router, 'get' . ucfirst($views[$vars['view']]->name) . 'Id')))
-				{
-					$key = \call_user_func_array(array($this->router, 'get' . ucfirst($views[$vars['view']]->name) . 'Id'), array($segment, $vars));
+        // Iterate over the segments as long as a segment fits
+        foreach ($tempSegments as $segment) {
+            // Our current view is nestable. We need to check first if the segment fits to that
+            if ($views[$vars['view']]->nestable) {
+                if (\is_callable([$this->router, 'get' . ucfirst($views[$vars['view']]->name) . 'Id'])) {
+                    $key = \call_user_func_array([$this->router, 'get' . ucfirst($views[$vars['view']]->name) . 'Id'], [$segment, $vars]);
 
-					// Did we get a proper key? If not, we need to look in the child-views
-					if ($key)
-					{
-						$vars[$views[$vars['view']]->key] = $key;
+                    // Did we get a proper key? If not, we need to look in the child-views
+                    if ($key) {
+                        $vars[$views[$vars['view']]->key] = $key;
 
-						array_shift($segments);
+                        array_shift($segments);
 
-						continue;
-					}
-				}
-				else
-				{
-					// The router is not complete. The get<View>Id() method is missing.
-					return;
-				}
-			}
+                        continue;
+                    }
+                } else {
+                    // The router is not complete. The get<View>Id() method is missing.
+                    return;
+                }
+            }
 
-			// Lets find the right view that belongs to this segment
-			$found = false;
+            // Lets find the right view that belongs to this segment
+            $found = false;
 
-			foreach ($views[$vars['view']]->children as $view)
-			{
-				if (!$view->key)
-				{
-					if ($view->name === $segment)
-					{
-						// The segment is a view name
-						$parent       = $views[$vars['view']];
-						$vars['view'] = $view->name;
-						$found        = true;
+            foreach ($views[$vars['view']]->children as $view) {
+                if (!$view->key) {
+                    if ($view->name === $segment) {
+                        // The segment is a view name
+                        $parent       = $views[$vars['view']];
+                        $vars['view'] = $view->name;
+                        $found        = true;
 
-						if ($view->parent_key && isset($vars[$parent->key]))
-						{
-							$parent_key              = $vars[$parent->key];
-							$vars[$view->parent_key] = $parent_key;
+                        if ($view->parent_key && isset($vars[$parent->key])) {
+                            $parent_key              = $vars[$parent->key];
+                            $vars[$view->parent_key] = $parent_key;
 
-							unset($vars[$parent->key]);
-						}
+                            unset($vars[$parent->key]);
+                        }
 
-						break;
-					}
-				}
-				elseif (\is_callable(array($this->router, 'get' . ucfirst($view->name) . 'Id')))
-				{
-					// Hand the data over to the router specific method and see if there is a content item that fits
-					$key = \call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Id'), array($segment, $vars));
+                        break;
+                    }
+                } elseif (\is_callable([$this->router, 'get' . ucfirst($view->name) . 'Id'])) {
+                    // Hand the data over to the router specific method and see if there is a content item that fits
+                    $key = \call_user_func_array([$this->router, 'get' . ucfirst($view->name) . 'Id'], [$segment, $vars]);
 
-					if ($key)
-					{
-						// Found the right view and the right item
-						$parent       = $views[$vars['view']];
-						$vars['view'] = $view->name;
-						$found        = true;
+                    if ($key) {
+                        // Found the right view and the right item
+                        $parent       = $views[$vars['view']];
+                        $vars['view'] = $view->name;
+                        $found        = true;
 
-						if ($view->parent_key && isset($vars[$parent->key]))
-						{
-							$parent_key              = $vars[$parent->key];
-							$vars[$view->parent_key] = $parent_key;
+                        if ($view->parent_key && isset($vars[$parent->key])) {
+                            $parent_key              = $vars[$parent->key];
+                            $vars[$view->parent_key] = $parent_key;
 
-							unset($vars[$parent->key]);
-						}
+                            unset($vars[$parent->key]);
+                        }
 
-						$vars[$view->key] = $key;
+                        $vars[$view->key] = $key;
 
-						break;
-					}
-				}
-			}
+                        break;
+                    }
+                }
+            }
 
-			if (!$found)
-			{
-				return;
-			}
+            if (!$found) {
+                return;
+            }
 
-			array_shift($segments);
-		}
-	}
+            array_shift($segments);
+        }
+    }
 
-	/**
-	 * Build a standard URL
-	 *
-	 * @param   array  &$query     The vars that should be converted
-	 * @param   array  &$segments  The URL segments to create
-	 *
-	 * @return  void
-	 *
-	 * @since   3.4
-	 */
-	public function build(&$query, &$segments)
-	{
-		if (!isset($query['Itemid'], $query['view']))
-		{
-			return;
-		}
+    /**
+     * Build a standard URL
+     *
+     * @param   array  &$query     The vars that should be converted
+     * @param   array  &$segments  The URL segments to create
+     *
+     * @return  void
+     *
+     * @since   3.4
+     */
+    public function build(&$query, &$segments)
+    {
+        if (!isset($query['Itemid'], $query['view'])) {
+            return;
+        }
 
-		// Get the menu item belonging to the Itemid that has been found
-		$item = $this->router->menu->getItem($query['Itemid']);
+        // Get the menu item belonging to the Itemid that has been found
+        $item = $this->router->menu->getItem($query['Itemid']);
 
-		if ($item === null
-			|| $item->component !== 'com_' . $this->router->getName()
-			|| !isset($item->query['view']))
-		{
-			return;
-		}
+        if (
+            $item === null
+            || $item->component !== 'com_' . $this->router->getName()
+            || !isset($item->query['view'])
+        ) {
+            return;
+        }
 
-		// Get menu item layout
-		$mLayout = isset($item->query['layout']) ? $item->query['layout'] : null;
+        // Get menu item layout
+        $mLayout = $item->query['layout'] ?? null;
 
-		// Get all views for this component
-		$views = $this->router->getViews();
+        // Get menu item filter_tag
+        $mFilterTag = $item->query['filter_tag'] ?? null;
 
-		// Return directly when the URL of the Itemid is identical with the URL to build
-		if ($item->query['view'] === $query['view'])
-		{
-			$view = $views[$query['view']];
+        // Get all views for this component
+        $views = $this->router->getViews();
 
-			if (!$view->key)
-			{
-				unset($query['view']);
+        // Return directly when the URL of the Itemid is identical with the URL to build
+        if ($item->query['view'] === $query['view']) {
+            $view = $views[$query['view']];
 
-				if (isset($query['layout']) && $mLayout === $query['layout'])
-				{
-					unset($query['layout']);
-				}
+            if (!$view->key) {
+                unset($query['view']);
 
-				return;
-			}
+                if (isset($query['layout']) && $mLayout === $query['layout']) {
+                    unset($query['layout']);
+                }
 
-			if (isset($query[$view->key]) && $item->query[$view->key] == (int) $query[$view->key])
-			{
-				unset($query[$view->key]);
+                if (isset($query['filter_tag']) && $mFilterTag === $query['filter_tag']) {
+                    unset($query['filter_tag']);
+                }
 
-				while ($view)
-				{
-					unset($query[$view->parent_key]);
+                return;
+            }
 
-					$view = $view->parent;
-				}
+            if (isset($query[$view->key]) && $item->query[$view->key] == (int) $query[$view->key]) {
+                unset($query[$view->key]);
 
-				unset($query['view']);
+                while ($view) {
+                    unset($query[$view->parent_key]);
 
-				if (isset($query['layout']) && $mLayout === $query['layout'])
-				{
-					unset($query['layout']);
-				}
+                    $view = $view->parent;
+                }
 
-				return;
-			}
-		}
+                unset($query['view']);
 
-		// Get the path from the view of the current URL and parse it to the menu item
-		$path  = array_reverse($this->router->getPath($query), true);
-		$found = false;
+                if (isset($query['layout']) && $mLayout === $query['layout']) {
+                    unset($query['layout']);
+                }
 
-		foreach ($path as $element => $ids)
-		{
-			$view = $views[$element];
+                if (isset($query['filter_tag']) && $mFilterTag === $query['filter_tag']) {
+                    unset($query['filter_tag']);
+                }
 
-			if ($found === false && $item->query['view'] === $element)
-			{
-				if ($view->nestable)
-				{
-					$found = true;
-				}
-				elseif ($view->children)
-				{
-					$found = true;
+                return;
+            }
+        }
 
-					continue;
-				}
-			}
+        // Get the path from the view of the current URL and parse it to the menu item
+        $path  = array_reverse($this->router->getPath($query), true);
+        $found = false;
 
-			if ($found === false)
-			{
-				// Jump to the next view
-				continue;
-			}
+        foreach ($path as $element => $ids) {
+            $view = $views[$element];
 
-			if ($ids)
-			{
-				if ($view->nestable)
-				{
-					$found2 = false;
+            if ($found === false && $item->query['view'] === $element) {
+                if ($view->nestable) {
+                    $found = true;
+                } elseif ($view->children) {
+                    $found = true;
 
-					foreach (array_reverse($ids, true) as $id => $segment)
-					{
-						if ($found2)
-						{
-							$segments[] = str_replace(':', '-', $segment);
-						}
-						elseif ((int) $item->query[$view->key] === (int) $id)
-						{
-							$found2 = true;
-						}
-					}
-				}
-				elseif ($ids === true)
-				{
-					$segments[] = $element;
-				}
-				else
-				{
-					$segments[] = str_replace(':', '-', current($ids));
-				}
-			}
+                    continue;
+                }
+            }
 
-			if ($view->parent_key)
-			{
-				// Remove parent key from query
-				unset($query[$view->parent_key]);
-			}
-		}
+            if ($found === false) {
+                // Jump to the next view
+                continue;
+            }
 
-		if ($found)
-		{
-			unset($query[$views[$query['view']]->key], $query['view']);
+            if ($ids) {
+                if ($view->nestable) {
+                    $found2 = false;
 
-			if (isset($query['layout']) && $mLayout === $query['layout'])
-			{
-				unset($query['layout']);
-			}
-		}
-	}
+                    foreach (array_reverse($ids, true) as $id => $segment) {
+                        if ($found2) {
+                            $segments[] = str_replace(':', '-', $segment);
+                        } elseif ((int) $item->query[$view->key] === (int) $id) {
+                            $found2 = true;
+                        }
+                    }
+                } elseif ($ids === true) {
+                    $segments[] = $element;
+                } else {
+                    $segments[] = str_replace(':', '-', current($ids));
+                }
+            }
+
+            if ($view->parent_key) {
+                // Remove parent key from query
+                unset($query[$view->parent_key]);
+            }
+        }
+
+        if ($found) {
+            unset($query[$views[$query['view']]->key], $query['view']);
+
+            if (isset($query['layout']) && $mLayout === $query['layout']) {
+                unset($query['layout']);
+            }
+
+            if (isset($query['filter_tag']) && $mFilterTag === $query['filter_tag']) {
+                unset($query['filter_tag']);
+            }
+        }
+    }
 }

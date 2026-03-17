@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,10 +9,14 @@
 
 namespace Joomla\CMS\MVC\View;
 
-\defined('JPATH_PLATFORM') or die;
-
+use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Categories view base class.
@@ -20,118 +25,126 @@ use Joomla\CMS\Language\Text;
  */
 class CategoriesView extends HtmlView
 {
-	/**
-	 * State data
-	 *
-	 * @var    \Joomla\Registry\Registry
-	 * @since  3.2
-	 */
-	protected $state;
+    /**
+     * State data
+     *
+     * @var    \Joomla\Registry\Registry
+     * @since  3.2
+     */
+    protected $state;
 
-	/**
-	 * Category items data
-	 *
-	 * @var    array
-	 * @since  3.2
-	 */
-	protected $items;
+    /**
+     * Category items data
+     *
+     * @var    array
+     * @since  3.2
+     */
+    protected $items;
 
-	/**
-	 * Language key for default page heading
-	 *
-	 * @var    string
-	 * @since  3.2
-	 */
-	protected $pageHeading;
+    /**
+     * Language key for default page heading
+     *
+     * @var    string
+     * @since  3.2
+     */
+    protected $pageHeading;
 
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void|boolean
-	 *
-	 * @since   3.2
-	 * @throws  \Exception
-	 */
-	public function display($tpl = null)
-	{
-		$state  = $this->get('State');
-		$items  = $this->get('Items');
-		$parent = $this->get('Parent');
+    /**
+     * The category parameters
+     *
+     * @var   Registry
+     * @since 5.0.0
+     */
+    public $params;
 
-		$app = Factory::getApplication();
+    /**
+     * The parent category
+     *
+     * @var   CategoryNode
+     * @since 5.0.0
+     */
+    public $parent;
 
-		// Check for errors.
-		if (\count($errors = $this->get('Errors')))
-		{
-			$app->enqueueMessage($errors, 'error');
+    /**
+     * Execute and display a template script.
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void|boolean
+     *
+     * @since   3.2
+     * @throws  \Exception
+     */
+    public function display($tpl = null)
+    {
+        $state  = $this->get('State');
+        $items  = $this->get('Items');
+        $parent = $this->get('Parent');
 
-			return false;
-		}
+        $app = Factory::getApplication();
 
-		if ($items === false)
-		{
-			$app->enqueueMessage(Text::_('JGLOBAL_CATEGORY_NOT_FOUND'), 'error');
+        // Check for errors.
+        if (\count($errors = $this->get('Errors'))) {
+            $app->enqueueMessage($errors, 'error');
 
-			return false;
-		}
+            return false;
+        }
 
-		if ($parent == false)
-		{
-			$app->enqueueMessage(Text::_('JGLOBAL_CATEGORY_NOT_FOUND'), 'error');
+        if ($items === false) {
+            $app->enqueueMessage(Text::_('JGLOBAL_CATEGORY_NOT_FOUND'), 'error');
 
-			return false;
-		}
+            return false;
+        }
 
-		$params = &$state->params;
+        if ($parent === null) {
+            $app->enqueueMessage(Text::_('JGLOBAL_CATEGORY_NOT_FOUND'), 'error');
 
-		$items = array($parent->id => $items);
+            return false;
+        }
 
-		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''), ENT_COMPAT, 'UTF-8');
+        $params = $state->get('params');
 
-		$this->maxLevelcat = $params->get('maxLevelcat', -1) < 0 ? PHP_INT_MAX : $params->get('maxLevelcat', PHP_INT_MAX);
-		$this->params      = &$params;
-		$this->parent      = &$parent;
-		$this->items       = &$items;
+        $items = [$parent->id => $items];
 
-		$this->prepareDocument();
+        // Escape strings for HTML output
+        $this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''), ENT_COMPAT, 'UTF-8');
 
-		parent::display($tpl);
-	}
+        $this->maxLevelcat = $params->get('maxLevelcat', -1) < 0 ? PHP_INT_MAX : $params->get('maxLevelcat', PHP_INT_MAX);
+        $this->params      = &$params;
+        $this->parent      = &$parent;
+        $this->items       = &$items;
 
-	/**
-	 * Prepares the document
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	protected function prepareDocument()
-	{
-		// Because the application sets a default page title, we need to get it from the menu item itself
-		$menu = Factory::getApplication()->getMenu()->getActive();
+        $this->prepareDocument();
 
-		if ($menu)
-		{
-			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
-		}
-		else
-		{
-			$this->params->def('page_heading', Text::_($this->pageHeading));
-		}
+        parent::display($tpl);
+    }
 
-		$this->setDocumentTitle($this->params->get('page_title', ''));
+    /**
+     * Prepares the document
+     *
+     * @return  void
+     *
+     * @since   3.2
+     */
+    protected function prepareDocument()
+    {
+        // Because the application sets a default page title, we need to get it from the menu item itself
+        $menu = Factory::getApplication()->getMenu()->getActive();
 
-		if ($this->params->get('menu-meta_description'))
-		{
-			$this->document->setDescription($this->params->get('menu-meta_description'));
-		}
+        if ($menu) {
+            $this->params->def('page_heading', $this->params->get('page_title', $menu->title));
+        } else {
+            $this->params->def('page_heading', Text::_($this->pageHeading));
+        }
 
-		if ($this->params->get('robots'))
-		{
-			$this->document->setMetaData('robots', $this->params->get('robots'));
-		}
-	}
+        $this->setDocumentTitle($this->params->get('page_title', ''));
+
+        if ($this->params->get('menu-meta_description')) {
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
+        }
+
+        if ($this->params->get('robots')) {
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
+        }
+    }
 }

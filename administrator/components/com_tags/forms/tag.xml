@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<field
 		name="id"
@@ -23,6 +23,7 @@
 		name="parent_id"
 		type="tag"
 		label="COM_TAGS_FIELD_PARENT_LABEL"
+		custom="false"
 		mode="nested"
 		validate="notequals"
 		field="id"
@@ -55,7 +56,6 @@
 		label="CATEGORIES_PATH_LABEL"
 		description="CATEGORIES_PATH_DESC"
 		class="readonly"
-		size="40"
 		readonly="true"
 	/>
 
@@ -63,7 +63,6 @@
 		name="title"
 		type="text"
 		label="JGLOBAL_TITLE"
-		size="40"
 		required="true"
 	/>
 
@@ -72,14 +71,13 @@
 		type="text"
 		label="COM_TAGS_FIELD_NOTE_LABEL"
 		maxlength="255"
-		size="40"
 	/>
 
 	<field
 		name="description"
 		type="editor"
 		label="JGLOBAL_DESCRIPTION"
-		filter="JComponentHelper::filterText"
+		filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 		buttons="true"
 		hide="readmore,pagebreak"
 	/>
@@ -90,7 +88,6 @@
 		label="JSTATUS"
 		class="form-select-color-state"
 		default="1"
-		size="1"
 		validate="options"
 		>
 		<option value="1">JPUBLISHED</option>
@@ -115,7 +112,6 @@
 		name="version"
 		type="text"
 		label="COM_TAGS_FIELD_VERSION_LABEL"
-		size="6"
 		class="readonly"
 		readonly="true"
 		filter="unset"
@@ -134,8 +130,8 @@
 		type="textarea"
 		label="JFIELD_META_DESCRIPTION_LABEL"
 		rows="3"
-		cols="40"
-		maxlength="160"
+		cols="30"
+		maxlength="300"
 		charcounter="true"
 	/>
 
@@ -153,7 +149,6 @@
 		label="JFIELD_ALIAS_LABEL"
 		description="JFIELD_ALIAS_DESC"
 		hint="JFIELD_ALIAS_PLACEHOLDER"
-		size="40"
 	/>
 
 	<field
@@ -167,7 +162,6 @@
 		name="created_by_alias"
 		type="text"
 		label="JGLOBAL_FIELD_CREATED_BY_ALIAS_LABEL"
-		size="20"
 	/>
 
 	<field
@@ -215,7 +209,6 @@
 		type="text"
 		label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 		maxlength="255"
-		size="45"
 	/>
 
 
@@ -244,7 +237,6 @@
 					name="tag_link_class"
 					type="text"
 					label="COM_TAGS_FIELD_TAG_LINK_CLASS"
-					size="20"
 					validate="CssIdentifier"
 				/>
 
@@ -256,6 +248,9 @@
 				<field
 					name="image_intro"
 					type="media"
+					schemes="http,https,ftp,ftps,data,file"
+					validate="url"
+					relative="true"
 					label="COM_TAGS_FIELD_INTRO_LABEL"
 				/>
 
@@ -275,14 +270,12 @@
 					name="image_intro_alt"
 					type="text"
 					label="COM_TAGS_FIELD_IMAGE_ALT_LABEL"
-					size="20"
 				/>
 
 				<field
 					name="image_intro_caption"
 					type="text"
 					label="COM_TAGS_FIELD_IMAGE_CAPTION_LABEL"
-					size="20"
 				/>
 			</fieldset>
 			<fieldset name="image-fulltext" label="COM_TAGS_PARAMS_IMAGE_FULLTEXT">
@@ -290,6 +283,9 @@
 				<field
 					name="image_fulltext"
 					type="media"
+					schemes="http,https,ftp,ftps,data,file"
+					validate="url"
+					relative="true"
 					label="COM_TAGS_FIELD_FULL_LABEL"
 				/>
 
@@ -309,14 +305,12 @@
 					name="image_fulltext_alt"
 					type="text"
 					label="COM_TAGS_FIELD_IMAGE_ALT_LABEL"
-					size="20"
 				/>
 
 				<field
 					name="image_fulltext_caption"
 					type="text"
 					label="COM_TAGS_FIELD_IMAGE_CAPTION_LABEL"
-					size="20"
 				/>
 			</fieldset>
 		</fields>
@@ -329,7 +323,6 @@
 				name="author"
 				type="text"
 				label="JAUTHOR"
-				size="30"
 			/>
 
 			<field

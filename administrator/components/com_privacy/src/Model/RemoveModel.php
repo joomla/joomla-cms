@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
@@ -9,211 +10,218 @@
 
 namespace Joomla\Component\Privacy\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Privacy\CanRemoveDataEvent;
+use Joomla\CMS\Event\Privacy\RemoveDataEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
 use Joomla\Component\Privacy\Administrator\Removal\Status;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Remove model class.
  *
  * @since  3.9.0
  */
-class RemoveModel extends BaseDatabaseModel
+class RemoveModel extends BaseDatabaseModel implements UserFactoryAwareInterface
 {
-	/**
-	 * Remove the user data.
-	 *
-	 * @param   integer  $id  The request ID to process
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.9.0
-	 */
-	public function removeDataForRequest($id = null)
-	{
-		$id = !empty($id) ? $id : (int) $this->getState($this->getName() . '.request_id');
+    use UserFactoryAwareTrait;
 
-		if (!$id)
-		{
-			$this->setError(Text::_('COM_PRIVACY_ERROR_REQUEST_ID_REQUIRED_FOR_REMOVE'));
+    /**
+     * Remove the user data.
+     *
+     * @param   integer  $id  The request ID to process
+     *
+     * @return  boolean
+     *
+     * @since   3.9.0
+     */
+    public function removeDataForRequest($id = null)
+    {
+        $id = !empty($id) ? $id : (int) $this->getState($this->getName() . '.request_id');
 
-			return false;
-		}
+        if (!$id) {
+            $this->setError(Text::_('COM_PRIVACY_ERROR_REQUEST_ID_REQUIRED_FOR_REMOVE'));
 
-		/** @var RequestTable $table */
-		$table = $this->getTable();
+            return false;
+        }
 
-		if (!$table->load($id))
-		{
-			$this->setError($table->getError());
+        /** @var RequestTable $table */
+        $table = $this->getTable();
 
-			return false;
-		}
+        if (!$table->load($id)) {
+            $this->setError($table->getError());
 
-		if ($table->request_type !== 'remove')
-		{
-			$this->setError(Text::_('COM_PRIVACY_ERROR_REQUEST_TYPE_NOT_REMOVE'));
+            return false;
+        }
 
-			return false;
-		}
+        if ($table->request_type !== 'remove') {
+            $this->setError(Text::_('COM_PRIVACY_ERROR_REQUEST_TYPE_NOT_REMOVE'));
 
-		if ($table->status != 1)
-		{
-			$this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_REMOVE_UNCONFIRMED_REQUEST'));
+            return false;
+        }
 
-			return false;
-		}
+        if ($table->status != 1) {
+            $this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_REMOVE_UNCONFIRMED_REQUEST'));
 
-		// If there is a user account associated with the email address, load it here for use in the plugins
-		$db = $this->getDbo();
+            return false;
+        }
 
-		$userId = (int) $db->setQuery(
-			$db->getQuery(true)
-				->select($db->quoteName('id'))
-				->from($db->quoteName('#__users'))
-				->where('LOWER(' . $db->quoteName('email') . ') = LOWER(:email)')
-				->bind(':email', $table->email)
-				->setLimit(1)
-		)->loadResult();
+        // If there is a user account associated with the email address, load it here for use in the plugins
+        $db = $this->getDatabase();
 
-		$user = $userId ? User::getInstance($userId) : null;
+        $userId = (int) $db->setQuery(
+            $db->createQuery()
+                ->select($db->quoteName('id'))
+                ->from($db->quoteName('#__users'))
+                ->where('LOWER(' . $db->quoteName('email') . ') = LOWER(:email)')
+                ->bind(':email', $table->email)
+                ->setLimit(1)
+        )->loadResult();
 
-		$canRemove = true;
+        $user = $userId ? $this->getUserFactory()->loadUserById($userId) : null;
 
-		PluginHelper::importPlugin('privacy');
+        $canRemove  = true;
+        $dispatcher = $this->getDispatcher();
 
-		/** @var Status[] $pluginResults */
-		$pluginResults = Factory::getApplication()->triggerEvent('onPrivacyCanRemoveData', [$table, $user]);
+        PluginHelper::importPlugin('privacy', null, true, $dispatcher);
 
-		foreach ($pluginResults as $status)
-		{
-			if (!$status->canRemove)
-			{
-				$this->setError($status->reason ?: Text::_('COM_PRIVACY_ERROR_CANNOT_REMOVE_DATA'));
+        /** @var Status[] $pluginResults */
+        $pluginResults = $dispatcher->dispatch('onPrivacyCanRemoveData', new CanRemoveDataEvent('onPrivacyCanRemoveData', [
+            'subject' => $table,
+            'user'    => $user,
+        ]))->getArgument('result', []);
 
-				$canRemove = false;
-			}
-		}
+        foreach ($pluginResults as $status) {
+            if (!$status->canRemove) {
+                $this->setError($status->reason ?: Text::_('COM_PRIVACY_ERROR_CANNOT_REMOVE_DATA'));
 
-		if (!$canRemove)
-		{
-			$this->logRemoveBlocked($table, $this->getErrors());
+                $canRemove = false;
+            }
+        }
 
-			return false;
-		}
+        if (!$canRemove) {
+            $this->logRemoveBlocked($table, $this->getErrors());
 
-		// Log the removal
-		$this->logRemove($table);
+            return false;
+        }
 
-		Factory::getApplication()->triggerEvent('onPrivacyRemoveData', [$table, $user]);
+        // Log the removal
+        $this->logRemove($table);
 
-		return true;
-	}
+        $dispatcher->dispatch('onPrivacyRemoveData', new RemoveDataEvent('onPrivacyRemoveData', [
+            'subject' => $table,
+            'user'    => $user,
+        ]));
 
-	/**
-	 * Method to get a table object, load it if necessary.
-	 *
-	 * @param   string  $name     The table name. Optional.
-	 * @param   string  $prefix   The class prefix. Optional.
-	 * @param   array   $options  Configuration array for model. Optional.
-	 *
-	 * @return  Table  A Table object
-	 *
-	 * @throws  \Exception
-	 * @since   3.9.0
-	 */
-	public function getTable($name = 'Request', $prefix = 'Administrator', $options = [])
-	{
-		return parent::getTable($name, $prefix, $options);
-	}
+        return true;
+    }
 
-	/**
-	 * Log the data removal to the action log system.
-	 *
-	 * @param   RequestTable  $request  The request record being processed
-	 *
-	 * @return  void
-	 *
-	 * @since   3.9.0
-	 */
-	public function logRemove(RequestTable $request)
-	{
-		$user = Factory::getUser();
+    /**
+     * Method to get a table object, load it if necessary.
+     *
+     * @param   string  $name     The table name. Optional.
+     * @param   string  $prefix   The class prefix. Optional.
+     * @param   array   $options  Configuration array for model. Optional.
+     *
+     * @return  Table  A Table object
+     *
+     * @throws  \Exception
+     * @since   3.9.0
+     */
+    public function getTable($name = 'Request', $prefix = 'Administrator', $options = [])
+    {
+        return parent::getTable($name, $prefix, $options);
+    }
 
-		$message = [
-			'action'      => 'remove',
-			'id'          => $request->id,
-			'itemlink'    => 'index.php?option=com_privacy&view=request&id=' . $request->id,
-			'userid'      => $user->id,
-			'username'    => $user->username,
-			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
-		];
+    /**
+     * Log the data removal to the action log system.
+     *
+     * @param   RequestTable  $request  The request record being processed
+     *
+     * @return  void
+     *
+     * @since   3.9.0
+     */
+    public function logRemove(RequestTable $request)
+    {
+        $user = $this->getCurrentUser();
 
-		$this->getActionlogModel()->addLog([$message], 'COM_PRIVACY_ACTION_LOG_REMOVE', 'com_privacy.request', $user->id);
-	}
+        $message = [
+            'action'      => 'remove',
+            'id'          => $request->id,
+            'itemlink'    => 'index.php?option=com_privacy&view=request&id=' . $request->id,
+            'userid'      => $user->id,
+            'username'    => $user->username,
+            'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+        ];
 
-	/**
-	 * Log the data removal being blocked to the action log system.
-	 *
-	 * @param   RequestTable  $request  The request record being processed
-	 * @param   string[]      $reasons  The reasons given why the record could not be removed.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.9.0
-	 */
-	public function logRemoveBlocked(RequestTable $request, array $reasons)
-	{
-		$user = Factory::getUser();
+        $this->getActionlogModel()->addLog([$message], 'COM_PRIVACY_ACTION_LOG_REMOVE', 'com_privacy.request', $user->id);
+    }
 
-		$message = [
-			'action'      => 'remove-blocked',
-			'id'          => $request->id,
-			'itemlink'    => 'index.php?option=com_privacy&view=request&id=' . $request->id,
-			'userid'      => $user->id,
-			'username'    => $user->username,
-			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
-			'reasons'     => implode('; ', $reasons),
-		];
+    /**
+     * Log the data removal being blocked to the action log system.
+     *
+     * @param   RequestTable  $request  The request record being processed
+     * @param   string[]      $reasons  The reasons given why the record could not be removed.
+     *
+     * @return  void
+     *
+     * @since   3.9.0
+     */
+    public function logRemoveBlocked(RequestTable $request, array $reasons)
+    {
+        $user = $this->getCurrentUser();
 
-		$this->getActionlogModel()->addLog([$message], 'COM_PRIVACY_ACTION_LOG_REMOVE_BLOCKED', 'com_privacy.request', $user->id);
-	}
+        $message = [
+            'action'      => 'remove-blocked',
+            'id'          => $request->id,
+            'itemlink'    => 'index.php?option=com_privacy&view=request&id=' . $request->id,
+            'userid'      => $user->id,
+            'username'    => $user->username,
+            'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+            'reasons'     => implode('; ', $reasons),
+        ];
 
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.9.0
-	 */
-	protected function populateState()
-	{
-		// Get the pk of the record from the request.
-		$this->setState($this->getName() . '.request_id', Factory::getApplication()->input->getUint('id'));
+        $this->getActionlogModel()->addLog([$message], 'COM_PRIVACY_ACTION_LOG_REMOVE_BLOCKED', 'com_privacy.request', $user->id);
+    }
 
-		// Load the parameters.
-		$this->setState('params', ComponentHelper::getParams('com_privacy'));
-	}
+    /**
+     * Method to auto-populate the model state.
+     *
+     * @return  void
+     *
+     * @since   3.9.0
+     */
+    protected function populateState()
+    {
+        // Get the pk of the record from the request.
+        $this->setState($this->getName() . '.request_id', Factory::getApplication()->getInput()->getUint('id'));
 
-	/**
-	 * Method to fetch an instance of the action log model.
-	 *
-	 * @return  ActionlogModel
-	 *
-	 * @since   4.0.0
-	 */
-	private function getActionlogModel(): ActionlogModel
-	{
-		return Factory::getApplication()->bootComponent('com_actionlogs')
-			->getMVCFactory()->createModel('Actionlog', 'Administrator', ['ignore_request' => true]);
-	}
+        // Load the parameters.
+        $this->setState('params', ComponentHelper::getParams('com_privacy'));
+    }
+
+    /**
+     * Method to fetch an instance of the action log model.
+     *
+     * @return  ActionlogModel
+     *
+     * @since   4.0.0
+     */
+    private function getActionlogModel(): ActionlogModel
+    {
+        return Factory::getApplication()->bootComponent('com_actionlogs')
+            ->getMVCFactory()->createModel('Actionlog', 'Administrator', ['ignore_request' => true]);
+    }
 }

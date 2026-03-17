@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_users_latest
@@ -10,11 +11,11 @@
 defined('_JEXEC') or die;
 ?>
 <?php if (!empty($names)) : ?>
-	<ul class="mod-userslatest latestusers mod-list">
-	<?php foreach ($names as $name) : ?>
-		<li>
-			<?php echo $name->username; ?>
-		</li>
-	<?php endforeach; ?>
-	</ul>
+    <ul class="mod-userslatest latestusers mod-list">
+    <?php foreach ($names as $name) : ?>
+        <li>
+            <?php echo $name->username; ?>
+        </li>
+    <?php endforeach; ?>
+    </ul>
 <?php endif; ?>

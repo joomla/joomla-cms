@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_content
@@ -11,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
 
+/** @var \Joomla\Component\Content\Site\View\Category\HtmlView $this */
 ?>
 <div class="com-content-category category-list">
 

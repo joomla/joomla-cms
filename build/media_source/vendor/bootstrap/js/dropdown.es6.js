@@ -1,4 +1,4 @@
-import Dropdown from '../../../../../node_modules/bootstrap/js/src/dropdown';
+import Dropdown from 'bootstrap/js/src/dropdown';
 
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Dropdown = Dropdown;

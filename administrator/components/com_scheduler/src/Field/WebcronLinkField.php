@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_scheduler
@@ -9,10 +10,11 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Field;
 
-// Restrict direct access
 use Joomla\CMS\Form\Field\TextField;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Field to override the text field layout to add a copy-text button, used in the com_scheduler
@@ -24,29 +26,29 @@ use Joomla\CMS\Form\Field\TextField;
  */
 class WebcronLinkField extends TextField
 {
-	/**
-	 * We use a custom layout that allows for the link to be copied.
-	 *
-	 * @var  string
-	 * @since  4.1.0
-	 */
-	protected $layout = 'form.field.webcron_link';
+    /**
+     * We use a custom layout that allows for the link to be copied.
+     *
+     * @var  string
+     * @since  4.1.0
+     */
+    protected $layout = 'form.field.webcron_link';
 
-	/**
-	 * Override layout paths.
-	 *
-	 * @inheritDoc
-	 * @return string[]
-	 *
-	 * @since  4.1.0
-	 */
-	protected function getLayoutPaths(): array
-	{
-		$s = DIRECTORY_SEPARATOR;
+    /**
+     * Override layout paths.
+     *
+     * @inheritDoc
+     * @return string[]
+     *
+     * @since  4.1.0
+     */
+    protected function getLayoutPaths(): array
+    {
+        $s = DIRECTORY_SEPARATOR;
 
-		return array_merge(
-			[JPATH_ADMINISTRATOR . "${s}/components${s}com_scheduler${s}layouts${s}"],
-			parent::getLayoutPaths()
-		);
-	}
+        return array_merge(
+            [JPATH_ADMINISTRATOR . "{$s}/components{$s}com_scheduler{$s}layouts{$s}"],
+            parent::getLayoutPaths()
+        );
+    }
 }

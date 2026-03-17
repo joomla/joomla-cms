@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -45,36 +46,33 @@ extract($displayData);
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
-$attributes = array(
-	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
-	!empty($description) ? 'aria-describedby="' . ($id ?: $name) . '-desc"' : '',
-	$disabled ? 'disabled' : '',
-	$readonly ? 'readonly' : '',
-	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
-	!empty($onchange) ? 'onchange="' . $onchange . '"' : '',
-	isset($max) ? 'max="' . $max . '"' : '',
-	!empty($step) ? 'step="' . $step . '"' : '',
-	isset($min) ? 'min="' . $min . '"' : '',
-	$required ? 'required' : '',
-	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
-	$autofocus ? 'autofocus' : '',
-	$dataAttribute,
-);
+$attributes = [
+    !empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
+    !empty($description) ? 'aria-describedby="' . ($id ?: $name) . '-desc"' : '',
+    $disabled ? 'disabled' : '',
+    $readonly ? 'readonly' : '',
+    strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
+    !empty($onchange) ? 'onchange="' . $onchange . '"' : '',
+    isset($max) ? 'max="' . $max . '"' : '',
+    !empty($step) ? 'step="' . $step . '"' : '',
+    isset($min) ? 'min="' . $min . '"' : '',
+    $required ? 'required' : '',
+    !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
+    $autofocus ? 'autofocus' : '',
+    $dataAttribute,
+];
 
-if (is_numeric($value))
-{
-	$value = (float) $value;
-}
-else
-{
-	$value = '';
-	$value = ($required && isset($min)) ? $min : $value;
+if (is_numeric($value)) {
+    $value = (float) $value;
+} else {
+    $value = '';
+    $value = ($required && isset($min)) ? $min : $value;
 }
 ?>
 <input
-	type="number"
-	inputmode="numeric"
-	name="<?php echo $name; ?>"
-	id="<?php echo $id; ?>"
-	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
-	<?php echo implode(' ', $attributes); ?>>
+    type="number"
+    inputmode="numeric"
+    name="<?php echo $name; ?>"
+    id="<?php echo $id; ?>"
+    value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+    <?php echo implode(' ', $attributes); ?>>

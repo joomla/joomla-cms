@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
@@ -9,16 +10,18 @@
 
 namespace Joomla\Component\Users\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Response\JsonResponse;
+use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Users list controller class.
@@ -27,153 +30,144 @@ use Joomla\Utilities\ArrayHelper;
  */
 class UsersController extends AdminController
 {
-	/**
-	 * @var    string  The prefix to use with controller messages.
-	 * @since  1.6
-	 */
-	protected $text_prefix = 'COM_USERS_USERS';
+    /**
+     * @var    string  The prefix to use with controller messages.
+     * @since  1.6
+     */
+    protected $text_prefix = 'COM_USERS_USERS';
 
-	/**
-	 * Constructor.
-	 *
-	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The CMSApplication for the dispatcher
-	 * @param   Input                $input    Input
-	 *
-	 * @since  1.6
-	 * @see    BaseController
-	 * @throws \Exception
-	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
-	{
-		parent::__construct($config, $factory, $app, $input);
+    /**
+     * Constructor.
+     *
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The CMSApplication for the dispatcher
+     * @param   ?Input                $input    Input
+     *
+     * @since  1.6
+     * @see    BaseController
+     * @throws \Exception
+     */
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
+    {
+        parent::__construct($config, $factory, $app, $input);
 
-		$this->registerTask('block', 'changeBlock');
-		$this->registerTask('unblock', 'changeBlock');
-	}
+        $this->registerTask('block', 'changeBlock');
+        $this->registerTask('unblock', 'changeBlock');
+    }
 
-	/**
-	 * Proxy for getModel.
-	 *
-	 * @param   string  $name    The model name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  object  The model.
-	 *
-	 * @since   1.6
-	 */
-	public function getModel($name = 'User', $prefix = 'Administrator', $config = array('ignore_request' => true))
-	{
-		return parent::getModel($name, $prefix, $config);
-	}
+    /**
+     * Proxy for getModel.
+     *
+     * @param   string  $name    The model name. Optional.
+     * @param   string  $prefix  The class prefix. Optional.
+     * @param   array   $config  Configuration array for model. Optional.
+     *
+     * @return  object  The model.
+     *
+     * @since   1.6
+     */
+    public function getModel($name = 'User', $prefix = 'Administrator', $config = ['ignore_request' => true])
+    {
+        return parent::getModel($name, $prefix, $config);
+    }
 
-	/**
-	 * Method to change the block status on a record.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public function changeBlock()
-	{
-		// Check for request forgeries.
-		$this->checkToken();
+    /**
+     * Method to change the block status on a record.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    public function changeBlock()
+    {
+        // Check for request forgeries.
+        $this->checkToken();
 
-		$ids    = $this->input->get('cid', array(), 'array');
-		$values = array('block' => 1, 'unblock' => 0);
-		$task   = $this->getTask();
-		$value  = ArrayHelper::getValue($values, $task, 0, 'int');
+        $ids    = (array) $this->input->get('cid', [], 'int');
+        $values = ['block' => 1, 'unblock' => 0];
+        $task   = $this->getTask();
+        $value  = ArrayHelper::getValue($values, $task, 0, 'int');
 
-		if (empty($ids))
-		{
-			$this->setMessage(Text::_('COM_USERS_USERS_NO_ITEM_SELECTED'), 'warning');
-		}
-		else
-		{
-			// Get the model.
-			$model = $this->getModel();
+        // Remove zero values resulting from input filter
+        $ids = array_filter($ids);
 
-			// Change the state of the records.
-			if (!$model->block($ids, $value))
-			{
-				$this->setMessage($model->getError(), 'error');
-			}
-			else
-			{
-				if ($value == 1)
-				{
-					$this->setMessage(Text::plural('COM_USERS_N_USERS_BLOCKED', count($ids)));
-				}
-				elseif ($value == 0)
-				{
-					$this->setMessage(Text::plural('COM_USERS_N_USERS_UNBLOCKED', count($ids)));
-				}
-			}
-		}
+        if (empty($ids)) {
+            $this->setMessage(Text::_('COM_USERS_USERS_NO_ITEM_SELECTED'), 'warning');
+        } else {
+            // Get the model.
+            $model = $this->getModel();
 
-		$this->setRedirect('index.php?option=com_users&view=users');
-	}
+            // Change the state of the records.
+            if (!$model->block($ids, $value)) {
+                $this->setMessage($model->getError(), 'error');
+            } else {
+                if ($value == 1) {
+                    $this->setMessage(Text::plural('COM_USERS_N_USERS_BLOCKED', \count($ids)));
+                } elseif ($value == 0) {
+                    $this->setMessage(Text::plural('COM_USERS_N_USERS_UNBLOCKED', \count($ids)));
+                }
+            }
+        }
 
-	/**
-	 * Method to activate a record.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public function activate()
-	{
-		// Check for request forgeries.
-		$this->checkToken();
+        $this->setRedirect('index.php?option=com_users&view=users');
+    }
 
-		$ids = $this->input->get('cid', array(), 'array');
+    /**
+     * Method to activate a record.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    public function activate()
+    {
+        // Check for request forgeries.
+        $this->checkToken();
 
-		if (empty($ids))
-		{
-			$this->setMessage(Text::_('COM_USERS_USERS_NO_ITEM_SELECTED'), 'error');
-		}
-		else
-		{
-			// Get the model.
-			$model = $this->getModel();
+        $ids = (array) $this->input->get('cid', [], 'int');
 
-			// Change the state of the records.
-			if (!$model->activate($ids))
-			{
-				$this->setMessage($model->getError(), 'error');
-			}
-			else
-			{
-				$this->setMessage(Text::plural('COM_USERS_N_USERS_ACTIVATED', count($ids)));
-			}
-		}
+        // Remove zero values resulting from input filter
+        $ids = array_filter($ids);
 
-		$this->setRedirect('index.php?option=com_users&view=users');
-	}
+        if (empty($ids)) {
+            $this->setMessage(Text::_('COM_USERS_USERS_NO_ITEM_SELECTED'), 'error');
+        } else {
+            // Get the model.
+            $model = $this->getModel();
 
-	/**
-	 * Method to get the number of active users
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function getQuickiconContent()
-	{
-		$model = $this->getModel('Users');
+            // Change the state of the records.
+            if (!$model->activate($ids)) {
+                $this->setMessage($model->getError(), 'error');
+            } else {
+                $this->setMessage(Text::plural('COM_USERS_N_USERS_ACTIVATED', \count($ids)));
+            }
+        }
 
-		$model->setState('filter.state', 0);
+        $this->setRedirect('index.php?option=com_users&view=users');
+    }
 
-		$amount = (int) $model->getTotal();
+    /**
+     * Method to get the number of active users
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function getQuickiconContent()
+    {
+        $model = $this->getModel('Users');
 
-		$result = [];
+        $model->setState('filter.state', 0);
 
-		$result['amount'] = $amount;
-		$result['sronly'] = Text::plural('COM_USERS_N_QUICKICON_SRONLY', $amount);
-		$result['name'] = Text::plural('COM_USERS_N_QUICKICON', $amount);
+        $amount = (int) $model->getTotal();
 
-		echo new JsonResponse($result);
-	}
+        $result = [];
+
+        $result['amount'] = $amount;
+        $result['sronly'] = Text::plural('COM_USERS_N_QUICKICON_SRONLY', $amount);
+        $result['name']   = Text::plural('COM_USERS_N_QUICKICON', $amount);
+
+        echo new JsonResponse($result);
+    }
 }

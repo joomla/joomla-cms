@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\WebAsset\Exception;
 
-\defined('JPATH_PLATFORM') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Exception class defining an Unknown Asset
@@ -17,5 +20,4 @@ namespace Joomla\CMS\WebAsset\Exception;
  */
 class UnknownAssetException extends \RuntimeException implements WebAssetExceptionInterface
 {
-
 }

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="system" method="upgrade">
 	<name>plg_system_accessibility</name>
 	<author>Joomla! Project</author>
@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>PLG_SYSTEM_ACCESSIBILITY_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\Accessibility</namespace>
 	<files>
-		<filename plugin="accessibility">accessibility.php</filename>
+		<folder plugin="accessibility">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages folder="admin">
 		<language tag="en-GB">language/en-GB/plg_system_accessibility.ini</language>
@@ -29,6 +31,16 @@
 					<option value="site">PLG_SYSTEM_ACCESSIBILITY_SECTION_SITE</option>
 					<option value="administrator">PLG_SYSTEM_ACCESSIBILITY_SECTION_ADMIN</option>
 					<option value="both">PLG_SYSTEM_ACCESSIBILITY_SECTION_BOTH</option>
+				</field>
+				<field
+					name="useEmojis"
+					type="list"
+					label="PLG_SYSTEM_ACCESSIBILITY_EMOJIS"
+					default="true"
+					validate="options"
+					>
+					<option value="true">PLG_SYSTEM_ACCESSIBILITY_EMOJIS_TRUE</option>
+					<option value="false">PLG_SYSTEM_ACCESSIBILITY_EMOJIS_FALSE</option>
 				</field>
 			</fieldset>
 		</fields>

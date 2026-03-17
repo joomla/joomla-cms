@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_stats_admin
@@ -34,15 +35,15 @@ defined('_JEXEC') or die;
 ');
 ?>
 <ul class="list-group list-group-flush stats-module">
-	<?php foreach ($list as $item) : ?>
-		<li class="list-group-item">
-			<span class="me-2 icon-<?php echo $item->icon; ?> icon-fw" aria-hidden="true"></span> <?php echo $item->title; ?>
+    <?php foreach ($list as $item) : ?>
+        <li class="list-group-item">
+            <span class="me-2 icon-<?php echo $item->icon; ?> icon-fw" aria-hidden="true"></span> <?php echo $item->title; ?>
 
-			<?php if(isset($item->link)) : ?>
-				<a class="btn btn-info btn-sm js-revert" href="<?php echo $item->link; ?>"><?php echo $item->data; ?></a>
-			<?php else : ?>
-				<?php echo $item->data; ?>
-			<?php endif; ?>
-		</li>
-	<?php endforeach; ?>
+            <?php if (isset($item->link)) : ?>
+                <a class="btn btn-info btn-sm js-revert" href="<?php echo $item->link; ?>"><?php echo $item->data; ?></a>
+            <?php else : ?>
+                <?php echo $item->data; ?>
+            <?php endif; ?>
+        </li>
+    <?php endforeach; ?>
 </ul>

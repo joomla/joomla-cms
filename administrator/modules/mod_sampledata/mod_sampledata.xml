@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" client="administrator" method="upgrade">
 	<name>mod_sampledata</name>
 	<author>Joomla! Project</author>
-	<creationDate>July 2017</creationDate>
+	<creationDate>2017-07</creationDate>
 	<copyright>(C) 2017 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -11,7 +11,7 @@
 	<description>MOD_SAMPLEDATA_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\Sampledata</namespace>
 	<files>
-		<filename module="mod_sampledata">mod_sampledata.php</filename>
+		<folder module="mod_sampledata">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
@@ -30,7 +30,6 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
 					class="form-select"
 					validate="moduleLayout"
 				/>

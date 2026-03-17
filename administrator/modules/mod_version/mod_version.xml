@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" client="administrator" method="upgrade">
 	<name>mod_version</name>
 	<author>Joomla! Project</author>
-	<creationDate>January 2012</creationDate>
+	<creationDate>2012-01</creationDate>
 	<copyright>(C) 2012 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -11,13 +11,13 @@
 	<description>MOD_VERSION_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\Version</namespace>
 	<files>
-		<filename module="mod_version">mod_version.php</filename>
+		<folder module="mod_version">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.mod_version.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.mod_version.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_version.ini</language>
+		<language tag="en-GB">language/en-GB/mod_version.sys.ini</language>
 	</languages>
 	<help key="Admin_Modules:_Joomla_Version_Information" />
 	<config>
@@ -29,7 +29,7 @@
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					class="form-select"
 					validate="moduleLayout"
- 				/>
+				/>
 
 				<field
 					name="moduleclass_sfx"

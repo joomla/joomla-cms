@@ -1,17 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="workflow" method="upgrade">
 	<name>plg_workflow_featuring</name>
 	<author>Joomla! Project</author>
-	<creationDate>March 2020</creationDate>
+	<creationDate>2020-03</creationDate>
 	<copyright>(C) 2020 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>PLG_WORKFLOW_FEATURING_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Workflow\Featuring</namespace>
 	<files>
-		<filename plugin="featuring">featuring.php</filename>
 		<folder>forms</folder>
+		<folder plugin="featuring">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_workflow_featuring.ini</language>

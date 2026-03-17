@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,10 +9,12 @@
 
 namespace Joomla\CMS\Log\Logger;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! Callback Log class
@@ -23,49 +26,48 @@ use Joomla\CMS\Log\Logger;
  */
 class CallbackLogger extends Logger
 {
-	/**
-	 * The function to call when an entry is added
-	 *
-	 * @var    callable
-	 * @since  3.0.1
-	 */
-	protected $callback;
+    /**
+     * The function to call when an entry is added
+     *
+     * @var    callable
+     * @since  3.0.1
+     */
+    protected $callback;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param   array  &$options  Log object options.
-	 *
-	 * @since   3.0.1
-	 * @throws  \RuntimeException
-	 */
-	public function __construct(array &$options)
-	{
-		// Call the parent constructor.
-		parent::__construct($options);
+    /**
+     * Constructor.
+     *
+     * @param   array  &$options  Log object options.
+     *
+     * @since   3.0.1
+     * @throws  \RuntimeException
+     */
+    public function __construct(array &$options)
+    {
+        // Call the parent constructor.
+        parent::__construct($options);
 
-		// Throw an exception if there is not a valid callback
-		if (!isset($this->options['callback']) || !\is_callable($this->options['callback']))
-		{
-			throw new \RuntimeException(sprintf('%s created without valid callback function.', \get_class($this)));
-		}
+        // Throw an exception if there is not a valid callback
+        if (!isset($this->options['callback']) || !\is_callable($this->options['callback'])) {
+            throw new \RuntimeException(\sprintf('%s created without valid callback function.', \get_class($this)));
+        }
 
-		$this->callback = $this->options['callback'];
-	}
+        $this->callback = $this->options['callback'];
+    }
 
-	/**
-	 * Method to add an entry to the log.
-	 *
-	 * @param   LogEntry  $entry  The log entry object to add to the log.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0.1
-	 * @throws  \RuntimeException
-	 */
-	public function addEntry(LogEntry $entry)
-	{
-		// Pass the log entry to the callback function
-		\call_user_func($this->callback, $entry);
-	}
+    /**
+     * Method to add an entry to the log.
+     *
+     * @param   LogEntry  $entry  The log entry object to add to the log.
+     *
+     * @return  void
+     *
+     * @since   3.0.1
+     * @throws  \RuntimeException
+     */
+    public function addEntry(LogEntry $entry)
+    {
+        // Pass the log entry to the callback function
+        \call_user_func($this->callback, $entry);
+    }
 }

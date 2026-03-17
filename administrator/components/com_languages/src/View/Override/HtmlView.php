@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_languages
@@ -9,14 +10,17 @@
 
 namespace Joomla\Component\Languages\Administrator\View\Override;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Languages\Administrator\Model\OverrideModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View to edit a language override
@@ -25,126 +29,124 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * The form to use for the view.
-	 *
-	 * @var		object
-	 * @since	2.5
-	 */
-	protected $form;
+    /**
+     * The form to use for the view.
+     *
+     * @var     object
+     * @since   2.5
+     */
+    protected $form;
 
-	/**
-	 * The item to edit.
-	 *
-	 * @var		object
-	 * @since	2.5
-	 */
-	protected $item;
+    /**
+     * The item to edit.
+     *
+     * @var     object
+     * @since   2.5
+     */
+    protected $item;
 
-	/**
-	 * The model state.
-	 *
-	 * @var		object
-	 * @since	2.5
-	 */
-	protected $state;
+    /**
+     * The model state.
+     *
+     * @var     object
+     * @since   2.5
+     */
+    protected $state;
 
-	/**
-	 * Displays the view.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse
-	 *
-	 * @return  void
-	 *
-	 * @since   2.5
-	 */
-	public function display($tpl = null)
-	{
-		$this->form  = $this->get('Form');
-		$this->item  = $this->get('Item');
-		$this->state = $this->get('State');
+    /**
+     * Displays the view.
+     *
+     * @param   string  $tpl  The name of the template file to parse
+     *
+     * @return  void
+     *
+     * @since   2.5
+     */
+    public function display($tpl = null)
+    {
+        /** @var OverrideModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-		$app = Factory::getApplication();
+        $this->form  = $model->getForm();
+        $this->item  = $model->getItem();
+        $this->state = $model->getState();
 
-		$languageClient = $app->getUserStateFromRequest('com_languages.overrides.language_client', 'language_client');
+        $app = Factory::getApplication();
 
-		if ($languageClient == null)
-		{
-			$app->enqueueMessage(Text::_('COM_LANGUAGES_OVERRIDE_FIRST_SELECT_MESSAGE'), 'warning');
+        $languageClient = $app->getUserStateFromRequest('com_languages.overrides.language_client', 'language_client');
 
-			$app->redirect('index.php?option=com_languages&view=overrides');
-		}
+        if ($languageClient == null) {
+            $app->enqueueMessage(Text::_('COM_LANGUAGES_OVERRIDE_FIRST_SELECT_MESSAGE'), 'warning');
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors));
-		}
+            $app->redirect('index.php?option=com_languages&view=overrides');
+        }
 
-		// Check whether the cache has to be refreshed.
-		$cached_time = Factory::getApplication()->getUserState(
-			'com_languages.overrides.cachedtime.' . $this->state->get('filter.client') . '.' . $this->state->get('filter.language'),
-			0
-		);
+        // Check whether the cache has to be refreshed.
+        $cached_time = Factory::getApplication()->getUserState(
+            'com_languages.overrides.cachedtime.' . $this->state->get('filter.client') . '.' . $this->state->get('filter.language'),
+            0
+        );
 
-		if (time() - $cached_time > 60 * 5)
-		{
-			$this->state->set('cache_expired', true);
-		}
+        if (time() - $cached_time > 60 * 5) {
+            $this->state->set('cache_expired', true);
+        }
 
-		// Add strings for translations in \Javascript.
-		Text::script('COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS');
-		Text::script('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR');
+        // Add strings for translations in \Javascript.
+        Text::script('COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS');
+        Text::script('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR');
 
-		$this->addToolbar();
-		parent::display($tpl);
-	}
+        // Add form control fields
+        $this->form
+            ->addControlField('task')
+            ->addControlField('id', $this->item->key);
 
-	/**
-	 * Adds the page title and toolbar.
-	 *
-	 * @return void
-	 *
-	 * @since	2.5
-	 */
-	protected function addToolbar()
-	{
-		Factory::getApplication()->input->set('hidemainmenu', true);
+        $this->addToolbar();
+        parent::display($tpl);
+    }
 
-		$canDo = ContentHelper::getActions('com_languages');
+    /**
+     * Adds the page title and toolbar.
+     *
+     * @return void
+     *
+     * @since   2.5
+     */
+    protected function addToolbar()
+    {
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-		ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_TITLE'), 'comments langmanager');
+        $canDo   = ContentHelper::getActions('com_languages');
+        $toolbar = $this->getDocument()->getToolbar();
 
-		$toolbarButtons = [];
+        ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_TITLE'), 'comments langmanager');
 
-		if ($canDo->get('core.edit'))
-		{
-			ToolbarHelper::apply('override.apply');
+        if ($canDo->get('core.edit')) {
+            $toolbar->apply('override.apply');
+        }
 
-			$toolbarButtons[] = ['save', 'override.save'];
-		}
+        $saveGroup = $toolbar->dropdownButton('save-group');
 
-		// This component does not support Save as Copy.
-		if ($canDo->get('core.edit') && $canDo->get('core.create'))
-		{
-			$toolbarButtons[] = ['save2new', 'override.save2new'];
-		}
+        $saveGroup->configure(
+            function (Toolbar $childBar) use ($canDo) {
+                if ($canDo->get('core.edit')) {
+                    $childBar->save('override.save');
+                }
 
-		ToolbarHelper::saveGroup(
-			$toolbarButtons,
-			'btn-success'
-		);
+                // This component does not support Save as Copy.
+                if ($canDo->get('core.edit') && $canDo->get('core.create')) {
+                    $childBar->save2new('override.save2new');
+                }
+            }
+        );
 
-		if (empty($this->item->key))
-		{
-			ToolbarHelper::cancel('override.cancel');
-		}
-		else
-		{
-			ToolbarHelper::cancel('override.cancel', 'JTOOLBAR_CLOSE');
-		}
+        if (empty($this->item->key)) {
+            $toolbar->cancel('override.cancel', 'JTOOLBAR_CANCEL');
+        } else {
+            $toolbar->cancel('override.cancel');
+        }
 
-		ToolbarHelper::divider();
-		ToolbarHelper::help('Languages:_Edit_Override');
-	}
+        $toolbar->divider();
+        $toolbar->help('Languages:_Edit_Override');
+    }
 }

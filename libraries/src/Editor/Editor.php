@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,8 +9,7 @@
 
 namespace Joomla\CMS\Editor;
 
-\defined('JPATH_PLATFORM') or die;
-
+use Joomla\CMS\Editor\Button\ButtonsRegistry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
@@ -19,7 +19,10 @@ use Joomla\Event\AbstractEvent;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Editor class to handle WYSIWYG editors
@@ -28,299 +31,320 @@ use Joomla\Registry\Registry;
  */
 class Editor implements DispatcherAwareInterface
 {
-	use DispatcherAwareTrait;
+    use DispatcherAwareTrait;
 
-	/**
-	 * Editor Plugin object
-	 *
-	 * @var    object
-	 * @since  1.5
-	 */
-	protected $_editor = null;
+    /**
+     * Editor Plugin object
+     *
+     * @var    object
+     * @since  1.5
+     *
+     * @deprecated  Should use Provider instance
+     */
+    protected $_editor = null;
 
-	/**
-	 * Editor Plugin name
-	 *
-	 * @var    string
-	 * @since  1.5
-	 */
-	protected $_name = null;
+    /**
+     * Editor Provider instance
+     *
+     * @var    EditorProviderInterface
+     * @since  5.0.0
+     */
+    private $provider;
 
-	/**
-	 * Object asset
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	protected $asset = null;
+    /**
+     * Editor Plugin name
+     *
+     * @var    string
+     * @since  1.5
+     */
+    protected $_name = null;
 
-	/**
-	 * Object author
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	protected $author = null;
+    /**
+     * Object asset
+     *
+     * @var    string
+     * @since  1.6
+     */
+    protected $asset = null;
 
-	/**
-	 * Editor instances container.
-	 *
-	 * @var    Editor[]
-	 * @since  2.5
-	 */
-	protected static $instances = array();
+    /**
+     * Object author
+     *
+     * @var    string
+     * @since  1.6
+     */
+    protected $author = null;
 
-	/**
-	 * Constructor
-	 *
-	 * @param   string               $editor      The editor name
-	 * @param   DispatcherInterface  $dispatcher  The event dispatcher we're going to use
-	 */
-	public function __construct($editor = 'none', DispatcherInterface $dispatcher = null)
-	{
-		$this->_name = $editor;
+    /**
+     * Editor instances container.
+     *
+     * @var    Editor[]
+     * @since  2.5
+     */
+    protected static $instances = [];
 
-		// Set the dispatcher
-		if (!\is_object($dispatcher))
-		{
-			$dispatcher = Factory::getContainer()->get('dispatcher');
-		}
+    /**
+     * Constructor
+     *
+     * @param   string                $editor      The editor name
+     * @param   ?DispatcherInterface  $dispatcher  The event dispatcher we're going to use
+     * @param   ?EditorsRegistry      $registry    The editors registry
+     *
+     * @since  1.5
+     */
+    public function __construct(string $editor = 'none', ?DispatcherInterface $dispatcher = null, ?EditorsRegistry $registry = null)
+    {
+        $this->_name = $editor;
 
-		$this->setDispatcher($dispatcher);
+        /** @var  EditorsRegistry  $registry */
+        $registry ??= Factory::getContainer()->get(EditorsRegistry::class);
 
-		// Register the getButtons event
-		$this->getDispatcher()->addListener(
-			'getButtons',
-			function (AbstractEvent $event) {
-				$editor = $event->getArgument('editor', null);
-				$buttons = $event->getArgument('buttons', null);
-				$result = $event->getArgument('result', []);
-				$newResult = $this->getButtons($editor, $buttons);
-				$newResult = (array) $newResult;
-				$event['result'] = array_merge($result, $newResult);
-			}
-		);
-	}
+        if ($registry->has($editor)) {
+            $this->provider = $registry->get($editor);
+        } else {
+            // Fallback to legacy editor logic
+            @trigger_error(
+                '7.0 Discovering an editor "' . $this->_name . '" outside of EditorsRegistry is deprecated.',
+                \E_USER_DEPRECATED
+            );
 
-	/**
-	 * Returns the global Editor object, only creating it
-	 * if it doesn't already exist.
-	 *
-	 * @param   string  $editor  The editor to use.
-	 *
-	 * @return  Editor The Editor object.
-	 *
-	 * @since   1.5
-	 */
-	public static function getInstance($editor = 'none')
-	{
-		$signature = serialize($editor);
+            // Set the dispatcher
+            if (!\is_object($dispatcher)) {
+                $dispatcher = Factory::getContainer()->get('dispatcher');
+            }
 
-		if (empty(self::$instances[$signature]))
-		{
-			self::$instances[$signature] = new static($editor);
-		}
+            $this->setDispatcher($dispatcher);
 
-		return self::$instances[$signature];
-	}
+            // Register the getButtons event
+            $this->getDispatcher()->addListener(
+                'getButtons',
+                function (AbstractEvent $event) {
+                    @trigger_error(
+                        '7.0 Use Button "getButtons" event is deprecated,  buttons should be set up onEditorButtonsSetup event.',
+                        \E_USER_DEPRECATED
+                    );
 
-	/**
-	 * Initialise the editor
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public function initialise()
-	{
-		// Check if editor is already loaded
-		if ($this->_editor === null)
-		{
-			return;
-		}
+                    $event['result'] = (array)$this->getButtons(
+                        $event->getArgument('editor', null),
+                        $event->getArgument('buttons', null)
+                    );
+                }
+            );
+        }
+    }
 
-		if (method_exists($this->_editor, 'onInit'))
-		{
-			\call_user_func(array($this->_editor, 'onInit'));
-		}
-	}
+    /**
+     * Returns the global Editor object, only creating it
+     * if it doesn't already exist.
+     *
+     * @param   string  $editor  The editor to use.
+     *
+     * @return  Editor The Editor object.
+     *
+     * @since   1.5
+     */
+    public static function getInstance($editor = 'none')
+    {
+        $signature = $editor;
 
-	/**
-	 * Display the editor area.
-	 *
-	 * @param   string   $name     The control name.
-	 * @param   string   $html     The contents of the text area.
-	 * @param   string   $width    The width of the text area (px or %).
-	 * @param   string   $height   The height of the text area (px or %).
-	 * @param   integer  $col      The number of columns for the textarea.
-	 * @param   integer  $row      The number of rows for the textarea.
-	 * @param   boolean  $buttons  True and the editor buttons will be displayed.
-	 * @param   string   $id       An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
-	 * @param   string   $asset    The object asset
-	 * @param   object   $author   The author.
-	 * @param   array    $params   Associative array of editor parameters.
-	 *
-	 * @return  string
-	 *
-	 * @since   1.5
-	 */
-	public function display($name, $html, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
-	{
-		$this->asset = $asset;
-		$this->author = $author;
-		$this->_loadEditor($params);
+        if (empty(self::$instances[$signature])) {
+            self::$instances[$signature] = new static($editor);
+        }
 
-		// Check whether editor is already loaded
-		if ($this->_editor === null)
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'danger');
+        return self::$instances[$signature];
+    }
 
-			return;
-		}
+    /**
+     * Initialise the editor
+     *
+     * @return  void
+     *
+     * @since   1.5
+     *
+     * @deprecated  7.0 Without replacement
+     */
+    public function initialise()
+    {
+        if ($this->provider) {
+            return;
+        }
 
-		// Backwards compatibility. Width and height should be passed without a semicolon from now on.
-		// If editor plugins need a unit like "px" for CSS styling, they need to take care of that
-		$width = str_replace(';', '', $width);
-		$height = str_replace(';', '', $height);
+        // Check if editor is already loaded
+        if ($this->_editor === null) {
+            return;
+        }
 
-		$args['name'] = $name;
-		$args['content'] = $html;
-		$args['width'] = $width;
-		$args['height'] = $height;
-		$args['col'] = $col;
-		$args['row'] = $row;
-		$args['buttons'] = $buttons;
-		$args['id'] = $id ?: $name;
-		$args['asset'] = $asset;
-		$args['author'] = $author;
-		$args['params'] = $params;
+        @trigger_error('7.0 Method onInit() for Editor instance is deprecated, without replacement.', \E_USER_DEPRECATED);
 
-		return \call_user_func_array(array($this->_editor, 'onDisplay'), $args);
-	}
+        if (method_exists($this->_editor, 'onInit')) {
+            \call_user_func([$this->_editor, 'onInit']);
+        }
+    }
 
-	/**
-	 * Get the editor extended buttons (usually from plugins)
-	 *
-	 * @param   string  $editor   The name of the editor.
-	 * @param   mixed   $buttons  Can be boolean or array, if boolean defines if the buttons are
-	 *                            displayed, if array defines a list of buttons not to show.
-	 *
-	 * @return  array
-	 *
-	 * @since   1.5
-	 */
-	public function getButtons($editor, $buttons = true)
-	{
-		$result = array();
+    /**
+     * Display the editor area.
+     *
+     * @param   string   $name     The control name.
+     * @param   string   $html     The contents of the text area.
+     * @param   string   $width    The width of the text area (px or %).
+     * @param   string   $height   The height of the text area (px or %).
+     * @param   integer  $col      The number of columns for the textarea.
+     * @param   integer  $row      The number of rows for the textarea.
+     * @param   boolean  $buttons  True and the editor buttons will be displayed.
+     * @param   string   $id       An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
+     * @param   string   $asset    The object asset
+     * @param   object   $author   The author.
+     * @param   array    $params   Associative array of editor parameters.
+     *
+     * @return  string
+     *
+     * @since   1.5
+     */
+    public function display($name, $html, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = [])
+    {
+        if ($this->provider) {
+            $params['buttons'] ??= $buttons;
+            $params['asset']   ??= $asset;
+            $params['author']  ??= $author;
+            $content           = $html ?? '';
 
-		if (\is_bool($buttons) && !$buttons)
-		{
-			return $result;
-		}
+            return $this->provider->display($name, $content, [
+                'width'  => $width,
+                'height' => $height,
+                'col'    => $col,
+                'row'    => $row,
+                'id'     => $id,
+            ], $params);
+        }
 
-		// Get plugins
-		$plugins = PluginHelper::getPlugin('editors-xtd');
+        $this->asset  = $asset;
+        $this->author = $author;
+        $this->_loadEditor($params);
 
-		foreach ($plugins as $plugin)
-		{
-			if (\is_array($buttons) && \in_array($plugin->name, $buttons))
-			{
-				continue;
-			}
+        // Check whether editor is already loaded
+        if ($this->_editor === null) {
+            Factory::getApplication()->enqueueMessage(Text::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'danger');
 
-			PluginHelper::importPlugin('editors-xtd', $plugin->name, false);
-			$className = 'PlgEditorsXtd' . $plugin->name;
+            return '';
+        }
 
-			if (!class_exists($className))
-			{
-				$className = 'PlgButton' . $plugin->name;
-			}
+        // Make sure editors api is loaded
+        Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('editors');
 
-			if (class_exists($className))
-			{
-				$dispatcher = $this->getDispatcher();
-				$plugin = new $className($dispatcher, (array) $plugin);
-			}
+        // Backwards compatibility. Width and height should be passed without a semicolon from now on.
+        // If editor plugins need a unit like "px" for CSS styling, they need to take care of that
+        $width  = str_replace(';', '', $width);
+        $height = str_replace(';', '', $height);
 
-			// Try to authenticate
-			if (!method_exists($plugin, 'onDisplay'))
-			{
-				continue;
-			}
+        $args = [
+            'name'    => $name,
+            'content' => $html,
+            'width'   => $width,
+            'height'  => $height,
+            'col'     => $col,
+            'row'     => $row,
+            'buttons' => $buttons,
+            'id'      => ($id ?: $name),
+            'asset'   => $asset,
+            'author'  => $author,
+            'params'  => $params,
+        ];
 
-			$button = $plugin->onDisplay($editor, $this->asset, $this->author);
+        return \call_user_func_array([$this->_editor, 'onDisplay'], $args);
+    }
 
-			if (empty($button))
-			{
-				continue;
-			}
+    /**
+     * Get the editor extended buttons (usually from plugins)
+     *
+     * @param   string  $editor   The ID of the editor.
+     * @param   mixed   $buttons  Can be boolean or array, if boolean defines if the buttons are
+     *                            displayed, if array defines a list of buttons not to show.
+     *
+     * @return  array
+     *
+     * @since   1.5
+     *
+     */
+    public function getButtons($editor, $buttons = true)
+    {
+        if ($this->provider) {
+            return $this->provider->getButtons($buttons, ['editorId' => $editor]);
+        }
 
-			if (\is_array($button))
-			{
-				$result = array_merge($result, $button);
-				continue;
-			}
+        if ($buttons === false) {
+            return [];
+        }
 
-			$result[] = $button;
-		}
+        $loadAll = false;
 
-		return $result;
-	}
+        if ($buttons === true || $buttons === []) {
+            $buttons = [];
+            $loadAll = true;
+        }
 
-	/**
-	 * Load the editor
-	 *
-	 * @param   array  $config  Associative array of editor config parameters
-	 *
-	 * @return  mixed
-	 *
-	 * @since   1.5
-	 */
-	protected function _loadEditor($config = array())
-	{
-		// Check whether editor is already loaded
-		if ($this->_editor !== null)
-		{
-			return false;
-		}
+        // Retrieve buttons for legacy editor
+        $result  = [];
+        $btnsReg = new ButtonsRegistry();
+        $btnsReg->setDispatcher($this->getDispatcher())->initRegistry([
+            'editorType'      => $this->_name,
+            'disabledButtons' => $buttons,
+            'editorId'        => $editor,
+            'asset'           => (int) $this->asset,
+            'author'          => (int) $this->author,
+        ]);
 
-		// Build the path to the needed editor plugin
-		$name = InputFilter::getInstance()->clean($this->_name, 'cmd');
-		$path = JPATH_PLUGINS . '/editors/' . $name . '/' . $name . '.php';
+        // Go through all and leave only allowed buttons
+        foreach ($btnsReg->getAll() as $button) {
+            $btnName = $button->getButtonName();
 
-		if (!is_file($path))
-		{
-			Log::add(Text::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), Log::WARNING, 'jerror');
+            if (!$loadAll && \in_array($btnName, $buttons)) {
+                continue;
+            }
 
-			return false;
-		}
+            $result[] = $button;
+        }
 
-		// Require plugin file
-		require_once $path;
+        return $result;
+    }
 
-		// Get the plugin
-		$plugin = PluginHelper::getPlugin('editors', $this->_name);
+    /**
+     * Load the editor
+     *
+     * @param   array  $config  Associative array of editor config parameters
+     *
+     * @return  mixed
+     *
+     * @since   1.5
+     *
+     * @deprecated  7.0 Should use EditorRegistry
+     */
+    protected function _loadEditor($config = [])
+    {
+        // Check whether editor is already loaded
+        if ($this->_editor !== null) {
+            return false;
+        }
 
-		// If no plugin is published we get an empty array and there not so much to do with it
-		if (empty($plugin))
-		{
-			return false;
-		}
+        @trigger_error('7.0 Editor "' . $this->_name . '" instance should be set up onEditorSetup event.', \E_USER_DEPRECATED);
 
-		$params = new Registry($plugin->params);
-		$params->loadArray($config);
-		$plugin->params = $params;
+        // Build the path to the needed editor plugin
+        $name = InputFilter::getInstance()->clean($this->_name, 'cmd');
 
-		// Build editor plugin classname
-		$name = 'PlgEditor' . $this->_name;
+        // Boot the editor plugin
+        $this->_editor = Factory::getApplication()->bootPlugin($name, 'editors');
 
-		$dispatcher = $this->getDispatcher();
+        // Check if the editor can be loaded
+        if (!$this->_editor) {
+            Log::add(Text::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), Log::WARNING, 'jerror');
 
-		if ($this->_editor = new $name($dispatcher, (array) $plugin))
-		{
-			// Load plugin parameters
-			$this->initialise();
-			PluginHelper::importPlugin('editors-xtd');
-		}
-	}
+            return false;
+        }
+
+        $this->_editor->params->loadArray($config);
+
+        $this->initialise();
+        PluginHelper::importPlugin('editors-xtd');
+
+        return true;
+    }
 }

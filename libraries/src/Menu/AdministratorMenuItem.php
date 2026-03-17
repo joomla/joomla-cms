@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\Menu;
 
-\defined('JPATH_PLATFORM') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Object representing an administrator menu item
@@ -17,27 +20,43 @@ namespace Joomla\CMS\Menu;
  */
 class AdministratorMenuItem extends MenuItem
 {
-	/**
-	 * The target attribute of the link
-	 *
-	 * @var    string|null
-	 * @since  4.0.0
-	 */
-	public $target;
+    /**
+     * The target attribute of the link
+     *
+     * @var    string|null
+     * @since  4.0.0
+     */
+    public $target;
 
-	/**
-	 * The icon image of the menu item
-	 *
-	 * @var    string|null
-	 * @since  4.0.0
-	 */
-	public $icon;
+    /**
+     * The icon image of the menu item
+     *
+     * @var    string|null
+     * @since  4.0.0
+     */
+    public $icon;
 
-	/**
-	 * The icon image of the link
-	 *
-	 * @var    string|null
-	 * @since  4.0.0
-	 */
-	public $iconImage;
+    /**
+     * The icon image of the link
+     *
+     * @var    string|null
+     * @since  4.0.0
+     */
+    public $iconImage;
+
+    /**
+     * The class of the menu item
+     *
+     * @var string
+     * @since 5.2.2
+     */
+    public $class = '';
+
+    /**
+     * The element type of the menu item
+     *
+     * @var string
+     * @since 5.2.2
+     */
+    public $element = '';
 }

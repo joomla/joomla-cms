@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_languages
@@ -9,14 +10,15 @@
 
 namespace Joomla\Component\Languages\Administrator\View\Installed;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Languages\Administrator\Model\InstalledModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Displays a list of the installed languages.
@@ -25,124 +27,124 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * Option (component) name
-	 *
-	 * @var string
-	 */
-	protected $option = null;
+    /**
+     * Option (component) name
+     *
+     * @var string
+     */
+    protected $option = null;
 
-	/**
-	 * The pagination object
-	 *
-	 * @var  \Joomla\CMS\Pagination\Pagination
-	 */
-	protected $pagination;
+    /**
+     * The pagination object
+     *
+     * @var  \Joomla\CMS\Pagination\Pagination
+     */
+    protected $pagination;
 
-	/**
-	 * Languages information
-	 *
-	 * @var array
-	 */
-	protected $rows = null;
+    /**
+     * Languages information
+     *
+     * @var array
+     */
+    protected $rows = null;
 
-	/**
-	 * The model state
-	 *
-	 * @var    \JObject
-	 * @since  4.0.0
-	 */
-	protected $state;
+    /**
+     * The model state
+     *
+     * @var   \Joomla\Registry\Registry
+     *
+     * @since  4.0.0
+     */
+    protected $state;
 
-	/**
-	 * Form object for search filters
-	 *
-	 * @var    \JForm
-	 * @since  4.0.0
-	 */
-	public $filterForm;
+    /**
+     * Form object for search filters
+     *
+     * @var    \Joomla\CMS\Form\Form
+     *
+     * @since  4.0.0
+     */
+    public $filterForm;
 
-	/**
-	 * The active search filters
-	 *
-	 * @var    array
-	 * @since  4.0.0
-	 */
-	public $activeFilters;
+    /**
+     * The active search filters
+     *
+     * @var    array
+     * @since  4.0.0
+     */
+    public $activeFilters;
 
-	/**
-	 * Display the view.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse.
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
-		$this->option        = $this->get('Option');
-		$this->pagination    = $this->get('Pagination');
-		$this->rows          = $this->get('Data');
-		$this->total         = $this->get('Total');
-		$this->state         = $this->get('State');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
+    /**
+     * Display the view.
+     *
+     * @param   string  $tpl  The name of the template file to parse.
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        /** @var InstalledModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        $this->option        = $model->getOption();
+        $this->pagination    = $model->getPagination();
+        $this->rows          = $model->getData();
+        $this->total         = $model->getTotal();
+        $this->state         = $model->getState();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
 
-		$this->addToolbar();
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task')
+            ->addControlField('boxchecked', '0');
 
-		parent::display($tpl);
-	}
+        $this->addToolbar();
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function addToolbar()
-	{
-		$canDo = ContentHelper::getActions('com_languages');
+        parent::display($tpl);
+    }
 
-		if ((int) $this->state->get('client_id') === 1)
-		{
-			ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_INSTALLED_ADMIN_TITLE'), 'comments langmanager');
-		}
-		else
-		{
-			ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_INSTALLED_SITE_TITLE'), 'comments langmanager');
-		}
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    protected function addToolbar()
+    {
+        $canDo   = ContentHelper::getActions('com_languages');
+        $toolbar = $this->getDocument()->getToolbar();
 
-		if ($canDo->get('core.edit.state'))
-		{
-			ToolbarHelper::makeDefault('installed.setDefault');
-			ToolbarHelper::divider();
-		}
+        if ((int) $this->state->get('client_id') === 1) {
+            ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_INSTALLED_ADMIN_TITLE'), 'comments langmanager');
+        } else {
+            ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_INSTALLED_SITE_TITLE'), 'comments langmanager');
+        }
 
-		if ($canDo->get('core.admin'))
-		{
-			// Add install languages link to the lang installer component.
-			$bar = Toolbar::getInstance('toolbar');
+        if ($canDo->get('core.edit.state')) {
+            $toolbar->makeDefault('installed.setDefault');
+            $toolbar->divider();
+        }
 
-			// Switch administrator language
-			if ($this->state->get('client_id', 0) == 1)
-			{
-				ToolbarHelper::custom('installed.switchadminlanguage', 'refresh', '', 'COM_LANGUAGES_SWITCH_ADMIN', true);
-				ToolbarHelper::divider();
-			}
+        if ($canDo->get('core.admin')) {
+            // Switch administrator language
+            if ($this->state->get('client_id', 0) == 1) {
+                $toolbar->standardButton('switch', 'COM_LANGUAGES_SWITCH_ADMIN', 'installed.switchadminlanguage')
+                    ->icon('icon-refresh')
+                    ->listCheck(true);
+                $toolbar->divider();
+            }
 
-			$bar->appendButton('Link', 'upload', 'COM_LANGUAGES_INSTALL', 'index.php?option=com_installer&view=languages');
-			ToolbarHelper::divider();
+            $toolbar->link('COM_LANGUAGES_INSTALL', 'index.php?option=com_installer&view=languages')
+                ->icon('icon-upload');
+            $toolbar->divider();
 
-			ToolbarHelper::preferences('com_languages');
-			ToolbarHelper::divider();
-		}
+            $toolbar->preferences('com_languages');
+            $toolbar->divider();
+        }
 
-		ToolbarHelper::help('Languages:_Installed');
-	}
+        $toolbar->help('Languages:_Installed');
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,13 +9,15 @@
 
 namespace Joomla\CMS\Form\Field;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\QueryInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Supports a custom SQL select list
@@ -23,303 +26,290 @@ use Joomla\Database\Exception\ExecutionFailureException;
  */
 class SqlField extends ListField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  1.7.0
-	 */
-	public $type = 'SQL';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    public $type = 'SQL';
 
-	/**
-	 * The keyField.
-	 *
-	 * @var    string
-	 * @since  3.2
-	 */
-	protected $keyField;
+    /**
+     * The keyField.
+     *
+     * @var    string
+     * @since  3.2
+     */
+    protected $keyField;
 
-	/**
-	 * The valueField.
-	 *
-	 * @var    string
-	 * @since  3.2
-	 */
-	protected $valueField;
+    /**
+     * The valueField.
+     *
+     * @var    string
+     * @since  3.2
+     */
+    protected $valueField;
 
-	/**
-	 * The translate.
-	 *
-	 * @var    boolean
-	 * @since  3.2
-	 */
-	protected $translate = false;
+    /**
+     * The translate.
+     *
+     * @var    boolean
+     * @since  3.2
+     */
+    protected $translate = false;
 
-	/**
-	 * The query.
-	 *
-	 * @var    string
-	 * @since  3.2
-	 */
-	protected $query;
+    /**
+     * The header.
+     *
+     * @var    mixed
+     * @since  4.3.0
+     */
+    protected $header;
 
-	/**
-	 * Method to get certain otherwise inaccessible properties from the form field object.
-	 *
-	 * @param   string  $name  The property name for which to get the value.
-	 *
-	 * @return  mixed  The property value or null.
-	 *
-	 * @since   3.2
-	 */
-	public function __get($name)
-	{
-		switch ($name)
-		{
-			case 'keyField':
-			case 'valueField':
-			case 'translate':
-			case 'query':
-				return $this->$name;
-		}
+    /**
+     * The query.
+     *
+     * @var    string
+     * @since  3.2
+     */
+    protected $query;
 
-		return parent::__get($name);
-	}
+    /**
+     * Method to get certain otherwise inaccessible properties from the form field object.
+     *
+     * @param   string  $name  The property name for which to get the value.
+     *
+     * @return  mixed  The property value or null.
+     *
+     * @since   3.2
+     */
+    public function __get($name)
+    {
+        switch ($name) {
+            case 'keyField':
+            case 'valueField':
+            case 'translate':
+            case 'header':
+            case 'query':
+                return $this->$name;
+        }
 
-	/**
-	 * Method to set certain otherwise inaccessible properties of the form field object.
-	 *
-	 * @param   string  $name   The property name for which to set the value.
-	 * @param   mixed   $value  The value of the property.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function __set($name, $value)
-	{
-		switch ($name)
-		{
-			case 'keyField':
-			case 'valueField':
-			case 'translate':
-			case 'query':
-				$this->$name = (string) $value;
-				break;
+        return parent::__get($name);
+    }
 
-			default:
-				parent::__set($name, $value);
-		}
-	}
+    /**
+     * Method to set certain otherwise inaccessible properties of the form field object.
+     *
+     * @param   string  $name   The property name for which to set the value.
+     * @param   mixed   $value  The value of the property.
+     *
+     * @return  void
+     *
+     * @since   3.2
+     */
+    public function __set($name, $value)
+    {
+        switch ($name) {
+            case 'translate':
+                $this->$name = (bool) $value;
+                break;
 
-	/**
-	 * Method to attach a Form object to the field.
-	 *
-	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed              $value    The form field value to validate.
-	 * @param   string             $group    The field name group control value. This acts as an array container for the field.
-	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                       full field name would end up being "bar[foo]".
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @see     FormField::setup()
-	 * @since   3.2
-	 */
-	public function setup(\SimpleXMLElement $element, $value, $group = null)
-	{
-		$return = parent::setup($element, $value, $group);
+            case 'keyField':
+            case 'valueField':
+            case 'header':
+            case 'query':
+                $this->$name = (string) $value;
+                break;
 
-		if ($return)
-		{
-			// Check if its using the old way
-			$this->query = (string) $this->element['query'];
+            default:
+                parent::__set($name, $value);
+        }
+    }
 
-			if (empty($this->query))
-			{
-				// Get the query from the form
-				$query    = array();
-				$defaults = array();
+    /**
+     * Method to attach a Form object to the field.
+     *
+     * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+     * @param   mixed              $value    The form field value to validate.
+     * @param   string             $group    The field name group control value. This acts as an array container for the field.
+     *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+     *                                       full field name would end up being "bar[foo]".
+     *
+     * @return  boolean  True on success.
+     *
+     * @see     FormField::setup()
+     * @since   3.2
+     */
+    public function setup(\SimpleXMLElement $element, $value, $group = null)
+    {
+        $return = parent::setup($element, $value, $group);
 
-				$sql_select = (string) $this->element['sql_select'];
-				$sql_from   = (string) $this->element['sql_from'];
+        if ($return) {
+            // Check if its using the old way
+            $this->query = (string) $this->element['query'];
 
-				if ($sql_select && $sql_from)
-				{
-					$query['select'] = $sql_select;
-					$query['from']   = $sql_from;
-					$query['join']   = (string) $this->element['sql_join'];
-					$query['where']  = (string) $this->element['sql_where'];
-					$query['group']  = (string) $this->element['sql_group'];
-					$query['order']  = (string) $this->element['sql_order'];
+            if (empty($this->query)) {
+                // Get the query from the form
+                $query    = [];
+                $defaults = [];
 
-					// Get the filters
-					$filters = isset($this->element['sql_filter']) ? explode(',', $this->element['sql_filter']) : '';
+                $sql_select = (string) $this->element['sql_select'];
+                $sql_from   = (string) $this->element['sql_from'];
 
-					// Get the default value for query if empty
-					if (\is_array($filters))
-					{
-						foreach ($filters as $filter)
-						{
-							$name   = "sql_default_{$filter}";
-							$attrib = (string) $this->element[$name];
+                if ($sql_select && $sql_from) {
+                    $query['select'] = $sql_select;
+                    $query['from']   = $sql_from;
+                    $query['join']   = (string) $this->element['sql_join'];
+                    $query['where']  = (string) $this->element['sql_where'];
+                    $query['group']  = (string) $this->element['sql_group'];
+                    $query['order']  = (string) $this->element['sql_order'];
 
-							if (!empty($attrib))
-							{
-								$defaults[$filter] = $attrib;
-							}
-						}
-					}
+                    // Get the filters
+                    $filters = isset($this->element['sql_filter']) ? explode(',', $this->element['sql_filter']) : [];
 
-					// Process the query
-					$this->query = $this->processQuery($query, $filters, $defaults);
-				}
-			}
+                    // Get the default value for query if empty
+                    foreach ($filters as $filter) {
+                        $name   = "sql_default_{$filter}";
+                        $attrib = (string) $this->element[$name];
 
-			$this->keyField   = (string) $this->element['key_field'] ?: 'value';
-			$this->valueField = (string) $this->element['value_field'] ?: (string) $this->element['name'];
-			$this->translate  = (string) $this->element['translate'] ?: false;
-			$this->header     = (string) $this->element['header'] ?: false;
-		}
+                        if (!empty($attrib)) {
+                            $defaults[$filter] = $attrib;
+                        }
+                    }
 
-		return $return;
-	}
+                    // Process the query
+                    $this->query = $this->processQuery($query, $filters, $defaults);
+                }
+            }
 
-	/**
-	 * Method to process the query from form.
-	 *
-	 * @param   array   $conditions  The conditions from the form.
-	 * @param   string  $filters     The columns to filter.
-	 * @param   array   $defaults    The defaults value to set if condition is empty.
-	 *
-	 * @return  DatabaseQuery  The query object.
-	 *
-	 * @since   3.5
-	 */
-	protected function processQuery($conditions, $filters, $defaults)
-	{
-		// Get the database object.
-		$db = Factory::getDbo();
+            $this->keyField   = (string) $this->element['key_field'] ?: 'value';
+            $this->valueField = (string) $this->element['value_field'] ?: (string) $this->element['name'];
+            $this->translate  = (string) $this->element['translate'] ?: false;
+            $this->header     = (string) $this->element['header'] ?: false;
+        }
 
-		// Get the query object
-		$query = $db->getQuery(true);
+        return $return;
+    }
 
-		// Select fields
-		$query->select($conditions['select']);
+    /**
+     * Method to process the query from form.
+     *
+     * @param   string[]  $conditions  The conditions from the form.
+     * @param   string[]  $filters     The columns to filter.
+     * @param   string[]  $defaults    The defaults value to set if condition is empty.
+     *
+     * @return  QueryInterface  The query object.
+     *
+     * @since   3.5
+     */
+    protected function processQuery($conditions, $filters, $defaults)
+    {
+        // Get the database object.
+        $db = $this->getDatabase();
 
-		// From selected table
-		$query->from($conditions['from']);
+        // Get the query object
+        $query = $db->createQuery();
 
-		// Join over the groups
-		if (!empty($conditions['join']))
-		{
-			$query->join('LEFT', $conditions['join']);
-		}
+        // Select fields
+        $query->select($conditions['select']);
 
-		// Where condition
-		if (!empty($conditions['where']))
-		{
-			$query->where($conditions['where']);
-		}
+        // From selected table
+        $query->from($conditions['from']);
 
-		// Group by
-		if (!empty($conditions['group']))
-		{
-			$query->group($conditions['group']);
-		}
+        // Join over the groups
+        if (!empty($conditions['join'])) {
+            $query->join('LEFT', $conditions['join']);
+        }
 
-		// Process the filters
-		if (\is_array($filters))
-		{
-			$html_filters = Factory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array');
+        // Where condition
+        if (!empty($conditions['where'])) {
+            $query->where($conditions['where']);
+        }
 
-			foreach ($filters as $k => $value)
-			{
-				if (!empty($html_filters[$value]))
-				{
-					$escape = $db->quote($db->escape($html_filters[$value]), false);
+        // Group by
+        if (!empty($conditions['group'])) {
+            $query->group($conditions['group']);
+        }
 
-					$query->where("{$value} = {$escape}");
-				}
-				elseif (!empty($defaults[$value]))
-				{
-					$escape = $db->quote($db->escape($defaults[$value]), false);
+        // Process the filters
+        if (\is_array($filters)) {
+            // @TODO: Loading the filtering value from the request need to be deprecated.
+            $html_filters = $this->context ? Factory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', [], 'array') : false;
+            $form         = $this->form;
 
-					$query->where("{$value} = {$escape}");
-				}
-			}
-		}
+            foreach ($filters as $k => $value) {
+                // Get the filter value from the linked filter field
+                $filterFieldValue = $form->getValue($value, $this->group);
 
-		// Add order to query
-		if (!empty($conditions['order']))
-		{
-			$query->order($conditions['order']);
-		}
+                if ($html_filters && !empty($html_filters[$value])) {
+                    $escape = $db->quote($db->escape($html_filters[$value]), false);
 
-		return $query;
-	}
+                    $query->where("{$value} = {$escape}");
+                } elseif ($filterFieldValue !== null) {
+                    $escape = $db->quote($db->escape($filterFieldValue), false);
 
-	/**
-	 * Method to get the custom field options.
-	 * Use the query attribute to supply a query to generate the list.
-	 *
-	 * @return  array  The field option objects.
-	 *
-	 * @since   1.7.0
-	 */
-	protected function getOptions()
-	{
-		$options = array();
+                    $query->where("{$value} = {$escape}");
+                } elseif (!empty($defaults[$value])) {
+                    $escape = $db->quote($db->escape($defaults[$value]), false);
 
-		// Initialize some field attributes.
-		$key   = $this->keyField;
-		$value = $this->valueField;
-		$header = $this->header;
+                    $query->where("{$value} = {$escape}");
+                }
+            }
+        }
 
-		if ($this->query)
-		{
-			// Get the database object.
-			$db = Factory::getDbo();
+        // Add order to query
+        if (!empty($conditions['order'])) {
+            $query->order($conditions['order']);
+        }
 
-			// Set the query and get the result list.
-			$db->setQuery($this->query);
+        return $query;
+    }
 
-			try
-			{
-				$items = $db->loadObjectList();
-			}
-			catch (ExecutionFailureException $e)
-			{
-				Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
-			}
-		}
+    /**
+     * Method to get the custom field options.
+     * Use the query attribute to supply a query to generate the list.
+     *
+     * @return  object[]  The field option objects.
+     *
+     * @since   1.7.0
+     */
+    protected function getOptions()
+    {
+        $options = [];
 
-		// Add header.
-		if (!empty($header))
-		{
-			$header_title = Text::_($header);
-			$options[] = HTMLHelper::_('select.option', '', $header_title);
-		}
+        // Initialize some field attributes.
+        $key    = $this->keyField;
+        $value  = $this->valueField;
+        $header = $this->header;
 
-		// Build the field options.
-		if (!empty($items))
-		{
-			foreach ($items as $item)
-			{
-				if ($this->translate == true)
-				{
-					$options[] = HTMLHelper::_('select.option', $item->$key, Text::_($item->$value));
-				}
-				else
-				{
-					$options[] = HTMLHelper::_('select.option', $item->$key, $item->$value);
-				}
-			}
-		}
+        if ($this->query) {
+            // Get the database object.
+            $db = $this->getDatabase();
 
-		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $options);
+            // Set the query and get the result list.
+            $db->setQuery($this->query);
 
-		return $options;
-	}
+            try {
+                $items = $db->loadObjectList();
+            } catch (ExecutionFailureException) {
+                Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+            }
+        }
+
+        // Build the field options.
+        if (!empty($items)) {
+            foreach ($items as $item) {
+                if ($this->translate) {
+                    $options[] = HTMLHelper::_('select.option', $item->$key, Text::_($item->$value));
+                } else {
+                    $options[] = HTMLHelper::_('select.option', $item->$key, $item->$value);
+                }
+            }
+        }
+
+        // Merge any additional options in the XML definition.
+        $options = array_merge(parent::getOptions(), $options);
+
+        return $options;
+    }
 }

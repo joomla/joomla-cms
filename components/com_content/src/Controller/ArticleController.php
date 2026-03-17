@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_content
@@ -9,10 +10,7 @@
 
 namespace Joomla\Component\Content\Site\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
@@ -21,6 +19,10 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Content article class.
  *
@@ -28,435 +30,399 @@ use Joomla\Utilities\ArrayHelper;
  */
 class ArticleController extends FormController
 {
-	use VersionableControllerTrait;
+    use VersionableControllerTrait;
 
-	/**
-	 * The URL view item variable.
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	protected $view_item = 'form';
+    /**
+     * The URL view item variable.
+     *
+     * @var    string
+     * @since  1.6
+     */
+    protected $view_item = 'form';
 
-	/**
-	 * The URL view list variable.
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	protected $view_list = 'categories';
+    /**
+     * The URL view list variable.
+     *
+     * @var    string
+     * @since  1.6
+     */
+    protected $view_list = 'categories';
 
-	/**
-	 * The URL edit variable.
-	 *
-	 * @var    string
-	 * @since  3.2
-	 */
-	protected $urlVar = 'a.id';
+    /**
+     * The URL edit variable.
+     *
+     * @var    string
+     * @since  3.2
+     */
+    protected $urlVar = 'a.id';
 
-	/**
-	 * Method to add a new record.
-	 *
-	 * @return  mixed  True if the record can be added, an error object if not.
-	 *
-	 * @since   1.6
-	 */
-	public function add()
-	{
-		if (!parent::add())
-		{
-			// Redirect to the return page.
-			$this->setRedirect($this->getReturnPage());
+    /**
+     * Method to add a new record.
+     *
+     * @return  mixed  True if the record can be added, an error object if not.
+     *
+     * @since   1.6
+     */
+    public function add()
+    {
+        if (!parent::add()) {
+            // Redirect to the return page.
+            $this->setRedirect($this->getReturnPage());
 
-			return;
-		}
+            return;
+        }
 
-		// Redirect to the edit screen.
-		$this->setRedirect(
-			Route::_(
-				'index.php?option=' . $this->option . '&view=' . $this->view_item . '&a_id=0'
-				. $this->getRedirectToItemAppend(), false
-			)
-		);
+        // Redirect to the edit screen.
+        $this->setRedirect(
+            Route::_(
+                'index.php?option=' . $this->option . '&view=' . $this->view_item . '&a_id=0'
+                . $this->getRedirectToItemAppend(),
+                false
+            )
+        );
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Method override to check if you can add a new record.
-	 *
-	 * @param   array  $data  An array of input data.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   1.6
-	 */
-	protected function allowAdd($data = array())
-	{
-		$user       = $this->app->getIdentity();
-		$categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int');
-		$allow      = null;
+    /**
+     * Method override to check if you can add a new record.
+     *
+     * @param   array  $data  An array of input data.
+     *
+     * @return  boolean
+     *
+     * @since   1.6
+     */
+    protected function allowAdd($data = [])
+    {
+        $user       = $this->app->getIdentity();
+        $categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int');
+        $allow      = null;
 
-		if ($categoryId)
-		{
-			// If the category has been passed in the data or URL check it.
-			$allow = $user->authorise('core.create', 'com_content.category.' . $categoryId);
-		}
+        if ($categoryId) {
+            // If the category has been passed in the data or URL check it.
+            $allow = $user->authorise('core.create', 'com_content.category.' . $categoryId);
+        }
 
-		if ($allow === null)
-		{
-			// In the absence of better information, revert to the component permissions.
-			return parent::allowAdd();
-		}
-		else
-		{
-			return $allow;
-		}
-	}
+        if ($allow === null) {
+            // In the absence of better information, revert to the component permissions.
+            return parent::allowAdd();
+        }
 
-	/**
-	 * Method override to check if you can edit an existing record.
-	 *
-	 * @param   array   $data  An array of input data.
-	 * @param   string  $key   The name of the key for the primary key; default is id.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   1.6
-	 */
-	protected function allowEdit($data = array(), $key = 'id')
-	{
-		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-		$user = $this->app->getIdentity();
+        return $allow;
+    }
 
-		// Zero record (id:0), return component edit permission by calling parent controller method
-		if (!$recordId)
-		{
-			return parent::allowEdit($data, $key);
-		}
+    /**
+     * Method override to check if you can edit an existing record.
+     *
+     * @param   array   $data  An array of input data.
+     * @param   string  $key   The name of the key for the primary key; default is id.
+     *
+     * @return  boolean
+     *
+     * @since   1.6
+     */
+    protected function allowEdit($data = [], $key = 'id')
+    {
+        $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
+        $user     = $this->app->getIdentity();
 
-		// Check edit on the record asset (explicit or inherited)
-		if ($user->authorise('core.edit', 'com_content.article.' . $recordId))
-		{
-			return true;
-		}
+        // Zero record (id:0), return component edit permission by calling parent controller method
+        if (!$recordId) {
+            return parent::allowEdit($data, $key);
+        }
 
-		// Check edit own on the record asset (explicit or inherited)
-		if ($user->authorise('core.edit.own', 'com_content.article.' . $recordId))
-		{
-			// Existing record already has an owner, get it
-			$record = $this->getModel()->getItem($recordId);
+        // Check edit on the record asset (explicit or inherited)
+        if ($user->authorise('core.edit', 'com_content.article.' . $recordId)) {
+            return true;
+        }
 
-			if (empty($record))
-			{
-				return false;
-			}
+        // Check edit own on the record asset (explicit or inherited)
+        if ($user->authorise('core.edit.own', 'com_content.article.' . $recordId)) {
+            // Existing record already has an owner, get it
+            $record = $this->getModel()->getItem($recordId);
 
-			// Grant if current user is owner of the record
-			return $user->get('id') == $record->created_by;
-		}
+            if (empty($record)) {
+                return false;
+            }
 
-		return false;
-	}
+            // Grant if current user is owner of the record
+            return $user->id == $record->created_by;
+        }
 
-	/**
-	 * Method to cancel an edit.
-	 *
-	 * @param   string  $key  The name of the primary key of the URL variable.
-	 *
-	 * @return  boolean  True if access level checks pass, false otherwise.
-	 *
-	 * @since   1.6
-	 */
-	public function cancel($key = 'a_id')
-	{
-		$result = parent::cancel($key);
+        return false;
+    }
 
-		/** @var SiteApplication $app */
-		$app = Factory::getApplication();
+    /**
+     * Method to cancel an edit.
+     *
+     * @param   string  $key  The name of the primary key of the URL variable.
+     *
+     * @return  boolean  True if access level checks pass, false otherwise.
+     *
+     * @since   1.6
+     */
+    public function cancel($key = 'a_id')
+    {
+        $result = parent::cancel($key);
 
-		// Load the parameters.
-		$params = $app->getParams();
+        /** @var SiteApplication $app */
+        $app = $this->app;
 
-		$customCancelRedir = (bool) $params->get('custom_cancel_redirect');
+        // Load the parameters.
+        $params = $app->getParams();
 
-		if ($customCancelRedir)
-		{
-			$cancelMenuitemId = (int) $params->get('cancel_redirect_menuitem');
+        $customCancelRedir = (bool) $params->get('custom_cancel_redirect');
 
-			if ($cancelMenuitemId > 0)
-			{
-				$item = $app->getMenu()->getItem($cancelMenuitemId);
-				$lang = '';
+        if ($customCancelRedir) {
+            $cancelMenuitemId = (int) $params->get('cancel_redirect_menuitem');
 
-				if (Multilanguage::isEnabled())
-				{
-					$lang = !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
-				}
+            if ($cancelMenuitemId > 0) {
+                $item = $app->getMenu()->getItem($cancelMenuitemId);
+                $lang = '';
 
-				// Redirect to the user specified return page.
-				$redirlink = $item->link . $lang . '&Itemid=' . $cancelMenuitemId;
-			}
-			else
-			{
-				// Redirect to the same article submission form (clean form).
-				$redirlink = $app->getMenu()->getActive()->link . '&Itemid=' . $app->getMenu()->getActive()->id;
-			}
-		}
-		else
-		{
-			$menuitemId = (int) $params->get('redirect_menuitem');
+                if (Multilanguage::isEnabled()) {
+                    $lang = !\is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
+                }
 
-			if ($menuitemId > 0)
-			{
-				$lang = '';
-				$item = $app->getMenu()->getItem($menuitemId);
+                // Redirect to the user specified return page.
+                $redirlink = $item->link . $lang . '&Itemid=' . $cancelMenuitemId;
+            } else {
+                // Redirect to the same article submission form (clean form).
+                $redirlink = $app->getMenu()->getActive()->link . '&Itemid=' . $app->getMenu()->getActive()->id;
+            }
+        } else {
+            $menuitemId = (int) $params->get('redirect_menuitem');
 
-				if (Multilanguage::isEnabled())
-				{
-					$lang = !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
-				}
+            if ($menuitemId > 0) {
+                $lang = '';
+                $item = $app->getMenu()->getItem($menuitemId);
 
-				// Redirect to the general (redirect_menuitem) user specified return page.
-				$redirlink = $item->link . $lang . '&Itemid=' . $menuitemId;
-			}
-			else
-			{
-				// Redirect to the return page.
-				$redirlink = $this->getReturnPage();
-			}
-		}
+                if (Multilanguage::isEnabled()) {
+                    $lang = !\is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
+                }
 
-		$this->setRedirect(Route::_($redirlink, false));
+                // Redirect to the general (redirect_menuitem) user specified return page.
+                $redirlink = $item->link . $lang . '&Itemid=' . $menuitemId;
+            } else {
+                // Redirect to the return page.
+                $redirlink = $this->getReturnPage();
+            }
+        }
 
-		return $result;
-	}
+        $this->setRedirect(Route::_($redirlink, false));
 
-	/**
-	 * Method to edit an existing record.
-	 *
-	 * @param   string  $key     The name of the primary key of the URL variable.
-	 * @param   string  $urlVar  The name of the URL variable if different from the primary key
-	 * (sometimes required to avoid router collisions).
-	 *
-	 * @return  boolean  True if access level check and checkout passes, false otherwise.
-	 *
-	 * @since   1.6
-	 */
-	public function edit($key = null, $urlVar = 'a_id')
-	{
-		$result = parent::edit($key, $urlVar);
+        return $result;
+    }
 
-		if (!$result)
-		{
-			$this->setRedirect(Route::_($this->getReturnPage(), false));
-		}
+    /**
+     * Method to edit an existing record.
+     *
+     * @param   string  $key     The name of the primary key of the URL variable.
+     * @param   string  $urlVar  The name of the URL variable if different from the primary key
+     * (sometimes required to avoid router collisions).
+     *
+     * @return  boolean  True if access level check and checkout passes, false otherwise.
+     *
+     * @since   1.6
+     */
+    public function edit($key = null, $urlVar = 'a_id')
+    {
+        $result = parent::edit($key, $urlVar);
 
-		return $result;
-	}
+        if (!$result) {
+            $this->setRedirect(Route::_($this->getReturnPage(), false));
+        }
 
-	/**
-	 * Method to get a model object, loading it if required.
-	 *
-	 * @param   string  $name    The model name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  object  The model.
-	 *
-	 * @since   1.5
-	 */
-	public function getModel($name = 'Form', $prefix = 'Site', $config = array('ignore_request' => true))
-	{
-		return parent::getModel($name, $prefix, $config);
-	}
+        return $result;
+    }
 
-	/**
-	 * Gets the URL arguments to append to an item redirect.
-	 *
-	 * @param   integer  $recordId  The primary key id for the item.
-	 * @param   string   $urlVar    The name of the URL variable for the id.
-	 *
-	 * @return  string	The arguments to append to the redirect URL.
-	 *
-	 * @since   1.6
-	 */
-	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'a_id')
-	{
-		// Need to override the parent method completely.
-		$tmpl   = $this->input->get('tmpl');
+    /**
+     * Method to get a model object, loading it if required.
+     *
+     * @param   string  $name    The model name. Optional.
+     * @param   string  $prefix  The class prefix. Optional.
+     * @param   array   $config  Configuration array for model. Optional.
+     *
+     * @return  object  The model.
+     *
+     * @since   1.5
+     */
+    public function getModel($name = 'Form', $prefix = 'Site', $config = ['ignore_request' => true])
+    {
+        return parent::getModel($name, $prefix, $config);
+    }
 
-		$append = '';
+    /**
+     * Gets the URL arguments to append to an item redirect.
+     *
+     * @param   integer  $recordId  The primary key id for the item.
+     * @param   string   $urlVar    The name of the URL variable for the id.
+     *
+     * @return  string  The arguments to append to the redirect URL.
+     *
+     * @since   1.6
+     */
+    protected function getRedirectToItemAppend($recordId = null, $urlVar = 'a_id')
+    {
+        // Need to override the parent method completely.
+        $tmpl   = $this->input->get('tmpl');
 
-		// Setup redirect info.
-		if ($tmpl)
-		{
-			$append .= '&tmpl=' . $tmpl;
-		}
+        $append = '';
 
-		// TODO This is a bandaid, not a long term solution.
-		/**
-		 * if ($layout)
-		 * {
-		 *	$append .= '&layout=' . $layout;
-		 * }
-		 */
+        // Setup redirect info.
+        if ($tmpl) {
+            $append .= '&tmpl=' . $tmpl;
+        }
 
-		$append .= '&layout=edit';
+        // @todo This is a bandaid, not a long term solution.
+        /**
+         * if ($layout)
+         * {
+         *  $append .= '&layout=' . $layout;
+         * }
+         */
 
-		if ($recordId)
-		{
-			$append .= '&' . $urlVar . '=' . $recordId;
-		}
+        $append .= '&layout=edit';
 
-		$itemId = $this->input->getInt('Itemid');
-		$return = $this->getReturnPage();
-		$catId  = $this->input->getInt('catid');
+        if ($recordId) {
+            $append .= '&' . $urlVar . '=' . $recordId;
+        }
 
-		if ($itemId)
-		{
-			$append .= '&Itemid=' . $itemId;
-		}
+        $itemId = $this->input->getInt('Itemid');
+        $return = $this->getReturnPage();
+        $catId  = $this->input->getInt('catid');
 
-		if ($catId)
-		{
-			$append .= '&catid=' . $catId;
-		}
+        if ($itemId) {
+            $append .= '&Itemid=' . $itemId;
+        }
 
-		if ($return)
-		{
-			$append .= '&return=' . base64_encode($return);
-		}
+        if ($catId) {
+            $append .= '&catid=' . $catId;
+        }
 
-		return $append;
-	}
+        if ($return) {
+            $append .= '&return=' . base64_encode($return);
+        }
 
-	/**
-	 * Get the return URL.
-	 *
-	 * If a "return" variable has been passed in the request
-	 *
-	 * @return  string	The return URL.
-	 *
-	 * @since   1.6
-	 */
-	protected function getReturnPage()
-	{
-		$return = $this->input->get('return', null, 'base64');
+        return $append;
+    }
 
-		if (empty($return) || !Uri::isInternal(base64_decode($return)))
-		{
-			return Uri::base();
-		}
-		else
-		{
-			return base64_decode($return);
-		}
-	}
+    /**
+     * Get the return URL.
+     *
+     * If a "return" variable has been passed in the request
+     *
+     * @return  string  The return URL.
+     *
+     * @since   1.6
+     */
+    protected function getReturnPage()
+    {
+        $return = $this->input->get('return', null, 'base64');
 
-	/**
-	 * Method to save a record.
-	 *
-	 * @param   string  $key     The name of the primary key of the URL variable.
-	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
-	 *
-	 * @return  boolean  True if successful, false otherwise.
-	 *
-	 * @since   1.6
-	 */
-	public function save($key = null, $urlVar = 'a_id')
-	{
-		$result    = parent::save($key, $urlVar);
-		$app       = Factory::getApplication();
-		$articleId = $app->input->getInt('a_id');
+        if (empty($return) || !Uri::isInternal(base64_decode($return))) {
+            return Uri::base();
+        }
 
-		// Load the parameters.
-		$params   = $app->getParams();
-		$menuitem = (int) $params->get('redirect_menuitem');
+        return base64_decode($return);
+    }
 
-		// Check for redirection after submission when creating a new article only
-		if ($menuitem > 0 && $articleId == 0)
-		{
-			$lang = '';
+    /**
+     * Method to save a record.
+     *
+     * @param   string  $key     The name of the primary key of the URL variable.
+     * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+     *
+     * @return  boolean  True if successful, false otherwise.
+     *
+     * @since   1.6
+     */
+    public function save($key = null, $urlVar = 'a_id')
+    {
+        $result    = parent::save($key, $urlVar);
 
-			if (Multilanguage::isEnabled())
-			{
-				$item = $app->getMenu()->getItem($menuitem);
-				$lang = !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
-			}
+        if (\in_array($this->getTask(), ['save2copy', 'apply'], true)) {
+            return $result;
+        }
 
-			// If ok, redirect to the return page.
-			if ($result)
-			{
-				$this->setRedirect(Route::_('index.php?Itemid=' . $menuitem . $lang, false));
-			}
-		}
-		elseif ($this->getTask() === 'save2copy')
-		{
-			// Redirect to the article page, use the redirect url set from parent controller
-		}
-		else
-		{
-			// If ok, redirect to the return page.
-			if ($result)
-			{
-				$this->setRedirect(Route::_($this->getReturnPage(), false));
-			}
-		}
+        $app       = $this->app;
+        $articleId = $app->getInput()->getInt('a_id');
 
-		return $result;
-	}
+        // Load the parameters.
+        $params   = $app->getParams();
+        $menuitem = (int) $params->get('redirect_menuitem');
 
-	/**
-	 * Method to reload a record.
-	 *
-	 * @param   string  $key     The name of the primary key of the URL variable.
-	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
-	 *
-	 * @return  void
-	 *
-	 * @since   3.8.0
-	 */
-	public function reload($key = null, $urlVar = 'a_id')
-	{
-		return parent::reload($key, $urlVar);
-	}
+        // Check for redirection after submission when creating a new article only
+        if ($menuitem > 0 && $articleId == 0) {
+            $lang = '';
 
-	/**
-	 * Method to save a vote.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public function vote()
-	{
-		// Check for request forgeries.
-		$this->checkToken();
+            if (Multilanguage::isEnabled()) {
+                $item = $app->getMenu()->getItem($menuitem);
+                $lang = !\is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
+            }
 
-		$user_rating = $this->input->getInt('user_rating', -1);
+            // If ok, redirect to the return page.
+            if ($result) {
+                $this->setRedirect(Route::_('index.php?Itemid=' . $menuitem . $lang, false));
+            }
+        } elseif ($this->getTask() === 'save2copy') {
+            // Redirect to the article page, use the redirect url set from parent controller
+        } else {
+            // If ok, redirect to the return page.
+            if ($result) {
+                $this->setRedirect(Route::_($this->getReturnPage(), false));
+            }
+        }
 
-		if ($user_rating > -1)
-		{
-			$url = $this->input->getString('url', '');
-			$id = $this->input->getInt('id', 0);
-			$viewName = $this->input->getString('view', $this->default_view);
-			$model = $this->getModel($viewName);
+        return $result;
+    }
 
-			// Don't redirect to an external URL.
-			if (!Uri::isInternal($url))
-			{
-				$url = Route::_('index.php');
-			}
+    /**
+     * Method to reload a record.
+     *
+     * @param   string  $key     The name of the primary key of the URL variable.
+     * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+     *
+     * @return  void
+     *
+     * @since   3.8.0
+     */
+    public function reload($key = null, $urlVar = 'a_id')
+    {
+        parent::reload($key, $urlVar);
+    }
 
-			if ($model->storeVote($id, $user_rating))
-			{
-				$this->setRedirect($url, Text::_('COM_CONTENT_ARTICLE_VOTE_SUCCESS'));
-			}
-			else
-			{
-				$this->setRedirect($url, Text::_('COM_CONTENT_ARTICLE_VOTE_FAILURE'));
-			}
-		}
-	}
+    /**
+     * Method to save a vote.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    public function vote()
+    {
+        // Check for request forgeries.
+        $this->checkToken();
+
+        $user_rating = $this->input->getInt('user_rating', -1);
+
+        if ($user_rating > -1) {
+            $url      = $this->input->getString('url', '');
+            $id       = $this->input->getInt('id', 0);
+            $viewName = $this->input->getString('view', $this->default_view);
+            $model    = $this->getModel($viewName);
+
+            // Don't redirect to an external URL.
+            if (!Uri::isInternal($url)) {
+                $url = Route::_('index.php');
+            }
+
+            if ($model->storeVote($id, $user_rating)) {
+                $this->setRedirect($url, Text::_('COM_CONTENT_ARTICLE_VOTE_SUCCESS'));
+            } else {
+                $this->setRedirect($url, Text::_('COM_CONTENT_ARTICLE_VOTE_FAILURE'));
+            }
+        }
+    }
 }

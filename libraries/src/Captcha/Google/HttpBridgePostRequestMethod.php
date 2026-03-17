@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,13 +9,17 @@
 
 namespace Joomla\CMS\Captcha\Google;
 
-\defined('JPATH_PLATFORM') or die;
-
-use Joomla\CMS\Http\HttpFactory;
+use Joomla\CMS\Version;
 use Joomla\Http\Exception\InvalidResponseCodeException;
 use Joomla\Http\Http;
+use Joomla\Http\HttpFactory;
+use Joomla\Registry\Registry;
 use ReCaptcha\RequestMethod;
 use ReCaptcha\RequestParameters;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Bridges the Joomla! HTTP API to the Google Recaptcha RequestMethod interface for a POST request.
@@ -23,54 +28,54 @@ use ReCaptcha\RequestParameters;
  */
 final class HttpBridgePostRequestMethod implements RequestMethod
 {
-	/**
-	 * URL to which requests are sent.
-	 *
-	 * @var    string
-	 * @since  3.9.0
-	 */
-	const SITE_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
+    /**
+     * URL to which requests are sent.
+     *
+     * @var    string
+     * @since  3.9.0
+     */
+    public const SITE_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
 
-	/**
-	 * The HTTP adapter
-	 *
-	 * @var    Http
-	 * @since  3.9.0
-	 */
-	private $http;
+    /**
+     * The HTTP adapter
+     *
+     * @var    Http
+     * @since  3.9.0
+     */
+    private $http;
 
-	/**
-	 * Class constructor.
-	 *
-	 * @param   Http|null  $http  The HTTP adapter
-	 *
-	 * @since   3.9.0
-	 */
-	public function __construct(Http $http = null)
-	{
-		$this->http = $http ?: HttpFactory::getHttp();
-	}
+    /**
+     * Class constructor.
+     *
+     * @param   ?Http  $http  The HTTP adapter
+     *
+     * @since   3.9.0
+     */
+    public function __construct(?Http $http = null)
+    {
+        $options = new Registry();
+        $options->set('userAgent', (new Version())->getUserAgent('Joomla', true, false));
 
-	/**
-	 * Submit the request with the specified parameters.
-	 *
-	 * @param   RequestParameters  $params  Request parameters
-	 *
-	 * @return  string  Body of the reCAPTCHA response
-	 *
-	 * @since   3.9.0
-	 */
-	public function submit(RequestParameters $params)
-	{
-		try
-		{
-			$response = $this->http->post(self::SITE_VERIFY_URL, $params->toArray());
+        $this->http = $http ?: (new HttpFactory())->getHttp($options);
+    }
 
-			return (string) $response->getBody();
-		}
-		catch (InvalidResponseCodeException $exception)
-		{
-			return '';
-		}
-	}
+    /**
+     * Submit the request with the specified parameters.
+     *
+     * @param   RequestParameters  $params  Request parameters
+     *
+     * @return  string  Body of the reCAPTCHA response
+     *
+     * @since   3.9.0
+     */
+    public function submit(RequestParameters $params)
+    {
+        try {
+            $response = $this->http->post(self::SITE_VERIFY_URL, $params->toArray());
+
+            return (string) $response->getBody();
+        } catch (InvalidResponseCodeException) {
+            return '';
+        }
+    }
 }

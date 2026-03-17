@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" client="site" method="upgrade">
 	<name>mod_footer</name>
 	<author>Joomla! Project</author>
-	<creationDate>July 2006</creationDate>
+	<creationDate>2006-07</creationDate>
 	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -11,7 +11,8 @@
 	<description>MOD_FOOTER_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\Footer</namespace>
 	<files>
-		<filename module="mod_footer">mod_footer.php</filename>
+		<folder module="mod_footer">services</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>

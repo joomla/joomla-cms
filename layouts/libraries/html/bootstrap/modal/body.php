@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -35,11 +36,10 @@ $bodyClass = 'modal-body';
 
 $bodyHeight = isset($params['bodyHeight']) ? round((int) $params['bodyHeight'], -1) : '';
 
-if ($bodyHeight && $bodyHeight >= 20 && $bodyHeight < 90)
-{
-	$bodyClass .= ' jviewport-height' . $bodyHeight;
+if ($bodyHeight && $bodyHeight >= 20 && $bodyHeight < 90) {
+    $bodyClass .= ' jviewport-height' . $bodyHeight;
 }
 ?>
 <div class="<?php echo $bodyClass; ?>">
-	<?php echo $body; ?>
+    <?php echo $body; ?>
 </div>

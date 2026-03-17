@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
@@ -9,9 +10,8 @@
 
 namespace Joomla\Component\Privacy\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Privacy\ExportRequestEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
@@ -20,320 +20,316 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
 use Joomla\Component\Privacy\Administrator\Export\Domain;
 use Joomla\Component\Privacy\Administrator\Helper\PrivacyHelper;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Export model class.
  *
  * @since  3.9.0
  */
-class ExportModel extends BaseDatabaseModel
+class ExportModel extends BaseDatabaseModel implements UserFactoryAwareInterface
 {
-	/**
-	 * Create the export document for an information request.
-	 *
-	 * @param   integer  $id  The request ID to process
-	 *
-	 * @return  Domain[]|boolean  A SimpleXMLElement object for a successful export or boolean false on an error
-	 *
-	 * @since   3.9.0
-	 */
-	public function collectDataForExportRequest($id = null)
-	{
-		$id = !empty($id) ? $id : (int) $this->getState($this->getName() . '.request_id');
+    use UserFactoryAwareTrait;
 
-		if (!$id)
-		{
-			$this->setError(Text::_('COM_PRIVACY_ERROR_REQUEST_ID_REQUIRED_FOR_EXPORT'));
+    /**
+     * Create the export document for an information request.
+     *
+     * @param   integer  $id  The request ID to process
+     *
+     * @return  Domain[]|boolean  A SimpleXMLElement object for a successful export or boolean false on an error
+     *
+     * @since   3.9.0
+     */
+    public function collectDataForExportRequest($id = null)
+    {
+        $id = !empty($id) ? $id : (int) $this->getState($this->getName() . '.request_id');
 
-			return false;
-		}
+        if (!$id) {
+            $this->setError(Text::_('COM_PRIVACY_ERROR_REQUEST_ID_REQUIRED_FOR_EXPORT'));
 
-		/** @var RequestTable $table */
-		$table = $this->getTable();
+            return false;
+        }
 
-		if (!$table->load($id))
-		{
-			$this->setError($table->getError());
+        /** @var RequestTable $table */
+        $table = $this->getTable();
 
-			return false;
-		}
+        if (!$table->load($id)) {
+            $this->setError($table->getError());
 
-		if ($table->request_type !== 'export')
-		{
-			$this->setError(Text::_('COM_PRIVACY_ERROR_REQUEST_TYPE_NOT_EXPORT'));
+            return false;
+        }
 
-			return false;
-		}
+        if ($table->request_type !== 'export') {
+            $this->setError(Text::_('COM_PRIVACY_ERROR_REQUEST_TYPE_NOT_EXPORT'));
 
-		if ($table->status != 1)
-		{
-			$this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_EXPORT_UNCONFIRMED_REQUEST'));
+            return false;
+        }
 
-			return false;
-		}
+        if ($table->status != 1) {
+            $this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_EXPORT_UNCONFIRMED_REQUEST'));
 
-		// If there is a user account associated with the email address, load it here for use in the plugins
-		$db = $this->getDbo();
+            return false;
+        }
 
-		$userId = (int) $db->setQuery(
-			$db->getQuery(true)
-				->select($db->quoteName('id'))
-				->from($db->quoteName('#__users'))
-				->where('LOWER(' . $db->quoteName('email') . ') = LOWER(:email)')
-				->bind(':email', $table->email)
-				->setLimit(1)
-		)->loadResult();
+        // If there is a user account associated with the email address, load it here for use in the plugins
+        $db = $this->getDatabase();
 
-		$user = $userId ? User::getInstance($userId) : null;
+        $userId = (int) $db->setQuery(
+            $db->createQuery()
+                ->select($db->quoteName('id'))
+                ->from($db->quoteName('#__users'))
+                ->where('LOWER(' . $db->quoteName('email') . ') = LOWER(:email)')
+                ->bind(':email', $table->email)
+                ->setLimit(1)
+        )->loadResult();
 
-		// Log the export
-		$this->logExport($table);
+        $user = $userId ? $this->getUserFactory()->loadUserById($userId) : null;
 
-		PluginHelper::importPlugin('privacy');
+        // Log the export
+        $this->logExport($table);
 
-		$pluginResults = Factory::getApplication()->triggerEvent('onPrivacyExportRequest', [$table, $user]);
+        $dispatcher = $this->getDispatcher();
 
-		$domains = [];
+        PluginHelper::importPlugin('privacy', null, true, $dispatcher);
 
-		foreach ($pluginResults as $pluginDomains)
-		{
-			$domains = array_merge($domains, $pluginDomains);
-		}
+        $pluginResults = $dispatcher->dispatch('onPrivacyExportRequest', new ExportRequestEvent('onPrivacyExportRequest', [
+            'subject' => $table,
+            'user'    => $user,
+        ]))->getArgument('result', []);
 
-		return $domains;
-	}
+        $domains = [];
 
-	/**
-	 * Email the data export to the user.
-	 *
-	 * @param   integer  $id  The request ID to process
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.9.0
-	 */
-	public function emailDataExport($id = null)
-	{
-		$id = !empty($id) ? $id : (int) $this->getState($this->getName() . '.request_id');
+        foreach ($pluginResults as $pluginDomains) {
+            $domains = array_merge($domains, $pluginDomains);
+        }
 
-		if (!$id)
-		{
-			$this->setError(Text::_('COM_PRIVACY_ERROR_REQUEST_ID_REQUIRED_FOR_EXPORT'));
+        return $domains;
+    }
 
-			return false;
-		}
+    /**
+     * Email the data export to the user.
+     *
+     * @param   integer  $id  The request ID to process
+     *
+     * @return  boolean
+     *
+     * @since   3.9.0
+     */
+    public function emailDataExport($id = null)
+    {
+        $id = !empty($id) ? $id : (int) $this->getState($this->getName() . '.request_id');
 
-		$exportData = $this->collectDataForExportRequest($id);
+        if (!$id) {
+            $this->setError(Text::_('COM_PRIVACY_ERROR_REQUEST_ID_REQUIRED_FOR_EXPORT'));
 
-		if ($exportData === false)
-		{
-			// Error is already set, we just need to bail
-			return false;
-		}
+            return false;
+        }
 
-		/** @var RequestTable $table */
-		$table = $this->getTable();
+        $exportData = $this->collectDataForExportRequest($id);
 
-		if (!$table->load($id))
-		{
-			$this->setError($table->getError());
+        if ($exportData === false) {
+            // Error is already set, we just need to bail
+            return false;
+        }
 
-			return false;
-		}
+        /** @var RequestTable $table */
+        $table = $this->getTable();
 
-		if ($table->request_type !== 'export')
-		{
-			$this->setError(Text::_('COM_PRIVACY_ERROR_REQUEST_TYPE_NOT_EXPORT'));
+        if (!$table->load($id)) {
+            $this->setError($table->getError());
 
-			return false;
-		}
+            return false;
+        }
 
-		if ($table->status != 1)
-		{
-			$this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_EXPORT_UNCONFIRMED_REQUEST'));
+        if ($table->request_type !== 'export') {
+            $this->setError(Text::_('COM_PRIVACY_ERROR_REQUEST_TYPE_NOT_EXPORT'));
 
-			return false;
-		}
+            return false;
+        }
 
-		// Log the email
-		$this->logExportEmailed($table);
+        if ($table->status != 1) {
+            $this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_EXPORT_UNCONFIRMED_REQUEST'));
 
-		/*
-		 * If there is an associated user account, we will attempt to send this email in the user's preferred language.
-		 * Because of this, it is expected that Language::_() is directly called and that the Text class is NOT used
-		 * for translating all messages.
-		 *
-		 * Error messages will still be displayed to the administrator, so those messages should continue to use the Text class.
-		 */
+            return false;
+        }
 
-		$lang = Factory::getLanguage();
+        // Log the email
+        $this->logExportEmailed($table);
 
-		$db = $this->getDbo();
+        /*
+         * If there is an associated user account, we will attempt to send this email in the user's preferred language.
+         * Because of this, it is expected that Language::_() is directly called and that the Text class is NOT used
+         * for translating all messages.
+         *
+         * Error messages will still be displayed to the administrator, so those messages should continue to use the Text class.
+         */
 
-		$userId = (int) $db->setQuery(
-			$db->getQuery(true)
-				->select($db->quoteName('id'))
-				->from($db->quoteName('#__users'))
-				->where('LOWER(' . $db->quoteName('email') . ') = LOWER(:email)')
-				->bind(':email', $table->email),
-			0,
-			1
-		)->loadResult();
+        $lang = Factory::getLanguage();
 
-		if ($userId)
-		{
-			$receiver = User::getInstance($userId);
+        $db = $this->getDatabase();
 
-			/*
-			 * We don't know if the user has admin access, so we will check if they have an admin language in their parameters,
-			 * falling back to the site language, falling back to the currently active language
-			 */
+        $userId = (int) $db->setQuery(
+            $db->createQuery()
+                ->select($db->quoteName('id'))
+                ->from($db->quoteName('#__users'))
+                ->where('LOWER(' . $db->quoteName('email') . ') = LOWER(:email)')
+                ->bind(':email', $table->email),
+            0,
+            1
+        )->loadResult();
 
-			$langCode = $receiver->getParam('admin_language', '');
+        if ($userId) {
+            $receiver = $this->getUserFactory()->loadUserById($userId);
 
-			if (!$langCode)
-			{
-				$langCode = $receiver->getParam('language', $lang->getTag());
-			}
+            /*
+             * We don't know if the user has admin access, so we will check if they have an admin language in their parameters,
+             * falling back to the site language, falling back to the currently active language
+             */
 
-			$lang = Language::getInstance($langCode, $lang->getDebug());
-		}
+            $langCode = $receiver->getParam('admin_language', '');
 
-		// Ensure the right language files have been loaded
-		$lang->load('com_privacy', JPATH_ADMINISTRATOR)
-			|| $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy');
+            if (!$langCode) {
+                $langCode = $receiver->getParam('language', $lang->getTag());
+            }
 
-		// The mailer can be set to either throw Exceptions or return boolean false, account for both
-		try
-		{
-			$app = Factory::getApplication();
-			$mailer = new MailTemplate('com_privacy.userdataexport', $app->getLanguage()->getTag());
+            $lang = Language::getInstance($langCode, $lang->getDebug());
+        }
 
-			$templateData = [
-				'sitename' => $app->get('sitename'),
-				'url'      => Uri::root(),
-			];
+        // Ensure the right language files have been loaded
+        $lang->load('com_privacy', JPATH_ADMINISTRATOR)
+            || $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy');
 
-			$mailer->addRecipient($table->email);
-			$mailer->addTemplateData($templateData);
-			$mailer->addAttachment('user-data_' . Uri::getInstance()->toString(['host']) . '.xml', PrivacyHelper::renderDataAsXml($exportData));
+        // The mailer can be set to either throw Exceptions or return boolean false, account for both
+        try {
+            $app    = Factory::getApplication();
+            $mailer = new MailTemplate('com_privacy.userdataexport', $app->getLanguage()->getTag());
 
-			if ($mailer->send() === false)
-			{
-				$this->setError($mailer->ErrorInfo);
+            $templateData = [
+                'sitename' => $app->get('sitename'),
+                'url'      => Uri::root(),
+            ];
 
-				return false;
-			}
+            $mailer->addRecipient($table->email);
+            $mailer->addTemplateData($templateData);
+            $mailer->addAttachment('user-data_' . Uri::getInstance()->toString(['host']) . '.xml', PrivacyHelper::renderDataAsXml($exportData));
 
-			return true;
-		}
-		catch (phpmailerException $exception)
-		{
-			$this->setError($exception->getMessage());
+            if ($mailer->send() === false) {
+                $this->setError($mailer->ErrorInfo);
 
-			return false;
-		}
-	}
+                return false;
+            }
 
-	/**
-	 * Method to get a table object, load it if necessary.
-	 *
-	 * @param   string  $name     The table name. Optional.
-	 * @param   string  $prefix   The class prefix. Optional.
-	 * @param   array   $options  Configuration array for model. Optional.
-	 *
-	 * @return  Table  A Table object
-	 *
-	 * @throws  \Exception
-	 * @since   3.9.0
-	 */
-	public function getTable($name = 'Request', $prefix = 'Administrator', $options = [])
-	{
-		return parent::getTable($name, $prefix, $options);
-	}
+            return true;
+        } catch (phpmailerException $exception) {
+            $this->setError($exception->getMessage());
 
-	/**
-	 * Log the data export to the action log system.
-	 *
-	 * @param   RequestTable  $request  The request record being processed
-	 *
-	 * @return  void
-	 *
-	 * @since   3.9.0
-	 */
-	public function logExport(RequestTable $request)
-	{
-		$user = Factory::getUser();
+            return false;
+        }
+    }
 
-		$message = [
-			'action'      => 'export',
-			'id'          => $request->id,
-			'itemlink'    => 'index.php?option=com_privacy&view=request&id=' . $request->id,
-			'userid'      => $user->id,
-			'username'    => $user->username,
-			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
-		];
+    /**
+     * Method to get a table object, load it if necessary.
+     *
+     * @param   string  $name     The table name. Optional.
+     * @param   string  $prefix   The class prefix. Optional.
+     * @param   array   $options  Configuration array for model. Optional.
+     *
+     * @return  Table  A Table object
+     *
+     * @throws  \Exception
+     * @since   3.9.0
+     */
+    public function getTable($name = 'Request', $prefix = 'Administrator', $options = [])
+    {
+        return parent::getTable($name, $prefix, $options);
+    }
 
-		$this->getActionlogModel()->addLog([$message], 'COM_PRIVACY_ACTION_LOG_EXPORT', 'com_privacy.request', $user->id);
-	}
+    /**
+     * Log the data export to the action log system.
+     *
+     * @param   RequestTable  $request  The request record being processed
+     *
+     * @return  void
+     *
+     * @since   3.9.0
+     */
+    public function logExport(RequestTable $request)
+    {
+        $user = $this->getCurrentUser();
 
-	/**
-	 * Log the data export email to the action log system.
-	 *
-	 * @param   RequestTable  $request  The request record being processed
-	 *
-	 * @return  void
-	 *
-	 * @since   3.9.0
-	 */
-	public function logExportEmailed(RequestTable $request)
-	{
-		$user = Factory::getUser();
+        $message = [
+            'action'      => 'export',
+            'id'          => $request->id,
+            'itemlink'    => 'index.php?option=com_privacy&view=request&id=' . $request->id,
+            'userid'      => $user->id,
+            'username'    => $user->username,
+            'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+        ];
 
-		$message = [
-			'action'      => 'export_emailed',
-			'id'          => $request->id,
-			'itemlink'    => 'index.php?option=com_privacy&view=request&id=' . $request->id,
-			'userid'      => $user->id,
-			'username'    => $user->username,
-			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
-		];
+        $this->getActionlogModel()->addLog([$message], 'COM_PRIVACY_ACTION_LOG_EXPORT', 'com_privacy.request', $user->id);
+    }
 
-		$this->getActionlogModel()->addLog([$message], 'COM_PRIVACY_ACTION_LOG_EXPORT_EMAILED', 'com_privacy.request', $user->id);
-	}
+    /**
+     * Log the data export email to the action log system.
+     *
+     * @param   RequestTable  $request  The request record being processed
+     *
+     * @return  void
+     *
+     * @since   3.9.0
+     */
+    public function logExportEmailed(RequestTable $request)
+    {
+        $user = $this->getCurrentUser();
 
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.9.0
-	 */
-	protected function populateState()
-	{
-		// Get the pk of the record from the request.
-		$this->setState($this->getName() . '.request_id', Factory::getApplication()->input->getUint('id'));
+        $message = [
+            'action'      => 'export_emailed',
+            'id'          => $request->id,
+            'itemlink'    => 'index.php?option=com_privacy&view=request&id=' . $request->id,
+            'userid'      => $user->id,
+            'username'    => $user->username,
+            'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+        ];
 
-		// Load the parameters.
-		$this->setState('params', ComponentHelper::getParams('com_privacy'));
-	}
+        $this->getActionlogModel()->addLog([$message], 'COM_PRIVACY_ACTION_LOG_EXPORT_EMAILED', 'com_privacy.request', $user->id);
+    }
 
-	/**
-	 * Method to fetch an instance of the action log model.
-	 *
-	 * @return  ActionlogModel
-	 *
-	 * @since   4.0.0
-	 */
-	private function getActionlogModel(): ActionlogModel
-	{
-		return Factory::getApplication()->bootComponent('com_actionlogs')
-			->getMVCFactory()->createModel('Actionlog', 'Administrator', ['ignore_request' => true]);
-	}
+    /**
+     * Method to auto-populate the model state.
+     *
+     * @return  void
+     *
+     * @since   3.9.0
+     */
+    protected function populateState()
+    {
+        // Get the pk of the record from the request.
+        $this->setState($this->getName() . '.request_id', Factory::getApplication()->getInput()->getUint('id'));
+
+        // Load the parameters.
+        $this->setState('params', ComponentHelper::getParams('com_privacy'));
+    }
+
+    /**
+     * Method to fetch an instance of the action log model.
+     *
+     * @return  ActionlogModel
+     *
+     * @since   4.0.0
+     */
+    private function getActionlogModel(): ActionlogModel
+    {
+        return Factory::getApplication()->bootComponent('com_actionlogs')
+            ->getMVCFactory()->createModel('Actionlog', 'Administrator', ['ignore_request' => true]);
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.Webauthn
@@ -9,21 +10,16 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-// Protect from unauthorized access
-\defined('_JEXEC') or die();
-
-use Exception;
-use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxChallenge;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\CMS\User\UserHelper;
-use Joomla\Plugin\System\Webauthn\CredentialRepository;
-use Joomla\Plugin\System\Webauthn\Helper\Joomla;
-use Throwable;
-use Webauthn\AuthenticationExtensions\AuthenticationExtensionsClientInputs;
-use Webauthn\PublicKeyCredentialRequestOptions;
-use Webauthn\PublicKeyCredentialSource;
-use Webauthn\PublicKeyCredentialUserEntity;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Ajax handler for akaction=challenge
@@ -35,129 +31,63 @@ use Webauthn\PublicKeyCredentialUserEntity;
  */
 trait AjaxHandlerChallenge
 {
-	/**
-	 * Returns the public key set for the user and a unique challenge in a Public Key Credential Request encoded as
-	 * JSON.
-	 *
-	 * @return  string  A JSON-encoded object or JSON-encoded false if the username is invalid or no credentials stored
-	 *
-	 * @throws  Exception
-	 *
-	 * @since   4.0.0
-	 */
-	public function onAjaxWebauthnChallenge()
-	{
-		// Load the language files
-		$this->loadLanguage();
+    /**
+     * Returns the public key set for the user and a unique challenge in a Public Key Credential Request encoded as
+     * JSON.
+     *
+     * @param   AjaxChallenge  $event  The event we are handling
+     *
+     * @return  void
+     *
+     * @throws  \Exception
+     * @since   4.0.0
+     */
+    public function onAjaxWebauthnChallenge(AjaxChallenge $event): void
+    {
+        // Initialize objects
+        $session    = $this->getApplication()->getSession();
+        $input      = $this->getApplication()->getInput();
 
-		// Initialize objects
-		/** @var CMSApplication $app */
-		$app        = Factory::getApplication();
-		$input      = $app->input;
-		$repository = new CredentialRepository;
+        // Load plugin language files
+        $this->loadLanguage();
 
-		// Retrieve data from the request
-		$username  = $input->getUsername('username', '');
-		$returnUrl = base64_encode(
-			Joomla::getSessionVar('returnUrl', Uri::current(), 'plg_system_webauthn')
-		);
-		$returnUrl = $input->getBase64('returnUrl', $returnUrl);
-		$returnUrl = base64_decode($returnUrl);
+        // Retrieve data from the request
+        $username  = $input->getUsername('username', '');
+        $returnUrl = base64_encode(
+            $session->get('plg_system_webauthn.returnUrl', Uri::current())
+        );
+        $returnUrl = $input->getBase64('returnUrl', $returnUrl);
+        $returnUrl = base64_decode($returnUrl);
 
-		// For security reasons the post-login redirection URL must be internal to the site.
-		if (!Uri::isInternal($returnUrl))
-		{
-			// If the URL wasn't internal redirect to the site's root.
-			$returnUrl = Uri::base();
-		}
+        // For security reasons the post-login redirection URL must be internal to the site.
+        if (!Uri::isInternal($returnUrl)) {
+            // If the URL wasn't internal redirect to the site's root.
+            $returnUrl = Uri::base();
+        }
 
-		Joomla::setSessionVar('returnUrl', $returnUrl, 'plg_system_webauthn');
+        $session->set('plg_system_webauthn.returnUrl', $returnUrl);
 
-		// Do I have a username?
-		if (empty($username))
-		{
-			return json_encode(false);
-		}
+        // Do I have a username?
+        if (empty($username)) {
+            $event->addResult(false);
 
-		// Is the username valid?
-		try
-		{
-			$userId = UserHelper::getUserId($username);
-		}
-		catch (Exception $e)
-		{
-			$userId = 0;
-		}
+            return;
+        }
 
-		if ($userId <= 0)
-		{
-			return json_encode(false);
-		}
+        // Is the username valid?
+        try {
+            $userId = UserHelper::getUserId($username) ?: 0;
+            $myUser = $userId ? Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId) : new User();
+        } catch (\Exception $e) {
+            $myUser = new User();
+            $userId = 0;
+        }
 
-		// Load the saved credentials into an array of PublicKeyCredentialDescriptor objects
-		try
-		{
-			$userEntity  = new PublicKeyCredentialUserEntity(
-				'', $repository->getHandleFromUserId($userId), ''
-			);
-			$credentials = $repository->findAllForUserEntity($userEntity);
-		}
-		catch (Exception $e)
-		{
-			return json_encode(false);
-		}
+        $publicKeyCredentialRequestOptions = $this->authenticationHelper->getPubkeyRequestOptions($myUser);
 
-		// No stored credentials?
-		if (empty($credentials))
-		{
-			return json_encode(false);
-		}
+        $session->set('plg_system_webauthn.userId', $userId);
 
-		$registeredPublicKeyCredentialDescriptors = [];
-
-		/** @var PublicKeyCredentialSource $record */
-		foreach ($credentials as $record)
-		{
-			try
-			{
-				$registeredPublicKeyCredentialDescriptors[] = $record->getPublicKeyCredentialDescriptor();
-			}
-			catch (Throwable $e)
-			{
-				continue;
-			}
-		}
-
-		// Extensions
-		$extensions = new AuthenticationExtensionsClientInputs;
-
-		// Public Key Credential Request Options
-		$publicKeyCredentialRequestOptions = new PublicKeyCredentialRequestOptions(
-			random_bytes(32),
-			60000,
-			Uri::getInstance()->toString(['host']),
-			$registeredPublicKeyCredentialDescriptors,
-			PublicKeyCredentialRequestOptions::USER_VERIFICATION_REQUIREMENT_PREFERRED,
-			$extensions
-		);
-
-		// Save in session. This is used during the verification stage to prevent replay attacks.
-		Joomla::setSessionVar(
-			'publicKeyCredentialRequestOptions',
-			base64_encode(serialize($publicKeyCredentialRequestOptions)),
-			'plg_system_webauthn'
-		);
-		Joomla::setSessionVar(
-			'userHandle',
-			$repository->getHandleFromUserId($userId),
-			'plg_system_webauthn'
-		);
-		Joomla::setSessionVar('userId', $userId, 'plg_system_webauthn');
-
-		// Return the JSON encoded data to the caller
-		return json_encode(
-			$publicKeyCredentialRequestOptions,
-			JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
-		);
-	}
+        // Return the JSON encoded data to the caller
+        $event->addResult(json_encode($publicKeyCredentialRequestOptions, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+    }
 }

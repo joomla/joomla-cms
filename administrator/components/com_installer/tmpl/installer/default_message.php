@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
@@ -9,18 +10,20 @@
 
 defined('_JEXEC') or die;
 
-$state    = $this->get('State');
+/** @var \Joomla\Component\Installer\Administrator\View\Installer\HtmlView $this */
+
+$state    = $this->state;
 $message1 = $state->get('message');
 $message2 = $state->get('extension_message');
 ?>
 
 <?php if ($message1) : ?>
-	<div class="alert alert-info">
-		<strong><?php echo $message1; ?></strong>
-	</div>
+    <div class="alert alert-info">
+        <strong><?php echo $message1; ?></strong>
+    </div>
 <?php endif; ?>
 <?php if ($message2) : ?>
-	<div class="alert alert-info">
-		<?php echo $message2; ?>
-	</div>
+    <div class="alert alert-info">
+        <?php echo $message2; ?>
+    </div>
 <?php endif; ?>

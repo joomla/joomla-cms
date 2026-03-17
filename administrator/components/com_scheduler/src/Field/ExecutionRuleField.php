@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_scheduler
@@ -9,10 +10,11 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Field;
 
-// Restrict direct access
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\Field\PredefinedlistField;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * A select list containing valid Cron interval types.
@@ -21,26 +23,26 @@ use Joomla\CMS\Form\Field\PredefinedlistField;
  */
 class ExecutionRuleField extends PredefinedlistField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  4.1.0
-	 */
-	protected $type = 'ExecutionRule';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  4.1.0
+     */
+    protected $type = 'ExecutionRule';
 
-	/**
-	 * Available execution rules.
-	 *
-	 * @var string[]
-	 * @since  4.1.0
-	 */
-	protected $predefinedOptions = [
-		'interval-minutes' => 'COM_SCHEDULER_EXECUTION_INTERVAL_MINUTES',
-		'interval-hours'   => 'COM_SCHEDULER_EXECUTION_INTERVAL_HOURS',
-		'interval-days'    => 'COM_SCHEDULER_EXECUTION_INTERVAL_DAYS',
-		'interval-months'  => 'COM_SCHEDULER_EXECUTION_INTERVAL_MONTHS',
-		'cron-expression'  => 'COM_SCHEDULER_EXECUTION_CRON_EXPRESSION',
-		'manual'           => 'COM_SCHEDULER_OPTION_EXECUTION_MANUAL_LABEL',
-	];
+    /**
+     * Available execution rules.
+     *
+     * @var string[]
+     * @since  4.1.0
+     */
+    protected $predefinedOptions = [
+        'interval-minutes' => 'COM_SCHEDULER_EXECUTION_INTERVAL_MINUTES',
+        'interval-hours'   => 'COM_SCHEDULER_EXECUTION_INTERVAL_HOURS',
+        'interval-days'    => 'COM_SCHEDULER_EXECUTION_INTERVAL_DAYS',
+        'interval-months'  => 'COM_SCHEDULER_EXECUTION_INTERVAL_MONTHS',
+        'cron-expression'  => 'COM_SCHEDULER_EXECUTION_CRON_EXPRESSION',
+        'manual'           => 'COM_SCHEDULER_OPTION_EXECUTION_MANUAL_LABEL',
+    ];
 }

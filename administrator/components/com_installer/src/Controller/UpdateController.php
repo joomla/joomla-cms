@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
@@ -9,8 +10,6 @@
 
 namespace Joomla\Component\Installer\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -20,7 +19,10 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Installer\Administrator\Model\UpdateModel;
-use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Installer Update Controller
@@ -29,188 +31,176 @@ use Joomla\Utilities\ArrayHelper;
  */
 class UpdateController extends BaseController
 {
-	/**
-	 * Update a set of extensions.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public function update()
-	{
-		// Check for request forgeries.
-		$this->checkToken();
+    /**
+     * Update a set of extensions.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    public function update()
+    {
+        // Check for request forgeries.
+        $this->checkToken();
 
-		/** @var UpdateModel $model */
-		$model = $this->getModel('update');
+        /** @var UpdateModel $model */
+        $model = $this->getModel('update');
 
-		$uid = $this->input->get('cid', array(), 'array');
-		$uid = ArrayHelper::toInteger($uid, array());
+        $uid = (array) $this->input->get('cid', [], 'int');
 
-		// Get the minimum stability.
-		$params        = ComponentHelper::getComponent('com_installer')->getParams();
-		$minimum_stability = (int) $params->get('minimum_stability', Updater::STABILITY_STABLE);
+        // Remove zero values resulting from input filter
+        $uid = array_filter($uid);
 
-		$model->update($uid, $minimum_stability);
+        // Get the minimum stability.
+        $params            = ComponentHelper::getComponent('com_installer')->getParams();
+        $minimum_stability = (int) $params->get('minimum_stability', Updater::STABILITY_STABLE);
 
-		$app          = $this->app;
-		$redirect_url = $app->getUserState('com_installer.redirect_url');
+        $model->update($uid, $minimum_stability);
 
-		// Don't redirect to an external URL.
-		if (!Uri::isInternal($redirect_url))
-		{
-			$redirect_url = '';
-		}
+        $app          = $this->app;
+        $redirect_url = $app->getUserState('com_installer.redirect_url');
 
-		if (empty($redirect_url))
-		{
-			$redirect_url = Route::_('index.php?option=com_installer&view=update', false);
-		}
-		else
-		{
-			// Wipe out the user state when we're going to redirect.
-			$app->setUserState('com_installer.redirect_url', '');
-			$app->setUserState('com_installer.message', '');
-			$app->setUserState('com_installer.extension_message', '');
-		}
+        // Don't redirect to an external URL.
+        if ($redirect_url && !Uri::isInternal($redirect_url)) {
+            $redirect_url = '';
+        }
 
-		$this->setRedirect($redirect_url);
-	}
+        if (empty($redirect_url)) {
+            $redirect_url = Route::_('index.php?option=com_installer&view=update', false);
+        } else {
+            // Wipe out the user state when we're going to redirect.
+            $app->setUserState('com_installer.redirect_url', '');
+            $app->setUserState('com_installer.message', '');
+            $app->setUserState('com_installer.extension_message', '');
+        }
 
-	/**
-	 * Find new updates.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public function find()
-	{
-		$this->checkToken('request');
+        $this->setRedirect($redirect_url);
+    }
 
-		// Get the caching duration.
-		$params        = ComponentHelper::getComponent('com_installer')->getParams();
-		$cache_timeout = (int) $params->get('cachetimeout', 6);
-		$cache_timeout = 3600 * $cache_timeout;
+    /**
+     * Find new updates.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    public function find()
+    {
+        $this->checkToken('request');
 
-		// Get the minimum stability.
-		$minimum_stability = (int) $params->get('minimum_stability', Updater::STABILITY_STABLE);
+        // Get the caching duration.
+        $params        = ComponentHelper::getComponent('com_installer')->getParams();
+        $cache_timeout = (int) $params->get('cachetimeout', 6);
+        $cache_timeout = 3600 * $cache_timeout;
 
-		// Find updates.
-		/** @var UpdateModel $model */
-		$model = $this->getModel('update');
+        // Get the minimum stability.
+        $minimum_stability = (int) $params->get('minimum_stability', Updater::STABILITY_STABLE);
 
-		// Purge the table before checking again
-		$model->purge();
+        // Find updates.
+        /** @var UpdateModel $model */
+        $model = $this->getModel('update');
 
-		$disabledUpdateSites = $model->getDisabledUpdateSites();
+        // Purge the table before checking again
+        $model->purge();
 
-		if ($disabledUpdateSites)
-		{
-			$updateSitesUrl = Route::_('index.php?option=com_installer&view=updatesites');
-			$this->setMessage(Text::sprintf('COM_INSTALLER_MSG_UPDATE_SITES_COUNT_CHECK', $updateSitesUrl), 'warning');
-		}
+        $disabledUpdateSites = $model->getDisabledUpdateSites();
 
-		$model->findUpdates(0, $cache_timeout, $minimum_stability);
+        if ($disabledUpdateSites) {
+            $updateSitesUrl = Route::_('index.php?option=com_installer&view=updatesites');
+            $this->app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_UPDATE_SITES_COUNT_CHECK', $updateSitesUrl), 'warning');
+        }
 
-		if (0 === $model->getTotal())
-		{
-			$this->setMessage(Text::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'), 'info');
-		}
+        $model->findUpdates(0, $cache_timeout, $minimum_stability);
 
-		$this->setRedirect(Route::_('index.php?option=com_installer&view=update', false));
-	}
+        if (0 === $model->getTotal()) {
+            $this->app->enqueueMessage(Text::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'), 'info');
+        }
 
-	/**
-	 * Fetch and report updates in \JSON format, for AJAX requests
-	 *
-	 * @return void
-	 *
-	 * @since 2.5
-	 */
-	public function ajax()
-	{
-		$app = $this->app;
+        $this->setRedirect(Route::_('index.php?option=com_installer&view=update', false));
+    }
 
-		if (!Session::checkToken('get'))
-		{
-			$app->setHeader('status', 403, true);
-			$app->sendHeaders();
-			echo Text::_('JINVALID_TOKEN_NOTICE');
-			$app->close();
-		}
+    /**
+     * Fetch and report updates in \JSON format, for AJAX requests
+     *
+     * @return void
+     *
+     * @since 2.5
+     */
+    public function ajax()
+    {
+        $app = $this->app;
 
-		// Close the session before we make a long running request
-		$app->getSession()->abort();
+        if (!Session::checkToken('get')) {
+            $app->setHeader('status', 403, true);
+            $app->sendHeaders();
+            echo Text::_('JINVALID_TOKEN_NOTICE');
+            $app->close();
+        }
 
-		$eid               = $this->input->getInt('eid', 0);
-		$skip              = $this->input->get('skip', array(), 'array');
-		$cache_timeout     = $this->input->getInt('cache_timeout', 0);
-		$minimum_stability = $this->input->getInt('minimum_stability', -1);
+        // Close the session before we make a long running request
+        $app->getSession()->abort();
 
-		$params        = ComponentHelper::getComponent('com_installer')->getParams();
+        $eid               = $this->input->getInt('eid', 0);
+        $skip              = $this->input->get('skip', [], 'array');
+        $cache_timeout     = $this->input->getInt('cache_timeout', 0);
+        $minimum_stability = $this->input->getInt('minimum_stability', -1);
 
-		if ($cache_timeout == 0)
-		{
-			$cache_timeout = (int) $params->get('cachetimeout', 6);
-			$cache_timeout = 3600 * $cache_timeout;
-		}
+        $params        = ComponentHelper::getComponent('com_installer')->getParams();
 
-		if ($minimum_stability < 0)
-		{
-			$minimum_stability = (int) $params->get('minimum_stability', Updater::STABILITY_STABLE);
-		}
+        if ($cache_timeout == 0) {
+            $cache_timeout = (int) $params->get('cachetimeout', 6);
+            $cache_timeout = 3600 * $cache_timeout;
+        }
 
-		/** @var UpdateModel $model */
-		$model = $this->getModel('update');
-		$model->findUpdates($eid, $cache_timeout, $minimum_stability);
+        if ($minimum_stability < 0) {
+            $minimum_stability = (int) $params->get('minimum_stability', Updater::STABILITY_STABLE);
+        }
 
-		$model->setState('list.start', 0);
-		$model->setState('list.limit', 0);
+        /** @var UpdateModel $model */
+        $model = $this->getModel('update');
+        $model->findUpdates($eid, $cache_timeout, $minimum_stability);
 
-		if ($eid != 0)
-		{
-			$model->setState('filter.extension_id', $eid);
-		}
+        $model->setState('list.start', 0);
+        $model->setState('list.limit', 0);
 
-		$updates = $model->getItems();
+        if ($eid != 0) {
+            $model->setState('filter.extension_id', $eid);
+        }
 
-		if (!empty($skip))
-		{
-			$unfiltered_updates = $updates;
-			$updates            = array();
+        $updates = $model->getItems();
 
-			foreach ($unfiltered_updates as $update)
-			{
-				if (!in_array($update->extension_id, $skip))
-				{
-					$updates[] = $update;
-				}
-			}
-		}
+        if (!empty($skip)) {
+            $unfiltered_updates = $updates;
+            $updates            = [];
 
-		echo json_encode($updates);
+            foreach ($unfiltered_updates as $update) {
+                if (!\in_array($update->extension_id, $skip)) {
+                    $updates[] = $update;
+                }
+            }
+        }
 
-		$app->close();
-	}
+        echo json_encode($updates);
 
-	/**
-	 * Provide the data for a badge in a menu item via JSON
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 * @throws  \Exception
-	 */
-	public function getMenuBadgeData()
-	{
-		if (!$this->app->getIdentity()->authorise('core.manage', 'com_installer'))
-		{
-			throw new \Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
-		}
+        $app->close();
+    }
 
-		$model = $this->getModel('Update');
+    /**
+     * Provide the data for a badge in a menu item via JSON
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     * @throws  \Exception
+     */
+    public function getMenuBadgeData()
+    {
+        if (!$this->app->getIdentity()->authorise('core.manage', 'com_installer')) {
+            throw new \Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
+        }
 
-		echo new JsonResponse($model->getTotal());
-	}
+        $model = $this->getModel('Update');
+
+        echo new JsonResponse($model->getTotal());
+    }
 }

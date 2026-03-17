@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,9 +9,11 @@
 
 namespace Joomla\CMS\Extension;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Plugin\CMSPlugin;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Placeholder plugin.

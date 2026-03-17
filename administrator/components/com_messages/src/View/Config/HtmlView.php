@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_messages
@@ -9,13 +10,15 @@
 
 namespace Joomla\Component\Messages\Administrator\View\Config;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Messages\Administrator\Model\ConfigModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View to edit messages user configuration.
@@ -24,71 +27,73 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * The \JForm object
-	 *
-	 * @var  \JForm
-	 */
-	protected $form;
+    /**
+     * The Form object
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    protected $form;
 
-	/**
-	 * The active item
-	 *
-	 * @var  object
-	 */
-	protected $item;
+    /**
+     * The active item
+     *
+     * @var  object
+     */
+    protected $item;
 
-	/**
-	 * The model state
-	 *
-	 * @var  \JObject
-	 */
-	protected $state;
+    /**
+     * The model state
+     *
+     * @var  \Joomla\Registry\Registry
+     */
+    protected $state;
 
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public function display($tpl = null)
-	{
-		$this->form  = $this->get('Form');
-		$this->item  = $this->get('Item');
-		$this->state = $this->get('State');
+    /**
+     * Execute and display a template script.
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    public function display($tpl = null)
+    {
+        /** @var ConfigModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        $this->form  = $model->getForm();
+        $this->item  = $model->getItem();
+        $this->state = $model->getState();
 
-		// Bind the record to the form.
-		$this->form->bind($this->item);
+        // Bind the record to the form.
+        $this->form->bind($this->item);
 
-		$this->addToolbar();
+        // Add form control fields
+        $this->form
+            ->addControlField('task');
 
-		parent::display($tpl);
-	}
+        $this->addToolbar();
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	protected function addToolbar()
-	{
-		Factory::getApplication()->input->set('hidemainmenu', true);
+        parent::display($tpl);
+    }
 
-		ToolbarHelper::title(Text::_('COM_MESSAGES_TOOLBAR_MY_SETTINGS'), 'envelope');
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    protected function addToolbar()
+    {
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-		ToolbarHelper::apply('config.save', 'JSAVE');
+        ToolbarHelper::title(Text::_('COM_MESSAGES_TOOLBAR_MY_SETTINGS'), 'envelope');
 
-		ToolbarHelper::cancel('config.cancel', 'JCANCEL');
-	}
+        $toolbar = $this->getDocument()->getToolbar();
+        $toolbar->apply('config.save', 'JSAVE');
+        $toolbar->cancel('config.cancel', 'JCANCEL');
+    }
 }

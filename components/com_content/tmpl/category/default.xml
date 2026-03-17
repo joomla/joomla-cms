@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <metadata>
 	<layout title="COM_CONTENT_CATEGORY_VIEW_DEFAULT_TITLE" option="COM_CONTENT_CATEGORY_VIEW_DEFAULT_OPTION">
 		<help
@@ -32,6 +32,7 @@
 				label="JTAG"
 				multiple="true"
 				mode="nested"
+				custom="deny"
 			/>
 		</fieldset>
 	</fields>
@@ -192,9 +193,32 @@
 				<option value="title">JGLOBAL_TITLE</option>
 				<option value="author">JAUTHOR</option>
 				<option value="hits" requires="hits">JGLOBAL_HITS</option>
-	 			<option value="tag">JTAG</option>
-	 			<option value="month">JMONTH_PUBLISHED</option>
+				<option value="tag">JTAG</option>
+				<option value="month">JMONTH_PUBLISHED</option>
 			</field>
+
+			<field
+				name="list_author_filtering_type"
+				type="list"
+				label="COM_CONTENT_FIELD_AUTHORFILTERING_LABEL"
+				default="1"
+				filter="integer"
+				>
+				<option value="0">COM_CONTENT_OPTION_EXCLUSIVE_VALUE</option>
+				<option value="1">COM_CONTENT_OPTION_INCLUSIVE_VALUE</option>
+				<option value="2">COM_CONTENT_OPTION_ONLYCURRENTUSER_VALUE</option>
+			</field>
+
+			<field
+				name="list_author"
+				type="author"
+				label="COM_CONTENT_FIELD_AUTHOR_LABEL"
+				multiple="true"
+				layout="joomla.form.field.list-fancy-select"
+				filter="intarray"
+				class="multipleAuthors"
+				showon="list_author_filtering_type!:2"
+			/>
 
 			<field
 				name="show_headings"
@@ -226,7 +250,6 @@
 				type="text"
 				label="JGLOBAL_DATE_FORMAT_LABEL"
 				description="JGLOBAL_DATE_FORMAT_DESC"
-				size="15"
 				useglobal="true"
 			/>
 
@@ -363,7 +386,8 @@
 				name="display_num"
 				type="list"
 				label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL"
-				default="10"
+				default=""
+				useglobal="true"
 				validate="options"
 				>
 				<option value="5">J5</option>

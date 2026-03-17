@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
@@ -9,255 +10,249 @@
 
 namespace Joomla\Component\Users\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\Helper\DebugHelper;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Methods supporting a list of User ACL permissions
  *
  * @since  1.6
  */
-class DebuguserModel extends ListModel
+class DebuguserModel extends ListModel implements UserFactoryAwareInterface
 {
-	/**
-	 * Constructor.
-	 *
-	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MVCFactoryInterface  $factory  The factory.
-	 *
-	 * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
-	 * @since   3.2
-	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null)
-	{
-		if (empty($config['filter_fields']))
-		{
-			$config['filter_fields'] = array(
-				'a.title',
-				'component', 'a.name',
-				'a.lft',
-				'a.id',
-				'level_start', 'level_end', 'a.level',
-			);
-		}
+    use UserFactoryAwareTrait;
 
-		parent::__construct($config, $factory);
-	}
+    /**
+     * Constructor.
+     *
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     *
+     * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
+     * @since   3.2
+     */
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
+    {
+        if (empty($config['filter_fields'])) {
+            $config['filter_fields'] = [
+                'a.title',
+                'component', 'a.name',
+                'a.lft',
+                'a.id',
+                'level_start', 'level_end', 'a.level',
+            ];
+        }
 
-	/**
-	 * Get a list of the actions.
-	 *
-	 * @return  array
-	 *
-	 * @since   1.6
-	 */
-	public function getDebugActions()
-	{
-		$component = $this->getState('filter.component');
+        parent::__construct($config, $factory);
+    }
 
-		return DebugHelper::getDebugActions($component);
-	}
+    /**
+     * Get a list of the actions.
+     *
+     * @return  array
+     *
+     * @since   1.6
+     */
+    public function getDebugActions()
+    {
+        $component = $this->getState('filter.component');
 
-	/**
-	 * Override getItems method.
-	 *
-	 * @return  array
-	 *
-	 * @since   1.6
-	 */
-	public function getItems()
-	{
-		$userId = $this->getState('user_id');
-		$user   = Factory::getUser($userId);
+        return DebugHelper::getDebugActions($component);
+    }
 
-		if (($assets = parent::getItems()) && $userId)
-		{
-			$actions = $this->getDebugActions();
+    /**
+     * Override getItems method.
+     *
+     * @return  array
+     *
+     * @since   1.6
+     */
+    public function getItems()
+    {
+        $userId = $this->getState('user_id');
+        $user   = $this->getUserFactory()->loadUserById($userId);
 
-			foreach ($assets as &$asset)
-			{
-				$asset->checks = array();
+        if (($assets = parent::getItems()) && $userId) {
+            $actions = $this->getDebugActions();
 
-				foreach ($actions as $action)
-				{
-					$name = $action[0];
-					$asset->checks[$name] = $user->authorise($name, $asset->name);
-				}
-			}
-		}
+            foreach ($assets as &$asset) {
+                $asset->checks = [];
 
-		return $assets;
-	}
+                foreach ($actions as $action) {
+                    $name                 = $action[0];
+                    $asset->checks[$name] = $user->authorise($name, $asset->name);
+                }
+            }
+        }
 
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * Note. Calling getState in this method will result in recursion.
-	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 * @throws  \Exception
-	 */
-	protected function populateState($ordering = 'a.lft', $direction = 'asc')
-	{
-		$app = Factory::getApplication();
+        return $assets;
+    }
 
-		// Adjust the context to support modal layouts.
-		$layout = $app->input->get('layout', 'default');
+    /**
+     * Method to auto-populate the model state.
+     *
+     * Note. Calling getState in this method will result in recursion.
+     *
+     * @param   string  $ordering   An optional ordering field.
+     * @param   string  $direction  An optional direction (asc|desc).
+     *
+     * @return  void
+     *
+     * @since   1.6
+     * @throws  \Exception
+     */
+    protected function populateState($ordering = 'a.lft', $direction = 'asc')
+    {
+        $app = Factory::getApplication();
 
-		if ($layout)
-		{
-			$this->context .= '.' . $layout;
-		}
+        // Adjust the context to support modal layouts.
+        $layout = $app->getInput()->get('layout', 'default');
 
-		// Load the filter state.
-		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-		$this->setState('user_id', $this->getUserStateFromRequest($this->context . '.user_id', 'user_id', 0, 'int', false));
+        if ($layout) {
+            $this->context .= '.' . $layout;
+        }
 
-		$levelStart = $this->getUserStateFromRequest($this->context . '.filter.level_start', 'filter_level_start', '', 'cmd');
-		$this->setState('filter.level_start', $levelStart);
+        // Load the filter state.
+        $this->setState('user_id', $this->getUserStateFromRequest($this->context . '.user_id', 'user_id', 0, 'int', false));
 
-		$value = $this->getUserStateFromRequest($this->context . '.filter.level_end', 'filter_level_end', '', 'cmd');
+        $levelStart = $this->getUserStateFromRequest($this->context . '.filter.level_start', 'filter_level_start', '', 'cmd');
+        $this->setState('filter.level_start', $levelStart);
 
-		if ($value > 0 && $value < $levelStart)
-		{
-			$value = $levelStart;
-		}
+        $value = $this->getUserStateFromRequest($this->context . '.filter.level_end', 'filter_level_end', '', 'cmd');
 
-		$this->setState('filter.level_end', $value);
+        if ($value > 0 && $value < $levelStart) {
+            $value = $levelStart;
+        }
 
-		$this->setState('filter.component', $this->getUserStateFromRequest($this->context . '.filter.component', 'filter_component', '', 'string'));
+        $this->setState('filter.level_end', $value);
 
-		// Load the parameters.
-		$params = ComponentHelper::getParams('com_users');
-		$this->setState('params', $params);
+        $this->setState('filter.component', $this->getUserStateFromRequest($this->context . '.filter.component', 'filter_component', '', 'string'));
 
-		// List state information.
-		parent::populateState($ordering, $direction);
-	}
+        // Load the parameters.
+        $params = ComponentHelper::getParams('com_users');
+        $this->setState('params', $params);
 
-	/**
-	 * Method to get a store id based on model configuration state.
-	 *
-	 * This is necessary because the model is used by the component and
-	 * different modules that might need different sets of data or different
-	 * ordering requirements.
-	 *
-	 * @param   string  $id  A prefix for the store id.
-	 *
-	 * @return  string  A store id.
-	 */
-	protected function getStoreId($id = '')
-	{
-		// Compile the store id.
-		$id .= ':' . $this->getState('user_id');
-		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.level_start');
-		$id .= ':' . $this->getState('filter.level_end');
-		$id .= ':' . $this->getState('filter.component');
+        // List state information.
+        parent::populateState($ordering, $direction);
+    }
 
-		return parent::getStoreId($id);
-	}
+    /**
+     * Method to get a store id based on model configuration state.
+     *
+     * This is necessary because the model is used by the component and
+     * different modules that might need different sets of data or different
+     * ordering requirements.
+     *
+     * @param   string  $id  A prefix for the store id.
+     *
+     * @return  string  A store id.
+     */
+    protected function getStoreId($id = '')
+    {
+        // Compile the store id.
+        $id .= ':' . $this->getState('user_id');
+        $id .= ':' . $this->getState('filter.search');
+        $id .= ':' . $this->getState('filter.level_start');
+        $id .= ':' . $this->getState('filter.level_end');
+        $id .= ':' . $this->getState('filter.component');
 
-	/**
-	 * Get the user being debugged.
-	 *
-	 * @return  User
-	 *
-	 * @since   1.6
-	 */
-	public function getUser()
-	{
-		$userId = $this->getState('user_id');
+        return parent::getStoreId($id);
+    }
 
-		return Factory::getUser($userId);
-	}
+    /**
+     * Get the user being debugged.
+     *
+     * @return  User
+     *
+     * @since   1.6
+     */
+    public function getUser()
+    {
+        $userId = $this->getState('user_id');
 
-	/**
-	 * Build an SQL query to load the list data.
-	 *
-	 * @return  DatabaseQuery
-	 *
-	 * @since   1.6
-	 */
-	protected function getListQuery()
-	{
-		// Create a new query object.
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
+        return $this->getUserFactory()->loadUserById($userId);
+    }
 
-		// Select the required fields from the table.
-		$query->select(
-			$this->getState(
-				'list.select',
-				'a.id, a.name, a.title, a.level, a.lft, a.rgt'
-			)
-		);
-		$query->from($db->quoteName('#__assets', 'a'));
+    /**
+     * Build an SQL query to load the list data.
+     *
+     * @return  QueryInterface
+     *
+     * @since   1.6
+     */
+    protected function getListQuery()
+    {
+        // Create a new query object.
+        $db    = $this->getDatabase();
+        $query = $db->createQuery();
 
-		// Filter the items over the search string if set.
-		if ($this->getState('filter.search'))
-		{
-			$search = '%' . trim($this->getState('filter.search')) . '%';
+        // Select the required fields from the table.
+        $query->select(
+            $this->getState(
+                'list.select',
+                'a.id, a.name, a.title, a.level, a.lft, a.rgt'
+            )
+        );
+        $query->from($db->quoteName('#__assets', 'a'));
 
-			// Add the clauses to the query.
-			$query->where(
-				'(' . $db->quoteName('a.name') . ' LIKE :name'
-				. ' OR ' . $db->quoteName('a.title') . ' LIKE :title)'
-			)
-				->bind(':name', $search)
-				->bind(':title', $search);
-		}
+        // Filter the items over the search string if set.
+        if ($this->getState('filter.search')) {
+            $search = '%' . trim($this->getState('filter.search')) . '%';
 
-		// Filter on the start and end levels.
-		$levelStart = (int) $this->getState('filter.level_start');
-		$levelEnd = (int) $this->getState('filter.level_end');
+            // Add the clauses to the query.
+            $query->where(
+                '(' . $db->quoteName('a.name') . ' LIKE :name'
+                . ' OR ' . $db->quoteName('a.title') . ' LIKE :title)'
+            )
+                ->bind(':name', $search)
+                ->bind(':title', $search);
+        }
 
-		if ($levelEnd > 0 && $levelEnd < $levelStart)
-		{
-			$levelEnd = $levelStart;
-		}
+        // Filter on the start and end levels.
+        $levelStart = (int) $this->getState('filter.level_start');
+        $levelEnd   = (int) $this->getState('filter.level_end');
 
-		if ($levelStart > 0)
-		{
-			$query->where($db->quoteName('a.level') . ' >= :levelStart')
-				->bind(':levelStart', $levelStart, ParameterType::INTEGER);
-		}
+        if ($levelEnd > 0 && $levelEnd < $levelStart) {
+            $levelEnd = $levelStart;
+        }
 
-		if ($levelEnd > 0)
-		{
-			$query->where($db->quoteName('a.level') . ' <= :levelEnd')
-				->bind(':levelEnd', $levelEnd, ParameterType::INTEGER);
-		}
+        if ($levelStart > 0) {
+            $query->where($db->quoteName('a.level') . ' >= :levelStart')
+                ->bind(':levelStart', $levelStart, ParameterType::INTEGER);
+        }
 
-		// Filter the items over the component if set.
-		if ($this->getState('filter.component'))
-		{
-			$component  = $this->getState('filter.component');
-			$lcomponent = $component . '.%';
-			$query->where(
-				'(' . $db->quoteName('a.name') . ' = :component'
-				. ' OR ' . $db->quoteName('a.name') . ' LIKE :lcomponent)'
-			)
-				->bind(':component', $component)
-				->bind(':lcomponent', $lcomponent);
-		}
+        if ($levelEnd > 0) {
+            $query->where($db->quoteName('a.level') . ' <= :levelEnd')
+                ->bind(':levelEnd', $levelEnd, ParameterType::INTEGER);
+        }
 
-		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'a.lft')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+        // Filter the items over the component if set.
+        if ($this->getState('filter.component')) {
+            $component  = $this->getState('filter.component');
+            $lcomponent = $component . '.%';
+            $query->where(
+                '(' . $db->quoteName('a.name') . ' = :component'
+                . ' OR ' . $db->quoteName('a.name') . ' LIKE :lcomponent)'
+            )
+                ->bind(':component', $component)
+                ->bind(':lcomponent', $lcomponent);
+        }
 
-		return $query;
-	}
+        // Add the list ordering clause.
+        $query->order($db->escape($this->getState('list.ordering', 'a.lft')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+
+        return $query;
+    }
 }

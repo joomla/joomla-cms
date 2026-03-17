@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_config
@@ -7,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\Router\RouterFactoryInterface;
 use Joomla\CMS\Dispatcher\ComponentDispatcherFactoryInterface;
@@ -25,34 +26,32 @@ use Joomla\DI\ServiceProviderInterface;
  *
  * @since  4.0.0
  */
-return new class implements ServiceProviderInterface
-{
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Config'));
-		$container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Config'));
-		$container->registerServiceProvider(new RouterFactory('\\Joomla\\Component\\Config'));
+return new class () implements ServiceProviderInterface {
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Config'));
+        $container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Config'));
+        $container->registerServiceProvider(new RouterFactory('\\Joomla\\Component\\Config'));
 
-		$container->set(
-			ComponentInterface::class,
-			function (Container $container)
-			{
-				$component = new ConfigComponent($container->get(ComponentDispatcherFactoryInterface::class));
+        $container->set(
+            ComponentInterface::class,
+            function (Container $container) {
+                $component = new ConfigComponent($container->get(ComponentDispatcherFactoryInterface::class));
 
-				$component->setMVCFactory($container->get(MVCFactoryInterface::class));
-				$component->setRouterFactory($container->get(RouterFactoryInterface::class));
+                $component->setMVCFactory($container->get(MVCFactoryInterface::class));
+                $component->setRouterFactory($container->get(RouterFactoryInterface::class));
 
-				return $component;
-			}
-		);
-	}
+                return $component;
+            }
+        );
+    }
 };

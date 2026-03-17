@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_mails
@@ -9,15 +10,16 @@
 
 namespace Joomla\Component\Mails\Administrator\View\Template;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Mails\Administrator\Helper\MailsHelper;
+use Joomla\Component\Mails\Administrator\Model\TemplateModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View to edit a mail template.
@@ -26,132 +28,122 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * The Form object
-	 *
-	 * @var  \Joomla\CMS\Form\Form
-	 */
-	protected $form;
+    /**
+     * The Form object
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    protected $form;
 
-	/**
-	 * The active item
-	 *
-	 * @var  CMSObject
-	 */
-	protected $item;
+    /**
+     * The active item
+     *
+     * @var  \stdClass
+     */
+    protected $item;
 
-	/**
-	 * The model state
-	 *
-	 * @var  object
-	 */
-	protected $state;
+    /**
+     * The model state
+     *
+     * @var  object
+     */
+    protected $state;
 
-	/**
-	 * The template data
-	 *
-	 * @var  array
-	 */
-	protected $templateData;
+    /**
+     * The template data
+     *
+     * @var  array
+     */
+    protected $templateData;
 
-	/**
-	 * Master data for the mail template
-	 *
-	 * @var  CMSObject
-	 */
-	protected $master;
+    /**
+     * Master data for the mail template
+     *
+     * @var  \stdClass
+     */
+    protected $master;
 
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function display($tpl = null)
-	{
-		$this->state = $this->get('State');
-		$this->item = $this->get('Item');
-		$this->master = $this->get('Master');
-		$this->form = $this->get('Form');
+    /**
+     * Execute and display a template script.
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function display($tpl = null)
+    {
+        /** @var TemplateModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        $this->state  = $model->getState();
+        $this->item   = $model->getItem();
+        $this->master = $model->getMaster();
+        $this->form   = $model->getForm();
 
-		list($component, $template_id) = explode('.', $this->item->template_id, 2);
-		$fields = array('subject', 'body', 'htmlbody');
-		$this->templateData = array();
-		$language = Factory::getLanguage();
-		$language->load($component, JPATH_SITE, $this->item->language, true);
-		$language->load($component, JPATH_ADMINISTRATOR, $this->item->language, true);
+        [$extension, $template_id] = explode('.', $this->item->template_id, 2);
+        $fields                    = ['subject', 'body', 'htmlbody'];
+        $this->templateData        = [];
 
-		$this->master->subject = Text::_($this->master->subject);
-		$this->master->body    = Text::_($this->master->body);
+        MailsHelper::loadTranslationFiles($extension, $this->item->language);
 
-		if ($this->master->htmlbody)
-		{
-			$this->master->htmlbody = Text::_($this->master->htmlbody);
-		}
-		else
-		{
-			$this->master->htmlbody = nl2br($this->master->body, false);
-		}
+        $this->master->subject = Text::_($this->master->subject);
+        $this->master->body    = Text::_($this->master->body);
 
-		$this->templateData = [
-			'subject'  => $this->master->subject,
-			'body'     => $this->master->body,
-			'htmlbody' => $this->master->htmlbody,
-		];
+        if ($this->master->htmlbody) {
+            $this->master->htmlbody = Text::_($this->master->htmlbody);
+        } else {
+            $this->master->htmlbody = nl2br($this->master->body, false);
+        }
 
-		foreach ($fields as $field)
-		{
-			if (is_null($this->item->$field) || $this->item->$field == '')
-			{
-				$this->item->$field = $this->master->$field;
-				$this->form->setValue($field, null, $this->item->$field);
-			}
-		}
+        $this->templateData = [
+            'subject'  => $this->master->subject,
+            'body'     => $this->master->body,
+            'htmlbody' => $this->master->htmlbody,
+        ];
 
-		$this->addToolbar();
+        foreach ($fields as $field) {
+            if (\is_null($this->item->$field) || $this->item->$field == '') {
+                $this->item->$field = $this->master->$field;
+                $this->form->setValue($field, null, $this->item->$field);
+            }
+        }
 
-		parent::display($tpl);
-	}
+        // Add form control fields
+        $this->form
+            ->addControlField('task')
+            ->addControlField('return', Factory::getApplication()->getInput()->get('return', '', 'BASE64'));
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	protected function addToolbar()
-	{
-		Factory::getApplication()->input->set('hidemainmenu', true);
-		$toolbar = Toolbar::getInstance();
+        $this->addToolbar();
 
-		ToolbarHelper::title(
-			Text::_('COM_MAILS_PAGE_EDIT_MAIL'),
-			'pencil-2 article-add'
-		);
+        parent::display($tpl);
+    }
 
-		$saveGroup = $toolbar->dropdownButton('save-group');
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    protected function addToolbar()
+    {
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
+        $toolbar = $this->getDocument()->getToolbar();
 
-		$saveGroup->configure(
-			function (Toolbar $childBar)
-			{
-				$childBar->apply('template.apply');
-				$childBar->save('template.save');
-			}
-		);
+        ToolbarHelper::title(
+            Text::_('COM_MAILS_PAGE_EDIT_MAIL'),
+            'pencil-2 article-add'
+        );
 
-		$toolbar->cancel('template.cancel', 'JTOOLBAR_CLOSE');
-
-		$toolbar->divider();
-		$toolbar->help('Mail_Template:_Edit');
-	}
+        $toolbar->apply('template.apply');
+        $toolbar->divider();
+        $toolbar->save('template.save');
+        $toolbar->divider();
+        $toolbar->cancel('template.cancel', 'JTOOLBAR_CLOSE');
+        $toolbar->divider();
+        $toolbar->help('Mail_Template:_Edit');
+    }
 }

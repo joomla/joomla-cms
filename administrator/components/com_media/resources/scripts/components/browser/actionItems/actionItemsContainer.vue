@@ -3,142 +3,197 @@
     class="media-browser-select"
     :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
     :title="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
+    tabindex="0"
+    @focusin="focused(true)"
+    @focusout="focused(false)"
   />
   <div
     class="media-browser-actions"
     :class="{ active: showActions }"
   >
-    <media-browser-action-item-toggle
+    <MediaBrowserActionItemToggle
       ref="actionToggle"
-      :on-focused="focused"
       :main-action="openActions"
+      @on-focused="focused"
       @keyup.up="openLastActions()"
       @keyup.down="openActions()"
+      @keyup.end="openLastActions()"
+      @keyup.home="openActions()"
+      @keydown.up.prevent
+      @keydown.down.prevent
+      @keydown.home.prevent
+      @keydown.end.prevent
     />
     <div
       v-if="showActions"
+      ref="actionList"
       class="media-browser-actions-list"
+      role="toolbar"
+      aria-orientation="vertical"
+      :aria-label="sprintf('COM_MEDIA_ACTIONS_TOOLBAR_LABEL',($parent.$props.item.name))"
     >
-      <ul>
-        <li>
-          <media-browser-action-item-preview
-            v-if="previewable"
-            ref="actionPreview"
-            :on-focused="focused"
-            :main-action="openPreview"
-            :closing-action="hideActions"
-            @keyup.up="$refs.actionDelete.$el.focus()"
-            @keyup.down="$refs.actionDownload.$el.focus()"
-          />
-        </li>
-        <li>
-          <media-browser-action-item-download
-            v-if="downloadable"
-            ref="actionDownload"
-            :on-focused="focused"
-            :main-action="download"
-            :closing-action="hideActions"
-            @keyup.up="$refs.actionPreview.$el.focus()"
-            @keyup.down="$refs.actionRename.$el.focus()"
-          />
-        </li>
-        <li>
-          <media-browser-action-item-rename
-            ref="actionRename"
-            :on-focused="focused"
-            :main-action="openRenameModal"
-            :closing-action="hideActions"
-            @keyup.up="
-              downloadable
-                ? $refs.actionDownload.$el.focus()
-                : $refs.actionDelete.$el.focus()
-            "
-            @keyup.down="
-              canEdit
-                ? $refs.actionEdit.$el.focus()
-                : shareable
-                  ? $refs.actionShare.$el.focus()
-                  : $refs.actionDelete.$el.focus()
-            "
-          />
-        </li>
-        <li>
-          <media-browser-action-item-edit
-            v-if="canEdit"
-            ref="actionEdit"
-            :on-focused="focused"
-            :main-action="editItem"
-            :closing-action="hideActions"
-            @keyup.up="$refs.actionRename.$el.focus()"
-            @keyup.down="$refs.actionShare.$el.focus()"
-          />
-        </li>
-        <li>
-          <media-browser-action-item-share
-            v-if="shareable"
-            ref="actionShare"
-            :on-focused="focused"
-            :main-action="openShareUrlModal"
-            :closing-action="hideActions"
-            @keyup.up="
-              canEdit
-                ? $refs.actionEdit.$el.focus()
-                : $refs.actionRename.$el.focus()
-            "
-            @keyup.down="$refs.actionDelete.$el.focus()"
-          />
-        </li>
-        <li>
-          <media-browser-action-item-delete
-            ref="actionDelete"
-            :on-focused="focused"
-            :main-action="openConfirmDeleteModal"
-            :hide-actions="hideActions"
-            @keyup.up="
-              shareable
-                ? $refs.actionShare.$el.focus()
-                : $refs.actionRename.$el.focus()
-            "
-            @keyup.down="
-              previewable
-                ? $refs.actionPreview.$el.focus()
-                : $refs.actionRename.$el.focus()
-            "
-          />
-        </li>
-      </ul>
+      <span
+        aria-hidden="true"
+        class="media-browser-actions-item-name"
+      >
+        <strong>{{ $parent.$props.item.name }}</strong>
+      </span>
+      <MediaBrowserActionItemPreview
+        v-if="previewable"
+        ref="actionPreview"
+        :on-focused="focused"
+        :main-action="openPreview"
+        :closing-action="hideActions"
+        @keydown.up.prevent
+        @keydown.down.prevent
+        @keyup.up="focusPrev"
+        @keyup.down="focusNext"
+        @keyup.end="focusLast"
+        @keyup.home="focusFirst"
+        @keydown.home.prevent
+        @keydown.end.prevent
+        @keyup.esc="hideActions"
+        @keydown.tab="hideActions"
+      />
+      <MediaBrowserActionItemDownload
+        v-if="downloadable"
+        ref="actionDownload"
+        :on-focused="focused"
+        :main-action="download"
+        :closing-action="hideActions"
+        @keydown.up.prevent
+        @keydown.down.prevent
+        @keyup.up="focusPrev"
+        @keyup.down="focusNext"
+        @keyup.esc="hideActions"
+        @keydown.tab="hideActions"
+        @keyup.end="focusLast"
+        @keyup.home="focusFirst"
+        @keydown.home.prevent
+        @keydown.end.prevent
+      />
+      <MediaBrowserActionItemRename
+        v-if="canEdit"
+        ref="actionRename"
+        :on-focused="focused"
+        :main-action="openRenameModal"
+        :closing-action="hideActions"
+        @keydown.up.prevent
+        @keydown.down.prevent
+        @keyup.up="focusPrev"
+        @keyup.down="focusNext"
+        @keyup.esc="hideActions"
+        @keydown.tab="hideActions"
+        @keyup.end="focusLast"
+        @keyup.home="focusFirst"
+        @keydown.home.prevent
+        @keydown.end.prevent
+      />
+      <MediaBrowserActionItemEdit
+        v-if="canEdit && canOpenEditView"
+        ref="actionEdit"
+        :on-focused="focused"
+        :main-action="editItem"
+        :closing-action="hideActions"
+        @keydown.up.prevent
+        @keydown.down.prevent
+        @keyup.up="focusPrev"
+        @keyup.down="focusNext"
+        @keyup.esc="hideActions"
+        @keydown.tab="hideActions"
+        @keyup.end="focusLast"
+        @keyup.home="focusFirst"
+        @keydown.home.prevent
+        @keydown.end.prevent
+      />
+      <MediaBrowserActionItemShare
+        v-if="shareable"
+        ref="actionShare"
+        :on-focused="focused"
+        :main-action="openShareUrlModal"
+        :closing-action="hideActions"
+        @keydown.up.prevent
+        @keydown.down.prevent
+        @keyup.up="focusPrev"
+        @keyup.down="focusNext"
+        @keyup.esc="hideActions"
+        @keydown.tab="hideActions"
+        @keyup.end="focusLast"
+        @keyup.home="focusFirst"
+        @keydown.home.prevent
+        @keydown.end.prevent
+      />
+      <MediaBrowserActionItemDelete
+        v-if="canDelete"
+        ref="actionDelete"
+        :on-focused="focused"
+        :main-action="openConfirmDeleteModal"
+        :hide-actions="hideActions"
+        @keydown.up.prevent
+        @keydown.down.prevent
+        @keyup.up="focusPrev"
+        @keyup.down="focusNext"
+        @keyup.esc="hideActions"
+        @keydown.tab="hideActions"
+        @keyup.end="focusLast"
+        @keyup.home="focusFirst"
+        @keydown.home.prevent
+        @keydown.end.prevent
+      />
     </div>
   </div>
 </template>
 
 <script>
 import * as types from '../../../store/mutation-types.es6';
+import api from '../../../app/Api.es6';
+
+import MediaBrowserActionItemEdit from './edit.vue';
+import MediaBrowserActionItemDelete from './delete.vue';
+import MediaBrowserActionItemDownload from './download.vue';
+import MediaBrowserActionItemPreview from './preview.vue';
+import MediaBrowserActionItemRename from './rename.vue';
+import MediaBrowserActionItemShare from './share.vue';
+import MediaBrowserActionItemToggle from './toggle.vue';
 
 export default {
   name: 'MediaBrowserActionItemsContainer',
+  components: {
+    MediaBrowserActionItemEdit,
+    MediaBrowserActionItemDelete,
+    MediaBrowserActionItemDownload,
+    MediaBrowserActionItemPreview,
+    MediaBrowserActionItemRename,
+    MediaBrowserActionItemShare,
+    MediaBrowserActionItemToggle,
+  },
   props: {
     item: { type: Object, default: () => {} },
-    onFocused: { type: Function, default: () => {} },
     edit: { type: Function, default: () => {} },
-    editable: { type: Function, default: () => false },
     previewable: { type: Boolean, default: false },
     downloadable: { type: Boolean, default: false },
     shareable: { type: Boolean, default: false },
   },
+  emits: ['toggle-settings'],
   data() {
     return {
       showActions: false,
     };
   },
   computed: {
-    /* Check if the item is an document to edit */
     canEdit() {
-      return this.editable();
+      return api.canEdit && (typeof this.item.canEdit !== 'undefined' ? this.item.canEdit : true);
+    },
+    canDelete() {
+      return api.canDelete && (typeof this.item.canDelete !== 'undefined' ? this.item.canDelete : true);
+    },
+    canOpenEditView() {
+      // @TODO pass the array of allowed to edit files from PHP
+      return ['jpg', 'jpeg', 'png'].includes(this.item.extension.toLowerCase());
     },
   },
   watch: {
-    // eslint-disable-next-line
-    "$store.state.showRenameModal"(show) {
+    '$store.state.showRenameModal': function (show) {
       if (
         !show
         && this.$refs.actionToggle
@@ -154,6 +209,7 @@ export default {
     /* Hide actions dropdown */
     hideActions() {
       this.showActions = false;
+      this.$parent.$parent.$data.actionsActive = false;
     },
     /* Preview an item */
     openPreview() {
@@ -184,19 +240,94 @@ export default {
     /* Open actions dropdown */
     openActions() {
       this.showActions = true;
-      if (this.previewable) {
-        this.$nextTick(() => this.$refs.actionPreview.$el.focus());
-      } else {
-        this.$nextTick(() => this.$refs.actionRename.$el.focus());
+      this.$parent.$parent.$data.actionsActive = true;
+      const buttons = [...this.$el.parentElement.querySelectorAll('.media-browser-actions-list button')];
+      if (buttons.length) {
+        buttons.forEach((button, i) => {
+          if (i === (0)) {
+            button.tabIndex = 0;
+          } else {
+            button.tabIndex = -1;
+          }
+        });
+        buttons[0].focus();
       }
     },
     /* Open actions dropdown and focus on last element */
     openLastActions() {
       this.showActions = true;
-      this.$nextTick(() => this.$refs.actionDelete.$el.focus());
+      this.$parent.$parent.$data.actionsActive = true;
+      const buttons = [...this.$el.parentElement.querySelectorAll('.media-browser-actions-list button')];
+      if (buttons.length) {
+        buttons.forEach((button, i) => {
+          if (i === (buttons.length)) {
+            button.tabIndex = 0;
+          } else {
+            button.tabIndex = -1;
+          }
+        });
+        this.$nextTick(() => buttons[buttons.length - 1].focus());
+      }
+    },
+    /* Focus on the next item or go to the beginning again */
+    focusNext(event) {
+      const active = event.target;
+      const buttons = [...active.parentElement.querySelectorAll('button')];
+      const lastchild = buttons[buttons.length - 1];
+      active.tabIndex = -1;
+      if (active === lastchild) {
+        buttons[0].focus();
+        buttons[0].tabIndex = 0;
+      } else {
+        active.nextElementSibling.focus();
+        active.nextElementSibling.tabIndex = 0;
+      }
+    },
+    /* Focus on the previous item or go to the end again */
+    focusPrev(event) {
+      const active = event.target;
+      const buttons = [...active.parentElement.querySelectorAll('button')];
+      const firstchild = buttons[0];
+      active.tabIndex = -1;
+      if (active === firstchild) {
+        buttons[buttons.length - 1].focus();
+        buttons[buttons.length - 1].tabIndex = 0;
+      } else {
+        active.previousElementSibling.focus();
+        active.previousElementSibling.tabIndex = 0;
+      }
+    },
+    /* Focus on the first item */
+    focusFirst(event) {
+      const active = event.target;
+      const buttons = [...active.parentElement.querySelectorAll('button')];
+      buttons[0].focus();
+      buttons.forEach((button, i) => {
+        if (i === 0) {
+          button.tabIndex = 0;
+        } else {
+          button.tabIndex = -1;
+        }
+      });
+    },
+    /* Focus on the last item */
+    focusLast(event) {
+      const active = event.target;
+      const buttons = [...active.parentElement.querySelectorAll('button')];
+      buttons[buttons.length - 1].focus();
+      buttons.forEach((button, i) => {
+        if (i === (buttons.length)) {
+          button.tabIndex = 0;
+        } else {
+          button.tabIndex = -1;
+        }
+      });
     },
     editItem() {
       this.edit();
+    },
+    focused(bool) {
+      this.$emit('toggle-settings', bool);
     },
   },
 };

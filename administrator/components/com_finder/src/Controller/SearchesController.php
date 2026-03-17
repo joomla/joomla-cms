@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -9,11 +10,13 @@
 
 namespace Joomla\Component\Finder\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Session\Session;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Methods supporting a list of search terms.
@@ -22,23 +25,22 @@ use Joomla\CMS\Session\Session;
  */
 class SearchesController extends BaseController
 {
-	/**
-	 * Method to reset the search log table.
-	 *
-	 * @return  void
-	 */
-	public function reset()
-	{
-		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+    /**
+     * Method to reset the search log table.
+     *
+     * @return  void
+     */
+    public function reset()
+    {
+        // Check for request forgeries.
+        Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
-		$model = $this->getModel('Searches');
+        $model = $this->getModel('Searches');
 
-		if (!$model->reset())
-		{
-			$this->app->enqueueMessage($model->getError(), 'error');
-		}
+        if (!$model->reset()) {
+            $this->app->enqueueMessage($model->getError(), 'error');
+        }
 
-		$this->setRedirect('index.php?option=com_finder&view=searches');
-	}
+        $this->setRedirect('index.php?option=com_finder&view=searches');
+    }
 }

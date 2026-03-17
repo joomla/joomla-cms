@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,9 +9,11 @@
 
 namespace Joomla\CMS\Document;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * ImageDocument class, provides an easy interface to output image data
@@ -19,58 +22,57 @@ use Joomla\CMS\Factory;
  */
 class ImageDocument extends Document
 {
-	/**
-	 * Class constructor
-	 *
-	 * @param   array  $options  Associative array of options
-	 *
-	 * @since   3.0.0
-	 */
-	public function __construct($options = array())
-	{
-		parent::__construct($options);
+    /**
+     * Class constructor
+     *
+     * @param   array  $options  Associative array of options
+     *
+     * @since   3.0.0
+     */
+    public function __construct($options = [])
+    {
+        parent::__construct($options);
 
-		// Set mime type
-		$this->_mime = 'image/png';
+        // Set mime type
+        $this->_mime = 'image/png';
 
-		// Set document type
-		$this->_type = 'image';
-	}
+        // Set document type
+        $this->_type = 'image';
+    }
 
-	/**
-	 * Render the document.
-	 *
-	 * @param   boolean  $cache   If true, cache the output
-	 * @param   array    $params  Associative array of attributes
-	 *
-	 * @return  string  The rendered data
-	 *
-	 * @since   3.0.0
-	 */
-	public function render($cache = false, $params = array())
-	{
-		// Get the image type
-		$type = Factory::getApplication()->input->get('type', 'png');
+    /**
+     * Render the document.
+     *
+     * @param   boolean  $cache   If true, cache the output
+     * @param   array    $params  Associative array of attributes
+     *
+     * @return  string  The rendered data
+     *
+     * @since   3.0.0
+     */
+    public function render($cache = false, $params = [])
+    {
+        // Get the image type
+        $type = Factory::getApplication()->getInput()->get('type', 'png');
 
-		switch ($type)
-		{
-			case 'jpg':
-			case 'jpeg':
-				$this->_mime = 'image/jpeg';
-				break;
-			case 'gif':
-				$this->_mime = 'image/gif';
-				break;
-			case 'png':
-			default:
-				$this->_mime = 'image/png';
-				break;
-		}
+        switch ($type) {
+            case 'jpg':
+            case 'jpeg':
+                $this->_mime = 'image/jpeg';
+                break;
+            case 'gif':
+                $this->_mime = 'image/gif';
+                break;
+            case 'png':
+            default:
+                $this->_mime = 'image/png';
+                break;
+        }
 
-		$this->_charset = null;
+        $this->_charset = null;
 
-		parent::render($cache, $params);
+        parent::render($cache, $params);
 
-		return $this->getBuffer();
-	}
+        return $this->getBuffer();
+    }
 }

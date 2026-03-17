@@ -1,14 +1,17 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Association;
 
-\defined('JPATH_PLATFORM') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Trait to implement AssociationServiceInterface
@@ -17,38 +20,38 @@ namespace Joomla\CMS\Association;
  */
 trait AssociationServiceTrait
 {
-	/**
-	 * The association extension.
-	 *
-	 * @var AssociationExtensionInterface
-	 *
-	 * @since  4.0.0
-	 */
-	private $associationExtension = null;
+    /**
+     * The association extension.
+     *
+     * @var AssociationExtensionInterface
+     *
+     * @since  4.0.0
+     */
+    private $associationExtension = null;
 
-	/**
-	 * Returns the associations extension helper class.
-	 *
-	 * @return  AssociationExtensionInterface
-	 *
-	 * @since  4.0.0
-	 */
-	public function getAssociationsExtension(): AssociationExtensionInterface
-	{
-		return $this->associationExtension;
-	}
+    /**
+     * Returns the associations extension helper class.
+     *
+     * @return  AssociationExtensionInterface
+     *
+     * @since  4.0.0
+     */
+    public function getAssociationsExtension(): AssociationExtensionInterface
+    {
+        return $this->associationExtension;
+    }
 
-	/**
-	 * The association extension.
-	 *
-	 * @param   AssociationExtensionInterface  $associationExtension  The extension
-	 *
-	 * @return  void
-	 *
-	 * @since  4.0.0
-	 */
-	public function setAssociationExtension(AssociationExtensionInterface $associationExtension)
-	{
-		$this->associationExtension = $associationExtension;
-	}
+    /**
+     * The association extension.
+     *
+     * @param   AssociationExtensionInterface  $associationExtension  The extension
+     *
+     * @return  void
+     *
+     * @since  4.0.0
+     */
+    public function setAssociationExtension(AssociationExtensionInterface $associationExtension)
+    {
+        $this->associationExtension = $associationExtension;
+    }
 }

@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" client="site" method="upgrade">
 	<name>mod_syndicate</name>
 	<author>Joomla! Project</author>
-	<creationDate>May 2006</creationDate>
+	<creationDate>2006-05</creationDate>
 	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -11,7 +11,7 @@
 	<description>MOD_SYNDICATE_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\Syndicate</namespace>
 	<files>
-		<filename module="mod_syndicate">mod_syndicate.php</filename>
+		<folder module="mod_syndicate">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>

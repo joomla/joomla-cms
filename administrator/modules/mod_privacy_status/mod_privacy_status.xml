@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" client="administrator" method="upgrade">
 	<name>mod_privacy_status</name>
 	<author>Joomla! Project</author>
-	<creationDate>July 2019</creationDate>
+	<creationDate>2019-07</creationDate>
 	<copyright>(C) 2019 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -11,7 +11,7 @@
 	<description>MOD_PRIVACY_STATUS_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\PrivacyStatus</namespace>
 	<files>
-		<filename module="mod_privacy_status">mod_privacy_status.php</filename>
+		<folder module="mod_privacy_status">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>

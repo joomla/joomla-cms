@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
@@ -9,12 +10,13 @@
 
 namespace Joomla\Component\Contenthistory\Administrator\View\Preview;
 
-\defined('_JEXEC') or die;
-
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\Component\Contenthistory\Administrator\Model\PreviewModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View class for a list of contenthistory.
@@ -23,47 +25,44 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * An array of items
-	 *
-	 * @var  \stdClass|false
-	 */
-	protected $item;
+    /**
+     * An array of items
+     *
+     * @var  \stdClass|false
+     */
+    protected $item;
 
-	/**
-	 * The model state
-	 *
-	 * @var  \JObject
-	 */
-	protected $state;
+    /**
+     * The model state
+     *
+     * @var  \Joomla\Registry\Registry
+     */
+    protected $state;
 
-	/**
-	 * Method to display the view.
-	 *
-	 * @param   string  $tpl  A template file to load. [optional]
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function display($tpl = null)
-	{
-		$this->state = $this->get('State');
-		$this->item  = $this->get('Item');
+    /**
+     * Method to display the view.
+     *
+     * @param   string  $tpl  A template file to load. [optional]
+     *
+     * @return  void
+     *
+     * @since   3.2
+     */
+    public function display($tpl = null)
+    {
+        /** @var PreviewModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-		if (false === $this->item)
-		{
-			Factory::getLanguage()->load('com_content', JPATH_SITE, null, true);
+        $this->state = $model->getState();
+        $this->item  = $model->getItem();
 
-			throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
-		}
+        if (false === $this->item) {
+            $this->getLanguage()->load('com_content', JPATH_SITE, null, true);
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+            throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
+        }
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 }

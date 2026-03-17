@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
@@ -9,12 +10,13 @@
 
 namespace Joomla\Component\Redirect\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
-use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Redirect link list controller class.
@@ -23,179 +25,163 @@ use Joomla\Utilities\ArrayHelper;
  */
 class LinksController extends AdminController
 {
-	/**
-	 * Method to update a record.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public function activate()
-	{
-		// Check for request forgeries.
-		$this->checkToken();
+    /**
+     * Method to update a record.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    public function activate()
+    {
+        // Check for request forgeries.
+        $this->checkToken();
 
-		$ids     = $this->input->get('cid', array(), 'array');
-		$newUrl  = $this->input->getString('new_url');
-		$comment = $this->input->getString('comment');
+        $ids = (array) $this->input->get('cid', [], 'int');
 
-		if (empty($ids))
-		{
-			$this->app->enqueueMessage(Text::_('COM_REDIRECT_NO_ITEM_SELECTED'), 'warning');
-		}
-		else
-		{
-			// Get the model.
-			$model = $this->getModel();
+        // Remove zero values resulting from input filter
+        $ids = array_filter($ids);
 
-			$ids = ArrayHelper::toInteger($ids);
+        if (empty($ids)) {
+            $this->app->enqueueMessage(Text::_('COM_REDIRECT_NO_ITEM_SELECTED'), 'warning');
+        } else {
+            $newUrl  = $this->input->getString('new_url');
+            $comment = $this->input->getString('comment');
 
-			// Remove the items.
-			if (!$model->activate($ids, $newUrl, $comment))
-			{
-				$this->app->enqueueMessage($model->getError(), 'warning');
-			}
-			else
-			{
-				$this->setMessage(Text::plural('COM_REDIRECT_N_LINKS_UPDATED', count($ids)));
-			}
-		}
+            // Get the model.
+            $model = $this->getModel();
 
-		$this->setRedirect('index.php?option=com_redirect&view=links');
-	}
+            // Remove the items.
+            if (!$model->activate($ids, $newUrl, $comment)) {
+                $this->app->enqueueMessage($model->getError(), 'warning');
+            } else {
+                $this->setMessage(Text::plural('COM_REDIRECT_N_LINKS_UPDATED', \count($ids)));
+            }
+        }
 
-	/**
-	 * Method to duplicate URLs in records.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.6.0
-	 */
-	public function duplicateUrls()
-	{
-		// Check for request forgeries.
-		$this->checkToken();
+        $this->setRedirect('index.php?option=com_redirect&view=links');
+    }
 
-		$ids     = $this->input->get('cid', array(), 'array');
-		$newUrl  = $this->input->getString('new_url');
-		$comment = $this->input->getString('comment');
+    /**
+     * Method to duplicate URLs in records.
+     *
+     * @return  void
+     *
+     * @since   3.6.0
+     */
+    public function duplicateUrls()
+    {
+        // Check for request forgeries.
+        $this->checkToken();
 
-		if (empty($ids))
-		{
-			$this->app->enqueueMessage(Text::_('COM_REDIRECT_NO_ITEM_SELECTED'), 'warning');
-		}
-		else
-		{
-			// Get the model.
-			$model = $this->getModel();
+        $ids = (array) $this->input->get('cid', [], 'int');
 
-			$ids = ArrayHelper::toInteger($ids);
+        // Remove zero values resulting from input filter
+        $ids = array_filter($ids);
 
-			// Remove the items.
-			if (!$model->duplicateUrls($ids, $newUrl, $comment))
-			{
-				$this->app->enqueueMessage($model->getError(), 'warning');
-			}
-			else
-			{
-				$this->setMessage(Text::plural('COM_REDIRECT_N_LINKS_UPDATED', count($ids)));
-			}
-		}
+        if (empty($ids)) {
+            $this->app->enqueueMessage(Text::_('COM_REDIRECT_NO_ITEM_SELECTED'), 'warning');
+        } else {
+            $newUrl  = $this->input->getString('new_url');
+            $comment = $this->input->getString('comment');
 
-		$this->setRedirect('index.php?option=com_redirect&view=links');
-	}
+            // Get the model.
+            $model = $this->getModel();
 
-	/**
-	 * Proxy for getModel.
-	 *
-	 * @param   string  $name    The name of the model.
-	 * @param   string  $prefix  The prefix of the model.
-	 * @param   array   $config  An array of settings.
-	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel The model instance
-	 *
-	 * @since   1.6
-	 */
-	public function getModel($name = 'Link', $prefix = 'Administrator', $config = array('ignore_request' => true))
-	{
-		return parent::getModel($name, $prefix, $config);
-	}
+            // Remove the items.
+            if (!$model->duplicateUrls($ids, $newUrl, $comment)) {
+                $this->app->enqueueMessage($model->getError(), 'warning');
+            } else {
+                $this->setMessage(Text::plural('COM_REDIRECT_N_LINKS_UPDATED', \count($ids)));
+            }
+        }
 
-	/**
-	 * Executes the batch process to add URLs to the database
-	 *
-	 * @return  void
-	 */
-	public function batch()
-	{
-		// Check for request forgeries.
-		$this->checkToken();
+        $this->setRedirect('index.php?option=com_redirect&view=links');
+    }
 
-		$batch_urls_request = $this->input->post->get('batch_urls', array(), 'array');
-		$batch_urls_lines   = array_map('trim', explode("\n", $batch_urls_request[0]));
+    /**
+     * Proxy for getModel.
+     *
+     * @param   string  $name    The name of the model.
+     * @param   string  $prefix  The prefix of the model.
+     * @param   array   $config  An array of settings.
+     *
+     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel The model instance
+     *
+     * @since   1.6
+     */
+    public function getModel($name = 'Link', $prefix = 'Administrator', $config = ['ignore_request' => true])
+    {
+        return parent::getModel($name, $prefix, $config);
+    }
 
-		$batch_urls = array();
+    /**
+     * Executes the batch process to add URLs to the database
+     *
+     * @return  void
+     */
+    public function batch()
+    {
+        // Check for request forgeries.
+        $this->checkToken();
 
-		foreach ($batch_urls_lines as $batch_urls_line)
-		{
-			if (!empty($batch_urls_line))
-			{
-				$params = ComponentHelper::getParams('com_redirect');
-				$separator = $params->get('separator', '|');
+        $batch_urls_request = $this->input->post->get('batch_urls', [], 'array');
+        $batch_urls_lines   = array_map('trim', explode("\n", $batch_urls_request[0]));
 
-				// Basic check to make sure the correct separator is being used
-				if (!\Joomla\String\StringHelper::strpos($batch_urls_line, $separator))
-				{
-					$this->setMessage(Text::sprintf('COM_REDIRECT_NO_SEPARATOR_FOUND', $separator), 'error');
-					$this->setRedirect('index.php?option=com_redirect&view=links');
+        $batch_urls = [];
 
-					return;
-				}
+        foreach ($batch_urls_lines as $batch_urls_line) {
+            if (!empty($batch_urls_line)) {
+                $params    = ComponentHelper::getParams('com_redirect');
+                $separator = $params->get('separator', '|');
 
-				$batch_urls[] = array_map('trim', explode($separator, $batch_urls_line));
-			}
-		}
+                // Basic check to make sure the correct separator is being used
+                if (!\Joomla\String\StringHelper::strpos($batch_urls_line, $separator)) {
+                    $this->setMessage(Text::sprintf('COM_REDIRECT_NO_SEPARATOR_FOUND', $separator), 'error');
+                    $this->setRedirect('index.php?option=com_redirect&view=links');
 
-		// Set default message on error - overwrite if successful
-		$this->setMessage(Text::_('COM_REDIRECT_NO_ITEM_ADDED'), 'error');
+                    return;
+                }
 
-		if (!empty($batch_urls))
-		{
-			$model = $this->getModel('Links');
+                $batch_urls[] = array_map('trim', explode($separator, $batch_urls_line));
+            }
+        }
 
-			// Execute the batch process
-			if ($model->batchProcess($batch_urls))
-			{
-				$this->setMessage(Text::plural('COM_REDIRECT_N_LINKS_ADDED', count($batch_urls)));
-			}
-		}
+        // Set default message on error - overwrite if successful
+        $this->setMessage(Text::_('COM_REDIRECT_NO_ITEM_ADDED'), 'error');
 
-		$this->setRedirect('index.php?option=com_redirect&view=links');
-	}
+        if (!empty($batch_urls)) {
+            $model = $this->getModel('Links');
 
-	/**
-	 * Clean out the unpublished links.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.5
-	 */
-	public function purge()
-	{
-		// Check for request forgeries.
-		$this->checkToken();
+            // Execute the batch process
+            if ($model->batchProcess($batch_urls)) {
+                $this->setMessage(Text::plural('COM_REDIRECT_N_LINKS_ADDED', \count($batch_urls)));
+            }
+        }
 
-		$model = $this->getModel('Links');
+        $this->setRedirect('index.php?option=com_redirect&view=links');
+    }
 
-		if ($model->purge())
-		{
-			$message = Text::_('COM_REDIRECT_CLEAR_SUCCESS');
-		}
-		else
-		{
-			$message = Text::_('COM_REDIRECT_CLEAR_FAIL');
-		}
+    /**
+     * Clean out the unpublished links.
+     *
+     * @return  void
+     *
+     * @since   3.5
+     */
+    public function purge()
+    {
+        // Check for request forgeries.
+        $this->checkToken();
 
-		$this->setRedirect('index.php?option=com_redirect&view=links', $message);
-	}
+        $model = $this->getModel('Links');
+
+        if ($model->purge()) {
+            $message = Text::_('COM_REDIRECT_CLEAR_SUCCESS');
+        } else {
+            $message = Text::_('COM_REDIRECT_CLEAR_FAIL');
+        }
+
+        $this->setRedirect('index.php?option=com_redirect&view=links', $message);
+    }
 }

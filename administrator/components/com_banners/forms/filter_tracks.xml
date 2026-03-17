@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Banners\Administrator\Field">
 	<fields name="filter">
 		<field
@@ -15,7 +15,7 @@
 			type="category"
 			label="JCATEGORY"
 			extension="com_banners"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 			>
 			<option value="">JOPTION_SELECT_CATEGORY</option>
@@ -26,7 +26,7 @@
 			type="bannerclient"
 			label="COM_BANNERS_HEADING_CLIENT"
 			extension="com_content"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">COM_BANNERS_SELECT_CLIENT</option>
 		</field>
@@ -35,7 +35,7 @@
 			name="type"
 			type="list"
 			label="COM_BANNERS_HEADING_TYPE"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			validate="options"
 			>
 			<option value="">COM_BANNERS_SELECT_TYPE</option>
@@ -51,7 +51,7 @@
 			last="10"
 			step="1"
 			languages="*"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
 		</field>
@@ -62,8 +62,8 @@
 			label="COM_BANNERS_BEGIN_LABEL"
 			hint="COM_BANNERS_BEGIN_HINT"
 			format="%Y-%m-%d"
-			size="10"
 			filter="user_utc"
+			class="js-select-submit-on-change"
 		/>
 
 		<field
@@ -72,8 +72,8 @@
 			label="COM_BANNERS_END_LABEL"
 			hint="COM_BANNERS_END_HINT"
 			format="%Y-%m-%d"
-			size="10"
 			filter="user_utc"
+			class="js-select-submit-on-change"
 		/>
 	</fields>
 	<fields name="list">
@@ -81,7 +81,7 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			default="b.name ASC"
 			validate="options"
 			>
@@ -103,7 +103,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="5"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 		/>
 	</fields>
 </form>

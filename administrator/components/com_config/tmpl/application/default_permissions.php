@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_config
@@ -11,6 +12,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
 defined('_JEXEC') or die;
+
+/** @var \Joomla\Component\Config\Administrator\View\Application\HtmlView $this */
 
 $this->name        = Text::_('COM_CONFIG_PERMISSION_SETTINGS');
 $this->description = '';

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Template.system
@@ -7,6 +8,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 include __DIR__ . '/component.php';

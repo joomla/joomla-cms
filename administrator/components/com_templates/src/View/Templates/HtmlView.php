@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_templates
@@ -9,149 +10,154 @@
 
 namespace Joomla\Component\Templates\Administrator\View\Templates;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Templates\Administrator\Model\TemplatesModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
- * View class for a list of template styles.
+ * View class for a list of templates.
  *
  * @since  1.6
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * The list of templates
-	 *
-	 * @var		array
-	 * @since   1.6
-	 */
-	protected $items;
+    /**
+     * The list of templates
+     *
+     * @var     array
+     * @since   1.6
+     */
+    protected $items;
 
-	/**
-	 * The pagination object
-	 *
-	 * @var		object
-	 * @since   1.6
-	 */
-	protected $pagination;
+    /**
+     * The pagination object
+     *
+     * @var     object
+     * @since   1.6
+     */
+    protected $pagination;
 
-	/**
-	 * The model state
-	 *
-	 * @var		object
-	 * @since   1.6
-	 */
-	protected $state;
+    /**
+     * The model state
+     *
+     * @var     object
+     * @since   1.6
+     */
+    protected $state;
 
-	/**
-	 * @var		string
-	 * @since   3.2
-	 */
-	protected $file;
+    /**
+     * @var     string
+     * @since   3.2
+     */
+    protected $file;
 
-	/**
-	 * Form object for search filters
-	 *
-	 * @var    \JForm
-	 * @since  4.0.0
-	 */
-	public $filterForm;
+    /**
+     * Form object for search filters
+     *
+     * @var    \Joomla\CMS\Form\Form
+     *
+     * @since  4.0.0
+     */
+    public $filterForm;
 
-	/**
-	 * The active search filters
-	 *
-	 * @var    array
-	 * @since  4.0.0
-	 */
-	public $activeFilters;
+    /**
+     * The active search filters
+     *
+     * @var    array
+     * @since  4.0.0
+     */
+    public $activeFilters;
 
-	/**
-	 * Is the parameter enabled to show template positions in the frontend?
-	 *
-	 * @var    boolean
-	 * @since  4.0.0
-	 */
-	public $preview;
+    /**
+     * Is the parameter enabled to show template positions in the frontend?
+     *
+     * @var    boolean
+     * @since  4.0.0
+     */
+    public $preview;
 
-	/**
-	 * The state of installer override plugin.
-	 *
-	 * @var  array
-	 *
-	 * @since  4.0.0
-	 */
-	protected $pluginState;
+    /**
+     * The state of installer override plugin.
+     *
+     * @var  array
+     *
+     * @since  4.0.0
+     */
+    protected $pluginState;
 
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public function display($tpl = null)
-	{
-		$this->items         = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->state         = $this->get('State');
-		$this->total         = $this->get('Total');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
-		$this->preview       = ComponentHelper::getParams('com_templates')->get('template_positions_display');
-		$this->file          = base64_encode('home');
-		$this->pluginState   = PluginHelper::isEnabled('installer', 'override');
+    /**
+     * Execute and display a template script.
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    public function display($tpl = null)
+    {
+        /** @var TemplatesModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        $this->items         = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->state         = $model->getState();
+        $this->total         = $model->getTotal();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
+        $this->preview       = ComponentHelper::getParams('com_templates')->get('template_positions_display');
+        $this->file          = base64_encode('home');
+        $this->pluginState   = PluginHelper::isEnabled('installer', 'override');
 
-		$this->addToolbar();
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task')
+            ->addControlField('boxchecked', '0');
 
-		parent::display($tpl);
-	}
+        $this->addToolbar();
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function addToolbar()
-	{
-		$canDo    = ContentHelper::getActions('com_templates');
-		$clientId = (int) $this->get('State')->get('client_id');
+        parent::display($tpl);
+    }
 
-		// Add a shortcut to the styles list view.
-		ToolbarHelper::link('index.php?option=com_templates&view=styles&client_id=' . $clientId, 'COM_TEMPLATES_MANAGER_STYLES_BUTTON', 'brush thememanager');
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    protected function addToolbar()
+    {
+        $canDo    = ContentHelper::getActions('com_templates');
+        $clientId = (int) $this->state->get('client_id');
+        $toolbar  = $this->getDocument()->getToolbar();
 
-		// Set the title.
-		if ($clientId === 1)
-		{
-			ToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_TEMPLATES_ADMIN'), 'icon-code thememanager');
-		}
-		else
-		{
-			ToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_TEMPLATES_SITE'), 'icon-code thememanager');
-		}
+        // Add a shortcut to the styles list view.
+        $toolbar->linkButton('styles', 'COM_TEMPLATES_MANAGER_STYLES_BUTTON')
+            ->url('index.php?option=com_templates&view=styles&client_id=' . $clientId)
+            ->icon('icon-brush thememanager');
 
-		if ($canDo->get('core.admin') || $canDo->get('core.options'))
-		{
-			ToolbarHelper::preferences('com_templates');
-			ToolbarHelper::divider();
-		}
+        // Set the title.
+        if ($clientId === 1) {
+            ToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_TEMPLATES_ADMIN'), 'icon-code thememanager');
+        } else {
+            ToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_TEMPLATES_SITE'), 'icon-code thememanager');
+        }
 
-		ToolbarHelper::help('Templates:_Templates');
-	}
+        if ($canDo->get('core.admin') || $canDo->get('core.options')) {
+            $toolbar->preferences('com_templates');
+            $toolbar->divider();
+        }
+
+        $toolbar->help('Templates:_Templates');
+    }
 }

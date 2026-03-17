@@ -5,14 +5,24 @@ import Image from './image.vue';
 import Video from './video.vue';
 import Audio from './audio.vue';
 import Doc from './document.vue';
-import * as types from '../../../store/mutation-types.es6';
-import { api } from '../../../app/Api.es6';
+import api from '../../../app/Api.es6';
+import onItemClick from '../utils/utils.es6';
 
 export default {
-  props: ['item'],
+  props: {
+    item: {
+      type: Object,
+      default: () => {},
+    },
+    localItems: {
+      type: Array,
+      default: () => [],
+    },
+  },
   data() {
     return {
       hoverActive: false,
+      actionsActive: false,
     };
   },
   methods: {
@@ -88,6 +98,14 @@ export default {
     },
 
     /**
+     * Whether or not the item is currently active (on hover or via tab)
+     * @returns {boolean}
+     */
+    hasActions() {
+      return this.actionsActive;
+    },
+
+    /**
      * Turns on the hover class
      */
     mouseover() {
@@ -106,67 +124,15 @@ export default {
      * @param event
      */
     handleClick(event) {
-      if (this.item.path && this.item.type === 'file') {
-        window.parent.document.dispatchEvent(
-          new CustomEvent('onMediaFileSelected', {
-            bubbles: true,
-            cancelable: false,
-            detail: {
-              path: this.item.path,
-              thumb: this.item.thumb,
-              fileType: this.item.mime_type ? this.item.mime_type : false,
-              extension: this.item.extension ? this.item.extension : false,
-              width: this.item.width ? this.item.width : 0,
-              height: this.item.height ? this.item.height : 0,
-            },
-          }),
-        );
-      }
-
-      if (this.item.type === 'dir') {
-        window.parent.document.dispatchEvent(
-          new CustomEvent('onMediaFileSelected', {
-            bubbles: true,
-            cancelable: false,
-            detail: {},
-          }),
-        );
-      }
-
-      // Handle clicks when the item was not selected
-      if (!this.isSelected()) {
-        // Unselect all other selected items,
-        // if the shift key was not pressed during the click event
-        if (!(event.shiftKey || event.keyCode === 13)) {
-          this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-        }
-        this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
-        return;
-      }
-      this.$store.dispatch('toggleBrowserItemSelect', this.item);
-      window.parent.document.dispatchEvent(
-        new CustomEvent('onMediaFileSelected', {
-          bubbles: true,
-          cancelable: false,
-          detail: {},
-        }),
-      );
-
-      // If more than one item was selected and the user clicks again on the selected item,
-      // he most probably wants to unselect all other items.
-      if (this.$store.state.selectedItems.length > 1) {
-        this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-        this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
-      }
+      return onItemClick(event, this);
     },
 
     /**
      * Handle the when an element is focused in the child to display the layover for a11y
-     * @param value
+     * @param active
      */
-    focused(value) {
-      // eslint-disable-next-line no-unused-expressions
-      value ? this.mouseover() : this.mouseleave();
+    toggleSettings(active) {
+      this[`mouse${active ? 'over' : 'leave'}`]();
     },
   },
   render() {
@@ -177,16 +143,17 @@ export default {
           'media-browser-item': true,
           selected: this.isSelected(),
           active: this.isHoverActive(),
+          actions: this.hasActions(),
         },
         onClick: this.handleClick,
         onMouseover: this.mouseover,
         onMouseleave: this.mouseleave,
-        onFocused: this.focused,
       },
       [
         h(this.itemType(), {
           item: this.item,
-          focused: this.focused,
+          onToggleSettings: this.toggleSettings,
+          focused: false,
         }),
       ],
     );

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -11,7 +12,7 @@ defined('_JEXEC') or die;
 
 extract($displayData);
 
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Layout variables
@@ -44,7 +45,7 @@ use Joomla\CMS\HTML\HTMLHelper;
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
-HTMLHelper::_('behavior.combobox');
+Factory::getApplication()->getDocument()->getWebAssetManager()->usePreset('awesomplete');
 
 $attr = '';
 
@@ -61,17 +62,16 @@ $attr .= !empty($onchange) ? ' onchange="' . $onchange . '"' : '';
 
 $val  = [];
 
-foreach ($options as $option)
-{
-	$val[] = $option->text;
+foreach ($options as $option) {
+    $val[] = $option->text;
 }
 ?>
 <input
-	type="text"
-	name="<?php echo $name; ?>"
-	id="<?php echo $id; ?>"
-	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
-	<?php echo $attr; ?>
-	data-list="<?php echo implode(', ', $val); ?>"
-	<?php echo $dataAttribute; ?>
+    type="text"
+    name="<?php echo $name; ?>"
+    id="<?php echo $id; ?>"
+    value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+    <?php echo $attr; ?>
+    data-list="<?php echo implode(', ', $val); ?>"
+    <?php echo $dataAttribute; ?>
 />

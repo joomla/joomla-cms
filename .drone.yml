@@ -1,280 +1,106 @@
 ---
 kind: pipeline
-name: default
-
-clone:
-
-steps:
-  - name: composer
-    image: joomlaprojects/docker-images:php7.3
-    volumes:
-      - name: composer-cache
-        path: /tmp/composer-cache
-    commands:
-      - composer validate --no-check-all --strict
-      - composer install --no-progress --no-suggest
-      - patch -N -p0 < tests/patch/phpunit8_php8_match.patch || echo "Ignore this error."
-
-  - name: phpcs
-    image: joomlaprojects/docker-images:php7.2
-    depends_on: [ composer ]
-    commands:
-      - echo $(date)
-      - ./libraries/vendor/bin/phpcs --extensions=php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
-      - echo $(date)
-
-  - name: npm
-    image: node:14-alpine
-    depends_on: [ phpcs ]
-    commands:
-      - npm ci --unsafe-perm
-
-  - name: php72-unit
-    depends_on: [ phpcs ]
-    image: joomlaprojects/docker-images:php7.2
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Unit
-
-  - name: php73-unit
-    depends_on: [ phpcs ]
-    image: joomlaprojects/docker-images:php7.3
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Unit
-
-  - name: php74-unit
-    depends_on: [ phpcs ]
-    image: joomlaprojects/docker-images:php7.4
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Unit
-
-  - name: php80-unit
-    depends_on: [ phpcs ]
-    image: joomlaprojects/docker-images:php8.0
-    failure: ignore
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Unit
-
-  - name: php81-unit
-    depends_on: [ phpcs ]
-    image: joomlaprojects/docker-images:php8.1
-    failure: ignore
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Unit
-
-  - name: php72-integration
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php7.2
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration
-
-  - name: php73-integration
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php7.3
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration
-
-  - name: php74-integration
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php7.4
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration
-
-  - name: php80-integration
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php8.0
-    failure: ignore
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration
-
-  - name: php81-integration
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php8.1
-    failure: ignore
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration
-
-  - name: php72-integration-pgsql
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php7.2
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
-
-  - name: php73-integration-pgsql
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php7.3
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
-
-  - name: php74-integration-pgsql
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php7.4
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
-
-  - name: php80-integration-pgsql
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php8.0
-    failure: ignore
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
-
-  - name: php81-integration-pgsql
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php8.1
-    failure: ignore
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
-
-  - name: scss-cs
-    depends_on: [ npm ]
-    image: node:current-alpine
-    commands:
-      - npm run lint:css
-
-  - name: javascript-cs
-    depends_on: [ npm ]
-    image: node:current-alpine
-    commands:
-      - npm run lint:js
-
-  - name: system-tests-mysql
-    depends_on: [ javascript-cs ]
-    image: joomlaprojects/docker-images:systemtests
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql
-
-  - name: system-tests-mysql8
-    depends_on: [ system-tests-mysql ]
-    image: joomlaprojects/docker-images:systemtests
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8
-
-  - name: system-tests-postgres
-    depends_on: [ system-tests-mysql8 ]
-    image: joomlaprojects/docker-images:systemtests
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgres
-
-  - name: api-tests
-    depends_on: [ system-tests-postgres ]
-    image: joomlaprojects/docker-images:systemtests
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)"
-
-  - name: artifacts-system-tests
-    image: cschlosser/drone-ftps
-    depends_on: [ api-tests ]
-    environment:
-      FTP_USERNAME:
-        from_secret: ftpusername
-      FTP_PASSWORD:
-        from_secret: ftppassword
-      PLUGIN_HOSTNAME: ci.joomla.org:21
-      PLUGIN_SRC_DIR: /tests/Codeception/_output/
-      PLUGIN_DEST_DIR: /artifacts
-      PLUGIN_SECURE: false
-      PLUGIN_EXCLUDE: ^\.git/$
-    commands:
-      - export PLUGIN_DEST_DIR=$PLUGIN_DEST_DIR/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
-      - echo https://ci.joomla.org$PLUGIN_DEST_DIR
-      - /bin/upload.sh
-    when:
-      status:
-        - failure
-
-branches:
-  exclude: [ l10n_* ]
-
-volumes:
-- name: composer-cache
-  host:
-    path: /tmp/composer-cache
-
-services:
-  - name: mysql
-    image: mysql:5.7
-    environment:
-      MYSQL_USER: joomla_ut
-      MYSQL_PASSWORD: joomla_ut
-      MYSQL_ROOT_PASSWORD: joomla_ut
-      MYSQL_DATABASE: test_joomla
-
-  - name: mysql8
-    image: mysql:8
-    command: ["--default-authentication-plugin=mysql_native_password"]
-    environment:
-      MYSQL_USER: joomla_ut
-      MYSQL_PASSWORD: joomla_ut
-      MYSQL_ROOT_PASSWORD: joomla_ut
-      MYSQL_DATABASE: test_joomla
-
-  - name: postgres
-    image: postgres:11-alpine
-    ports:
-      - 5432
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: joomla_ut
-      POSTGRES_DB: test_joomla
-
----
-kind: pipeline
 name: package
 
 steps:
   - name: packager
     image: joomlaprojects/docker-images:packager
     environment:
-      FTP_USERNAME:
-        from_secret: ftpusername
-      FTP_PASSWORD:
-        from_secret: ftppassword
-      FTP_HOSTNAME: ci.joomla.org
-      FTP_PORT: "21"
-      FTP_DEST_DIR: /artifacts
-      FTP_VERIFY: "false"
-      FTP_SECURE: "true"
-      HTTP_ROOT: "https://ci.joomla.org/artifacts"
+      HTTP_ROOT: "https://artifacts.joomla.org/drone"
       DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
       DRONE_COMMIT: DRONE_COMMIT
+    commands:
+      - /bin/drone_prepare_package.sh
+
+  - name: upload
+    image: joomlaprojects/docker-images:packager
+    environment:
+      package_key:
+        from_secret: package_key
+      package_user:
+        from_secret: package_user
+      package_host:
+        from_secret: package_host
+      package_root:
+        from_secret: package_root
       GITHUB_TOKEN:
         from_secret: github_token
     commands:
-      - if [ $DRONE_REPO_NAME != 'joomla-cms' ]; then echo "The packager only runs on the joomla/joomla-cms repo"; exit 0; fi
-      - /bin/drone_build.sh
-    volumes:
-      - name: reference
-        path: /reference
-    when:
-      branch:
-        - 4.1-dev
+      - mkdir -p ~/.ssh
+      - eval $(ssh-agent -s)
+      - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+      - echo "$package_key" > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+      - ssh-add
+      - rclone config create package sftp host $package_host user $package_user port 22
+      - rclone copy ./upload/ package:$package_root/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/downloads/$DRONE_BUILD_NUMBER
+      - /bin/add_github_status.sh "Download" "Prebuilt packages are available for download." "https://artifacts.joomla.org/drone/${DRONE_REPO}/${DRONE_BRANCH}/${DRONE_PULL_REQUEST}/downloads/${DRONE_BUILD_NUMBER}"
 
+trigger:
+  repo:
+    - joomla/joomla-cms
+
+---
+kind: pipeline
+name: nightly_build
+
+steps:
+  - name: prepare
+    image: joomlaprojects/docker-images:packager
+    commands:
+      - composer --version
+      - mkdir -p transfer
+      - date +%s > transfer/${DRONE_BRANCH%%-dev}-time.txt
+      - git rev-parse origin/${DRONE_BRANCH} > transfer/${DRONE_BRANCH%%-dev}.txt
+      - php build/build.php --remote=origin/${DRONE_BRANCH} --exclude-gzip --disable-patch-packages
+      - mv build/tmp/packages/* transfer/
+      - php build/build.php --remote=origin/${DRONE_BRANCH} --exclude-zip --exclude-gzip --exclude-bzip2 --debug-build
+      - mv build/tmp/packages/* transfer/
+
+  - name: upload
+    image: joomlaprojects/docker-images:packager
+    environment:
+      nightly_key:
+        from_secret: nightly_key
+      nightly_user:
+        from_secret: nightly_user
+      nightly_host:
+        from_secret: nightly_host
+      MATTERMOST_NIGHTLY_HOOK:
+        from_secret: mattermost_nightly_hook
+    commands:
+      - mkdir -p ~/.ssh
+      - eval $(ssh-agent -s)
+      - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+      - echo "$nightly_key" > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+      - ssh-add
+      - rclone config create nightly sftp host $nightly_host user $nightly_user port 22
+      - rclone delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_${DRONE_BRANCH%%-dev}.*"
+      - rclone delete nightly:/home/devj/public_html/cache/com_content/
+      - rclone copy ./transfer/ nightly:/home/devj/public_html/nightlies/
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla '"${DRONE_BRANCH%%-dev}"'](https://developer.joomla.org/nightly-builds.html) successfully built."}' $MATTERMOST_NIGHTLY_HOOK
+
+  - name: buildfailure
+    image: joomlaprojects/docker-images:packager
+    environment:
+      MATTERMOST_NIGHTLY_HOOK:
+        from_secret: mattermost_nightly_hook
+    commands:
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla '"${DRONE_BRANCH%%-dev}"'](https://developer.joomla.org/nightly-builds.html) FAILED to build."}' $MATTERMOST_NIGHTLY_HOOK
+    when:
+      status:
+        - failure
+
+trigger:
+  event:
+    - cron
+    - custom
+  repo:
+    - joomla/joomla-cms
 
 ---
 kind: signature
-hmac: bd749550476cef0ec9258524e7f158b25dd3adf55758bb1c24874a185db1b40a
+hmac: b62009a5a3a1303955cdf02e0d38850e7065febe2e8b06731f6c740a89dfd6e9
 
 ...

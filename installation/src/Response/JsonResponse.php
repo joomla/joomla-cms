@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Installation
  * @subpackage  Response
@@ -9,11 +10,13 @@
 
 namespace Joomla\CMS\Installation\Response;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * JSON Response class for the Joomla Installer.
@@ -22,55 +25,109 @@ use Joomla\CMS\Session\Session;
  */
 class JsonResponse
 {
-	/**
-	 * Constructor for the JSON response
-	 *
-	 * @param   mixed  $data  Exception if there is an error, otherwise, the session data
-	 *
-	 * @since   3.1
-	 */
-	public function __construct($data)
-	{
-		// The old token is invalid so send a new one.
-		$this->token = Session::getFormToken(true);
+    /**
+     * The security token.
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    public $token;
 
-		// Get the language and send its tag along
-		$this->lang = Factory::getLanguage()->getTag();
+    /**
+     * The language tag
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    public $lang;
 
-		// Get the message queue
-		$messages = Factory::getApplication()->getMessageQueue();
+    /**
+     * The message
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    public $message;
 
-		// Build the sorted message list
-		if (is_array($messages) && count($messages))
-		{
-			foreach ($messages as $msg)
-			{
-				if (isset($msg['type'], $msg['message']))
-				{
-					$lists[$msg['type']][] = $msg['message'];
-				}
-			}
-		}
+    /**
+     * The messages array
+     *
+     * @var    array
+     * @since  4.3.0
+     */
+    public $messages;
 
-		// If messages exist add them to the output
-		if (isset($lists) && is_array($lists))
-		{
-			$this->messages = $lists;
-		}
+    /**
+     * The error message
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    public $error;
 
-		// Check if we are dealing with an error.
-		if ($data instanceof \Throwable)
-		{
-			// Prepare the error response.
-			$this->error   = true;
-			$this->header  = Text::_('INSTL_HEADER_ERROR');
-			$this->message = $data->getMessage();
-		}
-		else
-		{
-			// Prepare the response data.
-			$this->error = false;
-			$this->data  = $data;
-		}
-	}
+    /**
+     * The header
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    public $header;
+
+    /**
+     * The data
+     *
+     * @var    mixed
+     * @since  4.3.0
+     */
+    public $data;
+
+    /**
+     * Constructor for the JSON response
+     *
+     * @param   mixed  $data  Exception if there is an error, otherwise, the session data
+     *
+     * @since   3.1
+     */
+    public function __construct($data)
+    {
+        // The old token is invalid so send a new one.
+        $this->token = Session::getFormToken(true);
+
+        // Get the language and send its tag along
+        $this->lang = Factory::getLanguage()->getTag();
+
+        // Get the message queue
+        $messages = Factory::getApplication()->getMessageQueue();
+
+        // Build the sorted message list
+        if (\is_array($messages) && \count($messages)) {
+            foreach ($messages as $msg) {
+                if (isset($msg['type'], $msg['message'])) {
+                    $lists[$msg['type']][] = $msg['message'];
+                }
+            }
+        }
+
+        // If messages exist add them to the output
+        if (isset($lists) && \is_array($lists)) {
+            $this->messages = $lists;
+        }
+
+        // Check if we are dealing with an error.
+        if ($data instanceof \Throwable) {
+            // Prepare the error response.
+            $this->error   = true;
+            $this->header  = Text::_('INSTL_HEADER_ERROR');
+            $this->message = $data->getMessage();
+        } else {
+            // Prepare the response data.
+            $this->error = false;
+
+            if (isset($data->error) && $data->error) {
+                $this->error = true;
+            }
+
+            $this->data  = $data;
+        }
+    }
 }

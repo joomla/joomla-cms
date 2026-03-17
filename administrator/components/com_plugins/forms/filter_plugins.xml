@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Plugins\Administrator\Field">
 	<fields name="filter">
 		<field
@@ -12,9 +12,9 @@
 
 		<field
 			name="enabled"
-			type="plugin_status"
+			type="pluginstatus"
 			label="JSTATUS"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
@@ -23,7 +23,7 @@
 			name="folder"
 			type="PluginType"
 			label="COM_PLUGINS_FOLDER_HEADING"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">COM_PLUGINS_OPTION_FOLDER</option>
 		</field>
@@ -32,7 +32,7 @@
 			name="element"
 			type="PluginElement"
 			label="COM_PLUGINS_ELEMENT_HEADING"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">COM_PLUGINS_OPTION_ELEMENT</option>
 		</field>
@@ -41,7 +41,7 @@
 			name="access"
 			type="accesslevel"
 			label="JGRID_HEADING_ACCESS"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
 		</field>
@@ -52,7 +52,7 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			default="folder ASC"
 			validate="options"
 			>
@@ -78,7 +78,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 		/>
 	</fields>
 </form>

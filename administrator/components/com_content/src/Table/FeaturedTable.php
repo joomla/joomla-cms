@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_content
@@ -9,10 +10,13 @@
 
 namespace Joomla\Component\Content\Administrator\Table;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Table\Table;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Event\DispatcherInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Featured Table class.
@@ -21,15 +25,16 @@ use Joomla\Database\DatabaseDriver;
  */
 class FeaturedTable extends Table
 {
-	/**
-	 * Constructor
-	 *
-	 * @param   DatabaseDriver  $db  Database connector object
-	 *
-	 * @since   1.6
-	 */
-	public function __construct(DatabaseDriver $db)
-	{
-		parent::__construct('#__content_frontpage', 'content_id', $db);
-	}
+    /**
+     * Constructor
+     *
+     * @param   DatabaseInterface     $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
+     *
+     * @since   1.6
+     */
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
+    {
+        parent::__construct('#__content_frontpage', 'content_id', $db, $dispatcher);
+    }
 }

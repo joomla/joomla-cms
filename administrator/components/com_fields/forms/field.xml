@@ -1,5 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Fields\Administrator\Field">
+	<config>
+		<inlinehelp button="show"/>
+	</config>
 	<fieldset>
 		<field
 			name="id"
@@ -46,7 +49,6 @@
 			name="title"
 			type="text"
 			label="JGLOBAL_TITLE"
-			size="40"
 			required="true"
 		/>
 
@@ -55,7 +57,6 @@
 			type="text"
 			label="JFIELD_NAME_LABEL"
 			hint="JFIELD_NAME_PLACEHOLDER"
-			size="45"
 		/>
 
 		<field
@@ -83,7 +84,6 @@
 			label="COM_FIELDS_FIELD_ONLY_USE_IN_SUBFORM_LABEL"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
-			showon="type!:subform"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -92,7 +92,7 @@
 			name="default_value"
 			type="textarea"
 			label="COM_FIELDS_FIELD_DEFAULT_VALUE_LABEL"
-			filter="raw"
+			filter="safehtml"
 		/>
 
 		<field
@@ -101,7 +101,6 @@
 			label="JSTATUS"
 			class="form-select-color-state"
 			default="1"
-			size="1"
 			validate="options"
 			>
 			<option value="1">JPUBLISHED</option>
@@ -135,7 +134,6 @@
 			label="JGLOBAL_CREATED_DATE"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			filter="user_utc"
 		/>
 
@@ -156,7 +154,6 @@
 			class="readonly"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			readonly="true"
 			filter="user_utc"
 		/>
@@ -174,14 +171,12 @@
 			type="text"
 			label="COM_FIELDS_FIELD_NOTE_LABEL"
 			class="col-md-12"
-			size="40"
 		/>
 
 		<field
 			name="label"
 			type="text"
 			label="COM_FIELDS_FIELD_LABEL_LABEL"
-			size="40"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 		/>
 
@@ -189,7 +184,6 @@
 			name="description"
 			type="textarea"
 			label="JGLOBAL_DESCRIPTION"
-			size="40"
 			filter="HTML"
 		/>
 
@@ -226,14 +220,12 @@
 					type="text"
 					label="COM_FIELDS_FIELD_PLACEHOLDER_LABEL"
 					description="COM_FIELDS_FIELD_PLACEHOLDER_DESC"
-					size="40"
 				/>
 
 				<field
 					name="class"
 					type="textarea"
 					label="COM_FIELDS_FIELD_CLASS_LABEL"
-					size="40"
 					validate="CssIdentifier"
 				/>
 
@@ -241,7 +233,6 @@
 					name="label_class"
 					type="textarea"
 					label="COM_FIELDS_FIELD_LABEL_FORM_CLASS_LABEL"
-					size="40"
 					validate="CssIdentifier"
 				/>
 
@@ -257,6 +248,14 @@
 					<option value="">COM_FIELDS_FIELD_EDITABLE_IN_BOTH</option>
 				</field>
 
+				<field
+					name="showon"
+					type="text"
+					label="COM_FIELDS_FIELD_SHOWON_LABEL"
+					description="COM_FIELDS_FIELD_SHOWON_DESC"
+					validate="ShowOn"
+				/>
+
 			</fieldset>
 			<fieldset name="renderoptions" label="COM_FIELDS_FIELD_RENDEROPTIONS_HEADING">
 
@@ -264,7 +263,7 @@
 					name="render_class"
 					type="textarea"
 					label="COM_FIELDS_FIELD_RENDER_CLASS_LABEL"
-					size="40"
+					description="COM_FIELDS_FIELD_RENDER_CLASS_DESC"
 					validate="CssIdentifier"
 				/>
 
@@ -274,6 +273,7 @@
 					label="COM_FIELDS_FIELD_VALUE_RENDER_CLASS_LABEL"
 					description="COM_FIELDS_FIELD_VALUE_RENDER_CLASS_DESC"
 					size="40"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -291,7 +291,6 @@
 					name="label_render_class"
 					type="textarea"
 					label="COM_FIELDS_FIELD_LABEL_RENDER_CLASS_LABEL"
-					size="40"
 					showon="showlabel:1"
 					validate="CssIdentifier"
 				/>
@@ -313,14 +312,12 @@
 					name="prefix"
 					type="text"
 					label="COM_FIELDS_FIELD_PREFIX_LABEL"
-					size="40"
 				/>
 
 				<field
 					name="suffix"
 					type="text"
 					label="COM_FIELDS_FIELD_SUFFIX_LABEL"
-					size="40"
 				/>
 
 				<field
@@ -340,6 +337,21 @@
 					<option value="2">JGLOBAL_INHERIT</option>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+				</field>
+			</fieldset>
+			<fieldset name="smartsearchoptions" label="COM_FIELDS_FIELD_SMARTSEARCHOPTIONS_HEADING">
+				<field
+					name="searchindex"
+					type="list"
+					label="COM_FIELDS_FIELD_SEARCHINDEX_LABEL"
+					description="COM_FIELDS_FIELD_SEARCHINDEX_DESC"
+					default="0"
+					validate="options"
+					>
+					<option value="0">COM_FIELDS_FIELD_SEARCHINDEX_DONT</option>
+					<option value="1">COM_FIELDS_FIELD_SEARCHINDEX_SEARCHABLE</option>
+					<option value="2">COM_FIELDS_FIELD_SEARCHINDEX_TAXONOMY</option>
+					<option value="3">COM_FIELDS_FIELD_SEARCHINDEX_BOTH</option>
 				</field>
 			</fieldset>
 		</fieldset>

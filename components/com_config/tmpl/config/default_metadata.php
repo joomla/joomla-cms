@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_config
@@ -11,21 +12,22 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
+/** @var \Joomla\Component\Config\Site\View\Config\HtmlView $this */
 ?>
 <fieldset>
 
-	<legend><?php echo Text::_('COM_CONFIG_METADATA_SETTINGS'); ?></legend>
+    <legend><?php echo Text::_('COM_CONFIG_METADATA_SETTINGS'); ?></legend>
 
-	<?php foreach ($this->form->getFieldset('metadata') as $field) : ?>
-		<div class="mb-3">
-			<?php echo $field->label; ?>
-			<?php echo $field->input; ?>
-			<?php if ($field->description): ?>
-				<div class="form-text hide-aware-inline-help" id="<?php echo $field->id ?>-desc">
-					<?php echo Text::_($field->description) ?>
-				</div>
-			<?php endif; ?>
-		</div>
-	<?php endforeach; ?>
+    <?php foreach ($this->form->getFieldset('metadata') as $field) : ?>
+        <div class="mb-3">
+            <?php echo $field->label; ?>
+            <?php echo $field->input; ?>
+            <?php if ($field->description) : ?>
+                <div class="form-text hide-aware-inline-help d-none" id="<?php echo $field->id ?>-desc">
+                    <?php echo Text::_($field->description) ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    <?php endforeach; ?>
 
 </fieldset>

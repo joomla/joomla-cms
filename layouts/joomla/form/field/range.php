@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -47,25 +48,25 @@ extract($displayData);
  */
 
 // Initialize some field attributes.
-$attributes = array(
-	$class ? 'class="form-range ' . $class . '"' : 'class="form-range"',
-	!empty($description) ? 'aria-describedby="' . ($id ?: $name) . '-desc"' : '',
-	$disabled ? 'disabled' : '',
-	$readonly ? 'readonly' : '',
-	!empty($onchange) ? 'onchange="' . $onchange . '"' : '',
-	!empty($max) ? 'max="' . $max . '"' : '',
-	!empty($step) ? 'step="' . $step . '"' : '',
-	!empty($min) ? 'min="' . $min . '"' : '',
-	$autofocus ? 'autofocus' : '',
-	$dataAttribute,
-);
+$attributes = [
+    $class ? 'class="form-range ' . $class . '"' : 'class="form-range"',
+    !empty($description) ? 'aria-describedby="' . ($id ?: $name) . '-desc"' : '',
+    $disabled ? 'disabled' : '',
+    $readonly ? 'readonly' : '',
+    !empty($onchange) ? 'onchange="' . $onchange . '"' : '',
+    !empty($max) ? 'max="' . $max . '"' : '',
+    !empty($step) ? 'step="' . $step . '"' : '',
+    !empty($min) ? 'min="' . $min . '"' : '',
+    $autofocus ? 'autofocus' : '',
+    $dataAttribute,
+];
 
 $value = is_numeric($value) ? (float) $value : $min;
 
 ?>
 <input
-	type="range"
-	name="<?php echo $name; ?>"
-	id="<?php echo $id; ?>"
-	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
-	<?php echo implode(' ', $attributes); ?>>
+    type="range"
+    name="<?php echo $name; ?>"
+    id="<?php echo $id; ?>"
+    value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+    <?php echo implode(' ', $attributes); ?>>

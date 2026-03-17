@@ -16,6 +16,18 @@
 # set it here.
 ##
 
+## MISSING CSS OR JAVASCRIPT ERRORS
+#
+# If your site looks strange after enabling this file, then your server is probably already
+# gzipping css and js files and you should comment out the GZIP section of this file.
+##
+
+## OPENLITESPEED
+#
+# If you are using an OpenLiteSpeed web server then any changes made to this file will
+# not take effect until you have restarted the web server.
+##
+
 ## Can be commented out if causes errors, see notes above.
 Options +FollowSymlinks
 Options -Indexes
@@ -28,13 +40,6 @@ Options -Indexes
 ## Suppress mime type detection in browsers for unknown types
 <IfModule mod_headers.c>
 	Header always set X-Content-Type-Options "nosniff"
-##
-# Disable Federated Learning of Cohorts (FLoC)
-# If you uncomment the below directive you have to allow this technology in the
-# Global Configuration of Joomla. Read more about this in the Post-Installation
-# message in the backend.
-##
-# Header always set Permissions-Policy "interest-cohort=()"
 </IfModule>
 
 ## Protect against certain cross-origin requests. More information can be found here:
@@ -131,10 +136,11 @@ Options -Indexes
 	</IfModule>
 </IfModule>
 
+## GZIP & BROTLI
 ## These directives are only enabled if the Apache mod_headers module is enabled.
 ## This section will check if a .gz file exists and if so will stream it
 ##     directly or fallback to gzip any asset on the fly
-## If your site starts to look strange after enabling this, and you see
+## If your site starts to look strange after enabling this file, and you see
 ##     ERR_CONTENT_DECODING_FAILED in your browser console network tab,
 ##     then your server is already gzipping css and js files and you don't need this
 ##     block enabled in your .htaccess
@@ -151,13 +157,13 @@ Options -Indexes
 	RewriteCond "%{REQUEST_FILENAME}\.gz" -s
 	RewriteRule "^(.*)\.js" "$1\.js\.gz" [QSA]
 
-	# Serve correct content types, and prevent mod_deflate double gzip.
-	RewriteRule "\.css\.gz$" "-" [T=text/css,E=no-gzip:1]
-	RewriteRule "\.js\.gz$" "-" [T=text/javascript,E=no-gzip:1]
+	# Serve correct content types, and prevent mod_deflate double compression.
+	RewriteRule "\.css\.gz$" "-" [T=text/css,E=no-gzip:1,E=no-brotli:1]
+	RewriteRule "\.js\.gz$" "-" [T=text/javascript,E=no-gzip:1,E=no-brotli:1]
 
 	<FilesMatch "(\.js\.gz|\.css\.gz)$">
 		# Serve correct encoding type.
-		Header append Content-Encoding gzip
+		Header set Content-Encoding gzip
 
 		# Force proxies to cache gzipped &
 		# non-gzipped css/js files separately.

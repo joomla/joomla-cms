@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fields name="params">
 		<!--  Backend user account settings. -->
@@ -21,6 +21,17 @@
 				filter="cmd"
 				>
 				<option value="">JOPTION_USE_DEFAULT</option>
+			</field>
+			<field
+				name="allowTourAutoStart"
+				type="list"
+				label="COM_USERS_USER_ALLOWTOURAUTOSTART_LABEL"
+				default=""
+				validate="options"
+				>
+				<option value="">JOPTION_USE_DEFAULT</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 		</fieldset>
 	</fields>

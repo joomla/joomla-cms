@@ -15,8 +15,14 @@
 .container-topbar,
 .container-below-top {
   color: $white;
-  a {
+
+  a:not(.btn), .btn-link {
     color: currentColor;
+
+    &:hover,
+    &:focus {
+      color: var(--gray-200);
+    }
   }
 }
 
@@ -32,7 +38,7 @@
   position: relative;
   > * {
     flex: 1;
-    margin: ($cassiopeia-grid-gutter / 2) 0;
+    margin: ($cassiopeia-grid-gutter * .5) 0;
   }
 
   @include media-breakpoint-down(lg) {

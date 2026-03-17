@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-\defined('JPATH_PLATFORM') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Interface for an item model.
@@ -17,15 +20,15 @@ namespace Joomla\CMS\MVC\Model;
  */
 interface ItemModelInterface
 {
-	/**
-	 * Method to get an item.
-	 *
-	 * @param   integer  $pk  The id of the item
-	 *
-	 * @return  object
-	 *
-	 * @since 4.0.0
-	 * @throws \Exception
-	 */
-	public function getItem($pk = null);
+    /**
+     * Method to get an item.
+     *
+     * @param   integer  $pk  The id of the item
+     *
+     * @return  object
+     *
+     * @since 4.0.0
+     * @throws \Exception
+     */
+    public function getItem($pk = null);
 }

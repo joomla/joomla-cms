@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,9 +9,11 @@
 
 namespace Joomla\CMS\WebAsset;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Document\Document;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Web Asset Behavior interface
@@ -19,15 +22,15 @@ use Joomla\CMS\Document\Document;
  */
 interface WebAssetAttachBehaviorInterface
 {
-	/**
-	 * Method called when asset attached to the Document.
-	 * Useful for Asset to add a Script options.
-	 *
-	 * @param   Document  $doc  Active document
-	 *
-	 * @return void
-	 *
-	 * @since   4.0.0
-	 */
-	public function onAttachCallback(Document $doc);
+    /**
+     * Method called when asset attached to the Document.
+     * Useful for Asset to add a Script options.
+     *
+     * @param   Document  $doc  Active document
+     *
+     * @return void
+     *
+     * @since   4.0.0
+     */
+    public function onAttachCallback(Document $doc);
 }

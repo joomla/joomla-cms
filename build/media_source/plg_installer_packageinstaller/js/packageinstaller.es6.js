@@ -63,9 +63,7 @@ Joomla = window.Joomla || {};
       uploadUrl += `&return=${returnUrl}`;
     }
 
-    button.addEventListener('click', () => {
-      fileInput.click();
-    });
+    button.addEventListener('click', () => fileInput.click());
 
     fileInput.addEventListener('change', () => {
       if (uploading) {
@@ -119,6 +117,11 @@ Joomla = window.Joomla || {};
 
       const file = files[0];
       const data = new FormData();
+
+      if (!file.type) {
+        Joomla.renderMessages({ error: [Joomla.Text._('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE')] });
+        return;
+      }
 
       if (file.size > fileSizeMax) {
         Joomla.renderMessages({ warning: [Joomla.Text._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG')] });

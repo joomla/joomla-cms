@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_menus
@@ -7,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Dispatcher\ComponentDispatcherFactoryInterface;
@@ -26,36 +27,34 @@ use Joomla\DI\ServiceProviderInterface;
  *
  * @since  4.0.0
  */
-return new class implements ServiceProviderInterface
-{
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->set(AssociationExtensionInterface::class, new AssociationsHelper);
+return new class () implements ServiceProviderInterface {
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->set(AssociationExtensionInterface::class, new AssociationsHelper());
 
-		$container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Menus'));
-		$container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Menus'));
+        $container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Menus'));
+        $container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Menus'));
 
-		$container->set(
-			ComponentInterface::class,
-			function (Container $container)
-			{
-				$component = new MenusComponent($container->get(ComponentDispatcherFactoryInterface::class));
+        $container->set(
+            ComponentInterface::class,
+            function (Container $container) {
+                $component = new MenusComponent($container->get(ComponentDispatcherFactoryInterface::class));
 
-				$component->setRegistry($container->get(Registry::class));
-				$component->setMVCFactory($container->get(MVCFactoryInterface::class));
-				$component->setAssociationExtension($container->get(AssociationExtensionInterface::class));
+                $component->setRegistry($container->get(Registry::class));
+                $component->setMVCFactory($container->get(MVCFactoryInterface::class));
+                $component->setAssociationExtension($container->get(AssociationExtensionInterface::class));
 
-				return $component;
-			}
-		);
-	}
+                return $component;
+            }
+        );
+    }
 };

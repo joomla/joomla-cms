@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
@@ -9,19 +10,18 @@
 
 namespace Joomla\Component\Privacy\Administrator\View\Request;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Privacy\Administrator\Model\RequestsModel;
+use Joomla\Component\Privacy\Administrator\Model\RequestModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Request view class
@@ -30,162 +30,154 @@ use Joomla\Component\Privacy\Administrator\Model\RequestsModel;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * The action logs for the item
-	 *
-	 * @var    array
-	 * @since  3.9.0
-	 */
-	protected $actionlogs;
+    /**
+     * The action logs for the item
+     *
+     * @var    array
+     * @since  3.9.0
+     */
+    protected $actionlogs;
 
-	/**
-	 * The form object
-	 *
-	 * @var    Form
-	 * @since  3.9.0
-	 */
-	protected $form;
+    /**
+     * The form object
+     *
+     * @var    Form
+     * @since  3.9.0
+     */
+    protected $form;
 
-	/**
-	 * The item record
-	 *
-	 * @var    CMSObject
-	 * @since  3.9.0
-	 */
-	protected $item;
+    /**
+     * The item record
+     *
+     * @var    \stdClass
+     * @since  3.9.0
+     */
+    protected $item;
 
-	/**
-	 * The state information
-	 *
-	 * @var    CMSObject
-	 * @since  3.9.0
-	 */
-	protected $state;
+    /**
+     * The state information
+     *
+     * @var    \Joomla\Registry\Registry
+     * @since  3.9.0
+     */
+    protected $state;
 
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 *
-	 * @see     BaseHtmlView::loadTemplate()
-	 * @since   3.9.0
-	 * @throws  \Exception
-	 */
-	public function display($tpl = null)
-	{
-		/** @var RequestsModel $model */
-		$model       = $this->getModel();
-		$this->item  = $model->getItem();
-		$this->state = $model->getState();
+    /**
+     * Execute and display a template script.
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     *
+     * @see     BaseHtmlView::loadTemplate()
+     * @since   3.9.0
+     * @throws  \Exception
+     */
+    public function display($tpl = null)
+    {
+        /** @var RequestModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-		// Variables only required for the default layout
-		if ($this->getLayout() === 'default')
-		{
-			/** @var \Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel $logsModel */
-			$logsModel = $this->getModel('actionlogs');
+        $this->item  = $model->getItem();
+        $this->state = $model->getState();
 
-			$this->actionlogs = $logsModel->getLogsForItem('com_privacy.request', $this->item->id);
+        // Variables only required for the default layout
+        if ($this->getLayout() === 'default') {
+            /** @var \Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel $logsModel */
+            $logsModel = $this->getModel('actionlogs');
 
-			// Load the com_actionlogs language strings for use in the layout
-			$lang = Factory::getLanguage();
-			$lang->load('com_actionlogs', JPATH_ADMINISTRATOR)
-				|| $lang->load('com_actionlogs', JPATH_ADMINISTRATOR . '/components/com_actionlogs');
-		}
+            $this->actionlogs = $logsModel->getLogsForItem('com_privacy.request', $this->item->id);
 
-		// Variables only required for the edit layout
-		if ($this->getLayout() === 'edit')
-		{
-			$this->form = $this->get('Form');
-		}
+            // Load the com_actionlogs language strings for use in the layout
+            $lang = $this->getLanguage();
+            $lang->load('com_actionlogs', JPATH_ADMINISTRATOR)
+                || $lang->load('com_actionlogs', JPATH_ADMINISTRATOR . '/components/com_actionlogs');
+        }
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        // Variables only required for the edit layout
+        if ($this->getLayout() === 'edit') {
+            $this->form = $model->getForm();
 
-		$this->addToolbar();
+            // Add form control fields
+            $this->form
+                ->addControlField('task');
+        }
 
-		parent::display($tpl);
-	}
+        $this->addToolbar();
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.9.0
-	 */
-	protected function addToolbar()
-	{
-		Factory::getApplication()->input->set('hidemainmenu', true);
+        parent::display($tpl);
+    }
 
-		// Set the title and toolbar based on the layout
-		if ($this->getLayout() === 'edit')
-		{
-			ToolbarHelper::title(Text::_('COM_PRIVACY_VIEW_REQUEST_ADD_REQUEST'), 'lock');
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   3.9.0
+     */
+    protected function addToolbar()
+    {
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-			ToolbarHelper::save('request.save');
-			ToolbarHelper::cancel('request.cancel');
-			ToolbarHelper::help('Privacy:_New_Information_Request');
-		}
-		else
-		{
-			ToolbarHelper::title(Text::_('COM_PRIVACY_VIEW_REQUEST_SHOW_REQUEST'), 'lock');
+        $toolbar = $this->getDocument()->getToolbar();
 
-			$bar = Toolbar::getInstance('toolbar');
+        // Set the title and toolbar based on the layout
+        if ($this->getLayout() === 'edit') {
+            ToolbarHelper::title(Text::_('COM_PRIVACY_VIEW_REQUEST_ADD_REQUEST'), 'lock');
 
-			// Add transition and action buttons based on item status
-			switch ($this->item->status)
-			{
-				case '0':
-					$bar->appendButton('Standard', 'cancel-circle', 'COM_PRIVACY_TOOLBAR_INVALIDATE', 'request.invalidate', false);
+            $toolbar->save('request.save');
+            $toolbar->cancel('request.cancel');
+            $toolbar->help('Privacy:_New_Information_Request');
+        } else {
+            ToolbarHelper::title(Text::_('COM_PRIVACY_VIEW_REQUEST_SHOW_REQUEST'), 'lock');
 
-					break;
+            // Add transition and action buttons based on item status
+            switch ($this->item->status) {
+                case '0':
+                    $toolbar->standardButton('cancel', 'COM_PRIVACY_TOOLBAR_INVALIDATE', 'request.invalidate')
+                        ->listCheck(false)
+                        ->icon('icon-cancel-circle');
 
-				case '1':
-					$return = '&return=' . base64_encode('index.php?option=com_privacy&view=request&id=' . (int) $this->item->id);
+                    break;
 
-					$bar->appendButton('Standard', 'apply', 'COM_PRIVACY_TOOLBAR_COMPLETE', 'request.complete', false);
-					$bar->appendButton('Standard', 'cancel-circle', 'COM_PRIVACY_TOOLBAR_INVALIDATE', 'request.invalidate', false);
+                case '1':
+                    $return = '&return=' . base64_encode('index.php?option=com_privacy&view=request&id=' . (int) $this->item->id);
 
-					if ($this->item->request_type === 'export')
-					{
-						ToolbarHelper::link(
-							Route::_('index.php?option=com_privacy&task=request.export&format=xml&id=' . (int) $this->item->id . $return),
-							'COM_PRIVACY_ACTION_EXPORT_DATA',
-							'download'
-						);
+                    $toolbar->standardButton('apply', 'COM_PRIVACY_TOOLBAR_COMPLETE', 'request.complete')
+                        ->listCheck(false)
+                        ->icon('icon-apply');
 
-						if (Factory::getApplication()->get('mailonline', 1))
-						{
-							ToolbarHelper::link(
-								Route::_(
-									'index.php?option=com_privacy&task=request.emailexport&id=' . (int) $this->item->id . $return
-									. '&' . Session::getFormToken() . '=1'
-								),
-								'COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA',
-								'mail'
-							);
-						}
-					}
+                    $toolbar->standardButton('invalidate', 'COM_PRIVACY_TOOLBAR_INVALIDATE', 'request.invalidate')
+                        ->listCheck(false)
+                        ->icon('icon-cancel-circle');
 
-					if ($this->item->request_type === 'remove')
-					{
-						$bar->appendButton('Standard', 'delete', 'COM_PRIVACY_ACTION_DELETE_DATA', 'request.remove', false);
-					}
+                    if ($this->item->request_type === 'export') {
+                        $toolbar->linkButton('download', 'COM_PRIVACY_ACTION_EXPORT_DATA')
+                            ->url(Route::_('index.php?option=com_privacy&task=request.export&format=xml&id=' . (int) $this->item->id . $return));
 
-					break;
+                        if (Factory::getApplication()->get('mailonline', 1)) {
+                            $toolbar->linkButton('mail', 'COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA')
+                                ->url(Route::_('index.php?option=com_privacy&task=request.emailexport&id=' . (int) $this->item->id . $return
+                                    . '&' . Session::getFormToken() . '=1'));
+                        }
+                    }
 
-				// Item is in a "locked" state and cannot transition
-				default:
-					break;
-			}
+                    if ($this->item->request_type === 'remove') {
+                        $toolbar->standardButton('delete', 'COM_PRIVACY_ACTION_DELETE_DATA', 'request.remove')
+                            ->listCheck(false)
+                            ->icon('icon-delete');
+                    }
 
-			ToolbarHelper::cancel('request.cancel', 'JTOOLBAR_CLOSE');
-			ToolbarHelper::help('Privacy:_Review_Information_Request');
-		}
-	}
+                    break;
+
+                default:
+                    // Item is in a "locked" state and cannot transition
+                    break;
+            }
+
+            $toolbar->cancel('request.cancel');
+            $toolbar->help('Privacy:_Review_Information_Request');
+        }
+    }
 }

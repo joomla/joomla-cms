@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,19 +9,23 @@
 
 namespace Joomla\CMS\Installer;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\Archive\Archive;
+use Joomla\CMS\Event\Installer\BeforePackageDownloadEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Version;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
+use Joomla\Filesystem\Path;
+use Joomla\Http\HttpFactory;
+use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Installer helper class
@@ -29,362 +34,342 @@ use Joomla\CMS\Version;
  */
 abstract class InstallerHelper
 {
-	/**
-	 * Hash not validated identifier.
-	 *
-	 * @var    integer
-	 * @since  3.9.0
-	 */
-	const HASH_NOT_VALIDATED = 0;
+    /**
+     * Hash not validated identifier.
+     *
+     * @var    integer
+     * @since  3.9.0
+     */
+    public const HASH_NOT_VALIDATED = 0;
 
-	/**
-	 * Hash validated identifier.
-	 *
-	 * @var    integer
-	 * @since  3.9.0
-	 */
-	const HASH_VALIDATED = 1;
+    /**
+     * Hash validated identifier.
+     *
+     * @var    integer
+     * @since  3.9.0
+     */
+    public const HASH_VALIDATED = 1;
 
-	/**
-	 * Hash not provided identifier.
-	 *
-	 * @var    integer
-	 * @since  3.9.0
-	 */
-	const HASH_NOT_PROVIDED = 2;
+    /**
+     * Hash not provided identifier.
+     *
+     * @var    integer
+     * @since  3.9.0
+     */
+    public const HASH_NOT_PROVIDED = 2;
 
-	/**
-	 * Downloads a package
-	 *
-	 * @param   string       $url     URL of file to download
-	 * @param   string|bool  $target  Download target filename or false to get the filename from the URL
-	 *
-	 * @return  string|boolean  Path to downloaded package or boolean false on failure
-	 *
-	 * @since   3.1
-	 */
-	public static function downloadPackage($url, $target = false)
-	{
-		// Capture PHP errors
-		$track_errors = ini_get('track_errors');
-		ini_set('track_errors', true);
+    /**
+     * Downloads a package
+     *
+     * @param   string       $url     URL of file to download
+     * @param   string|bool  $target  Download target filename or false to get the filename from the URL
+     *
+     * @return  string|boolean  Path to downloaded package or boolean false on failure
+     *
+     * @since   3.1
+     */
+    public static function downloadPackage($url, $target = false)
+    {
+        // Set user agent
+        $version = new Version();
+        ini_set('user_agent', $version->getUserAgent('Installer'));
 
-		// Set user agent
-		$version = new Version;
-		ini_set('user_agent', $version->getUserAgent('Installer'));
+        // Load installer plugins, and allow URL and headers modification
+        $headers    = [];
+        $dispatcher = Factory::getApplication()->getDispatcher();
+        PluginHelper::importPlugin('installer', null, true, $dispatcher);
+        $event = new BeforePackageDownloadEvent('onInstallerBeforePackageDownload', [
+            'url'     => &$url, // @todo: Remove reference in Joomla 7, see BeforePackageDownloadEvent::__constructor()
+            'headers' => &$headers, // @todo: Remove reference in Joomla 7, see BeforePackageDownloadEvent::__constructor()
+        ]);
+        $dispatcher->dispatch('onInstallerBeforePackageDownload', $event);
+        $url     = $event->getArgument('url', $url);
+        $headers = $event->getArgument('headers', $headers);
 
-		// Load installer plugins, and allow URL and headers modification
-		$headers = array();
-		PluginHelper::importPlugin('installer');
-		Factory::getApplication()->triggerEvent('onInstallerBeforePackageDownload', array(&$url, &$headers));
+        $options = new Registry();
+        $options->set('userAgent', $version->getUserAgent('Joomla', true, false));
 
-		try
-		{
-			$response = HttpFactory::getHttp()->get($url, $headers);
-		}
-		catch (\RuntimeException $exception)
-		{
-			Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $exception->getMessage()), Log::WARNING, 'jerror');
+        // Get the file
+        try {
+            $response = (new HttpFactory())->getHttp($options)->get($url, $headers);
+        } catch (\RuntimeException $exception) {
+            Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $exception->getMessage()), Log::WARNING, 'jerror');
 
-			return false;
-		}
+            return false;
+        }
 
-		// Convert keys of headers to lowercase, to accommodate for case variations
-		$headers = array_change_key_case($response->headers, CASE_LOWER);
+        // Convert keys of headers to lowercase, to accommodate for case variations
+        $headers = array_change_key_case($response->getHeaders(), CASE_LOWER);
 
-		if (302 == $response->code && !empty($headers['location']))
-		{
-			return self::downloadPackage($headers['location']);
-		}
-		elseif (200 != $response->code)
-		{
-			Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code), Log::WARNING, 'jerror');
+        if (302 == $response->getStatusCode() && !empty($headers['location'])) {
+            return self::downloadPackage($headers['location']);
+        }
 
-			return false;
-		}
+        if (200 != $response->getStatusCode()) {
+            Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->getStatusCode()), Log::WARNING, 'jerror');
 
-		// Parse the Content-Disposition header to get the file name
-		if (!empty($headers['content-disposition'])
-			&& preg_match("/\s*filename\s?=\s?(.*)/", $headers['content-disposition'][0], $parts))
-		{
-			$flds = explode(';', $parts[1]);
-			$target = trim($flds[0], '"');
-		}
+            return false;
+        }
 
-		$tmpPath = Factory::getApplication()->get('tmp_path');
+        // Parse the Content-Disposition header to get the file name
+        if (
+            !empty($headers['content-disposition'])
+            && preg_match("/\s*filename\s?=\s?(.*)/", $headers['content-disposition'][0], $parts)
+        ) {
+            $flds   = explode(';', $parts[1]);
+            $target = trim($flds[0], '"');
+        }
 
-		// Set the target path if not given
-		if (!$target)
-		{
-			$target = $tmpPath . '/' . self::getFilenameFromUrl($url);
-		}
-		else
-		{
-			$target = $tmpPath . '/' . basename($target);
-		}
+        $tmpPath = Factory::getApplication()->get('tmp_path');
 
-		// Write buffer to file
-		File::write($target, $response->body);
+        // Set the target path if not given
+        if (!$target) {
+            $target = $tmpPath . '/' . self::getFilenameFromUrl($url);
+        } else {
+            $target = $tmpPath . '/' . basename($target);
+        }
 
-		// Restore error tracking to what it was before
-		ini_set('track_errors', $track_errors);
+        // Fix Indirect Modification of Overloaded Property
+        $body = (string) $response->getBody();
 
-		// Bump the max execution time because not using built in php zip libs are slow
-		@set_time_limit(ini_get('max_execution_time'));
+        // Write buffer to file
+        File::write($target, $body);
 
-		// Return the name of the downloaded package
-		return basename($target);
-	}
+        // Bump the max execution time because not using built in php zip libs are slow
+        if (\function_exists('set_time_limit')) {
+            set_time_limit(\ini_get('max_execution_time'));
+        }
 
-	/**
-	 * Unpacks a file and verifies it as a Joomla element package
-	 * Supports .gz .tar .tar.gz and .zip
-	 *
-	 * @param   string   $packageFilename    The uploaded package filename or install directory
-	 * @param   boolean  $alwaysReturnArray  If should return false (and leave garbage behind) or return $retval['type']=false
-	 *
-	 * @return  array|boolean  Array on success or boolean false on failure
-	 *
-	 * @since   3.1
-	 */
-	public static function unpack($packageFilename, $alwaysReturnArray = false)
-	{
-		// Path to the archive
-		$archivename = $packageFilename;
+        // Return the name of the downloaded package
+        return basename($target);
+    }
 
-		// Temporary folder to extract the archive into
-		$tmpdir = uniqid('install_');
+    /**
+     * Unpacks a file and verifies it as a Joomla element package
+     * Supports .gz .tar .tar.gz and .zip
+     *
+     * @param   string   $packageFilename    The uploaded package filename or install directory
+     * @param   boolean  $alwaysReturnArray  If should return false (and leave garbage behind) or return $retval['type']=false
+     *
+     * @return  array|boolean  Array on success or boolean false on failure
+     *
+     * @since   3.1
+     */
+    public static function unpack($packageFilename, $alwaysReturnArray = false)
+    {
+        // Path to the archive
+        $archivename = $packageFilename;
 
-		// Clean the paths to use for archive extraction
-		$extractdir = Path::clean(\dirname($packageFilename) . '/' . $tmpdir);
-		$archivename = Path::clean($archivename);
+        // Temporary folder to extract the archive into
+        $tmpdir = uniqid('install_');
 
-		// Do the unpacking of the archive
-		try
-		{
-			$archive = new Archive(array('tmp_path' => Factory::getApplication()->get('tmp_path')));
-			$extract = $archive->extract($archivename, $extractdir);
-		}
-		catch (\Exception $e)
-		{
-			if ($alwaysReturnArray)
-			{
-				return array(
-					'extractdir'  => null,
-					'packagefile' => $archivename,
-					'type'        => false,
-				);
-			}
+        // Clean the paths to use for archive extraction
+        $extractdir  = Path::clean(\dirname($packageFilename) . '/' . $tmpdir);
+        $archivename = Path::clean($archivename);
 
-			return false;
-		}
+        // Do the unpacking of the archive
+        try {
+            $archive = new Archive(['tmp_path' => Factory::getApplication()->get('tmp_path')]);
+            $extract = $archive->extract($archivename, $extractdir);
+        } catch (\Exception) {
+            if ($alwaysReturnArray) {
+                return [
+                    'extractdir'  => null,
+                    'packagefile' => $archivename,
+                    'type'        => false,
+                ];
+            }
 
-		if (!$extract)
-		{
-			if ($alwaysReturnArray)
-			{
-				return array(
-					'extractdir'  => null,
-					'packagefile' => $archivename,
-					'type'        => false,
-				);
-			}
+            return false;
+        }
 
-			return false;
-		}
+        if (!$extract) {
+            if ($alwaysReturnArray) {
+                return [
+                    'extractdir'  => null,
+                    'packagefile' => $archivename,
+                    'type'        => false,
+                ];
+            }
 
-		/*
-		 * Let's set the extraction directory and package file in the result array so we can
-		 * cleanup everything properly later on.
-		 */
-		$retval['extractdir'] = $extractdir;
-		$retval['packagefile'] = $archivename;
+            return false;
+        }
 
-		/*
-		 * Try to find the correct install directory.  In case the package is inside a
-		 * subdirectory detect this and set the install directory to the correct path.
-		 *
-		 * List all the items in the installation directory.  If there is only one, and
-		 * it is a folder, then we will set that folder to be the installation folder.
-		 */
-		$dirList = array_merge((array) Folder::files($extractdir, ''), (array) Folder::folders($extractdir, ''));
+        /*
+         * Let's set the extraction directory and package file in the result array so we can
+         * cleanup everything properly later on.
+         */
+        $retval                = [];
+        $retval['extractdir']  = $extractdir;
+        $retval['packagefile'] = $archivename;
 
-		if (\count($dirList) === 1)
-		{
-			if (Folder::exists($extractdir . '/' . $dirList[0]))
-			{
-				$extractdir = Path::clean($extractdir . '/' . $dirList[0]);
-			}
-		}
+        /*
+         * Try to find the correct install directory.  In case the package is inside a
+         * subdirectory detect this and set the install directory to the correct path.
+         *
+         * List all the items in the installation directory.  If there is only one, and
+         * it is a folder, then we will set that folder to be the installation folder.
+         */
+        $dirList = array_merge((array) Folder::files($extractdir, ''), (array) Folder::folders($extractdir, ''));
 
-		/*
-		 * We have found the install directory so lets set it and then move on
-		 * to detecting the extension type.
-		 */
-		$retval['dir'] = $extractdir;
+        if (\count($dirList) === 1) {
+            if (is_dir(Path::clean($extractdir . '/' . $dirList[0]))) {
+                $extractdir = Path::clean($extractdir . '/' . $dirList[0]);
+            }
+        }
 
-		/*
-		 * Get the extension type and return the directory/type array on success or
-		 * false on fail.
-		 */
-		$retval['type'] = self::detectType($extractdir);
+        /*
+         * We have found the install directory so lets set it and then move on
+         * to detecting the extension type.
+         */
+        $retval['dir'] = $extractdir;
 
-		if ($alwaysReturnArray || $retval['type'])
-		{
-			return $retval;
-		}
-		else
-		{
-			return false;
-		}
-	}
+        /*
+         * Get the extension type and return the directory/type array on success or
+         * false on fail.
+         */
+        $retval['type'] = self::detectType($extractdir);
 
-	/**
-	 * Method to detect the extension type from a package directory
-	 *
-	 * @param   string  $packageDirectory  Path to package directory
-	 *
-	 * @return  mixed  Extension type string or boolean false on fail
-	 *
-	 * @since   3.1
-	 */
-	public static function detectType($packageDirectory)
-	{
-		// Search the install dir for an XML file
-		$files = Folder::files($packageDirectory, '\.xml$', 1, true);
+        if ($alwaysReturnArray || $retval['type']) {
+            return $retval;
+        }
 
-		if (!$files || !\count($files))
-		{
-			Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), Log::WARNING, 'jerror');
+        return false;
+    }
 
-			return false;
-		}
+    /**
+     * Method to detect the extension type from a package directory
+     *
+     * @param   string  $packageDirectory  Path to package directory
+     *
+     * @return  mixed  Extension type string or boolean false on fail
+     *
+     * @since   3.1
+     */
+    public static function detectType($packageDirectory)
+    {
+        // Search the install dir for an XML file
+        $files = Folder::files($packageDirectory, '\.xml$', 1, true);
 
-		foreach ($files as $file)
-		{
-			$xml = simplexml_load_file($file);
+        if (!$files || !\count($files)) {
+            Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), Log::WARNING, 'jerror');
 
-			if (!$xml)
-			{
-				continue;
-			}
+            return false;
+        }
 
-			if ($xml->getName() !== 'extension')
-			{
-				unset($xml);
-				continue;
-			}
+        foreach ($files as $file) {
+            $xml = simplexml_load_file($file);
 
-			$type = (string) $xml->attributes()->type;
+            if (!$xml) {
+                continue;
+            }
 
-			// Free up memory
-			unset($xml);
+            if ($xml->getName() !== 'extension') {
+                unset($xml);
+                continue;
+            }
 
-			return $type;
-		}
+            $type = (string) $xml->attributes()->type;
 
-		Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), Log::WARNING, 'jerror');
+            // Free up memory
+            unset($xml);
 
-		return false;
-	}
+            return $type;
+        }
 
-	/**
-	 * Gets a file name out of a url
-	 *
-	 * @param   string  $url  URL to get name from
-	 *
-	 * @return  string  Clean version of the filename or a unique id
-	 *
-	 * @since   3.1
-	 */
-	public static function getFilenameFromUrl($url)
-	{
-		$default = uniqid();
+        Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), Log::WARNING, 'jerror');
 
-		if (!\is_string($url) || strpos($url, '/') === false)
-		{
-			return $default;
-		}
+        return false;
+    }
 
-		// Get last part of the url (after the last slash).
-		$parts    = explode('/', $url);
-		$filename = array_pop($parts);
+    /**
+     * Gets a file name out of a url
+     *
+     * @param   string  $url  URL to get name from
+     *
+     * @return  string  Clean version of the filename or a unique id
+     *
+     * @since   3.1
+     */
+    public static function getFilenameFromUrl($url)
+    {
+        $default = uniqid();
 
-		// Replace special characters with underscores.
-		$filename = preg_replace('/[^a-z0-9\_\-\.]/i', '_', $filename);
+        if (!\is_string($url) || !str_contains($url, '/')) {
+            return $default;
+        }
 
-		// Replace multiple underscores with just one.
-		$filename = preg_replace('/__+/', '_', trim($filename, '_'));
+        // Get last part of the url (after the last slash).
+        $parts    = explode('/', $url);
+        $filename = array_pop($parts);
 
-		// Return the cleaned filename or, if it is empty, a unique id.
-		return $filename ?: $default;
-	}
+        // Replace special characters with underscores.
+        $filename = preg_replace('/[^a-z0-9\_\-\.]/i', '_', $filename);
 
-	/**
-	 * Clean up temporary uploaded package and unpacked extension
-	 *
-	 * @param   string  $package    Path to the uploaded package file
-	 * @param   string  $resultdir  Path to the unpacked extension
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   3.1
-	 */
-	public static function cleanupInstall($package, $resultdir)
-	{
-		// Does the unpacked extension directory exist?
-		if ($resultdir && is_dir($resultdir))
-		{
-			Folder::delete($resultdir);
-		}
+        // Replace multiple underscores with just one.
+        $filename = preg_replace('/__+/', '_', trim($filename, '_'));
 
-		// Is the package file a valid file?
-		if (is_file($package))
-		{
-			File::delete($package);
-		}
-		elseif (is_file(Path::clean(Factory::getApplication()->get('tmp_path') . '/' . $package)))
-		{
-			// It might also be just a base filename
-			File::delete(Path::clean(Factory::getApplication()->get('tmp_path') . '/' . $package));
-		}
-	}
+        // Return the cleaned filename or, if it is empty, a unique id.
+        return $filename ?: $default;
+    }
 
-	/**
-	 * Return the result of the checksum of a package with the SHA256/SHA384/SHA512 tags in the update server manifest
-	 *
-	 * @param   string  $packagefile   Location of the package to be installed
-	 * @param   Update  $updateObject  The Update Object
-	 *
-	 * @return  integer  one if the hashes match, zero if hashes doesn't match, two if hashes not found
-	 *
-	 * @since   3.9.0
-	 */
-	public static function isChecksumValid($packagefile, $updateObject)
-	{
-		$hashes     = array('sha256', 'sha384', 'sha512');
-		$hashOnFile = false;
+    /**
+     * Clean up temporary uploaded package and unpacked extension
+     *
+     * @param   string  $package    Path to the uploaded package file
+     * @param   string  $resultdir  Path to the unpacked extension
+     *
+     * @return  void
+     *
+     * @since   3.1
+     */
+    public static function cleanupInstall($package, $resultdir)
+    {
+        // Does the unpacked extension directory exist?
+        if ($resultdir && is_dir($resultdir)) {
+            Folder::delete($resultdir);
+        }
 
-		foreach ($hashes as $hash)
-		{
-			if ($updateObject->get($hash, false))
-			{
-				$hashPackage = hash_file($hash, $packagefile);
-				$hashRemote  = $updateObject->$hash->_data;
-				$hashOnFile  = true;
+        // Is the package file a valid file?
+        if (is_file($package)) {
+            File::delete($package);
+        } elseif (is_file(Path::clean(Factory::getApplication()->get('tmp_path') . '/' . $package))) {
+            // It might also be just a base filename
+            File::delete(Path::clean(Factory::getApplication()->get('tmp_path') . '/' . $package));
+        }
+    }
 
-				if ($hashPackage !== strtolower($hashRemote))
-				{
-					return self::HASH_NOT_VALIDATED;
-				}
-			}
-		}
+    /**
+     * Return the result of the checksum of a package with the SHA256/SHA384/SHA512 tags in the update server manifest
+     *
+     * @param   string  $packagefile   Location of the package to be installed
+     * @param   Update  $updateObject  The Update Object
+     *
+     * @return  integer  one if the hashes match, zero if hashes doesn't match, two if hashes not found
+     *
+     * @since   3.9.0
+     */
+    public static function isChecksumValid($packagefile, $updateObject)
+    {
+        $hashes     = ['sha256', 'sha384', 'sha512'];
+        $hashOnFile = false;
 
-		if ($hashOnFile)
-		{
-			return self::HASH_VALIDATED;
-		}
+        foreach ($hashes as $hash) {
+            if ($updateObject->get($hash, false)) {
+                $hashPackage = hash_file($hash, $packagefile);
+                $hashRemote  = trim($updateObject->$hash->_data);
+                $hashOnFile  = true;
 
-		return self::HASH_NOT_PROVIDED;
-	}
+                if ($hashPackage !== strtolower($hashRemote)) {
+                    return self::HASH_NOT_VALIDATED;
+                }
+            }
+        }
+
+        if ($hashOnFile) {
+            return self::HASH_VALIDATED;
+        }
+
+        return self::HASH_NOT_PROVIDED;
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
@@ -9,19 +10,21 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 
+/** @var \Joomla\Component\Users\Administrator\View\Notes\HtmlView $this */
+
 $displayData = [
-	'textPrefix' => 'COM_USERS_NOTES',
-	'formURL'    => 'index.php?option=com_users&view=notes',
-	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:User_Notes',
-	'icon'       => 'icon-users user',
+    'textPrefix' => 'COM_USERS_NOTES',
+    'formURL'    => 'index.php?option=com_users&view=notes',
+    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help5.x:User_Notes',
+    'icon'       => 'icon-users user',
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
-if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_users'))
-{
-	$displayData['createURL'] = 'index.php?option=com_users&task=note.add';
+if ($this->getCurrentUser()->authorise('core.create', 'com_users')) {
+    $displayData['createURL'] = 'index.php?option=com_users&task=note.add';
 }
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);

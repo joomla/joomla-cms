@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
@@ -9,13 +10,16 @@
 
 namespace Joomla\Plugin\Editors\TinyMCE\Field;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Plugin\Editors\TinyMCE\Provider\TinyMCEProvider;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Form Field class for the TinyMCE editor.
@@ -26,163 +30,131 @@ use Joomla\CMS\Plugin\PluginHelper;
  */
 class TinymcebuilderField extends FormField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  3.7.0
-	 */
-	protected $type = 'tinymcebuilder';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  3.7.0
+     */
+    protected $type = 'tinymcebuilder';
 
-	/**
-	 * Name of the layout being used to render the field
-	 *
-	 * @var    string
-	 * @since  3.7.0
-	 */
-	protected $layout = 'plugins.editors.tinymce.field.tinymcebuilder';
+    /**
+     * Name of the layout being used to render the field
+     *
+     * @var    string
+     * @since  3.7.0
+     */
+    protected $layout = 'plugins.editors.tinymce.field.tinymcebuilder';
 
-	/**
-	 * The prepared layout data
-	 *
-	 * @var    array
-	 * @since  3.7.0
-	 */
-	protected $layoutData = array();
+    /**
+     * Method to get the data to be passed to the layout for rendering.
+     *
+     * @return  array
+     *
+     * @since  3.7.0
+     */
+    protected function getLayoutData()
+    {
+        $data       = parent::getLayoutData();
+        $paramsAll  = (object) $this->form->getValue('params');
+        $setsAmount = empty($paramsAll->sets_amount) ? 3 : $paramsAll->sets_amount;
 
-	/**
-	 * Method to get the data to be passed to the layout for rendering.
-	 *
-	 * @return  array
-	 *
-	 * @since  3.7.0
-	 */
-	protected function getLayoutData()
-	{
-		if (!empty($this->layoutData))
-		{
-			return $this->layoutData;
-		}
+        if (empty($data['value'])) {
+            $data['value'] = [];
+        }
 
-		$data       = parent::getLayoutData();
-		$paramsAll  = (object) $this->form->getValue('params');
-		$setsAmount = empty($paramsAll->sets_amount) ? 3 : $paramsAll->sets_amount;
+        $menus = [
+            'edit'   => ['label' => 'Edit'],
+            'insert' => ['label' => 'Insert'],
+            'view'   => ['label' => 'View'],
+            'format' => ['label' => 'Format'],
+            'table'  => ['label' => 'Table'],
+            'tools'  => ['label' => 'Tools'],
+            'help'   => ['label' => 'Help'],
+        ];
 
-		if (empty($data['value']))
-		{
-			$data['value'] = array();
-		}
+        $data['menus']         = $menus;
+        $data['menubarSource'] = array_keys($menus);
+        $data['buttons']       = TinyMCEProvider::getKnownButtons();
+        $data['buttonsSource'] = array_keys($data['buttons']);
+        $data['toolbarPreset'] = TinyMCEProvider::getToolbarPreset();
+        $data['setsAmount']    = $setsAmount;
 
-		// Get the plugin
-		require_once JPATH_PLUGINS . '/editors/tinymce/tinymce.php';
+        // Get array of sets names
+        for ($i = 0; $i < $setsAmount; $i++) {
+            $data['setsNames'][$i] = Text::sprintf('PLG_TINY_SET_TITLE', $i);
+        }
 
-		$menus = array(
-			'edit'   => array('label' => 'Edit'),
-			'insert' => array('label' => 'Insert'),
-			'view'   => array('label' => 'View'),
-			'format' => array('label' => 'Format'),
-			'table'  => array('label' => 'Table'),
-			'tools'  => array('label' => 'Tools'),
-			'help'   => array('label' => 'Help'),
-		);
+        // Prepare the forms for each set
+        $setsForms  = [];
+        $formsource = JPATH_PLUGINS . '/editors/tinymce/forms/setoptions.xml';
 
-		$data['menus']         = $menus;
-		$data['menubarSource'] = array_keys($menus);
-		$data['buttons']       = \PlgEditorTinymce::getKnownButtons();
-		$data['buttonsSource'] = array_keys($data['buttons']);
-		$data['toolbarPreset'] = \PlgEditorTinymce::getToolbarPreset();
-		$data['setsAmount']    = $setsAmount;
+        // Preload an old params for B/C
+        $setParams = new \stdClass();
 
-		// Get array of sets names
-		for ($i = 0; $i < $setsAmount; $i++)
-		{
-			$data['setsNames'][$i] = Text::sprintf('PLG_TINY_SET_TITLE', $i);
-		}
+        if (!empty($paramsAll->html_width) && empty($paramsAll->configuration['setoptions'])) {
+            $plugin = PluginHelper::getPlugin('editors', 'tinymce');
 
-		// Prepare the forms for each set
-		$setsForms  = array();
-		$formsource = JPATH_PLUGINS . '/editors/tinymce/forms/setoptions.xml';
+            Factory::getApplication()->enqueueMessage(Text::sprintf('PLG_TINY_LEGACY_WARNING', '#'), 'warning');
 
-		// Preload an old params for B/C
-		$setParams = new \stdClass;
+            if (\is_object($plugin) && !empty($plugin->params)) {
+                $setParams = (object) json_decode($plugin->params);
+            }
+        }
 
-		if (!empty($paramsAll->html_width) && empty($paramsAll->configuration['setoptions']))
-		{
-			$plugin = PluginHelper::getPlugin('editors', 'tinymce');
+        // Collect already used groups
+        $groupsInUse = [];
 
-			Factory::getApplication()->enqueueMessage(Text::sprintf('PLG_TINY_LEGACY_WARNING', '#'), 'warning');
+        // Prepare the Set forms, for the set options
+        foreach (array_keys($data['setsNames']) as $num) {
+            $formname = 'set.form.' . $num;
+            $control  = $this->name . '[setoptions][' . $num . ']';
 
-			if (\is_object($plugin) && !empty($plugin->params))
-			{
-				$setParams = (object) json_decode($plugin->params);
-			}
-		}
+            $setsForms[$num] = Form::getInstance($formname, $formsource, ['control' => $control]);
 
-		// Collect already used groups
-		$groupsInUse = array();
+            // Check whether we already have saved values or it first time or even old params
+            if (empty($this->value['setoptions'][$num])) {
+                $formValues = $setParams;
 
-		// Prepare the Set forms, for the set options
-		foreach (array_keys($data['setsNames']) as $num)
-		{
-			$formname = 'set.form.' . $num;
-			$control  = $this->name . '[setoptions][' . $num . ']';
+                /*
+                 * Predefine group:
+                 * Set 0: for Administrator, Editor, Super Users (4,7,8)
+                 * Set 1: for Registered, Manager (2,6), all else are public
+                 */
+                $formValues->access = !$num ? [4, 7, 8] : ($num === 1 ? [2, 6] : []);
 
-			$setsForms[$num] = Form::getInstance($formname, $formsource, array('control' => $control));
+                // Assign Public to the new Set, but only when it not in use already
+                if (empty($formValues->access) && !\in_array(1, $groupsInUse)) {
+                    $formValues->access = [1];
+                }
+            } else {
+                $formValues = (object) $this->value['setoptions'][$num];
+            }
 
-			// Check whether we already have saved values or it first time or even old params
-			if (empty($this->value['setoptions'][$num]))
-			{
-				$formValues = $setParams;
+            // Collect already used groups
+            if (!empty($formValues->access)) {
+                $groupsInUse = array_merge($groupsInUse, $formValues->access);
+            }
 
-				/*
-				 * Predefine group:
-				 * Set 0: for Administrator, Editor, Super Users (4,7,8)
-				 * Set 1: for Registered, Manager (2,6), all else are public
-				 */
-				$formValues->access = !$num ? array(4, 7, 8) : ($num === 1 ? array(2, 6) : array());
+            // Bind the values
+            $setsForms[$num]->bind($formValues);
+        }
 
-				// Assign Public to the new Set, but only when it not in use already
-				if (empty($formValues->access) && !\in_array(1, $groupsInUse))
-				{
-					$formValues->access = array(1);
-				}
-			}
-			else
-			{
-				$formValues = (object) $this->value['setoptions'][$num];
-			}
+        $data['setsForms'] = $setsForms;
 
-			// Collect already used groups
-			if (!empty($formValues->access))
-			{
-				$groupsInUse = array_merge($groupsInUse, $formValues->access);
-			}
+        // Check for TinyMCE language file
+        $language      = Factory::getLanguage();
+        $languageFile1 = 'media/vendor/tinymce/langs/' . $language->getTag() . (JDEBUG ? '.js' : '.min.js');
+        $languageFile2 = 'media/vendor/tinymce/langs/' . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . (JDEBUG ? '.js' : '.min.js');
 
-			// Bind the values
-			$setsForms[$num]->bind($formValues);
-		}
+        $data['languageFile'] = '';
 
-		$data['setsForms'] = $setsForms;
+        if (file_exists(JPATH_ROOT . '/' . $languageFile1)) {
+            $data['languageFile'] = $languageFile1;
+        } elseif (file_exists(JPATH_ROOT . '/' . $languageFile2)) {
+            $data['languageFile'] = $languageFile2;
+        }
 
-		// Check for TinyMCE language file
-		$language      = Factory::getLanguage();
-		$languageFile1 = 'media/vendor/tinymce/langs/' . $language->getTag() . '.js';
-		$languageFile2 = 'media/vendor/tinymce/langs/' . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . '.js';
-
-		$data['languageFile'] = '';
-
-		if (file_exists(JPATH_ROOT . '/' . $languageFile1))
-		{
-			$data['languageFile'] = $languageFile1;
-		}
-		elseif (file_exists(JPATH_ROOT . '/' . $languageFile2))
-		{
-			$data['languageFile'] = $languageFile2;
-		}
-
-		$this->layoutData = $data;
-
-		return $data;
-	}
-
+        return $data;
+    }
 }

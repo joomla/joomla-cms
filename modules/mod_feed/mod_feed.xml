@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" client="site" method="upgrade">
 	<name>mod_feed</name>
 	<author>Joomla! Project</author>
-	<creationDate>July 2005</creationDate>
+	<creationDate>2005-07</creationDate>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -11,7 +11,7 @@
 	<description>MOD_FEED_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\Feed</namespace>
 	<files>
-		<filename module="mod_feed">mod_feed.php</filename>
+		<folder module="mod_feed">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
@@ -27,7 +27,6 @@
 					name="rssurl"
 					type="url"
 					label="MOD_FEED_FIELD_RSSURL_LABEL"
-					size="50"
 					filter="url"
 					required="true"
 					validate="url"
@@ -131,7 +130,6 @@
 					type="text"
 					label="MOD_FEED_FIELD_WORDCOUNT_LABEL"
 					description="MOD_FEED_FIELD_WORDCOUNT_DESC"
-					size="6"
 					default="0"
 					filter="integer"
 				/>

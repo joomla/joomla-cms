@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_admin
@@ -12,13 +13,14 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-Factory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR);
+/** @var \Joomla\Component\Admin\Administrator\View\Help\HtmlView $this */
+
+$this->getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR);
 
 $forumId   = (int) Text::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM_VALUE');
 
-if (empty($forumId))
-{
-	$forumId = 511;
+if (empty($forumId)) {
+    $forumId = 511;
 }
 
 $forumUrl = 'https://forum.joomla.org/viewforum.php?f=' . $forumId;

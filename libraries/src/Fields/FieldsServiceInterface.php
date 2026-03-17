@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\Fields;
 
-\defined('JPATH_PLATFORM') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The fields service.
@@ -17,25 +20,25 @@ namespace Joomla\CMS\Fields;
  */
 interface FieldsServiceInterface
 {
-	/**
-	 * Returns a valid section for the given section. If it is not valid then null
-	 * is returned.
-	 *
-	 * @param   string  $section  The section to get the mapping for
-	 * @param   object  $item     The item
-	 *
-	 * @return  string|null  The new section
-	 *
-	 * @since   4.0.0
-	 */
-	public function validateSection($section, $item = null);
+    /**
+     * Returns a valid section for the given section. If it is not valid then null
+     * is returned.
+     *
+     * @param   string  $section  The section to get the mapping for
+     * @param   object  $item     The item
+     *
+     * @return  string|null  The new section
+     *
+     * @since   4.0.0
+     */
+    public function validateSection($section, $item = null);
 
-	/**
-	 * Returns valid contexts.
-	 *
-	 * @return  array
-	 *
-	 * @since   4.0.0
-	 */
-	public function getContexts(): array;
+    /**
+     * Returns valid contexts.
+     *
+     * @return  array
+     *
+     * @since   4.0.0
+     */
+    public function getContexts(): array;
 }

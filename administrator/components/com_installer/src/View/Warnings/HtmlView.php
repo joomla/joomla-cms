@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
@@ -9,10 +10,12 @@
 
 namespace Joomla\Component\Installer\Administrator\View\Warnings;
 
-\defined('_JEXEC') or die;
-
-use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Installer\Administrator\Model\WarningsModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Extension Manager Warning View
@@ -21,38 +24,42 @@ use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as Installe
  */
 class HtmlView extends InstallerViewDefault
 {
-	/**
-	 * Display the view
-	 *
-	 * @param   string  $tpl  Template
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public function display($tpl = null)
-	{
-		$this->messages = $this->get('Items');
+    /**
+     * Display the view
+     *
+     * @param   string  $tpl  Template
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    public function display($tpl = null)
+    {
+        /** @var WarningsModel $model */
+        $model = $this->getModel();
 
-		if (!\count($this->messages))
-		{
-			$this->setLayout('emptystate');
-		}
+        $this->messages = $model->getItems();
 
-		parent::display($tpl);
-	}
+        if (!\count($this->messages)) {
+            $this->setLayout('emptystate');
+        }
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function addToolbar()
-	{
-		parent::addToolbar();
+        parent::display($tpl);
+    }
 
-		ToolbarHelper::help('Information:_Warnings');
-	}
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    protected function addToolbar()
+    {
+        $toolbar = $this->getDocument()->getToolbar();
+
+        parent::addToolbar();
+
+        $toolbar->help('Information:_Warnings');
+    }
 }

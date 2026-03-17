@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_syndicate
@@ -9,11 +10,13 @@
 
 namespace Joomla\Module\Syndicate\Site\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Helper for mod_syndicate
@@ -22,28 +25,47 @@ use Joomla\Utilities\ArrayHelper;
  */
 class SyndicateHelper
 {
-	/**
-	 * Gets the link
-	 *
-	 * @param   Registry      $params    The module parameters
-	 * @param   HtmlDocument  $document  The document
-	 *
-	 * @return  string|null  The link as a string, if found
-	 *
-	 * @since   1.5
-	 */
-	public static function getLink(Registry $params, HtmlDocument $document)
-	{
-		foreach ($document->_links as $link => $value)
-		{
-			$value = ArrayHelper::toString($value);
+    /**
+     * Gets the link
+     *
+     * @param   Registry      $params    The module parameters
+     * @param   HtmlDocument  $document  The document
+     *
+     * @return  string|null  The link as a string, if found
+     *
+     * @since   5.1.0
+     */
+    public function getSyndicateLink(Registry $params, HtmlDocument $document)
+    {
+        foreach ($document->_links as $link => $value) {
+            $value = ArrayHelper::toString($value);
 
-			if (strpos($value, 'application/' . $params->get('format') . '+xml'))
-			{
-				return $link;
-			}
-		}
+            if (strpos($value, 'application/' . $params->get('format') . '+xml')) {
+                return $link;
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
+
+    /**
+     * Gets the link
+     *
+     * @param   Registry      $params    The module parameters
+     * @param   HtmlDocument  $document  The document
+     *
+     * @return  string|null  The link as a string, if found
+     *
+     * @since   1.5
+     *
+     * @deprecated 5.1.0 will be removed in 7.0
+     *             Use the non-static method getSyndicateLink
+     *             Example: Factory::getApplication()->bootModule('mod_syndicate', 'site')
+     *                            ->getHelper('SyndicateHelper')
+     *                            ->getSyndicateLink($params, Factory::getApplication()->getDocument())
+     */
+    public static function getLink(Registry $params, HtmlDocument $document)
+    {
+        return (new self())->getSyndicateLink($params, $document);
+    }
 }

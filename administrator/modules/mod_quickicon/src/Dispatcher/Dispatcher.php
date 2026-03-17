@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_quickicon
@@ -9,31 +10,36 @@
 
 namespace Joomla\Module\Quickicon\Administrator\Dispatcher;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
+use Joomla\CMS\Helper\HelperFactoryAwareInterface;
+use Joomla\CMS\Helper\HelperFactoryAwareTrait;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Dispatcher class for mod_quickicon
  *
  * @since  4.0.0
  */
-class Dispatcher extends AbstractModuleDispatcher
+class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareInterface
 {
-	/**
-	 * Returns the layout data.
-	 *
-	 * @return  array
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getLayoutData()
-	{
-		$data = parent::getLayoutData();
+    use HelperFactoryAwareTrait;
 
-		$helper          = $this->app->bootModule('mod_quickicon', 'administrator')->getHelper('QuickIconHelper');
-		$data['buttons'] = $helper->getButtons($data['params'], $this->getApplication());
+    /**
+     * Returns the layout data.
+     *
+     * @return  array
+     *
+     * @since   4.0.0
+     */
+    protected function getLayoutData()
+    {
+        $data = parent::getLayoutData();
 
-		return $data;
-	}
+        $data['buttons'] = $this->getHelperFactory()->getHelper('QuickIconHelper')->getButtons($data['params'], $this->getApplication());
+
+        return $data;
+    }
 }

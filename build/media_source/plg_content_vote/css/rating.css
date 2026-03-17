@@ -1,7 +1,7 @@
 .content_rating ul {
-  list-style: none;
+  margin-bottom: .5em;
   padding-inline-start: 0;
-  margin-bottom: 0.5em;
+  list-style: none;
 }
 
 .content_rating .vote-star,

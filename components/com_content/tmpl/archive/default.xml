@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <metadata>
 	<layout title="COM_CONTENT_ARCHIVE_VIEW_DEFAULT_TITLE" option="COM_CONTENT_ARCHIVE_VIEW_DEFAULT_OPTION">
 		<help
@@ -19,6 +19,7 @@
 				extension="com_content"
 				multiple="true"
 				layout="joomla.form.field.list-fancy-select"
+				default=""
 				>
 				<option value="">JOPTION_ALL_CATEGORIES</option>
 			</field>
@@ -67,10 +68,23 @@
 			</field>
 
 			<field
+				name="year_sort_order"
+				type="list"
+				label="COM_CONTENT_FIELD_YEAR_SORT_LABEL"
+				description="COM_CONTENT_FIELD_YEAR_SORT_DESC"
+				default="ASC"
+				validate="options"
+				>
+				<option value="ASC">JGLOBAL_OLDEST_FIRST</option>
+				<option value="DESC">JGLOBAL_MOST_RECENT_FIRST</option>
+			</field>
+
+			<field
 				name="display_num"
 				type="list"
 				label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL"
-				default="5"
+				default=""
+				useglobal="true"
 				validate="options"
 				>
 				<option value="5">J5</option>

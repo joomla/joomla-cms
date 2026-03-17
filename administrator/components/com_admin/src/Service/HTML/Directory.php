@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_admin
@@ -9,9 +10,11 @@
 
 namespace Joomla\Component\Admin\Administrator\Service\HTML;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Language\Text;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Utility class working with directory
@@ -20,41 +23,39 @@ use Joomla\CMS\Language\Text;
  */
 class Directory
 {
-	/**
-	 * Method to generate a (un)writable message for directory
-	 *
-	 * @param   boolean  $writable  is the directory writable?
-	 *
-	 * @return  string	html code
-	 */
-	public function writable($writable)
-	{
-		if ($writable)
-		{
-			return '<span class="badge bg-success">' . Text::_('COM_ADMIN_WRITABLE') . '</span>';
-		}
+    /**
+     * Method to generate a (un)writable message for directory
+     *
+     * @param   boolean  $writable  is the directory writable?
+     *
+     * @return  string  html code
+     */
+    public function writable($writable)
+    {
+        if ($writable) {
+            return '<span class="badge bg-success">' . Text::_('COM_ADMIN_WRITABLE') . '</span>';
+        }
 
-		return '<span class="badge bg-danger">' . Text::_('COM_ADMIN_UNWRITABLE') . '</span>';
-	}
+        return '<span class="badge bg-danger">' . Text::_('COM_ADMIN_UNWRITABLE') . '</span>';
+    }
 
-	/**
-	 * Method to generate a message for a directory
-	 *
-	 * @param   string   $dir      the directory
-	 * @param   boolean  $message  the message
-	 * @param   boolean  $visible  is the $dir visible?
-	 *
-	 * @return  string	html code
-	 */
-	public function message($dir, $message, $visible = true)
-	{
-		$output = $visible ? $dir : '';
+    /**
+     * Method to generate a message for a directory
+     *
+     * @param   string   $dir      the directory
+     * @param   boolean  $message  the message
+     * @param   boolean  $visible  is the $dir visible?
+     *
+     * @return  string  html code
+     */
+    public function message($dir, $message, $visible = true)
+    {
+        $output = $visible ? $dir : '';
 
-		if (empty($message))
-		{
-			return $output;
-		}
+        if (empty($message)) {
+            return $output;
+        }
 
-		return $output . ' <strong>' . Text::_($message) . '</strong>';
-	}
+        return $output . ' <strong>' . Text::_($message) . '</strong>';
+    }
 }

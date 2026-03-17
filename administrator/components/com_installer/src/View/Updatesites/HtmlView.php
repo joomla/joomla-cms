@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
@@ -9,16 +10,16 @@
 
 namespace Joomla\Component\Installer\Administrator\View\Updatesites;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\Pagination\Pagination;
-use Joomla\CMS\Toolbar\Toolbar;
-use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\Component\Installer\Administrator\Model\UpdatesitesModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Extension Manager Update Sites View
@@ -27,111 +28,111 @@ use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as Installe
  */
 class HtmlView extends InstallerViewDefault
 {
-	/**
-	 * The search tools form
-	 *
-	 * @var    Form
-	 * @since  3.4
-	 */
-	public $filterForm;
+    /**
+     * The search tools form
+     *
+     * @var    Form
+     * @since  3.4
+     */
+    public $filterForm;
 
-	/**
-	 * The active search filters
-	 *
-	 * @var    array
-	 * @since  3.4
-	 */
-	public $activeFilters = [];
+    /**
+     * The active search filters
+     *
+     * @var    array
+     * @since  3.4
+     */
+    public $activeFilters = [];
 
-	/**
-	 * List of updatesites
-	 *
-	 * @var    \stdClass[]
-	 * @since 3.4
-	 */
-	protected $items;
+    /**
+     * List of updatesites
+     *
+     * @var    \stdClass[]
+     * @since 3.4
+     */
+    protected $items;
 
-	/**
-	 * Pagination object
-	 *
-	 * @var    Pagination
-	 * @since 3.4
-	 */
-	protected $pagination;
+    /**
+     * Pagination object
+     *
+     * @var    Pagination
+     * @since 3.4
+     */
+    protected $pagination;
 
-	/**
-	 * Display the view
-	 *
-	 * @param   string  $tpl  Template
-	 *
-	 * @return  mixed|void
-	 *
-	 * @since   3.4
-	 *
-	 * @throws  \Exception on errors
-	 */
-	public function display($tpl = null): void
-	{
-		/** @var UpdatesitesModel $model */
-		$model               = $this->getModel();
-		$this->items         = $model->getItems();
-		$this->pagination    = $model->getPagination();
-		$this->filterForm    = $model->getFilterForm();
-		$this->activeFilters = $model->getActiveFilters();
+    /**
+     * Display the view
+     *
+     * @param   string  $tpl  Template
+     *
+     * @return  void
+     *
+     * @since   3.4
+     *
+     * @throws  \Exception on errors
+     */
+    public function display($tpl = null): void
+    {
+        /** @var UpdatesitesModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-		// Check for errors.
-		if (count($errors = $model->getErrors()))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        $this->items         = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
 
-		// Display the view
-		parent::display($tpl);
-	}
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task')
+            ->addControlField('boxchecked', '0');
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.4
-	 */
-	protected function addToolbar(): void
-	{
-		$canDo = ContentHelper::getActions('com_installer');
+        // Display the view
+        parent::display($tpl);
+    }
 
-		// Get the toolbar object instance
-		$toolbar = Toolbar::getInstance('toolbar');
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   3.4
+     */
+    protected function addToolbar(): void
+    {
+        $canDo = ContentHelper::getActions('com_installer');
 
-		if ($canDo->get('core.edit.state'))
-		{
-			$dropdown = $toolbar->dropdownButton('status-group')
-				->text('JTOOLBAR_CHANGE_STATUS')
-				->toggleSplit(false)
-				->icon('icon-ellipsis-h')
-				->buttonClass('btn btn-action')
-				->listCheck(true);
+        // Get the toolbar object instance
+        $toolbar = $this->getDocument()->getToolbar();
 
-			$childBar = $dropdown->getChildToolbar();
+        if ($canDo->get('core.edit.state')) {
+            /** @var DropdownButton $dropdown */
+            $dropdown = $toolbar->dropdownButton('status-group', 'JTOOLBAR_CHANGE_STATUS')
+                ->toggleSplit(false)
+                ->icon('icon-ellipsis-h')
+                ->buttonClass('btn btn-action')
+                ->listCheck(true);
 
-			$childBar->publish('updatesites.publish', 'JTOOLBAR_ENABLE')->listCheck(true);
-			$childBar->unpublish('updatesites.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true);
+            $childBar = $dropdown->getChildToolbar();
 
-			if ($canDo->get('core.delete'))
-			{
-				$childBar->delete('updatesites.delete')->listCheck(true);
-			}
+            $childBar->publish('updatesites.publish', 'JTOOLBAR_ENABLE')->listCheck(true);
+            $childBar->unpublish('updatesites.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true);
 
-			$childBar->checkin('updatesites.checkin')->listCheck(true);
-		}
+            if ($canDo->get('core.delete')) {
+                $childBar->delete('updatesites.delete')->listCheck(true);
+            }
 
-		if ($canDo->get('core.admin') || $canDo->get('core.options'))
-		{
-			ToolbarHelper::custom('updatesites.rebuild', 'refresh', '', 'JTOOLBAR_REBUILD', false);
-		}
+            $childBar->checkin('updatesites.checkin')->listCheck(true);
+        }
 
-		parent::addToolbar();
+        if ($canDo->get('core.admin') || $canDo->get('core.options')) {
+            $toolbar->standardButton('rebuild', 'JTOOLBAR_REBUILD', 'updatesites.rebuild')
+                ->listCheck(false)
+                ->icon('icon-refresh');
+        }
 
-		ToolbarHelper::help('Extensions:_Update_Sites');
-	}
+        parent::addToolbar();
+
+        $toolbar->help('Extensions:_Update_Sites');
+    }
 }

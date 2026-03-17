@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_login
@@ -9,11 +10,16 @@
 
 namespace Joomla\Module\Login\Site\Helper;
 
-\defined('_JEXEC') or die;
-
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\User;
+use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Helper for mod_login
@@ -22,76 +28,137 @@ use Joomla\CMS\Uri\Uri;
  */
 class LoginHelper
 {
-	/**
-	 * Retrieve the URL where the user should be returned after logging in
-	 *
-	 * @param   \Joomla\Registry\Registry  $params  module parameters
-	 * @param   string                     $type    return type
-	 *
-	 * @return  string
-	 */
-	public static function getReturnUrl($params, $type)
-	{
-		$item = Factory::getApplication()->getMenu()->getItem($params->get($type));
+    /**
+     * Retrieve the URL where the user should be returned after logging in
+     *
+     * @param   Registry  $params  module parameters
+     * @param   string    $type    return type
+     * @param   CMSApplicationInterface  $app  The application
+     *
+     * @since   5.4.0
+     *
+     * @return  string
+     */
+    public function getReturnUrlString(Registry $params, $type, CMSApplicationInterface $app): string
+    {
+        // Stay on the same page
+        $url = Uri::getInstance()->toString();
 
-		// Stay on the same page
-		$url = Uri::getInstance()->toString();
+        $returnMenuId = $params->get($type, 0);
 
-		if ($item)
-		{
-			$lang = '';
+        if ($returnMenuId > 0) {
+            $item = $app->getMenu()->getItem($returnMenuId);
 
-			if ($item->language !== '*' && Multilanguage::isEnabled())
-			{
-				$lang = '&lang=' . $item->language;
-			}
+            if ($item) {
+                $lang = '';
 
-			$url = 'index.php?Itemid=' . $item->id . $lang;
-		}
+                if ($item->language !== '*' && Multilanguage::isEnabled()) {
+                    $lang = '&lang=' . $item->language;
+                }
 
-		return base64_encode($url);
-	}
+                $url = 'index.php?Itemid=' . $item->id . $lang;
+            }
+        }
 
-	/**
-	 * Returns the current users type
-	 *
-	 * @return string
-	 */
-	public static function getType()
-	{
-		$user = Factory::getUser();
+        return base64_encode($url);
+    }
 
-		return (!$user->get('guest')) ? 'logout' : 'login';
-	}
+    /**
+     * Returns the current users type
+     *
+     * @param   User  $user  The user object
+     *
+     * @return string
+     *
+     * @since 5.4.0
+     */
+    public function getUserType(User $user): string
+    {
+        return (!$user->guest) ? 'logout' : 'login';
+    }
 
-	/**
-	 * Retrieve the URL for the registration page
-	 *
-	 * @param   \Joomla\Registry\Registry  $params  module parameters
-	 *
-	 * @return  string
-	 */
-	public static function getRegistrationUrl($params)
-	{
-		$regLink = 'index.php?option=com_users&view=registration';
-		$regLinkMenuId = $params->get('customRegLinkMenu');
+    /**
+     * Retrieve the URL for the registration page
+     *
+     * @param   Registry  $params  module parameters
+     *
+     * @since   5.4.0
+     *
+     * @return  string
+     */
+    public function getRegistrationUrlString(Registry $params, CMSApplicationInterface $app): string
+    {
+        $regLink       = 'index.php?option=com_users&view=registration';
+        $regLinkMenuId = $params->get('customRegLinkMenu');
 
-		// If there is a custom menu item set for registration => override default
-		if ($regLinkMenuId)
-		{
-			$item = Factory::getApplication()->getMenu()->getItem($regLinkMenuId);
+        // If there is a custom menu item set for registration => override default
+        if ($regLinkMenuId) {
+            $item = $app->getMenu()->getItem($regLinkMenuId);
 
-			if ($item)
-			{
-				$regLink = 'index.php?Itemid=' . $regLinkMenuId;
+            if ($item) {
+                $regLink = 'index.php?Itemid=' . $regLinkMenuId;
 
-				if ($item->language !== '*' && Multilanguage::isEnabled())
-				{
-					$regLink .= '&lang=' . $item->language;
-				}
-			}
-		}
+                if ($item->language !== '*' && Multilanguage::isEnabled()) {
+                    $regLink .= '&lang=' . $item->language;
+                }
+            }
+        }
 
-		return $regLink;
-	}
+        return $regLink;
+    }
+
+    /**
+     * Retrieve the URL where the user should be returned after logging in
+     *
+     * @param   Registry  $params  module parameters
+     * @param   string    $type    return type
+     *
+     * @return  string
+     *
+     * @deprecated 5.4.0 will be removed in 7.0
+     *             Use the non-static method getReturnUrlString
+     *             Example: Factory::getApplication()->bootModule('mod_login', 'site')
+     *                          ->getHelper('LoginHelper')
+     *                          ->getReturnUrlString($params, $type, Factory::getApplication())
+     */
+    public static function getReturnUrl($params, $type)
+    {
+        return (new self())->getReturnUrlString($params, $type, Factory::getApplication());
+    }
+
+    /**
+     * Returns the current users type
+     *
+     * @return     string
+     *
+     * @deprecated 5.4.0 will be removed in 7.0
+     *             Use the non-static method getUserType
+     *             Example: Factory::getApplication()->bootModule('mod_login', 'site')
+     *                          ->getHelper('LoginHelper')
+     *                          ->getUserType(Factory::getApplication())
+     */
+    public static function getType()
+    {
+        $user = Factory::getApplication()->getIdentity();
+
+        return (new self())->getUserType($user);
+    }
+
+    /**
+     * Retrieve the URL for the registration page
+     *
+     * @param      Registry  $params  module parameters
+     *
+     * @return     string
+     *
+     * @deprecated 5.4.0 will be removed in 7.0
+     *             Use the non-static method getRegistrationUrlString
+     *             Example: Factory::getApplication()->bootModule('mod_login', 'site')
+     *                          ->getHelper('LoginHelper')
+     *                          ->getRegistrationUrlString($params, Factory::getApplication())
+     */
+    public static function getRegistrationUrl($params)
+    {
+        return (new self())->getRegistrationUrlString($params, Factory::getApplication());
+    }
 }

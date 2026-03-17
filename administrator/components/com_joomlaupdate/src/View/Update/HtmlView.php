@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
@@ -9,12 +10,14 @@
 
 namespace Joomla\Component\Joomlaupdate\Administrator\View\Update;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! Update's Update View
@@ -23,21 +26,21 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * Renders the view.
-	 *
-	 * @param   string  $tpl  Template name.
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
-		Factory::getApplication()->input->set('hidemainmenu', true);
+    /**
+     * Renders the view.
+     *
+     * @param   string  $tpl  Template name.
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-		// Set the toolbar information.
-		ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'sync install');
+        // Set the toolbar information.
+        ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'sync install');
 
-		// Render the view.
-		parent::display($tpl);
-	}
+        // Render the view.
+        parent::display($tpl);
+    }
 }

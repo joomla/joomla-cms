@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<form>
+<?xml version="1.0" encoding="UTF-8"?>
+<form addfieldprefix="Joomla\Component\Mails\Administrator\Field">
 	<fieldset>
 		<field
 			name="template_id"
@@ -13,25 +13,25 @@
 			name="subject"
 			type="text"
 			label="COM_MAILS_FIELD_SUBJECT_LABEL"
-			size="40"
 		/>
 		<field
 			name="body"
-			type="textarea"
+			type="editor"
 			label="COM_MAILS_FIELD_BODY_LABEL"
 			editor="none"
 			buttons="false"
 			rows="20"
 			class="form-control"
-			filter="JComponentHelper::filterText"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 		/>
 		<field
 			name="htmlbody"
 			type="editor"
 			label="COM_MAILS_FIELD_HTMLBODY_LABEL"
-			buttons="false"
+			buttons="true"
+			hide="fields,pagebreak,readmore,module"
 			class="inputbox"
-			filter="JComponentHelper::filterText"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 		/>
 	</fieldset>
 	<field
@@ -56,7 +56,7 @@
 			/>
 		</form>
 	</field>
-	<fields name="params" label="COM_CATEGORIES_FIELD_BASIC_LABEL">
+	<fields name="params" label="COM_MAILS_FIELD_BASIC_LABEL">
 
 		<fieldset name="basic">
 
@@ -65,7 +65,7 @@
 				type="radio"
 				label="COM_MAILS_FIELD_ALTERNATIVE_MAILCONFIG_LABEL"
 				layout="joomla.form.field.radio.switcher"
-				default="1"
+				default="0"
 				filter="boolean"
 				>
 				<option value="0">JNO</option>
@@ -77,7 +77,6 @@
 				type="email"
 				label="COM_MAILS_FIELD_MAIL_FROM_EMAIL_LABEL"
 				filter="string"
-				size="30"
 				validate="email"
 				showon="alternative_mailconfig:1"
 			/>
@@ -87,7 +86,6 @@
 				type="text"
 				label="COM_MAILS_FIELD_MAIL_FROM_NAME_LABEL"
 				filter="string"
-				size="30"
 				showon="alternative_mailconfig:1"
 			/>
 
@@ -96,7 +94,6 @@
 				type="email"
 				label="COM_MAILS_FIELD_MAIL_REPLY_TO_EMAIL_LABEL"
 				filter="string"
-				size="30"
 				validate="email"
 				showon="alternative_mailconfig:1"
 			/>
@@ -106,7 +103,6 @@
 				type="text"
 				label="COM_MAILS_FIELD_MAIL_REPLY_TO_NAME_LABEL"
 				filter="string"
-				size="30"
 				showon="alternative_mailconfig:1"
 			/>
 
@@ -131,7 +127,6 @@
 				default="/usr/sbin/sendmail"
 				showon="alternative_mailconfig:1[AND]mailer:sendmail"
 				filter="string"
-				size="30"
 			/>
 
 			<field
@@ -141,7 +136,6 @@
 				default="localhost"
 				showon="alternative_mailconfig:1[AND]mailer:smtp"
 				filter="string"
-				size="30"
 			/>
 
 			<field
@@ -191,7 +185,6 @@
 				showon="alternative_mailconfig:1[AND]mailer:smtp[AND]smtpauth:1"
 				filter="string"
 				autocomplete="off"
-				size="30"
 			/>
 
 			<field
@@ -201,7 +194,6 @@
 				showon="alternative_mailconfig:1[AND]mailer:smtp[AND]smtpauth:1"
 				filter="raw"
 				autocomplete="off"
-				size="30"
 				lock="true"
 			/>
 
@@ -212,8 +204,43 @@
 				validate="email"
 				default=""
 				filter="string"
-				size="30"
 			/>
+
+			<field
+				name="disable_htmllayout"
+				type="list"
+				label="COM_MAILS_FIELD_HTML_LAYOUT_OFF_LABEL"
+				validate="options"
+				class="form-select-color-state"
+				useglobal="true"
+				>
+				<option value="0">JDISABLED</option>
+				<option value="1">JENABLED</option>
+			</field>
+
+			<field
+				name="htmllayout"
+				type="mailtemplateLayout"
+				label="COM_MAILS_FIELD_HTML_LAYOUT_LABEL"
+				class="form-select"
+				useglobal="true"
+				default=""
+				showon="disable_htmllayout!:0"
+			/>
+
+			<field
+				name="disable_logofile"
+				type="radio"
+				label="COM_MAILS_FIELD_HTML_LAYOUT_LOGO_OFF_LABEL"
+				layout="joomla.form.field.radio.switcher"
+				default="1"
+				showon="disable_htmllayout!:0[AND]htmllayout!:mailtemplate"
+				validate="options"
+				>
+				<option value="0">JDISABLED</option>
+				<option value="1">JENABLED</option>
+			</field>
+
 		</fieldset>
 	</fields>
 </form>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_users
@@ -9,15 +10,12 @@
 
 defined('_JEXEC') or die;
 
-$cookieLogin = $this->user->get('cookieLogin');
+/** @var \Joomla\Component\Users\Site\View\Login\HtmlView $this */
 
-if (!empty($cookieLogin) || $this->user->get('guest'))
-{
-	// The user is not logged in or needs to provide a password.
-	echo $this->loadTemplate('login');
-}
-else
-{
-	// The user is already logged in.
-	echo $this->loadTemplate('logout');
+if ((isset($this->user->cookieLogin) && !empty($this->user->cookieLogin)) || $this->user->guest) {
+    // The user is not logged in or needs to provide a password.
+    echo $this->loadTemplate('login');
+} else {
+    // The user is already logged in.
+    echo $this->loadTemplate('logout');
 }

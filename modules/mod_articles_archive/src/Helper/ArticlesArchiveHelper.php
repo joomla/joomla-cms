@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_articles_archive
@@ -9,90 +10,116 @@
 
 namespace Joomla\Module\ArticlesArchive\Site\Helper;
 
-\defined('_JEXEC') or die;
-
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Helper for mod_articles_archive
  *
  * @since  1.5
  */
-class ArticlesArchiveHelper
+class ArticlesArchiveHelper implements DatabaseAwareInterface
 {
-	/**
-	 * Retrieve list of archived articles
-	 *
-	 * @param   \Joomla\Registry\Registry  &$params  module parameters
-	 *
-	 * @return  array
-	 *
-	 * @since   1.5
-	 */
-	public static function getList(&$params)
-	{
-		$app       = Factory::getApplication();
-		$db        = Factory::getDbo();
-		$query     = $db->getQuery(true);
+    use DatabaseAwareTrait;
 
-		$query->select($query->month($db->quoteName('created')) . ' AS created_month')
-			->select('MIN(' . $db->quoteName('created') . ') AS created')
-			->select($query->year($db->quoteName('created')) . ' AS created_year')
-			->from($db->quoteName('#__content', 'c'))
-			->where($db->quoteName('c.state') . ' = ' . ContentComponent::CONDITION_ARCHIVED)
-			->group($query->year($db->quoteName('c.created')) . ', ' . $query->month($db->quoteName('c.created')))
-			->order($query->year($db->quoteName('c.created')) . ' DESC, ' . $query->month($db->quoteName('c.created')) . ' DESC');
+    /**
+     * Retrieve a list of months with archived articles
+     *
+     * @param   Registry         $moduleParams  The module parameters.
+     * @param   SiteApplication  $app           The current application.
+     *
+     * @return  \stdClass[]
+     *
+     * @since   4.4.0
+     */
+    public function getArticlesByMonths(Registry $moduleParams, SiteApplication $app): array
+    {
+        $db        = $this->getDatabase();
+        $query     = $db->createQuery();
 
-		// Filter by language
-		if ($app->getLanguageFilter())
-		{
-			$query->whereIn($db->quoteName('language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
-		}
+        $query->select($query->month($db->quoteName('created')) . ' AS created_month')
+            ->select('MIN(' . $db->quoteName('created') . ') AS created')
+            ->select($query->year($db->quoteName('created')) . ' AS created_year')
+            ->from($db->quoteName('#__content', 'c'))
+            ->where($db->quoteName('c.state') . ' = ' . ContentComponent::CONDITION_ARCHIVED)
+            ->group($query->year($db->quoteName('c.created')) . ', ' . $query->month($db->quoteName('c.created')))
+            ->order($query->year($db->quoteName('c.created')) . ' DESC, ' . $query->month($db->quoteName('c.created')) . ' DESC');
 
-		$query->setLimit((int) $params->get('count'));
-		$db->setQuery($query);
+        // Filter by language
+        if ($app->getLanguageFilter()) {
+            $query->whereIn($db->quoteName('language'), [$app->getLanguage()->getTag(), '*'], ParameterType::STRING);
+        }
 
-		try
-		{
-			$rows = (array) $db->loadObjectList();
-		}
-		catch (\RuntimeException $e)
-		{
-			$app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+        $query->setLimit((int) $moduleParams->get('count'));
+        $db->setQuery($query);
 
-			return [];
-		}
+        try {
+            $rows = (array) $db->loadObjectList();
+        } catch (\RuntimeException) {
+            $app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-		$menu   = $app->getMenu();
-		$item   = $menu->getItems('link', 'index.php?option=com_content&view=archive', true);
-		$itemid = (isset($item) && !empty($item->id)) ? '&Itemid=' . $item->id : '';
+            return [];
+        }
 
-		$i     = 0;
-		$lists = array();
+        $menu   = $app->getMenu();
+        $item   = $menu->getItems('link', 'index.php?option=com_content&view=archive', true);
+        $itemid = (isset($item) && !empty($item->id)) ? '&Itemid=' . $item->id : '';
 
-		foreach ($rows as $row)
-		{
-			$date = Factory::getDate($row->created);
+        $i     = 0;
+        $lists = [];
 
-			$createdMonth = $date->format('n');
-			$createdYear  = $date->format('Y');
+        foreach ($rows as $row) {
+            $date = Factory::getDate($row->created);
 
-			$createdYearCal = HTMLHelper::_('date', $row->created, 'Y');
-			$monthNameCal   = HTMLHelper::_('date', $row->created, 'F');
+            $createdMonth = $date->format('n');
+            $createdYear  = $date->format('Y');
 
-			$lists[$i] = new \stdClass;
+            $createdYearCal = HTMLHelper::_('date', $row->created, 'Y');
+            $monthNameCal   = HTMLHelper::_('date', $row->created, 'F');
 
-			$lists[$i]->link = Route::_('index.php?option=com_content&view=archive&year=' . $createdYear . '&month=' . $createdMonth . $itemid);
-			$lists[$i]->text = Text::sprintf('MOD_ARTICLES_ARCHIVE_DATE', $monthNameCal, $createdYearCal);
+            $lists[$i] = new \stdClass();
 
-			$i++;
-		}
+            $lists[$i]->link = Route::_('index.php?option=com_content&view=archive&year=' . $createdYear . '&month=' . $createdMonth . $itemid);
+            $lists[$i]->text = Text::sprintf('MOD_ARTICLES_ARCHIVE_DATE', $monthNameCal, $createdYearCal);
 
-		return $lists;
-	}
+            $i++;
+        }
+
+        return $lists;
+    }
+
+    /**
+     * Retrieve list of archived articles
+     *
+     * @param   Registry  &$params module parameters
+     *
+     * @return  \stdClass[]
+     *
+     * @since   1.5
+     *
+     * @deprecated  4.4.0  will be removed in 7.0
+     *              Use the non-static method getArticlesByMonths
+     *              Example: Factory::getApplication()->bootModule('mod_articles_archive', 'site')
+     *                           ->getHelper('ArticlesArchiveHelper')
+     *                           ->getArticlesByMonths($params, Factory::getApplication())
+     */
+    public static function getList(&$params)
+    {
+        /** @var SiteApplication $app */
+        $app = Factory::getApplication();
+
+        return (new self())->getArticlesByMonths($params, $app);
+    }
 }

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fieldset>
 		<field
@@ -15,7 +15,6 @@
 			type="text"
 			label="COM_TEMPLATES_FIELD_TEMPLATE_LABEL"
 			class="readonly"
-			size="30"
 			readonly="true"
 		/>
 
@@ -32,7 +31,6 @@
 			name="title"
 			type="text"
 			label="COM_TEMPLATES_FIELD_TITLE_LABEL"
-			size="50"
 			required="true"
 		/>
 
@@ -41,5 +39,16 @@
 			type="hidden"
 		/>
 
+		<field
+			name="inheritable"
+			type="hidden"
+			readonly="true"
+		/>
+
+		<field
+			name="parent"
+			type="hidden"
+			readonly="true"
+		/>
 	</fieldset>
 </form>

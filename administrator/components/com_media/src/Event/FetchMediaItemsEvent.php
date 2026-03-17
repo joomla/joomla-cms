@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_media
@@ -9,7 +10,9 @@
 
 namespace Joomla\Component\Media\Administrator\Event;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Event object for fetch media items.
@@ -18,70 +21,67 @@ namespace Joomla\Component\Media\Administrator\Event;
  */
 final class FetchMediaItemsEvent extends AbstractMediaItemValidationEvent
 {
-	/**
-	 * Constructor.
-	 *
-	 * @param   string  $name       The event name.
-	 * @param   array   $arguments  The event arguments.
-	 *
-	 * @throws  \BadMethodCallException
-	 *
-	 * @since  4.1.0
-	 */
-	public function __construct($name, array $arguments = array())
-	{
-		parent::__construct($name, $arguments);
+    /**
+     * Constructor.
+     *
+     * @param   string  $name       The event name.
+     * @param   array   $arguments  The event arguments.
+     *
+     * @throws  \BadMethodCallException
+     *
+     * @since  4.1.0
+     */
+    public function __construct($name, array $arguments = [])
+    {
+        parent::__construct($name, $arguments);
 
-		// Check for required arguments
-		if (!\array_key_exists('items', $arguments) || !is_array($arguments['items']))
-		{
-			throw new \BadMethodCallException("Argument 'items' of event $name is not of the expected type");
-		}
-	}
+        // Check for required arguments
+        if (!\array_key_exists('items', $arguments) || !\is_array($arguments['items'])) {
+            throw new \BadMethodCallException("Argument 'items' of event $name is not of the expected type");
+        }
+    }
 
-	/**
-	 * Validate $item to be an array
-	 *
-	 * @param   array  $items  The value to set
-	 *
-	 * @return array
-	 *
-	 * @since   4.1.0
-	 */
-	protected function setItems(array $items): array
-	{
-		$result = [];
+    /**
+     * Validate $item to be an array
+     *
+     * @param   array  $items  The value to set
+     *
+     * @return array
+     *
+     * @since   4.1.0
+     */
+    protected function setItems(array $items): array
+    {
+        $result = [];
 
-		foreach($items as $item)
-		{
-			$clone = clone $item;
+        foreach ($items as $item) {
+            $clone = clone $item;
 
-			$this->validate($clone);
+            $this->validate($clone);
 
-			$result[] = $clone;
-		}
+            $result[] = $clone;
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
-	/**
-	 * Returns the items.
-	 *
-	 * @param   array  $items  The value to set
-	 *
-	 * @return array
-	 *
-	 * @since   4.1.0
-	 */
-	protected function getItems(array $items): array
-	{
-		$result = [];
+    /**
+     * Returns the items.
+     *
+     * @param   array  $items  The value to set
+     *
+     * @return array
+     *
+     * @since   4.1.0
+     */
+    protected function getItems(array $items): array
+    {
+        $result = [];
 
-		foreach($items as $item)
-		{
-			$result[] = clone $item;
-		}
+        foreach ($items as $item) {
+            $result[] = clone $item;
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 }

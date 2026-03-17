@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -9,10 +10,11 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer\Language;
 
-\defined('_JEXEC') or die;
-
 use Joomla\Component\Finder\Administrator\Indexer\Language;
-use Joomla\String\StringHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Chinese (simplified) language support class for the Finder indexer package.
@@ -21,69 +23,49 @@ use Joomla\String\StringHelper;
  */
 class Zh extends Language
 {
-	/**
-	 * Language locale of the class
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	public $language = 'zh';
+    /**
+     * Language locale of the class
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    public $language = 'zh';
 
-	/**
-	 * Spacer between terms
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	public $spacer = '';
+    /**
+     * Spacer between terms
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    public $spacer = '';
 
-	/**
-	 * Method to construct the language object.
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct($locale = null)
-	{
-		// Override parent constructor since we don't need to load an external stemmer
-	}
+    /**
+     * Method to construct the language object.
+     *
+     * @since   4.0.0
+     */
+    public function __construct($locale = null)
+    {
+        // Override parent constructor since we don't need to load an external stemmer
+    }
 
-	/**
-	 * Method to tokenise a text string.
-	 *
-	 * @param   string  $input  The input to tokenise.
-	 *
-	 * @return  array  An array of term strings.
-	 *
-	 * @since   4.0.0
-	 */
-	public function tokenise($input)
-	{
-		$terms = parent::tokenise($input);
+    /**
+     * Method to tokenise a text string.
+     *
+     * @param   string  $input  The input to tokenise.
+     *
+     * @return  array  An array of term strings.
+     *
+     * @since   4.0.0
+     */
+    public function tokenise($input)
+    {
+        // We first add whitespace around each Chinese character, so that our later code can easily split on this.
+        $input = preg_replace('#\p{Han}#mui', ' $0 ', $input);
 
-		// Iterate through the terms and test if they contain Chinese.
-		for ($i = 0, $n = count($terms); $i < $n; $i++)
-		{
-			$charMatches = array();
-			$charCount = preg_match_all('#[\p{Han}]#mui', $terms[$i], $charMatches);
+        // Now we split up the input into individual terms
+        $terms = parent::tokenise($input);
 
-			// Split apart any groups of Chinese characters.
-			for ($j = 0; $j < $charCount; $j++)
-			{
-				$tSplit = StringHelper::str_ireplace($charMatches[0][$j], '', $terms[$i], false);
-
-				if (!empty($tSplit))
-				{
-					$terms[$i] = $tSplit;
-				}
-				else
-				{
-					unset($terms[$i]);
-				}
-
-				$terms[] = $charMatches[0][$j];
-			}
-		}
-
-		return $terms;
-	}
+        return $terms;
+    }
 }

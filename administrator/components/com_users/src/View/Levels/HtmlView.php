@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
@@ -9,14 +10,15 @@
 
 namespace Joomla\Component\Users\Administrator\View\Levels;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Users\Administrator\Model\LevelsModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View class for a list of view levels.
@@ -25,101 +27,104 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * The item data.
-	 *
-	 * @var   object
-	 * @since 1.6
-	 */
-	protected $items;
+    /**
+     * The item data.
+     *
+     * @var   object
+     * @since 1.6
+     */
+    protected $items;
 
-	/**
-	 * The pagination object.
-	 *
-	 * @var   \Joomla\CMS\Pagination\Pagination
-	 * @since 1.6
-	 */
-	protected $pagination;
+    /**
+     * The pagination object.
+     *
+     * @var   \Joomla\CMS\Pagination\Pagination
+     * @since 1.6
+     */
+    protected $pagination;
 
-	/**
-	 * The model state.
-	 *
-	 * @var   CMSObject
-	 * @since 1.6
-	 */
-	protected $state;
+    /**
+     * The model state.
+     *
+     * @var   \Joomla\Registry\Registry
+     * @since 1.6
+     */
+    protected $state;
 
-	/**
-	 * Form object for search filters
-	 *
-	 * @var    \JForm
-	 * @since  4.0.0
-	 */
-	public $filterForm;
+    /**
+     * Form object for search filters
+     *
+     * @var    \Joomla\CMS\Form\Form
+     *
+     * @since  4.0.0
+     */
+    public $filterForm;
 
-	/**
-	 * The active search filters
-	 *
-	 * @var    array
-	 * @since  4.0.0
-	 */
-	public $activeFilters;
+    /**
+     * The active search filters
+     *
+     * @var    array
+     * @since  4.0.0
+     */
+    public $activeFilters;
 
-	/**
-	 * Display the view
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
-		$this->items         = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->state         = $this->get('State');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
+    /**
+     * Display the view
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        /** @var LevelsModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        $this->items         = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->state         = $model->getState();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
 
-		$this->addToolbar();
-		parent::display($tpl);
-	}
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task')
+            ->addControlField('boxchecked', '0');
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return void
-	 *
-	 * @since   1.6
-	 */
-	protected function addToolbar()
-	{
-		$canDo = ContentHelper::getActions('com_users');
+        $this->addToolbar();
+        parent::display($tpl);
+    }
 
-		ToolbarHelper::title(Text::_('COM_USERS_VIEW_LEVELS_TITLE'), 'user-lock levels');
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return void
+     *
+     * @since   1.6
+     */
+    protected function addToolbar()
+    {
+        $canDo   = ContentHelper::getActions('com_users');
+        $toolbar = $this->getDocument()->getToolbar();
 
-		if ($canDo->get('core.create'))
-		{
-			ToolbarHelper::addNew('level.add');
-		}
+        ToolbarHelper::title(Text::_('COM_USERS_VIEW_LEVELS_TITLE'), 'user-lock levels');
 
-		if ($canDo->get('core.delete'))
-		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'level.delete', 'JTOOLBAR_DELETE');
-			ToolbarHelper::divider();
-		}
+        if ($canDo->get('core.create')) {
+            $toolbar->addNew('level.add');
+        }
 
-		if ($canDo->get('core.admin') || $canDo->get('core.options'))
-		{
-			ToolbarHelper::preferences('com_users');
-			ToolbarHelper::divider();
-		}
+        if ($canDo->get('core.delete')) {
+            $toolbar->delete('level.delete')
+                ->message('JGLOBAL_CONFIRM_DELETE');
+            $toolbar->divider();
+        }
 
-		ToolbarHelper::help('Users:_Viewing_Access_Levels');
-	}
+        if ($canDo->get('core.admin') || $canDo->get('core.options')) {
+            $toolbar->preferences('com_users');
+            $toolbar->divider();
+        }
+
+        $toolbar->help('Users:_Viewing_Access_Levels');
+    }
 }

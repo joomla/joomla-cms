@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -15,6 +16,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 $icon = empty($displayData['icon']) ? 'dot-circle' : preg_replace('#\.[^ .]*$#', '', $displayData['icon']);
 ?>
 <h1 class="page-title">
-	<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => $icon]); ?>
-	<?php echo $displayData['title']; ?>
+    <?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => $icon]); ?>
+    <?php echo $displayData['title']; ?>
 </h1>

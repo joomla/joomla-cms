@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_modules
@@ -9,22 +10,24 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
+/** @var \Joomla\Component\Modules\Administrator\View\Modules\HtmlView $this */
+
 $displayData = [
-	'textPrefix' => 'COM_MODULES',
-	'formURL'    => 'index.php?option=com_modules&view=select&client_id=' . $this->clientId,
-	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Module',
-	'icon'       => 'icon-cube module',
-	// Although it is (almost) impossible to get to this page with no created Administrator Modules, we add this for completeness.
-	'title'      => Text::_('COM_MODULES_EMPTYSTATE_TITLE_' . ($this->clientId ? 'ADMINISTRATOR' : 'SITE')),
+    'textPrefix' => 'COM_MODULES',
+    'formURL'    => 'index.php?option=com_modules&view=select&client_id=' . $this->clientId,
+    'helpURL'    => 'https://guide.joomla.org/user-manual/modules',
+    'icon'       => 'icon-cube module',
+    // Although it is (almost) impossible to get to this page with no created Administrator Modules, we add this for completeness.
+    'title'      => Text::_('COM_MODULES_EMPTYSTATE_TITLE_' . ($this->clientId ? 'ADMINISTRATOR' : 'SITE')),
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
-if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_modules'))
-{
-	$displayData['createURL'] = 'index.php?option=com_modules&view=select&client_id=' . $this->clientId;
+if ($this->getCurrentUser()->authorise('core.create', 'com_modules')) {
+    $displayData['createURL'] = 'index.php?option=com_modules&view=select&client_id=' . $this->clientId;
 }
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);

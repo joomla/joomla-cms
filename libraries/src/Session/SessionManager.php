@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\Session;
 
-\defined('JPATH_PLATFORM') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Manager for interacting with the session handler to perform updates on sessions.
@@ -17,61 +20,59 @@ namespace Joomla\CMS\Session;
  */
 final class SessionManager
 {
-	/**
-	 * Session handler.
-	 *
-	 * @var    \SessionHandlerInterface
-	 * @since  4.0.0
-	 */
-	private $sessionHandler;
+    /**
+     * Session handler.
+     *
+     * @var    \SessionHandlerInterface
+     * @since  4.0.0
+     */
+    private $sessionHandler;
 
-	/**
-	 * SessionManager constructor.
-	 *
-	 * @param   \SessionHandlerInterface  $sessionHandler  Session handler.
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct(\SessionHandlerInterface $sessionHandler)
-	{
-		$this->sessionHandler = $sessionHandler;
-	}
+    /**
+     * SessionManager constructor.
+     *
+     * @param   \SessionHandlerInterface  $sessionHandler  Session handler.
+     *
+     * @since   4.0.0
+     */
+    public function __construct(\SessionHandlerInterface $sessionHandler)
+    {
+        $this->sessionHandler = $sessionHandler;
+    }
 
-	/**
-	 * Destroys the given session ID.
-	 *
-	 * @param   string  $sessionId  The session ID to destroy.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.0.0
-	 */
-	public function destroySession(string $sessionId): bool
-	{
-		return $this->sessionHandler->destroy($sessionId);
-	}
+    /**
+     * Destroys the given session ID.
+     *
+     * @param   string  $sessionId  The session ID to destroy.
+     *
+     * @return  boolean
+     *
+     * @since   4.0.0
+     */
+    public function destroySession(string $sessionId): bool
+    {
+        return $this->sessionHandler->destroy($sessionId);
+    }
 
-	/**
-	 * Destroys the given session IDs.
-	 *
-	 * @param   string[]  $sessionIds  The session IDs to destroy.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.0.0
-	 */
-	public function destroySessions(array $sessionIds): bool
-	{
-		$result = true;
+    /**
+     * Destroys the given session IDs.
+     *
+     * @param   string[]  $sessionIds  The session IDs to destroy.
+     *
+     * @return  boolean
+     *
+     * @since   4.0.0
+     */
+    public function destroySessions(array $sessionIds): bool
+    {
+        $result = true;
 
-		foreach ($sessionIds as $sessionId)
-		{
-			if (!$this->destroySession($sessionId))
-			{
-				$result = false;
-			}
-		}
+        foreach ($sessionIds as $sessionId) {
+            if (!$this->destroySession($sessionId)) {
+                $result = false;
+            }
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 }

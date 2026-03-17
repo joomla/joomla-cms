@@ -2,10 +2,10 @@
 <phpunit bootstrap="tests/Unit/bootstrap.php" colors="false">
 	<testsuites>
 		<testsuite name="Unit">
-			<directory suffix="Test.php">./tests/Unit/Libraries</directory>
+			<directory suffix="Test.php">./tests/Unit</directory>
 		</testsuite>
 		<testsuite name="Integration">
-			<directory suffix="Test.php">./tests/Integration/Libraries</directory>
+			<directory suffix="Test.php">./tests/Integration</directory>
 		</testsuite>
 	</testsuites>
 	<php>
@@ -14,5 +14,24 @@
 		<const name="JTEST_DB_NAME" value="test_joomla" />
 		<const name="JTEST_DB_USER" value="joomla_ut" />
 		<const name="JTEST_DB_PASSWORD" value="joomla_ut" />
+
+		<!--ldap settings are preconfigured to work with bitnami/openldap docker image-->
+		<const name="JTEST_LDAP_HOST" value="openldap" /> <!-- to disable ldap tests: set to an empty value -->
+		<const name="JTEST_LDAP_PORT" value="1389" />
+		<const name="JTEST_LDAP_PORT_SSL" value="1636" />
+		<!--CACERTFILE path is relative to JPATH_ROOT-->
+		<const name="JTEST_LDAP_CACERTFILE" value="./tests/certs/CA.crt" />
+		<const name="JTEST_LDAP_USEV3" value="1" />
+		<const name="JTEST_LDAP_NOREFERRALS" value="1" />
+		<const name="JTEST_LDAP_BASE" value="dc=example,dc=org" />
+		<const name="JTEST_LDAP_SEARCH" value="uid=[search]" />
+		<const name="JTEST_LDAP_DIRECT_USERDN" value="cn=[username],ou=users,dc=example,dc=org" />
+		<const name="JTEST_LDAP_FULLNAME" value="cn" />
+		<const name="JTEST_LDAP_EMAIL" value="mail" />
+		<const name="JTEST_LDAP_UID" value="uid" />
+		<const name="JTEST_LDAP_SEARCH_DN" value="cn=customuser,ou=users,dc=example,dc=org" />
+		<const name="JTEST_LDAP_SEARCH_PASSWORD" value="custompassword" />
+		<const name="JTEST_LDAP_TESTUSER" value="customuser" />
+		<const name="JTEST_LDAP_TESTPASSWORD" value="custompassword" />
 	</php>
 </phpunit>

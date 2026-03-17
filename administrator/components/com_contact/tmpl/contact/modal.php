@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_contact
@@ -8,8 +9,13 @@
  */
 
 defined('_JEXEC') or die;
+
+/** @var \Joomla\Component\Contact\Administrator\View\Contact\HtmlView $this */
 ?>
+<div class="subhead noshadow mb-3">
+    <?php echo $this->getDocument()->getToolbar('toolbar')->render(); ?>
+</div>
 <div class="container-popup">
-	<?php $this->setLayout('edit'); ?>
-	<?php echo $this->loadTemplate(); ?>
+    <?php $this->setLayout('edit'); ?>
+    <?php echo $this->loadTemplate(); ?>
 </div>

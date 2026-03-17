@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_ajax
@@ -7,14 +8,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
+use Joomla\CMS\Event\Plugin\AjaxEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Response\JsonResponse;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\String\StringableInterface;
+use Joomla\CMS\Table\Extension;
 
 /*
  * References
@@ -33,255 +36,213 @@ $app->allowCache(false);
 $app->setHeader('X-Robots-Tag', 'noindex, nofollow');
 
 // JInput object
-$input = $app->input;
+$input = $app->getInput();
 
 // Requested format passed via URL
-$format = strtolower($input->getWord('format'));
+$format = strtolower($input->getWord('format', ''));
 
 // Initialize default response and module name
 $results = null;
 $parts   = null;
 
 // Check for valid format
-if (!$format)
-{
-	$results = new InvalidArgumentException(Text::_('COM_AJAX_SPECIFY_FORMAT'), 404);
-}
-/*
- * Module support.
- *
- * modFooHelper::getAjax() is called where 'foo' is the value
- * of the 'module' variable passed via the URL
- * (i.e. index.php?option=com_ajax&module=foo).
- *
- */
-elseif ($input->get('module'))
-{
-	$module   = $input->get('module');
-	$table    = Table::getInstance('extension');
-	$moduleId = $table->find(array('type' => 'module', 'element' => 'mod_' . $module));
+if (!$format) {
+    $results = new InvalidArgumentException(Text::_('COM_AJAX_SPECIFY_FORMAT'), 404);
+} elseif ($input->get('module')) {
+    /**
+     * Module support.
+     *
+     * modFooHelper::getAjax() is called where 'foo' is the value
+     * of the 'module' variable passed via the URL
+     * (i.e. index.php?option=com_ajax&module=foo).
+     *
+     */
+    $module   = $input->get('module');
+    $table    = new Extension(Factory::getDbo());
+    $moduleId = $table->find(['type' => 'module', 'element' => 'mod_' . $module]);
 
-	if ($moduleId && $table->load($moduleId) && $table->enabled)
-	{
-		$helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
+    if ($moduleId && $table->load($moduleId) && $table->enabled) {
+        $helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
 
-		if (strpos($module, '_'))
-		{
-			$parts = explode('_', $module);
-		}
-		elseif (strpos($module, '-'))
-		{
-			$parts = explode('-', $module);
-		}
+        if (strpos($module, '_')) {
+            $parts = explode('_', $module);
+        } elseif (strpos($module, '-')) {
+            $parts = explode('-', $module);
+        }
 
-		if ($parts)
-		{
-			$class = 'Mod';
+        if ($parts) {
+            $class = 'Mod';
 
-			foreach ($parts as $part)
-			{
-				$class .= ucfirst($part);
-			}
+            foreach ($parts as $part) {
+                $class .= ucfirst($part);
+            }
 
-			$class .= 'Helper';
-		}
-		else
-		{
-			$class = 'Mod' . ucfirst($module) . 'Helper';
-		}
+            $class .= 'Helper';
+        } else {
+            $class = 'Mod' . ucfirst($module) . 'Helper';
+        }
 
-		$method = $input->get('method') ?: 'get';
+        $method = $input->get('method') ?: 'get';
 
-		$moduleInstance = $app->bootModule('mod_' . $module, $app->getName());
+        $moduleInstance = $app->bootModule('mod_' . $module, $app->getName());
 
-		if ($moduleInstance instanceof \Joomla\CMS\Helper\HelperFactoryInterface && $helper = $moduleInstance->getHelper(substr($class, 3)))
-		{
-			$results = method_exists($helper, $method . 'Ajax') ? $helper->{$method . 'Ajax'}() : null;
-		}
+        if ($moduleInstance instanceof \Joomla\CMS\Helper\HelperFactoryInterface && $helper = $moduleInstance->getHelper(substr($class, 3))) {
+            $results = method_exists($helper, $method . 'Ajax') ? $helper->{$method . 'Ajax'}() : null;
+        }
 
-		if ($results === null && is_file($helperFile))
-		{
-			JLoader::register($class, $helperFile);
+        if ($results === null && is_file($helperFile)) {
+            JLoader::register($class, $helperFile);
 
-			if (method_exists($class, $method . 'Ajax'))
-			{
-				// Load language file for module
-				$basePath = JPATH_BASE;
-				$lang     = Factory::getLanguage();
-				$lang->load('mod_' . $module, $basePath)
-				||  $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module);
+            if (method_exists($class, $method . 'Ajax')) {
+                // Load language file for module
+                $basePath = JPATH_BASE;
+                $lang     = Factory::getLanguage();
+                $lang->load('mod_' . $module, $basePath)
+                || $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module);
 
-				try
-				{
-					$results = call_user_func($class . '::' . $method . 'Ajax');
-				}
-				catch (Exception $e)
-				{
-					$results = $e;
-				}
-			}
-			// Method does not exist
-			else
-			{
-				$results = new LogicException(Text::sprintf('COM_AJAX_METHOD_NOT_EXISTS', $method . 'Ajax'), 404);
-			}
-		}
-		// The helper file does not exist
-		elseif ($results === null)
-		{
-			$results = new RuntimeException(Text::sprintf('COM_AJAX_FILE_NOT_EXISTS', 'mod_' . $module . '/helper.php'), 404);
-		}
-	}
-	// Module is not published, you do not have access to it, or it is not assigned to the current menu item
-	else
-	{
-		$results = new LogicException(Text::sprintf('COM_AJAX_MODULE_NOT_ACCESSIBLE', 'mod_' . $module), 404);
-	}
-}
-/*
- * Plugin support by default is based on the "Ajax" plugin group.
- * An optional 'group' variable can be passed via the URL.
- *
- * The plugin event triggered is onAjaxFoo, where 'foo' is
- * the value of the 'plugin' variable passed via the URL
- * (i.e. index.php?option=com_ajax&plugin=foo)
- *
- */
-elseif ($input->get('plugin'))
-{
-	$group      = $input->get('group', 'ajax');
-	PluginHelper::importPlugin($group);
-	$plugin     = ucfirst($input->get('plugin'));
+                try {
+                    $results = \call_user_func($class . '::' . $method . 'Ajax');
+                } catch (Exception $e) {
+                    $results = $e;
+                }
+            } else {
+                // Method does not exist
+                $results = new LogicException(Text::sprintf('COM_AJAX_METHOD_NOT_EXISTS', $method . 'Ajax'), 404);
+            }
+        } elseif ($results === null) {
+            // The helper file does not exist
+            $results = new RuntimeException(Text::sprintf('COM_AJAX_FILE_NOT_EXISTS', 'mod_' . $module . '/helper.php'), 404);
+        }
+    } else {
+        // Module is not published, you do not have access to it, or it is not assigned to the current menu item
+        $results = new LogicException(Text::sprintf('COM_AJAX_MODULE_NOT_ACCESSIBLE', 'mod_' . $module), 404);
+    }
+} elseif ($input->get('plugin')) {
+    /**
+     * Plugin support by default is based on the "Ajax" plugin group.
+     * An optional 'group' variable can be passed via the URL.
+     *
+     * The plugin event triggered is onAjaxFoo, where 'foo' is
+     * the value of the 'plugin' variable passed via the URL
+     * (i.e. index.php?option=com_ajax&plugin=foo)
+     *
+     */
+    try {
+        $dispatcher = $app->getDispatcher();
+        $group      = $input->get('group', 'ajax');
+        $eventName  = 'onAjax' . ucfirst($input->get('plugin', ''));
 
-	try
-	{
-		$results = Factory::getApplication()->triggerEvent('onAjax' . $plugin);
-	}
-	catch (Exception $e)
-	{
-		$results = $e;
-	}
-}
-/*
- * Template support.
- *
- * tplFooHelper::getAjax() is called where 'foo' is the value
- * of the 'template' variable passed via the URL
- * (i.e. index.php?option=com_ajax&template=foo).
- *
- */
-elseif ($input->get('template'))
-{
-	$template   = $input->get('template');
-	$table      = Table::getInstance('extension');
-	$templateId = $table->find(array('type' => 'template', 'element' => $template));
+        PluginHelper::importPlugin($group, null, true, $dispatcher);
 
-	if ($templateId && $table->load($templateId) && $table->enabled)
-	{
-		$basePath   = ($table->client_id) ? JPATH_ADMINISTRATOR : JPATH_SITE;
-		$helperFile = $basePath . '/templates/' . $template . '/helper.php';
+        $results = $dispatcher->dispatch($eventName, new AjaxEvent($eventName, ['subject' => $app]))->getArgument('result', []);
+    } catch (Throwable $e) {
+        $results = $e;
+    }
+} elseif ($input->get('template')) {
+    /**
+     * Template support.
+     *
+     * tplFooHelper::getAjax() is called where 'foo' is the value
+     * of the 'template' variable passed via the URL
+     * (i.e. index.php?option=com_ajax&template=foo).
+     *
+     */
+    $template   = $input->get('template');
+    $table      = new Extension(Factory::getDbo());
+    $templateId = $table->find(['type' => 'template', 'element' => $template]);
 
-		if (strpos($template, '_'))
-		{
-			$parts = explode('_', $template);
-		}
-		elseif (strpos($template, '-'))
-		{
-			$parts = explode('-', $template);
-		}
+    if ($templateId && $table->load($templateId) && $table->enabled) {
+        $basePath   = ($table->client_id) ? JPATH_ADMINISTRATOR : JPATH_SITE;
+        $helperFile = $basePath . '/templates/' . $template . '/helper.php';
 
-		if ($parts)
-		{
-			$class = 'Tpl';
+        if (strpos($template, '_')) {
+            $parts = explode('_', $template);
+        } elseif (strpos($template, '-')) {
+            $parts = explode('-', $template);
+        }
 
-			foreach ($parts as $part)
-			{
-				$class .= ucfirst($part);
-			}
+        if ($parts) {
+            $class = 'Tpl';
 
-			$class .= 'Helper';
-		}
-		else
-		{
-			$class = 'Tpl' . ucfirst($template) . 'Helper';
-		}
+            foreach ($parts as $part) {
+                $class .= ucfirst($part);
+            }
 
-		$method = $input->get('method') ?: 'get';
+            $class .= 'Helper';
+        } else {
+            $class = 'Tpl' . ucfirst($template) . 'Helper';
+        }
 
-		if (is_file($helperFile))
-		{
-			JLoader::register($class, $helperFile);
+        $method = $input->get('method') ?: 'get';
 
-			if (method_exists($class, $method . 'Ajax'))
-			{
-				// Load language file for template
-				$lang = Factory::getLanguage();
-				$lang->load('tpl_' . $template, $basePath)
-				||  $lang->load('tpl_' . $template, $basePath . '/templates/' . $template);
+        if (is_file($helperFile)) {
+            JLoader::register($class, $helperFile);
 
-				try
-				{
-					$results = call_user_func($class . '::' . $method . 'Ajax');
-				}
-				catch (Exception $e)
-				{
-					$results = $e;
-				}
-			}
-			// Method does not exist
-			else
-			{
-				$results = new LogicException(Text::sprintf('COM_AJAX_METHOD_NOT_EXISTS', $method . 'Ajax'), 404);
-			}
-		}
-		// The helper file does not exist
-		else
-		{
-			$results = new RuntimeException(Text::sprintf('COM_AJAX_FILE_NOT_EXISTS', 'tpl_' . $template . '/helper.php'), 404);
-		}
-	}
-	// Template is not assigned to the current menu item
-	else
-	{
-		$results = new LogicException(Text::sprintf('COM_AJAX_TEMPLATE_NOT_ACCESSIBLE', 'tpl_' . $template), 404);
-	}
+            if (method_exists($class, $method . 'Ajax')) {
+                // Load language file for template
+                $lang = Factory::getLanguage();
+                $lang->load('tpl_' . $template, $basePath)
+                || $lang->load('tpl_' . $template, $basePath . '/templates/' . $template);
+
+                try {
+                    $results = \call_user_func($class . '::' . $method . 'Ajax');
+                } catch (Exception $e) {
+                    $results = $e;
+                }
+            } else {
+                // Method does not exist
+                $results = new LogicException(Text::sprintf('COM_AJAX_METHOD_NOT_EXISTS', $method . 'Ajax'), 404);
+            }
+        } else {
+            // The helper file does not exist
+            $results = new RuntimeException(Text::sprintf('COM_AJAX_FILE_NOT_EXISTS', 'tpl_' . $template . '/helper.php'), 404);
+        }
+    } else {
+        // Template is not assigned to the current menu item
+        $results = new LogicException(Text::sprintf('COM_AJAX_TEMPLATE_NOT_ACCESSIBLE', 'tpl_' . $template), 404);
+    }
 }
 
 // Return the results in the desired format
-switch ($format)
-{
-	// JSONinzed
-	case 'json':
-		echo new JsonResponse($results, null, false, $input->get('ignoreMessages', true, 'bool'));
+switch ($format) {
+    case 'json':
+        if (!($results instanceof Throwable) && $results instanceof StringableInterface) {
+            echo $results;
+        } else {
+            if (\is_object($results) && !($results instanceof Throwable) && $results instanceof \Stringable) {
+                @trigger_error(
+                    'Ajax result object (except Throwable) which implements Stringable interface (implicitly or explicitly), will be rendered directly. Starting from 7.0',
+                    \E_USER_DEPRECATED
+                );
+            }
 
-		break;
+            // JSONized
+            echo new JsonResponse($results, null, false, $input->get('ignoreMessages', true, 'bool'));
+        }
 
-	// Handle as raw format
-	default:
-		// Output exception
-		if ($results instanceof Exception)
-		{
-			// Log an error
-			Log::add($results->getMessage(), Log::ERROR);
+        break;
 
-			// Set status header code
-			$app->setHeader('status', $results->getCode(), true);
+    default:
+        // Handle as raw format
+        // Output exception
+        if ($results instanceof Throwable) {
+            // Log an error
+            Log::add($results->getMessage(), Log::ERROR);
 
-			// Echo exception type and message
-			$out = get_class($results) . ': ' . $results->getMessage();
-		}
-		// Output string/ null
-		elseif (is_scalar($results))
-		{
-			$out = (string) $results;
-		}
-		// Output array/ object
-		else
-		{
-			$out = implode((array) $results);
-		}
+            // Set status header code
+            $app->setHeader('status', $results->getCode(), true);
 
-		echo $out;
+            // Echo exception type and message
+            $out = \get_class($results) . ': ' . $results->getMessage();
+        } elseif (\is_scalar($results) || $results instanceof StringableInterface) {
+            // Output string/ null
+            $out = (string) $results;
+        } else {
+            // Output array/ object
+            $out = implode((array) $results);
+        }
 
-		break;
+        echo $out;
+
+        break;
 }

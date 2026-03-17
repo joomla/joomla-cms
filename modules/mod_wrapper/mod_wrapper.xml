@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" client="site" method="upgrade">
 	<name>mod_wrapper</name>
 	<author>Joomla! Project</author>
-	<creationDate>October 2004</creationDate>
+	<creationDate>2004-10</creationDate>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -11,7 +11,7 @@
 	<description>MOD_WRAPPER_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\Wrapper</namespace>
 	<files>
-		<filename module="mod_wrapper">mod_wrapper.php</filename>
+		<folder module="mod_wrapper">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
@@ -25,9 +25,11 @@
 			<fieldset name="basic">
 				<field
 					name="url"
-					type="text"
+					type="url"
+					validate="url"
+					filter="url"
+					relative="true"
 					label="MOD_WRAPPER_FIELD_URL_LABEL"
-					size="30"
 					required="true"
 				/>
 
@@ -47,7 +49,6 @@
 					name="width"
 					type="text"
 					label="MOD_WRAPPER_FIELD_WIDTH_LABEL"
-					size="5"
 					default="100%"
 				/>
 
@@ -55,7 +56,6 @@
 					name="height"
 					type="text"
 					label="MOD_WRAPPER_FIELD_HEIGHT_LABEL"
-					size="5"
 					default="200"
 				/>
 
@@ -75,7 +75,6 @@
 					name="target"
 					type="text"
 					label="MOD_WRAPPER_FIELD_TARGET_LABEL"
-					size="30"
 				/>
 
 				<field

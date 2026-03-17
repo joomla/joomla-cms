@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -47,26 +48,27 @@ extract($displayData);
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
-$attributes = array(
-	!empty($size) ? 'size="' . $size . '"' : '',
-	!empty($description) ? 'aria-describedby="' . ($id ?: $name) . '-desc"' : '',
-	$disabled ? 'disabled' : '',
-	$readonly ? 'readonly' : '',
-	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
-	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
-	$autofocus ? 'autofocus' : '',
-	$spellcheck ? '' : 'spellcheck="false"',
-	$onchange ? 'onchange="' . $onchange . '"' : '',
-	!empty($maxLength) ? $maxLength : '',
-	$required ? 'required' : '',
-	$dataAttribute,
-);
+$attributes = [
+    !empty($size) ? 'size="' . $size . '"' : '',
+    !empty($description) ? 'aria-describedby="' . ($id ?: $name) . '-desc"' : '',
+    $disabled ? 'disabled' : '',
+    $readonly ? 'readonly' : '',
+    strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
+    !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
+    $autofocus ? 'autofocus' : '',
+    $spellcheck ? '' : 'spellcheck="false"',
+    $onchange ? 'onchange="' . $onchange . '"' : '',
+    !empty($maxLength) ? $maxLength : '',
+    $required ? 'required' : '',
+    !empty($pattern) ? 'pattern="' . $pattern . '"' : '',
+    $dataAttribute,
+];
 ?>
 <input
-	type="tel"
-	inputmode="tel"
-	name="<?php echo $name; ?>"
-	<?php echo !empty($class) ? ' class="form-control ' . $class . '"' : 'class="form-control"'; ?>
-	id="<?php echo $id; ?>"
-	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
-	<?php echo implode(' ', $attributes); ?>>
+    type="tel"
+    inputmode="tel"
+    name="<?php echo $name; ?>"
+    <?php echo !empty($class) ? ' class="form-control ' . $class . '"' : 'class="form-control"'; ?>
+    id="<?php echo $id; ?>"
+    value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+    <?php echo implode(' ', $attributes); ?>>

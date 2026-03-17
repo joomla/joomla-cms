@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -31,64 +32,62 @@ extract($displayData);
  *                             - bodyHeight   int      Optional height of the modal body in viewport units (vh)
  *                             - modalWidth   int      Optional width of the modal in viewport units (vh)
  *                             - footer       string   Optional markup for the modal footer
+ *                             - modalCss     string   Optional CSS classes of the modal
  * @var   string  $body      Markup for the modal body. Appended after the <iframe> if the URL option is set
  */
 
-$modalClasses = array('modal');
+$modalClasses = ['modal'];
 
-if (!isset($params['animation']) || $params['animation'])
-{
-	$modalClasses[] = 'fade';
+if (!isset($params['animation']) || $params['animation']) {
+    $modalClasses[] = 'fade';
 }
 
 $modalWidth       = isset($params['modalWidth']) ? round((int) $params['modalWidth'], -1) : '';
-$modalDialogClass = '';
+$modalDialogClass = 'modal-lg';
 
-if ($modalWidth && $modalWidth > 0 && $modalWidth <= 100)
-{
-	$modalDialogClass = ' jviewport-width' . $modalWidth;
+if ($modalWidth && $modalWidth > 0 && $modalWidth <= 100) {
+    $modalDialogClass .= ' jviewport-width' . $modalWidth;
 }
 
-$modalAttributes = array(
-	'tabindex' => '-1',
-	'class'    => 'joomla-modal ' .implode(' ', $modalClasses)
-);
-
-if (isset($params['backdrop']))
-{
-	$modalAttributes['data-bs-backdrop'] = (is_bool($params['backdrop']) ? ($params['backdrop'] ? 'true' : 'false') : $params['backdrop']);
+if (!empty($params['modalCss'])) {
+    $modalDialogClass = $params['modalCss'];
 }
 
-if (isset($params['keyboard']))
-{
-	$modalAttributes['data-bs-keyboard'] = (is_bool($params['keyboard']) ? ($params['keyboard'] ? 'true' : 'false') : 'true');
+$modalAttributes = [
+    'tabindex' => '-1',
+    'class'    => 'joomla-modal ' . implode(' ', $modalClasses)
+];
+
+if (isset($params['backdrop'])) {
+    $modalAttributes['data-bs-backdrop'] = (is_bool($params['backdrop']) ? ($params['backdrop'] ? 'true' : 'false') : $params['backdrop']);
 }
 
-if (isset($params['url']))
-{
-	$url        = 'data-url="' . $params['url'] . '"';
-	$iframeHtml = htmlspecialchars(LayoutHelper::render('libraries.html.bootstrap.modal.iframe', $displayData), ENT_COMPAT, 'UTF-8');
+if (isset($params['keyboard'])) {
+    $modalAttributes['data-bs-keyboard'] = (is_bool($params['keyboard']) ? ($params['keyboard'] ? 'true' : 'false') : 'true');
+}
+
+if (isset($params['url'])) {
+    $url        = 'data-url="' . $params['url'] . '"';
+    $iframeHtml = htmlspecialchars(LayoutHelper::render('libraries.html.bootstrap.modal.iframe', $displayData), ENT_COMPAT, 'UTF-8');
 }
 ?>
-<div id="<?php echo $selector; ?>" role="dialog" <?php echo ArrayHelper::toString($modalAttributes); ?> <?php echo $url ?? ''; ?> <?php echo isset($url) ? 'data-iframe="'.trim($iframeHtml).'"' : ''; ?>>
-	<div class="modal-dialog modal-lg<?php echo $modalDialogClass; ?>">
-		<div class="modal-content">
-			<?php
-				// Header
-				if (!isset($params['closeButton']) || isset($params['title']) || $params['closeButton'])
-				{
-					echo LayoutHelper::render('libraries.html.bootstrap.modal.header', $displayData);
-				}
+<div id="<?php echo $selector; ?>" role="dialog" <?php echo ArrayHelper::toString($modalAttributes); ?> <?php echo $url ?? ''; ?> <?php echo isset($url) ? 'data-iframe="' . trim($iframeHtml) . '"' : ''; ?>>
+    <div class="modal-dialog <?php echo $modalDialogClass; ?>">
+        <div class="modal-content">
+            <?php
+                // Header
+            if (!isset($params['closeButton']) || isset($params['title']) || $params['closeButton']) {
+                echo LayoutHelper::render('libraries.html.bootstrap.modal.header', $displayData);
+            }
 
-				// Body
-				echo LayoutHelper::render('libraries.html.bootstrap.modal.body', $displayData);
+                // Body
+                echo LayoutHelper::render('libraries.html.bootstrap.modal.body', $displayData);
 
-				// Footer
-				if (isset($params['footer']))
-				{
-					echo LayoutHelper::render('libraries.html.bootstrap.modal.footer', $displayData);
-				}
-			?>
-		</div>
-	</div>
+                // Footer
+            if (isset($params['footer'])) {
+                echo LayoutHelper::render('libraries.html.bootstrap.modal.footer', $displayData);
+            }
+            ?>
+        </div>
+    </div>
 </div>

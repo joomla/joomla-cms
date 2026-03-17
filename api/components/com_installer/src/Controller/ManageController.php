@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.API
  * @subpackage  com_installer
@@ -9,11 +10,13 @@
 
 namespace Joomla\Component\Installer\Api\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The manage controller
@@ -22,49 +25,47 @@ use Tobscure\JsonApi\Exception\InvalidParameterException;
  */
 class ManageController extends ApiController
 {
-	/**
-	 * The content type of the item.
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $contentType = 'manage';
+    /**
+     * The content type of the item.
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected $contentType = 'manage';
 
-	/**
-	 * The default view for the display method.
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $default_view = 'manage';
+    /**
+     * The default view for the display method.
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected $default_view = 'manage';
 
-	/**
-	 * Extension list view amended to add filtering of data
-	 *
-	 * @return  static  A BaseController object to support chaining.
-	 *
-	 * @since   4.0.0
-	 */
-	public function displayList()
-	{
-		$requestBool = $this->input->get('core', $this->input->get->get('core'));
+    /**
+     * Extension list view amended to add filtering of data
+     *
+     * @return  static  A BaseController object to support chaining.
+     *
+     * @since   4.0.0
+     */
+    public function displayList()
+    {
+        $requestBool = $this->input->get('core', $this->input->get->get('core'));
 
-		if (!is_null($requestBool) && $requestBool !== 'true' && $requestBool !== 'false')
-		{
-			// Send the error response
-			$error = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'core');
+        if (!\is_null($requestBool) && $requestBool !== 'true' && $requestBool !== 'false') {
+            // Send the error response
+            $error = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'core');
 
-			throw new InvalidParameterException($error, 400, null, 'core');
-		}
+            throw new InvalidParameterException($error, 400, null, 'core');
+        }
 
-		if (!is_null($requestBool))
-		{
-			$this->modelState->set('filter.core', ($requestBool === 'true') ? '1' : '0', 'STRING');
-		}
+        if (!\is_null($requestBool)) {
+            $this->modelState->set('filter.core', ($requestBool === 'true') ? '1' : '0');
+        }
 
-		$this->modelState->set('filter.status', $this->input->get('status', $this->input->get->get('status')), 'INT');
-		$this->modelState->set('filter.type', $this->input->get('type', $this->input->get->get('type')), 'STRING');
+        $this->modelState->set('filter.status', $this->input->get('status', $this->input->get->get('status', null, 'INT'), 'INT'));
+        $this->modelState->set('filter.type', $this->input->get('type', $this->input->get->get('type', null, 'STRING'), 'STRING'));
 
-		return parent::displayList();
-	}
+        return parent::displayList();
+    }
 }

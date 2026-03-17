@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\Layout;
 
-\defined('JPATH_PLATFORM') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Helper to render a Layout object, storing a base path
@@ -18,58 +21,58 @@ namespace Joomla\CMS\Layout;
  */
 class LayoutHelper
 {
-	/**
-	 * A default base path that will be used if none is provided when calling the render method.
-	 * Note that FileLayout itself will defaults to JPATH_ROOT . '/layouts' if no basePath is supplied at all
-	 *
-	 * @var    string
-	 * @since  3.1
-	 */
-	public static $defaultBasePath = '';
+    /**
+     * A default base path that will be used if none is provided when calling the render method.
+     * Note that FileLayout itself will defaults to JPATH_ROOT . '/layouts' if no basePath is supplied at all
+     *
+     * @var    string
+     * @since  3.1
+     */
+    public static $defaultBasePath = '';
 
-	/**
-	 * Method to render a layout with debug info
-	 *
-	 * @param   string  $layoutFile   Dot separated path to the layout file, relative to base path
-	 * @param   mixed   $displayData  Object which properties are used inside the layout file to build displayed output
-	 * @param   string  $basePath     Base path to use when loading layout files
-	 * @param   mixed   $options      Optional custom options to load. Registry or array format
-	 *
-	 * @return  string
-	 *
-	 * @since   3.5
-	 */
-	public static function debug($layoutFile, $displayData = null, $basePath = '', $options = null)
-	{
-		$basePath = empty($basePath) ? self::$defaultBasePath : $basePath;
+    /**
+     * Method to render a layout with debug info
+     *
+     * @param   string  $layoutFile   Dot separated path to the layout file, relative to base path
+     * @param   mixed   $displayData  Object which properties are used inside the layout file to build displayed output
+     * @param   string  $basePath     Base path to use when loading layout files
+     * @param   mixed   $options      Optional custom options to load. Registry or array format
+     *
+     * @return  string
+     *
+     * @since   3.5
+     */
+    public static function debug($layoutFile, $displayData = null, $basePath = '', $options = null)
+    {
+        $basePath = empty($basePath) ? self::$defaultBasePath : $basePath;
 
-		// Make sure we send null to FileLayout if no path set
-		$basePath = empty($basePath) ? null : $basePath;
-		$layout = new FileLayout($layoutFile, $basePath, $options);
+        // Make sure we send null to FileLayout if no path set
+        $basePath = empty($basePath) ? null : $basePath;
+        $layout   = new FileLayout($layoutFile, $basePath, $options);
 
-		return $layout->debug($displayData);
-	}
+        return $layout->debug($displayData);
+    }
 
-	/**
-	 * Method to render the layout.
-	 *
-	 * @param   string  $layoutFile   Dot separated path to the layout file, relative to base path
-	 * @param   mixed   $displayData  Object which properties are used inside the layout file to build displayed output
-	 * @param   string  $basePath     Base path to use when loading layout files
-	 * @param   mixed   $options      Optional custom options to load. Registry or array format
-	 *
-	 * @return  string
-	 *
-	 * @since   3.1
-	 */
-	public static function render($layoutFile, $displayData = null, $basePath = '', $options = null)
-	{
-		$basePath = empty($basePath) ? self::$defaultBasePath : $basePath;
+    /**
+     * Method to render the layout.
+     *
+     * @param   string  $layoutFile   Dot separated path to the layout file, relative to base path
+     * @param   mixed   $displayData  Object which properties are used inside the layout file to build displayed output
+     * @param   string  $basePath     Base path to use when loading layout files
+     * @param   mixed   $options      Optional custom options to load. Registry or array format
+     *
+     * @return  string
+     *
+     * @since   3.1
+     */
+    public static function render($layoutFile, $displayData = null, $basePath = '', $options = null)
+    {
+        $basePath = empty($basePath) ? self::$defaultBasePath : $basePath;
 
-		// Make sure we send null to FileLayout if no path set
-		$basePath = empty($basePath) ? null : $basePath;
-		$layout = new FileLayout($layoutFile, $basePath, $options);
+        // Make sure we send null to FileLayout if no path set
+        $basePath = empty($basePath) ? null : $basePath;
+        $layout   = new FileLayout($layoutFile, $basePath, $options);
 
-		return $layout->render($displayData);
-	}
+        return $layout->render($displayData);
+    }
 }

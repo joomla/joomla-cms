@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Menus\Administrator\Field">
 	<fieldset>
 		<field
@@ -15,7 +15,6 @@
 			name="title"
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_TITLE_LABEL"
-			size="40"
 			required="true"
 		/>
 
@@ -25,7 +24,6 @@
 			label="JFIELD_ALIAS_LABEL"
 			description="JFIELD_ALIAS_DESC"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
-			size="40"
 		/>
 
 		<field
@@ -34,7 +32,6 @@
 			label="JFIELD_NOTE_LABEL"
 			maxlength="255"
 			class="col-md-12"
-			size="40"
 		/>
 
 		<field
@@ -42,7 +39,6 @@
 			type="link"
 			label="COM_MENUS_ITEM_FIELD_LINK_LABEL"
 			readonly="true"
-			size="50"
 		/>
 
 		<field
@@ -51,7 +47,6 @@
 			label="COM_MENUS_ITEM_FIELD_ASSIGNED_LABEL"
 			required="true"
 			clientid="1"
-			size="1"
 			>
 			<option value="">COM_MENUS_SELECT_MENU</option>
 		</field>
@@ -61,7 +56,6 @@
 			type="menutype"
 			label="COM_MENUS_ITEM_FIELD_TYPE_LABEL"
 			required="true"
-			size="40"
 		/>
 
 		<field
@@ -69,7 +63,6 @@
 			type="list"
 			label="JSTATUS"
 			class="form-select-color-state"
-			size="1"
 			default="1"
 			filter="integer"
 			validate="options"
@@ -86,7 +79,6 @@
 			default="1"
 			filter="int"
 			clientid="1"
-			size="1"
 			>
 			<option value="1">JGLOBAL_ROOT_PARENT</option>
 		</field>
@@ -96,7 +88,6 @@
 			type="MenuOrdering"
 			label="COM_MENUS_ITEM_FIELD_ORDERING_LABEL"
 			filter="int"
-			size="1"
 		/>
 
 		<field

@@ -30,7 +30,7 @@
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        padding: ($cassiopeia-grid-gutter/2) $cassiopeia-grid-gutter;
+        padding: ($cassiopeia-grid-gutter * .5) $cassiopeia-grid-gutter;
         font-size: 1.1rem;
         line-height: 1.5;
 
@@ -76,12 +76,7 @@
 
         &:not(.level-1) > ul,
         &:not(.level-2) > ul {
-          margin-right: -1em;
-
-          [dir="rtl"] & {
-            margin-right: 0;
-            margin-left: -1em;
-          }
+          margin-inline-end: -1em;
         }
 
         &.divider:not(.parent) {
@@ -138,8 +133,8 @@
             position: relative;
             top: 0;
             flex-basis: calc(100% + #{$cassiopeia-grid-gutter});
-            margin-top: ($cassiopeia-grid-gutter/2);
-            margin-bottom: ($cassiopeia-grid-gutter/-2);
+            margin-top: $cassiopeia-grid-gutter * .5;
+            margin-bottom: $cassiopeia-grid-gutter * -.5;
             background-color: hsla(0, 0%, 0%, .03);
             box-shadow: none;
           }

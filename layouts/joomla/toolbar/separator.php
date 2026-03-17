@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -25,12 +26,12 @@ extract($displayData, EXTR_OVERWRITE);
  */
 ?>
 
-<?php if ($is_child): ?>
-	<?php if (!empty($text)): ?>
-		<h6 class="dropdown-header <?php echo $btnClass ?? ''; ?>">
-			<?php echo $text; ?>
-		</h6>
-	<?php else: ?>
-		<div class="dropdown-divider <?php echo $btnClass ?? ''; ?>"></div>
-	<?php endif; ?>
+<?php if ($is_child) : ?>
+    <?php if (!empty($text)) : ?>
+        <h6 class="dropdown-header <?php echo $btnClass ?? ''; ?>">
+            <?php echo $text; ?>
+        </h6>
+    <?php else : ?>
+        <div class="dropdown-divider <?php echo $btnClass ?? ''; ?>"></div>
+    <?php endif; ?>
 <?php endif; ?>

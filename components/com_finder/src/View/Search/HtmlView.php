@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_finder
@@ -9,10 +10,8 @@
 
 namespace Joomla\Component\Finder\Site\View\Search;
 
-\defined('_JEXEC') or die;
-
+use Joomla\CMS\Event\Finder\ResultEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -21,318 +20,352 @@ use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Router\SiteRouterAwareInterface;
+use Joomla\CMS\Router\SiteRouterAwareTrait;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\Component\Finder\Site\Helper\FinderHelper;
+use Joomla\Component\Finder\Site\Model\SearchModel;
+use Joomla\Filesystem\Path;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Search HTML view class for the Finder package.
  *
  * @since  2.5
  */
-class HtmlView extends BaseHtmlView
+class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
 {
-	/**
-	 * The query indexer object
-	 *
-	 * @var    Query
-	 * @since  4.0.0
-	 */
-	protected $query;
+    use SiteRouterAwareTrait;
 
-	/**
-	 * The page parameters
-	 *
-	 * @var  \Joomla\Registry\Registry|null
-	 */
-	protected $params = null;
+    /**
+     * The query indexer object
+     *
+     * @var    Query
+     *
+     * @since  4.0.0
+     */
+    protected $query;
 
-	/**
-	 * The model state
-	 *
-	 * @var  \JObject
-	 */
-	protected $state;
+    /**
+     * The page parameters
+     *
+     * @var  \Joomla\Registry\Registry|null
+     */
+    protected $params = null;
 
-	/**
-	 * The logged in user
-	 *
-	 * @var  \JUser|null
-	 */
-	protected $user = null;
+    /**
+     * The model state
+     *
+     * @var  \Joomla\Registry\Registry
+     */
+    protected $state;
 
-	/**
-	 * The suggested search query
-	 *
-	 * @var   string|false
-	 * @since 4.0.0
-	 */
-	protected $suggested = false;
+    /**
+     * The logged in user
+     *
+     * @var  \Joomla\CMS\User\User|null
+     */
+    protected $user = null;
 
-	/**
-	 * The explained (human-readable) search query
-	 *
-	 * @var   string|null
-	 * @since 4.0.0
-	 */
-	protected $explained = null;
+    /**
+     * The suggested search query
+     *
+     * @var   string|false
+     *
+     * @since 4.0.0
+     */
+    protected $suggested = false;
 
-	/**
-	 * The page class suffix
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $pageclass_sfx = '';
+    /**
+     * The explained (human-readable) search query
+     *
+     * @var   string|null
+     *
+     * @since 4.0.0
+     */
+    protected $explained = null;
 
-	/**
-	 * An array of results
-	 *
-	 * @var    array
-	 *
-	 * @since  3.8.0
-	 */
-	protected $results;
+    /**
+     * The page class suffix
+     *
+     * @var    string
+     *
+     * @since  4.0.0
+     */
+    protected $pageclass_sfx = '';
 
-	/**
-	 * The total number of items
-	 *
-	 * @var    integer
-	 *
-	 * @since  3.8.0
-	 */
-	protected $total;
+    /**
+     * An array of results
+     *
+     * @var    array
+     *
+     * @since  3.8.0
+     */
+    protected $results;
 
-	/**
-	 * The pagination object
-	 *
-	 * @var    Pagination
-	 *
-	 * @since  3.8.0
-	 */
-	protected $pagination;
+    /**
+     * The total number of items
+     *
+     * @var    integer
+     *
+     * @since  3.8.0
+     */
+    protected $total;
 
-	/**
-	 * Method to display the view.
-	 *
-	 * @param   string  $tpl  A template file to load. [optional]
-	 *
-	 * @return  void
-	 *
-	 * @since   2.5
-	 */
-	public function display($tpl = null)
-	{
-		$app = Factory::getApplication();
-		$this->params = $app->getParams();
+    /**
+     * The pagination object
+     *
+     * @var    Pagination
+     *
+     * @since  3.8.0
+     */
+    protected $pagination;
 
-		// Get view data.
-		$this->state = $this->get('State');
-		$this->query = $this->get('Query');
-		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderQuery') : null;
-		$this->results = $this->get('Items');
-		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderResults') : null;
-		$this->total = $this->get('Total');
-		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderTotal') : null;
-		$this->pagination = $this->get('Pagination');
-		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderPagination') : null;
+    /**
+     * Method to display the view.
+     *
+     * @param   string  $tpl  A template file to load. [optional]
+     *
+     * @return  void
+     *
+     * @since   2.5
+     */
+    public function display($tpl = null)
+    {
+        $app          = Factory::getApplication();
+        $this->params = $app->getParams();
 
-		// Flag indicates to not add limitstart=0 to URL
-		$this->pagination->hideEmptyLimitstart = true;
+        /** @var SearchModel $model */
+        $model = $this->getModel();
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        // Get view data.
+        $this->state = $model->getState();
+        $this->query = $model->getQuery();
+        \JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderQuery') : null;
+        $this->results = $model->getItems();
+        \JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderResults') : null;
+        $this->sortOrderFields = $model->getSortOrderFields();
+        \JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderSortOrderFields') : null;
+        $this->total = $model->getTotal();
+        \JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderTotal') : null;
+        $this->pagination = $model->getPagination();
+        \JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderPagination') : null;
 
-		// Configure the pathway.
-		if (!empty($this->query->input))
-		{
-			$app->getPathway()->addItem($this->escape($this->query->input));
-		}
+        // Flag indicates to not add limitstart=0 to URL
+        $this->pagination->hideEmptyLimitstart = true;
 
-		// Check for a double quote in the query string.
-		if (strpos($this->query->input, '"'))
-		{
-			// Get the application router.
-			$router = $app->getRouter();
+        $input = $app->getInput()->get;
 
-			// Fix the q variable in the URL.
-			if ($router->getVar('q') !== $this->query->input)
-			{
-				$router->setVar('q', $this->query->input);
-			}
-		}
+        // Add additional parameters
+        $queryParameterList = [
+            'f'  => 'int',
+            't'  => 'array',
+            'q'  => 'string',
+            'l'  => 'cmd',
+            'd1' => 'string',
+            'd2' => 'string',
+            'w1' => 'string',
+            'w2' => 'string',
+            'o'  => 'word',
+            'od' => 'word',
+        ];
 
-		// Run an event on each result item
-		if (is_array($this->results))
-		{
-			// Import Finder plugins
-			PluginHelper::importPlugin('finder');
+        foreach ($queryParameterList as $parameter => $filter) {
+            $value = $input->get($parameter, null, $filter);
 
-			foreach ($this->results as $result)
-			{
-				$app->triggerEvent('onFinderResult', array(&$result, &$this->query));
-			}
-		}
+            if (\is_null($value)) {
+                continue;
+            }
 
-		// Log the search
-		FinderHelper::logSearch($this->query, $this->total);
+            $this->pagination->setAdditionalUrlParam($parameter, $value);
+        }
 
-		// Push out the query data.
-		$this->suggested = HTMLHelper::_('query.suggested', $this->query);
-		$this->explained = HTMLHelper::_('query.explained', $this->query);
+        // Check for errors.
+        if (\count($errors = $model->getErrors())) {
+            throw new GenericDataException(implode("\n", $errors), 500);
+        }
 
-		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''));
+        // Configure the pathway.
+        if (!empty($this->query->input)) {
+            $app->getPathway()->addItem($this->escape($this->query->input));
+        }
 
-		// Check for layout override only if this is not the active menu item
-		// If it is the active menu item, then the view and category id will match
-		$active = $app->getMenu()->getActive();
+        // Check for a double quote in the query string.
+        if (strpos($this->query->input, '"')) {
+            $router = $this->getSiteRouter();
 
-		if (isset($active->query['layout']))
-		{
-			// We need to set the layout in case this is an alternative menu item (with an alternative layout)
-			$this->setLayout($active->query['layout']);
-		}
+            // Fix the q variable in the URL.
+            if ($router->getVar('q') !== $this->query->input) {
+                $router->setVar('q', $this->query->input);
+            }
+        }
 
-		$this->prepareDocument();
+        // Run an event on each result item
+        if (\is_array($this->results)) {
+            $dispatcher = $this->getDispatcher();
 
-		\JDEBUG ? Profiler::getInstance('Application')->mark('beforeFinderLayout') : null;
+            // Import Content and Finder plugins
+            PluginHelper::importPlugin('finder', null, true, $dispatcher);
+            PluginHelper::importPlugin('content', null, true, $dispatcher);
 
-		parent::display($tpl);
+            foreach ($this->results as $result) {
+                $dispatcher->dispatch('onFinderResult', new ResultEvent('onFinderResult', [
+                    'subject' => $result,
+                    'query'   => $this->query,
+                ]));
+            }
+        }
 
-		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderLayout') : null;
-	}
+        // Log the search
+        FinderHelper::logSearch($this->query, $this->total);
 
-	/**
-	 * Method to get hidden input fields for a get form so that control variables
-	 * are not lost upon form submission
-	 *
-	 * @return  string  A string of hidden input form fields
-	 *
-	 * @since   2.5
-	 */
-	protected function getFields()
-	{
-		$fields = null;
+        // Push out the query data.
+        $this->suggested = HTMLHelper::_('query.suggested', $this->query);
+        $this->explained = HTMLHelper::_('query.explained', $this->query);
 
-		// Get the URI.
-		$uri = Uri::getInstance(Route::_($this->query->toUri()));
-		$uri->delVar('q');
-		$uri->delVar('o');
-		$uri->delVar('t');
-		$uri->delVar('d1');
-		$uri->delVar('d2');
-		$uri->delVar('w1');
-		$uri->delVar('w2');
-		$elements = $uri->getQuery(true);
+        // Escape strings for HTML output
+        $this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''));
 
-		// Create hidden input elements for each part of the URI.
-		foreach ($elements as $n => $v)
-		{
-			if (is_scalar($v))
-			{
-				$fields .= '<input type="hidden" name="' . $n . '" value="' . $v . '">';
-			}
-		}
+        // Check for layout override only if this is not the active menu item
+        // If it is the active menu item, then the view and category id will match
+        $active = $app->getMenu()->getActive();
 
-		return $fields;
-	}
+        if (isset($active->query['layout'])) {
+            // We need to set the layout in case this is an alternative menu item (with an alternative layout)
+            $this->setLayout($active->query['layout']);
+        }
 
-	/**
-	 * Method to get the layout file for a search result object.
-	 *
-	 * @param   string  $layout  The layout file to check. [optional]
-	 *
-	 * @return  string  The layout file to use.
-	 *
-	 * @since   2.5
-	 */
-	protected function getLayoutFile($layout = null)
-	{
-		// Create and sanitize the file name.
-		$file = $this->_layout . '_' . preg_replace('/[^A-Z0-9_\.-]/i', '', $layout);
+        $this->prepareDocument();
 
-		// Check if the file exists.
-		$filetofind = $this->_createFileName('template', array('name' => $file));
-		$exists     = Path::find($this->_path['template'], $filetofind);
+        \JDEBUG ? Profiler::getInstance('Application')->mark('beforeFinderLayout') : null;
 
-		return ($exists ? $layout : 'result');
-	}
+        parent::display($tpl);
 
-	/**
-	 * Prepares the document
-	 *
-	 * @return  void
-	 *
-	 * @since   2.5
-	 */
-	protected function prepareDocument()
-	{
-		$app   = Factory::getApplication();
+        \JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderLayout') : null;
+    }
 
-		// Because the application sets a default page title,
-		// we need to get it from the menu item itself
-		$menu = $app->getMenu()->getActive();
+    /**
+     * Method to get hidden input fields for a get form so that control variables
+     * are not lost upon form submission
+     *
+     * @return  string  A string of hidden input form fields
+     *
+     * @since   2.5
+     */
+    protected function getFields()
+    {
+        $fields = null;
 
-		if ($menu)
-		{
-			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
-		}
-		else
-		{
-			$this->params->def('page_heading', Text::_('COM_FINDER_DEFAULT_PAGE_TITLE'));
-		}
+        // Get the URI.
+        $uri = Uri::getInstance(Route::_($this->query->toUri()));
+        $uri->delVar('q');
+        $uri->delVar('o');
+        $uri->delVar('t');
+        $uri->delVar('d1');
+        $uri->delVar('d2');
+        $uri->delVar('w1');
+        $uri->delVar('w2');
+        $elements = $uri->getQuery(true);
 
-		$this->setDocumentTitle($this->params->get('page_title', ''));
+        // Create hidden input elements for each part of the URI.
+        foreach ($elements as $n => $v) {
+            if (\is_scalar($v)) {
+                $fields .= '<input type="hidden" name="' . $n . '" value="' . $v . '">';
+            }
+        }
 
-		if ($layout = $this->params->get('article_layout'))
-		{
-			$this->setLayout($layout);
-		}
+        return $fields;
+    }
 
-		// Configure the document meta-description.
-		if (!empty($this->explained))
-		{
-			$explained = $this->escape(html_entity_decode(strip_tags($this->explained), ENT_QUOTES, 'UTF-8'));
-			$this->document->setDescription($explained);
-		}
-		elseif ($this->params->get('menu-meta_description'))
-		{
-			$this->document->setDescription($this->params->get('menu-meta_description'));
-		}
+    /**
+     * Method to get the layout file for a search result object.
+     *
+     * @param   string  $layout  The layout file to check. [optional]
+     *
+     * @return  string  The layout file to use.
+     *
+     * @since   2.5
+     */
+    protected function getLayoutFile($layout = null)
+    {
+        // Create and sanitize the file name.
+        $file = $this->_layout . '_' . preg_replace('/[^A-Z0-9_\.-]/i', '', $layout);
 
-		if ($this->params->get('robots'))
-		{
-			$this->document->setMetaData('robots', $this->params->get('robots'));
-		}
+        // Check if the file exists.
+        $filetofind = $this->_createFileName('template', ['name' => $file]);
+        $exists     = Path::find($this->_path['template'], $filetofind);
 
-		// Check for OpenSearch
-		if ($this->params->get('opensearch', 1))
-		{
-			$ostitle = $this->params->get('opensearch_name',
-				Text::_('COM_FINDER_OPENSEARCH_NAME') . ' ' . $app->get('sitename')
-			);
-			$this->document->addHeadLink(
-				Uri::getInstance()->toString(array('scheme', 'host', 'port')) . Route::_('index.php?option=com_finder&view=search&format=opensearch'),
-				'search', 'rel', array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml')
-			);
-		}
+        return $exists ? $layout : 'result';
+    }
 
-		// Add feed link to the document head.
-		if ($this->params->get('show_feed_link', 1) == 1)
-		{
-			// Add the RSS link.
-			$props = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$route = Route::_($this->query->toUri() . '&format=feed&type=rss');
-			$this->document->addHeadLink($route, 'alternate', 'rel', $props);
+    /**
+     * Prepares the document
+     *
+     * @return  void
+     *
+     * @since   2.5
+     */
+    protected function prepareDocument()
+    {
+        $app   = Factory::getApplication();
 
-			// Add the ATOM link.
-			$props = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$route = Route::_($this->query->toUri() . '&format=feed&type=atom');
-			$this->document->addHeadLink($route, 'alternate', 'rel', $props);
-		}
-	}
+        // Because the application sets a default page title,
+        // we need to get it from the menu item itself
+        $menu = $app->getMenu()->getActive();
+
+        if ($menu) {
+            $this->params->def('page_heading', $this->params->get('page_title', $menu->title));
+        } else {
+            $this->params->def('page_heading', Text::_('COM_FINDER_DEFAULT_PAGE_TITLE'));
+        }
+
+        $this->setDocumentTitle($this->params->get('page_title', ''));
+
+        if ($layout = $this->params->get('article_layout')) {
+            $this->setLayout($layout);
+        }
+
+        // Configure the document meta-description.
+        if (!empty($this->explained)) {
+            $explained = $this->escape(html_entity_decode(strip_tags($this->explained), ENT_QUOTES, 'UTF-8'));
+            $this->getDocument()->setDescription($explained);
+        } elseif ($this->params->get('menu-meta_description')) {
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
+        }
+
+        if ($this->params->get('robots')) {
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
+        }
+
+        // Check for OpenSearch
+        if ($this->params->get('opensearch', 1)) {
+            $ostitle = $this->params->get(
+                'opensearch_name',
+                Text::_('COM_FINDER_OPENSEARCH_NAME') . ' ' . $app->get('sitename')
+            );
+            $this->getDocument()->addHeadLink(
+                Uri::getInstance()->toString(['scheme', 'host', 'port']) . Route::_('index.php?option=com_finder&view=search&format=opensearch'),
+                'search',
+                'rel',
+                ['title' => $ostitle, 'type' => 'application/opensearchdescription+xml']
+            );
+        }
+
+        // Add feed link to the document head.
+        if ($this->params->get('show_feed_link', 1) == 1) {
+            // Add the RSS link.
+            $props = ['type' => 'application/rss+xml', 'title' => htmlspecialchars($this->getDocument()->getTitle())];
+            $route = Route::_($this->query->toUri() . '&format=feed&type=rss');
+            $this->getDocument()->addHeadLink($route, 'alternate', 'rel', $props);
+
+            // Add the ATOM link.
+            $props = ['type' => 'application/atom+xml', 'title' => htmlspecialchars($this->getDocument()->getTitle())];
+            $route = Route::_($this->query->toUri() . '&format=feed&type=atom');
+            $this->getDocument()->addHeadLink($route, 'alternate', 'rel', $props);
+        }
+    }
 }

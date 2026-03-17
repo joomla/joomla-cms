@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_tags
@@ -9,10 +10,12 @@
 
 namespace Joomla\Component\Tags\Site\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The Tags List Controller
@@ -21,39 +24,37 @@ use Joomla\CMS\MVC\Controller\BaseController;
  */
 class TagsController extends BaseController
 {
-	/**
-	 * Method to search tags with AJAX
-	 *
-	 * @return  void
-	 */
-	public function searchAjax()
-	{
-		$user = $this->app->getIdentity();
+    /**
+     * Method to search tags with AJAX
+     *
+     * @return  void
+     */
+    public function searchAjax()
+    {
+        $user = $this->app->getIdentity();
 
-		// Receive request data
-		$filters = array(
-			'like'      => trim($this->input->get('like', null, 'string')),
-			'title'     => trim($this->input->get('title', null, 'string')),
-			'flanguage' => $this->input->get('flanguage', null, 'word'),
-			'published' => $this->input->get('published', 1, 'int'),
-			'parent_id' => $this->input->get('parent_id', 0, 'int'),
-			'access'    => $user->getAuthorisedViewLevels(),
-		);
+        // Receive request data
+        $filters = [
+            'like'      => trim($this->input->get('like', '', 'string')),
+            'title'     => trim($this->input->get('title', '', 'string')),
+            'flanguage' => $this->input->get('flanguage', null, 'word'),
+            'published' => $this->input->get('published', 1, 'int'),
+            'parent_id' => $this->input->get('parent_id', 0, 'int'),
+            'access'    => $user->getAuthorisedViewLevels(),
+        ];
 
-		if ((!$user->authorise('core.edit.state', 'com_tags')) && (!$user->authorise('core.edit', 'com_tags')))
-		{
-			// Filter on published for those who do not have edit or edit.state rights.
-			$filters['published'] = 1;
-		}
+        if ((!$user->authorise('core.edit.state', 'com_tags')) && (!$user->authorise('core.edit', 'com_tags'))) {
+            // Filter on published for those who do not have edit or edit.state rights.
+            $filters['published'] = 1;
+        }
 
-		$results = TagsHelper::searchTags($filters);
+        $results = TagsHelper::searchTags($filters);
 
-		if ($results)
-		{
-			// Output a JSON object
-			echo json_encode($results);
-		}
+        if ($results) {
+            // Output a JSON object
+            echo json_encode($results);
+        }
 
-		$this->app->close();
-	}
+        $this->app->close();
+    }
 }

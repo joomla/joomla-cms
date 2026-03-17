@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_scheduler
@@ -9,19 +10,20 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 
+/** @var \Joomla\Component\Scheduler\Administrator\View\Tasks\HtmlView $this */
+
 $displayData = [
-	'textPrefix' => 'COM_SCHEDULER',
-	'formURL' => 'index.php?option=com_scheduler&task=task.add',
-	'helpURL' => 'https://github.com/joomla-projects/soc21_website-cronjob',
-	'icon' => 'icon-clock clock',
+    'textPrefix'    => 'COM_SCHEDULER',
+    'formURL'       => 'index.php?option=com_scheduler&task=task.add',
+    'helpURL'       => 'https://docs.joomla.org/Special:MyLanguage/J4.x:Task_Scheduler',
+    'icon'          => 'icon-clock clock',
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
-if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_scheduler'))
-{
-	$displayData['createURL'] = 'index.php?option=com_scheduler&view=select&layout=default';
+if ($this->getCurrentUser()->authorise('core.create', 'com_scheduler')) {
+    $displayData['createURL'] = 'index.php?option=com_scheduler&view=select&layout=default';
 }
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);

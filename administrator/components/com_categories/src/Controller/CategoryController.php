@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_categories
@@ -9,15 +10,18 @@
 
 namespace Joomla\Component\Categories\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The Category Controller
@@ -26,228 +30,265 @@ use Joomla\Registry\Registry;
  */
 class CategoryController extends FormController
 {
-	use VersionableControllerTrait;
+    use VersionableControllerTrait;
 
-	/**
-	 * The extension for which the categories apply.
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	protected $extension;
+    /**
+     * The extension for which the categories apply.
+     *
+     * @var    string
+     * @since  1.6
+     */
+    protected $extension;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param   array                     $config   An optional associative array of configuration settings.
-	 * @param   MVCFactoryInterface|null  $factory  The factory.
-	 * @param   CMSApplication|null       $app      The JApplication for the dispatcher
-	 * @param   Input|null                $input    Input
-	 *
-	 * @since  1.6
-	 * @throws \Exception
-	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null, CMSApplication $app = null, Input $input = null)
-	{
-		parent::__construct($config, $factory, $app, $input);
+    /**
+     * Constructor.
+     *
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The Application for the dispatcher
+     * @param   ?Input                $input    Input
+     *
+     * @since  1.6
+     * @throws \Exception
+     */
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
+    {
+        parent::__construct($config, $factory, $app, $input);
 
-		if (empty($this->extension))
-		{
-			$this->extension = $this->input->get('extension', 'com_content');
-		}
-	}
+        if (empty($this->extension)) {
+            $this->extension = $this->input->get('extension', 'com_content');
+        }
 
-	/**
-	 * Method to check if you can add a new record.
-	 *
-	 * @param   array  $data  An array of input data.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   1.6
-	 */
-	protected function allowAdd($data = array())
-	{
-		$user = $this->app->getIdentity();
+        $this->registerTask('save2menulist', 'save');
+        $this->registerTask('save2menublog', 'save');
+    }
 
-		return ($user->authorise('core.create', $this->extension) || count($user->getAuthorisedCategories($this->extension, 'core.create')));
-	}
+    /**
+     * Method to check if you can add a new record.
+     *
+     * @param   array  $data  An array of input data.
+     *
+     * @return  boolean
+     *
+     * @since   1.6
+     */
+    protected function allowAdd($data = [])
+    {
+        $user = $this->app->getIdentity();
 
-	/**
-	 * Method to check if you can edit a record.
-	 *
-	 * @param   array   $data  An array of input data.
-	 * @param   string  $key   The name of the key for the primary key.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   1.6
-	 */
-	protected function allowEdit($data = array(), $key = 'parent_id')
-	{
-		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-		$user = $this->app->getIdentity();
+        return $user->authorise('core.create', $this->extension) || \count($user->getAuthorisedCategories($this->extension, 'core.create'));
+    }
 
-		// Check "edit" permission on record asset (explicit or inherited)
-		if ($user->authorise('core.edit', $this->extension . '.category.' . $recordId))
-		{
-			return true;
-		}
+    /**
+     * Method to check if you can edit a record.
+     *
+     * @param   array   $data  An array of input data.
+     * @param   string  $key   The name of the key for the primary key.
+     *
+     * @return  boolean
+     *
+     * @since   1.6
+     */
+    protected function allowEdit($data = [], $key = 'parent_id')
+    {
+        $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
+        $user     = $this->app->getIdentity();
 
-		// Check "edit own" permission on record asset (explicit or inherited)
-		if ($user->authorise('core.edit.own', $this->extension . '.category.' . $recordId))
-		{
-			// Need to do a lookup from the model to get the owner
-			$record = $this->getModel()->getItem($recordId);
+        // Check "edit" permission on record asset (explicit or inherited)
+        if ($user->authorise('core.edit', $this->extension . '.category.' . $recordId)) {
+            return true;
+        }
 
-			if (empty($record))
-			{
-				return false;
-			}
+        // Check "edit own" permission on record asset (explicit or inherited)
+        if ($user->authorise('core.edit.own', $this->extension . '.category.' . $recordId)) {
+            // Need to do a lookup from the model to get the owner
+            $record = $this->getModel()->getItem($recordId);
 
-			$ownerId = $record->created_user_id;
+            if (empty($record)) {
+                return false;
+            }
 
-			// If the owner matches 'me' then do the test.
-			if ($ownerId == $user->id)
-			{
-				return true;
-			}
-		}
+            $ownerId = $record->created_user_id;
 
-		return false;
-	}
+            // If the owner matches 'me' then do the test.
+            if ($ownerId == $user->id) {
+                return true;
+            }
+        }
 
-	/**
-	 * Override parent save method to store form data with right key as expected by edit category page
-	 *
-	 * @param   string  $key     The name of the primary key of the URL variable.
-	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
-	 *
-	 * @return  boolean  True if successful, false otherwise.
-	 *
-	 * @since   3.10.3
-	 */
-	public function save($key = null, $urlVar = null)
-	{
-		$result = parent::save($key, $urlVar);
+        return false;
+    }
 
-		$oldKey = $this->option . '.edit.category.data';
-		$newKey = $this->option . '.edit.category.' . substr($this->extension, 4) . '.data';
-		$this->app->setUserState($newKey, $this->app->getUserState($oldKey));
+    /**
+     * Override parent save method to store form data with right key as expected by edit category page
+     *
+     * @param   string  $key     The name of the primary key of the URL variable.
+     * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+     *
+     * @return  boolean  True if successful, false otherwise.
+     *
+     * @since   3.10.3
+     */
+    public function save($key = null, $urlVar = null)
+    {
+        $result = parent::save($key, $urlVar);
 
-		return $result;
-	}
+        $oldKey = $this->option . '.edit.category.data';
+        $newKey = $this->option . '.edit.category.' . substr($this->extension, 4) . '.data';
+        $this->app->setUserState($newKey, $this->app->getUserState($oldKey));
 
-	/**
-	 * Override cancel method to clear form data for a failed edit action
-	 *
-	 * @param   string  $key  The name of the primary key of the URL variable.
-	 *
-	 * @return  boolean  True if access level checks pass, false otherwise.
-	 *
-	 * @since   3.10.3
-	 */
-	public function cancel($key = null)
-	{
-		$result = parent::cancel($key);
+        return $result;
+    }
 
-		$newKey = $this->option . '.edit.category.' . substr($this->extension, 4) . '.data';
-		$this->app->setUserState($newKey, null);
+    /**
+     * Override cancel method to clear form data for a failed edit action
+     *
+     * @param   string  $key  The name of the primary key of the URL variable.
+     *
+     * @return  boolean  True if access level checks pass, false otherwise.
+     *
+     * @since   3.10.3
+     */
+    public function cancel($key = null)
+    {
+        $result = parent::cancel($key);
 
-		return $result;
-	}
+        $newKey = $this->option . '.edit.category.' . substr($this->extension, 4) . '.data';
+        $this->app->setUserState($newKey, null);
 
-	/**
-	 * Method to run batch operations.
-	 *
-	 * @param   object|null  $model  The model.
-	 *
-	 * @return  boolean  True if successful, false otherwise and internal error is set.
-	 *
-	 * @since   1.6
-	 */
-	public function batch($model = null)
-	{
-		$this->checkToken();
+        // When editing in modal then redirect to modalreturn layout
+        if ($result && $this->input->get('layout') === 'modal') {
+            $id     = $this->input->get('id');
+            $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id)
+                . '&layout=modalreturn&from-task=cancel';
 
-		/** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $model */
-		$model = $this->getModel('Category');
+            $this->setRedirect(Route::_($return, false));
+        }
 
-		// Preset the redirect
-		$this->setRedirect('index.php?option=com_categories&view=categories&extension=' . $this->extension);
+        return $result;
+    }
 
-		return parent::batch($model);
-	}
+    /**
+     * Method to run batch operations.
+     *
+     * @param   object|null  $model  The model.
+     *
+     * @return  boolean  True if successful, false otherwise and internal error is set.
+     *
+     * @since   1.6
+     */
+    public function batch($model = null)
+    {
+        $this->checkToken();
 
-	/**
-	 * Gets the URL arguments to append to an item redirect.
-	 *
-	 * @param   integer|null  $recordId  The primary key id for the item.
-	 * @param   string        $urlVar    The name of the URL variable for the id.
-	 *
-	 * @return  string  The arguments to append to the redirect URL.
-	 *
-	 * @since   1.6
-	 */
-	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
-	{
-		$append = parent::getRedirectToItemAppend($recordId);
+        /** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $model */
+        $model = $this->getModel('Category');
 
-		// In case extension is not passed in the URL, get it directly from category instead of default to com_content
-		if (!$this->input->exists('extension') && $recordId > 0)
-		{
-			$table = $this->getModel('Category')->getTable();
+        // Preset the redirect
+        $this->setRedirect('index.php?option=com_categories&view=categories&extension=' . $this->extension);
 
-			if ($table->load($recordId))
-			{
-				$this->extension = $table->extension;
-			}
-		}
+        return parent::batch($model);
+    }
 
-		$append .= '&extension=' . $this->extension;
+    /**
+     * Gets the URL arguments to append to an item redirect.
+     *
+     * @param   integer|null  $recordId  The primary key id for the item.
+     * @param   string        $urlVar    The name of the URL variable for the id.
+     *
+     * @return  string  The arguments to append to the redirect URL.
+     *
+     * @since   1.6
+     */
+    protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
+    {
+        $append = parent::getRedirectToItemAppend($recordId);
 
-		return $append;
-	}
+        // In case extension is not passed in the URL, get it directly from category instead of default to com_content
+        if (!$this->input->exists('extension') && $recordId > 0) {
+            $table = $this->getModel('Category')->getTable();
 
-	/**
-	 * Gets the URL arguments to append to a list redirect.
-	 *
-	 * @return  string  The arguments to append to the redirect URL.
-	 *
-	 * @since   1.6
-	 */
-	protected function getRedirectToListAppend()
-	{
-		$append = parent::getRedirectToListAppend();
-		$append .= '&extension=' . $this->extension;
+            if ($table->load($recordId)) {
+                $this->extension = $table->extension;
+            }
+        }
 
-		return $append;
-	}
+        $append .= '&extension=' . $this->extension;
 
-	/**
-	 * Function that allows child controller access to model data after the data has been saved.
-	 *
-	 * @param   \Joomla\CMS\MVC\Model\BaseDatabaseModel  $model      The data model object.
-	 * @param   array                                    $validData  The validated data.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
-	{
-		$item = $model->getItem();
+        return $append;
+    }
 
-		if (isset($item->params) && is_array($item->params))
-		{
-			$registry = new Registry($item->params);
-			$item->params = (string) $registry;
-		}
+    /**
+     * Gets the URL arguments to append to a list redirect.
+     *
+     * @return  string  The arguments to append to the redirect URL.
+     *
+     * @since   1.6
+     */
+    protected function getRedirectToListAppend()
+    {
+        $append = parent::getRedirectToListAppend();
+        $append .= '&extension=' . $this->extension;
 
-		if (isset($item->metadata) && is_array($item->metadata))
-		{
-			$registry = new Registry($item->metadata);
-			$item->metadata = (string) $registry;
-		}
-	}
+        return $append;
+    }
+
+    /**
+     * Function that allows child controller access to model data after the data has been saved.
+     *
+     * @param   \Joomla\CMS\MVC\Model\BaseDatabaseModel  $model      The data model object.
+     * @param   array                                    $validData  The validated data.
+     *
+     * @return  void
+     *
+     * @since   3.1
+     */
+    protected function postSaveHook(BaseDatabaseModel $model, $validData = [])
+    {
+        $item = $model->getItem();
+
+        if (isset($item->params) && \is_array($item->params)) {
+            $registry     = new Registry($item->params);
+            $item->params = (string) $registry;
+        }
+
+        if (isset($item->metadata) && \is_array($item->metadata)) {
+            $registry       = new Registry($item->metadata);
+            $item->metadata = (string) $registry;
+        }
+
+        if (\in_array($this->getTask(), ['save2menulist', 'save2menublog'])) {
+            $editState = [];
+
+            $type = 'component';
+            $id   = $model->getState('category.id');
+            $link = 'index.php?option=com_content&view=category';
+
+            if ($this->getTask() === 'save2menublog') {
+                $link .= '&layout=blog'; // Append the layout parameter for the blog layout
+            }
+
+            $editState = [
+                'link'    => $link,
+                'title'   => $model->getItem($id)->title,
+                'type'    => $type,
+                'request' => ['id' => $id],
+            ];
+
+            $this->app->setUserState('com_menus.edit.item', [
+                'data' => $editState,
+                'type' => $type,
+                'link' => $link,
+            ]);
+
+            $this->setRedirect(Route::_('index.php?option=com_menus&view=item&client_id=0&menutype=mainmenu&layout=edit', false));
+        } elseif ($this->input->get('layout') === 'modal' && $this->task === 'save') {
+            // When editing in modal then redirect to modalreturn layout
+            $id     = $item->id;
+            $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id)
+                . '&layout=modalreturn&from-task=save';
+
+            $this->setRedirect(Route::_($return, false));
+        }
+    }
 }

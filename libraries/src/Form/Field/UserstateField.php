@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\Form\Field;
 
-\defined('JPATH_PLATFORM') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Field to load a list of available users statuses
@@ -17,22 +20,22 @@ namespace Joomla\CMS\Form\Field;
  */
 class UserstateField extends PredefinedlistField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var		string
-	 * @since   3.2
-	 */
-	protected $type = 'UserState';
+    /**
+     * The form field type.
+     *
+     * @var     string
+     * @since   3.2
+     */
+    protected $type = 'UserState';
 
-	/**
-	 * Available statuses
-	 *
-	 * @var  array
-	 * @since  3.2
-	 */
-	protected $predefinedOptions = array(
-		'0'  => 'JENABLED',
-		'1'  => 'JDISABLED',
-	);
+    /**
+     * Available statuses
+     *
+     * @var  string[]
+     * @since  3.2
+     */
+    protected $predefinedOptions = [
+        '0' => 'JENABLED',
+        '1' => 'JDISABLED',
+    ];
 }

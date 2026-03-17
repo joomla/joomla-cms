@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_modules
@@ -9,9 +10,6 @@
 
 namespace Joomla\Component\Modules\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
@@ -20,7 +18,11 @@ use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Database\ParameterType;
+use Joomla\CMS\Versioning\VersionableControllerTrait;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Module controller class.
@@ -29,348 +31,336 @@ use Joomla\Database\ParameterType;
  */
 class ModuleController extends FormController
 {
-	/**
-	 * Override parent add method.
-	 *
-	 * @return  \Exception|void  True if the record can be added, a \Exception object if not.
-	 *
-	 * @since   1.6
-	 */
-	public function add()
-	{
-		$app = $this->app;
+    use VersionableControllerTrait;
 
-		// Get the result of the parent method. If an error, just return it.
-		$result = parent::add();
+    /**
+     * Override parent add method.
+     *
+     * @return  \Exception|void  True if the record can be added, a \Exception object if not.
+     *
+     * @since   1.6
+     */
+    public function add()
+    {
+        $app = $this->app;
 
-		if ($result instanceof \Exception)
-		{
-			return $result;
-		}
+        // Get the result of the parent method. If an error, just return it.
+        $result = parent::add();
 
-		// Look for the Extension ID.
-		$extensionId = $this->input->get('eid', 0, 'int');
+        if ($result instanceof \Exception) {
+            return $result;
+        }
 
-		if (empty($extensionId))
-		{
-			$redirectUrl = 'index.php?option=' . $this->option . '&view=' . $this->view_item . '&layout=edit';
+        // Look for the Extension ID.
+        $extensionId = $this->input->get('eid', 0, 'int');
 
-			$this->setRedirect(Route::_($redirectUrl, false));
+        if (empty($extensionId)) {
+            $redirectUrl = 'index.php?option=' . $this->option . '&view=' . $this->view_item . '&layout=edit';
 
-			$app->enqueueMessage(Text::_('COM_MODULES_ERROR_INVALID_EXTENSION'), 'warning');
-		}
+            $this->setRedirect(Route::_($redirectUrl, false));
 
-		$app->setUserState('com_modules.add.module.extension_id', $extensionId);
-		$app->setUserState('com_modules.add.module.params', null);
+            $app->enqueueMessage(Text::_('COM_MODULES_ERROR_INVALID_EXTENSION'), 'warning');
+        }
 
-		// Parameters could be coming in for a new item, so let's set them.
-		$params = $this->input->get('params', array(), 'array');
-		$app->setUserState('com_modules.add.module.params', $params);
-	}
+        $app->setUserState('com_modules.add.module.extension_id', $extensionId);
+        $app->setUserState('com_modules.add.module.params', null);
 
-	/**
-	 * Override parent cancel method to reset the add module state.
-	 *
-	 * @param   string  $key  The name of the primary key of the URL variable.
-	 *
-	 * @return  boolean  True if access level checks pass, false otherwise.
-	 *
-	 * @since   1.6
-	 */
-	public function cancel($key = null)
-	{
-		$result = parent::cancel();
+        // Parameters could be coming in for a new item, so let's set them.
+        $params = $this->input->get('params', [], 'array');
+        $app->setUserState('com_modules.add.module.params', $params);
+    }
 
-		$this->app->setUserState('com_modules.add.module.extension_id', null);
-		$this->app->setUserState('com_modules.add.module.params', null);
+    /**
+     * Override parent cancel method to reset the add module state.
+     *
+     * @param   string  $key  The name of the primary key of the URL variable.
+     *
+     * @return  boolean  True if access level checks pass, false otherwise.
+     *
+     * @since   1.6
+     */
+    public function cancel($key = null)
+    {
+        $result = parent::cancel();
 
-		if ($return = $this->input->get('return', '', 'BASE64'))
-		{
-			$return = base64_decode($return);
+        $this->app->setUserState('com_modules.add.module.extension_id', null);
+        $this->app->setUserState('com_modules.add.module.params', null);
 
-			// Don't redirect to an external URL.
-			if (!Uri::isInternal($return))
-			{
-				$return = Uri::base();
-			}
+        if ($return = $this->input->get('return', '', 'BASE64')) {
+            $return = base64_decode($return);
 
-			$this->app->redirect($return);
-		}
+            // Don't redirect to an external URL.
+            if (!Uri::isInternal($return)) {
+                $return = Uri::base();
+            }
 
-		return $result;
-	}
+            $this->app->redirect($return);
+        } elseif ($result && $this->input->get('layout') === 'modal') {
+            // When editing in modal then redirect to modalreturn layout
+            $id     = $this->input->get('id');
+            $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id)
+                . '&layout=modalreturn&from-task=cancel';
 
-	/**
-	 * Override parent allowSave method.
-	 *
-	 * @param   array   $data  An array of input data.
-	 * @param   string  $key   The name of the key for the primary key.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   1.6
-	 */
-	protected function allowSave($data, $key = 'id')
-	{
-		// Use custom position if selected
-		if (isset($data['custom_position']))
-		{
-			if (empty($data['position']))
-			{
-				$data['position'] = $data['custom_position'];
-			}
+            $this->setRedirect(Route::_($return, false));
+        }
 
-			unset($data['custom_position']);
-		}
+        return $result;
+    }
 
-		return parent::allowSave($data, $key);
-	}
+    /**
+     * Override parent allowSave method.
+     *
+     * @param   array   $data  An array of input data.
+     * @param   string  $key   The name of the key for the primary key.
+     *
+     * @return  boolean
+     *
+     * @since   1.6
+     */
+    protected function allowSave($data, $key = 'id')
+    {
+        // Use custom position if selected
+        if (isset($data['custom_position'])) {
+            if (empty($data['position'])) {
+                $data['position'] = $data['custom_position'];
+            }
 
-	/**
-	 * Method override to check if you can edit an existing record.
-	 *
-	 * @param   array   $data  An array of input data.
-	 * @param   string  $key   The name of the key for the primary key.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.2
-	 */
-	protected function allowEdit($data = array(), $key = 'id')
-	{
-		// Initialise variables.
-		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
+            unset($data['custom_position']);
+        }
 
-		// Zero record (id:0), return component edit permission by calling parent controller method
-		if (!$recordId)
-		{
-			return parent::allowEdit($data, $key);
-		}
+        return parent::allowSave($data, $key);
+    }
 
-		// Check edit on the record asset (explicit or inherited)
-		if ($this->app->getIdentity()->authorise('core.edit', 'com_modules.module.' . $recordId))
-		{
-			return true;
-		}
+    /**
+     * Method override to check if you can edit an existing record.
+     *
+     * @param   array   $data  An array of input data.
+     * @param   string  $key   The name of the key for the primary key.
+     *
+     * @return  boolean
+     *
+     * @since   3.2
+     */
+    protected function allowEdit($data = [], $key = 'id')
+    {
+        // Initialise variables.
+        $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
 
-		return false;
-	}
+        // Zero record (id:0), return component edit permission by calling parent controller method
+        if (!$recordId) {
+            return parent::allowEdit($data, $key);
+        }
 
-	/**
-	 * Method to run batch operations.
-	 *
-	 * @param   string  $model  The model
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   1.7
-	 */
-	public function batch($model = null)
-	{
-		$this->checkToken();
+        // Check edit on the record asset (explicit or inherited)
+        if ($this->app->getIdentity()->authorise('core.edit', 'com_modules.module.' . $recordId)) {
+            return true;
+        }
 
-		// Set the model
-		$model = $this->getModel('Module', 'Administrator', array());
+        return false;
+    }
 
-		// Preset the redirect
-		$redirectUrl = 'index.php?option=com_modules&view=modules' . $this->getRedirectToListAppend();
+    /**
+     * Method to run batch operations.
+     *
+     * @param   string  $model  The model
+     *
+     * @return  boolean  True on success.
+     *
+     * @since   1.7
+     */
+    public function batch($model = null)
+    {
+        $this->checkToken();
 
-		$this->setRedirect(Route::_($redirectUrl, false));
+        // Set the model
+        $model = $this->getModel('Module', 'Administrator', []);
 
-		return parent::batch($model);
-	}
+        // Preset the redirect
+        $redirectUrl = 'index.php?option=com_modules&view=modules' . $this->getRedirectToListAppend();
 
-	/**
-	 * Function that allows child controller access to model data after the data has been saved.
-	 *
-	 * @param   BaseDatabaseModel  $model      The data model object.
-	 * @param   array              $validData  The validated data.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
-	{
-		$task = $this->getTask();
+        $this->setRedirect(Route::_($redirectUrl, false));
 
-		switch ($task)
-		{
-			case 'save2new':
-				$this->app->setUserState('com_modules.add.module.extension_id', $model->getState('module.extension_id'));
-				break;
+        return parent::batch($model);
+    }
 
-			default:
-				$this->app->setUserState('com_modules.add.module.extension_id', null);
-				break;
-		}
+    /**
+     * Function that allows child controller access to model data after the data has been saved.
+     *
+     * @param   BaseDatabaseModel  $model      The data model object.
+     * @param   array              $validData  The validated data.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    protected function postSaveHook(BaseDatabaseModel $model, $validData = [])
+    {
+        $task = $this->getTask();
 
-		$this->app->setUserState('com_modules.add.module.params', null);
-	}
+        switch ($task) {
+            case 'save2new':
+                $this->app->setUserState('com_modules.add.module.extension_id', $model->getState('module.extension_id'));
+                break;
 
-	/**
-	 * Method to save a record.
-	 *
-	 * @param   string  $key     The name of the primary key of the URL variable.
-	 * @param   string  $urlVar  The name of the URL variable if different from the primary key
-	 *
-	 * @return  boolean  True if successful, false otherwise.
-	 */
-	public function save($key = null, $urlVar = null)
-	{
-		$this->checkToken();
+            default:
+                if ($this->input->get('layout') === 'modal' && $this->task === 'save') {
+                    // When editing in modal then redirect to modalreturn layout
+                    $id     = $model->getState('module.id', '');
+                    $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id)
+                        . '&layout=modalreturn&from-task=save';
 
-		if ($this->app->getDocument()->getType() == 'json')
-		{
-			$model = $this->getModel();
-			$data  = $this->input->post->get('jform', array(), 'array');
-			$item = $model->getItem($this->input->get('id'));
-			$properties = $item->getProperties();
+                    $this->setRedirect(Route::_($return, false));
+                }
 
-			if (isset($data['params']))
-			{
-				unset($properties['params']);
-			}
+                $this->app->setUserState('com_modules.add.module.extension_id', null);
+                break;
+        }
 
-			// Replace changed properties
-			$data = array_replace_recursive($properties, $data);
+        $this->app->setUserState('com_modules.add.module.params', null);
+    }
 
-			if (!empty($data['assigned']))
-			{
-				$data['assigned'] = array_map('abs', $data['assigned']);
-			}
+    /**
+     * Method to save a record.
+     *
+     * @param   string  $key     The name of the primary key of the URL variable.
+     * @param   string  $urlVar  The name of the URL variable if different from the primary key
+     *
+     * @return  boolean  True if successful, false otherwise.
+     */
+    public function save($key = null, $urlVar = null)
+    {
+        $this->checkToken();
 
-			// Add new data to input before process by parent save()
-			$this->input->post->set('jform', $data);
+        if ($this->app->getDocument()->getType() == 'json') {
+            $model      = $this->getModel();
+            $data       = $this->input->post->get('jform', [], 'array');
+            $item       = $model->getItem($this->input->get('id'));
+            $properties = get_object_vars($item);
 
-			// Add path of forms directory
-			Form::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
-		}
+            if (isset($data['params'])) {
+                unset($properties['params']);
+            }
 
-		return parent::save($key, $urlVar);
+            // Replace changed properties
+            $data = array_replace_recursive($properties, $data);
 
-	}
+            if (!empty($data['assigned'])) {
+                $data['assigned'] = array_map('abs', $data['assigned']);
+            }
 
-	/**
-	 * Method to get the other modules in the same position
-	 *
-	 * @return  string  The data for the Ajax request.
-	 *
-	 * @since   3.6.3
-	 */
-	public function orderPosition()
-	{
-		$app = $this->app;
+            // Add new data to input before process by parent save()
+            $this->input->post->set('jform', $data);
 
-		// Send json mime type.
-		$app->mimeType = 'application/json';
-		$app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
-		$app->sendHeaders();
+            // Add path of forms directory
+            Form::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
+        }
 
-		// Check if user token is valid.
-		if (!Session::checkToken('get'))
-		{
-			$app->enqueueMessage(Text::_('JINVALID_TOKEN_NOTICE'), 'error');
-			echo new JsonResponse;
-			$app->close();
-		}
+        return parent::save($key, $urlVar);
+    }
 
-		$clientId = $this->input->getValue('client_id');
-		$position = $this->input->getValue('position');
-		$moduleId = $this->input->getValue('module_id');
+    /**
+     * Method to get the other modules in the same position
+     *
+     * @return  void
+     *
+     * @since   3.6.3
+     */
+    public function orderPosition()
+    {
+        $app = $this->app;
 
-		// Access check.
-		if (!$this->app->getIdentity()->authorise('core.create', 'com_modules')
-			&& !$this->app->getIdentity()->authorise('core.edit.state', 'com_modules')
-			&& ($moduleId && !$this->app->getIdentity()->authorise('core.edit.state', 'com_modules.module.' . $moduleId)))
-		{
-			$app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 'error');
-			echo new JsonResponse;
-			$app->close();
-		}
+        // Send json mime type.
+        $app->mimeType = 'application/json';
+        $app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
+        $app->sendHeaders();
 
-		$db    = Factory::getDbo();
-		$clientId = (int) $clientId;
-		$query = $db->getQuery(true)
-			->select($db->quoteName(['position', 'ordering', 'title']))
-			->from($db->quoteName('#__modules'))
-			->where($db->quoteName('client_id') . ' = :clientid')
-			->where($db->quoteName('position') . ' = :position')
-			->order($db->quoteName('ordering'))
-			->bind(':clientid', $clientId, ParameterType::INTEGER)
-			->bind(':position', $position);
+        // Check if user token is valid.
+        if (!Session::checkToken('get')) {
+            $app->enqueueMessage(Text::_('JINVALID_TOKEN_NOTICE'), 'error');
+            echo new JsonResponse();
+            $app->close();
+        }
 
-		$db->setQuery($query);
+        $clientId = $this->input->getValue('client_id');
+        $position = $this->input->getValue('position');
+        $moduleId = $this->input->getValue('module_id');
 
-		try
-		{
-			$orders = $db->loadObjectList();
-		}
-		catch (\RuntimeException $e)
-		{
-			$app->enqueueMessage($e->getMessage(), 'error');
+        // Access check.
+        if (
+            !$this->app->getIdentity()->authorise('core.create', 'com_modules')
+            && !$this->app->getIdentity()->authorise('core.edit.state', 'com_modules')
+            && ($moduleId && !$this->app->getIdentity()->authorise('core.edit.state', 'com_modules.module.' . $moduleId))
+        ) {
+            $app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 'error');
+            echo new JsonResponse();
+            $app->close();
+        }
 
-			return '';
-		}
+        $model = $this->getModel('Modules', 'Administrator', ['ignore_request' => true]);
+        $model->setState('client_id', $clientId);
+        $model->setState('filter.position', $position);
+        $model->setState('list.ordering', 'a.ordering');
 
-		$orders2 = array();
-		$n = count($orders);
+        try {
+            $orders = $model->getItems();
+        } catch (\RuntimeException $e) {
+            $app->enqueueMessage($e->getMessage(), 'error');
 
-		if ($n > 0)
-		{
-			for ($i = 0; $i < $n; $i++)
-			{
-				if (!isset($orders2[$orders[$i]->position]))
-				{
-					$orders2[$orders[$i]->position] = 0;
-				}
+            return;
+        }
 
-				$orders2[$orders[$i]->position]++;
-				$ord = $orders2[$orders[$i]->position];
-				$title = Text::sprintf('COM_MODULES_OPTION_ORDER_POSITION', $ord, htmlspecialchars($orders[$i]->title, ENT_QUOTES, 'UTF-8'));
+        $orders2 = [];
 
-				$html[] = $orders[$i]->position . ',' . $ord . ',' . $title;
-			}
-		}
-		else
-		{
-			$html[] = $position . ',' . 1 . ',' . Text::_('JNONE');
-		}
+        if (\count($orders)) {
+            foreach ($orders as $order) {
+                if (!isset($orders2[$order->position])) {
+                    $orders2[$order->position] = 0;
+                }
 
-		echo new JsonResponse($html);
-		$app->close();
-	}
+                $orders2[$order->position]++;
+                $ord   = $orders2[$order->position];
+                $title = Text::sprintf('COM_MODULES_OPTION_ORDER_POSITION', $ord, htmlspecialchars($order->title, ENT_QUOTES, 'UTF-8'));
 
-	/**
-	 * Gets the URL arguments to append to an item redirect.
-	 *
-	 * @param   integer  $recordId  The primary key id for the item.
-	 * @param   string   $urlVar    The name of the URL variable for the id.
-	 *
-	 * @return  string  The arguments to append to the redirect URL.
-	 *
-	 * @since  4.0.0
-	 */
-	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
-	{
-		$append = parent::getRedirectToItemAppend($recordId);
-		$append .= '&client_id=' . $this->input->getInt('client_id');
+                $html[] = $order->position . ',' . $ord . ',' . $title;
+            }
+        } else {
+            $html[] = $position . ',' . 1 . ',' . Text::_('JNONE');
+        }
 
-		return $append;
-	}
+        echo new JsonResponse($html);
+        $app->close();
+    }
 
-	/**
-	 * Gets the URL arguments to append to a list redirect.
-	 *
-	 * @return  string  The arguments to append to the redirect URL.
-	 *
-	 * @since  4.0.0
-	 */
-	protected function getRedirectToListAppend()
-	{
-		$append = parent::getRedirectToListAppend();
-		$append .= '&client_id=' . $this->input->getInt('client_id');
+    /**
+     * Gets the URL arguments to append to an item redirect.
+     *
+     * @param   integer  $recordId  The primary key id for the item.
+     * @param   string   $urlVar    The name of the URL variable for the id.
+     *
+     * @return  string  The arguments to append to the redirect URL.
+     *
+     * @since  4.0.0
+     */
+    protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
+    {
+        $append = parent::getRedirectToItemAppend($recordId);
+        $append .= '&client_id=' . $this->input->getInt('client_id');
 
-		return $append;
-	}
+        return $append;
+    }
+
+    /**
+     * Gets the URL arguments to append to a list redirect.
+     *
+     * @return  string  The arguments to append to the redirect URL.
+     *
+     * @since  4.0.0
+     */
+    protected function getRedirectToListAppend()
+    {
+        $append = parent::getRedirectToListAppend();
+        $append .= '&client_id=' . $this->input->getInt('client_id');
+
+        return $append;
+    }
 }

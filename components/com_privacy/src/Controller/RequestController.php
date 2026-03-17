@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_privacy
@@ -9,15 +10,17 @@
 
 namespace Joomla\Component\Privacy\Site\Controller;
 
-\defined('_JEXEC') or die;
-
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Privacy\Site\Model\ConfirmModel;
+use Joomla\Component\Privacy\Site\Model\RemindModel;
 use Joomla\Component\Privacy\Site\Model\RequestModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Request action controller class.
@@ -26,165 +29,147 @@ use Joomla\Component\Privacy\Site\Model\RequestModel;
  */
 class RequestController extends BaseController
 {
-	/**
-	 * Method to confirm the information request.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.9.0
-	 */
-	public function confirm()
-	{
-		// Check the request token.
-		$this->checkToken('post');
+    /**
+     * Method to confirm the information request.
+     *
+     * @return  boolean
+     *
+     * @since   3.9.0
+     */
+    public function confirm()
+    {
+        // Check the request token.
+        $this->checkToken('post');
 
-		/** @var ConfirmModel $model */
-		$model = $this->getModel('Confirm', 'Site');
-		$data  = $this->input->post->get('jform', [], 'array');
+        /** @var ConfirmModel $model */
+        $model = $this->getModel('Confirm', 'Site');
+        $data  = $this->input->post->get('jform', [], 'array');
 
-		$return = $model->confirmRequest($data);
+        $return = $model->confirmRequest($data);
 
-		// Check for a hard error.
-		if ($return instanceof \Exception)
-		{
-			// Get the error message to display.
-			if (Factory::getApplication()->get('error_reporting'))
-			{
-				$message = $return->getMessage();
-			}
-			else
-			{
-				$message = Text::_('COM_PRIVACY_ERROR_CONFIRMING_REQUEST');
-			}
+        // Check for a hard error.
+        if ($return instanceof \Exception) {
+            // Get the error message to display.
+            if ($this->app->get('error_reporting')) {
+                $message = $return->getMessage();
+            } else {
+                $message = Text::_('COM_PRIVACY_ERROR_CONFIRMING_REQUEST');
+            }
 
-			// Go back to the confirm form.
-			$this->setRedirect(Route::_('index.php?option=com_privacy&view=confirm', false), $message, 'error');
+            // Go back to the confirm form.
+            $this->setRedirect(Route::_('index.php?option=com_privacy&view=confirm', false), $message, 'error');
 
-			return false;
-		}
-		elseif ($return === false)
-		{
-			// Confirm failed.
-			// Go back to the confirm form.
-			$message = Text::sprintf('COM_PRIVACY_ERROR_CONFIRMING_REQUEST_FAILED', $model->getError());
-			$this->setRedirect(Route::_('index.php?option=com_privacy&view=confirm', false), $message, 'notice');
+            return false;
+        }
 
-			return false;
-		}
-		else
-		{
-			// Confirm succeeded.
-			$this->setRedirect(Route::_(Uri::root()), Text::_('COM_PRIVACY_CONFIRM_REQUEST_SUCCEEDED'), 'info');
+        if ($return === false) {
+            // Confirm failed.
+            // Go back to the confirm form.
+            $message = Text::sprintf('COM_PRIVACY_ERROR_CONFIRMING_REQUEST_FAILED', $model->getError());
+            $this->setRedirect(Route::_('index.php?option=com_privacy&view=confirm', false), $message, 'notice');
 
-			return true;
-		}
-	}
+            return false;
+        }
 
-	/**
-	 * Method to submit an information request.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.9.0
-	 */
-	public function submit()
-	{
-		// Check the request token.
-		$this->checkToken('post');
+        // Confirm succeeded.
+        $this->setRedirect(Route::_(Uri::root()), Text::_('COM_PRIVACY_CONFIRM_REQUEST_SUCCEEDED'), 'info');
 
-		/** @var RequestModel $model */
-		$model = $this->getModel('Request', 'Site');
-		$data  = $this->input->post->get('jform', [], 'array');
+        return true;
+    }
 
-		$return = $model->createRequest($data);
+    /**
+     * Method to submit an information request.
+     *
+     * @return  boolean
+     *
+     * @since   3.9.0
+     */
+    public function submit()
+    {
+        // Check the request token.
+        $this->checkToken('post');
 
-		// Check for a hard error.
-		if ($return instanceof \Exception)
-		{
-			// Get the error message to display.
-			if (Factory::getApplication()->get('error_reporting'))
-			{
-				$message = $return->getMessage();
-			}
-			else
-			{
-				$message = Text::_('COM_PRIVACY_ERROR_CREATING_REQUEST');
-			}
+        /** @var RequestModel $model */
+        $model = $this->getModel('Request', 'Site');
+        $data  = $this->input->post->get('jform', [], 'array');
 
-			// Go back to the confirm form.
-			$this->setRedirect(Route::_('index.php?option=com_privacy&view=request', false), $message, 'error');
+        $return = $model->createRequest($data);
 
-			return false;
-		}
-		elseif ($return === false)
-		{
-			// Confirm failed.
-			// Go back to the confirm form.
-			$message = Text::sprintf('COM_PRIVACY_ERROR_CREATING_REQUEST_FAILED', $model->getError());
-			$this->setRedirect(Route::_('index.php?option=com_privacy&view=request', false), $message, 'notice');
+        // Check for a hard error.
+        if ($return instanceof \Exception) {
+            // Get the error message to display.
+            if ($this->app->get('error_reporting')) {
+                $message = $return->getMessage();
+            } else {
+                $message = Text::_('COM_PRIVACY_ERROR_CREATING_REQUEST');
+            }
 
-			return false;
-		}
-		else
-		{
-			// Confirm succeeded.
-			$this->setRedirect(Route::_(Uri::root()), Text::_('COM_PRIVACY_CREATE_REQUEST_SUCCEEDED'), 'info');
+            // Go back to the confirm form.
+            $this->setRedirect(Route::_('index.php?option=com_privacy&view=request', false), $message, 'error');
 
-			return true;
-		}
-	}
+            return false;
+        }
 
-	/**
-	 * Method to extend the privacy consent.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.9.0
-	 */
-	public function remind()
-	{
-		// Check the request token.
-		$this->checkToken('post');
+        if ($return === false) {
+            // Confirm failed.
+            // Go back to the confirm form.
+            $message = Text::sprintf('COM_PRIVACY_ERROR_CREATING_REQUEST_FAILED', $model->getError());
+            $this->setRedirect(Route::_('index.php?option=com_privacy&view=request', false), $message, 'notice');
 
-		/** @var ConfirmModel $model */
-		$model = $this->getModel('Remind', 'Site');
-		$data  = $this->input->post->get('jform', [], 'array');
+            return false;
+        }
 
-		$return = $model->remindRequest($data);
+        // Confirm succeeded.
+        $this->setRedirect(Route::_(Uri::root()), Text::_('COM_PRIVACY_CREATE_REQUEST_SUCCEEDED'), 'info');
 
-		// Check for a hard error.
-		if ($return instanceof \Exception)
-		{
-			// Get the error message to display.
-			if (Factory::getApplication()->get('error_reporting'))
-			{
-				$message = $return->getMessage();
-			}
-			else
-			{
-				$message = Text::_('COM_PRIVACY_ERROR_REMIND_REQUEST');
-			}
+        return true;
+    }
 
-			// Go back to the confirm form.
-			$this->setRedirect(Route::_('index.php?option=com_privacy&view=remind', false), $message, 'error');
+    /**
+     * Method to extend the privacy consent.
+     *
+     * @return  boolean
+     *
+     * @since   3.9.0
+     */
+    public function remind()
+    {
+        // Check the request token.
+        $this->checkToken('post');
 
-			return false;
-		}
-		elseif ($return === false)
-		{
-			// Confirm failed.
-			// Go back to the confirm form.
-			$message = Text::sprintf('COM_PRIVACY_ERROR_CONFIRMING_REMIND_FAILED', $model->getError());
-			$this->setRedirect(Route::_('index.php?option=com_privacy&view=remind', false), $message, 'notice');
+        /** @var RemindModel $model */
+        $model = $this->getModel('Remind', 'Site');
+        $data  = $this->input->post->get('jform', [], 'array');
 
-			return false;
-		}
-		else
-		{
-			// Confirm succeeded.
-			$this->setRedirect(Route::_(Uri::root()), Text::_('COM_PRIVACY_CONFIRM_REMIND_SUCCEEDED'), 'info');
+        $return = $model->remindRequest($data);
 
-			return true;
-		}
-	}
+        // Check for a hard error.
+        if ($return instanceof \Exception) {
+            // Get the error message to display.
+            if ($this->app->get('error_reporting')) {
+                $message = $return->getMessage();
+            } else {
+                $message = Text::_('COM_PRIVACY_ERROR_REMIND_REQUEST');
+            }
+
+            // Go back to the confirm form.
+            $this->setRedirect(Route::_('index.php?option=com_privacy&view=remind', false), $message, 'error');
+
+            return false;
+        }
+
+        if ($return === false) {
+            // Confirm failed.
+            // Go back to the confirm form.
+            $message = Text::sprintf('COM_PRIVACY_ERROR_CONFIRMING_REMIND_FAILED', $model->getError());
+            $this->setRedirect(Route::_('index.php?option=com_privacy&view=remind', false), $message, 'notice');
+
+            return false;
+        }
+
+        // Confirm succeeded.
+        $this->setRedirect(Route::_(Uri::root()), Text::_('COM_PRIVACY_CONFIRM_REMIND_SUCCEEDED'), 'info');
+
+        return true;
+    }
 }

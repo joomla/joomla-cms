@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.Webauthn
@@ -9,16 +10,15 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-// Protect from unauthorized access
-\defined('_JEXEC') or die();
+use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxDelete;
+use Joomla\CMS\User\User;
 
-use Exception;
-use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Factory;
-use Joomla\Plugin\System\Webauthn\CredentialRepository;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Ajax handler for akaction=savelabel
+ * Ajax handler for akaction=delete
  *
  * Deletes a security key
  *
@@ -26,67 +26,67 @@ use Joomla\Plugin\System\Webauthn\CredentialRepository;
  */
 trait AjaxHandlerDelete
 {
-	/**
-	 * Handle the callback to remove an authenticator
-	 *
-	 * @return  boolean
-	 * @throws  Exception
-	 *
-	 * @since   4.0.0
-	 */
-	public function onAjaxWebauthnDelete(): bool
-	{
-		// Load the language files
-		$this->loadLanguage();
+    /**
+     * Handle the callback to remove an authenticator
+     *
+     * @param   AjaxDelete  $event  The event we are handling
+     *
+     * @return  void
+     * @since   4.0.0
+     */
+    public function onAjaxWebauthnDelete(AjaxDelete $event): void
+    {
+        // Load plugin language files
+        $this->loadLanguage();
 
-		// Initialize objects
-		/** @var CMSApplication $app */
-		$app        = Factory::getApplication();
-		$input      = $app->input;
-		$repository = new CredentialRepository;
+        // Initialize objects
+        $input      = $this->getApplication()->getInput();
+        $repository = $this->authenticationHelper->getCredentialsRepository();
 
-		// Retrieve data from the request
-		$credentialId = $input->getBase64('credential_id', '');
+        // Retrieve data from the request
+        $credentialId = $input->getBase64('credential_id', '');
 
-		// Is this a valid credential?
-		if (empty($credentialId))
-		{
-			return false;
-		}
+        // Is this a valid credential?
+        if (empty($credentialId)) {
+            $event->addResult(false);
 
-		$credentialId = base64_decode($credentialId);
+            return;
+        }
 
-		if (empty($credentialId) || !$repository->has($credentialId))
-		{
-			return false;
-		}
+        $credentialId = base64_decode($credentialId);
 
-		// Make sure I am editing my own key
-		try
-		{
-			$credentialHandle = $repository->getUserHandleFor($credentialId);
-			$myHandle         = $repository->getHandleFromUserId($app->getIdentity()->id);
-		}
-		catch (Exception $e)
-		{
-			return false;
-		}
+        if (empty($credentialId) || !$repository->has($credentialId)) {
+            $event->addResult(false);
 
-		if ($credentialHandle !== $myHandle)
-		{
-			return false;
-		}
+            return;
+        }
 
-		// Delete the record
-		try
-		{
-			$repository->remove($credentialId);
-		}
-		catch (Exception $e)
-		{
-			return false;
-		}
+        // Make sure I am editing my own key
+        try {
+            $user             = $this->getApplication()->getIdentity() ?? new User();
+            $credentialHandle = $repository->getUserHandleFor($credentialId);
+            $myHandle         = $repository->getHandleFromUserId($user->id);
+        } catch (\Exception $e) {
+            $event->addResult(false);
 
-		return true;
-	}
+            return;
+        }
+
+        if ($credentialHandle !== $myHandle) {
+            $event->addResult(false);
+
+            return;
+        }
+
+        // Delete the record
+        try {
+            $repository->remove($credentialId);
+        } catch (\Exception) {
+            $event->addResult(false);
+
+            return;
+        }
+
+        $event->addResult(true);
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_scheduler
@@ -9,8 +10,9 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Task;
 
-// Restrict direct access
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The TaskOptions class.
@@ -21,55 +23,51 @@ namespace Joomla\Component\Scheduler\Administrator\Task;
  */
 class TaskOptions
 {
-	/**
-	 * An array of TaskOptions
-	 *
-	 * @var TaskOption[]
-	 * @since  4.1.0
-	 */
-	public $options = [];
+    /**
+     * An array of TaskOptions
+     *
+     * @var TaskOption[]
+     * @since  4.1.0
+     */
+    public $options = [];
 
-	/**
-	 * A plugin can support several task routines
-	 * This method is used by a plugin's onTaskOptionsList subscriber to advertise supported routines.
-	 *
-	 * @param   array  $taskRoutines  An associative array of {@var TaskOption} constructor argument pairs:
-	 *                                [ 'routineId' => 'languageConstantPrefix', ... ]
-	 *
-	 * @return void
-	 *
-	 * @since  4.1.0
-	 */
-	public function addOptions(array $taskRoutines): void
-	{
-		foreach ($taskRoutines as $routineId => $langConstPrefix)
-		{
-			$this->options[] = new TaskOption($routineId, $langConstPrefix);
-		}
-	}
+    /**
+     * A plugin can support several task routines
+     * This method is used by a plugin's onTaskOptionsList subscriber to advertise supported routines.
+     *
+     * @param   array  $taskRoutines  An associative array of {@var TaskOption} constructor argument pairs:
+     *                                [ 'routineId' => 'languageConstantPrefix', ... ]
+     *
+     * @return void
+     *
+     * @since  4.1.0
+     */
+    public function addOptions(array $taskRoutines): void
+    {
+        foreach ($taskRoutines as $routineId => $langConstPrefix) {
+            $this->options[] = new TaskOption($routineId, $langConstPrefix);
+        }
+    }
 
-	/**
-	 * @param   ?string  $routineId  A unique identifier for a plugin task routine
-	 *
-	 * @return  ?TaskOption  A matching TaskOption if available, null otherwise
-	 *
-	 * @since  4.1.0
-	 */
-	public function findOption(?string $routineId): ?TaskOption
-	{
-		if ($routineId === null)
-		{
-			return null;
-		}
+    /**
+     * @param   ?string  $routineId  A unique identifier for a plugin task routine
+     *
+     * @return  ?TaskOption  A matching TaskOption if available, null otherwise
+     *
+     * @since  4.1.0
+     */
+    public function findOption(?string $routineId): ?TaskOption
+    {
+        if ($routineId === null) {
+            return null;
+        }
 
-		foreach ($this->options as $option)
-		{
-			if ($option->type === $routineId)
-			{
-				return $option;
-			}
-		}
+        foreach ($this->options as $option) {
+            if ($option->id === $routineId) {
+                return $option;
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 }

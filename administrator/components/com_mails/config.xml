@@ -1,9 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <config>
 	<help key="Mail_Templates:_Options"/>
+	<inlinehelp button="show"/>
 	<fieldset
 		name="mails_options"
-		label="COM_MAILS_CONFIG_MAIL_OPTIONS" >
+		label="COM_MAILS_CONFIG_MAIL_OPTIONS"
+		addfieldprefix="Joomla\Component\Mails\Administrator\Field">
 
 		<field
 			name="mail_style"
@@ -44,9 +46,39 @@
 			type="text"
 			label="COM_MAILS_CONFIG_FIELD_ATTACHMENT_FOLDER_LABEL"
 			description="COM_MAILS_CONFIG_FIELD_ATTACHMENT_FOLDER_DESC"
-			size="40"
 			validate="folderPathExists"
 			exclude="administrator|api|cache|cli|components|includes|language|layouts|libraries|modules|plugins|templates|tmp"
+		/>
+
+		<field
+			name="disable_htmllayout"
+			type="radio"
+			label="COM_CONFIG_FIELD_MAILTEMPLATE_LAYOUT_OFF_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			showon="mail_style:html[OR]mail_style:both"
+			>
+			<option value="0">JDISABLED</option>
+			<option value="1">JENABLED</option>
+		</field>
+
+		<field
+			name="mail_htmllayout"
+			type="mailtemplateLayout"
+			label="COM_CONFIG_FIELD_MAILTEMPLATE_LAYOUT_LABEL"
+			class="form-select"
+			showon="mail_style:html[OR]mail_style:both[AND]disable_htmllayout:1"
+		/>
+
+		<field
+			name="mail_logofile"
+			type="media"
+			label="COM_CONFIG_FIELD_MAILTEMPLATE_LOGOFILE_LABEL"
+			schemes="http,https,ftp,ftps,data,file"
+			validate="url"
+			relative="true"
+			default=""
+			showon="mail_style:html[OR]mail_style:both[AND]disable_htmllayout:1"
 		/>
 
 	</fieldset>
@@ -54,7 +86,6 @@
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC"
 		>
 
 		<field

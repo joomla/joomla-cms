@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,16 +9,18 @@
 
 namespace Joomla\CMS\Updater\Adapter;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Update;
 use Joomla\CMS\Updater\UpdateAdapter;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Version;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Extension class for updater
@@ -26,344 +29,321 @@ use Joomla\CMS\Version;
  */
 class ExtensionAdapter extends UpdateAdapter
 {
-	/**
-	 * Start element parser callback.
-	 *
-	 * @param   object  $parser  The parser object.
-	 * @param   string  $name    The name of the element.
-	 * @param   array   $attrs   The attributes of the element.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.7.0
-	 */
-	protected function _startElement($parser, $name, $attrs = array())
-	{
-		$this->stack[] = $name;
-		$tag           = $this->_getStackLocation();
+    protected $currentUpdate;
+    protected $latest;
 
-		// Reset the data
-		if (isset($this->$tag))
-		{
-			$this->$tag->_data = '';
-		}
+    /**
+     * Start element parser callback.
+     *
+     * @param   object  $parser  The parser object.
+     * @param   string  $name    The name of the element.
+     * @param   array   $attrs   The attributes of the element.
+     *
+     * @return  void
+     *
+     * @since   1.7.0
+     */
+    protected function _startElement($parser, $name, $attrs = [])
+    {
+        $this->stack[] = $name;
+        $tag           = $this->_getStackLocation();
 
-		switch ($name)
-		{
-			case 'UPDATE':
-				$this->currentUpdate = Table::getInstance('update');
-				$this->currentUpdate->update_site_id = $this->updateSiteId;
-				$this->currentUpdate->detailsurl = $this->_url;
-				$this->currentUpdate->folder = '';
-				$this->currentUpdate->client_id = 1;
-				$this->currentUpdate->infourl = '';
-				break;
+        // Reset the data
+        if (isset($this->$tag)) {
+            $this->$tag->_data = '';
+        }
 
-			// Don't do anything
-			case 'UPDATES':
-				break;
+        switch ($name) {
+            case 'UPDATE':
+                $this->currentUpdate                 = new Update($this->db);
+                $this->currentUpdate->update_site_id = $this->updateSiteId;
+                $this->currentUpdate->detailsurl     = $this->_url;
+                $this->currentUpdate->folder         = '';
+                $this->currentUpdate->client_id      = 1;
+                $this->currentUpdate->infourl        = '';
+                break;
 
-			default:
-				if (\in_array($name, $this->updatecols))
-				{
-					$name = strtolower($name);
-					$this->currentUpdate->$name = '';
-				}
+            case 'UPDATES':
+                // Don't do anything
+                break;
 
-				if ($name === 'TARGETPLATFORM')
-				{
-					$this->currentUpdate->targetplatform = $attrs;
-				}
+            default:
+                if (\in_array($name, $this->updatecols)) {
+                    $name                       = strtolower($name);
+                    $this->currentUpdate->$name = '';
+                }
 
-				if ($name === 'PHP_MINIMUM')
-				{
-					$this->currentUpdate->php_minimum = '';
-				}
+                if ($name === 'TARGETPLATFORM') {
+                    $this->currentUpdate->targetplatform = $attrs;
+                }
 
-				if ($name === 'SUPPORTED_DATABASES')
-				{
-					$this->currentUpdate->supported_databases = $attrs;
-				}
-				break;
-		}
-	}
+                if ($name === 'PHP_MINIMUM') {
+                    $this->currentUpdate->php_minimum = '';
+                }
 
-	/**
-	 * Character Parser Function
-	 *
-	 * @param   object  $parser  Parser object.
-	 * @param   object  $name    The name of the element.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.7.0
-	 */
-	protected function _endElement($parser, $name)
-	{
-		array_pop($this->stack);
+                if ($name === 'SUPPORTED_DATABASES') {
+                    $this->currentUpdate->supported_databases = $attrs;
+                }
+                break;
+        }
+    }
 
-		switch ($name)
-		{
-			case 'UPDATE':
-				// Lower case and remove the exclamation mark
-				$product = strtolower(InputFilter::getInstance()->clean(Version::PRODUCT, 'cmd'));
+    /**
+     * Character Parser Function
+     *
+     * @param   object  $parser  Parser object.
+     * @param   object  $name    The name of the element.
+     *
+     * @return  void
+     *
+     * @since   1.7.0
+     */
+    protected function _endElement($parser, $name)
+    {
+        array_pop($this->stack);
 
-				// Check that the product matches and that the version matches (optionally a regexp)
-				if ($product == $this->currentUpdate->targetplatform['NAME']
-					&& preg_match('/^' . $this->currentUpdate->targetplatform['VERSION'] . '/', JVERSION))
-				{
-					// Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
-					if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum, '>='))
-					{
-						$phpMatch = true;
-					}
-					else
-					{
-						// Notify the user of the potential update
-						$msg = Text::sprintf(
-							'JLIB_INSTALLER_AVAILABLE_UPDATE_PHP_VERSION',
-							$this->currentUpdate->name,
-							$this->currentUpdate->version,
-							$this->currentUpdate->php_minimum,
-							PHP_VERSION
-						);
+        switch ($name) {
+            case 'UPDATE':
+                // Lower case and remove the exclamation mark
+                $product = strtolower(InputFilter::getInstance()->clean(Version::PRODUCT, 'cmd'));
 
-						Factory::getApplication()->enqueueMessage($msg, 'warning');
+                // Check that the product matches and that the version matches (optionally a regexp)
+                if (
+                    $product == $this->currentUpdate->targetplatform['NAME']
+                    && preg_match('/^' . $this->currentUpdate->targetplatform['VERSION'] . '/', JVERSION)
+                ) {
+                    // Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
+                    if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum, '>=')) {
+                        $phpMatch = true;
+                    } else {
+                        // Notify the user of the potential update
+                        $msg = Text::sprintf(
+                            'JLIB_INSTALLER_AVAILABLE_UPDATE_PHP_VERSION',
+                            $this->currentUpdate->name,
+                            $this->currentUpdate->version,
+                            $this->currentUpdate->php_minimum,
+                            PHP_VERSION
+                        );
 
-						$phpMatch = false;
-					}
+                        Factory::getApplication()->enqueueMessage($msg, 'warning');
 
-					$dbMatch = false;
+                        $phpMatch = false;
+                    }
 
-					// Check if DB & version is supported via <supported_databases> tag, assume supported if tag isn't present
-					if (isset($this->currentUpdate->supported_databases))
-					{
-						$db           = Factory::getDbo();
-						$dbType       = strtoupper($db->getServerType());
-						$dbVersion    = $db->getVersion();
-						$supportedDbs = $this->currentUpdate->supported_databases;
+                    $dbMatch = false;
 
-						// MySQL and MariaDB use the same database driver but not the same version numbers
-						if ($dbType === 'mysql')
-						{
-							// Check whether we have a MariaDB version string and extract the proper version from it
-							if (stripos($dbVersion, 'mariadb') !== false)
-							{
-								// MariaDB: Strip off any leading '5.5.5-', if present
-								$dbVersion = preg_replace('/^5\.5\.5-/', '', $dbVersion);
-								$dbType    = 'mariadb';
-							}
-						}
+                    // Check if DB & version is supported via <supported_databases> tag, assume supported if tag isn't present
+                    if (isset($this->currentUpdate->supported_databases)) {
+                        $db           = $this->db;
+                        $dbType       = strtolower($db->getServerType());
+                        $dbVersion    = $db->getVersion();
+                        $supportedDbs = $this->currentUpdate->supported_databases;
 
-						// Do we have an entry for the database?
-						if (\array_key_exists($dbType, $supportedDbs))
-						{
-							$minimumVersion = $supportedDbs[$dbType];
-							$dbMatch        = version_compare($dbVersion, $minimumVersion, '>=');
+                        // MySQL and MariaDB use the same database driver but not the same version numbers
+                        if ($dbType === 'mysql') {
+                            // Check whether we have a MariaDB version string and extract the proper version from it
+                            if (stripos($dbVersion, 'mariadb') !== false) {
+                                // MariaDB: Strip off any leading '5.5.5-', if present
+                                $dbVersion = preg_replace('/^5\.5\.5-/', '', $dbVersion);
+                                $dbType    = 'mariadb';
+                            }
+                        }
 
-							if (!$dbMatch)
-							{
-								// Notify the user of the potential update
-								$dbMsg = Text::sprintf(
-									'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_MINIMUM',
-									$this->currentUpdate->name,
-									$this->currentUpdate->version,
-									Text::_($db->name),
-									$dbVersion,
-									$minimumVersion
-								);
+                        // $supportedDbs has uppercase keys because they are XML attribute names
+                        $dbTypeUcase = strtoupper($dbType);
 
-								Factory::getApplication()->enqueueMessage($dbMsg, 'warning');
-							}
-						}
-						else
-						{
-							// Notify the user of the potential update
-							$dbMsg = Text::sprintf(
-								'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_TYPE',
-								$this->currentUpdate->name,
-								$this->currentUpdate->version,
-								Text::_($db->name)
-							);
+                        // Do we have an entry for the database?
+                        if (\array_key_exists($dbTypeUcase, $supportedDbs)) {
+                            $minimumVersion = $supportedDbs[$dbTypeUcase];
+                            $dbMatch        = version_compare($dbVersion, $minimumVersion, '>=');
 
-							Factory::getApplication()->enqueueMessage($dbMsg, 'warning');
-						}
-					}
-					else
-					{
-						// Set to true if the <supported_databases> tag is not set
-						$dbMatch = true;
-					}
+                            if (!$dbMatch) {
+                                // Notify the user of the potential update
+                                $dbMsg = Text::sprintf(
+                                    'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_MINIMUM',
+                                    $this->currentUpdate->name,
+                                    $this->currentUpdate->version,
+                                    Text::_('JLIB_DB_SERVER_TYPE_' . $dbTypeUcase),
+                                    $dbVersion,
+                                    $minimumVersion
+                                );
 
-					// Check minimum stability
-					$stabilityMatch = true;
+                                Factory::getApplication()->enqueueMessage($dbMsg, 'warning');
+                            }
+                        } else {
+                            // Notify the user of the potential update
+                            $dbMsg = Text::sprintf(
+                                'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_TYPE',
+                                $this->currentUpdate->name,
+                                $this->currentUpdate->version,
+                                Text::_('JLIB_DB_SERVER_TYPE_' . $dbTypeUcase)
+                            );
 
-					if (isset($this->currentUpdate->stability) && ($this->currentUpdate->stability < $this->minimum_stability))
-					{
-						$stabilityMatch = false;
-					}
+                            Factory::getApplication()->enqueueMessage($dbMsg, 'warning');
+                        }
+                    } else {
+                        // Set to true if the <supported_databases> tag is not set
+                        $dbMatch = true;
+                    }
 
-					// Some properties aren't valid fields in the update table so unset them to prevent J! from trying to store them
-					unset($this->currentUpdate->targetplatform);
+                    // Check minimum stability
+                    $stabilityMatch = true;
 
-					if (isset($this->currentUpdate->php_minimum))
-					{
-						unset($this->currentUpdate->php_minimum);
-					}
+                    if (isset($this->currentUpdate->stability) && ($this->currentUpdate->stability < $this->minimum_stability)) {
+                        $stabilityMatch = false;
+                    }
 
-					if (isset($this->currentUpdate->supported_databases))
-					{
-						unset($this->currentUpdate->supported_databases);
-					}
+                    // Some properties aren't valid fields in the update table so unset them to prevent J! from trying to store them
+                    unset($this->currentUpdate->targetplatform);
 
-					if (isset($this->currentUpdate->stability))
-					{
-						unset($this->currentUpdate->stability);
-					}
+                    if (isset($this->currentUpdate->php_minimum)) {
+                        unset($this->currentUpdate->php_minimum);
+                    }
 
-					// If the PHP version and minimum stability checks pass, consider this version as a possible update
-					if ($phpMatch && $stabilityMatch && $dbMatch)
-					{
-						if (isset($this->latest))
-						{
-							// We already have a possible update. Check the version.
-							if (version_compare($this->currentUpdate->version, $this->latest->version, '>') == 1)
-							{
-								$this->latest = $this->currentUpdate;
-							}
-						}
-						else
-						{
-							// We don't have any possible updates yet, assume this is an available update.
-							$this->latest = $this->currentUpdate;
-						}
-					}
-				}
-				break;
+                    if (isset($this->currentUpdate->supported_databases)) {
+                        unset($this->currentUpdate->supported_databases);
+                    }
 
-			case 'UPDATES':
-				// :D
-				break;
-		}
-	}
+                    if (isset($this->currentUpdate->stability)) {
+                        unset($this->currentUpdate->stability);
+                    }
 
-	/**
-	 * Character Parser Function
-	 *
-	 * @param   object  $parser  Parser object.
-	 * @param   object  $data    The data.
-	 *
-	 * @return  void
-	 *
-	 * @note    This is public because its called externally.
-	 * @since   1.7.0
-	 */
-	protected function _characterData($parser, $data)
-	{
-		$tag = $this->_getLastTag();
+                    // If the PHP version and minimum stability checks pass, consider this version as a possible update
+                    if ($phpMatch && $stabilityMatch && $dbMatch) {
+                        if (isset($this->latest)) {
+                            // We already have a possible update. Check the version.
+                            if (version_compare($this->currentUpdate->version, $this->latest->version, '>') == 1) {
+                                $this->latest = $this->currentUpdate;
+                            }
+                        } else {
+                            // We don't have any possible updates yet, assume this is an available update.
+                            $this->latest = $this->currentUpdate;
+                        }
+                    }
+                }
+                break;
 
-		if (\in_array($tag, $this->updatecols))
-		{
-			$tag = strtolower($tag);
-			$this->currentUpdate->$tag .= $data;
-		}
+            case 'UPDATES':
+                // :D
+                break;
+        }
+    }
 
-		if ($tag === 'PHP_MINIMUM')
-		{
-			$this->currentUpdate->php_minimum = $data;
-		}
+    /**
+     * Character Parser Function
+     *
+     * @param   object  $parser  Parser object.
+     * @param   object  $data    The data.
+     *
+     * @return  void
+     *
+     * @note    This is public because its called externally.
+     * @since   1.7.0
+     */
+    protected function _characterData($parser, $data)
+    {
+        $tag = $this->_getLastTag();
 
-		if ($tag === 'TAG')
-		{
-			$this->currentUpdate->stability = $this->stabilityTagToInteger((string) $data);
-		}
-	}
+        if (\in_array($tag, $this->updatecols)) {
+            $tag = strtolower($tag);
+            $this->currentUpdate->$tag .= $data;
+        }
 
-	/**
-	 * Finds an update.
-	 *
-	 * @param   array  $options  Update options.
-	 *
-	 * @return  array|boolean  Array containing the array of update sites and array of updates. False on failure
-	 *
-	 * @since   1.7.0
-	 */
-	public function findUpdate($options)
-	{
-		$response = $this->getUpdateSiteResponse($options);
+        if ($tag === 'PHP_MINIMUM') {
+            $this->currentUpdate->php_minimum = $data;
+        }
 
-		if ($response === false)
-		{
-			return false;
-		}
+        if ($tag === 'TAG') {
+            $this->currentUpdate->stability = $this->stabilityTagToInteger((string) $data);
+        }
+    }
 
-		if (\array_key_exists('minimum_stability', $options))
-		{
-			$this->minimum_stability = $options['minimum_stability'];
-		}
+    /**
+     * Finds an update.
+     *
+     * @param   array  $options  Update options.
+     *
+     * @return  array|boolean  Array containing the array of update sites and array of updates. False on failure
+     *
+     * @since   1.7.0
+     */
+    public function findUpdate($options)
+    {
+        $response = $this->getUpdateSiteResponse($options);
 
-		$this->xmlParser = xml_parser_create('');
-		xml_set_object($this->xmlParser, $this);
-		xml_set_element_handler($this->xmlParser, '_startElement', '_endElement');
-		xml_set_character_data_handler($this->xmlParser, '_characterData');
+        if ($response === false) {
+            return false;
+        }
 
-		if (!xml_parse($this->xmlParser, $response->body))
-		{
-			// If the URL is missing the .xml extension, try appending it and retry loading the update
-			if (!$this->appendExtension && (substr($this->_url, -4) !== '.xml'))
-			{
-				$options['append_extension'] = true;
+        /**
+         * Unset the latest update which might have been found for a previous update site, avoid
+         * strange issue reported at https://github.com/joomla/joomla-cms/issues/46066
+         */
+        unset($this->latest);
 
-				return $this->findUpdate($options);
-			}
+        if (\array_key_exists('minimum_stability', $options)) {
+            $this->minimum_stability = $options['minimum_stability'];
+        }
 
-			$app = Factory::getApplication();
-			$app->getLogger()->warning("Error parsing url: {$this->_url}", array('category' => 'updater'));
-			$app->enqueueMessage(Text::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $this->_url), 'warning');
+        $this->xmlParser = xml_parser_create('');
+        xml_set_element_handler($this->xmlParser, [$this, '_startElement'], [$this, '_endElement']);
+        xml_set_character_data_handler($this->xmlParser, [$this, '_characterData']);
 
-			return false;
-		}
+        if (!xml_parse($this->xmlParser, (string) $response->getBody())) {
+            // If the URL is missing the .xml extension, try appending it and retry loading the update
+            if (!$this->appendExtension && (!str_ends_with($this->_url, '.xml'))) {
+                $options['append_extension'] = true;
 
-		xml_parser_free($this->xmlParser);
+                return $this->findUpdate($options);
+            }
 
-		if (isset($this->latest))
-		{
-			if (isset($this->latest->client) && \strlen($this->latest->client))
-			{
-				$this->latest->client_id = ApplicationHelper::getClientInfo($this->latest->client, true)->id;
+            $app = Factory::getApplication();
+            $app->getLogger()->warning("Error parsing url: {$this->_url}", ['category' => 'updater']);
+            $app->enqueueMessage(Text::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $this->_url), 'warning');
 
-				unset($this->latest->client);
-			}
+            return false;
+        }
 
-			$updates = array($this->latest);
-		}
-		else
-		{
-			$updates = array();
-		}
+        if (isset($this->latest)) {
+            if (isset($this->latest->client) && \strlen($this->latest->client)) {
+                /**
+                 * The client_id in the update XML manifest can be either an integer (backwards
+                 * compatible with Joomla 1.6–3.10) or a string. Backwards compatibility with the
+                 * integer key is provided as update servers with the legacy, numeric IDs cause PHP notices
+                 * during update retrieval. The proper string key is one of 'site' or 'administrator'.
+                 */
+                $this->latest->client_id = is_numeric($this->latest->client) ? $this->latest->client
+                    : ApplicationHelper::getClientInfo($this->latest->client, true)->id;
 
-		return array('update_sites' => array(), 'updates' => $updates);
-	}
+                unset($this->latest->client);
+            }
 
-	/**
-	 * Converts a tag to numeric stability representation. If the tag doesn't represent a known stability level (one of
-	 * dev, alpha, beta, rc, stable) it is ignored.
-	 *
-	 * @param   string  $tag  The tag string, e.g. dev, alpha, beta, rc, stable
-	 *
-	 * @return  integer
-	 *
-	 * @since   3.4
-	 */
-	protected function stabilityTagToInteger($tag)
-	{
-		$constant = '\\Joomla\\CMS\\Updater\\Updater::STABILITY_' . strtoupper($tag);
+            $updates = [$this->latest];
+        } else {
+            $updates = [];
+        }
 
-		if (\defined($constant))
-		{
-			return \constant($constant);
-		}
+        return ['update_sites' => [], 'updates' => $updates];
+    }
 
-		return Updater::STABILITY_STABLE;
-	}
+    /**
+     * Converts a tag to numeric stability representation. If the tag doesn't represent a known stability level (one of
+     * dev, alpha, beta, rc, stable) it is ignored.
+     *
+     * @param   string  $tag  The tag string, e.g. dev, alpha, beta, rc, stable
+     *
+     * @return  integer
+     *
+     * @since   3.4
+     */
+    protected function stabilityTagToInteger($tag)
+    {
+        $constant = '\\Joomla\\CMS\\Updater\\Updater::STABILITY_' . strtoupper($tag);
+
+        if (\defined($constant)) {
+            return \constant($constant);
+        }
+
+        return Updater::STABILITY_STABLE;
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,12 +9,15 @@
 
 namespace Joomla\CMS\Plugin;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\SubscriberInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Plugin helper class
@@ -22,294 +26,294 @@ use Joomla\Event\DispatcherInterface;
  */
 abstract class PluginHelper
 {
-	/**
-	 * A persistent cache of the loaded plugins.
-	 *
-	 * @var    array
-	 * @since  1.7
-	 */
-	protected static $plugins = null;
+    /**
+     * A persistent cache of the loaded plugins.
+     *
+     * @var    array|null
+     *
+     * @since  1.7
+     */
+    protected static $plugins = null;
 
-	/**
-	 * Get the path to a layout from a Plugin
-	 *
-	 * @param   string  $type    Plugin type
-	 * @param   string  $name    Plugin name
-	 * @param   string  $layout  Layout name
-	 *
-	 * @return  string  Layout path
-	 *
-	 * @since   3.0
-	 */
-	public static function getLayoutPath($type, $name, $layout = 'default')
-	{
-		$templateObj   = Factory::getApplication()->getTemplate(true);
-		$defaultLayout = $layout;
-		$template      = $templateObj->template;
+    /**
+     * Get the path to a layout from a Plugin
+     *
+     * @param   string  $type    Plugin type
+     * @param   string  $name    Plugin name
+     * @param   string  $layout  Layout name
+     *
+     * @return  string  Layout path
+     *
+     * @since   3.0
+     */
+    public static function getLayoutPath($type, $name, $layout = 'default')
+    {
+        $app = Factory::getApplication();
 
-		if (strpos($layout, ':') !== false)
-		{
-			// Get the template and file name from the string
-			$temp = explode(':', $layout);
-			$template = $temp[0] === '_' ? $templateObj->template : $temp[0];
-			$layout = $temp[1];
-			$defaultLayout = $temp[1] ?: 'default';
-		}
+        if ($app->isClient('site') || $app->isClient('administrator')) {
+            $templateObj = $app->getTemplate(true);
+        } else {
+            $templateObj = (object) [
+                'template' => '',
+                'parent'   => '',
+            ];
+        }
 
-		// Build the template and base path for the layout
-		$tPath = JPATH_THEMES . '/' . $template . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
-		$iPath = JPATH_THEMES . '/' . $templateObj->parent . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
-		$bPath = JPATH_PLUGINS . '/' . $type . '/' . $name . '/tmpl/' . $defaultLayout . '.php';
-		$dPath = JPATH_PLUGINS . '/' . $type . '/' . $name . '/tmpl/default.php';
+        $defaultLayout = $layout;
+        $template      = $templateObj->template;
 
-		// If the template has a layout override use it
-		if (is_file($tPath))
-		{
-			return $tPath;
-		}
-		elseif (!empty($templateObj->parent) && is_file($iPath))
-		{
-			return $iPath;
-		}
-		elseif (is_file($bPath))
-		{
-			return $bPath;
-		}
-		else
-		{
-			return $dPath;
-		}
-	}
+        if (str_contains($layout, ':')) {
+            // Get the template and file name from the string
+            $temp          = explode(':', $layout);
+            $template      = $temp[0] === '_' ? $templateObj->template : $temp[0];
+            $layout        = $temp[1];
+            $defaultLayout = $temp[1] ?: 'default';
+        }
 
-	/**
-	 * Get the plugin data of a specific type if no specific plugin is specified
-	 * otherwise only the specific plugin data is returned.
-	 *
-	 * @param   string  $type    The plugin type, relates to the subdirectory in the plugins directory.
-	 * @param   string  $plugin  The plugin name.
-	 *
-	 * @return  mixed  An array of plugin data objects, or a plugin data object.
-	 *
-	 * @since   1.5
-	 */
-	public static function getPlugin($type, $plugin = null)
-	{
-		$result = array();
-		$plugins = static::load();
+        // Build the template and base path for the layout
+        $layoutPaths = [];
 
-		// Find the correct plugin(s) to return.
-		if (!$plugin)
-		{
-			foreach ($plugins as $p)
-			{
-				// Is this the right plugin?
-				if ($p->type === $type)
-				{
-					$result[] = $p;
-				}
-			}
-		}
-		else
-		{
-			foreach ($plugins as $p)
-			{
-				// Is this plugin in the right group?
-				if ($p->type === $type && $p->name === $plugin)
-				{
-					$result = $p;
-					break;
-				}
-			}
-		}
+        if ($template) {
+            $layoutPaths[] = JPATH_THEMES . '/' . $template . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
+        }
 
-		return $result;
-	}
+        if ($templateObj->parent) {
+            $layoutPaths[] = JPATH_THEMES . '/' . $templateObj->parent . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
+        }
 
-	/**
-	 * Checks if a plugin is enabled.
-	 *
-	 * @param   string  $type    The plugin type, relates to the subdirectory in the plugins directory.
-	 * @param   string  $plugin  The plugin name.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   1.5
-	 */
-	public static function isEnabled($type, $plugin = null)
-	{
-		$result = static::getPlugin($type, $plugin);
+        $layoutPaths[] = JPATH_PLUGINS . '/' . $type . '/' . $name . '/tmpl/' . $defaultLayout . '.php';
+        $layoutPaths[] = JPATH_PLUGINS . '/' . $type . '/' . $name . '/tmpl/default.php';
 
-		return !empty($result);
-	}
+        foreach ($layoutPaths as $path) {
+            if (is_file($path)) {
+                return $path;
+            }
+        }
 
-	/**
-	 * Loads all the plugin files for a particular type if no specific plugin is specified
-	 * otherwise only the specific plugin is loaded.
-	 *
-	 * @param   string               $type        The plugin type, relates to the subdirectory in the plugins directory.
-	 * @param   string               $plugin      The plugin name.
-	 * @param   boolean              $autocreate  Autocreate the plugin.
-	 * @param   DispatcherInterface  $dispatcher  Optionally allows the plugin to use a different dispatcher.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   1.5
-	 */
-	public static function importPlugin($type, $plugin = null, $autocreate = true, DispatcherInterface $dispatcher = null)
-	{
-		static $loaded = array();
+        return end($layoutPaths);
+    }
 
-		// Check for the default args, if so we can optimise cheaply
-		$defaults = false;
+    /**
+     * Get the plugin data of a specific type if no specific plugin is specified
+     * otherwise only the specific plugin data is returned.
+     *
+     * @param   string  $type    The plugin type, relates to the subdirectory in the plugins directory.
+     * @param   string  $plugin  The plugin name.
+     *
+     * @return  mixed  An array of plugin data objects, or a plugin data object.
+     *
+     * @since   1.5
+     */
+    public static function getPlugin($type, $plugin = null)
+    {
+        $result  = [];
+        $plugins = static::load();
 
-		if ($plugin === null && $autocreate === true && $dispatcher === null)
-		{
-			$defaults = true;
-		}
+        // Find the correct plugin(s) to return.
+        if (!$plugin) {
+            foreach ($plugins as $p) {
+                // Is this the right plugin?
+                if ($p->type === $type) {
+                    $result[] = $p;
+                }
+            }
+        } else {
+            foreach ($plugins as $p) {
+                // Is this plugin in the right group?
+                if ($p->type === $type && $p->name === $plugin) {
+                    $result = $p;
+                    break;
+                }
+            }
+        }
 
-		// Ensure we have a dispatcher now so we can correctly track the loaded plugins
-		$dispatcher = $dispatcher ?: Factory::getApplication()->getDispatcher();
+        return $result;
+    }
 
-		// Get the dispatcher's hash to allow plugins to be registered to unique dispatchers
-		$dispatcherHash = spl_object_hash($dispatcher);
+    /**
+     * Checks if a plugin is enabled.
+     *
+     * @param   string  $type    The plugin type, relates to the subdirectory in the plugins directory.
+     * @param   string  $plugin  The plugin name.
+     *
+     * @return  boolean
+     *
+     * @since   1.5
+     */
+    public static function isEnabled($type, $plugin = null)
+    {
+        $result = static::getPlugin($type, $plugin);
 
-		if (!isset($loaded[$dispatcherHash]))
-		{
-			$loaded[$dispatcherHash] = array();
-		}
+        return !empty($result);
+    }
 
-		if (!$defaults || !isset($loaded[$dispatcherHash][$type]))
-		{
-			$results = null;
+    /**
+     * Loads all the plugin files for a particular type if no specific plugin is specified
+     * otherwise only the specific plugin is loaded.
+     *
+     * @param   string                $type        The plugin type, relates to the subdirectory in the plugins directory.
+     * @param   string                $plugin      The plugin name.
+     * @param   boolean               $autocreate  Autocreate the plugin.
+     * @param   ?DispatcherInterface  $dispatcher  Optionally allows the plugin to use a different dispatcher.
+     *
+     * @return  boolean  True on success.
+     *
+     * @since   1.5
+     */
+    public static function importPlugin($type, $plugin = null, $autocreate = true, ?DispatcherInterface $dispatcher = null)
+    {
+        static $loaded = [];
 
-			// Load the plugins from the database.
-			$plugins = static::load();
+        // Check for the default args, if so we can optimise cheaply
+        $defaults = false;
 
-			// Get the specified plugin(s).
-			for ($i = 0, $t = \count($plugins); $i < $t; $i++)
-			{
-				if ($plugins[$i]->type === $type && ($plugin === null || $plugins[$i]->name === $plugin))
-				{
-					static::import($plugins[$i], $autocreate, $dispatcher);
-					$results = true;
-				}
-			}
+        if ($plugin === null && $autocreate === true && $dispatcher === null) {
+            $defaults = true;
+        }
 
-			// Bail out early if we're not using default args
-			if (!$defaults)
-			{
-				return $results;
-			}
+        // Ensure we have a dispatcher now so we can correctly track the loaded plugins
+        $dispatcher = $dispatcher ?: Factory::getApplication()->getDispatcher();
 
-			$loaded[$dispatcherHash][$type] = $results;
-		}
+        // Get the dispatcher's hash to allow plugins to be registered to unique dispatchers
+        $dispatcherHash = spl_object_hash($dispatcher);
 
-		return $loaded[$dispatcherHash][$type];
-	}
+        if (!isset($loaded[$dispatcherHash])) {
+            $loaded[$dispatcherHash] = [];
+        }
 
-	/**
-	 * Loads the plugin file.
-	 *
-	 * @param   object               $plugin      The plugin.
-	 * @param   boolean              $autocreate  True to autocreate.
-	 * @param   DispatcherInterface  $dispatcher  Optionally allows the plugin to use a different dispatcher.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	protected static function import($plugin, $autocreate = true, DispatcherInterface $dispatcher = null)
-	{
-		static $plugins = array();
+        if (!$defaults || !isset($loaded[$dispatcherHash][$type])) {
+            $results = null;
 
-		// Get the dispatcher's hash to allow paths to be tracked against unique dispatchers
-		$hash = spl_object_hash($dispatcher) . $plugin->type . $plugin->name;
+            // Load the plugins from the database.
+            $plugins = static::load();
 
-		if (\array_key_exists($hash, $plugins))
-		{
-			return;
-		}
+            // Get the specified plugin(s).
+            foreach ($plugins as $value) {
+                if ($value->type === $type && ($plugin === null || $value->name === $plugin)) {
+                    static::import($value, $autocreate, $dispatcher);
+                    $results = true;
+                }
+            }
 
-		$plugins[$hash] = true;
+            // Bail out early if we're not using default args
+            if (!$defaults) {
+                return $results;
+            }
 
-		$plugin = Factory::getApplication()->bootPlugin($plugin->name, $plugin->type);
+            $loaded[$dispatcherHash][$type] = $results;
+        }
 
-		if ($dispatcher && $plugin instanceof DispatcherAwareInterface)
-		{
-			$plugin->setDispatcher($dispatcher);
-		}
+        return $loaded[$dispatcherHash][$type];
+    }
 
-		if (!$autocreate)
-		{
-			return;
-		}
+    /**
+     * Loads the plugin file.
+     *
+     * @param   object                $plugin      The plugin.
+     * @param   boolean               $autocreate  True to autocreate.
+     * @param   ?DispatcherInterface  $dispatcher  Optionally allows the plugin to use a different dispatcher.
+     *
+     * @return  void
+     *
+     * @since   3.2
+     */
+    protected static function import($plugin, $autocreate = true, ?DispatcherInterface $dispatcher = null)
+    {
+        static $plugins = [];
 
-		$plugin->registerListeners();
-	}
+        // Get the dispatcher's hash to allow paths to be tracked against unique dispatchers
+        $hash = spl_object_hash($dispatcher) . $plugin->type . $plugin->name;
 
-	/**
-	 * Loads the published plugins.
-	 *
-	 * @return  array  An array of published plugins
-	 *
-	 * @since   3.2
-	 */
-	protected static function load()
-	{
-		if (static::$plugins !== null)
-		{
-			return static::$plugins;
-		}
+        if (\array_key_exists($hash, $plugins)) {
+            return;
+        }
 
-		$levels = Factory::getUser()->getAuthorisedViewLevels();
+        $plugins[$hash] = true;
 
-		/** @var \JCacheControllerCallback $cache */
-		$cache = Factory::getCache('com_plugins', 'callback');
+        $plugin = Factory::getApplication()->bootPlugin($plugin->name, $plugin->type);
 
-		$loader = function () use ($levels)
-		{
-			$db = Factory::getDbo();
-			$query = $db->getQuery(true)
-				->select(
-					$db->quoteName(
-						[
-							'folder',
-							'element',
-							'params',
-							'extension_id',
-						],
-						[
-							'type',
-							'name',
-							'params',
-							'id',
-						]
-					)
-				)
-				->from($db->quoteName('#__extensions'))
-				->where(
-					[
-						$db->quoteName('enabled') . ' = 1',
-						$db->quoteName('type') . ' = ' . $db->quote('plugin'),
-						$db->quoteName('state') . ' IN (0,1)',
-					]
-				)
-				->whereIn($db->quoteName('access'), $levels)
-				->order($db->quoteName('ordering'));
-			$db->setQuery($query);
+        if (!$autocreate) {
+            return;
+        }
 
-			return $db->loadObjectList();
-		};
+        // Check for overridden registerListeners()
+        $reflection         = new \ReflectionClass($plugin);
+        $registerOverridden = $reflection->hasMethod('registerListeners') && $reflection->getMethod('registerListeners')->class !== CMSPlugin::class;
 
-		try
-		{
-			static::$plugins = $cache->get($loader, [], md5(implode(',', $levels)), false);
-		}
-		catch (CacheExceptionInterface $cacheException)
-		{
-			static::$plugins = $loader();
-		}
+        // @TODO: From 7.0 when registerListeners() will be removed from CMSPlugin checking for overridden registerListeners() need to be removed.
+        if ($plugin instanceof SubscriberInterface && !$registerOverridden) {
+            $dispatcher->addSubscriber($plugin);
+        } else {
+            // @TODO: From 7.0 when DispatcherAwareInterface will be removed from CMSPlugin this should be checked for all plugins.
+            if ($dispatcher && $plugin instanceof DispatcherAwareInterface) {
+                $plugin->setDispatcher($dispatcher);
+            }
 
-		return static::$plugins;
-	}
+            // @TODO: From 7.0 it should use $dispatcher->addSubscriber($plugin); for plugins which implement SubscriberInterface.
+            $plugin->registerListeners();
+        }
+    }
+
+    /**
+     * Loads the published plugins.
+     *
+     * @return  array  An array of published plugins
+     *
+     * @since   3.2
+     */
+    protected static function load()
+    {
+        if (static::$plugins !== null) {
+            return static::$plugins;
+        }
+
+        $levels = Factory::getUser()->getAuthorisedViewLevels();
+
+        /** @var \Joomla\CMS\Cache\Controller\CallbackController $cache */
+        $cache = Factory::getCache('com_plugins', 'callback');
+
+        $loader = function () use ($levels) {
+            $db    = Factory::getDbo();
+            $query = $db->createQuery()
+                ->select(
+                    $db->quoteName(
+                        [
+                            'folder',
+                            'element',
+                            'params',
+                            'extension_id',
+                            'custom_data',
+                        ],
+                        [
+                            'type',
+                            'name',
+                            'params',
+                            'id',
+                            null,
+                        ]
+                    )
+                )
+                ->from($db->quoteName('#__extensions'))
+                ->where(
+                    [
+                        $db->quoteName('enabled') . ' = 1',
+                        $db->quoteName('type') . ' = ' . $db->quote('plugin'),
+                        $db->quoteName('state') . ' IN (0,1)',
+                    ]
+                )
+                ->whereIn($db->quoteName('access'), $levels)
+                ->order($db->quoteName('ordering'));
+            $db->setQuery($query);
+
+            return $db->loadObjectList();
+        };
+
+        try {
+            static::$plugins = $cache->get($loader, [], md5(implode(',', $levels)), false);
+        } catch (CacheExceptionInterface) {
+            static::$plugins = $loader();
+        }
+
+        return static::$plugins;
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -46,7 +47,7 @@ extract($displayData);
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
 
-$html = array();
+$html = [];
 $attr = '';
 
 // Initialize some field attributes.
@@ -56,9 +57,8 @@ $attr .= $autofocus ? ' autofocus' : '';
 $attr .= $dataAttribute;
 
 // To avoid user's confusion, readonly="true" should imply disabled="true".
-if ($readonly || $disabled)
-{
-	$attr .= ' disabled="disabled"';
+if ($readonly || $disabled) {
+    $attr .= ' disabled="disabled"';
 }
 
 // Initialize JavaScript field attributes.
@@ -68,60 +68,54 @@ $attr2  = '';
 $attr2 .= !empty($class) ? ' class="' . $class . '"' : '';
 $attr2 .= ' placeholder="' . $this->escape($hint ?: Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS')) . '" ';
 
-if ($required)
-{
-	$attr  .= ' required class="required"';
-	$attr2 .= ' required';
+if ($required) {
+    $attr  .= ' required class="required"';
+    $attr2 .= ' required';
 }
 
 // Create a read-only list (no name) with a hidden input to store the value.
-if ($readonly)
-{
-	$html[] = HTMLHelper::_(
-		'select.groupedlist', $groups, null,
-		array(
-			'list.attr' => $attr, 'id' => $id, 'list.select' => $value, 'group.items' => null, 'option.key.toHtml' => false,
-			'option.text.toHtml' => false,
-		)
-	);
+if ($readonly) {
+    $html[] = HTMLHelper::_(
+        'select.groupedlist',
+        $groups,
+        null,
+        [
+            'list.attr' => $attr, 'id' => $id, 'list.select' => $value, 'group.items' => null, 'option.key.toHtml' => false,
+            'option.text.toHtml' => false,
+        ]
+    );
 
-	// E.g. form field type tag sends $this->value as array
-	if ($multiple && \is_array($value))
-	{
-		if (!\count($value))
-		{
-			$value[] = '';
-		}
+    // E.g. form field type tag sends $this->value as array
+    if ($multiple && \is_array($value)) {
+        if (!\count($value)) {
+            $value[] = '';
+        }
 
-		foreach ($value as $val)
-		{
-			$html[] = '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($val, ENT_COMPAT, 'UTF-8') . '">';
-		}
-	}
-	else
-	{
-		$html[] = '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '">';
-	}
-}
-
-// Create a regular list.
-else
-{
-	$html[] = HTMLHelper::_(
-		'select.groupedlist', $groups, $name,
-		array(
-			'list.attr' => $attr, 'id' => $id, 'list.select' => $value, 'group.items' => null, 'option.key.toHtml' => false,
-			'option.text.toHtml' => false,
-		)
-	);
+        foreach ($value as $val) {
+            $html[] = '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($val, ENT_COMPAT, 'UTF-8') . '">';
+        }
+    } else {
+        $html[] = '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '">';
+    }
+} else {
+    // Create a regular list.
+    $html[] = HTMLHelper::_(
+        'select.groupedlist',
+        $groups,
+        $name,
+        [
+            'list.attr' => $attr, 'id' => $id, 'list.select' => $value, 'group.items' => null, 'option.key.toHtml' => false,
+            'option.text.toHtml' => false,
+        ]
+    );
 }
 
 Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
 
 Factory::getApplication()->getDocument()->getWebAssetManager()
-	->usePreset('choicesjs')
-	->useScript('webcomponent.field-fancy-select');
+    ->usePreset('choicesjs')
+    ->useScript('webcomponent.field-fancy-select');
 
 ?>
 

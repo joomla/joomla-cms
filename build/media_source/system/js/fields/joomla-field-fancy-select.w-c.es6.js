@@ -103,6 +103,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       if (this.isDisconnected) {
         // Re init previous instance
         this.choicesInstance.init();
+        this.choicesInstance.setChoiceByValue(this.disconnectValues);
         this.isDisconnected = false;
       }
       return;
@@ -110,17 +111,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
     this.isDisconnected = false;
 
-    // Add placeholder option for multiple mode,
-    // Because it not supported as parameter by Choices for <select> https://github.com/jshjohnson/Choices#placeholder
-    if (this.select.multiple && this.placeholder) {
-      const option = document.createElement('option');
-      option.setAttribute('placeholder', '');
-      option.textContent = this.placeholder;
-      this.select.appendChild(option);
-    }
-
     // Init Choices
-    // eslint-disable-next-line no-undef
     this.choicesInstance = new Choices(this.select, {
       placeholderValue: this.placeholder,
       searchPlaceholderValue: this.searchPlaceholder,
@@ -128,6 +119,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       searchFloor: this.minTermLength,
       searchResultLimit: parseInt(this.select.dataset.maxResults, 10) || 10,
       renderChoiceLimit: parseInt(this.select.dataset.maxRender, 10) || -1,
+      renderSelectedChoices: 'always',
       shouldSort: false,
       fuseOptions: {
         threshold: 0.3, // Strict search
@@ -151,9 +143,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       // This workaround can be removed when choices.js
       // will have an option that allow to disable it.
 
-      // eslint-disable-next-line no-underscore-dangle, prefer-destructuring
       const _highlightChoice = this.choicesInstance._highlightChoice;
-      // eslint-disable-next-line no-underscore-dangle
       this.choicesInstance._highlightChoice = (el) => {
         // Prevent auto-highlight of first element, if nothing actually highlighted
         if (!el) return;
@@ -176,7 +166,6 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
           choice.setAttribute('aria-selected', 'false');
         });
 
-        // eslint-disable-next-line no-underscore-dangle
         this.choicesInstance._highlightPosition = 0;
       });
       // END workaround for issue #29459
@@ -189,7 +178,6 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
         }
         event.preventDefault();
 
-        // eslint-disable-next-line no-underscore-dangle
         if (this.choicesInstance._highlightPosition || !event.target.value) {
           return;
         }
@@ -238,8 +226,8 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
         // Create and add new
         this.choicesInstance.setChoices([{
-          value: this.newItemPrefix + event.target.value,
-          label: event.target.value,
+          value: new DOMParser().parseFromString(this.newItemPrefix + event.target.value, 'text/html').body.textContent,
+          label: new DOMParser().parseFromString(event.target.value, 'text/html').body.textContent,
           selected: true,
           customProperties: {
             value: event.target.value, // Store real value, just in case
@@ -275,6 +263,8 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
   disconnectedCallback() {
     // Destroy Choices instance, to unbind event listeners
     if (this.choicesInstance) {
+      // Keep selected values, because choices will reset them on re-init
+      this.disconnectValues = this.choicesInstance.getValue(true);
       this.choicesInstance.destroy();
       this.isDisconnected = true;
     }
@@ -306,10 +296,8 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
         // Remove duplications
         let item;
-        // eslint-disable-next-line no-plusplus
         for (let i = items.length - 1; i >= 0; i--) { // The loop must be form the end !!!
           item = items[i];
-          // eslint-disable-next-line prefer-template
           item.value = '' + item.value; // Make sure the value is a string, choices.js expect a string.
 
           if (this.choicesCache[item.value]) {
@@ -333,7 +321,6 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
   disableAllOptions() {
     // Choices.js does not offer a public API for accessing the choices
     // So we have to access the private store => don't eslint
-    // eslint-disable-next-line no-underscore-dangle
     const { choices } = this.choicesInstance._store;
 
     choices.forEach((elem, index) => {
@@ -349,7 +336,6 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
   enableAllOptions() {
     // Choices.js does not offer a public API for accessing the choices
     // So we have to access the private store => don't eslint
-    // eslint-disable-next-line no-underscore-dangle
     const { choices } = this.choicesInstance._store;
     const values = this.choicesInstance.getValue(true);
 
@@ -367,7 +353,6 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
   disableByValue($val) {
     // Choices.js does not offer a public API for accessing the choices
     // So we have to access the private store => don't eslint
-    // eslint-disable-next-line no-underscore-dangle
     const { choices } = this.choicesInstance._store;
     const values = this.choicesInstance.getValue(true);
 
@@ -394,7 +379,6 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
   enableByValue($val) {
     // Choices.js does not offer a public API for accessing the choices
     // So we have to access the private store => don't eslint
-    // eslint-disable-next-line no-underscore-dangle
     const { choices } = this.choicesInstance._store;
     const values = this.choicesInstance.getValue(true);
 

@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <config>
 	<help key="Contacts:_Options"/>
+	<inlinehelp button="show"/>
 	<fieldset
 		name="contact"
 		label="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DISPLAY"
@@ -252,6 +253,9 @@
 		<field
 			name="image"
 			type="media"
+			schemes="http,https,ftp,ftps,data,file"
+			validate="url"
+			relative="true"
 			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"
 			default=""
 			showon="show_info:1[AND]show_image:1"
@@ -353,7 +357,6 @@
 			name="linka_name"
 			type="text"
 			label="COM_CONTACT_FIELD_LINKA_NAME_LABEL"
-			size="30"
 			default=""
 			showon="show_links:1"
 		/>
@@ -362,7 +365,6 @@
 			name="linkb_name"
 			type="text"
 			label="COM_CONTACT_FIELD_LINKB_NAME_LABEL"
-			size="30"
 			default=""
 			showon="show_links:1"
 		/>
@@ -371,7 +373,6 @@
 			name="linkc_name"
 			type="text"
 			label="COM_CONTACT_FIELD_LINKC_NAME_LABEL"
-			size="30"
 			default=""
 			showon="show_links:1"
 		/>
@@ -380,7 +381,6 @@
 			name="linkd_name"
 			type="text"
 			label="COM_CONTACT_FIELD_LINKD_NAME_LABEL"
-			size="30"
 			default=""
 			showon="show_links:1"
 		/>
@@ -389,7 +389,6 @@
 			name="linke_name"
 			type="text"
 			label="COM_CONTACT_FIELD_LINKE_NAME_LABEL"
-			size="30"
 			default=""
 			showon="show_links:1"
 		/>
@@ -414,6 +413,9 @@
 		<field
 			name="icon_address"
 			type="media"
+			schemes="http,https,ftp,ftps,data,file"
+			validate="url"
+			relative="true"
 			label="COM_CONTACT_FIELD_ICONS_ADDRESS_LABEL"
 			hide_none="1"
 			default=""
@@ -423,6 +425,9 @@
 		<field
 			name="icon_email"
 			type="media"
+			schemes="http,https,ftp,ftps,data,file"
+			validate="url"
+			relative="true"
 			label="COM_CONTACT_FIELD_ICONS_EMAIL_LABEL"
 			hide_none="1"
 			default=""
@@ -432,6 +437,9 @@
 		<field
 			name="icon_telephone"
 			type="media"
+			schemes="http,https,ftp,ftps,data,file"
+			validate="url"
+			relative="true"
 			label="COM_CONTACT_FIELD_ICONS_TELEPHONE_LABEL"
 			hide_none="1"
 			default=""
@@ -441,6 +449,9 @@
 		<field
 			name="icon_mobile"
 			type="media"
+			schemes="http,https,ftp,ftps,data,file"
+			validate="url"
+			relative="true"
 			label="COM_CONTACT_FIELD_ICONS_MOBILE_LABEL"
 			hide_none="1"
 			default=""
@@ -450,6 +461,9 @@
 		<field
 			name="icon_fax"
 			type="media"
+			schemes="http,https,ftp,ftps,data,file"
+			validate="url"
+			relative="true"
 			label="COM_CONTACT_FIELD_ICONS_FAX_LABEL"
 			hide_none="1"
 			default=""
@@ -459,6 +473,9 @@
 		<field
 			name="icon_webpage"
 			type="media"
+			schemes="http,https,ftp,ftps,data,file"
+			validate="url"
+			relative="true"
 			label="COM_CONTACT_FIELD_ICONS_WEBPAGE_LABEL"
 			hide_none="1"
 			default=""
@@ -468,6 +485,9 @@
 		<field
 			name="icon_misc"
 			type="media"
+			schemes="http,https,ftp,ftps,data,file"
+			validate="url"
+			relative="true"
 			label="COM_CONTACT_FIELD_ICONS_MISC_LABEL"
 			hide_none="1"
 			default=""
@@ -843,22 +863,22 @@
 		</field>
 
 		<field
- 			name="contacts_display_num"
- 			type="list"
- 			label="COM_CONTACT_NUMBER_CONTACTS_LIST_LABEL"
- 			default="10"
+			name="contacts_display_num"
+			type="list"
+			label="COM_CONTACT_NUMBER_CONTACTS_LIST_LABEL"
+			default="10"
 			validate="options"
- 			>
- 			<option value="5">J5</option>
- 			<option value="10">J10</option>
- 			<option value="15">J15</option>
- 			<option value="20">J20</option>
- 			<option value="25">J25</option>
- 			<option value="30">J30</option>
- 			<option value="50">J50</option>
- 			<option value="100">J100</option>
- 			<option value="0">JALL</option>
- 		</field>
+			>
+			<option value="5">J5</option>
+			<option value="10">J10</option>
+			<option value="15">J15</option>
+			<option value="20">J20</option>
+			<option value="25">J25</option>
+			<option value="30">J30</option>
+			<option value="50">J50</option>
+			<option value="100">J100</option>
+			<option value="0">JALL</option>
+		</field>
 
 		<field
 			name="initial_sort"
@@ -960,8 +980,9 @@
 		<field
 			name="custom_reply"
 			type="radio"
-			layout="joomla.form.field.radio.switcher"
 			label="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_LABEL"
+			description="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_DESC"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			showon="show_email_form:1"
 			>
@@ -974,7 +995,6 @@
 			type="text"
 			label="COM_CONTACT_FIELD_CONFIG_REDIRECT_LABEL"
 			default=""
-			size="30"
 			showon="show_email_form:1"
 		/>
 	</fieldset>
@@ -1032,7 +1052,6 @@
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC"
 		>
 		<field
 			name="rules"

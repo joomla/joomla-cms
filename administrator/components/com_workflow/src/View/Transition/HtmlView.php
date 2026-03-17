@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
@@ -6,16 +7,20 @@
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-namespace Joomla\Component\Workflow\Administrator\View\Transition;
 
-\defined('_JEXEC') or die;
+namespace Joomla\Component\Workflow\Administrator\View\Transition;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Workflow\Administrator\Helper\StageHelper;
+use Joomla\Component\Workflow\Administrator\Model\TransitionModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View class to add or edit a transition of a workflow
@@ -24,193 +29,190 @@ use Joomla\Component\Workflow\Administrator\Helper\StageHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * The model state
-	 *
-	 * @var     object
-	 * @since   4.0.0
-	 */
-	protected $state;
+    /**
+     * The model state
+     *
+     * @var     object
+     * @since   4.0.0
+     */
+    protected $state;
 
-	/**
-	 * From object to generate fields
-	 *
-	 * @var     \JForm
-	 * @since  4.0.0
-	 */
-	protected $form;
+    /**
+     * Form object to generate fields
+     *
+     * @var    \Joomla\CMS\Form\Form
+     *
+     * @since  4.0.0
+     */
+    protected $form;
 
-	/**
-	 * Items array
-	 *
-	 * @var     object
-	 * @since  4.0.0
-	 */
-	protected $item;
+    /**
+     * Items array
+     *
+     * @var    object
+     * @since  4.0.0
+     */
+    protected $item;
 
-	/**
-	 * That is object of Application
-	 *
-	 * @var    \Joomla\CMS\Application\CMSApplication
-	 * @since  4.0.0
-	 */
-	protected $app;
+    /**
+     * That is object of Application
+     *
+     * @var    \Joomla\CMS\Application\CMSApplication
+     * @since  4.0.0
+     */
+    protected $app;
 
-	/**
-	 * The application input object.
-	 *
-	 * @var    \Joomla\CMS\Input\Input
-	 * @since  4.0.0
-	 */
-	protected $input;
+    /**
+     * The application input object.
+     *
+     * @var    \Joomla\Input\Input
+     * @since  4.0.0
+     */
+    protected $input;
 
-	/**
-	 * The ID of current workflow
-	 *
-	 * @var     integer
-	 * @since  4.0.0
-	 */
-	protected $workflowID;
+    /**
+     * The ID of current workflow
+     *
+     * @var    integer
+     * @since  4.0.0
+     */
+    protected $workflowID;
 
-	/**
-	 * The name of current extension
-	 *
-	 * @var     string
-	 * @since  4.0.0
-	 */
-	protected $extension;
+    /**
+     * The name of current extension
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected $extension;
 
-	/**
-	 * The section of the current extension
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $section;
+    /**
+     * The section of the current extension
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected $section;
 
-	/**
-	 * Display item view
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 *
-	 * @since  4.0.0
-	 */
-	public function display($tpl = null)
-	{
-		$this->app = Factory::getApplication();
-		$this->input = $this->app->input;
+    /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
 
-		// Get the Data
-		$this->state      = $this->get('State');
-		$this->form       = $this->get('Form');
-		$this->item       = $this->get('Item');
+    /**
+     * Display item view
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     *
+     * @since  4.0.0
+     */
+    public function display($tpl = null)
+    {
+        $this->app   = Factory::getApplication();
+        $this->input = $this->app->getInput();
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        /** @var TransitionModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-		$extension = $this->state->get('filter.extension');
+        $this->state      = $model->getState();
+        $this->form       = $model->getForm();
+        $this->item       = $model->getItem();
 
-		$parts = explode('.', $extension);
+        $extension = $this->state->get('filter.extension');
 
-		$this->extension = array_shift($parts);
+        $parts = explode('.', $extension);
 
-		if (!empty($parts))
-		{
-			$this->section = array_shift($parts);
-		}
+        $this->extension = array_shift($parts);
 
-		// Get the ID of workflow
-		$this->workflowID = $this->input->getCmd("workflow_id");
+        if (!empty($parts)) {
+            $this->section = array_shift($parts);
+        }
 
-		// Set the toolbar
-		$this->addToolbar();
+        // Get the ID of workflow
+        $this->workflowID = $this->input->getCmd("workflow_id");
 
-		// Display the template
-		parent::display($tpl);
-	}
+        // Add form control fields
+        $this->form
+            ->addControlField('task', 'transition.edit');
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since  4.0.0
-	 */
-	protected function addToolbar()
-	{
-		Factory::getApplication()->input->set('hidemainmenu', true);
+        // Set the toolbar
+        $this->addToolbar();
 
-		$user       = Factory::getUser();
-		$userId     = $user->id;
-		$isNew      = empty($this->item->id);
+        // Display the template
+        parent::display($tpl);
+    }
 
-		$canDo = StageHelper::getActions($this->extension, 'transition', $this->item->id);
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since  4.0.0
+     */
+    protected function addToolbar()
+    {
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-		ToolbarHelper::title(empty($this->item->id) ? Text::_('COM_WORKFLOW_TRANSITION_ADD') : Text::_('COM_WORKFLOW_TRANSITION_EDIT'), 'address');
+        $user       = $this->getCurrentUser();
+        $userId     = $user->id;
+        $isNew      = empty($this->item->id);
+        $toolbar    = $this->getDocument()->getToolbar();
+        $canDo      = StageHelper::getActions($this->extension, 'transition', $this->item->id);
+        $canCreate  = $canDo->get('core.create');
 
-		$toolbarButtons = [];
+        ToolbarHelper::title(empty($this->item->id) ? Text::_('COM_WORKFLOW_TRANSITION_ADD') : Text::_('COM_WORKFLOW_TRANSITION_EDIT'), 'address');
 
-		$canCreate = $canDo->get('core.create');
+        if ($isNew) {
+            // For new records, check the create permission.
+            if ($canCreate) {
+                $toolbar->apply('transition.apply');
 
-		if ($isNew)
-		{
-			// For new records, check the create permission.
-			if ($canCreate)
-			{
-				ToolbarHelper::apply('transition.apply');
-				$toolbarButtons = [['save', 'transition.save'], ['save2new', 'transition.save2new']];
-			}
+                $saveGroup = $toolbar->dropdownButton('save-group');
 
-			ToolbarHelper::saveGroup(
-				$toolbarButtons,
-				'btn-success'
-			);
+                $saveGroup->configure(
+                    function (Toolbar $childBar) {
+                        // For new records, check the create permission.
+                        $childBar->save('transition.save');
+                        $childBar->save2new('transition.save2new');
+                    }
+                );
+            }
 
-			ToolbarHelper::cancel(
-				'transition.cancel'
-			);
-		}
-		else
-		{
-			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
-			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
+            $toolbar->cancel('transition.cancel', 'JTOOLBAR_CANCEL');
+        } else {
+            // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
+            $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
-			if ($itemEditable)
-			{
-				ToolbarHelper::apply('transition.apply');
-				$toolbarButtons[] = ['save', 'transition.save'];
+            if ($itemEditable) {
+                $toolbar->apply('transition.apply');
+            } else {
+                $toolbar->save('transition.save');
+            }
 
-				// We can save this record, but check the create permission to see if we can return to make a new one.
-				if ($canCreate)
-				{
-					$toolbarButtons[] = ['save2new', 'transition.save2new'];
-					$toolbarButtons[] = ['save2copy', 'transition.save2copy'];
-				}
-			}
+            $saveGroup = $toolbar->dropdownButton('save-group');
 
-			if (count($toolbarButtons) > 1)
-			{
-				ToolbarHelper::saveGroup(
-					$toolbarButtons,
-					'btn-success'
-				);
-			}
-			else
-			{
-				ToolbarHelper::save('transition.save');
-			}
+            $saveGroup->configure(
+                function (Toolbar $childBar) use ($canCreate) {
+                    $childBar->save('transition.save');
 
-			ToolbarHelper::cancel(
-				'transition.cancel',
-				'JTOOLBAR_CLOSE'
-			);
-		}
+                    // We can save this record, but check the create permission to see if we can return to make a new one.
+                    if ($canCreate) {
+                        $childBar->save2new('transition.save2new');
+                        $childBar->save2copy('transition.save2copy');
+                    }
+                }
+            );
 
-		ToolbarHelper::divider();
-	}
+            $toolbar->cancel('transition.cancel');
+        }
+
+        $toolbar->divider();
+    }
 }

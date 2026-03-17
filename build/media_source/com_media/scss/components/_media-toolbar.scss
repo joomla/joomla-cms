@@ -1,12 +1,14 @@
 .media-toolbar {
-  position: relative;
+  position: sticky;
+  top: 67px;
+  z-index: 10;
   display: flex;
   flex-wrap: wrap;
   padding: 0;
   background-color: $toolbar-bg;
   border-bottom: 1px solid $border-color;
   border-inline-start: 1px solid $border-color;
-  border-radius: $border-radius $border-radius 0 0;
+  border-radius: 0 $border-radius 0 0;
   box-shadow: 0 -1px 0 0  $border-color;
   input {
     padding: .3rem .75rem;
@@ -16,19 +18,25 @@
     width: $toolbar-icon-width;
     font-size: 1.3rem;
     line-height: $toolbar-height;
-    color: var(--template-bg-dark-60);
+    color: $toolbar-icon-color;
     text-align: center;
     background-color: transparent;
     border: 0;
     border-inline-start: 1px solid $border-color;
-    box-shadow: 1px 0 #fefefe inset;
+    &.active {
+      color: #fff;
+      background-color: $toolbar-icon-active-bg-color;
+      &:hover {
+        background-color: $toolbar-icon-active-bg-color-hover;
+      }
+    }
     &:hover {
       background-color: $toolbar-icon-bg-hover;
       box-shadow: none;
     }
   }
   &-select-all {
-    width: 1rem;
+    width: 1.1rem;
     margin: 1rem;
   }
 }

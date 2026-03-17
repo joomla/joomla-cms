@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
@@ -9,10 +10,13 @@
 
 namespace Joomla\Component\Installer\Administrator\Table;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Table\Table;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Event\DispatcherInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Downloadkey Table class.
@@ -21,17 +25,27 @@ use Joomla\Database\DatabaseDriver;
  */
 class UpdatesiteTable extends Table
 {
-	/**
-	 * Constructor
-	 *
-	 * @param   DatabaseDriver  $db  Database connector object
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct(DatabaseDriver $db)
-	{
-		$this->typeAlias = 'com_installer.downloadkey';
+    /**
+     * Indicates that columns fully support the NULL value in the database
+     *
+     * @var    boolean
+     *
+     * @since  4.1.1
+     */
+    protected $_supportNullValue = true;
 
-		parent::__construct('#__update_sites', 'update_site_id', $db);
-	}
+    /**
+     * Constructor
+     *
+     * @param   DatabaseInterface     $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
+     *
+     * @since   4.0.0
+     */
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
+    {
+        $this->typeAlias = 'com_installer.downloadkey';
+
+        parent::__construct('#__update_sites', 'update_site_id', $db, $dispatcher);
+    }
 }

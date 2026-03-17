@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_users
@@ -9,15 +10,17 @@
 
 namespace Joomla\Component\Users\Site\View\Login;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\User\User;
+use Joomla\Component\Users\Site\Model\LoginModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Login view class for Users.
@@ -26,138 +29,127 @@ use Joomla\CMS\User\User;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * The \JForm object
-	 *
-	 * @var  \JForm
-	 */
-	protected $form;
+    /**
+     * The Form object
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    protected $form;
 
-	/**
-	 * The page parameters
-	 *
-	 * @var  \Joomla\Registry\Registry|null
-	 */
-	protected $params;
+    /**
+     * The page parameters
+     *
+     * @var  \Joomla\Registry\Registry|null
+     */
+    protected $params;
 
-	/**
-	 * The model state
-	 *
-	 * @var  CMSObject
-	 */
-	protected $state;
+    /**
+     * The model state
+     *
+     * @var  \Joomla\Registry\Registry
+     */
+    protected $state;
 
-	/**
-	 * The logged in user
-	 *
-	 * @var  User
-	 */
-	protected $user;
+    /**
+     * The logged in user
+     *
+     * @var  User
+     */
+    protected $user;
 
-	/**
-	 * The page class suffix
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $pageclass_sfx = '';
+    /**
+     * The page class suffix
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected $pageclass_sfx = '';
 
-	/**
-	 * Array containing the available two factor authentication methods
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $tfa = '';
+    /**
+     * Additional buttons to show on the login page
+     *
+     * @var    array
+     * @since  4.0.0
+     */
+    protected $extraButtons = [];
 
-	/**
-	 * Additional buttons to show on the login page
-	 *
-	 * @var    array
-	 * @since  4.0.0
-	 */
-	protected $extraButtons = [];
+    /**
+     * Method to display the view.
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     *
+     * @since   1.5
+     * @throws  \Exception
+     */
+    public function display($tpl = null)
+    {
+        /** @var LoginModel $model */
+        $model        = $this->getModel();
+        $this->user   = $this->getCurrentUser();
+        $this->form   = $model->getForm();
+        $this->state  = $model->getState();
+        $this->params = $this->state->get('params');
 
-	/**
-	 * Method to display the view.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 * @throws  \Exception
-	 */
-	public function display($tpl = null)
-	{
-		// Get the view data.
-		$this->user   = Factory::getUser();
-		$this->form   = $this->get('Form');
-		$this->state  = $this->get('State');
-		$this->params = $this->state->get('params');
+        // Check for errors.
+        if (\count($errors = $model->getErrors())) {
+            throw new GenericDataException(implode("\n", $errors), 500);
+        }
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        // Check for layout override
+        $active = Factory::getApplication()->getMenu()->getActive();
 
-		// Check for layout override
-		$active = Factory::getApplication()->getMenu()->getActive();
+        if (isset($active->query['layout'])) {
+            $this->setLayout($active->query['layout']);
+        }
 
-		if (isset($active->query['layout']))
-		{
-			$this->setLayout($active->query['layout']);
-		}
+        $this->extraButtons = AuthenticationHelper::getLoginButtons('com-users-login__form');
 
-		$tfa = AuthenticationHelper::getTwoFactorMethods();
-		$this->tfa = is_array($tfa) && count($tfa) > 1;
+        // Escape strings for HTML output
+        $this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''), ENT_COMPAT, 'UTF-8');
 
-		$this->extraButtons = AuthenticationHelper::getLoginButtons('com-users-login__form');
+        // Add form control fields
+        $return = $this->form->getValue('return', '', $this->params->get('login_redirect_url', $this->params->get('login_redirect_menuitem', '')));
 
-		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''), ENT_COMPAT, 'UTF-8');
+        $this->form
+            ->addControlField('return', base64_encode($return));
 
-		$this->prepareDocument();
+        $this->prepareDocument();
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 
-	/**
-	 * Prepares the document
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 * @throws  \Exception
-	 */
-	protected function prepareDocument()
-	{
-		$login = Factory::getUser()->get('guest') ? true : false;
+    /**
+     * Prepares the document
+     *
+     * @return  void
+     *
+     * @since   1.6
+     * @throws  \Exception
+     */
+    protected function prepareDocument()
+    {
+        $login = (bool) $this->getCurrentUser()->guest;
 
-		// Because the application sets a default page title,
-		// we need to get it from the menu item itself
-		$menu = Factory::getApplication()->getMenu()->getActive();
+        // Because the application sets a default page title,
+        // we need to get it from the menu item itself
+        $menu = Factory::getApplication()->getMenu()->getActive();
 
-		if ($menu)
-		{
-			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
-		}
-		else
-		{
-			$this->params->def('page_heading', $login ? Text::_('JLOGIN') : Text::_('JLOGOUT'));
-		}
+        if ($menu) {
+            $this->params->def('page_heading', $this->params->get('page_title', $menu->title));
+        } else {
+            $this->params->def('page_heading', $login ? Text::_('JLOGIN') : Text::_('JLOGOUT'));
+        }
 
-		$this->setDocumentTitle($this->params->get('page_title', ''));
+        $this->setDocumentTitle($this->params->get('page_title', ''));
 
-		if ($this->params->get('menu-meta_description'))
-		{
-			$this->document->setDescription($this->params->get('menu-meta_description'));
-		}
+        if ($this->params->get('menu-meta_description')) {
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
+        }
 
-		if ($this->params->get('robots'))
-		{
-			$this->document->setMetaData('robots', $this->params->get('robots'));
-		}
-	}
+        if ($this->params->get('robots')) {
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
+        }
+    }
 }

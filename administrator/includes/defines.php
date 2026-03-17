@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package    Joomla.Administrator
  *
@@ -6,22 +7,26 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
+
+// Define JPATH constants if not defined yet
+\defined('JPATH_BASE') || \define('JPATH_BASE', \dirname(__DIR__));
 
 // Global definitions
 $parts = explode(DIRECTORY_SEPARATOR, JPATH_BASE);
 array_pop($parts);
 
 // Defines
-define('JPATH_ROOT',          implode(DIRECTORY_SEPARATOR, $parts));
-define('JPATH_SITE',          JPATH_ROOT);
-define('JPATH_CONFIGURATION', JPATH_ROOT);
-define('JPATH_ADMINISTRATOR', JPATH_ROOT . DIRECTORY_SEPARATOR . 'administrator');
-define('JPATH_LIBRARIES',     JPATH_ROOT . DIRECTORY_SEPARATOR . 'libraries');
-define('JPATH_PLUGINS',       JPATH_ROOT . DIRECTORY_SEPARATOR . 'plugins');
-define('JPATH_INSTALLATION',  JPATH_ROOT . DIRECTORY_SEPARATOR . 'installation');
-define('JPATH_THEMES',        JPATH_BASE . DIRECTORY_SEPARATOR . 'templates');
-define('JPATH_CACHE',         JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'cache');
-define('JPATH_MANIFESTS',     JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'manifests');
-define('JPATH_API',           JPATH_ROOT . DIRECTORY_SEPARATOR . 'api');
-define('JPATH_CLI',           JPATH_ROOT . DIRECTORY_SEPARATOR . 'cli');
+\defined('JPATH_ROOT') || \define('JPATH_ROOT', implode(DIRECTORY_SEPARATOR, $parts));
+\defined('JPATH_SITE') || \define('JPATH_SITE', JPATH_ROOT);
+\defined('JPATH_PUBLIC') || \define('JPATH_PUBLIC', JPATH_ROOT);
+\defined('JPATH_CONFIGURATION') || \define('JPATH_CONFIGURATION', JPATH_ROOT);
+\defined('JPATH_ADMINISTRATOR') || \define('JPATH_ADMINISTRATOR', JPATH_ROOT . DIRECTORY_SEPARATOR . 'administrator');
+\defined('JPATH_LIBRARIES') || \define('JPATH_LIBRARIES', JPATH_ROOT . DIRECTORY_SEPARATOR . 'libraries');
+\defined('JPATH_PLUGINS') || \define('JPATH_PLUGINS', JPATH_ROOT . DIRECTORY_SEPARATOR . 'plugins');
+\defined('JPATH_INSTALLATION') || \define('JPATH_INSTALLATION', JPATH_ROOT . DIRECTORY_SEPARATOR . 'installation');
+\defined('JPATH_THEMES') || \define('JPATH_THEMES', JPATH_BASE . DIRECTORY_SEPARATOR . 'templates');
+\defined('JPATH_CACHE') || \define('JPATH_CACHE', JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'cache');
+\defined('JPATH_MANIFESTS') || \define('JPATH_MANIFESTS', JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'manifests');
+\defined('JPATH_API') || \define('JPATH_API', JPATH_ROOT . DIRECTORY_SEPARATOR . 'api');
+\defined('JPATH_CLI') || \define('JPATH_CLI', JPATH_ROOT . DIRECTORY_SEPARATOR . 'cli');

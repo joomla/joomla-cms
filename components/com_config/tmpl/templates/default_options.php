@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_config
@@ -11,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
+/** @var \Joomla\Component\Config\Site\View\Templates\HtmlView $this */
 $fieldSets = $this->form->getFieldsets('params');
 ?>
 
@@ -19,23 +21,17 @@ $fieldSets = $this->form->getFieldsets('params');
 <?php
 
 // Search for com_config field set
-if (!empty($fieldSets['com_config']))
-{
-	echo $this->form->renderFieldset('com_config');
-}
-else
-{
-	// Fall-back to display all in params
-	foreach ($fieldSets as $name => $fieldSet)
-	{
-		$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CONFIG_' . $name . '_FIELDSET_LABEL';
+if (!empty($fieldSets['com_config'])) {
+    echo $this->form->renderFieldset('com_config');
+} else {
+    // Fall-back to display all in params
+    foreach ($fieldSets as $name => $fieldSet) {
+        $label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CONFIG_' . $name . '_FIELDSET_LABEL';
 
-		if (isset($fieldSet->description) && trim($fieldSet->description))
-		{
-			echo '<p class="tip">' . $this->escape(Text::_($fieldSet->description)) . '</p>';
-		}
+        if (isset($fieldSet->description) && trim($fieldSet->description)) {
+            echo '<p class="tip">' . $this->escape(Text::_($fieldSet->description)) . '</p>';
+        }
 
-		echo $this->form->renderFieldset($name);
-
-	}
+        echo $this->form->renderFieldset($name);
+    }
 }

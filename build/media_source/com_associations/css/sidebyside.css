@@ -4,7 +4,7 @@
  */
 
 .sidebyside .outer-panel {
-  float: left;
+  float: inline-start;
   width: 50%;
 }
 
@@ -33,11 +33,11 @@
 }
 
 .sidebyside .langtarget {
-  float: left;
+  float: inline-start;
 }
 
 .sidebyside .modaltarget {
-  float: left;
+  float: inline-start;
   margin-inline-start: .5rem;
 }
 
@@ -50,25 +50,8 @@
 }
 
 .target-text {
-  float: left;
+  float: inline-start;
   width: auto;
-}
-
-/* RTL overrides */
-[dir=rtl] .sidebyside .outer-panel {
-  float: right;
-}
-
-[dir=rtl] .sidebyside .langtarget {
-  float: right;
-}
-
-[dir=rtl] .sidebyside .modaltarget {
-  float: right;
-}
-
-[dir=rtl] .target-text {
-  float: right;
 }
 
 /* Responsive layout */

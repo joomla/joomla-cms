@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Installation
  * @subpackage  Controller
@@ -9,14 +10,15 @@
 
 namespace Joomla\CMS\Installation\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Session\Session;
-use Joomla\Utilities\ArrayHelper;
+use Joomla\Input\Input;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Default controller class for the Joomla Installer.
@@ -25,263 +27,315 @@ use Joomla\Utilities\ArrayHelper;
  */
 class InstallationController extends JSONController
 {
-	/**
-	 * Constructor.
-	 *
-	 * @param   array                     $config   An optional associative array of configuration settings.
-	 * Recognized key values include 'name', 'default_task', 'model_path', and
-	 * 'view_path' (this list is not meant to be comprehensive).
-	 * @param   MVCFactoryInterface|null  $factory  The factory.
-	 * @param   CMSApplication|null       $app      The JApplication for the dispatcher
-	 * @param   \JInput|null              $input    Input
-	 *
-	 * @since   3.0
-	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
-	{
-		parent::__construct($config, $factory, $app, $input);
+    /**
+     * @param   array                 $config   An optional associative array of configuration settings.
+     *                                          Recognized key values include 'name', 'default_task', 'model_path', and
+     *                                          'view_path' (this list is not meant to be comprehensive).
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The Application for the dispatcher
+     * @param   ?Input                $input    The Input object.
+     *
+     * @since   3.0
+     */
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
+    {
+        parent::__construct($config, $factory, $app, $input);
 
-		$this->registerTask('populate1', 'populate');
-		$this->registerTask('populate2', 'populate');
-		$this->registerTask('populate3', 'populate');
-		$this->registerTask('custom1', 'populate');
-		$this->registerTask('custom2', 'populate');
-		$this->registerTask('removeFolder', 'delete');
-	}
+        $this->registerTask('populate1', 'populate');
+        $this->registerTask('populate2', 'populate');
+        $this->registerTask('populate3', 'populate');
+        $this->registerTask('custom1', 'populate');
+        $this->registerTask('custom2', 'populate');
+        $this->registerTask('removeFolder', 'delete');
+    }
 
-	/**
-	 * Database check task.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function dbcheck()
-	{
-		$this->checkValidToken();
+    /**
+     * Database check task.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function dbcheck()
+    {
+        $this->checkValidToken();
 
-		// Redirect to the page.
-		$r = new \stdClass;
-		$r->view = 'setup';
+        // Redirect to the page.
+        $r       = new \stdClass();
+        $r->view = 'setup';
 
-		// Check the form
-		/** @var \Joomla\CMS\Installation\Model\SetupModel $model */
-		$model = $this->getModel('Setup');
+        /** @var \Joomla\CMS\Installation\Model\SetupModel $model */
+        $model = $this->getModel('Setup');
+        $data  = $this->app->getInput()->post->get('jform', [], 'array');
 
-		if ($model->checkForm('setup') === false)
-		{
-			$this->app->enqueueMessage(Text::_('INSTL_DATABASE_VALIDATION_ERROR'), 'error');
-			$r->validated = false;
-			$this->sendJsonResponse($r);
+        if ($model->validate($data, 'setup') === false) {
+            $this->app->enqueueMessage(Text::_('INSTL_DATABASE_VALIDATION_ERROR'), 'error');
+            $r->validated = false;
+            $this->sendJsonResponse($r);
 
-			return;
-		}
+            return;
+        }
 
-		$r->validated = $model->validateDbConnection();
+        $form = $model->getForm();
+        $data = $form->filter($data);
 
-		$this->sendJsonResponse($r);
-	}
+        // Check for validation errors.
+        if ($data === false) {
+            $this->app->enqueueMessage(Text::_('INSTL_DATABASE_VALIDATION_ERROR'), 'error');
+            $r->validated = false;
+            $r->error     = true;
+            $this->sendJsonResponse($r);
 
-	/**
-	 * Create DB task.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function create()
-	{
-		$this->checkValidToken();
+            return;
+        }
 
-		$r = new \stdClass;
+        $data = $model->storeOptions($data);
 
-		/** @var \Joomla\CMS\Installation\Model\DatabaseModel $databaseModel */
-		$databaseModel = $this->getModel('Database');
+        if (!$model->validateDbConnection($data)) {
+            $r->validated = false;
+            $r->error     = true;
+        } else {
+            $r->validated = true;
+        }
 
-		// Create Db
-		try
-		{
-			$dbCreated = $databaseModel->createDatabase();
-		}
-		catch (\RuntimeException $e)
-		{
-			$this->app->enqueueMessage($e->getMessage(), 'error');
+        $this->sendJsonResponse($r);
+    }
 
-			$dbCreated = false;
-		}
+    /**
+     * Create DB task.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function create()
+    {
+        $this->checkValidToken();
 
-		if (!$dbCreated)
-		{
-			$r->view = 'setup';
-		}
-		else
-		{
-			if (!$databaseModel->handleOldDatabase())
-			{
-				$r->view = 'setup';
-			}
-		}
+        $r = new \stdClass();
 
-		$this->sendJsonResponse($r);
-	}
+        /** @var \Joomla\CMS\Installation\Model\DatabaseModel $databaseModel */
+        $databaseModel = $this->getModel('Database');
+        $options       = $databaseModel->getOptions();
 
-	/**
-	 * Populate the database.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function populate()
-	{
-		$this->checkValidToken();
-		$step = $this->getTask();
-		/** @var \Joomla\CMS\Installation\Model\DatabaseModel $model */
-		$model = $this->getModel('Database');
+        // Create Db
+        try {
+            $dbCreated = $databaseModel->createDatabase($options);
+        } catch (\RuntimeException $e) {
+            $this->app->enqueueMessage($e->getMessage(), 'error');
 
-		$r = new \stdClass;
-		$db = $model->initialise();
-		$files = [
-			'populate1' => 'base',
-			'populate2' => 'supports',
-			'populate3' => 'extensions',
-			'custom1' => 'localise',
-			'custom2' => 'custom'
-		];
+            $dbCreated = false;
+        }
 
-		$schema = $files[$step];
-		$serverType = $db->getServerType();
+        if (!$dbCreated) {
+            $r->view  = 'setup';
+            $r->error = true;
+        } else {
+            // Re-fetch options from the session as the create database call might modify them.
+            $updatedOptions = $databaseModel->getOptions();
 
-		if (in_array($step, ['custom1', 'custom2']) && !is_file('sql/' . $serverType . '/' . $schema . '.sql'))
-		{
-			$this->sendJsonResponse($r);
+            if (!$databaseModel->handleOldDatabase($updatedOptions)) {
+                $r->view  = 'setup';
+                $r->error = true;
+            }
+        }
 
-			return;
-		}
+        $this->sendJsonResponse($r);
+    }
 
-		if (!isset($files[$step]))
-		{
-			$r->view = 'setup';
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_SAMPLE_DATA_NOT_FOUND'), 'error');
-			$this->sendJsonResponse($r);
-		}
+    /**
+     * Populate the database.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function populate()
+    {
+        $this->checkValidToken();
+        $step = $this->getTask();
+        /** @var \Joomla\CMS\Installation\Model\DatabaseModel $model */
+        $model = $this->getModel('Database');
 
-		// Attempt to populate the database with the given file.
-		if (!$model->createTables($schema))
-		{
-			$r->view = 'setup';
-		}
+        $r       = new \stdClass();
+        $options = $model->getOptions();
+        $db      = $model->initialise($options);
+        $files   = [
+            'populate1' => 'base',
+            'populate2' => 'supports',
+            'populate3' => 'extensions',
+            'custom1'   => 'localise',
+            'custom2'   => 'custom',
+        ];
 
-		$this->sendJsonResponse($r);
-	}
+        $schema     = $files[$step];
+        $serverType = $db->getServerType();
 
-	/**
-	 * Config task.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function config()
-	{
-		$this->checkValidToken();
+        if (\in_array($step, ['custom1', 'custom2']) && !is_file(JPATH_INSTALLATION . '/sql/' . $serverType . '/' . $schema . '.sql')) {
+            $this->sendJsonResponse($r);
 
-		/** @var \Joomla\CMS\Installation\Model\SetupModel $setUpModel */
-		$setUpModel = $this->getModel('Setup');
+            return;
+        }
 
-		// Get the options from the session
-		$options = $setUpModel->getOptions();
+        if (!isset($files[$step])) {
+            $r->view = 'setup';
+            $this->app->enqueueMessage(Text::_('INSTL_SAMPLE_DATA_NOT_FOUND'), 'error');
+            $r->error = true;
+            $this->sendJsonResponse($r);
+        }
 
-		$r = new \stdClass;
-		$r->view = 'remove';
+        // Attempt to populate the database with the given file.
+        if (!$model->createTables($schema, $options)) {
+            $r->view  = 'setup';
+            $r->error = true;
+        }
 
-		/** @var \Joomla\CMS\Installation\Model\ConfigurationModel $configurationModel */
-		$configurationModel = $this->getModel('Configuration');
+        $this->sendJsonResponse($r);
+    }
 
-		// Attempt to setup the configuration.
-		if (!$configurationModel->setup($options))
-		{
-			$r->view = 'setup';
-		}
+    /**
+     * Config task.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function config()
+    {
+        $this->checkValidToken();
 
-		$this->sendJsonResponse($r);
-	}
+        /** @var \Joomla\CMS\Installation\Model\SetupModel $setUpModel */
+        $setUpModel = $this->getModel('Setup');
 
-	/**
-	 * Languages task.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function languages()
-	{
-		$this->checkValidToken();
+        // Get the options from the session
+        $options = $setUpModel->getOptions();
 
-		// Get array of selected languages
-		$lids = $this->input->get('cid', [], 'array');
-		$lids = ArrayHelper::toInteger($lids, []);
+        $r       = new \stdClass();
+        $r->view = 'remove';
 
-		if (!$lids)
-		{
-			// No languages have been selected
-			$this->app->enqueueMessage(Text::_('INSTL_LANGUAGES_NO_LANGUAGE_SELECTED'), 'warning');
-		}
-		else
-		{
-			// Get the languages model.
-			/** @var \Joomla\CMS\Installation\Model\LanguagesModel $model */
-			$model = $this->getModel('Languages');
+        /** @var \Joomla\CMS\Installation\Model\ConfigurationModel $configurationModel */
+        $configurationModel = $this->getModel('Configuration');
 
-			// Install selected languages
-			$model->install($lids);
-		}
+        // Attempt to setup the configuration.
+        if (!$configurationModel->setup($options)) {
+            $r->view  = 'setup';
+            $r->error = true;
+        }
 
-		// Redirect to the page.
-		$r = new \stdClass;
-		$r->view = 'remove';
+        $this->sendJsonResponse($r);
+    }
 
-		$this->sendJsonResponse($r);
-	}
+    /**
+     * Languages task.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function languages()
+    {
+        $this->checkValidToken();
 
-	/**
-	 * Delete installation folder task.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function delete()
-	{
-		$this->checkValidToken();
+        // Get array of selected languages
+        $lids = (array) $this->input->get('cid', [], 'int');
 
-		/** @var \Joomla\CMS\Installation\Model\CleanupModel $model */
-		$model = $this->getModel('Cleanup');
+        // Remove zero values resulting from input filter
+        $lids = array_filter($lids);
 
-		if (!$model->deleteInstallationFolder())
-		{
-			// We can't send a response with sendJsonResponse because our installation classes might not now exist
-			$error = [
-				'token' => Session::getFormToken(true),
-				'error' => true,
-				'data' => [
-					'view' => 'remove'
-				],
-				'messages' => [
-					'warning' => [
-						Text::sprintf('INSTL_COMPLETE_ERROR_FOLDER_DELETE', 'installation')
-					]
-				]
-			];
+        if (empty($lids)) {
+            // No languages have been selected
+            $this->app->enqueueMessage(Text::_('INSTL_LANGUAGES_NO_LANGUAGE_SELECTED'), 'warning');
+        } else {
+            // Get the languages model.
+            /** @var \Joomla\CMS\Installation\Model\LanguagesModel $model */
+            $model = $this->getModel('Languages');
 
-			echo json_encode($error);
+            // Install selected languages
+            $model->install($lids);
+        }
 
-			return;
-		}
+        // Redirect to the page.
+        $r       = new \stdClass();
+        $r->view = 'remove';
 
-		$this->app->getSession()->destroy();
+        $this->sendJsonResponse($r);
+    }
 
-		// We can't send a response with sendJsonResponse because our installation classes now do not exist
-		echo json_encode(['error' => false]);
-	}
+    /**
+     * Delete installation folder task.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function delete()
+    {
+        $this->checkValidToken();
+
+        /** @var \Joomla\CMS\Installation\Model\CleanupModel $model */
+        $model = $this->getModel('Cleanup');
+
+        if (!$model->deleteInstallationFolder()) {
+            // We can't send a response with sendJsonResponse because our installation classes might not now exist
+            $error = [
+                'token' => Session::getFormToken(true),
+                'error' => true,
+                'data'  => [
+                    'view' => 'remove',
+                ],
+                'messages' => [
+                    'warning' => [
+                        Text::sprintf('INSTL_COMPLETE_ERROR_FOLDER_DELETE', 'installation'),
+                    ],
+                ],
+            ];
+
+            echo json_encode($error);
+
+            return;
+        }
+
+        $this->app->getSession()->destroy();
+
+        // We can't send a response with sendJsonResponse because our installation classes now do not exist
+        echo json_encode(['error' => false]);
+    }
+
+    /**
+     * Opt out from automated updates
+     *
+     * @return  void
+     *
+     * @since   5.4.0
+     */
+    public function disableAutomatedUpdates()
+    {
+        $this->checkValidToken();
+
+        /** @var \Joomla\CMS\Installation\Model\AutomatedUpdatesModel $model */
+        $model = $this->getModel('AutomatedUpdates');
+
+        if (!$model->disable()) {
+            // We can't send a response with sendJsonResponse because our installation classes might not exist yet
+            $error = [
+                'token' => Session::getFormToken(true),
+                'error' => true,
+                'data'  => [
+                    'view' => 'remove',
+                ],
+                'messages' => [
+                    'warning' => [
+                        Text::sprintf('INSTL_COMPLETE_ERROR_AUTOMATED_UPDATES_DISABLE'),
+                    ],
+                ],
+            ];
+
+            echo json_encode($error);
+
+            return;
+        }
+
+        // We can't send a response with sendJsonResponse because our installation classes do not exist yet
+        echo json_encode(['error' => false]);
+    }
 }

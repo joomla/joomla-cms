@@ -13,48 +13,46 @@
 
       const update = (type, text) => {
         const link = document.getElementById('plg_quickicon_extensionupdate');
-        const linkSpans = [].slice.call(link.querySelectorAll('span.j-links-link'));
         if (link) {
           link.classList.add(type);
         }
 
-        if (linkSpans.length) {
-          linkSpans.forEach((span) => {
-            span.innerHTML = Joomla.sanitizeHtml(text);
-          });
-        }
+        link.querySelectorAll('span.j-links-link').forEach((span) => {
+          span.innerHTML = Joomla.sanitizeHtml(text);
+        });
       };
 
-      Joomla.request({
+      /**
+       * DO NOT use fetch() for QuickIcon requests. They must be queued.
+       *
+       * @see https://github.com/joomla/joomla-cms/issues/38001
+       */
+      Joomla.enqueueRequest({
         url: options.ajaxUrl,
         method: 'GET',
-        data: '',
-        perform: true,
-        onSuccess: (response) => {
-          const updateInfoList = JSON.parse(response);
+        promise: true,
+      }).then((xhr) => {
+        const response = xhr.responseText;
+        const updateInfoList = JSON.parse(response);
 
-          if (Array.isArray(updateInfoList)) {
-            if (updateInfoList.length === 0) {
-              // No updates
-              update('success', Joomla.Text._('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE'));
-            } else {
-              update('danger', Joomla.Text._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND').replace('%s', `<span class="badge text-dark bg-light">${updateInfoList.length}</span>`));
-            }
+        if (Array.isArray(updateInfoList)) {
+          if (updateInfoList.length === 0) {
+            // No updates
+            update('success', Joomla.Text._('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE'));
           } else {
-            // An error occurred
-            update('danger', Joomla.Text._('PLG_QUICKICON_EXTENSIONUPDATE_ERROR'));
+            update('danger', Joomla.Text._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND').replace('%s', `<span class="badge text-dark bg-light">${updateInfoList.length}</span>`));
           }
-        },
-        onError: () => {
+        } else {
           // An error occurred
           update('danger', Joomla.Text._('PLG_QUICKICON_EXTENSIONUPDATE_ERROR'));
-        },
+        }
+      }).catch(() => {
+        // An error occurred
+        update('danger', Joomla.Text._('PLG_QUICKICON_EXTENSIONUPDATE_ERROR'));
       });
     }
   };
 
   // Give some times to the layout and other scripts to settle their stuff
-  window.addEventListener('load', () => {
-    setTimeout(fetchUpdate, 330);
-  });
+  window.addEventListener('load', () => setTimeout(fetchUpdate, 330));
 })();

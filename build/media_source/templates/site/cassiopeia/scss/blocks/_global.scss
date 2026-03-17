@@ -1,4 +1,10 @@
 // Global
+@media screen and (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
 :root {
   scroll-behavior: smooth;
   font-size: $font-size-root;
@@ -6,6 +12,12 @@
   // Disable smooth scroll when the user has set "prefers-reduced-motion"
   @media screen and (prefers-reduced-motion: reduce) {
     scroll-behavior: auto;
+  }
+
+  &:has(.sticky-top) {
+    [id] {
+      scroll-margin-top: var(--cassiopeia-scroll-margin-top, 10rem);
+    }
   }
 }
 
@@ -54,15 +66,14 @@ h6 {
 }
 
 a {
-  color: var(--cassiopeia-color-link);
+  color: var(--#{$prefix}link-color);
+
+  &:hover {
+    color: var(--#{$prefix}link-hover-color);
+  }
 
   &:not([class]) {
     text-decoration: underline;
-  }
-
-  &:hover,
-  &:focus {
-    color: var(--cassiopeia-color-hover);
   }
 
   &.navbar-brand {
@@ -84,17 +95,13 @@ a {
 .btn-group {
   margin-bottom: $cassiopeia-grid-gutter;
   > input {
-    padding: $cassiopeia-grid-gutter/2;
+    padding: $cassiopeia-grid-gutter * .5;
     border: 1px solid $gray-400;
     @include border-start-radius($border-radius);
     @include border-end-radius(0);
   }
-}
-
-[dir="rtl"] .btn-group {
-  > input {
-    @include border-end-radius($border-radius);
-    @include border-start-radius(0);
+  > .btn-group {
+    margin-bottom: 0;
   }
 }
 
@@ -117,11 +124,6 @@ small,
 dd {
   padding: 0;
   word-wrap: break-word;
-}
-
-[dir="rtl"] dd {
-  margin-right: 0;
-  margin-left: auto;
 }
 
 th dd {
@@ -179,12 +181,6 @@ th dd {
     }
   }
 
-  [dir="rtl"] dl.dl-horizontal {
-    dd {
-      padding: 0 $cassiopeia-grid-gutter 0 0;
-    }
-  }
-
   .com-users-profile {
     dt {
       min-width: 180px;
@@ -199,14 +195,6 @@ figure {
   }
   &.float-end {
     margin-left: $cassiopeia-grid-gutter;
-  }
-  [dir="rtl"] &.float-start {
-    margin-right: 0;
-    margin-left: $cassiopeia-grid-gutter;
-  }
-  [dir="rtl"] &.float-end {
-    margin-right: $cassiopeia-grid-gutter;
-    margin-left: 0;
   }
 }
 
@@ -232,21 +220,16 @@ meter {
     padding: 0;
     margin: $cassiopeia-grid-gutter 0;
 
-    li.next:only-child {
+    .next:only-child {
       margin-left: auto;
-    }
-
-    [dir="rtl"] &>li.next:only-child {
-      margin-right: auto;
-      margin-left: $cassiopeia-grid-gutter;
     }
   }
 }
 
 .page-link {
-  color: var(--cassiopeia-color-link);
+  color: var(--#{$prefix}link-color);
   &:hover {
-    color: var(--cassiopeia-color-link);
+    color: var(--#{$prefix}link-color);
   }
 }
 

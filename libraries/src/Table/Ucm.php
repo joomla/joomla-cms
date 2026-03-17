@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,24 +9,32 @@
 
 namespace Joomla\CMS\Table;
 
-\defined('JPATH_PLATFORM') or die;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Event\DispatcherInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * UCM map table
  *
  * @since  3.1
+ * @deprecated  5.4.0 will be removed in 7.0 without replacement
  */
 class Ucm extends Table
 {
-	/**
-	 * Constructor
-	 *
-	 * @param   \Joomla\Database\DatabaseDriver  $db  A database connector object
-	 *
-	 * @since   3.1
-	 */
-	public function __construct($db)
-	{
-		parent::__construct('#__ucm_base', 'ucm_id', $db);
-	}
+    /**
+     * Constructor
+     *
+     * @param   DatabaseInterface     $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
+     *
+     * @since   3.1
+     * @deprecated  5.4.0 will be removed in 7.0 without replacement
+     */
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
+    {
+        parent::__construct('#__ucm_base', 'ucm_id', $db, $dispatcher);
+    }
 }

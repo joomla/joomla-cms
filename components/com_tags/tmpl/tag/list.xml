@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <metadata>
 	<layout title="COM_TAGS_TAG_VIEW_LIST_COMPACT_TITLE" option="COM_TAGS_TAG_VIEW_LIST_COMPACT_OPTION">
 		<help
@@ -20,6 +20,7 @@
 				mode="nested"
 				required="true"
 				multiple="true"
+				custom="false"
 			/>
 
 			<field
@@ -86,6 +87,9 @@
 			<field
 				name="tag_list_image"
 				type="media"
+				schemes="http,https,ftp,ftps,data,file"
+				validate="url"
+				relative="true"
 				label="COM_TAGS_TAG_LIST_MEDIA_LABEL"
 			/>
 
@@ -93,7 +97,6 @@
 				name="tag_list_image_alt"
 				type="text"
 				label="COM_TAGS_TAG_LIST_MEDIA_ALT_LABEL"
-				size="20"
 			/>
 
 			<field
@@ -275,7 +278,6 @@
 				type="text"
 				label="JGLOBAL_DATE_FORMAT_LABEL"
 				description="JGLOBAL_DATE_FORMAT_DESC"
-				size="15"
 			/>
 
 		</fieldset>

@@ -1,19 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="api-authentication" method="upgrade">
 	<name>plg_api-authentication_basic</name>
 	<author>Joomla! Project</author>
-	<creationDate>November 2005</creationDate>
+	<creationDate>2005-11</creationDate>
 	<copyright>(C) 2019 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>PLG_API-AUTHENTICATION_BASIC_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\ApiAuthentication\Basic</namespace>
 	<files>
-		<filename plugin="basic">basic.php</filename>
+		<folder plugin="basic">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/plg_authentication_api_basic.ini</language>
-		<language tag="en-GB">language/en-GB/plg_authentication_api_basic.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_api-authentication_basic.ini</language>
+		<language tag="en-GB">language/en-GB/plg_api-authentication_basic.sys.ini</language>
 	</languages>
 </extension>

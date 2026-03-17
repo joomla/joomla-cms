@@ -1,17 +1,19 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="fields" method="upgrade">
 	<name>plg_fields_checkboxes</name>
 	<author>Joomla! Project</author>
-	<creationDate>March 2016</creationDate>
+	<creationDate>2016-03</creationDate>
 	<copyright>(C) 2016 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.7.0</version>
 	<description>PLG_FIELDS_CHECKBOXES_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Fields\Checkboxes</namespace>
 	<files>
-		<filename plugin="checkboxes">checkboxes.php</filename>
 		<folder>params</folder>
+		<folder plugin="checkboxes">services</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
@@ -34,14 +36,12 @@
 							name="name"
 							type="text"
 							label="PLG_FIELDS_CHECKBOXES_PARAMS_OPTIONS_NAME_LABEL"
-							size="30"
 						/>
 
 						<field
 							name="value"
 							type="text"
 							label="PLG_FIELDS_CHECKBOXES_PARAMS_OPTIONS_VALUE_LABEL"
-							size="30"
 						/>
 					</form>
 				</field>

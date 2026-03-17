@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,10 +9,12 @@
 
 namespace Joomla\CMS\Extension;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceTrait;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * MVC Component class.
@@ -20,5 +23,5 @@ use Joomla\CMS\MVC\Factory\MVCFactoryServiceTrait;
  */
 class MVCComponent extends Component implements MVCFactoryServiceInterface
 {
-	use MVCFactoryServiceTrait;
+    use MVCFactoryServiceTrait;
 }

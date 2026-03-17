@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,10 +9,12 @@
 
 namespace Joomla\CMS\Component\Router;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Menu\AbstractMenu;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Trait to implement AssociationServiceInterface
@@ -20,41 +23,41 @@ use Joomla\CMS\Menu\AbstractMenu;
  */
 trait RouterServiceTrait
 {
-	/**
-	 * The router factory.
-	 *
-	 * @var RouterFactoryInterface
-	 *
-	 * @since  4.0.0
-	 */
-	private $routerFactory = null;
+    /**
+     * The router factory.
+     *
+     * @var RouterFactoryInterface
+     *
+     * @since  4.0.0
+     */
+    private $routerFactory = null;
 
-	/**
-	 * Returns the router.
-	 *
-	 * @param   CMSApplicationInterface  $application  The application object
-	 * @param   AbstractMenu             $menu         The menu object to work with
-	 *
-	 * @return  RouterInterface
-	 *
-	 * @since  4.0.0
-	 */
-	public function createRouter(CMSApplicationInterface $application, AbstractMenu $menu): RouterInterface
-	{
-		return $this->routerFactory->createRouter($application, $menu);
-	}
+    /**
+     * Returns the router.
+     *
+     * @param   CMSApplicationInterface  $application  The application object
+     * @param   AbstractMenu             $menu         The menu object to work with
+     *
+     * @return  RouterInterface
+     *
+     * @since  4.0.0
+     */
+    public function createRouter(CMSApplicationInterface $application, AbstractMenu $menu): RouterInterface
+    {
+        return $this->routerFactory->createRouter($application, $menu);
+    }
 
-	/**
-	 * The router factory.
-	 *
-	 * @param   RouterFactoryInterface  $routerFactory  The router factory
-	 *
-	 * @return  void
-	 *
-	 * @since  4.0.0
-	 */
-	public function setRouterFactory(RouterFactoryInterface $routerFactory)
-	{
-		$this->routerFactory = $routerFactory;
-	}
+    /**
+     * The router factory.
+     *
+     * @param   RouterFactoryInterface  $routerFactory  The router factory
+     *
+     * @return  void
+     *
+     * @since  4.0.0
+     */
+    public function setRouterFactory(RouterFactoryInterface $routerFactory)
+    {
+        $this->routerFactory = $routerFactory;
+    }
 }

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <metadata>
 	<layout title="COM_CONTACT_CATEGORIES_VIEW_DEFAULT_TITLE" option="COM_CONTACT_CATEGORIES_VIEW_DEFAULT_OPTION">
 		<help
@@ -667,7 +667,6 @@
 				name="linka_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKA_NAME_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 
@@ -675,7 +674,6 @@
 				name="linkb_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKB_NAME_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 
@@ -683,7 +681,6 @@
 				name="linkc_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKC_NAME_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 
@@ -691,7 +688,6 @@
 				name="linkd_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKD_NAME_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 
@@ -699,7 +695,6 @@
 				name="linke_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKE_NAME_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 		</fieldset>
@@ -745,6 +740,7 @@
 				name="custom_reply"
 				type="list"
 				label="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_LABEL"
+				description="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_DESC"
 				useglobal="true"
 				class="form-select-color-state"
 				validate="options"
@@ -757,7 +753,6 @@
 				name="redirect"
 				type="text"
 				label="COM_CONTACT_FIELD_CONFIG_REDIRECT_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 		</fieldset>

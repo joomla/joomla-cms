@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,11 +9,14 @@
 
 namespace Joomla\CMS\Cache\Controller;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheController;
+use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Factory;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! Cache callback type object
@@ -21,192 +25,184 @@ use Joomla\CMS\Factory;
  */
 class CallbackController extends CacheController
 {
-	/**
-	 * Executes a cacheable callback if not found in cache else returns cached output and result
-	 *
-	 * @param   callable  $callback    Callback or string shorthand for a callback
-	 * @param   array     $args        Callback arguments
-	 * @param   mixed     $id          Cache ID
-	 * @param   boolean   $wrkarounds  True to use workarounds
-	 * @param   array     $woptions    Workaround options
-	 *
-	 * @return  mixed  Result of the callback
-	 *
-	 * @since   1.7.0
-	 */
-	public function get($callback, $args = array(), $id = false, $wrkarounds = false, $woptions = array())
-	{
-		if (!$id)
-		{
-			// Generate an ID
-			$id = $this->_makeId($callback, $args);
-		}
+    /**
+     * Executes a cacheable callback if not found in cache else returns cached output and result
+     *
+     * @param   callable  $callback    Callback or string shorthand for a callback
+     * @param   array     $args        Callback arguments
+     * @param   mixed     $id          Cache ID
+     * @param   boolean   $wrkarounds  True to use workarounds
+     * @param   array     $woptions    Workaround options
+     *
+     * @return  mixed  Result of the callback
+     *
+     * @since   1.7.0
+     */
+    public function get($callback, $args = [], $id = false, $wrkarounds = false, $woptions = [])
+    {
+        if (!\is_array($args)) {
+            $referenceArgs = !empty($args) ? [&$args] : [];
+        } else {
+            $referenceArgs = &$args;
+        }
 
-		$data = $this->cache->get($id);
+        // Just execute the callback if caching is disabled.
+        if (empty($this->options['caching'])) {
+            return \call_user_func_array($callback, $referenceArgs);
+        }
 
-		$locktest = (object) array('locked' => null, 'locklooped' => null);
+        if (!$id) {
+            // Generate an ID
+            $id = $this->_makeId($callback, $args);
+        }
 
-		if ($data === false)
-		{
-			$locktest = $this->cache->lock($id);
+        $data = $this->cache->get($id);
 
-			// If locklooped is true try to get the cached data again; it could exist now.
-			if ($locktest->locked === true && $locktest->locklooped === true)
-			{
-				$data = $this->cache->get($id);
-			}
-		}
+        $locktest = (object) ['locked' => null, 'locklooped' => null];
 
-		if ($data !== false)
-		{
-			if ($locktest->locked === true)
-			{
-				$this->cache->unlock($id);
-			}
+        if ($data === false) {
+            $locktest = $this->cache->lock($id);
 
-			$data = unserialize(trim($data));
+            // If locklooped is true try to get the cached data again; it could exist now.
+            if ($locktest->locked === true && $locktest->locklooped === true) {
+                $data = $this->cache->get($id);
+            }
+        }
 
-			if ($wrkarounds)
-			{
-				echo Cache::getWorkarounds(
-					$data['output'],
-					array('mergehead' => $woptions['mergehead'] ?? 0)
-				);
-			}
-			else
-			{
-				echo $data['output'];
-			}
+        if ($data !== false) {
+            if ($locktest->locked === true) {
+                $this->cache->unlock($id);
+            }
 
-			return $data['result'];
-		}
+            $data = unserialize(trim($data));
 
-		if (!\is_array($args))
-		{
-			$referenceArgs = !empty($args) ? array(&$args) : array();
-		}
-		else
-		{
-			$referenceArgs = &$args;
-		}
+            if ($wrkarounds) {
+                echo Cache::getWorkarounds(
+                    $data['output'],
+                    ['mergehead' => $woptions['mergehead'] ?? 0]
+                );
+            } else {
+                echo $data['output'];
+            }
 
-		if ($locktest->locked === false && $locktest->locklooped === true)
-		{
-			// We can not store data because another process is in the middle of saving
-			return \call_user_func_array($callback, $referenceArgs);
-		}
+            return $data['result'];
+        }
 
-		$coptions = array();
+        if ($locktest->locked === false && $locktest->locklooped === true) {
+            // We can not store data because another process is in the middle of saving
+            return \call_user_func_array($callback, $referenceArgs);
+        }
 
-		if (isset($woptions['modulemode']) && $woptions['modulemode'] == 1)
-		{
-			$document = Factory::getDocument();
+        $coptions = ['modulemode' => 0];
 
-			if (method_exists($document, 'getHeadData'))
-			{
-				$coptions['headerbefore'] = $document->getHeadData();
-			}
+        if (isset($woptions['modulemode']) && $woptions['modulemode'] == 1) {
+            /** @var HtmlDocument $document */
+            $document = Factory::getDocument();
 
-			$coptions['modulemode'] = 1;
-		}
-		else
-		{
-			$coptions['modulemode'] = 0;
-		}
+            if (method_exists($document, 'getHeadData')) {
+                $coptions['headerbefore'] = $document->getHeadData();
 
-		$coptions['nopathway'] = $woptions['nopathway'] ?? 1;
-		$coptions['nohead']    = $woptions['nohead'] ?? 1;
-		$coptions['nomodules'] = $woptions['nomodules'] ?? 1;
+                // Reset document head before rendering module. Module will cache only assets added by itself.
+                $document->resetHeadData();
+                $document->getWebAssetManager()->reset();
 
-		ob_start();
-		ob_implicit_flush(false);
+                $coptions['modulemode'] = 1;
+            }
+        }
 
-		$result = \call_user_func_array($callback, $referenceArgs);
-		$output = ob_get_clean();
+        $coptions['nopathway'] = $woptions['nopathway'] ?? 1;
+        $coptions['nohead']    = $woptions['nohead'] ?? 1;
+        $coptions['nomodules'] = $woptions['nomodules'] ?? 1;
 
-		$data = array('result' => $result);
+        ob_start();
+        ob_implicit_flush(false);
 
-		if ($wrkarounds)
-		{
-			$data['output'] = Cache::setWorkarounds($output, $coptions);
-		}
-		else
-		{
-			$data['output'] = $output;
-		}
+        $result = \call_user_func_array($callback, $referenceArgs);
+        $output = ob_get_clean();
 
-		// Store the cache data
-		$this->cache->store(serialize($data), $id);
+        $data = ['result' => $result];
 
-		if ($locktest->locked === true)
-		{
-			$this->cache->unlock($id);
-		}
+        if ($wrkarounds) {
+            $data['output'] = Cache::setWorkarounds($output, $coptions);
+        } else {
+            $data['output'] = $output;
+        }
 
-		echo $output;
+        // Restore document head data and merge module head data.
+        if ($coptions['modulemode'] == 1) {
+            $moduleHeadData = $document->getHeadData();
+            $document->resetHeadData();
+            $document->mergeHeadData($coptions['headerbefore']);
+            $document->mergeHeadData($moduleHeadData);
+        }
 
-		return $result;
-	}
+        // Store the cache data
+        $this->cache->store(serialize($data), $id);
 
-	/**
-	 * Store data to cache by ID and group
-	 *
-	 * @param   mixed    $data        The data to store
-	 * @param   string   $id          The cache data ID
-	 * @param   string   $group       The cache data group
-	 * @param   boolean  $wrkarounds  True to use wrkarounds
-	 *
-	 * @return  boolean  True if cache stored
-	 *
-	 * @since   4.0.0
-	 */
-	public function store($data, $id, $group = null, $wrkarounds = true)
-	{
-		$locktest = $this->cache->lock($id, $group);
+        if ($locktest->locked === true) {
+            $this->cache->unlock($id);
+        }
 
-		if ($locktest->locked === false && $locktest->locklooped === true)
-		{
-			// We can not store data because another process is in the middle of saving
-			return false;
-		}
+        echo $output;
 
-		$result = $this->cache->store(serialize($data), $id, $group);
+        return $result;
+    }
 
-		if ($locktest->locked === true)
-		{
-			$this->cache->unlock($id, $group);
-		}
+    /**
+     * Store data to cache by ID and group
+     *
+     * @param   mixed    $data        The data to store
+     * @param   string   $id          The cache data ID
+     * @param   string   $group       The cache data group
+     * @param   boolean  $wrkarounds  True to use wrkarounds
+     *
+     * @return  boolean  True if cache stored
+     *
+     * @since   4.0.0
+     */
+    public function store($data, $id, $group = null, $wrkarounds = true)
+    {
+        $locktest = $this->cache->lock($id, $group);
 
-		return $result;
-	}
+        if ($locktest->locked === false && $locktest->locklooped === true) {
+            // We can not store data because another process is in the middle of saving
+            return false;
+        }
 
-	/**
-	 * Generate a callback cache ID
-	 *
-	 * @param   mixed  $callback  Callback to cache
-	 * @param   array  $args      Arguments to the callback method to cache
-	 *
-	 * @return  string  MD5 Hash
-	 *
-	 * @since   1.7.0
-	 */
-	protected function _makeId($callback, $args)
-	{
-		if (\is_array($callback) && \is_object($callback[0]))
-		{
-			$vars        = get_object_vars($callback[0]);
-			$vars[]      = strtolower(\get_class($callback[0]));
-			$callback[0] = $vars;
-		}
+        $result = $this->cache->store(serialize($data), $id, $group);
 
-		// A Closure can't be serialized, so to generate the ID we'll need to get its hash
-		if (is_a($callback, 'closure'))
-		{
-			$hash = spl_object_hash($callback);
+        if ($locktest->locked === true) {
+            $this->cache->unlock($id, $group);
+        }
 
-			return md5($hash . serialize(array($args)));
-		}
+        return $result;
+    }
 
-		return md5(serialize(array($callback, $args)));
-	}
+    /**
+     * Generate a callback cache ID
+     *
+     * @param   mixed  $callback  Callback to cache
+     * @param   array  $args      Arguments to the callback method to cache
+     *
+     * @return  string  MD5 Hash
+     *
+     * @since   1.7.0
+     */
+    protected function _makeId($callback, $args)
+    {
+        if (\is_array($callback) && \is_object($callback[0])) {
+            $vars        = get_object_vars($callback[0]);
+            $vars[]      = strtolower(\get_class($callback[0]));
+            $callback[0] = $vars;
+        }
+
+        // A Closure can't be serialized, so to generate the ID we'll need to get its hash
+        if ($callback instanceof \closure) {
+            $hash = spl_object_hash($callback);
+
+            return md5($hash . serialize([$args]));
+        }
+
+        return md5(serialize([$callback, $args]));
+    }
 }

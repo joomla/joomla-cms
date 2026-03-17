@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="component" method="upgrade">
 	<name>com_joomlaupdate</name>
 	<author>Joomla! Project</author>
-	<creationDate>August 2021</creationDate>
+	<creationDate>2021-08</creationDate>
 	<copyright>(C) 2012 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -28,6 +28,6 @@
 		</languages>
 	</administration>
 	<updateservers>
-		<server type="extension" name="Joomla! Update Component Update Site">https://update.joomla.org/core/extensions/com_joomlaupdate.xml</server>
+		<server type="extension" name="Joomla! Update Component">https://update.joomla.org/core/extensions/com_joomlaupdate.xml</server>
 	</updateservers>
 </extension>

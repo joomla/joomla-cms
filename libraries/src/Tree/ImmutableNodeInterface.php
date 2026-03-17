@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\Tree;
 
-\defined('JPATH_PLATFORM') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Interface for an immutable node class
@@ -17,61 +20,61 @@ namespace Joomla\CMS\Tree;
  */
 interface ImmutableNodeInterface
 {
-	/**
-	 * Get the children of this node
-	 *
-	 * @param   boolean  $recursive  False by default
-	 *
-	 * @return  NodeInterface[]  The children
-	 *
-	 * @since   4.0.0
-	 */
-	public function &getChildren($recursive = false);
+    /**
+     * Get the children of this node
+     *
+     * @param   boolean  $recursive  False by default
+     *
+     * @return  NodeInterface[]  The children
+     *
+     * @since   4.0.0
+     */
+    public function &getChildren($recursive = false);
 
-	/**
-	 * Get the parent of this node
-	 *
-	 * @return  NodeInterface|null
-	 *
-	 * @since   4.0.0
-	 */
-	public function getParent();
+    /**
+     * Get the parent of this node
+     *
+     * @return  NodeInterface|null
+     *
+     * @since   4.0.0
+     */
+    public function getParent();
 
-	/**
-	 * Get the root of the tree
-	 *
-	 * @return  ImmutableNodeInterface
-	 *
-	 * @since   4.0.0
-	 */
-	public function getRoot();
+    /**
+     * Get the root of the tree
+     *
+     * @return  ImmutableNodeInterface
+     *
+     * @since   4.0.0
+     */
+    public function getRoot();
 
-	/**
-	 * Test if this node has children
-	 *
-	 * @return  boolean  True if there is a child
-	 *
-	 * @since   4.0.0
-	 */
-	public function hasChildren();
+    /**
+     * Test if this node has children
+     *
+     * @return  boolean  True if there is a child
+     *
+     * @since   4.0.0
+     */
+    public function hasChildren();
 
-	/**
-	 * Test if this node has a parent
-	 *
-	 * @return  boolean  True if there is a parent
-	 *
-	 * @since   4.0.0
-	 */
-	public function hasParent();
+    /**
+     * Test if this node has a parent
+     *
+     * @return  boolean  True if there is a parent
+     *
+     * @since   4.0.0
+     */
+    public function hasParent();
 
-	/**
-	 * Returns the right or left sibling of a node
-	 *
-	 * @param   boolean  $right  If set to false, returns the left sibling
-	 *
-	 * @return  NodeInterface|null  NodeInterface object of the sibling.
-	 *
-	 * @since   4.0.0
-	 */
-	public function getSibling($right = true);
+    /**
+     * Returns the right or left sibling of a node
+     *
+     * @param   boolean  $right  If set to false, returns the left sibling
+     *
+     * @return  NodeInterface|null  NodeInterface object of the sibling.
+     *
+     * @since   4.0.0
+     */
+    public function getSibling($right = true);
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_admin
@@ -9,9 +10,11 @@
 
 namespace Joomla\Component\Admin\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\Controller\BaseController;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Admin Controller
@@ -20,28 +23,28 @@ use Joomla\CMS\MVC\Controller\BaseController;
  */
 class DisplayController extends BaseController
 {
-	/**
-	 * View method
-	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
-	 *
-	 * @return  static  Supports chaining.
-	 *
-	 * @since   3.9
-	 */
-	public function display($cachable = false, $urlparams = array())
-	{
-		$viewName = $this->input->get('view', $this->default_view);
-		$format   = $this->input->get('format', 'html');
+    /**
+     * View method
+     *
+     * @param   boolean  $cachable   If true, the view output will be cached
+     * @param   array    $urlparams  An array of safe URL parameters and their variable types.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
+     *
+     * @return  static  Supports chaining.
+     *
+     * @since   3.9
+     */
+    public function display($cachable = false, $urlparams = [])
+    {
+        $viewName = $this->input->get('view', $this->default_view);
+        $format   = $this->input->get('format', 'html');
 
-		// Check CSRF token for sysinfo export views
-		if ($viewName === 'sysinfo' && ($format === 'text' || $format === 'json'))
-		{
-			// Check for request forgeries.
-			$this->checkToken('GET');
-		}
+        // Check CSRF token for sysinfo export views
+        if ($viewName === 'sysinfo' && ($format === 'text' || $format === 'json')) {
+            // Check for request forgeries.
+            $this->checkToken('GET');
+        }
 
-		return parent::display($cachable, $urlparams);
-	}
+        return parent::display($cachable, $urlparams);
+    }
 }

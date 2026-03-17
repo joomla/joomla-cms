@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
@@ -9,9 +10,11 @@
 
 namespace Joomla\Component\Users\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\Controller\AdminController;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * User notes controller class.
@@ -20,27 +23,27 @@ use Joomla\CMS\MVC\Controller\AdminController;
  */
 class NotesController extends AdminController
 {
-	/**
-	 * The prefix to use with controller messages.
-	 *
-	 * @var    string
-	 * @since  2.5
-	 */
-	protected $text_prefix = 'COM_USERS_NOTES';
+    /**
+     * The prefix to use with controller messages.
+     *
+     * @var    string
+     * @since  2.5
+     */
+    protected $text_prefix = 'COM_USERS_NOTES';
 
-	/**
-	 * Method to get a model object, loading it if required.
-	 *
-	 * @param   string  $name    The model name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
-	 *
-	 * @since   2.5
-	 */
-	public function getModel($name = 'Note', $prefix = 'Administrator', $config = array('ignore_request' => true))
-	{
-		return parent::getModel($name, $prefix, $config);
-	}
+    /**
+     * Method to get a model object, loading it if required.
+     *
+     * @param   string  $name    The model name. Optional.
+     * @param   string  $prefix  The class prefix. Optional.
+     * @param   array   $config  Configuration array for model. Optional.
+     *
+     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
+     *
+     * @since   2.5
+     */
+    public function getModel($name = 'Note', $prefix = 'Administrator', $config = ['ignore_request' => true])
+    {
+        return parent::getModel($name, $prefix, $config);
+    }
 }

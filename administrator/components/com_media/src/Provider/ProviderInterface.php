@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_media
@@ -9,9 +10,11 @@
 
 namespace Joomla\Component\Media\Administrator\Provider;
 
-\defined('_JEXEC') or die;
-
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Media provider interface.
@@ -20,30 +23,30 @@ use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
  */
 interface ProviderInterface
 {
-	/**
-	 * Returns the ID of the provider
-	 *
-	 * @return  string
-	 *
-	 * @since  4.0.0
-	 */
-	public function getID();
+    /**
+     * Returns the ID of the provider
+     *
+     * @return  string
+     *
+     * @since  4.0.0
+     */
+    public function getID();
 
-	/**
-	 * Returns the display name
-	 *
-	 * @return  string
-	 *
-	 * @since  4.0.0
-	 */
-	public function getDisplayName();
+    /**
+     * Returns the display name
+     *
+     * @return  string
+     *
+     * @since  4.0.0
+     */
+    public function getDisplayName();
 
-	/**
-	 * Returns a list of adapters
-	 *
-	 * @return  AdapterInterface[]
-	 *
-	 * @since  4.0.0
-	 */
-	public function getAdapters();
+    /**
+     * Returns a list of adapters
+     *
+     * @return  AdapterInterface[]
+     *
+     * @since  4.0.0
+     */
+    public function getAdapters();
 }

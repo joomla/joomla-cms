@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\Language;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Default factory for creating language objects
@@ -17,18 +20,18 @@ namespace Joomla\CMS\Language;
  */
 class LanguageFactory implements LanguageFactoryInterface
 {
-	/**
-	 * Method to get an instance of a language.
-	 *
-	 * @param   string   $lang   The language to use
-	 * @param   boolean  $debug  The debug mode
-	 *
-	 * @return  Language
-	 *
-	 * @since   4.0.0
-	 */
-	public function createLanguage($lang, $debug = false): Language
-	{
-		return new Language($lang, $debug);
-	}
+    /**
+     * Method to get an instance of a language.
+     *
+     * @param   string   $lang   The language to use
+     * @param   boolean  $debug  The debug mode
+     *
+     * @return  Language
+     *
+     * @since   4.0.0
+     */
+    public function createLanguage($lang, $debug = false): Language
+    {
+        return new Language($lang, $debug);
+    }
 }

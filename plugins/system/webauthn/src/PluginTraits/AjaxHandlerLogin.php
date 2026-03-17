@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.Webauthn
@@ -9,42 +10,20 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-// Protect from unauthorized access
-\defined('_JEXEC') or die();
-
-use CBOR\Decoder;
-use CBOR\OtherObject\OtherObjectManager;
-use CBOR\Tag\TagObjectManager;
-use Cose\Algorithm\Manager;
-use Cose\Algorithm\Signature\ECDSA;
-use Cose\Algorithm\Signature\EdDSA;
-use Cose\Algorithm\Signature\RSA;
-use Exception;
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Authentication\Authentication;
+use Joomla\CMS\Authentication\AuthenticationResponse;
+use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxLogin;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
-use Joomla\Plugin\System\Webauthn\CredentialRepository;
-use Joomla\Plugin\System\Webauthn\Helper\Joomla;
-use Laminas\Diactoros\ServerRequestFactory;
-use RuntimeException;
-use Throwable;
-use Webauthn\AttestationStatement\AndroidKeyAttestationStatementSupport;
-use Webauthn\AttestationStatement\AttestationObjectLoader;
-use Webauthn\AttestationStatement\AttestationStatementSupportManager;
-use Webauthn\AttestationStatement\FidoU2FAttestationStatementSupport;
-use Webauthn\AttestationStatement\NoneAttestationStatementSupport;
-use Webauthn\AttestationStatement\PackedAttestationStatementSupport;
-use Webauthn\AttestationStatement\TPMAttestationStatementSupport;
-use Webauthn\AuthenticationExtensions\ExtensionOutputCheckerHandler;
-use Webauthn\AuthenticatorAssertionResponse;
-use Webauthn\AuthenticatorAssertionResponseValidator;
-use Webauthn\PublicKeyCredentialLoader;
-use Webauthn\PublicKeyCredentialRequestOptions;
-use Webauthn\TokenBinding\TokenBindingNotSupportedHandler;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Ajax handler for akaction=login
@@ -55,216 +34,294 @@ use Webauthn\TokenBinding\TokenBindingNotSupportedHandler;
  */
 trait AjaxHandlerLogin
 {
-	/**
-	 * Returns the public key set for the user and a unique challenge in a Public Key Credential Request encoded as
-	 * JSON.
-	 *
-	 * @return  void
-	 *
-	 * @throws  Exception
-	 * @since   4.0.0
-	 */
-	public function onAjaxWebauthnLogin(): void
-	{
-		// Load the language files
-		$this->loadLanguage();
+    /**
+     * Returns the public key set for the user and a unique challenge in a Public Key Credential Request encoded as
+     * JSON.
+     *
+     * @param   AjaxLogin  $event  The event we are handling
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function onAjaxWebauthnLogin(AjaxLogin $event): void
+    {
+        // Load plugin language files
+        $this->loadLanguage();
 
-		$returnUrl = Joomla::getSessionVar('returnUrl', Uri::base(), 'plg_system_webauthn');
-		$userId    = Joomla::getSessionVar('userId', 0, 'plg_system_webauthn');
+        $session   = $this->getApplication()->getSession();
+        $returnUrl = $session->get('plg_system_webauthn.returnUrl', Uri::base());
+        $userId    = $session->get('plg_system_webauthn.userId', 0);
 
-		try
-		{
-			// Sanity check
-			if (empty($userId))
-			{
-				throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
-			}
+        try {
+            $credentialRepository = $this->authenticationHelper->getCredentialsRepository();
 
-			// Make sure the user exists
-			$user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
+            // No user ID: no username was provided and the resident credential refers to an unknown user handle. DIE!
+            if (empty($userId)) {
+                Log::add('Cannot determine the user ID', Log::NOTICE, 'webauthn.system');
 
-			if ($user->id != $userId)
-			{
-				throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
-			}
+                throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
+            }
 
-			// Validate the authenticator response
-			$this->validateResponse();
+            // Do I have a valid user?
+            $user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
 
-			// Login the user
-			Joomla::log('system', "Logging in the user", Log::INFO);
-			Joomla::loginUser((int) $userId);
-		}
-		catch (Throwable $e)
-		{
-			Joomla::setSessionVar('publicKeyCredentialRequestOptions', null, 'plg_system_webauthn');
-			Joomla::setSessionVar('userHandle', null, 'plg_system_webauthn');
+            if ($user->id != $userId) {
+                $message = \sprintf('User #%d does not exist', $userId);
+                Log::add($message, Log::NOTICE, 'webauthn.system');
 
-			$response                = Joomla::getAuthenticationResponseObject();
-			$response->status        = Authentication::STATUS_UNKNOWN;
-			// phpcs:ignore
-			$response->error_message = $e->getMessage();
+                throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
+            }
 
-			Joomla::log('system', sprintf("Received login failure. Message: %s", $e->getMessage()), Log::ERROR);
+            // Validate the authenticator response and get the user handle
+            $userHandle           = $this->getUserHandleFromResponse($user);
 
-			// This also enqueues the login failure message for display after redirection. Look for JLog in that method.
-			Joomla::processLoginFailure($response, null, 'system');
-		}
-		finally
-		{
-			/**
-			 * This code needs to run no matter if the login succeeded or failed. It prevents replay attacks and takes
-			 * the user back to the page they started from.
-			 */
+            if (\is_null($userHandle)) {
+                Log::add('Cannot retrieve the user handle from the request; the browser did not assert our request.', Log::NOTICE, 'webauthn.system');
 
-			// Remove temporary information for security reasons
-			Joomla::setSessionVar('publicKeyCredentialRequestOptions', null, 'plg_system_webauthn');
-			Joomla::setSessionVar('userHandle', null, 'plg_system_webauthn');
-			Joomla::setSessionVar('returnUrl', null, 'plg_system_webauthn');
-			Joomla::setSessionVar('userId', null, 'plg_system_webauthn');
+                throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
+            }
 
-			// Redirect back to the page we were before.
-			Factory::getApplication()->redirect($returnUrl);
-		}
-	}
+            // Does the user handle match the user ID? This should never trigger by definition of the login check.
+            $validUserHandle = $credentialRepository->getHandleFromUserId($userId);
 
-	/**
-	 * Validate the authenticator response sent to us by the browser.
-	 *
-	 * @return  void
-	 *
-	 * @throws  Exception
-	 *
-	 * @since   4.0.0
-	 */
-	private function validateResponse(): void
-	{
-		// Initialize objects
-		/** @var CMSApplication $app */
-		$app                  = Factory::getApplication();
-		$input                = $app->input;
-		$credentialRepository = new CredentialRepository;
+            if ($userHandle != $validUserHandle) {
+                $message = \sprintf('Invalid user handle; expected %s, got %s', $validUserHandle, $userHandle);
+                Log::add($message, Log::NOTICE, 'webauthn.system');
 
-		// Retrieve data from the request and session
-		$data = $input->getBase64('data', '');
-		$data = base64_decode($data);
+                throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
+            }
 
-		if (empty($data))
-		{
-			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
-		}
+            // Make sure the user exists
+            $user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
 
-		$publicKeyCredentialRequestOptions = $this->getPKCredentialRequestOptions();
+            if ($user->id != $userId) {
+                $message = \sprintf('Invalid user ID; expected %d, got %d', $userId, $user->id);
+                Log::add($message, Log::NOTICE, 'webauthn.system');
 
-		// Cose Algorithm Manager
-		$coseAlgorithmManager = new Manager;
-		$coseAlgorithmManager->add(new ECDSA\ES256);
-		$coseAlgorithmManager->add(new ECDSA\ES512);
-		$coseAlgorithmManager->add(new EdDSA\EdDSA);
-		$coseAlgorithmManager->add(new RSA\RS1);
-		$coseAlgorithmManager->add(new RSA\RS256);
-		$coseAlgorithmManager->add(new RSA\RS512);
+                throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
+            }
 
-		// Create a CBOR Decoder object
-		$otherObjectManager = new OtherObjectManager;
-		$tagObjectManager   = new TagObjectManager;
-		$decoder            = new Decoder($tagObjectManager, $otherObjectManager);
+            // Login the user
+            Log::add("Logging in the user", Log::INFO, 'webauthn.system');
+            $this->loginUser((int) $userId);
+        } catch (\Throwable $e) {
+            $session->set('plg_system_webauthn.publicKeyCredentialRequestOptions', null);
 
-		// Attestation Statement Support Manager
-		$attestationStatementSupportManager = new AttestationStatementSupportManager;
-		$attestationStatementSupportManager->add(new NoneAttestationStatementSupport);
-		$attestationStatementSupportManager->add(new FidoU2FAttestationStatementSupport($decoder));
+            $response                = $this->getAuthenticationResponseObject();
+            $response->status        = Authentication::STATUS_UNKNOWN;
+            $response->error_message = $e->getMessage();
 
-		/*
-		$attestationStatementSupportManager->add(
-			new AndroidSafetyNetAttestationStatementSupport(
-				HttpFactory::getHttp(), 'GOOGLE_SAFETYNET_API_KEY', new RequestFactory
-			)
-		);
-		*/
-		$attestationStatementSupportManager->add(new AndroidKeyAttestationStatementSupport($decoder));
-		$attestationStatementSupportManager->add(new TPMAttestationStatementSupport);
-		$attestationStatementSupportManager->add(new PackedAttestationStatementSupport($decoder, $coseAlgorithmManager));
+            Log::add(\sprintf("Received login failure. Message: %s", $e->getMessage()), Log::ERROR, 'webauthn.system');
 
-		// Attestation Object Loader
-		$attestationObjectLoader = new AttestationObjectLoader($attestationStatementSupportManager, $decoder);
+            // This also enqueues the login failure message for display after redirection. Look for JLog in that method.
+            $this->processLoginFailure($response);
+        } finally {
+            /**
+             * This code needs to run no matter if the login succeeded or failed. It prevents replay attacks and takes
+             * the user back to the page they started from.
+             */
 
-		// Public Key Credential Loader
-		$publicKeyCredentialLoader = new PublicKeyCredentialLoader($attestationObjectLoader, $decoder);
+            // Remove temporary information for security reasons
+            $session->set('plg_system_webauthn.publicKeyCredentialRequestOptions', null);
+            $session->set('plg_system_webauthn.returnUrl', null);
+            $session->set('plg_system_webauthn.userId', null);
 
-		// The token binding handler
-		$tokenBindingHandler = new TokenBindingNotSupportedHandler;
+            // Redirect back to the page we were before.
+            $this->getApplication()->redirect($returnUrl);
+        }
+    }
 
-		// Extension Output Checker Handler
-		$extensionOutputCheckerHandler = new ExtensionOutputCheckerHandler;
+    /**
+     * Logs in a user to the site, bypassing the authentication plugins.
+     *
+     * @param   int   $userId   The user ID to log in
+     *
+     * @return  void
+     * @throws  \Exception
+     * @since   4.2.0
+     */
+    private function loginUser(int $userId): void
+    {
+        // Trick the class auto-loader into loading the necessary classes
+        class_exists(Authentication::class, true);
 
-		// Authenticator Assertion Response Validator
-		$authenticatorAssertionResponseValidator = new AuthenticatorAssertionResponseValidator(
-			$credentialRepository,
-			$decoder,
-			$tokenBindingHandler,
-			$extensionOutputCheckerHandler,
-			$coseAlgorithmManager
-		);
+        // Fake a successful login message
+        $isAdmin = $this->getApplication()->isClient('administrator');
+        $user    = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
 
-		// We init the Symfony Request object
-		$request = ServerRequestFactory::fromGlobals();
+        // Does the user account have a pending activation?
+        if (!empty($user->activation)) {
+            throw new \RuntimeException(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
+        }
 
-		// Load the data
-		$publicKeyCredential = $publicKeyCredentialLoader->load($data);
-		$response            = $publicKeyCredential->getResponse();
+        // Is the user account blocked?
+        if ($user->block) {
+            throw new \RuntimeException(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
+        }
 
-		// Check if the response is an Authenticator Assertion Response
-		if (!$response instanceof AuthenticatorAssertionResponse)
-		{
-			throw new RuntimeException('Not an authenticator assertion response');
-		}
+        $statusSuccess = Authentication::STATUS_SUCCESS;
 
-		// Check the response against the attestation request
-		$userHandle = Joomla::getSessionVar('userHandle', null, 'plg_system_webauthn');
-		/** @var AuthenticatorAssertionResponse $authenticatorAssertionResponse */
-		$authenticatorAssertionResponse = $publicKeyCredential->getResponse();
-		$authenticatorAssertionResponseValidator->check(
-			$publicKeyCredential->getRawId(),
-			$authenticatorAssertionResponse,
-			$publicKeyCredentialRequestOptions,
-			$request,
-			$userHandle
-		);
-	}
+        $response                = $this->getAuthenticationResponseObject();
+        $response->status        = $statusSuccess;
+        $response->username      = $user->username;
+        $response->fullname      = $user->name;
+        $response->email         = $user->email;
+        $response->error_message = '';
+        $response->language      = $user->getParam('language');
+        $response->type          = 'Passwordless';
 
-	/**
-	 * Retrieve the public key credential request options saved in the session. If they do not exist or are corrupt it
-	 * is a hacking attempt and we politely tell the hacker to go away.
-	 *
-	 * @return  PublicKeyCredentialRequestOptions
-	 *
-	 * @since   4.0.0
-	 */
-	private function getPKCredentialRequestOptions(): PublicKeyCredentialRequestOptions
-	{
-		$encodedOptions = Joomla::getSessionVar('publicKeyCredentialRequestOptions', null, 'plg_system_webauthn');
+        if ($isAdmin) {
+            $response->language = $user->getParam('admin_language');
+        }
 
-		if (empty($encodedOptions))
-		{
-			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
-		}
+        /**
+         * Set up the login options.
+         *
+         * The 'remember' element forces the use of the Remember Me feature when logging in with Webauthn, as the
+         * users would expect.
+         *
+         * The 'action' element is actually required by plg_user_joomla. It is the core ACL action the logged in user
+         * must be allowed for the login to succeed. Please note that front-end and back-end logins use a different
+         * action. This allows us to provide the WebAuthn button on both front- and back-end and be sure that if a
+         * used with no backend access tries to use it to log in Joomla! will just slap him with an error message about
+         * insufficient privileges - the same thing that'd happen if you tried to use your front-end only username and
+         * password in a back-end login form.
+         */
+        $options = [
+            'remember' => true,
+            'action'   => 'core.login.site',
+        ];
 
-		try
-		{
-			$publicKeyCredentialCreationOptions = unserialize(base64_decode($encodedOptions));
-		}
-		catch (Exception $e)
-		{
-			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
-		}
+        if ($isAdmin) {
+            $options['action'] = 'core.login.admin';
+        }
 
-		if (!\is_object($publicKeyCredentialCreationOptions)
-			|| !($publicKeyCredentialCreationOptions instanceof PublicKeyCredentialRequestOptions))
-		{
-			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
-		}
+        // Run the user plugins. They CAN block login by returning boolean false and setting $response->error_message.
+        $dispatcher = $this->getApplication()->getDispatcher();
 
-		return $publicKeyCredentialCreationOptions;
-	}
+        PluginHelper::importPlugin('user', null, true, $dispatcher);
+
+        $event   = new \Joomla\CMS\Event\User\LoginEvent(
+            'onUserLogin',
+            [
+                'options' => $options,
+                'subject' => (array) $response,
+            ]
+        );
+        $result  = $dispatcher->dispatch('onUserLogin', $event);
+        $results = !isset($result['result']) || \is_null($result['result']) ? [] : $result['result'];
+
+        // If there is no boolean FALSE result from any plugin the login is successful.
+        if (\in_array(false, $results, true) === false) {
+            // Set the user in the session, letting Joomla! know that we are logged in.
+            $this->getApplication()->getSession()->set('user', $user);
+
+            // Trigger the onUserAfterLogin event
+            $options['user']         = $user;
+            $options['responseType'] = $response->type;
+
+            // The user is successfully logged in. Run the after login events
+            $event = new \Joomla\CMS\Event\User\AfterLoginEvent(
+                'onUserAfterLogin',
+                [
+                    'options' => $options,
+                    'subject' => (array) $response,
+                ]
+            );
+            $dispatcher->dispatch($event->getName(), $event);
+
+            return;
+        }
+
+        // If we are here the plugins marked a login failure. Trigger the onUserLoginFailure Event.
+        $event = new \Joomla\CMS\Event\User\LoginFailureEvent(
+            'onUserLoginFailure',
+            [
+                'options' => $options,
+                'subject' => (array) $response,
+            ]
+        );
+        $dispatcher->dispatch('onUserLoginFailure', $event);
+
+        // Log the failure
+        Log::add($response->error_message, Log::WARNING, 'jerror');
+
+        // Throw an exception to let the caller know that the login failed
+        throw new \RuntimeException($response->error_message);
+    }
+
+    /**
+     * Returns a (blank) Joomla! authentication response
+     *
+     * @return  AuthenticationResponse
+     *
+     * @since   4.2.0
+     */
+    private function getAuthenticationResponseObject(): AuthenticationResponse
+    {
+        // Force the class auto-loader to load the JAuthentication class
+        class_exists(Authentication::class, true);
+
+        return new AuthenticationResponse();
+    }
+
+    /**
+     * Have Joomla! process a login failure
+     *
+     * @param   AuthenticationResponse   $response   The Joomla! auth response object
+     *
+     * @return  boolean
+     *
+     * @since   4.2.0
+     */
+    private function processLoginFailure(AuthenticationResponse $response): bool
+    {
+        // Import the user plugin group.
+        PluginHelper::importPlugin('user');
+
+        // Trigger onUserLoginFailure Event.
+        Log::add('Calling onUserLoginFailure plugin event', Log::INFO, 'plg_system_webauthn');
+
+        $eventClassName = self::getEventClassByEventName('onUserLoginFailure');
+        $event          = new $eventClassName('onUserLoginFailure', [(array) $response]);
+        $this->getApplication()->getDispatcher()->dispatch($event->getName(), $event);
+
+        // If status is success, any error will have been raised by the user plugin
+        $expectedStatus = Authentication::STATUS_SUCCESS;
+
+        if ($response->status !== $expectedStatus) {
+            Log::add('The login failure has been logged in Joomla\'s error log', Log::INFO, 'webauthn.system');
+
+            // Everything logged in the 'jerror' category ends up being enqueued in the application message queue.
+            Log::add($response->error_message, Log::WARNING, 'jerror');
+        } else {
+            $message = 'A login failure was caused by a third party user plugin but it did not return any' .
+                'further information.';
+            Log::add($message, Log::WARNING, 'webauthn.system');
+        }
+
+        return false;
+    }
+
+    /**
+     * Validate the authenticator response sent to us by the browser.
+     *
+     * @param   User  $user  The user we are trying to log in.
+     *
+     * @return  string|null  The user handle or null
+     *
+     * @throws  \Exception
+     * @since   4.2.0
+     */
+    private function getUserHandleFromResponse(User $user): ?string
+    {
+        // Retrieve data from the request and session
+        $pubKeyCredentialSource = $this->authenticationHelper->validateAssertionResponse(
+            $this->getApplication()->getInput()->getBase64('data', ''),
+            $user
+        );
+
+        return $pubKeyCredentialSource ? $pubKeyCredentialSource->getUserHandle() : null;
+    }
 }

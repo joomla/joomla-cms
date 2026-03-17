@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,11 +9,13 @@
 
 namespace Joomla\CMS\Console;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Console command for list discovered extensions
@@ -21,88 +24,85 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ExtensionDiscoverListCommand extends ExtensionsListCommand
 {
-	/**
-	 * The default command name
-	 *
-	 * @var    string
-	 *
-	 * @since  4.0.0
-	 */
-	protected static $defaultName = 'extension:discover:list';
+    /**
+     * The default command name
+     *
+     * @var    string
+     *
+     * @since  4.0.0
+     */
+    protected static $defaultName = 'extension:discover:list';
 
-	/**
-	 * Initialise the command.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	protected function configure(): void
-	{
-		$help = "<info>%command.name%</info> is used to list all extensions that could be installed via discoverinstall
+    /**
+     * Initialise the command.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    protected function configure(): void
+    {
+        $help = "<info>%command.name%</info> is used to list all extensions that could be installed via discoverinstall
 		\nUsage:
 		\n  <info>php %command.full_name%</info>";
 
-		$this->setDescription('List discovered extensions');
-		$this->setHelp($help);
-	}
+        $this->setDescription('List discovered extensions');
+        $this->setHelp($help);
+    }
 
-	/**
-	 * Filters the extension state
-	 *
-	 * @param   array   $extensions  The Extensions
-	 * @param   string  $state       The Extension state
-	 *
-	 * @return array
-	 *
-	 * @since 4.0.0
-	 */
-	public function filterExtensionsBasedOnState($extensions, $state): array
-	{
-		$filteredExtensions = [];
+    /**
+     * Filters the extension state
+     *
+     * @param   array   $extensions  The Extensions
+     * @param   string  $state       The Extension state
+     *
+     * @return array
+     *
+     * @since 4.0.0
+     */
+    public function filterExtensionsBasedOnState($extensions, $state): array
+    {
+        $filteredExtensions = [];
 
-		foreach ($extensions as $key => $extension)
-		{
-			if ($extension['state'] === $state)
-			{
-				$filteredExtensions[] = $extension;
-			}
-		}
+        foreach ($extensions as $key => $extension) {
+            if ($extension['state'] === $state) {
+                $filteredExtensions[] = $extension;
+            }
+        }
 
-		return $filteredExtensions;
-	}
+        return $filteredExtensions;
+    }
 
-	/**
-	 * Internal function to execute the command.
-	 *
-	 * @param   InputInterface   $input   The input to inject into the command.
-	 * @param   OutputInterface  $output  The output to inject into the command.
-	 *
-	 * @return  integer  The command exit code
-	 *
-	 * @since   4.0.0
-	 */
-	protected function doExecute(InputInterface $input, OutputInterface $output): int
-	{
-		$this->configureIO($input, $output);
+    /**
+     * Internal function to execute the command.
+     *
+     * @param   InputInterface   $input   The input to inject into the command.
+     * @param   OutputInterface  $output  The output to inject into the command.
+     *
+     * @return  integer  The command exit code
+     *
+     * @since   4.0.0
+     */
+    protected function doExecute(InputInterface $input, OutputInterface $output): int
+    {
+        $this->configureIO($input, $output);
+        $this->ioStyle->title('Discovered Extensions');
 
-		$extensions = $this->getExtensions();
-		$state = -1;
+        $extensions = $this->getExtensions();
+        $state      = -1;
 
-		$discovered_extensions = $this->filterExtensionsBasedOnState($extensions, $state);
+        $discovered_extensions = $this->filterExtensionsBasedOnState($extensions, $state);
 
-		if (empty($discovered_extensions))
-		{
-			$this->ioStyle->note("There are no pending discovered extensions to install. Perhaps you need to run extension:discover first?");
+        if (empty($discovered_extensions)) {
+            $this->ioStyle->note("There are no pending discovered extensions to install. Perhaps you need to run extension:discover first?");
 
-			return Command::SUCCESS;
-		}
+            return Command::SUCCESS;
+        }
 
-		$discovered_extensions = $this->getExtensionsNameAndId($discovered_extensions);
+        $discovered_extensions = $this->getExtensionsNameAndId($discovered_extensions);
 
-		$this->ioStyle->title('Discovered extensions.');
-		$this->ioStyle->table(['Name', 'Extension ID', 'Version', 'Type', 'Active'], $discovered_extensions);
+        $this->ioStyle->table(['Name', 'Extension ID', 'Version', 'Type', 'Enabled'], $discovered_extensions);
 
-		return Command::SUCCESS;
-	}
+        return Command::SUCCESS;
+    }
 }

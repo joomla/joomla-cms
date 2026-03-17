@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\Layout;
 
-\defined('JPATH_PLATFORM') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Interface to handle display layout
@@ -18,25 +21,25 @@ namespace Joomla\CMS\Layout;
  */
 interface LayoutInterface
 {
-	/**
-	 * Method to escape output.
-	 *
-	 * @param   string  $output  The output to escape.
-	 *
-	 * @return  string  The escaped output.
-	 *
-	 * @since   3.0
-	 */
-	public function escape($output);
+    /**
+     * Method to escape output.
+     *
+     * @param   string  $output  The output to escape.
+     *
+     * @return  string  The escaped output.
+     *
+     * @since   3.0
+     */
+    public function escape($output);
 
-	/**
-	 * Method to render the layout.
-	 *
-	 * @param   array  $displayData  Array of properties available for use inside the layout file to build the displayed output
-	 *
-	 * @return  string  The rendered layout.
-	 *
-	 * @since   3.0
-	 */
-	public function render($displayData);
+    /**
+     * Method to render the layout.
+     *
+     * @param   array  $displayData  Array of properties available for use inside the layout file to build the displayed output
+     *
+     * @return  string  The rendered layout.
+     *
+     * @since   3.0
+     */
+    public function render($displayData);
 }

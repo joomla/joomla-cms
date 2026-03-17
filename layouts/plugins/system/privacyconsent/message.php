@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.privacyconsent
@@ -37,11 +38,10 @@ extract($displayData);
  * @var   string   $validate               Validation rules to apply.
  * @var   string   $value                  Value attribute of the field.
  * @var   array    $options                Options available for this field.
- * @var   array    $privacynote            The privacy note that needs to be displayed
+ * @var   string   $privacynote            The privacy note that needs to be displayed
  * @var   array    $translateLabel         Should the label be translated?
  * @var   array    $translateHint          Should the hint be translated?
  * @var   array    $privacyArticle         The Article ID holding the Privacy Article
  */
 
 echo '<div class="alert alert-info">' . $privacynote . '</div>';
-

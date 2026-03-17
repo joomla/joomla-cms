@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\Tag;
 
-\defined('JPATH_PLATFORM') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Access to component specific tagging information.
@@ -17,16 +20,16 @@ namespace Joomla\CMS\Tag;
  */
 interface TagServiceInterface
 {
-	/**
-	 * Adds Count Items for Tag Manager.
-	 *
-	 * @param   \stdClass[]  $items      The content objects
-	 * @param   string       $extension  The name of the active view.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 * @throws  \Exception
-	 */
-	public function countTagItems(array $items, string $extension);
+    /**
+     * Adds Count Items for Tag Manager.
+     *
+     * @param   \stdClass[]  $items      The content objects
+     * @param   string       $extension  The name of the active view.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     * @throws  \Exception
+     */
+    public function countTagItems(array $items, string $extension);
 }

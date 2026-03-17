@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_fields
@@ -9,15 +10,18 @@
 
 namespace Joomla\Component\Fields\Administrator\View\Field;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Fields\Administrator\Model\FieldModel;
+use Joomla\Filesystem\Path;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Field View
@@ -26,145 +30,141 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * @var  \JForm
-	 *
-	 * @since   3.7.0
-	 */
-	protected $form;
+    /**
+     * @var     \Joomla\CMS\Form\Form
+     *
+     * @since   3.7.0
+     */
+    protected $form;
 
-	/**
-	 * @var  \JObject
-	 *
-	 * @since   3.7.0
-	 */
-	protected $item;
+    /**
+     * @var     \stdClass
+     *
+     * @since   3.7.0
+     */
+    protected $item;
 
-	/**
-	 * @var  \JObject
-	 *
-	 * @since   3.7.0
-	 */
-	protected $state;
+    /**
+     * @var     \Joomla\Registry\Registry
+     *
+     * @since   3.7.0
+     */
+    protected $state;
 
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 *
-	 * @see     HtmlView::loadTemplate()
-	 * @since   3.7.0
-	 */
-	public function display($tpl = null)
-	{
-		$this->form  = $this->get('Form');
-		$this->item  = $this->get('Item');
-		$this->state = $this->get('State');
+    /**
+     * Execute and display a template script.
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     *
+     * @see     HtmlView::loadTemplate()
+     *
+     * @since   3.7.0
+     */
+    public function display($tpl = null)
+    {
+        /** @var FieldModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-		$this->canDo = ContentHelper::getActions($this->state->get('field.component'), 'field', $this->item->id);
+        $this->form  = $model->getForm();
+        $this->item  = $model->getItem();
+        $this->state = $model->getState();
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        $this->canDo = ContentHelper::getActions($this->state->get('field.component'), 'field', $this->item->id);
 
-		Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-		$this->addToolbar();
+        $this->addToolbar();
 
-		parent::display($tpl);
-	}
+        // Add form control fields
+        $this->form
+            ->addControlField('task');
 
-	/**
-	 * Adds the toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.7.0
-	 */
-	protected function addToolbar()
-	{
-		$component = $this->state->get('field.component');
-		$section   = $this->state->get('field.section');
-		$userId    = Factory::getUser()->get('id');
-		$canDo     = $this->canDo;
+        parent::display($tpl);
+    }
 
-		$isNew      = ($this->item->id == 0);
-		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+    /**
+     * Adds the toolbar.
+     *
+     * @return  void
+     *
+     * @since   3.7.0
+     */
+    protected function addToolbar()
+    {
+        $component = $this->state->get('field.component');
+        $section   = $this->state->get('field.section');
+        $userId    = $this->getCurrentUser()->id;
+        $canDo     = $this->canDo;
+        $toolbar   = $this->getDocument()->getToolbar();
 
-		// Avoid nonsense situation.
-		if ($component == 'com_fields')
-		{
-			return;
-		}
+        $isNew      = ($this->item->id == 0);
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
 
-		// Load component language file
-		$lang = Factory::getLanguage();
-		$lang->load($component, JPATH_ADMINISTRATOR)
-		|| $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
+        // Avoid nonsense situation.
+        if ($component == 'com_fields') {
+            return;
+        }
 
-		$title = Text::sprintf('COM_FIELDS_VIEW_FIELD_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', Text::_(strtoupper($component)));
+        // Load component language file
+        $lang = $this->getLanguage();
+        $lang->load($component, JPATH_ADMINISTRATOR)
+        || $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
-		// Prepare the toolbar.
-		ToolbarHelper::title(
-			$title,
-			'puzzle field-' . ($isNew ? 'add' : 'edit') . ' ' . substr($component, 4) . ($section ? "-$section" : '') . '-field-' .
-			($isNew ? 'add' : 'edit')
-		);
+        $title = Text::sprintf('COM_FIELDS_VIEW_FIELD_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', Text::_(strtoupper($component)));
 
-		// For new records, check the create permission.
-		if ($isNew)
-		{
-			ToolbarHelper::apply('field.apply');
+        // Prepare the toolbar.
+        ToolbarHelper::title(
+            $title,
+            'puzzle field-' . ($isNew ? 'add' : 'edit') . ' ' . substr($component, 4) . ($section ? "-$section" : '') . '-field-' .
+            ($isNew ? 'add' : 'edit')
+        );
 
-			ToolbarHelper::saveGroup(
-				[
-					['save', 'field.save'],
-					['save2new', 'field.save2new']
-				],
-				'btn-success'
-			);
+        // For new records, check the create permission.
+        if ($isNew) {
+            $toolbar->apply('field.apply');
+            $saveGroup = $toolbar->dropdownButton('save-group');
+            $saveGroup->configure(
+                function (Toolbar $childBar) {
+                    $childBar->save('field.save');
+                    $childBar->save2new('field.save2new');
+                }
+            );
+            $toolbar->cancel('field.cancel', 'JTOOLBAR_CANCEL');
+        } else {
+            // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
+            $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
-			ToolbarHelper::cancel('field.cancel');
-		}
-		else
-		{
-			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
-			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
+            // Can't save the record if it's checked out and editable
+            if (!$checkedOut && $itemEditable) {
+                $toolbar->apply('field.apply');
+            }
 
-			$toolbarButtons = [];
+            $saveGroup = $toolbar->dropdownButton('save-group');
+            $saveGroup->configure(
+                function (Toolbar $childBar) use ($checkedOut, $itemEditable, $canDo) {
+                    if (!$checkedOut && $itemEditable) {
+                        $childBar->save('field.save');
 
-			// Can't save the record if it's checked out and editable
-			if (!$checkedOut && $itemEditable)
-			{
-				ToolbarHelper::apply('field.apply');
+                        // We can save this record, but check the create permission to see if we can return to make a new one.
+                        if ($canDo->get('core.create')) {
+                            $childBar->save2new('field.save2new');
+                        }
+                    }
 
-				$toolbarButtons[] = ['save', 'field.save'];
+                    // If an existing item, can save to a copy.
+                    if ($canDo->get('core.create')) {
+                        $childBar->save2copy('field.save2copy');
+                    }
+                }
+            );
 
-				// We can save this record, but check the create permission to see if we can return to make a new one.
-				if ($canDo->get('core.create'))
-				{
-					$toolbarButtons[] = ['save2new', 'field.save2new'];
-				}
-			}
+            $toolbar->cancel('field.cancel');
+        }
 
-			// If an existing item, can save to a copy.
-			if ($canDo->get('core.create'))
-			{
-				$toolbarButtons[] = ['save2copy', 'field.save2copy'];
-			}
-
-			ToolbarHelper::saveGroup(
-				$toolbarButtons,
-				'btn-success'
-			);
-
-			ToolbarHelper::cancel('field.cancel', 'JTOOLBAR_CLOSE');
-		}
-
-		ToolbarHelper::help('Component:_New_or_Edit_Field');
-	}
+        $toolbar->inlinehelp();
+        $toolbar->help('Fields:_Edit');
+    }
 }

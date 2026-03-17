@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-\defined('JPATH_PLATFORM') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Interface for a list model.
@@ -17,14 +20,14 @@ namespace Joomla\CMS\MVC\Model;
  */
 interface ListModelInterface
 {
-	/**
-	 * Method to get an array of data items.
-	 *
-	 * @return  mixed  An array of data items
-	 *
-	 * @since   4.0.0
-	 *
-	 * @throws \Exception
-	 */
-	public function getItems();
+    /**
+     * Method to get an array of data items.
+     *
+     * @return  mixed  An array of data items
+     *
+     * @since   4.0.0
+     *
+     * @throws \Exception
+     */
+    public function getItems();
 }

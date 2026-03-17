@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <metadata>
 	<layout title="COM_CONTENT_CATEGORIES_VIEW_DEFAULT_TITLE" option="COM_CONTENT_CATEGORIES_VIEW_DEFAULT_OPTION">
 		<help
@@ -12,7 +12,7 @@
 	<!-- Add fields to the request variables for the layout. -->
 	<fields name="request">
 		<fieldset name="request"
-		 >
+		>
 			<field
 				name="id"
 				type="category"
@@ -209,7 +209,6 @@
 				type="text"
 				label="JGLOBAL_BLOG_CLASS_LEADING"
 				useglobal="true"
-				size="3"
 				validate="CssIdentifier"
 			/>
 
@@ -218,7 +217,6 @@
 				type="text"
 				label="JGLOBAL_BLOG_CLASS"
 				useglobal="true"
-				size="3"
 				validate="CssIdentifier"
 			/>
 
@@ -375,7 +373,6 @@
 				name="date_format"
 				type="text"
 				label="JGLOBAL_DATE_FORMAT_LABEL"
-				size="15"
 				useglobal="true"
 			/>
 
@@ -407,7 +404,8 @@
 				name="display_num"
 				type="list"
 				label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL"
-				default="10"
+				default=""
+				useglobal="true"
 				validate="options"
 				>
 				<option value="5">J5</option>

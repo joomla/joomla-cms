@@ -1,19 +1,50 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="finder" method="upgrade">
 	<name>plg_finder_newsfeeds</name>
 	<author>Joomla! Project</author>
-	<creationDate>August 2011</creationDate>
+	<creationDate>2011-08</creationDate>
 	<copyright>(C) 2011 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_FINDER_NEWSFEEDS_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Finder\Newsfeeds</namespace>
 	<files>
-		<filename plugin="newsfeeds">newsfeeds.php</filename>
+		<folder plugin="newsfeeds">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_finder_newsfeeds.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_finder_newsfeeds.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_finder_newsfeeds.ini</language>
+		<language tag="en-GB">language/en-GB/plg_finder_newsfeeds.sys.ini</language>
 	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic" addfieldprefix="Joomla\Component\Finder\Administrator\Field">
+				<field
+					name="search_archived"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="PLG_FINDER_NEWSFEEDS_FIELD_SEARCH_ARCHIVED_LABEL"
+					description="PLG_FINDER_NEWSFEEDS_FIELD_SEARCH_ARCHIVED_DESC"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="taxonomies"
+					type="taxonomytypes"
+					label="PLG_FINDER_NEWSFEEDS_TAXONOMIES_LABEL"
+					default="type,category,language"
+					multiple="true"
+					>
+					<option value="category">PLG_FINDER_NEWSFEEDS_TAXONOMIES_CATEGORY</option>
+					<option value="language">PLG_FINDER_NEWSFEEDS_TAXONOMIES_LANGUAGE</option>
+					<option value="type">PLG_FINDER_NEWSFEEDS_TAXONOMIES_TYPE</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
 </extension>

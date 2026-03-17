@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_scheduler
@@ -9,20 +10,21 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Model;
 
-// Restrict direct access
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
-use Joomla\Database\DatabaseQuery;
+use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The MVC Model for TasksView.
@@ -32,414 +34,490 @@ use Joomla\Utilities\ArrayHelper;
  */
 class TasksModel extends ListModel
 {
-	/**
-	 * Constructor.
-	 *
-	 * @param   array                     $config   An optional associative array of configuration settings.
-	 *
-	 * @param   MVCFactoryInterface|null  $factory  The factory.
-	 *
-	 * @since  4.1.0
-	 * @throws \Exception
-	 * @see    \JControllerLegacy
-	 */
-	public function __construct($config = [], MVCFactoryInterface $factory = null)
-	{
-		if (empty($config['filter_fields']))
-		{
-			$config['filter_fields'] = [
-				'id', 'a.id',
-				'asset_id', 'a.asset_id',
-				'title', 'a.title',
-				'type', 'a.type',
-				'type_title', 'j.type_title',
-				'state', 'a.state',
-				'last_exit_code', 'a.last_exit_code',
-				'last_execution', 'a.last_execution',
-				'next_execution', 'a.next_execution',
-				'times_executed', 'a.times_executed',
-				'times_failed', 'a.times_failed',
-				'ordering', 'a.ordering',
-				'priority', 'a.priority',
-				'note', 'a.note',
-				'created', 'a.created',
-				'created_by', 'a.created_by',
-			];
-		}
+    protected $listForbiddenList = ['select', 'multi_ordering'];
 
-		parent::__construct($config, $factory);
-	}
+    /**
+     * Constructor.
+     *
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     *
+     * @since   4.1.0
+     * @throws  \Exception
+     * @see     \JControllerLegacy
+     */
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
+    {
+        if (empty($config['filter_fields'])) {
+            $config['filter_fields'] = [
+                'id', 'a.id',
+                'asset_id', 'a.asset_id',
+                'title', 'a.title',
+                'type', 'a.type',
+                'type_title', 'j.type_title',
+                'state', 'a.state',
+                'last_exit_code', 'a.last_exit_code',
+                'last_execution', 'a.last_execution',
+                'next_execution', 'a.next_execution',
+                'times_executed', 'a.times_executed',
+                'times_failed', 'a.times_failed',
+                'ordering', 'a.ordering',
+                'priority', 'a.priority',
+                'note', 'a.note',
+                'created', 'a.created',
+                'created_by', 'a.created_by',
+            ];
+        }
 
-	/**
-	 * Method to get a store id based on model configuration state.
-	 *
-	 * This is necessary because the model is used by the component and
-	 * different modules that might need different sets of data or different
-	 * ordering requirements.
-	 *
-	 * @param   string  $id  A prefix for the store id.
-	 *
-	 * @return string  A store id.
-	 *
-	 * @since  4.1.0
-	 */
-	protected function getStoreId($id = ''): string
-	{
-		// Compile the store id.
-		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.state');
-		$id .= ':' . $this->getState('filter.type');
-		$id .= ':' . $this->getState('filter.orphaned');
-		$id .= ':' . $this->getState('filter.due');
-		$id .= ':' . $this->getState('filter.locked');
-		$id .= ':' . $this->getState('filter.trigger');
-		$id .= ':' . $this->getState('list.select');
+        parent::__construct($config, $factory);
+    }
 
-		return parent::getStoreId($id);
-	}
+    /**
+     * Method to get a store id based on model configuration state.
+     *
+     * This is necessary because the model is used by the component and
+     * different modules that might need different sets of data or different
+     * ordering requirements.
+     *
+     * @param   string  $id  A prefix for the store id.
+     *
+     * @return string  A store id.
+     *
+     * @since  4.1.0
+     */
+    protected function getStoreId($id = ''): string
+    {
+        // Compile the store id.
+        $id .= ':' . $this->getState('filter.search');
+        $id .= ':' . $this->getState('filter.state');
+        $id .= ':' . $this->getState('filter.type');
+        $id .= ':' . $this->getState('filter.orphaned');
+        $id .= ':' . $this->getState('filter.due');
+        $id .= ':' . $this->getState('filter.locked');
+        $id .= ':' . $this->getState('filter.trigger');
+        $id .= ':' . $this->getState('list.select');
 
-	/**
-	 * Method to create a query for a list of items.
-	 *
-	 * @return QueryInterface
-	 *
-	 * @since  4.1.0
-	 * @throws \Exception
-	 */
-	protected function getListQuery(): QueryInterface
-	{
-		// Create a new query object.
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true);
+        return parent::getStoreId($id);
+    }
 
-		/**
-		 * Select the required fields from the table.
-		 * ? Do we need all these defaults ?
-		 * ? Does 'list.select' exist ?
-		 */
-		$query->select(
-			$this->getState(
-				'list.select',
-				'a.id, a.asset_id, a.title, a.type, a.execution_rules, a.state, a.last_exit_code, a.locked' .
-				', a.last_execution, a.next_execution, a.times_executed, a.times_failed, a.ordering, a.note'
-			)
-		);
+    /**
+     * Method to create a query for a list of items.
+     *
+     * @return  QueryInterface
+     *
+     * @since  4.1.0
+     * @throws \Exception
+     */
+    protected function getListQuery(): QueryInterface
+    {
+        // Create a new query object.
+        $db    = $this->getDatabase();
+        $query = $db->createQuery();
 
-		// From the #__scheduler_tasks table as 'a'
-		$query->from($db->quoteName('#__scheduler_tasks', 'a'));
+        /**
+         * Select the required fields from the table.
+         * ? Do we need all these defaults ?
+         * ? Does 'list.select' exist ?
+         */
+        $query->select(
+            $this->getState(
+                'list.select',
+                [
+                    $db->quoteName('a.id'),
+                    $db->quoteName('a.asset_id'),
+                    $db->quoteName('a.title'),
+                    $db->quoteName('a.type'),
+                    $db->quoteName('a.execution_rules'),
+                    $db->quoteName('a.state'),
+                    $db->quoteName('a.last_exit_code'),
+                    $db->quoteName('a.locked'),
+                    $db->quoteName('a.last_execution'),
+                    $db->quoteName('a.next_execution'),
+                    $db->quoteName('a.times_executed'),
+                    $db->quoteName('a.times_failed'),
+                    $db->quoteName('a.priority'),
+                    $db->quoteName('a.ordering'),
+                    $db->quoteName('a.note'),
+                    $db->quoteName('a.created_by'),
+                    $db->quoteName('a.checked_out'),
+                    $db->quoteName('a.checked_out_time'),
+                ]
+            )
+        )
+            ->select(
+                [
+                    $db->quoteName('uc.name', 'editor'),
+                ]
+            )
+            ->from($db->quoteName('#__scheduler_tasks', 'a'))
+            ->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out'));
 
-		// Filters go below
-		$filterCount = 0;
+        // Filters go below
+        $filterCount = 0;
 
-		/**
-		 * Extends query if already filtered.
-		 *
-		 * @param   string  $outerGlue
-		 * @param   array   $conditions
-		 * @param   string  $innerGlue
-		 *
-		 * @since  4.1.0
-		 */
-		$extendWhereIfFiltered = static function (
-			string $outerGlue,
-			array $conditions,
-			string $innerGlue
-		) use ($query, &$filterCount) {
-			if ($filterCount++)
-			{
-				$query->extendWhere($outerGlue, $conditions, $innerGlue);
-			}
-			else
-			{
-				$query->where($conditions, $innerGlue);
-			}
+        /**
+         * Extends query if already filtered.
+         *
+         * @param   string  $outerGlue
+         * @param   array   $conditions
+         * @param   string  $innerGlue
+         *
+         * @since  4.1.0
+         */
+        $extendWhereIfFiltered = static function (
+            string $outerGlue,
+            array $conditions,
+            string $innerGlue
+        ) use (
+            $query,
+            &$filterCount
+        ) {
+            if ($filterCount++) {
+                $query->extendWhere($outerGlue, $conditions, $innerGlue);
+            } else {
+                $query->where($conditions, $innerGlue);
+            }
+        };
 
-		};
+        // Filter over ID, title (redundant to search, but) ---
+        if (is_numeric($id = $this->getState('filter.id'))) {
+            $filterCount++;
+            $id = (int) $id;
+            $query->where($db->quoteName('a.id') . ' = :id')
+                ->bind(':id', $id, ParameterType::INTEGER);
+        } elseif ($title = $this->getState('filter.title')) {
+            $filterCount++;
+            $match = "%$title%";
+            $query->where($db->quoteName('a.title') . ' LIKE :match')
+                ->bind(':match', $match);
+        }
 
-		// Filter over ID, title (redundant to search, but) ---
-		if (is_numeric($id = $this->getState('filter.id')))
-		{
-			$filterCount++;
-			$id = (int) $id;
-			$query->where($db->qn('a.id') . ' = :id')
-				->bind(':id', $id, ParameterType::INTEGER);
-		}
-		elseif ($title = $this->getState('filter.title'))
-		{
-			$filterCount++;
-			$match = "%$title%";
-			$query->where($db->qn('a.title') . ' LIKE :match')
-				->bind(':match', $match);
-		}
+        // Filter orphaned (-1: exclude, 0: include, 1: only) ----
+        $filterOrphaned = (int) $this->getState('filter.orphaned');
 
-		// Filter over state ----
-		$state = $this->getState('filter.state');
+        if ($filterOrphaned !== 0) {
+            $filterCount++;
+            $taskOptions = SchedulerHelper::getTaskOptions();
 
-		if ($state !== '*')
-		{
-			$filterCount++;
+            // Array of all active routine ids
+            $activeRoutines = array_map(
+                static function (TaskOption $taskOption): string {
+                    return $taskOption->id;
+                },
+                $taskOptions->options
+            );
 
-			if (is_numeric($state))
-			{
-				$state = (int) $state;
+            if ($filterOrphaned === -1) {
+                $query->whereIn($db->quoteName('type'), $activeRoutines, ParameterType::STRING);
+            } else {
+                $query->whereNotIn($db->quoteName('type'), $activeRoutines, ParameterType::STRING);
+            }
+        }
 
-				$query->where($db->quoteName('a.state') . ' = :state')
-					->bind(':state', $state, ParameterType::INTEGER);
-			}
-			else
-			{
-				$query->whereIn($db->quoteName('a.state'), [0, 1]);
-			}
-		}
+        // Filter over state ----
+        $state = $this->getState('filter.state');
 
-		// Filter over type ----
-		$typeFilter = $this->getState('filter.type');
+        if ($state !== '*') {
+            $filterCount++;
 
-		if ($typeFilter)
-		{
-			$filterCount++;
-			$query->where($db->quotename('a.type') . '= :type')
-				->bind(':type', $typeFilter);
-		}
+            if (is_numeric($state)) {
+                $state = (int) $state;
 
-		// @todo: Filter over trigger
+                $query->where($db->quoteName('a.state') . ' = :state')
+                    ->bind(':state', $state, ParameterType::INTEGER);
+            } else {
+                $query->whereIn($db->quoteName('a.state'), [0, 1]);
+            }
+        }
 
-		// Filter over exit code ----
-		$exitCode = $this->getState('filter.last_exit_code');
+        // Filter over type ----
+        $typeFilter = $this->getState('filter.type');
 
-		if (is_numeric($exitCode))
-		{
-			$filterCount++;
-			$exitCode = (int) $exitCode;
-			$query->where($db->quoteName('a.last_exit_code') . '= :last_exit_code')
-				->bind(':last_exit_code', $exitCode, ParameterType::INTEGER);
-		}
+        if ($typeFilter) {
+            $filterCount++;
+            $query->where($db->quotename('a.type') . '= :type')
+                ->bind(':type', $typeFilter);
+        }
 
-		// Filter due (-1: exclude, 0: include, 1: only) ----
-		$due = $this->getState('filter.due');
+        // Filter over exit code ----
+        $exitCode = $this->getState('filter.last_exit_code');
 
-		if (is_numeric($due) && $due != 0)
-		{
-			$now      = Factory::getDate('now', 'GMT')->toSql();
-			$operator = $due == 1 ? ' <= ' : ' > ';
-			$filterCount++;
-			$query->where($db->qn('a.next_execution') . $operator . ':now')
-				->bind(':now', $now);
-		}
+        if (is_numeric($exitCode)) {
+            $filterCount++;
+            $exitCode = (int) $exitCode;
+            $query->where($db->quoteName('a.last_exit_code') . '= :last_exit_code')
+                ->bind(':last_exit_code', $exitCode, ParameterType::INTEGER);
+        }
 
-		/*
-		 * Filter locked ---
-		 * Locks can be either hard locks or soft locks. Locks that have expired (exceeded the task timeout) are soft
-		 * locks. Hard-locked tasks are assumed to be running. Soft-locked tasks are assumed to have suffered a fatal
-		 * failure.
-		 * {-2: exclude-all, -1: exclude-hard-locked, 0: include, 1: include-only-locked, 2: include-only-soft-locked}
-		 */
-		$locked = $this->getState('filter.locked');
+        // Filter due (-1: exclude, 0: include, 1: only) ----
+        $due = $this->getState('filter.due');
 
-		if (is_numeric($locked) && $locked != 0)
-		{
-			$now              = Factory::getDate('now', 'GMT');
-			$timeout          = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
-			$timeout          = new \DateInterval(sprintf('PT%dS', $timeout));
-			$timeoutThreshold = (clone $now)->sub($timeout)->toSql();
-			$now              = $now->toSql();
+        if (is_numeric($due) && $due != 0) {
+            $now      = Factory::getDate('now', 'UTC')->toSql();
+            $operator = $due == 1 ? ' <= ' : ' > ';
+            $filterCount++;
+            $query->where($db->quoteName('a.next_execution') . $operator . ':now')
+                ->bind(':now', $now);
+        }
 
-			switch ($locked)
-			{
-				case -2:
-					$query->where($db->qn('a.locked') . 'IS NULL');
-					break;
-				case -1:
-					$extendWhereIfFiltered(
-						'AND',
-						[
-							$db->qn('a.locked') . ' IS NULL',
-							$db->qn('a.locked') . ' < :threshold',
-						],
-						'OR'
-					);
-					$query->bind(':threshold', $timeoutThreshold);
-					break;
-				case 1:
-					$query->where($db->qn('a.locked') . ' IS NOT NULL');
-					break;
-				case 2:
-					$query->where($db->qn('a.locked') . ' < :threshold')
-						->bind(':threshold', $timeoutThreshold);
-			}
-		}
+        /*
+         * Filter locked ---
+         * Locks can be either hard locks or soft locks. Locks that have expired (exceeded the task timeout) are soft
+         * locks. Hard-locked tasks are assumed to be running. Soft-locked tasks are assumed to have suffered a fatal
+         * failure.
+         * {-2: exclude-all, -1: exclude-hard-locked, 0: include, 1: include-only-locked, 2: include-only-soft-locked}
+         */
+        $locked = $this->getState('filter.locked');
 
-		// Filter over search string if set (title, type title, note, id) ----
-		$searchStr = $this->getState('filter.search');
+        if (is_numeric($locked) && $locked != 0) {
+            $now              = Factory::getDate('now', 'UTC');
+            $timeout          = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
+            $timeout          = new \DateInterval(\sprintf('PT%dS', $timeout));
+            $timeoutThreshold = (clone $now)->sub($timeout)->toSql();
+            $now              = $now->toSql();
 
-		if (!empty($searchStr))
-		{
-			// Allow search by ID
-			if (stripos($searchStr, 'id:') === 0)
-			{
-				// Add array support [?]
-				$id = (int) substr($searchStr, 3);
-				$query->where($db->quoteName('a.id') . '= :id')
-					->bind(':id', $id, ParameterType::INTEGER);
-			}
-			// Search by type is handled exceptionally in _getList() [@todo: remove refs]
-			elseif (stripos($searchStr, 'type:') !== 0)
-			{
-				$searchStr = "%$searchStr%";
+            switch ($locked) {
+                case -2:
+                    $query->where($db->quoteName('a.locked') . 'IS NULL');
+                    break;
+                case -1:
+                    $extendWhereIfFiltered(
+                        'AND',
+                        [
+                            $db->quoteName('a.locked') . ' IS NULL',
+                            $db->quoteName('a.locked') . ' < :threshold',
+                        ],
+                        'OR'
+                    );
+                    $query->bind(':threshold', $timeoutThreshold);
+                    break;
+                case 1:
+                    $query->where($db->quoteName('a.locked') . ' IS NOT NULL');
+                    break;
+                case 2:
+                    $query->where($db->quoteName('a.locked') . ' < :threshold')
+                        ->bind(':threshold', $timeoutThreshold);
+            }
+        }
 
-				// Bind keys to query
-				$query->bind(':title', $searchStr)
-					->bind(':note', $searchStr);
-				$conditions = [
-					$db->quoteName('a.title') . ' LIKE :title',
-					$db->quoteName('a.note') . ' LIKE :note',
-				];
-				$extendWhereIfFiltered('AND', $conditions, 'OR');
-			}
-		}
+        // Filter over search string if set (title, type title, note, id) ----
+        $searchStr = $this->getState('filter.search');
 
-		// Add list ordering clause. ----
-		// @todo implement multi-column ordering someway
-		$multiOrdering = $this->state->get('list.multi_ordering');
+        if (!empty($searchStr)) {
+            // Allow search by ID
+            if (stripos($searchStr, 'id:') === 0) {
+                // Add array support [?]
+                $id = (int) substr($searchStr, 3);
+                $query->where($db->quoteName('a.id') . '= :id')
+                    ->bind(':id', $id, ParameterType::INTEGER);
+            } elseif (stripos($searchStr, 'type:') !== 0) {
+                // Search by type is handled exceptionally in _getList() [@todo: remove refs]
+                $searchStr = "%$searchStr%";
 
-		if (!$multiOrdering || !\is_array($multiOrdering))
-		{
-			$orderCol = $this->state->get('list.ordering', 'a.title');
-			$orderDir = $this->state->get('list.direction', 'desc');
+                // Bind keys to query
+                $query->bind(':title', $searchStr)
+                    ->bind(':note', $searchStr);
+                $conditions = [
+                    $db->quoteName('a.title') . ' LIKE :title',
+                    $db->quoteName('a.note') . ' LIKE :note',
+                ];
+                $extendWhereIfFiltered('AND', $conditions, 'OR');
+            }
+        }
 
-			// Type title ordering is handled exceptionally in _getList()
-			if ($orderCol !== 'j.type_title')
-			{
-				$query->order($db->quoteName($orderCol) . ' ' . $orderDir);
+        // Add list ordering clause. ----
+        // @todo implement multi-column ordering someway
+        $multiOrdering = $this->state->get('list.multi_ordering');
 
-				// If ordering by type or state, also order by title.
-				if (\in_array($orderCol, ['a.type', 'a.state', 'a.priority']))
-				{
-					// @todo : Test if things are working as expected
-					$query->order($db->quoteName('a.title') . ' ' . $orderDir);
-				}
-			}
-		}
-		else
-		{
-			// @todo Should add quoting here
-			$query->order($multiOrdering);
-		}
+        if (!$multiOrdering || !\is_array($multiOrdering)) {
+            $orderCol = $this->state->get('list.ordering', 'a.next_execution');
+            $orderDir = $this->state->get('list.direction', 'asc');
 
-		return $query;
-	}
+            // Type title ordering is handled exceptionally in _getList()
+            if ($orderCol !== 'j.type_title') {
+                $query->order($db->quoteName($orderCol) . ' ' . $orderDir);
 
-	/**
-	 * Overloads the parent _getList() method.
-	 * Takes care of attaching TaskOption objects and sorting by type titles.
-	 *
-	 * @param   DatabaseQuery  $query       The database query to get the list with
-	 * @param   int            $limitstart  The list offset
-	 * @param   int            $limit       Number of list items to fetch
-	 *
-	 * @return object[]
-	 *
-	 * @since  4.1.0
-	 * @throws \Exception
-	 */
-	protected function _getList($query, $limitstart = 0, $limit = 0): array
-	{
+                // If ordering by type or state, also order by title.
+                if (\in_array($orderCol, ['a.type', 'a.state', 'a.priority'])) {
+                    // @todo : Test if things are working as expected
+                    $query->order($db->quoteName('a.title') . ' ' . $orderDir);
+                }
+            }
+        } else {
+            $orderClauses = [];
 
-		// Get stuff from the model state
-		$listOrder      = $this->getState('list.ordering', 'a.title');
-		$listDirectionN = strtolower($this->getState('list.direction', 'desc')) == 'desc' ? -1 : 1;
+            // Loop through provided clauses
+            foreach ($multiOrdering as $ordering) {
+                [$column, $direction] = explode(' ', $ordering);
 
-		// Set limit parameters and get object list
-		$query->setLimit($limit, $limitstart);
-		$this->getDbo()->setQuery($query);
+                $orderClauses[] = $db->quoteName($column) . ' ' . $direction;
+            }
 
-		// Return optionally an extended class.
-		// @todo: Use something other than CMSObject..
-		if ($this->getState('list.customClass'))
-		{
-			$responseList = array_map(
-				static function (array $arr) {
-					$o = new CMSObject;
+            // At least one correct order clause
+            if (\count($orderClauses) > 0) {
+                $query->order($orderClauses);
+            }
+        }
 
-					foreach ($arr as $k => $v)
-					{
-						$o->{$k} = $v;
-					}
+        return $query;
+    }
 
-					return $o;
-				},
-				$this->getDbo()->loadAssocList() ?: []
-			);
-		}
-		else
-		{
-			$responseList = $this->getDbo()->loadObjectList();
-		}
+    /**
+     * Overloads the parent _getList() method.
+     * Takes care of attaching TaskOption objects and sorting by type titles.
+     *
+     * @param   QueryInterface  $query       The database query to get the list with
+     * @param   int             $limitstart  The list offset
+     * @param   int             $limit       Number of list items to fetch
+     *
+     * @return object[]
+     *
+     * @since  4.1.0
+     * @throws \Exception
+     */
+    protected function _getList($query, $limitstart = 0, $limit = 0): array
+    {
+        // Get stuff from the model state
+        $listOrder      = $this->getState('list.ordering', 'a.next_execution');
+        $listDirectionN = strtolower($this->getState('list.direction', 'asc')) === 'desc' ? -1 : 1;
 
-		// Attach TaskOptions objects and a safe type title
-		$this->attachTaskOptions($responseList);
+        // Set limit parameters and get object list
+        $query->setLimit($limit, $limitstart);
+        $this->getDatabase()->setQuery($query);
+        $responseList = $this->getDatabase()->loadObjectList();
 
-		// If ordering by non-db fields, we need to sort here in code
-		if ($listOrder == 'j.type_title')
-		{
-			$responseList = ArrayHelper::sortObjects($responseList, 'safeTypeTitle', $listDirectionN, true, false);
-		}
+        // Attach TaskOptions objects and a safe type title
+        $this->attachTaskOptions($responseList);
 
-		// Filter orphaned (-1: exclude, 0: include, 1: only) ----
-		// ! This breaks pagination at the moment [@todo: fix]
-		$filterOrphaned = (int) $this->getState('filter.orphaned');
+        // If ordering by non-db fields, we need to sort here in code
+        if ($listOrder === 'j.type_title') {
+            $responseList = ArrayHelper::sortObjects($responseList, 'safeTypeTitle', $listDirectionN, true, false);
+        }
 
-		if ($filterOrphaned !== 0)
-		{
-			$responseList = array_values(
-				array_filter(
-					$responseList,
-					static function (object $c) use ($filterOrphaned) {
-						$isOrphan = !isset($c->taskOption);
+        return $responseList;
+    }
 
-						return $filterOrphaned === 1 ? $isOrphan : !$isOrphan;
-					}
-				)
-			);
-		}
+    /**
+     * For an array of items, attaches TaskOption objects and (safe) type titles to each.
+     *
+     * @param   array  $items  Array of items, passed by reference
+     *
+     * @return void
+     *
+     * @since  4.1.0
+     * @throws \Exception
+     */
+    private function attachTaskOptions(array $items): void
+    {
+        $taskOptions = SchedulerHelper::getTaskOptions();
 
-		return $responseList;
-	}
+        foreach ($items as $item) {
+            $item->taskOption    = $taskOptions->findOption($item->type);
+            $item->safeTypeTitle = $item->taskOption->title ?? Text::_('JGLOBAL_NONAPPLICABLE');
+        }
+    }
 
-	/**
-	 * For an array of items, attaches TaskOption objects and (safe) type titles to each.
-	 *
-	 * @param   array  $items  Array of items, passed by reference
-	 *
-	 * @return void
-	 *
-	 * @since  4.1.0
-	 * @throws \Exception
-	 */
-	private function attachTaskOptions(array $items): void
-	{
-		$taskOptions = SchedulerHelper::getTaskOptions();
+    /**
+     * Proxy for the parent method.
+     * Sets ordering defaults.
+     *
+     * @param   string  $ordering   Field to order/sort list by
+     * @param   string  $direction  Direction in which to sort list
+     *
+     * @return void
+     * @since  4.1.0
+     */
+    protected function populateState($ordering = 'a.next_execution', $direction = 'ASC'): void
+    {
+        $app = Factory::getApplication();
 
-		foreach ($items as $item)
-		{
-			$item->taskOption    = $taskOptions->findOption($item->type);
-			$item->safeTypeTitle = $item->taskOption->title ?? Text::_('JGLOBAL_NONAPPLICABLE');
-		}
-	}
+        // Clean the multiorder values
+        if ($list = $app->getUserStateFromRequest($this->context . '.list', 'list', [], 'array')) {
+            if (!empty($list['multi_ordering']) && \is_array($list['multi_ordering'])) {
+                $orderClauses = [];
 
-	/**
-	 * Proxy for the parent method.
-	 * Sets ordering defaults.
-	 *
-	 * @param   string  $ordering   Field to order/sort list by
-	 * @param   string  $direction  Direction in which to sort list
-	 *
-	 * @return void
-	 * @since  4.1.0
-	 */
-	protected function populateState($ordering = 'a.id', $direction = 'ASC'): void
-	{
-		// Call the parent method
-		parent::populateState($ordering, $direction);
-	}
+                // Loop through provided clauses
+                foreach ($list['multi_ordering'] as $multiOrdering) {
+                    // Split the combined string into individual variables
+                    $multiOrderingParts = explode(' ', $multiOrdering, 2);
+
+                    // Check that at least the column is present
+                    if (\count($multiOrderingParts) < 1) {
+                        continue;
+                    }
+
+                    // Assign variables
+                    $multiOrderingColumn = $multiOrderingParts[0];
+                    $multiOrderingDir    = \count($multiOrderingParts) === 2 ? $multiOrderingParts[1] : 'asc';
+
+                    // Validate provided column
+                    if (!\in_array($multiOrderingColumn, $this->filter_fields)) {
+                        continue;
+                    }
+
+                    // Validate order dir
+                    if (strtolower($multiOrderingDir) !== 'asc' && strtolower($multiOrderingDir) !== 'desc') {
+                        continue;
+                    }
+
+                    $orderClauses[] = $multiOrderingColumn . ' ' . $multiOrderingDir;
+                }
+
+                $this->setState('list.multi_ordering', $orderClauses);
+            }
+        }
+
+        // Call the parent method
+        parent::populateState($ordering, $direction);
+    }
+
+    /**
+     * Check if we have any enabled due tasks and no locked tasks.
+     *
+     * @param   Date  $time  The next execution time to check against
+     *
+     * @return boolean
+     * @since  4.4.0
+     */
+    public function hasDueTasks(Date $time): bool
+    {
+        $db  = $this->getDatabase();
+        $now = $time->toSql();
+
+        $timeout   = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
+        $threshold = (clone $time)->modify("-$timeout seconds")->toSql();
+
+        $query = $db->createQuery()
+            // Count due tasks
+            ->select('SUM(CASE WHEN ' . $db->quoteName('a.next_execution') . ' <= :now THEN 1 ELSE 0 END) AS due_count')
+            // Count locked tasks
+            ->select(
+                'SUM(CASE WHEN ' .
+                $db->quoteName('a.locked') . ' IS NOT NULL AND ' .
+                $db->quoteName('a.locked') . ' > :threshold ' .
+                'THEN 1 ELSE 0 END) AS locked_count'
+            )
+            ->from($db->quoteName('#__scheduler_tasks', 'a'))
+            ->where($db->quoteName('a.state') . ' = 1')
+            ->bind(':now', $now)
+            ->bind(':threshold', $threshold);
+
+        $db->setQuery($query);
+
+        $taskDetails = $db->loadObject();
+
+        // False if we don't have due tasks, or we have locked tasks
+        return $taskDetails && $taskDetails->due_count && !$taskDetails->locked_count;
+    }
+
+    /**
+     * Check if we have right now any enabled due tasks and no locked tasks.
+     *
+     * @return boolean
+     * @since  5.2.0
+     */
+    public function getHasDueTasks()
+    {
+        return $this->hasDueTasks(Factory::getDate('now', 'UTC'));
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,10 +9,12 @@
 
 namespace Joomla\CMS\Component\Router;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Menu\AbstractMenu;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The component router service.
@@ -20,15 +23,15 @@ use Joomla\CMS\Menu\AbstractMenu;
  */
 interface RouterServiceInterface
 {
-	/**
-	 * Returns the router.
-	 *
-	 * @param   CMSApplicationInterface  $application  The application object
-	 * @param   AbstractMenu             $menu         The menu object to work with
-	 *
-	 * @return  RouterInterface
-	 *
-	 * @since  4.0.0
-	 */
-	public function createRouter(CMSApplicationInterface $application, AbstractMenu $menu): RouterInterface;
+    /**
+     * Returns the router.
+     *
+     * @param   CMSApplicationInterface  $application  The application object
+     * @param   AbstractMenu             $menu         The menu object to work with
+     *
+     * @return  RouterInterface
+     *
+     * @since  4.0.0
+     */
+    public function createRouter(CMSApplicationInterface $application, AbstractMenu $menu): RouterInterface;
 }

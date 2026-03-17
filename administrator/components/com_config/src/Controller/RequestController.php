@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_config
@@ -9,10 +10,12 @@
 
 namespace Joomla\Component\Config\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Requests from the frontend
@@ -21,83 +24,72 @@ use Joomla\CMS\MVC\Controller\BaseController;
  */
 class RequestController extends BaseController
 {
-	/**
-	 * Execute the controller.
-	 *
-	 * @return  mixed  A rendered view or false
-	 *
-	 * @since   3.2
-	 */
-	public function getJson()
-	{
-		$componentFolder = $this->input->getWord('option', 'com_config');
+    /**
+     * Execute the controller.
+     *
+     * @return  mixed  A rendered view or false
+     *
+     * @since   3.2
+     */
+    public function getJson()
+    {
+        $componentFolder = $this->input->getWord('option', 'com_config');
 
-		if ($this->app->isClient('administrator'))
-		{
-			$viewName = $this->input->getWord('view', 'application');
-		}
-		else
-		{
-			$viewName = $this->input->getWord('view', 'config');
-		}
+        if ($this->app->isClient('administrator')) {
+            $viewName = $this->input->getWord('view', 'application');
+        } else {
+            $viewName = $this->input->getWord('view', 'config');
+        }
 
-		// Register the layout paths for the view
-		$paths = new \SplPriorityQueue;
+        // Register the layout paths for the view
+        $paths = new \SplPriorityQueue();
 
-		if ($this->app->isClient('administrator'))
-		{
-			$paths->insert(JPATH_ADMINISTRATOR . '/components/' . $componentFolder . '/view/' . $viewName . '/tmpl', 1);
-		}
-		else
-		{
-			$paths->insert(JPATH_BASE . '/components/' . $componentFolder . '/view/' . $viewName . '/tmpl', 1);
-		}
+        if ($this->app->isClient('administrator')) {
+            $paths->insert(JPATH_ADMINISTRATOR . '/components/' . $componentFolder . '/view/' . $viewName . '/tmpl', 1);
+        } else {
+            $paths->insert(JPATH_BASE . '/components/' . $componentFolder . '/view/' . $viewName . '/tmpl', 1);
+        }
 
-		$model     = new \Joomla\Component\Config\Administrator\Model\ApplicationModel;
-		$component = $model->getState()->get('component.option');
+        $model     = new \Joomla\Component\Config\Administrator\Model\ApplicationModel();
+        $component = $model->getState()->get('component.option');
 
-		// Access check.
-		if (!$this->app->getIdentity()->authorise('core.admin', $component)
-			&& !$this->app->getIdentity()->authorise('core.options', $component))
-		{
-			$this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
+        // Access check.
+        if (
+            !$this->app->getIdentity()->authorise('core.admin', $component)
+            && !$this->app->getIdentity()->authorise('core.options', $component)
+        ) {
+            $this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 
-			return false;
-		}
+            return false;
+        }
 
-		try
-		{
-			$data = $model->getData();
-			$user = $this->app->getIdentity();
-		}
-		catch (\Exception $e)
-		{
-			$this->app->enqueueMessage($e->getMessage(), 'error');
+        try {
+            $data = $model->getData();
+        } catch (\Exception $e) {
+            $this->app->enqueueMessage($e->getMessage(), 'error');
 
-			return false;
-		}
+            return false;
+        }
 
-		$this->userIsSuperAdmin = $user->authorise('core.admin');
+        // Required data
+        $requiredData = [
+            'sitename'            => null,
+            'offline'             => null,
+            'access'              => null,
+            'list_limit'          => null,
+            'MetaDesc'            => null,
+            'MetaRights'          => null,
+            'sef'                 => null,
+            'sitename_pagetitles' => null,
+            'debug'               => null,
+            'debug_lang'          => null,
+            'error_reporting'     => null,
+            'mailfrom'            => null,
+            'fromname'            => null,
+        ];
 
-		// Required data
-		$requiredData = array(
-			'sitename'            => null,
-			'offline'             => null,
-			'access'              => null,
-			'list_limit'          => null,
-			'MetaDesc'            => null,
-			'MetaRights'          => null,
-			'sef'                 => null,
-			'sitename_pagetitles' => null,
-			'debug'               => null,
-			'debug_lang'          => null,
-			'error_reporting'     => null,
-			'mailfrom'            => null,
-			'fromname'            => null
-		);
+        $data = array_intersect_key($data, $requiredData);
 
-		$data = array_intersect_key($data, $requiredData);
-
-		return json_encode($data);
-	}
+        return json_encode($data);
+    }
 }

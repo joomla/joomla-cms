@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_templates
@@ -9,10 +10,13 @@
 
 namespace Joomla\Component\Templates\Administrator\View\Style;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\Component\Templates\Administrator\Model\StyleModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View to edit a template style.
@@ -21,56 +25,56 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
  */
 class JsonView extends BaseHtmlView
 {
-	/**
-	 * The \JObject (on success, false on failure)
-	 *
-	 * @var   \JObject
-	 */
-	protected $item;
+    /**
+     * The item
+     *
+     * @var   \stdClass
+     */
+    protected $item;
 
-	/**
-	 * The form object
-	 *
-	 * @var   \JForm
-	 */
-	protected $form;
+    /**
+     * The form object
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    protected $form;
 
-	/**
-	 * The model state
-	 *
-	 * @var   \JObject
-	 */
-	protected $state;
+    /**
+     * The model state
+     *
+     * @var   \Joomla\Registry\Registry
+     */
+    protected $state;
 
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
-	 *
-	 * @since   1.6
-	 */
-	public function display($tpl = null)
-	{
-		try
-		{
-			$this->item = $this->get('Item');
-		}
-		catch (\Exception $e)
-		{
-			$app = Factory::getApplication();
-			$app->enqueueMessage($e->getMessage(), 'error');
+    /**
+     * Execute and display a template script.
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  mixed  A string if successful, otherwise an Error object.
+     *
+     * @since   1.6
+     */
+    public function display($tpl = null)
+    {
+        /** @var StyleModel $model */
+        $model = $this->getModel();
 
-			return false;
-		}
+        try {
+            $this->item = $model->getItem();
+        } catch (\Exception $e) {
+            $app = Factory::getApplication();
+            $app->enqueueMessage($e->getMessage(), 'error');
 
-		$paramsList = $this->item->getProperties();
+            return false;
+        }
 
-		unset($paramsList['xml']);
+        $paramsList = get_object_vars($this->item);
 
-		$paramsList = json_encode($paramsList);
+        unset($paramsList['xml']);
 
-		return $paramsList;
-	}
+        $paramsList = json_encode($paramsList);
+
+        return $paramsList;
+    }
 }

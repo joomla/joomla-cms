@@ -1,16 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" client="administrator" method="upgrade">
 	<name>mod_toolbar</name>
 	<author>Joomla! Project</author>
-	<creationDate>November 2005</creationDate>
+	<creationDate>2005-11</creationDate>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_TOOLBAR_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Module\Toolbar</namespace>
 	<files>
-		<filename module="mod_toolbar">mod_toolbar.php</filename>
+		<folder module="mod_toolbar">services</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
@@ -20,6 +22,16 @@
 	<help key="Admin_Modules:_Toolbar" />
 	<config>
 		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="toolbar"
+					type="text"
+					default="toolbar"
+					label="MOD_TOOLBAR_FIELD_TOOLBAR_LABEL"
+					description="MOD_TOOLBAR_FIELD_TOOLBAR_DESCRIPTION"
+				/>
+			</fieldset>
+
 			<fieldset name="advanced">
 				<field
 					name="layout"

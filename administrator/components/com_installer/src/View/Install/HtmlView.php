@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
@@ -9,15 +10,15 @@
 
 namespace Joomla\Component\Installer\Administrator\View\Install;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Access\Exception\NotAllowed;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Extension Manager Install View
@@ -26,49 +27,50 @@ use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as Installe
  */
 class HtmlView extends InstallerViewDefault
 {
-	/**
-	 * Display the view
-	 *
-	 * @param   string  $tpl  Template
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public function display($tpl = null)
-	{
-		if (!Factory::getUser()->authorise('core.admin'))
-		{
-			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
-		}
+    /**
+     * Display the view
+     *
+     * @param   string  $tpl  Template
+     *
+     * @return  void
+     *
+     * @since   1.5
+     */
+    public function display($tpl = null)
+    {
+        if (!$this->getCurrentUser()->authorise('core.admin')) {
+            throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+        }
 
-		$paths        = new \stdClass;
-		$paths->first = '';
+        $paths        = new \stdClass();
+        $paths->first = '';
 
-		$this->paths  = &$paths;
+        $this->paths  = &$paths;
 
-		PluginHelper::importPlugin('installer');
+        PluginHelper::importPlugin('installer');
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function addToolbar()
-	{
-		if (ContentHelper::getActions('com_installer')->get('core.manage'))
-		{
-			ToolbarHelper::link('index.php?option=com_installer&view=manage', 'COM_INSTALLER_TOOLBAR_MANAGE', 'list');
-			ToolbarHelper::divider();
-		}
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    protected function addToolbar()
+    {
+        $toolbar = $this->getDocument()->getToolbar();
 
-		parent::addToolbar();
+        if (ContentHelper::getActions('com_installer')->get('core.manage')) {
+            $toolbar->linkButton('list', 'COM_INSTALLER_TOOLBAR_MANAGE')
+                ->url('index.php?option=com_installer&view=manage');
+            $toolbar->divider();
+        }
 
-		ToolbarHelper::help('Extensions:_Install');
-	}
+        parent::addToolbar();
+
+        $toolbar->help('Extensions:_Install');
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
@@ -9,174 +10,212 @@
 
 namespace Joomla\Component\Users\Administrator\View\User;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
+use Joomla\Component\Users\Administrator\Helper\Mfa;
+use Joomla\Component\Users\Administrator\Model\UserModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * User view class.
  *
  * @since  1.5
  */
-class HtmlView extends BaseHtmlView
+class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
 {
-	/**
-	 * The \JForm object
-	 *
-	 * @var  \JForm
-	 */
-	protected $form;
+    use UserFactoryAwareTrait;
 
-	/**
-	 * The active item
-	 *
-	 * @var  object
-	 */
-	protected $item;
+    /**
+     * The Form object
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    protected $form;
 
-	/**
-	 * Gets the available groups
-	 *
-	 * @var  array
-	 */
-	protected $grouplist;
+    /**
+     * The active item
+     *
+     * @var  object
+     */
+    protected $item;
 
-	/**
-	 * The groups this user is assigned to
-	 *
-	 * @var     array
-	 * @since   1.6
-	 */
-	protected $groups;
+    /**
+     * Gets the available groups
+     *
+     * @var  array
+     */
+    protected $grouplist;
 
-	/**
-	 * The model state
-	 *
-	 * @var  CMSObject
-	 */
-	protected $state;
+    /**
+     * The groups this user is assigned to
+     *
+     * @var     array
+     * @since   1.6
+     */
+    protected $groups;
 
-	/**
-	 * Configuration forms for all two-factor authentication methods
-	 *
-	 * @var    array
-	 * @since  3.2
-	 */
-	protected $tfaform;
+    /**
+     * The model state
+     *
+     * @var  \Joomla\Registry\Registry
+     */
+    protected $state;
 
-	/**
-	 * Returns the one time password (OTP) – a.k.a. two factor authentication –
-	 * configuration for the user.
-	 *
-	 * @var    \stdClass
-	 * @since  3.2
-	 */
-	protected $otpConfig;
+    /**
+     * The Multi-factor Authentication configuration interface for the user.
+     *
+     * @var   string|null
+     * @since 4.2.0
+     */
+    protected $mfaConfigurationUI;
 
-	/**
-	 * Display the view
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public function display($tpl = null)
-	{
-		// If no item found, dont show the edit screen, redirect with message
-		if (false === $this->item = $this->get('Item'))
-		{
-			$app = Factory::getApplication();
-			$app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_NOT_EXIST'), 'error');
-			$app->redirect('index.php?option=com_users&view=users');
-		}
+    /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
 
-		$this->form      = $this->get('Form');
-		$this->state     = $this->get('State');
-		$this->tfaform   = $this->get('Twofactorform');
-		$this->otpConfig = $this->get('otpConfig');
+    /**
+     * Display the view
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     *
+     * @since   1.5
+     */
+    public function display($tpl = null)
+    {
+        /** @var UserModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        // If no item found, dont show the edit screen, redirect with message
+        if (false === $this->item = $model->getItem()) {
+            $app = Factory::getApplication();
+            $app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_NOT_EXIST'), 'error');
+            $app->redirect('index.php?option=com_users&view=users');
+        }
 
-		// Prevent user from modifying own group(s)
-		$user = Factory::getApplication()->getIdentity();
+        $this->form  = $model->getForm();
+        $this->state = $model->getState();
 
-		if ((int) $user->id != (int) $this->item->id || $user->authorise('core.admin'))
-		{
-			$this->grouplist = $this->get('Groups');
-			$this->groups    = $this->get('AssignedGroups');
-		}
+        // Prevent user from modifying own group(s)
+        $user = $this->getCurrentUser();
 
-		$this->form->setValue('password', null);
-		$this->form->setValue('password2', null);
+        if ((int) $user->id != (int) $this->item->id || $user->authorise('core.admin')) {
+            $this->grouplist = $model->getGroups();
+            $this->groups    = $model->getAssignedGroups();
+        }
 
-		parent::display($tpl);
-		$this->addToolbar();
-	}
+        $this->form->setValue('password', null);
+        $this->form->setValue('password2', null);
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return void
-	 *
-	 * @since   1.6
-	 * @throws  \Exception
-	 */
-	protected function addToolbar()
-	{
-		Factory::getApplication()->input->set('hidemainmenu', true);
+        $userBeingEdited = $this->getUserFactory()->loadUserById($this->item->id);
 
-		$user      = Factory::getApplication()->getIdentity();
-		$canDo     = ContentHelper::getActions('com_users');
-		$isNew     = ($this->item->id == 0);
-		$isProfile = $this->item->id == $user->id;
+        if ($this->item->id > 0 && (int) $userBeingEdited->id == (int) $this->item->id) {
+            try {
+                $this->mfaConfigurationUI = Mfa::canShowConfigurationInterface($userBeingEdited)
+                    ? Mfa::getConfigurationInterface($userBeingEdited)
+                    : '';
+            } catch (\Exception) {
+                // In case something goes really wrong with the plugins; prevents hard breaks.
+                $this->mfaConfigurationUI = null;
+            }
+        }
 
-		ToolbarHelper::title(
-			Text::_(
-				$isNew ? 'COM_USERS_VIEW_NEW_USER_TITLE' : ($isProfile ? 'COM_USERS_VIEW_EDIT_PROFILE_TITLE' : 'COM_USERS_VIEW_EDIT_USER_TITLE')
-			),
-			'user ' . ($isNew ? 'user-add' : ($isProfile ? 'user-profile' : 'user-edit'))
-		);
+        // Add form control fields
+        $this->form
+            ->addControlField('task')
+            ->addControlField('return', Factory::getApplication()->getInput()->getBase64('return', ''));
 
-		$toolbarButtons = [];
+        parent::display($tpl);
 
-		if ($canDo->get('core.edit') || $canDo->get('core.create') || $isProfile)
-		{
-			ToolbarHelper::apply('user.apply');
-			$toolbarButtons[] = ['save', 'user.save'];
-		}
+        $this->addToolbar();
+    }
 
-		if ($canDo->get('core.create') && $canDo->get('core.manage'))
-		{
-			$toolbarButtons[] = ['save2new', 'user.save2new'];
-		}
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return void
+     *
+     * @since   1.6
+     * @throws  \Exception
+     */
+    protected function addToolbar()
+    {
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-		ToolbarHelper::saveGroup(
-			$toolbarButtons,
-			'btn-success'
-		);
+        $user      = $this->getCurrentUser();
+        $canDo     = ContentHelper::getActions('com_users');
+        $isNew     = ($this->item->id == 0);
+        $isProfile = $this->item->id == $user->id;
+        $toolbar   = $this->getDocument()->getToolbar();
 
-		if (empty($this->item->id))
-		{
-			ToolbarHelper::cancel('user.cancel');
-		}
-		else
-		{
-			ToolbarHelper::cancel('user.cancel', 'JTOOLBAR_CLOSE');
-		}
+        ToolbarHelper::title(
+            Text::_(
+                $isNew ? 'COM_USERS_VIEW_NEW_USER_TITLE' : ($isProfile ? 'COM_USERS_VIEW_EDIT_PROFILE_TITLE' : 'COM_USERS_VIEW_EDIT_USER_TITLE')
+            ),
+            'user ' . ($isNew ? 'user-add' : ($isProfile ? 'user-profile' : 'user-edit'))
+        );
 
-		ToolbarHelper::divider();
-		ToolbarHelper::help('Users:_Edit_Profile');
-	}
+        if ($canDo->get('core.edit') || $canDo->get('core.create') || $isProfile) {
+            $toolbar->apply('user.apply');
+        }
+
+        $saveGroup = $toolbar->dropdownButton('save-group');
+
+        $saveGroup->configure(
+            function (Toolbar $childBar) use ($canDo, $isProfile) {
+                if ($canDo->get('core.edit') || $canDo->get('core.create') || $isProfile) {
+                    $childBar->save('user.save');
+                }
+
+                if ($canDo->get('core.create') && $canDo->get('core.manage')) {
+                    $childBar->save2new('user.save2new');
+                }
+            }
+        );
+
+        if (empty($this->item->id)) {
+            $toolbar->cancel('user.cancel', 'JTOOLBAR_CANCEL');
+        } else {
+            $toolbar->cancel('user.cancel');
+        }
+
+        // Check lastvisitDate for allow resend the activation email
+        $userIsNotActive = !empty($this->item->activation) || \is_null($this->item->lastvisitDate);
+
+        if ($this->item->id > 0 && $userIsNotActive) {
+            $buttonText = !empty($this->item->activation)
+                ? Text::_('COM_USERS_USER_ACTIVATE_AND_MAIL')
+                : Text::_('COM_USERS_USER_ACTIVATION_REMINDER');
+
+            $toolbar->standardButton('activate', $buttonText)
+                ->buttonClass('btn activate-send-mail')
+                ->attributes([
+                    'data-option' => 'com_users',
+                    'data-task'   => 'user.active',
+                    'data-format' => 'json',
+                    'data-userid' => $this->item->id,
+                ])
+                ->icon('icon-mail')
+                ->onclick('');
+        }
+
+        $toolbar->divider();
+        $toolbar->help('Users:_Edit_Profile');
+    }
 }

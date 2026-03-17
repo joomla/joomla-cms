@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Content.vote
@@ -13,8 +14,12 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->app->getDocument()->getWebAssetManager();
+
+/**
+ * @var Joomla\CMS\WebAsset\WebAssetManager $wa
+ * @var \Joomla\Plugin\Content\Vote\Extension\Vote $this
+ */
+$wa = $this->getApplication()->getDocument()->getWebAssetManager();
 $wa->registerAndUseStyle('plg_content_vote', 'plg_content_vote/rating.css');
 
 /**
@@ -28,9 +33,8 @@ $wa->registerAndUseStyle('plg_content_vote', 'plg_content_vote/rating.css');
  * @var   string   $path     Path to this file
  */
 
-if ($context === 'com_content.categories')
-{
-	return;
+if ($context === 'com_content.categories') {
+    return;
 }
 
 // Get the icons
@@ -38,9 +42,8 @@ $iconStar     = HTMLHelper::_('image', 'plg_content_vote/vote-star.svg', '', '',
 $iconHalfstar = HTMLHelper::_('image', 'plg_content_vote/vote-star-half.svg', '', '', true, true);
 
 // If you can't find the icons then skip it
-if ($iconStar === null || $iconHalfstar === null)
-{
-	return;
+if ($iconStar === null || $iconHalfstar === null) {
+    return;
 }
 
 // Get paths to icons
@@ -62,37 +65,36 @@ $rating = round($rating / 0.5) * 0.5;
 $stars = $rating;
 $img   = '';
 
-for ($i = 0; $i < floor($stars); $i++)
-{
-	$img .= '<li class="vote-star">' . $star . '</li>';
+for ($i = 0; $i < floor($stars); $i++) {
+    $img .= '<li class="vote-star">' . $star . '</li>';
 }
 
-if (($stars - floor($stars)) >= 0.5)
-{
-	$img .= '<li class="vote-star-empty">' . $star . '</li>';
-	$img .= '<li class="vote-star-half">' . $halfstar . '</li>';
+if (($stars - floor($stars)) >= 0.5) {
+    $img .= '<li class="vote-star-empty">' . $star . '</li>';
+    $img .= '<li class="vote-star-half">' . $halfstar . '</li>';
 
-	++$stars;
+    ++$stars;
 }
 
-for ($i = $stars; $i < 5; $i++)
-{
-	$img .= '<li class="vote-star-empty">' . $star . '</li>';
+for ($i = $stars; $i < 5; $i++) {
+    $img .= '<li class="vote-star-empty">' . $star . '</li>';
 }
 
 ?>
 <div class="content_rating" role="img" aria-label="<?php echo Text::sprintf('PLG_VOTE_STAR_RATING', $rating); ?>">
-	<?php if ($rcount) : ?>
-		<p class="visually-hidden" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
-			<?php echo Text::sprintf('PLG_VOTE_USER_RATING', '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>'); ?>
-			<meta itemprop="ratingCount" content="<?php echo $rcount; ?>">
-			<meta itemprop="worstRating" content="1">
-		</p>
-		<?php if ($this->params->get('show_total_votes', 0)): ?>
-			<?php echo Text::sprintf('PLG_VOTE_TOTAL_VOTES', $rcount); ?>
-		<?php endif; ?>
-	<?php endif; ?>
-	<ul>
-		<?php echo $img; ?>
-	</ul>
+    <?php if ($rcount) : ?>
+        <div class="visually-hidden">
+            <p itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+                <?php echo Text::sprintf('PLG_VOTE_USER_RATING', '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>'); ?>
+                <meta itemprop="ratingCount" content="<?php echo $rcount; ?>">
+                <meta itemprop="worstRating" content="1">
+            </p>
+        </div>
+        <?php if ($this->params->get('show_total_votes', 0)) : ?>
+            <?php echo Text::sprintf('PLG_VOTE_TOTAL_VOTES', $rcount); ?>
+        <?php endif; ?>
+    <?php endif; ?>
+    <ul>
+        <?php echo $img; ?>
+    </ul>
 </div>

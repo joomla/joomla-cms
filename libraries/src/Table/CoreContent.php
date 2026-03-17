@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,345 +9,310 @@
 
 namespace Joomla\CMS\Table;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseDriver;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 use Joomla\String\StringHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Core content table
  *
  * @since  3.1
  */
-class CoreContent extends Table
+class CoreContent extends Table implements CurrentUserInterface
 {
-	/**
-	 * Indicates that columns fully support the NULL value in the database
-	 *
-	 * @var    boolean
-	 * @since  4.0.0
-	 */
-	protected $_supportNullValue = true;
+    use CurrentUserTrait;
 
-	/**
-	 * Encode necessary fields to JSON in the bind method
-	 *
-	 * @var    array
-	 * @since  4.0.0
-	 */
-	protected $_jsonEncode = ['core_params', 'core_metadata', 'core_images', 'core_urls', 'core_body'];
+    /**
+     * Indicates that columns fully support the NULL value in the database
+     *
+     * @var    boolean
+     * @since  4.0.0
+     */
+    protected $_supportNullValue = true;
 
-	/**
-	 * Constructor
-	 *
-	 * @param   DatabaseDriver  $db  A database connector object
-	 *
-	 * @since   3.1
-	 */
-	public function __construct(DatabaseDriver $db)
-	{
-		parent::__construct('#__ucm_content', 'core_content_id', $db);
+    /**
+     * An array of key names to be json encoded in the bind method
+     *
+     * @var    array
+     * @since  4.0.0
+     */
+    protected $_jsonEncode = ['core_params', 'core_metadata', 'core_images', 'core_urls', 'core_body'];
 
-		$this->setColumnAlias('published', 'core_state');
-		$this->setColumnAlias('checked_out', 'core_checked_out_user_id');
-		$this->setColumnAlias('checked_out_time', 'core_checked_out_time');
-	}
+    /**
+     * Constructor
+     *
+     * @param   DatabaseInterface     $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
+     *
+     * @since   3.1
+     */
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
+    {
+        parent::__construct('#__ucm_content', 'core_content_id', $db, $dispatcher);
 
-	/**
-	 * Overloaded check function
-	 *
-	 * @return  boolean  True on success, false on failure
-	 *
-	 * @see     Table::check()
-	 * @since   3.1
-	 */
-	public function check()
-	{
-		try
-		{
-			parent::check();
-		}
-		catch (\Exception $e)
-		{
-			$this->setError($e->getMessage());
+        $this->setColumnAlias('published', 'core_state');
+        $this->setColumnAlias('checked_out', 'core_checked_out_user_id');
+        $this->setColumnAlias('checked_out_time', 'core_checked_out_time');
 
-			return false;
-		}
+        $this->_trackAssets = false;
+    }
 
-		if (trim($this->core_title) === '')
-		{
-			$this->setError(Text::_('JLIB_CMS_WARNING_PROVIDE_VALID_NAME'));
+    /**
+     * Overloaded check function
+     *
+     * @return  boolean  True on success, false on failure
+     *
+     * @see     Table::check()
+     * @since   3.1
+     */
+    public function check()
+    {
+        try {
+            parent::check();
+        } catch (\Exception $e) {
+            $this->setError($e->getMessage());
 
-			return false;
-		}
+            return false;
+        }
 
-		if (trim($this->core_alias) === '')
-		{
-			$this->core_alias = $this->core_title;
-		}
+        if (trim($this->core_title) === '') {
+            $this->setError(Text::_('JLIB_CMS_WARNING_PROVIDE_VALID_NAME'));
 
-		$this->core_alias = ApplicationHelper::stringURLSafe($this->core_alias);
+            return false;
+        }
 
-		if (trim(str_replace('-', '', $this->core_alias)) === '')
-		{
-			$this->core_alias = Factory::getDate()->format('Y-m-d-H-i-s');
-		}
+        if (trim($this->core_alias) === '') {
+            $this->core_alias = $this->core_title;
+        }
 
-		// Not Null sanity check
-		if (empty($this->core_images))
-		{
-			$this->core_images = '{}';
-		}
+        $this->core_alias = ApplicationHelper::stringURLSafe($this->core_alias);
 
-		if (empty($this->core_urls))
-		{
-			$this->core_urls = '{}';
-		}
+        if (trim(str_replace('-', '', $this->core_alias)) === '') {
+            $this->core_alias = Factory::getDate()->format('Y-m-d-H-i-s');
+        }
 
-		// Check the publish down date is not earlier than publish up.
-		if ($this->core_publish_up !== null
-			&& $this->core_publish_down !== null
-			&& $this->core_publish_down < $this->core_publish_up
-			&& $this->core_publish_down > $this->_db->getNullDate())
-		{
-			// Swap the dates.
-			$temp = $this->core_publish_up;
-			$this->core_publish_up = $this->core_publish_down;
-			$this->core_publish_down = $temp;
-		}
+        // Not Null sanity check
+        if (empty($this->core_images)) {
+            $this->core_images = '{}';
+        }
 
-		// Clean up keywords -- eliminate extra spaces between phrases
-		// and cr (\r) and lf (\n) characters from string
-		if (!empty($this->core_metakey))
-		{
-			// Only process if not empty
+        if (empty($this->core_urls)) {
+            $this->core_urls = '{}';
+        }
 
-			// Array of characters to remove
-			$bad_characters = array("\n", "\r", "\"", '<', '>');
+        // Check the publish down date is not earlier than publish up.
+        if (
+            $this->core_publish_up !== null
+            && $this->core_publish_down !== null
+            && $this->core_publish_down < $this->core_publish_up
+            && $this->core_publish_down > $this->getDatabase()->getNullDate()
+        ) {
+            // Swap the dates.
+            $temp                    = $this->core_publish_up;
+            $this->core_publish_up   = $this->core_publish_down;
+            $this->core_publish_down = $temp;
+        }
 
-			// Remove bad characters
-			$after_clean = StringHelper::str_ireplace($bad_characters, '', $this->core_metakey);
+        // Clean up keywords -- eliminate extra spaces between phrases
+        // and cr (\r) and lf (\n) characters from string
+        if (!empty($this->core_metakey)) {
+            // Only process if not empty
 
-			// Create array using commas as delimiter
-			$keys = explode(',', $after_clean);
+            // Array of characters to remove
+            $bad_characters = ["\n", "\r", "\"", '<', '>'];
 
-			$clean_keys = array();
+            // Remove bad characters
+            $after_clean = StringHelper::str_ireplace($bad_characters, '', $this->core_metakey);
 
-			foreach ($keys as $key)
-			{
-				if (trim($key))
-				{
-					// Ignore blank keywords
-					$clean_keys[] = trim($key);
-				}
-			}
+            // Create array using commas as delimiter
+            $keys = explode(',', $after_clean);
 
-			// Put array back together delimited by ", "
-			$this->core_metakey = implode(', ', $clean_keys);
-		}
+            $clean_keys = [];
 
-		return true;
-	}
+            foreach ($keys as $key) {
+                if (trim($key)) {
+                    // Ignore blank keywords
+                    $clean_keys[] = trim($key);
+                }
+            }
 
-	/**
-	 * Override JTable delete method to include deleting corresponding row from #__ucm_base.
-	 *
-	 * @param   integer  $pk  primary key value to delete. Must be set or throws an exception.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.1
-	 * @throws  \UnexpectedValueException
-	 */
-	public function delete($pk = null)
-	{
-		$baseTable = Table::getInstance('Ucm', 'JTable', array('dbo' => $this->getDbo()));
+            // Put array back together delimited by ", "
+            $this->core_metakey = implode(', ', $clean_keys);
+        }
 
-		return parent::delete($pk) && $baseTable->delete($pk);
-	}
+        return true;
+    }
 
-	/**
-	 * Method to delete a row from the #__ucm_content table by content_item_id.
-	 *
-	 * @param   integer  $contentItemId  value of the core_content_item_id to delete. Corresponds to the primary key of the content table.
-	 * @param   string   $typeAlias      Alias for the content type
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.1
-	 * @throws  \UnexpectedValueException
-	 */
-	public function deleteByContentId($contentItemId = null, $typeAlias = null)
-	{
-		$contentItemId = (int) $contentItemId;
+    /**
+     * Method to delete a row from the #__ucm_content table by content_item_id.
+     *
+     * @param   integer  $contentItemId  value of the core_content_item_id to delete. Corresponds to the primary key of the content table.
+     * @param   string   $typeAlias      Alias for the content type
+     *
+     * @return  boolean  True on success.
+     *
+     * @throws  \UnexpectedValueException
+     * @since   3.1
+     */
+    public function deleteByContentId($contentItemId = null, $typeAlias = null)
+    {
+        $contentItemId = (int) $contentItemId;
 
-		if ($contentItemId === 0)
-		{
-			throw new \UnexpectedValueException('Null content item key not allowed.');
-		}
+        if ($contentItemId === 0) {
+            throw new \UnexpectedValueException('Null content item key not allowed.');
+        }
 
-		if ($typeAlias === null)
-		{
-			throw new \UnexpectedValueException('Null type alias not allowed.');
-		}
+        if ($typeAlias === null) {
+            throw new \UnexpectedValueException('Null type alias not allowed.');
+        }
 
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('core_content_id'))
-			->from($db->quoteName('#__ucm_content'))
-			->where(
-				[
-					$db->quoteName('core_content_item_id') . ' = :contentItemId',
-					$db->quoteName('core_type_alias') . ' = :typeAlias',
-				]
-			)
-			->bind(':contentItemId', $contentItemId, ParameterType::INTEGER)
-			->bind(':typeAlias', $typeAlias);
+        $db    = $this->getDatabase();
+        $query = $db->createQuery();
+        $query->select($db->quoteName('core_content_id'))
+            ->from($db->quoteName('#__ucm_content'))
+            ->where(
+                [
+                    $db->quoteName('core_content_item_id') . ' = :contentItemId',
+                    $db->quoteName('core_type_alias') . ' = :typeAlias',
+                ]
+            )
+            ->bind(':contentItemId', $contentItemId, ParameterType::INTEGER)
+            ->bind(':typeAlias', $typeAlias);
 
-		$db->setQuery($query);
+        $db->setQuery($query);
 
-		if ($ucmId = $db->loadResult())
-		{
-			return $this->delete($ucmId);
-		}
-		else
-		{
-			return true;
-		}
-	}
+        if ($ucmId = $db->loadResult()) {
+            return $this->delete($ucmId);
+        }
 
-	/**
-	 * Overrides Table::store to set modified data and user id.
-	 *
-	 * @param   boolean  $updateNulls  True to update fields even if they are null.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.1
-	 */
-	public function store($updateNulls = true)
-	{
-		$date = Factory::getDate();
-		$user = Factory::getUser();
+        return true;
+    }
 
-		if ($this->core_content_id)
-		{
-			// Existing item
-			$this->core_modified_time = $date->toSql();
-			$this->core_modified_user_id = $user->get('id');
-			$isNew = false;
-		}
-		else
-		{
-			// New content item. A content item core_created_time and core_created_user_id field can be set by the user,
-			// so we don't touch either of these if they are set.
-			if (!(int) $this->core_created_time)
-			{
-				$this->core_created_time = $date->toSql();
-			}
+    /**
+     * Overrides Table::store to set modified data and user id.
+     *
+     * @param   boolean  $updateNulls  True to update fields even if they are null.
+     *
+     * @return  boolean  True on success.
+     *
+     * @since   3.1
+     */
+    public function store($updateNulls = true)
+    {
+        $date = Factory::getDate();
+        $user = $this->getCurrentUser();
 
-			if (empty($this->core_created_user_id))
-			{
-				$this->core_created_user_id = $user->get('id');
-			}
+        if ($this->core_content_id) {
+            // Existing item
+            $this->core_modified_time    = $date->toSql();
+            $this->core_modified_user_id = $user->id;
+            $isNew                       = false;
+        } else {
+            // New content item. A content item core_created_time and core_created_user_id field can be set by the user,
+            // so we don't touch either of these if they are set.
+            if (!(int) $this->core_created_time) {
+                $this->core_created_time = $date->toSql();
+            }
 
-			if (!(int) $this->core_modified_time)
-			{
-				$this->core_modified_time = $this->core_created_time;
-			}
+            if (empty($this->core_created_user_id)) {
+                $this->core_created_user_id = $user->id;
+            }
 
-			if (empty($this->core_modified_user_id))
-			{
-				$this->core_modified_user_id = $this->core_created_user_id;
-			}
+            if (!(int) $this->core_modified_time) {
+                $this->core_modified_time = $this->core_created_time;
+            }
 
-			$isNew = true;
-		}
+            if (empty($this->core_modified_user_id)) {
+                $this->core_modified_user_id = $this->core_created_user_id;
+            }
 
-		$oldRules = $this->getRules();
+            $isNew = true;
+        }
 
-		if (empty($oldRules))
-		{
-			$this->setRules('{}');
-		}
+        $oldRules = $this->getRules();
 
-		$result = parent::store($updateNulls);
+        if (empty($oldRules)) {
+            $this->setRules('{}');
+        }
 
-		return $result && $this->storeUcmBase($updateNulls, $isNew);
-	}
+        return parent::store($updateNulls);
+    }
 
-	/**
-	 * Insert or update row in ucm_base table
-	 *
-	 * @param   boolean  $updateNulls  True to update fields even if they are null.
-	 * @param   boolean  $isNew        if true, need to insert. Otherwise update.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.1
-	 */
-	protected function storeUcmBase($updateNulls = true, $isNew = false)
-	{
-		// Store the ucm_base row
-		$db         = $this->getDbo();
-		$query      = $db->getQuery(true);
-		$languageId = ContentHelper::getLanguageId($this->core_language);
+    /**
+     * Insert or update row in ucm_base table
+     *
+     * @param   boolean  $updateNulls  True to update fields even if they are null.
+     * @param   boolean  $isNew        if true, need to insert. Otherwise update.
+     *
+     * @return  boolean  True on success.
+     *
+     * @since   3.1
+     * @deprecated  5.4.0 will be removed in 7.0 without replacement
+     */
+    protected function storeUcmBase($updateNulls = true, $isNew = false)
+    {
+        // Store the ucm_base row
+        $db         = $this->getDatabase();
+        $query      = $db->createQuery();
+        $languageId = ContentHelper::getLanguageId($this->core_language);
 
-		// Selecting "all languages" doesn't give a language id - we can't store a blank string in non mysql databases, so save 0 (the default value)
-		if (!$languageId)
-		{
-			$languageId = 0;
-		}
+        // Selecting "all languages" doesn't give a language id - we can't store a blank string in non mysql databases, so save 0 (the default value)
+        if (!$languageId) {
+            $languageId = 0;
+        }
 
-		if ($isNew)
-		{
-			$query->insert($db->quoteName('#__ucm_base'))
-				->columns(
-					[
-						$db->quoteName('ucm_id'),
-						$db->quoteName('ucm_item_id'),
-						$db->quoteName('ucm_type_id'),
-						$db->quoteName('ucm_language_id'),
-					]
-				)
-				->values(
-					implode(
-						',',
-						$query->bindArray(
-							[
-								$this->core_content_id,
-								$this->core_content_item_id,
-								$this->core_type_id,
-								$languageId,
-							]
-						)
-					)
-				);
-		}
-		else
-		{
-			$query->update($db->quoteName('#__ucm_base'))
-				->set(
-					[
-						$db->quoteName('ucm_item_id') . ' = :coreContentItemId',
-						$db->quoteName('ucm_type_id') . ' = :typeId',
-						$db->quoteName('ucm_language_id') . ' = :languageId',
-					]
-				)
-				->where($db->quoteName('ucm_id') . ' = :coreContentId')
-				->bind(':coreContentItemId', $this->core_content_item_id, ParameterType::INTEGER)
-				->bind(':typeId', $this->core_type_id, ParameterType::INTEGER)
-				->bind(':languageId', $languageId, ParameterType::INTEGER)
-				->bind(':coreContentId', $this->core_content_id, ParameterType::INTEGER);
-		}
+        if ($isNew) {
+            $query->insert($db->quoteName('#__ucm_base'))
+                ->columns(
+                    [
+                        $db->quoteName('ucm_id'),
+                        $db->quoteName('ucm_item_id'),
+                        $db->quoteName('ucm_type_id'),
+                        $db->quoteName('ucm_language_id'),
+                    ]
+                )
+                ->values(
+                    implode(
+                        ',',
+                        $query->bindArray(
+                            [
+                                $this->core_content_id,
+                                $this->core_content_item_id,
+                                $this->core_type_id,
+                                $languageId,
+                            ]
+                        )
+                    )
+                );
+        } else {
+            $query->update($db->quoteName('#__ucm_base'))
+                ->set(
+                    [
+                        $db->quoteName('ucm_item_id') . ' = :coreContentItemId',
+                        $db->quoteName('ucm_type_id') . ' = :typeId',
+                        $db->quoteName('ucm_language_id') . ' = :languageId',
+                    ]
+                )
+                ->where($db->quoteName('ucm_id') . ' = :coreContentId')
+                ->bind(':coreContentItemId', $this->core_content_item_id, ParameterType::INTEGER)
+                ->bind(':typeId', $this->core_type_id, ParameterType::INTEGER)
+                ->bind(':languageId', $languageId, ParameterType::INTEGER)
+                ->bind(':coreContentId', $this->core_content_id, ParameterType::INTEGER);
+        }
 
-		$db->setQuery($query);
+        $db->setQuery($query);
 
-		return $db->execute();
-	}
+        return $db->execute();
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\Feed;
 
-\defined('JPATH_PLATFORM') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Feed Person class.
@@ -17,53 +20,53 @@ namespace Joomla\CMS\Feed;
  */
 class FeedPerson
 {
-	/**
-	 * The email address of the person.
-	 *
-	 * @var    string
-	 * @since  3.1.4
-	 */
-	public $email;
+    /**
+     * The email address of the person.
+     *
+     * @var    string
+     * @since  3.1.4
+     */
+    public $email;
 
-	/**
-	 * The full name of the person.
-	 *
-	 * @var    string
-	 * @since  3.1.4
-	 */
-	public $name;
+    /**
+     * The full name of the person.
+     *
+     * @var    string
+     * @since  3.1.4
+     */
+    public $name;
 
-	/**
-	 * The type of person.
-	 *
-	 * @var    string
-	 * @since  3.1.4
-	 */
-	public $type;
+    /**
+     * The type of person.
+     *
+     * @var    string
+     * @since  3.1.4
+     */
+    public $type;
 
-	/**
-	 * The URI for the person.
-	 *
-	 * @var    string
-	 * @since  3.1.4
-	 */
-	public $uri;
+    /**
+     * The URI for the person.
+     *
+     * @var    string
+     * @since  3.1.4
+     */
+    public $uri;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param   string  $name   The full name of the person.
-	 * @param   string  $email  The email address of the person.
-	 * @param   string  $uri    The URI for the person.
-	 * @param   string  $type   The type of person.
-	 *
-	 * @since   3.1.4
-	 */
-	public function __construct($name = null, $email = null, $uri = null, $type = null)
-	{
-		$this->name = $name;
-		$this->email = $email;
-		$this->uri = $uri;
-		$this->type = $type;
-	}
+    /**
+     * Constructor.
+     *
+     * @param   string  $name   The full name of the person.
+     * @param   string  $email  The email address of the person.
+     * @param   string  $uri    The URI for the person.
+     * @param   string  $type   The type of person.
+     *
+     * @since   3.1.4
+     */
+    public function __construct($name = null, $email = null, $uri = null, $type = null)
+    {
+        $this->name  = $name;
+        $this->email = $email;
+        $this->uri   = $uri;
+        $this->type  = $type;
+    }
 }

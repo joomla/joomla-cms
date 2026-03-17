@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_modules
@@ -9,256 +10,187 @@
 
 namespace Joomla\Component\Modules\Administrator\View\Modules;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
-use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\MVC\View\ListView;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View class for a list of modules.
  *
  * @since  1.6
  */
-class HtmlView extends BaseHtmlView
+class HtmlView extends ListView
 {
-	/**
-	 * An array of items
-	 *
-	 * @var  array
-	 */
-	protected $items;
+    /**
+     * The client ID for the modules we're showing
+     *
+     * @var int
+     *
+     * @since 6.0.0
+     */
+    protected $clientId;
 
-	/**
-	 * The pagination object
-	 *
-	 * @var  \JPagination
-	 */
-	protected $pagination;
+    /**
+     * The help link for the view
+     *
+     * @var string
+     */
+    protected $helpLink = 'Modules';
 
-	/**
-	 * The model state
-	 *
-	 * @var  \JObject
-	 */
-	protected $state;
+    /**
+     * Constructor
+     *
+     * @param   array  $config  An optional associative array of configuration settings.
+     */
+    public function __construct(array $config)
+    {
+        if (empty($config['option'])) {
+            $config['option'] = 'com_modules';
+        }
 
-	/**
-	 * Form object for search filters
-	 *
-	 * @var    \JForm
-	 * @since  4.0.0
-	 */
-	public $filterForm;
+        $config['toolbar_icon']   = 'cube module';
+        $config['supports_batch'] = true;
 
-	/**
-	 * The active search filters
-	 *
-	 * @var    array
-	 * @since  4.0.0
-	 */
-	public $activeFilters;
+        parent::__construct($config);
+    }
 
-	/**
-	 * Is this view an Empty State
-	 *
-	 * @var  boolean
-	 * @since 4.0.0
-	 */
-	private $isEmptyState = false;
+    /**
+     * Prepare view data
+     *
+     * @return  void
+     */
+    protected function initializeView()
+    {
+        parent::initializeView();
 
-	/**
-	 * Display the view
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public function display($tpl = null)
-	{
-		$this->items         = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->state         = $this->get('State');
-		$this->total         = $this->get('Total');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
-		$this->clientId      = $this->state->get('client_id');
+        /**
+         * @var ListModel
+         */
+        $model = $this->getModel();
 
-		if (!count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
-		{
-			$this->setLayout('emptystate');
-		}
+        $this->total         = $model->getTotal();
+        $this->clientId      = (int) $this->state->get('client_id', 0);
 
-		/**
-		 * The code below make sure the remembered position will be available from filter dropdown even if there are no
-		 * modules available for this position. This will make the UI less confusing for users in case there is only one
-		 * module in the selected position and user:
-		 * 1. Edit the module, change it to new position, save it and come back to Modules Management Screen
-		 * 2. Or move that module to new position using Batch action
-		 */
-		if (count($this->items) === 0 && $this->state->get('filter.position'))
-		{
-			$selectedPosition = $this->state->get('filter.position');
-			$positionField    = $this->filterForm->getField('position', 'filter');
+        $this->canDo = ContentHelper::getActions('com_modules');
 
-			$positionExists = false;
+        $this->toolbarTitle = $this->clientId == 1 ? 'COM_MODULES_MANAGER_MODULES_ADMIN' : 'COM_MODULES_MANAGER_MODULES_SITE';
 
-			foreach ($positionField->getOptions() as $option)
-			{
-				if ($option->value === $selectedPosition)
-				{
-					$positionExists = true;
-					break;
-				}
-			}
+        /**
+         * The code below make sure the remembered position will be available from filter dropdown even if there are no
+         * modules available for this position. This will make the UI less confusing for users in case there is only one
+         * module in the selected position and user:
+         * 1. Edit the module, change it to new position, save it and come back to Modules Management Screen
+         * 2. Or move that module to new position using Batch action
+         */
+        if (\count($this->items) === 0 && $this->state->get('filter.position')) {
+            $selectedPosition = $this->state->get('filter.position');
+            $positionField    = $this->filterForm->getField('position', 'filter');
 
-			if ($positionExists === false)
-			{
-				$positionField->addOption($selectedPosition, ['value' => $selectedPosition]);
-			}
-		}
+            $positionExists = false;
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+            foreach ($positionField->getOptions() as $option) {
+                if ($option->value === $selectedPosition) {
+                    $positionExists = true;
+                    break;
+                }
+            }
 
-		// We do not need the Language filter when modules are not filtered
-		if ($this->clientId == 1 && !ModuleHelper::isAdminMultilang())
-		{
-			unset($this->activeFilters['language']);
-			$this->filterForm->removeField('language', 'filter');
-		}
+            if ($positionExists === false) {
+                $positionField->addOption($selectedPosition, ['value' => $selectedPosition]);
+            }
+        }
 
-		// We don't need the toolbar in the modal window.
-		if ($this->getLayout() !== 'modal')
-		{
-			$this->addToolbar();
+        // We do not need the Language filter when modules are not filtered
+        if ($this->clientId == 1 && !ModuleHelper::isAdminMultilang()) {
+            unset($this->activeFilters['language']);
+            $this->filterForm->removeField('language', 'filter');
+        }
 
-			// We do not need to filter by language when multilingual is disabled
-			if (!Multilanguage::isEnabled())
-			{
-				unset($this->activeFilters['language']);
-				$this->filterForm->removeField('language', 'filter');
-			}
-		}
-		// If in modal layout.
-		else
-		{
-			// Client id selector should not exist.
-			$this->filterForm->removeField('client_id', '');
+        // We don't need the toolbar in the modal window.
+        if ($this->getLayout() !== 'modal') {
+            // We do not need to filter by language when multilingual is disabled
+            if (!Multilanguage::isEnabled()) {
+                unset($this->activeFilters['language']);
+                $this->filterForm->removeField('language', 'filter');
+            }
+        } else {
+            // If in modal layout.
+            // Client id selector should not exist.
+            $this->filterForm->removeField('client_id', '');
 
-			// If in the frontend state and language should not activate the search tools.
-			if (Factory::getApplication()->isClient('site'))
-			{
-				unset($this->activeFilters['state']);
-				unset($this->activeFilters['language']);
-			}
-		}
+            // If in the frontend state and language should not activate the search tools.
+            if (Factory::getApplication()->isClient('site')) {
+                unset($this->activeFilters['state'], $this->activeFilters['language']);
+            }
 
-		parent::display($tpl);
-	}
+            // In menu associations modal we need to remove language filter if forcing a language.
+            $forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'CMD');
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function addToolbar()
-	{
-		$state = $this->get('State');
-		$canDo = ContentHelper::getActions('com_modules');
-		$user  = Factory::getUser();
+            if ($forcedLanguage) {
+                // If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
+                $languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
+                $this->filterForm->setField($languageXml, 'filter', true);
 
-		// Get the toolbar object instance
-		$toolbar = Toolbar::getInstance('toolbar');
+                // Also, unset the active language filter so the search tools is not open by default with this filter.
+                unset($this->activeFilters['language']);
+            }
 
-		if ($state->get('client_id') == 1)
-		{
-			ToolbarHelper::title(Text::_('COM_MODULES_MANAGER_MODULES_ADMIN'), 'cube module');
-		}
-		else
-		{
-			ToolbarHelper::title(Text::_('COM_MODULES_MANAGER_MODULES_SITE'), 'cube module');
-		}
+            $this->filterForm->addControlField('forcedLanguage', $forcedLanguage);
+        }
+    }
 
-		if ($canDo->get('core.create'))
-		{
-			$toolbar->standardButton('new', 'JTOOLBAR_NEW')
-				->onclick("location.href='index.php?option=com_modules&amp;view=select&amp;client_id=" . $this->state->get('client_id', 0) . "'");
-		}
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    protected function addToolbar()
+    {
+        $canDo = $this->canDo;
 
-		if (!$this->isEmptyState && ($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin')))
-		{
-			$dropdown = $toolbar->dropdownButton('status-group')
-				->text('JTOOLBAR_CHANGE_STATUS')
-				->toggleSplit(false)
-				->icon('icon-ellipsis-h')
-				->buttonClass('btn btn-action')
-				->listCheck(true);
+        $canCreate = $canDo->get('core.create');
 
-			$childBar = $dropdown->getChildToolbar();
+        if ($canCreate) {
+            $this->getDocument()->getToolbar()->standardButton('new', 'JTOOLBAR_NEW')
+                ->onclick("location.href='index.php?option=com_modules&amp;view=select&amp;client_id=" . $this->clientId . "'");
+        }
 
-			if ($canDo->get('core.edit.state'))
-			{
-				$childBar->publish('modules.publish')->listCheck(true);
+        // Prevent showing default add button
+        $canDo->set('core.create', false);
 
-				$childBar->unpublish('modules.unpublish')->listCheck(true);
-			}
+        parent::addToolbar();
 
-			if (Factory::getUser()->authorise('core.admin'))
-			{
-				$childBar->checkin('modules.checkin')->listCheck(true);
-			}
+        $canDo->set('core.create', $canCreate);
 
-			if ($canDo->get('core.edit.state') && $this->state->get('filter.published') != -2)
-			{
-				$childBar->trash('modules.trash')->listCheck(true);
-			}
+        // We add the duplicate button if there is the default dropdown
+        if ($canCreate) {
 
-			// Add a batch button
-			if ($user->authorise('core.create', 'com_modules') && $user->authorise('core.edit', 'com_modules')
-				&& $user->authorise('core.edit.state', 'com_modules'))
-			{
-				$childBar->popupButton('batch')
-					->text('JTOOLBAR_BATCH')
-					->selector('collapseModal')
-					->listCheck(true);
-			}
+            /**
+             * @var \Joomla\CMS\Toolbar\Toolbar $toolbar
+             */
+            $toolbar = $this->getDocument()->getToolbar();
 
-			if ($canDo->get('core.create'))
-			{
-				$childBar->standardButton('copy')
-					->text('JTOOLBAR_DUPLICATE')
-					->task('modules.duplicate')
-					->listCheck(true);
-			}
-		}
+            $buttons = $toolbar->getItems();
 
-		if (!$this->isEmptyState && ($state->get('filter.state') == -2 && $canDo->get('core.delete')))
-		{
-			$toolbar->delete('modules.delete')
-				->text('JTOOLBAR_EMPTY_TRASH')
-				->message('JGLOBAL_CONFIRM_DELETE')
-				->listCheck(true);
-		}
+            foreach ($buttons as $button) {
+                if ($button->getName() === 'status-group') {
+                    $childBar = $button->getChildToolbar();
 
-		if ($canDo->get('core.admin'))
-		{
-			$toolbar->preferences('com_modules');
-		}
+                    $childBar->standardButton('copy', 'JTOOLBAR_DUPLICATE', 'modules.duplicate')
+                        ->listCheck(true);
 
-		$toolbar->help('Modules');
-	}
+                    break;
+                }
+            }
+        }
+    }
 }

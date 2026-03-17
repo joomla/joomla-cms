@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\Log;
 
-\defined('JPATH_PLATFORM') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! Logger Base Class
@@ -20,53 +23,53 @@ namespace Joomla\CMS\Log;
  */
 abstract class Logger
 {
-	/**
-	 * Options array for the Log instance.
-	 *
-	 * @var    array
-	 * @since  3.0.1
-	 */
-	protected $options = array();
+    /**
+     * Options array for the Log instance.
+     *
+     * @var    array
+     * @since  3.0.1
+     */
+    protected $options = [];
 
-	/**
-	 * Translation array for LogEntry priorities to text strings.
-	 *
-	 * @var    array
-	 * @since  3.0.1
-	 */
-	protected $priorities = array(
-		Log::EMERGENCY => 'EMERGENCY',
-		Log::ALERT     => 'ALERT',
-		Log::CRITICAL  => 'CRITICAL',
-		Log::ERROR     => 'ERROR',
-		Log::WARNING   => 'WARNING',
-		Log::NOTICE    => 'NOTICE',
-		Log::INFO      => 'INFO',
-		Log::DEBUG     => 'DEBUG',
-	);
+    /**
+     * Translation array for LogEntry priorities to text strings.
+     *
+     * @var    array
+     * @since  3.0.1
+     */
+    protected $priorities = [
+        Log::EMERGENCY => 'EMERGENCY',
+        Log::ALERT     => 'ALERT',
+        Log::CRITICAL  => 'CRITICAL',
+        Log::ERROR     => 'ERROR',
+        Log::WARNING   => 'WARNING',
+        Log::NOTICE    => 'NOTICE',
+        Log::INFO      => 'INFO',
+        Log::DEBUG     => 'DEBUG',
+    ];
 
-	/**
-	 * Constructor.
-	 *
-	 * @param   array  &$options  Log object options.
-	 *
-	 * @since   3.0.1
-	 */
-	public function __construct(array &$options)
-	{
-		// Set the options for the class.
-		$this->options = & $options;
-	}
+    /**
+     * Constructor.
+     *
+     * @param   array  &$options  Log object options.
+     *
+     * @since   3.0.1
+     */
+    public function __construct(array &$options)
+    {
+        // Set the options for the class.
+        $this->options = & $options;
+    }
 
-	/**
-	 * Method to add an entry to the log.
-	 *
-	 * @param   LogEntry  $entry  The log entry object to add to the log.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0.1
-	 * @throws  \RuntimeException
-	 */
-	abstract public function addEntry(LogEntry $entry);
+    /**
+     * Method to add an entry to the log.
+     *
+     * @param   LogEntry  $entry  The log entry object to add to the log.
+     *
+     * @return  void
+     *
+     * @since   3.0.1
+     * @throws  \RuntimeException
+     */
+    abstract public function addEntry(LogEntry $entry);
 }

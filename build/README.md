@@ -17,17 +17,17 @@ For some of these operations, conventions were established to simplify and speed
 There are three options here:
 - Modern Javascript files must have an extension `.es6.js`.
   This allows ESLint to check the code style, Joomla is using the Airbnb preset https://github.com/airbnb/javascript.
-  It also instructs Rollup to do the transforms for ES2017 and then transpile to ES5. This step creates both normal and minified files.
-  Production code WILL NOT have the `.es6` part for ES2017+ files but WILL HAVE a `-es5.js` for the ES5 ones.
+  It also instructs Rollup to do the transforms for ES2017. This step creates both normal and minified files.
+  Production code WILL NOT have the `.es6` part for ES2017+ files.
 
 - Web Component Javascript files must have an extension `.w-c.es6.js`.
-  This allows ESLint to check the code style and instructs Rollup to do the transforms for ES2017 and then transpile to ES5. This step creates normal and minified files. The difference with the `.es6` files is that the tools will automate the minification of the CSS (assuming that the appropriate SCSS file exists), which is then injected into the JS file in place of the placeholder `{{CSS_CONTENTS_PLACEHOLDER}}` (ie: `build/media_source/system/js/joomla-core-loader.w-c.es6.js`)
-  Production code WILL NOT have the `.w-c.es6` part for ES2017+ files but WILL HAVE a `-es5.js` for the ES5 ones.
+  This allows ESLint to check the code style and instructs Rollup to do the transforms for ES2017. This step creates normal and minified files. The difference with the `.es6` files is that the tools will automate the minification of the CSS (assuming that the appropriate SCSS file exists), which is then injected into the JS file in place of the placeholder `{{CSS_CONTENTS_PLACEHOLDER}}` (ie: `build/media_source/system/js/joomla-core-loader.w-c.es6.js`)
+  Production code WILL NOT have the `.w-c.es6` part for ES2017+.
 
 - Legacy Javascript files must have an extension `.es5.js`.
   This instructs ESLint to skip checking this file.
   Also, it instructs the tools to create a minified version (production code WILL NOT have the `.es5` part)
-  
+
 - Javascript files with only an extension `.js`.
   These files will be ignored by the build tools.
 
@@ -46,6 +46,7 @@ There are three options here:
 - `npm run build:css -- templates/cassiopeia`: compiles ALL the SCSS ONLY in the folder `templates/cassiopeia`.
 - `npm run build:bs5`: Builds the Bootstrap Javascript components.
 - `npm run build:com_media`: Builds the Media Manager Vue Application.
+- `npm run build:com_media:dev`: Builds the Media Manager Vue Application but in DEV mode, (no minification, no es5 and all flags for the vue devtools)
 - `npm run lint:js`: Checks the code style for all the Javascript/Vue files.
 - `npm run lint:js -- --fix`: Checks and fixes the code style for all the Javascript/Vue files (might not fix everything).
 - `npm run lint:css`: Checks the code style for all SCSS files.
@@ -57,7 +58,7 @@ There are three options here:
 
 Usually, the scope of a single contribution to the project should be limited. For example: fixing a CSS bug, a Javascript bug, some Markup, or a bug that involves changes in all these areas. The build tools were created so that you spend less time on compiling assets than testing a possible solution.
 
-*Embrace the watchers*  
+*Embrace the watchers*
 Let the computer help you succeed faster and safer. There are 2 watchers at the moment: one for the Media Manager (client app based on VueJS) and another one that handles templates and the source (build) folder.
 
 Assuming that you are working on the Media Manager, you can run in your terminal (already in the root folder of the Joomla repo) `npm run watch:com_media`. This watcher will automatically recompile the app on every save (there is a debounce of 0.3s, so if you have autosave it will be a clever way to minimise the wait).

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fieldset>
 		<field
@@ -6,7 +6,6 @@
 			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			class="readonly"
-			size="10"
 			default="0"
 			readonly="true"
 		/>
@@ -15,7 +14,6 @@
 			name="title"
 			type="text"
 			label="JGLOBAL_TITLE"
-			size="40"
 			required="true"
 		/>
 
@@ -25,7 +23,6 @@
 			label="JFIELD_ALIAS_LABEL"
 			description="JFIELD_ALIAS_DESC"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
-			size="45"
 		/>
 
 		<field
@@ -34,7 +31,6 @@
 			label="JGLOBAL_FIELD_CREATED_LABEL"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			filter="user_utc"
 		/>
 
@@ -45,7 +41,6 @@
 			class="readonly"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			readonly="true"
 			filter="user_utc"
 		/>
@@ -61,7 +56,6 @@
 			name="created_by_alias"
 			type="text"
 			label="COM_FINDER_FIELD_CREATED_BY_ALIAS_LABEL"
-			size="20"
 		/>
 
 		<field
@@ -72,7 +66,7 @@
 			readonly="true"
 			filter="unset"
 			validate="UserId"
-		 />
+		/>
 
 		<field
 			name="checked_out"
@@ -92,7 +86,6 @@
 			label="JSTATUS"
 			class="form-select-color-state"
 			filter="intval"
-			size="1"
 			default="1"
 			validate="options"
 			>
@@ -105,7 +98,6 @@
 			type="text"
 			label="COM_FINDER_FILTER_MAP_COUNT"
 			class="readonly"
-			size="10"
 			default="0"
 			readonly="true"
 		/>
@@ -132,7 +124,6 @@
 				type="calendar"
 				label="COM_FINDER_FILTER_START_DATE_LABEL"
 				translateformat="true"
-				size="22"
 				filter="user_utc"
 			/>
 
@@ -155,7 +146,6 @@
 				type="calendar"
 				label="COM_FINDER_FILTER_END_DATE_LABEL"
 				translateformat="true"
-				size="22"
 				filter="user_utc"
 			/>
 		</fieldset>

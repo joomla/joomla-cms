@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -9,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Filter\OutputFilter;
+use Joomla\Filter\OutputFilter;
 
 $id      = empty($displayData['id']) ? '' : (' id="' . $displayData['id'] . '"');
 $target  = empty($displayData['target']) ? '' : (' target="' . $displayData['target'] . '"');
@@ -20,8 +21,8 @@ $text    = empty($displayData['text']) ? '' : ('<span class="j-links-link">' . $
 
 ?>
 <li<?php echo $id; ?>>
-	<a href="<?php echo OutputFilter::ampReplace($displayData['link']); ?>"<?php echo $target . $rel . $onclick . $title; ?>>
-		<span class="<?php echo $displayData['image']; ?>" aria-hidden="true"></span>
-		<?php echo $text; ?>
-	</a>
+    <a href="<?php echo OutputFilter::ampReplace($displayData['link']); ?>"<?php echo $target . $rel . $onclick . $title; ?>>
+        <span class="<?php echo $displayData['image']; ?>" aria-hidden="true"></span>
+        <?php echo $text; ?>
+    </a>
 </li>
