@@ -574,7 +574,7 @@ class Task implements LoggerAwareInterface
      *
      * @return ?Date|string  Next due execution.
      *
-     * @since  4.1.0
+     * @since  __DEPLOY_VERSION__
      * @throws \Exception
      */
     public function computeNextExecution(bool $asString = true, bool $basisNow = false)
