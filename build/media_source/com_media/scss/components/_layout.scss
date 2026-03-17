@@ -23,13 +23,12 @@
   max-width: $col-side-panel-width;
 }
 
-[class^="media-col"],
-[class*=" media-col"] {
+[class^="media-col"], [class*=" media-col"] {
   position: relative;
   width: 100%;
   min-height: 1px;
-  padding-right: $col-gutter-width * 0.5;
-  padding-left: $col-gutter-width * 0.5;
+  padding-right: $col-gutter-width * .5;
+  padding-left: $col-gutter-width * .5;
 }
 
 .media-main {
@@ -40,10 +39,9 @@
 
 .media-sidebar {
   flex: 1 1 250px;
-  min-width: 250px;
+  min-width: 250px; 
   padding: 1rem;
   max-width: 100%;
-  
   @media (min-width: 1024px) {
     position: sticky;
     top: 75px;
