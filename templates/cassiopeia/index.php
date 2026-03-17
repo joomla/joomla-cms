@@ -225,13 +225,13 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
         <?php endif; ?>
 
         <?php if ($this->countModules('bottom-a', true)) : ?>
-            <div class="grid-child container-bottom-a">
+            <div class="grid-child container-bottom-a" role="region">
                 <jdoc:include type="modules" name="bottom-a" style="card" />
             </div>
         <?php endif; ?>
 
         <?php if ($this->countModules('bottom-b', true)) : ?>
-            <div class="grid-child container-bottom-b">
+            <div class="grid-child container-bottom-b" role="region">
                 <jdoc:include type="modules" name="bottom-b" style="card" />
             </div>
         <?php endif; ?>
