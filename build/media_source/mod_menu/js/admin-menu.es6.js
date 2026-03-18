@@ -3,13 +3,46 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-document.querySelectorAll('ul.main-nav').forEach((menu) => {
-  new MetisMenu(menu);
-});
-
 const wrapper = document.getElementById('wrapper');
 const sidebar = document.getElementById('sidebar-wrapper');
 const menuToggleIcon = document.getElementById('menu-collapse-icon');
+
+// Strip server-side mm-show/mm-active, then re-apply after init (no visual flash).
+// Workaround for MetisMenu to avoid isTransitioning lock when server-side active state is pre-rendered.
+document.querySelectorAll('ul.main-nav').forEach((menu) => {
+  const prerenderedShown = [];
+
+  menu.querySelectorAll('ul.mm-show').forEach((ul) => {
+    ul.classList.remove('mm-show');
+    prerenderedShown.push(ul);
+
+    const li = ul.parentElement;
+
+    if (li) {
+      li.classList.remove('mm-active');
+    }
+  });
+
+  new MetisMenu(menu);
+
+  // Re-apply the pre-rendered active state after MetisMenu has completed its clean initialisation.
+  prerenderedShown.forEach((ul) => {
+    ul.classList.add('mm-show');
+
+    const li = ul.parentElement;
+
+    if (li) {
+      li.classList.add('mm-active');
+
+      // MetisMenu set aria-expanded="false" on all triggers during init
+      const trigger = li.querySelector(':scope > a');
+
+      if (trigger) {
+        trigger.setAttribute('aria-expanded', 'true');
+      }
+    }
+  });
+});
 
 // If the sidebar doesn't exist, for example, on edit views, then remove the "closed" class
 if (!sidebar) {
@@ -52,28 +85,33 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
   });
 
   // Sidebar Nav
-  const currentUrl = window.location.href;
   const mainNav = document.querySelector('ul.main-nav');
 
-  // Set active class
-  wrapper.querySelectorAll('a.no-dropdown, a.collapse-arrow, .menu-dashboard > a').forEach((link) => {
-    if (
-      (!link.href.match(/index\.php$/) && currentUrl.indexOf(link.href) === 0)
-      || (link.href.match(/index\.php$/) && currentUrl.match(/index\.php$/))) {
-      link.setAttribute('aria-current', 'page');
-      link.classList.add('mm-active');
+  // Active path is normally pre-rendered server-side via CssMenu::setActivePath().
+  // This client-side fallback only runs if server-side detection failed.
+  if (!wrapper.querySelector('.mm-active')) {
+    const currentUrl = window.location.href;
 
-      // Auto Expand Levels
-      if (!link.parentNode.classList.contains('parent')) {
-        const firstLevel = link.closest('.collapse-level-1');
-        const secondLevel = link.closest('.collapse-level-2');
-        if (firstLevel) firstLevel.parentNode.classList.add('mm-active');
-        if (firstLevel) firstLevel.classList.add('mm-show');
-        if (secondLevel) secondLevel.parentNode.classList.add('mm-active');
-        if (secondLevel) secondLevel.classList.add('mm-show');
+    // Set active class
+    wrapper.querySelectorAll('a.no-dropdown, .menu-dashboard > a').forEach((link) => {
+      if (
+        (!link.href.match(/index\.php$/) && currentUrl.indexOf(link.href) === 0)
+        || (link.href.match(/index\.php$/) && currentUrl.match(/index\.php$/))) {
+        link.setAttribute('aria-current', 'page');
+        link.classList.add('mm-active');
+
+        // Auto Expand Levels
+        if (!link.parentNode.classList.contains('parent')) {
+          const firstLevel = link.closest('.collapse-level-1');
+          const secondLevel = link.closest('.collapse-level-2');
+          if (firstLevel) firstLevel.parentNode.classList.add('mm-active');
+          if (firstLevel) firstLevel.classList.add('mm-show');
+          if (secondLevel) secondLevel.parentNode.classList.add('mm-active');
+          if (secondLevel) secondLevel.classList.add('mm-show');
+        }
       }
-    }
-  });
+    });
+  }
 
   // Child open toggle
   const openToggle = ({ currentTarget }) => {

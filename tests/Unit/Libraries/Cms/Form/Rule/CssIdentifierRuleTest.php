@@ -16,7 +16,7 @@ use Joomla\Tests\Unit\UnitTestCase;
 /**
  * Test class for CssIdentifierRule.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.4.3
  */
 class CssIdentifierRuleTest extends UnitTestCase
 {
@@ -25,7 +25,7 @@ class CssIdentifierRuleTest extends UnitTestCase
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.3
      */
     public function dataTest(): array
     {
@@ -63,7 +63,7 @@ class CssIdentifierRuleTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.3
      * @dataProvider dataTest
      */
     public function testRule(bool $expected, \SimpleXMLElement $element, string $value): void
