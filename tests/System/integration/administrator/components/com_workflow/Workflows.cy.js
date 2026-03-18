@@ -176,7 +176,7 @@ describe('Test in backend that the workflows list', () => {
     cy.searchForItem('BASIC WORKFLOW');
     cy.intercept('**/administrator/index.php?option=com_workflow&view=workflow*').as('workflows');
     cy.intercept('**/administrator/index.php?option=com_workflow&view=stages*').as('stages');
-    cy.get('table#workflowList a.btn.btn-warning').click();
+    cy.get('table#workflowList td.itemnumber a.btn.btn-warning').click();
 
     cy.wait('@stages');
     cy.get('h1.page-title').should('contain', 'Stages: Basic Workflow');
@@ -190,7 +190,7 @@ describe('Test in backend that the workflows list', () => {
     cy.searchForItem('BASIC WORKFLOW');
     cy.intercept('**/administrator/index.php?option=com_workflow&view=workflow*').as('workflows');
     cy.intercept('**/administrator/index.php?option=com_workflow&view=transitions*').as('transitions');
-    cy.get('table#workflowList a.btn.btn-primary').click();
+    cy.get('table#workflowList td.itemnumber a.btn.btn-primary').click();
 
     cy.wait('@transitions');
     cy.get('h1.page-title').should('contain', 'Transitions: Basic Workflow');
