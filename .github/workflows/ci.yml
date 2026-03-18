@@ -15,7 +15,7 @@ jobs:
     container: joomlaprojects/docker-images:php8.4
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         id: cache-php
         with:
           path: libraries/vendor
@@ -38,14 +38,14 @@ jobs:
         with:
           node-version: latest
       - uses: actions/checkout@v6
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         id: cache-assets
         with:
           path: |
             node_modules
             media
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
-      - uses: actions/cache/restore@v4
+      - uses: actions/cache/restore@v5
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
@@ -63,7 +63,7 @@ jobs:
         command: ['php-cs-fixer fix -vvv --dry-run --diff', 'phpcs --extensions=php -p --standard=ruleset.xml .']
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/cache/restore@v4
+      - uses: actions/cache/restore@v5
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
@@ -85,7 +85,7 @@ jobs:
         with:
           node-version: latest
       - uses: actions/checkout@v6
-      - uses: actions/cache/restore@v4
+      - uses: actions/cache/restore@v5
         with:
           path: |
             node_modules
@@ -101,7 +101,7 @@ jobs:
     needs: [code-style-php]
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/cache/restore@v4
+      - uses: actions/cache/restore@v5
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
@@ -119,7 +119,7 @@ jobs:
         php_version: ['8.1', '8.2', '8.3', '8.4', '8.5']
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/cache/restore@v4
+      - uses: actions/cache/restore@v5
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -165,7 +165,7 @@ jobs:
         uses: docker://docker
         with:
           args: docker run -d --name openldap --network ${{ job.container.network }} --network-alias openldap -e "LDAP_ADMIN_USERNAME=admin" -e "LDAP_ADMIN_PASSWORD=adminpassword" -e "LDAP_USERS=customuser" -e "LDAP_PASSWORDS=custompassword" -e "LDAP_ENABLE_TLS=yes" -e "LDAP_TLS_CERT_FILE=/certs/openldap.crt" -e "LDAP_TLS_KEY_FILE=/certs/openldap.key" -e "LDAP_TLS_CA_FILE=/certs/CA.crt" -e "BITNAMI_DEBUG=true" -e "LDAP_CONFIG_ADMIN_ENABLED=yes" -e "LDAP_CONFIG_ADMIN_USERNAME=admin" -e "LDAP_CONFIG_ADMIN_PASSWORD=configpassword" -v "${{ github.workspace }}/tests/certs/openldap.crt":"/certs/openldap.crt" -v "${{ github.workspace }}/tests/certs/openldap.key":"/certs/openldap.key" -v "${{ github.workspace }}/tests/certs/CA.crt":"/certs/CA.crt" ghcr.io/joomla-projects/mirror-bitnami-openldap:latest
-      - uses: actions/cache/restore@v4
+      - uses: actions/cache/restore@v5
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -214,7 +214,7 @@ jobs:
         php_version: ['8.1', '8.2', '8.3', '8.4', '8.5']
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/cache/restore@v4
+      - uses: actions/cache/restore@v5
         id: cache-php-windows
         with:
           path: libraries/vendor
@@ -240,7 +240,7 @@ jobs:
         php_version: ['8.1', '8.2', '8.3', '8.4', '8.5']
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/cache/restore@v4
+      - uses: actions/cache/restore@v5
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -275,13 +275,13 @@ jobs:
       CYPRESS_VERIFY_TIMEOUT: 100000
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/cache/restore@v4
+      - uses: actions/cache/restore@v5
         with:
           path: |
             node_modules
             media
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         id: cache-cypress
         with:
           path: |
@@ -337,17 +337,17 @@ jobs:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/cache/restore@v4
+      - uses: actions/cache/restore@v5
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
-      - uses: actions/cache/restore@v4
+      - uses: actions/cache/restore@v5
         with:
           path: |
             node_modules
             media
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
-      - uses: actions/cache/restore@v4
+      - uses: actions/cache/restore@v5
         with:
           path: |
             /root/.cache/Cypress
