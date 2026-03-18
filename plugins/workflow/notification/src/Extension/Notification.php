@@ -334,7 +334,7 @@ final class Notification extends CMSPlugin implements SubscriberInterface
             ->from($db->quoteName('#__messages_cfg'))
             ->whereIn($db->quoteName('user_id'), $userIds)
             ->where($db->quoteName('cfg_name') . ' = ' . $db->quote('locked'))
-            ->where($db->quoteName('cfg_value') . ' = 1');
+            ->where($db->quoteName('cfg_value') . ' = ' . $db->quote('1'));
 
         $locked = $db->setQuery($query)->loadColumn();
 
