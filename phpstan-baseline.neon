@@ -791,15 +791,6 @@ parameters:
 			path: administrator/components/com_config/src/Model/ApplicationModel.php
 
 		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\Database\\DatabaseDriver\:
-				3\.0  Use DatabaseFactory\:\:getDriver\(\) instead$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_config/src/Model/ApplicationModel.php
-
-		-
 			message: '#^Instantiated class JConfig not found\.$#'
 			identifier: class.notFound
 			count: 3
@@ -7978,15 +7969,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\Database\\DatabaseDriver\:
-				3\.0  Use DatabaseFactory\:\:getDriver\(\) instead$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: installation/src/Helper/DatabaseHelper.php
-
-		-
-			message: '''
 				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the session service in the DI container or get from the application object
@@ -8031,15 +8013,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 3
 			path: installation/src/Model/ConfigurationModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\Database\\DatabaseDriver\:
-				3\.0  Use DatabaseFactory\:\:getDriver\(\) instead$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: installation/src/Model/DatabaseModel.php
 
 		-
 			message: '''
@@ -8898,15 +8871,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: libraries/src/Console/RemoveUserFromGroupCommand.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\Database\\DatabaseDriver\:
-				3\.0  Use DatabaseFactory\:\:getDriver\(\) instead$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Console/SetConfigurationCommand.php
 
 		-
 			message: '''
@@ -12046,15 +12010,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\Database\\DatabaseDriver\:
-				3\.0  Use DatabaseFactory\:\:getDriver\(\) instead$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Log/Logger/DatabaseLogger.php
-
-		-
-			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -12937,15 +12892,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: libraries/src/Service/Provider/Console.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\Database\\DatabaseDriver\:
-				3\.0  Use DatabaseFactory\:\:getDriver\(\) instead$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Service/Provider/Database.php
 
 		-
 			message: '''
