@@ -67,7 +67,7 @@ describe('Test in backend that the stages list', () => {
   });
 
   it('can checkin the stage', () => {
-    cy.db_getUserId(Cypress.env('username')).then((uid) => {
+    cy.db_getUserId(Cypress.expose('username')).then((uid) => {
       cy.db_createWorkflowStage({ title: 'Test stage', checked_out: uid, checked_out_time: '2025-01-01 00:00:00' });
       cy.reload();
       cy.searchForItem('Test stage');
@@ -100,7 +100,7 @@ describe('Test in backend that the stages list', () => {
   });
 
   it('can checkin the stage (grid button)', () => {
-    cy.db_getUserId(Cypress.env('username')).then((uid) => {
+    cy.db_getUserId(Cypress.expose('username')).then((uid) => {
       cy.db_createWorkflowStage({ title: 'Test stage', checked_out: uid, checked_out_time: '2025-01-01 00:00:00' });
       cy.reload();
       cy.searchForItem('Test stage');

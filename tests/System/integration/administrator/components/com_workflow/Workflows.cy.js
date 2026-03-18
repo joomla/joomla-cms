@@ -67,7 +67,7 @@ describe('Test in backend that the workflows list', () => {
   });
 
   it('can checkin the workflow', () => {
-    cy.db_getUserId(Cypress.env('username')).then((uid) => {
+    cy.db_getUserId(Cypress.expose('username')).then((uid) => {
       cy.db_createWorkflow({
         title: 'Test workflow',
         extension: 'com_content.article',
@@ -115,7 +115,7 @@ describe('Test in backend that the workflows list', () => {
   });
 
   it('can checkin the workflow (grid button)', () => {
-    cy.db_getUserId(Cypress.env('username')).then((uid) => {
+    cy.db_getUserId(Cypress.expose('username')).then((uid) => {
       cy.db_createWorkflow({
         title: 'Test workflow',
         extension: 'com_content.article',
