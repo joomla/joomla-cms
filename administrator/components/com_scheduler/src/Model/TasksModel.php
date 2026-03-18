@@ -503,14 +503,23 @@ class TasksModel extends ListModel
         $db  = $this->getDatabase();
         $now = $time->toSql();
 
+        $timeout   = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
+        $threshold = (clone $time)->modify("-$timeout seconds")->toSql();
+
         $query = $db->getQuery(true)
             // Count due tasks
             ->select('SUM(CASE WHEN ' . $db->quoteName('a.next_execution') . ' <= :now THEN 1 ELSE 0 END) AS due_count')
             // Count locked tasks
-            ->select('SUM(CASE WHEN ' . $db->quoteName('a.locked') . ' IS NULL THEN 0 ELSE 1 END) AS locked_count')
+            ->select(
+                'SUM(CASE WHEN ' .
+                $db->quoteName('a.locked') . ' IS NOT NULL AND ' .
+                $db->quoteName('a.locked') . ' > :threshold ' .
+                'THEN 1 ELSE 0 END) AS locked_count'
+            )
             ->from($db->quoteName('#__scheduler_tasks', 'a'))
             ->where($db->quoteName('a.state') . ' = 1')
-            ->bind(':now', $now);
+            ->bind(':now', $now)
+            ->bind(':threshold', $threshold);
 
         $db->setQuery($query);
 
