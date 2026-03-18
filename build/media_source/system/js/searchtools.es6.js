@@ -94,6 +94,14 @@ Joomla = window.Joomla || {};
 
       // Initialise selectors
       this.theForm = document.querySelector(this.options.formSelector);
+      // Prevent duplicate initialization when joomla:updated fires
+      if (this.theForm && this.theForm.dataset.searchtoolsInitialized) {
+        return;
+      }
+
+      if (this.theForm) {
+        this.theForm.dataset.searchtoolsInitialized = 'true';
+      }
 
       // Filters
       this.filterButton = document.querySelector(`${this.options.formSelector} ${this.options.filterBtnSelector}`);
@@ -184,9 +192,9 @@ Joomla = window.Joomla || {};
       // Do we need to add to mark filter as enabled?
       this.getFilterFields().forEach((i) => {
         const needsFormSubmit = !i.classList.contains(this.options.listSelectAutoSubmit)
-        && i.closest(`joomla-field-fancy-select.${this.options.listSelectAutoSubmit}`);
+          && i.closest(`joomla-field-fancy-select.${this.options.listSelectAutoSubmit}`);
         const needsFormReset = !i.classList.contains(this.options.listSelectAutoReset)
-        && i.closest(`joomla-field-fancy-select.${this.options.listSelectAutoReset}`);
+          && i.closest(`joomla-field-fancy-select.${this.options.listSelectAutoReset}`);
 
         self.checkFilter(i);
         i.addEventListener('change', () => {
@@ -273,7 +281,7 @@ Joomla = window.Joomla || {};
       }
 
       self.getFilterFields().forEach((i) => {
-        if ((exceptElement && i === exceptElement) || !i.closest(this.options.filterContainerSelector)) {
+        if ((exceptElement && i === exceptElement) || !i.closest(`${this.options.filterContainerSelector}, .js-stools-container-selector`)) {
           return;
         }
 

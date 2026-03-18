@@ -23,6 +23,8 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Versioning\VersionableModelInterface;
+use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Folder;
@@ -40,8 +42,10 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class ModuleModel extends AdminModel
+class ModuleModel extends AdminModel implements VersionableModelInterface
 {
+    use VersionableModelTrait;
+
     /**
      * The type alias for this content type.
      *
@@ -54,7 +58,7 @@ class ModuleModel extends AdminModel
      * The context used for the associations table
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  6.1.0
      */
     protected $associationsContext = 'com_modules.item';
 
