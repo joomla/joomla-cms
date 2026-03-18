@@ -32,7 +32,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Sef::class, function (Container $container) {
                 $plugin     = new Sef(
                     (array) PluginHelper::getPlugin('system', 'sef')
                 );
@@ -40,7 +40,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setSiteRouter($container->get(SiteRouter::class));
 
                 return $plugin;
-            }
+            })
         );
     }
 };

@@ -649,7 +649,7 @@ Cypress.Commands.add('db_enableExtension', (value, extension) => cy.task('queryD
  * @returns integer
  */
 Cypress.Commands.add('db_getUserId', () => {
-  cy.task('queryDB', `SELECT id FROM #__users WHERE username = '${Cypress.env('username')}'`)
+  cy.task('queryDB', `SELECT id FROM #__users WHERE username = '${Cypress.expose('username')}'`)
     .then((id) => {
       if (id.length === 0) {
         return 0;
