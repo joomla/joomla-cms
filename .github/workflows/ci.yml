@@ -34,7 +34,7 @@ jobs:
     container: joomlaprojects/docker-images:php8.4
     needs: [composer]
     steps:
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: latest
       - uses: actions/checkout@v6
@@ -81,7 +81,7 @@ jobs:
       matrix:
         check: ['lint:js', 'lint:testjs', 'lint:css']
     steps:
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: latest
       - uses: actions/checkout@v6
