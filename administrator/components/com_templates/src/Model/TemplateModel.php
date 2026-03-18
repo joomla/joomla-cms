@@ -370,12 +370,14 @@ class TemplateModel extends FormModel
             $path   = Path::clean($client->path . '/templates/' . $template->element . '/');
             $lang   = Factory::getLanguage();
 
-            // Load the core and/or local language file(s).
+            // Load the parent and child overrides for template language constants
+            if (!empty($template->xmldata->parent)) {
+                $lang->load('tpl_' . $template->xmldata->parent, $client->path)
+                    || $lang->load('tpl_' . $template->xmldata->parent, $client->path . '/templates/' . $template->xmldata->parent);
+            }
+
             $lang->load('tpl_' . $template->element, $client->path)
-            || (!empty($template->xmldata->parent) && $lang->load('tpl_' . $template->xmldata->parent, $client->path))
-            || $lang->load('tpl_' . $template->element, $client->path . '/templates/' . $template->element)
-            || (!empty($template->xmldata->parent) && $lang->load('tpl_' . $template->xmldata->parent, $client->path . '/templates/' . $template->xmldata->parent));
-            $this->element = $path;
+                || $lang->load('tpl_' . $template->element, $client->path . '/templates/' . $template->element);
 
             if (!is_writable($path)) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_DIRECTORY_NOT_WRITABLE'), 'error');
@@ -1702,14 +1704,17 @@ class TemplateModel extends FormModel
             $explodeArray = explode('/', $relPath);
             $fileName     = end($explodeArray);
             $path         = $this->getBasePath() . base64_decode($app->getInput()->get('file'));
+            $isModern     = $template->xmldata->inheritable || !empty($template->xmldata->parent);
 
             if (stristr($client->path, 'administrator') === false) {
-                $folder = '/templates/';
+                $folder = $isModern ? '/media/templates/site/' : '/templates/';
             } else {
-                $folder = '/administrator/templates/';
+                $folder = $isModern ? '/media/templates/administrator/' : '/administrator/templates/';
             }
 
-            $uri = Uri::root(true) . $folder . $template->element;
+            $uri = $isModern
+                ? (str_replace('/administrator/', '/', Uri::root(true))) . $folder . $template->element
+                : Uri::root(true) . $folder . $template->element;
 
             if (file_exists(Path::clean($path))) {
                 $font['address'] = $uri . $relPath;

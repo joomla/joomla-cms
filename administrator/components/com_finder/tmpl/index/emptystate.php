@@ -21,7 +21,7 @@ use Joomla\CMS\Router\Route;
 $displayData = [
     'textPrefix' => 'COM_FINDER',
     'formURL'    => 'index.php?option=com_finder&view=index',
-    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Smart_Search_quickstart_guide',
+    'helpURL'    => 'https://guide.joomla.org/user-manual/smart-search/smart-search-smart-search-quickstart-guides',
     'icon'       => 'icon-search-plus finder',
     'content'    => Text::_('COM_FINDER_INDEX_NO_DATA') . '<br>' . Text::_('COM_FINDER_INDEX_TIP'),
     'title'      => Text::_('COM_FINDER_HEADING_INDEXER'),
