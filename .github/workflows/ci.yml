@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:php8.4
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/cache@v4
         id: cache-php
         with:
@@ -37,7 +37,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: latest
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/cache@v4
         id: cache-assets
         with:
@@ -62,7 +62,7 @@ jobs:
       matrix:
         command: ['php-cs-fixer fix -vvv --dry-run --diff', 'phpcs --extensions=php -p --standard=ruleset.xml .']
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/cache/restore@v4
         with:
           path: libraries/vendor
@@ -84,7 +84,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: latest
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/cache/restore@v4
         with:
           path: |
@@ -100,7 +100,7 @@ jobs:
     container: joomlaprojects/docker-images:php8.4
     needs: [code-style-php]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/cache/restore@v4
         with:
           path: libraries/vendor
@@ -118,7 +118,7 @@ jobs:
       matrix:
         php_version: ['8.1', '8.2', '8.3', '8.4', '8.5']
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/cache/restore@v4
         with:
           path: libraries/vendor
@@ -160,7 +160,7 @@ jobs:
             host: 'postgres'
             user: 'root'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Start LDAP container
         uses: docker://docker
         with:
@@ -213,7 +213,7 @@ jobs:
       matrix:
         php_version: ['8.1', '8.2', '8.3', '8.4', '8.5']
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/cache/restore@v4
         id: cache-php-windows
         with:
@@ -239,7 +239,7 @@ jobs:
       matrix:
         php_version: ['8.1', '8.2', '8.3', '8.4', '8.5']
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/cache/restore@v4
         with:
           path: libraries/vendor
@@ -274,7 +274,7 @@ jobs:
     env:
       CYPRESS_VERIFY_TIMEOUT: 100000
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/cache/restore@v4
         with:
           path: |
@@ -336,7 +336,7 @@ jobs:
     env:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/cache/restore@v4
         with:
           path: libraries/vendor
@@ -389,7 +389,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Actions Repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
     - name: Spell Check Repository
       uses: crate-ci/typos@v1.34.0
       with:
