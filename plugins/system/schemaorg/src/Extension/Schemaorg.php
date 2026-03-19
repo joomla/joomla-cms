@@ -591,8 +591,8 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
     /**
      * Delete SchemaOrg record from Database.
      *
-     * @param   Integer   $itemId
-     * @param   String    $context
+     * @param   Integer   $itemId The ID of the item
+     * @param   String    $context The context of the item
      *
      * @return  void
      *
