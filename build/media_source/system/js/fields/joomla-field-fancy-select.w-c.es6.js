@@ -132,6 +132,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       shouldSort: false,
       fuseOptions: {
         threshold: 0.3, // Strict search
+        distance: 1000,
       },
       noResultsText: Joomla.Text._('JGLOBAL_SELECT_NO_RESULTS_MATCH', 'No results found'),
       noChoicesText: Joomla.Text._('JGLOBAL_SELECT_NO_RESULTS_MATCH', 'No results found'),
