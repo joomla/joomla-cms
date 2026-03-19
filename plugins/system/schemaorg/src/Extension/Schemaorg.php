@@ -424,7 +424,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
                 ->where($db->quoteName('itemId') . ' = :itemId')
                 ->bind(':itemId', $itemId, ParameterType::INTEGER)
                 ->where($db->quoteName('context') . ' = :context')
-                ->bind(':context', $context, Par
+                ->bind(':context', $context, Par)
 
                 if (!empty($itemSchema['image'])) {
                     $url = $itemSchema['image'] ?? '';
@@ -632,4 +632,3 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
 
         $db->setQuery($query)->execute();
     }
-}
