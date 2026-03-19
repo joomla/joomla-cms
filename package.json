@@ -1,6 +1,6 @@
 {
   "name": "joomla",
-  "version": "6.0.3",
+  "version": "6.0.4",
   "description": "Joomla CMS",
   "license": "GPL-2.0-or-later",
   "repository": {
@@ -27,7 +27,7 @@
     "gzip": "node build/build.mjs --gzip",
     "cssversioning": "node build/build.mjs --cssversioning",
     "versioning": "node build/build.mjs --versioning",
-    "browserlist:update": "npx browserslist@latest --update-db",
+    "browserlist:update": "npx update-browserslist-db@latest",
     "cypress:install": "cypress install",
     "cypress:open": "cypress open --config-file cypress.config.mjs",
     "cypress:run": "cypress run --config-file cypress.config.mjs"
@@ -114,7 +114,7 @@
     "postcss-scss": "^4.0.9",
     "recursive-readdir": "^2.2.3",
     "rimraf": "^6.0.1",
-    "rollup": "^4.52.2",
+    "rollup": "^4.59.0",
     "rollup-plugin-vue": "^6.0.0",
     "rtlcss": "^4.3.0",
     "sass-embedded": "^1.93.2",
