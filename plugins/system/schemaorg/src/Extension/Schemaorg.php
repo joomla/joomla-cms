@@ -448,9 +448,9 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
                     // Keep backward compatibility (single image as string)
                 $itemSchema['image'] = \count($images) === 1 ? $images[0] : $images;
             }
-                $baseSchema['@graph'][] = $itemSchema;
-            }
+            $baseSchema['@graph'][] = $itemSchema;
         }
+    }
 
         $schema->loadArray($baseSchema);
 
