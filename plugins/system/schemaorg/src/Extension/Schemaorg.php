@@ -435,32 +435,32 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
                 $localSchema->set('isPartOf', ['@id' => $webPageId]);
 
                 $itemSchema = $localSchema->toArray();
+                
+                if (!empty($itemSchema['image'])) {
+                    $url = $itemSchema['image'] ?? '';
 
-            if (!empty($itemSchema['image'])) {
-                $urls = is_array($itemSchema['image']) ? $itemSchema['image'] : [$itemSchema['image']];
+                    $urls = \is_array($url) ? $url : [$url];
 
-                $images = [];
+                    $images = [];
 
-                foreach ($urls as $img) {
-                    if (!is_string($img)) {
-                        continue;
+                    foreach ($urls as $img) {
+                        if (!\is_string($img)) {
+                            continue;
+                        }
+
+                        if (!preg_match('#^(https?:)?//#i', $img)) {
+                            $images[] = Uri::root() . HTMLHelper::_('cleanImageUrl', $img)->url;
+                        } else {
+                            $images[] = $img;
+                        }
                     }
 
-                    if (!preg_match('#^(https?:)?//#i', $img)) {
-                        $images[] = Uri::root() . HTMLHelper::_('cleanImageUrl', $img)->url;
-                    } else {
-                        $images[] = $img;
-                    }
-                }
-                }
-
-                // Keep backward compatibility (single image as string)
-                $itemSchema['image'] = count($images) === 1 ? $images[0] : $images;
-                }
-
-                $baseSchema['@graph'][] = $itemSchema;
-               }
+                    // Keep backward compatibility (single image as string)
+                    $itemSchema['image'] = \count($images) === 1 ? $images[0] : $images;
             }
+                $baseSchema['@graph'][] = $itemSchema;
+            }
+        }
 
         $schema->loadArray($baseSchema);
 
