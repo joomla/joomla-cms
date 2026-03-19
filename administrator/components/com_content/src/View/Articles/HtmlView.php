@@ -208,10 +208,12 @@ class HtmlView extends BaseHtmlView
                 $cmd      = 'if (document.adminForm.boxchecked.value == 0) { ' . $alert . ' } else { ' . $cmd . ' }';
 
                 foreach ($this->transitions as $transition) {
+                    $transitionValue = (int) ($transition['value'] ?? 0);
+
                     $childBar->standardButton('transition', $transition['text'])
-                        ->buttonClass('transition-' . (int) $transition['value'])
+                        ->buttonClass('transition-' . $transitionValue)
                         ->icon('icon-project-diagram')
-                        ->onclick('document.adminForm.transition_id.value=' . (int) $transition['value'] . ';' . $cmd);
+                        ->onclick('document.adminForm.transition_id.value=' . $transitionValue . ';' . $cmd);
                 }
 
                 $childBar->separatorButton('transition-separator');
