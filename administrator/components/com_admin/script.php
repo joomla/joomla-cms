@@ -1055,6 +1055,10 @@ class JoomlaInstallerScript
             '/libraries/vendor/symfony/translation-contracts/Test/TranslatorTest.php',
             '/libraries/vendor/symfony/validator/Test/ConstraintValidatorTestCase.php',
             '/libraries/vendor/symfony/var-dumper/Test/VarDumperTestTrait.php',
+            // From 6.0.3 to 6.0.4
+            '/media/system/css/fields/calendar-rtl.css',
+            '/media/system/css/fields/calendar-rtl.min.css',
+            '/media/system/css/fields/calendar-rtl.min.css.gz',
         ];
 
         $folders = [
