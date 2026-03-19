@@ -241,6 +241,17 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       });
     }
 
+    // Fix: prevent duplicate options when clearing local search
+    if (!this.remoteSearch) {
+      this.choicesInstance.passedElement.element.addEventListener('search', (event) => {
+        if (!event.detail.value) {
+          const currentChoices = [...this.choicesInstance._store.choices];
+          this.choicesInstance.clearChoices();
+          this.choicesInstance.setChoices(currentChoices, 'value', 'label', false);
+        }
+      });
+    }
+
     // Handle remote search
     if (this.remoteSearch && this.url) {
       // Cache existing
