@@ -435,7 +435,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
                 $localSchema->set('isPartOf', ['@id' => $webPageId]);
 
                 $itemSchema = $localSchema->toArray();
-                
+
                 if (!empty($itemSchema['image'])) {
                     $url = $itemSchema['image'] ?? '';
 
@@ -457,7 +457,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
 
                     // Keep backward compatibility (single image as string)
                     $itemSchema['image'] = \count($images) === 1 ? $images[0] : $images;
-            }
+                }
                 $baseSchema['@graph'][] = $itemSchema;
             }
         }
