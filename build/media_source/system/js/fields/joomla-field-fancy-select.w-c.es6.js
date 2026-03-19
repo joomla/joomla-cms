@@ -244,8 +244,10 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     // Handle remote search
     if (this.remoteSearch && this.url) {
       // Cache existing
-      this.choicesInstance.config.choices.forEach((choiceItem) => {
-        this.choicesCache[choiceItem.value] = choiceItem.label;
+      this.choicesInstance.passedElement.optionsAsChoices().forEach((choiceItem) => {
+        if (choiceItem.value !== undefined) {
+          this.choicesCache[choiceItem.value] = choiceItem.label;
+        }
       });
 
       const lookupDelay = 300;
