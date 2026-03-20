@@ -13,7 +13,6 @@ namespace Joomla\Plugin\Filesystem\Local\Adapter;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\MediaHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Image\Exception\UnparsableImageException;
 use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Text;
