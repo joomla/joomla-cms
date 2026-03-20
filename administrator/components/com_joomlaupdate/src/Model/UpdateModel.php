@@ -127,7 +127,7 @@ class UpdateModel extends BaseDatabaseModel
         $updateType = (pathinfo($updateURL, PATHINFO_EXTENSION) === 'xml') ? 'collection' : 'tuf';
 
         $id    = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
-        $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->createQuery()
             ->select($db->quoteName('us') . '.*')
             ->from($db->quoteName('#__update_sites_extensions', 'map'))
@@ -200,7 +200,7 @@ class UpdateModel extends BaseDatabaseModel
      */
     public function getCheckForSelfUpdate()
     {
-        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
+        $db = $this->getDatabase();
 
         $query = $db->createQuery()
             ->select($db->quoteName('extension_id'))
@@ -271,7 +271,7 @@ class UpdateModel extends BaseDatabaseModel
 
         // Fetch the update information from the database.
         $id    = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
-        $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->createQuery()
             ->select('*')
             ->from($db->quoteName('#__updates'))
@@ -343,7 +343,7 @@ class UpdateModel extends BaseDatabaseModel
      */
     public function purge()
     {
-        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
+        $db = $this->getDatabase();
 
         // Modify the database record
         $update_site                       = new \stdClass();
@@ -944,7 +944,7 @@ ENDDATA;
         $installer->setUpgrade(true);
         $installer->setOverwrite(true);
 
-        $db                   = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
+        $db                   = $this->getDatabase();
         $installer->extension = new \Joomla\CMS\Table\Extension($db);
         $installer->extension->load(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id);
 
@@ -982,9 +982,6 @@ ENDDATA;
             $this->collectError('JoomlaInstallerScript::preflight', $e);
             return false;
         }
-
-        // Get a database connector object.
-        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
 
         /*
          * Check to see if a file extension by the same name is already installed.
@@ -1700,7 +1697,7 @@ ENDDATA;
      */
     public function getNonCoreExtensions()
     {
-        $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->createQuery();
 
         $query->select(
@@ -1748,7 +1745,7 @@ ENDDATA;
      */
     public function getNonCorePlugins($folderFilter = ['system', 'user', 'authentication', 'actionlog', 'multifactorauth'])
     {
-        $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->createQuery();
 
         $query->select(
@@ -1847,7 +1844,7 @@ ENDDATA;
     private function getUpdateSitesInfo($extensionID)
     {
         $id    = (int) $extensionID;
-        $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->createQuery();
 
         $query->select(
@@ -2035,7 +2032,7 @@ ENDDATA;
      */
     public function isTemplateActive($template)
     {
-        $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->createQuery();
 
         $query->select(
