@@ -62,6 +62,15 @@ interface TableInterface
     public function delete($pk = null);
 
     /**
+     * Method to get the DatabaseDriver object.
+     *
+     * @return  DatabaseDriver  The internal database driver object.
+     *
+     * @since   3.2
+     */
+    public function getDbo();
+
+    /**
      * Method to get the primary key field name for the table.
      *
      * @return  string  The name of the primary key for the table.
