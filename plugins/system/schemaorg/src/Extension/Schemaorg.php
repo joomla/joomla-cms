@@ -446,12 +446,10 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
                 }
 
                     // Keep backward compatibility (single image as string)
-                $itemSchema['image'] = \count($images) === 1 ? $images[0] : $images;
-            }
-            $baseSchema['@graph'][] = $itemSchema;
+                    $itemSchema['image'] = \count($images) === 1 ? $images[0] : $images;
+                }
+                $baseSchema['@graph'][] = $itemSchema;
         }
-    }
-
         $schema->loadArray($baseSchema);
 
         $dispatcher = $this->getDispatcher();
@@ -612,23 +610,3 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         $db->setQuery($query)->execute();
     }
 }
- $itemId
-     * @param   String    $context
-     *
-     * @return  void
-     *
-     * @since   5.1.3
-     */
-    public function deleteSchemaOrg($itemId, $context)
-    {
-        $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
-
-        $query->delete($db->quoteName('#__schemaorg'))
-            ->where($db->quoteName('itemId') . '= :itemId')
-            ->where($db->quoteName('context') . '= :context')
-            ->bind(':itemId', $itemId, ParameterType::INTEGER)
-            ->bind(':context', $context, ParameterType::STRING);
-
-        $db->setQuery($query)->execute();
-    }
