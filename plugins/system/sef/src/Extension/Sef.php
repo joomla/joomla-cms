@@ -10,10 +10,12 @@
 
 namespace Joomla\Plugin\System\Sef\Extension;
 
+use Joomla\CMS\Document\ErrorDocument;
 use Joomla\CMS\Event\Application\AfterDispatchEvent;
 use Joomla\CMS\Event\Application\AfterInitialiseEvent;
 use Joomla\CMS\Event\Application\AfterRenderEvent;
 use Joomla\CMS\Event\Application\AfterRouteEvent;
+use Joomla\CMS\Event\Application\BeforeRespondEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\Router;
@@ -36,6 +38,15 @@ final class Sef extends CMSPlugin implements SubscriberInterface
     use SiteRouterAwareTrait;
 
     /**
+     * Internal flag to make sure we don't process the buffer twice
+     *
+     * @var bool
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $isRewritten = false;
+
+    /**
      * Returns an array of CMS events this plugin will listen to and the respective handlers.
      *
      * @return  array
@@ -54,6 +65,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
             'onAfterRoute'      => 'onAfterRoute',
             'onAfterDispatch'   => 'onAfterDispatch',
             'onAfterRender'     => 'onAfterRender',
+            'onBeforeRespond'   => 'onBeforeRespond',
         ];
     }
 
@@ -217,6 +229,50 @@ final class Sef extends CMSPlugin implements SubscriberInterface
         if (!$app->isClient('site')) {
             return;
         }
+
+        $this->rewriteUrls($app);
+    }
+
+    /**
+     * Handle URL rewriting for error pages since they skip the normal render flow
+     *
+     * @param   BeforeRespondEvent $event  The event instance
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onBeforeRespond(BeforeRespondEvent $event)
+    {
+        $app = $event->getApplication();
+
+        if (!$app->isClient('site')) {
+            return;
+        }
+
+        // Only run this specifically for Error pages, as normal pages are handled in onAfterRender
+        if ($app->getDocument() instanceof ErrorDocument) {
+            $this->rewriteUrls($app);
+        }
+    }
+
+    /**
+     * Core logic to rewrite relative URLs in the body buffer
+     *
+     * @param   mixed  $app  The application object
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function rewriteUrls($app)
+    {
+        // Prevent rewriting from running multiple times
+        if ($this->isRewritten) {
+            return;
+        }
+
+        $this->isRewritten = true;
 
         // Replace src links.
         $base   = Uri::base(true) . '/';
