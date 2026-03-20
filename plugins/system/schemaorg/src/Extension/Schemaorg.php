@@ -442,6 +442,17 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
                     if (!preg_match('#^(https?:)?//#i', $url)) {
                         $itemSchema['image'] = Uri::root() . HTMLHelper::_('cleanImageUrl', $url)->url;
                     }
+                    if (\is_array($image)) {
+                        foreach ($image as $img) {
+                            if (\is_string($img) && preg_match($regex, $img)) {
+                                // process each image
+                            }
+                        }
+                    } elseif (\is_string($image)) {
+                        if (preg_match($regex, $image)) {
+                            // existing logic
+                        }
+                    }
                 }
 
                 $baseSchema['@graph'][] = $itemSchema;
