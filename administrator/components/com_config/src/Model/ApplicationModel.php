@@ -1201,6 +1201,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $config->set('fromname', $input->get('fromname', '', 'STRING'));
         $config->set('mailer', $input->get('mailer'));
         $config->set('mailonline', $input->get('mailonline'));
+        $config->set('mailsender', $input->get('mailsender'));
 
         // Use smtppass only if it was submitted
         if ($smtppass !== null) {
