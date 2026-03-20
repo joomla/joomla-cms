@@ -523,6 +523,22 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
     }
 
     /**
+     * Method to get the DatabaseInterface object.
+     *
+     * @return  DatabaseInterface  The internal database driver object.
+     *
+     * @since   1.7.0
+     *
+     * @deprecated  5.4.0 will be removed in 8.0
+     *               Use getDatabase() instead
+     *               Example: $this->getDatabase();
+     */
+    public function getDbo()
+    {
+        return $this->getDatabase();
+    }
+
+    /**
      * Method to set rules for the record.
      *
      * @param   mixed  $input  A Rules object, JSON string, or array.
