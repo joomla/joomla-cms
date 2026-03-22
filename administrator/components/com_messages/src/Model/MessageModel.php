@@ -401,7 +401,10 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
                 } catch (\RuntimeException $e) {
                 }
 
-                Factory::getApplication()->enqueueMessage(Text::_('COM_MESSAGES_ERROR_MAIL_FAILED'), 'warning');
+                Factory::getApplication()->enqueueMessage(
+                    Text::sprintf('COM_MESSAGES_ERROR_MAIL_FAILED', $exception->getMessage()),
+                    'warning'
+                );
             }
         }
 
