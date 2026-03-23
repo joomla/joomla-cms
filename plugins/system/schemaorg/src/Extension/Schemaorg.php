@@ -437,11 +437,11 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
                 $itemSchema = $localSchema->toArray();
 
                 if (!empty($itemSchema['image'])) {
-                    $images = (array) $itemSchema['image'];
+                    $images          = (array) $itemSchema['image'];
                     $processedImages = [];
 
                     foreach ($images as $img) {
-                        if (!is_string($img) || $img === '') {
+                        if (!\is_string($img) || $img === '') {
                             continue;
                         }
 
@@ -453,7 +453,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
                     }
 
                     if (!empty($processedImages)) {
-                        $schema['image'] = count($processedImages) === 1 ? $processedImages[0] : $processedImages;
+                        $schema['image'] = \count($processedImages) === 1 ? $processedImages[0] : $processedImages;
                     }
                 }
 
