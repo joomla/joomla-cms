@@ -15,23 +15,14 @@ use Joomla\CMS\Language\Text;
 $blockPosition = $displayData['params']->get('info_block_position', 0);
 
 ?>
-<dl class="article-info text-muted">
+<?php ob_start(); ?>
 
     <?php
     if (
         $displayData['position'] === 'above' && ($blockPosition == 0 || $blockPosition == 2)
         || $displayData['position'] === 'below' && ($blockPosition == 1)
     ) : ?>
-        <dt class="article-info-term">
-            <?php if (!$displayData['params']->get('info_block_show_title', 1)) : ?>
-                <?php echo '<span class="visually-hidden">'; ?>
-            <?php endif; ?>
-            <?php echo Text::_('COM_CONTENT_ARTICLE_INFO'); ?>
-            <?php if (!$displayData['params']->get('info_block_show_title', 1)) : ?>
-                <?php echo '</span>'; ?>
-            <?php endif; ?>
-        </dt>
-
+        <?php ob_start(); ?>
         <?php if ($displayData['params']->get('show_author') && !empty($displayData['item']->author)) : ?>
             <?php echo $this->sublayout('author', $displayData); ?>
         <?php endif; ?>
@@ -50,6 +41,20 @@ $blockPosition = $displayData['params']->get('info_block_position', 0);
 
         <?php if ($displayData['params']->get('show_publish_date')) : ?>
             <?php echo $this->sublayout('publish_date', $displayData); ?>
+        <?php endif; ?>
+        <?php $firstBlockContent = ob_get_clean(); ?>
+
+        <?php if (trim($firstBlockContent)) : ?>
+            <dt class="article-info-term">
+                <?php if (!$displayData['params']->get('info_block_show_title', 1)) : ?>
+                    <?php echo '<span class="visually-hidden">'; ?>
+                <?php endif; ?>
+                <?php echo Text::_('COM_CONTENT_ARTICLE_INFO'); ?>
+                <?php if (!$displayData['params']->get('info_block_show_title', 1)) : ?>
+                    <?php echo '</span>'; ?>
+                <?php endif; ?>
+            </dt>
+            <?php echo $firstBlockContent; ?>
         <?php endif; ?>
 
     <?php endif; ?>
@@ -71,4 +76,10 @@ $blockPosition = $displayData['params']->get('info_block_position', 0);
             <?php echo $this->sublayout('hits', $displayData); ?>
         <?php endif; ?>
     <?php endif; ?>
+
+<?php $dlContent = ob_get_clean(); ?>
+<?php if (trim($dlContent)) : ?>
+<dl class="article-info text-muted">
+    <?php echo $dlContent; ?>
 </dl>
+<?php endif; ?>

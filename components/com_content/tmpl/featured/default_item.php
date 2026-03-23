@@ -74,10 +74,10 @@ $isUnpublished     = $this->item->state == ContentComponent::CONDITION_UNPUBLISH
     <?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
         || $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category') || $params->get('show_author') || $assocParam); ?>
 
-    <?php if ($useDefList && ($info == 0 || $info == 2)) : ?>
+    <?php if ($useDefList && $info !== 3 && ($info == 0 || $info == 2)) : ?>
         <?php echo LayoutHelper::render('joomla.content.info_block', ['item' => $this->item, 'params' => $params, 'position' => 'above']); ?>
     <?php endif; ?>
-    <?php if ($info == 0 && $params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
+    <?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
         <?php echo LayoutHelper::render('joomla.content.tags', $this->item->tags->itemTags); ?>
     <?php endif; ?>
 
@@ -86,7 +86,7 @@ $isUnpublished     = $this->item->state == ContentComponent::CONDITION_UNPUBLISH
 
     <?php echo $this->item->introtext; ?>
 
-    <?php if ($info == 1 || $info == 2) : ?>
+    <?php if ($info !== 3 && ($info == 1 || $info == 2)) : ?>
         <?php if ($useDefList) : ?>
             <?php echo LayoutHelper::render('joomla.content.info_block', ['item' => $this->item, 'params' => $params, 'position' => 'below']); ?>
         <?php endif; ?>
