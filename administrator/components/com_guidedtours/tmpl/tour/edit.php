@@ -60,21 +60,16 @@ $wa->useScript('keepalive')
                 <?php echo $this->form->renderField('description'); ?>
 
                 <?php if ($this->item->id != 0 && strpos($this->item->description, 'GUIDEDTOUR') !== false) : ?>
-                    <?php
-                    $label = Text::sprintf('COM_GUIDEDTOURS_DESCRIPTION_TRANSLATION', $lang);
-                    $translatedHtml = $this->item->description_translation ?? '';
-                    ?>
-
                     <div class="control-group">
                         <label class="control-label form-label">
-                            <?php echo $label; ?>
+                            <?php echo Text::sprintf('COM_GUIDEDTOURS_DESCRIPTION_TRANSLATION', $lang); ?>
                         </label>
 
                         <div class="controls">
                             <div
                                 class="form-control border rounded p-3"
                                 aria-readonly="true">
-                                <?php echo $translatedHtml; ?>
+                                <?php echo $this->item->description_translation ?? ''; ?>
                             </div>
                         </div>
                     </div>
