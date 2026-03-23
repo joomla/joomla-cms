@@ -34,11 +34,33 @@
 .media-main {
   position: relative;
   flex: 1 1 400px;
+  min-width: 0;
   min-height: 75vh;
 }
 
+.media-browser {
+  overflow-x: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  scrollbar-width: none;
+
+  -ms-overflow-style: none;
+}
+.media-browser-table {
+  overflow-x: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  scrollbar-width: none;
+
+  -ms-overflow-style: none;
+}
+
 .media-sidebar {
-  flex: 1 1 250px;
+  flex: 1 1 1px;
   min-width: 250px;
   max-width: 100%;
   padding: 1rem;
@@ -50,7 +72,7 @@
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 920px) {
   .media-main,
   .media-sidebar {
     flex: 0 0 100%;
