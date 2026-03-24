@@ -193,24 +193,4 @@ class TagsPopularHelper implements DatabaseAwareInterface
 
         return $results;
     }
-
-    /**
-     * Get list of popular tags
-     *
-     * @param   \Joomla\Registry\Registry  &$params  module parameters
-     *
-     * @return  mixed
-     *
-     * @since   3.1
-     *
-     * @deprecated 5.1.0 will be removed in 7.0
-     *             Use the non-static method getTags
-     *             Example: Factory::getApplication()->bootModule('mod_tags_popular', 'site')
-     *                          ->getHelper('TagsPopularHelper')
-     *                          ->getTags($params)
-     */
-    public static function getList(&$params)
-    {
-        return (new self())->getTags($params);
-    }
 }

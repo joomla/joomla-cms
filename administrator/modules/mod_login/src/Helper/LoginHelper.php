@@ -82,36 +82,4 @@ class LoginHelper
 
         return base64_encode('index.php');
     }
-
-    /**
-     * Get an HTML select list of the available languages.
-     *
-     * @return  string
-     *
-     * @deprecated 5.1.0 will be removed in 7.0
-     *             Use the non-static method getLanguages
-     *             Example: Factory::getApplication()->bootModule('mod_login', 'administrator')
-     *                            ->getHelper('LoginHelper')
-     *                            ->getLanguages(Factory::getApplication())
-     */
-    public static function getLanguageList()
-    {
-        return (new self())->getLanguages(Factory::getApplication());
-    }
-
-    /**
-     * Get the redirect URI after login.
-     *
-     * @return  string
-     *
-     * @deprecated 5.1.0 will be removed in 7.0
-     *             Use the non-static method getReturnUriString
-     *             Example: Factory::getApplication()->bootModule('mod_login', 'administrator')
-     *                            ->getHelper('LoginHelper')
-     *                            ->getReturnUriString()
-     */
-    public static function getReturnUri()
-    {
-        return (new self())->getReturnUriString();
-    }
 }
