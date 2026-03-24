@@ -317,7 +317,11 @@ class LevelModel extends AdminModel
 
         if (isset($data['rules'])) {
             if (!\is_array($data['rules'])) {
-                throw new \RuntimeException(Text::_('COM_USERS_ERROR_INVALID_GROUP'));
+                if ($this->shouldUseExceptions()) {
+                    throw new \Exception(Text::_('COM_USERS_ERROR_INVALID_GROUP'));
+                }
+                $this->setError(Text::_('COM_USERS_ERROR_INVALID_GROUP'));
+                return false;
             }
 
             if (!empty($data['rules'])) {
@@ -328,7 +332,11 @@ class LevelModel extends AdminModel
                     $rule = (int) $rule;
 
                     if ($rule <= 0 || !\in_array($rule, $validGroupIds, true)) {
-                        throw new \RuntimeException(Text::_('COM_USERS_ERROR_INVALID_GROUP'));
+                        if ($this->shouldUseExceptions()) {
+                            throw new \Exception(Text::_('COM_USERS_ERROR_INVALID_GROUP'));
+                        }
+                        $this->setError(Text::_('COM_USERS_ERROR_INVALID_GROUP'));
+                        return false;
                     }
                 }
             }
