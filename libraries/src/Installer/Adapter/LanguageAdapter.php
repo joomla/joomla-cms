@@ -12,7 +12,6 @@ namespace Joomla\CMS\Installer\Adapter;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
@@ -20,9 +19,10 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 
@@ -107,7 +107,7 @@ class LanguageAdapter extends InstallerAdapter
 
         // Remove the schema version
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__schemas'))
             ->where($db->quoteName('extension_id') . ' = :extension_id')
             ->bind(':extension_id', $extensionId, ParameterType::INTEGER);
@@ -115,7 +115,7 @@ class LanguageAdapter extends InstallerAdapter
         $db->execute();
 
         // Clobber any possible pending updates
-        $update = Table::getInstance('update');
+        $update = new Update($this->getDatabase());
         $uid    = $update->find(
             [
                 'element' => $this->extension->element,
@@ -417,7 +417,7 @@ class LanguageAdapter extends InstallerAdapter
         }
 
         // Add an entry to the extension table with a whole heap of defaults
-        $row               = Table::getInstance('extension');
+        $row               = new Extension($this->getDatabase());
         $row->name         = $this->name;
         $row->type         = 'language';
         $row->element      = $this->tag;
@@ -444,8 +444,7 @@ class LanguageAdapter extends InstallerAdapter
         }
 
         // Clobber any possible pending updates
-        /** @var Update $update */
-        $update = Table::getInstance('update');
+        $update = new Update($this->getDatabase());
         $uid    = $update->find(['element' => $this->tag, 'type' => 'language', 'folder' => '']);
 
         if ($uid) {
@@ -480,7 +479,7 @@ class LanguageAdapter extends InstallerAdapter
 
         // Get the sef value of all current content languages.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('sef'))
             ->from($db->quoteName('#__languages'));
         $db->setQuery($query);
@@ -575,7 +574,7 @@ class LanguageAdapter extends InstallerAdapter
          */
 
         // Clobber any possible pending updates
-        $update = Table::getInstance('update');
+        $update = new Update($this->getDatabase());
         $uid    = $update->find(['element' => $this->tag, 'type' => 'language', 'client_id' => $clientId]);
 
         if ($uid) {
@@ -583,7 +582,7 @@ class LanguageAdapter extends InstallerAdapter
         }
 
         // Update an entry to the extension table
-        $row = Table::getInstance('extension');
+        $row = new Extension($this->getDatabase());
         $eid = $row->find(['element' => $this->tag, 'type' => 'language', 'client_id' => $clientId]);
 
         if ($eid) {
@@ -651,7 +650,7 @@ class LanguageAdapter extends InstallerAdapter
                 }
 
                 $manifest_details          = Installer::parseXMLInstallFile($manifestfile);
-                $extension                 = Table::getInstance('extension');
+                $extension                 = new Extension($this->getDatabase());
                 $extension->type           = 'language';
                 $extension->client_id      = $clientId;
                 $extension->element        = $language;
@@ -700,7 +699,7 @@ class LanguageAdapter extends InstallerAdapter
         try {
             $this->parent->extension->check();
             $this->parent->extension->store();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             Log::add(Text::_('JLIB_INSTALLER_ERROR_LANG_DISCOVER_STORE_DETAILS'), Log::WARNING, 'jerror');
 
             return false;
@@ -734,9 +733,11 @@ class LanguageAdapter extends InstallerAdapter
 
         $this->parent->manifest = $this->parent->isManifest($manifestPath);
         $this->parent->setPath('manifest', $manifestPath);
+
         $manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
         $this->parent->extension->manifest_cache = json_encode($manifest_details);
         $this->parent->extension->name           = $manifest_details['name'];
+        $this->parent->extension->changelogurl   = $manifest_details['changelogurl'];
 
         if ($this->parent->extension->store()) {
             return true;
@@ -764,7 +765,7 @@ class LanguageAdapter extends InstallerAdapter
 
         // Setting the language of users which have this language as the default language
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('id'),
@@ -784,7 +785,7 @@ class LanguageAdapter extends InstallerAdapter
         $count = 0;
 
         // Prepare the query.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__users'))
             ->set($db->quoteName('params') . ' = :registry')
             ->where($db->quoteName('id') . ' = :userId')
@@ -820,7 +821,7 @@ class LanguageAdapter extends InstallerAdapter
      */
     protected function createContentLanguage($tag)
     {
-        $tableLanguage = Table::getInstance('language');
+        $tableLanguage = new \Joomla\CMS\Table\Language($this->getDatabase());
 
         // Check if content language already exists.
         if ($tableLanguage->load(['lang_code' => $tag])) {

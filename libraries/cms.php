@@ -18,16 +18,6 @@ trigger_error(
     E_USER_DEPRECATED
 );
 
-/**
- * Set the platform root path as a constant if necessary.
- *
- * @deprecated 4.4.0 will be removed in 6.0
- *             Use defined('_JEXEC') or die; to detect if the CMS is loaded correctly
- **/
-if (!defined('JPATH_PLATFORM')) {
-    define('JPATH_PLATFORM', __DIR__);
-}
-
 // Import the library loader if necessary
 if (!class_exists('JLoader')) {
     require_once JPATH_LIBRARIES . '/loader.php';
@@ -48,17 +38,6 @@ $loader->unregister();
 
 // Decorate Composer autoloader
 spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
-
-// Suppress phar stream wrapper for non .phar files
-$behavior = new \TYPO3\PharStreamWrapper\Behavior();
-\TYPO3\PharStreamWrapper\Manager::initialize(
-    $behavior->withAssertion(new \TYPO3\PharStreamWrapper\Interceptor\PharExtensionInterceptor())
-);
-
-if (in_array('phar', stream_get_wrappers())) {
-    stream_wrapper_unregister('phar');
-    stream_wrapper_register('phar', 'TYPO3\\PharStreamWrapper\\PharStreamWrapper');
-}
 
 // Define the Joomla version if not already defined
 if (!defined('JVERSION')) {

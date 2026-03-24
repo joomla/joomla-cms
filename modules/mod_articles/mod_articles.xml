@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" client="site" method="upgrade">
-	<name>MOD_ARTICLES</name>
+	<name>mod_articles</name>
 	<author>Joomla! Project</author>
 	<creationDate>2024-07</creationDate>
 	<copyright>(C) 2024 Open Source Matters, Inc.</copyright>
@@ -22,14 +22,42 @@
 	<help key="Site_Modules:_Articles" />
 	<config>
 		<fields name="params">
-			<fieldset name="basic">
+			<fieldset name="basic"
+					addfieldprefix="Joomla\Component\Content\Administrator\Field" >
+				<field
+					name="mode"
+					type="list"
+					label="MOD_ARTICLES_FIELD_MODE_LABEL"
+					description="MOD_ARTICLES_FIELD_MODE_DESC"
+					default="normal"
+					validate="options"
+					>
+					<option value="normal">MOD_ARTICLES_OPTION_NORMAL_VALUE</option>
+					<option value="dynamic">MOD_ARTICLES_OPTION_DYNAMIC_VALUE</option>
+				</field>
+
+				<field
+					name="show_on_article_page"
+					type="radio"
+					label="MOD_ARTICLES_FIELD_SHOWONARTICLEPAGE_LABEL"
+					description="MOD_ARTICLES_FIELD_SHOWONARTICLEPAGE_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="integer"
+					showon="mode:dynamic"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
 				<field
 					name="count"
 					type="number"
 					label="MOD_ARTICLES_FIELD_COUNT_LABEL"
+					description="MOD_ARTICLES_FIELD_COUNT_DESC"
 					default="5"
 					filter="integer"
-					min="1"
+					min="0"
 					validate="number"
 				/>
 
@@ -90,20 +118,57 @@
 				</field>
 
 				<field
+					name="ex_or_include_articles"
+					type="list"
+					label="MOD_ARTICLES_FIELD_EX_OR_INCLUDE_LABEL"
+					default="0"
+					filter="integer"
+					>
+					<option value="0">MOD_ARTICLES_OPTION_EXCLUDE_VALUE</option>
+					<option value="1">MOD_ARTICLES_OPTION_INCLUDE_VALUE</option>
+				</field>
+
+				<field
 					name="excluded_articles"
-					type="textarea"
+					type="subform"
 					label="MOD_ARTICLES_FIELD_EXCLUDEDARTICLES_LABEL"
-					cols="10"
-					rows="3"
-				/>
+					multiple="true"
+					buttons="add,remove"
+					showon="ex_or_include_articles:0"
+					>
+					<form>
+						<field
+							name="id"
+							type="modal_article"
+							label="MOD_ARTICLES_FIELD_SELECT_ARTICLE_LABEL"
+							select="true"
+							new="false"
+							edit="false"
+							clear="true"
+						/>
+					</form>
+				</field>
 
 				<field
 					name="included_articles"
-					type="textarea"
+					type="subform"
 					label="MOD_ARTICLES_FIELD_INCLUDEDARTICLES_LABEL"
-					cols="10"
-					rows="3"
-				/>
+					multiple="true"
+					buttons="add,remove"
+					showon="ex_or_include_articles:1"
+					>
+					<form>
+						<field
+							name="id"
+							type="modal_article"
+							label="MOD_ARTICLES_FIELD_SELECT_ARTICLE_LABEL"
+							select="true"
+							new="false"
+							edit="false"
+							clear="true"
+						/>
+					</form>
+				</field>
 			</fieldset>
 
 			<fieldset name="display"
@@ -114,7 +179,7 @@
 					type="radio"
 					label="MOD_ARTICLES_FIELD_TITLEONLY_LABEL"
 					layout="joomla.form.field.radio.switcher"
-					default="1"
+					default="0"
 					filter="integer"
 					>
 					<option value="0">JNO</option>
@@ -174,6 +239,7 @@
 					<option value="h3">JH3</option>
 					<option value="h4">JH4</option>
 					<option value="h5">JH5</option>
+					<option value="h6">JH6</option>
 					<option value="div">MOD_ARTICLES_FIELD_TITLE_HEADING_NONE</option>
 				</field>
 
@@ -223,10 +289,10 @@
 					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="integer"
-					showon="title_only:0[AND]show_category:1[AND]card_link:0"
+					showon="title_only:0[AND]show_category:1"
 					>
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
@@ -304,6 +370,20 @@
 				</field>
 
 				<field
+					name="trigger_events"
+					type="radio"
+					label="MOD_ARTICLES_FIELD_TRIGGER_EVENTS_LABEL"
+					description="MOD_ARTICLES_FIELD_TRIGGER_EVENTS_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					showon="title_only:0"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
 					name="show_introtext"
 					type="radio"
 					label="MOD_ARTICLES_FIELD_SHOWINTROTEXT_LABEL"
@@ -334,7 +414,7 @@
 					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="integer"
-					showon="title_only:0[AND]introtext_limit:0"
+					showon="title_only:0[AND]show_introtext:1"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -422,6 +502,19 @@
 				</field>
 
 				<field
+					name="show_unpublished"
+					type="radio"
+					label="MOD_ARTICLES_FIELD_UNPUBLISHED_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					showon="show_archived!:show"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
 					name="filteringspacer2"
 					type="spacer"
 					hr="true"
@@ -452,6 +545,7 @@
 					>
 					<option value="0">MOD_ARTICLES_OPTION_EXCLUSIVE_VALUE</option>
 					<option value="1">MOD_ARTICLES_OPTION_INCLUSIVE_VALUE</option>
+					<option value="2">MOD_ARTICLES_OPTION_ONLYCURRENTUSER_VALUE</option>
 				</field>
 
 				<field
@@ -462,6 +556,7 @@
 					layout="joomla.form.field.list-fancy-select"
 					filter="intarray"
 					class="multipleAuthors"
+					showon="author_filtering_type!:2"
 				/>
 
 				<field
@@ -566,7 +661,6 @@
 					>
 					<option value="a.ordering">MOD_ARTICLES_OPTION_ORDERING_VALUE</option>
 					<option value="fp.ordering">MOD_ARTICLES_OPTION_ORDERINGFEATURED_VALUE</option>
-					<option value="a.hits" requires="hits">MOD_ARTICLES_OPTION_HITS_VALUE</option>
 					<option value="a.title">JGLOBAL_TITLE</option>
 					<option value="a.id">MOD_ARTICLES_OPTION_ID_VALUE</option>
 					<option value="a.alias">JFIELD_ALIAS_LABEL</option>
@@ -575,6 +669,7 @@
 					<option value="publish_up">MOD_ARTICLES_OPTION_STARTPUBLISHING_VALUE</option>
 					<option value="a.publish_down">MOD_ARTICLES_OPTION_FINISHPUBLISHING_VALUE</option>
 					<option value="random">MOD_ARTICLES_OPTION_RANDOM_VALUE</option>
+					<option value="a.hits" requires="hits">MOD_ARTICLES_OPTION_HITS_VALUE</option>
 					<option value="rating_count" requires="vote">MOD_ARTICLES_OPTION_VOTE_VALUE</option>
 					<option value="rating" requires="vote">MOD_ARTICLES_OPTION_RATING_VALUE</option>
 				</field>

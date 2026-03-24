@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\Component\Config\Site\Model\ModulesModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -62,7 +63,7 @@ class HtmlView extends BaseHtmlView
         // @todo Move and clean up
         $module = (new \Joomla\Component\Modules\Administrator\Model\ModuleModel())->getItem(Factory::getApplication()->getInput()->getInt('id'));
 
-        $moduleData = $module->getProperties();
+        $moduleData = get_object_vars($module);
         unset($moduleData['xml']);
 
         /** @var \Joomla\Component\Config\Site\Model\ModulesModel $model */
@@ -71,13 +72,20 @@ class HtmlView extends BaseHtmlView
         // Need to add module name to the state of model
         $model->getState()->set('module.name', $moduleData['module']);
 
-        /** @var Form form */
-        $this->form      = $this->get('form');
-        $this->positions = $this->get('positions');
+        /** @var ModulesModel $model */
+        $model           = $this->getModel();
+        $this->form      = $model->getForm();
+        $this->positions = $model->getPositions();
         $this->item      = $moduleData;
 
         if ($this->form) {
             $this->form->bind($moduleData);
+
+            // Add form control fields
+            $this->form
+                ->addControlField('task')
+                ->addControlField('return', Factory::getApplication()->getInput()->get('return', null, 'base64'))
+                ->addControlField('id', $this->item['id']);
         }
 
         $this->_prepareDocument();

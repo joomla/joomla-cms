@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
+use Joomla\Component\Config\Administrator\Model\ComponentModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -91,13 +92,16 @@ class HtmlView extends BaseHtmlView
     public function display($tpl = null)
     {
         try {
-            $this->component = $this->get('component');
+            /** @var ComponentModel $model */
+            $model = $this->getModel();
+
+            $this->component = $model->getComponent();
 
             if (!$this->component->enabled) {
                 return;
             }
 
-            $this->form = $this->get('Form');
+            $this->form = $model->getForm();
             $user       = $this->getCurrentUser();
         } catch (\Exception $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
@@ -120,6 +124,13 @@ class HtmlView extends BaseHtmlView
         $this->return           = Factory::getApplication()->getInput()->get('return', '', 'base64');
 
         $this->addToolbar();
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task')
+            ->addControlField('id', $this->component->id)
+            ->addControlField('component', $this->component->option)
+            ->addControlField('return', $this->return);
 
         parent::display($tpl);
     }

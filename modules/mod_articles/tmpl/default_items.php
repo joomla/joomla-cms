@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -18,16 +19,18 @@ if ($params->get('articles_layout') == 1) {
     $gridCols = 'grid-cols-' . $params->get('layout_columns');
 }
 
+$currentDate = Factory::getDate()->format('Y-m-d H:i:s');
+
 ?>
-<ul class="mod-articles-items <?php echo ($params->get('articles_layout') == 1 ? 'mod-articles-grid ' . $gridCols : ''); ?> mod-list">
+<ul class="mod-articles-items<?php echo ($params->get('articles_layout') == 1 ? ' mod-articles-grid ' . $gridCols : ''); ?> mod-list">
     <?php foreach ($items as $item) : ?>
         <?php
-            $displayInfo = $item->displayHits || $item->displayAuthorName || $item->displayCategoryTitle || $item->displayDate;
+        $displayInfo = $item->displayHits || $item->displayAuthorName || $item->displayCategoryTitle || $item->displayDate;
+        $canEdit = $item->params->get('access-edit');
         ?>
-        <li>
-            <article class="mod-articles-item" itemscope itemtype="https://schema.org/Article">
-
-                <?php if ($params->get('item_title') || $displayInfo || $params->get('show_tags') || $params->get('show_introtext') || $params->get('show_readmore')) : ?>
+        <?php if ($params->get('item_title') || $displayInfo || $params->get('show_tags') || $params->get('show_introtext') || $params->get('img_intro_full')  && !empty($item->imageSrc) || $params->get('show_readmore')) : ?>
+            <li>
+                <article class="mod-articles-item" itemscope itemtype="https://schema.org/Article">
                     <div class="mod-articles-item-content">
 
                         <?php if ($params->get('item_title')) : ?>
@@ -43,6 +46,20 @@ if ($params->get('articles_layout') == 1) {
                                 <?php endif; ?>
                             </<?php echo $item_heading; ?>>
                         <?php endif; ?>
+
+                        <?php if ($item->state === 0) : ?>
+                            <span class="badge bg-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
+                        <?php endif; ?>
+
+                        <?php if ($item->publish_up > $currentDate) : ?>
+                            <span class="badge bg-warning"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
+                        <?php endif; ?>
+
+                        <?php if ($item->publish_down !== null && $item->publish_down < $currentDate) : ?>
+                            <span class="badge bg-warning"><?php echo Text::_('JEXPIRED'); ?></span>
+                        <?php endif; ?>
+
+                        <?php echo $item->event->afterDisplayTitle; ?>
 
                         <?php if ($displayInfo) : ?>
                             <?php $listClass = ($params->get('info_layout') == 1) ? 'list-inline' : 'list-unstyled'; ?>
@@ -87,7 +104,6 @@ if ($params->get('articles_layout') == 1) {
                                     </dd>
                                 <?php endif; ?>
                             </dl>
-
                         <?php endif; ?>
 
                         <?php if (in_array($params->get('img_intro_full'), ['intro', 'full']) && !empty($item->imageSrc)) : ?>
@@ -100,16 +116,24 @@ if ($params->get('articles_layout') == 1) {
                             </div>
                         <?php endif; ?>
 
-                        <?php if ($params->get('show_introtext')) : ?>
+                        <?php echo $item->event->beforeDisplayContent; ?>
+
+                        <?php if ($params->get('show_introtext', 1)) : ?>
                             <?php echo $item->displayIntrotext; ?>
                         <?php endif; ?>
 
-                        <?php if ($params->get('show_readmore')) : ?>
+                        <?php echo $item->event->afterDisplayContent; ?>
+
+                        <?php if ($params->get('show_readmore') && !empty($item->fulltext)) : ?>
+                            <?php if ($params->get('show_readmore_title', '') !== '') : ?>
+                                <?php $item->params->set('show_readmore_title', $params->get('show_readmore_title')); ?>
+                                <?php $item->params->set('readmore_limit', $params->get('readmore_limit')); ?>
+                            <?php endif; ?>
                             <?php echo LayoutHelper::render('joomla.content.readmore', ['item' => $item, 'params' => $item->params, 'link' => $item->link]); ?>
                         <?php endif; ?>
                     </div>
-                <?php endif; ?>
-            </article>
-        </li>
+                </article>
+            </li>
+        <?php endif; ?>
     <?php endforeach; ?>
 </ul>

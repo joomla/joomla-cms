@@ -39,7 +39,6 @@ class JMultiSelect {
   }
 
   // Changes the row class depends on selection
-  // eslint-disable-next-line class-methods-use-this
   changeBg(row, isChecked) {
     row.classList.toggle('row-selected', isChecked);
   }
@@ -47,7 +46,7 @@ class JMultiSelect {
   // Handle click on a row
   onRowClick({ target, shiftKey }) {
     // Do not interfere with links, buttons, inputs and other interactive elements
-    if (target.closest('a, button, input, select, textarea, details, dialog, audio, video')) {
+    if (!target.matches(this.boxSelector) && target.closest('a, button, input, select, textarea, details, dialog, audio, video')) {
       return;
     }
 
@@ -110,7 +109,6 @@ const onBoot = (container) => {
   container.querySelectorAll(selector).forEach((formElement) => {
     if (formElement && !('multiselect' in formElement.dataset)) {
       formElement.dataset.multiselect = '';
-      // eslint-disable-next-line no-new
       new JMultiSelect(formElement);
     }
   });

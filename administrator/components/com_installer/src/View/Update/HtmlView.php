@@ -13,8 +13,8 @@ namespace Joomla\Component\Installer\Administrator\View\Update;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
-use Joomla\Component\Installer\Administrator\Helper\InstallerHelper as CmsInstallerHelper;
+use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
+use Joomla\Component\Installer\Administrator\Model\UpdateModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -31,7 +31,7 @@ class HtmlView extends InstallerViewDefault
     /**
      * List of update items.
      *
-     * @var array
+     * @var \stdClass[]
      */
     protected $items;
 
@@ -81,30 +81,30 @@ class HtmlView extends InstallerViewDefault
      */
     public function display($tpl = null)
     {
+        /** @var UpdateModel $model */
+        $model = $this->getModel();
+
         // Get data from the model.
-        $this->items         = $this->get('Items');
-        $this->pagination    = $this->get('Pagination');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
+        $this->items         = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
+        $this->paths         = new \stdClass();
+        $this->paths->first  = '';
 
-        $paths        = new \stdClass();
-        $paths->first = '';
-
-        $this->paths = &$paths;
-
-        if (\count($this->items) === 0 && $this->isEmptyState = $this->get('IsEmptyState')) {
+        if (\count($this->items) === 0 && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
         } else {
             Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_WARNINGS_UPDATE_NOTICE'), 'warning');
         }
 
         // Find if there are any updates which require but are missing a Download Key
-        if (!class_exists('Joomla\Component\Installer\Administrator\Helper\InstallerHelper')) {
-            require_once JPATH_COMPONENT_ADMINISTRATOR . '/Helper/InstallerHelper.php';
+        if (!class_exists(InstallerHelper::class)) {
+            require_once JPATH_ADMINISTRATOR . '/components/com_installer/src/Helper/InstallerHelper.php';
         }
 
         $mappingCallback = function ($item) {
-            $dlkeyInfo                  = CmsInstallerHelper::getDownloadKey(new CMSObject($item));
+            $dlkeyInfo                  = InstallerHelper::getDownloadKey($item);
             $item->isMissingDownloadKey = $dlkeyInfo['supported'] && !$dlkeyInfo['valid'];
 
             if ($item->isMissingDownloadKey) {
@@ -120,6 +120,11 @@ class HtmlView extends InstallerViewDefault
             $msg = Text::plural('COM_INSTALLER_UPDATE_MISSING_DOWNLOADKEY_LABEL_N', $this->missingDownloadKeys, $url);
             Factory::getApplication()->enqueueMessage($msg, CMSApplication::MSG_WARNING);
         }
+
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task')
+            ->addControlField('boxchecked', '0');
 
         parent::display($tpl);
     }

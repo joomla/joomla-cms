@@ -31,6 +31,7 @@ class UsersHelper extends ContentHelper
     /**
      * @var    CMSObject  A cache for the available actions.
      * @since  1.6
+     * @deprecated 5.3 will be removed in 7.0 without replacement
      */
     protected static $actions;
 
@@ -40,6 +41,8 @@ class UsersHelper extends ContentHelper
      * @return  array  An array of \JHtmlOption elements.
      *
      * @since   1.6
+     * @deprecated 5.3 will be removed in 7.0
+     *             Use Form Fields instead
      */
     public static function getStateOptions()
     {
@@ -57,6 +60,8 @@ class UsersHelper extends ContentHelper
      * @return  array  An array of \JHtmlOption elements.
      *
      * @since   1.6
+     * @deprecated 5.3 will be removed in 7.0
+     *             Use Form Fields instead
      */
     public static function getActiveOptions()
     {
@@ -94,6 +99,8 @@ class UsersHelper extends ContentHelper
      * @return  array
      *
      * @since   2.5
+     * @deprecated 5.3 will be removed in 7.0
+     *             Use Form Fields instead
      */
     public static function getRangeOptions()
     {
@@ -118,7 +125,7 @@ class UsersHelper extends ContentHelper
      * @since   3.2.0
      * @throws  \Exception
      *
-     * @deprecated  4.2 will be removed in 6.0
+     * @deprecated  4.2 will be removed in 7.0
      *              No longer used, will be removed without replacement
      */
     public static function getTwoFactorMethods()
@@ -144,7 +151,7 @@ class UsersHelper extends ContentHelper
         }
 
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('title', 'text'))
             ->from($db->quoteName('#__usergroups'))
             ->whereIn($db->quoteName('id'), $rules);
@@ -167,7 +174,7 @@ class UsersHelper extends ContentHelper
      * @since       3.7.0
      * @throws      \Exception
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use \Joomla\Component\Users\Administrator\Extension\UsersComponent::validateSection() instead.
      */
     public static function validateSection($section)
@@ -182,7 +189,7 @@ class UsersHelper extends ContentHelper
      *
      * @since       3.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use \Joomla\Component\Users\Administrator\Extension\UsersComponent::getContexts() instead.
      */
     public static function getContexts()

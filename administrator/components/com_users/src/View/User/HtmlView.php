@@ -13,13 +13,13 @@ namespace Joomla\Component\Users\Administrator\View\User;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\Helper\Mfa;
+use Joomla\Component\Users\Administrator\Model\UserModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -98,27 +98,26 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
      */
     public function display($tpl = null)
     {
+        /** @var UserModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
+
         // If no item found, dont show the edit screen, redirect with message
-        if (false === $this->item = $this->get('Item')) {
+        if (false === $this->item = $model->getItem()) {
             $app = Factory::getApplication();
             $app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_NOT_EXIST'), 'error');
             $app->redirect('index.php?option=com_users&view=users');
         }
 
-        $this->form  = $this->get('Form');
-        $this->state = $this->get('State');
-
-        // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        $this->form  = $model->getForm();
+        $this->state = $model->getState();
 
         // Prevent user from modifying own group(s)
         $user = $this->getCurrentUser();
 
         if ((int) $user->id != (int) $this->item->id || $user->authorise('core.admin')) {
-            $this->grouplist = $this->get('Groups');
-            $this->groups    = $this->get('AssignedGroups');
+            $this->grouplist = $model->getGroups();
+            $this->groups    = $model->getAssignedGroups();
         }
 
         $this->form->setValue('password', null);
@@ -131,11 +130,16 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
                 $this->mfaConfigurationUI = Mfa::canShowConfigurationInterface($userBeingEdited)
                     ? Mfa::getConfigurationInterface($userBeingEdited)
                     : '';
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // In case something goes really wrong with the plugins; prevents hard breaks.
                 $this->mfaConfigurationUI = null;
             }
         }
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task')
+            ->addControlField('return', Factory::getApplication()->getInput()->getBase64('return', ''));
 
         parent::display($tpl);
 
@@ -189,6 +193,26 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
             $toolbar->cancel('user.cancel', 'JTOOLBAR_CANCEL');
         } else {
             $toolbar->cancel('user.cancel');
+        }
+
+        // Check lastvisitDate for allow resend the activation email
+        $userIsNotActive = !empty($this->item->activation) || \is_null($this->item->lastvisitDate);
+
+        if ($this->item->id > 0 && $userIsNotActive) {
+            $buttonText = !empty($this->item->activation)
+                ? Text::_('COM_USERS_USER_ACTIVATE_AND_MAIL')
+                : Text::_('COM_USERS_USER_ACTIVATION_REMINDER');
+
+            $toolbar->standardButton('activate', $buttonText)
+                ->buttonClass('btn activate-send-mail')
+                ->attributes([
+                    'data-option' => 'com_users',
+                    'data-task'   => 'user.active',
+                    'data-format' => 'json',
+                    'data-userid' => $this->item->id,
+                ])
+                ->icon('icon-mail')
+                ->onclick('');
         }
 
         $toolbar->divider();

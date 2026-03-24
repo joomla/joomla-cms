@@ -131,7 +131,7 @@ class DatabaseModel extends BaseInstallationModel
                 || $type === 'pgsql' && strpos($e->getMessage(), 'database "' . $options->db_name . '" does not exist')
             ) {
                 /*
-                 * Now we're really getting insane here; we're going to try building a new JDatabaseDriver instance
+                 * Now we're really getting insane here; we're going to try building a new DatabaseDriver instance
                  * in order to trick the connection into creating the database
                  */
                 if ($type === 'mysql') {
@@ -243,7 +243,7 @@ class DatabaseModel extends BaseInstallationModel
 
         $options = array_merge(['db_created' => 1], $options);
 
-        Factory::getSession()->set('setup.options', $options);
+        Factory::getApplication()->getSession()->set('setup.options', $options);
 
         return true;
     }

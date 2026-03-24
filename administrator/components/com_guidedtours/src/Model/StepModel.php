@@ -11,6 +11,7 @@
 namespace Joomla\Component\Guidedtours\Administrator\Model;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
@@ -81,7 +82,7 @@ class StepModel extends AdminModel
         $tour->load($data['tour_id']);
 
         // Language keys must include GUIDEDTOUR to prevent save issues
-        if (strpos($data['description'], 'GUIDEDTOUR') !== false) {
+        if (str_contains($data['description'], 'GUIDEDTOUR')) {
             $data['description'] = strip_tags($data['description']);
         }
 
@@ -98,7 +99,7 @@ class StepModel extends AdminModel
         }
 
         if ($input->get('task') == 'save2copy') {
-            $origTable = clone $this->getTable();
+            $origTable = $this->getTable();
             $origTable->load($input->getInt('id'));
 
             $data['published'] = 0;
@@ -129,7 +130,7 @@ class StepModel extends AdminModel
             // Set ordering to the last item if not set
             if (empty($table->ordering)) {
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select('MAX(ordering)')
                     ->from($db->quoteName('#__guidedtour_steps'));
                 $db->setQuery($query);
@@ -167,9 +168,10 @@ class StepModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \JForm|boolean  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   4.3.0
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -182,10 +184,6 @@ class StepModel extends AdminModel
                 'load_data' => $loadData,
             ]
         );
-
-        if (empty($form)) {
-            return false;
-        }
 
         $id = $data['id'] ?? $form->getValue('id');
 

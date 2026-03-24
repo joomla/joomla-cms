@@ -164,8 +164,8 @@ Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
                     <?php echo $this->pagination->getListFooter(); ?>
 
                 <?php endif; ?>
-                <input type="hidden" name="task" value="">
-                <?php echo HTMLHelper::_('form.token'); ?>
+
+                <?php echo $this->filterForm->renderControlFields(); ?>
             </div>
         </div>
     </div>

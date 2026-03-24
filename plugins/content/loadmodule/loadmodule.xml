@@ -31,9 +31,6 @@
 					<option value="none">PLG_LOADMODULE_FIELD_VALUE_RAW</option>
 					<option value="html5">PLG_LOADMODULE_FIELD_VALUE_DIVS</option>
 					<option value="table">PLG_LOADMODULE_FIELD_VALUE_TABLE</option>
-					<!-- @TODO: The following styles don't exist in default installation and can be removed in Joomla 5 -->
-					<option value="horz">PLG_LOADMODULE_FIELD_VALUE_HORIZONTAL</option>
-					<option value="rounded">PLG_LOADMODULE_FIELD_VALUE_MULTIPLEDIVS</option>
 				</field>
 			</fieldset>
 		</fields>

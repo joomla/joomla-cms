@@ -288,9 +288,7 @@ class JoomlaFieldSubform extends HTMLElement {
         if (!countMulti) {
           // Look for <fieldset class="checkboxes"></fieldset> or <fieldset><div class="checkboxes"></div></fieldset>
           let fieldset = $el.closest('.checkboxes, fieldset');
-          // eslint-disable-next-line no-nested-ternary
           if (fieldset) {
-            // eslint-disable-next-line no-nested-ternary
             fieldset = fieldset.nodeName === 'FIELDSET' ? fieldset : (fieldset.parentElement.nodeName === 'FIELDSET' ? fieldset.parentElement : false);
           }
 
@@ -324,7 +322,6 @@ class JoomlaFieldSubform extends HTMLElement {
            */
           let fieldset = $el.closest('.radio, .switcher, fieldset');
           if (fieldset) {
-            // eslint-disable-next-line no-nested-ternary
             fieldset = fieldset.nodeName === 'FIELDSET' ? fieldset : (fieldset.parentElement.nodeName === 'FIELDSET' ? fieldset.parentElement : false);
           }
 
@@ -411,10 +408,26 @@ class JoomlaFieldSubform extends HTMLElement {
         }
       }
 
+      // Find row position before sorting
+      const fromPosition = Array.from(src.parentElement.children)
+        .filter((row) => row.matches(that.repeatableElement)).indexOf(src);
+
       if (isRowBefore) {
         dest.parentNode.insertBefore(src, dest);
       } else {
         dest.parentNode.insertBefore(src, dest.nextSibling);
+      }
+
+      // Find final row position, after sorting
+      const toPosition = Array.from(src.parentElement.children)
+        .filter((row) => row.matches(that.repeatableElement)).indexOf(src);
+
+      // Dispatch order-changed event
+      if (fromPosition !== toPosition) {
+        that.dispatchEvent(new CustomEvent('subform-order-changed', {
+          detail: { row: src, fromPosition, toPosition },
+          bubbles: true,
+        }));
       }
     }
 

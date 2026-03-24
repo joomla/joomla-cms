@@ -14,7 +14,6 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
@@ -119,15 +118,14 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
     ];
 
     /**
-     * @param   DispatcherInterface      $dispatcher  The object to observe -- event dispatcher.
      * @param   array                    $config      An optional associative array of configuration settings.
      * @param   CMSApplicationInterface  $app         The app
      *
      * @since   4.0.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, CMSApplicationInterface $app)
+    public function __construct(array $config, CMSApplicationInterface $app)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->setApplication($app);
 
@@ -310,12 +308,12 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
                 }
 
                 // Append the script hashes placeholder
-                if ($scriptHashesEnabled && strpos($cspValue->directive, 'script-src') === 0) {
+                if ($scriptHashesEnabled && str_starts_with($cspValue->directive, 'script-src')) {
                     $cspValue->value = '{script-hashes} ' . $cspValue->value;
                 }
 
                 // Append the style hashes placeholder
-                if ($styleHashesEnabled && strpos($cspValue->directive, 'style-src') === 0) {
+                if ($styleHashesEnabled && str_starts_with($cspValue->directive, 'style-src')) {
                     $cspValue->value = '{style-hashes} ' . $cspValue->value;
                 }
 
@@ -327,7 +325,7 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
                 if (
                     $strictDynamicEnabled
                     && $cspValue->directive === 'script-src'
-                    && strpos($cspValue->value, 'strict-dynamic') === false
+                    && !str_contains($cspValue->value, 'strict-dynamic')
                 ) {
                     $cspValue->value = "'strict-dynamic' " . $cspValue->value;
                 }

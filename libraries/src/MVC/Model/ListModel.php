@@ -90,32 +90,12 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
     protected $htmlFormName = 'adminForm';
 
     /**
-     * A list of filter variables to not merge into the model's state
-     *
-     * @var        array
-     * @since      3.4.5
-     * @deprecated  4.0 will be removed in 6.0
-     *              Use $filterForbiddenList instead
-     */
-    protected $filterBlacklist = [];
-
-    /**
      * A list of forbidden filter variables to not merge into the model's state
      *
      * @var    array
      * @since  4.0.0
      */
     protected $filterForbiddenList = [];
-
-    /**
-     * A list of forbidden variables to not merge into the model's state
-     *
-     * @var        array
-     * @since      3.4.5
-     * @deprecated  4.0 will be removed in 6.0
-     *              Use $listForbiddenList instead
-     */
-    protected $listBlacklist = ['select'];
 
     /**
      * A list of forbidden variables to not merge into the model's state
@@ -146,22 +126,6 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
         // Guess the context as Option.ModelName.
         if (empty($this->context)) {
             $this->context = strtolower($this->option . '.' . $this->getName());
-        }
-
-        /**
-         * @deprecated  4.0 will be removed in 6.0
-         *              Use $this->filterForbiddenList instead
-         */
-        if (!empty($this->filterBlacklist)) {
-            $this->filterForbiddenList = array_merge($this->filterBlacklist, $this->filterForbiddenList);
-        }
-
-        /**
-         * @deprecated  4.0 will be removed in 6.0
-         *              Use $this->listForbiddenList instead
-         */
-        if (!empty($this->listBlacklist)) {
-            $this->listForbiddenList = array_merge($this->listBlacklist, $this->listForbiddenList);
         }
     }
 
@@ -287,7 +251,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      */
     protected function getListQuery()
     {
-        return $this->getDatabase()->getQuery(true);
+        return $this->getDatabase()->createQuery();
     }
 
     /**
@@ -415,7 +379,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
     {
         // Try to locate the filter form automatically. Example: ContentModelArticles => "filter_articles"
         if (empty($this->filterFormName)) {
-            $classNameParts = explode('Model', \get_called_class());
+            $classNameParts = explode('Model', static::class);
 
             if (\count($classNameParts) >= 2) {
                 $this->filterFormName = 'filter_' . str_replace('\\', '', strtolower($classNameParts[1]));
@@ -429,7 +393,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
         try {
             // Get the form.
             return $this->loadForm($this->context . '.filter', $this->filterFormName, ['control' => '', 'load_data' => $loadData]);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
         }
 
         return null;
@@ -646,7 +610,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
         $new_state = $input->get($request, null, $type);
 
         // BC for Search Tools which uses different naming
-        if ($new_state === null && strpos($request, 'filter_') === 0) {
+        if ($new_state === null && str_starts_with($request, 'filter_')) {
             $name    = substr($request, 7);
             $filters = $app->getInput()->get('filter', [], 'array');
 

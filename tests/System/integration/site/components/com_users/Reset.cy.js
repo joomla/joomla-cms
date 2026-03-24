@@ -9,12 +9,12 @@ describe('Test in frontend that the users reset view', () => {
         cy.get('.controls > .btn').click();
 
         cy.task('getMails').then((mails) => {
-          cy.get('#system-message-container').should('contain.text', 'If the email address you entered is registered on this site you will shortly receive an email with a link to reset the password for your account.');
+          cy.checkForSystemMessage('If the email address you entered is registered on this site you will shortly receive an email with a link to reset the password for your account.');
 
           expect(mails.length).to.equal(1);
           cy.wrap(mails[0].body).should('have.string', 'To reset your password, you will need to submit this verification code');
           cy.wrap(mails[0].body).should('have.string', '/component/users/reset');
-          cy.wrap(mails[0].sender).should('equal', Cypress.env('email'));
+          cy.wrap(mails[0].sender).should('equal', Cypress.expose('email'));
           cy.wrap(mails[0].receivers).should('have.property', 'test@example.com');
         });
       });
@@ -32,12 +32,12 @@ describe('Test in frontend that the users reset view', () => {
         cy.get('.controls > .btn').click();
 
         cy.task('getMails').then((mails) => {
-          cy.get('#system-message-container').should('contain.text', 'If the email address you entered is registered on this site you will shortly receive an email with a link to reset the password for your account.');
+          cy.checkForSystemMessage('If the email address you entered is registered on this site you will shortly receive an email with a link to reset the password for your account.');
 
           expect(mails.length).to.equal(1);
           cy.wrap(mails[0].body).should('have.string', 'To reset your password, you will need to submit this verification code');
           cy.wrap(mails[0].body).should('have.string', '/test-reset');
-          cy.wrap(mails[0].sender).should('equal', Cypress.env('email'));
+          cy.wrap(mails[0].sender).should('equal', Cypress.expose('email'));
           cy.wrap(mails[0].receivers).should('have.property', 'test@example.com');
         });
       });
@@ -49,7 +49,7 @@ describe('Test in frontend that the users reset view', () => {
     cy.get('.controls > .btn').click();
 
     cy.task('getMails').then((mails) => {
-      cy.get('#system-message-container').should('contain.text', 'If the email address you entered is registered on this site you will shortly receive an email with a link to reset the password for your account.');
+      cy.checkForSystemMessage('If the email address you entered is registered on this site you will shortly receive an email with a link to reset the password for your account.');
 
       expect(mails.length).to.equal(0);
     });

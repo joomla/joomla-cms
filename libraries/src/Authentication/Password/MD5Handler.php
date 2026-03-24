@@ -22,7 +22,7 @@ use Joomla\CMS\User\UserHelper;
  *
  * @since       4.0.0
  *
- * @deprecated  4.0 will be removed in 6.0
+ * @deprecated  4.0 will be removed in 7.0
  *              Support for MD5 hashed passwords will be removed without replacement
  */
 class MD5Handler implements HandlerInterface, CheckIfRehashNeededHandlerInterface
@@ -89,7 +89,7 @@ class MD5Handler implements HandlerInterface, CheckIfRehashNeededHandlerInterfac
 
         // Compile the hash to compare
         // If the salt is empty AND there is a ':' in the original hash, we must append ':' at the end
-        $testcrypt = md5($plaintext . $salt) . ($salt ? ':' . $salt : (strpos($hashed, ':') !== false ? ':' : ''));
+        $testcrypt = md5($plaintext . $salt) . ($salt ? ':' . $salt : (str_contains($hashed, ':') ? ':' : ''));
 
         return Crypt::timingSafeCompare($hashed, $testcrypt);
     }
