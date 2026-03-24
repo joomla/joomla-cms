@@ -23,16 +23,6 @@ use Joomla\CMS\Installer\Installer;
 class AfterInstallEvent extends AbstractExtensionEvent
 {
     /**
-     * The argument names, in order expected by legacy plugins.
-     *
-     * @var array
-     *
-     * @since  5.0.0
-     * @deprecated 5.0 will be removed in 7.0
-     */
-    protected $legacyArgumentsOrder = ['installer', 'eid'];
-
-    /**
      * Constructor.
      *
      * @param   string  $name       The event name.

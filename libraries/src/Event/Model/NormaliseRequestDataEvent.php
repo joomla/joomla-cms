@@ -22,13 +22,4 @@ namespace Joomla\CMS\Event\Model;
  */
 class NormaliseRequestDataEvent extends BeforeValidateDataEvent
 {
-    /**
-     * The argument names, in order expected by legacy plugins.
-     *
-     * @var array
-     *
-     * @since  5.0.0
-     * @deprecated 5.0 will be removed in 7.0
-     */
-    protected $legacyArgumentsOrder = ['context', 'data', 'subject'];
 }

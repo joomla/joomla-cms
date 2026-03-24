@@ -55,10 +55,9 @@ class BeforeBindEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @deprecated 4.4.0 will be removed in 7.0
-     *                Use counterpart with onSet prefix
+     * @since  4.4.0
      */
-    protected function setSrc($value)
+    protected function onSetSrc($value)
     {
         if (!empty($value) && !\is_object($value) && !\is_array($value)) {
             throw new \BadMethodCallException("Argument 'src' of event {$this->name} must be empty, object or array");
@@ -76,47 +75,14 @@ class BeforeBindEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @deprecated 4.4.0 will be removed in 7.0
-     *                Use counterpart with onSet prefix
+     * @since  4.4.0
      */
-    protected function setIgnore($value)
+    protected function onSetIgnore($value)
     {
         if (!empty($value) && !\is_array($value)) {
             throw new \BadMethodCallException("Argument 'ignore' of event {$this->name} must be empty or array");
         }
 
         return $value;
-    }
-
-    /**
-     * Setter for the src argument
-     *
-     * @param   mixed  $value  The value to set
-     *
-     * @return  mixed
-     *
-     * @throws  \BadMethodCallException  if the argument is not of the expected type
-     *
-     * @since  4.4.0
-     */
-    protected function onSetSrc($value)
-    {
-        return $this->setSrc($value);
-    }
-
-    /**
-     * Setter for the ignore argument
-     *
-     * @param   mixed  $value  The value to set
-     *
-     * @return  mixed
-     *
-     * @throws  \BadMethodCallException  if the argument is not of the expected type
-     *
-     * @since  4.4.0
-     */
-    protected function onSetIgnore($value)
-    {
-        return $this->setIgnore($value);
     }
 }

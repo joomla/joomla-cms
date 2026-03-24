@@ -18,13 +18,4 @@ namespace Joomla\CMS\Event\Mail;
  */
 class BeforeRenderingMailTemplateEvent extends MailTemplateEvent
 {
-    /**
-     * The argument names, in order expected by legacy plugins.
-     *
-     * @var array
-     *
-     * @since  5.2.0
-     * @deprecated 5.2.0 will be removed in 7.0
-     */
-    protected $legacyArgumentsOrder = ['templateId', 'subject'];
 }

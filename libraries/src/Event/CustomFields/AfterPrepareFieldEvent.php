@@ -21,16 +21,6 @@ namespace Joomla\CMS\Event\CustomFields;
 class AfterPrepareFieldEvent extends AbstractPrepareFieldEvent
 {
     /**
-     * The argument names, in order expected by legacy plugins.
-     *
-     * @var array
-     *
-     * @since  5.0.0
-     * @deprecated 5.0 will be removed in 7.0
-     */
-    protected $legacyArgumentsOrder = ['context', 'item', 'subject', 'value'];
-
-    /**
      * Constructor.
      *
      * @param   string  $name       The event name.
@@ -48,13 +38,10 @@ class AfterPrepareFieldEvent extends AbstractPrepareFieldEvent
             throw new \BadMethodCallException("Argument 'value' of event {$name} is required but has not been provided");
         }
 
-        // For backward compatibility make sure the value is referenced
-        // @todo: Remove in Joomla 7
-        // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 7
         if (key($arguments) === 0 && \count($arguments) >= 4) {
-            $this->arguments['value'] = &$arguments[3];
+            $this->arguments['value'] = $arguments[3];
         } elseif (\array_key_exists('value', $arguments)) {
-            $this->arguments['value'] = &$arguments['value'];
+            $this->arguments['value'] = $arguments['value'];
         }
     }
 

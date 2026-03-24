@@ -23,16 +23,6 @@ namespace Joomla\CMS\Event\Module;
 class AfterRenderModulesEvent extends ModuleEvent
 {
     /**
-     * The argument names, in order expected by legacy plugins.
-     *
-     * @var array
-     *
-     * @since  5.0.0
-     * @deprecated 5.0 will be removed in 7.0
-     */
-    protected $legacyArgumentsOrder = ['content', 'attributes', 'subject'];
-
-    /**
      * Constructor.
      *
      * @param   string  $name       The event name.
@@ -57,13 +47,10 @@ class AfterRenderModulesEvent extends ModuleEvent
             throw new \BadMethodCallException("Argument 'attributes' of event {$name} is required but has not been provided");
         }
 
-        // For backward compatibility make sure the content is referenced
-        // @todo: Remove in Joomla 7
-        // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 7
         if (key($arguments) === 0) {
-            $this->arguments['content'] = &$arguments[0];
+            $this->arguments['content'] = $arguments[0];
         } elseif (\array_key_exists('content', $arguments)) {
-            $this->arguments['content'] = &$arguments['content'];
+            $this->arguments['content'] = $arguments['content'];
         }
     }
 

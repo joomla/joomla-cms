@@ -53,25 +53,10 @@ class BeforeLoadEvent extends AbstractEvent
      *
      * @return  boolean  Normalised value
      *
-     * @deprecated 4.4.0 will be removed in 7.0
-     *                Use counterpart with onSet prefix
-     */
-    protected function setReset($value)
-    {
-        return $value ? true : false;
-    }
-
-    /**
-     * Setter for the reset attribute
-     *
-     * @param   mixed  $value  The value to set
-     *
-     * @return  boolean  Normalised value
-     *
      * @since  4.4.0
      */
     protected function onSetReset($value)
     {
-        return $this->setReset($value);
+        return $value ? true : false;
     }
 }
