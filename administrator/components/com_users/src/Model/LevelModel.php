@@ -322,8 +322,8 @@ class LevelModel extends AdminModel
             }
 
             if (!empty($data['rules'])) {
-                $groups = UserGroupsHelper::getInstance()->getAll();
-                $validGroupIds = array_map(static fn($g) => (int) $g->id, $groups);
+                $groups        = UserGroupsHelper::getInstance()->getAll();
+                $validGroupIds = array_map(static fn ($g) => (int) $g->id, $groups);
 
                 foreach ($data['rules'] as $rule) {
                     $rule = (int) $rule;
