@@ -54,21 +54,21 @@ $this->useCoreUI = true;
         <div class="row">
             <div class="col-lg-9">
                 <?php echo $this->form->renderField('description'); ?>
-
                 <?php if ($this->item->id != 0 && strpos($this->item->description, 'GUIDEDTOUR') !== false) : ?>
-                    <div class="control-group">
-                        <label class="control-label form-label">
-                            <?php echo Text::sprintf('COM_GUIDEDTOURS_STEP_DESCRIPTION_TRANSLATION', $lang); ?>
-                        </label>
-
-                        <div class="controls">
-                            <div
-                                class="form-control border rounded p-3"
-                                aria-readonly="true">
-                                <?php echo $this->item->description_translation ?? ''; ?>
-                            </div>
-                        </div>
-                    </div>
+                    <?php
+                    echo LayoutHelper::render(
+                        'joomla.form.renderfield',
+                        [
+                            'label' => Text::sprintf('COM_GUIDEDTOURS_STEP_DESCRIPTION_TRANSLATION', $lang),
+                            'input' => '<div class="form-control border rounded p-3" aria-readonly="true">'
+                                . ($this->item->description_translation ?? '')
+                                . '</div>',
+                            'name' => 'description_translation_preview',
+                            'id' => 'description_translation_preview',
+                            'options' => [],
+                        ]
+                    );
+                    ?>
                 <?php endif; ?>
             </div>
 
