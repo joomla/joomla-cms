@@ -21,7 +21,8 @@ use Joomla\CMS\Form\Form;
  * @since  5.0.0
  */
 class PrepareDomEvent extends CustomFieldsEvent
-{   /**
+{
+    /**
      * Constructor.
      *
      * @param   string  $name       The event name.
