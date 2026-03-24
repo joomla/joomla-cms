@@ -49,7 +49,7 @@ class ContentPrepareEvent extends ContentEvent
      */
     protected function onSetParams($value): Registry
     {
-         return $value;
+        return $value;
     }
 
     /**
