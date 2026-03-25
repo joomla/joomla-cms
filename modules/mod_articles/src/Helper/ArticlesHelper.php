@@ -338,7 +338,10 @@ class ArticlesHelper implements DatabaseAwareInterface
                     'params'  => $item->params,
                 ];
 
-                // Extra content from events
+                // onContentPrepare plugins work on $item->text
+				if (!isset($item->text)) {
+						$item->text = $item->introtext . ' ' . $item->fulltext;
+				}
 
                 $contentEvents = [
                     'onContentPrepare'     => new Content\ContentPrepareEvent('onContentPrepare', $contentEventArguments),
