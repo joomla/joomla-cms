@@ -339,9 +339,9 @@ class ArticlesHelper implements DatabaseAwareInterface
                 ];
 
                 // onContentPrepare plugins work on $item->text
-				if (!isset($item->text)) {
-						$item->text = $item->introtext . ' ' . $item->fulltext;
-				}
+                if (!isset($item->text)) {
+                    $item->text = $item->introtext . ' ' . $item->fulltext;
+                }
 
                 $contentEvents = [
                     'onContentPrepare'     => new Content\ContentPrepareEvent('onContentPrepare', $contentEventArguments),
