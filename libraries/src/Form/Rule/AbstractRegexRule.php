@@ -57,7 +57,7 @@ abstract class AbstractRegexRule implements FormRuleInterface
      * @since   1.6
      * @throws  \UnexpectedValueException  If regex is invalid.
      */
-    public function test(\SimpleXMLElement $element, mixed $value, ?string $group = null, ?Registry $input = null, ?Form $form = null): void
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null): void
     {
         $this->ruleRun = true;
 
