@@ -64,7 +64,11 @@ final class Media extends FieldsPlugin implements SubscriberInterface
             return;
         }
 
-        unset($data['fieldparams']['types']);
+        if (is_array($data)) {
+            unset($data['fieldparams']['types']);
+        } elseif (is_object($data)) {
+            unset($data->fieldparams['types']);
+        }
 
         $event->updateData($data);
     }
