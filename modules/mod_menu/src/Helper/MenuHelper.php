@@ -152,7 +152,12 @@ class MenuHelper
                             break;
                     }
 
-                    if ((str_contains($item->flink, 'index.php?')) && strcasecmp(substr($item->flink, 0, 4), 'http')) {
+                    // Check if this is an external URL that should not be routed
+                    // External URLs start with a protocol (http://, https://, ftp://, etc.)
+                    if ($item->type === 'url' && preg_match('#^[a-z][a-z0-9+\-.]*://#i', $item->flink)) {
+                        // External URLs should be used directly without routing
+                        // This prevents external URLs from being processed by the Joomla router
+                    } elseif ((str_contains($item->flink, 'index.php?')) && strcasecmp(substr($item->flink, 0, 4), 'http')) {
                         $item->flink = Route::_($item->flink, true, $itemParams->get('secure'));
                     } else {
                         $item->flink = Route::_($item->flink);
