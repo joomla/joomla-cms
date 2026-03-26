@@ -93,6 +93,7 @@ export const builders = [
   'templates/administrator/atum',
   'templates/site/cassiopeia',
   'templates/site/cassiopeia_extended',
+  'installation/template',
 
   // Additional builders, which are not distributed under media/
   'error-pages',
