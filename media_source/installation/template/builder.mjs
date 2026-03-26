@@ -6,8 +6,7 @@ import fsp from "node:fs/promises";
 import fs from "node:fs";
 
 import DefaultModuleBuilder from '../../../build/build-modules-js/builder/default-module-builder.mjs';
-// import { resolvePackageFile } from '../../build/build-modules-js/utils/resolve-package.mjs';
-// import { handleJSFile } from '../../build/build-modules-js/javascript/js-handle.mjs';
+
 
 export default class InstallationTmplModuleBuilder extends DefaultModuleBuilder
 {
