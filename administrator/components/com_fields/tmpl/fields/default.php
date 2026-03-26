@@ -59,7 +59,7 @@ if (count($this->filterForm->getField('context')->options) > 1) {
 }
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_fields&view=fields&context=' . $this->state->get('filter.context')); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_fields&view=fields'); ?>" method="post" name="adminForm" id="adminForm">
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
