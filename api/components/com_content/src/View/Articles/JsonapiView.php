@@ -44,7 +44,7 @@ class JsonapiView extends BaseApiView
         'asset_id',
         'title',
     /**
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 8.0
      *              Will be removed without replacement.
      */
         'text',
