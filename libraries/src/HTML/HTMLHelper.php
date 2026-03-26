@@ -992,8 +992,8 @@ abstract class HTMLHelper
         }
 
         if (!$text) {
-            $alt  = htmlspecialchars($alt, ENT_COMPAT, 'UTF-8');
-            $text = static::image($image, $alt, null, true);
+            // Removed image fallback(tooltip.png no longer used)
+            $text =";
         }
 
         if ($href) {
