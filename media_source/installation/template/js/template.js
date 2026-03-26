@@ -264,9 +264,9 @@
     }
 
     if (page && page.getAttribute('data-page-name')) {
-      var script = document.querySelector('script[src*="template.js"]');
+      var script = document.querySelector('script[src*="/template.js"], script[src*="/template.min.js"]');
       el = document.createElement('script');
-      el.src = script.src.replace("template.js", page.getAttribute('data-page-name') + '.js');
+      el.src = script.src.replace('/template.', '/' + page.getAttribute('data-page-name') + '.');
       document.head.appendChild(el);
     }
 
