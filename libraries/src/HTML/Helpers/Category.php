@@ -142,68 +142,11 @@ abstract class Category
      */
     public static function categories($extension, $config = ['filter.published' => [0, 1]])
     {
-        $hash = md5($extension . '.' . serialize($config));
+        $items = static::options($extension, $config);
 
-        if (!isset(static::$items[$hash])) {
-            $config = (array) $config;
-            $user   = Factory::getUser();
-            $db     = Factory::getDbo();
-            $query  = $db->createQuery()
-                ->select(
-                    [
-                        $db->quoteName('a.id'),
-                        $db->quoteName('a.title'),
-                        $db->quoteName('a.level'),
-                        $db->quoteName('a.parent_id'),
-                        $db->quoteName('a.language'),
-                    ]
-                )
-                ->from($db->quoteName('#__categories', 'a'))
-                ->where($db->quoteName('a.parent_id') . ' > 0');
+        // Special "Add to root" option:
+        $items[] = HTMLHelper::_('select.option', '1', Text::_('JLIB_HTML_ADD_TO_ROOT'));
 
-            // Filter on extension.
-            $query->where($db->quoteName('extension') . ' = :extension')
-                ->bind(':extension', $extension);
-
-            // Filter on user level.
-            if (!$user->authorise('core.admin')) {
-                $query->whereIn($db->quoteName('a.access'), $user->getAuthorisedViewLevels());
-            }
-
-            // Filter on the published state
-            if (isset($config['filter.published'])) {
-                if (is_numeric($config['filter.published'])) {
-                    $query->where($db->quoteName('a.published') . ' = :published')
-                        ->bind(':published', $config['filter.published'], ParameterType::INTEGER);
-                } elseif (\is_array($config['filter.published'])) {
-                    $config['filter.published'] = ArrayHelper::toInteger($config['filter.published']);
-                    $query->whereIn($db->quoteName('a.published'), $config['filter.published']);
-                }
-            }
-
-            $query->order($db->quoteName('a.lft'));
-
-            $db->setQuery($query);
-            $items = $db->loadObjectList();
-
-            // Assemble the list options.
-            static::$items[$hash] = [];
-
-            foreach ($items as &$item) {
-                $repeat      = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
-                $item->title = str_repeat('- ', $repeat) . $item->title;
-
-                if ($item->language !== '*') {
-                    $item->title .= ' (' . $item->language . ')';
-                }
-
-                static::$items[$hash][] = HTMLHelper::_('select.option', $item->id, $item->title);
-            }
-
-            // Special "Add to root" option:
-            static::$items[$hash][] = HTMLHelper::_('select.option', '1', Text::_('JLIB_HTML_ADD_TO_ROOT'));
-        }
-
-        return static::$items[$hash];
+        return $items;
     }
 }
