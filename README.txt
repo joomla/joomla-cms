@@ -1,13 +1,16 @@
 Joomla! CMS™
 
-The Joomla! 6.0 branch is under heavy development and not all links in this document are available yet
+The Joomla! 6.2 branch is under heavy development and not all links in this document are available yet
 ------------------------------------------------------------------------------------------------------
 
 1- Overview
 	* This is a Joomla! 6.x installation/upgrade package.
 	* Joomla! Official site: https://www.joomla.org
-	* Joomla! 6.0 version history - https://docs.joomla.org/Special:MyLanguage/Joomla_6.0_version_history
-	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/6.0-dev
+	* Joomla! 6.2 version history - https://docs.joomla.org/Special:MyLanguage/Joomla_6.2_version_history
+	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/6.2-dev
+	* Release Managers responsible for Joomla! 6.2
+		* Charvi Mehra @charvimehradu
+		* Martin Kopp @MacJoom
 
 2- What is Joomla?
 	* Joomla! is a Content Management System (CMS) which enables you to build websites and powerful online applications.
@@ -51,6 +54,7 @@ The Joomla! 6.0 branch is under heavy development and not all links in this docu
 
 10- Where can you get support and help?
 	* The Joomla! Documentation: https://docs.joomla.org/Special:MyLanguage/Main_Page
+	* Developer Documentation: https://manual.joomla.org/docs/
 	* FAQ Frequently Asked Questions: https://docs.joomla.org/Special:MyLanguage/Category:FAQ
 	* Find the information you need: https://docs.joomla.org/Special:MyLanguage/Start_here
 	* Find help and other users: https://www.joomla.org/about-joomla/create-and-share.html
@@ -69,6 +73,7 @@ The Joomla! 6.0 branch is under heavy development and not all links in this docu
 12- Do you want to improve Joomla?
 	* Where to request a feature? https://issues.joomla.org
 	* How do you report a bug? https://docs.joomla.org/Special:MyLanguage/Filing_bugs_and_issues
+	* How to submit code to the Joomla CMS using a Pull Request? https://manual.joomla.org/docs/get-started/git/
 	* Get Involved: Joomla! is a community developed software. Join the community at https://volunteers.joomla.org
 	* Documentation for Developers: https://manual.joomla.org/
 	* Documentation for Web designers: https://docs.joomla.org/Special:MyLanguage/Web_designers

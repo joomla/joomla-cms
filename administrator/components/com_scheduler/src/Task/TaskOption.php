@@ -83,7 +83,7 @@ class TaskOption
      *
      * @return  string  The type title.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.3.0
      */
     public function getTitle(): string
     {

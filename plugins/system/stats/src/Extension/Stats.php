@@ -15,13 +15,15 @@ use Joomla\CMS\Event\Application\AfterDispatchEvent;
 use Joomla\CMS\Event\Application\AfterInitialiseEvent;
 use Joomla\CMS\Event\Plugin\AjaxEvent;
 use Joomla\CMS\Event\Plugin\System\Stats\GetStatsDataEvent;
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserHelper;
+use Joomla\CMS\Version;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Http\HttpFactory;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -477,7 +479,7 @@ final class Stats extends CMSPlugin implements SubscriberInterface
         $paramsJson = $this->params->toString('JSON');
         $db         = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__extensions'))
             ->set($db->quoteName('params') . ' = :params')
             ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -528,14 +530,17 @@ final class Stats extends CMSPlugin implements SubscriberInterface
     {
         $error = false;
 
+        $options = new Registry();
+        $options->set('userAgent', (new Version())->getUserAgent('Joomla', true, false));
+
         try {
             // Don't let the request take longer than 2 seconds to avoid page timeout issues
-            $response = HttpFactory::getHttp()->post($this->serverUrl, $this->getStatsData(), [], 2);
+            $response = (new HttpFactory())->getHttp($options)->post($this->serverUrl, $this->getStatsData(), [], 2);
 
             if (!$response) {
                 $error = 'Could not send site statistics to remote server: No response';
-            } elseif ($response->code !== 200) {
-                $data = json_decode($response->body);
+            } elseif ($response->getStatusCode() !== 200) {
+                $data = json_decode((string) $response->getBody());
 
                 $error = 'Could not send site statistics to remote server: ' . $data->message;
             }
@@ -603,7 +608,7 @@ final class Stats extends CMSPlugin implements SubscriberInterface
     {
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__extensions'))
             ->set($db->quoteName('enabled') . ' = 0')
             ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))

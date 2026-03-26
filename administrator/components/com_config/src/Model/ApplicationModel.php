@@ -18,7 +18,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Application\AfterSaveConfigurationEvent;
 use Joomla\CMS\Event\Application\BeforeSaveConfigurationEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
@@ -36,6 +35,7 @@ use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 use Joomla\Filter\OutputFilter;
+use Joomla\Http\HttpFactory;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
@@ -67,20 +67,14 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  mixed  A Form object on success, false on failure
+     * @return  mixed  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
-        // Get the form.
-        $form = $this->loadForm('com_config.application', 'application', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+        return $this->loadForm('com_config.application', 'application', ['control' => 'jform', 'load_data' => $loadData]);
     }
 
     /**
@@ -364,10 +358,10 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                         CURLOPT_PROXYUSERPWD   => null,
                     ]
                 );
-                $response = HttpFactory::getHttp($options)->get('https://' . $host . Uri::root(true) . '/', ['Host' => $host], 10);
+                $response = (new HttpFactory())->getHttp($options)->get('https://' . $host . Uri::root(true) . '/', ['Host' => $host], 10);
 
                 // If available in HTTPS check also the status code.
-                if (!\in_array($response->code, [200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 401], true)) {
+                if (!\in_array($response->getStatusCode(), [200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 401], true)) {
                     throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE_HTTP_CODE'));
                 }
             } catch (\RuntimeException $e) {
@@ -461,7 +455,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         // Purge the database session table if we are changing to the database handler.
         if ($prev['session_handler'] != 'database' && $data['session_handler'] == 'database') {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__session'))
                 ->where($db->quoteName('time') . ' < ' . (time() - 1));
             $db->setQuery($query);
@@ -474,7 +468,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                 // If we are are using the session handler, purge the extra columns, otherwise truncate the whole session table
                 if ($data['session_handler'] === 'database') {
                     $revisedDbo->setQuery(
-                        $revisedDbo->getQuery(true)
+                        $revisedDbo->createQuery()
                             ->update('#__session')
                             ->set(
                                 [
@@ -585,11 +579,11 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         // Give a warning if the cache-folder can not be opened
-        if ($data['caching'] > 0 && $data['cache_handler'] == 'file' && @opendir($path) == false) {
+        if ($data['caching'] > 0 && $data['cache_handler'] == 'file' && @opendir($path) === false) {
             $error = true;
 
             // If a custom path is in use, try using the system default instead of disabling cache
-            if ($path !== JPATH_CACHE && @opendir(JPATH_CACHE) != false) {
+            if ($path !== JPATH_CACHE && @opendir(JPATH_CACHE) !== false) {
                 try {
                     Log::add(
                         Text::sprintf('COM_CONFIG_ERROR_CUSTOM_CACHE_PATH_NOTWRITABLE_USING_DEFAULT', $path, JPATH_CACHE),
@@ -745,10 +739,10 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $config = new Registry($data);
 
         // Overwrite webservices cors settings
-        $app->set('cors', $data['cors']);
-        $app->set('cors_allow_origin', $data['cors_allow_origin']);
-        $app->set('cors_allow_headers', $data['cors_allow_headers']);
-        $app->set('cors_allow_methods', $data['cors_allow_methods']);
+        $app->set('cors', $data['cors'] ?? 0);
+        $app->set('cors_allow_origin', $data['cors_allow_origin'] ?? '*');
+        $app->set('cors_allow_headers', $data['cors_allow_headers'] ?? 'Content-Type,X-Joomla-Token');
+        $app->set('cors_allow_methods', $data['cors_allow_methods'] ?? '');
 
         // Clear cache of com_config component.
         $this->cleanCache('_system');
@@ -1034,7 +1028,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             $db = $this->getDatabase();
 
             // Get the asset id by the name of the component.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__assets'))
                 ->where($db->quoteName('name') . ' = :component')

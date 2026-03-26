@@ -132,7 +132,7 @@ class HtmlView extends BaseHtmlView
         $pagination->hideEmptyLimitstart = true;
 
         // Get the page/component configuration
-        $params = &$state->params;
+        $params = $state->get('params');
 
         PluginHelper::importPlugin('content');
 
