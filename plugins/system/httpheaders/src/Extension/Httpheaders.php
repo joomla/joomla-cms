@@ -434,7 +434,12 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
     private function setStaticHeaders(): void
     {
         $staticHeaderConfiguration = $this->getStaticHeaderConfiguration();
-
+$this->getApplication()->setHeader(
+    'Reporting-Endpoints',
+    'default="http://localhost/joomla/index.php?option=com_cspreports&task=submit"',
+    true
+);
+        $this->getApplication()->setHeader('Reporting-Endpoints', '/reports', true);
         if (empty($staticHeaderConfiguration)) {
             return;
         }

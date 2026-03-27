@@ -280,3 +280,25 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
         </div>
     </div>
 </form>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the main admin form
+    const form = document.getElementById('adminForm');
+    if (!form) return;
+
+    // Function to submit the form when a filter changes
+    const submitFilter = function(event) {
+        // Prevent default just in case
+        event.preventDefault();
+        // Submit the form so URL updates
+        form.submit();
+    };
+
+    // Select all dropdown filters in the form
+    const selects = form.querySelectorAll('select[name^="filter["]');
+    selects.forEach(function(select) {
+        // Add change event listener
+        select.addEventListener('change', submitFilter);
+    });
+});
+</script>

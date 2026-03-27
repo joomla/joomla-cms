@@ -408,10 +408,13 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
                 $lang_code = $this->default_lang;
             }
         }
+        $app->enqueueMessage('URI Lang: ' . $uri->getVar('lang'));
+$app->enqueueMessage('Before Lang Code: ' . $lang_code);
 
         $lang = $uri->getVar('lang', $lang_code);
 
         if (isset($this->sefs[$lang])) {
+            $app->enqueueMessage('Resolved Lang Code: ' . $lang_code);
             // We found our language
             $found     = true;
             $lang_code = $this->sefs[$lang]->lang_code;
