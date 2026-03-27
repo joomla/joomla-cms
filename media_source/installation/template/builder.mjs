@@ -35,7 +35,7 @@ export default class InstallationTmplModuleBuilder extends DefaultModuleBuilder
     }
     const promises = [];
 
-    // Do not remove all, since the taget contain PHP files also
+    // Do not remove all, since the target contain PHP files also
     ['css', 'js', 'images', 'scss'].forEach((dir) => {
       const fullPath = path.join(this.targetPath, dir);
 
