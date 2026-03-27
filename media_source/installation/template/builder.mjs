@@ -26,7 +26,7 @@ export default class InstallationTmplModuleBuilder extends DefaultModuleBuilder
   }
 
   /**
-   * Remove files on target location
+   * Remove files on target location.
    * @returns { Promise }
    */
   async clear() {
