@@ -49,6 +49,10 @@ jobs:
           path: |
             node_modules
             media
+            installation/template/css
+            installation/template/images
+            installation/template/js
+            installation/template/scss
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
       - uses: actions/cache/restore@v4
         with:
