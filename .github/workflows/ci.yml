@@ -107,6 +107,10 @@ jobs:
           path: |
             node_modules
             media
+            installation/template/css
+            installation/template/images
+            installation/template/js
+            installation/template/scss
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/build.mjs', 'build/build-modules-js/**', 'media_source/**') }}
       - name: Check code style
         run: npm run ${{ matrix.check }}
@@ -318,6 +322,10 @@ jobs:
           path: |
             node_modules
             media
+            installation/template/css
+            installation/template/images
+            installation/template/js
+            installation/template/scss
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/build.mjs', 'build/build-modules-js/**', 'media_source/**') }}
       - uses: actions/cache@v4
         id: cache-cypress
@@ -388,6 +396,10 @@ jobs:
           path: |
             node_modules
             media
+            installation/template/css
+            installation/template/images
+            installation/template/js
+            installation/template/scss
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/build.mjs', 'build/build-modules-js/**', 'media_source/**') }}
       - uses: actions/cache/restore@v4
         with:
