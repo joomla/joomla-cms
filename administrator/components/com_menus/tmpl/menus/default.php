@@ -26,6 +26,63 @@ $wa->useScript('table.columns')
     ->useScript('com_menus.admin-menus')
     ->useScript('joomla.dialog-autocreate');
 
+$wa->addInlineScript('
+    document.addEventListener("DOMContentLoaded", function() {
+        var form = document.getElementById("adminForm");
+        if (!form || form.__urlFilterApplied) return;
+        form.__urlFilterApplied = true;
+
+        var nativeSubmit = HTMLFormElement.prototype.submit.bind(form);
+
+        form.submit = function() {
+            // Toolbar actions: allow normal POST
+            var task = form.querySelector("input[name=\'task\']");
+            if (task && task.value !== "") {
+                nativeSubmit();
+                return;
+            }
+
+            // Filter action: redirect via GET
+            var url = new URL(window.location.href);
+            var hash = url.hash;
+            var params = url.searchParams;
+            var formData = new FormData(form);
+            var seen = {};
+
+            for (var pair of formData.entries()) {
+                var key = pair[0];
+                var value = pair[1];
+
+                // Skip internal fields, row checkboxes, ordering inputs, CSRF token
+                if (key === "task" || key === "boxchecked" || key === "checkall-toggle") continue;
+                if (/^(cid|order)\[/.test(key)) continue;
+                if (value === "1" && /^[0-9A-F]{32}$/i.test(key)) continue;
+                if (value === "") continue;
+
+                // Clear existing param on first encounter to prevent duplicates
+                if (!seen[key]) {
+                    params.delete(key);
+                    seen[key] = true;
+                }
+
+                params.append(key, value);
+            }
+
+            // Preserve URL hash
+            url.hash = hash;
+            window.location.href = url.toString();
+        };
+
+        // Catch native submissions (Enter key, search button click)
+        form.addEventListener("submit", function(e) {
+            var task = form.querySelector("input[name=\'task\']");
+            if (task && task.value !== "") return;
+            e.preventDefault();
+            form.submit();
+        });
+    });
+');
+
 $uri       = Uri::getInstance();
 $return    = base64_encode($uri);
 $user      = $this->getCurrentUser();
