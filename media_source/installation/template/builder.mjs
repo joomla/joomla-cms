@@ -42,7 +42,7 @@ export default class InstallationTmplModuleBuilder extends DefaultModuleBuilder
       if (!fs.existsSync(fullPath)) {
         return;
       }
-
+//
       promises.push(fsp.rm(fullPath, { recursive: true }));
     });
 
