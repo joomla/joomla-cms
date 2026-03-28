@@ -45,7 +45,7 @@ export default class InstallationTmplModuleBuilder extends DefaultModuleBuilder
 
       promises.push(fsp.rm(fullPath, { recursive: true }));
     });
-//
+
     return Promise.all(promises);
   }
 };
