@@ -113,13 +113,17 @@ final class SiteApplication extends CMSApplication
 
         if (!$menus->authorise($itemid)) {
             if ($user->id == 0) {
-                // Set the data
-                $this->setUserState('users.login.form.data', ['return' => Uri::getInstance()->toString()]);
+                $return = base64_encode(Uri::getInstance()->toString());
 
-                $url = Route::_('index.php?option=com_users&view=login', false);
+$url = Route::_(
+    'index.php?option=com_users&view=login&return=' . $return,
+    false
+);
 
-                $this->enqueueMessage(Text::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'), 'error');
-                $this->redirect($url);
+// Keep session as fallback
+$this->setUserState('users.login.form.data', ['return' => Uri::getInstance()->toString()]);
+
+$this->redirect($url);
             } else {
                 // Get the home page menu item
                 $home_item = $menus->getDefault($this->getLanguage()->getTag());
