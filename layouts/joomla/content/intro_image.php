@@ -21,8 +21,7 @@ if (empty($images->image_intro)) {
     return;
 }
 
-$imgclass   = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro;
-$layoutAttr = [
+$imgclass   = (empty($images->float_intro) || $images->float_intro === 'Use Global') ? $params->get('float_intro') : $images->float_intro;$layoutAttr = [
     'src' => $images->image_intro,
     'alt' => empty($images->image_intro_alt) && empty($images->image_intro_alt_empty) ? false : $images->image_intro_alt,
 ];
