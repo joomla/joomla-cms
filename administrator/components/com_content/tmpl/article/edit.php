@@ -81,60 +81,58 @@ $tmpl    = $tmpl ? '&tmpl=' . $tmpl : '';
 
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-        <?php // Do not show the images and links options if the edit form is configured not to. ?>
-        <?php if ($params->get('show_urls_images_backend') == 1) : ?>
-            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'images', Text::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES')); ?>
-            <div class="row">
-                <div class="col-12 col-lg-6">
-                <?php foreach ($fieldsetsInImages as $fieldset) : ?>
-                    <fieldset id="fieldset-<?php echo $fieldset; ?>" class="options-form">
-                        <legend><?php echo Text::_($this->form->getFieldsets()[$fieldset]->label); ?></legend>
-                        <div>
-                        <?php echo $this->form->renderFieldset($fieldset); ?>
-                        </div>
-                    </fieldset>
-                <?php endforeach; ?>
+       <?php // Do not show the images and links options if the edit form is configured not to. ?>
+<?php if ($params->get('show_urls_images_backend') == 1) : ?>
+    <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'images', Text::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES')); ?>
+    <div class="row">
+        <div class="col-12 col-lg-6">
+        <?php foreach ($fieldsetsInLinks as $fieldset) : ?>
+            <fieldset id="fieldset-<?php echo $fieldset; ?>" class="options-form">
+                <legend><?php echo Text::_($this->form->getFieldsets()[$fieldset]->label); ?></legend>
+                <div>
+                <?php echo $this->form->renderFieldset($fieldset); ?>
                 </div>
-                <div class="col-12 col-lg-6">
-                <?php foreach ($fieldsetsInLinks as $fieldset) : ?>
-                    <fieldset id="fieldset-<?php echo $fieldset; ?>" class="options-form">
-                        <legend><?php echo Text::_($this->form->getFieldsets()[$fieldset]->label); ?></legend>
-                        <div>
-                        <?php echo $this->form->renderFieldset($fieldset); ?>
-                        </div>
-                    </fieldset>
-                <?php endforeach; ?>
+            </fieldset>
+        <?php endforeach; ?>
+        </div>
+
+        <div class="col-12 col-lg-6">
+        <?php foreach ($fieldsetsInImages as $fieldset) : ?>
+            <fieldset id="fieldset-<?php echo $fieldset; ?>" class="options-form">
+                <legend><?php echo Text::_($this->form->getFieldsets()[$fieldset]->label); ?></legend>
+                <div>
+                <?php echo $this->form->renderFieldset($fieldset); ?>
                 </div>
-            </div>
+            </fieldset>
+        <?php endforeach; ?>
+        </div>
+    </div>
 
-            <?php echo HTMLHelper::_('uitab.endTab'); ?>
-        <?php endif; ?>
-
+    <?php echo HTMLHelper::_('uitab.endTab'); ?>
+<?php endif; ?>
         <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
-        <?php // Do not show the publishing options if the edit form is configured not to. ?>
-        <?php if ($params->get('show_publishing_options', 1) == 1) : ?>
-            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('COM_CONTENT_FIELDSET_PUBLISHING')); ?>
-            <div class="row">
-                <div class="col-12 col-lg-6">
-                    <fieldset id="fieldset-publishingdata" class="options-form">
-                        <legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
-                        <div>
-                        <?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
-                        </div>
-                    </fieldset>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <fieldset id="fieldset-metadata" class="options-form">
-                        <legend><?php echo Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
-                        <div>
-                        <?php echo LayoutHelper::render('joomla.edit.metadata', $this); ?>
-                        </div>
-                    </fieldset>
-                </div>
+        <div class="col-12 col-lg-6">
+        <?php foreach ($fieldsetsInLinks as $fieldset) : ?>
+        <fieldset id="fieldset-<?php echo $fieldset; ?>" class="options-form">
+            <legend><?php echo Text::_($this->form->getFieldsets()[$fieldset]->label); ?></legend>
+            <div>
+                <?php echo $this->form->renderFieldset($fieldset); ?>
             </div>
-            <?php echo HTMLHelper::_('uitab.endTab'); ?>
-        <?php endif; ?>
+        </fieldset>
+    <?php endforeach; ?>
+        </div>
+
+<div class="col-12 col-lg-6">
+    <?php foreach ($fieldsetsInImages as $fieldset) : ?>
+        <fieldset id="fieldset-<?php echo $fieldset; ?>" class="options-form">
+            <legend><?php echo Text::_($this->form->getFieldsets()[$fieldset]->label); ?></legend>
+            <div>
+                <?php echo $this->form->renderFieldset($fieldset); ?>
+            </div>
+        </fieldset>
+    <?php endforeach; ?>
+</div>
 
         <?php if (!$isModal && $assoc && $params->get('show_associations_edit', 1) == 1) : ?>
             <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
