@@ -107,7 +107,7 @@ jobs:
           path: |
             node_modules
             media
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/build.mjs', 'build/build-modules-js/**', 'media_source/**') }}
       - name: Check code style
         run: npm run ${{ matrix.check }}
 
@@ -318,7 +318,7 @@ jobs:
           path: |
             node_modules
             media
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/build.mjs', 'build/build-modules-js/**', 'media_source/**') }}
       - uses: actions/cache@v4
         id: cache-cypress
         with:
@@ -388,7 +388,7 @@ jobs:
           path: |
             node_modules
             media
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/build.mjs', 'build/build-modules-js/**', 'media_source/**') }}
       - uses: actions/cache/restore@v4
         with:
           path: |
