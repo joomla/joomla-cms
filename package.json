@@ -21,7 +21,7 @@
     "watch:com_media": "node build/build.mjs --watch-com-media",
     "lint:js": "eslint --config build/eslint.config.mjs build administrator/components/com_media/resources/scripts",
     "lint:testjs": "eslint --config build/eslint-tests.mjs tests/System",
-    "lint:css": "stylelint --config build/.stylelintrc.json \"administrator/components/com_media/resources/**/*.scss\" \"administrator/templates/**/*.scss\" \"build/media_source/**/*.scss\" \"build/media_source/**/*.css\" \"templates/**/*.scss\" \"installation/template/**/*.scss\"",
+    "lint:css": "gale --config build/.stylelintrc.json \"administrator/components/com_media/resources/**/*.scss\" \"administrator/templates/**/*.scss\" \"build/media_source/**/*.scss\" \"build/media_source/**/*.css\" \"templates/**/*.scss\" \"installation/template/**/*.scss\"",
     "install": "node build/build.mjs --prepare",
     "update": "node build/build.mjs --copy-assets && node build/build.mjs --build-pages && node build/build.mjs --compile-js && node build/build.mjs --compile-css && node build/build.mjs --compile-bs && node --env-file=./build/production.env build/build.mjs --com-media",
     "gzip": "node build/build.mjs --gzip",
@@ -93,7 +93,7 @@
     "@rollup/plugin-commonjs": "^28.0.6",
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-replace": "^6.0.2",
-    "@stylistic/stylelint-plugin": "^4.0.0",
+    "@lyricalstring/gale": "^0.1.5",
     "@vue/compiler-sfc": "^3.5.22",
     "chokidar": "^4.0.3",
     "cli-progress": "^3.12.0",
@@ -111,7 +111,6 @@
     "lightningcss": "^1.30.1",
     "mysql2": "^3.15.3",
     "pg": "^8.16.3",
-    "postcss-scss": "^4.0.9",
     "recursive-readdir": "^2.2.3",
     "rimraf": "^6.0.1",
     "rollup": "^4.59.0",
@@ -120,10 +119,7 @@
     "sass-embedded": "^1.93.2",
     "semver": "^7.7.2",
     "smtp-tester": "^2.1.0",
-    "stylelint": "^16.24.0",
     "stylelint-config-standard": "^39.0.0",
-    "stylelint-order": "^7.0.0",
-    "stylelint-scss": "^6.12.1",
     "totp-generator": "1.0.0"
   }
 }
