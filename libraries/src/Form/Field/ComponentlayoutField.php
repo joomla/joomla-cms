@@ -209,30 +209,28 @@ class ComponentlayoutField extends FormField
                             $groups[$template->name]['text']  = Text::sprintf('JOPTION_FROM_TEMPLATE', $template->name);
                             $groups[$template->name]['items'] = [];
                             foreach ($files as $file) {
-                                // Add an option to the template group
-                                $value = basename($file, '.php');
-                                $text = $value;
+                            // Add an option to the template group
+                            	$value = basename($file, '.php');
+                             	$text = $value;
                                 $path = str_replace('.php', '.xml', $file);
                                 if (is_file($path) && $xml = simplexml_load_file($path)) {
                                     $layout = $xml->xpath('//layout[1]');
                                     if (isset($layout[0])) {
-                                        $attributes = $layout[0];
+                                     	$attributes = $layout[0];
                                         if (isset($attributes['option']) && (string) $attributes['option'] !== '') {
                                             $text = Text::_((string)$attributes['option']);
-                                        } 
+                                        }
                                         elseif (isset($attributes['title']) && (string) $attributes['title'] !== '') {
                                             $text = Text::_((string)$attributes['title']);
                                         }
                                     }
                                 }
                                 $groups[$template->name]['items'][] = HTMLHelper::_('select.option', $template->element . ':' . $view . ':' . $value, $text);
-                                
                             }
                         }
                     }
                 }
             }
-
             // Compute attributes for the grouped list
             $attr = $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
             $attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
