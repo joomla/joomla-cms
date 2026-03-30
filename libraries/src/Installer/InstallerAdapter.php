@@ -164,7 +164,8 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         // Get a generic TableExtension instance for use if not already loaded
         if (!($this->extension instanceof TableInterface)) {
-            $this->extension = Table::getInstance('Extension');
+            $this->extension = new Extension($this->getDatabase());
+            $this->extension->setUseExceptions(true);
         }
 
         // Sanity check, make sure the type is set by taking the adapter name from the class name

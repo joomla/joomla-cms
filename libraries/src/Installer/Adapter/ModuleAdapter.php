@@ -278,10 +278,12 @@ class ModuleAdapter extends InstallerAdapter
             $module = new Module($db);
 
             foreach ($modules as $modInstanceId) {
-                $module->load($modInstanceId);
+                try {
+                    $module->load($modInstanceId);
 
-                if (!$module->delete()) {
-                    Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $module->getError()), Log::WARNING, 'jerror');
+                    $module->delete();
+                } catch (\Exception $e) {
+                    Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $e->getMessage()), Log::WARNING, 'jerror');
                     $retval = false;
                 }
             }
@@ -618,14 +620,18 @@ class ModuleAdapter extends InstallerAdapter
             // Update manifest
             $this->extension->manifest_cache = $this->parent->generateManifestCache();
 
-            if (!$this->extension->store()) {
+            try {
+                $this->extension->store();
+            } catch (\Exception $e) {
                 // Install failed, roll back changes
                 throw new \RuntimeException(
                     Text::sprintf(
                         'JLIB_INSTALLER_ABORT_MOD_ROLLBACK',
                         Text::_('JLIB_INSTALLER_' . $this->route),
-                        $this->extension->getError()
-                    )
+                        $e->getMessage(),
+                    ),
+                    0,
+                    $e
                 );
             }
         } else {
@@ -646,14 +652,18 @@ class ModuleAdapter extends InstallerAdapter
             // Update the manifest cache for the entry
             $this->extension->manifest_cache = $this->parent->generateManifestCache();
 
-            if (!$this->extension->store()) {
+            try {
+                $this->extension->store();
+            } catch (\Exception $e) {
                 // Install failed, roll back changes
                 throw new \RuntimeException(
                     Text::sprintf(
                         'JLIB_INSTALLER_ABORT_MOD_ROLLBACK',
                         Text::_('JLIB_INSTALLER_' . $this->route),
-                        $this->extension->getError()
-                    )
+                        $e->getMessage(),
+                    ),
+                    0,
+                    $e
                 );
             }
 

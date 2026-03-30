@@ -555,13 +555,17 @@ class PackageAdapter extends InstallerAdapter
         // Update the manifest cache for the entry
         $this->extension->manifest_cache = $this->parent->generateManifestCache();
 
-        if (!$this->extension->store()) {
+        try {
+            $this->extension->store();
+        } catch (\Exception $e) {
             // Install failed, roll back changes
             throw new \RuntimeException(
                 Text::sprintf(
                     'JLIB_INSTALLER_ABORT_PACK_INSTALL_ROLLBACK',
-                    $this->extension->getError()
-                )
+                    $e->getMessage(),
+                ),
+                0,
+                $e
             );
         }
 

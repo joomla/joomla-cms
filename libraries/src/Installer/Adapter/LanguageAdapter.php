@@ -418,6 +418,7 @@ class LanguageAdapter extends InstallerAdapter
 
         // Add an entry to the extension table with a whole heap of defaults
         $row               = new Extension($this->getDatabase());
+        $row->setUseExceptions(true);
         $row->name         = $this->name;
         $row->type         = 'language';
         $row->element      = $this->tag;
@@ -432,9 +433,12 @@ class LanguageAdapter extends InstallerAdapter
         $row->params         = $this->parent->getParams();
         $row->manifest_cache = $this->parent->generateManifestCache();
 
-        if (!$row->check() || !$row->store()) {
+        try {
+            $row->check();
+            $row->store();
+        } catch (\Exception $e) {
             // Install failed, roll back changes
-            $this->parent->abort(Text::sprintf('JLIB_INSTALLER_ABORT', $row->getError()));
+            $this->parent->abort(Text::sprintf('JLIB_INSTALLER_ABORT', $e->getMessage()));
 
             return false;
         }
@@ -608,9 +612,12 @@ class LanguageAdapter extends InstallerAdapter
         // Clean installed languages cache.
         Factory::getCache()->clean('com_languages');
 
-        if (!$row->check() || !$row->store()) {
+        try {
+            $row->check();
+            $row->store();
+        } catch (\Exception $e) {
             // Install failed, roll back changes
-            $this->parent->abort(Text::sprintf('JLIB_INSTALLER_ABORT', $row->getError()));
+            $this->parent->abort(Text::sprintf('JLIB_INSTALLER_ABORT', $e->getMessage()));
 
             return false;
         }
@@ -891,9 +898,14 @@ class LanguageAdapter extends InstallerAdapter
             'sitename'     => '',
         ];
 
-        if (!$tableLanguage->bind($languageData) || !$tableLanguage->check() || !$tableLanguage->store() || !$tableLanguage->reorder()) {
+        try {
+            $tableLanguage->bind($languageData);
+            $tableLanguage->check();
+            $tableLanguage->store();
+            $tableLanguage->reorder();
+        } catch (\Exception $e) {
             Log::add(
-                Text::sprintf('JLIB_INSTALLER_WARNING_UNABLE_TO_INSTALL_CONTENT_LANGUAGE', $siteLanguageManifest['name'], $tableLanguage->getError()),
+                Text::sprintf('JLIB_INSTALLER_WARNING_UNABLE_TO_INSTALL_CONTENT_LANGUAGE', $siteLanguageManifest['name'], $e->getMessage()),
                 Log::NOTICE,
                 'jerror'
             );
