@@ -79,3 +79,11 @@
     max-width: 100%;
   }
 }
+
+@media (max-width: 576px) {
+  .media-browser-items{
+    &.media-browser-items-md{
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+  }
+}
