@@ -132,21 +132,6 @@ class ArchiveModel extends ArticlesModel
     }
 
     /**
-     * Method to get the archived article list
-     *
-     * @access public
-     * @return array
-     * @deprecated 5.2.0 will be removed in 7.0
-     *             Use getItems() instead
-     */
-    public function getData()
-    {
-        @trigger_error('ArchiveModel::getData() is deprecated. Use getItems() instead. Will be removed in 7.0.', E_USER_DEPRECATED);
-
-        return $this->getItems();
-    }
-
-    /**
      * Gets the archived articles years
      *
      * @return   array
