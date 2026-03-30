@@ -111,7 +111,7 @@ class FieldModel extends AdminModel
      */
     public function save($data)
     {
-        $field = null;
+        $field                     = null;
         $hasDuplicateSubformFields = false;
 
         if (isset($data['id']) && $data['id']) {
