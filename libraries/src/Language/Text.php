@@ -269,9 +269,9 @@ class Text
      */
     public static function sprintf($string)
     {
-        $lang    = Factory::getLanguage();
-        $args    = \func_get_args();
-        $count   = \count($args);
+        $lang = Factory::getLanguage();
+        $args = \func_get_args();
+        $count = \count($args);
         $options = null;
 
         if (\is_array($args[$count - 1])) {
@@ -287,7 +287,7 @@ class Text
                 static::$strings[$string] = $formatted;
 
                 $doc     = Factory::getDocument();
-                $strings = $doc->getScriptOptions('joomla.jtext');
+$strings = $doc->getScriptOptions('joomla.jtext');
                 $strings[strtoupper($string)] = $formatted;
                 HTMLHelper::_('behavior.core');
                 $doc->addScriptOptions('joomla.jtext', $strings, false);
@@ -299,9 +299,10 @@ class Text
         }
 
         // Replace custom named placeholders with sprintf style placeholders
-        $args[0] = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $args[0]);
+        $args[0] = preg_replace('/\[%([0-9]+):[^]*\]\]/', '%\1$s', $args[0]);
 
         return \call_user_func_array('sprintf', $args);
+
     }
 
     /**
