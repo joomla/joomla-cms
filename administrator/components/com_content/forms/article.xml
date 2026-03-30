@@ -58,13 +58,15 @@
 		/>
 
 		<field
-			name="catid"
-			type="categoryedit"
-			label="JCATEGORY"
-			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
-			required="true"
-			default=""
-		/>
+    name="catid"
+    type="categoryedit"
+    label="JCATEGORY"
+    addfieldprefix="Joomla\Component\Categories\Administrator\Field"
+    required="true"
+    default=""
+    multiple="true"
+    size="10"
+/>
 
 		<field
 			name="state"
