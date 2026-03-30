@@ -124,9 +124,16 @@ class Text
         $string = $final_string;
 
         if ($script) {
+            $doc     = Factory::getDocument();
+            $strings = $doc->getScriptOptions('joomla.jtext');
+
             foreach ($string_parts as $str) {
                 static::$strings[$str] = $str;
+                $strings[$str]         = $str;
             }
+
+            HTMLHelper::_('behavior.core');
+            $doc->addScriptOptions('joomla.jtext', $strings, false);
         }
 
         return true;
@@ -221,7 +228,14 @@ class Text
             );
 
             if (\array_key_exists('script', $args[$count - 1]) && $args[$count - 1]['script']) {
-                static::$strings[$key] = \call_user_func_array('sprintf', $args);
+                $formatted             = \call_user_func_array('sprintf', $args);
+                static::$strings[$key] = $formatted;
+
+                $doc                       = Factory::getDocument();
+                $strings                   = $doc->getScriptOptions('joomla.jtext');
+                $strings[strtoupper($key)] = $formatted;
+                HTMLHelper::_('behavior.core');
+                $doc->addScriptOptions('joomla.jtext', $strings, false);
 
                 return $key;
             }
@@ -258,16 +272,25 @@ class Text
         $lang  = Factory::getLanguage();
         $args  = \func_get_args();
         $count = \count($args);
+        $options = null;
 
         if (\is_array($args[$count - 1])) {
+            $options = array_pop($args);
             $args[0] = $lang->_(
                 $string,
-                \array_key_exists('jsSafe', $args[$count - 1]) ? $args[$count - 1]['jsSafe'] : false,
-                \array_key_exists('interpretBackSlashes', $args[$count - 1]) ? $args[$count - 1]['interpretBackSlashes'] : true
+                \array_key_exists('jsSafe', $options) ? $options['jsSafe'] : false,
+                \array_key_exists('interpretBackSlashes', $options) ? $options['interpretBackSlashes'] : true
             );
 
-            if (\array_key_exists('script', $args[$count - 1]) && $args[$count - 1]['script']) {
-                static::$strings[$string] = \call_user_func_array('sprintf', $args);
+            if (\array_key_exists('script', $options) && $options['script']) {
+                $formatted                = \call_user_func_array('sprintf', $args);
+                static::$strings[$string] = $formatted;
+
+                $doc                      = Factory::getDocument();
+                $strings                  = $doc->getScriptOptions('joomla.jtext');
+                $strings[strtoupper($string)] = $formatted;
+                HTMLHelper::_('behavior.core');
+                $doc->addScriptOptions('joomla.jtext', $strings, false);
 
                 return $string;
             }
