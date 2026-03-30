@@ -11,7 +11,6 @@ namespace Joomla\CMS\Installer;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\Component\Modules\Administrator\Model\ModuleModel;

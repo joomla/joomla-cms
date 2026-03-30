@@ -921,10 +921,10 @@ class ComponentAdapter extends InstallerAdapter
                     0,
                     $e
                 );
-            } else {
-                // Maybe we have a failed installation (e.g. timeout). Let's retry after deleting old records.
-                $this->storeExtension(true);
             }
+
+            // Maybe we have a failed installation (e.g. timeout). Let's retry after deleting old records.
+            $this->storeExtension(true);
         }
     }
 
