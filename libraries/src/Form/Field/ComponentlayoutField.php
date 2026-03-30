@@ -210,13 +210,13 @@ class ComponentlayoutField extends FormField
                             $groups[$template->name]['items'] = [];
                             foreach ($files as $file) {
                             // Add an option to the template group
-                            	$value = basename($file, '.php');
-                             	$text = $value;
+                                $value = basename($file, '.php');
+                                $text = $value;
                                 $path = str_replace('.php', '.xml', $file);
                                 if (is_file($path) && $xml = simplexml_load_file($path)) {
                                     $layout = $xml->xpath('//layout[1]');
                                     if (isset($layout[0])) {
-                                     	$attributes = $layout[0];
+                                        $attributes = $layout[0];
                                         if (isset($attributes['option']) && (string) $attributes['option'] !== '') {
                                             $text = Text::_((string)$attributes['option']);
                                         } elseif (isset($attributes['title']) && (string) $attributes['title'] !== '') {
