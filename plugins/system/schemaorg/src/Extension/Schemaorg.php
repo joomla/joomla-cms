@@ -441,7 +441,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
                     if (\is_string($images)) {
                         $images = array_map('trim', explode(',', $images));
                     }
-                    $images = (array) $images;
+                    $images          = (array) $images;
                     $processedImages = [];
 
                     foreach ($images as $img) {
