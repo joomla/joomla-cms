@@ -435,7 +435,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
                 $localSchema->set('isPartOf', ['@id' => $webPageId]);
 
                 $itemSchema = $localSchema->toArray();
-              
+
                 if (!empty($itemSchema['image'])) {
                     $images = $itemSchema['image'];
                     if (\is_string($images)) {
