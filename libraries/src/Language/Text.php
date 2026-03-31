@@ -278,15 +278,17 @@ class Text
             $options = array_pop($args);
             $args[0] = $lang->_(
                 $string,
-                \array_key_exists('jsSafe', $options) ? $options['jsSafe'] : false,
-                \array_key_exists('interpretBackSlashes', $options) ? $options['interpretBackSlashes'] : true
+                $options && \array_key_exists('jsSafe', $options) ? $options['jsSafe'] : false,
+                $options && \array_key_exists('interpretBackSlashes', $options) ? $options['interpretBackSlashes'] : true
             );
-
             if (\array_key_exists('script', $options) && $options['script']) {
-                $formatted                = \call_user_func_array('sprintf', $args);
+                $formatted        = \call_user_func_array('sprintf', $args);
+
                 static::$strings[$string] = $formatted;
 
-                $doc                          = Factory::getDocument();
+
+                $doc              = Factory::getDocument();
+
                 $strings                      = $doc->getScriptOptions('joomla.jtext');
                 $strings[strtoupper($string)] = $formatted;
                 HTMLHelper::_('behavior.core');
