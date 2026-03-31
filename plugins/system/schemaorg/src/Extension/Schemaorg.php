@@ -435,13 +435,17 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
                 $localSchema->set('isPartOf', ['@id' => $webPageId]);
 
                 $itemSchema = $localSchema->toArray();
-
+              
                 if (!empty($itemSchema['image'])) {
-                    $images          = (array) $itemSchema['image'];
+                    $images = $itemSchema['image'];
+                    if (\is_string($images)) {
+                        $images = array_map('trim', explode(',', $images));
+                    }
+                    $images = (array) $images;
                     $processedImages = [];
 
                     foreach ($images as $img) {
-                        if (!\is_string($img) || $img === '') {
+                        if (!is_string($img) || $img === '') {
                             continue;
                         }
 
@@ -453,7 +457,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
                     }
 
                     if (!empty($processedImages)) {
-                        $schema['image'] = \count($processedImages) === 1 ? $processedImages[0] : $processedImages;
+                        $schema['image'] = count($processedImages) === 1 ? $processedImages[0] : $processedImages;
                     }
                 }
 
