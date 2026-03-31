@@ -269,9 +269,9 @@ class Text
      */
     public static function sprintf($string)
     {
-        $lang = Factory::getLanguage();
-        $args = \func_get_args();
-        $count = \count($args);
+        $lang    = Factory::getLanguage();
+        $args    = \func_get_args();
+        $count   = \count($args);
         $options = null;
 
         if (\is_array($args[$count - 1])) {
@@ -283,11 +283,11 @@ class Text
             );
 
             if (\array_key_exists('script', $options) && $options['script']) {
-                $formatted = \call_user_func_array('sprintf', $args);
+                $formatted                = \call_user_func_array('sprintf', $args);
                 static::$strings[$string] = $formatted;
 
-                $doc     = Factory::getDocument();
-$strings = $doc->getScriptOptions('joomla.jtext');
+                $doc                          = Factory::getDocument();
+                $strings                      = $doc->getScriptOptions('joomla.jtext');
                 $strings[strtoupper($string)] = $formatted;
                 HTMLHelper::_('behavior.core');
                 $doc->addScriptOptions('joomla.jtext', $strings, false);
