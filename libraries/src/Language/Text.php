@@ -301,7 +301,6 @@ class Text
         }
 
         // Replace custom named placeholders with sprintf style placeholders
-        $args[0] = preg_replace('/\[%([0-9]+):[^]*\]\]/', '%\1$s', $args[0]);
 
         return \call_user_func_array('sprintf', $args);
 
