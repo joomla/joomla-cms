@@ -159,7 +159,7 @@ class ApplicationController extends ApiController
      *
      * @return  boolean
      *
-     * @since   4.0.0
+     * @since   5.4.4
      */
     protected function allowEdit($data = [], $key = 'id')
     {
