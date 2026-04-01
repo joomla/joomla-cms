@@ -23,7 +23,7 @@ use Joomla\CMS\Layout\LayoutHelper;
         <?php $title = htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8', false); ?>
         <?php echo HTMLHelper::_('link', $link, $title, $attributes); ?>
     <?php else : ?>
-        <?php echo $item->title; ?>
+        <?php echo htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8'); ?>
     <?php endif; ?>
 
     <?php if ($item->displayHits) : ?>
@@ -34,18 +34,18 @@ use Joomla\CMS\Layout\LayoutHelper;
 
     <?php if ($params->get('show_author')) : ?>
         <span class="mod-articles-category-writtenby">
-            <?php echo $item->displayAuthorName; ?>
+            <?php echo htmlspecialchars($item->displayAuthorName, ENT_COMPAT, 'UTF-8'); ?>
         </span>
     <?php endif; ?>
 
     <?php if ($item->displayCategoryTitle) : ?>
         <span class="mod-articles-category-category">
-            (<?php echo $item->displayCategoryTitle; ?>)
+            (<?php echo htmlspecialchars($item->displayCategoryTitle, ENT_COMPAT, 'UTF-8'); ?>)
         </span>
     <?php endif; ?>
 
     <?php if ($item->displayDate) : ?>
-        <span class="mod-articles-category-date"><?php echo $item->displayDate; ?></span>
+        <span class="mod-articles-category-date"><?php echo htmlspecialchars($item->displayDate, ENT_COMPAT, 'UTF-8'); ?></span>
     <?php endif; ?>
 
     <?php if ($params->get('show_tags', 0) && $item->tags->itemTags) : ?>
@@ -67,13 +67,13 @@ use Joomla\CMS\Layout\LayoutHelper;
                     <?php echo Text::_('MOD_ARTICLES_CATEGORY_REGISTER_TO_READ_MORE'); ?>
                 <?php elseif ($item->alternative_readmore) : ?>
                     <?php echo $item->alternative_readmore; ?>
-                    <?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
+                    <?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit'), false); ?>
                         <?php if ($params->get('show_readmore_title', 0)) : ?>
-                            <?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
+                            <?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit'), false); ?>
                         <?php endif; ?>
                 <?php elseif ($params->get('show_readmore_title', 0)) : ?>
                     <?php echo Text::_('MOD_ARTICLES_CATEGORY_READ_MORE'); ?>
-                    <?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
+                    <?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit'), false); ?>
                 <?php else : ?>
                     <?php echo Text::_('MOD_ARTICLES_CATEGORY_READ_MORE_TITLE'); ?>
                 <?php endif; ?>
