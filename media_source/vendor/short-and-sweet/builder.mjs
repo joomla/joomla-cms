@@ -2,12 +2,12 @@
  * Assets Builder
  */
 import fs from "node:fs";
-import path from "node:path";
 import fsp from "node:fs/promises";
+import path from "node:path";
 
 import DefaultModuleBuilder from '../../../build/build-modules-js/builder/default-module-builder.mjs';
 
-export default class VendorJQueryModuleBuilder extends DefaultModuleBuilder
+export default class ShortAndSweetModuleBuilder extends DefaultModuleBuilder
 {
   /**
    * Remove files on target location
