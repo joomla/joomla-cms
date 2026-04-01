@@ -87,6 +87,10 @@ class CodemirrorEditor extends HTMLElement {
   get fsCombo() { return this.getAttribute('fs-combo'); }
 
   async connectedCallback() {
+    // Prevent duplicate CodeMirror initialization 
+    if (JoomlaEditor.get(this.element.id)) {
+      return;
+    }
     const { options } = this;
 
     // Configure full screen feature
