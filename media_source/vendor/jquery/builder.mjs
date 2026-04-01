@@ -14,13 +14,6 @@ export default class VendorJQueryModuleBuilder extends DefaultModuleBuilder
    * @returns { Promise }
    */
   async clear() {
-    // Remove only custom files from this builder and leave vendor files
-    const jsPath = path.join(this.targetPath, 'js');
-
-    if (!fs.existsSync(jsPath)) {
-      return;
-    }
-
-    return fsp.rm(jsPath, { recursive: true });
+    // Bypass clear, it is conflicting with Vendor builder
   }
 };
