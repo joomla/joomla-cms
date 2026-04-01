@@ -397,6 +397,12 @@ parameters:
 			path: administrator/components/com_associations/tmpl/association/edit.php
 
 		-
+			message: '#^Call to method escape\(\) on an unknown class HtmlView\.$#'
+			identifier: class.notFound
+			count: 5
+			path: administrator/components/com_associations/tmpl/association/edit.php
+
+		-
 			message: '#^Access to an undefined property Joomla\\Component\\Associations\\Administrator\\View\\Associations\\HtmlView\:\:\$editUri\.$#'
 			identifier: property.notFound
 			count: 1
