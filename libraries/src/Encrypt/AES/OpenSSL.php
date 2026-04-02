@@ -87,7 +87,7 @@ class OpenSSL extends AbstractAES implements AesInterface
             $strength = 256;
         }
 
-        if (!\in_array($mode, ['cbc', 'ebc'])) {
+        if (!\in_array($mode, ['cbc', 'ecb'])) {
             $mode = 'cbc';
         }
 
