@@ -287,12 +287,7 @@ class Text
                 static::$strings[$string] = $formatted;
 
 
-                $doc              = Factory::getDocument();
-
-                $strings                      = $doc->getScriptOptions('joomla.jtext');
-                $strings[strtoupper($string)] = $formatted;
-                $doc->addScriptOptions('joomla.jtext', $strings, false);
-
+               
                 return $string;
             }
         } else {
