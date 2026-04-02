@@ -300,7 +300,7 @@ class Text
         }
 
         // Replace custom named placeholders with sprintf style placeholders
-        $args[0] = preg_replace('/\xEE\x80\x81\[%([0-9]+):[^\xEE\x80\x81]*\]\]/', '%\1$s', $args[0]);
+        $args[0] = preg_replace('/\x{E001}\[%([0-9]+):[^\x{E001}]*\]\]/u', '%\1$s', $args[0]);
 
         return \call_user_func_array('sprintf', $args);
 
