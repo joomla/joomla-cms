@@ -303,7 +303,6 @@ class Text
         $args[0] = preg_replace('/\x{E001}\[%([0-9]+):[^\x{E001}]*\]\]/u', '%\1$s', $args[0]);
 
         return \call_user_func_array('sprintf', $args);
-
     }
 
     /**
