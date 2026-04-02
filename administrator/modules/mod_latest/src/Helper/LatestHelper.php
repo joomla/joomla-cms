@@ -11,7 +11,6 @@
 namespace Joomla\Module\Latest\Administrator\Helper;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Model\ArticlesModel;

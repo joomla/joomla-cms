@@ -10,7 +10,6 @@
 
 namespace Joomla\Module\PrivacyDashboard\Administrator\Helper;
 
-use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;

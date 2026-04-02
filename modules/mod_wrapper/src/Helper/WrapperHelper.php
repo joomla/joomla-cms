@@ -11,7 +11,6 @@
 namespace Joomla\Module\Wrapper\Site\Helper;
 
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects

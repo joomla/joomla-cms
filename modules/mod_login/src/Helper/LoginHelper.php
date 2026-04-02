@@ -11,7 +11,6 @@
 namespace Joomla\Module\Login\Site\Helper;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;

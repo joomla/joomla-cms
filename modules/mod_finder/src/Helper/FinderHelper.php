@@ -11,7 +11,6 @@
 namespace Joomla\Module\Finder\Site\Helper;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
