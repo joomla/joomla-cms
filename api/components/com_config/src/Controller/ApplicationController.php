@@ -57,6 +57,11 @@ class ApplicationController extends ApiController
         $viewType   = $this->app->getDocument()->getType();
         $viewLayout = $this->input->get('layout', 'default', 'string');
 
+        // Access check.
+        if (!$this->allowEdit()) {
+            throw new NotAllowed('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED', 403);
+        }
+
         try {
             /** @var JsonapiView $view */
             $view = $this->getView(
@@ -142,5 +147,22 @@ class ApplicationController extends ApiController
         }
 
         return $this;
+    }
+
+    /**
+     * Method to check if you can edit an existing record.
+     *
+     * Extended classes can override this if necessary.
+     *
+     * @param   array   $data  An array of input data.
+     * @param   string  $key   The name of the key for the primary key; default is id.
+     *
+     * @return  boolean
+     *
+     * @since   4.0.0
+     */
+    protected function allowEdit($data = [], $key = 'id')
+    {
+        return $this->app->getIdentity()->authorise('core.admin', $this->option);
     }
 }
