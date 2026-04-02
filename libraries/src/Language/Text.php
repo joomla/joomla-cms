@@ -285,9 +285,6 @@ class Text
                 $formatted        = \call_user_func_array('sprintf', $args);
 
                 static::$strings[$string] = $formatted;
-
-
-               
                 return $string;
             }
         } else {
