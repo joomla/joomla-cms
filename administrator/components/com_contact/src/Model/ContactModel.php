@@ -18,6 +18,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Database\ParameterType;
@@ -33,7 +34,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class ContactModel extends AdminModel
+class ContactModel extends AdminModel implements VersionableModelInterface
 {
     use VersionableModelTrait;
 
@@ -161,9 +162,10 @@ class ContactModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|boolean  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -171,10 +173,6 @@ class ContactModel extends AdminModel
 
         // Get the form.
         $form = $this->loadForm('com_contact.' . $this->formName, $this->formName, ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         // Modify the form based on access controls.
         if (!$this->canEditState((object) $data)) {
@@ -258,7 +256,7 @@ class ContactModel extends AdminModel
 
             // Prime some default values.
             if ($this->getState('contact.id') == 0) {
-                $data->set('catid', $app->getInput()->get('catid', $app->getUserState('com_contact.contacts.filter.category_id'), 'int'));
+                $data->catid = $app->getInput()->get('catid', $app->getUserState('com_contact.contacts.filter.category_id'), 'int');
             }
         }
 
@@ -368,7 +366,7 @@ class ContactModel extends AdminModel
             // Set ordering to the last item if not set
             if (empty($table->ordering)) {
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select('MAX(ordering)')
                     ->from($db->quoteName('#__contact_details'));
                 $db->setQuery($query);
@@ -478,7 +476,7 @@ class ContactModel extends AdminModel
         try {
             $db = $this->getDatabase();
 
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
             $query->update($db->quoteName('#__contact_details'));
             $query->set($db->quoteName('featured') . ' = :featured');
             $query->whereIn($db->quoteName('id'), $pks);

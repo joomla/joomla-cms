@@ -203,7 +203,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
 
         $result = $this->loadTemplate($tpl);
 
-        $eventResult = $app->getDispatcher()->dispatch(
+        $event = $app->getDispatcher()->dispatch(
             'onAfterDisplay',
             AbstractEvent::create(
                 'onAfterDisplay',
@@ -216,9 +216,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
             )
         );
 
-        $eventResult->getArgument('used', false);
-
-        echo $result;
+        echo $event->getArgument('source', $result);
     }
 
     /**
@@ -369,16 +367,22 @@ class HtmlView extends AbstractView implements CurrentUserInterface
         $file = preg_replace('/[^A-Z0-9_\.-]/i', '', $file);
         $tpl  = isset($tpl) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl) : $tpl;
 
-        try {
-            // Load the language file for the template
-            $lang = $this->getLanguage();
-        } catch (\UnexpectedValueException $e) {
-            $lang = Factory::getApplication()->getLanguage();
-        }
+        if (Factory::getApplication()->getDocument()->getType() !== 'html') {
+            try {
+                // Load the language file for the template
+                $lang = $this->getLanguage();
+            } catch (\UnexpectedValueException $e) {
+                $lang = Factory::getApplication()->getLanguage();
+            }
 
-        $lang->load('tpl_' . $template->template, JPATH_BASE)
-            || $lang->load('tpl_' . $template->parent, JPATH_THEMES . '/' . $template->parent)
-            || $lang->load('tpl_' . $template->template, JPATH_THEMES . '/' . $template->template);
+            if ($template->parent) {
+                $lang->load('tpl_' . $template->parent, JPATH_THEMES . '/' . $template->parent)
+                    || $lang->load('tpl_' . $template->parent, JPATH_BASE);
+            }
+
+            $lang->load('tpl_' . $template->template, JPATH_BASE)
+                || $lang->load('tpl_' . $template->template, JPATH_THEMES . '/' . $template->template);
+        }
 
         // Change the template folder if alternative layout is in different template
         if (isset($layoutTemplate) && $layoutTemplate !== '_' && $layoutTemplate != $template->template) {

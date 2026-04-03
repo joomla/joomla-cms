@@ -10,12 +10,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Associations\Administrator\View\Association\HtmlView;
 
-/** @var HtmlView $this */
+/** @var \Joomla\Component\Associations\Administrator\View\Association\HtmlView $this */
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
@@ -44,11 +42,11 @@ $options = [
                     src="<?php echo Route::_($this->editUri . '&task=' . $this->typeName . '.edit&id=' . (int) $this->referenceId); ?>"
                     height="400" width="400"
                     data-action="edit"
-                    data-item="<?php echo $this->typeName; ?>"
-                    data-id="<?php echo $this->referenceId; ?>"
-                    data-title="<?php echo $this->referenceTitle; ?>"
-                    data-title-value="<?php echo $this->referenceTitleValue; ?>"
-                    data-language="<?php echo $this->referenceLanguage; ?>"
+                    data-item="<?php echo $this->escape($this->typeName); ?>"
+                    data-id="<?php echo $this->escape($this->referenceId); ?>"
+                    data-title="<?php echo $this->escape($this->referenceTitle); ?>"
+                    data-title-value="<?php echo $this->escape($this->referenceTitleValue); ?>"
+                    data-language="<?php echo $this->escape($this->referenceLanguage); ?>"
                     data-editurl="<?php echo Route::_($this->editUri); ?>">
                 </iframe>
             </div>
@@ -83,7 +81,5 @@ $options = [
         </div>
     </div>
 
-    <input type="hidden" name="task" value="">
-    <input type="hidden" name="target-id" id="target-id" value="">
-    <?php echo HTMLHelper::_('form.token'); ?>
+    <?php echo $this->form->renderControlFields(); ?>
 </form>

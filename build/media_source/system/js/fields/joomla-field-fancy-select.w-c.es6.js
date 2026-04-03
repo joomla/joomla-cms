@@ -111,15 +111,6 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
     this.isDisconnected = false;
 
-    // Add placeholder option for multiple mode,
-    // Because it not supported as parameter by Choices for <select> https://github.com/jshjohnson/Choices#placeholder
-    if (this.select.multiple && this.placeholder) {
-      const option = document.createElement('option');
-      option.setAttribute('placeholder', '');
-      option.textContent = this.placeholder;
-      this.select.appendChild(option);
-    }
-
     // Init Choices
     this.choicesInstance = new Choices(this.select, {
       placeholderValue: this.placeholder,
@@ -253,8 +244,10 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     // Handle remote search
     if (this.remoteSearch && this.url) {
       // Cache existing
-      this.choicesInstance.config.choices.forEach((choiceItem) => {
-        this.choicesCache[choiceItem.value] = choiceItem.label;
+      this.choicesInstance.passedElement.optionsAsChoices().forEach((choiceItem) => {
+        if (choiceItem.value !== undefined) {
+          this.choicesCache[choiceItem.value] = choiceItem.label;
+        }
       });
 
       const lookupDelay = 300;
