@@ -11560,7 +11560,7 @@ parameters:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 13
+			count: 14
 			path: libraries/src/Helper/TagsHelper.php
 
 		-
@@ -11573,12 +11573,6 @@ parameters:
 			'''
 			identifier: staticMethod.deprecated
 			count: 4
-			path: libraries/src/Helper/TagsHelper.php
-
-		-
-			message: '#^Method Joomla\\CMS\\Helper\\TagsHelper\:\:postStoreProcess\(\) should return bool but return statement is missing\.$#'
-			identifier: return.missing
-			count: 1
 			path: libraries/src/Helper/TagsHelper.php
 
 		-
