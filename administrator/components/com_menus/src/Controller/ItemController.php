@@ -11,12 +11,15 @@
 namespace Joomla\Component\Menus\Administrator\Controller;
 
 use Joomla\CMS\Application\CMSWebApplicationInterface;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -564,18 +567,42 @@ class ItemController extends FormController
         $app = $this->app;
 
         $results  = [];
-        $menutype = $this->input->get->get('menutype');
+        $menutype = $this->input->getCmd('menutype');
 
         if ($menutype) {
-            /** @var \Joomla\Component\Menus\Administrator\Model\ItemsModel $model */
-            $model = $this->getModel('Items', 'Administrator', []);
-            $model->getState();
-            $model->setState('filter.menutype', $menutype);
-            $model->setState('list.select', 'a.id, a.title, a.level');
-            $model->setState('list.start', '0');
-            $model->setState('list.limit', '0');
+            $db       = Factory::getContainer()->get(DatabaseInterface::class);
+            $clientId = $menutype === 'main' ? 1 : 0;
 
-            $results = $model->getItems();
+            if ($menutype !== 'main') {
+                $clientQuery = $db->getQuery(true)
+                    ->select($db->quoteName('client_id'))
+                    ->from($db->quoteName('#__menu_types'))
+                    ->where($db->quoteName('menutype') . ' = :menutype')
+                    ->bind(':menutype', $menutype);
+                $clientId = (int) $db->setQuery($clientQuery)->loadResult();
+            }
+
+            $query = $db->getQuery(true)
+                ->select(
+                    [
+                        $db->quoteName('id'),
+                        $db->quoteName('title'),
+                        $db->quoteName('level'),
+                    ]
+                )
+                ->from($db->quoteName('#__menu'))
+                ->where(
+                    [
+                        $db->quoteName('menutype') . ' = :menutype',
+                        $db->quoteName('client_id') . ' = :clientId',
+                    ]
+                )
+                ->whereIn($db->quoteName('published'), [0, 1], ParameterType::INTEGER)
+                ->bind(':menutype', $menutype)
+                ->bind(':clientId', $clientId, ParameterType::INTEGER)
+                ->order($db->quoteName('lft'));
+
+            $results = $db->setQuery($query)->loadObjectList() ?: [];
 
             // Pad the option text with spaces using depth level as a multiplier.
             foreach ($results as $result) {
