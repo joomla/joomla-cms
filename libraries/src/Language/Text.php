@@ -267,8 +267,9 @@ class Text
             );
 
             if (\array_key_exists('script', $args[$count - 1]) && $args[$count - 1]['script']) {
-                $formatted = \call_user_func_array('sprintf', $args);
+                $formatted = \call_user_func_array('\sprintf', $args);
                 static::$strings[$string] = $formatted;
+
                 return $string;
             }
         } else {
