@@ -11,8 +11,8 @@
 namespace Joomla\Component\Menus\Administrator\Controller;
 
 use Joomla\CMS\Application\CMSWebApplicationInterface;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
