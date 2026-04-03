@@ -11576,6 +11576,12 @@ parameters:
 			path: libraries/src/Helper/TagsHelper.php
 
 		-
+			message: '#^Method Joomla\\CMS\\Helper\\TagsHelper\:\:postStoreProcess\(\) should return bool but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: libraries/src/Helper/TagsHelper.php
+
+		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
