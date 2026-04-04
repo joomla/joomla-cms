@@ -134,6 +134,15 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       },
     });
 
+    // Sync preselected native <select> values with the Choices UI state
+    const selectedValues = Array.from(this.select.selectedOptions)
+      .map((option) => option.value)
+      .filter((value) => value !== '');
+
+    if (selectedValues.length) {
+      this.choicesInstance.setChoiceByValue(this.select.multiple ? selectedValues : selectedValues[0]);
+    }
+
     // Handle typing of custom Term
     if (this.allowCustom) {
       // START Work around for issue https://github.com/joomla/joomla-cms/issues/29459
