@@ -402,7 +402,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
                 }
 
                 Factory::getApplication()->enqueueMessage(
-                    Text::sprintf('COM_MESSAGES_ERROR_MAIL_FAILED', $exception->getMessage()),
+                    Text::sprintf('COM_MESSAGES_ERROR_MAIL_FAILED_REASON', $exception->getMessage()),
                     'warning'
                 );
             }
