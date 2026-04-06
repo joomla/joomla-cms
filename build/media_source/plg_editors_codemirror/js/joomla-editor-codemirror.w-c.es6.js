@@ -87,20 +87,17 @@ class CodemirrorEditor extends HTMLElement {
   get fsCombo() { return this.getAttribute('fs-combo'); }
 
   async connectedCallback() {
-    // Prevent concurrent initialization
-    if (this._initializing) {
-      return;
+    // Cancel pending destruction (important for move case)
+    if (this._disconnectTimeout) {
+      clearTimeout(this._disconnectTimeout);
+      this._disconnectTimeout = null;
     }
-    this._initializing = true;
 
-    // Prevent duplicate instance
-    if (this.instance) {
-      this._initializing = false;
-      return;
-    }
+    // Prevent re-initialization if instance already exists
+    if (this.instance) return;
+
     const { options } = this;
 
-    // Configure full screen feature
     if (this.fsCombo) {
       options.customExtensions = options.customExtensions || [];
       options.customExtensions.push(() => keymap.of([
@@ -108,46 +105,35 @@ class CodemirrorEditor extends HTMLElement {
         { key: 'Escape', run: this.closeFullScreen },
       ]));
 
-      // Relocate BS modals, to resolve z-index issue in full screen
       this.bsModals = this.querySelectorAll('.joomla-modal.modal');
       this.bsModals.forEach((modal) => document.body.appendChild(modal));
     }
 
-    // Create and register the Editor
     this.element = this.querySelector('textarea');
-    if (!this.element) {
-      this._initializing = false;
-      return;
-    }
     this.instance = await createFromTextarea(this.element, options);
     this.jEditor = new CodemirrorDecorator(this.instance, 'codemirror', this.element.id);
     JoomlaEditor.register(this.jEditor);
 
-    // Find out when editor is interacted
     this.addEventListener('click', this.interactionCallback);
-    this._initializing = false;
   }
 
   disconnectedCallback() {
-    if (this.instance) {
-      // Save content before destroying the editor 
-      if (typeof this.instance.save === 'function') {
-        this.instance.save();
-      } else if (this.instance.state) {
-        this.element.value = this.instance.state.doc.toString();
-      }
-      this.element.style.display = '';
-      this.instance.destroy();
-      this.instance = null;
-    }
-    // Remove from the Joomla API
-    if (this.element && this.element.id) JoomlaEditor.unregister(this.element.id);
-    this.removeEventListener('click', this.interactionCallback);
+    this._disconnectTimeout = setTimeout(() => {
+      if (!this.isConnected && this.instance) {
+        this.element.style.display = '';
+        this.instance.destroy();
 
-    // Restore modals
-    if (this.bsModals && this.bsModals.length) {
-      this.bsModals.forEach((modal) => this.appendChild(modal));
-    }
+        // Remove from the Joomla API
+        JoomlaEditor.unregister(this.element.id);
+        this.removeEventListener('click', this.interactionCallback);
+
+        if (this.bsModals && this.bsModals.length) {
+          this.bsModals.forEach((modal) => this.appendChild(modal));
+        }
+
+        this.instance = null;
+      }
+    }, 0);
   }
 }
 
