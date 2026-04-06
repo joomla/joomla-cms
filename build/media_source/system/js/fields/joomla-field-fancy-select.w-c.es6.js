@@ -111,6 +111,15 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
     this.isDisconnected = false;
 
+    // Set first option selected before init for single select
+    if (!this.select.multiple
+      && this.select.options.length
+      && this.select.selectedIndex === 0
+      && !this.select.querySelector('option[selected]')) {
+      this.select.options[0].selected = true;
+      this.select.options[0].setAttribute('selected', '');
+    }
+
     // Init Choices
     this.choicesInstance = new Choices(this.select, {
       placeholderValue: this.placeholder,
@@ -133,15 +142,6 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
         button: 'choices__button_joomla', // It is need because an original styling use unavailable Icon.svg file
       },
     });
-
-    // Sync preselected native <select> values with the Choices UI state
-    const selectedValues = Array.from(this.select.selectedOptions)
-      .map((option) => option.value)
-      .filter((value) => value !== '');
-
-    if (selectedValues.length) {
-      this.choicesInstance.setChoiceByValue(this.select.multiple ? selectedValues : selectedValues[0]);
-    }
 
     // Handle typing of custom Term
     if (this.allowCustom) {
