@@ -98,6 +98,7 @@ class CodemirrorEditor extends HTMLElement {
 
     const { options } = this;
 
+    // Configure full screen feature
     if (this.fsCombo) {
       options.customExtensions = options.customExtensions || [];
       options.customExtensions.push(() => keymap.of([
@@ -105,15 +106,18 @@ class CodemirrorEditor extends HTMLElement {
         { key: 'Escape', run: this.closeFullScreen },
       ]));
 
+      // Relocate BS modals, to resolve z-index issue in full screen
       this.bsModals = this.querySelectorAll('.joomla-modal.modal');
       this.bsModals.forEach((modal) => document.body.appendChild(modal));
     }
 
+    // Create and register the Editor
     this.element = this.querySelector('textarea');
     this.instance = await createFromTextarea(this.element, options);
     this.jEditor = new CodemirrorDecorator(this.instance, 'codemirror', this.element.id);
     JoomlaEditor.register(this.jEditor);
 
+    // Find out when editor is interacted
     this.addEventListener('click', this.interactionCallback);
   }
 
@@ -127,6 +131,7 @@ class CodemirrorEditor extends HTMLElement {
         JoomlaEditor.unregister(this.element.id);
         this.removeEventListener('click', this.interactionCallback);
 
+        // Restore modals
         if (this.bsModals && this.bsModals.length) {
           this.bsModals.forEach((modal) => this.appendChild(modal));
         }
