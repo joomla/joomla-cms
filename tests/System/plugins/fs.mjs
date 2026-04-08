@@ -1,13 +1,8 @@
 import {
-  chmodSync,
-  existsSync,
-  writeFileSync,
-  mkdirSync,
-  rmSync,
-  copyFileSync,
-} from "node:fs";
-import { dirname, join } from "node:path";
-import { umask } from "node:process";
+  chmodSync, existsSync, writeFileSync, mkdirSync, rmSync, copyFileSync,
+} from 'node:fs';
+import { dirname, join } from 'node:path';
+import { umask } from 'node:process';
 
 /**
  * Synchronously deletes a file or folder, relative to cmsPath.
@@ -86,19 +81,4 @@ function copyRelativeFile(source, destination, config) {
   return null;
 }
 
-/**
- * Check the existence of specified folder relative to the CMS root folder.
- *
- * @param {string} folderPath - The relative folder path
- *
- * @returns true / false
- */
-function checkFolderExists(folderPath, config) {
-  const fullFolder = join(config.env.cmsPath, folderPath);
-  if (existsSync(fullFolder)) {
-    return true;
-  }
-  return false;
-}
-
-export { writeRelativeFile, deleteRelativePath, copyRelativeFile, checkFolderExists };
+export { writeRelativeFile, deleteRelativePath, copyRelativeFile };

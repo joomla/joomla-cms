@@ -1,5 +1,5 @@
 import { getMails, clearEmails, startMailServer } from './mail.mjs';
-import { writeRelativeFile, deleteRelativePath, copyRelativeFile, checkFolderExists } from './fs.mjs';
+import { writeRelativeFile, deleteRelativePath, copyRelativeFile } from './fs.mjs';
 import { queryTestDB, deleteInsertedItems } from './db.mjs';
 import { checkForLogs, clearLogs } from './logs.mjs';
 
@@ -23,6 +23,5 @@ export default function setupPlugins(on, config) {
     getMails: () => getMails(),
     clearEmails: () => clearEmails(),
     startMailServer: () => startMailServer(config),
-    checkFolderExists: (path) => checkFolderExists(path, config),
   });
 }
