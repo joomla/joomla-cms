@@ -1,6 +1,6 @@
 describe('Test that console command cache', () => {
   it('can clean cache', () => {
-    // 1. Set parameters (assuming these are custom commands you've defined)
+    // 1. Set parameters
     cy.config_setParameter('cache', 1);
     cy.config_setParameter('cache_handler', 'file');
 
