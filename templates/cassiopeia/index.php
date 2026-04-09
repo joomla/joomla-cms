@@ -131,36 +131,30 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
     <jdoc:include type="styles" />
     <jdoc:include type="scripts" />
     <style>
-  /* This targets the main wrapper to make it full width */
+  /* This allows the grid to function while still letting the background expand */
   .site-grid {
-      display: block !important; /* Overrides the default grid constraints */
+      display: grid !important; 
+      grid-template-columns: [full-start] minmax(0, 1fr) [main-start] minmax(0, 1320px) [main-end] minmax(0, 1fr) [full-end] !important;
   }
 
   .container-component {
+      grid-column: full-start / full-end !important; /* Forces the hero to stay full width */
       background-image: url('images/mit.jpg') !important;
       background-size: cover !important;
-      background-position: center center !important;
-      background-repeat: no-repeat !important;
-      
-      /* Full Width Logic */
-      width: 100vw !important;      /* 100% of the Viewport Width */
-      position: relative !important;
-      left: 50% !important;
-      right: 50% !important;
-      margin-left: -50vw !important; /* Centers the 100vw box */
-      margin-right: -50vw !important;
-      
-      min-height: 600px; /* Increased height for better visual impact */
+      background-position: center !important;
+      min-height: 500px !important;
       display: flex;
       align-items: center;
       justify-content: center;
   }
-  
-  /* Optional: Make the text inside readable */
-  .container-component > * {
-      background: rgba(255, 255, 255, 0.7); 
+
+  /* Target the Sidebar specifically */
+  .grid-child.sidebar-right {
+      grid-column: main-end / full-end !important; /* Pushes sidebar to the right slot */
+      background: white;
       padding: 20px;
-      border-radius: 8px;
+      margin-top: 20px;
+      z-index: 10;
   }
 </style>
 </head>
