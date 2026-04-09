@@ -23,8 +23,8 @@ Joomla.Update = window.Joomla.Update || {
     const progressDiv = document.getElementById('joomlaupdate-progress');
     const errorDiv = document.getElementById('joomlaupdate-error');
 
-    headerDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_GENERIC');
-    messageDiv.innerHTML = message;
+    headerDiv.textContent = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_GENERIC');
+    messageDiv.innerHTML = Joomla.sanitizeHtml(message);
 
     if (message.toLowerCase() === 'invalid login') {
       messageDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_BODY_INVALIDLOGIN');
