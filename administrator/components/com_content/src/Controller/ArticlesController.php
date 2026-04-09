@@ -65,6 +65,8 @@ class ArticlesController extends AdminController
      */
     public function featured()
     {
+        $isJsonRequest = $this->input->get('format') === 'json';
+
         // Check for request forgeries
         $this->checkToken();
 
@@ -92,9 +94,25 @@ class ArticlesController extends AdminController
         }
 
         if (empty($ids)) {
-            $this->app->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'error');
+            $message = Text::_('JERROR_NO_ITEMS_SELECTED');
 
-            $this->setRedirect(Route::_($redirectUrl, false));
+            $this->app->enqueueMessage($message, 'error');
+
+            if ($isJsonRequest) {
+                echo new JsonResponse(
+                    [
+                        'status' => 'error',
+                        'task'   => $task,
+                        'value'  => $value,
+                    ],
+                    $message,
+                    true
+                );
+
+                return;
+            }
+
+            $this->setRedirect(Route::_($redirectUrl, false), $message, 'error');
 
             return;
         }
@@ -105,7 +123,23 @@ class ArticlesController extends AdminController
 
         // Publish the items.
         if (!$model->featured($ids, $value)) {
-            $this->setRedirect(Route::_($redirectUrl, false), $model->getError(), 'error');
+            $message = $model->getError();
+
+            if ($isJsonRequest) {
+                echo new JsonResponse(
+                    [
+                        'status' => 'error',
+                        'task'   => $task,
+                        'value'  => $value,
+                    ],
+                    $message,
+                    true
+                );
+
+                return;
+            }
+
+            $this->setRedirect(Route::_($redirectUrl, false), $message, 'error');
 
             return;
         }
@@ -114,6 +148,21 @@ class ArticlesController extends AdminController
             $message = Text::plural('COM_CONTENT_N_ITEMS_FEATURED', \count($ids));
         } else {
             $message = Text::plural('COM_CONTENT_N_ITEMS_UNFEATURED', \count($ids));
+        }
+
+        if ($isJsonRequest) {
+            echo new JsonResponse(
+                [
+                    'status'   => 'success',
+                    'message'  => $message,
+                    'task'     => $task,
+                    'value'    => $value,
+                    'featured' => $value,
+                ],
+                $message
+            );
+
+            return;
         }
 
         $this->setRedirect(Route::_($redirectUrl, false), $message);
