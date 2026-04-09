@@ -30,7 +30,8 @@ use Joomla\Utilities\ArrayHelper;
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
-    ->useScript('multiselect');
+    ->useScript('multiselect')
+    ->useScript('com_content.articles-status');
 
 $app       = Factory::getApplication();
 $user      = $this->getCurrentUser();
@@ -63,8 +64,7 @@ $workflow_featured = false;
 
 if ($workflow_enabled) :
     $wa->getRegistry()->addExtensionRegistryFile('com_workflow');
-    $wa->useScript('com_workflow.admin-items-workflow-buttons')
-    ->useScript('com_content.articles-status');
+    $wa->useScript('com_workflow.admin-items-workflow-buttons');
 
     $workflow_state    = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.state', 'com_content.article');
     $workflow_featured = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article');
