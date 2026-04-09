@@ -130,6 +130,39 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
     <jdoc:include type="metas" />
     <jdoc:include type="styles" />
     <jdoc:include type="scripts" />
+    <style>
+  /* This targets the main wrapper to make it full width */
+  .site-grid {
+      display: block !important; /* Overrides the default grid constraints */
+  }
+
+  .container-component {
+      background-image: url('images/mit.jpg') !important;
+      background-size: cover !important;
+      background-position: center center !important;
+      background-repeat: no-repeat !important;
+      
+      /* Full Width Logic */
+      width: 100vw !important;      /* 100% of the Viewport Width */
+      position: relative !important;
+      left: 50% !important;
+      right: 50% !important;
+      margin-left: -50vw !important; /* Centers the 100vw box */
+      margin-right: -50vw !important;
+      
+      min-height: 600px; /* Increased height for better visual impact */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+  
+  /* Optional: Make the text inside readable */
+  .container-component > * {
+      background: rgba(255, 255, 255, 0.7); 
+      padding: 20px;
+      border-radius: 8px;
+  }
+</style>
 </head>
 
 <body class="site <?php echo $option
