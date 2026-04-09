@@ -20,6 +20,10 @@
         padding: 0;
       }
     }
+
+    legend {
+      color: var(--body-color);
+    }
   }
 
   .login {
@@ -75,6 +79,13 @@
         @include media-breakpoint-down(sm) {
           inline-size: 100%;
         }
+      }
+
+      .form-control-feedback {
+        position: static;
+        display: block;
+        margin-block-start: .35rem;
+        text-align: start;
       }
     }
 
@@ -267,6 +278,50 @@ label {
 
   .invalid .form-control-feedback {
     color: var(--danger-text);
+  }
+
+  // Pattern A login flow styles
+  // Space for browser validation tooltip on username field
+  .login-username {
+    margin-block-end: 2.5rem;
+  }
+
+  .login-methods {
+    display: none; // Hidden by default when JavaScript is disabled
+    flex-direction: column;
+    gap: .5rem;
+
+    .js-enabled & {
+      display: flex; // Show only when JavaScript is enabled
+    }
+
+    .btn {
+      inline-size: 100%;
+
+      // Constrain icon size in buttons (e.g., passkey icon)
+      svg,
+      img {
+        max-block-size: 1.25em;
+        max-inline-size: 1.25em;
+        vertical-align: middle;
+      }
+
+      .icon {
+        font-size: 1em;
+      }
+    }
+  }
+
+  .login-language {
+    opacity: .8;
+
+    label {
+      font-size: ($font-size-base * .875);
+    }
+  }
+
+  .login-other-methods {
+    opacity: .9;
   }
 }
 
