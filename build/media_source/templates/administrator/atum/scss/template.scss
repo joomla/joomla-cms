@@ -39,11 +39,11 @@
 @import "vendor/bootstrap/lists";
 @import "vendor/bootstrap/list-group";
 @import "vendor/bootstrap/modal";
-@import "vendor/bootstrap/pagination";
 @import "vendor/bootstrap/reboot";
 @import "vendor/bootstrap/table";
 
 // Blocks
+@import "blocks/pagination";
 @import "blocks/alerts";
 @import "blocks/calendar";
 @import "blocks/edit";

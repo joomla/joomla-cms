@@ -64,6 +64,6 @@ $params = $this->params;
         </p>
     <?php endif; ?>
     <div class="com-content-archive__pagination">
-        <?php echo $this->pagination->getPagesLinks(); ?>
+        <?php echo $this->pagination->getPaginationLinks(); ?>
     </div>
 </div>

@@ -63,7 +63,7 @@ $htag        = $this->params->get('show_page_heading') ? 'h2' : 'h1';
                     <?php echo $this->pagination->getPagesCounter(); ?>
                 </p>
             <?php endif; ?>
-            <?php echo $this->pagination->getPagesLinks(); ?>
+            <?php echo $this->pagination->getPaginationLinks(); ?>
         </div>
     <?php endif; ?>
 </div>

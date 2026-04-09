@@ -121,7 +121,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                         <?php echo $this->pagination->getPagesCounter(); ?>
                     </p>
                 <?php endif; ?>
-                <?php echo $this->pagination->getPagesLinks(); ?>
+                <?php echo $this->pagination->getPaginationLinks(); ?>
             </div>
         <?php endif; ?>
         <input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>">

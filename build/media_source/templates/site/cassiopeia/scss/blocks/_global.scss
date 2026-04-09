@@ -112,10 +112,6 @@ a {
   }
 }
 
-.com-content-category__pagination {
-  margin-bottom: $cassiopeia-grid-gutter;
-}
-
 small,
 .small {
   font-size: $font-size-sm;
@@ -210,47 +206,6 @@ figcaption {
 // meter element
 meter {
   width: 100%;
-}
-
-.pagenavigation,
-.pager {
-  clear: both;
-  .pagination {
-    justify-content: space-between;
-    padding: 0;
-    margin: $cassiopeia-grid-gutter 0;
-
-    .next:only-child {
-      margin-left: auto;
-    }
-  }
-}
-
-.page-link {
-  color: var(--#{$prefix}link-color);
-  &:hover {
-    color: var(--#{$prefix}link-color);
-  }
-}
-
-.pager {
-  .pagination {
-    justify-content: center;
-  }
-}
-
-[dir="rtl"] li.next .page-link {
-  border-top-left-radius: .25rem;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: .25rem;
-}
-
-[dir="rtl"] li.previous .page-link {
-  border-top-left-radius: 0;
-  border-top-right-radius: .25rem;
-  border-bottom-right-radius: .25rem;
-  border-bottom-left-radius: 0;
 }
 
 .article-index {

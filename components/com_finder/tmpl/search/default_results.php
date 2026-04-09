@@ -81,7 +81,7 @@ use Joomla\CMS\Uri\Uri;
 <div class="com-finder__navigation search-pagination">
     <?php if ($this->params->get('show_pagination', 1) > 0) : ?>
     <div class="com-finder__pagination w-100">
-        <?php echo $this->pagination->getPagesLinks(); ?>
+        <?php echo $this->pagination->getPaginationLinks(); ?>
     </div>
     <?php endif; ?>
     <?php if ($this->params->get('show_pagination_results', 1) > 0) : ?>
