@@ -252,6 +252,13 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
     <?php endif; ?>
 
     <jdoc:include type="modules" name="debug" style="none" />
+    <footer class="footer">
+    <div class="container">
+        <p style="text-align: center; color: #666;">
+    Customized by Alex and Group - Forked Joomla 5.4-dev Project
+     </p>
+        </div>
+    </footer>
 </body>
 
 </html>
