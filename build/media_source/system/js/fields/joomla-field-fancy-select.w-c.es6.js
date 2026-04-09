@@ -26,6 +26,7 @@
  *
  * data-max-results="30" The maximum amount of search results to be displayed.
  * data-max-render="30"  The maximum amount of items to be rendered, critical for large lists.
+ * data-fuse-threshold="0.3" The threshold value for Choices.js fuzzy search (default: 0.3).
  */
 window.customElements.define('joomla-field-fancy-select', class extends HTMLElement {
   // Attributes to monitor
@@ -112,6 +113,17 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     this.isDisconnected = false;
 
     // Init Choices
+
+    // Allow configurable fuzzy search threshold (default 0.3)
+    let threshold = 0.3;
+
+    if (this.select.dataset.fuseThreshold !== undefined) {
+      const parsed = parseFloat(this.select.dataset.fuseThreshold);
+      if (!Number.isNaN(parsed)) {
+        threshold = parsed;
+      }
+    }
+
     this.choicesInstance = new Choices(this.select, {
       placeholderValue: this.placeholder,
       searchPlaceholderValue: this.searchPlaceholder,
@@ -122,7 +134,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       renderSelectedChoices: 'always',
       shouldSort: false,
       fuseOptions: {
-        threshold: 0.3, // Strict search
+        threshold
       },
       noResultsText: Joomla.Text._('JGLOBAL_SELECT_NO_RESULTS_MATCH', 'No results found'),
       noChoicesText: Joomla.Text._('JGLOBAL_SELECT_NO_RESULTS_MATCH', 'No results found'),
