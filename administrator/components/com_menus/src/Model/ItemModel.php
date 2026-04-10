@@ -1340,7 +1340,7 @@ class ItemModel extends AdminModel
 
         if ($pk > 0) {
             $table->load($pk);
-            $isNew = false;
+            $isNew            = false;
             $originalParentId = (int) $table->parent_id;
             $originalMenuType = (string) $table->menutype;
         }
