@@ -128,11 +128,16 @@ if ($inheritEnabled) {
                                     </label>
                                     <?php if ($isParent && $link->level != 0 && $inheritEnabled) : ?>
                                         <div class="d-inline-block">
-                                            <select class="form-select form-select-sm ms-3 " name="jform[inherit_select_<?php echo (int) $link->value; ?>]">
+                                            <select
+                                                class="form-select form-select-sm ms-3"
+                                                name="jform[inherit_select_<?php echo (int) $link->value; ?>]"
+                                                aria-label="<?php echo $this->escape(Text::sprintf('COM_MODULES_INHERITANCE_MENU_ITEM_LABEL', strip_tags($link->text))); ?>"
+                                            >
                                                 <option value="0" <?php echo (($this->item->inherit[$link->value] ?? null) === 0) ? 'selected' : ''; ?>><?php echo Text::_('COM_MODULES_INHERIT_NONE'); ?></option>
                                                 <option value="1" <?php echo (($this->item->inherit[$link->value] ?? null) === 1) ? 'selected' : ''; ?>><?php echo Text::_('COM_MODULES_INHERIT'); ?></option>
                                                 <option value="2" <?php echo (($this->item->inherit[$link->value] ?? null) === 2) ? 'selected' : ''; ?>><?php echo Text::_('COM_MODULES_INHERIT_ALL'); ?></option>
                                             </select>
+                                            <span class="module-inherit-lock-badge badge bg-info ms-3 d-none"><?php echo Text::_('COM_MODULES_INHERITED_FROM_ANCESTOR'); ?></span>
                                         </div>
                                     <?php endif; ?>
                                     <?php if ($inheritEnabled) : ?>

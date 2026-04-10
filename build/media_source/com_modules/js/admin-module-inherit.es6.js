@@ -7,6 +7,9 @@
   const SELECT_SELECTOR = 'select[name^="jform[inherit_select_"]';
   const CHECKBOX_SELECTOR = 'input[type="checkbox"][name="jform[assigned][]"]';
   const HIDDEN_INHERIT_SELECTOR = 'input[type="hidden"][name^="jform[inherit]["]';
+  const LOCK_BADGE_SELECTOR = '.module-inherit-lock-badge';
+  const TREE_UNCHECK_ALL_SELECTOR = '#treeUncheckAll';
+  const SUBTREE_ACTION_SELECTOR = 'a.checkall, a.uncheckall';
 
   const getSubmenu = (li) => {
     if (!li) {
@@ -152,7 +155,47 @@
   const refreshSelectState = (state, select) => {
     const baselineLocked = select.dataset.inheritBaselineDisabled === '1';
     const inheritedLocked = (state.selectLockCount.get(select) || 0) > 0;
+    const badge = select.parentNode.querySelector(LOCK_BADGE_SELECTOR);
+
     select.disabled = baselineLocked || inheritedLocked;
+
+    if (!inheritedLocked) {
+      select.classList.remove('d-none');
+
+      if (badge) {
+        badge.classList.add('d-none');
+      }
+
+      return;
+    }
+
+    select.classList.add('d-none');
+
+    if (badge) {
+      badge.classList.remove('d-none');
+    }
+  };
+
+  const refreshSubtreeActions = (root) => {
+    root.querySelectorAll(SUBTREE_ACTION_SELECTOR).forEach((link) => {
+      const li = link.closest('li');
+      const submenu = getSubmenu(li);
+      const hasTargets = submenu && submenu.querySelector(CHECKBOX_SELECTOR);
+
+      const hasActionableTargets = submenu
+        && submenu.querySelector(`${CHECKBOX_SELECTOR}:not(:disabled)`);
+
+      const disabled = Boolean(hasTargets && !hasActionableTargets);
+
+      link.classList.toggle('disabled', disabled);
+      link.setAttribute('aria-disabled', disabled ? 'true' : 'false');
+
+      if (disabled) {
+        link.setAttribute('tabindex', '-1');
+      } else {
+        link.removeAttribute('tabindex');
+      }
+    });
   };
 
   const applyModeDelta = (state, sourceSelect, mode, delta) => {
@@ -284,6 +327,7 @@
     });
 
     return {
+      root,
       checkboxes,
       selects,
       hiddenByMenuId,
@@ -310,6 +354,8 @@
     state.selects.forEach((select) => {
       refreshSelectState(state, select);
     });
+
+    refreshSubtreeActions(state.root);
   };
 
   const updateSelectMode = (state, sourceSelect) => {
@@ -338,6 +384,26 @@
     affectedSelects.forEach((select) => {
       refreshSelectState(state, select);
     });
+
+    refreshSubtreeActions(state.root);
+  };
+
+  const clearInheritance = (state) => {
+    state.selects.forEach((select) => {
+      select.value = '0';
+      syncHiddenValue(state, select);
+      updateSelectMode(state, select);
+    });
+
+    state.checkboxes.forEach((checkbox) => {
+      if (checkbox.dataset.inheritBaselineDisabled !== '1') {
+        checkbox.checked = false;
+      }
+
+      refreshCheckboxState(state, checkbox);
+    });
+
+    refreshSubtreeActions(state.root);
   };
 
   const init = () => {
@@ -374,6 +440,27 @@
       syncHiddenValue(state, target);
       updateSelectMode(state, target);
     });
+
+    root.addEventListener('click', (event) => {
+      if (!(event.target instanceof Element)) {
+        return;
+      }
+
+      const target = event.target.closest(SUBTREE_ACTION_SELECTOR);
+
+      if (!target || target.getAttribute('aria-disabled') !== 'true') {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+    }, true);
+
+    const treeUncheckAll = document.querySelector(TREE_UNCHECK_ALL_SELECTOR);
+
+    if (treeUncheckAll) {
+      treeUncheckAll.addEventListener('click', () => clearInheritance(state));
+    }
   };
 
   document.addEventListener('DOMContentLoaded', init);
