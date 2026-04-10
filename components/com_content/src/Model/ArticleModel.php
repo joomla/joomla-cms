@@ -76,6 +76,55 @@ class ArticleModel extends ItemModel
     }
 
     /**
+     * Check if the current request is an admin preview (without requiring shared sessions).
+     *
+     * @return bool
+     */
+
+    protected function isAdminPreview(): bool
+    {
+        $app = Factory::getApplication();
+        $input = $app->getInput();
+
+        if (!$input->getInt('preview', 0)) {
+            return false;
+        }
+
+        $token = $input->getString('preview_token', '');
+
+        if (empty($token)) {
+            return false;
+        }
+
+        $db = $this->getDatabase();
+        $pk = (int) $this->getState('article.id');
+        $nowDate = Factory::getDate()->toSql();
+
+        $query = $db->createQuery()
+            ->select($db->quoteName('user_id'))
+            ->from($db->quoteName('#__content_preview_tokens'))
+            ->where($db->quoteName('token') . ' = :token')
+            ->where($db->quoteName('article_id') . ' = :pk')
+            ->where($db->quoteName('expires') . ' >= :now')
+            ->bind(':token', $token)
+            ->bind(':pk', $pk, \Joomla\Database\ParameterType::INTEGER)
+            ->bind(':now', $nowDate);
+
+        $db->setQuery($query);
+        $userId = (int) $db->loadResult();
+
+        if (!$userId) {
+            return false;
+        }
+
+        $previewUser = Factory::getContainer()
+            ->get(\Joomla\CMS\User\UserFactoryInterface::class)
+            ->loadUserById($userId);
+
+        return $previewUser->authorise('core.edit.state', 'com_content');
+    }
+
+    /**
      * Method to get article data.
      *
      * @param   integer  $pk  The id of the article.
@@ -94,7 +143,7 @@ class ArticleModel extends ItemModel
 
         if (!isset($this->_item[$pk])) {
             try {
-                $db    = $this->getDatabase();
+                $db = $this->getDatabase();
                 $query = $db->createQuery();
 
                 $query->select(
@@ -149,7 +198,7 @@ class ArticleModel extends ItemModel
                             $db->quoteName('parent.alias', 'parent_alias'),
                             $db->quoteName('parent.language', 'parent_language'),
                             'ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 1) AS '
-                                . $db->quoteName('rating'),
+                            . $db->quoteName('rating'),
                             $db->quoteName('v.rating_count', 'rating_count'),
                         ]
                     )
@@ -176,9 +225,12 @@ class ArticleModel extends ItemModel
                     $query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
                 }
 
+                $isPreview = $this->isAdminPreview();
+
                 if (
                     !$user->authorise('core.edit.state', 'com_content.article.' . $pk)
                     && !$user->authorise('core.edit', 'com_content.article.' . $pk)
+                    && !$isPreview
                 ) {
                     // Filter by start and end dates.
                     $nowDate = Factory::getDate()->toSql();
@@ -204,9 +256,9 @@ class ArticleModel extends ItemModel
 
                 // Filter by published state.
                 $published = $this->getState('filter.published');
-                $archived  = $this->getState('filter.archived');
+                $archived = $this->getState('filter.archived');
 
-                if (is_numeric($published)) {
+                if (is_numeric($published) && !$isPreview) {
                     $query->whereIn($db->quoteName('a.state'), [(int) $published, (int) $archived]);
                 }
 
@@ -219,7 +271,7 @@ class ArticleModel extends ItemModel
                 }
 
                 // Check for published state if filter set.
-                if ((is_numeric($published) || is_numeric($archived)) && ($data->state != $published && $data->state != $archived)) {
+                if ((is_numeric($published) || is_numeric($archived)) && ($data->state != $published && $data->state != $archived) && !$isPreview) {
                     throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
                 }
 
@@ -234,7 +286,7 @@ class ArticleModel extends ItemModel
                 // Technically guest could edit an article, but lets not check that to improve performance a little.
                 if (!$user->guest) {
                     $userId = $user->id;
-                    $asset  = 'com_content.article.' . $data->id;
+                    $asset = 'com_content.article.' . $data->id;
 
                     // Check general edit permission first.
                     if ($user->authorise('core.edit', $asset)) {
@@ -254,7 +306,7 @@ class ArticleModel extends ItemModel
                     $data->params->set('access-view', true);
                 } else {
                     // If no access filter is set, the layout takes some responsibility for display of limited information.
-                    $user   = $this->getCurrentUser();
+                    $user = $this->getCurrentUser();
                     $groups = $user->getAuthorisedViewLevels();
 
                     if ($data->catid == 0 || $data->category_access === null) {
@@ -288,7 +340,7 @@ class ArticleModel extends ItemModel
      */
     public function hit($pk = 0)
     {
-        $input    = Factory::getApplication()->getInput();
+        $input = Factory::getApplication()->getInput();
         $hitcount = $input->getInt('hitcount', 1);
 
         if ($hitcount) {
@@ -311,14 +363,14 @@ class ArticleModel extends ItemModel
      */
     public function storeVote($pk = 0, $rate = 0)
     {
-        $pk   = (int) $pk;
+        $pk = (int) $pk;
         $rate = (int) $rate;
 
         if ($rate >= 1 && $rate <= 5 && $pk > 0) {
             $userIP = IpHelper::getIp();
 
             // Initialize variables.
-            $db    = $this->getDatabase();
+            $db = $this->getDatabase();
             $query = $db->createQuery();
 
             // Create the base select statement.

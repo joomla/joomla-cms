@@ -62,10 +62,43 @@ class HtmlView extends FormView
             $config['option'] = 'com_content';
         }
 
-        $config['help_link']      = 'Articles:_Edit';
-        $config['toolbar_icon']   = 'pencil-alt article-add';
+        $config['help_link'] = 'Articles:_Edit';
+        $config['toolbar_icon'] = 'pencil-alt article-add';
 
         parent::__construct($config);
+    }
+
+    /**
+     * Generate a signed time-limited preview token and persist it.
+     *
+     * @param   int  $articleId
+     *
+     * @return  string
+     */
+    protected function generatePreviewToken(int $articleId): string
+    {
+        $user = $this->getCurrentUser();
+        $token = bin2hex(random_bytes(16)); // 32-char hex token
+        $expires = Factory::getDate('+5 minutes')->toSql();
+
+        $db = Factory::getDbo();
+        $row = (object) [
+            'token' => $token,
+            'user_id' => $user->id,
+            'article_id' => $articleId,
+            'expires' => $expires,
+        ];
+
+        // Clean up expired tokens first
+        $db->setQuery(
+            $db->createQuery()
+                ->delete($db->quoteName('#__content_preview_tokens'))
+                ->where($db->quoteName('expires') . ' < ' . $db->quote(Factory::getDate()->toSql()))
+        )->execute();
+
+        $db->insertObject('#__content_preview_tokens', $row);
+
+        return $token;
     }
 
     /**
@@ -87,14 +120,17 @@ class HtmlView extends FormView
 
         $url = RouteHelper::getArticleRoute($this->item->id . ':' . $this->item->alias, $this->item->catid, $this->item->language);
 
-        $this->previewLink = $url;
-        $this->jooa11yLink = $url . '&jooa11y=1';
+        // Generate a signed, time-limited preview token and store it in the DB
+        $previewToken = $this->generatePreviewToken($this->item->id);
+
+        $this->previewLink = $url . '&preview=1&preview_token=' . $previewToken;
+        $this->jooa11yLink = $url . '&jooa11y=1&preview=1&preview_token=' . $previewToken;
 
         if ($this->getLayout() === 'modalreturn') {
             return;
         }
 
-        $input          = Factory::getApplication()->getInput();
+        $input = Factory::getApplication()->getInput();
         $forcedLanguage = $input->get('forcedLanguage', '', 'cmd');
 
         // If we are forcing a language in modal (used for associations).
@@ -134,9 +170,9 @@ class HtmlView extends FormView
             return;
         }
 
-        $user       = $this->getCurrentUser();
-        $userId     = $user->id;
-        $isNew      = ($this->item->id == 0);
+        $user = $this->getCurrentUser();
+        $userId = $user->id;
+        $isNew = ($this->item->id == 0);
         $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
 
         $this->toolbarTitle = Text::_('COM_CONTENT_PAGE_' . ($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE')));
@@ -155,11 +191,11 @@ class HtmlView extends FormView
      */
     protected function addModalToolbar()
     {
-        $user       = $this->getCurrentUser();
-        $userId     = $user->id;
-        $isNew      = ($this->item->id == 0);
+        $user = $this->getCurrentUser();
+        $userId = $user->id;
+        $isNew = ($this->item->id == 0);
         $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
-        $toolbar    = $this->getDocument()->getToolbar();
+        $toolbar = $this->getDocument()->getToolbar();
 
         // Build the actions for new and existing records.
         $canDo = $this->canDo;
@@ -170,7 +206,7 @@ class HtmlView extends FormView
         );
 
         $canCreate = $isNew && (\count($user->getAuthorisedCategories('com_content', 'core.create')) > 0);
-        $canEdit   = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
+        $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
         // For new records, check the create permission.
         if ($canCreate || $canEdit) {
