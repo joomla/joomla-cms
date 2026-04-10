@@ -1,0 +1,7 @@
+@charset "UTF-8";
+ul.phpdebugbar-widgets-languageErrors {
+  margin-top: 5px;
+  margin-left: 5px;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
+  line-height: 1.3em;
+}

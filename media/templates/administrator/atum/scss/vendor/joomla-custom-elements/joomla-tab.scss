@@ -1,0 +1,343 @@
+@import "../../../../../../vendor/bootstrap/scss/functions";
+
+// Atum Variables
+@import "../../variables";
+
+@import "../../../../../../vendor/bootstrap/scss/variables";
+@import "../../../../../../vendor/bootstrap/scss/mixins";
+
+// Tabs
+
+//
+// Base styles
+//
+
+joomla-tab {
+  display: flex;
+  flex-direction: column;
+
+  &[orientation=horizontal]:not([view=accordion]) {
+    margin-bottom: 0;
+  }
+
+  &[orientation=horizontal]:not([view=accordion]) > div[role=tablist] {
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  > div[role=tablist] {
+    display: flex;
+    flex-flow: wrap;
+    padding: 0;
+    white-space: nowrap;
+    list-style: outside none none;
+    border-bottom: $joomla-tablist-border-bottom; // 1px solid var(--template-bg-dark-10);
+
+    > button[role=tab] {
+      position: relative;
+      box-sizing: border-box;
+      display: block;
+      padding: .6rem 1rem;
+      text-decoration: none;
+      background-color: var(--body-bg);
+      border: 0;
+      box-shadow: none;
+
+      &:first-of-type,
+      &[aria-selected=true]:first-of-type {
+        border-start-start-radius: .25rem;
+      }
+
+      &:focus-visible {
+        z-index: 1;
+      }
+
+      &[aria-selected=true],
+      &:focus,
+      &:hover {
+        color: $joomla-tab-btn-hvr;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+
+        &::after {
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          height: 3px;
+          content: "";
+          background-color: var(--btn-primary-bg);
+          opacity: .8;
+        }
+
+        .text-muted {
+          color: $text-muted-hvr-color;
+        }
+      }
+
+      &[aria-selected=true] {
+        font-weight: $font-weight-bold;
+        background: $joomla-tab-btn-aria-exp-bg;
+      }
+
+      .text-muted {
+        color: $text-muted-color;
+      }
+    }
+  }
+
+  > button[role=region] {
+    width: 100%;
+    padding: .7rem;
+    color: var(--template-text-light);
+    text-align: start;
+    background-color: var(--template-link-color);
+    border: $joomla-tab-btn-region-border;
+    border-top: 0;
+
+    &[aria-selected=true],
+    &:hover,
+    &:focus {
+      color: var(--template-text-light);
+      background-color: var(--template-bg-dark);
+    }
+
+    .text-muted {
+      color: $text-muted-color;
+    }
+  }
+
+  > joomla-tab-element {
+    --gutter-x: 2rem;
+    display: none;
+    padding: 30px 2vw;
+    background-color: var(--body-bg);
+    border: 0;
+    border-radius: .25rem;
+    box-shadow: none;
+
+    &[active] {
+      display: block;
+    }
+  }
+
+  .main-card-columns > * > & {
+    height: 100%;
+    border-left: $main-card-col-border-left; // 1px solid var(--template-bg-dark-10);
+  }
+}
+
+joomla-tab[orientation=vertical] {
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
+
+  > div[role=tablist] {
+    flex: 0 0 25%;
+    flex-direction: column;
+    width: 100%;
+    min-width: 25%;
+    max-width: 25%;
+    height: auto;
+    padding: 0;
+    overflow: hidden;
+    border: $joomla-tab-tablist-border; // 1px solid $gray-300;
+    border-radius: 0;
+    box-shadow: none;
+
+    @include media-breakpoint-down(lg) {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+
+    > button[role=tab] {
+      text-align: start;
+
+      &[aria-selected=true] {
+        color: $joomla-tablist-btn-aria-exp; // var(--template-text-light);
+        background-color: $joomla-tablist-btn-aria-exp-bg; // var(--template-bg-dark-60);
+      }
+    }
+
+    > button[role=tab]:last-of-type {
+      border-bottom: 0;
+    }
+
+    > button[role=tab] {
+      position: relative;
+      display: block;
+      padding: .75em 1em;
+      margin: -1px 0;
+      text-decoration: none;
+      border-top: 1px solid transparent;
+      border-bottom: $joomla-tab-vert-border-bottom; // 1px solid $gray-300;
+      box-shadow: none;
+
+      &[aria-selected=true],
+      &:focus,
+      &:hover {
+        color: var(--template-text-light);
+        background-color: $joomla-tablist-btn-aria-exp-bg; // var(--template-bg-dark-60);
+        background-image: none;
+        border-right: 0;
+        box-shadow: none;
+
+        &::after {
+          top: 0;
+          bottom: 0;
+          left: -1px;
+          width: 5px;
+          height: auto;
+          background-color: $joomla-tablist-btn-aria-exp-aft-bg; // var(--template-bg-dark);
+        }
+
+        .text-muted {
+          color: $text-muted-hvr-color;
+        }
+      }
+
+      .text-muted {
+        color: $text-muted-color;
+      }
+    }
+  }
+
+  > joomla-tab-element {
+    width: 100%;
+    padding: $grid-gutter-width-s 0 $grid-gutter-width-s $grid-gutter-width-s;
+    border: 0 none;
+    box-shadow: none;
+  }
+}
+
+joomla-tab[view=accordion] {
+  flex-direction: column;
+  white-space: normal;
+  border-radius: 0;
+  box-shadow: $joomla-tab-accordion-box-shadow;
+
+  > div[role=tablist] {
+    background-color: $white;
+
+    > button[role=tab] {
+      position: relative;
+      display: block;
+      padding: .75em 1em;
+      color: var(--template-text-light);
+      text-align: start;
+      text-decoration: none;
+      border: 0;
+      border-bottom: $joomla-tab-vert-border-bottom; // 1px solid $gray-300;
+      box-shadow: none;
+
+      &[aria-selected=true]::after,
+      &:hover::after {
+        position: absolute;
+        top: auto;
+        right: -1px;
+        bottom: -1px;
+        left: -1px;
+        display: block;
+        width: calc(100% + 2px);
+        height: 5px;
+        content: "";
+        background-color: var(--template-bg-dark);
+        opacity: .8;
+      }
+    }
+  }
+
+  > joomla-tab-element {
+    display: none;
+    padding: 15px;
+
+    &[active] {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      border-bottom: $joomla-tab-vert-border-bottom; // 1px solid $gray-300;
+    }
+  }
+
+  [active],
+  [aria-selected=true] {
+    background-color: var(--body-bg);
+  }
+
+  .col-md-6,
+  .col-md-9,
+  .col-md-3 {
+    padding: .5rem 0 0 !important;
+  }
+
+  #permissions-sliders > joomla-tab-element[active] {
+    padding: 0 !important;
+
+    @include media-breakpoint-down(lg) {
+      .respTable {
+        text-align: end;
+      }
+
+      .respTable, .respTable thead, .respTable tbody, .respTable tr, .respTable th, .respTable td {
+        display: block;
+      }
+
+      .respTable thead {
+        position: absolute;
+        inset-block-start: -1111px;
+        inset-inline-start: -1111px;
+      }
+
+      .respTable td::before {
+        float: inline-start;
+        padding-inline-end: 2em;
+        font-weight: $bold-weight;
+        content: attr(data-label) ":";
+      }
+
+      .respTable td:nth-child(1) {
+        font-weight: $bold-weight;
+      }
+
+      .respTable td:last-child {
+        border-bottom: $respTable-border-bottom; // 1em var(--template-bg-dark-80) solid;
+      }
+
+      .oddCol {
+        background: $permissions-sliders-oddCol-bg; // var(--template-bg-light);
+      }
+    }
+  }
+
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    joomla-tab {
+      > button[role=region] {
+        color: var(--btn-primary-color);
+        background-color: var(--btn-primary-bg);
+        border: var(--btn-primary-border);
+
+        &[aria-selected=true],
+        &:hover,
+        &:focus {
+          color: var(--btn-primary-color);
+          background-color: var(--btn-primary-bg-hvr);
+        }
+
+      }
+
+    }
+
+    [dir=rtl] joomla-tab {
+      div[role="tablist"] > button[role="tab"][aria-selected="true"]::after {
+        right: auto;
+        left: 0;
+      }
+    }
+  }
+}
+
+

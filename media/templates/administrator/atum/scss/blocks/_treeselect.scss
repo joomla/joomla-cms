@@ -1,0 +1,132 @@
+// Tree select
+
+.treeselect {
+  display: block;
+  padding-left: 0;
+  list-style: none;
+
+  .nav-header {
+    font-weight: $font-weight-bold;
+    color: $nav-header-color;
+  }
+
+  li {
+    position: relative;
+    display: block;
+    line-height: $treeselect-line-height;
+    list-style: none;
+
+    &::before {
+      position: absolute;
+      top: 14px;
+      inset-inline-start: ($treeselect-indent - 15px);
+      width: 10px;
+      height: 1px;
+      margin: auto;
+      content: "";
+      background-color: var(--treeselect-line-color);
+    }
+
+    &::after {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      inset-inline-start: ($treeselect-indent - 15px);
+      width: 1px;
+      height: 100%;
+      content: "";
+      background-color: var(--treeselect-line-color);
+    }
+
+    &:last-child {
+
+      &::after {
+        height: 14px;
+      }
+    }
+
+    li {
+      padding-inline-start: $treeselect-indent;
+    }
+  }
+
+  > li::before,
+  > li::after {
+    display: none;
+  }
+
+  .#{$jicon-css-prefix}-,
+  .#{$fa-css-prefix}- {
+    display: none;
+  }
+
+  .treeselect-toggle {
+    display: inline-block;
+    padding: 0;
+    margin-right: .1rem;
+    color: var(--template-link-color);
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .treeselect-menu {
+    display: inline-block;
+  }
+
+  .treeselect-item {
+    display: inline-block;
+
+    input {
+      position: relative;
+      top: 1px;
+      margin-right: .2rem;
+    }
+
+    label {
+      margin-bottom: 0;
+    }
+  }
+
+  .dropdown-toggle {
+    padding: 0 .5rem .3rem;
+    margin-left: .5rem;
+
+    &::after {
+      margin-left: 0;
+      font-size: 1rem;
+      color: var(--treeselect-dropdown-toggle);
+    }
+  }
+}
+
+.treeselect-sub {
+  padding-left: 0;
+}
+
+.tree-holder {
+
+  ul ul {
+
+    li::before,
+    li::after {
+      inset-inline-start: 8px;
+      display: block;
+    }
+
+    li::before {
+      top: 12px;
+    }
+
+    li:last-child::after {
+      height: 12px;
+    }
+  }
+
+  li {
+    line-height: 1.8rem;
+
+    li {
+      padding-inline-start: 20px;
+    }
+  }
+}

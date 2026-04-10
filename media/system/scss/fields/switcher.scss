@@ -1,0 +1,86 @@
+$off-background-colour: #d3d3d3;
+$on-background-colour: #2f7d32;
+$switcher-width: 62px;
+$switcher-height: 28px;
+
+.switcher {
+  position: relative;
+  width: 18rem;
+  height: 28px;
+  margin: 0;
+}
+
+.switcher input {
+  position: absolute;
+  top: 0;
+  inset-inline-start: 0;
+  z-index: 2;
+  width: $switcher-width;
+  height: $switcher-height;
+  margin: 0;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.switcher input:checked {
+  z-index: 1;
+}
+
+.switcher input:checked + label {
+  z-index: 0;
+  opacity: 1;
+}
+
+.switcher input:not(:checked) + label {
+  z-index: 3;
+  opacity: 0;
+}
+
+.switcher input:focus ~ .toggle-outside {
+  border-color: var(--focus);
+  box-shadow: 0 0 0 .2rem rgba(26, 70, 107, .25);
+}
+
+.switcher label {
+  position: absolute;
+  inset-inline-start: 0;
+  display: inline-block;
+  width: auto;
+  min-width: 6rem;
+  height: 100%;
+  margin-bottom: 0;
+  margin-inline-start: 70px;
+  line-height: $switcher-height;
+  text-align: start;
+  transition: opacity .25s ease;
+}
+
+.switcher .toggle-outside {
+  position: absolute;
+  inset-inline-start: 0;
+  box-sizing: border-box;
+  width: 58px;
+  height: 100%;
+  overflow: hidden;
+  background: $off-background-colour;
+  border: 1px solid rgba(0, 0, 0, .18);
+  transition: .2s ease all;
+  transform: translate3d(0, 0, 0);
+}
+
+.switcher input ~ input:checked ~ .toggle-outside {
+  background: $on-background-colour;
+}
+
+.switcher .toggle-inside {
+  position: absolute;
+  left: 0;
+  width: ($switcher-width - 6) * .5;
+  height: $switcher-height;
+  background: #fff;
+  transition: .4s ease all;
+}
+
+.switcher input ~ input:checked ~ .toggle-outside .toggle-inside {
+  left: ($switcher-width * .5) - 1;
+}

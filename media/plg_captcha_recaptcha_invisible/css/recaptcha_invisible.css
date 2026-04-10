@@ -1,0 +1,4 @@
+@charset "UTF-8";
+.grecaptcha-badge {
+  z-index: 999999;
+}

@@ -1,0 +1,10 @@
+@charset "UTF-8";
+:root {
+  --cassiopeia-color-primary: #912b3b;
+  --cassiopeia-color-link: #30638d;
+  --link-color: #30638d;
+  --link-color-rgb: 48, 99, 141;
+  --cassiopeia-color-hover: #954b56;
+  --link-hover-color: #954b56;
+  --link-hover-color-rgb: 149, 75, 86;
+}

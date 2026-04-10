@@ -1,0 +1,63 @@
+@charset "UTF-8";
+#loading {
+  opacity: .8;
+  background-color: #fffc;
+  background-image: url("../../system/images/ajax-loader.gif?v=144b8c");
+  background-position: center;
+  background-repeat: no-repeat;
+  position: fixed;
+  overflow: hidden;
+}
+
+#dragarea {
+  box-sizing: border-box;
+  background-color: var(--body-bg);
+  border: 1px dashed #999;
+  width: 100%;
+  padding: 5% 0;
+  transition: all .2s;
+}
+
+#upload-icon {
+  color: #999;
+  width: auto;
+  height: auto;
+  margin: 0;
+  font-size: 48px;
+  line-height: 175%;
+  transition: all .2s;
+}
+
+#dragarea.hover {
+  background-color: #eee;
+  border-color: #666;
+}
+
+#dragarea.hover #upload-icon, #dragarea p.lead {
+  color: #666;
+}
+
+[data-color-scheme="dark"] #dragarea.hover #upload-icon, [data-color-scheme="dark"] #dragarea p.lead {
+  color: #eee;
+}
+
+[data-color-scheme="dark"] #dragarea.hover {
+  background-color: #666;
+  border-color: #eee;
+}
+
+.upload-progress, .install-progress {
+  width: 50%;
+  margin: 5px auto;
+}
+
+.upload-progress .progress .bar {
+  -o-transition: width .1s;
+  -webkit-transition: width .1s;
+  -moz-transition: width .1s;
+  transition: width .1s;
+}
+
+#dragarea[data-state="pending"] .upload-progress, #dragarea[data-state="pending"] .install-progress, #dragarea[data-state="uploading"] .install-progress, #dragarea[data-state="uploading"] .upload-actions, #dragarea[data-state="installing"] .upload-progress, #dragarea[data-state="installing"] .upload-actions {
+  display: none;
+}

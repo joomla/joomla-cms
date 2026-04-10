@@ -1,0 +1,47 @@
+// Banner
+
+.container-banner {
+  img {
+    display: block;
+    margin: auto;
+  }
+
+  .banner-overlay {
+    height: 70vh;
+    color: $white;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: top,center;
+    background-size: cover;
+
+    .overlay {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: $cassiopeia-grid-gutter;
+      text-align: center;
+      background-color: hsla(0, 0%, 0%, .5);
+
+      .text-thin {
+        font-weight: $font-weight-lighter;
+        &::after {
+          display: block;
+          width: 30%;
+          height: 4px;
+          margin: 1rem auto 2rem;
+          content: "";
+          background: $white;
+        }
+        .lead {
+          font-size: 150vh;
+        }
+      }
+    }
+
+    @media screen and (max-height: 740px) {
+      height: 100vh;
+    }
+  }
+}
