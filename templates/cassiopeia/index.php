@@ -130,6 +130,33 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
     <jdoc:include type="metas" />
     <jdoc:include type="styles" />
     <jdoc:include type="scripts" />
+    <style>
+  /* This allows the grid to function while still letting the background expand */
+  .site-grid {
+      display: grid !important; 
+      grid-template-columns: [full-start] minmax(0, 1fr) [main-start] minmax(0, 1320px) [main-end] minmax(0, 1fr) [full-end] !important;
+  }
+
+  .container-component {
+      grid-column: full-start / full-end !important; /* Forces the hero to stay full width */
+      background-image: url('images/mit.jpg') !important;
+      background-size: cover !important;
+      background-position: center !important;
+      min-height: 500px !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+
+  /* Target the Sidebar specifically */
+  .grid-child.sidebar-right {
+      grid-column: main-end / full-end !important; /* Pushes sidebar to the right slot */
+      background: white;
+      padding: 20px;
+      margin-top: 20px;
+      z-index: 10;
+  }
+</style>
 </head>
 
 <body class="site <?php echo $option
@@ -252,6 +279,13 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
     <?php endif; ?>
 
     <jdoc:include type="modules" name="debug" style="none" />
+    <footer class="footer">
+    <div class="container">
+        <p style="text-align: center; color: #666;">
+    Customized by Alex and Group - Forked Joomla 5.4-dev Project
+     </p>
+        </div>
+    </footer>
 </body>
 
 </html>

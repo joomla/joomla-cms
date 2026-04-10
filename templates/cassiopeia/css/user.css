@@ -1,0 +1,10 @@
+body {
+  border: 10px solid red !important;
+}
+
+.container-component {
+  background-image: url("../../../images/mit.jpg") !important;
+  background-size: cover;
+  background-position: center;
+  min-height: 400px;
+}
