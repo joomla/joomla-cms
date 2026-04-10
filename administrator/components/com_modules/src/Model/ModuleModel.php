@@ -216,21 +216,22 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
                 // Now we need to handle the module assignments
                 $db    = $this->getDatabase();
                 $query = $db->createQuery()
-                    ->select($db->quoteName('menuid'))
+                    ->select($db->quoteName(['menuid', 'inherit']))
                     ->from($db->quoteName('#__modules_menu'))
                     ->where($db->quoteName('moduleid') . ' = :moduleid')
                     ->bind(':moduleid', $pk, ParameterType::INTEGER);
                 $db->setQuery($query);
-                $menus = $db->loadColumn();
+                $moduleAssignments = $db->loadObjectList();
 
                 // Insert the new records into the table
-                foreach ($menus as $i => $menu) {
+                foreach ($moduleAssignments as $i => $moduleAssignment) {
                     $query->clear()
                         ->insert($db->quoteName('#__modules_menu'))
-                        ->columns($db->quoteName(['moduleid', 'menuid']))
-                        ->values(implode(', ', [':newid' . $i, ':menu' . $i]))
+                        ->columns($db->quoteName(['moduleid', 'menuid', 'inherit']))
+                        ->values(implode(', ', [':newid' . $i, ':menu' . $i, ':inherit' . $i]))
                         ->bind(':newid' . $i, $newId, ParameterType::INTEGER)
-                        ->bind(':menu' . $i, $menu, ParameterType::INTEGER);
+                        ->bind(':menu' . $i, $moduleAssignment->menuid, ParameterType::INTEGER)
+                        ->bind(':inherit' . $i, $moduleAssignment->inherit, ParameterType::INTEGER);
                     $db->setQuery($query);
                     $db->execute();
                 }
@@ -440,16 +441,16 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
 
                 $pk    = (int) $pk;
                 $query = $db->createQuery()
-                    ->select($db->quoteName('menuid'))
+                    ->select($db->quoteName(['menuid','inherit']))
                     ->from($db->quoteName('#__modules_menu'))
                     ->where($db->quoteName('moduleid') . ' = :moduleid')
                     ->bind(':moduleid', $pk, ParameterType::INTEGER);
 
                 $db->setQuery($query);
-                $rows = $db->loadColumn();
+                $rows = $db->loadObjectList();
 
-                foreach ($rows as $menuid) {
-                    $tuples[] = (int) $table->id . ',' . (int) $menuid;
+                foreach ($rows as $row) {
+                    $tuples[] = (int) $table->id . ',' . (int) $row->menuid . ',' . (int) $row->inherit;
                 }
             } else {
                 throw new \Exception($table->getError());
@@ -460,7 +461,7 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
             // Module-Menu Mapping: Do it in one query
             $query = $db->createQuery()
                 ->insert($db->quoteName('#__modules_menu'))
-                ->columns($db->quoteName(['moduleid', 'menuid']))
+                ->columns($db->quoteName(['moduleid', 'menuid','inherit']))
                 ->values($tuples);
 
             $db->setQuery($query);
@@ -704,12 +705,12 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
 
             // Determine the page assignment mode.
             $query = $db->createQuery()
-                ->select($db->quoteName('menuid'))
+                ->select($db->quoteName(['menuid', 'inherit']))
                 ->from($db->quoteName('#__modules_menu'))
                 ->where($db->quoteName('moduleid') . ' = :moduleid')
                 ->bind(':moduleid', $pk, ParameterType::INTEGER);
             $db->setQuery($query);
-            $assigned = $db->loadColumn();
+            $assigned = $db->loadObjectList();
 
             if (empty($pk)) {
                 // If this is a new module, assign to all pages.
@@ -718,16 +719,22 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
                 // For an existing module it is assigned to none.
                 $assignment = '-';
             } else {
-                if ($assigned[0] > 0) {
+                if ($assigned[0]->menuid > 0) {
                     $assignment = 1;
-                } elseif ($assigned[0] < 0) {
+                } elseif ($assigned[0]->menuid < 0) {
                     $assignment = -1;
                 } else {
                     $assignment = 0;
                 }
             }
 
-            $this->_cache[$pk]->assigned   = $assigned;
+            $inherit = [];
+            foreach ($assigned as $row) {
+                $inherit[(int) $row->menuid] = (int) $row->inherit;
+            }
+
+            $this->_cache[$pk]->assigned   = ArrayHelper::getColumn($assigned, 'menuid');
+            $this->_cache[$pk]->inherit    = $inherit;
             $this->_cache[$pk]->assignment = $assignment;
 
             // Get the module XML.
@@ -1042,10 +1049,11 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
 
                 $query->clear()
                     ->insert($db->quoteName('#__modules_menu'))
-                    ->columns($db->quoteName(['moduleid', 'menuid']));
+                    ->columns($db->quoteName(['moduleid', 'menuid', 'inherit']));
 
                 foreach ($data['assigned'] as &$pk) {
-                    $query->values((int) $id . ',' . (int) $pk * $sign);
+                    $inherit = (int) ($data['inherit'][$pk] ?? 0);
+                    $query->values((int) $table->id . ',' . (int) $pk * $sign . ',' . $inherit);
                 }
 
                 $db->setQuery($query);

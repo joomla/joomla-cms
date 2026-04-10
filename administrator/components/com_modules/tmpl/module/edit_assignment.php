@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -20,11 +21,17 @@ use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 
 // Initialise related data.
 $menuTypes = MenusHelper::getMenuLinks();
-
-$this->getDocument()->getWebAssetManager()
-    ->useScript('joomla.treeselectmenu')
+$wa = $this->getDocument()->getWebAssetManager();
+$wa->useScript('joomla.treeselectmenu')
     ->useScript('com_modules.admin-module-edit-assignment');
 
+$params = ComponentHelper::getParams('com_modules');
+
+$inheritEnabled = $params->get('enable_inherit', 0);
+
+if ($inheritEnabled) {
+    $wa->useScript('com_modules.admin-module-inherit');
+}
 ?>
 <div class="control-group">
     <label id="jform_menus-lbl" class="control-label" for="jform_assignment"><?php echo Text::_('COM_MODULES_MODULE_ASSIGN'); ?></label>
@@ -87,6 +94,13 @@ $this->getDocument()->getWebAssetManager()
                             } elseif ($this->item->assignment > 0) {
                                 $selected = in_array($link->value, $this->item->assigned);
                             }
+
+                            $isParent = false;
+                            $nextId = $i + 1;
+                            if (isset($type->links[$nextId])) {
+                                $nextLevel = $type->links[$nextId]->level;
+                                $isParent = $link->level < $nextLevel;
+                            }
                             ?>
                             <li>
                                 <div class="treeselect-item">
@@ -112,6 +126,18 @@ $this->getDocument()->getWebAssetManager()
                                             <?php echo ' <span class="badge bg-secondary">' . Text::_('COM_MODULES_MENU_ITEM_' . strtoupper($link->type)) . '</span>'; ?>
                                         <?php endif; ?>
                                     </label>
+                                    <?php if ($isParent && $link->level != 0 && $inheritEnabled) : ?>
+                                        <div class="d-inline-block">
+                                            <select class="form-select form-select-sm ms-3 " name="jform[inherit_select_<?php echo (int) $link->value; ?>]">
+                                                <option value="0" <?php echo (($this->item->inherit[$link->value] ?? null) === 0) ? 'selected' : ''; ?>><?php echo Text::_('COM_MODULES_INHERIT_NONE'); ?></option>
+                                                <option value="1" <?php echo (($this->item->inherit[$link->value] ?? null) === 1) ? 'selected' : ''; ?>><?php echo Text::_('COM_MODULES_INHERIT'); ?></option>
+                                                <option value="2" <?php echo (($this->item->inherit[$link->value] ?? null) === 2) ? 'selected' : ''; ?>><?php echo Text::_('COM_MODULES_INHERIT_ALL'); ?></option>
+                                            </select>
+                                        </div>
+                                    <?php endif; ?>
+                                    <?php if ($inheritEnabled) : ?>
+                                        <input type="hidden" name="jform[inherit][<?php echo (int) $link->value; ?>]" value="<?php echo (($this->item->inherit[$link->value] ?? 0)); ?>">
+                                    <?php endif; ?>
                                 </div>
                             <?php
 

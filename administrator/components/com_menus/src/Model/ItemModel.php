@@ -321,6 +321,14 @@ class ItemModel extends AdminModel
             return false;
         }
 
+        $copiedIds = array_unique(ArrayHelper::toInteger(array_values($newIds)));
+
+        foreach ($copiedIds as $copiedId) {
+            if ($copiedId > 0 && !$this->refreshInheritedModules($copiedId, false)) {
+                return false;
+            }
+        }
+
         // Clean the cache
         $this->cleanCache();
 
@@ -460,6 +468,14 @@ class ItemModel extends AdminModel
             } catch (\RuntimeException $e) {
                 $this->setError($e->getMessage());
 
+                return false;
+            }
+        }
+
+        $movedIds = array_unique(ArrayHelper::toInteger((array) $pks));
+
+        foreach ($movedIds as $movedId) {
+            if ($movedId > 0 && !$this->refreshInheritedModules($movedId, true)) {
                 return false;
             }
         }
@@ -1319,9 +1335,14 @@ class ItemModel extends AdminModel
         PluginHelper::importPlugin($this->events_map['save']);
 
         // Load the row if saving an existing item.
+        $originalParentId = 0;
+        $originalMenuType = '';
+
         if ($pk > 0) {
             $table->load($pk);
             $isNew = false;
+            $originalParentId = (int) $table->parent_id;
+            $originalMenuType = (string) $table->menutype;
         }
 
         if (!$isNew) {
@@ -1445,6 +1466,14 @@ class ItemModel extends AdminModel
 
                 return false;
             }
+        }
+
+        $needsInheritanceRefresh = $isNew
+            || (int) $table->parent_id !== $originalParentId
+            || (string) $table->menutype !== $originalMenuType;
+
+        if ((int) $table->client_id === 0 && !$this->refreshInheritedModules((int) $table->id, $needsInheritanceRefresh)) {
+            return false;
         }
 
         $this->setState('item.id', $table->id);
@@ -1754,5 +1783,204 @@ class ItemModel extends AdminModel
         parent::cleanCache('com_menus');
         parent::cleanCache('com_modules');
         parent::cleanCache('mod_menu');
+    }
+
+    /**
+     * Materialize inherited module assignments for a menu item or moved subtree.
+     *
+     * @param   integer  $menuId          Root menu item ID.
+     * @param   boolean  $refreshSubtree  True to process all descendants, false to process only the menu item.
+     *
+     * @return  boolean
+     *
+     * @since   6.2.0
+     */
+    protected function refreshInheritedModules(int $menuId, bool $refreshSubtree): bool
+    {
+        if ($menuId <= 0 || !(int) ComponentHelper::getParams('com_modules')->get('enable_inherit', 0)) {
+            return true;
+        }
+
+        $menuIds = [$menuId];
+
+        if ($refreshSubtree) {
+            $menuIds = $this->getSubtreeIds($menuId);
+
+            if ($menuIds === false) {
+                return false;
+            }
+        }
+
+        return $this->addInheritedModules($menuIds);
+    }
+
+    /**
+     * Get all menu IDs in a subtree.
+     *
+     * @param   integer  $rootMenuId  Subtree root menu item ID.
+     *
+     * @return  mixed  An array of menu item IDs, or false on error.
+     *
+     * @since   6.2.0
+     */
+    protected function getSubtreeIds(int $rootMenuId)
+    {
+        $db = $this->getDatabase();
+
+        $query = $db->createQuery()
+            ->select($db->quoteName(['lft', 'rgt', 'menutype']))
+            ->from($db->quoteName('#__menu'))
+            ->where($db->quoteName('id') . ' = :id')
+            ->bind(':id', $rootMenuId, ParameterType::INTEGER);
+
+        try {
+            $db->setQuery($query);
+            $root = $db->loadObject();
+        } catch (\RuntimeException $e) {
+            throw new \RuntimeException($e->getMessage(), 500);
+        }
+
+        if (!$root) {
+            return [];
+        }
+
+        $lft      = (int)$root->lft;
+        $rgt      = (int)$root->rgt;
+        $menutype = (string)$root->menutype;
+        $query    = $db->createQuery()
+            ->select($db->quoteName('id'))
+            ->from($db->quoteName('#__menu'))
+            ->where($db->quoteName('lft') . ' BETWEEN :lft AND :rgt')
+            ->where($db->quoteName('menutype') . ' = :menutype')
+            ->bind(':lft', $lft, ParameterType::INTEGER)
+            ->bind(':rgt', $rgt, ParameterType::INTEGER)
+            ->bind(':menutype', $menutype);
+
+        try {
+            $db->setQuery($query);
+
+            return ArrayHelper::toInteger((array) $db->loadColumn());
+        } catch (\RuntimeException $e) {
+            throw new \RuntimeException($e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * Insert missing module-menu rows inherited from ancestor source menu items.
+     *
+     * @param   array  $menuIds  An array of menu item IDs.
+     *
+     * @return  boolean
+     *
+     * @since   6.2.0
+     */
+    protected function addInheritedModules(array $menuIds): bool
+    {
+        $db      = $this->getDatabase();
+        $menuIds = array_unique(ArrayHelper::toInteger($menuIds));
+        $menuIds = array_filter($menuIds, static fn (int $id): bool => $id > 0);
+
+        foreach ($menuIds as $menuId) {
+            $moduleIds = $this->getInheritedModuleIds($menuId);
+
+            if ($moduleIds === false) {
+                return false;
+            }
+
+            if (!$moduleIds) {
+                continue;
+            }
+
+            $query = $db->createQuery()
+                ->select($db->quoteName('moduleid'))
+                ->from($db->quoteName('#__modules_menu'))
+                ->where($db->quoteName('menuid') . ' = :menuid')
+                ->bind(':menuid', $menuId, ParameterType::INTEGER);
+
+            $query->where(
+                $db->quoteName('moduleid') . ' IN (' . implode(
+                    ',',
+                    $query->bindArray($moduleIds, ParameterType::INTEGER)
+                ) . ')'
+            );
+
+            try {
+                $db->setQuery($query);
+                $existing = ArrayHelper::toInteger((array) $db->loadColumn());
+            } catch (\RuntimeException $e) {
+                throw new \RuntimeException($e->getMessage(), 500);
+            }
+
+            $missing = array_diff($moduleIds, $existing);
+
+            if (!$missing) {
+                continue;
+            }
+
+            $query = $db->createQuery()
+                ->insert($db->quoteName('#__modules_menu'))
+                ->columns($db->quoteName(['moduleid', 'menuid', 'inherit']));
+
+            foreach ($missing as $moduleId) {
+                $query->values((int) $moduleId . ',' . $menuId . ',0');
+            }
+
+            try {
+                $db->setQuery($query);
+                $db->execute();
+            } catch (\RuntimeException $e) {
+                throw new \RuntimeException($e->getMessage(), 500);
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Resolve modules that should be inherited for a menu item from ancestor source nodes.
+     *
+     * @param   integer  $menuId  Target menu item ID.
+     *
+     * @return  mixed  An array of module IDs, or false on error.
+     *
+     * @since   6.2.0
+     */
+    protected function getInheritedModuleIds(int $menuId)
+    {
+        $db = $this->getDatabase();
+
+        $query = $db->createQuery()
+            ->select('DISTINCT ' . $db->quoteName('src.moduleid'))
+            ->from($db->quoteName('#__menu', 'node'))
+            ->join(
+                'INNER',
+                $db->quoteName('#__menu', 'source'),
+                $db->quoteName('source.lft') . ' <= ' . $db->quoteName('node.lft')
+                . ' AND ' . $db->quoteName('source.rgt') . ' >= ' . $db->quoteName('node.rgt')
+                . ' AND ' . $db->quoteName('source.menutype') . ' = ' . $db->quoteName('node.menutype')
+            )
+            ->join(
+                'INNER',
+                $db->quoteName('#__modules_menu', 'src'),
+                $db->quoteName('src.menuid') . ' = ' . $db->quoteName('source.id')
+            )
+            ->where($db->quoteName('node.id') . ' = :menuid')
+            ->where($db->quoteName('src.menuid') . ' > 0')
+            ->where($db->quoteName('src.inherit') . ' IN (1, 2)')
+            ->where(
+                '('
+                . $db->quoteName('src.inherit') . ' = 2 OR '
+                . $db->quoteName('node.level') . ' = (' . $db->quoteName('source.level') . ' + 1)'
+                . ')'
+            )
+            ->bind(':menuid', $menuId, ParameterType::INTEGER);
+
+        try {
+            $db->setQuery($query);
+
+            return ArrayHelper::toInteger((array) $db->loadColumn());
+        } catch (\RuntimeException $e) {
+            throw new \RuntimeException($e->getMessage(), 500);
+        }
     }
 }

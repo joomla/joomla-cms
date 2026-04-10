@@ -62,6 +62,17 @@
       "attributes": {
         "type": "module"
       }
+    },
+    {
+      "name": "com_modules.admin-module-inherit",
+      "type": "script",
+      "uri": "com_modules/admin-module-inherit.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      }
     }
   ]
 }
