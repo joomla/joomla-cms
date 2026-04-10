@@ -53,9 +53,9 @@ if ($paramsFontScheme) {
 
         if (preg_match_all('/family=([^?:]*):/i', $paramsFontScheme, $matches) > 0) {
             $fontStyles = '--cassiopeia-font-family-body: "' . str_replace('+', ' ', $matches[1][0]) . '", sans-serif;
-			--cassiopeia-font-family-headings: "' . str_replace('+', ' ', $matches[1][1] ?? $matches[1][0]) . '", sans-serif;
-			--cassiopeia-font-weight-normal: 400;
-			--cassiopeia-font-weight-headings: 700;';
+            --cassiopeia-font-family-headings: "' . str_replace('+', ' ', $matches[1][1] ?? $matches[1][0]) . '", sans-serif;
+            --cassiopeia-font-weight-normal: 400;
+            --cassiopeia-font-weight-headings: 700;';
         }
     } elseif ($paramsFontScheme === 'system') {
         $fontStylesBody    = $this->params->get('systemFontBody', '');
@@ -67,7 +67,7 @@ if ($paramsFontScheme) {
         }
         if ($fontStylesHeading) {
             $fontStyles .= '--cassiopeia-font-family-headings: ' . $fontStylesHeading . ';
-    		--cassiopeia-font-weight-headings: 700;';
+            --cassiopeia-font-weight-headings: 700;';
         }
     } else {
         $wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, ['version' => 'auto'], ['rel' => 'lazy-stylesheet']);
@@ -82,14 +82,14 @@ $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'l
     ->useStyle('template.user')
     ->useScript('template.user')
     ->addInlineStyle(":root {
-		--hue: 214;
-		--template-bg-light: #f0f4fb;
-		--template-text-dark: #495057;
-		--template-text-light: #ffffff;
-		--template-link-color: var(--link-color);
-		--template-special-color: #001B4C;
-		$fontStyles
-	}");
+        --hue: 214;
+        --template-bg-light: #f0f4fb;
+        --template-text-dark: #495057;
+        --template-text-light: #ffffff;
+        --template-link-color: var(--link-color);
+        --template-special-color: #001B4C;
+        $fontStyles
+    }");
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
@@ -120,7 +120,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top' : '';
 
-// Defer fontawesome for increased performance. Once the page is loaded javascript changes it to a stylesheet.
+// Defer fontawesome for increased performance.
 $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 ?>
 <!DOCTYPE html>
@@ -131,118 +131,127 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
     <jdoc:include type="styles" />
     <jdoc:include type="scripts" />
     <style>
-  /* This allows the grid to function while still letting the background expand */
-  .site-grid {
-      display: grid !important; 
-      grid-template-columns: [full-start] minmax(0, 1fr) [main-start] minmax(0, 1320px) [main-end] minmax(0, 1fr) [full-end] !important;
-  }
+        /* 1. Reset Grid for Full Width Control */
+        .site-grid {
+            display: grid !important; 
+            grid-template-columns: [full-start] minmax(0, 1fr) [main-start] minmax(0, 1320px) [main-end] minmax(0, 1fr) [full-end] !important;
+            gap: 0;
+        }
 
-  .container-component {
-      grid-column: full-start / full-end !important; /* Forces the hero to stay full width */
-      background-image: url('images/mit.jpg') !important;
-      background-size: cover !important;
-      background-position: center !important;
-      min-height: 500px !important;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-  }
+        /* 2. Full Width Hero Section with MIT Background */
+        .container-component {
+            grid-column: full-start / full-end !important;
+            background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('images/mit.jpg') !important;
+            background-size: cover !important;
+            background-position: center !important;
+            min-height: 600px !important;
+            display: flex;
+            position: relative;
+            padding: 0 !important;
+            overflow: hidden;
+        }
 
-  /* Target the Sidebar specifically */
-  .grid-child.sidebar-right {
-      grid-column: main-end / full-end !important; /* Pushes sidebar to the right slot */
-      background: white;
-      padding: 20px;
-      margin-top: 20px;
-      z-index: 10;
-  }
-</style>
+        /* 3. Glassmorphism Login Sidebar Overlay */
+        .grid-child.container-sidebar-right {
+            grid-column: main-end / full-end !important;
+            z-index: 100;
+            position: absolute;
+            right: 5%;
+            top: 10%;
+            width: 320px;
+        }
+
+        .container-sidebar-right .card {
+            background: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            border-radius: 15px !important;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2) !important;
+            padding: 20px;
+        }
+
+        /* 4. Interactive Group Display Styling */
+        .group-display {
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            transform: translateY(-50%);
+            color: white;
+            text-shadow: 2px 4px 10px rgba(0,0,0,0.9);
+            font-family: 'Segoe UI', sans-serif;
+            text-align: left;
+            z-index: 10;
+        }
+
+        .group-display h2 {
+            font-size: 1.8rem;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0;
+        }
+
+        .member-name {
+            font-size: 4.5rem;
+            font-weight: 900;
+            display: block;
+            min-height: 100px;
+            color: #ffd700; /* Gold */
+            transition: all 0.5s ease;
+        }
+
+        /* Fade Animation Class */
+        .fade-in-out {
+            animation: memberFade 4s infinite;
+        }
+
+        @keyframes memberFade {
+            0% { opacity: 0; transform: translateX(-20px); }
+            15% { opacity: 1; transform: translateX(0); }
+            85% { opacity: 1; transform: translateX(0); }
+            100% { opacity: 0; transform: translateX(20px); }
+        }
+
+        /* Hide Default Breadcrumbs for cleaner Hero look */
+        .mod-breadcrumbs { display: none; }
+    </style>
 </head>
 
-<body class="site <?php echo $option
-    . ' ' . $wrapper
-    . ' view-' . $view
-    . ($layout ? ' layout-' . $layout : ' no-layout')
-    . ($task ? ' task-' . $task : ' no-task')
-    . ($itemid ? ' itemid-' . $itemid : '')
-    . ($pageclass ? ' ' . $pageclass : '')
-    . $hasClass
-    . ($this->direction == 'rtl' ? ' rtl' : '');
-?>">
+<body class="site <?php echo $option . ' ' . $wrapper . ' view-' . $view . ($layout ? ' layout-' . $layout : ' no-layout') . ($task ? ' task-' . $task : ' no-task') . ($itemid ? ' itemid-' . $itemid : '') . ($pageclass ? ' ' . $pageclass : '') . $hasClass . ($this->direction == 'rtl' ? ' rtl' : ''); ?>">
+    
     <header class="header container-header full-width<?php echo $stickyHeader ? ' ' . $stickyHeader : ''; ?>">
-
         <?php if ($this->countModules('topbar')) : ?>
             <div class="container-topbar">
                 <jdoc:include type="modules" name="topbar" style="none" />
             </div>
         <?php endif; ?>
 
-        <?php if ($this->countModules('below-top')) : ?>
-            <div class="grid-child container-below-top">
-                <jdoc:include type="modules" name="below-top" style="none" />
+        <div class="grid-child">
+            <div class="navbar-brand">
+                <a class="brand-logo" href="<?php echo $this->baseurl; ?>/">
+                    <?php echo $logo; ?>
+                </a>
             </div>
-        <?php endif; ?>
+        </div>
 
-        <?php if ($this->params->get('brand', 1)) : ?>
-            <div class="grid-child">
-                <div class="navbar-brand">
-                    <a class="brand-logo" href="<?php echo $this->baseurl; ?>/">
-                        <?php echo $logo; ?>
-                    </a>
-                    <?php if ($this->params->get('siteDescription')) : ?>
-                        <div class="site-description"><?php echo htmlspecialchars($this->params->get('siteDescription')); ?></div>
-                    <?php endif; ?>
-                </div>
-            </div>
-        <?php endif; ?>
-
-        <?php if ($this->countModules('menu', true) || $this->countModules('search', true)) : ?>
+        <?php if ($this->countModules('menu', true)) : ?>
             <div class="grid-child container-nav">
-                <?php if ($this->countModules('menu', true)) : ?>
-                    <jdoc:include type="modules" name="menu" style="none" />
-                <?php endif; ?>
-                <?php if ($this->countModules('search', true)) : ?>
-                    <div class="container-search">
-                        <jdoc:include type="modules" name="search" style="none" />
-                    </div>
-                <?php endif; ?>
+                <jdoc:include type="modules" name="menu" style="none" />
             </div>
         <?php endif; ?>
     </header>
 
     <div class="site-grid">
-        <?php if ($this->countModules('banner', true)) : ?>
-            <div class="container-banner full-width">
-                <jdoc:include type="modules" name="banner" style="none" />
-            </div>
-        <?php endif; ?>
-
-        <?php if ($this->countModules('top-a', true)) : ?>
-            <div class="grid-child container-top-a">
-                <jdoc:include type="modules" name="top-a" style="card" />
-            </div>
-        <?php endif; ?>
-
-        <?php if ($this->countModules('top-b', true)) : ?>
-            <div class="grid-child container-top-b">
-                <jdoc:include type="modules" name="top-b" style="card" />
-            </div>
-        <?php endif; ?>
-
-        <?php if ($this->countModules('sidebar-left', true)) : ?>
-            <div class="grid-child container-sidebar-left">
-                <jdoc:include type="modules" name="sidebar-left" style="card" />
-            </div>
-        <?php endif; ?>
-
         <div class="grid-child container-component">
-            <jdoc:include type="modules" name="breadcrumbs" style="none" />
-            <jdoc:include type="modules" name="main-top" style="card" />
+            <div class="group-display">
+                <h2>Project Team:</h2>
+                <span id="member-target" class="member-name fade-in-out"></span>
+            </div>
             <jdoc:include type="message" />
             <main>
                 <jdoc:include type="component" />
             </main>
-            <jdoc:include type="modules" name="main-bottom" style="card" />
         </div>
 
         <?php if ($this->countModules('sidebar-right', true)) : ?>
@@ -250,42 +259,40 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
                 <jdoc:include type="modules" name="sidebar-right" style="card" />
             </div>
         <?php endif; ?>
-
-        <?php if ($this->countModules('bottom-a', true)) : ?>
-            <div class="grid-child container-bottom-a">
-                <jdoc:include type="modules" name="bottom-a" style="card" />
-            </div>
-        <?php endif; ?>
-
-        <?php if ($this->countModules('bottom-b', true)) : ?>
-            <div class="grid-child container-bottom-b">
-                <jdoc:include type="modules" name="bottom-b" style="card" />
-            </div>
-        <?php endif; ?>
     </div>
 
-    <?php if ($this->countModules('footer', true)) : ?>
-        <footer class="container-footer footer full-width">
-            <div class="grid-child">
-                <jdoc:include type="modules" name="footer" style="none" />
-            </div>
-        </footer>
-    <?php endif; ?>
-
-    <?php if ($this->params->get('backTop') == 1) : ?>
-        <a href="#top" id="back-top" class="back-to-top-link" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?>">
-            <span class="icon-arrow-up icon-fw" aria-hidden="true"></span>
-        </a>
-    <?php endif; ?>
-
-    <jdoc:include type="modules" name="debug" style="none" />
     <footer class="footer">
-    <div class="container">
-        <p style="text-align: center; color: #666;">
-    Customized by Alex and Group - Forked Joomla 5.4-dev Project
-     </p>
+        <div class="container" style="padding: 40px 0; border-top: 1px solid #ddd; margin-top: 50px;">
+            <p style="text-align: center; color: #444; font-weight: bold;">
+                Mekele IT Student Portal | Customized by Alembrhan,Hagos, Hadgu, & Tesfom
+            </p>
+            <p style="text-align: center; font-size: 0.8rem; color: #888;">
+                Built with Joomla 5.4-dev & Custom Glassmorphism UI
+            </p>
         </div>
     </footer>
-</body>
 
+    <jdoc:include type="modules" name="debug" style="none" />
+
+    <script>
+        (function() {
+            // LIST OF YOUR GROUP MEMBERS HERE
+            const members = ["Alembrhan Gebremeskel", "Hagos fseha", "Hadgu tkue", "Tesfaom Gebremedhin"]; 
+            let currentIndex = 0;
+            const target = document.getElementById('member-target');
+
+            function updateName() {
+                if(!target) return;
+                target.textContent = members[currentIndex];
+                currentIndex = (currentIndex + 1) % members.length;
+            }
+
+            // Initial call
+            updateName();
+
+            // Cycle every 4 seconds (matches CSS animation)
+            setInterval(updateName, 4000);
+        })();
+    </script>
+</body>
 </html>
