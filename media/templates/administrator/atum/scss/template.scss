@@ -1,0 +1,245 @@
+// Bootstrap functions
+@import "../../../../vendor/bootstrap/scss/functions";
+
+// Atum Variables
+@import "variables";
+@import "variables-dark";
+
+@import "../../../../vendor/bootstrap/scss/variables";
+@import "../../../../vendor/bootstrap/scss/variables-dark";
+@import "../../../../vendor/bootstrap/scss/maps";
+@import "maps-atum";
+@import "../../../../vendor/bootstrap/scss/mixins";
+@import "../../../../vendor/bootstrap/scss/utilities";
+
+// Bootstrap other
+@import "../../../../vendor/bootstrap/scss/bootstrap";
+
+// Fonts
+@import "../../../../vendor/roboto-fontface/scss/roboto/sass/roboto-fontface";
+
+@import "blocks/global"; // Leave this first
+
+// jQuery Minicolors
+@import "../../../../system/scss/jquery-minicolors";
+
+// System overrides
+@import "system/fields/calendar";
+@import "system/fields/switcher";
+
+// Vendor overrides
+@import "vendor/bootstrap/accordion";
+@import "vendor/bootstrap/badge";
+@import "vendor/bootstrap/buttons";
+@import "vendor/bootstrap/card";
+@import "vendor/bootstrap/custom-forms";
+@import "vendor/bootstrap/collapse";
+@import "vendor/bootstrap/dropdown";
+@import "vendor/bootstrap/form";
+@import "vendor/bootstrap/lists";
+@import "vendor/bootstrap/list-group";
+@import "vendor/bootstrap/modal";
+@import "vendor/bootstrap/pagination";
+@import "vendor/bootstrap/reboot";
+@import "vendor/bootstrap/table";
+
+// Blocks
+@import "blocks/alerts";
+@import "blocks/calendar";
+@import "blocks/edit";
+@import "blocks/header";
+@import "blocks/form";
+@import "blocks/icons";
+@import "blocks/iframe";
+@import "blocks/layout";
+@import "blocks/login";
+@import "blocks/modals";
+@import "blocks/quickicons";
+@import "blocks/lists";
+@import "blocks/shepard-modals";
+@import "blocks/sidebar";
+@import "blocks/sidebar-nav";
+@import "blocks/switcher";
+@import "blocks/toolbar";
+@import "blocks/treeselect";
+@import "blocks/utilities";
+
+// These DO NOT BELONG HERE!!!
+@import "vendor/codemirror";
+@import "vendor/dragula";
+@import "vendor/tinymce";
+
+// Also these DO NOT BELONG HERE!!!
+// Page specifics
+@import "pages/com_config";
+@import "pages/com_content";
+@import "pages/com_cpanel";
+@import "pages/com_joomlaupdate";
+@import "pages/com_media";
+@import "pages/com_modules";
+@import "pages/com_tags";
+@import "pages/com_privacy";
+@import "pages/com_scheduler";
+@import "pages/com_templates";
+@import "pages/com_users";
+@import "pages/plg_web_installer";
+
+// Custom Atum colors
+:root {
+  @each $color, $value in $atum-colors {
+    --#{$prefix}#{$color}: #{$value};
+  }
+}
+
+// Check if dark mode is enabled
+@if $enable-dark-mode {
+  @include color-mode(dark, true) {
+    @each $color, $value in $atum-colors-dark {
+      --#{$prefix}#{$color}: #{$value};
+    }
+  }
+}
+
+// Forcing reduced motion when set in the user OS
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    background-attachment: initial !important;
+    transition-delay: 0s !important;
+    // temp fix until https://github.com/onokumus/metismenujs/issues/9 is addressed
+    transition-duration: .001ms !important;
+    animation-duration: 1ms !important;
+    animation-delay: -1ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// Bootstrap 5.2 overrides
+.border-primary {
+  border-color: var(--primary) !important;
+}
+
+.border-secondary {
+  border-color: var(--secondary) !important;
+}
+
+.border-success {
+  border-color: var(--success) !important;
+}
+
+.border-info {
+  border-color: var(--info) !important;
+}
+
+.border-warning {
+  border-color: var(--warning) !important;
+}
+
+.border-danger {
+  border-color: var(--danger) !important;
+}
+
+.border-light {
+  border-color: var(--light) !important;
+}
+
+.border-dark {
+  border-color: var(--dark) !important;
+}
+
+.border-white {
+  border-color: var(--white) !important;
+}
+
+.text-primary {
+  color: var(--primary) !important;
+}
+
+.text-secondary {
+  color: var(--secondary) !important;
+}
+
+.text-success {
+  color: var(--success) !important;
+}
+
+.text-info {
+  color: var(--info) !important;
+}
+
+.text-warning {
+  color: var(--warning) !important;
+}
+
+.text-danger {
+  color: var(--danger) !important;
+}
+
+.text-light {
+  color: var(--light) !important;
+}
+
+.text-dark {
+  color: var(--dark) !important;
+}
+
+.text-black {
+  color: var(--black) !important;
+}
+
+.text-white {
+  color: var(--white) !important;
+}
+
+.text-body {
+  color: var(--body-color) !important;
+}
+
+.bg-primary {
+  background-color: var(--primary) !important;
+}
+
+.bg-secondary {
+  background-color: var(--secondary) !important;
+}
+
+.bg-success {
+  background-color: var(--success) !important;
+}
+
+.bg-info {
+  background-color: var(--info) !important;
+}
+
+.bg-warning {
+  color: #000;
+  background-color: var(--warning) !important;
+}
+
+.bg-danger {
+  background-color: var(--danger) !important;
+}
+
+.bg-light {
+  background-color: var(--light) !important;
+}
+
+.bg-dark {
+  background-color: var(--dark) !important;
+}
+
+.bg-black {
+  background-color: var(--black) !important;
+}
+
+.bg-white {
+  background-color: var(--white) !important;
+}
+
+.bg-body {
+  background-color: var(--body-bg) !important;
+}
+
+kbd {
+  padding: .2rem .4rem;
+}

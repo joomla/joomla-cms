@@ -1,0 +1,251 @@
+.subhead {
+  position: sticky;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: $zindex-toolbar;
+  width: auto;
+  min-height: 43px;
+  padding: 8px 1rem;
+  color: var(--atum-subhead-color);
+  background: var(--atum-subhead-bg);
+  background-image: var(--atum-subhead-bg-img);
+  box-shadow: var(--atum-box-shadow);
+
+  .row {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  &.noshadow {
+    box-shadow: none;
+  }
+
+  joomla-toolbar-button,
+  .btn-group {
+    margin-inline-start: .75rem;
+
+    &:first-child {
+      margin-inline-start: 0;
+    }
+  }
+
+  joomla-toolbar-button {
+    .btn > span,
+    .dropdown-item > span {
+      margin-inline-end: .5rem;
+      width: 1.25em;
+      text-align: center;
+    }
+  }
+
+  .btn {
+    --subhead-btn-icon: var(--atum-btn-icon);
+    --subhead-btn-icon-hover: var(--atum-btn-icon-hvr);
+    --subhead-btn-bg: var(--atum-btn-bg);
+    --subhead-btn-bg-hvr: var(--atum-btn-bg-hvr);
+    --subhead-btn-border: var(--atum-btn-border);
+
+    padding: 0 1rem;
+    margin: 5px 0;
+    font-size: 1rem;
+    line-height: $atum-toolbar-line-height;
+    color: var(--atum-btn);
+    background: var(--subhead-btn-bg);
+    border: var(--subhead-btn-border);
+
+    > span {
+      display: inline-block;
+      color: var(--subhead-btn-icon);
+    }
+
+    &:not([disabled]):hover,
+    &:not([disabled]):active,
+    &:not([disabled]):focus {
+      color: var(--atum-btn-hvr);
+      background-color: var(--subhead-btn-bg-hvr);
+      border: var(--subhead-btn-border);
+
+      > span {
+        color: var(--subhead-btn-icon-hvr); /* $atum-btn-hvr rgba(255, 255, 255, .9); */
+      }
+    }
+
+    &.btn-success {
+      --subhead-btn-icon: var(--atum-btn-success-icon);
+      --subhead-btn-icon-hover: var(--atum-btn-success-icon-hvr);
+      --subhead-btn-bg: var(--atum-btn-success-bg);
+      --subhead-btn-bg-hvr: var(--atum-btn-success-bg-hvr);
+      --subhead-btn-border: var(--atum-btn-success-border);
+
+      &:not([disabled]) {
+        --subhead-btn-border: var(--atum-btn-success-border);
+      }
+      &:disabled {
+        --subhead-btn-border: var(--atum-btn-info-border);
+      }
+    }
+
+    &.btn-danger {
+      --subhead-btn-icon: var(--atum-btn-danger-icon);
+      --subhead-btn-icon-hover: var(--atum-btn-danger-icon-hvr);
+      --subhead-btn-bg: var(--atum-btn-danger-bg);
+      --subhead-btn-bg-hvr: var(--atum-btn-danger-bg-hvr);
+      --subhead-btn-border: var(--atum-btn-danger-border);
+
+      &:not([disabled]) {
+        --subhead-btn-border: var(--atum-btn-danger-border);
+      }
+      &:disabled {
+        --subhead-btn-border: var(--atum-btn-info-border);
+      }
+    }
+
+    &.btn-primary {
+      --subhead-btn-icon: var(--atum-btn-primary-icon);
+      --subhead-btn-icon-hover: var(--atum-btn-primary-icon-hvr);
+      --subhead-btn-bg: var(--atum-btn-primary-bg);
+      --subhead-btn-bg-hvr: var(--atum-btn-primary-bg-hvr);
+      --subhead-btn-border: var(--atum-btn-primary-border);
+
+      &:disabled {
+        --subhead-btn-border: var(--atum-btn-info-border);
+      }
+    }
+
+    &.btn-info, &.button-options {
+      --subhead-btn-icon: var(--atum-btn-info-icon);
+      --subhead-btn-icon-hover: var(--atum-btn-info-icon-hvr);
+      --subhead-btn-bg: var(--atum-btn-info-bg);
+      --subhead-btn-bg-hvr: var(--atum-btn-info-bg-hvr);
+      --subhead-btn-border: var(--atum-btn-info-border);
+    }
+
+    &.btn-action {
+      --subhead-btn-icon: var(--atum-btn-action-icon);
+      --subhead-btn-icon-hover: var(--atum-btn-info-action-hvr);
+      --subhead-btn-bg: var(--atum-btn-action);
+      --subhead-btn-bg-hvr: var(--atum-btn-action-bg-hvr);
+      --subhead-btn-border: var(--atum-btn-action-border);
+      display: flex;
+      align-items: center;
+
+      &::after {
+        width: 2.375rem;
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        content: "\f078";
+        border: 0;
+      }
+    }
+
+    &[disabled],
+    &.dropdown-toggle[disabled] {
+      background: var(--body-bg);
+      opacity: .5;
+
+      &:hover,
+      &:active,
+      &:focus {
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .dropdown-toggle {
+    &.btn {
+      padding-inline-end: 0;
+    }
+  }
+
+  .btn-group:not(:last-child) > .dropdown-toggle-split {
+    order: 1;
+    margin-inline-start: -$border-radius;
+    border-radius: 0 $border-radius $border-radius 0;
+  }
+
+  .dropdown-menu joomla-toolbar-button,
+  .btn-group joomla-toolbar-button {
+    margin-inline-start: 0;
+  }
+
+  .contentpane & {
+    margin: -15px -15px 0;
+    background-image: none;
+    border-bottom: 1px solid var(--template-bg-dark-7); // TODO: unified variables for light and dark mode
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  joomla-tab[view=accordion] .col-md-9,
+  joomla-tab[view=accordion] .col-md-3 {
+    padding: .5rem 1rem !important;
+  }
+
+  #myTab {
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  joomla-tab[view=accordion] ul li {
+    width: 100%;
+  }
+
+  .toggler-toolbar {
+    top: 0;
+    bottom: auto;
+    z-index: $zindex-alerts;
+    padding: 7px 10px;
+    margin: 5px;
+    background-color: var(--template-bg-dark); // TODO: unified variables for light and dark mode
+    border-radius: 30px;
+
+    .toggler-toolbar-icon::before {
+      font: normal normal 900 28px/1 "Font Awesome 6 Free";
+      color: var(--toggle-color);
+      content: "\f00d";
+    }
+
+    &.collapsed .toggler-toolbar-icon::before {
+      content: "\f085";
+    }
+  }
+
+  .subhead {
+    padding-right: 0;
+    padding-left: 0;
+
+    joomla-toolbar-button,
+    .btn-group,
+    .btn {
+      width: 100%;
+      margin-left: 0;
+      text-align: left;
+    }
+
+    .btn-toolbar > .btn-group,
+    .btn-toolbar > joomla-toolbar-button {
+      margin-left: 0;
+    }
+
+    .btn.btn-action::after {
+      text-align: center;
+      margin-inline-start: auto;
+    }
+
+    .dropdown-toggle-split {
+      width: auto;
+    }
+  }
+}
+
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .subhead {
+      border-top: 1px solid rgba(255,255,255,.05);
+      border-bottom: 1px solid rgba(255,255,255,.05);
+    }
+  }
+}
+

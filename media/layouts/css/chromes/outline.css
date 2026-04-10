@@ -1,0 +1,28 @@
+@charset "UTF-8";
+.mod-preview {
+  background: #64646414;
+  border-radius: 1px;
+  margin: 8px 0;
+  box-shadow: 0 0 0 4px #f4f4f4, 0 0 0 5px #64646433;
+}
+
+.mod-preview-info {
+  color: #fff;
+  background-color: #33373f;
+  border-radius: 3px;
+  margin-bottom: 5px;
+  padding: 4px 6px;
+  font-family: Arial, sans-serif;
+  font-size: .75rem;
+  line-height: 1rem;
+  box-shadow: inset 0 -10px 20px #0003;
+}
+
+.mod-preview-info span {
+  color: #ccc;
+  font-weight: bold;
+}
+
+.mod-preview-wrapper {
+  margin-bottom: .5rem;
+}

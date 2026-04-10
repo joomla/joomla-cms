@@ -1,0 +1,75 @@
+@charset "UTF-8";
+* {
+  color: #5f6565;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 11px;
+}
+
+html {
+  height: 100%;
+  margin-bottom: 1px;
+}
+
+body {
+  background: #fff;
+  height: 100%;
+  margin: 0 0 1px;
+  padding: 0;
+  font-family: helvetica, arial, sans-serif;
+  font-weight: normal;
+}
+
+.error {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table, td, th, div, pre, blockquote, ul, ol, dl, address, .componentheading, .contentheading, .contentpagetitle, .sectiontableheader, .newsfeedheading {
+  font-family: helvetica, arial, sans-serif;
+  font-weight: normal;
+}
+
+#outline {
+  background: #fff;
+  width: 900px;
+  margin: 0 auto;
+  padding: 60px 0;
+}
+
+#errorboxoutline {
+  border: 1px solid #000;
+  width: 900px;
+  margin: 0;
+  padding: 0;
+}
+
+#errorboxheader {
+  color: #fff;
+  text-align: center;
+  background: #e44249;
+  border-bottom: 1px solid #000;
+  width: 900px;
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 22px;
+}
+
+#errorboxbody {
+  text-align: left;
+  margin: 0;
+  padding: 10px;
+}
+
+#techinfo {
+  color: #ccc;
+  text-align: left;
+  border: 1px solid #ccc;
+  margin: 10px;
+  padding: 10px;
+}
+
+#techinfo p {
+  color: #ccc;
+}

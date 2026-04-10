@@ -1,0 +1,75 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "plg_editors_tinymce",
+  "version": "5.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "tinymce",
+      "type": "script",
+      "uri": "media/vendor/tinymce/tinymce.min.js",
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "plg_editors_tinymce",
+      "type": "script",
+      "uri": "plg_editors_tinymce/tinymce.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "core",
+        "tinymce",
+        "editors"
+      ]
+    },
+    {
+      "name": "plg_editors_tinymce.highlighter",
+      "type": "script",
+      "uri": "plg_editors_tinymce/plugins/joomla-highlighter/plugin.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "tinymce",
+        "codemirror"
+      ]
+    },
+    {
+      "name": "plg_editors_tinymce.jdragndrop",
+      "type": "script",
+      "uri": "plg_editors_tinymce/plugins/dragdrop/plugin.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "tinymce"
+      ]
+    },
+    {
+      "name": "plg_editors_tinymce.jtemplate",
+      "type": "script",
+      "uri": "plg_editors_tinymce/plugins/jtemplate/plugin.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "tinymce"
+      ]
+    },
+    {
+      "name": "plg_editors_tinymce.jxtdbuttons",
+      "type": "script",
+      "uri": "plg_editors_tinymce/plugins/jxtdbuttons/plugin.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "tinymce"
+      ]
+    }
+  ]
+}

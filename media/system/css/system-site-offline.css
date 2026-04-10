@@ -1,0 +1,125 @@
+@charset "UTF-8";
+body {
+  color: #333;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  font-family: arial, helvetica, sans-serif;
+  font-size: 14px;
+}
+
+img {
+  border: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#frame {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+#frame img {
+  max-width: 100%;
+  height: auto;
+}
+
+#frame form {
+  text-align: start;
+}
+
+.outline {
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 2px;
+}
+
+form {
+  margin: auto;
+}
+
+form br {
+  display: none;
+}
+
+form p {
+  margin: 0;
+  padding: .5em 0;
+}
+
+form fieldset {
+  border: 0;
+  margin: 0;
+  padding: .2em;
+}
+
+label {
+  margin: 5px 0 2px;
+  display: block;
+}
+
+input {
+  box-sizing: border-box;
+  width: 100%;
+  font-family: inherit;
+  font-size: inherit;
+  border: 1px solid #0e67a1;
+  padding: 5px 10px;
+}
+
+input.button {
+  color: #fff;
+  cursor: pointer;
+  appearance: none;
+  background-color: #006dcc;
+  border-color: #04c;
+  width: auto;
+}
+
+input.button:hover {
+  background-color: #04c;
+}
+
+fieldset.input p {
+  clear: inline-start;
+}
+
+#frmlogin {
+  margin: 0 10px;
+}
+
+#frmlogin fieldset.button {
+  text-align: end;
+}
+
+.alert {
+  text-align: left;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 8px 25px 8px 14px;
+}
+
+.alert h4 {
+  color: red;
+  margin: 5px 0;
+}
+
+.alert p {
+  margin: 0;
+  padding: 0;
+}
+
+.alert .close {
+  float: right;
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 18px;
+  position: relative;
+  top: -2px;
+  right: -20px;
+}
+
+.login {
+  margin-top: 5px;
+}

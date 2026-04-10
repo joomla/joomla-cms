@@ -1,0 +1,134 @@
+/**
+ * @copyright  (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+@import "../../../../node_modules/shepherd.js/dist/css/shepherd";
+
+.shepherd-target.shepherd-enabled {
+  z-index: 9998;
+}
+
+.shepherd-element {
+  width: max-content;
+  max-width: min(600px, 90%);
+}
+
+.shepherd-element.shepherd-centered {
+  max-width: min(1200px, 90%);
+}
+
+.shepherd-modal-overlay-container.shepherd-modal-is-visible {
+  opacity: .7;
+}
+
+.shepherd-content {
+  padding: 0 0 1rem;
+  border: 1px solid var(--border-color-translucent);
+  border-radius: .3rem;
+  box-shadow: var(--modal-joomla-dialog-box-shadow);
+}
+
+.shepherd-content img {
+  max-width: 100%;
+  height: auto;
+}
+
+.shepherd-title {
+  flex: 1 1 auto;
+}
+
+.shepherd-cancel-icon {
+  display: inline-flex;
+  align-items: center;
+  margin-inline-start: 8px;
+  overflow-y: clip;
+}
+
+.shepherd-cancel-icon::before {
+  margin: 0 8px;
+  font-size: 1rem;
+  content: attr(aria-label);
+}
+
+.shepherd-cancel-icon span {
+  font-size: 2rem;
+}
+
+.shepherd-progress {
+  margin-inline-end: 16px;
+  line-height: 1.3em;
+}
+
+.shepherd-text {
+  max-height: calc(100vh - 240px);
+  padding: 1rem 1rem 0;
+  overflow-y: auto;
+  line-height: 1.5em;
+}
+
+.shepherd-footer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 1rem 1rem 0;
+}
+
+.shepherd-button-primary {
+  grid-column-start: 3;
+  color: var(--btn-primary-color);
+  background-color: var(--btn-primary-bg);
+  border: var(--btn-primary-border);
+}
+
+.shepherd-button-primary:not(:disabled):hover {
+  background-color: var(--btn-primary-bg-hvr);
+  border: var(--btn-primary-border-hvr);
+}
+
+.shepherd-enabled.shepherd-element[data-popper-placement=bottom] {
+  transform: translateY(12px);
+  .shepherd-arrow:before {
+    border-top: 1px solid var(--border-color-translucent);
+    border-left: 1px solid var(--border-color-translucent);
+  }
+}
+
+.shepherd-enabled.shepherd-element[data-popper-placement=left] {
+  transform: translateX(-12px);
+  .shepherd-arrow:before {
+    border-top: 1px solid var(--border-color-translucent);
+    border-right: 1px solid var(--border-color-translucent);
+  }
+}
+
+.shepherd-enabled.shepherd-element[data-popper-placement=top] {
+  transform: translateY(-12px);
+  .shepherd-arrow:before {
+    border-right: 1px solid var(--border-color-translucent);
+    border-bottom: 1px solid var(--border-color-translucent);
+  }
+}
+
+.shepherd-enabled.shepherd-element[data-popper-placement=right] {
+  transform: translateX(12px);
+  .shepherd-arrow:before {
+    border-bottom: 1px solid var(--border-color-translucent);
+    border-left: 1px solid var(--border-color-translucent);
+  }
+}
+
+// If the arrow is under the popup, it gets the color of the shadow.
+.shepherd-arrow, .shepherd-arrow:before {
+  z-index: 0;
+}
+
+// Missing color setting for the arrow when above the header.
+.shepherd-element.shepherd-has-title[data-popper-placement^="bottom"] > .shepherd-arrow:before {
+  background-color: #e6e6e6 !important;
+}
+
+#modGuidedTours-modal a {
+  font-weight: 500;
+  color: var(--template-link-color);
+  text-decoration: underline;
+}

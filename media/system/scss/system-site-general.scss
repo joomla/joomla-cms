@@ -1,0 +1,164 @@
+/**
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+/* Form validation */
+.invalid { border-color: #f00; }
+label.invalid { color: #f00; }
+
+/* Buttons */
+#editor-xtd-buttons {
+  padding: 5px;
+}
+
+.button2-left,
+.button2-right,
+.button2-left div,
+.button2-right div {
+  float: left;
+}
+
+.button2-left a,
+.button2-right a,
+.button2-left span,
+.button2-right span {
+  display: block;
+  float: left;
+  height: 22px;
+  font-size: 11px;
+  line-height: 22px;
+  color: #666;
+  cursor: pointer;
+}
+
+.button2-left span,
+.button2-right span {
+  color: #999;
+  cursor: default;
+}
+
+.button2-left .page a,
+.button2-right .page a,
+.button2-left .page span,
+.button2-right .page span {
+  padding: 0 6px;
+}
+
+.page span {
+  font-weight: bold;
+  color: #000;
+}
+
+.button2-left a:hover,
+.button2-right a:hover {
+  color: #0b55c4;
+  text-decoration: none;
+}
+
+.button2-left a,
+.button2-left span {
+  padding: 0 24px 0 6px;
+}
+
+.button2-right a,
+.button2-right span {
+  padding: 0 6px 0 24px;
+}
+
+.button2-left {
+  float: left;
+  margin-left: 5px;
+  background: url("../images/j_button2_left.png") no-repeat;
+}
+
+.button2-right {
+  float: left;
+  margin-left: 5px;
+  background: url("../images/j_button2_right.png") 100% 0 no-repeat;
+}
+
+.button2-left .image {
+  background: url("../images/j_button2_image.png") 100% 0 no-repeat;
+}
+
+.button2-left .readmore,
+.button2-left .article {
+  background: url("../images/j_button2_readmore.png") 100% 0 no-repeat;
+}
+
+.button2-left .pagebreak {
+  background: url("../images/j_button2_pagebreak.png") 100% 0 no-repeat;
+}
+
+.button2-left .blank {
+  background: url("../images/j_button2_blank.png") 100% 0 no-repeat;
+}
+
+/* Tooltips */
+div.tooltip {
+  z-index: 13000;
+  float: left;
+  max-width: 200px;
+  padding: 5px;
+  background: #ffc;
+  border: 1px solid #d4d5aa;
+}
+
+div.tooltip h4 {
+  padding: 0;
+  padding-top: 15px;
+  padding-bottom: 5px;
+  margin: 0;
+  margin-top: -15px;
+  font-size: 95%;
+  font-weight: bold;
+  background: url("../images/selector-arrow.png") no-repeat;
+}
+
+div.tooltip p {
+  margin: 0;
+  font-size: 90%;
+}
+
+/* Caption fixes */
+/* Caption fixes */
+.img_caption .left {
+  float: left;
+  margin-right: 1em;
+}
+
+.img_caption .right {
+  float: right;
+  margin-left: 1em;
+}
+
+.img_caption .left p {
+  clear: left;
+  text-align: center;
+}
+
+.img_caption .right p {
+  clear: right;
+  text-align: center;
+}
+
+.img_caption {
+  text-align: center !important;
+}
+
+.img_caption.none {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+
+/* Calendar */
+a img.calendar {
+  width: 16px;
+  height: 16px;
+  margin-left: 3px;
+  vertical-align: middle;
+  cursor: pointer;
+  background: url("../images/calendar.png") no-repeat;
+}

@@ -1,0 +1,236 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "plg_editors_codemirror",
+  "version": "5.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "plg_editors_codemirror",
+      "type": "style",
+      "uri": "plg_editors_codemirror/codemirror.css"
+    },
+    {
+      "name": "codemirror",
+      "type": "script",
+      "uri": "plg_editors_codemirror/codemirror.min.js",
+      "importmap": true,
+      "dependencies": [
+        "@codemirror/autocomplete",
+        "@codemirror/commands",
+        "@codemirror/lang-css",
+        "@codemirror/lang-html",
+        "@codemirror/lang-javascript",
+        "@codemirror/lang-json",
+        "@codemirror/lang-markdown",
+        "@codemirror/lang-php",
+        "@codemirror/lang-xml",
+        "@codemirror/language",
+        "@codemirror/lint",
+        "@codemirror/search",
+        "@codemirror/state",
+        "@codemirror/theme-one-dark",
+        "@codemirror/view",
+        "@lezer/common",
+        "@lezer/css",
+        "@lezer/highlight",
+        "@lezer/html",
+        "@lezer/javascript",
+        "@lezer/json",
+        "@lezer/lr",
+        "@lezer/markdown",
+        "@lezer/php",
+        "@lezer/xml"
+      ]
+    },
+    {
+      "name": "webcomponent.editor-codemirror",
+      "type": "script",
+      "uri": "plg_editors_codemirror/joomla-editor-codemirror.min.js",
+      "dependencies": [
+        "core",
+        "codemirror",
+        "editors",
+        "wcpolyfill"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "type": "script",
+      "name": "@codemirror/autocomplete",
+      "uri": "media/vendor/codemirror/js/codemirror-autocomplete.min.js",
+      "importmap": true,
+      "version": "6.18.7"
+    },
+    {
+      "type": "script",
+      "name": "@codemirror/commands",
+      "uri": "media/vendor/codemirror/js/codemirror-commands.min.js",
+      "importmap": true,
+      "version": "6.8.1"
+    },
+    {
+      "type": "script",
+      "name": "@codemirror/lang-css",
+      "uri": "media/vendor/codemirror/js/codemirror-lang-css.min.js",
+      "importmap": true,
+      "version": "6.3.1"
+    },
+    {
+      "type": "script",
+      "name": "@codemirror/lang-html",
+      "uri": "media/vendor/codemirror/js/codemirror-lang-html.min.js",
+      "importmap": true,
+      "version": "6.4.10"
+    },
+    {
+      "type": "script",
+      "name": "@codemirror/lang-javascript",
+      "uri": "media/vendor/codemirror/js/codemirror-lang-javascript.min.js",
+      "importmap": true,
+      "version": "6.2.4"
+    },
+    {
+      "type": "script",
+      "name": "@codemirror/lang-json",
+      "uri": "media/vendor/codemirror/js/codemirror-lang-json.min.js",
+      "importmap": true,
+      "version": "6.0.2"
+    },
+    {
+      "type": "script",
+      "name": "@codemirror/lang-markdown",
+      "uri": "media/vendor/codemirror/js/codemirror-lang-markdown.min.js",
+      "importmap": true,
+      "version": "6.3.4"
+    },
+    {
+      "type": "script",
+      "name": "@codemirror/lang-php",
+      "uri": "media/vendor/codemirror/js/codemirror-lang-php.min.js",
+      "importmap": true,
+      "version": "6.0.2"
+    },
+    {
+      "type": "script",
+      "name": "@codemirror/lang-xml",
+      "uri": "media/vendor/codemirror/js/codemirror-lang-xml.min.js",
+      "importmap": true,
+      "version": "6.1.0"
+    },
+    {
+      "type": "script",
+      "name": "@codemirror/language",
+      "uri": "media/vendor/codemirror/js/codemirror-language.min.js",
+      "importmap": true,
+      "version": "6.11.3"
+    },
+    {
+      "type": "script",
+      "name": "@codemirror/lint",
+      "uri": "media/vendor/codemirror/js/codemirror-lint.min.js",
+      "importmap": true,
+      "version": "6.8.5"
+    },
+    {
+      "type": "script",
+      "name": "@codemirror/search",
+      "uri": "media/vendor/codemirror/js/codemirror-search.min.js",
+      "importmap": true,
+      "version": "6.5.11"
+    },
+    {
+      "type": "script",
+      "name": "@codemirror/state",
+      "uri": "media/vendor/codemirror/js/codemirror-state.min.js",
+      "importmap": true,
+      "version": "6.5.2"
+    },
+    {
+      "type": "script",
+      "name": "@codemirror/theme-one-dark",
+      "uri": "media/vendor/codemirror/js/codemirror-theme-one-dark.min.js",
+      "importmap": true,
+      "version": "6.1.3"
+    },
+    {
+      "type": "script",
+      "name": "@codemirror/view",
+      "uri": "media/vendor/codemirror/js/codemirror-view.min.js",
+      "importmap": true,
+      "version": "6.38.3"
+    },
+    {
+      "type": "script",
+      "name": "@lezer/common",
+      "uri": "media/vendor/codemirror/js/lezer-common.min.js",
+      "importmap": true,
+      "version": "1.2.3"
+    },
+    {
+      "type": "script",
+      "name": "@lezer/css",
+      "uri": "media/vendor/codemirror/js/lezer-css.min.js",
+      "importmap": true,
+      "version": "1.3.0"
+    },
+    {
+      "type": "script",
+      "name": "@lezer/highlight",
+      "uri": "media/vendor/codemirror/js/lezer-highlight.min.js",
+      "importmap": true,
+      "version": "1.2.1"
+    },
+    {
+      "type": "script",
+      "name": "@lezer/html",
+      "uri": "media/vendor/codemirror/js/lezer-html.min.js",
+      "importmap": true,
+      "version": "1.3.11"
+    },
+    {
+      "type": "script",
+      "name": "@lezer/javascript",
+      "uri": "media/vendor/codemirror/js/lezer-javascript.min.js",
+      "importmap": true,
+      "version": "1.5.4"
+    },
+    {
+      "type": "script",
+      "name": "@lezer/json",
+      "uri": "media/vendor/codemirror/js/lezer-json.min.js",
+      "importmap": true,
+      "version": "1.0.3"
+    },
+    {
+      "type": "script",
+      "name": "@lezer/lr",
+      "uri": "media/vendor/codemirror/js/lezer-lr.min.js",
+      "importmap": true,
+      "version": "1.4.2"
+    },
+    {
+      "type": "script",
+      "name": "@lezer/markdown",
+      "uri": "media/vendor/codemirror/js/lezer-markdown.min.js",
+      "importmap": true,
+      "version": "1.4.3"
+    },
+    {
+      "type": "script",
+      "name": "@lezer/php",
+      "uri": "media/vendor/codemirror/js/lezer-php.min.js",
+      "importmap": true,
+      "version": "1.0.5"
+    },
+    {
+      "type": "script",
+      "name": "@lezer/xml",
+      "uri": "media/vendor/codemirror/js/lezer-xml.min.js",
+      "importmap": true,
+      "version": "1.0.6"
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+@charset "UTF-8";
+.com-finder * {
+  margin-bottom: 0;
+}
+
+.com-finder > * + *, .com-finder__results > * + * {
+  margin-top: 1.5em;
+}
+
+.com-finder__explained span.term, .com-finder__explained span.date, .com-finder__explained span.when, .com-finder__explained span.branch, .com-finder__explained span.node, .com-finder__explained span.op {
+  font-weight: 800;
+}
+
+.com-finder__explained span.op {
+  text-transform: uppercase;
+}
+
+.com-finder__results-list {
+  padding: 0;
+  list-style: none;
+}
+
+.result__item + .result__item {
+  border-top: 1px solid;
+  margin-top: 1.5em;
+  padding-top: 1.5em;
+}
+
+.result__item > * {
+  margin-bottom: 0;
+}
+
+.result__item > * + * {
+  margin-top: .25em;
+}
+
+.result__title-link {
+  flex-direction: column;
+  display: flex;
+}
+
+.result__title-text {
+  font-size: 1.3rem;
+}
+
+.result__title-url {
+  color: #575757;
+  order: -1;
+  margin-bottom: .25em;
+  font-style: normal;
+}
+
+.result__title-link:focus, .result__title-link:hover {
+  text-decoration: none;
+}
+
+.result__title-link:focus .result__title-text, .result__title-link:hover .result__title-text {
+  text-decoration: underline;
+}
+
+.result__date {
+  color: #575757;
+}
+
+.result__date:after {
+  content: "-";
+}
+
+.result__taxonomy {
+  padding: 0;
+  list-style: none;
+}
+
+.result__taxonomy-item {
+  display: inline-block;
+}
+
+.result__taxonomy-item + .result__taxonomy-item {
+  margin-inline-start: .5em;
+}
+
+.result__taxonomy-item + .result__taxonomy-item:before {
+  content: "|";
+  padding-inline-end: .5em;
+}
+
+.result__item .highlight {
+  position: relative;
+}
+
+.result__item .highlight:before {
+  z-index: -1;
+  pointer-events: none;
+  content: "";
+  background: #ffff0080;
+  border-radius: 3px;
+  width: calc(100% + 6px);
+  height: calc(100% + 2px);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+#sorting_label {
+  margin-inline-end: .3rem;
+}
+
+#sorting_btn {
+  min-width: 8rem;
+}
+
+.sorting .sorting__select {
+  margin-bottom: 0;
+}
+
+.sorting__list-li {
+  text-align: start;
+  display: block;
+}
+
+.sorting__list-li-active {
+  background-color: #f0f0f0;
+}

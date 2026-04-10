@@ -1,0 +1,98 @@
+// Bootstrap functions
+@import "../../../../vendor/bootstrap/scss/functions";
+
+// Variables, Functions and Mixins
+@import "tools/tools";
+
+.outer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.offline-card {
+  width: 100%;
+  max-width: 30em;
+  margin: 60px auto;
+  background-color: $white;
+  border: 1px solid hsla(0, 0%, 0%, .1);
+  border-radius: 5px;
+  box-shadow: 0 0 10px hsla(0, 0%, 0%, .05);
+}
+
+.header {
+  position: relative;
+  padding: $cassiopeia-grid-gutter ($cassiopeia-grid-gutter*2);
+  margin: 0;
+  color: $white;
+  text-align: center;
+  background-color: var(--cassiopeia-color-primary);
+  background-image: $cassiopeia-header-grad;
+  border-radius: 5px 5px 0 0;
+
+  [dir=rtl] & {
+    background-image: $cassiopeia-header-grad-rtl;
+  }
+}
+
+.login {
+  padding: 40px 20px 20px;
+}
+
+.form-control {
+  max-width: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  margin: 15px 0;
+  border: 0;
+}
+
+form,
+fieldset {
+  padding: 0;
+  margin: 0;
+}
+
+label {
+  display: block;
+  margin: 0;
+}
+
+input[type="text"],
+input[type="password"] {
+  box-sizing: border-box;
+  width: 100%;
+  height: auto;
+}
+
+input {
+  margin: .5em 0 1em;
+}
+
+.logo-icon {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  z-index: 1;
+  padding: 12px;
+  margin-top: 2px;
+  background-color: $white;
+  border: 1px solid hsla(0, 0%, 0%, .05);
+  border-radius: 50%;
+  box-shadow: 0 0 5px hsla(0, 0%, 0%, .075);
+  transform: translate(-50%, -50%);
+}
+
+.logo-icon svg {
+  display: block;
+  width: 38px;
+}

@@ -1,0 +1,92 @@
+@import "../../variables";
+@import "../../../../../../vendor/bootstrap/scss/mixins";
+
+// Search tools
+
+.js-stools {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.js-stools-container-bar,
+.js-stools-container-filters {
+  margin-bottom: 10px;
+}
+
+.js-stools-container-bar {
+  margin-inline-start: auto;
+
+  .btn-toolbar {
+    justify-content: flex-end;
+
+    > * {
+      margin: 5px 0;
+
+      + * {
+        margin-inline-start: 8px;
+      }
+    }
+
+    .js-stools-btn-clear {
+      background-color: $js-stools-btn-clear-bg;
+      &[disabled],
+      &.dropdown-toggle[disabled] {
+        background: $js-stools-btn-clear-disabled-bg;
+        border: $js-stools-btn-clear-disabled-border;
+        opacity: .5;
+
+        &:hover,
+        &:active,
+        &:focus {
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+
+  .ordering-select {
+    display: flex;
+  }
+}
+
+.js-stools-container-filters {
+  display: none;
+  width: 100%;
+
+  &-visible {
+    display: grid;
+    grid-gap: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    padding: 10px;
+    background-color: var(--body-bg);
+  }
+}
+
+.js-stools-field-list {
+  + .js-stools-field-list {
+    margin-inline-start: 8px;
+  }
+}
+
+.js-stools-container-selector {
+  margin: 5px 0;
+  margin-inline-end: 8px;
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .js-stools-container-bar .btn-toolbar .js-stools-btn-clear {
+      &[disabled],
+      &.dropdown-toggle[disabled] {
+        background: var(--body-bg);
+        border: var(--btn-secondary-border);
+        opacity: .5;
+        &:hover,
+        &:active,
+        &:focus {
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}

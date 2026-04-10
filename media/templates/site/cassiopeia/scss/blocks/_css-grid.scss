@@ -1,0 +1,116 @@
+// CSS Grid
+
+body {
+  display: flex;
+  flex-direction: column;
+
+  &.wrapper-fluid {
+
+    .site-grid {
+      grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 25%)) [main-end] minmax(0, 1fr) [full-end];
+      grid-gap: 0 ($cassiopeia-grid-gutter*2);
+    }
+
+    .grid-child {
+      max-width: none;
+    }
+
+    header > .grid-child,
+    footer > .grid-child {
+      padding-right: $cassiopeia-grid-gutter*2;
+      padding-left: $cassiopeia-grid-gutter*2;
+    }
+  }
+
+  &:not(.has-sidebar-left) .site-grid .container-component {
+    grid-column-start: main-start;
+  }
+
+  &:not(.has-sidebar-right) .site-grid .container-component {
+    grid-column-end: main-end;
+  }
+}
+
+.site-grid {
+  margin-bottom: auto;
+}
+
+@supports (display: grid) {
+  .site-grid {
+    display: grid;
+    grid-template-areas: ". banner banner banner banner ."
+      ". top-a top-a top-a top-a ."
+      ". top-b top-b top-b top-b ."
+      ". comp comp comp comp ."
+      ". side-r side-r side-r side-r ."
+      ". side-l side-l side-l side-l ."
+      ". bot-a bot-a bot-a bot-a ."
+      ". bot-b bot-b bot-b bot-b .";
+    grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 19.875rem)) [main-end] minmax(0, 1fr) [full-end];
+    grid-gap: 0 $cassiopeia-grid-gutter;
+
+    > [class^="container-"],
+    > [class*=" container-"] {
+      width: 100%;
+      max-width: none;
+      column-gap: $cassiopeia-grid-gutter;
+    }
+
+    > .full-width {
+      grid-column: full-start / full-end;
+    }
+
+    @include media-breakpoint-up(lg) {
+      grid-template-areas: ". banner banner banner banner ."
+        ". top-a top-a top-a top-a ."
+        ". top-b top-b top-b top-b ."
+        ". side-l comp comp side-r ."
+        ". bot-a bot-a bot-a bot-a ."
+        ". bot-b bot-b bot-b bot-b .";
+    }
+  }
+}
+
+.container-banner {
+  grid-area: banner;
+}
+
+.container-top-a {
+  grid-area: top-a;
+}
+
+.container-top-b {
+  grid-area: top-b;
+}
+
+.container-component {
+  grid-area: comp;
+}
+
+.container-sidebar-left {
+  grid-area: side-l;
+}
+
+.container-sidebar-right {
+  grid-area: side-r;
+}
+
+.container-main-top {
+  grid-area: main-t;
+}
+
+.container-main-bottom {
+  grid-area: main-b;
+}
+
+.container-breadcrumbs {
+  grid-area: bread;
+}
+
+.container-bottom-a {
+  grid-area: bot-a;
+}
+
+.container-bottom-b {
+  grid-area: bot-b;
+}

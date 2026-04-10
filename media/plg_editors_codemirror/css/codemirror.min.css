@@ -1,0 +1,1 @@
+@charset "UTF-8";joomla-editor-codemirror{display:block}.cm-editor{border:1px solid #ccc;margin-bottom:16px}.cm-editor .cm-scroller{min-height:100px;overflow:auto}joomla-editor-codemirror.fullscreen{z-index:1038;position:fixed;inset:0}joomla-editor-codemirror.fullscreen .cm-editor{background-color:var(--body-bg);width:auto!important;height:90vh!important}

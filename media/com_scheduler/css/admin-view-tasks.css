@@ -1,0 +1,6 @@
+@charset "UTF-8";
+.task-title span.failure-indicator {
+  color: #ffb514;
+  position: relative;
+  bottom: .5em;
+}

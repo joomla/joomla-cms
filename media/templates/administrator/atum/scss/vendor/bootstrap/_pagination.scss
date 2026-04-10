@@ -1,0 +1,11 @@
+// Pagination
+
+.pagination {
+  margin: 1rem;
+
+  .page-link.active, .active > .page-link {
+    background-color: var(--btn-primary-bg);
+    border-color: var(--btn-primary-bg);
+  }
+}
+

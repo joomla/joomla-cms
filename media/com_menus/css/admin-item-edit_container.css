@@ -1,0 +1,20 @@
+@charset "UTF-8";
+.checkbox-toggle {
+  display: none !important;
+}
+
+.checkbox-toggle[disabled] ~ .btn-hide {
+  opacity: .5;
+}
+
+.checkbox-toggle ~ .btn-show {
+  display: inline;
+}
+
+.checkbox-toggle ~ .btn-hide, .checkbox-toggle:checked ~ .btn-show {
+  display: none;
+}
+
+.checkbox-toggle:checked ~ .btn-hide {
+  display: inline;
+}
