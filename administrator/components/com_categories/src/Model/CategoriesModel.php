@@ -76,6 +76,8 @@ class CategoriesModel extends ListModel
         }
 
         parent::__construct($config, $factory);
+
+        $this->localeOrderColumns = ['a.title', 'a.alias'];
     }
 
     /**
@@ -415,7 +417,7 @@ class CategoriesModel extends ListModel
         if ($listOrdering == 'a.access') {
             $query->order('a.access ' . $listDirn . ', a.lft ' . $listDirn);
         } else {
-            $query->order($db->escape($listOrdering) . ' ' . $listDirn);
+            $query->order($this->getOrderByWithLocale($listOrdering, $listDirn));
         }
 
         // Group by on Categories for \JOIN with component tables to count items

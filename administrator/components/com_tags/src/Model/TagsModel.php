@@ -75,6 +75,8 @@ class TagsModel extends ListModel
         }
 
         parent::__construct($config, $factory);
+
+        $this->localeOrderColumns = ['a.title', 'a.alias'];
     }
 
     /**
@@ -258,7 +260,7 @@ class TagsModel extends ListModel
         if ($listOrdering == 'a.access') {
             $query->order('a.access ' . $listDirn . ', a.lft ' . $listDirn);
         } else {
-            $query->order($db->escape($listOrdering) . ' ' . $listDirn);
+            $query->order($this->getOrderByWithLocale($listOrdering, $this->getState('list.direction', 'ASC')));
         }
 
         return $query;

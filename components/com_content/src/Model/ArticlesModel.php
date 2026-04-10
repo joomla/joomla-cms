@@ -73,6 +73,8 @@ class ArticlesModel extends ListModel
         }
 
         parent::__construct($config, $factory);
+
+        $this->localeOrderColumns = ['a.title', 'a.alias', 'author', 'category_title'];
     }
 
     /**
@@ -652,10 +654,15 @@ class ArticlesModel extends ListModel
                 ->bind(':tagId', $tagId, ParameterType::INTEGER);
         }
 
-        // Add the list ordering clause.
-        $query->order(
-            $db->escape($this->getState('list.ordering', 'a.ordering')) . ' ' . $db->escape($this->getState('list.direction', 'ASC'))
-        );
+        // Add the list ordering clause (composite from category view, or locale-aware single column).
+        $ordering  = $this->getState('list.ordering', 'a.ordering');
+        $direction = $this->getState('list.direction', 'ASC');
+        if (strpos($ordering, ',') !== false) {
+            // Apply locale collation to known text segments inside the composite ORDER BY.
+            $query->order($this->applyLocaleCollationToCompositeOrdering($ordering, $this->getLocaleOrderColumns()));
+        } else {
+            $query->order($this->getOrderByWithLocale($ordering, $direction));
+        }
 
         return $query;
     }

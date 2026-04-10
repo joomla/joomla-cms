@@ -12,6 +12,7 @@ namespace Joomla\Component\Languages\Administrator\Model;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Database\LocaleCollation;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -313,6 +314,8 @@ class InstalledModel extends ListModel
 
                 return false;
             }
+
+            (new LocaleCollation($this->getDatabase()))->ensureCollation($cid);
         } else {
             $this->setError(Text::_('COM_LANGUAGES_ERR_NO_LANGUAGE_SELECTED'));
 
