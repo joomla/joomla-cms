@@ -120,11 +120,16 @@ class HtmlView extends FormView
 
         $url = RouteHelper::getArticleRoute($this->item->id . ':' . $this->item->alias, $this->item->catid, $this->item->language);
 
-        // Generate a signed, time-limited preview token and store it in the DB
-        $previewToken = $this->generatePreviewToken($this->item->id);
-
-        $this->previewLink = $url . '&preview=1&preview_token=' . $previewToken;
-        $this->jooa11yLink = $url . '&jooa11y=1&preview=1&preview_token=' . $previewToken;
+        // Only generate a preview token if the article already exists (has an id)
+        if ($this->item->id) {
+            // Generate a signed, time-limited preview token and store it in the DB
+            $previewToken = $this->generatePreviewToken($this->item->id);
+            $this->previewLink = $url . '&preview=1&preview_token=' . $previewToken;
+            $this->jooa11yLink = $url . '&jooa11y=1&preview=1&preview_token=' . $previewToken;
+        } else {
+            $this->previewLink = $url;
+            $this->jooa11yLink = $url . '&jooa11y=1';
+        }
 
         if ($this->getLayout() === 'modalreturn') {
             return;
