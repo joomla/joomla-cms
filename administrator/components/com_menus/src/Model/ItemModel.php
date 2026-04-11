@@ -1794,7 +1794,7 @@ class ItemModel extends AdminModel
      * @return  boolean
      *
      * @since   __DEPLOY_VERSION__
-     * 
+     *
      */
     protected function refreshInheritedModules(int $menuId, bool $refreshSubtree): bool
     {
