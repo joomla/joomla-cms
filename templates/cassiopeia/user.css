@@ -1,6 +1,5 @@
-a:focus,
-button:focus,
-input:focus {
+.navbar .dropdown-menu a:focus,
+.navbar .dropdown-menu button:focus {
   position: relative;
   z-index: 1050;
-}       
+}
