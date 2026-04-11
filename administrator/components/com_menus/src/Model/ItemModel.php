@@ -1944,7 +1944,7 @@ class ItemModel extends AdminModel
      *
      * @return  mixed  An array of module IDs, or false on error.
      *
-     * @since   6.2.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function getInheritedModuleIds(int $menuId)
     {
