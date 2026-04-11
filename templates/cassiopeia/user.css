@@ -1,0 +1,6 @@
+a:focus,
+button:focus,
+input:focus {
+  position: relative;
+  z-index: 1050;
+}       
