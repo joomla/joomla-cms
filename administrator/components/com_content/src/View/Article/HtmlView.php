@@ -81,7 +81,7 @@ class HtmlView extends FormView
         $token = bin2hex(random_bytes(16)); // 32-char hex token
         $expires = Factory::getDate('+5 minutes')->toSql();
 
-        $db = Factory::getDbo();
+        $db = Factory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
         $row = (object) [
             'token' => $token,
             'user_id' => $user->id,
