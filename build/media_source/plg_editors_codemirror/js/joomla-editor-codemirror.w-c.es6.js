@@ -87,15 +87,8 @@ class CodemirrorEditor extends HTMLElement {
   get fsCombo() { return this.getAttribute('fs-combo'); }
 
   async connectedCallback() {
-    // Cancel pending destruction (important for move case)
-    if (this._disconnectTimeout) {
-      clearTimeout(this._disconnectTimeout);
-      this._disconnectTimeout = null;
-    }
-
     // Prevent re-initialization if instance already exists
     if (this.instance) return;
-
     const { options } = this;
 
     // Configure full screen feature
@@ -122,23 +115,25 @@ class CodemirrorEditor extends HTMLElement {
   }
 
   disconnectedCallback() {
-    this._disconnectTimeout = setTimeout(() => {
-      if (!this.isConnected && this.instance) {
+    Promise.resolve().then(() => {
+      // If reconnected (drag move), skip destruction
+      if (this.isConnected) return;
+
+      if (this.instance) {
         this.element.style.display = '';
         this.instance.destroy();
-
-        // Remove from the Joomla API
-        JoomlaEditor.unregister(this.element.id);
-        this.removeEventListener('click', this.interactionCallback);
-
-        // Restore modals
-        if (this.bsModals && this.bsModals.length) {
-          this.bsModals.forEach((modal) => this.appendChild(modal));
-        }
-
         this.instance = null;
       }
-    }, 0);
+
+      // Remove from Joomla API
+      JoomlaEditor.unregister(this.element.id);
+      this.removeEventListener('click', this.interactionCallback);
+
+      // Restore modals
+      if (this.bsModals && this.bsModals.length) {
+        this.bsModals.forEach((modal) => this.appendChild(modal));
+      }
+    });
   }
 }
 
