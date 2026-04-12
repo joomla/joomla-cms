@@ -38,7 +38,8 @@ $currentJoomlaVersion = $this->updateInfo['installed'] ?? JVERSION;
     <?php if (
         isset($this->updateInfo['object']) &&
         is_object($this->updateInfo['object']) &&
-        ($this->updateInfo['object'] instanceof Update)) : ?>
+        ($this->updateInfo['object'] instanceof Update)
+) : ?>
         <br><br>
         <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
         <?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PACKAGE_INFO', $this->updateInfo['object']->downloadurl->_data); ?>
