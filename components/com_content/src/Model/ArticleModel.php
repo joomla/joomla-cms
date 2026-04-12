@@ -19,6 +19,7 @@ use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\IpHelper;
+use Joomla\CMS\Component\ComponentHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -229,7 +230,7 @@ class ArticleModel extends ItemModel
                 $data->params = clone $this->getState('params');
 
                 // Get global component params for fallback
-                $globalParams = \Joomla\CMS\Component\ComponentHelper::getParams('com_content', true);
+                $globalParams = ComponentHelper::getParams('com_content', true);
 
                 $menuParamsArray = $this->getState('params')->toArray();
                 $articleArray = [];
