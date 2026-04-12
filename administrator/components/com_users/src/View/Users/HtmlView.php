@@ -169,6 +169,7 @@ class HtmlView extends BaseHtmlView
 
             if ($canDo->get('core.delete')) {
                 $childBar->delete('users.delete', 'JTOOLBAR_DELETE')
+                    ->icon('icon-exclamation-triangle')
                     ->message('JGLOBAL_CONFIRM_DELETE')
                     ->listCheck(true);
             }
