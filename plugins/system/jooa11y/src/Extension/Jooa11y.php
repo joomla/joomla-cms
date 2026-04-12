@@ -32,6 +32,7 @@ use Joomla\Event\SubscriberInterface;
 final class Jooa11y extends CMSPlugin implements SubscriberInterface, DispatcherAwareInterface
 {
     use DispatcherAwareTrait;
+
     /**
      * Subscribe to certain events
      *
