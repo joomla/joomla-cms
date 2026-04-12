@@ -75,8 +75,11 @@ class HtmlView extends FormView
      *
      * @return  string
      */
-    protected function generatePreviewToken(int $articleId): string
+    protected function generatePreviewToken(?int $articleId): string
     {
+        if (empty($articleId)) {
+            return '';
+        }
         $user = $this->getCurrentUser();
         $token = bin2hex(random_bytes(16)); // 32-char hex token
         $expires = Factory::getDate('+5 minutes')->toSql();
@@ -120,16 +123,10 @@ class HtmlView extends FormView
 
         $url = RouteHelper::getArticleRoute($this->item->id . ':' . $this->item->alias, $this->item->catid, $this->item->language);
 
-        // Only generate a preview token if the article already exists (has an id)
-        if ($this->item->id) {
-            // Generate a signed, time-limited preview token and store it in the DB
-            $previewToken = $this->generatePreviewToken($this->item->id);
-            $this->previewLink = $url . '&preview=1&preview_token=' . $previewToken;
-            $this->jooa11yLink = $url . '&jooa11y=1&preview=1&preview_token=' . $previewToken;
-        } else {
-            $this->previewLink = $url;
-            $this->jooa11yLink = $url . '&jooa11y=1';
-        }
+        // Generate a signed, time-limited preview token and store it in the DB
+        $previewToken = $this->generatePreviewToken($this->item->id);
+        $this->previewLink = $url . '&preview=1&preview_token=' . $previewToken;
+        $this->jooa11yLink = $url . '&jooa11y=1&preview=1&preview_token=' . $previewToken;
 
         if ($this->getLayout() === 'modalreturn') {
             return;
