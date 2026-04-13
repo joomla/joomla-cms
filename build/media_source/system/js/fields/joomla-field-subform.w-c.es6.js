@@ -398,6 +398,7 @@ class JoomlaFieldSubform extends HTMLElement {
 
     // Helper method to move row to selected position
     function switchRowPositions(src, dest) {
+      if (src === dest) return;
       let isRowBefore = false;
       if (src.parentNode === dest.parentNode) {
         for (let cur = src; cur; cur = cur.previousSibling) {
@@ -583,7 +584,7 @@ class JoomlaFieldSubform extends HTMLElement {
       const row = target.closest(that.repeatableElement);
 
       // One more check for correct parent
-      if (!row || row.closest('joomla-field-subform') !== that || row === item) return;
+      if (!row || row.closest('joomla-field-subform') !== that) return;
 
       switchRowPositions(item, row);
     });
