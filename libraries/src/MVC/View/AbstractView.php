@@ -184,7 +184,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
      *
      * @param   string  $name  The name of the model (optional)
      *
-     * @return  BaseDatabaseModel  The model object
+     * @return  BaseDatabaseModel|null  The model object or null if not found
      *
      * @since   3.0
      */
@@ -194,7 +194,9 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
             $name = $this->_defaultModel;
         }
 
-        return $this->_models[strtolower($name)];
+        $key = strtolower($name);
+
+        return $this->_models[$key] ?? null;
     }
 
     /**
