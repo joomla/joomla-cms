@@ -81,6 +81,8 @@ trait KnownButtons
             'language' => ['label' => 'Language'],
 
             // Buttons from the plugins
+            'abbr'           => ['label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_ABBREVIATION'), 'plugin' => 'abbr'],
+            'abbr_remove'    => ['label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_REMOVE_ABBREVIATION'), 'plugin' => 'abbr'],
             'accordion'      => ['label' => 'Accordion', 'plugin' => 'accordion'],
             'anchor'         => ['label' => 'Anchor', 'plugin' => 'anchor'],
             'hr'             => ['label' => 'Horizontal line'],
