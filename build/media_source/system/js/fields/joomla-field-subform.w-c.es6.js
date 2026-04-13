@@ -583,7 +583,7 @@ class JoomlaFieldSubform extends HTMLElement {
       const row = target.closest(that.repeatableElement);
 
       // One more check for correct parent
-      if (!row || row.closest('joomla-field-subform') !== that) return;
+      if (!row || row.closest('joomla-field-subform') !== that || row === item) return;
 
       switchRowPositions(item, row);
     });
