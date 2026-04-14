@@ -79,9 +79,8 @@ class UserFactory implements UserFactoryInterface
 
         $user = new User($id);
 
-        $this->cacheById[$id] = $user;
-
-        if (isset($user->username) && \is_string($user->username) && $user->username !== '') {
+        if (!empty($user->id)) {
+            $this->cacheById[$id] = $user;
             $this->cacheByUsername[$user->username] = $id;
         }
 
@@ -108,7 +107,7 @@ class UserFactory implements UserFactoryInterface
         }
 
         // Initialise some variables
-        $query = $this->db->getQuery(true)
+        $query = $this->db->createQuery()
             ->select($this->db->quoteName('id'))
             ->from($this->db->quoteName('#__users'))
             ->where($this->db->quoteName('username') . ' = :username')
