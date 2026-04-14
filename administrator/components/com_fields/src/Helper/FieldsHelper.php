@@ -214,14 +214,14 @@ class FieldsHelper
                      */
                     $dispatcher->dispatch('onCustomFieldsBeforePrepareField', new BeforePrepareFieldEvent('onCustomFieldsBeforePrepareField', [
                         'context' => $context,
-                        'item' => $item,
+                        'item'    => $item,
                         'subject' => $field,
                     ]));
 
                     // Gathering the value for the field
                     $value = $dispatcher->dispatch('onCustomFieldsPrepareField', new PrepareFieldEvent('onCustomFieldsPrepareField', [
                         'context' => $context,
-                        'item' => $item,
+                        'item'    => $item,
                         'subject' => $field,
                     ]))->getArgument('result', []);
 
@@ -238,9 +238,9 @@ class FieldsHelper
                      */
                     $eventAfter = new AfterPrepareFieldEvent('onCustomFieldsAfterPrepareField', [
                         'context' => $context,
-                        'item' => $item,
+                        'item'    => $item,
                         'subject' => $field,
-                        'value' => &$value, // @todo: Remove reference in Joomla 6, see AfterPrepareFieldEvent::__constructor()
+                        'value'   => &$value, // @todo: Remove reference in Joomla 6, see AfterPrepareFieldEvent::__constructor()
                     ]);
                     $dispatcher->dispatch('onCustomFieldsAfterPrepareField', $eventAfter);
                     $value = $eventAfter->getValue();
@@ -288,7 +288,7 @@ class FieldsHelper
 
         if ($value == '') {
             // Trying to render the layout on Fields itself
-            $value = LayoutHelper::render($layoutFile, $displayData, null, ['component' => 'com_fields', 'client' => 0]);
+            $value = LayoutHelper::render($layoutFile, $displayData, null, ['component' => 'com_fields','client' => 0]);
         }
 
         return $value;
@@ -310,7 +310,7 @@ class FieldsHelper
         // Extracting the component and section
         $parts = self::extract($context);
 
-        if (!$parts) {
+        if (! $parts) {
             return true;
         }
 
@@ -319,12 +319,12 @@ class FieldsHelper
         // When no fields available return here
         $fields = self::getFields($parts[0] . '.' . $parts[1]);
 
-        if (!$fields) {
+        if (! $fields) {
             return true;
         }
 
         $component = $parts[0];
-        $section = $parts[1];
+        $section   = $parts[1];
 
         $assignedCatids = $data->catid ?? $data->fieldscatid ?? $form->getValue('catid');
 
@@ -381,7 +381,7 @@ class FieldsHelper
         $fieldTypes = self::getFieldTypes();
 
         // Creating the dom
-        $xml = new \DOMDocument('1.0', 'UTF-8');
+        $xml        = new \DOMDocument('1.0', 'UTF-8');
         $fieldsNode = $xml->appendChild(new \DOMElement('form'))->appendChild(new \DOMElement('fields'));
         $fieldsNode->setAttribute('name', 'com_fields');
 
@@ -422,11 +422,11 @@ class FieldsHelper
          * have the 'default' group with id 0 which is not in the database,
          * so we create it virtually here.
          */
-        $defaultGroup = new \stdClass();
-        $defaultGroup->id = 0;
-        $defaultGroup->title = '';
+        $defaultGroup              = new \stdClass();
+        $defaultGroup->id          = 0;
+        $defaultGroup->title       = '';
         $defaultGroup->description = '';
-        $iterateGroups = array_merge([$defaultGroup], $model->getItems());
+        $iterateGroups             = array_merge([$defaultGroup], $model->getItems());
 
         // Looping through the groups
         foreach ($iterateGroups as $group) {
@@ -441,7 +441,7 @@ class FieldsHelper
             $fieldset->setAttribute('addfieldpath', '/administrator/components/' . $component . '/models/fields');
             $fieldset->setAttribute('addrulepath', '/administrator/components/' . $component . '/models/rules');
 
-            $label = $group->title;
+            $label       = $group->title;
             $description = $group->description;
 
             if (!$label) {
@@ -469,9 +469,9 @@ class FieldsHelper
             foreach ($fieldsPerGroup[$group->id] as $field) {
                 try {
                     $dispatcher->dispatch('onCustomFieldsPrepareDom', new PrepareDomEvent('onCustomFieldsPrepareDom', [
-                        'subject' => $field,
+                        'subject'  => $field,
                         'fieldset' => $fieldset,
-                        'form' => $form,
+                        'form'     => $form,
                     ]));
 
                     /*
@@ -600,7 +600,7 @@ class FieldsHelper
             return [];
         }
 
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true);
 
         $query->select($db->quoteName('a.category_id'))
@@ -629,7 +629,7 @@ class FieldsHelper
             return [];
         }
 
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true);
 
         $query->select($db->quoteName('c.title'))
@@ -652,7 +652,7 @@ class FieldsHelper
      */
     public static function getFieldsPluginId()
     {
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions'))
@@ -717,7 +717,7 @@ class FieldsHelper
      */
     public static function clearFieldsCache()
     {
-        self::$fieldCache = null;
+        self::$fieldCache  = null;
         self::$fieldsCache = null;
     }
 }
