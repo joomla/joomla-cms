@@ -231,7 +231,7 @@ class ArticleModel extends ItemModel
                 $globalParams = ComponentHelper::getParams('com_content', true);
 
                 $menuParamsArray = $this->getState('params')->toArray();
-                $articleArray = [];
+                $articleArray    = [];
 
                 foreach ($menuParamsArray as $key => $value) {
                     if ($value === 'use_article') {
