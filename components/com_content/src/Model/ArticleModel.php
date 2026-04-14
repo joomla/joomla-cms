@@ -95,7 +95,7 @@ class ArticleModel extends ItemModel
 
         if (!isset($this->_item[$pk])) {
             try {
-                $db = $this->getDatabase();
+                $db    = $this->getDatabase();
                 $query = $db->createQuery();
 
                 $query->select(
@@ -150,7 +150,7 @@ class ArticleModel extends ItemModel
                             $db->quoteName('parent.alias', 'parent_alias'),
                             $db->quoteName('parent.language', 'parent_language'),
                             'ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 1) AS '
-                            . $db->quoteName('rating'),
+                                . $db->quoteName('rating'),
                             $db->quoteName('v.rating_count', 'rating_count'),
                         ]
                     )
@@ -205,7 +205,7 @@ class ArticleModel extends ItemModel
 
                 // Filter by published state.
                 $published = $this->getState('filter.published');
-                $archived = $this->getState('filter.archived');
+                $archived  = $this->getState('filter.archived');
 
                 if (is_numeric($published)) {
                     $query->whereIn($db->quoteName('a.state'), [(int) $published, (int) $archived]);
@@ -228,8 +228,6 @@ class ArticleModel extends ItemModel
                 $registry = new Registry($data->attribs);
 
                 $data->params = clone $this->getState('params');
-
-                // Get global component params for fallback
                 $globalParams = ComponentHelper::getParams('com_content', true);
 
                 $menuParamsArray = $this->getState('params')->toArray();
@@ -256,7 +254,7 @@ class ArticleModel extends ItemModel
                 // Technically guest could edit an article, but lets not check that to improve performance a little.
                 if (!$user->guest) {
                     $userId = $user->id;
-                    $asset = 'com_content.article.' . $data->id;
+                    $asset  = 'com_content.article.' . $data->id;
 
                     // Check general edit permission first.
                     if ($user->authorise('core.edit', $asset)) {
@@ -276,7 +274,7 @@ class ArticleModel extends ItemModel
                     $data->params->set('access-view', true);
                 } else {
                     // If no access filter is set, the layout takes some responsibility for display of limited information.
-                    $user = $this->getCurrentUser();
+                    $user   = $this->getCurrentUser();
                     $groups = $user->getAuthorisedViewLevels();
 
                     if ($data->catid == 0 || $data->category_access === null) {
@@ -310,7 +308,7 @@ class ArticleModel extends ItemModel
      */
     public function hit($pk = 0)
     {
-        $input = Factory::getApplication()->getInput();
+        $input    = Factory::getApplication()->getInput();
         $hitcount = $input->getInt('hitcount', 1);
 
         if ($hitcount) {
@@ -333,14 +331,14 @@ class ArticleModel extends ItemModel
      */
     public function storeVote($pk = 0, $rate = 0)
     {
-        $pk = (int) $pk;
+        $pk   = (int) $pk;
         $rate = (int) $rate;
 
         if ($rate >= 1 && $rate <= 5 && $pk > 0) {
             $userIP = IpHelper::getIp();
 
             // Initialize variables.
-            $db = $this->getDatabase();
+            $db    = $this->getDatabase();
             $query = $db->createQuery();
 
             // Create the base select statement.
