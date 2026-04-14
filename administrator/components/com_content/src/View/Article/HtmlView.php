@@ -84,7 +84,7 @@ class HtmlView extends FormView
         $token   = bin2hex(random_bytes(16)); // 32-char hex token
         $expires = Factory::getDate('+5 minutes')->toSql();
 
-        $db = Factory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
+        $db  = Factory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
         $row = (object) [
             'token'      => $token,
             'user_id'    => $user->id,
@@ -124,7 +124,7 @@ class HtmlView extends FormView
         $url = RouteHelper::getArticleRoute($this->item->id . ':' . $this->item->alias, $this->item->catid, $this->item->language);
 
         // Generate a signed, time-limited preview token and store it in the DB
-        $previewToken = $this->generatePreviewToken($this->item->id);
+        $previewToken      = $this->generatePreviewToken($this->item->id);
         $this->previewLink = $url . '&preview=1&preview_token=' . $previewToken;
         $this->jooa11yLink = $url . '&jooa11y=1&preview=1&preview_token=' . $previewToken;
 
