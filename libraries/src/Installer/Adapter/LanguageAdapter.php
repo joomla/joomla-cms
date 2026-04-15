@@ -411,9 +411,9 @@ class LanguageAdapter extends InstallerAdapter
         $description = (string) $this->getManifest()->description;
 
         if ($description) {
-            $this->parent->set('message', Text::_($description));
+            $this->parent->message = Text::_($description);
         } else {
-            $this->parent->set('message', '');
+            $this->parent->message = '';
         }
 
         // Add an entry to the extension table with a whole heap of defaults
