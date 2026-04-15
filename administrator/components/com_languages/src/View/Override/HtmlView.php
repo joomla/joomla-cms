@@ -13,7 +13,6 @@ namespace Joomla\Component\Languages\Administrator\View\Override;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -67,6 +66,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var OverrideModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->form  = $model->getForm();
         $this->item  = $model->getItem();
@@ -80,11 +80,6 @@ class HtmlView extends BaseHtmlView
             $app->enqueueMessage(Text::_('COM_LANGUAGES_OVERRIDE_FIRST_SELECT_MESSAGE'), 'warning');
 
             $app->redirect('index.php?option=com_languages&view=overrides');
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors));
         }
 
         // Check whether the cache has to be refreshed.

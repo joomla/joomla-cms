@@ -308,6 +308,9 @@ class TagModel extends AdminModel implements VersionableModelInterface
         $this->setState($this->getName() . '.id', $table->id);
         $this->setState($this->getName() . '.new', $isNew);
 
+        // Save version history.
+        $this->saveHistory($data, $context);
+
         // Clear the cache
         $this->cleanCache();
 

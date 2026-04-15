@@ -56,7 +56,7 @@ RUN apt-get update && apt-get install -y ssl-cert && \
     a2ensite default-ssl && \
     sed -i 's|/var/www/html|/workspaces/joomla-cms|g' /etc/apache2/sites-available/default-ssl.conf && \
     echo '<Directory /workspaces/joomla-cms>\n    Options Indexes FollowSymLinks\n    AllowOverride All\n    Require all granted\n</Directory>' >> /etc/apache2/sites-available/default-ssl.conf
-    
+
 # Create a custom PHP configuration file to enable file uploads and a log directory
 RUN mkdir -p /var/log/ && \
     touch /var/log/php_errors.log && \

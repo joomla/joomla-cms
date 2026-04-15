@@ -31,10 +31,10 @@ class Templates
      * Display the thumb for the template.
      *
      * @param   string|object  $template  The name of the template or the template object.
-     *                                    @deprecated   4.3 will be removed in 6.0
+     *                                    @deprecated   4.3 will be removed in 7.0
      *                                    The argument $template must be an object only
      * @param   integer        $clientId  No longer used, will be removed without replacement
-     *                                    @deprecated   4.3 will be removed in 6.0
+     *                                    @deprecated   4.3 will be removed in 7.0
      *
      * @return  string  The html string
      *
@@ -89,10 +89,10 @@ class Templates
      * Renders the html for the modal linked to thumb.
      *
      * @param   string|object  $template  The name of the template or the template object.
-     *                                    @deprecated   4.3 will be removed in 6.0
+     *                                    @deprecated   4.3 will be removed in 7.0
      *                                    The argument $template must be an object only
      * @param   integer        $clientId  No longer used, will be removed without replacement
-     *                                    @deprecated   4.3 will be removed in 6.0
+     *                                    @deprecated   4.3 will be removed in 7.0
      *
      * @return  string  The html string
      *

@@ -18,8 +18,6 @@ use Joomla\CMS\Router\Route;
 
 /** @var \Joomla\Component\Modules\Administrator\View\Module\HtmlView $this */
 
-HTMLHelper::_('behavior.combobox');
-
 $hasContent          = isset($this->item->xml->customContent);
 $hasContentFieldName = 'content';
 
@@ -39,10 +37,10 @@ Text::script('JTRASHED');
 
 $this->getDocument()->addScriptOptions('module-edit', ['itemId' => $this->item->id, 'state' => (int) $this->item->id == 0 ? 'Add' : 'Edit']);
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->getDocument()->getWebAssetManager();
-$wa->useScript('keepalive')
-    ->useScript('form.validate');
+$this->getDocument()->getWebAssetManager()
+    ->useScript('keepalive')
+    ->useScript('form.validate')
+    ->useScript('awesomplete');
 
 $input = Factory::getApplication()->getInput();
 
