@@ -114,7 +114,7 @@ if ($this->type == 'font') {
                         <?php echo HTMLHelper::_('form.token'); ?>
                         <p><?php echo Text::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
                         <p>
-                            <a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Template_Overrides" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
+                            <a href="https://guide.joomla.org/user-manual/templates/templates-template-overrides" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
                                 <?php echo Text::_('COM_TEMPLATES_HOME_BUTTON'); ?>
                             </a>
                         </p>
@@ -396,7 +396,7 @@ if ($this->type == 'font') {
     $copyModalData = [
         'selector' => $taskName . 'Modal',
         'params'   => [
-            'title'  => Text::_('COM_TEMPLATES_TEMPLATE_' . strtoupper($taskName)),
+            'title'  => Text::_('COM_TEMPLATES_TEMPLATE_' . strtoupper($taskName) . (isset($this->template->xmldata->parent) && (string) $this->template->xmldata->parent !== '' ? '_CHILD' : '')),
             'footer' => $this->loadTemplate('modal_' . $taskName . '_footer')
         ],
         'body' => $this->loadTemplate('modal_' . $taskName . '_body')

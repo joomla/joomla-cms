@@ -49,6 +49,17 @@ class ModuleAdapter extends InstallerAdapter
     protected $scriptElement = null;
 
     /**
+     * The list of current files that are installed and is read
+     * from the manifest on disk in the update area to handle doing a diff
+     * and deleting files that are in the old files list and not in the new
+     * files list.
+     *
+     * @var    array
+     * @since  6.1.0
+     * */
+    protected $oldFiles = null;
+
+    /**
      * Method to check if the extension is already present in the database
      *
      * @return  void
@@ -91,7 +102,7 @@ class ModuleAdapter extends InstallerAdapter
     protected function copyBaseFiles()
     {
         // Copy all necessary files
-        if ($this->parent->parseFiles($this->getManifest()->files, -1) === false) {
+        if ($this->parent->parseFiles($this->getManifest()->files, -1, $this->oldFiles) === false) {
             throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_MOD_COPY_FILES'));
         }
 
@@ -526,6 +537,28 @@ class ModuleAdapter extends InstallerAdapter
 
         // Attempt to load the language file; might have uninstall strings
         $this->loadLanguage(($this->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $element);
+    }
+
+    /**
+     * Method to setup the update routine for the adapter
+     *
+     * @return  void
+     *
+     * @since   6.1.0
+     */
+    protected function setupUpdates()
+    {
+        // Create a new installer because findManifest sets stuff; side effects!
+        $tmpInstaller = new Installer();
+        $tmpInstaller->setDatabase($this->getDatabase());
+
+        // Look in the extension root
+        $tmpInstaller->setPath('source', $this->parent->getPath('extension_root'));
+
+        if ($tmpInstaller->findManifest()) {
+            $old_manifest   = $tmpInstaller->getManifest();
+            $this->oldFiles = $old_manifest->files;
+        }
     }
 
     /**

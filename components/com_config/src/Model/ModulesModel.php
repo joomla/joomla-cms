@@ -52,20 +52,14 @@ class ModulesModel extends FormModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   3.2
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
-        // Get the form.
-        $form = $this->loadForm('com_config.modules', 'modules', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+        return $this->loadForm('com_config.modules', 'modules', ['control' => 'jform', 'load_data' => $loadData]);
     }
 
     /**

@@ -212,6 +212,11 @@ class ArticlesHelper implements DatabaseAwareInterface
             $articles->setState('filter.published', ContentComponent::CONDITION_ARCHIVED);
         }
 
+        // Filter unpublished articles
+        if ($params->get('show_unpublished', 0) === 1 && (($user->authorise('core.edit.state', 'com_content') && $user->authorise('core.edit', 'com_content')) || ($user->authorise('core.edit.state', 'com_content') && $user->authorise('core.edit.own', 'com_content')))) {
+            $articles->setState('filter.published', [ContentComponent::CONDITION_UNPUBLISHED, ContentComponent::CONDITION_PUBLISHED]);
+        }
+
         // Check if we include or exclude articles and process data
         $ex_or_include_articles = $params->get('ex_or_include_articles', 0);
         $filterInclude          = true;
@@ -338,9 +343,13 @@ class ArticlesHelper implements DatabaseAwareInterface
                     'params'  => $item->params,
                 ];
 
-                // Extra content from events
+                // onContentPrepare plugins work on $item->text
+                if (!isset($item->text)) {
+                    $item->text = $item->introtext . ' ' . $item->fulltext;
+                }
 
                 $contentEvents = [
+                    'onContentPrepare'     => new Content\ContentPrepareEvent('onContentPrepare', $contentEventArguments),
                     'afterDisplayTitle'    => new Content\AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
                     'beforeDisplayContent' => new Content\BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
                     'afterDisplayContent'  => new Content\AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
@@ -352,6 +361,7 @@ class ArticlesHelper implements DatabaseAwareInterface
                     $item->event->{$resultKey} = $results ? trim(implode("\n", $results)) : '';
                 }
             } else {
+                $item->event->onContentPrepare     = '';
                 $item->event->afterDisplayTitle    = '';
                 $item->event->beforeDisplayContent = '';
                 $item->event->afterDisplayContent  = '';
