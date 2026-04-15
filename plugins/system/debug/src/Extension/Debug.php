@@ -31,7 +31,6 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Event\ConnectionEvent;
-use Joomla\Database\Monitor\DebugMonitor;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\System\Debug\DataCollector\InfoCollector;
@@ -109,7 +108,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
     /**
      * The query monitor.
      *
-     * @var    DebugMonitor|null
+     * @var    \Joomla\Database\Monitor\DebugMonitor
      * @since  4.0.0
      */
     private $queryMonitor;
@@ -188,9 +187,8 @@ final class Debug extends CMSPlugin implements SubscriberInterface
         ob_start();
         ob_implicit_flush(false);
 
-        $queryMonitor = $this->getDatabase()->getMonitor();
-
-        $this->queryMonitor = $queryMonitor instanceof DebugMonitor ? $queryMonitor : null;
+        /** @var \Joomla\Database\Monitor\DebugMonitor */
+        $this->queryMonitor = $this->getDatabase()->getMonitor();
 
         if (!$this->params->get('queries', 1)) {
             // Remove the database driver monitor
@@ -322,10 +320,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
 
                 // Call $db->disconnect() here to trigger the onAfterDisconnect() method here in this class!
                 $this->getDatabase()->disconnect();
-
-                if ($this->queryMonitor instanceof DebugMonitor) {
-                    $this->debugBar->addCollector(new QueryCollector($this->params, $this->queryMonitor, $this->sqlShowProfileEach, $this->explains));
-                }
+                $this->debugBar->addCollector(new QueryCollector($this->params, $this->queryMonitor, $this->sqlShowProfileEach, $this->explains));
             }
 
             if ($this->showLogs) {
@@ -492,7 +487,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
         }
 
         if (
-            $this->queryMonitor instanceof DebugMonitor
+            $this->queryMonitor
             && $this->params->get('query_explains')
             && \in_array($db->getServerType(), ['mysql', 'postgresql'], true)
         ) {
