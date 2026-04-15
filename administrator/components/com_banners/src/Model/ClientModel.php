@@ -11,6 +11,7 @@
 namespace Joomla\Component\Banners\Administrator\Model;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Versioning\VersionableModelInterface;
@@ -86,20 +87,14 @@ class ClientModel extends AdminModel implements VersionableModelInterface
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \Joomla\CMS\Form\Form|boolean  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
-        // Get the form.
-        $form = $this->loadForm('com_banners.client', 'client', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+        return $this->loadForm('com_banners.client', 'client', ['control' => 'jform', 'load_data' => $loadData]);
     }
 
     /**

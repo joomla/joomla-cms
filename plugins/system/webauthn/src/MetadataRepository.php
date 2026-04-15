@@ -10,7 +10,8 @@
 
 namespace Joomla\Plugin\System\Webauthn;
 
-use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Encoding\JoseEncoder;
+use Lcobucci\JWT\Token\Parser;
 use Lcobucci\JWT\Token\Plain;
 use Webauthn\MetadataService\MetadataStatementRepository;
 use Webauthn\MetadataService\Statement\MetadataStatement;
@@ -126,8 +127,8 @@ final class MetadataRepository implements MetadataStatementRepository
         }
 
         try {
-            $jwtConfig = Configuration::forUnsecuredSigner();
-            $token     = $jwtConfig->parser()->parse($rawJwt);
+            $parser = new Parser(new JoseEncoder());
+            $token  = $parser->parse($rawJwt);
         } catch (\Exception) {
             return;
         }
@@ -138,19 +139,9 @@ final class MetadataRepository implements MetadataStatementRepository
 
         unset($rawJwt);
 
-        $entriesMapper = function (object $entry) {
+        $entriesMapper = function (array $entry): ?MetadataStatement {
             try {
-                $array = json_decode(json_encode($entry->metadataStatement), true);
-
-                /**
-                 * This prevents an error when we're asking for attestation on authenticators which
-                 * don't allow it. We are really not interested in the attestation per se, but
-                 * requiring an attestation is the only way we can get the AAGUID of the
-                 * authenticator.
-                 */
-                if (isset($array['attestationTypes'])) {
-                    unset($array['attestationTypes']);
-                }
+                $array = json_decode(json_encode($entry['metadataStatement']), true);
 
                 return MetadataStatement::createFromArray($array);
             } catch (\Exception) {

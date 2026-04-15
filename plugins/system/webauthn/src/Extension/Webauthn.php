@@ -123,7 +123,7 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
 
         Log::addLogger([
             'text_file'         => "webauthn_system.php",
-            'text_entry_format' => '{DATETIME}	{PRIORITY}	{CLIENTIP}	{MESSAGE}',
+            'text_entry_format' => "{DATETIME}\t{PRIORITY}\t{CLIENTIP}\t{MESSAGE}",
         ], $logLevels, ["webauthn.system"]);
 
         $this->authenticationHelper = $authHelper ?? (new Authentication());

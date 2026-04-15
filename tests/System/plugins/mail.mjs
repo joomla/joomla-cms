@@ -48,7 +48,7 @@ function startMailServer(config) {
   }
 
   // Start the mail server on the configured port
-  mailServer = mailTester.init(config.env.smtp_port);
+  mailServer = mailTester.init(config.expose.smtp_port);
 
   // Uncomment the next line when you want to see the incoming mails while writing the tests
   // mailServer.module('logAll');
