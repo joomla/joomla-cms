@@ -87,7 +87,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      *
      * @var   boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     private $autoloadLanguageDone = false;
 
@@ -95,13 +95,13 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      * Should I try to detect and register legacy event listeners, i.e. methods which accept unwrapped arguments? While
      * this maintains a great degree of backwards compatibility to Joomla! 3.x-style plugins it is much slower. You are
      * advised to implement your plugins using proper Listeners, methods accepting an AbstractEvent as their sole
-     * parameter, for best performance. Also bear in mind that Joomla! 5.x onwards will only allow proper listeners,
+     * parameter, for best performance. Also bear in mind that Joomla! 7.0 onwards will only allow proper listeners,
      * removing support for legacy Listeners.
      *
      * @var    boolean
      * @since  4.0.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Implement your plugin methods accepting an AbstractEvent object
      *              Example:
      *              onEventTriggerName(AbstractEvent $event) {
@@ -187,8 +187,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
         }
 
         // Load the language files if needed.
-        // It is required Application to be set, so we trying it here and in CMSPlugin::setApplication()
-        if ($this->autoloadLanguage && $this->getApplication()) {
+        if ($this->autoloadLanguage) {
             $this->autoloadLanguage();
         }
     }
@@ -243,7 +242,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      *
      * @internal  The method does not expect to be called outside the CMSPlugin class.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     final protected function autoloadLanguage(): void
     {
@@ -252,6 +251,16 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
         }
 
         $app = $this->getApplication();
+
+        // Try to get Application from Factory
+        if (!$app) {
+            try {
+                $app = Factory::getApplication();
+            } catch (\Exception) {
+                // Cannot help here
+                return;
+            }
+        }
 
         // Check whether language already initialised in the Application, otherwise wait for it
         if (!$app->getLanguage()) {
@@ -394,7 +403,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
 
     /**
      * Registers a proper event listener, i.e. a method which accepts an AbstractEvent as its sole argument. This is the
-     * preferred way to implement plugins in Joomla! 4.x and will be the only possible method with Joomla! 5.x onwards.
+     * preferred way to implement plugins in Joomla! 4.x and will be the only possible method with Joomla! 7.0 onwards.
      *
      * @param   string  $methodName  The method name to register
      *
@@ -482,11 +491,6 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
 
         if ($application->getLanguage()) {
             $this->setLanguage($application->getLanguage());
-        }
-
-        // Try to load the language files if it were not loaded in the constructor already.
-        if ($this->autoloadLanguage) {
-            $this->autoloadLanguage();
         }
     }
 

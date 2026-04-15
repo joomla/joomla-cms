@@ -37,7 +37,7 @@ class MenuHelper
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      */
     public function getItems(Registry &$params, CMSApplicationInterface $app): array
     {
@@ -190,7 +190,7 @@ class MenuHelper
      *
      * @return  object
      *
-     * @since    __DEPLOY_VERSION__
+     * @since    5.4.0
      */
     public function getBaseItem(Registry &$params, CMSApplicationInterface $app): object
     {
@@ -216,7 +216,7 @@ class MenuHelper
      *
      * @return  object
      *
-     * @since    __DEPLOY_VERSION__
+     * @since    5.4.0
      */
     public function getActiveItem(CMSApplicationInterface $app): object
     {
@@ -232,7 +232,7 @@ class MenuHelper
      *
      * @return  object
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      */
     public function getDefaultItem(CMSApplicationInterface $app): object
     {
@@ -256,7 +256,7 @@ class MenuHelper
      *
      * @since   1.5
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.4.0 will be removed in 7.0
      *             Use the non-static method getItems
      *             Example: Factory::getApplication()->bootModule('mod_menu', 'site')
      *                          ->getHelper('MenuHelper')
@@ -276,7 +276,7 @@ class MenuHelper
      *
      * @since    3.0.2
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.4.0 will be removed in 7.0
      *             Use the non-static method getBaseItem
      *             Example: Factory::getApplication()->bootModule('mod_menu', 'site')
      *                          ->getHelper('MenuHelper')
@@ -296,7 +296,7 @@ class MenuHelper
      *
      * @since    3.0.2
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.4.0 will be removed in 7.0
      *             Use the non-static method getActiveItem
      *             Example: Factory::getApplication()->bootModule('mod_menu', 'site')
      *                          ->getHelper('MenuHelper')
@@ -312,7 +312,7 @@ class MenuHelper
      *
      * @return  object
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.4.0 will be removed in 7.0
      *             Use the non-static method getDefaultItem
      *             Example: Factory::getApplication()->bootModule('mod_menu', 'site')
      *                          ->getHelper('MenuHelper')

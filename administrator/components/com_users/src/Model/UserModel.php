@@ -120,18 +120,15 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
      * @param   array    $data      An optional array of data for the form to interrogate.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|bool  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
         // Get the form.
         $form = $this->loadForm('com_users.user', 'user', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         $user = $this->getCurrentUser();
 
@@ -714,7 +711,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
 
         $userIds = ArrayHelper::toInteger($userIds);
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Update the reset flag
         $query->update($db->quoteName('#__users'))
@@ -797,7 +794,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
              * unless we are moving the user to a new group.
              */
             if ($doDelete === 'group') {
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
                 $query->select($db->quoteName('user_id'))
                     ->from($db->quoteName('#__user_usergroup_map'))
                     ->whereIn($db->quoteName('user_id'), $userIds);
@@ -840,7 +837,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
                     ->bind(':group_id', $groupId, ParameterType::INTEGER);
                 $db->setQuery($query);
             } elseif ($doDelete === 'all') {
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
                 $query->delete($db->quoteName('#__user_usergroup_map'))
                     ->whereIn($db->quoteName('user_id'), $userIds);
             }
@@ -857,7 +854,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
 
         // Assign the users to the group if requested.
         if (isset($doAssign)) {
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             // First, we need to check if the user is already assigned to a group
             $query->select($db->quoteName('user_id'))
@@ -968,7 +965,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
      *
      * @since   3.2
      *
-     * @deprecated   4.2 will be removed in 6.0.
+     * @deprecated   4.2 will be removed in 7.0.
      *               Will be removed without replacement
      */
     public function getOtpConfig($userId = null)
@@ -999,7 +996,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
      *
      * @since   3.2
      *
-     * @deprecated   4.2 will be removed in 5.0.
+     * @deprecated   4.2 will be removed in 7.0.
      *               Will be removed without replacement
      */
     public function setOtpConfig($userId, $otpConfig)
@@ -1022,7 +1019,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
      *
      * @since   3.2
      *
-     * @deprecated   4.2 will be removed in 6.0.
+     * @deprecated   4.2 will be removed in 7.0.
      *               Use \Joomla\CMS\Factory::getApplication()->get('secret') instead'
      */
     public function getOtpConfigEncryptionKey()
@@ -1048,7 +1045,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
      * @since   3.2
      * @throws  \Exception
      *
-     * @deprecated   4.2 will be removed in 5.0.
+     * @deprecated   4.2 will be removed in 7.0.
      *               Will be removed without replacement
      */
     public function getTwofactorform($userId = null)
@@ -1074,7 +1071,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
      *
      * @since   3.2
      *
-     * @deprecated   4.2 will be removed in 5.0
+     * @deprecated   4.2 will be removed in 7.0
      *               Will be removed without replacement
      */
     public function generateOteps($userId, $count = 10)
@@ -1102,7 +1099,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
      * @since   3.2
      * @throws  \Exception
      *
-     * @deprecated   4.2 will be removed in 5.0
+     * @deprecated   4.2 will be removed in 7.0
      *               Will be removed without replacement
      */
     public function isValidSecretKey($userId, $secretKey, $options = [])
@@ -1129,7 +1126,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
      *
      * @since   3.2
      *
-     * @deprecated   4.2 will be removed in 5.0
+     * @deprecated   4.2 will be removed in 7.0
      *               Will be removed without replacement
      */
     public function isValidOtep($userId, $otep, $otpConfig = null)
