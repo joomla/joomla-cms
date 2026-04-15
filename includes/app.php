@@ -48,6 +48,10 @@ $container->alias('session.web', 'session.web.site')
     ->alias(\Joomla\Session\Session::class, 'session.web.site')
     ->alias(\Joomla\Session\SessionInterface::class, 'session.web.site');
 
+if (file_exists(\dirname(__DIR__) . '/bootstrap.php')) {
+    require_once \dirname(__DIR__) . '/bootstrap.php';
+}
+
 // Instantiate the application.
 $app = $container->get(\Joomla\CMS\Application\SiteApplication::class);
 

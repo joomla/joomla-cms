@@ -48,6 +48,10 @@ $container->alias('session.web', 'session.web.administrator')
     ->alias(\Joomla\Session\Session::class, 'session.web.administrator')
     ->alias(\Joomla\Session\SessionInterface::class, 'session.web.administrator');
 
+if (file_exists(\dirname(__DIR__) . '/bootstrap.php')) {
+    require_once \dirname(__DIR__) . '/bootstrap.php';
+}
+
 // Instantiate the application.
 $app = $container->get(\Joomla\CMS\Application\AdministratorApplication::class);
 

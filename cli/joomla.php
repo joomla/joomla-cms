@@ -74,6 +74,10 @@ $container->alias('session', 'session.cli')
     ->alias(\Joomla\Session\Session::class, 'session.cli')
     ->alias(\Joomla\Session\SessionInterface::class, 'session.cli');
 
+if (file_exists(\dirname(__DIR__) . '/bootstrap.php')) {
+    require_once \dirname(__DIR__) . '/bootstrap.php';
+}
+
 $app                              = \Joomla\CMS\Factory::getContainer()->get(\Joomla\Console\Application::class);
 \Joomla\CMS\Factory::$application = $app;
 $app->execute();
