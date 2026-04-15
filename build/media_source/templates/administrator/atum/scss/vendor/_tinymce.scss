@@ -69,5 +69,6 @@
 
 // Adjust the border radius for the editor
 .tox-tinymce {
+  z-index: 1 !important;
   border-radius: 0 !important;
 }
