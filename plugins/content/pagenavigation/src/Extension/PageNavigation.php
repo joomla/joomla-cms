@@ -191,7 +191,7 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
             if ($showSubcategories && $menuCatId) {
                 $subQuery =  $db->createQuery()
                     ->select($db->quoteName('sub.id'))
-                    ->from(  $db->quoteName('#__categories', 'sub'))
+                    ->from($db->quoteName('#__categories', 'sub'))
                     ->join(
                         'INNER',
                         $db->quoteName('#__categories', 'this'),
