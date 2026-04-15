@@ -569,7 +569,7 @@ class LanguageAdapter extends InstallerAdapter
         $this->parent->parseMedia($xml->media);
 
         // Get the language description and set it as message
-        $this->parent->set('message', (string) $xml->description);
+        $this->parent->message = (string) $xml->description;
 
         /**
          * ---------------------------------------------------------------------------------------------
