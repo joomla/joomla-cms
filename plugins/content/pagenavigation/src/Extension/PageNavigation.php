@@ -181,8 +181,10 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
             $showSubcategories = $menuItemParams->get('show_subcategory_content', 0);
             $menuCatId         = (int) $row->catid; // fallback
 
-            // For Category Blog menu items, the root category is stored in the link
-            // as `id=X`, not in params as `catid`
+            /*
+             * For Category Blog menu items, the root category is stored in the link
+             * as `id=X`, not in params as `catid`
+             */
             if ($active) {
                 parse_str(parse_url($active->link, PHP_URL_QUERY), $linkVars);
                 $menuCatId = isset($linkVars['id']) ? (int) $linkVars['id'] : (int) $row->catid;
@@ -198,7 +200,7 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
                         $db->quoteName('sub.lft') . ' >= ' . $db->quoteName('this.lft')
                             . ' AND ' . $db->quoteName('sub.rgt') . ' <= ' . $db->quoteName('this.rgt')
                     )
-                    ->where($db->quoteName('this.id') . ' = ' . $menuCatId); // ← integer cast, no bind
+                    ->where($db->quoteName('this.id') . ' = ' . $menuCatId);
 
                 $query->where($db->quoteName('a.catid') . ' IN (' . $subQuery . ')');
             } else {
