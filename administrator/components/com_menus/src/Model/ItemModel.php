@@ -491,9 +491,10 @@ class ItemModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  mixed  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -515,10 +516,6 @@ class ItemModel extends AdminModel
             $form = $this->loadForm('com_menus.item.admin', 'itemadmin', ['control' => 'jform', 'load_data' => $loadData], true);
         } else {
             $form = $this->loadForm('com_menus.item', 'item', ['control' => 'jform', 'load_data' => $loadData], true);
-        }
-
-        if (empty($form)) {
-            return false;
         }
 
         if ($loadData) {

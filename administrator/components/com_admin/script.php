@@ -1045,6 +1045,14 @@ class JoomlaInstallerScript
             '/media/com_guidedtours/images/5_2/mailtemplate.png',
             '/media/com_guidedtours/images/5_3/filesdirectory.jpg',
             '/media/com_guidedtours/images/5_4/automated-updates.jpg',
+            // From 6.1.0-alpha1 to 6.1.0-alpha2
+            '/libraries/vendor/symfony/var-dumper/Cloner/Internal/NoDefault.php',
+            '/libraries/vendor/webmozart/assert/LICENSE',
+            '/libraries/vendor/webmozart/assert/src/Assert.php',
+            '/libraries/vendor/webmozart/assert/src/InvalidArgumentException.php',
+            '/libraries/vendor/webmozart/assert/src/Mixin.php',
+            // From 6.1.0-alpha2 to 6.1.0-alpha3
+            '/build.xml',
             // From 6.0.2 to 6.0.3
             '/libraries/vendor/symfony/http-client-contracts/Test/Fixtures/web/index.php',
             '/libraries/vendor/symfony/http-client-contracts/Test/HttpClientTestCase.php',
@@ -1055,10 +1063,38 @@ class JoomlaInstallerScript
             '/libraries/vendor/symfony/translation-contracts/Test/TranslatorTest.php',
             '/libraries/vendor/symfony/validator/Test/ConstraintValidatorTestCase.php',
             '/libraries/vendor/symfony/var-dumper/Test/VarDumperTestTrait.php',
+            // From 6.1.0-alpha3 to 6.1.0-beta1
+            '/media/vendor/tinymce/langs/cy.js',
+            '/media/vendor/tinymce/langs/cy.min.js',
+            '/media/vendor/tinymce/langs/cy.min.js.gz',
+            '/media/vendor/tinymce/langs/dv.js',
+            '/media/vendor/tinymce/langs/dv.min.js',
+            '/media/vendor/tinymce/langs/dv.min.js.gz',
+            '/media/vendor/tinymce/langs/ga.js',
+            '/media/vendor/tinymce/langs/ga.min.js',
+            '/media/vendor/tinymce/langs/ga.min.js.gz',
+            '/media/vendor/tinymce/langs/ku.js',
+            '/media/vendor/tinymce/langs/ku.min.js',
+            '/media/vendor/tinymce/langs/ku.min.js.gz',
+            '/media/vendor/tinymce/langs/ky.js',
+            '/media/vendor/tinymce/langs/ky.min.js',
+            '/media/vendor/tinymce/langs/ky.min.js.gz',
+            '/media/vendor/tinymce/langs/sq.js',
+            '/media/vendor/tinymce/langs/sq.min.js',
+            '/media/vendor/tinymce/langs/sq.min.js.gz',
+            '/media/vendor/tinymce/langs/uz.js',
+            '/media/vendor/tinymce/langs/uz.min.js',
+            '/media/vendor/tinymce/langs/uz.min.js.gz',
+            '/media/vendor/tinymce/langs/zh-SG.js',
+            '/media/vendor/tinymce/langs/zh-SG.min.js',
+            '/media/vendor/tinymce/langs/zh-SG.min.js.gz',
             // From 6.0.3 to 6.0.4
             '/media/system/css/fields/calendar-rtl.css',
             '/media/system/css/fields/calendar-rtl.min.css',
             '/media/system/css/fields/calendar-rtl.min.css.gz',
+            // From 6.1.0-beta1 to 6.1.0-beta2
+            '/libraries/vendor/altcha-org/altcha/phpstan-baseline.neon',
+            '/libraries/vendor/altcha-org/altcha/tests/AltchaTest.php',
         ];
 
         $folders = [
@@ -1124,6 +1160,11 @@ class JoomlaInstallerScript
             '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector',
             '/libraries/vendor/doctrine/inflector/lib/Doctrine',
             '/libraries/vendor/doctrine/inflector/lib',
+            // From 6.1.0-alpha1 to 6.1.0-alpha2
+            '/libraries/vendor/webmozart/assert/src',
+            '/libraries/vendor/webmozart/assert',
+            '/libraries/vendor/webmozart',
+            '/libraries/vendor/symfony/var-dumper/Cloner/Internal',
             // From 6.0.2 to 6.0.3
             '/libraries/vendor/symfony/var-dumper/Test',
             '/libraries/vendor/symfony/validator/Test',
@@ -1133,6 +1174,8 @@ class JoomlaInstallerScript
             '/libraries/vendor/symfony/http-client-contracts/Test/Fixtures/web',
             '/libraries/vendor/symfony/http-client-contracts/Test/Fixtures',
             '/libraries/vendor/symfony/http-client-contracts/Test',
+            // From 6.1.0-beta1 to 6.1.0-beta2
+            '/libraries/vendor/altcha-org/altcha/tests',
         ];
 
         $status['files_checked']   = $files;

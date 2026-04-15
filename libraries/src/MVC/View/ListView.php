@@ -239,7 +239,7 @@ class ListView extends HtmlView
         // Add form control fields
         if ($this->filterForm !== null) {
             $this->filterForm
-                ->addControlField('task', '')
+                ->addControlField('task')
                 ->addControlField('boxchecked', '0');
         }
     }

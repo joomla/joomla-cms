@@ -32,6 +32,7 @@ import { cleanVendors } from './build-modules-js/init/cleanup-media.mjs';
 import { recreateMediaFolder } from './build-modules-js/init/recreate-media.mjs';
 import { watching } from './build-modules-js/watch.mjs';
 import { mediaManager, watchMediaManager } from './build-modules-js/javascript/build-com_media-js.mjs';
+import { workflowGraph, watchWorkflowGraph } from './build-modules-js/javascript/build-com_workflow-js.mjs';
 import { compressFiles } from './build-modules-js/compress.mjs';
 import { versioning } from './build-modules-js/versioning.mjs';
 import { Timer } from './build-modules-js/utils/timer.mjs';
@@ -99,6 +100,11 @@ Program.allowUnknownOption()
   .option(
     '--watch-com-media',
     'Watch and Compile the Media Manager client side App.',
+  )
+  .option('--com-workflow', 'Compile the Workflow Graph client side App.')
+  .option(
+    '--watch-com-workflow',
+    'Watch and Compile the Workflow Graph client side App.',
   )
   .option('--gzip', 'Compress all the minified stylesheets and scripts.')
   .option('--prepare', 'Run all the needed tasks to initialise the repo')
@@ -176,6 +182,17 @@ if (cliOptions.watchComMedia) {
   watchMediaManager(true);
 }
 
+// Compile the Workflow Graph
+if (cliOptions.comWorkflow) {
+  // false indicates "no watch"
+  workflowGraph(false);
+}
+
+// Watch & Compile the Workflow Graph
+if (cliOptions.watchComWorkflow) {
+  watchWorkflowGraph(true);
+}
+
 // Update the .js/.css versions
 if (cliOptions.versioning) {
   versioning().catch((err) => handleError(err, 1));
@@ -195,6 +212,7 @@ if (cliOptions.prepare) {
     .then(() => cssVersioningVendor())
     .then(() => scripts(options, Program.args[0]))
     .then(() => mediaManager())
+    .then(() => workflowGraph())
     .then(() => bootstrapJs())
     .then(() => compileCodemirror())
     .then(() => bench.stop('Build'))
