@@ -117,7 +117,7 @@ class Form implements CurrentUserInterface
      * the same subform XML definition within a single parent form context.
      *
      * @var    Form[]
-     * @since  6.2.0
+     * @since  __DEPLOY_VERSION__
      */
     protected $subforms = [];
 
@@ -148,7 +148,7 @@ class Form implements CurrentUserInterface
      *
      * @return  Form|null  The cached Form instance or null if not found.
      *
-     * @since   6.2.0
+     * @since   __DEPLOY_VERSION__
      */
     public function getSubForm(string $name): ?Form
     {
@@ -163,7 +163,7 @@ class Form implements CurrentUserInterface
      *
      * @return  static  This form instance for method chaining.
      *
-     * @since   6.2.0
+     * @since   __DEPLOY_VERSION__
      */
     public function setSubForm(string $name, Form $form): static
     {
@@ -179,7 +179,7 @@ class Form implements CurrentUserInterface
      *
      * @return  boolean  True if the subform exists in the registry.
      *
-     * @since   6.2.0
+     * @since   __DEPLOY_VERSION__
      */
     public function hasSubForm(string $name): bool
     {
@@ -191,7 +191,7 @@ class Form implements CurrentUserInterface
      *
      * @return  static  This form instance for method chaining.
      *
-     * @since   6.2.0
+     * @since   __DEPLOY_VERSION__
      */
     public function clearSubForms(): static
     {

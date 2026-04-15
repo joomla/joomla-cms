@@ -35,7 +35,7 @@ class UserFactory implements UserFactoryInterface
      * Avoids repeated database queries for the same user within a single request.
      *
      * @var    User[]
-     * @since  6.2.0
+     * @since  __DEPLOY_VERSION__
      */
     protected $cacheById = [];
 
@@ -45,7 +45,7 @@ class UserFactory implements UserFactoryInterface
      * Allows username lookups to benefit from the ID-based cache.
      *
      * @var    int[]
-     * @since  6.2.0
+     * @since  __DEPLOY_VERSION__
      */
     protected $cacheByUsername = [];
 
@@ -126,11 +126,11 @@ class UserFactory implements UserFactoryInterface
      *
      * @return  void
      *
-     * @since   6.2.0
+     * @since   __DEPLOY_VERSION__
      */
     public function clearCache(): void
     {
         $this->cacheById       = [];
-        $this->cacheByUsername  = [];
+        $this->cacheByUsername = [];
     }
 }
