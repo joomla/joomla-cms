@@ -211,7 +211,6 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
             $query->where($db->quoteName('a.state') . ' = :state')
                 ->bind(':state', $row->state, ParameterType::INTEGER);
 
-
             if (!$canPublish) {
                 $query->whereIn($db->quoteName('a.access'), Access::getAuthorisedViewLevels($user->id));
             }
