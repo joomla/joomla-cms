@@ -17,7 +17,7 @@ namespace Joomla\CMS\Plugin\Attribute;
  * This attribute allows the plugin listener to handle AJAX requests in the backend of the site,
  * where normally com_ajax is not available when we are not logged in.
  *
- * @since   6.0.4
+ * @since   5.4.4
  */
 #[\Attribute(\Attribute::TARGET_METHOD)]
 class AllowUnauthorizedAdministratorAccess

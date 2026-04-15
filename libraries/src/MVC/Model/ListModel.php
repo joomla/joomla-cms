@@ -218,7 +218,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      *
      * @return bool
      *
-     * @since   6.0.4
+     * @since   5.4.4
      */
     public function isValidFilterColumn($columnName): bool
     {
