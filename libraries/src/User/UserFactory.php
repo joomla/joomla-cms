@@ -80,7 +80,7 @@ class UserFactory implements UserFactoryInterface
         $user = new User($id);
 
         if (!empty($user->id)) {
-            $this->cacheById[$id] = $user;
+            $this->cacheById[$id]                   = $user;
             $this->cacheByUsername[$user->username] = $id;
         }
 
