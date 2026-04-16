@@ -13,7 +13,8 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Mail\BeforeRenderingMailTemplateEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
+use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\Database\ParameterType;
@@ -259,6 +260,29 @@ class MailTemplate
         $replyTo     = $app->get('replyto', '');
         $replyToName = $app->get('replytoname', '');
 
+        $language = $app->getLanguage();
+        if ($this->language !== $language->getTag()) {
+            /** @var Language $language */
+            $language = Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($this->language, $app->get('debug_lang'));
+
+            if (str_starts_with($mail->extension, 'com_')) {
+                $language->load($mail->extension, JPATH_ADMINISTRATOR);
+                $language->load($mail->extension, JPATH_ADMINISTRATOR . '/components/' . $mail->extension);
+                $language->load($mail->extension, JPATH_SITE . '/components/' . $mail->extension);
+            }
+
+            if (str_starts_with($mail->extension, 'mod_')) {
+                $language->load($mail->extension, JPATH_ADMINISTRATOR . '/modules/' . $mail->extension);
+                $language->load($mail->extension, JPATH_SITE . '/modules/' . $mail->extension);
+            }
+
+            if (str_starts_with($mail->extension, 'plg_')) {
+                $name = str_replace('plg_', '/', $mail->extension);
+                $name = str_replace('_', '/', $name);
+                $language->load($mail->extension, JPATH_PLUGINS . $name);
+            }
+        }
+
         if ((int) $config->get('alternative_mailconfig', 0) === 1 && (int) $params->get('alternative_mailconfig', 0) === 1) {
             if ($this->mailer->Mailer === 'smtp' || $params->get('mailer') === 'smtp') {
                 $smtpauth   = ($params->get('smtpauth', $app->get('smtpauth')) == 0) ? null : 1;
@@ -296,15 +320,15 @@ class MailTemplate
             ['templateId' => $this->template_id, 'subject' => $this]
         ));
 
-        $subject = $this->replaceTags(Text::_($mail->subject), $this->data);
+        $subject = $this->replaceTags($language->_($mail->subject), $this->data);
         $this->mailer->setSubject($subject);
 
         $mailStyle = $config->get('mail_style', 'plaintext');
 
         // Use the plain-text replacement data, if specified.
         $plainData = $this->plain_data ?: $this->data;
-        $plainBody = $this->replaceTags(Text::_($mail->body), $plainData);
-        $htmlBody  = $useLayout ? Text::_($mail->htmlbody) : $this->replaceTags(Text::_($mail->htmlbody), $this->data, true);
+        $plainBody = $this->replaceTags($language->_($mail->body), $plainData);
+        $htmlBody  = $useLayout ? $language->_($mail->htmlbody) : $this->replaceTags($language->_($mail->htmlbody), $this->data, true);
 
         if ($mailStyle === 'plaintext' || $mailStyle === 'both') {
             // If the Plain template is empty try to convert the HTML template to a Plain text
@@ -325,7 +349,7 @@ class MailTemplate
 
             // If HTML body is empty try to convert the Plain template to html
             if (!$htmlBody) {
-                $htmlBody = nl2br($this->replaceTags(Text::_($mail->body), $plainData, true), false);
+                $htmlBody = nl2br($this->replaceTags($language->_($mail->body), $plainData, true), false);
             }
 
             if ($useLayout) {
@@ -377,7 +401,7 @@ class MailTemplate
 
                 $htmlBody = $layoutFile->render(['mail' => $htmlBody, 'extra' => $this->layoutTemplateData], null);
 
-                $htmlBody = $this->replaceTags(Text::_($htmlBody), $this->data);
+                $htmlBody = $this->replaceTags($language->_($htmlBody), $this->data);
             }
 
             $htmlBody = MailHelper::convertRelativeToAbsoluteUrls($htmlBody);
