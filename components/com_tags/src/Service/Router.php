@@ -219,7 +219,7 @@ class Router extends RouterBase
             //Check if types array only contains '1' (articles)
             $count = count($query['types']);
             $onlyArticles = ($count === 1 && $query['types'][0] == '1');
-        
+
             if ($onlyArticles) {
                 // Remove the types parameter - it's not needed for SEF URL
                 unset($query['types']);
