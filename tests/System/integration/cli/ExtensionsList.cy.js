@@ -1,41 +1,41 @@
 describe('Test that console command list extensions', () => {
     it('can list extensions by type component', () => {
-        cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php update:extensions:list --type=component`)
+        cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php extensions:list --type=component`)
             .its('stdout')
             .should('contain', 'Installed Extensions');
     });
     it('can list extensions by type file', () => {
-        cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php update:extensions:list --type=file`)
+        cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php extensions:list --type=file`)
             .its('stdout')
             .should('contain', 'Installed Extensions');
     });
     it('can list extensions by type language', () => {
-        cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php update:extensions:list --type=language`)
+        cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php extensions:list --type=language`)
             .its('stdout')
             .should('contain', 'Installed Extensions');
     });
     it('can list extensions by type library', () => {
-        cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php update:extensions:list --type=library`)
+        cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php extensions:list --type=library`)
             .its('stdout')
             .should('contain', 'Installed Extensions');
     });
     it('can list extensions by type module', () => {
-        cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php update:extensions:list --type=module`)
+        cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php extensions:list --type=module`)
             .its('stdout')
             .should('contain', 'Installed Extensions');
     });
     it('can list extensions by type package', () => {
-        cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php update:extensions:list --type=package`)
+        cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php extensions:list --type=package`)
             .its('stdout')
             .should('contain', 'Installed Extensions');
     });
     it('can list extensions by type plugin', () => {
-        cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php update:extensions:list --type=plugin`)
+        cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php extensions:list --type=plugin`)
             .its('stdout')
             .should('contain', 'Installed Extensions');
     });
     it('can list extensions by type template', () => {
-        cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php update:extensions:list --type=template`)
+        cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php extensions:list --type=template`)
             .its('stdout')
             .should('contain', 'Installed Extensions');
     });
