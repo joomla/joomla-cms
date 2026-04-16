@@ -214,6 +214,17 @@ class Router extends RouterBase
     public function build(&$query)
     {
         $segments = [];
+        //Issue #45609 - Duplicate page - Tags
+        if (isset($query['types']) && is_array($query['types'])) {
+            //Check if types array only contains '1' (articles)
+            $count = count($query['types']);
+            $onlyArticles = ($count === 1 && $query['types'][0] == '1');
+        
+            if ($onlyArticles) {
+                // Remove the types parameter - it's not needed for SEF URL
+                unset($query['types']);
+            }
+        }
 
         $menuItem = !empty($query['Itemid']) ? $this->menu->getItem($query['Itemid']) : false;
 
