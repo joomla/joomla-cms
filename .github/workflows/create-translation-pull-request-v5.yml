@@ -26,13 +26,13 @@ jobs:
     if: ${{ github.repository == 'joomla-translation-bot/joomla-cms' && github.ref == 'refs/heads/translation5' }}
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         # We need the full depth to create / update the pull request against the main repo
         with:
           ref: translation5
           fetch-depth: 0
           token: ${{ secrets.PAT_WORKFLOW }}
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
           node-version: 24
 
