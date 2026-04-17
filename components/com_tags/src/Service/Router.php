@@ -215,9 +215,9 @@ class Router extends RouterBase
     {
         $segments = [];
         //Issue #45609 - Duplicate page - Tags
-        if (isset($query['types']) && is_array($query['types'])) {
+        if (isset($query['types']) && \is_array($query['types'])) {
             //Check if types array only contains '1' (articles)
-            $count = count($query['types']);
+            $count        = \count($query['types']);
             $onlyArticles = ($count === 1 && $query['types'][0] == '1');
 
             if ($onlyArticles) {
