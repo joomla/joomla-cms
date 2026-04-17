@@ -8,10 +8,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 extract($displayData);
 
@@ -45,7 +47,8 @@ extract($displayData);
     <?php endif; ?>
     <div class="row">
         <?php foreach ($form->getFieldsets() as $fieldset) : ?>
-        <fieldset class="<?php echo !empty($fieldset->class) ? $this->escape($fieldset->class) : ''; ?>"
+        <?php $class = !empty($fieldset->class) ? ' class="' . $this->escape($fieldset->class) . '"': ''; ?>
+        <fieldset<?php echo $class; ?>>
             <?php if (!empty($fieldset->label)) : ?>
                 <legend><?php echo Text::_($fieldset->label); ?></legend>
             <?php endif; ?>
