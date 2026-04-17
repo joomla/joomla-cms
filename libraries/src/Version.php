@@ -55,7 +55,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const PATCH_VERSION = 0;
+    public const PATCH_VERSION = 1;
 
     /**
      * Extra release version info.
@@ -66,7 +66,7 @@ final class Version
      * @var    string
      * @since  3.8.0
      */
-    public const EXTRA_VERSION = 'rc3-dev';
+    public const EXTRA_VERSION = 'dev';
 
     /**
      * Development status.
@@ -82,7 +82,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const CODENAME = 'TBD';
+    public const CODENAME = 'Nyota';
 
     /**
      * Release date.
@@ -90,7 +90,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELDATE = '7-April-2026';
+    public const RELDATE = '14-April-2026';
 
     /**
      * Release time.
@@ -98,7 +98,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELTIME = '17:01';
+    public const RELTIME = '16:01';
 
     /**
      * Release timezone.
