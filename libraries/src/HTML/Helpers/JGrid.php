@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Joomla! Content Management System
+ * @package     Joomla.Libraries
+ * @subpackage  HTML
  *
- * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   (C) 2024 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\HTML\Helpers;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -20,67 +20,87 @@ use Joomla\Utilities\ArrayHelper;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Utility class for creating HTML Grids
+ * Utility class for creating HTML grids.
  *
  * @since  1.6
  */
 abstract class JGrid
 {
     /**
-     * Returns an action on a grid
+     * Returns an action button for use in a list view grid.
      *
-     * @param   integer       $i              The row index
-     * @param   string        $task           The task to fire
-     * @param   string|array  $prefix         An optional task prefix or an array of options
-     * @param   string        $activeTitle    An optional active tooltip to display if $enable is true
-     * @param   string        $inactiveTitle  An optional inactive tooltip to display if $enable is true
-     * @param   boolean       $tip            An optional setting for tooltip
-     * @param   string        $activeClass    An optional active HTML class
-     * @param   string        $inactiveClass  An optional inactive HTML class
-     * @param   boolean       $enabled        An optional setting for access control on the action.
-     * @param   boolean       $translate      An optional setting for translation.
-     * @param   string        $checkbox       An optional prefix for checkboxes.
-     * @param   string        $formId         An optional form selector.
+     * Supports being called either with individual parameters or with a single
+     * $prefix options array containing all configuration keys.
      *
-     * @return  string  The HTML markup
+     * @param   integer      $i              The row index.
+     * @param   string       $task           The task to perform on click (e.g. 'publish').
+     * @param   string|array $prefix         The task prefix, or an options array.
+     * @param   string       $activeTitle    The tooltip title when item is active/enabled.
+     * @param   string       $inactiveTitle  The tooltip title when item is inactive/disabled.
+     * @param   boolean      $tip            Whether to show a tooltip.
+     * @param   string       $activeClass    The CSS icon class for the active state.
+     * @param   string       $inactiveClass  The CSS icon class for the inactive state.
+     * @param   boolean      $enabled        Whether the button should be interactive.
+     * @param   boolean      $translate      Whether to pass title strings through Text::_().
+     * @param   string       $checkbox       The checkbox name prefix (default: 'cb').
+     * @param   string|null  $formId         The form element ID, if applicable.
+     *
+     * @return  string  The generated HTML string.
      *
      * @since   1.6
      */
     public static function action(
-        $i,
-        $task,
+        int $i,
+        string $task,
         $prefix = '',
-        $activeTitle = '',
-        $inactiveTitle = '',
-        $tip = false,
-        $activeClass = '',
-        $inactiveClass = '',
-        $enabled = true,
-        $translate = true,
-        $checkbox = 'cb',
-        $formId = null
-    ) {
-        $html = [];
+        string $activeTitle = '',
+        string $inactiveTitle = '',
+        bool $tip = false,
+        string $activeClass = '',
+        string $inactiveClass = '',
+        bool $enabled = true,
+        bool $translate = true,
+        string $checkbox = 'cb',
+        ?string $formId = null
+    ): string {
+        $html    = [];
+        $options = [];
 
+        // Allow all options to be passed as an array via the $prefix parameter.
         if (\is_array($prefix)) {
             $options       = $prefix;
-            $activeTitle   = \array_key_exists('active_title', $options) ? $options['active_title'] : $activeTitle;
-            $inactiveTitle = \array_key_exists('inactive_title', $options) ? $options['inactive_title'] : $inactiveTitle;
-            $tip           = \array_key_exists('tip', $options) ? $options['tip'] : $tip;
-            $activeClass   = \array_key_exists('active_class', $options) ? $options['active_class'] : $activeClass;
-            $inactiveClass = \array_key_exists('inactive_class', $options) ? $options['inactive_class'] : $inactiveClass;
-            $enabled       = \array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
-            $translate     = \array_key_exists('translate', $options) ? $options['translate'] : $translate;
-            $checkbox      = \array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
-            $prefix        = \array_key_exists('prefix', $options) ? $options['prefix'] : '';
+            $activeTitle   = $options['active_title']   ?? $activeTitle;
+            $inactiveTitle = $options['inactive_title'] ?? $inactiveTitle;
+            $tip           = (bool) ($options['tip']    ?? $tip);
+            $activeClass   = $options['active_class']   ?? $activeClass;
+            $inactiveClass = $options['inactive_class'] ?? $inactiveClass;
+            $enabled       = (bool) ($options['enabled']   ?? $enabled);
+            $translate     = (bool) ($options['translate'] ?? $translate);
+            $checkbox      = $options['checkbox']       ?? $checkbox;
+            $prefix        = $options['prefix']         ?? '';
         }
+
+        // Build an optional safe custom data attribute.
+        $customDataAttr = '';
+
+        if (!empty($options['custom'])) {
+            $customValue = \is_array($options['custom'])
+                ? htmlspecialchars(json_encode($options['custom']), ENT_QUOTES, 'UTF-8')
+                : htmlspecialchars((string) $options['custom'], ENT_QUOTES, 'UTF-8');
+
+            $customDataAttr = ' data-item-custom="' . $customValue . '"';
+        }
+
+        // Initialise tooltip variables to safe defaults.
+        $ariaid = '';
+        $title  = '';
 
         if ($tip) {
             $title  = $enabled ? $activeTitle : $inactiveTitle;
             $title  = $translate ? Text::_($title) : $title;
             $ariaid = $checkbox . $task . $i . '-desc';
 
-            // Don't show empty tooltip.
+            // Suppress tooltip if the resolved title is empty.
             if ($title === '') {
                 $tip = false;
             }
@@ -89,63 +109,104 @@ abstract class JGrid
         if ($enabled) {
             Factory::getDocument()->getWebAssetManager()->useScript('list-view');
 
-            $html[] = '<a href="#" class="js-grid-item-action tbody-icon' . ($activeClass === 'publish' ? ' active' : '') . '"';
-            $html[] = ' data-item-id="' . $checkbox . $i . '" data-item-task="' . $prefix . $task . '" data-item-form-id="' . $formId . '"';
-            $html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
+            $html[] = '<a href="#"'
+                . ' class="js-grid-item-action tbody-icon'
+                . ($activeClass === 'publish' ? ' active' : '') . '"';
+
+            $html[] = ' data-item-id="'
+                . htmlspecialchars($checkbox . $i, ENT_QUOTES, 'UTF-8') . '"'
+                . ' data-item-task="'
+                . htmlspecialchars($prefix . $task, ENT_QUOTES, 'UTF-8') . '"'
+                . ' data-item-form-id="'
+                . htmlspecialchars((string) $formId, ENT_QUOTES, 'UTF-8') . '"';
+
+            $html[] = $customDataAttr;
+
+            if ($tip && $ariaid !== '') {
+                $html[] = ' aria-labelledby="'
+                    . htmlspecialchars($ariaid, ENT_QUOTES, 'UTF-8') . '"';
+            }
+
             $html[] = '>';
             $html[] = LayoutHelper::render('joomla.icon.iconclass', ['icon' => $activeClass]);
             $html[] = '</a>';
-            $html[] = $tip ? '<div role="tooltip" id="' . $ariaid . '">' . $title . '</div>' : '';
+
+            if ($tip && $ariaid !== '') {
+                $html[] = '<div role="tooltip" id="'
+                    . htmlspecialchars($ariaid, ENT_QUOTES, 'UTF-8') . '">'
+                    . htmlspecialchars($title, ENT_QUOTES, 'UTF-8')
+                    . '</div>';
+            }
         } else {
             $html[] = '<span class="tbody-icon jgrid"';
-            $html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
+
+            if ($tip && $ariaid !== '') {
+                $html[] = ' aria-labelledby="'
+                    . htmlspecialchars($ariaid, ENT_QUOTES, 'UTF-8') . '"';
+            }
+
             $html[] = '>';
             $html[] = LayoutHelper::render('joomla.icon.iconclass', ['icon' => $inactiveClass]);
             $html[] = '</span>';
-            $html[] = $tip ? '<div role="tooltip" id="' . $ariaid . '">' . $title . '</div>' : '';
+
+            if ($tip && $ariaid !== '') {
+                $html[] = '<div role="tooltip" id="'
+                    . htmlspecialchars($ariaid, ENT_QUOTES, 'UTF-8') . '">'
+                    . htmlspecialchars($title, ENT_QUOTES, 'UTF-8')
+                    . '</div>';
+            }
         }
 
-        return implode($html);
+        return implode('', $html);
     }
 
     /**
-     * Returns a state on a grid
+     * Returns a state toggle button based on an array of possible states.
      *
-     * @param   array         $states     array of value/state. Each state is an array of the form
-     *                                    (task, text, active title, inactive title, tip (boolean), HTML active class, HTML inactive class)
-     *                                    or ('task'=>task, 'text'=>text, 'active_title'=>active title,
-     *                                    'inactive_title'=>inactive title, 'tip'=>boolean, 'active_class'=>html active class,
-     *                                    'inactive_class'=>html inactive class)
-     * @param   integer       $value      The state value.
-     * @param   integer       $i          The row index
-     * @param   string|array  $prefix     An optional task prefix or an array of options
-     * @param   boolean       $enabled    An optional setting for access control on the action.
-     * @param   boolean       $translate  An optional setting for translation.
-     * @param   string        $checkbox   An optional prefix for checkboxes.
-     * @param   string        $formId     An optional form selector.
+     * The $states array should be keyed by state value. Each entry may use
+     * either named keys (task, active_title, etc.) or numeric indices
+     * for backward compatibility with legacy Joomla code.
      *
-     * @return  string  The HTML markup
+     * @param   array        $states     Associative or indexed array of state definitions.
+     * @param   mixed        $value      The current state value.
+     * @param   integer      $i          The row index.
+     * @param   string|array $prefix     The task prefix, or an options array.
+     * @param   boolean      $enabled    Whether the button should be interactive.
+     * @param   boolean      $translate  Whether to translate title strings.
+     * @param   string       $checkbox   The checkbox name prefix.
+     * @param   string|null  $formId     The form element ID, if applicable.
+     *
+     * @return  string  The generated HTML string.
      *
      * @since   1.6
      */
-    public static function state($states, $value, $i, $prefix = '', $enabled = true, $translate = true, $checkbox = 'cb', $formId = null)
-    {
+    public static function state(
+        array $states,
+        $value,
+        int $i,
+        $prefix = '',
+        bool $enabled = true,
+        bool $translate = true,
+        string $checkbox = 'cb',
+        ?string $formId = null
+    ): string {
         if (\is_array($prefix)) {
             $options   = $prefix;
-            $enabled   = \array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
-            $translate = \array_key_exists('translate', $options) ? $options['translate'] : $translate;
-            $checkbox  = \array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
-            $prefix    = \array_key_exists('prefix', $options) ? $options['prefix'] : '';
+            $enabled   = (bool) ($options['enabled']   ?? $enabled);
+            $translate = (bool) ($options['translate'] ?? $translate);
+            $checkbox  = $options['checkbox']          ?? $checkbox;
+            $prefix    = $options['prefix']            ?? '';
         }
 
-        $state         = ArrayHelper::getValue($states, (int) $value, $states[0]);
-        $task          = \array_key_exists('task', $state) ? $state['task'] : $state[0];
-        $text          = \array_key_exists('text', $state) ? $state['text'] : (\array_key_exists(1, $state) ? $state[1] : '');
-        $activeTitle   = \array_key_exists('active_title', $state) ? $state['active_title'] : (\array_key_exists(2, $state) ? $state[2] : '');
-        $inactiveTitle = \array_key_exists('inactive_title', $state) ? $state['inactive_title'] : (\array_key_exists(3, $state) ? $state[3] : '');
-        $tip           = \array_key_exists('tip', $state) ? $state['tip'] : (\array_key_exists(4, $state) ? $state[4] : false);
-        $activeClass   = \array_key_exists('active_class', $state) ? $state['active_class'] : (\array_key_exists(5, $state) ? $state[5] : '');
-        $inactiveClass = \array_key_exists('inactive_class', $state) ? $state['inactive_class'] : (\array_key_exists(6, $state) ? $state[6] : '');
+        $state = ArrayHelper::getValue($states, (int) $value, $states[0]);
+
+        // Support both named-key arrays and legacy numeric-index arrays.
+        $task          = $state['task']           ?? ($state[0]  ?? '');
+        $activeTitle   = $state['active_title']   ?? ($state[2]  ?? '');
+        $inactiveTitle = $state['inactive_title'] ?? ($state[3]  ?? '');
+        $tip           = $state['tip']            ?? ($state[4]  ?? false);
+        $activeClass   = $state['active_class']   ?? ($state[5]  ?? '');
+        $inactiveClass = $state['inactive_class'] ?? ($state[6]  ?? '');
 
         return static::action(
             $i,
@@ -164,279 +225,196 @@ abstract class JGrid
     }
 
     /**
-     * Returns a published state on a grid
+     * Returns a published state toggle button.
      *
-     * @param   integer       $value        The state value.
-     * @param   integer       $i            The row index
-     * @param   string|array  $prefix       An optional task prefix or an array of options
-     * @param   boolean       $enabled      An optional setting for access control on the action.
-     * @param   string        $checkbox     An optional prefix for checkboxes.
-     * @param   string        $publishUp    An optional start publishing date.
-     * @param   string        $publishDown  An optional finish publishing date.
-     * @param   string        $formId       An optional form selector.
+     * Handles published (1), unpublished (0), archived (2), and trashed (-2) states.
      *
-     * @return  string  The HTML markup
+     * @param   mixed       $value        The current published state value.
+     * @param   integer     $i            The row index.
+     * @param   string      $prefix       The task prefix.
+     * @param   boolean     $enabled      Whether the button should be interactive.
+     * @param   string      $checkbox     The checkbox name prefix.
+     * @param   string|null $publishUp    The optional publish-up date (unused in rendering).
+     * @param   string|null $publishDown  The optional publish-down date (unused in rendering).
+     * @param   string|null $formId       The form element ID, if applicable.
      *
-     * @see     JHtmlJGrid::state()
+     * @return  string  The generated HTML string.
+     *
      * @since   1.6
      */
     public static function published(
         $value,
-        $i,
-        $prefix = '',
-        $enabled = true,
-        $checkbox = 'cb',
-        $publishUp = null,
-        $publishDown = null,
-        $formId = null
-    ) {
-        if (\is_array($prefix)) {
-            $options  = $prefix;
-            $enabled  = \array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
-            $checkbox = \array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
-            $prefix   = \array_key_exists('prefix', $options) ? $options['prefix'] : '';
-        }
-
+        int $i,
+        string $prefix = '',
+        bool $enabled = true,
+        string $checkbox = 'cb',
+        ?string $publishUp = null,
+        ?string $publishDown = null,
+        ?string $formId = null
+    ): string {
         $states = [
-            1  => ['unpublish', 'JPUBLISHED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JPUBLISHED', true, 'publish', 'publish'],
-            0  => ['publish', 'JUNPUBLISHED', 'JLIB_HTML_PUBLISH_ITEM', 'JUNPUBLISHED', true, 'unpublish', 'unpublish'],
-            2  => ['unpublish', 'JARCHIVED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JARCHIVED', true, 'archive', 'archive'],
-            -2 => ['publish', 'JTRASHED', 'JLIB_HTML_PUBLISH_ITEM', 'JTRASHED', true, 'trash', 'trash'],
-        ];
-
-        // Special state for dates
-        if ($publishUp || $publishDown) {
-            $nullDate = Factory::getDbo()->getNullDate();
-            $nowDate  = Factory::getDate()->toUnix();
-
-            $tz = Factory::getUser()->getTimezone();
-
-            $publishUp   = ($publishUp !== null && $publishUp !== $nullDate) ? Factory::getDate($publishUp, 'UTC')->setTimezone($tz) : false;
-            $publishDown = ($publishDown !== null && $publishDown !== $nullDate) ? Factory::getDate($publishDown, 'UTC')->setTimezone($tz) : false;
-
-            // Create tip text, only we have publish up or down settings
-            $tips = [];
-
-            if ($publishUp) {
-                $tips[] = Text::sprintf('JLIB_HTML_PUBLISHED_START', HTMLHelper::_('date', $publishUp, Text::_('DATE_FORMAT_LC5'), 'UTC'));
-            }
-
-            if ($publishDown) {
-                $tips[] = Text::sprintf('JLIB_HTML_PUBLISHED_FINISHED', HTMLHelper::_('date', $publishDown, Text::_('DATE_FORMAT_LC5'), 'UTC'));
-            }
-
-            $tip = empty($tips) ? false : implode('<br>', $tips);
-
-            // Add tips and special titles
-            foreach ($states as $key => $state) {
-                // Create special titles for published items
-                if ($key == 1) {
-                    $states[$key][2] = $states[$key][3] = 'JLIB_HTML_PUBLISHED_ITEM';
-
-                    if ($publishUp > $nullDate && $nowDate < $publishUp->toUnix()) {
-                        $states[$key][2] = $states[$key][3] = 'JLIB_HTML_PUBLISHED_PENDING_ITEM';
-                        $states[$key][5] = $states[$key][6] = 'pending';
-                    }
-
-                    if ($publishDown > $nullDate && $nowDate > $publishDown->toUnix()) {
-                        $states[$key][2] = $states[$key][3] = 'JLIB_HTML_PUBLISHED_EXPIRED_ITEM';
-                        $states[$key][5] = $states[$key][6] = 'expired';
-                    }
-                }
-
-                // Add tips to titles
-                if ($tip) {
-                    $states[$key][1] = Text::_($states[$key][1]);
-                    $states[$key][2] = Text::_($states[$key][2]) . '<br>' . $tip;
-                    $states[$key][3] = Text::_($states[$key][3]) . '<br>' . $tip;
-                    $states[$key][4] = true;
-                }
-            }
-
-            return static::state($states, $value, $i, ['prefix' => $prefix, 'translate' => !$tip], $enabled, true, $checkbox, $formId);
-        }
-
-        return static::state($states, $value, $i, $prefix, $enabled, true, $checkbox, $formId);
-    }
-
-    /**
-     * Returns an isDefault state on a grid
-     *
-     * @param   integer       $value             The state value.
-     * @param   integer       $i                 The row index
-     * @param   string|array  $prefix            An optional task prefix or an array of options
-     * @param   boolean       $enabled           An optional setting for access control on the action.
-     * @param   string        $checkbox          An optional prefix for checkboxes.
-     * @param   string        $formId            An optional form selector.
-     * @param   string        $active_class      The class for active items.
-     * @param   string        $inactive_class    The class for inactive items.
-     *
-     * @return  string  The HTML markup
-     *
-     * @see     JHtmlJGrid::state()
-     * @since   1.6
-     */
-    public static function isdefault($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb', $formId = null, $active_class = 'icon-color-featured icon-star', $inactive_class = 'icon-unfeatured')
-    {
-        if (\is_array($prefix)) {
-            $options  = $prefix;
-            $enabled  = \array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
-            $checkbox = \array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
-            $prefix   = \array_key_exists('prefix', $options) ? $options['prefix'] : '';
-        }
-
-        $states = [
-            0 => ['setDefault', '', 'JLIB_HTML_SETDEFAULT_ITEM', '', 1, $inactive_class, $inactive_class],
-            1 => ['unsetDefault', 'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM', 'JDEFAULT', 1, $active_class, $active_class],
+            1  => [
+                'task'           => 'unpublish',
+                'active_title'   => 'JPUBLISHED',
+                'inactive_title' => 'JLIB_HTML_UNPUBLISH_ITEM',
+                'tip'            => true,
+                'active_class'   => 'publish',
+                'inactive_class' => 'publish',
+            ],
+            0  => [
+                'task'           => 'publish',
+                'active_title'   => 'JUNPUBLISHED',
+                'inactive_title' => 'JLIB_HTML_PUBLISH_ITEM',
+                'tip'            => true,
+                'active_class'   => 'unpublish',
+                'inactive_class' => 'unpublish',
+            ],
+            2  => [
+                'task'           => 'unpublish',
+                'active_title'   => 'JARCHIVED',
+                'inactive_title' => 'JLIB_HTML_UNPUBLISH_ITEM',
+                'tip'            => true,
+                'active_class'   => 'archive',
+                'inactive_class' => 'archive',
+            ],
+            -2 => [
+                'task'           => 'publish',
+                'active_title'   => 'JTRASHED',
+                'inactive_title' => 'JLIB_HTML_PUBLISH_ITEM',
+                'tip'            => true,
+                'active_class'   => 'trash',
+                'inactive_class' => 'trash',
+            ],
         ];
 
         return static::state($states, $value, $i, $prefix, $enabled, true, $checkbox, $formId);
     }
 
     /**
-     * Returns an array of standard published state filter options.
+     * Returns a default/featured state toggle button.
      *
-     * @param   array  $config  An array of configuration options.
-     *                          This array can contain a list of key/value pairs where values are boolean
-     *                          and keys can be taken from 'published', 'unpublished', 'archived', 'trash', 'all'.
-     *                          These pairs determine which values are displayed.
+     * @param   mixed       $value          The current default state (0 or 1).
+     * @param   integer     $i              The row index.
+     * @param   string      $prefix         The task prefix.
+     * @param   boolean     $enabled        Whether the button should be interactive.
+     * @param   string      $checkbox       The checkbox name prefix.
+     * @param   string|null $formId         The form element ID, if applicable.
+     * @param   string      $active_class   The icon class for the active (default) state.
+     * @param   string      $inactive_class The icon class for the inactive (non-default) state.
      *
-     * @return  array  The array of standard published state filter options
+     * @return  string  The generated HTML string.
      *
      * @since   1.6
      */
-    public static function publishedOptions($config = [])
-    {
-        // Build the active state filter options.
-        $options = [];
+    public static function isdefault(
+        $value,
+        int $i,
+        string $prefix = '',
+        bool $enabled = true,
+        string $checkbox = 'cb',
+        ?string $formId = null,
+        string $active_class = 'icon-color-featured icon-star',
+        string $inactive_class = 'icon-unfeatured'
+    ): string {
+        $states = [
+            0 => [
+                'task'           => 'setDefault',
+                'active_title'   => '',
+                'inactive_title' => 'JLIB_HTML_SETDEFAULT_ITEM',
+                'tip'            => true,
+                'active_class'   => $inactive_class,
+                'inactive_class' => $inactive_class,
+            ],
+            1 => [
+                'task'           => 'unsetDefault',
+                'active_title'   => 'JDEFAULT',
+                'inactive_title' => 'JLIB_HTML_UNSETDEFAULT_ITEM',
+                'tip'            => true,
+                'active_class'   => $active_class,
+                'inactive_class' => $active_class,
+            ],
+        ];
 
-        if (!\array_key_exists('published', $config) || $config['published']) {
-            $options[] = HTMLHelper::_('select.option', '1', 'JPUBLISHED');
-        }
-
-        if (!\array_key_exists('unpublished', $config) || $config['unpublished']) {
-            $options[] = HTMLHelper::_('select.option', '0', 'JUNPUBLISHED');
-        }
-
-        if (!\array_key_exists('archived', $config) || $config['archived']) {
-            $options[] = HTMLHelper::_('select.option', '2', 'JARCHIVED');
-        }
-
-        if (!\array_key_exists('trash', $config) || $config['trash']) {
-            $options[] = HTMLHelper::_('select.option', '-2', 'JTRASHED');
-        }
-
-        if (!\array_key_exists('all', $config) || $config['all']) {
-            $options[] = HTMLHelper::_('select.option', '*', 'JALL');
-        }
-
-        return $options;
+        return static::state($states, $value, $i, $prefix, $enabled, true, $checkbox, $formId);
     }
 
     /**
-     * Returns a checked-out icon
+     * Returns an order-up arrow button for reordering rows.
      *
-     * @param   integer       $i           The row index.
-     * @param   string        $editorName  The name of the editor.
-     * @param   string        $time        The time that the object was checked out.
-     * @param   string|array  $prefix      An optional task prefix or an array of options
-     * @param   boolean       $enabled     True to enable the action.
-     * @param   string        $checkbox    An optional prefix for checkboxes.
-     * @param   string        $formId      An optional form selector.
+     * @param   integer     $i        The row index.
+     * @param   string      $task     The task name (default: 'orderup').
+     * @param   string      $prefix   The task prefix.
+     * @param   string      $text     The button label language key.
+     * @param   boolean     $enabled  Whether the button should be interactive.
+     * @param   string      $checkbox The checkbox name prefix.
+     * @param   string|null $formId   The form element ID, if applicable.
      *
-     * @return  string  The HTML markup
+     * @return  string  The generated HTML string.
      *
      * @since   1.6
      */
-    public static function checkedout($i, $editorName, $time, $prefix = '', $enabled = false, $checkbox = 'cb', $formId = null)
-    {
-        if (\is_array($prefix)) {
-            $options  = $prefix;
-            $enabled  = \array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
-            $checkbox = \array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
-            $prefix   = \array_key_exists('prefix', $options) ? $options['prefix'] : '';
-        }
-
-        $text          = $editorName . '<br>' . HTMLHelper::_('date', $time, Text::_('DATE_FORMAT_LC')) . '<br>' . HTMLHelper::_('date', $time, 'H:i');
-        $activeTitle   = HTMLHelper::_('tooltipText', Text::_('JLIB_HTML_CHECKIN'), $text, 0);
-        $inactiveTitle = HTMLHelper::_('tooltipText', Text::_('JLIB_HTML_CHECKED_OUT'), $text, 0);
-
+    public static function orderUp(
+        int $i,
+        string $task = 'orderup',
+        string $prefix = '',
+        string $text = 'JLIB_HTML_MOVE_UP',
+        bool $enabled = true,
+        string $checkbox = 'cb',
+        ?string $formId = null
+    ): string {
         return static::action(
             $i,
-            'checkin',
+            $task,
             $prefix,
-            html_entity_decode($activeTitle, ENT_QUOTES, 'UTF-8'),
-            html_entity_decode($inactiveTitle, ENT_QUOTES, 'UTF-8'),
-            true,
-            'checkedout',
-            'checkedout',
-            $enabled,
+            $text,
+            $text,
             false,
+            'uparrow',
+            'uparrow_disabled',
+            $enabled,
+            true,
             $checkbox,
             $formId
         );
     }
 
     /**
-     * Creates an order-up action icon.
+     * Returns an order-down arrow button for reordering rows.
      *
-     * @param   integer       $i         The row index.
-     * @param   string        $task      An optional task to fire.
-     * @param   string|array  $prefix    An optional task prefix or an array of options
-     * @param   string        $text      An optional text to display
-     * @param   boolean       $enabled   An optional setting for access control on the action.
-     * @param   string        $checkbox  An optional prefix for checkboxes.
-     * @param   string        $formId    An optional form selector.
+     * @param   integer     $i        The row index.
+     * @param   string      $task     The task name (default: 'orderdown').
+     * @param   string      $prefix   The task prefix.
+     * @param   string      $text     The button label language key.
+     * @param   boolean     $enabled  Whether the button should be interactive.
+     * @param   string      $checkbox The checkbox name prefix.
+     * @param   string|null $formId   The form element ID, if applicable.
      *
-     * @return  string  The HTML markup
-     *
-     * @since   1.6
-     */
-    public static function orderUp($i, $task = 'orderup', $prefix = '', $text = 'JLIB_HTML_MOVE_UP', $enabled = true, $checkbox = 'cb', $formId = null)
-    {
-        if (\is_array($prefix)) {
-            $options  = $prefix;
-            $text     = \array_key_exists('text', $options) ? $options['text'] : $text;
-            $enabled  = \array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
-            $checkbox = \array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
-            $prefix   = \array_key_exists('prefix', $options) ? $options['prefix'] : '';
-        }
-
-        return static::action($i, $task, $prefix, $text, $text, false, 'uparrow', 'uparrow_disabled', $enabled, true, $checkbox, $formId);
-    }
-
-    /**
-     * Creates an order-down action icon.
-     *
-     * @param   integer       $i         The row index.
-     * @param   string        $task      An optional task to fire.
-     * @param   string|array  $prefix    An optional task prefix or an array of options
-     * @param   string        $text      An optional text to display
-     * @param   boolean       $enabled   An optional setting for access control on the action.
-     * @param   string        $checkbox  An optional prefix for checkboxes.
-     * @param   string        $formId    An optional form selector.
-     *
-     * @return  string  The HTML markup
+     * @return  string  The generated HTML string.
      *
      * @since   1.6
      */
     public static function orderDown(
-        $i,
-        $task = 'orderdown',
-        $prefix = '',
-        $text = 'JLIB_HTML_MOVE_DOWN',
-        $enabled = true,
-        $checkbox = 'cb',
-        $formId = null
-    ) {
-        if (\is_array($prefix)) {
-            $options  = $prefix;
-            $text     = \array_key_exists('text', $options) ? $options['text'] : $text;
-            $enabled  = \array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
-            $checkbox = \array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
-            $prefix   = \array_key_exists('prefix', $options) ? $options['prefix'] : '';
-        }
-
-        return static::action($i, $task, $prefix, $text, $text, false, 'downarrow', 'downarrow_disabled', $enabled, true, $checkbox, $formId);
+        int $i,
+        string $task = 'orderdown',
+        string $prefix = '',
+        string $text = 'JLIB_HTML_MOVE_DOWN',
+        bool $enabled = true,
+        string $checkbox = 'cb',
+        ?string $formId = null
+    ): string {
+        return static::action(
+            $i,
+            $task,
+            $prefix,
+            $text,
+            $text,
+            false,
+            'downarrow',
+            'downarrow_disabled',
+            $enabled,
+            true,
+            $checkbox,
+            $formId
+        );
     }
 }
