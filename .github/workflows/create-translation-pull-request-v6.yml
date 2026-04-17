@@ -12,7 +12,7 @@ on:
 
 env:
   JOOMLA_MAJOR_VERSION: 6
-  JOOMLA_MINOR_VERSION: '6.0'
+  JOOMLA_MINOR_VERSION: '6.1'
 
 permissions:
   contents: read
@@ -26,13 +26,13 @@ jobs:
     if: ${{ github.repository == 'joomla-translation-bot/joomla-cms' && github.ref == 'refs/heads/translation6' }}
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         # We need the full depth to create / update the pull request against the main repo
         with:
           ref: translation6
           fetch-depth: 0
-          token: ${{ secrets.PAT_WORKFLOW }}          
-      - uses: actions/setup-node@v5
+          token: ${{ secrets.PAT_WORKFLOW }}
+      - uses: actions/setup-node@v6
         with:
           node-version: 24
 
