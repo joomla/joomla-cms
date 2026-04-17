@@ -47,15 +47,15 @@ extract($displayData);
     <?php endif; ?>
     <div class="row">
         <?php foreach ($form->getFieldsets() as $fieldset) : ?>
-        <?php $class = !empty($fieldset->class) ? ' class="' . $this->escape($fieldset->class) . '"': ''; ?>
-        <fieldset<?php echo $class; ?>>
-            <?php if (!empty($fieldset->label)) : ?>
-                <legend><?php echo Text::_($fieldset->label); ?></legend>
-            <?php endif; ?>
-            <?php foreach ($form->getFieldset($fieldset->name) as $field) : ?>
-                <?php echo $field->renderField(); ?>
-            <?php endforeach; ?>
-        </fieldset>
+            <?php $class = !empty($fieldset->class) ? ' class="' . $this->escape($fieldset->class) . '"' : ''; ?>
+            <fieldset<?php echo $class; ?>>
+                <?php if (!empty($fieldset->label)) : ?>
+                    <legend><?php echo Text::_($fieldset->label); ?></legend>
+                <?php endif; ?>
+                <?php foreach ($form->getFieldset($fieldset->name) as $field) : ?>
+                    <?php echo $field->renderField(); ?>
+                <?php endforeach; ?>
+            </fieldset>
         <?php endforeach; ?>
     </div>
 </div>
