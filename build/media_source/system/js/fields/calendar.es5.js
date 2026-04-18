@@ -852,19 +852,31 @@
 					if (self.params.dateType !== 'gregorian') {
 						self.inputField.setAttribute('data-local-value', self.inputField.value);
 					}
-					if (typeof self.dateClicked === 'undefined') {
-						// value needs to be validated
-						self.inputField.setAttribute('data-alt-value', Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType, self.strings)
-							.print(self.params.dateFormat, 'gregorian', false, self.strings));
-					} else {
-						self.inputField.setAttribute('data-alt-value', self.date.print(self.params.dateFormat, 'gregorian', false, self.strings));
-					}
+					// value needs to be validated
+					self.inputField.setAttribute('data-alt-value', Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType, self.strings)
+						.print(self.params.dateFormat, 'gregorian', false, self.strings));
 				} else {
 					self.inputField.setAttribute('data-alt-value', '0000-00-00 00:00:00');
 				}
 				self.date = Date.parseFieldDate(self.inputField.getAttribute('data-alt-value'), self.params.dateFormat, self.params.dateType, self.strings);
 			}
 			self.close();
+		});
+
+		// Validate the date and time when they are manually entered in the input field.
+		this.inputField.addEventListener('change', function (e) {
+			e.preventDefault();
+			if (self.inputField.value) {
+				if (self.params.dateType !== 'gregorian') {
+					self.inputField.setAttribute('data-local-value', self.inputField.value);
+				}
+				// value needs to be validated
+				self.inputField.setAttribute('data-alt-value', Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType, self.strings)
+					.print(self.params.dateFormat, 'gregorian', false, self.strings));
+			} else {
+				self.inputField.setAttribute('data-alt-value', '0000-00-00 00:00:00');
+			}
+			self.date = Date.parseFieldDate(self.inputField.getAttribute('data-alt-value'), self.params.dateFormat, self.params.dateType, self.strings);
 		});
 
 		this.processCalendar();
