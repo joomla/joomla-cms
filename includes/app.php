@@ -48,8 +48,8 @@ $container->alias('session.web', 'session.web.site')
     ->alias(\Joomla\Session\Session::class, 'session.web.site')
     ->alias(\Joomla\Session\SessionInterface::class, 'session.web.site');
 
-if (file_exists(JPATH_ROOT . '/bootstrap.php')) {
-    require_once JPATH_ROOT . '/bootstrap.php';
+if (file_exists(JPATH_CONFIGURATION . '/bootstrap.php')) {
+    require_once JPATH_CONFIGURATION . '/bootstrap.php';
 }
 
 // Instantiate the application.
