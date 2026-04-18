@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Behaviour\Compat7\Extension;
 
-use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
