@@ -200,6 +200,37 @@ class CoreContent extends Table implements CurrentUserInterface
     }
 
     /**
+     * Finds and sets the existing core_content_id to prevent duplicate rows.
+     * * @return  void
+     * * @since   5.0.0
+     */
+    protected function resolveExistingContentId(): void
+    {
+        // Only proceed if we do not have an ID but have the necessary reference IDs
+        if (empty($this->core_content_id) && !empty($this->core_content_item_id) && !empty($this->core_type_id)) {
+            $db = $this->getDatabase();
+
+            $query = $db->getQuery(true)
+                ->select($db->quoteName('core_content_id'))
+                ->from($db->quoteName('#__ucm_content'))
+                ->where(
+                    [
+                        $db->quoteName('core_content_item_id') . ' = :itemId',
+                        $db->quoteName('core_type_id') . ' = :typeId',
+                    ]
+                )
+                ->bind(':itemId', $this->core_content_item_id, ParameterType::INTEGER)
+                ->bind(':typeId', $this->core_type_id, ParameterType::INTEGER);
+
+            $existingId = $db->setQuery($query)->loadResult();
+
+            if ($existingId) {
+                $this->core_content_id = (int) $existingId;
+            }
+        }
+    }
+
+    /**
      * Overrides Table::store to set modified data and user id.
      *
      * @param   boolean  $updateNulls  True to update fields even if they are null.
@@ -212,6 +243,8 @@ class CoreContent extends Table implements CurrentUserInterface
     {
         $date = Factory::getDate();
         $user = $this->getCurrentUser();
+
+        $this->resolveExistingContentId();
 
         if ($this->core_content_id) {
             // Existing item
