@@ -201,6 +201,8 @@ class CoreContent extends Table implements CurrentUserInterface
 
     /**
      * Finds and sets the existing core_content_id to prevent duplicate rows.
+    /**
+     * Finds and sets the existing core_content_id to prevent duplicate rows.
      *
      * @return  void
      *
