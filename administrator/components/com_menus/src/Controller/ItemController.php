@@ -12,14 +12,11 @@ namespace Joomla\Component\Menus\Administrator\Controller;
 
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Database\DatabaseInterface;
-use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -570,39 +567,9 @@ class ItemController extends FormController
         $menutype = $this->input->getCmd('menutype');
 
         if ($menutype) {
-            $db       = Factory::getContainer()->get(DatabaseInterface::class);
-            $clientId = $menutype === 'main' ? 1 : 0;
-
-            if ($menutype !== 'main') {
-                $clientQuery = $db->getQuery(true)
-                    ->select($db->quoteName('client_id'))
-                    ->from($db->quoteName('#__menu_types'))
-                    ->where($db->quoteName('menutype') . ' = :menutype')
-                    ->bind(':menutype', $menutype);
-                $clientId = (int) $db->setQuery($clientQuery)->loadResult();
-            }
-
-            $query = $db->getQuery(true)
-                ->select(
-                    [
-                        $db->quoteName('id'),
-                        $db->quoteName('title'),
-                        $db->quoteName('level'),
-                    ]
-                )
-                ->from($db->quoteName('#__menu'))
-                ->where(
-                    [
-                        $db->quoteName('menutype') . ' = :menutype',
-                        $db->quoteName('client_id') . ' = :clientId',
-                    ]
-                )
-                ->whereIn($db->quoteName('published'), [0, 1], ParameterType::INTEGER)
-                ->bind(':menutype', $menutype)
-                ->bind(':clientId', $clientId, ParameterType::INTEGER)
-                ->order($db->quoteName('lft'));
-
-            $results = $db->setQuery($query)->loadObjectList() ?: [];
+            /** @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
+            $model   = $this->getModel('Item', 'Administrator', []);
+            $results = $model->getParentItems($menutype);
 
             // Pad the option text with spaces using depth level as a multiplier.
             foreach ($results as $result) {

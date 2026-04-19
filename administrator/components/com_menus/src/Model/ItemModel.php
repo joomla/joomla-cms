@@ -1054,6 +1054,52 @@ class ItemModel extends AdminModel
     }
 
     /**
+     * Gets the parent items for a given menu type.
+     *
+     * @param   string  $menutype  The menu type.
+     *
+     * @return  array  An array of menu item objects with id, title, and level properties.
+     *
+     * @since   5.4
+     */
+    public function getParentItems(string $menutype): array
+    {
+        $db       = $this->getDatabase();
+        $clientId = $menutype === 'main' ? 1 : 0;
+
+        if ($menutype !== 'main') {
+            $clientQuery = $db->getQuery(true)
+                ->select($db->quoteName('client_id'))
+                ->from($db->quoteName('#__menu_types'))
+                ->where($db->quoteName('menutype') . ' = :menutype')
+                ->bind(':menutype', $menutype);
+            $clientId = (int) $db->setQuery($clientQuery)->loadResult();
+        }
+
+        $query = $db->getQuery(true)
+            ->select(
+                [
+                    $db->quoteName('id'),
+                    $db->quoteName('title'),
+                    $db->quoteName('level'),
+                ]
+            )
+            ->from($db->quoteName('#__menu'))
+            ->where(
+                [
+                    $db->quoteName('menutype') . ' = :menutype',
+                    $db->quoteName('client_id') . ' = :clientId',
+                ]
+            )
+            ->whereIn($db->quoteName('published'), [0, 1], ParameterType::INTEGER)
+            ->bind(':menutype', $menutype)
+            ->bind(':clientId', $clientId, ParameterType::INTEGER)
+            ->order($db->quoteName('lft'));
+
+        return $db->setQuery($query)->loadObjectList() ?: [];
+    }
+
+    /**
      * Method to preprocess the form.
      *
      * @param   Form    $form   A Form object.
