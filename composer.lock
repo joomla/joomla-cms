@@ -1939,16 +1939,16 @@
         },
         {
             "name": "joomla/oauth2",
-            "version": "4.0.1",
+            "version": "4.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/oauth2.git",
-                "reference": "5c665f53aeafb2d3a0168534932ace9573a0abe7"
+                "reference": "bb24c0a969fcc62c97997ba33a476ec888c34b00"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/oauth2/zipball/5c665f53aeafb2d3a0168534932ace9573a0abe7",
-                "reference": "5c665f53aeafb2d3a0168534932ace9573a0abe7",
+                "url": "https://api.github.com/repos/joomla-framework/oauth2/zipball/bb24c0a969fcc62c97997ba33a476ec888c34b00",
+                "reference": "bb24c0a969fcc62c97997ba33a476ec888c34b00",
                 "shasum": ""
             },
             "require": {
@@ -1984,9 +1984,9 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/oauth2/issues",
-                "source": "https://github.com/joomla-framework/oauth2/tree/4.0.1"
+                "source": "https://github.com/joomla-framework/oauth2/tree/4.0.2"
             },
-            "time": "2025-08-06T10:09:51+00:00"
+            "time": "2026-04-15T17:57:50+00:00"
         },
         {
             "name": "joomla/registry",
