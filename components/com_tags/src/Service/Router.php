@@ -251,7 +251,7 @@ class Router extends RouterBase
             }
 
             // Strip 'types' from the URL if they match the menu item's own configured types
-            if (isset($query['types']) && isset($menuItem->query['types'])) {
+            if (isset($query['types'], $menuItem->query['types'])) {
                 $queryTypes = ArrayHelper::toInteger((array) $query['types']);
                 $menuTypes  = ArrayHelper::toInteger((array) $menuItem->query['types']);
                 sort($queryTypes);
