@@ -111,10 +111,28 @@ class FieldModel extends AdminModel
      */
     public function save($data)
     {
-        $field = null;
+        $field                     = null;
+        $hasDuplicateSubformFields = false;
 
         if (isset($data['id']) && $data['id']) {
             $field = $this->getItem($data['id']);
+        }
+
+        $fieldType = $data['type'] ?? ($field->type ?? null);
+
+        if ($fieldType === 'subform' && isset($data['fieldparams']['options']) && \is_array($data['fieldparams']['options'])) {
+            $seenCustomFields = [];
+
+            foreach ($data['fieldparams']['options'] as $option) {
+                $customField = (string) ($option['customfield'] ?? '');
+
+                if (isset($seenCustomFields[$customField])) {
+                    $hasDuplicateSubformFields = true;
+                    break;
+                }
+
+                $seenCustomFields[$customField] = true;
+            }
         }
 
         if (isset($data['params']['searchindex'])) {
@@ -170,6 +188,10 @@ class FieldModel extends AdminModel
 
         if (!parent::save($data)) {
             return false;
+        }
+
+        if ($hasDuplicateSubformFields) {
+            Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_FIELD_SUBFORM_DUPLICATE_FIELDS_REMOVED'), 'warning');
         }
 
         // Save the assigned categories into #__fields_categories

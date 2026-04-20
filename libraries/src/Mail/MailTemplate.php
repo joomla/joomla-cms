@@ -389,7 +389,7 @@ class MailTemplate
                     ]);
                 }
 
-                $htmlBody = $layoutFile->render(['mail' => $htmlBody, 'extra' => $this->layoutTemplateData], null);
+                $htmlBody = $layoutFile->render(['mail' => $htmlBody, 'extra' => $this->layoutTemplateData]);
 
                 $htmlBody = $this->replaceTags(Text::_($htmlBody), $this->data);
             }
