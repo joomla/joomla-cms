@@ -31,7 +31,7 @@ $this->useCoreUI = true;
 // Create shortcut to parameters.
 $params = $this->state->get('params');
 
-// This checks if the editor config options have ever been saved. If they haven't they will fall back to the original settings
+// This checks if the editor config options have ever been saved.
 if (!$params->exists('show_publishing_options')) {
     $params->set('show_urls_images_frontend', '0');
 }
@@ -51,10 +51,7 @@ if (!$params->exists('show_publishing_options')) {
 
             <?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'editor', Text::_('COM_CONTENT_ARTICLE_CONTENT')); ?>
                 <?php echo $this->form->renderField('title'); ?>
-
                 <?php echo $this->form->renderField('alias'); ?>
-
-
                 <?php echo $this->form->renderField('articletext'); ?>
 
                 <?php if ($this->captchaEnabled) : ?>
@@ -102,49 +99,54 @@ if (!$params->exists('show_publishing_options')) {
 
             <?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'options', Text::_('JOPTIONS')); ?>
                 <?php echo $this->form->renderField('transition'); ?>
-                    <?php echo $this->form->renderField('state'); ?>
-                    <?php echo $this->form->renderField('catid'); ?>
-                    <?php if ($this->item->params->get('access-change')) : ?>
-                        <?php echo $this->form->renderField('featured'); ?>
-                    <?php endif; ?>
-                    <?php echo $this->form->renderField('access'); ?>
-                    <?php echo $this->form->renderField('language'); ?>
-                    <?php echo $this->form->renderField('tags'); ?>
-                    <?php echo $this->form->renderField('note'); ?>
-                    <?php if ($params->get('save_history', 0)) : ?>
-                        <?php echo $this->form->renderField('version_note'); ?>
-                    <?php endif; ?>
-                    <?php if (is_null($this->item->id)) : ?>
-                        <div class="control-group">
-                            <div class="controls">
-                                <?php echo Text::_('COM_CONTENT_ORDERING'); ?>
-                            </div>
-                        </div>
-                    <?php endif; ?>
-                <?php echo HTMLHelper::_('uitab.endTab'); ?>
-
-                <?php if ($params->get('show_publishing_options', 1) == 1) : ?>
-                    <?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'publishing', Text::_('COM_CONTENT_PUBLISHING')); ?>
-                        <?php if (!is_null($this->item->id)) : ?>
-                            <?php echo $this->form->renderField('publish_up'); ?>
-                            <?php echo $this->form->renderField('publish_down'); ?>
-                            <?php echo $this->form->renderField('featured_up'); ?>
-                            <?php echo $this->form->renderField('featured_down'); ?>
-                        <?php endif; ?>
-                        <?php echo $this->form->renderField('created_by_alias'); ?>
-
-                        <fieldset id="fieldset-metadata" class="options-form">
-                            <legend><?php echo Text::_('COM_CONTENT_METADATA'); ?></legend>
-                            <?php echo $this->form->renderField('metadesc'); ?>
-                            <?php echo $this->form->renderField('metakey'); ?>
-                        </fieldset>
-                    <?php echo HTMLHelper::_('uitab.endTab'); ?>
+                <?php echo $this->form->renderField('state'); ?>
+                <?php echo $this->form->renderField('catid'); ?>
+                <?php if ($this->item->params->get('access-change')) : ?>
+                    <?php echo $this->form->renderField('featured'); ?>
                 <?php endif; ?>
+                <?php echo $this->form->renderField('access'); ?>
+                <?php echo $this->form->renderField('language'); ?>
+                <?php echo $this->form->renderField('tags'); ?>
+                <?php echo $this->form->renderField('note'); ?>
+                <?php if ($params->get('save_history', 0)) : ?>
+                    <?php echo $this->form->renderField('version_note'); ?>
+                <?php endif; ?>
+                <?php if (is_null($this->item->id)) : ?>
+                    <div class="control-group">
+                        <div class="controls">
+                            <?php echo Text::_('COM_CONTENT_ORDERING'); ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            <?php echo HTMLHelper::_('uitab.endTab'); ?>
+
+            <?php if ($params->get('show_publishing_options', 1) == 1) : ?>
+                <?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'publishing', Text::_('COM_CONTENT_PUBLISHING')); ?>
+
+                    <?php echo $this->form->renderField('publish_up'); ?>
+                    <?php echo $this->form->renderField('publish_down'); ?>
+
+                    <?php if ($this->item->params->get('access-change')) : ?>
+                        <?php echo $this->form->renderField('featured_up'); ?>
+                        <?php echo $this->form->renderField('featured_down'); ?>
+                    <?php endif; ?>
+
+                    <?php echo $this->form->renderField('created_by_alias'); ?>
+
+                    <fieldset id="fieldset-metadata" class="options-form">
+                        <legend><?php echo Text::_('COM_CONTENT_METADATA'); ?></legend>
+                        <?php echo $this->form->renderField('metadesc'); ?>
+                        <?php echo $this->form->renderField('metakey'); ?>
+                    </fieldset>
+
+                <?php echo HTMLHelper::_('uitab.endTab'); ?>
+            <?php endif; ?>
 
             <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
             <?php echo $this->form->renderControlFields(); ?>
         </fieldset>
+
         <div class="d-grid gap-2 d-sm-block mb-2">
             <button type="button" class="btn btn-primary" data-submit-task="article.apply">
                 <span class="icon-check" aria-hidden="true"></span>
