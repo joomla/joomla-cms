@@ -44,7 +44,7 @@ final class Imagelist extends FieldsPlugin implements SubscriberInterface
             return $fieldNode;
         }
 
-        $multiple = (int) $field->params->get('multiple', 0);
+        $multiple = $field->params->get('multiple', '0') === '1';
 
         $fieldNode->setAttribute('hide_none', $multiple ? 'true' : 'false');
         $fieldNode->setAttribute('hide_default', 'true');
