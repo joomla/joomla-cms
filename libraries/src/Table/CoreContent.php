@@ -222,7 +222,8 @@ class CoreContent extends Table implements CurrentUserInterface
                     ]
                 )
                 ->bind(':itemId', $this->core_content_item_id, ParameterType::INTEGER)
-                ->bind(':typeId', $this->core_type_id, ParameterType::INTEGER);
+                ->bind(':typeId', $this->core_type_id, ParameterType::INTEGER)
+                ->order($db->quoteName('core_content_id') . ' DESC');
 
             $existingId = $db->setQuery($query)->loadResult();
 
