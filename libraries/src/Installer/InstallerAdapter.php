@@ -1,12 +1,13 @@
 protected function setupScriptfile()
 {
-    // If there is a manifest class file, lets load it; we'll copy it later (don't have dest yet)
+    // 🔥 IMPORTANT: Always reset to avoid leaking between multiple extension installs
+    $this->parent->manifestClass = null;
+
+    // If there is a manifest class file, lets load it
     $manifestScript = (string) $this->getManifest()->scriptfile;
 
     // When no script file, do nothing
     if (!$manifestScript) {
-        // Reset previously set script to avoid leaking between installs
-        $this->parent->manifestClass = null;
         return;
     }
 
@@ -34,7 +35,8 @@ protected function setupScriptfile()
         return;
     }
 
-    $installer = require_once $manifestScriptFile;
+    // 🔥 FIX: use require (NOT require_once) so multiple extensions load correctly
+    $installer = require $manifestScriptFile;
 
     // When the instance is a service provider, then register the container with it
     if ($installer instanceof ServiceProviderInterface) {
@@ -55,7 +57,10 @@ protected function setupScriptfile()
 
         $classname = $this->getScriptClassName();
 
-        \JLoader::register($classname, $manifestScriptFile);
+        // 🔥 FIX: prevent class reuse across multiple installs
+        if (!class_exists($classname, false)) {
+            \JLoader::register($classname, $manifestScriptFile);
+        }
 
         if (!class_exists($classname)) {
             return;
@@ -69,18 +74,21 @@ protected function setupScriptfile()
         );
     }
 
-    // Create a new instance
+    // Create a new instance (fresh per extension)
     $this->parent->manifestClass = $container->get(InstallerScriptInterface::class);
 
+    // Set application if supported
     if (method_exists($this->parent->manifestClass, 'setApplication')) {
         $this->parent->manifestClass->setApplication(Factory::getApplication());
     }
 
-    // Set the database
+    // Set database if supported
     if ($this->parent->manifestClass instanceof DatabaseAwareInterface) {
-        $this->parent->manifestClass->setDatabase($container->get(DatabaseInterface::class));
+        $this->parent->manifestClass->setDatabase(
+            $container->get(DatabaseInterface::class)
+        );
     }
 
-    // And set this so we can copy it later
+    // Store manifest script reference for later use
     $this->manifest_script = $manifestScript;
 }
