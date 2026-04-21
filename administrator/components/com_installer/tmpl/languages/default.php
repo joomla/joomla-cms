@@ -47,7 +47,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                         </caption>
                         <thead>
                             <tr>
-                                <th class="w-5">
+                                <th scope="col" class="w-5">
                                     <?php echo Text::_('COM_INSTALLER_HEADING_LANGUAGE_ACTION'); ?>
                                 </th>
                                 <th scope="col">
