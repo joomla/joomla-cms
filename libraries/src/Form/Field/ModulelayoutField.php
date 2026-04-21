@@ -150,9 +150,14 @@ class ModulelayoutField extends FormField
             // Loop on all templates
             if ($templates) {
                 foreach ($templates as $template) {
-                    // Load language file
-                    $lang->load('tpl_' . $template->element . '.sys', $client->path)
-                        || $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element);
+                    // Load language file — explicit fallback chain with $default=false, so the implicit en-GB
+                    // preload can't overwrite translations already merged by earlier fields (Position, etc.).
+					$languageFile = 'tpl_' . $template->element . '.sys';
+
+                    $lang->load($languageFile, $client->path, null, false, false)
+                        || $lang->load($languageFile, $client->path . '/templates/' . $template->element, null, false, false)
+                        || $lang->load($languageFile, $client->path, $lang->getDefault(), false, false)
+                        || $lang->load($languageFile, $client->path . '/templates/' . $template->element, $lang->getDefault(), false, false);
 
                     $template_path = Path::clean($client->path . '/templates/' . $template->element . '/html/' . $module);
 
