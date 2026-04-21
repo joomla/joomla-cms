@@ -152,8 +152,8 @@ class ModulelayoutField extends FormField
                 foreach ($templates as $template) {
                     // Load language file — explicit fallback chain with $default=false, so the implicit en-GB
                     // preload can't overwrite translations already merged by earlier fields (Position, etc.).
-					$languageFile = 'tpl_' . $template->element . '.sys';
-
+                    $languageFile = 'tpl_' . $template->element . '.sys';
+                    
                     $lang->load($languageFile, $client->path, null, false, false)
                         || $lang->load($languageFile, $client->path . '/templates/' . $template->element, null, false, false)
                         || $lang->load($languageFile, $client->path, $lang->getDefault(), false, false)
