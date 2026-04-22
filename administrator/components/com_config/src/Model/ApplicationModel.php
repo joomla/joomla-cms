@@ -59,7 +59,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
      * @var    array
      * @since  3.9.23
      */
-    private $protectedConfigurationFields = ['password', 'secret', 'smtppass', 'redis_server_auth', 'session_redis_server_auth'];
+    private $protectedConfigurationFields = ['password', 'secret', 'smtppass', 'oauth2_client_secret', 'oauth2_refresh_token', 'redis_server_auth', 'session_redis_server_auth'];
 
     /**
      * Method to get a form object.
@@ -121,6 +121,17 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             }
 
             $data = array_merge($temp, $data);
+        }
+
+        $allowedMailers = ['mail', 'sendmail', 'smtp', 'smtpoauth2'];
+
+        if (!\in_array((string) ($data['mailer'] ?? ''), $allowedMailers, true)) {
+            $data['mailer'] = 'mail';
+        }
+
+        if (empty($data['oauth2_tenant_mode'])) {
+            $tenantId = (string) ($data['oauth2_tenant_id'] ?? '');
+            $data['oauth2_tenant_mode'] = strtolower($tenantId) !== 'common' && $tenantId !== '' ? 'tenant' : 'common';
         }
 
         return $data;
@@ -281,6 +292,15 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             if (!isset($data[$fieldKey])) {
                 $data[$fieldKey] = $app->get($fieldKey, '');
             }
+        }
+
+        // Never overwrite OAuth credentials with empty values.
+        if (array_key_exists('oauth2_client_secret', $data) && trim((string) $data['oauth2_client_secret']) === '') {
+            $data['oauth2_client_secret'] = $app->get('oauth2_client_secret', '');
+        }
+
+        if (array_key_exists('oauth2_refresh_token', $data) && trim((string) $data['oauth2_refresh_token']) === '') {
+            $data['oauth2_refresh_token'] = $app->get('oauth2_refresh_token', '');
         }
 
         // Check that we aren't setting wrong database configuration
@@ -1201,7 +1221,20 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $config->set('fromname', $input->get('fromname', '', 'STRING'));
         $config->set('mailer', $input->get('mailer'));
         $config->set('mailonline', $input->get('mailonline'));
-
+        $config->set('oauth2_provider', $input->get('oauth2_provider', $app->get('oauth2_provider', 'microsoft'), 'STRING'));
+        $config->set('oauth2_email', $input->get('oauth2_email', $app->get('oauth2_email', ''), 'STRING'));
+        $config->set('oauth2_client_id', $input->get('oauth2_client_id', $app->get('oauth2_client_id', ''), 'STRING'));
+        $config->set('oauth2_client_secret', $input->get('oauth2_client_secret', $app->get('oauth2_client_secret', ''), 'RAW'));
+        $config->set('oauth2_scope', $input->get('oauth2_scope', $app->get('oauth2_scope', ''), 'STRING'));
+        $config->set('oauth2_tenant_mode', $input->get('oauth2_tenant_mode', $app->get('oauth2_tenant_mode', ''), 'CMD'));
+        $config->set('oauth2_tenant_id', $input->get('oauth2_tenant_id', $app->get('oauth2_tenant_id', 'common'), 'STRING'));
+        $config->set('oauth2_authorize_url', $input->get('oauth2_authorize_url', $app->get('oauth2_authorize_url', ''), 'STRING'));
+        $config->set('oauth2_token_url', $input->get('oauth2_token_url', $app->get('oauth2_token_url', ''), 'STRING'));
+        $config->set('oauth2_smtp_host', $input->get('oauth2_smtp_host', $app->get('oauth2_smtp_host', ''), 'STRING'));
+        $config->set('oauth2_smtp_port', $input->get('oauth2_smtp_port', $app->get('oauth2_smtp_port', 587), 'INT'));
+        $config->set('oauth2_smtp_secure', $input->get('oauth2_smtp_secure', $app->get('oauth2_smtp_secure', 'tls'), 'STRING'));
+        $config->set('oauth2_refresh_token', $input->get('oauth2_refresh_token', $app->get('oauth2_refresh_token', ''), 'RAW'));
+        $config->set('oauth2_token_issued_at', $input->get('oauth2_token_issued_at', $app->get('oauth2_token_issued_at', ''), 'STRING'));
         // Use smtppass only if it was submitted
         if ($smtppass !== null) {
             $config->set('smtppass', $smtppass);
@@ -1231,9 +1264,14 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
 
         if ($mailSent === true) {
             $methodName = Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer));
+            $configuredMailer = (string) $app->get('mailer');
+
+            if (\in_array($configuredMailer, ['smtpoauth2'], true)) {
+                $configuredMailer = 'smtp';
+            }
 
             // If JMail send the mail using PHP Mail as fallback.
-            if ($mail->Mailer !== $app->get('mailer')) {
+            if ($mail->Mailer !== $configuredMailer) {
                 $app->enqueueMessage(Text::sprintf('COM_CONFIG_SENDMAIL_SUCCESS_FALLBACK', $user->email, $methodName), 'warning');
             } else {
                 $app->enqueueMessage(Text::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $user->email, $methodName), 'message');
@@ -1242,7 +1280,8 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             return true;
         }
 
-        $app->enqueueMessage(Text::_('COM_CONFIG_SENDMAIL_ERROR'), 'error');
+        $errorInfo = trim((string) $mail->ErrorInfo);
+        $app->enqueueMessage($errorInfo !== '' ? $errorInfo : Text::_('COM_CONFIG_SENDMAIL_ERROR'), 'error');
 
         return false;
     }
