@@ -1,0 +1,70 @@
+[1mdiff --git a/libraries/src/Installer/InstallerAdapter.php b/libraries/src/Installer/InstallerAdapter.php[m
+[1mindex 276d5ac15b..8122ee3f97 100644[m
+[1m--- a/libraries/src/Installer/InstallerAdapter.php[m
+[1m+++ b/libraries/src/Installer/InstallerAdapter.php[m
+[36m@@ -1,12 +1,13 @@[m
+ protected function setupScriptfile()[m
+ {[m
+[31m-    // If there is a manifest class file, lets load it; we'll copy it later (don't have dest yet)[m
+[32m+[m[32m    // 🔥 IMPORTANT: Always reset to avoid leaking between multiple extension installs[m
+[32m+[m[32m    $this->parent->manifestClass = null;[m
+[32m+[m
+[32m+[m[32m    // If there is a manifest class file, lets load it[m
+     $manifestScript = (string) $this->getManifest()->scriptfile;[m
+ [m
+     // When no script file, do nothing[m
+     if (!$manifestScript) {[m
+[31m-        // Reset previously set script to avoid leaking between installs[m
+[31m-        $this->parent->manifestClass = null;[m
+         return;[m
+     }[m
+ [m
+[36m@@ -34,7 +35,8 @@[m [mprotected function setupScriptfile()[m
+         return;[m
+     }[m
+ [m
+[31m-    $installer = require_once $manifestScriptFile;[m
+[32m+[m[32m    // 🔥 FIX: use require (NOT require_once) so multiple extensions load correctly[m
+[32m+[m[32m    $installer = require $manifestScriptFile;[m
+ [m
+     // When the instance is a service provider, then register the container with it[m
+     if ($installer instanceof ServiceProviderInterface) {[m
+[36m@@ -55,7 +57,10 @@[m [mprotected function setupScriptfile()[m
+ [m
+         $classname = $this->getScriptClassName();[m
+ [m
+[31m-        \JLoader::register($classname, $manifestScriptFile);[m
+[32m+[m[32m        // 🔥 FIX: prevent class reuse across multiple installs[m
+[32m+[m[32m        if (!class_exists($classname, false)) {[m
+[32m+[m[32m            \JLoader::register($classname, $manifestScriptFile);[m
+[32m+[m[32m        }[m
+ [m
+         if (!class_exists($classname)) {[m
+             return;[m
+[36m@@ -69,18 +74,21 @@[m [mprotected function setupScriptfile()[m
+         );[m
+     }[m
+ [m
+[31m-    // Create a new instance[m
+[32m+[m[32m    // Create a new instance (fresh per extension)[m
+     $this->parent->manifestClass = $container->get(InstallerScriptInterface::class);[m
+ [m
+[32m+[m[32m    // Set application if supported[m
+     if (method_exists($this->parent->manifestClass, 'setApplication')) {[m
+         $this->parent->manifestClass->setApplication(Factory::getApplication());[m
+     }[m
+ [m
+[31m-    // Set the database[m
+[32m+[m[32m    // Set database if supported[m
+     if ($this->parent->manifestClass instanceof DatabaseAwareInterface) {[m
+[31m-        $this->parent->manifestClass->setDatabase($container->get(DatabaseInterface::class));[m
+[32m+[m[32m        $this->parent->manifestClass->setDatabase([m
+[32m+[m[32m            $container->get(DatabaseInterface::class)[m
+[32m+[m[32m        );[m
+     }[m
+ [m
+[31m-    // And set this so we can copy it later[m
+[32m+[m[32m    // Store manifest script reference for later use[m
+     $this->manifest_script = $manifestScript;[m
+ }[m
+\ No newline at end of file[m

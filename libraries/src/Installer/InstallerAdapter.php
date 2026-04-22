@@ -1,18 +1,17 @@
 protected function setupScriptfile()
 {
-    // 🔥 IMPORTANT: Always reset to avoid leaking between multiple extension installs
+    // Always reset to avoid leaking between multiple extension installs
     $this->parent->manifestClass = null;
 
-    // If there is a manifest class file, lets load it
+    // If there is a manifest class file, load it
     $manifestScript = (string) $this->getManifest()->scriptfile;
 
-    // When no script file, do nothing
+    // When no script file is defined, do nothing
     if (!$manifestScript) {
         return;
     }
 
-    // Build a child container, so we do not overwrite the global one
-    // and start from scratch when multiple extensions are installed
+    // Build a child container to avoid overwriting the global one
     try {
         $container = new Container($this->getContainer());
     } catch (ContainerNotFoundException $e) {
@@ -22,10 +21,10 @@ protected function setupScriptfile()
         $container = new Container(Factory::getContainer());
     }
 
-    // The real location of the file
+    // Get the full path of the manifest script file
     $manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
 
-    // Load the installer from the file
+    // Ensure the installer file exists
     if (!file_exists($manifestScriptFile)) {
         @trigger_error(
             'Installer file must exist when defined. In version 5.0 this will crash.',
@@ -35,20 +34,20 @@ protected function setupScriptfile()
         return;
     }
 
-    // 🔥 FIX: use require (NOT require_once) so multiple extensions load correctly
+    // Use require instead of require_once to allow multiple extensions to load correctly
     $installer = require $manifestScriptFile;
 
-    // When the instance is a service provider, then register the container with it
+    // If the returned instance is a service provider, register it
     if ($installer instanceof ServiceProviderInterface) {
         $installer->register($container);
     }
 
-    // When the returned object is an installer instance, use it directly
+    // If the returned object is an installer instance, use it directly
     if ($installer instanceof InstallerScriptInterface) {
         $container->set(InstallerScriptInterface::class, $installer);
     }
 
-    // When none is set, then use the legacy way
+    // Fallback to legacy installer handling
     if (!$container->has(InstallerScriptInterface::class)) {
         @trigger_error(
             'Legacy installer files are deprecated and will be removed in 6.0. Use a service provider instead.',
@@ -57,7 +56,7 @@ protected function setupScriptfile()
 
         $classname = $this->getScriptClassName();
 
-        // 🔥 FIX: prevent class reuse across multiple installs
+        // Prevent class reuse across multiple installs
         if (!class_exists($classname, false)) {
             \JLoader::register($classname, $manifestScriptFile);
         }
@@ -74,7 +73,7 @@ protected function setupScriptfile()
         );
     }
 
-    // Create a new instance (fresh per extension)
+    // Create a fresh instance per extension install
     $this->parent->manifestClass = $container->get(InstallerScriptInterface::class);
 
     // Set application if supported
@@ -89,6 +88,6 @@ protected function setupScriptfile()
         );
     }
 
-    // Store manifest script reference for later use
+    // Store manifest script reference
     $this->manifest_script = $manifestScript;
 }
