@@ -246,7 +246,9 @@ class CoreContent extends Table implements CurrentUserInterface
             $this->setRules('{}');
         }
 
-        return parent::store($updateNulls);
+        $result = parent::store($updateNulls);
+
+        return $result && $this->storeUcmBase($updateNulls, $isNew);
     }
 
     /**
