@@ -14,6 +14,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -148,5 +149,28 @@ class ConfigHelper extends ContentHelper
         // Load extension-local file.
         $lang->load($component . '.sys', JPATH_BASE)
         || $lang->load($component . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component);
+    }
+    /**
+     * Get URL for OAuth2 callback.
+     *
+     * @return  string
+     *
+     * @since   6.1.0
+     */
+    public static function getOAuth2CallbackUrl(): string
+    {
+        return Uri::root() . 'administrator/index.php?option=com_config&task=request.oauth2callback&format=raw';
+    }
+
+    /**
+     * Backwards-compatible alias for previous Microsoft-specific callback method.
+     *
+     * @return  string
+     *
+     * @since   6.1.0
+     */
+    public static function getM365CallbackUrl(): string
+    {
+        return self::getOAuth2CallbackUrl();
     }
 }
