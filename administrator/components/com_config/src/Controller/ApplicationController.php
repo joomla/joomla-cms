@@ -93,6 +93,19 @@ class ApplicationController extends BaseController
         $oldData = $model->getData();
         $data    = array_replace($oldData, $data);
 
+        // Harden against unexpected values.
+        $allowedMailers = ['mail', 'sendmail', 'smtp', 'smtpoauth2'];
+
+        if (!\in_array((string) ($data['mailer'] ?? ''), $allowedMailers, true)) {
+            $fallbackMailer = (string) ($oldData['mailer'] ?? 'mail');
+
+            if (!\in_array($fallbackMailer, $allowedMailers, true)) {
+                $fallbackMailer = 'mail';
+            }
+
+            $data['mailer'] = $fallbackMailer;
+        }
+
         // Get request type
         $saveFormat = $this->app->getDocument()->getType();
 
