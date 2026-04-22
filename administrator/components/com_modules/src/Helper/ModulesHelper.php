@@ -227,7 +227,7 @@ abstract class ModulesHelper
         // Only load the template's language file if it hasn't been already
         if (!$loaded) {
             $lang->load('tpl_' . $template . '.sys', $path)
-            || $lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template)
+            || $lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template);
         }
 
         $langKey = strtoupper('TPL_' . $template . '_POSITION_' . $position);
