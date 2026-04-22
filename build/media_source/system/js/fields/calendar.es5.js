@@ -852,9 +852,13 @@
 					if (self.params.dateType !== 'gregorian') {
 						self.inputField.setAttribute('data-local-value', self.inputField.value);
 					}
-					// value needs to be validated
-					self.inputField.setAttribute('data-alt-value', Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType, self.strings)
-						.print(self.params.dateFormat, 'gregorian', false, self.strings));
+					if (typeof self.dateClicked === 'undefined') {
+						// value needs to be validated
+						self.inputField.setAttribute('data-alt-value', Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType, self.strings)
+							.print(self.params.dateFormat, 'gregorian', false, self.strings));
+					} else {
+						self.inputField.setAttribute('data-alt-value', self.date.print(self.params.dateFormat, 'gregorian', false, self.strings));
+					}
 				} else {
 					self.inputField.setAttribute('data-alt-value', '0000-00-00 00:00:00');
 				}
@@ -869,10 +873,18 @@
 			if (self.inputField.value) {
 				if (self.params.dateType !== 'gregorian') {
 					self.inputField.setAttribute('data-local-value', self.inputField.value);
+					// We need to transform the date for the data-alt-value
+					var ndate, date = Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType, self.strings);
+					ndate = Date.localCalToGregorian(date.getFullYear(), date.getMonth(), date.getDate());
+					date.setFullYear(ndate[0]);
+					date.setMonth(ndate[1]);
+					date.setDate(ndate[2]);
+					self.inputField.setAttribute('data-alt-value', date.print(self.params.dateFormat, 'gregorian', false, self.strings));
+				} else {
+					// We set the date for the data-alt-value
+					self.inputField.setAttribute('data-alt-value', Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType, self.strings)
+						.print(self.params.dateFormat, 'gregorian', false, self.strings));
 				}
-				// value needs to be validated
-				self.inputField.setAttribute('data-alt-value', Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType, self.strings)
-					.print(self.params.dateFormat, 'gregorian', false, self.strings));
 			} else {
 				self.inputField.setAttribute('data-alt-value', '0000-00-00 00:00:00');
 			}
