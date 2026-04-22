@@ -787,23 +787,49 @@
 
 				if (self.params.weekNumbers) {
 					H.addEventListener("change", function (event) {
-						self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
-							event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
-							event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
+						// Since the DOM order is reversed in RTL, we must reverse the order of child nodes.
+						if (self.params.direction === 'rtl') {
+							self.updateTime(event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
+								event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
+								event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
+						} else {
+							self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
+								event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
+								event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
+						}
 					}, false);
 					M.addEventListener("change", function (event) {
-						self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
-							event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
-							event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
+						// Since the DOM order is reversed in RTL, we must reverse the order of child nodes.
+						if (self.params.direction === 'rtl') {
+							self.updateTime(event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
+								event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
+								event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
+						} else {
+							self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
+								event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
+								event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
+						}
 					}, false);
 				} else {
 					H.addEventListener("change", function (event) {
-						self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
-							event.target.parentNode.parentNode.childNodes[2].childNodes[0].value);
+						// Since the DOM order is reversed in RTL, we must reverse the order of child nodes.
+						if (self.params.direction === 'rtl') {
+							self.updateTime(event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
+								event.target.parentNode.parentNode.childNodes[1].childNodes[0].value);
+						} else {
+							self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
+								event.target.parentNode.parentNode.childNodes[2].childNodes[0].value);
+						}
 					}, false);
 					M.addEventListener("change", function (event) {
-						self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
-							event.target.parentNode.parentNode.childNodes[2].childNodes[0].value);
+						// Since the DOM order is reversed in RTL, we must reverse the order of child nodes.
+						if (self.params.direction === 'rtl') {
+							self.updateTime(event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
+								event.target.parentNode.parentNode.childNodes[1].childNodes[0].value);
+						} else {
+							self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
+								event.target.parentNode.parentNode.childNodes[2].childNodes[0].value);
+						}
 					}, false);
 				}
 			})();
