@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aa87aaad19b64476610fbf5d74307b48",
+    "content-hash": "2c70890f480b3970f45aa1a7e52c643e",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1987,6 +1987,71 @@
                 "source": "https://github.com/joomla-framework/oauth2/tree/4.0.1"
             },
             "time": "2025-08-06T10:09:51+00:00"
+        },
+        {
+            "name": "joomla/preload",
+            "version": "3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joomla-framework/preload.git",
+                "reference": "3a52c4e9a4c0b56dd42abcb07721377e9748d6fa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joomla-framework/preload/zipball/3a52c4e9a4c0b56dd42abcb07721377e9748d6fa",
+                "reference": "3a52c4e9a4c0b56dd42abcb07721377e9748d6fa",
+                "shasum": ""
+            },
+            "require": {
+                "fig/link-util": "^1.0",
+                "php": "^8.1.0",
+                "psr/link": "^1.0"
+            },
+            "require-dev": {
+                "joomla/application": "^3.0",
+                "joomla/di": "^3.0",
+                "joomla/event": "^3.0",
+                "joomla/uri": "^3.0",
+                "phpstan/phpstan": "1.12.27",
+                "phpstan/phpstan-deprecation-rules": "1.2.1",
+                "phpunit/phpunit": "^9.5.28",
+                "squizlabs/php_codesniffer": "^3.7.2",
+                "symfony/web-link": "^5.0"
+            },
+            "suggest": {
+                "joomla/application": "To use the PreloadSubscriber event listener, install `^2.0`",
+                "joomla/di": "To use the PreloadProvider service provider, install `^1.5|^2.0`",
+                "joomla/event": "To use the PreloadSubscriber event listener, install `^2.0`",
+                "symfony/web-link": "To use the PreloadSubscriber event listener, install `^3.4|^4.4|^5.0`"
+            },
+            "type": "joomla-package",
+            "extra": {
+                "branch-alias": {
+                    "dev-2.0-dev": "2.0-dev",
+                    "dev-3.x-dev": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Joomla\\Preload\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "Joomla Preload Package",
+            "homepage": "https://github.com/joomla-framework/preload",
+            "keywords": [
+                "console",
+                "framework",
+                "joomla"
+            ],
+            "support": {
+                "issues": "https://github.com/joomla-framework/preload/issues",
+                "source": "https://github.com/joomla-framework/preload/tree/3.0.2"
+            },
+            "time": "2025-07-19T13:34:33+00:00"
         },
         {
             "name": "joomla/registry",
