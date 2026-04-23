@@ -260,7 +260,7 @@ class MailTemplate
         $replyToName = $app->get('replytoname', '');
 
         $language = $app->getLanguage();
-        if ($this->language !== $language->getTag()) {
+        if ($this->language && $this->language !== $language->getTag()) {
             MailsHelper::loadTranslationFiles($mail->extension, $this->language);
         }
 
