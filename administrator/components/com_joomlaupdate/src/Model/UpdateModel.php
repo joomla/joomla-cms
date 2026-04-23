@@ -357,15 +357,7 @@ class UpdateModel extends BaseDatabaseModel
             ->where($db->quoteName('update_site_id') . ' = 1');
         $db->setQuery($query);
 
-        if ($db->execute()) {
-            $this->_message = Text::_('COM_JOOMLAUPDATE_CHECKED_UPDATES');
-
-            return true;
-        }
-
-        $this->_message = Text::_('COM_JOOMLAUPDATE_FAILED_TO_CHECK_UPDATES');
-
-        return false;
+        return $db->execute();
     }
 
     /**

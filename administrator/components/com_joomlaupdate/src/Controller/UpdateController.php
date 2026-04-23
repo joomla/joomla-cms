@@ -250,10 +250,16 @@ class UpdateController extends BaseController
         // Purge updates
         /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
         $model = $this->getModel('Update');
-        $model->purge();
+        $result = $model->purge();
+
+        if ($result) {
+            $message = Text::_('COM_JOOMLAUPDATE_CHECKED_UPDATES');
+        } else {
+            $message = Text::_('COM_JOOMLAUPDATE_FAILED_TO_CHECK_UPDATES');
+        }
 
         $url = 'index.php?option=com_joomlaupdate';
-        $this->setRedirect($url, $model->_message);
+        $this->setRedirect($url, $message);
     }
 
     /**
