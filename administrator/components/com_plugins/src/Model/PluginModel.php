@@ -15,7 +15,6 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\Filesystem\Path;
@@ -82,9 +81,10 @@ class PluginModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|bool  A Form object on success, false on failure.
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -107,10 +107,6 @@ class PluginModel extends AdminModel
 
         // Get the form.
         $form = $this->loadForm('com_plugins.plugin', 'plugin', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         // Modify the form based on access controls.
         if (!$this->canEditState((object) $data)) {
@@ -177,9 +173,9 @@ class PluginModel extends AdminModel
                 return false;
             }
 
-            // Convert to the \Joomla\CMS\Object\CMSObject before adding other data.
+            // Convert to an object before adding other data.
             $properties             = $table->getProperties(1);
-            $this->_cache[$cacheId] = ArrayHelper::toObject($properties, CMSObject::class);
+            $this->_cache[$cacheId] = ArrayHelper::toObject($properties);
 
             // Convert the params field to an array.
             $registry                       = new Registry($table->params);
@@ -254,7 +250,7 @@ class PluginModel extends AdminModel
 
         // Load the core and/or local language sys file(s) for the ordering field.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('element'))
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -361,15 +357,13 @@ class PluginModel extends AdminModel
     /**
      * Custom clean cache method, plugins are cached in 2 places for different clients.
      *
-     * @param   string   $group     Cache group name.
-     * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              @deprecated   4.3 will be removed in 6.0
+     * @param  string  $group  Cache group name.
      *
      * @return  void
      *
      * @since   1.6
      */
-    protected function cleanCache($group = null, $clientId = 0)
+    protected function cleanCache($group = null)
     {
         parent::cleanCache('com_plugins');
     }

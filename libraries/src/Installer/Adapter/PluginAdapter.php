@@ -14,7 +14,7 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
@@ -163,8 +163,7 @@ class PluginAdapter extends InstallerAdapter
     protected function finaliseInstall()
     {
         // Clobber any possible pending updates
-        /** @var Update $update */
-        $update = Table::getInstance('update');
+        $update = new Update($this->getDatabase());
         $uid    = $update->find(
             [
                 'element' => $this->element,
@@ -206,7 +205,7 @@ class PluginAdapter extends InstallerAdapter
         $db = $this->getDatabase();
 
         // Remove the schema version
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete('#__schemas')
             ->where('extension_id = :extension_id')
             ->bind(':extension_id', $extensionId, ParameterType::INTEGER);
@@ -545,7 +544,7 @@ class PluginAdapter extends InstallerAdapter
 
                 $element = empty($manifest_details['filename']) ? $file : $manifest_details['filename'];
 
-                $extension                 = Table::getInstance('extension');
+                $extension                 = new Extension($this->getDatabase());
                 $extension->type           = 'plugin';
                 $extension->client_id      = 0;
                 $extension->element        = $element;
@@ -575,7 +574,7 @@ class PluginAdapter extends InstallerAdapter
                     $element = empty($manifest_details['filename']) ? $file : $manifest_details['filename'];
 
                     // Ignore example plugins
-                    $extension                 = Table::getInstance('extension');
+                    $extension                 = new Extension($this->getDatabase());
                     $extension->type           = 'plugin';
                     $extension->client_id      = 0;
                     $extension->element        = $element;

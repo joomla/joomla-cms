@@ -112,7 +112,6 @@ function clean_checkout(string $dir)
     run_and_check('find libraries/vendor -name .php_cs.dist | xargs rm -rf -');
     run_and_check('find libraries/vendor -name phpcs.xsd | xargs rm -rf -');
     run_and_check('find libraries/vendor -name phpcs.xml | xargs rm -rf -');
-    run_and_check('find libraries/vendor -name build.xml | xargs rm -rf -');
     run_and_check('find libraries/vendor -name infection.json.dist | xargs rm -rf -');
     run_and_check('find libraries/vendor -name phpbench.json | xargs rm -rf -');
     run_and_check('find libraries/vendor -name phpstan.neon.dist | xargs rm -rf -');
@@ -351,9 +350,6 @@ run_and_check('npm ci');
 // Create gzipped version of the static assets
 run_and_check('npm run gzip');
 
-// Create version entries of the static assets in their respective joomla.asset.json
-run_and_check('npm run versioning');
-
 // Clean the checkout of extra resources
 if (!$debugBuild) {
     clean_checkout($fullpath);
@@ -439,15 +435,13 @@ $doNotPackage = [
     '.gitignore',
     '.php-cs-fixer.dist.php',
     'acceptance.suite.yml',
-    // Media Manager Node Assets
-    'administrator/components/com_media/resources',
     'build',
-    'build.xml',
     'CODE_OF_CONDUCT.md',
     'composer.json',
     'composer.lock',
     'crowdin.yml',
     'cypress.config.dist.mjs',
+    'media_source',
     'package-lock.json',
     'package.json',
     'phpstan-baseline.neon',

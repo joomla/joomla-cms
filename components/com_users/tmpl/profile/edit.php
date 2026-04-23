@@ -82,6 +82,7 @@ $wa->useScript('keepalive')
                 <input type="hidden" name="option" value="com_users">
             </div>
         </div>
-        <?php echo HTMLHelper::_('form.token'); ?>
+
+        <?php echo $this->form->renderControlFields(); ?>
     </form>
 </div>
