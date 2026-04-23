@@ -675,7 +675,7 @@
 			showon="mailonline:1[AND]mailer:smtpoauth2[AND]oauth2_provider:microsoft"
 			filter="cmd"
 			validate="options"
-		>
+			>
 			<option value="common">COM_CONFIG_OAUTH2_TENANT_MODE_COMMON</option>
 			<option value="tenant">COM_CONFIG_OAUTH2_TENANT_MODE_TENANT</option>
 		</field>
