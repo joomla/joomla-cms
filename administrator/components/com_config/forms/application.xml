@@ -624,7 +624,7 @@
 			default="microsoft"
 			showon="mailonline:1[AND]mailer:smtpoauth2"
 			validate="options"
-		>
+			>
 			<option value="microsoft">COM_CONFIG_FIELD_VALUE_OAUTH2_PROVIDER_MICROSOFT</option>
 			<option value="google">COM_CONFIG_FIELD_VALUE_OAUTH2_PROVIDER_GOOGLE</option>
 			<option value="custom">COM_CONFIG_FIELD_VALUE_OAUTH2_PROVIDER_CUSTOM</option>
