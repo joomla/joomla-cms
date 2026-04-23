@@ -13,10 +13,9 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Mail\BeforeRenderingMailTemplateEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Language;
-use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\Component\Mails\Administrator\Helper\MailsHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
@@ -262,25 +261,7 @@ class MailTemplate
 
         $language = $app->getLanguage();
         if ($this->language !== $language->getTag()) {
-            /** @var Language $language */
-            $language = Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($this->language, $app->get('debug_lang'));
-
-            if (str_starts_with($mail->extension, 'com_')) {
-                $language->load($mail->extension, JPATH_ADMINISTRATOR);
-                $language->load($mail->extension, JPATH_ADMINISTRATOR . '/components/' . $mail->extension);
-                $language->load($mail->extension, JPATH_SITE . '/components/' . $mail->extension);
-            }
-
-            if (str_starts_with($mail->extension, 'mod_')) {
-                $language->load($mail->extension, JPATH_ADMINISTRATOR . '/modules/' . $mail->extension);
-                $language->load($mail->extension, JPATH_SITE . '/modules/' . $mail->extension);
-            }
-
-            if (str_starts_with($mail->extension, 'plg_')) {
-                $name = str_replace('plg_', '/', $mail->extension);
-                $name = str_replace('_', '/', $name);
-                $language->load($mail->extension, JPATH_PLUGINS . $name);
-            }
+            MailsHelper::loadTranslationFiles($mail->extension, $this->language);
         }
 
         if ((int) $config->get('alternative_mailconfig', 0) === 1 && (int) $params->get('alternative_mailconfig', 0) === 1) {
