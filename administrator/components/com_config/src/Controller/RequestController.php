@@ -24,19 +24,27 @@ use Joomla\Component\Config\Administrator\Model\ApplicationModel;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Requests from the frontend
+ * Handles OAuth2 request actions for Global Configuration.
  *
  * @since  4.0.0
  */
 class RequestController extends BaseController
 {
     /**
-     * Redirect to OAuth2 authorization.
+     * Redirects an authorized administrator to the provider authorization endpoint.
      *
      * @return  void
+     *
+     * @since   6.2.0
      */
     public function oauth2auth(): void
     {
+        if (!$this->app->getIdentity()->authorise('core.admin')) {
+            $this->setRedirect(Route::_('index.php?option=com_config&view=application', false), Text::_('JERROR_ALERTNOAUTHOR'), 'error');
+
+            return;
+        }
+
         $params  = $this->app->getConfig();
         $session = $this->app->getSession();
         $state   = Session::getFormToken();
@@ -69,12 +77,20 @@ class RequestController extends BaseController
     }
 
     /**
-     * OAuth callback endpoint.
+     * Processes the OAuth2 callback and stores the received refresh token.
      *
      * @return  void
+     *
+     * @since   6.2.0
      */
     public function oauth2callback(): void
     {
+        if (!$this->app->getIdentity()->authorise('core.admin')) {
+            $this->setRedirect(Route::_('index.php?option=com_config&view=application', false), Text::_('JERROR_ALERTNOAUTHOR'), 'error');
+
+            return;
+        }
+
         $stateFromProvider = $this->input->getString('state');
         $stateFromSession  = $this->app->getSession()->get('com_config.oauth2_state');
         $code              = $this->input->getString('code');
@@ -181,12 +197,20 @@ class RequestController extends BaseController
     }
 
     /**
-     * Check whether the saved OAuth2 refresh token is currently valid.
+     * Checks whether the configured OAuth2 refresh token can be exchanged successfully.
      *
      * @return  void
+     *
+     * @since   6.2.0
      */
     public function oauth2checktoken(): void
     {
+        if (!$this->app->getIdentity()->authorise('core.admin')) {
+            $this->setRedirect(Route::_('index.php?option=com_config&view=application', false), Text::_('JERROR_ALERTNOAUTHOR'), 'error');
+
+            return;
+        }
+
         $providerConfig = $this->resolveProviderConfig();
         $refreshToken   = (string) ($providerConfig['refresh_token'] ?? '');
 
@@ -236,39 +260,13 @@ class RequestController extends BaseController
     }
 
     /**
-     * Backwards-compatible wrapper for previous Microsoft-specific route.
-     *
-     * @return  void
-     */
-    public function m365auth(): void
-    {
-        $this->oauth2auth();
-    }
-
-    /**
-     * Backwards-compatible wrapper for previous Microsoft-specific route.
-     *
-     * @return  void
-     */
-    public function m365callback(): void
-    {
-        $this->oauth2callback();
-    }
-
-    /**
-     * Backwards-compatible wrapper for previous Microsoft-specific route.
-     *
-     * @return  void
-     */
-    public function m365checktoken(): void
-    {
-        $this->oauth2checktoken();
-    }
-
-    /**
      * Build provider-specific OAuth2 configuration from global configuration.
      *
+     * Supports Microsoft, Google and custom endpoint providers.
+     *
      * @return  array<string, string>
+     *
+     * @since   6.2.0
      */
     private function resolveProviderConfig(): array
     {
