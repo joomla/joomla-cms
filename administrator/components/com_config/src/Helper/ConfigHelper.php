@@ -167,7 +167,7 @@ class ConfigHelper extends ContentHelper
      *
      * @return  string
      *
-     * @since   6.1.0
+     * @since   __DEPLOY_VERSION__
      */
     public static function getM365CallbackUrl(): string
     {
