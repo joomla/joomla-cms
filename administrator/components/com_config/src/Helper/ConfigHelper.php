@@ -150,8 +150,9 @@ class ConfigHelper extends ContentHelper
         $lang->load($component . '.sys', JPATH_BASE)
         || $lang->load($component . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component);
     }
+
     /**
-     * Get URL for OAuth2 callback.
+     * Returns the absolute OAuth2 callback URL for the administrator request controller.
      *
      * @return  string
      *
@@ -160,17 +161,5 @@ class ConfigHelper extends ContentHelper
     public static function getOAuth2CallbackUrl(): string
     {
         return Uri::root() . 'administrator/index.php?option=com_config&task=request.oauth2callback&format=raw';
-    }
-
-    /**
-     * Backwards-compatible alias for previous Microsoft-specific callback method.
-     *
-     * @return  string
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public static function getM365CallbackUrl(): string
-    {
-        return self::getOAuth2CallbackUrl();
     }
 }
