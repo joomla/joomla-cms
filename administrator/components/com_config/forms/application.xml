@@ -732,7 +732,7 @@
 			default="tls"
 			showon="mailonline:1[AND]mailer:smtpoauth2[AND]oauth2_provider:custom"
 			validate="options"
-		>
+			>
 			<option value="none">COM_CONFIG_FIELD_VALUE_NONE</option>
 			<option value="ssl">COM_CONFIG_FIELD_VALUE_SSL</option>
 			<option value="tls">COM_CONFIG_FIELD_VALUE_TLS</option>
