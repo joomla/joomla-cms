@@ -249,7 +249,7 @@ class UpdateController extends BaseController
 
         // Purge updates
         /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
-        $model = $this->getModel('Update');
+        $model  = $this->getModel('Update');
         $result = $model->purge();
 
         if ($result) {
