@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /** @var \Joomla\CMS\Layout\FileLayout $this */
 
@@ -50,7 +51,10 @@ extract($displayData);
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
  * @var   array    $positions       Array of the positions
+ * @var   string   $modalUrl        URL for the positions browse modal.
  */
+
+$showBrowse = !$readonly && !$disabled && !empty($modalUrl);
 
 $attributes = [
     'class="' . $class . '"',
@@ -74,16 +78,35 @@ if ($required) {
 Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
 
-Factory::getDocument()->getWebAssetManager()
-    ->usePreset('choicesjs')
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = Factory::getDocument()->getWebAssetManager();
+$wa->usePreset('choicesjs')
     ->useScript('webcomponent.field-fancy-select');
 
-?>
-<joomla-field-fancy-select <?php echo implode(' ', $attributes); ?>><?php
-    echo HTMLHelper::_('select.groupedlist', $positions, $name, [
-            'id'          => $id,
-            'list.select' => $value,
-            'list.attr'   => implode(' ', $selectAttr),
-        ]);
-    ?></joomla-field-fancy-select>
+if ($showBrowse) {
+    $wa->useScript('webcomponent.field-modal-select');
+}
 
+?>
+<joomla-field-modal-select
+    <?php if ($showBrowse) : ?>
+    modal-url="<?php echo $this->escape(Route::_($modalUrl, false)); ?>"
+    modal-title="<?php echo $this->escape(Text::_('COM_MODULES_SELECT_A_POSITION')); ?>"
+    <?php endif; ?>>
+    <div class="<?php echo $showBrowse ? 'd-flex flex-nowrap gap-1' : ''; ?>">
+        <joomla-field-fancy-select <?php echo $showBrowse ? 'class="flex-grow-1"' : ''; ?> <?php echo implode(' ', $attributes); ?>><?php
+            echo HTMLHelper::_('select.groupedlist', $positions, $name, [
+                    'id'          => $id,
+                    'list.select' => $value,
+                    'list.attr'   => implode(' ', $selectAttr),
+                ]);
+            ?></joomla-field-fancy-select>
+        <?php if ($showBrowse) : ?>
+        <button type="button" class="btn btn-primary"
+                data-button-action="select">
+            <span class="icon-search" aria-hidden="true"></span>
+            <span class="visually-hidden"><?php echo Text::_('JSELECT'); ?></span>
+        </button>
+        <?php endif; ?>
+    </div>
+</joomla-field-modal-select>

@@ -12,6 +12,8 @@ namespace Joomla\Component\Modules\Administrator\Field;
 
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -130,6 +132,17 @@ class ModulesPositioneditField extends FormField
 
         $data['client']    = $clientId;
         $data['positions'] = $positions;
+
+        $linkPositions = (new Uri())->setPath(Uri::base(true) . '/index.php');
+        $linkPositions->setQuery([
+            'option'                => 'com_modules',
+            'view'                  => 'positions',
+            'layout'                => 'modal',
+            'tmpl'                  => 'component',
+            'client_id'             => $clientId,
+            Session::getFormToken() => 1,
+        ]);
+        $data['modalUrl'] = (string) $linkPositions;
 
         $renderer = $this->getRenderer($this->layout);
         $renderer->setComponent('com_modules');

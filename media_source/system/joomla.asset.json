@@ -548,6 +548,17 @@
       ]
     },
     {
+      "name": "webcomponent.field-modal-select",
+      "type": "script",
+      "uri": "system/fields/joomla-field-modal-select.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "joomla.dialog"
+      ]
+    },
+    {
       "name": "webcomponent.core-loader-legacy",
       "type": "script",
       "deprecated": true,
