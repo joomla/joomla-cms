@@ -6,16 +6,16 @@
 			label="PLG_SYSTEM_SCHEMA_FIELD_SCHEMA_LABEL"
 		>
 			<field
-				name="localbusiness"
+				name="Localbusiness"
 				type="subform"
-				showon="schemaType:localbusiness"
+				showon="schemaType:Localbusiness"
 			>
 				<form>
 
 					<field
 						name="@type"
 						type="hidden"
-						default="LocalBusiness"
+						default="Localbusiness"
 					/>
 
 					<field
