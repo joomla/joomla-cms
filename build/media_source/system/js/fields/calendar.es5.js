@@ -304,7 +304,6 @@
 	};
 
 	/** Method to hide the calendar. */
-	console.log("CALENDAR JS LOADED");
 	JoomlaCalendar.prototype.hide = function () {
 		document.removeEventListener("keydown", this._calKeyEvent, true);
 		document.removeEventListener("keypress", this._calKeyEvent, true);
@@ -508,15 +507,11 @@
 	};
 
 	/** Method to handle keyboard click events **/
-	console.log("WORKING");
 	JoomlaCalendar.prototype._handleCalKeyEvent = function (ev) {
 		var self = this,
 			code = ev.code;
 		if (ev.target === this.inputField) {
 			if (ev.code === 'ArrowLeft' || ev.code === 'ArrowRight') {
-				//ev.stopPropagation();
-				//ev.stopImmediatePropagation();
-				//ev.preventDefault(); // important for J5
 				return false;
 			}
 		}
@@ -525,22 +520,17 @@
 		if (active && active.closest && active.closest('.time')) {
 			return;
 		}
-		// 🔥 FINAL CLEAN FIX
 		let el = ev.target;
 		while (el) {
 			if (el.classList && el.classList.contains('time')) {
-				return; // ignore time controls
+				return;
 			}
 			el = el.parentNode;
 		}
-
-		// Close on Enter/Tab
 		if (ev.target === this.inputField && (code === 'Enter' || code === 'Tab')) {
 			this.close();
 			return;
 		}
-
-		// RTL
 		if (self.params.direction === 'rtl') {
 			if (code === 'ArrowLeft') code = 'ArrowRight';
 			else if (code === 'ArrowRight') code = 'ArrowLeft';
@@ -573,6 +563,7 @@
 				break;
 		}
 	};
+
 	/** Method to create the html structure of the calendar */
 	JoomlaCalendar.prototype._create = function () {
 		var self = this,
@@ -782,9 +773,7 @@
 				var H = makeTimePart("time time-hours form-control form-select", hrs, t12 ? 1 : 0, t12 ? 12 : 23, hoursCell),
 					M = makeTimePart("time time-minutes form-control form-select", mins, 0, 59, minutesCell),
 					AP = null;
-				// 🔥 FINAL FIX (attach individually)
 
-				// Hours
 				H.addEventListener('keydown', function (e) {
 					if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.code)) {
 						e.stopPropagation();
@@ -797,8 +786,6 @@
 						e.stopPropagation();
 					}
 				});
-
-
 
 				if (t12) {
 					cell = createElement("td", row);
@@ -1073,7 +1060,6 @@
 	JoomlaCalendar.prototype._bindEvents = function () {
 		var self = this;
 		this.inputField.addEventListener('blur', function (event) {
-			// 🔥 FINAL FIX (Joomla 5 compatible)
 			this.inputField.addEventListener('keydown', function (e) {
 				if (['ArrowLeft', 'ArrowRight'].includes(e.code)) {
 					e.stopPropagation();
@@ -1213,14 +1199,14 @@
 
 	/** B/C related code
 	 *
-	 *  @deprecated   4.0 will be removed in 7.0
+	 *  @deprecated   4.0 will be removed in 6.0
 	 *                Use JoomlaCalendar.init instead
 	 */
 	window.Calendar = {};
 
 	/** B/C related code
 	 *
-	 *  @deprecated   4.0 will be removed in 7.0
+	 *  @deprecated   4.0 will be removed in 6.0
 	 *                Use JoomlaCalendar.init instead
 	 */
 	Calendar.setup = function (obj) {
