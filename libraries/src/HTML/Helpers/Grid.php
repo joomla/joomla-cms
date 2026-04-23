@@ -242,6 +242,69 @@ abstract class Grid
     }
 
     /**
+     * Method to create a clickable action for a grid row with optional custom data attribute.
+     *
+     * This method supports passing additional contextual data per row via the
+     * $options['custom'] key. The custom data is rendered as a data-item-custom
+     * attribute on the generated anchor element, avoiding extra database queries
+     * for custom toggle actions or list-aware operations.
+     *
+     * Usage examples:
+     *
+     *   // Simple string custom data
+     *   HTMLHelper::_('grid.action', $i, 'articles.toggleFeatured', ['prefix' => '', 'custom' => 'extra-info']);
+     *
+     *   // Array custom data (auto JSON-encoded)
+     *   HTMLHelper::_('grid.action', $i, 'articles.toggleFeatured', [
+     *       'prefix' => '',
+     *       'custom' => ['type' => 'article', 'category' => 5]
+     *   ]);
+     *
+     *   // Array of custom values mapped index-by-index with cid[] for list-aware actions
+     *   HTMLHelper::_('grid.action', $i, 'articles.toggleFeatured', [
+     *       'prefix' => '',
+     *       'custom' => $customValuesArray
+     *   ]);
+     *
+     * @param   integer  $i        The row index
+     * @param   string   $task     The task to perform on click
+     * @param   array    $options  Optional settings:
+     *                             - 'prefix'  string        Task prefix
+     *                             - 'custom'  string|array  Extra data rendered as data-item-custom attribute.
+     *                                                       Arrays are automatically JSON-encoded.
+     *
+     * @return  string  HTML anchor element with optional data-item-custom attribute
+     *
+     * @since   5.3
+     */
+    public static function action(int $i, string $task, array $options = []): string
+    {
+        // Get optional prefix, default to empty string
+        $prefix = $options['prefix'] ?? '';
+
+        // Get optional custom data
+        $custom = $options['custom'] ?? null;
+
+        // Build the custom data attribute string
+        $customAttr = '';
+
+        if ($custom !== null) {
+            // If custom is an array, JSON-encode it automatically
+            if (\is_array($custom)) {
+                $custom = json_encode($custom);
+            }
+
+            // Safely escape the custom value for HTML attribute output
+            $customAttr = ' data-item-custom="' . htmlspecialchars((string) $custom, ENT_COMPAT, 'UTF-8') . '"';
+        }
+
+        return '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $prefix . $task . '\')"'
+            . $customAttr . '>'
+            . Text::_($task)
+            . '</a>';
+    }
+
+    /**
      * Method to create a checked out icon with optional overlib in a grid.
      *
      * @param   object   $row      The row object
