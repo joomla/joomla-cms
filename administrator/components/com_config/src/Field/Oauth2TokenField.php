@@ -19,10 +19,30 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
 
+/**
+ * Renders OAuth2 token actions for Global Configuration mail settings.
+ *
+ * @since  6.2.0
+ */
 class Oauth2TokenField extends FormField
 {
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  6.2.0
+     */
     protected $type = 'Oauth2Token';
 
+    /**
+     * Build the OAuth2 token action UI.
+     *
+     * Shows issue/reissue and validation actions and the callback hint.
+     *
+     * @return  string
+     *
+     * @since   6.2.0
+     */
     protected function getInput()
     {
         $formData      = $this->form->getData();
@@ -53,7 +73,7 @@ class Oauth2TokenField extends FormField
             . '</a>'
             . ($refreshToken !== '' ? '<a class="btn btn-secondary" href="' . $checkUrl . '">' . Text::_('COM_CONFIG_MAIL_OAUTH2_BUTTON_TITLE_VALIDATE') . '</a>' : '')
             . '</div><div style="font-size: 11px; margin-top: 10px">'
-            . sprintf(Text::_('COM_CONFIG_MAIL_OAUTH2_CALLBACK_HINT'), $callbackUrl)
+            . \sprintf(Text::_('COM_CONFIG_MAIL_OAUTH2_CALLBACK_HINT'), $callbackUrl)
             . '</div>'
             . $issuedAtHtml;
     }
