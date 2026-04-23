@@ -19,7 +19,7 @@ use PHPMailer\PHPMailer\OAuthTokenProvider;
 /**
  * Generic OAuth token provider for SMTP XOAUTH2 authentication.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  6.1.0
  */
 final class SmtpOAuth2TokenProvider implements OAuthTokenProvider
 {
