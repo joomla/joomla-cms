@@ -155,7 +155,7 @@ class ConfigHelper extends ContentHelper
      *
      * @return  string
      *
-     * @since   6.1.0
+     * @since   __DEPLOY_VERISION__
      */
     public static function getOAuth2CallbackUrl(): string
     {
