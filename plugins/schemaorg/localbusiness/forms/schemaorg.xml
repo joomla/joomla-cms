@@ -28,17 +28,17 @@
 					<field
 						name="name"
 						type="text"
-						filter="string"
 						label="PLG_SCHEMAORG_LOCALBUSINESS_FIELD_NAME_LABEL"
+						filter="string"
 					/>
 
 					<field
 						name="image"
 						type="media"
+						label="PLG_SCHEMAORG_LOCALBUSINESS_FIELD_LOGO_LABEL"
 						schemes="http,https,ftp,ftps,data,file"
 						validate="url"
 						relative="true"
-						label="PLG_SCHEMAORG_LOCALBUSINESS_FIELD_LOGO_LABEL"
 					/>
 
 					<field
