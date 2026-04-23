@@ -624,7 +624,7 @@
 			default="microsoft"
 			showon="mailonline:1[AND]mailer:smtpoauth2"
 			validate="options"
-			>
+		>
 			<option value="microsoft">COM_CONFIG_FIELD_VALUE_OAUTH2_PROVIDER_MICROSOFT</option>
 			<option value="google">COM_CONFIG_FIELD_VALUE_OAUTH2_PROVIDER_GOOGLE</option>
 			<option value="custom">COM_CONFIG_FIELD_VALUE_OAUTH2_PROVIDER_CUSTOM</option>
@@ -675,7 +675,7 @@
 			showon="mailonline:1[AND]mailer:smtpoauth2[AND]oauth2_provider:microsoft"
 			filter="cmd"
 			validate="options"
-			>
+		>
 			<option value="common">COM_CONFIG_OAUTH2_TENANT_MODE_COMMON</option>
 			<option value="tenant">COM_CONFIG_OAUTH2_TENANT_MODE_TENANT</option>
 		</field>
@@ -732,7 +732,7 @@
 			default="tls"
 			showon="mailonline:1[AND]mailer:smtpoauth2[AND]oauth2_provider:custom"
 			validate="options"
-			>
+		>
 			<option value="none">COM_CONFIG_FIELD_VALUE_NONE</option>
 			<option value="ssl">COM_CONFIG_FIELD_VALUE_SSL</option>
 			<option value="tls">COM_CONFIG_FIELD_VALUE_TLS</option>
