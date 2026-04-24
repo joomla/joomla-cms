@@ -13,6 +13,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Mail\BeforeRenderingMailTemplateEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\Component\Mails\Administrator\Helper\MailsHelper;
@@ -261,7 +262,8 @@ class MailTemplate
 
         $language = $app->getLanguage();
         if ($this->language && $this->language !== $language->getTag()) {
-            MailsHelper::loadTranslationFiles($mail->extension, $this->language);
+            $language = Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($this->language, $app->get('debug_lang'));
+            MailsHelper::loadTranslationFiles($mail->extension, $language);
         }
 
         if ((int) $config->get('alternative_mailconfig', 0) === 1 && (int) $params->get('alternative_mailconfig', 0) === 1) {
