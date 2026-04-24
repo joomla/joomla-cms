@@ -2,7 +2,7 @@
  * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-!(function (window, document) {
+!(function(window, document){
 	'use strict';
 
 	var JoomlaCalendar = function (element) {
@@ -24,12 +24,12 @@
 
 		var self = this;
 
-		this.writable = true;
-		this.hidden = true;
-		this.params = {};
-		this.element = element;
+		this.writable   = true;
+		this.hidden     = true;
+		this.params     = {};
+		this.element    = element;
 		this.inputField = element.getElementsByTagName('input')[0];
-		this.button = element.getElementsByTagName('button')[0];
+		this.button     = element.getElementsByTagName('button')[0];
 
 		if (!this.inputField) {
 			throw new Error("Calendar setup failed:\n  No valid input found, Please check your code");
@@ -39,7 +39,7 @@
 		this.params = {
 			debug: false,
 			clicked: false,
-			element: { style: { display: "none" } },
+			element: {style: {display: "none"}},
 			writable: true,
 		};
 
@@ -64,34 +64,34 @@
 		};
 
 		// Translate lists of Days, Months
-		this.strings.days = this.strings.days.map(function (c) {
+		this.strings.days = this.strings.days.map(function (c){
 			return _t(c);
 		});
-		this.strings.shortDays = this.strings.shortDays.map(function (c) {
+		this.strings.shortDays = this.strings.shortDays.map(function (c){
 			return _t(c);
 		});
-		this.strings.months = this.strings.months.map(function (c) {
+		this.strings.months = this.strings.months.map(function (c){
 			return _t(c);
 		});
-		this.strings.shortMonths = this.strings.shortMonths.map(function (c) {
+		this.strings.shortMonths = this.strings.shortMonths.map(function (c){
 			return _t(c);
 		});
 
 		var btn = this.button,
 			instanceParams = {
-				inputField: this.inputField,
-				dateType: btn.dataset.dateType || 'gregorian',
-				direction: document.dir ? document.dir : document.getElementsByTagName("html")[0].getAttribute("dir"),
-				firstDayOfWeek: btn.dataset.firstday ? parseInt(btn.dataset.firstday, 10) : 0,
-				dateFormat: btn.dataset.dateFormat || "%Y-%m-%d %H:%M:%S",
-				weekend: [0, 6],
-				minYear: 1000,
-				maxYear: 2100,
-				time24: true,
-				showsOthers: true,
-				showsTime: true,
-				weekNumbers: true,
-				showsTodayBtn: true,
+				inputField      : this.inputField,
+				dateType        : btn.dataset.dateType || 'gregorian',
+				direction       : document.dir ? document.dir : document.getElementsByTagName("html")[0].getAttribute("dir"),
+				firstDayOfWeek  : btn.dataset.firstday ? parseInt(btn.dataset.firstday, 10) : 0,
+				dateFormat      : btn.dataset.dateFormat || "%Y-%m-%d %H:%M:%S",
+				weekend         : [0,6],
+				minYear         : 1000,
+				maxYear         : 2100,
+				time24          : true,
+				showsOthers     : true,
+				showsTime       : true,
+				weekNumbers     : true,
+				showsTodayBtn   : true,
 				compressedHeader: false,
 			};
 
@@ -108,7 +108,7 @@
 		}
 
 		if ('time24' in btn.dataset) {
-			instanceParams.time24 = parseInt(btn.dataset.time24, 10) === 24;
+			instanceParams.time24 = parseInt(btn.dataset.time24 , 10) === 24;
 		}
 
 		if ('showTime' in btn.dataset) {
@@ -134,7 +134,7 @@
 		}
 		// Evaluate the weekend days
 		if (btn.dataset.weekend) {
-			self.params.weekend = btn.dataset.weekend.split(',').map(function (item) { return parseInt(item, 10); });
+			self.params.weekend = btn.dataset.weekend.split(',').map(function(item) { return parseInt(item, 10); });
 		}
 
 		// Legacy thing, days for RTL is reversed
@@ -148,13 +148,13 @@
 		this.strings.shortMonths = Date.monthsToLocalOrder(this.strings.shortMonths, this.params.dateType);
 
 		// Event handler need to define here, to be able access in current context
-		this._dayMouseDown = function (event) {
+		this._dayMouseDown = function(event) {
 			return self._handleDayMouseDown(event);
 		};
-		this._calKeyEvent = function (event) {
+		this._calKeyEvent = function(event) {
 			return self._handleCalKeyEvent(event);
 		};
-		this._documentClick = function (event) {
+		this._documentClick = function(event) {
 			return self._handleDocumentClick(event);
 		};
 
@@ -265,7 +265,7 @@
 			this.params.onUpdate(this);
 		}
 
-		this.inputField.dispatchEvent(new CustomEvent('change', { bubbles: true, cancelable: true }));
+		this.inputField.dispatchEvent(new CustomEvent('change', {bubbles: true, cancelable: true}));
 
 		if (this.dateClicked) {
 			this.close();
@@ -507,26 +507,9 @@
 	};
 
 	/** Method to handle keyboard click events **/
-	JoomlaCalendar.prototype._handleCalKeyEvent = function (ev) {
+JoomlaCalendar.prototype._handleCalKeyEvent = function (ev) {
 		var self = this,
 			code = ev.code;
-		if (ev.target === this.inputField) {
-			if (ev.code === 'ArrowLeft' || ev.code === 'ArrowRight') {
-				return false;
-			}
-		}
-		var active = document.activeElement;
-
-		if (active && active.closest && active.closest('.time')) {
-			return;
-		}
-		let el = ev.target;
-		while (el) {
-			if (el.classList && el.classList.contains('time')) {
-				return;
-			}
-			el = el.parentNode;
-		}
 		if (ev.target === this.inputField && (code === 'Enter' || code === 'Tab')) {
 			this.close();
 			return;
@@ -556,20 +539,33 @@
 				this.moveCursorBy(-7);
 				break;
 			case 'ArrowLeft':
-				this.moveCursorBy(1);
-				break;
-			case 'ArrowRight':
-				this.moveCursorBy(-1);
-				break;
+                if (
+                    ev.target === this.inputField ||
+                    (ev.target.classList && ev.target.classList.contains('time'))
+                ) {
+                    break;
+                }
+                this.moveCursorBy(1);
+                break;
+
+            case 'ArrowRight':
+                if (
+                    ev.target === this.inputField ||
+                    (ev.target.classList && ev.target.classList.contains('time'))
+                ) {
+                    break;
+                }
+                this.moveCursorBy(-1);
+                break;
 		}
 	};
 
 	/** Method to create the html structure of the calendar */
 	JoomlaCalendar.prototype._create = function () {
-		var self = this,
+		var self   = this,
 			parent = this.element,
-			table = createElement("table"),
-			div = createElement("div");
+			table  = createElement("table"),
+			div    = createElement("div");
 
 		this.table = table;
 		table.className = 'table';
@@ -602,15 +598,15 @@
 		thead.className = 'calendar-header';
 
 		var cell = null,
-			row = null,
-			cal = this,
-			hh = function (text, cs, navtype, node, styles, classes, attributes) {
+			row  = null,
+			cal  = this,
+			hh   = function (text, cs, navtype, node, styles, classes, attributes) {
 				node = node ? node : "td";
 				styles = styles ? styles : {};
 				cell = createElement(node, row);
 				if (cs) {
 					classes = classes ? 'class="' + classes + '"' : '';
-					cell.colSpan = cs;
+				cell.colSpan = cs;
 				}
 
 				for (var key in styles) {
@@ -643,18 +639,18 @@
 		if (this.params.compressedHeader === false) {                                                        // Head - year
 			row = createElement("tr", thead);
 			row.className = "calendar-head-row";
-			this._nav_py = hh("&lsaquo;", 1, -2, '', { "text-align": "center", "font-size": "18px", "line-height": "18px" }, 'js-btn btn-prev-year');                   // Previous year button
+			this._nav_py = hh("&lsaquo;", 1, -2, '', {"text-align": "center", "font-size": "18px", "line-height": "18px"}, 'js-btn btn-prev-year');                   // Previous year button
 			this.title = hh('<div style="text-align:center;font-size:18px"><span></span></div>', this.params.weekNumbers ? 6 : 5, 300);
 			this.title.className = "title title-year";
-			this._nav_ny = hh(" &rsaquo;", 1, 2, '', { "text-align": "center", "font-size": "18px", "line-height": "18px" }, 'js-btn btn-next-year');                   // Next year button
+			this._nav_ny = hh(" &rsaquo;", 1, 2, '', {"text-align": "center", "font-size": "18px", "line-height": "18px"}, 'js-btn btn-next-year');                   // Next year button
 		}
 
 		row = createElement("tr", thead);                                                                   // Head - month
 		row.className = "calendar-head-row";
-		this._nav_pm = hh("&lsaquo;", 1, -1, '', { "text-align": "center", "font-size": "2em", "line-height": "1em" }, 'js-btn btn-prev-month');                       // Previous month button
-		this._nav_month = hh('<div style="text-align:center;font-size:1.2em"><span></span></div>', this.params.weekNumbers ? 6 : 5, 888, 'td', { 'textAlign': 'center' });
+		this._nav_pm = hh("&lsaquo;", 1, -1, '', {"text-align": "center", "font-size": "2em", "line-height": "1em"}, 'js-btn btn-prev-month');                       // Previous month button
+		this._nav_month = hh('<div style="text-align:center;font-size:1.2em"><span></span></div>', this.params.weekNumbers ? 6 : 5, 888, 'td', {'textAlign': 'center'});
 		this._nav_month.className = "title title-month";
-		this._nav_nm = hh(" &rsaquo;", 1, 1, '', { "text-align": "center", "font-size": "2em", "line-height": "1em" }, 'js-btn btn-next-month');                       // Next month button
+		this._nav_nm = hh(" &rsaquo;", 1, 1, '', {"text-align": "center", "font-size": "2em", "line-height": "1em"}, 'js-btn btn-next-month');                       // Next month button
 
 		row = createElement("tr", thead);                                                                   // day names
 		row.className = self.params.weekNumbers ? "daynames wk" : "daynames";
@@ -739,8 +735,8 @@
 			(function () {
 				function makeTimePart(className, selected, range_start, range_end, cellTml) {
 					var part = createElement("select", cellTml), num;
-					part.calendar = self;
-					part.className = className;
+					part.calendar  = self;
+					part.className =  className;
 					part.setAttribute('data-chosen', true); // avoid Chosen, hack
 					part.style.width = '100%';
 					part.navtype = 50;
@@ -761,10 +757,10 @@
 					}
 					return part;
 				}
-				var hrs = self.date.getHours(),
+				var hrs  = self.date.getHours(),
 					mins = self.date.getMinutes(),
-					t12 = !self.params.time24,
-					pm = (self.date.getHours() > 12);
+					t12  = !self.params.time24,
+					pm   = (self.date.getHours() > 12);
 
 				if (t12 && pm) {
 					hrs -= 12;
@@ -774,18 +770,6 @@
 					M = makeTimePart("time time-minutes form-control form-select", mins, 0, 59, minutesCell),
 					AP = null;
 
-				H.addEventListener('keydown', function (e) {
-					if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.code)) {
-						e.stopPropagation();
-					}
-				});
-
-				// Minutes
-				M.addEventListener('keydown', function (e) {
-					if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.code)) {
-						e.stopPropagation();
-					}
-				});
 
 				if (t12) {
 					cell = createElement("td", row);
@@ -842,26 +826,26 @@
 		row = createElement("div", this.wrapper);
 		row.className = "buttons-wrapper btn-group";
 
-		this._nav_clear = hh(this.strings.clear, '', 100, 'button', '', 'js-btn btn btn-clear', { "type": "button", "data-action": "clear" });
+		this._nav_clear = hh(this.strings.clear, '', 100, 'button', '', 'js-btn btn btn-clear', {"type": "button", "data-action": "clear"});
 
-		var cleara = row.querySelector('[data-action="clear"]');
-		cleara.addEventListener("click", function (e) {
-			e.preventDefault();
-			var days = self.table.querySelectorAll('td');
-			for (var i = 0; i < days.length; i++) {
-				if (days[i].classList.contains('selected')) {
-					days[i].classList.remove('selected');
-					break;
+			var cleara = row.querySelector('[data-action="clear"]');
+			cleara.addEventListener("click", function (e) {
+				e.preventDefault();
+				var days = self.table.querySelectorAll('td');
+				for (var i = 0; i < days.length; i++) {
+					if (days[i].classList.contains('selected')) {
+						days[i].classList.remove('selected');
+						break;
+					}
 				}
-			}
-			self.inputField.setAttribute('data-alt-value', "0000-00-00 00:00:00");
-			self.inputField.setAttribute('value', '');
-			self.inputField.value = '';
-			self.inputField.dispatchEvent(new CustomEvent('change', { bubbles: true, cancelable: true }));
-		});
+				self.inputField.setAttribute('data-alt-value', "0000-00-00 00:00:00");
+				self.inputField.setAttribute('value', '');
+				self.inputField.value = '';
+				self.inputField.dispatchEvent(new CustomEvent('change', {bubbles: true, cancelable: true}));
+			});
 
 		if (this.params.showsTodayBtn) {
-			this._nav_now = hh(this.strings.today, '', 0, 'button', '', 'js-btn btn btn-today', { "type": "button", "data-action": "today" });
+			this._nav_now = hh(this.strings.today, '', 0, 'button', '', 'js-btn btn btn-today', {"type": "button", "data-action": "today"});
 
 			var todaya = this.wrapper.querySelector('[data-action="today"]');
 			todaya.addEventListener('click', function (e) {
@@ -873,7 +857,7 @@
 			});
 		}
 
-		this._nav_exit = hh(this.strings.exit, '', 999, 'button', '', 'js-btn btn btn-exit', { "type": "button", "data-action": "exit" });
+		this._nav_exit = hh(this.strings.exit, '', 999, 'button', '', 'js-btn btn btn-exit', {"type": "button", "data-action": "exit"});
 		var exita = this.wrapper.querySelector('[data-action="exit"]');
 		exita.addEventListener('click', function (e) {
 			e.preventDefault();
@@ -905,16 +889,16 @@
 		this.table.style.visibility = "hidden";
 
 		var firstDayOfWeek = this.params.firstDayOfWeek,
-			date = this.date,
+			date  = this.date,
 			today = new Date(),
-			TY = today.getLocalFullYear(this.params.dateType),
-			TM = today.getLocalMonth(this.params.dateType),
-			TD = today.getLocalDate(this.params.dateType),
-			year = date.getOtherFullYear(this.params.dateType),
-			hrs = date.getHours(),
-			mins = date.getMinutes(),
-			secs = date.getSeconds(),
-			t12 = !this.params.time24;
+			TY    = today.getLocalFullYear(this.params.dateType),
+			TM    = today.getLocalMonth(this.params.dateType),
+			TD    = today.getLocalDate(this.params.dateType),
+			year  = date.getOtherFullYear(this.params.dateType),
+			hrs   = date.getHours(),
+			mins  = date.getMinutes(),
+			secs  = date.getSeconds(),
+			t12   = !this.params.time24;
 
 		if (year < this.params.minYear) {                                                                   // Check min,max year
 			year = this.params.minYear;
@@ -928,7 +912,7 @@
 		this.date = new Date(date);
 
 		var month = date.getLocalMonth(this.params.dateType);
-		var mday = date.getLocalDate(this.params.dateType);
+		var mday  = date.getLocalDate(this.params.dateType);
 
 		// Compute the first day that would actually be displayed in the calendar, even if it's from the previous month.
 		date.setLocalDate(this.params.dateType, 1);
@@ -1022,10 +1006,12 @@
 
 			/* remove the selected class  for the hours*/
 			this.resetSelected(hoursEl);
-			if (!this.params.time24) {
+			if (!this.params.time24)
+			{
 				hoursEl.value = (hrs == "00") ? "12" : hrs;
 			}
-			else {
+			else
+			{
 				hoursEl.value = hrs;
 			}
 
@@ -1033,7 +1019,8 @@
 			this.resetSelected(minsEl);
 			minsEl.value = mins;
 
-			if (!this.params.time24) {
+			if (!this.params.time24)
+			{
 				var dateAlt = new Date(this.inputField.getAttribute('data-alt-value')),
 					ampmEl = this.table.querySelector('.time-ampm'),
 					hrsAlt = dateAlt.getHours();
@@ -1048,10 +1035,10 @@
 
 		if (!this.params.compressedHeader) {
 			this._nav_month.getElementsByTagName('span')[0].textContent = this.params.debug ? month + ' ' + this.strings.months[month] : this.strings.months[month];
-			this.title.getElementsByTagName('span')[0].textContent = this.params.debug ? year + ' ' + Date.convertNumbers(year.toString()) : Date.convertNumbers(year.toString());
+			this.title.getElementsByTagName('span')[0].textContent = this.params.debug ? year + ' ' +  Date.convertNumbers(year.toString()) : Date.convertNumbers(year.toString());
 		} else {
 			var tmpYear = Date.convertNumbers(year.toString());
-			this._nav_month.getElementsByTagName('span')[0].textContent = !this.params.monthBefore ? this.strings.months[month] + ' - ' + tmpYear : tmpYear + ' - ' + this.strings.months[month];
+			this._nav_month.getElementsByTagName('span')[0].textContent = !this.params.monthBefore  ? this.strings.months[month] + ' - ' + tmpYear : tmpYear + ' - ' + this.strings.months[month] ;
 		}
 		this.table.style.visibility = "visible";
 	};
@@ -1059,12 +1046,7 @@
 	/** Method to listen for the click event on the input button. **/
 	JoomlaCalendar.prototype._bindEvents = function () {
 		var self = this;
-		this.inputField.addEventListener('blur', function (event) {
-			this.inputField.addEventListener('keydown', function (e) {
-				if (['ArrowLeft', 'ArrowRight'].includes(e.code)) {
-					e.stopPropagation();
-				}
-			});
+		this.inputField.addEventListener('blur', function(event) {
 			var calObj = JoomlaCalendar.getCalObject(this)._joomlaCalendar;
 
 			// If calendar is open we will handle the event elsewhere
@@ -1101,19 +1083,19 @@
 
 			self.close();
 		}, true);
-		this.button.addEventListener('click', function () {
+		this.button.addEventListener('click', function() {
 			self.show();
 		}, false);
 	};
 
 	/** Helpers **/
-	var stopCalEvent = function (ev) { ev || (ev = window.event); ev.preventDefault(); ev.stopPropagation(); return false; };
+	var stopCalEvent = function (ev) { ev || (ev = window.event);  ev.preventDefault(); ev.stopPropagation(); return false; };
 	var createElement = function (type, parent) { var el = null; el = document.createElement(type); if (typeof parent !== "undefined") { parent.appendChild(el); } return el; };
-	var isInt = function (input) { return !isNaN(input) && (function (x) { return (x | 0) === x; })(parseFloat(input)) };
+	var isInt = function (input) { return !isNaN(input) && (function(x) { return (x | 0) === x; })(parseFloat(input)) };
 	var getBoundary = function (input, type) { var date = new Date(); var y = date.getLocalFullYear(type); return y + input; };
 
 	/** Method to get the active calendar element through any descendant element. */
-	JoomlaCalendar.getCalObject = function (element) {
+	JoomlaCalendar.getCalObject = function(element) {
 		if (!element) {
 			return false;
 		}
@@ -1130,27 +1112,27 @@
 	 * Method to change input values with the data-alt-value values. This method is e.g. being called
 	 * by the onSubmit handler of the calendar fields form.
 	 */
-	JoomlaCalendar.prototype.setAltValue = function () {
+	JoomlaCalendar.prototype.setAltValue = function() {
 		var input = this.inputField;
 		if (input.getAttribute('disabled')) return;
 
 		// Set the value to the data-alt-value attribute, but only if it really has a value.
 		input.value = (
 			input.getAttribute('data-alt-value') && input.getAttribute('data-alt-value') !== '0000-00-00 00:00:00'
-				? input.getAttribute('data-alt-value')
-				: ''
+			? input.getAttribute('data-alt-value')
+			: ''
 		);
 	};
 
 	/** Method to change the inputs before submit. **/
-	JoomlaCalendar.onSubmit = function () {
+	JoomlaCalendar.onSubmit = function() {
 		Joomla = window.Joomla || {};
 		if (!Joomla.calendarProcessed) {
 			Joomla.calendarProcessed = true;
 			var elements = document.querySelectorAll(".field-calendar");
 
 			for (var i = 0; i < elements.length; i++) {
-				var element = elements[i],
+				var element  = elements[i],
 					instance = element._joomlaCalendar;
 
 				if (instance) {
@@ -1197,82 +1179,82 @@
 	document.addEventListener("DOMContentLoaded", _initCalendars);
 	document.addEventListener("joomla:updated", _initCalendars);
 
-	/** B/C related code
-	 *
-	 *  @deprecated   4.0 will be removed in 6.0
-	 *                Use JoomlaCalendar.init instead
-	 */
-	window.Calendar = {};
+		/** B/C related code
+		 *
+		 *  @deprecated   4.0 will be removed in 6.0
+		 *                Use JoomlaCalendar.init instead
+		 */
+		window.Calendar = {};
 
-	/** B/C related code
-	 *
-	 *  @deprecated   4.0 will be removed in 6.0
-	 *                Use JoomlaCalendar.init instead
-	 */
-	Calendar.setup = function (obj) {
+		/** B/C related code
+		 *
+		 *  @deprecated   4.0 will be removed in 6.0
+		 *                Use JoomlaCalendar.init instead
+		 */
+		Calendar.setup = function(obj) {
 
-		if (obj.inputField && document.getElementById(obj.inputField)) {
-			var element = document.getElementById(obj.inputField),
-				cal = element.parentNode.querySelectorAll('button')[0];
+			if (obj.inputField && document.getElementById(obj.inputField)) {
+				var element = document.getElementById(obj.inputField),
+					cal = element.parentNode.querySelectorAll('button')[0];
 
-			for (var property in obj) {
-				if (obj.hasOwnProperty(property)) {
-					switch (property) {
-						case 'ifFormat':
-							if (cal) cal.setAttribute('data-dayformat', obj.ifFormat);
-							break;
+				for (var property in obj) {
+					if (obj.hasOwnProperty(property)) {
+						switch (property) {
+							case 'ifFormat':
+								if (cal) cal.setAttribute('data-dayformat', obj.ifFormat);
+								break;
 
-						case 'firstDay':
-							if (cal) cal.setAttribute('data-firstday', parseInt(obj.firstDay));
-							break;
+							case 'firstDay':
+								if (cal) cal.setAttribute('data-firstday', parseInt(obj.firstDay));
+								break;
 
-						case 'weekNumbers':
-							if (cal) cal.setAttribute('data-week-numbers', (obj.weekNumbers === "true" || obj.weekNumbers === true) ? '1' : '0');
-							break;
+							case 'weekNumbers':
+								if (cal) cal.setAttribute('data-week-numbers', (obj.weekNumbers === "true" || obj.weekNumbers === true) ? '1' : '0');
+								break;
 
-						case 'showOthers':
-							if (cal) cal.setAttribute('data-show-others', (obj.showOthers === "true" || obj.showOthers === true) ? '1' : '0');
-							break;
+							case 'showOthers':
+								if (cal) cal.setAttribute('data-show-others', (obj.showOthers === "true" || obj.showOthers === true) ? '1' : '0');
+								break;
 
-						case 'showsTime':
-							if (cal) cal.setAttribute('data-show-time', (obj.showsTime === "true" || obj.showsTime === true) ? '1' : '0');
-							break;
+							case 'showsTime':
+								if (cal) cal.setAttribute('data-show-time', (obj.showsTime === "true" || obj.showsTime === true) ? '1' : '0');
+								break;
 
-						case 'timeFormat':
-							if (cal) cal.setAttribute('data-time-24', parseInt(obj.timeFormat));
-							break;
+							case 'timeFormat':
+								if (cal) cal.setAttribute('data-time-24', parseInt(obj.timeFormat));
+								break;
 
-						case 'displayArea':
-						case 'inputField':
-						case 'button':
-						case 'eventName':
-						case 'daFormat':
-						case 'disableFunc':
-						case 'dateStatusFunc':
-						case 'dateTooltipFunc':
-						case 'dateText':
-						case 'align':
-						case 'range':
-						case 'flat':
-						case 'flatCallback':
-						case 'onSelect':
-						case 'onClose':
-						case 'onUpdate':
-						case 'date':
-						case 'electric':
-						case 'step':
-						case 'position':
-						case 'cache':
-						case 'multiple':
-							break;
+							case 'displayArea':
+							case 'inputField':
+							case 'button':
+							case 'eventName':
+							case 'daFormat':
+							case 'disableFunc':
+							case 'dateStatusFunc':
+							case 'dateTooltipFunc':
+							case 'dateText':
+							case 'align':
+							case 'range':
+							case 'flat':
+							case 'flatCallback':
+							case 'onSelect':
+							case 'onClose':
+							case 'onUpdate':
+							case 'date':
+							case 'electric':
+							case 'step':
+							case 'position':
+							case 'cache':
+							case 'multiple':
+								break;
+						}
+
+
 					}
-
-
 				}
+				JoomlaCalendar.init(element.parentNode.parentNode);
 			}
-			JoomlaCalendar.init(element.parentNode.parentNode);
-		}
-		return null;
-	};
+			return null;
+		};
 
 })(window, document);
