@@ -173,8 +173,7 @@ class ListView extends HtmlView
         }
 
         // Set default value for $canDo to avoid fatal error if child class doesn't set value for this property
-        // Return a CanDo object to prevent any BC break, will be changed in 7.0 to Registry
-        $this->canDo = new CanDo();
+        $this->canDo = new Registry();
     }
 
     /**

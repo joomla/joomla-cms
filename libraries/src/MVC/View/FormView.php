@@ -21,6 +21,7 @@ use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -154,8 +155,7 @@ class FormView extends HtmlView
         }
 
         // Set default value for $canDo to avoid fatal error if child class doesn't set value for this property
-        // Return a CanDo object to prevent any BC break, will be changed in 7.0 to Registry
-        $this->canDo = new CanDo();
+        $this->canDo = new Registry();
     }
 
     /**
