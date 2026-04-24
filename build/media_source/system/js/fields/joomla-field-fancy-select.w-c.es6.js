@@ -123,6 +123,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       shouldSort: false,
       fuseOptions: {
         threshold: 0.3, // Strict search
+        distance: 850, // Set distance so Fuse can match across full label length (~255 chars)
       },
       noResultsText: Joomla.Text._('JGLOBAL_SELECT_NO_RESULTS_MATCH', 'No results found'),
       noChoicesText: Joomla.Text._('JGLOBAL_SELECT_NO_RESULTS_MATCH', 'No results found'),
@@ -244,8 +245,10 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     // Handle remote search
     if (this.remoteSearch && this.url) {
       // Cache existing
-      this.choicesInstance.config.choices.forEach((choiceItem) => {
-        this.choicesCache[choiceItem.value] = choiceItem.label;
+      this.choicesInstance.passedElement.optionsAsChoices().forEach((choiceItem) => {
+        if (choiceItem.value !== undefined) {
+          this.choicesCache[choiceItem.value] = choiceItem.label;
+        }
       });
 
       const lookupDelay = 300;

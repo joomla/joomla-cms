@@ -30,7 +30,7 @@ $direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
             <?php echo '<span class="icon-chevron-' . $direction . '" aria-hidden="true"></span>'; ?>
             <?php echo $readmore; ?>
             <?php if ($params->get('show_readmore_title', 0) != 0) : ?>
-                <?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
+                <?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit'), false); ?>
             <?php endif; ?>
         </a>
     <?php elseif ($params->get('show_readmore_title', 0) == 0) : ?>
@@ -41,7 +41,7 @@ $direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
     <?php else : ?>
         <a class="btn btn-secondary" href="<?php echo $displayData['link']; ?>" aria-label="<?php echo Text::sprintf('JGLOBAL_READ_MORE_TITLE', $this->escape($item->title)); ?>">
             <?php echo '<span class="icon-chevron-' . $direction . '" aria-hidden="true"></span>'; ?>
-            <?php echo Text::sprintf('JGLOBAL_READ_MORE_TITLE', HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit'))); ?>
+            <?php echo Text::sprintf('JGLOBAL_READ_MORE_TITLE', HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit'), false)); ?>
         </a>
     <?php endif; ?>
 </p>
