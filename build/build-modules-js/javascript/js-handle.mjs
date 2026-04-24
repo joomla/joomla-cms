@@ -139,6 +139,7 @@ export const handleMJSFile = async (srcPath, targetPath, externalModulesList = [
       format: targetPath.endsWith('core.js') ? 'iife' : 'es',
       sourcemap: false,
       file: targetPath,
+      inlineDynamicImports: true,
     });
 
     // Minify the code and store
