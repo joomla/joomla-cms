@@ -57,7 +57,7 @@ extract($displayData);
 $showBrowse = !$readonly && !$disabled && !empty($modalUrl);
 
 $attributes = [
-    'class="' . $class . '"',
+    'class="' . ($showBrowse ? trim('flex-grow-1 ' . $class) : $class) . '"',
     ' allow-custom',
     ' search-placeholder="' . $this->escape(Text::_('COM_MODULES_TYPE_OR_SELECT_POSITION')) . '" ',
 ];
@@ -94,7 +94,7 @@ if ($showBrowse) {
     modal-title="<?php echo $this->escape(Text::_('COM_MODULES_SELECT_A_POSITION')); ?>"
     <?php endif; ?>>
     <div class="<?php echo $showBrowse ? 'd-flex flex-nowrap gap-1' : ''; ?>">
-        <joomla-field-fancy-select <?php echo $showBrowse ? 'class="flex-grow-1"' : ''; ?> <?php echo implode(' ', $attributes); ?>><?php
+        <joomla-field-fancy-select <?php echo implode(' ', $attributes); ?>><?php
             echo HTMLHelper::_('select.groupedlist', $positions, $name, [
                     'id'          => $id,
                     'list.select' => $value,
