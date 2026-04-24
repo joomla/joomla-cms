@@ -59,7 +59,9 @@ $wa->useScript('com_modules.admin-modules-positions-modal');
                 </summary>
                 <div class="list-group list-group-flush">
                     <?php foreach ($group['items'] as $option) : ?>
-                        <?php if (empty($option->value)) : continue; endif; ?>
+                        <?php if (empty($option->value)) :
+                            continue;
+                        endif; ?>
                         <button
                             type="button"
                             class="position-select-link list-group-item list-group-item-action"
