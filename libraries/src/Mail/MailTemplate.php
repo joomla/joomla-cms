@@ -36,7 +36,7 @@ class MailTemplate
     /**
      * Mailer object to send the actual mail.
      *
-     * @var    \Joomla\CMS\Mail\Mail
+     * @var    MailerInterface
      * @since  4.0.0
      */
     protected $mailer;
@@ -117,7 +117,7 @@ class MailTemplate
      *
      * @since   4.0.0
      */
-    public function __construct($templateId, $language, ?Mail $mailer = null)
+    public function __construct($templateId, $language, ?MailerInterface $mailer = null)
     {
         $this->template_id = $templateId;
         $this->language    = $language;
@@ -125,6 +125,7 @@ class MailTemplate
         if ($mailer) {
             $this->mailer = $mailer;
         } else {
+            @trigger_error('Mailer must be set, this will not be caught anymore in 8.0.', E_USER_DEPRECATED);
             $this->mailer = Factory::getMailer();
         }
     }
@@ -274,7 +275,7 @@ class MailTemplate
         $replyToName = $app->get('replytoname', '');
 
         if ((int) $config->get('alternative_mailconfig', 0) === 1 && (int) $params->get('alternative_mailconfig', 0) === 1) {
-            if ($this->mailer->Mailer === 'smtp' || $params->get('mailer') === 'smtp') {
+            if ($this->mailer instanceof Mail && ($this->mailer->Mailer === 'smtp' || $params->get('mailer') === 'smtp')) {
                 $smtpauth   = ($params->get('smtpauth', $app->get('smtpauth')) == 0) ? null : 1;
                 $smtpuser   = $params->get('smtpuser', $app->get('smtpuser'));
                 $smtppass   = $params->get('smtppass', $app->get('smtppass'));
@@ -284,7 +285,7 @@ class MailTemplate
                 $this->mailer->useSmtp($smtpauth, $smtphost, $smtpuser, $smtppass, $smtpsecure, $smtpport);
             }
 
-            if ($params->get('mailer') === 'sendmail') {
+            if ($params->get('mailer') === 'sendmail' && $this->mailer instanceof Mail) {
                 $this->mailer->isSendmail();
             }
 
@@ -292,7 +293,7 @@ class MailTemplate
             $fromname = $params->get('fromname', $app->get('fromname'));
 
             if (MailHelper::isEmailAddress($mailfrom)) {
-                $this->mailer->setFrom(MailHelper::cleanLine($mailfrom), MailHelper::cleanLine($fromname), false);
+                $this->mailer->setSender(MailHelper::cleanLine($mailfrom), MailHelper::cleanLine($fromname), false);
             }
 
             $replyTo     = $params->get('replyto', $replyTo);
@@ -335,7 +336,9 @@ class MailTemplate
         }
 
         if ($mailStyle === 'html' || $mailStyle === 'both') {
-            $this->mailer->isHtml(true);
+            if ($this->mailer instanceof Mail) {
+                $this->mailer->setHtml(true);
+            }
 
             // If HTML body is empty try to convert the Plain template to html
             if (!$htmlBody) {
@@ -413,7 +416,7 @@ class MailTemplate
                     break;
                 case 'to':
                 default:
-                    $this->mailer->addAddress($recipient->mail, $recipient->name);
+                    $this->mailer->addRecipient($recipient->mail, $recipient->name);
             }
         }
 
@@ -440,7 +443,7 @@ class MailTemplate
         foreach ($this->attachments as $attachment) {
             if (is_file($attachment->file)) {
                 $this->mailer->addAttachment($attachment->file, $this->getAttachmentName($attachment->file, $attachment->name));
-            } else {
+            } elseif ($this->mailer instanceof Mail) {
                 $this->mailer->addStringAttachment($attachment->file, $attachment->name);
             }
         }
