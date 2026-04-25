@@ -393,10 +393,11 @@ final class ApiApplication extends CMSApplication
         }
 
         // Load the document to the API
-        $this->loadDocument();
+        $document = $this->createDocument();
+        $this->loadDocument($document);
 
-        // Set up the params
-        $document = Factory::getDocument();
+        // Register the document object with Factory
+        Factory::$document = $document;
 
         // Trigger the onAfterInitialiseDocument event.
         PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
