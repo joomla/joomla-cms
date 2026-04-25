@@ -391,6 +391,6 @@ jobs:
     - name: Checkout Actions Repository
       uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
     - name: Spell Check Repository
-      uses: crate-ci/typos@v1.34.0
+      uses: crate-ci/typos@392b78fe18a52790c53f42456e46124f77346842 # v1.34.0
       with:
         config: .github/workflows/typos.toml
