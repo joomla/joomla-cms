@@ -11,6 +11,7 @@ namespace Joomla\CMS\Extension\Service\Provider;
 
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Form\FormFactoryInterface;
+use Joomla\CMS\Http\HttpFactoryInterface;
 use Joomla\CMS\Mail\MailerFactoryInterface;
 use Joomla\CMS\MVC\Factory\ApiMVCFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -80,6 +81,7 @@ class MVCFactory implements ServiceProviderInterface
                 $factory->setCacheControllerFactory($container->get(CacheControllerFactoryInterface::class));
                 $factory->setUserFactory($container->get(UserFactoryInterface::class));
                 $factory->setMailerFactory($container->get(MailerFactoryInterface::class));
+                $factory->setHttpFactory($container->get(HttpFactoryInterface::class));
 
                 return $factory;
             }

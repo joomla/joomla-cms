@@ -10,12 +10,11 @@
 namespace Joomla\Component\Installer\Administrator\Model;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Http\HttpFactoryAwareInterface;
+use Joomla\CMS\Http\HttpFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Version;
-use Joomla\Http\HttpFactory;
-use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -27,8 +26,10 @@ use Joomla\String\StringHelper;
  *
  * @since  2.5.7
  */
-class LanguagesModel extends ListModel
+class LanguagesModel extends ListModel implements HttpFactoryAwareInterface
 {
+    use HttpFactoryAwareTrait;
+
     /**
      * Language count
      *
@@ -136,11 +137,8 @@ class LanguagesModel extends ListModel
             return [];
         }
 
-        $options = new Registry();
-        $options->set('userAgent', (new Version())->getUserAgent('Joomla', true, false));
-
         try {
-            $response = (new HttpFactory())->getHttp($options)->get($updateSite);
+            $response = $this->getHttpFactory()->createHttp()->get($updateSite);
         } catch (\RuntimeException) {
             $response = null;
         }
