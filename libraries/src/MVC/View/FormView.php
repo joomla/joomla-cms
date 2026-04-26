@@ -21,6 +21,7 @@ use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Versioning\VersionableModelInterface;
+use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -370,7 +371,7 @@ class FormView extends HtmlView
         if (PluginHelper::isEnabled('behaviour', 'versionable')) {
             $table = $model->getTable();
 
-            if ($table instanceof VersionableModelInterface) {
+            if ($table instanceof VersionableTableInterface) {
                 return true;
             }
         }
