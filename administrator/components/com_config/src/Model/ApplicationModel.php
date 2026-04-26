@@ -130,7 +130,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         if (empty($data['oauth2_tenant_mode'])) {
-            $tenantId = (string) ($data['oauth2_tenant_id'] ?? '');
+           $tenantId                   = (string) ($data['oauth2_tenant_id'] ?? '');
             $data['oauth2_tenant_mode'] = strtolower($tenantId) !== 'common' && $tenantId !== '' ? 'tenant' : 'common';
         }
 
