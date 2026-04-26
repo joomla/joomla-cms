@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Http;
 
 use Joomla\Http\Http;
-use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
