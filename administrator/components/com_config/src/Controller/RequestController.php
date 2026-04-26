@@ -171,7 +171,7 @@ class RequestController extends BaseController
                 throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'));
             }
 
-            $model    = new ApplicationModel();
+            $model                              = new ApplicationModel();
             $saveData                           = ArrayHelper::fromObject(new \JConfig());
             $saveData['oauth2_refresh_token'] = $refreshToken;
             $saveData['oauth2_token_issued_at'] = gmdate('Y-m-d H:i:s') . ' UTC';
