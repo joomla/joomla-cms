@@ -20,6 +20,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -295,7 +296,9 @@ class FormView extends HtmlView
 
             $toolbar->cancel($viewName . '.cancel', 'JTOOLBAR_CLOSE');
 
-            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->get('params')->get('save_history', 0) && $itemEditable) {
+            if ($this->supportVersionHistory()
+                && $this->state->get('params')->get('save_history', 0)
+                && $itemEditable) {
                 $toolbar->versions(
                     $this->option . '.' . $viewName,
                     $this->item->{$this->keyName}
@@ -340,5 +343,38 @@ class FormView extends HtmlView
         if ($this->helpLink) {
             $toolbar->help($this->helpLink);
         }
+    }
+
+    /**
+     * Method to check if version history is supported for this view.
+     *
+     *
+     * @return  boolean  True if version history is supported, false otherwise.
+     *
+     * @since   __DEPPLOY_VERSION__
+     */
+    protected function supportVersionHistory(): bool
+    {
+        if (!ComponentHelper::isEnabled('com_contenthistory')) {
+            return false;
+        }
+
+        $model = $this->getModel();
+
+        // Check if the view support version history uses modern implementation
+        if ($model instanceof VersionableModelInterface) {
+            return true;
+        }
+
+        // Check if view support version history uses legacy implementation
+        if (PluginHelper::isEnabled('behaviour', 'versionable')) {
+            $table = $model->getTable();
+
+            if ($table instanceof VersionableModelInterface) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
