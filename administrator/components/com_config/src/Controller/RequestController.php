@@ -273,7 +273,7 @@ class RequestController extends BaseController
         $params = $this->app->getConfig();
 
         $provider     = (string) ($params->get('oauth2_provider') ?: 'microsoft');
-        $clientId = (string) $params->get('oauth2_client_id');
+        $clientId     = (string) $params->get('oauth2_client_id');
         $clientSecret = (string) $params->get('oauth2_client_secret');
         $refreshToken = (string) $params->get('oauth2_refresh_token');
         $tenantMode = (string) $params->get('oauth2_tenant_mode', '');
