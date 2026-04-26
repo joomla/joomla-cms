@@ -55,6 +55,13 @@
 						label="PLG_SCHEMAORG_LOCALBUSINESS_FIELD_EMAIL_LABEL"
 						validate="email"
 					/>
+					
+					<field
+						name="telephone"
+						type="text"
+						label="PLG_SCHEMAORG_LOCALBUSINESS_FIELD_TELEPHONE_LABEL"
+						filter="string"
+					/>
 
 					<field
 						name="address"
