@@ -1263,7 +1263,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         if ($mailSent === true) {
-            $methodName = Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer));
+            $methodName       = Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer));
             $configuredMailer = (string) $app->get('mailer');
 
             if (\in_array($configuredMailer, ['smtpoauth2'], true)) {
