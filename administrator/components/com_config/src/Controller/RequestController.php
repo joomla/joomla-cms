@@ -277,7 +277,7 @@ class RequestController extends BaseController
         $clientSecret = (string) $params->get('oauth2_client_secret');
         $refreshToken = (string) $params->get('oauth2_refresh_token');
         $tenantMode   = (string) $params->get('oauth2_tenant_mode', '');
-        $tenantId   = (string) $params->get('oauth2_tenant_id', 'common');
+        $tenantId     = (string) $params->get('oauth2_tenant_id', 'common');
 
         if ($tenantMode === '') {
             $tenantMode = strtolower($tenantId) !== 'common' ? 'tenant' : 'common';
