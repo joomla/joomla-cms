@@ -49,7 +49,7 @@ final class Media extends FieldsPlugin implements SubscriberInterface
      * @param   PrepareDataEvent $event  The event instance.
      *
      * @return  void
-     * @since  __DEPLOY_VERSION__
+     * @since  6.1.0
      */
     public function prepareContentData(PrepareDataEvent $event)
     {
