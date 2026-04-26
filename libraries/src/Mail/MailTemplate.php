@@ -337,7 +337,7 @@ class MailTemplate
 
         if ($mailStyle === 'html' || $mailStyle === 'both') {
             if ($this->mailer instanceof Mail) {
-                $this->mailer->setHtml(true);
+                $this->mailer->isHtml(true);
             }
 
             // If HTML body is empty try to convert the Plain template to html
