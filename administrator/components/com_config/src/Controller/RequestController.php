@@ -109,7 +109,7 @@ class RequestController extends BaseController
             return;
         }
 
-        $refreshToken = '';
+        $refreshToken   = '';
         $providerConfig = $this->resolveProviderConfig();
 
         if (empty($providerConfig['token_url']) || empty($providerConfig['client_id']) || empty($providerConfig['client_secret'])) {
