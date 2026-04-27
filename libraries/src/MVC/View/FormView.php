@@ -297,11 +297,7 @@ class FormView extends HtmlView
 
             $toolbar->cancel($viewName . '.cancel', 'JTOOLBAR_CLOSE');
 
-            if (
-                $this->supportVersionHistory()
-                && $this->state->get('params')->get('save_history', 0)
-                && $itemEditable
-            ) {
+            if ($this->isVersionHistoryAvailable() && $itemEditable) {
                 $toolbar->versions(
                     $this->option . '.' . $viewName,
                     $this->item->{$this->keyName}
@@ -349,16 +345,20 @@ class FormView extends HtmlView
     }
 
     /**
-     * Method to check if version history is supported for this view.
+     * Method to check if version history is available for this view.
      *
      *
-     * @return  boolean  True if version history is supported, false otherwise.
+     * @return  boolean  True if version history is available, false otherwise.
      *
      * @since   __DEPPLOY_VERSION__
      */
-    protected function supportVersionHistory(): bool
+    protected function isVersionHistoryAvailable(): bool
     {
         if (!ComponentHelper::isEnabled('com_contenthistory')) {
+            return false;
+        }
+
+        if (!$this->state->get('params')->get('save_history', 0)) {
             return false;
         }
 
