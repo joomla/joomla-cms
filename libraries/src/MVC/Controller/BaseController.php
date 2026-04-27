@@ -545,7 +545,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
                         $context,
                         $id,
                         (int) $result,
-                        str_replace("\n", ' ', print_r($values, 1))
+                        json_encode($values, JSON_UNESCAPED_SLASHES)
                     ),
                     ['category' => 'controller']
                 );
@@ -918,7 +918,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
                         'Holding edit ID %s.%s %s',
                         $context,
                         $id,
-                        str_replace("\n", ' ', print_r($values, 1))
+                        json_encode($values, JSON_UNESCAPED_SLASHES)
                     ),
                     ['category' => 'controller']
                 );
@@ -1048,7 +1048,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
                         'Releasing edit ID %s.%s %s',
                         $context,
                         $id,
-                        str_replace("\n", ' ', print_r($values, 1))
+                        json_encode($values, JSON_UNESCAPED_SLASHES)
                     ),
                     ['category' => 'controller']
                 );
