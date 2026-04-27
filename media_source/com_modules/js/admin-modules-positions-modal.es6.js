@@ -29,34 +29,30 @@
         const matches = !query || id.includes(query) || text.includes(query);
 
         if (matches) {
-          link.classList.remove('d-none');
+          link.hidden = false;
           anyVisible = true;
         } else {
-          link.classList.add('d-none');
+          link.hidden = true;
         }
       });
 
       // Hide groups where all items are hidden
       document.querySelectorAll('.positions-group').forEach((group) => {
-        const visibleItems = group.querySelectorAll('.position-select-link:not(.d-none)');
+        const visibleItems = group.querySelectorAll('.position-select-link:not([hidden])');
 
         if (visibleItems.length === 0) {
-          group.classList.add('d-none');
+          group.hidden = true;
         } else {
-          group.classList.remove('d-none');
+          group.hidden = false;
           if (query) {
             group.open = true; // auto-expand groups with results when searching
           }
         }
       });
 
-      // Show/hide no-results message
+      // Show/hide no-results message - aria-live="polite" on the element announces it when shown
       if (noResults) {
-        if (anyVisible) {
-          noResults.setAttribute('hidden', '');
-        } else {
-          noResults.removeAttribute('hidden');
-        }
+        noResults.hidden = anyVisible;
       }
     });
   });

@@ -33,18 +33,20 @@ $wa->useScript('com_modules.admin-modules-positions-modal');
                 class="form-control"
                 placeholder="<?php echo $this->escape(Text::_('JSEARCH_FILTER')); ?>"
                 autocomplete="off"
+                aria-controls="comModulesPositionsList"
             >
             <div class="input-group-text">
                 <span class="icon-search" aria-hidden="true"></span>
             </div>
         </div>
 
-        <div id="comModulesPositionsNoResults" class="alert alert-info" aria-live="polite" hidden>
+        <div id="comModulesPositionsNoResults" class="alert alert-info" hidden aria-live="polite">
             <span class="icon-info-circle" aria-hidden="true"></span>
             <span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-            <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+            <?php echo $this->escape(Text::_('JGLOBAL_NO_MATCHING_RESULTS')); ?>
         </div>
 
+        <div id="comModulesPositionsList">
         <?php foreach ($this->positions as $key => $group) : ?>
             <?php if (empty($group['items'])) : ?>
                 <?php continue; ?>
@@ -54,7 +56,7 @@ $wa->useScript('com_modules.admin-modules-positions-modal');
                 <?php continue; ?>
             <?php endif; ?>
             <details open class="positions-group mb-0" data-group="<?php echo $this->escape($key); ?>">
-                <summary class="fs-2">
+                <summary role="heading" aria-level="3" class="fs-3 mb-0">
                     <?php echo $this->escape($group['text']); ?>
                 </summary>
                 <div class="list-group list-group-flush">
@@ -68,6 +70,7 @@ $wa->useScript('com_modules.admin-modules-positions-modal');
                             data-content-select
                             data-id="<?php echo $this->escape($option->value); ?>"
                             data-title="<?php echo $this->escape($option->text); ?>"
+                            aria-label="<?php echo $this->escape(Text::_('JSELECT') . ': ' . $option->text); ?>"
                         >
                             <?php echo $this->escape($option->text); ?>
                         </button>
@@ -75,5 +78,6 @@ $wa->useScript('com_modules.admin-modules-positions-modal');
                 </div>
             </details>
         <?php endforeach; ?>
+        </div>
     </div>
 </div>
