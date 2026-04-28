@@ -14,8 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:php8.4
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/cache@v5
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         id: cache-php
         with:
           path: libraries/vendor
@@ -34,18 +34,18 @@ jobs:
     container: joomlaprojects/docker-images:php8.4
     needs: [composer]
     steps:
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: latest
-      - uses: actions/checkout@v6
-      - uses: actions/cache@v5
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         id: cache-assets
         with:
           path: |
             node_modules
             media
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
-      - uses: actions/cache/restore@v5
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
@@ -62,8 +62,8 @@ jobs:
       matrix:
         command: ['php-cs-fixer fix -vvv --dry-run --diff', 'phpcs --extensions=php -p --standard=ruleset.xml .']
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/cache/restore@v5
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
@@ -81,11 +81,11 @@ jobs:
       matrix:
         check: ['lint:js', 'lint:testjs', 'lint:css']
     steps:
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: latest
-      - uses: actions/checkout@v6
-      - uses: actions/cache/restore@v5
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: |
             node_modules
@@ -100,8 +100,8 @@ jobs:
     container: joomlaprojects/docker-images:php8.4
     needs: [code-style-php]
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/cache/restore@v5
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
@@ -118,8 +118,8 @@ jobs:
       matrix:
         php_version: ['8.1', '8.2', '8.3', '8.4', '8.5']
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/cache/restore@v5
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -160,12 +160,12 @@ jobs:
             host: 'postgres'
             user: 'root'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Start LDAP container
         uses: docker://docker
         with:
           args: docker run -d --name openldap --network ${{ job.container.network }} --network-alias openldap -e "LDAP_ADMIN_USERNAME=admin" -e "LDAP_ADMIN_PASSWORD=adminpassword" -e "LDAP_USERS=customuser" -e "LDAP_PASSWORDS=custompassword" -e "LDAP_ENABLE_TLS=yes" -e "LDAP_TLS_CERT_FILE=/certs/openldap.crt" -e "LDAP_TLS_KEY_FILE=/certs/openldap.key" -e "LDAP_TLS_CA_FILE=/certs/CA.crt" -e "BITNAMI_DEBUG=true" -e "LDAP_CONFIG_ADMIN_ENABLED=yes" -e "LDAP_CONFIG_ADMIN_USERNAME=admin" -e "LDAP_CONFIG_ADMIN_PASSWORD=configpassword" -v "${{ github.workspace }}/tests/certs/openldap.crt":"/certs/openldap.crt" -v "${{ github.workspace }}/tests/certs/openldap.key":"/certs/openldap.key" -v "${{ github.workspace }}/tests/certs/CA.crt":"/certs/CA.crt" ghcr.io/joomla-projects/mirror-bitnami-openldap:latest
-      - uses: actions/cache/restore@v5
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -213,14 +213,14 @@ jobs:
       matrix:
         php_version: ['8.1', '8.2', '8.3', '8.4', '8.5']
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/cache/restore@v5
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         id: cache-php-windows
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f # v2
         with:
           php-version: ${{ matrix.php_version }}
           extensions: openssl, mbstring, fileinfo, gd, gmp, pgsql, mysql, mysqli, curl, opcache, ldap
@@ -239,19 +239,19 @@ jobs:
       matrix:
         php_version: ['8.1', '8.2', '8.3', '8.4', '8.5']
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/cache/restore@v5
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-      - uses: shogo82148/actions-setup-mysql@v1
+      - uses: shogo82148/actions-setup-mysql@9c42ca180d5f1dd4dceb54c23c5eda0384f4d265 # v1.50.0
         with:
           mysql-version: "mariadb-10.4"
           root-password: "joomla_ut"
           user: "joomla_ut"
           password: "joomla_ut"
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f # v2
         with:
           php-version: ${{ matrix.php_version }}
           extensions: openssl, mbstring, fileinfo, gd, gmp, pgsql, mysql, mysqli, curl, opcache, ldap
@@ -274,14 +274,14 @@ jobs:
     env:
       CYPRESS_VERIFY_TIMEOUT: 100000
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/cache/restore@v5
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: |
             node_modules
             media
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
-      - uses: actions/cache@v5
+      - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         id: cache-cypress
         with:
           path: |
@@ -336,18 +336,18 @@ jobs:
     env:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/cache/restore@v5
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
-      - uses: actions/cache/restore@v5
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: |
             node_modules
             media
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
-      - uses: actions/cache/restore@v5
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: |
             /root/.cache/Cypress
@@ -356,7 +356,7 @@ jobs:
       - name: Run System tests
         run: bash tests/System/entrypoint.sh "$(pwd)" ${{ matrix.config.test_group }} ${{ matrix.config.db_engine }} ${{ matrix.config.db_host }} ${{ matrix.browser }}
       - name: Archive test results results
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: always()
         with:
           name: system-test-output
@@ -389,8 +389,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Actions Repository
-      uses: actions/checkout@v6
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
     - name: Spell Check Repository
-      uses: crate-ci/typos@v1.34.0
+      uses: crate-ci/typos@392b78fe18a52790c53f42456e46124f77346842 # v1.34.0
       with:
         config: .github/workflows/typos.toml
