@@ -187,8 +187,30 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
     private function balanceIntroHtml(string $html): string
     {
         // Only handle common block tags (safe + lightweight)
-        $tags = ['div', 'section', 'article'];
-
+        $tags = [
+            'div',
+            'section',
+            'article',
+            'aside',
+            'nav',
+            'header',
+            'footer',
+            'main',
+            'figure',
+            'figcaption',
+            'ul',
+            'ol',
+            'li',
+            'table',
+            'thead',
+            'tbody',
+            'tr',
+            'td',
+            'th',
+            'p',
+            'blockquote',
+            'pre'
+        ];
         foreach ($tags as $tag) {
             $open = preg_match_all("#<$tag\b[^>]*>#i", $html);
             $close = preg_match_all("#</$tag>#i", $html);
