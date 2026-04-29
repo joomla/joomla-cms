@@ -111,7 +111,7 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
             $catId = (int) $this->catid;
 
             // Build the query to get the asset id for the parent category.
-            $db = $this->getDatabase();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->select($db->quoteName('asset_id'))
                 ->from($db->quoteName('#__categories'))
@@ -151,25 +151,25 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
         // Search for the {readmore} tag and split the text up accordingly.
         if (isset($array['articletext'])) {
             $pattern = '#<hr\s+id=("|\')system-readmore("|\')\s*\/*>#i';
-            $tagPos = preg_match($pattern, $array['articletext']);
+            $tagPos  = preg_match($pattern, $array['articletext']);
 
             if ($tagPos == 0) {
                 $this->introtext = $array['articletext'];
-                $this->fulltext = '';
+                $this->fulltext  = '';
             } else {
                 [$this->introtext, $this->fulltext] = preg_split($pattern, $array['articletext'], 2);
-                $this->introtext = $this->balanceIntroHtml($this->introtext);
-                $this->fulltext = $this->balanceIntroHtml($this->fulltext);
+                $this->introtext                    = $this->balanceIntroHtml($this->introtext);
+                $this->fulltext                     = $this->balanceIntroHtml($this->fulltext);
             }
         }
 
         if (isset($array['attribs']) && \is_array($array['attribs'])) {
-            $registry = new Registry($array['attribs']);
+            $registry         = new Registry($array['attribs']);
             $array['attribs'] = (string) $registry;
         }
 
         if (isset($array['metadata']) && \is_array($array['metadata'])) {
-            $registry = new Registry($array['metadata']);
+            $registry          = new Registry($array['metadata']);
             $array['metadata'] = (string) $registry;
         }
 
@@ -209,10 +209,10 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
             'th',
             'p',
             'blockquote',
-            'pre'
+            'pre',
         ];
         foreach ($tags as $tag) {
-            $open = preg_match_all("#<$tag\b[^>]*>#i", $html);
+            $open  = preg_match_all("#<$tag\b[^>]*>#i", $html);
             $close = preg_match_all("#</$tag>#i", $html);
 
             if ($open > $close) {
@@ -309,8 +309,8 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
         // Check the publish down date is not earlier than publish up.
         if (!\is_null($this->publish_up) && !\is_null($this->publish_down) && $this->publish_down < $this->publish_up) {
             // Swap the dates.
-            $temp = $this->publish_up;
-            $this->publish_up = $this->publish_down;
+            $temp               = $this->publish_up;
+            $this->publish_up   = $this->publish_down;
             $this->publish_down = $temp;
         }
 
@@ -372,7 +372,7 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
         if ($this->id) {
             // Existing item
             $this->modified_by = $user->id;
-            $this->modified = $date;
+            $this->modified    = $date;
             if (empty($this->created_by)) {
                 $this->created_by = 0;
             }
