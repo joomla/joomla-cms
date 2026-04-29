@@ -257,7 +257,7 @@ class LevelModel extends AdminModel
 
         $data['title'] = InputFilter::getInstance()->clean($data['title'], 'TRIM');
 
-        if (Factory::getApplication()->getInput()->get('task') == 'save2copy') {
+        if (Factory::getApplication()->getInput()->get('task') === 'save2copy') {
             $data['title'] = $this->generateLevelTitle($data['title']);
         }
 
@@ -271,7 +271,7 @@ class LevelModel extends AdminModel
      *
      * @return  string  Contains the modified title.
      *
-     * @since   5.4.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function generateLevelTitle($title)
     {
@@ -279,7 +279,7 @@ class LevelModel extends AdminModel
         $table = $this->getTable();
 
         while ($table->load(['title' => $title])) {
-            if ($title == $table->title) {
+            if ($title === $table->title) {
                 $title = StringHelper::increment($title);
             }
         }
