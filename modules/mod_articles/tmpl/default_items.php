@@ -106,9 +106,17 @@ if ($params->get('articles_layout') == 1) {
                             <?php echo $item->displayIntrotext; ?>
                         <?php endif; ?>
 
+                        <?php
+                        $introLimit = (int) $params->get('introtext_limit');
+                        $introtext = trim(strip_tags($item->introtext));
+
+                        //Check if introtext is longer than limit
+                        $isTruncated = $introLimit > 0 && strlen($introtext) > $introLimit;
+                        ?>
+
                         <?php echo $item->event->afterDisplayContent; ?>
 
-                        <?php if ($params->get('show_readmore') && !empty($item->fulltext)) : ?>
+                        <?php if ($params->get('show_readmore') && (!empty($item->fulltext) || $isTruncated)) : ?>
                             <?php if ($params->get('show_readmore_title', '') !== '') : ?>
                                 <?php $item->params->set('show_readmore_title', $params->get('show_readmore_title')); ?>
                                 <?php $item->params->set('readmore_limit', $params->get('readmore_limit')); ?>
