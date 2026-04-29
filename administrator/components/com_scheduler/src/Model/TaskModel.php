@@ -53,9 +53,9 @@ class TaskModel extends AdminModel
      * @since  4.1.0
      */
     protected const TASK_STATES = [
-        'enabled' => 1,
+        'enabled'  => 1,
         'disabled' => 0,
-        'trashed' => -2,
+        'trashed'  => -2,
     ];
 
     /**
@@ -122,9 +122,9 @@ class TaskModel extends AdminModel
 
         $config['events_map'] = array_merge(
             [
-                'save' => 'task',
+                'save'     => 'task',
                 'validate' => 'task',
-                'unlock' => 'task',
+                'unlock'   => 'task',
             ],
             $config['events_map']
         );
@@ -221,7 +221,7 @@ class TaskModel extends AdminModel
     {
         $app = $this->app;
 
-        $taskId = $app->getInput()->getInt('id');
+        $taskId   = $app->getInput()->getInt('id');
         $taskType = $app->getUserState('com_scheduler.add.task.task_type');
 
         // @todo: Remove this. Get the option through a helper call.
@@ -275,7 +275,7 @@ class TaskModel extends AdminModel
 
             // For a fresh object, set exec-day and exec-time
             if (!($data->id ?? 0)) {
-                $data->execution_rules['exec-day'] = gmdate('d');
+                $data->execution_rules['exec-day']  = gmdate('d');
                 $data->execution_rules['exec-time'] = gmdate('H:i');
             }
 
@@ -318,7 +318,7 @@ class TaskModel extends AdminModel
 
         // Parent call leaves `execution_rules` and `cron_rules` JSON encoded
         $item->execution_rules = json_decode($item->execution_rules ?? '');
-        $item->cron_rules = json_decode($item->cron_rules ?? '');
+        $item->cron_rules      = json_decode($item->cron_rules ?? '');
 
         $taskOption = SchedulerHelper::getTaskOptions()->findOption(
             ($item->id ?? 0) ? ($item->type ?? 0) : $this->getState('task.type')
@@ -365,8 +365,8 @@ class TaskModel extends AdminModel
             throw $e;
         }
 
-        $db = $this->getDatabase();
-        $now = Factory::getDate()->toSql();
+        $db           = $this->getDatabase();
+        $now          = Factory::getDate()->toSql();
         $affectedRows = 0;
 
         try {
@@ -414,8 +414,8 @@ class TaskModel extends AdminModel
      */
     private function hasRunningTasks($db): bool
     {
-        $now = Factory::getDate('now', 'UTC');
-        $timeout = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
+        $now       = Factory::getDate('now', 'UTC');
+        $timeout   = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
         $threshold = (clone $now)->modify("-$timeout seconds")->toSql();
 
         $lockCountQuery = $db->createQuery()
@@ -556,8 +556,8 @@ class TaskModel extends AdminModel
         }
 
         $task->execution_rules = json_decode($task->execution_rules);
-        $task->cron_rules = json_decode($task->cron_rules);
-        $task->taskOption = SchedulerHelper::getTaskOptions()->findOption($task->type);
+        $task->cron_rules      = json_decode($task->cron_rules);
+        $task->taskOption      = SchedulerHelper::getTaskOptions()->findOption($task->type);
 
         return $task;
     }
@@ -576,10 +576,10 @@ class TaskModel extends AdminModel
     {
         $resolver->setDefaults(
             [
-                'id' => 0,
-                'allowDisabled' => false,
-                'bypassScheduling' => false,
-                'allowConcurrent' => false,
+                'id'                  => 0,
+                'allowDisabled'       => false,
+                'bypassScheduling'    => false,
+                'allowConcurrent'     => false,
                 'includeCliExclusive' => true,
             ]
         )
@@ -602,7 +602,7 @@ class TaskModel extends AdminModel
      */
     public function save($data): bool
     {
-        $id = (int) ($data['id'] ?? $this->getState('task.id'));
+        $id    = (int) ($data['id'] ?? $this->getState('task.id'));
         $isNew = $id === 0;
 
         // Clean up execution rules
@@ -610,7 +610,7 @@ class TaskModel extends AdminModel
 
         // If a new entry, we'll have to put in place a pseudo-last_execution
         if ($isNew) {
-            $basisDayOfMonth = $data['execution_rules']['exec-day'];
+            $basisDayOfMonth           = $data['execution_rules']['exec-day'];
             [$basisHour, $basisMinute] = explode(':', $data['execution_rules']['exec-time']);
 
             $data['last_execution'] = Factory::getDate('now', 'UTC')->format('Y-m')
@@ -650,12 +650,12 @@ class TaskModel extends AdminModel
     {
         $executionRules = $unprocessedRules;
 
-        $ruleType = $executionRules['rule-type'];
-        $retainKeys = ['rule-type', $ruleType, 'exec-day', 'exec-time'];
+        $ruleType       = $executionRules['rule-type'];
+        $retainKeys     = ['rule-type', $ruleType, 'exec-day', 'exec-time'];
         $executionRules = array_intersect_key($executionRules, array_flip($retainKeys));
 
         // Default to current date-time in UTC/GMT as the basis
-        $executionRules['exec-day'] = $executionRules['exec-day'] ?: (string) gmdate('d');
+        $executionRules['exec-day']  = $executionRules['exec-day'] ?: (string) gmdate('d');
         $executionRules['exec-time'] = $executionRules['exec-time'] ?: (string) gmdate('H:i');
 
         // If custom ruleset, sort it
@@ -685,20 +685,20 @@ class TaskModel extends AdminModel
         // Maps interval strings, use with \sprintf($map[intType], $interval)
         $intervalStringMap = [
             'minutes' => 'PT%dM',
-            'hours' => 'PT%dH',
-            'days' => 'P%dD',
-            'months' => 'P%dM',
-            'years' => 'P%dY',
+            'hours'   => 'PT%dH',
+            'days'    => 'P%dD',
+            'months'  => 'P%dM',
+            'years'   => 'P%dY',
         ];
 
-        $ruleType = $executionRules['rule-type'];
-        $ruleClass = str_starts_with($ruleType, 'interval') ? 'interval' : $ruleType;
+        $ruleType        = $executionRules['rule-type'];
+        $ruleClass       = str_starts_with($ruleType, 'interval') ? 'interval' : $ruleType;
         $buildExpression = '';
 
         if ($ruleClass === 'interval') {
             // Rule type for intervals interval-<minute/hours/...>
-            $intervalType = explode('-', $ruleType)[1];
-            $interval = $executionRules["interval-$intervalType"];
+            $intervalType    = explode('-', $ruleType)[1];
+            $interval        = $executionRules["interval-$intervalType"];
             $buildExpression = \sprintf($intervalStringMap[$intervalType], $interval);
         }
 
@@ -728,7 +728,7 @@ class TaskModel extends AdminModel
 
         return [
             'type' => $ruleClass,
-            'exp' => $buildExpression,
+            'exp'  => $buildExpression,
         ];
     }
 
@@ -788,7 +788,7 @@ class TaskModel extends AdminModel
             [
                 'subject' => $this,
                 'context' => $context,
-                'pks' => $pks,
+                'pks'     => $pks,
             ]
         );
 
@@ -813,7 +813,7 @@ class TaskModel extends AdminModel
             [
                 'subject' => $this,
                 'context' => $context,
-                'pks' => $pks,
+                'pks'     => $pks,
             ]
         );
 
