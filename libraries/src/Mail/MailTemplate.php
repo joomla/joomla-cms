@@ -110,6 +110,14 @@ class MailTemplate
     protected $layoutTemplateData = [];
 
     /**
+     * The language factory
+     *
+     * @var    LanguageFactoryInterface
+     * @since  __DEPLOY_VERSION__
+     */
+    protected LanguageFactoryInterface $languageFactory;
+
+    /**
      * Constructor for the mail templating class
      *
      * @param   string   $templateId  Id of the mail template.
@@ -118,7 +126,7 @@ class MailTemplate
      *
      * @since   4.0.0
      */
-    public function __construct($templateId, $language, ?Mail $mailer = null)
+    public function __construct($templateId, $language, ?Mail $mailer = null, ?LanguageFactoryInterface $languageFactory = null)
     {
         $this->template_id = $templateId;
         $this->language    = $language;
@@ -127,6 +135,12 @@ class MailTemplate
             $this->mailer = $mailer;
         } else {
             $this->mailer = Factory::getMailer();
+        }
+
+        if ($languageFactory) {
+            $this->languageFactory = $languageFactory;
+        } else {
+            $this->languageFactory = Factory::getContainer()->get(LanguageFactoryInterface::class);
         }
     }
 
@@ -262,7 +276,7 @@ class MailTemplate
 
         $language = $app->getLanguage();
         if ($this->language && $this->language !== $language->getTag()) {
-            $language = Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($this->language, $app->get('debug_lang'));
+            $language = $this->languageFactory->createLanguage($this->language, $app->get('debug_lang'));
             MailsHelper::loadTranslationFiles($mail->extension, $language);
         }
 
