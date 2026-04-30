@@ -87,9 +87,9 @@ class MVCFactory implements ServiceProviderInterface
     /**
      * Return component namespace
      *
-     * @return string
+     * @return  string
      *
-     * @since __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     protected function getNamespace(): string
     {
@@ -99,9 +99,9 @@ class MVCFactory implements ServiceProviderInterface
     /**
      * Create MVC Factory
      *
-     * @return MVCFactoryInterface
+     * @return  MVCFactoryInterface
      *
-     * @since __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     protected function createMVCFactory(): MVCFactoryInterface
     {
@@ -118,9 +118,9 @@ class MVCFactory implements ServiceProviderInterface
      * @param   MVCFactoryInterface  $factory    The MVC Factory
      * @param   Container            $container  The DI container
      *
-     * @return void
+     * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     protected function injectServicesIntoFactory(MVCFactoryInterface $factory, Container $container): void
     {
