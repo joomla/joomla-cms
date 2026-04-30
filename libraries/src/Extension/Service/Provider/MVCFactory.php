@@ -88,6 +88,8 @@ class MVCFactory implements ServiceProviderInterface
      * Return component namespace
      *
      * @return string
+     *
+     * @since __DEPLOY_VERSION__
      */
     protected function getNamespace(): string
     {
@@ -99,7 +101,7 @@ class MVCFactory implements ServiceProviderInterface
      *
      * @return MVCFactoryInterface
      *
-     * @throws \Exception
+     * @since __DEPLOY_VERSION__
      */
     protected function createMVCFactory(): MVCFactoryInterface
     {
@@ -113,12 +115,14 @@ class MVCFactory implements ServiceProviderInterface
     /**
      * Inject services from container into MVC Factory
      *
-     * @param   MVCFactoryInterface  $factory
-     * @param   Container            $container
+     * @param   MVCFactoryInterface  $factory    The MVC Factory
+     * @param   Container            $container  The DI container
      *
      * @return void
+     *
+     * @since  __DEPLOY_VERSION__
      */
-    protected function injectServicesIntoFactory(MailerFactoryInterface $factory, Container $container): void
+    protected function injectServicesIntoFactory(MVCFactoryInterface $factory, Container $container): void
     {
         if ($factory instanceof FormFactoryAwareInterface) {
             $factory->setFormFactory($container->get(FormFactoryInterface::class));
