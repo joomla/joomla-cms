@@ -113,7 +113,7 @@ class Icon
             try {
                 $checkoutUser = $this->getUserFactory()->loadUserById($article->checked_out);
             } catch (\UnexpectedValueException) {
-                @trigger_error('UserFactory must be set, this will not be caught anymore in 7.0', E_USER_DEPRECATED);
+                @trigger_error('UserFactory must be set, this will not be caught anymore in 8.0', E_USER_DEPRECATED);
                 $checkoutUser = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(
                     $article->checked_out
                 );
