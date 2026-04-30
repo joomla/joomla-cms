@@ -131,12 +131,11 @@ class ContentComponent extends MVCComponent implements
     {
         $contentAdministrator = new AdministratorService();
         $contentAdministrator->setDatabase($container->get(DatabaseInterface::class));
+        $this->getRegistry()->register('contentadministrator', $contentAdministrator);
 
         $icon = new Icon();
         $icon->setUserFactory($container->get(UserFactoryInterface::class));
-
-        $this->getRegistry()->register('contentadministrator', $contentAdministrator);
-        $this->getRegistry()->register('contenticon', new Icon());
+        $this->getRegistry()->register('contenticon', $icon);
 
         // The layout joomla.content.icons does need a general icon service
         $this->getRegistry()->register('icon', $this->getRegistry()->getService('contenticon'));
