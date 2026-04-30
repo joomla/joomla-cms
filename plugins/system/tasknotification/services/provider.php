@@ -12,6 +12,7 @@
 
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Mail\MailerFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Database\DatabaseInterface;
@@ -40,6 +41,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setApplication(Factory::getApplication());
                 $plugin->setDatabase($container->get(DatabaseInterface::class));
                 $plugin->setUserFactory($container->get(UserFactoryInterface::class));
+                $plugin->setMailerFactory($container->get(MailerFactoryInterface::class));
 
                 return $plugin;
             })
