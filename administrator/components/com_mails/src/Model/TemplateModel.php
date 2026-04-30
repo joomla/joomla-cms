@@ -17,6 +17,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -228,6 +229,36 @@ class TemplateModel extends AdminModel
         }
 
         return $item;
+    }
+
+    /**
+     * Get a specific mail template, falling back to the master if no one is found in the requested language.
+     *
+     * @param   string  $key       Template identifier
+     * @param   string  $language  Language code of the template
+     *
+     * @return  \stdClass|null  An object with the data of the mail, or null if the template not found in the db.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getTemplate(string $key, string $language): ?\stdClass
+    {
+        $db    = $this->getDatabase();
+        $query = $db->createQuery();
+        $query->select('*')
+            ->from($db->quoteName('#__mail_templates'))
+            ->where($db->quoteName('template_id') . ' = :key')
+            ->whereIn($db->quoteName('language'), ['', $language], ParameterType::STRING)
+            ->order($db->quoteName('language') . ' DESC')
+            ->bind(':key', $key);
+        $db->setQuery($query);
+        $mail = $db->loadObject();
+
+        if ($mail) {
+            $mail->params = new Registry($mail->params);
+        }
+
+        return $mail;
     }
 
     /**

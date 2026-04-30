@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Mail;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Mail\BeforeRenderingMailTemplateEvent;
 use Joomla\CMS\Factory;
@@ -16,7 +17,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
-use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
@@ -109,15 +109,24 @@ class MailTemplate
     protected $layoutTemplateData = [];
 
     /**
+     * The application
+     *
+     * @var    CMSApplicationInterface
+     * @since  __DEPLOY_VERSION__
+     */
+    protected ?CMSApplicationInterface $app;
+
+    /**
      * Constructor for the mail templating class
      *
-     * @param   string   $templateId  Id of the mail template.
-     * @param   string   $language    Language of the template to use.
-     * @param   ?Mail    $mailer      Mail object to send the mail with.
+     * @param   string                    $templateId  Id of the mail template.
+     * @param   string                    $language    Language of the template to use.
+     * @param   ?Mail                     $mailer      Mail object to send the mail with.
+     * @param   ?CMSApplicationInterface  $app         Mail object to send the mail with.
      *
      * @since   4.0.0
      */
-    public function __construct($templateId, $language, ?Mail $mailer = null)
+    public function __construct($templateId, $language, ?Mail $mailer = null, ?CMSApplicationInterface $app = null)
     {
         $this->template_id = $templateId;
         $this->language    = $language;
@@ -126,6 +135,13 @@ class MailTemplate
             $this->mailer = $mailer;
         } else {
             $this->mailer = Factory::getMailer();
+        }
+
+        if ($app) {
+            $this->app = $app;
+        } else {
+            @trigger_error('Application must be set, this will not be caught anymore in 8.0.', E_USER_DEPRECATED);
+            $this->app = Factory::getApplication();
         }
     }
 
@@ -260,7 +276,7 @@ class MailTemplate
     {
         $config = ComponentHelper::getParams('com_mails');
 
-        $mail = static::getTemplate($this->template_id, $this->language);
+        $mail = $this->loadTemplate($this->template_id, $this->language);
 
         // If the Mail Template was not found in the db, we cannot send an email.
         if ($mail === null) {
@@ -269,7 +285,7 @@ class MailTemplate
 
         /** @var Registry $params */
         $params      = $mail->params;
-        $app         = Factory::getApplication();
+        $app         = $this->app;
         $replyTo     = $app->get('replyto', '');
         $replyToName = $app->get('replytoname', '');
 
@@ -514,6 +530,22 @@ class MailTemplate
     }
 
     /**
+     * Get a specific mail template for the given key and language.
+     *
+     * @param   string  $key       Template identifier
+     * @param   string  $language  Language code of the template
+     *
+     * @return  \stdClass|null  An object with the data of the mail, or null if the template not found in the db.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function loadTemplate(string $key, string $language): ?\stdClass
+    {
+        return $this->app->bootComponent('com_mails')
+            ->getMVCFactory()->createModel('Template', 'Administrator')->getTemplate($key, $language);
+    }
+
+    /**
      * Get a specific mail template
      *
      * @param   string  $key       Template identifier
@@ -522,25 +554,13 @@ class MailTemplate
      * @return  object|null  An object with the data of the mail, or null if the template not found in the db.
      *
      * @since   4.0.0
+     *
+     * @deprecated __DEPLOY_VERSION__ this will be removed without replacement in 8.0
+     *             Use $app->bootComponent('com_mails')->getMVCFactory()->createModel('Template', 'Administrator')->getTemplate(); instead
      */
     public static function getTemplate($key, $language)
     {
-        $db    = Factory::getDbo();
-        $query = $db->createQuery();
-        $query->select('*')
-            ->from($db->quoteName('#__mail_templates'))
-            ->where($db->quoteName('template_id') . ' = :key')
-            ->whereIn($db->quoteName('language'), ['', $language], ParameterType::STRING)
-            ->order($db->quoteName('language') . ' DESC')
-            ->bind(':key', $key);
-        $db->setQuery($query);
-        $mail = $db->loadObject();
-
-        if ($mail) {
-            $mail->params = new Registry($mail->params);
-        }
-
-        return $mail;
+        return (new self($key, $language))->loadTemplate($key, $language);
     }
 
     /**
@@ -555,6 +575,9 @@ class MailTemplate
      * @return  boolean  True on success, false on failure
      *
      * @since   4.0.0
+     *
+     * @deprecated __DEPLOY_VERSION__ this will be removed without replacement in 8.0
+     *             Use $app->bootComponent('com_mails')->getMVCFactory()->createModel('Template', 'Administrator')->save(); instead
      */
     public static function createTemplate($key, $subject, $body, $tags, $htmlbody = '')
     {
@@ -587,6 +610,9 @@ class MailTemplate
      * @return  boolean  True on success, false on failure
      *
      * @since   4.0.0
+     *
+     * @deprecated __DEPLOY_VERSION__ this will be removed without replacement in 8.0
+     *             Use $app->bootComponent('com_mails')->getMVCFactory()->createModel('Template', 'Administrator')->save(); instead
      */
     public static function updateTemplate($key, $subject, $body, $tags, $htmlbody = '')
     {
@@ -613,6 +639,9 @@ class MailTemplate
      * @return  boolean  True on success, false on failure
      *
      * @since   4.0.0
+     *
+     * @deprecated __DEPLOY_VERSION__ this will be removed without replacement in 8.0
+     *             Use $app->bootComponent('com_mails')->getMVCFactory()->createModel('Template', 'Administrator')->delete(); instead
      */
     public static function deleteTemplate($key)
     {

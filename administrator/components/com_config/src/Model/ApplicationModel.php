@@ -1210,7 +1210,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $mail = $this->getMailerFactory()->createMailer($config);
 
         // Prepare email and try to send it
-        $mailer = new MailTemplate('com_config.test_mail', $user->getParam('language', $app->get('language')), $mail);
+        $mailer = new MailTemplate('com_config.test_mail', $user->getParam('language', $app->get('language')), $mail, $app);
         $mailer->addTemplateData(
             [
                 // Replace the occurrences of "@" and "|" in the site name
@@ -1219,7 +1219,6 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             ]
         );
         $mailer->addRecipient($user->email, $user->name);
-
 
         try {
             $mailSent = $mailer->send();
