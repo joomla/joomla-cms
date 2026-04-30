@@ -174,7 +174,7 @@ class SearchModel extends ListModel
             ->where('l.published = 1');
 
         // Get the current date, minus seconds.
-        $nowDate = $db->quote(substr_replace(Factory::getDate()->toSql(), '00', -2));
+        $nowDate = $db->quote(Factory::getDate()->toSql());
 
         // Add the publish up and publish down filters.
         $query->where('(l.publish_start_date IS NULL OR l.publish_start_date <= ' . $nowDate . ')')
