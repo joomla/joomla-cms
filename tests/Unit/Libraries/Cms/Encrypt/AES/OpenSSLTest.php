@@ -18,7 +18,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Encrypt
- * @since       6.0.0
+ * @since       __DEPLOY_VERSION__
  */
 class OpenSSLTest extends UnitTestCase
 {
