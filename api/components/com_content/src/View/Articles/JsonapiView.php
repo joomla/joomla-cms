@@ -263,7 +263,7 @@ class JsonapiView extends BaseApiView
      *
      * @return  array|null
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function getSchemaOrg($item)
     {

@@ -32,13 +32,13 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Debug::class, function (Container $container) {
                 return new Debug(
                     (array) PluginHelper::getPlugin('system', 'debug'),
                     Factory::getApplication(),
                     $container->get(DatabaseInterface::class)
                 );
-            }
+            })
         );
     }
 };

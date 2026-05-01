@@ -16,7 +16,7 @@ use Joomla\Tests\Unit\UnitTestCase;
 /**
  * Test class for ColorRule.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.4.3
  */
 class ColorRuleTest extends UnitTestCase
 {
@@ -25,7 +25,7 @@ class ColorRuleTest extends UnitTestCase
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.3
      */
     public function dataTest(): array
     {
@@ -62,7 +62,7 @@ class ColorRuleTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.3
      * @dataProvider dataTest
      */
     public function testRule(bool $expected, \SimpleXMLElement $element, string $value): void

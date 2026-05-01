@@ -340,7 +340,10 @@ trait WorkflowBehaviorTrait
         $field->addAttribute('type', $this->workflowEnabled ? 'transition' : 'hidden');
         $field->addAttribute('label', 'COM_CONTENT_WORKFLOW_STAGE');
         $field->addAttribute('extension', $extension);
-        $field->addAttribute('layout', 'joomla.form.field.groupedlist-transition');
+
+        if ($this->workflowEnabled) {
+            $field->addAttribute('layout', 'joomla.form.field.groupedlist-transition');
+        }
 
         $form->setField($field);
 

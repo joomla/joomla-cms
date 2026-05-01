@@ -58,7 +58,7 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
      * The context used for the associations table
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  6.1.0
      */
     protected $associationsContext = 'com_modules.item';
 

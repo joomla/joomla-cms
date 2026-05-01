@@ -114,7 +114,7 @@ if ($this->type == 'font') {
                         <?php echo HTMLHelper::_('form.token'); ?>
                         <p><?php echo Text::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
                         <p>
-                            <a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Template_Overrides" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
+                            <a href="https://guide.joomla.org/user-manual/templates/templates-template-overrides" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
                                 <?php echo Text::_('COM_TEMPLATES_HOME_BUTTON'); ?>
                             </a>
                         </p>

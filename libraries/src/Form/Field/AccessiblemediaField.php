@@ -74,7 +74,7 @@ class AccessiblemediaField extends SubformField
      * Media types like 'images, audios, documents, videos'
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  6.1.0
      */
     protected $types;
 
@@ -279,7 +279,7 @@ XML;
      *
      * @return  string  The field input markup.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     protected function getInput()
     {

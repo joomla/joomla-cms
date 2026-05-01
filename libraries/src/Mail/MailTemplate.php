@@ -79,7 +79,7 @@ class MailTemplate
 
     /**
      *
-     * @var    string[]
+     * @var    \stdClass[]
      * @since  4.0.0
      */
     protected $attachments = [];
@@ -225,7 +225,7 @@ class MailTemplate
      *
      * @return array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     public function getTemplateData($plain = false): array
     {
@@ -389,7 +389,7 @@ class MailTemplate
                     ]);
                 }
 
-                $htmlBody = $layoutFile->render(['mail' => $htmlBody, 'extra' => $this->layoutTemplateData], null);
+                $htmlBody = $layoutFile->render(['mail' => $htmlBody, 'extra' => $this->layoutTemplateData]);
 
                 $htmlBody = $this->replaceTags(Text::_($htmlBody), $this->data);
             }
