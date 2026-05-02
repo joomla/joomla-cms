@@ -350,7 +350,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_schemaorg_book', 'plugin', 'book', 'schemaorg', 0, 1, 1, 0, 1, '', '{}', '', 3, 0),
 (0, 'plg_schemaorg_event', 'plugin', 'event', 'schemaorg', 0, 1, 1, 0, 1, '', '{}', '', 4, 0),
 (0, 'plg_schemaorg_jobposting', 'plugin', 'jobposting', 'schemaorg', 0, 1, 1, 0, 1, '', '{}', '', 5, 0),
-
+(0, 'plg_schemaorg_localbusiness', 'plugin', 'localbusiness', 'schemaorg', 0, 1, 1, 0, 1, '', '{}', '', 6, 0),
 (0, 'plg_schemaorg_organization', 'plugin', 'organization', 'schemaorg', 0, 1, 1, 0, 1, '', '{}', '', 7, 0),
 (0, 'plg_schemaorg_person', 'plugin', 'person', 'schemaorg', 0, 1, 1, 0, 1, '', '{}', '', 8, 0),
 (0, 'plg_schemaorg_recipe', 'plugin', 'recipe', 'schemaorg', 0, 1, 1, 0, 1, '', '{}', '', 9, 0),
