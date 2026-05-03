@@ -23,16 +23,9 @@ if (!$list) {
 
 $groupHeading = 'h4';
 
-if ((bool) $module->showtitle) {
-    $modTitle = $params->get('header_tag');
-
-    if ($modTitle == 'h1') {
-        $groupHeading = 'h2';
-    } elseif ($modTitle == 'h2') {
-        $groupHeading = 'h3';
-    }
+if (!empty($item->fulltext) || strlen(strip_tags($item->introtext)) > $params->get('introtext_limit')) {
+    // show read more
 }
-
 $layoutSuffix = $params->get('title_only', 0) ? '_titles' : '_items';
 
 ?>
