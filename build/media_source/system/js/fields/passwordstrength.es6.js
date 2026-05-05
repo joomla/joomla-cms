@@ -45,7 +45,6 @@ class PasswordStrength {
         mods += 1;
       }
     });
-  
     score += this.constructor.calc(value, /[a-z]/g, this.lowercase, mods);
     score += this.constructor.calc(value, /[A-Z]/g, this.uppercase, mods);
     score += this.constructor.calc(value, /[0-9]/g, this.numbers, mods);
