@@ -172,7 +172,7 @@ class PasswordStrength {
         
           if (label) {
 
-            const warningMsg = Joomla.Text._('JFIELD_PASSWORD_SPACES_IN_PASSWORD');
+            const warningMsg = Joomla.Text._('JFIELD_PASSWORD_SPACES_IN_PASSWORD_AT_BEGIN_OR_END');
             label.innerHTML = `<span style="color: #d9534f;">${warningMsg}</span>`;
 
             setTimeout(() => {
