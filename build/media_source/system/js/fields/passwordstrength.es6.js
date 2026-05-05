@@ -54,7 +54,6 @@ class PasswordStrength {
       this.special,
       mods
     );
-  
     if (mods === 1) {
       score += value.length > this.length
       ? 100
