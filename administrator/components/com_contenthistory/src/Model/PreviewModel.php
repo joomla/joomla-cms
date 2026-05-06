@@ -52,8 +52,6 @@ class PreviewModel extends ItemModel
             return false;
         }
 
-        $user = $this->getCurrentUser();
-
         // Access check
         if (!$this->canEdit($table)) {
             throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
