@@ -23,7 +23,7 @@ use Joomla\Registry\Registry;
  *
  * @Example with all attributes:
  *  <field name="field-name" type="subform"
- *      formsource="path/to/form.xml" min="1" max="3" multiple="true" buttons="add,remove,move"
+ *      formsource="path/to/form.xml" min="1" max="3" multiple="true" buttons="add,copy,remove,move"
  *      layout="joomla.form.field.subform.repeatable-table" groupByFieldset="false" component="com_example" client="site"
  *      label="Field Label" description="Field Description" />
  *
@@ -160,7 +160,7 @@ class SubformField extends FormField
                 }
 
                 if ($value) {
-                    $value         = array_merge(['add' => false, 'remove' => false, 'move' => false], $value);
+                    $value         = array_merge(['add' => false, 'copy' => false, 'remove' => false, 'move' => false], $value);
                     $this->buttons = $value;
                 }
 

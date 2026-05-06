@@ -32,6 +32,9 @@ extract($displayData);
             <?php if (!empty($buttons['add'])) :
                 ?><button type="button" class="group-add btn btn-sm btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>"><span class="icon-plus icon-white" aria-hidden="true"></span> </button><?php
             endif; ?>
+            <?php if (!empty($buttons['copy'])) :
+                ?><button type="button" class="group-copy btn btn-sm btn-secondary" aria-label="<?php echo Text::_('JGLOBAL_FIELD_COPY'); ?>"><span class="icon-copy" aria-hidden="true"></span> </button><?php
+            endif; ?>
             <?php if (!empty($buttons['remove'])) :
                 ?><button type="button" class="group-remove btn btn-sm btn-danger" aria-label="<?php echo Text::_('JGLOBAL_FIELD_REMOVE'); ?>"><span class="icon-minus icon-white" aria-hidden="true"></span> </button><?php
             endif; ?>

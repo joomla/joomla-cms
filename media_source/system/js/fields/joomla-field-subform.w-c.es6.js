@@ -23,6 +23,8 @@ class JoomlaFieldSubform extends HTMLElement {
   // Attribute getters
   get buttonAdd() { return this.getAttribute('button-add'); }
 
+  get buttonCopy() { return this.getAttribute('button-copy'); }
+
   get buttonRemove() { return this.getAttribute('button-remove'); }
 
   get buttonMove() { return this.getAttribute('button-move'); }
@@ -74,13 +76,18 @@ class JoomlaFieldSubform extends HTMLElement {
     this.prepareTemplate();
 
     // Bind buttons
-    if (this.buttonAdd || this.buttonRemove) {
+    if (this.buttonAdd || this.buttonCopy || this.buttonRemove) {
       this.addEventListener('click', (event) => {
         let btnAdd = null;
+        let btnCopy = null;
         let btnRem = null;
 
         if (that.buttonAdd) {
           btnAdd = event.target.closest(that.buttonAdd);
+        }
+
+        if (that.buttonCopy) {
+          btnCopy = event.target.closest(that.buttonCopy);
         }
 
         if (that.buttonRemove) {
@@ -93,6 +100,10 @@ class JoomlaFieldSubform extends HTMLElement {
           row = row && row.closest('joomla-field-subform') === that ? row : null;
           that.addRow(row);
           event.preventDefault();
+        } else if (btnCopy && btnCopy.closest('joomla-field-subform') === that) {
+          const row = btnCopy.closest(that.repeatableElement);
+          that.copyRow(row);
+          event.preventDefault();
         } else if (btnRem && btnRem.closest('joomla-field-subform') === that) {
           const row = btnRem.closest(that.repeatableElement);
           that.removeRow(row);
@@ -103,14 +114,17 @@ class JoomlaFieldSubform extends HTMLElement {
       this.addEventListener('keydown', (event) => {
         if (event.code !== KEYCODE.SPACE) return;
         const isAdd = that.buttonAdd && event.target.matches(that.buttonAdd);
+        const isCopy = that.buttonCopy && event.target.matches(that.buttonCopy);
         const isRem = that.buttonRemove && event.target.matches(that.buttonRemove);
 
-        if ((isAdd || isRem) && event.target.closest('joomla-field-subform') === that) {
+        if ((isAdd || isCopy || isRem) && event.target.closest('joomla-field-subform') === that) {
           let row = event.target.closest(that.repeatableElement);
           row = row && row.closest('joomla-field-subform') === that ? row : null;
 
           if (isRem && row) {
             that.removeRow(row);
+          } else if (isCopy && row) {
+            that.copyRow(row);
           } else if (isAdd) {
             that.addRow(row);
           }
@@ -211,6 +225,72 @@ class JoomlaFieldSubform extends HTMLElement {
     }));
 
     return row;
+  }
+
+  /**
+   * Copy the row
+   * @param {HTMLElement} sourceRow
+   * @returns {HTMLElement}
+   */
+  copyRow(sourceRow) {
+    if (!sourceRow || sourceRow.closest('joomla-field-subform') !== this) {
+      return null;
+    }
+
+    const row = this.addRow(sourceRow);
+
+    if (!row) {
+      return null;
+    }
+
+    this.copyRowValues(sourceRow, row);
+
+    return row;
+  }
+
+  /**
+   * Search for row fields owned by this subform
+   * @param {HTMLElement} row
+   * @returns {HTMLElement[]}
+   */
+  getRowFields(row) {
+    return [].slice.call(row.querySelectorAll('input, textarea, select')).filter((field) => field.closest('joomla-field-subform') === this);
+  }
+
+  /**
+   * Copy field values from one row to another
+   * @param {HTMLElement} sourceRow
+   * @param {HTMLElement} targetRow
+   */
+  copyRowValues(sourceRow, targetRow) {
+    const sourceFields = this.getRowFields(sourceRow);
+    const targetFields = this.getRowFields(targetRow);
+
+    targetFields.forEach((targetField, index) => {
+      const sourceField = sourceFields[index];
+      let copied = false;
+
+      if (!sourceField || targetField.type === 'file') {
+        return;
+      }
+
+      if (targetField.type === 'checkbox' || targetField.type === 'radio') {
+        targetField.checked = sourceField.checked;
+        copied = true;
+      } else if (targetField.tagName === 'SELECT') {
+        [].slice.call(targetField.options).forEach((option, optionIndex) => {
+          option.selected = !!sourceField.options?.[optionIndex]?.selected;
+        });
+        copied = true;
+      } else {
+        targetField.value = sourceField.value;
+        copied = true;
+      }
+
+      if (copied) {
+        targetField.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
   }
 
   /**
