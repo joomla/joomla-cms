@@ -45,7 +45,6 @@ describe('Install Joomla', () => {
     cy.get('#jform_admin_email').clear().type(Cypress.env('email'));
     cy.get('#jform_admin_password').clear().type(' ValidPass123!');
     cy.get('#jform_admin_password').blur();
-    cy.get('#step2').click();
 
     cy.contains('Password must not have spaces at the beginning or end');
 
