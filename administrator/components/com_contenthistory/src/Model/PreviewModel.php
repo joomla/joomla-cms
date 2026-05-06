@@ -165,7 +165,7 @@ class PreviewModel extends ItemModel
         $contentTypeTable = $this->getTable('ContentType');
 
         $typeAlias     = implode('.', $parts); // re-use $parts already popped above
-        $typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
+        $typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $typeAlias) . '.id');
 
         return \in_array($id, $typeEditables);
     }
