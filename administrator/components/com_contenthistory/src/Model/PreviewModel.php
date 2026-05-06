@@ -55,7 +55,7 @@ class PreviewModel extends ItemModel
         $user = $this->getCurrentUser();
 
         // Access check
-        if (!$user->authorise('core.edit', $table->item_id) && !$this->canEdit($table)) {
+        if (!$this->canEdit($table)) {
             throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
