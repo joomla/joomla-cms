@@ -132,9 +132,6 @@ class PreviewModel extends ItemModel
 
             // Finally try session (this catches edit.own case too)
             if (!$result) {
-                /** @var ContentType $contentTypeTable */
-                $contentTypeTable = $this->getTable('ContentType');
-
                 $typeAlias        = explode('.', $record->item_id);
                 $id               = array_pop($typeAlias);
                 $typeAlias        = implode('.', $typeAlias);
