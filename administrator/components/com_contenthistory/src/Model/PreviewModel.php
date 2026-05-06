@@ -156,7 +156,7 @@ class PreviewModel extends ItemModel
             }
         }
 
-        // Finally try session (this catches edit.own case too)
+        // 3. Session fallback — covers items the user currently has open for editing.
         /** @var ContentType $contentTypeTable */
         $contentTypeTable = $this->getTable('ContentType');
 
