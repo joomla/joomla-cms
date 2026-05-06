@@ -149,7 +149,11 @@ class PreviewModel extends ItemModel
         $id    = (int) array_pop($parts);
 
         if ($id && $user->authorise('core.edit.own', $record->item_id)) {
-            $contentTable = Table::getInstance('Content', 'Joomla\\CMS\\Table\\');
+            /** @var \Joomla\CMS\Table\Content $contentTable */
+            $contentTable = Factory::getApplication()
+                ->bootComponent('com_content')
+                ->getMVCFactory()
+                ->createTable('Article', 'Administrator');
 
             if ($contentTable->load($id) && (int) $contentTable->created_by === (int) $user->id) {
                 return true;
