@@ -52,10 +52,8 @@ class PreviewModel extends ItemModel
             return false;
         }
 
-        $user = $this->getCurrentUser();
-
-        // Access check
-        if (!$user->authorise('core.edit', $table->item_id) && !$this->canEdit($table)) {
+        // Access check — all permission logic is centralised in canEdit()
+        if (!$this->canEdit($table)) {
             throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
@@ -122,29 +120,49 @@ class PreviewModel extends ItemModel
      */
     protected function canEdit($record)
     {
-        $result = false;
+        if (empty($record->item_id)) {
+            return false;
+        }
 
-        if (!empty($record->item_id)) {
-            /**
-             * Make sure user has edit privileges for this content item. Note that we use edit permissions
-             * for the content item, not delete permissions for the content history row.
-             */
-            $user   = $this->getCurrentUser();
-            $result = $user->authorise('core.edit', $record->item_id);
+        /**
+         * Make sure user has edit privileges for this content item. Note that we use edit permissions
+         * for the content item, not delete permissions for the content history row.
+         *
+         * Three checks are attempted in order, returning true as soon as one passes:
+         *   1. core.edit       — standard edit right (e.g. Editor group and above).
+         *   2. core.edit.own   — edit-own right combined with an ownership check on the record.
+         *                        This was missing in the original code and caused Authors to receive
+         *                        a 403 when previewing versions of their own articles.
+         *   3. Session state   — fallback for items the user currently has open for editing.
+         */
+        $user = $this->getCurrentUser();
 
-            // Finally try session (this catches edit.own case too)
-            if (!$result) {
-                /** @var ContentType $contentTypeTable */
-                $contentTypeTable = $this->getTable('ContentType');
+        // 1. Check core.edit
+        if ($user->authorise('core.edit', $record->item_id)) {
+            return true;
+        }
 
-                $typeAlias        = explode('.', $record->item_id);
-                $id               = array_pop($typeAlias);
-                $typeAlias        = implode('.', $typeAlias);
-                $typeEditables    = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
-                $result           = \in_array((int) $id, $typeEditables);
+        // 2. Check core.edit.own — only meaningful when the user owns the record.
+        //    Parse the item_id (e.g. "com_content.article.123") to extract the numeric id,
+        //    then load the content row to verify the created_by field matches the current user.
+        $parts = explode('.', $record->item_id);
+        $id    = (int) array_pop($parts);
+
+        if ($id && $user->authorise('core.edit.own', $record->item_id)) {
+            $contentTable = Table::getInstance('Content', 'Joomla\\CMS\\Table\\');
+
+            if ($contentTable->load($id) && (int) $contentTable->created_by === (int) $user->id) {
+                return true;
             }
         }
 
-        return $result;
+        // Finally try session (this catches edit.own case too)
+        /** @var ContentType $contentTypeTable */
+        $contentTypeTable = $this->getTable('ContentType');
+
+        $typeAlias     = implode('.', $parts); // re-use $parts already popped above
+        $typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
+
+        return \in_array($id, $typeEditables);
     }
 }
