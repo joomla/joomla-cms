@@ -161,9 +161,6 @@ class PreviewModel extends ItemModel
         }
 
         // 3. Session fallback — covers items the user currently has open for editing.
-        /** @var ContentType $contentTypeTable */
-        $contentTypeTable = $this->getTable('ContentType');
-
         $typeAlias     = implode('.', $parts); // re-use $parts already popped above
         $typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $typeAlias) . '.id');
 
