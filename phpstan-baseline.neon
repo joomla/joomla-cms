@@ -2865,17 +2865,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getError$#
-			'''
-			identifier: method.deprecated
-			count: 2
-			path: administrator/components/com_languages/src/Controller/InstalledController.php
-
-		-
-			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Language\\Language\:
 				4\.3 will be removed in 7\.0
 				             Use the language factory instead
@@ -2918,17 +2907,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: administrator/components/com_languages/src/Controller/OverrideController.php
-
-		-
-			message: '''
-				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getError$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_languages/src/Controller/OverridesController.php
 
 		-
 			message: '''
@@ -14092,7 +14070,17 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getDispatcher\(\) of class Joomla\\CMS\\Plugin\\CMSPlugin\:
+				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\System\\Jooa11y\\Extension\\Jooa11y\:
+				5\.2 will be removed in 7\.0
+				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: plugins/system/jooa11y/services/provider.php
+
+		-
+			message: '''
+				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\System\\Jooa11y\\Extension\\Jooa11y\:
 				5\.2 will be removed in 7\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
