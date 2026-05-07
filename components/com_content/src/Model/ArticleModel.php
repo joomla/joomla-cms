@@ -79,8 +79,9 @@ class ArticleModel extends ItemModel
      * Check if the current request is an admin preview (without requiring shared sessions).
      *
      * @return bool
+     *
+     * @since   __DEPLOY_VERSION__
      */
-
     protected function isAdminPreview(): bool
     {
         $app   = Factory::getApplication();
