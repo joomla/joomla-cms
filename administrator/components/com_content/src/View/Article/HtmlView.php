@@ -74,6 +74,8 @@ class HtmlView extends FormView
      * @param   int  $articleId
      *
      * @return  string
+     * 
+     * @since   __DEPLOY_VERSION__
      */
     protected function generatePreviewToken(?int $articleId): string
     {
