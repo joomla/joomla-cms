@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Document;
 
 use Joomla\Preload\PreloadManagerInterface as FrameworkPreloadManagerInterface;
-use Psr\Link\EvolvableLinkProviderInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
