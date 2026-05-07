@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2c70890f480b3970f45aa1a7e52c643e",
+	"content-hash": "f423050a6f1a36daab4c67bfcb629f0d",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1990,33 +1990,34 @@
         },
         {
             "name": "joomla/preload",
-            "version": "3.0.2",
+			"version": "4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/preload.git",
-                "reference": "3a52c4e9a4c0b56dd42abcb07721377e9748d6fa"
+				"reference": "ed4ac287d3659f5122fd6deef6d8ea5a0d67bcab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/preload/zipball/3a52c4e9a4c0b56dd42abcb07721377e9748d6fa",
-                "reference": "3a52c4e9a4c0b56dd42abcb07721377e9748d6fa",
+				"url": "https://api.github.com/repos/joomla-framework/preload/zipball/ed4ac287d3659f5122fd6deef6d8ea5a0d67bcab",
+				"reference": "ed4ac287d3659f5122fd6deef6d8ea5a0d67bcab",
                 "shasum": ""
             },
             "require": {
                 "fig/link-util": "^1.0",
-                "php": "^8.1.0",
-                "psr/link": "^1.0"
+				"php": "^8.3.0",
+				"psr/link": "^1.1|^2.0"
             },
             "require-dev": {
-                "joomla/application": "^3.0",
-                "joomla/di": "^3.0",
-                "joomla/event": "^3.0",
-                "joomla/uri": "^3.0",
-                "phpstan/phpstan": "1.12.27",
-                "phpstan/phpstan-deprecation-rules": "1.2.1",
-                "phpunit/phpunit": "^9.5.28",
-                "squizlabs/php_codesniffer": "^3.7.2",
-                "symfony/web-link": "^5.0"
+				"joomla/application": "^4.0",
+				"joomla/di": "^4.0",
+				"joomla/event": "^4.0",
+				"joomla/input": "^4.0",
+				"joomla/uri": "^4.0",
+				"phpstan/phpstan": "2.1.17",
+				"phpstan/phpstan-deprecation-rules": "2.0.3",
+				"phpunit/phpunit": "^12.0",
+				"squizlabs/php_codesniffer": "^3.10.2",
+				"symfony/web-link": "^7.3"
             },
             "suggest": {
                 "joomla/application": "To use the PreloadSubscriber event listener, install `^2.0`",
@@ -2025,12 +2026,6 @@
                 "symfony/web-link": "To use the PreloadSubscriber event listener, install `^3.4|^4.4|^5.0`"
             },
             "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.0-dev",
-                    "dev-3.x-dev": "3.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\Preload\\": "src/"
@@ -2049,9 +2044,9 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/preload/issues",
-                "source": "https://github.com/joomla-framework/preload/tree/3.0.2"
+				"source": "https://github.com/joomla-framework/preload/tree/4.1.0"
             },
-            "time": "2025-07-19T13:34:33+00:00"
+			"time": "2026-05-07T09:30:19+00:00"
         },
         {
             "name": "joomla/registry",
