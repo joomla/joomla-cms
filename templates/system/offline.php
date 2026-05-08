@@ -46,7 +46,7 @@ $wa->registerAndUseStyle('template.system.general', 'media/system/css/system-sit
         <p>
             <?php echo $app->get('offline_message'); ?>
         </p>
-    <?php elseif ($app->get('display_offline_message', 1) == 2 && trim(Text::_('JOFFLINE_MESSAGE')) !== '') : ?>
+    <?php elseif ($app->get('display_offline_message', 1) == 2) : ?>
         <p>
             <?php echo Text::_('JOFFLINE_MESSAGE'); ?>
         </p>
