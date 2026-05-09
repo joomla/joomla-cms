@@ -22,7 +22,7 @@ use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
 /**
  * Renders OAuth2 token actions for Global Configuration mail settings.
  *
- * @since  6.2.0
+ * @since  __DEPLOY_VERSION__
  */
 class Oauth2TokenField extends FormField
 {
@@ -30,7 +30,7 @@ class Oauth2TokenField extends FormField
      * The form field type.
      *
      * @var    string
-     * @since  6.2.0
+     * @since  __DEPLOY_VERSION__
      */
     protected $type = 'Oauth2Token';
 
@@ -41,7 +41,7 @@ class Oauth2TokenField extends FormField
      *
      * @return  string
      *
-     * @since   6.2.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function getInput()
     {
