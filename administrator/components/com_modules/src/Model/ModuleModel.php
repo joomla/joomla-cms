@@ -1110,9 +1110,7 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
             }
         }
 
-        if (!$this->addInheritedMenus((int) $table->id)) {
-            return false;
-        }
+        $this->addInheritedMenus((int) $table->id);
 
         // Trigger the after save event.
         Factory::getApplication()->triggerEvent($this->event_after_save, [$context, &$table, $isNew]);
