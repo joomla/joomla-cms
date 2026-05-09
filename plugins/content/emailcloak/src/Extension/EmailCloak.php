@@ -571,4 +571,4 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
 
         return $text;
     }
-}
+} 
