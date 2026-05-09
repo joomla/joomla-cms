@@ -295,11 +295,11 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         // Never overwrite OAuth credentials with empty values.
-        if (array_key_exists('oauth2_client_secret', $data) && trim((string) $data['oauth2_client_secret']) === '') {
+        if (\array_key_exists('oauth2_client_secret', $data) && trim((string) $data['oauth2_client_secret']) === '') {
             $data['oauth2_client_secret'] = $app->get('oauth2_client_secret', '');
         }
 
-        if (array_key_exists('oauth2_refresh_token', $data) && trim((string) $data['oauth2_refresh_token']) === '') {
+        if (\array_key_exists('oauth2_refresh_token', $data) && trim((string) $data['oauth2_refresh_token']) === '') {
             $data['oauth2_refresh_token'] = $app->get('oauth2_refresh_token', '');
         }
 
