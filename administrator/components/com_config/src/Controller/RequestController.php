@@ -123,8 +123,9 @@ class RequestController extends BaseController
         }
 
         try {
-            $http     = HttpFactory::getHttp();
-            $body     = http_build_query(
+            $httpFactory = new HttpFactory();
+            $http        = $httpFactory->getHttp();
+            $body        = http_build_query(
                 array_filter(
                     [
                     'client_id'     => $providerConfig['client_id'],
@@ -232,8 +233,9 @@ class RequestController extends BaseController
         }
 
         try {
-            $http = HttpFactory::getHttp();
-            $body = http_build_query(
+            $httpFactory = new HttpFactory();
+            $http        = $httpFactory->getHttp();
+            $body        = http_build_query(
                 array_filter(
                     [
                     'client_id'     => $providerConfig['client_id'],
