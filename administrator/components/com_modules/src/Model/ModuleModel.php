@@ -728,9 +728,12 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
                 }
             }
 
+            // Key by absolute menuid so template lookups using the positive
+            // link value resolve correctly in exclude mode (where DB rows
+            // are stored with negative menuids).
             $inherit = [];
             foreach ($assigned as $row) {
-                $inherit[(int) $row->menuid] = (int) $row->inherit;
+                $inherit[abs((int) $row->menuid)] = (int) $row->inherit;
             }
 
             $this->_cache[$pk]->assigned   = ArrayHelper::getColumn($assigned, 'menuid');
