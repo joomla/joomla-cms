@@ -30,7 +30,7 @@ final class SmtpOAuth2TokenProvider implements OAuthTokenProvider
     private string $refreshToken;
     private string $userName;
     private ?string $accessToken = null;
-    private int $expiresAt = 0;
+    private int $expiresAt       = 0;
 
     public function __construct(
         string $tokenUrl,
