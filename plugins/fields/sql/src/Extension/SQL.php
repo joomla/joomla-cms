@@ -29,6 +29,7 @@ use Joomla\Event\SubscriberInterface;
 final class SQL extends FieldsListPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
+
     /**
      * Returns an array of events this subscriber will listen to.
      *
