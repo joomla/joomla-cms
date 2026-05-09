@@ -1196,14 +1196,16 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
      *
      * @param   integer  $moduleId  The module ID.
      *
-     * @return  boolean  True on success.
+     * @return  void
+     *
+     * @throws  \RuntimeException  On database error.
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected function addInheritedMenus(int $moduleId): bool
+    protected function addInheritedMenus(int $moduleId): void
     {
         if ($moduleId <= 0 || !(int) ComponentHelper::getParams('com_modules')->get('enable_inherit', 0)) {
-            return true;
+            return;
         }
 
         $db = $this->getDatabase();
@@ -1240,17 +1242,11 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
             ->where($db->quoteName('node.id') . ' <> ' . $db->quoteName('source.id'))
             ->bind(':moduleid', $moduleId, ParameterType::INTEGER);
 
-        try {
-            $db->setQuery($query);
-            $pairs = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
-
-            return false;
-        }
+        $db->setQuery($query);
+        $pairs = $db->loadObjectList();
 
         if (!$pairs) {
-            return true;
+            return;
         }
 
         // Compute signed target menuids (positive for include sources, negative for exclude).
@@ -1275,19 +1271,13 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
             . ')'
         );
 
-        try {
-            $db->setQuery($query);
-            $existing = ArrayHelper::toInteger((array) $db->loadColumn());
-        } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
-
-            return false;
-        }
+        $db->setQuery($query);
+        $existing = ArrayHelper::toInteger((array) $db->loadColumn());
 
         $missing = array_diff($targetMenuIds, $existing);
 
         if (!$missing) {
-            return true;
+            return;
         }
 
         $insert = $db->createQuery()
@@ -1298,15 +1288,7 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
             $insert->values($moduleId . ',' . (int) $menuId . ',0');
         }
 
-        try {
-            $db->setQuery($insert);
-            $db->execute();
-        } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
-
-            return false;
-        }
-
-        return true;
+        $db->setQuery($insert);
+        $db->execute();
     }
 }
