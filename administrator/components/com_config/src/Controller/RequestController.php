@@ -183,7 +183,7 @@ class RequestController extends BaseController
             $saveData['oauth2_client_id']     = $app->get('oauth2_client_id', '');
             $saveData['oauth2_client_secret'] = $app->get('oauth2_client_secret', '');
             $saveData['mailer']               = $app->get('mailer', 'mail');
-            
+
             if (!$model->save($saveData)) {
                 throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'));
             }
