@@ -19,7 +19,7 @@ if ($value == '') {
     return;
 }
 
-$db    = Factory::getDbo();
+$db    = $this->getDatabase();
 $value = (array) $value;
 $query = $db->createQuery();
 $sql   = $fieldParams->get('query', '');
