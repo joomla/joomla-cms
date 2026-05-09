@@ -18,7 +18,6 @@ use Joomla\CMS\Session\Session;
 use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
 use Joomla\Component\Config\Administrator\Model\ApplicationModel;
 use Joomla\Http\HttpFactory;
-use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -177,7 +176,7 @@ class RequestController extends BaseController
 
             $saveData = [
                 'oauth2_refresh_token'   => $refreshToken,
-                'oauth2_token_issued_at' => \gmdate('Y-m-d H:i:s') . ' UTC',
+                'oauth2_token_issued_at' => gmdate('Y-m-d H:i:s') . ' UTC',
             ];
 
             $saveData['oauth2_client_id']     = $app->get('oauth2_client_id', '');
