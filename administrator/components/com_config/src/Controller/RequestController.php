@@ -81,7 +81,7 @@ class RequestController extends BaseController
      *
      * @return  void
      *
-     * @since   6.2.0
+     * @since   __DEPLOY_VERSION__
      */
     public function oauth2callback(): void
     {
@@ -201,7 +201,7 @@ class RequestController extends BaseController
      *
      * @return  void
      *
-     * @since   6.2.0
+     * @since   __DEPLOY_VERSION__
      */
     public function oauth2checktoken(): void
     {
@@ -266,7 +266,7 @@ class RequestController extends BaseController
      *
      * @return  array<string, string>
      *
-     * @since   6.2.0
+     * @since   __DEPLOY_VERSION__
      */
     private function resolveProviderConfig(): array
     {
