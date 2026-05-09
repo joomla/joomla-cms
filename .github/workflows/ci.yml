@@ -51,7 +51,7 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
       - name: Build assets
         if: steps.cache-assets.outputs.cache-hit != 'true'
-        run: npm ci --unsafe-perm
+        run: npm ci
 
   code-style-php:
     name: Check PHP code style
