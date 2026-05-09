@@ -324,8 +324,8 @@ class ItemModel extends AdminModel
         $copiedIds = array_unique(ArrayHelper::toInteger(array_values($newIds)));
 
         foreach ($copiedIds as $copiedId) {
-            if ($copiedId > 0 && !$this->refreshInheritedModules($copiedId, false)) {
-                return false;
+            if ($copiedId > 0) {
+                $this->refreshInheritedModules($copiedId, false);
             }
         }
 
@@ -475,8 +475,8 @@ class ItemModel extends AdminModel
         $movedIds = array_unique(ArrayHelper::toInteger((array) $pks));
 
         foreach ($movedIds as $movedId) {
-            if ($movedId > 0 && !$this->refreshInheritedModules($movedId, true)) {
-                return false;
+            if ($movedId > 0) {
+                $this->refreshInheritedModules($movedId, true);
             }
         }
 
@@ -1472,8 +1472,8 @@ class ItemModel extends AdminModel
             || (int) $table->parent_id !== $originalParentId
             || (string) $table->menutype !== $originalMenuType;
 
-        if ((int) $table->client_id === 0 && !$this->refreshInheritedModules((int) $table->id, $needsInheritanceRefresh)) {
-            return false;
+        if ((int) $table->client_id === 0) {
+            $this->refreshInheritedModules((int) $table->id, $needsInheritanceRefresh);
         }
 
         $this->setState('item.id', $table->id);
@@ -1788,33 +1788,24 @@ class ItemModel extends AdminModel
     /**
      * Materialize inherited module assignments for a menu item or moved subtree.
      *
-     * Acts as the catch point for the inheritance helpers: any
-     * \RuntimeException thrown by getSubtreeIds/addInheritedModules/getInheritedModuleIds
-     * is converted to setError + return false so the surrounding save flow can
-     * surface the failure through the standard model error channel.
-     *
      * @param   integer  $menuId          Root menu item ID.
      * @param   boolean  $refreshSubtree  True to process all descendants, false to process only the menu item.
      *
-     * @return  boolean
+     * @return  void
+     *
+     * @throws  \RuntimeException  On database error.
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected function refreshInheritedModules(int $menuId, bool $refreshSubtree): bool
+    protected function refreshInheritedModules(int $menuId, bool $refreshSubtree): void
     {
         if ($menuId <= 0 || !(int) ComponentHelper::getParams('com_modules')->get('enable_inherit', 0)) {
-            return true;
+            return;
         }
 
-        try {
-            $menuIds = $refreshSubtree ? $this->getSubtreeIds($menuId) : [$menuId];
+        $menuIds = $refreshSubtree ? $this->getSubtreeIds($menuId) : [$menuId];
 
-            return $this->addInheritedModules($menuIds);
-        } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
-
-            return false;
-        }
+        $this->addInheritedModules($menuIds);
     }
 
     /**
@@ -1879,13 +1870,13 @@ class ItemModel extends AdminModel
      *
      * @param   array  $menuIds  An array of menu item IDs (positive).
      *
-     * @return  boolean
+     * @return  void
      *
      * @throws  \RuntimeException  On database error.
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected function addInheritedModules(array $menuIds): bool
+    protected function addInheritedModules(array $menuIds): void
     {
         $db      = $this->getDatabase();
         $menuIds = array_unique(ArrayHelper::toInteger($menuIds));
@@ -1956,8 +1947,6 @@ class ItemModel extends AdminModel
                 throw new \RuntimeException($e->getMessage(), 500);
             }
         }
-
-        return true;
     }
 
     /**
