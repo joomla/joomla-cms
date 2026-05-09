@@ -59,8 +59,9 @@ final class SmtpOAuth2TokenProvider implements OAuthTokenProvider
 
     private function requestAccessToken(): void
     {
-        $http = HttpFactory::getHttp();
-        $body = http_build_query(
+        $httpFactory = new HttpFactory();
+        $http        = $httpFactory->getHttp();
+        $body        = http_build_query(
             array_filter(
                 [
                 'client_id'     => $this->clientId,
