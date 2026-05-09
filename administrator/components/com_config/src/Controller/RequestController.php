@@ -15,9 +15,9 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
 use Joomla\Component\Config\Administrator\Model\ApplicationModel;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
