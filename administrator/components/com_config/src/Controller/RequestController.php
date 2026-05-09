@@ -10,13 +10,14 @@
 
 namespace Joomla\Component\Config\Administrator\Controller;
 
-use Joomla\CMS\Http\HttpFactory;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
 use Joomla\Component\Config\Administrator\Model\ApplicationModel;
+use Joomla\Http\HttpFactory;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -171,11 +172,18 @@ class RequestController extends BaseController
                 throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'));
             }
 
-            $model                              = new ApplicationModel();
-            $saveData                           = ArrayHelper::fromObject(new \JConfig());
-            $saveData['oauth2_refresh_token']   = $refreshToken;
-            $saveData['oauth2_token_issued_at'] = gmdate('Y-m-d H:i:s') . ' UTC';
+            $model = new ApplicationModel();
+            $app   = Factory::getApplication();
 
+            $saveData = [
+                'oauth2_refresh_token'   => $refreshToken,
+                'oauth2_token_issued_at' => \gmdate('Y-m-d H:i:s') . ' UTC',
+            ];
+
+            $saveData['oauth2_client_id']     = $app->get('oauth2_client_id', '');
+            $saveData['oauth2_client_secret'] = $app->get('oauth2_client_secret', '');
+            $saveData['mailer']               = $app->get('mailer', 'mail');
+            
             if (!$model->save($saveData)) {
                 throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'));
             }
