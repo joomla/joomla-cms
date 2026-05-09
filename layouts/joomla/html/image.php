@@ -18,7 +18,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\Utilities\ArrayHelper;
 
 $img = HTMLHelper::_('cleanImageURL', $displayData['src']);
 
@@ -38,16 +37,4 @@ if ($img->attributes['width'] > 0 && $img->attributes['height'] > 0) {
     }
 }
 
-// Escape attributes before output
-$attributes = [];
-
-foreach ($displayData as $attributeName => $attributeValue) {
-    // Skip invalid attribute names
-    if (!preg_match('/^[a-zA-Z][a-zA-Z0-9_:.-]*$/', $attributeName)) {
-        continue;
-    }
-
-    $attributes[$attributeName] = htmlspecialchars((string) $attributeValue, ENT_QUOTES, 'UTF-8');
-}
-
-echo '<img ' . ArrayHelper::toString($attributes) . '>';
+echo '<img ' . HTMLHelper::buildAttributes($displayData) . '>';

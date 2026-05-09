@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 extract($displayData);
 
@@ -50,4 +50,4 @@ if (isset($params['width'])) {
     $iframeAttributes['width'] = $params['width'];
 }
 ?>
-<iframe <?php echo ArrayHelper::toString($iframeAttributes); ?>></iframe>
+<iframe <?php echo HTMLHelper::buildAttributes($iframeAttributes); ?>></iframe>

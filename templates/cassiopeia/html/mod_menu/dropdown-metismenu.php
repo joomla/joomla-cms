@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
-use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $app->getDocument()->getWebAssetManager();
@@ -27,7 +27,7 @@ if ($tagId = $params->get('tag_id', '')) {
 $start = (int) $params->get('startLevel', 1);
 
 ?>
-<ul <?php echo ArrayHelper::toString($attributes); ?>>
+<ul <?php echo HTMLHelper::buildAttributes($attributes); ?>>
 <?php foreach ($list as $i => $item) {
     // Skip sub-menu items if they are set to be hidden in the module's options
     if (!$showAll && $item->level > $start) {

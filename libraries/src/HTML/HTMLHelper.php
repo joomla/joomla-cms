@@ -16,7 +16,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
-use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -320,9 +319,7 @@ abstract class HTMLHelper
      */
     public static function link($url, $text, $attribs = null)
     {
-        if (\is_array($attribs)) {
-            $attribs = ArrayHelper::toString($attribs);
-        }
+        $attribs = static::buildAttributes($attribs);
 
         return '<a href="' . $url . '" ' . $attribs . '>' . $text . '</a>';
     }
@@ -341,11 +338,38 @@ abstract class HTMLHelper
      */
     public static function iframe($url, $name, $attribs = null, $noFrames = '')
     {
-        if (\is_array($attribs)) {
-            $attribs = ArrayHelper::toString($attribs);
-        }
+        $attribs = static::buildAttributes($attribs);
 
         return '<iframe src="' . $url . '" ' . $attribs . ' name="' . $name . '">' . $noFrames . '</iframe>';
+    }
+
+    /**
+     * Build a string of HTML attributes from an array.
+     *
+     * @param   array|string|null  $attribs  The array of attributes.
+     *
+     * @return  string  The string of HTML attributes.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function buildAttributes($attribs): string
+    {
+        if ($attribs === null) {
+            return '';
+        }
+
+        if (\is_string($attribs)) {
+            return $attribs;
+        }
+
+        $result = [];
+
+        foreach ($attribs as $key => $value) {
+            // Escape the attribute value to prevent XSS
+            $result[] = $key . '="' . htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8') . '"';
+        }
+
+        return implode(' ', $result);
     }
 
     /**
