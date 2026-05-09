@@ -110,7 +110,6 @@
 								label="PLG_SCHEMAORG_LOCALBUSINESS_FIELD_GENERIC_TITLE_LABEL"
 								filter="string"
 								size="30"
-
 							/>
 							<field
 								name="genericValue"
