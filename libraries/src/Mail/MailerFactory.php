@@ -61,27 +61,27 @@ class MailerFactory implements MailerFactoryInterface
 
         $mailer = new Mail((bool) $configuration->get('throw_exceptions', true));
 
-        $smtpauth   = $configuration->get('smtpauth') == 0 ? null : 1;
-        $smtpuser   = $configuration->get('smtpuser');
-        $smtppass   = $configuration->get('smtppass');
-        $smtphost   = $configuration->get('smtphost');
-        $smtpsecure = $configuration->get('smtpsecure');
-        $smtpport   = $configuration->get('smtpport');
-        $mailfrom   = $configuration->get('mailfrom');
-        $fromname   = $configuration->get('fromname');
-        $mailType   = $configuration->get('mailer');
-        $oauth2Provider = (string) ($configuration->get('oauth2_provider') ?: 'microsoft');
-        $oauth2ClientId = (string) $configuration->get('oauth2_client_id');
+        $smtpauth           = $configuration->get('smtpauth') == 0 ? null : 1;
+        $smtpuser           = $configuration->get('smtpuser');
+        $smtppass           = $configuration->get('smtppass');
+        $smtphost           = $configuration->get('smtphost');
+        $smtpsecure         = $configuration->get('smtpsecure');
+        $smtpport           = $configuration->get('smtpport');
+        $mailfrom           = $configuration->get('mailfrom');
+        $fromname           = $configuration->get('fromname');
+        $mailType           = $configuration->get('mailer');
+        $oauth2Provider     = (string) ($configuration->get('oauth2_provider') ?: 'microsoft');
+        $oauth2ClientId     = (string) $configuration->get('oauth2_client_id');
         $oauth2ClientSecret = (string) $configuration->get('oauth2_client_secret');
         $oauth2RefreshToken = (string) $configuration->get('oauth2_refresh_token');
-        $oauth2Scope = (string) $configuration->get('oauth2_scope');
-        $oauth2TenantMode = (string) $configuration->get('oauth2_tenant_mode', '');
-        $oauth2TenantId = (string) $configuration->get('oauth2_tenant_id', 'common');
-        $oauth2TokenUrl = (string) $configuration->get('oauth2_token_url');
-        $oauth2SmtpHost = (string) $configuration->get('oauth2_smtp_host');
-        $oauth2SmtpPort = (int) $configuration->get('oauth2_smtp_port', 587);
-        $oauth2SmtpSecure = (string) $configuration->get('oauth2_smtp_secure', 'tls');
-        $oauth2Email = (string) $configuration->get('oauth2_email');
+        $oauth2Scope        = (string) $configuration->get('oauth2_scope');
+        $oauth2TenantMode   = (string) $configuration->get('oauth2_tenant_mode', '');
+        $oauth2TenantId     = (string) $configuration->get('oauth2_tenant_id', 'common');
+        $oauth2TokenUrl     = (string) $configuration->get('oauth2_token_url');
+        $oauth2SmtpHost     = (string) $configuration->get('oauth2_smtp_host');
+        $oauth2SmtpPort     = (int) $configuration->get('oauth2_smtp_port', 587);
+        $oauth2SmtpSecure   = (string) $configuration->get('oauth2_smtp_secure', 'tls');
+        $oauth2Email        = (string) $configuration->get('oauth2_email');
 
         if ($oauth2TenantMode === '') {
             $oauth2TenantMode = strtolower($oauth2TenantId) !== 'common' ? 'tenant' : 'common';
@@ -120,30 +120,30 @@ class MailerFactory implements MailerFactoryInterface
                 break;
 
             case 'smtpoauth2':
-                $oauthUser = $oauth2Email ?: ($smtpuser ?: $mailfrom);
-                $tokenUrl  = '';
-                $scope     = $oauth2Scope;
-                $smtpHost  = '';
-                $smtpPort  = 587;
+                $oauthUser      = $oauth2Email ?: ($smtpuser ?: $mailfrom);
+                $tokenUrl       = '';
+                $scope          = $oauth2Scope;
+                $smtpHost       = '';
+                $smtpPort       = 587;
                 $smtpSecureMode = 'tls';
 
                 switch ($oauth2Provider) {
                     case 'google':
                         $tokenUrl = 'https://oauth2.googleapis.com/token';
-                        $scope = $scope ?: 'https://mail.google.com/';
+                        $scope    = $scope ?: 'https://mail.google.com/';
                         $smtpHost = 'smtp.gmail.com';
                         break;
 
                     case 'custom':
-                        $tokenUrl = $oauth2TokenUrl;
-                        $smtpHost = $oauth2SmtpHost;
-                        $smtpPort = $oauth2SmtpPort > 0 ? $oauth2SmtpPort : 587;
+                        $tokenUrl       = $oauth2TokenUrl;
+                        $smtpHost       = $oauth2SmtpHost;
+                        $smtpPort       = $oauth2SmtpPort > 0 ? $oauth2SmtpPort : 587;
                         $smtpSecureMode = $oauth2SmtpSecure ?: 'tls';
                         break;
 
                     default:
                         $tokenUrl = 'https://login.microsoftonline.com/' . rawurlencode($oauth2TenantId) . '/oauth2/v2.0/token';
-                        $scope = $scope ?: 'https://outlook.office.com/SMTP.Send offline_access';
+                        $scope    = $scope ?: 'https://outlook.office.com/SMTP.Send offline_access';
                         $smtpHost = 'smtp.office365.com';
                         break;
                 }
@@ -154,13 +154,13 @@ class MailerFactory implements MailerFactoryInterface
 
                 // Configure SMTP transport directly because OAuth2/XOAUTH2 does not use a password.
                 $mailer->isSMTP();
-                $mailer->Host = $smtpHost;
-                $mailer->Port = $smtpPort;
-                $mailer->SMTPAuth = true;
-                $mailer->Username = $oauthUser;
-                $mailer->Password = '';
+                $mailer->Host       = $smtpHost;
+                $mailer->Port       = $smtpPort;
+                $mailer->SMTPAuth   = true;
+                $mailer->Username   = $oauthUser;
+                $mailer->Password   = '';
                 $mailer->SMTPSecure = \in_array($smtpSecureMode, ['ssl', 'tls'], true) ? $smtpSecureMode : '';
-                $mailer->AuthType = 'XOAUTH2';
+                $mailer->AuthType   = 'XOAUTH2';
                 $mailer->setOAuth(
                     new SmtpOAuth2TokenProvider(
                         $tokenUrl,
