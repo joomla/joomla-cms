@@ -143,6 +143,25 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
      */
     private function cloak($text)
     {
+        // Preserve <script type="application/ld+json"> blocks so email
+        // addresses inside JSON-LD structured data are never cloaked.
+        // Cloaking emails inside JSON-LD produces invalid JSON and breaks
+        // Schema.org structured data validation (e.g. missing ',' or '}'
+        // errors when Google or other parsers read the page).
+        // Fix for: https://github.com/joomla/joomla-cms/issues/47743
+        $jsonLdPlaceholders = [];
+
+        $text = preg_replace_callback(
+            '/<script\s[^>]*type=["\']application\/ld\+json["\'][^>]*>.*?<\/script>/is',
+            static function (array $match) use (&$jsonLdPlaceholders): string {
+                $key                      = '__JSONLD_' . \count($jsonLdPlaceholders) . '__';
+                $jsonLdPlaceholders[$key] = $match[0];
+
+                return $key;
+            },
+            $text
+        );
+
         /*
          * Check for presence of {emailcloak=off} which explicitly disables the
          * plugin for the item.
@@ -537,6 +556,17 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
 
             // Replace the found address with the js cloaked email
             $text = substr_replace($text, $replacement, $regs[1][1], \strlen($mail));
+        }
+
+        // Restore all JSON-LD blocks exactly as they were before cloaking.
+        // This ensures that valid JSON-LD structured data is never corrupted
+        // by the email cloaking process.
+        if ($jsonLdPlaceholders !== []) {
+            $text = str_replace(
+                array_keys($jsonLdPlaceholders),
+                array_values($jsonLdPlaceholders),
+                $text
+            );
         }
 
         return $text;
