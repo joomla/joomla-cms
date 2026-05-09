@@ -13,9 +13,9 @@ use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Event\Application\BeforeCompileHeadEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\WebAsset\WebAssetManager;
-use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -183,7 +183,7 @@ class MetasRenderer extends DocumentRenderer
             $buffer .= $tab . '<link href="' . $link . '" ' . $linkAtrr['relType'] . '="' . $linkAtrr['relation'] . '"';
 
             if (\is_array($linkAtrr['attribs'])) {
-                if ($temp = ArrayHelper::toString($linkAtrr['attribs'])) {
+                if ($temp = HTMLHelper::buildAttributes($linkAtrr['attribs'])) {
                     $buffer .= ' ' . $temp;
                 }
             }

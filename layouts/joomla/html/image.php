@@ -18,7 +18,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\Utilities\ArrayHelper;
 
 $img = HTMLHelper::_('cleanImageURL', $displayData['src']);
 
@@ -41,4 +40,4 @@ if ($img->attributes['width'] > 0 && $img->attributes['height'] > 0) {
     }
 }
 
-echo '<img ' . ArrayHelper::toString($displayData) . '>';
+echo '<img ' . HTMLHelper::buildAttributes($displayData) . '>';

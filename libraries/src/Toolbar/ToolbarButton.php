@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Toolbar;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\Utilities\ArrayHelper;
@@ -196,7 +197,7 @@ abstract class ToolbarButton
             $options['attributes']['class']
         );
 
-        $options['htmlAttributes'] = ArrayHelper::toString($options['attributes']);
+        $options['htmlAttributes'] = HTMLHelper::buildAttributes($options['attributes']);
 
         // Isolate button class from icon class
         $buttonClass         = str_replace('icon-', '', $this->getName());

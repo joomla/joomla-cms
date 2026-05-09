@@ -14,7 +14,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Users\Site\Model\CaptiveModel;
 use Joomla\Component\Users\Site\View\Captive\HtmlView;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * @var HtmlView     $this  View object
@@ -94,7 +93,7 @@ $this->getDocument()->getWebAssetManager()
                         $attributes['class'] .= ' form-control';
                     }
                     ?>
-                    <input <?php echo ArrayHelper::toString($attributes) ?>>
+                    <input <?php echo HTMLHelper::buildAttributes($attributes) ?>>
                 </div>
             </div>
         </div>

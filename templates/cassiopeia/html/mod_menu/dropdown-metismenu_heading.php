@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\Utilities\ArrayHelper;
 
 $attributes = [];
 
@@ -52,7 +51,7 @@ if ($showAll && $item->deeper) {
     $attributes['class'] .= ' mm-collapsed mm-toggler mm-toggler-nolink';
     $attributes['aria-haspopup'] = 'true';
     $attributes['aria-expanded'] = 'false';
-    echo '<button ' . ArrayHelper::toString($attributes) . '>' . $linktype . '</button>';
+    echo '<button ' . HTMLHelper::buildAttributes($attributes) . '>' . $linktype . '</button>';
 } else {
-    echo '<span ' . ArrayHelper::toString($attributes) . '>' . $linktype . '</span>';
+    echo '<span ' . HTMLHelper::buildAttributes($attributes) . '>' . $linktype . '</span>';
 }

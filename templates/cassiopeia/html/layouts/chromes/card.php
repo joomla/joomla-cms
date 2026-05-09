@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $module  = $displayData['module'];
 $params  = $displayData['params'];
@@ -48,9 +48,9 @@ if ($moduleTag !== 'div') {
     endif;
 }
 
-$header = '<' . $headerTag . ' ' . ArrayHelper::toString($headerAttribs) . '>' . $module->title . '</' . $headerTag . '>';
+$header = '<' . $headerTag . ' ' . HTMLHelper::buildAttributes($headerAttribs) . '>' . $module->title . '</' . $headerTag . '>';
 ?>
-<<?php echo $moduleTag; ?> <?php echo ArrayHelper::toString($moduleAttribs); ?>>
+<<?php echo $moduleTag; ?> <?php echo HTMLHelper::buildAttributes($moduleAttribs); ?>>
     <?php if ($module->showtitle && $headerClass !== 'card-title') : ?>
         <?php echo $header; ?>
     <?php endif; ?>

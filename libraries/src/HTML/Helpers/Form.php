@@ -11,8 +11,8 @@ namespace Joomla\CMS\HTML\Helpers;
 
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Session\Session;
-use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -51,7 +51,7 @@ abstract class Form
         $attributes = '';
 
         if ($attribs !== []) {
-            $attributes .= ' ' . ArrayHelper::toString($attribs);
+            $attributes .= ' ' . HTMLHelper::buildAttributes($attribs);
         }
 
         return '<input type="hidden" name="' . Session::getFormToken() . '" value="1"' . $attributes . '>';
