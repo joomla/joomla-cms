@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Mail;
 
-use Joomla\CMS\Http\HttpFactory;
+use Joomla\Http\HttpFactory;
 use PHPMailer\PHPMailer\OAuthTokenProvider;
 
 // phpcs:disable PSR1.Files.SideEffects
