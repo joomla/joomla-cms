@@ -1788,13 +1788,17 @@ class ItemModel extends AdminModel
     /**
      * Materialize inherited module assignments for a menu item or moved subtree.
      *
+     * Acts as the catch point for the inheritance helpers: any
+     * \RuntimeException thrown by getSubtreeIds/addInheritedModules/getInheritedModuleIds
+     * is converted to setError + return false so the surrounding save flow can
+     * surface the failure through the standard model error channel.
+     *
      * @param   integer  $menuId          Root menu item ID.
      * @param   boolean  $refreshSubtree  True to process all descendants, false to process only the menu item.
      *
      * @return  boolean
      *
      * @since   __DEPLOY_VERSION__
-     *
      */
     protected function refreshInheritedModules(int $menuId, bool $refreshSubtree): bool
     {
@@ -1802,17 +1806,15 @@ class ItemModel extends AdminModel
             return true;
         }
 
-        $menuIds = [$menuId];
+        try {
+            $menuIds = $refreshSubtree ? $this->getSubtreeIds($menuId) : [$menuId];
 
-        if ($refreshSubtree) {
-            $menuIds = $this->getSubtreeIds($menuId);
+            return $this->addInheritedModules($menuIds);
+        } catch (\RuntimeException $e) {
+            $this->setError($e->getMessage());
 
-            if ($menuIds === false) {
-                return false;
-            }
+            return false;
         }
-
-        return $this->addInheritedModules($menuIds);
     }
 
     /**
@@ -1820,11 +1822,13 @@ class ItemModel extends AdminModel
      *
      * @param   integer  $rootMenuId  Subtree root menu item ID.
      *
-     * @return  mixed  An array of menu item IDs, or false on error.
+     * @return  array  An array of menu item IDs (empty if the root does not exist).
+     *
+     * @throws  \RuntimeException  On database error.
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected function getSubtreeIds(int $rootMenuId)
+    protected function getSubtreeIds(int $rootMenuId): array
     {
         $db = $this->getDatabase();
 
@@ -1869,9 +1873,15 @@ class ItemModel extends AdminModel
     /**
      * Insert missing module-menu rows inherited from ancestor source menu items.
      *
-     * @param   array  $menuIds  An array of menu item IDs.
+     * For each target menu ID, materialised rows are inserted with the same
+     * sign as the ancestor source row, so exclusion-mode inheritance
+     * ("All except …") propagates as exclusions on descendants.
+     *
+     * @param   array  $menuIds  An array of menu item IDs (positive).
      *
      * @return  boolean
+     *
+     * @throws  \RuntimeException  On database error.
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -1882,21 +1892,21 @@ class ItemModel extends AdminModel
         $menuIds = array_filter($menuIds, static fn (int $id): bool => $id > 0);
 
         foreach ($menuIds as $menuId) {
-            $moduleIds = $this->getInheritedModuleIds($menuId);
+            $moduleSigns = $this->getInheritedModuleIds($menuId);
 
-            if ($moduleIds === false) {
-                return false;
-            }
-
-            if (!$moduleIds) {
+            if (!$moduleSigns) {
                 continue;
             }
 
+            $moduleIds = array_keys($moduleSigns);
+            $negMenuId = -$menuId;
+
             $query = $db->createQuery()
-                ->select($db->quoteName('moduleid'))
+                ->select($db->quoteName(['moduleid', 'menuid']))
                 ->from($db->quoteName('#__modules_menu'))
-                ->where($db->quoteName('menuid') . ' = :menuid')
-                ->bind(':menuid', $menuId, ParameterType::INTEGER);
+                ->where($db->quoteName('menuid') . ' IN (:menuidpos, :menuidneg)')
+                ->bind(':menuidpos', $menuId, ParameterType::INTEGER)
+                ->bind(':menuidneg', $negMenuId, ParameterType::INTEGER);
 
             $query->where(
                 $db->quoteName('moduleid') . ' IN (' . implode(
@@ -1907,27 +1917,40 @@ class ItemModel extends AdminModel
 
             try {
                 $db->setQuery($query);
-                $existing = ArrayHelper::toInteger((array) $db->loadColumn());
+                $existing = (array) $db->loadObjectList();
             } catch (\RuntimeException $e) {
                 throw new \RuntimeException($e->getMessage(), 500);
             }
 
-            $missing = array_diff($moduleIds, $existing);
+            $existingSet = [];
 
-            if (!$missing) {
+            foreach ($existing as $row) {
+                $existingSet[(int) $row->moduleid . ':' . (int) $row->menuid] = true;
+            }
+
+            $insert     = $db->createQuery()
+                ->insert($db->quoteName('#__modules_menu'))
+                ->columns($db->quoteName(['moduleid', 'menuid', 'inherit']));
+            $hasInserts = false;
+
+            foreach ($moduleSigns as $moduleId => $sign) {
+                $signedMenuId = $sign * $menuId;
+                $key          = $moduleId . ':' . $signedMenuId;
+
+                if (isset($existingSet[$key])) {
+                    continue;
+                }
+
+                $insert->values($moduleId . ',' . $signedMenuId . ',0');
+                $hasInserts = true;
+            }
+
+            if (!$hasInserts) {
                 continue;
             }
 
-            $query = $db->createQuery()
-                ->insert($db->quoteName('#__modules_menu'))
-                ->columns($db->quoteName(['moduleid', 'menuid', 'inherit']));
-
-            foreach ($missing as $moduleId) {
-                $query->values((int) $moduleId . ',' . $menuId . ',0');
-            }
-
             try {
-                $db->setQuery($query);
+                $db->setQuery($insert);
                 $db->execute();
             } catch (\RuntimeException $e) {
                 throw new \RuntimeException($e->getMessage(), 500);
@@ -1940,18 +1963,25 @@ class ItemModel extends AdminModel
     /**
      * Resolve modules that should be inherited for a menu item from ancestor source nodes.
      *
+     * Returns a map of moduleId => sign, where sign is +1 if the ancestor source
+     * row had a positive menuid (include mode) and -1 if negative (exclude mode).
+     * In practice all rows for a single module share a sign, so the first sign
+     * encountered is used if duplicates appear.
+     *
      * @param   integer  $menuId  Target menu item ID.
      *
-     * @return  mixed  An array of module IDs, or false on error.
+     * @return  array<int, int>  moduleId => sign (+1 or -1).
+     *
+     * @throws  \RuntimeException  On database error.
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected function getInheritedModuleIds(int $menuId)
+    protected function getInheritedModuleIds(int $menuId): array
     {
         $db = $this->getDatabase();
 
         $query = $db->createQuery()
-            ->select('DISTINCT ' . $db->quoteName('src.moduleid'))
+            ->select('DISTINCT ' . $db->quoteName('src.moduleid') . ', ' . $db->quoteName('src.menuid'))
             ->from($db->quoteName('#__menu', 'node'))
             ->join(
                 'INNER',
@@ -1963,10 +1993,12 @@ class ItemModel extends AdminModel
             ->join(
                 'INNER',
                 $db->quoteName('#__modules_menu', 'src'),
-                $db->quoteName('src.menuid') . ' = ' . $db->quoteName('source.id')
+                '('
+                . $db->quoteName('src.menuid') . ' = ' . $db->quoteName('source.id')
+                . ' OR ' . $db->quoteName('src.menuid') . ' = -' . $db->quoteName('source.id')
+                . ')'
             )
             ->where($db->quoteName('node.id') . ' = :menuid')
-            ->where($db->quoteName('src.menuid') . ' > 0')
             ->where($db->quoteName('src.inherit') . ' IN (1, 2)')
             ->where(
                 '('
@@ -1974,14 +2006,26 @@ class ItemModel extends AdminModel
                 . $db->quoteName('node.level') . ' = (' . $db->quoteName('source.level') . ' + 1)'
                 . ')'
             )
+            ->where($db->quoteName('node.id') . ' <> ' . $db->quoteName('source.id'))
             ->bind(':menuid', $menuId, ParameterType::INTEGER);
 
         try {
             $db->setQuery($query);
-
-            return ArrayHelper::toInteger((array) $db->loadColumn());
+            $rows = (array) $db->loadObjectList();
         } catch (\RuntimeException $e) {
             throw new \RuntimeException($e->getMessage(), 500);
         }
+
+        $result = [];
+
+        foreach ($rows as $row) {
+            $moduleId = (int) $row->moduleid;
+
+            if (!isset($result[$moduleId])) {
+                $result[$moduleId] = (int) $row->menuid < 0 ? -1 : 1;
+            }
+        }
+
+        return $result;
     }
 }

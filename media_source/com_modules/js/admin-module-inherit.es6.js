@@ -4,44 +4,16 @@
  */
 (() => {
   const ROOT_SELECTOR = '#jform_menuselect';
-  const SELECT_SELECTOR = 'select[name^="jform[inherit_select_"]';
+  const SELECT_SELECTOR = 'select[data-inherit-menu-id]';
   const CHECKBOX_SELECTOR = 'input[type="checkbox"][name="jform[assigned][]"]';
   const HIDDEN_INHERIT_SELECTOR = 'input[type="hidden"][name^="jform[inherit]["]';
   const LOCK_BADGE_SELECTOR = '.module-inherit-lock-badge';
   const TREE_UNCHECK_ALL_SELECTOR = '#treeUncheckAll';
   const SUBTREE_ACTION_SELECTOR = 'a.checkall, a.uncheckall';
 
-  const getSubmenu = (li) => {
-    if (!li) {
-      return null;
-    }
+  const getSubmenu = (li) => (li ? li.querySelector(':scope > ul.treeselect-sub') : null);
 
-    for (let i = 0; i < li.children.length; i += 1) {
-      const child = li.children[i];
-
-      if (child.tagName === 'UL' && child.classList.contains('treeselect-sub')) {
-        return child;
-      }
-    }
-
-    return null;
-  };
-
-  const getDirectItem = (li) => {
-    if (!li) {
-      return null;
-    }
-
-    for (let i = 0; i < li.children.length; i += 1) {
-      const child = li.children[i];
-
-      if (child.classList && child.classList.contains('treeselect-item')) {
-        return child;
-      }
-    }
-
-    return null;
-  };
+  const getDirectItem = (li) => (li ? li.querySelector(':scope > .treeselect-item') : null);
 
   const getDirectChildLis = (li) => {
     const submenu = getSubmenu(li);
@@ -53,6 +25,9 @@
     return Array.from(submenu.children).filter((child) => child.tagName === 'LI');
   };
 
+  // Filter to LIs that hold a real menu item, so a future template change
+  // that introduces a non-menu <li> inside .treeselect-sub doesn't leak
+  // into the lock-target sets.
   const getDescendantLis = (li) => {
     const submenu = getSubmenu(li);
 
@@ -60,12 +35,8 @@
       return [];
     }
 
-    return Array.from(submenu.querySelectorAll('li'));
-  };
-
-  const getMenuId = (name, pattern) => {
-    const match = name.match(pattern);
-    return match ? match[1] : null;
+    return Array.from(submenu.querySelectorAll('li'))
+      .filter((descendant) => getDirectItem(descendant));
   };
 
   const getMode = (select) => {
@@ -88,7 +59,7 @@
   };
 
   const syncHiddenValue = (state, select) => {
-    const menuId = getMenuId(select.name, /^jform\[inherit_select_(\d+)]$/);
+    const menuId = select.dataset.inheritMenuId;
 
     if (!menuId) {
       return;
@@ -101,38 +72,6 @@
     }
   };
 
-  const syncAllHiddenValues = (state) => {
-    state.selects.forEach((select) => syncHiddenValue(state, select));
-  };
-
-  const syncCheckboxMirror = (state, checkbox) => {
-    const mirror = state.mirrorByCheckbox.get(checkbox);
-    const shouldMirror = checkbox.disabled
-      && checkbox.dataset.inheritLocked === '1'
-      && checkbox.checked;
-
-    if (!shouldMirror) {
-      if (mirror) {
-        mirror.remove();
-        state.mirrorByCheckbox.delete(checkbox);
-      }
-
-      return;
-    }
-
-    if (mirror) {
-      mirror.value = checkbox.value;
-      return;
-    }
-
-    const newMirror = document.createElement('input');
-    newMirror.type = 'hidden';
-    newMirror.name = checkbox.name;
-    newMirror.value = checkbox.value;
-    checkbox.insertAdjacentElement('afterend', newMirror);
-    state.mirrorByCheckbox.set(checkbox, newMirror);
-  };
-
   const refreshCheckboxState = (state, checkbox) => {
     const baselineLocked = checkbox.dataset.inheritBaselineDisabled === '1';
     const inheritedLocked = (state.checkboxLockCount.get(checkbox) || 0) > 0;
@@ -142,14 +81,6 @@
     }
 
     checkbox.disabled = baselineLocked || inheritedLocked;
-
-    if (!baselineLocked && inheritedLocked) {
-      checkbox.dataset.inheritLocked = '1';
-    } else {
-      delete checkbox.dataset.inheritLocked;
-    }
-
-    syncCheckboxMirror(state, checkbox);
   };
 
   const refreshSelectState = (state, select) => {
@@ -211,6 +142,8 @@
 
     const checkboxTargets = mode === 2 ? targets.deepCheckboxes : targets.directCheckboxes;
 
+    // The source's own checkbox is locked too: a parent can't propagate an
+    // assignment to its descendants without itself being assigned.
     if (targets.sourceCheckbox) {
       setCount(state.checkboxLockCount, targets.sourceCheckbox, delta);
     }
@@ -267,7 +200,7 @@
 
     selects.forEach((select) => {
       select.dataset.inheritBaselineDisabled = select.disabled ? '1' : '0';
-      const menuId = getMenuId(select.name, /^jform\[inherit_select_(\d+)]$/);
+      const menuId = select.dataset.inheritMenuId;
 
       if (menuId) {
         selectByMenuId.set(menuId, select);
@@ -275,10 +208,10 @@
     });
 
     root.querySelectorAll(HIDDEN_INHERIT_SELECTOR).forEach((hidden) => {
-      const menuId = getMenuId(hidden.name, /^jform\[inherit]\[(\d+)]$/);
+      const match = hidden.name.match(/^jform\[inherit]\[(\d+)]$/);
 
-      if (menuId) {
-        hiddenByMenuId.set(menuId, hidden);
+      if (match) {
+        hiddenByMenuId.set(match[1], hidden);
       }
     });
 
@@ -336,7 +269,6 @@
       selectMode: new Map(),
       checkboxLockCount: new Map(),
       selectLockCount: new Map(),
-      mirrorByCheckbox: new WeakMap(),
     };
   };
 
@@ -389,11 +321,17 @@
   };
 
   const clearInheritance = (state) => {
+    // Reset values + clear all derived lock state in one shot, then do a
+    // single bulk repaint instead of orchestrating per-select updates
+    // (each of which would otherwise repaint the whole subtree).
     state.selects.forEach((select) => {
       select.value = '0';
       syncHiddenValue(state, select);
-      updateSelectMode(state, select);
     });
+
+    state.selectMode.clear();
+    state.checkboxLockCount.clear();
+    state.selectLockCount.clear();
 
     state.checkboxes.forEach((checkbox) => {
       if (checkbox.dataset.inheritBaselineDisabled !== '1') {
@@ -401,6 +339,10 @@
       }
 
       refreshCheckboxState(state, checkbox);
+    });
+
+    state.selects.forEach((select) => {
+      refreshSelectState(state, select);
     });
 
     refreshSubtreeActions(state.root);
@@ -419,15 +361,6 @@
       return;
     }
 
-    state.hiddenByMenuId.forEach((hidden, menuId) => {
-      const select = state.selectByMenuId.get(menuId);
-
-      if (select) {
-        select.value = hidden.value;
-      }
-    });
-
-    syncAllHiddenValues(state);
     initializeLocks(state);
 
     root.addEventListener('change', (event) => {

@@ -1020,8 +1020,20 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
             // Variable is numeric, but could be a string.
             $assignment = (int) $assignment;
 
+            // Detect whether the user has set inheritance on any menu item.
+            // The UI locks the source checkbox when inheritance is on, so the
+            // checkbox does not submit and $data['assigned'] may not contain it.
+            $hasInheritSources = false;
+
+            foreach ((array) ($data['inherit'] ?? []) as $inheritValue) {
+                if ((int) $inheritValue > 0) {
+                    $hasInheritSources = true;
+                    break;
+                }
+            }
+
             // Logic check: if no module excluded then convert to display on all.
-            if ($assignment == -1 && empty($data['assigned'])) {
+            if ($assignment == -1 && empty($data['assigned']) && !$hasInheritSources) {
                 $assignment = 0;
             }
 
@@ -1043,29 +1055,60 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
 
                     return false;
                 }
-            } elseif (!empty($data['assigned'])) {
-                // Get the sign of the number.
+            } else {
                 $sign = $assignment < 0 ? -1 : 1;
+                $rows = [];
 
-                $query->clear()
-                    ->insert($db->quoteName('#__modules_menu'))
-                    ->columns($db->quoteName(['moduleid', 'menuid', 'inherit']));
+                foreach ((array) ($data['assigned'] ?? []) as $pk) {
+                    $pk = (int) $pk;
 
-                foreach ($data['assigned'] as &$pk) {
-                    $inherit = (int) ($data['inherit'][$pk] ?? 0);
-                    $query->values((int) $table->id . ',' . (int) $pk * $sign . ',' . $inherit);
+                    if ($pk > 0) {
+                        $rows[$pk * $sign] = (int) ($data['inherit'][$pk] ?? 0);
+                    }
                 }
 
-                $db->setQuery($query);
+                // Add source rows for inheriting menu items whose checkbox
+                // didn't submit because the UI locked it. Sign follows the
+                // current assignment mode so include/exclude both work.
+                if ($hasInheritSources) {
+                    foreach ($data['inherit'] as $menuId => $inherit) {
+                        $menuId  = (int) $menuId;
+                        $inherit = (int) $inherit;
 
-                try {
-                    $db->execute();
-                } catch (\RuntimeException $e) {
-                    $this->setError($e->getMessage());
+                        if ($menuId > 0 && $inherit > 0) {
+                            $signedKey = $menuId * $sign;
 
-                    return false;
+                            if (!isset($rows[$signedKey])) {
+                                $rows[$signedKey] = $inherit;
+                            }
+                        }
+                    }
+                }
+
+                if ($rows) {
+                    $query->clear()
+                        ->insert($db->quoteName('#__modules_menu'))
+                        ->columns($db->quoteName(['moduleid', 'menuid', 'inherit']));
+
+                    foreach ($rows as $signedMenuId => $inherit) {
+                        $query->values((int) $table->id . ',' . (int) $signedMenuId . ',' . $inherit);
+                    }
+
+                    $db->setQuery($query);
+
+                    try {
+                        $db->execute();
+                    } catch (\RuntimeException $e) {
+                        $this->setError($e->getMessage());
+
+                        return false;
+                    }
                 }
             }
+        }
+
+        if (!$this->addInheritedMenus((int) $table->id)) {
+            return false;
         }
 
         // Trigger the after save event.
@@ -1134,5 +1177,133 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
     protected function cleanCache($group = null)
     {
         parent::cleanCache('com_modules');
+    }
+
+    /**
+     * Insert missing #__modules_menu rows inherited from source menu items for a module.
+     *
+     * For every source row (inherit IN (1, 2)) belonging to the given module,
+     * inserts the implied descendant rows with inherit = 0 if missing. The
+     * sign of the source menuid is preserved on the materialized rows, so
+     * exclusion-mode inheritance ("All except …") is propagated as exclusions.
+     * Idempotent: running it twice produces no extra rows.
+     *
+     * Mirror of \Joomla\Component\Menus\Administrator\Model\ItemModel::addInheritedModules,
+     * pivoted to start from a module ID rather than a set of menu IDs.
+     *
+     * @param   integer  $moduleId  The module ID.
+     *
+     * @return  boolean  True on success.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function addInheritedMenus(int $moduleId): bool
+    {
+        if ($moduleId <= 0 || !(int) ComponentHelper::getParams('com_modules')->get('enable_inherit', 0)) {
+            return true;
+        }
+
+        $db = $this->getDatabase();
+
+        // Find (sourceMenuid, descendantNodeId) pairs implied by inheritance.
+        // The OR in the join handles both include (menuid > 0) and exclude
+        // (menuid < 0) source rows without needing an ABS() function.
+        $query = $db->createQuery()
+            ->select('DISTINCT ' . $db->quoteName('src.menuid') . ', ' . $db->quoteName('node.id'))
+            ->from($db->quoteName('#__menu', 'node'))
+            ->join(
+                'INNER',
+                $db->quoteName('#__menu', 'source'),
+                $db->quoteName('source.lft') . ' <= ' . $db->quoteName('node.lft')
+                . ' AND ' . $db->quoteName('source.rgt') . ' >= ' . $db->quoteName('node.rgt')
+                . ' AND ' . $db->quoteName('source.menutype') . ' = ' . $db->quoteName('node.menutype')
+            )
+            ->join(
+                'INNER',
+                $db->quoteName('#__modules_menu', 'src'),
+                '('
+                . $db->quoteName('src.menuid') . ' = ' . $db->quoteName('source.id')
+                . ' OR ' . $db->quoteName('src.menuid') . ' = -' . $db->quoteName('source.id')
+                . ')'
+            )
+            ->where($db->quoteName('src.moduleid') . ' = :moduleid')
+            ->where($db->quoteName('src.inherit') . ' IN (1, 2)')
+            ->where(
+                '('
+                . $db->quoteName('src.inherit') . ' = 2 OR '
+                . $db->quoteName('node.level') . ' = (' . $db->quoteName('source.level') . ' + 1)'
+                . ')'
+            )
+            ->where($db->quoteName('node.id') . ' <> ' . $db->quoteName('source.id'))
+            ->bind(':moduleid', $moduleId, ParameterType::INTEGER);
+
+        try {
+            $db->setQuery($query);
+            $pairs = $db->loadObjectList();
+        } catch (\RuntimeException $e) {
+            $this->setError($e->getMessage());
+
+            return false;
+        }
+
+        if (!$pairs) {
+            return true;
+        }
+
+        // Compute signed target menuids (positive for include sources, negative for exclude).
+        $targetMenuIds = [];
+
+        foreach ($pairs as $pair) {
+            $sign            = (int) $pair->menuid < 0 ? -1 : 1;
+            $targetMenuIds[] = $sign * (int) $pair->id;
+        }
+
+        $targetMenuIds = array_values(array_unique($targetMenuIds));
+
+        $query = $db->createQuery()
+            ->select($db->quoteName('menuid'))
+            ->from($db->quoteName('#__modules_menu'))
+            ->where($db->quoteName('moduleid') . ' = :moduleid')
+            ->bind(':moduleid', $moduleId, ParameterType::INTEGER);
+
+        $query->where(
+            $db->quoteName('menuid') . ' IN ('
+            . implode(',', $query->bindArray($targetMenuIds, ParameterType::INTEGER))
+            . ')'
+        );
+
+        try {
+            $db->setQuery($query);
+            $existing = ArrayHelper::toInteger((array) $db->loadColumn());
+        } catch (\RuntimeException $e) {
+            $this->setError($e->getMessage());
+
+            return false;
+        }
+
+        $missing = array_diff($targetMenuIds, $existing);
+
+        if (!$missing) {
+            return true;
+        }
+
+        $insert = $db->createQuery()
+            ->insert($db->quoteName('#__modules_menu'))
+            ->columns($db->quoteName(['moduleid', 'menuid', 'inherit']));
+
+        foreach ($missing as $menuId) {
+            $insert->values($moduleId . ',' . (int) $menuId . ',0');
+        }
+
+        try {
+            $db->setQuery($insert);
+            $db->execute();
+        } catch (\RuntimeException $e) {
+            $this->setError($e->getMessage());
+
+            return false;
+        }
+
+        return true;
     }
 }

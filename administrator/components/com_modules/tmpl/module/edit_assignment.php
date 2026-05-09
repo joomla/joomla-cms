@@ -130,7 +130,7 @@ if ($inheritEnabled) {
                                         <div class="d-inline-block">
                                             <select
                                                 class="form-select form-select-sm ms-3"
-                                                name="jform[inherit_select_<?php echo (int) $link->value; ?>]"
+                                                data-inherit-menu-id="<?php echo (int) $link->value; ?>"
                                                 aria-label="<?php echo $this->escape(Text::sprintf('COM_MODULES_INHERITANCE_MENU_ITEM_LABEL', strip_tags($link->text))); ?>"
                                             >
                                                 <option value="0" <?php echo (($this->item->inherit[$link->value] ?? null) === 0) ? 'selected' : ''; ?>><?php echo Text::_('COM_MODULES_INHERIT_NONE'); ?></option>
