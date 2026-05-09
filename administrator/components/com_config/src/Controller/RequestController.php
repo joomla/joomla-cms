@@ -35,7 +35,7 @@ class RequestController extends BaseController
      *
      * @return  void
      *
-     * @since   6.2.0
+     * @since   __DEPLOY_VERSION__
      */
     public function oauth2auth(): void
     {
