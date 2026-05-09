@@ -13,7 +13,6 @@ namespace Joomla\Plugin\Filesystem\Local\Adapter;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\MediaHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Image\Exception\UnparsableImageException;
 use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Text;
@@ -409,9 +408,9 @@ class LocalAdapter implements AdapterInterface
 
         // Dates
         $obj->create_date             = $createDate->format('c', true);
-        $obj->create_date_formatted   = HTMLHelper::_('date', $createDate, Text::_('DATE_FORMAT_LC5'));
+        $obj->create_date_formatted   = $createDate->format(Text::_('DATE_FORMAT_LC5'), true);
         $obj->modified_date           = $modifiedDate->format('c', true);
-        $obj->modified_date_formatted = HTMLHelper::_('date', $modifiedDate, Text::_('DATE_FORMAT_LC5'));
+        $obj->modified_date_formatted = $modifiedDate->format(Text::_('DATE_FORMAT_LC5'), true);
 
         if ($obj->mime_type === 'image/svg+xml' && $obj->extension === 'svg') {
             $obj->thumb_path = $this->getUrl($obj->path);

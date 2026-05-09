@@ -339,9 +339,13 @@ class ArticlesHelper implements DatabaseAwareInterface
                     'page'    => 0,
                 ];
 
-                // Extra content from events
+                // onContentPrepare plugins work on $item->text
+                if (!isset($item->text)) {
+                    $item->text = $item->introtext . ' ' . $item->fulltext;
+                }
 
                 $contentEvents = [
+                    'onContentPrepare'     => new Content\ContentPrepareEvent('onContentPrepare', $contentEventArguments),
                     'afterDisplayTitle'    => new Content\AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
                     'beforeDisplayContent' => new Content\BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
                     'afterDisplayContent'  => new Content\AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
@@ -353,6 +357,7 @@ class ArticlesHelper implements DatabaseAwareInterface
                     $item->event->{$resultKey} = $results ? trim(implode("\n", $results)) : '';
                 }
             } else {
+                $item->event->onContentPrepare     = '';
                 $item->event->afterDisplayTitle    = '';
                 $item->event->beforeDisplayContent = '';
                 $item->event->afterDisplayContent  = '';
