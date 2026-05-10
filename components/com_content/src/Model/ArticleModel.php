@@ -237,7 +237,7 @@ class ArticleModel extends ItemModel
                     if ($value === 'use_article') {
                         if ($registry->get($key) != '') {
                             // Article has an explicit value, use it
-                            $articleArray[$key]   = $registry->get($key);
+                            $articleArray[$key] = $registry->get($key);
                         } else {
                             // Article is "Use Global", fall back to global component param
                             $articleArray[$key]   = $globalParams->get($key);
