@@ -51,7 +51,7 @@ class LevelsController extends ApiController
     protected function preprocessSaveData(array $data): array
     {
         if ($this->input->getMethod() === 'PATCH') {
-           $data['rules'] = json_decode($data['rules'], true);
+            $data['rules'] = json_decode($data['rules'], true);
         }
 
         return $data;
