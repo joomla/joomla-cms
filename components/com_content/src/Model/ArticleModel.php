@@ -240,7 +240,7 @@ class ArticleModel extends ItemModel
                             $articleArray[$key] = $registry->get($key);
                         } else {
                             // Article is "Use Global", fall back to global component param
-                            $articleArray[$key]   = $globalParams->get($key);
+                            $articleArray[$key] = $globalParams->get($key);
                         }
                     }
                 }
