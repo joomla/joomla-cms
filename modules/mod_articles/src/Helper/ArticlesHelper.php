@@ -336,11 +336,16 @@ class ArticlesHelper implements DatabaseAwareInterface
                     'context' => 'com_content.article',
                     'subject' => $item,
                     'params'  => $item->params,
+                    'page'    => 0,
                 ];
 
-                // Extra content from events
+                // onContentPrepare plugins work on $item->text
+                if (!isset($item->text)) {
+                    $item->text = $item->introtext . ' ' . $item->fulltext;
+                }
 
                 $contentEvents = [
+                    'onContentPrepare'     => new Content\ContentPrepareEvent('onContentPrepare', $contentEventArguments),
                     'afterDisplayTitle'    => new Content\AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
                     'beforeDisplayContent' => new Content\BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
                     'afterDisplayContent'  => new Content\AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
@@ -352,6 +357,7 @@ class ArticlesHelper implements DatabaseAwareInterface
                     $item->event->{$resultKey} = $results ? trim(implode("\n", $results)) : '';
                 }
             } else {
+                $item->event->onContentPrepare     = '';
                 $item->event->afterDisplayTitle    = '';
                 $item->event->beforeDisplayContent = '';
                 $item->event->afterDisplayContent  = '';
@@ -398,11 +404,11 @@ class ArticlesHelper implements DatabaseAwareInterface
                 $item->imageSrc     = '';
 
                 if ($params->get('img_intro_full') === 'intro' && !empty($images->image_intro)) {
-                    $item->imageSrc      = htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8');
-                    $images->float_intro = 'mod-articles-image';
+                    $item->imageSrc       = htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8');
+                    $images->float_intro .= ' mod-articles-image';
                 } elseif ($params->get('img_intro_full') === 'full' && !empty($images->image_fulltext)) {
-                    $item->imageSrc         = htmlspecialchars($images->image_fulltext, ENT_COMPAT, 'UTF-8');
-                    $images->float_fulltext = 'mod-articles-image';
+                    $item->imageSrc          = htmlspecialchars($images->image_fulltext, ENT_COMPAT, 'UTF-8');
+                    $images->float_fulltext .= ' mod-articles-image';
                 }
 
                 $item->images = json_encode($images);

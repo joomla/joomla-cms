@@ -168,6 +168,7 @@ function clean_checkout(string $dir)
 
     // symfony/*
     run_and_check('rm -rf libraries/vendor/symfony/*/Resources/doc');
+    run_and_check('rm -rf libraries/vendor/symfony/*/Test');
     run_and_check('rm -rf libraries/vendor/symfony/*/Tests');
     run_and_check('rm -rf libraries/vendor/symfony/console/Resources');
     run_and_check('rm -rf libraries/vendor/symfony/string/Resources/bin');
@@ -451,7 +452,6 @@ $doNotPackage = [
     'package.json',
     'phpstan-baseline.neon',
     'phpstan.neon',
-    'phpunit-pgsql.xml.dist',
     'phpunit-windows.xml.dist',
     'phpunit.xml.dist',
     'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.ini',
