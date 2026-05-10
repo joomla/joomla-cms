@@ -813,7 +813,6 @@
 				useglobal="true"
 				validate="CssIdentifier"
 			/>
-			
 			<field
 				name="image_fulltext_caption"
 				type="text"
