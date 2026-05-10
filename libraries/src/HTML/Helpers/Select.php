@@ -290,7 +290,7 @@ abstract class Select
                 $html .= static::options($subList, $options);
             } else {
                 if (\is_array($groupAttribs)) {
-                    $groupAttribs = ArrayHelper::toString($groupAttribs);
+                    $groupAttribs = HTMLHelper::buildAttributes($groupAttribs);
                 }
 
                 $html .= $groupIndent
