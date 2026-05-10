@@ -15,7 +15,6 @@ namespace Joomla\Component\Config\Administrator\Field;
 // phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Form\FormField;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
 
@@ -35,9 +34,15 @@ class Oauth2TokenField extends FormField
     protected $type = 'Oauth2Token';
 
     /**
-     * Build the OAuth2 token action UI.
+     * The layout to render.
      *
-     * Shows issue/reissue and validation actions and the callback hint.
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $layout = 'joomla.form.field.oauth2token';
+
+    /**
+     * Build the OAuth2 token action UI.
      *
      * @return  string
      *
@@ -50,31 +55,15 @@ class Oauth2TokenField extends FormField
         $refreshToken  = (string) $formData->get('oauth2_refresh_token');
         $tokenIssuedAt = (string) $formData->get('oauth2_token_issued_at');
 
-        if (!$clientId) {
-            return '<div class="alert alert-warning">' . Text::_('COM_CONFIG_MAIL_OAUTH2_CLIENT_ID_REQUIRED') . '</div>';
-        }
+        $data = $this->getLayoutData();
 
-        $callbackUrl  = ConfigHelper::getOAuth2CallbackUrl();
-        $issueUrl     = Route::_('index.php?option=com_config&task=request.oauth2auth', false);
-        $checkUrl     = Route::_('index.php?option=com_config&task=request.oauth2checktoken', false);
-        $buttonLabel  = $refreshToken !== '' ? Text::_('COM_CONFIG_MAIL_OAUTH2_BUTTON_TITLE_REISSUE') : Text::_('COM_CONFIG_MAIL_OAUTH2_BUTTON_TITLE');
-        $issuedAtHtml = '';
+        $data['clientId']      = $clientId;
+        $data['refreshToken']  = $refreshToken;
+        $data['tokenIssuedAt'] = $tokenIssuedAt;
+        $data['callbackUrl']   = ConfigHelper::getOAuth2CallbackUrl();
+        $data['issueUrl']      = Route::_('index.php?option=com_config&task=request.oauth2auth', false);
+        $data['checkUrl']      = Route::_('index.php?option=com_config&task=request.oauth2checktoken', false);
 
-        if ($tokenIssuedAt !== '') {
-            $issuedAtHtml = '<div style="font-size: 11px; margin-top: 10px">'
-                . Text::sprintf('COM_CONFIG_MAIL_OAUTH2_TOKEN_ISSUED_AT', htmlspecialchars($tokenIssuedAt, ENT_QUOTES, 'UTF-8'))
-                . '</div>';
-        }
-
-        return '<div class="d-flex gap-2 flex-wrap"><a class="btn btn-info" href="'
-            . $issueUrl
-            . '">'
-            . $buttonLabel
-            . '</a>'
-            . ($refreshToken !== '' ? '<a class="btn btn-secondary" href="' . $checkUrl . '">' . Text::_('COM_CONFIG_MAIL_OAUTH2_BUTTON_TITLE_VALIDATE') . '</a>' : '')
-            . '</div><div style="font-size: 11px; margin-top: 10px">'
-            . \sprintf(Text::_('COM_CONFIG_MAIL_OAUTH2_CALLBACK_HINT'), $callbackUrl)
-            . '</div>'
-            . $issuedAtHtml;
+        return $this->getRenderer($this->layout)->render($data);
     }
 }
