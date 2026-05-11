@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Tags\Site\Model\TagModel;
 use Joomla\Registry\Registry;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -93,7 +94,7 @@ class FeedView extends BaseHtmlView
             $articleData = [];
 
             if ($articleIds) {
-                $db           = Factory::getDbo();
+                $db           = Factory::getContainer()->get(DatabaseInterface::class);
                 $articleQuery = $db->getQuery(true)
                     ->select([$db->quoteName('id'), $db->quoteName('fulltext'), $db->quoteName('attribs')])
                     ->from($db->quoteName('#__content'))
