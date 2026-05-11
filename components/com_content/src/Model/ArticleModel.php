@@ -245,7 +245,7 @@ class ArticleModel extends ItemModel
                     }
                 }
 
-                if (\count($articleArray) > 0) {
+                if (\count($articleArray)) {
                     $data->params->merge(new Registry($articleArray));
                 }
 
