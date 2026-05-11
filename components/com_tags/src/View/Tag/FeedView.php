@@ -110,7 +110,7 @@ class FeedView extends BaseHtmlView
                 $title = $this->escape($item->core_title);
                 $title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
 
-                // Build description
+                // Strip HTML from feed item description text
                 $description = $item->core_body;
                 $author      = $item->core_created_by_alias ?: $item->author;
                 $date        = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
@@ -142,6 +142,7 @@ class FeedView extends BaseHtmlView
                     $item->authorEmail = $item->author_email;
                 }
 
+                // Loads item info into RSS array
                 $this->getDocument()->addItem($feeditem);
             }
         }
