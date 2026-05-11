@@ -108,7 +108,7 @@ class ArticleModel extends ItemModel
             ->where($db->quoteName('article_id') . ' = :pk')
             ->where($db->quoteName('expires') . ' >= :now')
             ->bind(':token', $token)
-            ->bind(':pk', $pk, \Joomla\Database\ParameterType::INTEGER)
+            ->bind(':pk', $pk, ParameterType::INTEGER)
             ->bind(':now', $nowDate);
 
         $db->setQuery($query);
