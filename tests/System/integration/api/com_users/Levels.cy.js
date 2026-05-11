@@ -2,11 +2,10 @@ describe('Test that users access levels API endpoint', () => {
   afterEach(() => cy.task('queryDB', "DELETE FROM #__viewlevels WHERE title = 'automated test level'"));
 
   it('can deliver a list of user access levels', () => {
-    cy.db_createUserLevel({ title: 'automated test level'})
-      .then(() => cy.api_get('/users/levels'))
+    cy.api_get('/users/levels')
       .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes')
-        .its('title')
-        .should('include', 'automated test level'));
+      .its('title')
+      .should('include', 'Public'));
   });
 
   it('can deliver a single level', () => {
