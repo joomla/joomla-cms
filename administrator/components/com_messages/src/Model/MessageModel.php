@@ -397,18 +397,14 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
                 $mailer->send();
             } catch (MailDisabledException | phpMailerException $exception) {
                 try {
-                    Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
-
-                    $this->setError(Text::_('COM_MESSAGES_ERROR_MAIL_FAILED'));
-
-                    return false;
-                } catch (\RuntimeException $exception) {
-                    Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
-
-                    $this->setError(Text::_('COM_MESSAGES_ERROR_MAIL_FAILED'));
-
-                    return false;
+                    Log::add($exception->getMessage(), Log::WARNING, 'com_messages');
+                } catch (\RuntimeException $e) {
                 }
+
+                Factory::getApplication()->enqueueMessage(
+                    Text::sprintf('COM_MESSAGES_ERROR_MAIL_FAILED_REASON', $exception->getMessage()),
+                    'warning'
+                );
             }
         }
 
