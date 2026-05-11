@@ -19,7 +19,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Tags\Site\Model\TagModel;
 use Joomla\Registry\Registry;
 
-
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -112,10 +111,9 @@ class FeedView extends BaseHtmlView
                 $title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
 
                 // Build description
+                $description = $item->core_body;
                 $author = $item->core_created_by_alias ?: $item->author;
                 $date   = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
-
-                $description = $item->core_body;
 
                 if ($item->type_alias === 'com_content.article' && isset($articleData[$item->content_item_id])) {
                     $row           = $articleData[$item->content_item_id];
