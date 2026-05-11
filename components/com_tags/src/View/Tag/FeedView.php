@@ -10,12 +10,15 @@
 
 namespace Joomla\Component\Tags\Site\View\Tag;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Tags\Site\Model\TagModel;
+use Joomla\Registry\Registry;
+
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -79,15 +82,52 @@ class FeedView extends BaseHtmlView
         $items = $model->getItems();
 
         if ($items !== false) {
+            // Pre-fetch fulltext and attribs for all com_content.article items in one query
+            $articleIds = [];
+
+            foreach ($items as $item) {
+                if ($item->type_alias === 'com_content.article') {
+                    $articleIds[] = (int) $item->content_item_id;
+                }
+            }
+
+            $articleData = [];
+
+            if ($articleIds) {
+                $db           = Factory::getDbo();
+                $articleQuery = $db->getQuery(true)
+                    ->select([$db->quoteName('id'), $db->quoteName('fulltext'), $db->quoteName('attribs')])
+                    ->from($db->quoteName('#__content'))
+                    ->whereIn($db->quoteName('id'), $articleIds);
+                $db->setQuery($articleQuery);
+                $articleData = $db->loadObjectList('id');
+            }
+
+            $contentParams = ComponentHelper::getParams('com_content');
+            $feedSummary   = $contentParams->get('feed_summary', 0);
+
             foreach ($items as $item) {
                 // Strip HTML from feed item title
                 $title = $this->escape($item->core_title);
                 $title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
 
-                // Strip HTML from feed item description text
+                // Build description
+                $author = $item->core_created_by_alias ?: $item->author;
+                $date   = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
+
                 $description = $item->core_body;
-                $author      = $item->core_created_by_alias ?: $item->author;
-                $date        = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
+
+                if ($item->type_alias === 'com_content.article' && isset($articleData[$item->content_item_id])) {
+                    $row           = $articleData[$item->content_item_id];
+                    $articleParams = new Registry($row->attribs);
+                    $showIntro     = $articleParams->get('show_intro', $contentParams->get('show_intro', 1));
+
+                    if ($feedSummary) {
+                        $description = ($showIntro ? $item->core_body : '') . $row->fulltext;
+                    } else {
+                        $description = $showIntro ? $item->core_body : '';
+                    }
+                }
 
                 // Load individual item creator class
                 $feeditem              = new FeedItem();
@@ -104,7 +144,6 @@ class FeedView extends BaseHtmlView
                     $item->authorEmail = $item->author_email;
                 }
 
-                // Loads item info into RSS array
                 $this->getDocument()->addItem($feeditem);
             }
         }
