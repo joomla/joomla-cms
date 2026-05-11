@@ -112,8 +112,8 @@ class FeedView extends BaseHtmlView
 
                 // Build description
                 $description = $item->core_body;
-                $author = $item->core_created_by_alias ?: $item->author;
-                $date   = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
+                $author      = $item->core_created_by_alias ?: $item->author;
+                $date        = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
 
                 if ($item->type_alias === 'com_content.article' && isset($articleData[$item->content_item_id])) {
                     $row           = $articleData[$item->content_item_id];
