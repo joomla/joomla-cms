@@ -10,7 +10,7 @@ describe('Test that users access levels API endpoint', () => {
 
   it('can deliver a single level', () => {
     cy.db_createUserLevel({ title: 'automated test level'})
-      .then((id) => cy.api_get(`/users/levels/${id}`))
+      .then((level) => cy.api_get(`/users/levels/${level.id}`))
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
         .its('title')
         .should('include', 'automated test level'));
@@ -28,7 +28,7 @@ describe('Test that users access levels API endpoint', () => {
 
   it('can update a level', () => {
     cy.db_createUserLevel({ title: 'automated test level'})
-      .then((id) => cy.api_patch(`/users/levels/${id}`, { title: 'updated automated test level' }))
+      .then((level) => cy.api_patch(`/users/levels/${level.id}`, { title: 'updated automated test level' }))
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
         .its('title')
         .should('include', 'updated automated test level'));
@@ -36,6 +36,6 @@ describe('Test that users access levels API endpoint', () => {
 
   it('can delete a level', () => {
     cy.db_createUserLevel({ title: 'automated test level'})
-      .then((id) => cy.api_delete(`/users/levels/${id}`));
+      .then((level) => cy.api_delete(`/users/levels/${level.id}`));
   });
 });
