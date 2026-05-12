@@ -462,6 +462,9 @@ Joomla = window.Joomla || {};
             document.querySelector('#updateyellowwarning').classList.remove('hidden');
           } */
           break;
+        case PreUpdateChecker.STATE.SERVER_ERROR:
+          html = Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_SERVER_ERROR');
+          break;
         default:
           // An error occurred -> show unknown error note
           html = Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
@@ -491,6 +494,9 @@ Joomla = window.Joomla || {};
         case PreUpdateChecker.STATE.MISSING_COMPATIBILITY_TAG:
           // Could not check compatibility state -> display warning
           html = Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
+          break;
+        case PreUpdateChecker.STATE.SERVER_ERROR:
+          html = Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_SERVER_ERROR');
           break;
         default:
           // An error occurred -> show unknown error note

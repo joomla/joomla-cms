@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_joomlaupdate
+ * @package         Joomla.Administrator
+ * @subpackage      com_joomlaupdate
  *
  * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
@@ -54,10 +54,15 @@ class UpdateController extends BaseController
         } catch (\Throwable $e) {
             $message = Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOGGING_TEST_FAIL', $e->getMessage());
             $this->setRedirect('index.php?option=com_joomlaupdate', $message, 'error');
+
             return;
         }
 
-        Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, \JVERSION), Log::INFO, 'Update');
+        Log::add(
+            Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, \JVERSION),
+            Log::INFO,
+            'Update'
+        );
 
         $result = $model->download();
         $file   = $result['basename'];
@@ -95,7 +100,8 @@ class UpdateController extends BaseController
 
         if ($file) {
             $this->app->setUserState('com_joomlaupdate.file', $file);
-            $url = 'index.php?option=com_joomlaupdate&task=update.install&' . $this->app->getSession()->getFormToken() . '=1';
+            $url = 'index.php?option=com_joomlaupdate&task=update.install&' . $this->app->getSession()->getFormToken(
+                ) . '=1';
 
             Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $file), Log::INFO, 'Update');
         } else {
@@ -281,6 +287,7 @@ class UpdateController extends BaseController
         } catch (\Throwable $e) {
             $message = Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOGGING_TEST_FAIL', $e->getMessage());
             $this->setRedirect('index.php?option=com_joomlaupdate', $message, 'error');
+
             return;
         }
 
@@ -392,11 +399,12 @@ class UpdateController extends BaseController
      *
      * @param   boolean  $cachable   If true, the view output will be cached
      * @param   array    $urlparams  An array of safe URL parameters and their variable types.
-     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  static  This object to support chaining.
      *
-     * @since   2.5.4
+     * @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
+     *
+     * @since      2.5.4
      */
     public function display($cachable = false, $urlparams = [])
     {
@@ -473,13 +481,13 @@ class UpdateController extends BaseController
      * Prints a JSON string.
      * Called from JS.
      *
-     * @since       3.10.0
-     *
+     * @return void
      * @deprecated  4.3 will be removed in 6.0
      *              Use batchextensioncompatibility instead.
      *              Example: $updateController->batchextensioncompatibility();
      *
-     * @return void
+     * @since       3.10.0
+     *
      */
     public function fetchExtensionCompatibility()
     {
@@ -505,13 +513,19 @@ class UpdateController extends BaseController
             $currentUpdateVersion = end($currentCompatibilityStatus->compatibleVersions);
         }
 
-        if ($upgradeUpdateVersion !== false) {
+        if ($upgradeCompatibilityStatus->state == 3 || $currentCompatibilityStatus->state == 3) {
+            // One of the update servers could not be checked.
+            $resultGroup = 4;
+        } elseif ($upgradeUpdateVersion !== false) {
             $upgradeOldestVersion = $upgradeCompatibilityStatus->compatibleVersions[0];
 
             if ($currentUpdateVersion !== false) {
                 // If there are updates compatible with both CMS versions use these
                 $bothCompatibleVersions = array_values(
-                    array_intersect($upgradeCompatibilityStatus->compatibleVersions, $currentCompatibilityStatus->compatibleVersions)
+                    array_intersect(
+                        $upgradeCompatibilityStatus->compatibleVersions,
+                        $currentCompatibilityStatus->compatibleVersions
+                    )
                 );
 
                 if (!empty($bothCompatibleVersions)) {
@@ -542,16 +556,16 @@ class UpdateController extends BaseController
 
         // Do we need to capture
         $combinedCompatibilityStatus = [
-            'upgradeCompatibilityStatus' => (object) [
+            'upgradeCompatibilityStatus' => (object)[
                 'state'             => $upgradeCompatibilityStatus->state,
                 'compatibleVersion' => $upgradeUpdateVersion,
             ],
-            'currentCompatibilityStatus' => (object) [
+            'currentCompatibilityStatus' => (object)[
                 'state'             => $currentCompatibilityStatus->state,
                 'compatibleVersion' => $currentUpdateVersion,
             ],
-            'resultGroup'    => $resultGroup,
-            'upgradeWarning' => $upgradeWarning,
+            'resultGroup'                => $resultGroup,
+            'upgradeWarning'             => $upgradeWarning,
         ];
 
         $this->app           = Factory::getApplication();
@@ -618,13 +632,19 @@ class UpdateController extends BaseController
                 $currentUpdateVersion = end($currentCompatibilityStatus->compatibleVersions);
             }
 
-            if ($upgradeUpdateVersion !== false) {
+            if ($upgradeCompatibilityStatus->state == 3 || $currentCompatibilityStatus->state == 3) {
+                // One of the update servers could not be checked.
+                $resultGroup = 4;
+            } elseif ($upgradeUpdateVersion !== false) {
                 $upgradeOldestVersion = $upgradeCompatibilityStatus->compatibleVersions[0];
 
                 if ($currentUpdateVersion !== false) {
                     // If there are updates compatible with both CMS versions use these
                     $bothCompatibleVersions = array_values(
-                        array_intersect($upgradeCompatibilityStatus->compatibleVersions, $currentCompatibilityStatus->compatibleVersions)
+                        array_intersect(
+                            $upgradeCompatibilityStatus->compatibleVersions,
+                            $currentCompatibilityStatus->compatibleVersions
+                        )
                     );
 
                     if (!empty($bothCompatibleVersions)) {
@@ -641,7 +661,11 @@ class UpdateController extends BaseController
                     $resultGroup = 3;
                 }
 
-                if ($currentUpdateVersion !== false && version_compare($upgradeUpdateVersion, $currentUpdateVersion, '<')) {
+                if ($currentUpdateVersion !== false && version_compare(
+                        $upgradeUpdateVersion,
+                        $currentUpdateVersion,
+                        '<'
+                    )) {
                     // Special case warning when version compatible with target is lower than current
                     $upgradeWarning = 2;
                 }
@@ -656,16 +680,16 @@ class UpdateController extends BaseController
             // Do we need to capture
             $extensionResults[] = [
                 'id'                         => $extensionID,
-                'upgradeCompatibilityStatus' => (object) [
+                'upgradeCompatibilityStatus' => (object)[
                     'state'             => $upgradeCompatibilityStatus->state,
                     'compatibleVersion' => $upgradeUpdateVersion,
                 ],
-                'currentCompatibilityStatus' => (object) [
+                'currentCompatibilityStatus' => (object)[
                     'state'             => $currentCompatibilityStatus->state,
                     'compatibleVersion' => $currentUpdateVersion,
                 ],
-                'resultGroup'    => $resultGroup,
-                'upgradeWarning' => $upgradeWarning,
+                'resultGroup'                => $resultGroup,
+                'upgradeWarning'             => $upgradeWarning,
             ];
         }
 
@@ -759,12 +783,12 @@ class UpdateController extends BaseController
         $lastCheck = date_create_from_format('Y-m-d H:i:s', $params->get('update_last_check', ''));
 
         $result = [
-            'active' => (
-                (int) $params->get('autoupdate')
+            'active'  => (
+                (int)$params->get('autoupdate')
                 && $params->get('updatesource', 'default') === 'default'
-                && (int) $params->get('minimum_stability', Updater::STABILITY_STABLE) === Updater::STABILITY_STABLE
+                && (int)$params->get('minimum_stability', Updater::STABILITY_STABLE) === Updater::STABILITY_STABLE
             ),
-            'healthy' => (int) ($lastCheck !== false && $lastCheck->diff(new \DateTime())->days < 4),
+            'healthy' => (int)($lastCheck !== false && $lastCheck->diff(new \DateTime())->days < 4),
         ];
 
         echo json_encode($result);
