@@ -22,4 +22,22 @@ describe('Test that console command scheduler', () => {
       .its('stdout')
       .should('contain', 'Invalid state passed!');
   });
+
+  it('can run a task', () => {
+    cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php scheduler:run --id=1`)
+      .its('stdout')
+      .should('contain', 'Task#01 \'Rotate Logs\' processed in');
+  });
+
+  it('cannot run a non existent task', () => {
+    cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php scheduler:run --id=123`, { failOnNonZeroExit: false })
+      .its('stdout')
+      .should('contain', 'No matching task found!');
+  });
+
+  it('cannot run a not due task', () => {
+    cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php scheduler:run`, {failOnNonZeroExit: false})
+      .its('stdout')
+      .should('contain', 'No tasks due!');
+  });
 });
