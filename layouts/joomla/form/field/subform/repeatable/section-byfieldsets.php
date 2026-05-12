@@ -11,9 +11,7 @@
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 extract($displayData);
 
