@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\CMS\Table\Content;
+use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -119,7 +120,7 @@ class ArticleModel extends ItemModel
         }
 
         $previewUser = Factory::getContainer()
-            ->get(\Joomla\CMS\User\UserFactoryInterface::class)
+            ->get(UserFactoryInterface::class)
             ->loadUserById($userId);
 
         return $previewUser->authorise('core.edit.state', 'com_content');
