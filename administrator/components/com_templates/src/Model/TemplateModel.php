@@ -695,6 +695,7 @@ class TemplateModel extends FormModel
             ->select('COUNT(*)')
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('name') . ' = :name')
+            ->where($db->quoteName('type') . ' = ' . $db->quote('template'))
             ->bind(':name', $name);
         $db->setQuery($query);
 
