@@ -66,31 +66,8 @@ class UrlRule extends FormRule
         // See https://www.w3.org/Addressing/URL/url-spec.txt
         // Use the full list or optionally specify a list of permitted schemes.
         if ($element['schemes'] == '') {
-            $scheme = [
-                'http',
-                'https',
-                'ftp',
-                'ftps',
-                'gopher',
-                'mailto',
-                'news',
-                'prospero',
-                'telnet',
-                'rlogin',
-                'sftp',
-                'tn3270',
-                'wais',
-                'mid',
-                'cid',
-                'nntp',
-                'tel',
-                'urn',
-                'ldap',
-                'file',
-                'fax',
-                'modem',
-                'git',
-            ];
+            $scheme = ['http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'sftp', 'tn3270', 'wais',
+                'mid', 'cid', 'nntp', 'tel', 'urn', 'ldap', 'file', 'fax', 'modem', 'git', ];
         } else {
             $scheme = explode(',', $element['schemes']);
         }
