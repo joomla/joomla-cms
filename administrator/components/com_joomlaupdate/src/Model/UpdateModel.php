@@ -1922,7 +1922,18 @@ ENDDATA;
             return $return;
         }
 
-        $updateSiteXML = simplexml_load_string((string) $response->getBody());
+        $useInternalXmlErrors = libxml_use_internal_errors(true);
+        $updateSiteXML        = simplexml_load_string((string) $response->getBody());
+        libxml_clear_errors();
+        libxml_use_internal_errors($useInternalXmlErrors);
+
+        if ($updateSiteXML === false) {
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_UPDATE_SITE_INVALID_XML'));
+        }
+
+        if (!isset($updateSiteXML->extension)) {
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_UPDATE_SITE_XML_MISSING_EXTENSION'));
+        }
 
         foreach ($updateSiteXML->extension as $extension) {
             $attribs = new \stdClass();
@@ -1965,7 +1976,10 @@ ENDDATA;
 
         $update = new Update();
         $update->setTargetVersion($joomlaTargetVersion);
-        $update->loadFromXml($updateFileUrl, $minimumStability);
+
+        if (!$update->loadFromXml($updateFileUrl, $minimumStability)) {
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_UPDATE_SITE_INVALID_XML'));
+        }
 
         $compatibleVersions = $update->get('compatibleVersions');
 
