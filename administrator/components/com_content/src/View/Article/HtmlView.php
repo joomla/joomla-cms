@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\FormView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -86,7 +87,7 @@ class HtmlView extends FormView
         $token   = bin2hex(random_bytes(16)); // 32-char hex token
         $expires = Factory::getDate('+5 minutes')->toSql();
 
-        $db  = Factory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
+        $db  = Factory::getContainer()->get(DatabaseInterface::class);
         $row = (object) [
             'token'      => $token,
             'user_id'    => $user->id,
