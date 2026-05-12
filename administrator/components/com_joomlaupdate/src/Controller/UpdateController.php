@@ -647,7 +647,7 @@ class UpdateController extends BaseController
                     $resultGroup = 3;
                 }
 
-                if ($currentUpdateVersion !== false && version_compare( $upgradeUpdateVersion, $currentUpdateVersion, '<')) {
+                if ($currentUpdateVersion !== false && version_compare($upgradeUpdateVersion, $currentUpdateVersion, '<')) {
                     // Special case warning when version compatible with target is lower than current
                     $upgradeWarning = 2;
                 }
