@@ -275,7 +275,7 @@ class MailTemplate
         $replyToName = $app->get('replytoname', '');
 
         if ((int) $config->get('alternative_mailconfig', 0) === 1 && (int) $params->get('alternative_mailconfig', 0) === 1) {
-            if ($this->mailer instanceof Mail && ($this->mailer->Mailer === 'smtp' || $params->get('mailer') === 'smtp')) {
+            if ($this->mailer instanceof SMTPMailerInterface && ($this->mailer->Mailer === 'smtp' || $params->get('mailer') === 'smtp')) {
                 $smtpauth   = ($params->get('smtpauth', $app->get('smtpauth')) == 0) ? null : 1;
                 $smtpuser   = $params->get('smtpuser', $app->get('smtpuser'));
                 $smtppass   = $params->get('smtppass', $app->get('smtppass'));
@@ -285,8 +285,8 @@ class MailTemplate
                 $this->mailer->useSmtp($smtpauth, $smtphost, $smtpuser, $smtppass, $smtpsecure, $smtpport);
             }
 
-            if ($params->get('mailer') === 'sendmail' && $this->mailer instanceof Mail) {
-                $this->mailer->isSendmail();
+            if ($params->get('mailer') === 'sendmail' && $this->mailer instanceof SMTPMailerInterface) {
+                $this->mailer->useSendmail('joomla');
             }
 
             $mailfrom = $params->get('mailfrom', $app->get('mailfrom'));
@@ -336,7 +336,7 @@ class MailTemplate
         }
 
         if ($mailStyle === 'html' || $mailStyle === 'both') {
-            if ($this->mailer instanceof Mail) {
+            if ($this->mailer instanceof SMTPMailerInterface) {
                 $this->mailer->isHtml(true);
             }
 
@@ -440,15 +440,29 @@ class MailTemplate
             }
         }
 
+        $tmpAttachmentFiles = [];
         foreach ($this->attachments as $attachment) {
             if (is_file($attachment->file)) {
                 $this->mailer->addAttachment($attachment->file, $this->getAttachmentName($attachment->file, $attachment->name));
             } elseif ($this->mailer instanceof Mail) {
                 $this->mailer->addStringAttachment($attachment->file, $attachment->name);
+            } else {
+                // If the mailer does not support string attachments, create a temporary file and attach it
+                $tmpFile = tempnam(JPATH_CACHE, 'mailattachment_');
+                if (file_put_contents($tmpFile, $attachment->file) !== false) {
+                    $this->mailer->addAttachment($tmpFile, $attachment->name);
+                    $tmpAttachmentFiles[] = $tmpFile;
+                }
             }
         }
 
-        return $this->mailer->Send();
+        $success = $this->mailer->send();
+
+        foreach ($tmpAttachmentFiles as $tmpFile) {
+            @unlink($tmpFile);
+        }
+
+        return $success;
     }
 
     /**
