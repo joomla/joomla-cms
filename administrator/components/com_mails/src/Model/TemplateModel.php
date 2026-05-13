@@ -50,20 +50,6 @@ class TemplateModel extends AdminModel
     public $typeAlias = 'com_mails.template';
 
     /**
-     * Method to test whether a record can be deleted.
-     *
-     * @param   object  $record  A record object.
-     *
-     * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
-     *
-     * @since   4.0.0
-     */
-    protected function canDelete($record)
-    {
-        return false;
-    }
-
-    /**
      * Method to get the record form.
      *
      * @param   array    $data      An optional array of data for the form to interrogate.
@@ -229,36 +215,6 @@ class TemplateModel extends AdminModel
         }
 
         return $item;
-    }
-
-    /**
-     * Get a specific mail template, falling back to the master if no one is found in the requested language.
-     *
-     * @param   string  $key       Template identifier
-     * @param   string  $language  Language code of the template
-     *
-     * @return  \stdClass|null  An object with the data of the mail, or null if the template not found in the db.
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function getTemplate(string $key, string $language): ?\stdClass
-    {
-        $db    = $this->getDatabase();
-        $query = $db->createQuery();
-        $query->select('*')
-            ->from($db->quoteName('#__mail_templates'))
-            ->where($db->quoteName('template_id') . ' = :key')
-            ->whereIn($db->quoteName('language'), ['', $language], ParameterType::STRING)
-            ->order($db->quoteName('language') . ' DESC')
-            ->bind(':key', $key);
-        $db->setQuery($query);
-        $mail = $db->loadObject();
-
-        if ($mail) {
-            $mail->params = new Registry($mail->params);
-        }
-
-        return $mail;
     }
 
     /**
@@ -436,5 +392,30 @@ class TemplateModel extends AdminModel
 
         $language = Factory::getApplication()->getInput()->getCmd('language');
         $this->setState($this->getName() . '.language', $language);
+    }
+
+    /**
+     * Method to delete one or more records.
+     *
+     * @param   array  &$pks  An array of record primary keys.
+     *
+     * @return  boolean  True if successful, false if an error occurs.
+     *
+     * @since   1.6
+     */
+    public function delete(&$pks)
+    {
+        $pks = (array)$pks;
+        foreach ($pks as $i => $pk) {
+            if (!$this->canDelete((object)['template_id' => $pk])) {
+                return false;
+            }
+        }
+
+        $db    = $this->getDatabase();
+        $query = $db->createQuery();
+        $query->delete($db->quoteName('#__mail_templates'))
+            ->whereIn($db->quoteName('template_id'), $pks, ParameterType::STRING);
+        return $db->setQuery($query)->execute();
     }
 }
