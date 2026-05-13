@@ -128,8 +128,8 @@ class HtmlView extends FormView
 
         // Generate a signed, time-limited preview token and store it in the DB
         $previewToken      = $this->generatePreviewToken($this->item->id);
-        $this->previewLink = $url . '&preview=1&preview_token=' . $previewToken;
-        $this->jooa11yLink = $url . '&jooa11y=1&preview=1&preview_token=' . $previewToken;
+        $this->previewLink = $url . '&preview_token=' . $previewToken;
+        $this->jooa11yLink = $url . '&jooa11y=1&preview_token=' . $previewToken;
 
         if ($this->getLayout() === 'modalreturn') {
             return;
