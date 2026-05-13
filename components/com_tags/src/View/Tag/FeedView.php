@@ -120,12 +120,7 @@ class FeedView extends BaseHtmlView
                     $row           = $articleData[$item->content_item_id];
                     $articleParams = new Registry($row->attribs);
                     $showIntro     = $articleParams->get('show_intro', $contentParams->get('show_intro', 1));
-
-                    if ($feedSummary) {
-                        $description = ($showIntro ? $item->core_body : '') . $row->fulltext;
-                    } else {
-                        $description = $showIntro ? $item->core_body : '';
-                    }
+                    $description = ($showIntro ? $item->core_body : '') . ($feedSummary ? $row->fulltext : '');
                 }
 
                 // Load individual item creator class
