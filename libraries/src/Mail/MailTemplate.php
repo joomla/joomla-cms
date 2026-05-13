@@ -628,7 +628,7 @@ class MailTemplate
                 'subject'     => $subject,
                 'body'        => $body,
                 'htmlbody'    => $htmlbody,
-                'params'      => json_encode(['tags' => (array) $tags]),
+                'params'      => json_encode(['tags' => (array) $tags])
             ]);
     }
 
