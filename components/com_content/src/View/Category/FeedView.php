@@ -57,18 +57,8 @@ class FeedView extends CategoryFeedView
             $item->description = '<p>' . HTMLHelper::_('image', $obj->image_intro, $obj->image_intro_alt) . '</p>';
         }
 
-        // Build description based on feed_summary and show_intro (article parameter)
-        $showIntro = $item->params->get('show_intro', 1); // 1 = Show, 0 = Hide
-
-        if ($params->get('feed_summary', 0)) {
-            // Full text feed
-            $descriptionContent = ($showIntro ? $item->introtext : '') . $item->fulltext;
-        } else {
-            // Intro text only feed
-            $descriptionContent = $showIntro ? $item->introtext : '';
-        }
-
-        $item->description .= $descriptionContent;
+        $item->description .= $item->params->get('show_intro', 1) ? $item->introtext : '';
+        $item->description .= $params->get('feed_summary', 0) ? $item->fulltext : '';
 
         // Add readmore link to description if introtext is shown, show_readmore is true and fulltext exists
         if (!$item->params->get('feed_summary', 0) && $item->params->get('feed_show_readmore', 0) && $item->fulltext) {
