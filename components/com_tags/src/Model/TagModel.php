@@ -124,6 +124,36 @@ class TagModel extends ListModel
             }
         }
 
+        // For feed requests, bulk-fetch fulltext and attribs from #__content
+        // for com_content.article items, since these fields are not available
+        // in the UCM layer (#__ucm_content does not store fulltext)
+        if (Factory::getApplication()->getInput()->getWord('format') === 'feed') {
+            $articleIds = [];
+
+            foreach ($items as $item) {
+                if ($item->type_alias === 'com_content.article') {
+                    $articleIds[] = (int) $item->content_item_id;
+                }
+            }
+
+            if ($articleIds) {
+                $db    = $this->getDatabase();
+                $query = $db->getQuery(true)
+                    ->select([$db->quoteName('id'), $db->quoteName('fulltext'), $db->quoteName('attribs')])
+                    ->from($db->quoteName('#__content'))
+                    ->whereIn($db->quoteName('id'), $articleIds);
+                $db->setQuery($query);
+                $articleData = $db->loadObjectList('id');
+
+                foreach ($items as $item) {
+                    if ($item->type_alias === 'com_content.article' && isset($articleData[$item->content_item_id])) {
+                        $item->fulltext = $articleData[$item->content_item_id]->fulltext;
+                        $item->attribs  = $articleData[$item->content_item_id]->attribs;
+                    }
+                }
+            }
+        }
+
         return $items;
     }
 

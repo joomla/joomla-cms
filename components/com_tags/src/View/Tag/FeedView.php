@@ -82,27 +82,6 @@ class FeedView extends BaseHtmlView
         $items = $model->getItems();
 
         if ($items !== false) {
-            // Pre-fetch fulltext and attribs for all com_content.article items in one query
-            $articleIds = [];
-
-            foreach ($items as $item) {
-                if ($item->type_alias === 'com_content.article') {
-                    $articleIds[] = (int) $item->content_item_id;
-                }
-            }
-
-            $articleData = [];
-
-            if ($articleIds) {
-                $db           = Factory::getContainer()->get(DatabaseInterface::class);
-                $articleQuery = $db->getQuery(true)
-                    ->select([$db->quoteName('id'), $db->quoteName('fulltext'), $db->quoteName('attribs')])
-                    ->from($db->quoteName('#__content'))
-                    ->whereIn($db->quoteName('id'), $articleIds);
-                $db->setQuery($articleQuery);
-                $articleData = $db->loadObjectList('id');
-            }
-
             $contentParams = ComponentHelper::getParams('com_content');
             $feedSummary   = $contentParams->get('feed_summary', 0);
 
@@ -112,15 +91,15 @@ class FeedView extends BaseHtmlView
                 $title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
 
                 // Strip HTML from feed item description text
-                $description = $item->core_body;
-                $author      = $item->core_created_by_alias ?: $item->author;
-                $date        = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
+                $author = $item->core_created_by_alias ?: $item->author;
+                $date   = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
 
-                if ($item->type_alias === 'com_content.article' && isset($articleData[$item->content_item_id])) {
-                    $row           = $articleData[$item->content_item_id];
-                    $articleParams = new Registry($row->attribs);
+                $description = $item->core_body;
+
+                if ($item->type_alias === 'com_content.article' && isset($item->fulltext)) {
+                    $articleParams = new Registry($item->attribs);
                     $showIntro     = $articleParams->get('show_intro', $contentParams->get('show_intro', 1));
-                    $description   = ($showIntro ? $item->core_body : '') . ($feedSummary ? $row->fulltext : '');
+                    $description   = ($showIntro ? $item->core_body : '') . ($feedSummary ? $item->fulltext : '');
                 }
 
                 // Load individual item creator class
