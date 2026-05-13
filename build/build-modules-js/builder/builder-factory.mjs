@@ -1,6 +1,7 @@
 /**
  * Builder factory class
  */
+import { pathToFileURL } from 'node:url';
 import path from 'node:path';
 import fs from 'node:fs';
 import DefaultModuleBuilder from './default-module-builder.mjs';
@@ -21,8 +22,11 @@ export class BuilderFactory{
       // Use default module
       return new DefaultModuleBuilder(name, this.basePath, this.targetPath, this.cmdOptions);
     }
+    let resolvedPath = path.resolve(modulePath);
+    resolvedPath = resolvedPath.replace(/\\/g, '/');
+    const fileURL = pathToFileURL(resolvedPath).href;
 
-    return import(modulePath).then((module) => {
+    return import(fileURL).then((module) => {
       return new module.default(name, this.basePath, this.targetPath, this.cmdOptions);
     });
   }
