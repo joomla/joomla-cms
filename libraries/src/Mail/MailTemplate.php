@@ -275,7 +275,7 @@ class MailTemplate
         $replyToName = $app->get('replytoname', '');
 
         if ((int) $config->get('alternative_mailconfig', 0) === 1 && (int) $params->get('alternative_mailconfig', 0) === 1) {
-            if ($this->mailer instanceof SMTPMailerInterface && ($this->mailer->Mailer === 'smtp' || $params->get('mailer') === 'smtp')) {
+            if ($this->mailer instanceof TransportConfigurableMailerInterface && ($this->mailer->Mailer === 'smtp' || $params->get('mailer') === 'smtp')) {
                 $smtpauth   = ($params->get('smtpauth', $app->get('smtpauth')) == 0) ? null : 1;
                 $smtpuser   = $params->get('smtpuser', $app->get('smtpuser'));
                 $smtppass   = $params->get('smtppass', $app->get('smtppass'));
@@ -285,7 +285,7 @@ class MailTemplate
                 $this->mailer->useSmtp($smtpauth, $smtphost, $smtpuser, $smtppass, $smtpsecure, $smtpport);
             }
 
-            if ($params->get('mailer') === 'sendmail' && $this->mailer instanceof SMTPMailerInterface) {
+            if ($params->get('mailer') === 'sendmail' && $this->mailer instanceof TransportConfigurableMailerInterface) {
                 $this->mailer->useSendmail('joomla');
             }
 
@@ -336,7 +336,7 @@ class MailTemplate
         }
 
         if ($mailStyle === 'html' || $mailStyle === 'both') {
-            if ($this->mailer instanceof SMTPMailerInterface) {
+            if ($this->mailer instanceof FormatConfigurableMailerInterface) {
                 $this->mailer->isHtml(true);
             }
 

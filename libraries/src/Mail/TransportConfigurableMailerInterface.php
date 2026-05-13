@@ -14,23 +14,12 @@ namespace Joomla\CMS\Mail;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Provides a common interface to send emails through an smtp service.
+ * Provides a common interface to send emails through an SMTP or sendmail service.
  *
  * @since  __DEPLOY_VERSION__
  */
-interface SMTPMailerInterface extends MailerInterface
+interface TransportConfigurableMailerInterface
 {
-    /**
-    * Sets message type to HTML.
-    *
-    * @param   boolean  $ishtml  Boolean true or false.
-    *
-    * @return  SMTPMailerInterface  Returns this object for chaining.
-    *
-    * @since   __DEPLOY_VERSION__
-    */
-    public function isHtml($ishtml = true);
-
     /**
      * Use SMTP for sending the email.
      *
@@ -50,7 +39,7 @@ interface SMTPMailerInterface extends MailerInterface
     /**
      * Use sendmail for sending the email.
      *
-     * @return  void
+     * @return  boolean  True on success
      *
      * @since   __DEPLOY_VERSION__
      */

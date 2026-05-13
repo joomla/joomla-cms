@@ -1232,8 +1232,8 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         if ($mailSent === true) {
             $methodName = Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer ?? $input->get('mailer')));
 
-            // If JMail send the mail using PHP Mail as fallback.
-            if ($mail->Mailer ?? $app->get('mailer') !== $app->get('mailer')) {
+            // If Mail send the mail using PHP Mail as fallback.
+            if (($mail->Mailer ?? $app->get('mailer')) !== $app->get('mailer')) {
                 $app->enqueueMessage(Text::sprintf('COM_CONFIG_SENDMAIL_SUCCESS_FALLBACK', $user->email, $methodName), 'warning');
             } else {
                 $app->enqueueMessage(Text::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $user->email, $methodName), 'message');
