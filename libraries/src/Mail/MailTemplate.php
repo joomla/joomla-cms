@@ -275,7 +275,7 @@ class MailTemplate
         $replyToName = $app->get('replytoname', '');
 
         if ((int) $config->get('alternative_mailconfig', 0) === 1 && (int) $params->get('alternative_mailconfig', 0) === 1) {
-            if ($this->mailer instanceof TransportConfigurableMailerInterface && ($this->mailer->Mailer === 'smtp' || $params->get('mailer') === 'smtp')) {
+            if ($this->mailer instanceof TransportConfigurableMailerInterface && $params->get('mailer') === 'smtp') {
                 $smtpauth   = ($params->get('smtpauth', $app->get('smtpauth')) == 0) ? null : 1;
                 $smtpuser   = $params->get('smtpuser', $app->get('smtpuser'));
                 $smtppass   = $params->get('smtppass', $app->get('smtppass'));
@@ -285,7 +285,7 @@ class MailTemplate
                 $this->mailer->useSmtp($smtpauth, $smtphost, $smtpuser, $smtppass, $smtpsecure, $smtpport);
             }
 
-            if ($params->get('mailer') === 'sendmail' && $this->mailer instanceof TransportConfigurableMailerInterface) {
+            if ($this->mailer instanceof TransportConfigurableMailerInterface && $params->get('mailer') === 'sendmail') {
                 $this->mailer->useSendmail('joomla');
             }
 
@@ -293,7 +293,7 @@ class MailTemplate
             $fromname = $params->get('fromname', $app->get('fromname'));
 
             if (MailHelper::isEmailAddress($mailfrom)) {
-                $this->mailer->setSender(MailHelper::cleanLine($mailfrom), MailHelper::cleanLine($fromname), false);
+                $this->mailer->setSender(MailHelper::cleanLine($mailfrom), MailHelper::cleanLine($fromname));
             }
 
             $replyTo     = $params->get('replyto', $replyTo);
