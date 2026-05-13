@@ -88,10 +88,6 @@ class ArticleModel extends ItemModel
         $app   = Factory::getApplication();
         $input = $app->getInput();
 
-        if (!$input->getInt('preview', 0)) {
-            return false;
-        }
-
         $token = $input->getString('preview_token', '');
 
         if (empty($token)) {
@@ -230,9 +226,9 @@ class ArticleModel extends ItemModel
                 $isPreview = $this->isAdminPreview();
 
                 if (
-                    !$user->authorise('core.edit.state', 'com_content.article.' . $pk)
+                    !$isPreview
+                    && !$user->authorise('core.edit.state', 'com_content.article.' . $pk)
                     && !$user->authorise('core.edit', 'com_content.article.' . $pk)
-                    && !$isPreview
                 ) {
                     // Filter by start and end dates.
                     $nowDate = Factory::getDate()->toSql();
@@ -260,7 +256,7 @@ class ArticleModel extends ItemModel
                 $published = $this->getState('filter.published');
                 $archived  = $this->getState('filter.archived');
 
-                if (is_numeric($published) && !$isPreview) {
+                if (!$isPreview && is_numeric($published)) {
                     $query->whereIn($db->quoteName('a.state'), [(int) $published, (int) $archived]);
                 }
 
@@ -273,7 +269,7 @@ class ArticleModel extends ItemModel
                 }
 
                 // Check for published state if filter set.
-                if ((is_numeric($published) || is_numeric($archived)) && ($data->state != $published && $data->state != $archived) && !$isPreview) {
+                if (!$isPreview && (is_numeric($published) || is_numeric($archived)) && ($data->state != $published && $data->state != $archived)) {
                     throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
                 }
 
