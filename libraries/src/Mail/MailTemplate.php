@@ -599,8 +599,7 @@ class MailTemplate
                 'htmlbody'    => $htmlbody,
                 'params'      => json_encode(['tags' => (array) $tags]),
                 'extension'   => explode('.', $key, 2)[0] ?? '',
-                'attachments' => '',
-                'params'      => json_encode(['tags' => (array) $tags]),
+                'attachments' => ''
             ]);
     }
 
