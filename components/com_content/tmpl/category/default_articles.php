@@ -85,7 +85,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                         <?php echo Text::_('JOPTION_SELECT_MONTH'); ?>
                     </label>
                 </span>
-                <select name="filter-search" id="filter-search" class="form-select>
+                <select name="filter-search" id="filter-search" class="form-select">
                     <option value=""><?php echo Text::_('JOPTION_SELECT_MONTH'); ?></option>
                     <?php echo HTMLHelper::_('select.options', HTMLHelper::_('content.months', $this->state), 'value', 'text', $this->state->get('list.filter')); ?>
                 </select>
