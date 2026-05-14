@@ -30,7 +30,7 @@ $params = ComponentHelper::getParams('com_modules');
 $inheritEnabled = $params->get('enable_inherit', 0);
 
 if ($inheritEnabled) {
-    $wa->useScript('com_modules.admin-module-inherit');
+    $wa->usePreset('com_modules.admin-module-inherit');
 }
 ?>
 <div class="control-group">

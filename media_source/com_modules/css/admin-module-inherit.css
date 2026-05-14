@@ -1,0 +1,6 @@
+/* Baseline-disabled items (heading, url, alias, separator) force-checked via
+   inheritance: show a grey checkmark instead of the active blue one. */
+.treeselect .form-check-input[type="checkbox"][data-inherit-baseline-disabled="1"]:checked {
+  background-color: var(--secondary);
+  border-color: var(--secondary);
+}
