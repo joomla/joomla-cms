@@ -1939,16 +1939,16 @@
         },
         {
             "name": "joomla/oauth2",
-            "version": "4.0.1",
+            "version": "4.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/oauth2.git",
-                "reference": "5c665f53aeafb2d3a0168534932ace9573a0abe7"
+                "reference": "bb24c0a969fcc62c97997ba33a476ec888c34b00"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/oauth2/zipball/5c665f53aeafb2d3a0168534932ace9573a0abe7",
-                "reference": "5c665f53aeafb2d3a0168534932ace9573a0abe7",
+                "url": "https://api.github.com/repos/joomla-framework/oauth2/zipball/bb24c0a969fcc62c97997ba33a476ec888c34b00",
+                "reference": "bb24c0a969fcc62c97997ba33a476ec888c34b00",
                 "shasum": ""
             },
             "require": {
@@ -1984,9 +1984,9 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/oauth2/issues",
-                "source": "https://github.com/joomla-framework/oauth2/tree/4.0.1"
+                "source": "https://github.com/joomla-framework/oauth2/tree/4.0.2"
             },
-            "time": "2025-08-06T10:09:51+00:00"
+            "time": "2026-04-15T17:57:50+00:00"
         },
         {
             "name": "joomla/registry",
@@ -2979,16 +2979,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "3.0.49",
+            "version": "3.0.52",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "6233a1e12584754e6b5daa69fe1289b47775c1b9"
+                "reference": "2adaefc83df2ec548558307690f376dd7d4f4fce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/6233a1e12584754e6b5daa69fe1289b47775c1b9",
-                "reference": "6233a1e12584754e6b5daa69fe1289b47775c1b9",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/2adaefc83df2ec548558307690f376dd7d4f4fce",
+                "reference": "2adaefc83df2ec548558307690f376dd7d4f4fce",
                 "shasum": ""
             },
             "require": {
@@ -3069,7 +3069,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpseclib/phpseclib/issues",
-                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.49"
+                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.52"
             },
             "funding": [
                 {
@@ -3085,7 +3085,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-01-27T09:17:28+00:00"
+            "time": "2026-04-27T07:02:15+00:00"
         },
         {
             "name": "psr/cache",
