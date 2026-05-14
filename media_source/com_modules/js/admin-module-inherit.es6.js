@@ -76,8 +76,10 @@
     const baselineLocked = checkbox.dataset.inheritBaselineDisabled === '1';
     const inheritedLocked = (state.checkboxLockCount.get(checkbox) || 0) > 0;
 
-    if (!baselineLocked && inheritedLocked) {
+    if (inheritedLocked) {
       checkbox.checked = true;
+    } else if (baselineLocked) {
+      checkbox.checked = checkbox.dataset.inheritBaselineChecked === '1';
     }
 
     checkbox.disabled = baselineLocked || inheritedLocked;
@@ -196,6 +198,7 @@
 
     checkboxes.forEach((checkbox) => {
       checkbox.dataset.inheritBaselineDisabled = checkbox.disabled ? '1' : '0';
+      checkbox.dataset.inheritBaselineChecked = checkbox.checked ? '1' : '0';
     });
 
     selects.forEach((select) => {
