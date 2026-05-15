@@ -19,17 +19,21 @@ const gzipEncode = (data) => gzipPromise(data, gzipOpts);
 const brotliPromise = promisify(brotliCompress);
 const brotliEncode = (data) => brotliPromise(data, brotliOpts);
 
-export const compressFile = async (file, enableBrotli) => {
-  if (file.endsWith('.min.js') || file.endsWith('.min.css')) {
-    try {
-      const data = await readFile(file);
-      await writeFile(`${file}.gz`, await gzipEncode(data));
-      if (enableBrotli) {
-        await writeFile(`${file}.br`, await brotliEncode(data));
-      }
-      console.log(file);
-    } catch (err) {
-      console.info(`Error on ${file}: ${err.code}`);
-    }
-  }
+/**
+ * Compress and store the result aside original file.
+ * @param { String } file
+ * @param { boolean } enableBrotli
+ * @return {Promise<void>}
+ */
+export const compressFileAndSave = async (file, enableBrotli = false) => {
+  return readFile(file).then((content) => {
+    const gzipRun = gzipEncode(content).then((data) => {
+      return writeFile(`${file}.gz`, data);
+    });
+    const brotliRun = !enableBrotli ? Promise.resolve() : brotliEncode(content).then(() => {
+      return writeFile(`${file}.br`, data);
+    });
+
+    return Promise.all([gzipRun, brotliRun]);
+  });
 };
