@@ -78,7 +78,6 @@ class UpdateModel extends BaseDatabaseModel
 
         // Register a logger for update process
         $options = [
-            'format'    => '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}',
             'text_file' => 'joomla_update.php',
         ];
 
@@ -385,6 +384,7 @@ class UpdateModel extends BaseDatabaseModel
         // We have to manually follow the redirects here so we set the option to false.
         $httpOptions = new Registry();
         $httpOptions->set('follow_location', false);
+        $httpOptions->set('userAgent', (new Version())->getUserAgent('Joomla', true, false));
 
         $response = ['basename' => false, 'check' => null, 'version' => $updateInfo['latest']];
 
@@ -568,7 +568,7 @@ class UpdateModel extends BaseDatabaseModel
         return [
             'password' => $app->getUserState('com_joomlaupdate.password'),
             'filesize' => $app->getUserState('com_joomlaupdate.filesize'),
-            'filename' => $app->getUserState('com_joomlaupdate.file'),
+            'filename' => $fileInformation['basename'],
         ];
     }
 
@@ -585,7 +585,10 @@ class UpdateModel extends BaseDatabaseModel
         $this->cleanCache('_system');
 
         // Prepare connection
-        $http = (new HttpFactory())->getHttp();
+        $options = new Registry();
+        $options->set('userAgent', (new Version())->getUserAgent('Joomla', true, false));
+
+        $http = (new HttpFactory())->getHttp($options);
 
         $url = self::AUTOUPDATE_URL;
         $url .= ($targetState === AutoupdateRegisterState::Subscribe) ? '/register' : '/delete';
@@ -778,8 +781,11 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         // Download the package
+        $options = new Registry();
+        $options->set('userAgent', (new Version())->getUserAgent('Joomla', true, false));
+
         try {
-            $result = (new HttpFactory())->getHttp([], ['curl', 'stream'])->get($url);
+            $result = (new HttpFactory())->getHttp($options, ['curl', 'stream'])->get($url);
         } catch (\RuntimeException) {
             return false;
         }
@@ -1892,7 +1898,10 @@ ENDDATA;
     {
         $return = [];
 
-        $http = (new HttpFactory())->getHttp();
+        $options = new Registry();
+        $options->set('userAgent', (new Version())->getUserAgent('Joomla', true, false));
+
+        $http = (new HttpFactory())->getHttp($options);
 
         try {
             $response = $http->get($updateSiteInfo['location']);

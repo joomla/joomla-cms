@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Captcha\POWCaptcha\Extension\POWCaptcha;
 
 return new class () implements ServiceProviderInterface {
@@ -26,21 +25,20 @@ return new class () implements ServiceProviderInterface {
      *
      * @return  void
      *
-     * @since __DEPLOY_VERSION__
+     * @since 6.1.0
      */
     public function register(Container $container)
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(POWCaptcha::class, function (Container $container) {
                 $plugin = new POWCaptcha(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('captcha', 'powcaptcha')
                 );
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

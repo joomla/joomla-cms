@@ -115,6 +115,7 @@ class Api {
     this.canCreate = options.canCreate || false;
     this.canEdit = options.canEdit || false;
     this.canDelete = options.canDelete || false;
+    this.hasMediaActionPlugins = options.hasMediaActionPlugins !== false;
   }
 
   /**

@@ -69,7 +69,7 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
     {
         // Extract the internal dependencies before calling the parent constructor since it calls $this->load()
         $this->app      = isset($options['app']) && $options['app'] instanceof CMSApplication ? $options['app'] : Factory::getApplication();
-        $this->language = isset($options['language']) && $options['language'] instanceof Language ? $options['language'] : Factory::getLanguage();
+        $this->language = isset($options['language']) && $options['language'] instanceof Language ? $options['language'] : null;
 
         if (!isset($options['db']) || !($options['db'] instanceof DatabaseDriver)) {
             @trigger_error('Database will be mandatory in 5.0.', E_USER_DEPRECATED);
@@ -191,7 +191,7 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
             return false;
         }
 
-        foreach ($this->items as &$item) {
+        foreach ($this->items as $item) {
             // Get parent information.
             $parent_tree = [];
 
@@ -233,9 +233,10 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
         if ($this->app->isClient('site')) {
             // Filter by language if not set
             if (($key = array_search('language', $attributes)) === false) {
-                if (Multilanguage::isEnabled()) {
+                if (Multilanguage::isEnabled() && ($this->language || $this->app->getLanguage())) {
+                    $language     = $this->language ?: $this->app->getLanguage();
                     $attributes[] = 'language';
-                    $values[]     = [Factory::getLanguage()->getTag(), '*'];
+                    $values[]     = [$language->getTag(), '*'];
                 }
             } elseif ($values[$key] === null) {
                 unset($attributes[$key], $values[$key]);

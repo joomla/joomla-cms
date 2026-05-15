@@ -387,7 +387,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         $options  = $event->getOptions();
 
         $my      = $this->getApplication()->getIdentity();
-        $session = Factory::getSession();
+        $session = $this->getApplication()->getSession();
 
         $userid = (int) $user['id'];
 
