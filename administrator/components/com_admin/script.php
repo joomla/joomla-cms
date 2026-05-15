@@ -1095,6 +1095,9 @@ class JoomlaInstallerScript
             // From 6.1.0-beta1 to 6.1.0-beta2
             '/libraries/vendor/altcha-org/altcha/phpstan-baseline.neon',
             '/libraries/vendor/altcha-org/altcha/tests/AltchaTest.php',
+            // From 6.x to 7.0
+            '/media/com_banners/js/admin-banner-edit.es6.js',
+            '/media/com_banners/joomla.asset.json',
         ];
 
         $folders = [
@@ -1176,6 +1179,9 @@ class JoomlaInstallerScript
             '/libraries/vendor/symfony/http-client-contracts/Test',
             // From 6.1.0-beta1 to 6.1.0-beta2
             '/libraries/vendor/altcha-org/altcha/tests',
+            // From 6.x to 7.0
+            '/media/com_banners/js',
+            '/media/com_banners',
         ];
 
         $status['files_checked']   = $files;
