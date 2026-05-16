@@ -86,7 +86,7 @@ if ($successMsg === '') {
                 <?php continue; ?>
             <?php endif; ?>
             <?php $fields = $form->getFieldset($fieldset->name); ?>
-            <?php if (count($fields)) : ?>
+            <?php if (\count($fields)) : ?>
                 <fieldset class="mod-contact-form__fieldset">
                     <?php if (isset($fieldset->label) && ($legend = trim(Text::_($fieldset->label))) !== '') : ?>
                         <legend><?php echo htmlspecialchars($legend, ENT_QUOTES, 'UTF-8'); ?></legend>

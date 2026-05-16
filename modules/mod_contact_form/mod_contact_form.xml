@@ -53,7 +53,7 @@
 					label="COM_CONTACT_FIELD_CAPTCHA_LABEL"
 					folder="captcha"
 					filter="cmd"
-				>
+					>
 					<option value="default">JDEFAULT</option>
 					<option value="0">JOPTION_DO_NOT_USE</option>
 				</field>
