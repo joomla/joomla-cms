@@ -72,7 +72,7 @@ if ($successMsg === '') {
         action="<?php echo $ajaxUrl; ?>"
         method="post"
         class="mod-contact-form__form form-validate"
-        data-mod-contact-form
+        data-mod-contact-form="1"
         data-instance-id="<?php echo $module->id; ?>"
         data-result-target="<?php echo $resultId; ?>"
         data-success-message="<?php echo $successMsg; ?>"
