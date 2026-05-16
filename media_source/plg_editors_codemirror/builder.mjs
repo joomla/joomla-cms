@@ -85,7 +85,7 @@ const compileCodemirror = async (basePath, targetPath) => {
 
   // Copy/Compile the modules
   modules.forEach(([ module, destPath ]) => {
-    tasks.push(handleMJSFile(module, destPath));
+    tasks.push(handleMJSFile(module, destPath, [], { inlineDynamicImports: true }));
   });
 
   return Promise.all(tasks).then(() => {

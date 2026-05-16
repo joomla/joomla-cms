@@ -92,10 +92,12 @@ export const handleJSFile = async (srcPath, targetPath) => {
  * @param { String } srcPath
  * @param { String } targetPath
  * @param { string[] } externalModulesList
+ * @param { object } options
  * @returns { Promise }
  */
-export const handleMJSFile = async (srcPath, targetPath, externalModulesList = []) => {
+export const handleMJSFile = async (srcPath, targetPath, externalModulesList = [], options = {}) => {
   const externalModules =  externalModulesList && externalModulesList.length ? externalModulesList : await getExternalModules();
+  const inlineDynamicImports = options.inlineDynamicImports ?? true;
   const targetFolder = path.dirname(targetPath);
 
   if (!fs.existsSync(targetFolder)) {
@@ -139,6 +141,7 @@ export const handleMJSFile = async (srcPath, targetPath, externalModulesList = [
       format: targetPath.endsWith('core.js') ? 'iife' : 'es',
       sourcemap: false,
       file: targetPath,
+      inlineDynamicImports,
     });
 
     // Minify the code and store
