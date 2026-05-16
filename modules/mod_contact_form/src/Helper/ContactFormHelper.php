@@ -74,7 +74,7 @@ class ContactFormHelper implements DatabaseAwareInterface
         $app->getLanguage()->load('com_contact', JPATH_SITE);
 
         $contactComponent = $app->bootComponent('com_contact');
-        $model = $contactComponent->getMVCFactory()->createModel('Contact', 'Site', ['ignore_request' => true]);
+        $model            = $contactComponent->getMVCFactory()->createModel('Contact', 'Site', ['ignore_request' => true]);
 
         // ignore_request => true skips ContactModel::populateState(), which is the only
         // place that sets state.params. getItem()/getForm() then fail on `clone null`.
@@ -193,7 +193,7 @@ class ContactFormHelper implements DatabaseAwareInterface
         $app->getLanguage()->load('com_contact', JPATH_SITE);
 
         $contactComponent = $app->bootComponent('com_contact');
-        $model = $contactComponent->getMVCFactory()->createModel('Contact', 'Site', ['ignore_request' => true]);
+        $model            = $contactComponent->getMVCFactory()->createModel('Contact', 'Site', ['ignore_request' => true]);
 
         $model->setState('params', $app->getParams('com_contact'));
         $model->setState('filter.published', 1);
@@ -276,8 +276,8 @@ class ContactFormHelper implements DatabaseAwareInterface
         $data = $event->getArgument('data', $data);
 
         if ($contact->email_to === '' && (int) $contact->user_id !== 0) {
-            $userFactory = Factory::getContainer()->get(UserFactoryInterface::class);
-            $contactUser = $userFactory->loadUserById((int) $contact->user_id);
+            $userFactory       = Factory::getContainer()->get(UserFactoryInterface::class);
+            $contactUser       = $userFactory->loadUserById((int) $contact->user_id);
             $contact->email_to = $contactUser->email;
         }
 
@@ -340,10 +340,10 @@ class ContactFormHelper implements DatabaseAwareInterface
         $redirectUrl = trim((string) $moduleParams->get('redirect_on_success', ''));
 
         return [
-            'ok'         => true,
-            'message'    => $successMessage,
-            'redirect'   => $redirectUrl !== '' ? $redirectUrl : null,
-            'token'      => Session::getFormToken(),
+            'ok'       => true,
+            'message'  => $successMessage,
+            'redirect' => $redirectUrl !== '' ? $redirectUrl : null,
+            'token'    => Session::getFormToken(),
         ];
     }
 
