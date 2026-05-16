@@ -786,51 +786,51 @@
 				}
 
 				if (self.params.weekNumbers) {
-					H.addEventListener("change", function (event) {
-						// Since the DOM order is reversed in RTL, we must reverse the order of child nodes.
-						if (self.params.direction === 'rtl') {
+					// Since the DOM order is reversed in RTL, we must reverse the order of child nodes.
+					if (self.params.direction === 'rtl') {
+						H.addEventListener("change", function (event) {
 							self.updateTime(event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
 								event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
 								event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
-						} else {
-							self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
-								event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
-								event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
-						}
-					}, false);
-					M.addEventListener("change", function (event) {
-						// Since the DOM order is reversed in RTL, we must reverse the order of child nodes.
-						if (self.params.direction === 'rtl') {
+						}, false);
+						M.addEventListener("change", function (event) {
 							self.updateTime(event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
 								event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
 								event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
-						} else {
+						}, false);
+					} else {
+						H.addEventListener("change", function (event) {
 							self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
 								event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
 								event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
-						}
-					}, false);
+						}, false);
+						M.addEventListener("change", function (event) {
+							self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
+								event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
+								event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
+						}, false);
+					}
 				} else {
-					H.addEventListener("change", function (event) {
-						// Since the DOM order is reversed in RTL, we must reverse the order of child nodes.
-						if (self.params.direction === 'rtl') {
+					// Since the DOM order is reversed in RTL, we must reverse the order of child nodes.
+					if (self.params.direction === 'rtl') {
+						H.addEventListener("change", function (event) {
 							self.updateTime(event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
 								event.target.parentNode.parentNode.childNodes[1].childNodes[0].value);
-						} else {
-							self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
-								event.target.parentNode.parentNode.childNodes[2].childNodes[0].value);
-						}
-					}, false);
-					M.addEventListener("change", function (event) {
-						// Since the DOM order is reversed in RTL, we must reverse the order of child nodes.
-						if (self.params.direction === 'rtl') {
+						}, false);
+						M.addEventListener("change", function (event) {
 							self.updateTime(event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
 								event.target.parentNode.parentNode.childNodes[1].childNodes[0].value);
-						} else {
+						}, false);
+					} else {
+						H.addEventListener("change", function (event) {
 							self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
 								event.target.parentNode.parentNode.childNodes[2].childNodes[0].value);
-						}
-					}, false);
+						}, false);
+						M.addEventListener("change", function (event) {
+							self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
+								event.target.parentNode.parentNode.childNodes[2].childNodes[0].value);
+						}, false);
+					}
 				}
 			})();
 		}
@@ -894,11 +894,11 @@
 		});
 
 		// Validate the date and time when they are manually entered in the input field.
-		this.inputField.addEventListener('change', function (e) {
+		this.inputField.addEventListener('blur', function (e) {
 			e.preventDefault();
 			if (self.inputField.value) {
+				self.inputField.setAttribute('data-local-value', self.inputField.value);
 				if (self.params.dateType !== 'gregorian') {
-					self.inputField.setAttribute('data-local-value', self.inputField.value);
 					// We need to transform the date for the data-alt-value
 					var ndate, date = Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType, self.strings);
 					ndate = Date.localCalToGregorian(date.getFullYear(), date.getMonth(), date.getDate());
@@ -1217,14 +1217,14 @@
 
 		/** B/C related code
 		 *
-		 *  @deprecated   4.0 will be removed in 6.0
+		 *  @deprecated   4.0 will be removed in 7.0
 		 *                Use JoomlaCalendar.init instead
 		 */
 		window.Calendar = {};
 
 		/** B/C related code
 		 *
-		 *  @deprecated   4.0 will be removed in 6.0
+		 *  @deprecated   4.0 will be removed in 7.0
 		 *                Use JoomlaCalendar.init instead
 		 */
 		Calendar.setup = function(obj) {
