@@ -46,7 +46,8 @@
   }
 }
 
-.choices__list--dropdown {
+.choices__list--dropdown,
+.choices__list[aria-expanded] {
   z-index: $zindex-popover;
 }
 
