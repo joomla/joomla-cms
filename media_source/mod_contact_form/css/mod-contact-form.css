@@ -8,11 +8,11 @@
 }
 
 .mod-contact-form__contact-name {
-  margin-block-end: 0.25rem;
+  margin-block-end: .25rem;
 }
 
 .mod-contact-form__fieldset {
-  margin-block-end: 0.5rem;
+  margin-block-end: .5rem;
   padding: 0;
   border: 0;
 }
@@ -22,7 +22,7 @@
 }
 
 .mod-contact-form .text-body-secondary {
-  font-size: 0.9em;
+  font-size: .9em;
 }
 
 .mod-contact-form__result:empty {
