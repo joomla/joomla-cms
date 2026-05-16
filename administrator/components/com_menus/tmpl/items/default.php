@@ -102,7 +102,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                         </tr>
                         </thead>
                         <tbody <?php if ($saveOrder && $menuType) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php
+                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php
                                endif; ?>>
                         <?php
                         foreach ($this->items as $i => $item) :
