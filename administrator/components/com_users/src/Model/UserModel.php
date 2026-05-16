@@ -933,18 +933,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
         $userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
 
         if (empty($userId)) {
-            $result = [];
-
-            // Check active group filter in the users list session
-            $filters = (array) Factory::getApplication()->getUserState('com_users.users.default.filter');
-            $groupId = $filters['group_id'] ?? null;
-
-            if (!empty($groupId)) {
-                $groupId = (array) $groupId;
-
-                return [(int) reset($groupId)];
-            }
-
+            $result    = [];
             $form      = $this->getForm();
             $groupsIDs = null;
 
@@ -955,10 +944,18 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
             if (!empty($groupsIDs)) {
                 $result = $groupsIDs;
             } else {
-                $params = ComponentHelper::getParams('com_users');
+                // Check for an active group filter in the users list
+                $filters = (array) Factory::getApplication()->getUserState('com_users.users.default.filter');
+                $groupId = !empty($filters['group_id']) ? (int) $filters['group_id'] : 0;
 
-                if ($groupId = $params->get('new_usertype', $params->get('guest_usergroup', 1))) {
-                    $result[] = (int) $groupId;
+                if ($groupId) {
+                    $result[] = $groupId;
+                } else {
+                    $params = ComponentHelper::getParams('com_users');
+
+                    if ($groupId = $params->get('new_usertype', $params->get('guest_usergroup', 1))) {
+                        $result[] = (int) $groupId;
+                    }
                 }
             }
         } else {
