@@ -14,6 +14,8 @@
       resultEl.replaceChildren(alertDiv);
     };
 
+    // AJAX responses may include a new token to prevent JINVALID_TOKEN errors on subsequent submissions.
+    // The form is updated with the new token, and the old one is removed to keep CSRF protection.
     const updateToken = (form, newToken) => {
       if (!newToken) {
         return;
@@ -90,8 +92,8 @@
 
         if (!response.ok) {
           const key = response.status >= 500
-            ? 'MOD_CONTACT_FORM_SERVER_ERROR'
-            : 'MOD_CONTACT_FORM_NETWORK_ERROR';
+            ? 'MOD_CONTACT_FORM_MESSAGE_SERVER_ERROR'
+            : 'MOD_CONTACT_FORM_MESSAGE_NETWORK_ERROR';
           throw new Error(Joomla.Text._(key));
         }
 
@@ -105,7 +107,7 @@
         if (resultEl) {
           const message = err && err.message
             ? err.message
-            : Joomla.Text._('MOD_CONTACT_FORM_NETWORK_ERROR');
+            : Joomla.Text._('MOD_CONTACT_FORM_MESSAGE_NETWORK_ERROR');
           renderResult(resultEl, message, 'danger');
         }
 
@@ -122,7 +124,7 @@
         setSubmitting(form, false);
 
         if (resultEl) {
-          renderResult(resultEl, Joomla.Text._('MOD_CONTACT_FORM_NETWORK_ERROR'), 'danger');
+          renderResult(resultEl, Joomla.Text._('MOD_CONTACT_FORM_MESSAGE_NETWORK_ERROR'), 'danger');
         }
 
         return;
@@ -149,7 +151,7 @@
         if (resultEl) {
           const message = errors.general
             ? errors.general
-            : Joomla.Text._('MOD_CONTACT_FORM_VALIDATION_FAILED');
+            : Joomla.Text._('MOD_CONTACT_FORM_MESSAGE_VALIDATION_FAILED');
           renderResult(resultEl, message, 'danger');
         }
       }
