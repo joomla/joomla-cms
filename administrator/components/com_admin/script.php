@@ -1122,7 +1122,6 @@ class JoomlaInstallerScript
             '/administrator/components/com_workflow/resources/scripts/workflowgraph.es6.js',
             '/media/index.html',
             '/media/vendor/accessibility/js/accessibility.js',
-            '/media/vendor/codemirror/LICENSE',
             '/media/vendor/tinymce/icons/default/index.js',
             '/media/vendor/tinymce/langs/ar-SA.min.js',
             '/media/vendor/tinymce/langs/ar-SA.min.js.gz',
