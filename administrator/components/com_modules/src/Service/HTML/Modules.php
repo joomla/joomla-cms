@@ -12,9 +12,13 @@ namespace Joomla\Component\Modules\Administrator\Service\HTML;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -29,6 +33,82 @@ use Joomla\Utilities\ArrayHelper;
  */
 class Modules
 {
+    use DatabaseAwareTrait;
+
+    /**
+     * Generate the markup to display the item associations
+     *
+     * @param   int  $itemid  The menu item id
+     *
+     * @return  string
+     *
+     * @since   6.1.0
+     *
+     * @throws \Exception If there is an error on the query
+     */
+    public function association($itemid)
+    {
+        // Defaults
+        $html = '';
+
+        // Get the associations
+        $associations = ModulesHelper::getAssociations($itemid);
+
+        if ($associations) {
+            // Get the associated menu items
+            $db    = $this->getDatabase();
+            $query = $db->createQuery()
+                ->select(
+                    [
+                        $db->quoteName('m.id'),
+                        $db->quoteName('m.title'),
+                        $db->quoteName('l.sef', 'lang_sef'),
+                        $db->quoteName('l.lang_code'),
+                        $db->quoteName('l.image'),
+                        $db->quoteName('l.title', 'language_title'),
+                    ]
+                )
+                ->from($db->quoteName('#__modules', 'm'))
+                ->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('m.language') . ' = ' . $db->quoteName('l.lang_code'))
+                ->whereIn($db->quoteName('m.id'), array_values($associations))
+                ->where($db->quoteName('m.id') . ' != :itemid')
+                ->bind(':itemid', $itemid, ParameterType::INTEGER);
+            $db->setQuery($query);
+
+            try {
+                $items = $db->loadObjectList('id');
+            } catch (\RuntimeException $e) {
+                throw new \Exception($e->getMessage(), 500);
+            }
+
+            // Construct html
+            if ($items) {
+                $languages         = LanguageHelper::getContentLanguages([0, 1]);
+                $content_languages = array_column($languages, 'lang_code');
+
+                foreach ($items as &$item) {
+                    if (\in_array($item->lang_code, $content_languages)) {
+                        $text    = $item->lang_code;
+                        $url     = Route::_('index.php?option=com_modules&task=modules.edit&id=' . (int) $item->id);
+                        $tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
+                            . Text::sprintf('COM_MODULES_MODULE_SPRINTF', $item->title);
+                        $classes = 'badge bg-secondary';
+
+                        $item->link = '<a href="' . $url . '" class="' . $classes . '">' . $text . '</a>'
+                            . '<div role="tooltip" id="tip-' . (int) $itemid . '-' . (int) $item->id . '">' . $tooltip . '</div>';
+                    } else {
+                        // Display warning if Content Language is trashed or deleted
+                        Factory::getApplication()->enqueueMessage(Text::sprintf('JGLOBAL_ASSOCIATIONS_CONTENTLANGUAGE_WARNING', $item->lang_code), 'warning');
+                    }
+                }
+            }
+
+            $html = LayoutHelper::render('joomla.content.associations', $items);
+        }
+
+        return $html;
+    }
+
     /**
      * Builds an array of template options
      *
@@ -229,7 +309,7 @@ class Modules
     public function positionList($clientId = 0)
     {
         $clientId = (int) $clientId;
-        $db       = Factory::getDbo();
+        $db       = $this->getDatabase();
         $query    = $db->createQuery()
             ->select('DISTINCT ' . $db->quoteName('position', 'value'))
             ->select($db->quoteName('position', 'text'))

@@ -16,7 +16,7 @@
   }
 }
 
-.tox-fullscreen {
+.tox-tinymce.tox-fullscreen {
   z-index: $zindex-modal-backdrop - 1 !important;
 }
 
@@ -69,5 +69,6 @@
 
 // Adjust the border radius for the editor
 .tox-tinymce {
+  z-index: 1 !important;
   border-radius: 0 !important;
 }

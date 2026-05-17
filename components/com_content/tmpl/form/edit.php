@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -124,7 +125,7 @@ if (!$params->exists('show_publishing_options')) {
 
                 <?php if ($params->get('show_publishing_options', 1) == 1) : ?>
                     <?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'publishing', Text::_('COM_CONTENT_PUBLISHING')); ?>
-                        <?php if (!is_null($this->item->id)) : ?>
+                        <?php if ($this->item->params->get('access-change')) : ?>
                             <?php echo $this->form->renderField('publish_up'); ?>
                             <?php echo $this->form->renderField('publish_down'); ?>
                             <?php echo $this->form->renderField('featured_up'); ?>
@@ -163,7 +164,7 @@ if (!$params->exists('show_publishing_options')) {
                 <span class="icon-times" aria-hidden="true"></span>
                 <?php echo Text::_('JCANCEL'); ?>
             </button>
-            <?php if ($params->get('save_history', 0) && $this->item->id) : ?>
+            <?php if ($params->get('save_history', 0) && $this->item->id && ComponentHelper::isEnabled('com_contenthistory')) : ?>
                 <?php echo $this->form->getInput('contenthistory'); ?>
             <?php endif; ?>
         </div>

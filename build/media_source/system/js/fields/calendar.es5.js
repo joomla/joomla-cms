@@ -297,8 +297,8 @@
 		if (window.innerHeight < containerTmp.getBoundingClientRect().bottom + 20) {
 			containerTmp.style.marginTop = - (containerTmp.getBoundingClientRect().height + this.inputField.getBoundingClientRect().height) + "px";
 		} else {
-      containerTmp.style.marginTop = 'initial';
-    }
+			containerTmp.style.marginTop = 'initial';
+		}
 
 		this.processCalendar();
 	};
@@ -653,10 +653,10 @@
 		}
 		this.firstdayname = (this.params.weekNumbers) ? row.firstChild.nextSibling : row.firstChild;
 
-    // Check if the direction is 'rtl' and reverse the shortDays array if true
-    if (this.params.direction === 'rtl') {
-      this.strings.shortDays.reverse();
-    }
+		// Check if the direction is 'rtl' and reverse the shortDays array if true
+		if (this.params.direction === 'rtl') {
+			this.strings.shortDays.reverse();
+		}
 
 		var fdow = this.params.firstDayOfWeek,
 			cell = this.firstdayname,
@@ -697,6 +697,7 @@
 		if (this.params.showsTime) {
 			row = createElement("tr", tbody);
 			row.className = "time";
+			row.classList.add('calendar-time-row'); // New: mark row for LTR
 
 			var cell = createElement("td", row);
 			cell.className = "time time-title";
@@ -704,13 +705,18 @@
 			cell.style.verticalAlign = 'middle';
 			cell.innerHTML = " ";
 
-			var cell1 = createElement("td", row);
-			cell1.className = "time hours-select";
-			cell1.colSpan = self.params.time24 ? 3 : 2;
+			var hoursCell = createElement("td", row);
+			hoursCell.className = "time hours-select";
+			hoursCell.colSpan = self.params.time24 ? 3 : 2;
 
-			var cell2 = createElement("td", row);
-			cell2.className = "time minutes-select";
-			cell2.colSpan = self.params.time24 ? 3 : 2;
+			var minutesCell = createElement("td", row);
+			minutesCell.className = "time minutes-select";
+			minutesCell.colSpan = self.params.time24 ? 3 : 2;
+
+			// Swap DOM order in RTL so visual order remains Hours | Minutes
+			if (this.params.direction === 'rtl') {
+				row.insertBefore(minutesCell, hoursCell);
+			}
 
 			(function () {
 				function makeTimePart(className, selected, range_start, range_end, cellTml) {
@@ -746,8 +752,8 @@
 					hrs -= 12;
 				}
 
-				var H = makeTimePart("time time-hours form-control form-select", hrs, t12 ? 1 : 0, t12 ? 12 : 23, cell1),
-					M = makeTimePart("time time-minutes form-control form-select", mins, 0, 59, cell2),
+				var H = makeTimePart("time time-hours form-control form-select", hrs, t12 ? 1 : 0, t12 ? 12 : 23, hoursCell),
+					M = makeTimePart("time time-minutes form-control form-select", mins, 0, 59, minutesCell),
 					AP = null;
 
 
@@ -1113,7 +1119,7 @@
 
 			for (var i = 0; i < elements.length; i++) {
 				var element  = elements[i],
-				    instance = element._joomlaCalendar;
+					instance = element._joomlaCalendar;
 
 				if (instance) {
 					instance.setAltValue();
