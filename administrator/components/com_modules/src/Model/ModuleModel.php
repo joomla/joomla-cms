@@ -1185,7 +1185,7 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
      *
      * For every source row (inherit IN (1, 2)) belonging to the given module,
      * inserts the implied descendant rows with inherit = 0 if missing. The
-     * sign of the source menuid is preserved on the materialized rows, so
+     * sign of the source menuid is preserved on the created rows, so
      * exclusion-mode inheritance ("All except …") is propagated as exclusions.
      * Idempotent: running it twice produces no extra rows.
      *

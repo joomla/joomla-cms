@@ -1786,7 +1786,7 @@ class ItemModel extends AdminModel
     }
 
     /**
-     * Materialize inherited module assignments for a menu item or moved subtree.
+     * Add missing inherited module assignments for a menu item or moved subtree.
      *
      * @param   integer  $menuId          Root menu item ID.
      * @param   boolean  $refreshSubtree  True to process all descendants, false to process only the menu item.
