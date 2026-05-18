@@ -13975,7 +13975,17 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getDispatcher\(\) of class Joomla\\CMS\\Plugin\\CMSPlugin\:
+				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\System\\Jooa11y\\Extension\\Jooa11y\:
+				5\.2 will be removed in 7\.0
+				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: plugins/system/jooa11y/services/provider.php
+
+		-
+			message: '''
+				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\System\\Jooa11y\\Extension\\Jooa11y\:
 				5\.2 will be removed in 7\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
