@@ -120,8 +120,13 @@ jobs:
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:php8.4
     needs: [code-style-php]
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: ${{ github.head_ref }}
+          persist-credentials: true
       - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: libraries/vendor
@@ -132,7 +137,18 @@ jobs:
           key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
       - name: Run PHPstan
         run: |
+          set -e
           ./libraries/vendor/bin/phpstan --error-format=github
+          ./libraries/vendor/bin/phpstan --generate-baseline
+          set +e
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          if [ "$GITHUB_EVENT_NAME" = "pull_request" ] && ! git diff --quiet -- phpstan-baseline.neon; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add phpstan-baseline.neon
+            git commit -m "Updated PHPStan baseline [skip ci]"
+            git push origin "HEAD:${{ github.head_ref || github.ref_name }}"
+          fi
 
   tests-unit:
     name: Run Unit tests
