@@ -425,7 +425,7 @@ final class ApiApplication extends CMSApplication
      *
      * @return  string|\stdClass  The name of the template if the params argument is false. The template object if the params argument is true.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.1
      */
     public function getTemplate($params = false)
     {

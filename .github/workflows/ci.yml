@@ -20,7 +20,7 @@ jobs:
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
-      - uses: actions/cache@v4
+      - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         id: cache-webauthn
         with:
           path: plugins/system/webauthn/fido.jwt
@@ -58,7 +58,7 @@ jobs:
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
-      - uses: actions/cache/restore@v4
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: plugins/system/webauthn/fido.jwt
           key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
@@ -80,7 +80,7 @@ jobs:
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
-      - uses: actions/cache/restore@v4
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: plugins/system/webauthn/fido.jwt
           key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
@@ -126,7 +126,7 @@ jobs:
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
-      - uses: actions/cache/restore@v4
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: plugins/system/webauthn/fido.jwt
           key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
@@ -148,7 +148,7 @@ jobs:
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
-      - uses: actions/cache/restore@v4
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: plugins/system/webauthn/fido.jwt
           key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
@@ -198,7 +198,7 @@ jobs:
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
-      - uses: actions/cache/restore@v4
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: plugins/system/webauthn/fido.jwt
           key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
@@ -252,7 +252,7 @@ jobs:
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
-      - uses: actions/cache/restore@v4
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         id: cache-webauthn-windows
         with:
           path: plugins/system/webauthn/fido.jwt
@@ -282,7 +282,7 @@ jobs:
         with:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
-      - uses: actions/cache/restore@v4
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: plugins/system/webauthn/fido.jwt
           key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
@@ -391,7 +391,7 @@ jobs:
         with:
           path: plugins/system/webauthn/fido.jwt
           key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
-      - uses: actions/cache/restore@v4
+      - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: |
             node_modules
