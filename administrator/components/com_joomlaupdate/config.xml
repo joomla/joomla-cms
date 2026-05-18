@@ -109,6 +109,7 @@
 			type="calendar"
 			showtime="true"
 			filter="user_utc"
+			translateformat="true"
 			label="COM_JOOMLAUPDATE_CONFIG_UPDATE_LAST_CHECK_LABEL"
 			description="COM_JOOMLAUPDATE_CONFIG_UPDATE_LAST_CHECK_DESC"
 			readonly="true"
