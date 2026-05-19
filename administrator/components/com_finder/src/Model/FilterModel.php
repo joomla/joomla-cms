@@ -143,4 +143,61 @@ class FilterModel extends AdminModel
 
         return $db->setQuery($query)->loadResult();
     }
+
+    /**
+     * Method to save the form data.
+     * Intercepts custom author filter and maps it to Finder Taxonomy ID.
+     *
+     * @param   array  $data  The form data.
+     *
+     * @return  boolean   True on success, False on error.
+     *
+     * @since    6.2.0
+     */
+    public function save($data)
+    {
+        // Check if our custom dropdown was set to "Active User" (1)
+        $customAuthor = Factory::getApplication()->getInput()->getInt('custom_author_filter', 0);
+
+        if ($customAuthor === 1) {
+            $user = Factory::getApplication()->getIdentity();
+            $db   = $this->getDatabase();
+            // Find the taxonomy ID for this user under the "Author" parent
+            $query = $db->getQuery(true)
+                ->select($db->quoteName('t.id'))
+                ->from($db->quoteName('#__finder_taxonomy', 't'))
+                ->innerJoin(
+                    $db->quoteName('#__finder_taxonomy', 'p'),
+                    $db->quoteName('p.id') . ' = ' . $db->quoteName('t.parent_id')
+                )
+                ->where($db->quoteName('t.title') . ' = :userName')
+                ->where($db->quoteName('p.title') . ' = ' . $db->quote('Author'))
+                ->bind(':userName', $user->name);
+
+            $taxonomyId = (int) $db->setQuery($query)->loadResult();
+
+            if ($taxonomyId) {
+                if (empty($data['data'])) {
+                    $data['data'] = [];
+                } elseif (\is_string($data['data'])) {
+                    $data['data'] = explode(',', $data['data']);
+                }
+
+                $subQuery = $db->getQuery(true)
+                    ->select($db->quoteName('id'))
+                    ->from($db->quoteName('#__finder_taxonomy'))
+                    ->where($db->quoteName('parent_id') . ' IN ('
+                        . 'SELECT ' . $db->quoteName('id') . ' FROM ' . $db->quoteName('#__finder_taxonomy')
+                        . ' WHERE ' . $db->quoteName('title') . ' = ' . $db->quote('Author') . ')');
+
+                $oldAuthorIds = $db->setQuery($subQuery)->loadColumn();
+
+                $data['data'] = array_diff($data['data'], $oldAuthorIds);
+
+                $data['data'][] = $taxonomyId;
+            }
+        }
+
+        return parent::save($data);
+    }
 }

@@ -51,5 +51,18 @@ Joomla = window.Joomla || {};
         }
       });
     }
+
+    // Handle Active User Toggle for Authors
+    const authorRadios = document.querySelectorAll('input[name="custom_author_filter"]');
+    const authorCheckboxes = document.getElementById('author-checkboxes-wrapper');
+    if (authorRadios.length && authorCheckboxes) {
+
+      authorRadios.forEach(radio => {
+
+        radio.addEventListener('change', (e) => {
+          authorCheckboxes.style.display = e.target.value === '1' ? 'none' : 'block';
+        });
+      });
+    }
   });
 })();

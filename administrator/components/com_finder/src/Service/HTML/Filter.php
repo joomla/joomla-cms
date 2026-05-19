@@ -170,6 +170,27 @@ class Filter
                 'accordion-' . $bk
             );
 
+            if ($bv->title === 'Author') {
+                // Load Joomla Switcher CSS
+                Factory::getApplication()->getDocument()->getWebAssetManager()->useStyle('switcher');
+
+                $html .= '<div class="d-flex align-items-center mb-3">';
+                $html .= '	<label class="form-label fw-bold me-3 mb-0">';
+                $html .= '		' . Text::_('COM_FINDER_ACTIVE_USER_ONLY');
+                $html .= '	</label>';
+                $html .= '	<fieldset id="custom_author_filter" class="switcher">';
+                $html .= '		<legend class="visually-hidden">' . Text::_('COM_FINDER_ACTIVE_USER_ONLY') . '</legend>';
+                $html .= '		<input type="radio" id="custom_author_filter_no" name="custom_author_filter" value="0" checked class="active">';
+                $html .= '		<label for="custom_author_filter_no">No</label>';
+                $html .= '		<input type="radio" id="custom_author_filter_yes" name="custom_author_filter" value="1">';
+                $html .= '		<label for="custom_author_filter_yes">Yes</label>';
+                $html .= '		<span class="toggle-outside"><span class="toggle-inside"></span></span>';
+                $html .= '	</fieldset>';
+                $html .= '</div>';
+
+                // Wrapper for the author nodes
+                $html .= '<div id="author-checkboxes-wrapper">';
+            }
             // Populate the toggle button.
             $html .= '<button class="btn btn-secondary js-filter" type="button" data-id="tax-' . $bk . '"><span class="icon-square" aria-hidden="true"></span> '
                 . Text::_('JGLOBAL_SELECTION_INVERT') . '</button><hr>';
@@ -185,6 +206,10 @@ class Filter
                 $html .= '<input type="checkbox" class="form-check-input selector filter-node' . $classSuffix
                     . ' tax-' . $bk . '" value="' . $nk . '" name="t[]"' . $checked . '> ' . str_repeat('&mdash;', $nv->level - 2) . $nv->title;
                 $html .= '</label>';
+                $html .= '</div>';
+            }
+
+             if ($bv->title === 'Author') {
                 $html .= '</div>';
             }
 
