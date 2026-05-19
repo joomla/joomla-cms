@@ -3909,7 +3909,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 15
+			count: 17
 			path: administrator/components/com_messages/src/Model/MessageModel.php
 
 		-
