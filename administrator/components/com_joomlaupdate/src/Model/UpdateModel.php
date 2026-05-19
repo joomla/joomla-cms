@@ -1429,14 +1429,14 @@ ENDDATA;
             $option->notice = $option->state ? null : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DATABASE_NOT_SUPPORTED_NOTICE');
             $options[]      = $option;
 
-            // Check if the Joomla 5 backwards compatibility plugin is disabled
-            $plugin = ExtensionHelper::getExtensionRecord('compat', 'plugin', 0, 'behaviour');
+            // Check if the backwards compatibility plugin of current Joomla major version is disabled
+            $plugin = ExtensionHelper::getExtensionRecord('compat' . Version::MAJOR_VERSION, 'plugin', 0, 'behaviour');
 
             if ($plugin) {
                 $this->translateExtensionName($plugin);
 
                 $option         = new \stdClass();
-                $option->state  = !PluginHelper::isEnabled('behaviour', 'compat');
+                $option->state  = !PluginHelper::isEnabled($plugin->folder, $plugin->element);
                 $option->label  = $option->state
                     ? $plugin->name
                     : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_BC_DISABLED_TITLE', $plugin->name);
@@ -1446,14 +1446,14 @@ ENDDATA;
                 $options[]      = $option;
             }
 
-            // Check if the Joomla 6 backwards compatibility plugin is enabled
-            $plugin = ExtensionHelper::getExtensionRecord('compat6', 'plugin', 0, 'behaviour');
+            // Check if the backwards compatibility plugin of next Joomla major version is enabled
+            $plugin = ExtensionHelper::getExtensionRecord('compat' . (Version::MAJOR_VERSION + 1), 'plugin', 0, 'behaviour');
 
             if ($plugin) {
                 $this->translateExtensionName($plugin);
 
                 $option         = new \stdClass();
-                $option->state  = PluginHelper::isEnabled('behaviour', 'compat6');
+                $option->state  = PluginHelper::isEnabled($plugin->folder, $plugin->element);
                 $option->label  = $option->state
                     ? $plugin->name
                     : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_BC_ENABLED_TITLE', $plugin->name);
