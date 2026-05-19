@@ -8739,18 +8739,6 @@ parameters:
 			path: libraries/src/Console/UpdateCoreCommand.php
 
 		-
-			message: '''
-				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the database service in the DI container
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Date/Date.php
-
-		-
 			message: '#^Unsafe usage of new static\(\)\.$#'
 			identifier: new.static
 			count: 1
@@ -12440,6 +12428,18 @@ parameters:
 			identifier: new.deprecatedClass
 			count: 1
 			path: libraries/src/MVC/View/ListView.php
+
+		-
+			message: '''
+				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
+				4\.3 will be removed in 7\.0
+				             Use the database service in the DI container
+				             Example\:
+				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 4
+			path: libraries/src/Mail/MailTemplate.php
 
 		-
 			message: '''
