@@ -175,12 +175,15 @@ class AccessiblemediaField extends SubformField
                     $value = '';
                 }
             }
-        } elseif (
-            !\is_object($value)
-            || !property_exists($value, 'imagefile')
-            || !property_exists($value, 'alt_text')
-        ) {
+        } elseif (!\is_object($value)) {
             return false;
+        } else {
+            $types     = isset($element['types']) ? (string) $element['types'] : 'images';
+            $fieldName = \in_array('images', explode(',', $types), true) ? 'imagefile' : 'file';
+
+            if (!property_exists($value, $fieldName)) {
+                return false;
+            }
         }
 
         if (!parent::setup($element, $value, $group)) {
