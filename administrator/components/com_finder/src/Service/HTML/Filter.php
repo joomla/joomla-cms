@@ -209,7 +209,7 @@ class Filter
                 $html .= '</div>';
             }
 
-             if ($bv->title === 'Author') {
+            if ($bv->title === 'Author') {
                 $html .= '</div>';
             }
 
