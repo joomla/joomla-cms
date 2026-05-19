@@ -317,7 +317,7 @@ class Pagination
      *
      * @since   1.5
      */
-    public function getPagesCounter(): ?string
+    public function getPagesCounter(): 
     {
         $html = null;
 
@@ -335,7 +335,7 @@ class Pagination
      *
      * @since   1.5
      */
-    public function getResultsCounter(): ?string
+    public function getResultsCounter(): 
     {
         $html       = null;
         $fromResult = $this->limitstart + 1;
@@ -365,7 +365,7 @@ class Pagination
      *
      * @since   1.5
      */
-    public function getPagesLinks(): string
+    public function getPagesLinks(): 
     {
         // Build the page navigation list.
         $data = $this->_buildDataObject();
@@ -521,7 +521,7 @@ class Pagination
      *
      * @since   1.5
      */
-    public function getListFooter(): string
+    public function getListFooter(): 
     {
         // Keep B/C for overrides done with chromes
         $chromePath = JPATH_THEMES . '/' . $this->app->getTemplate() . '/html/pagination.php';
@@ -559,7 +559,7 @@ class Pagination
      *
      * @since   1.5
      */
-    public function getLimitBox(): string
+    public function getLimitBox(): 
     {
         $limits = [];
 
