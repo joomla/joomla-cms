@@ -178,10 +178,14 @@ class AccessiblemediaField extends SubformField
         } elseif (!\is_object($value)) {
             return false;
         } else {
-            $types     = isset($element['types']) ? (string) $element['types'] : 'images';
-            $fieldName = \in_array('images', explode(',', $types), true) ? 'imagefile' : 'file';
+            $types      = isset($element['types']) ? (string) $element['types'] : 'images';
+            $mediaTypes = explode(',', $types);
 
-            if (!property_exists($value, $fieldName)) {
+            if (\in_array('images', $mediaTypes, true)) {
+                if (!property_exists($value, 'imagefile') || !property_exists($value, 'alt_text')) {
+                    return false;
+                }
+            } elseif (!property_exists($value, 'file')) {
                 return false;
             }
         }
