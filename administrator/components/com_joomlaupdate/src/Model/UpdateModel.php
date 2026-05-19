@@ -1432,30 +1432,34 @@ ENDDATA;
             // Check if the Joomla 5 backwards compatibility plugin is disabled
             $plugin = ExtensionHelper::getExtensionRecord('compat', 'plugin', 0, 'behaviour');
 
-            $this->translateExtensionName($plugin);
+            if ($plugin) {
+                $this->translateExtensionName($plugin);
 
-            $option         = new \stdClass();
-            $option->state  = !PluginHelper::isEnabled('behaviour', 'compat');
-            $option->label  = $option->state
-                ? $plugin->name
-                : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_BC_DISABLED_TITLE', $plugin->name);
-            $option->notice = $option->state
-                ? null
-                : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_BC_DISABLED_NOTICE', $plugin->name, $plugin->folder, $plugin->element);
-            $options[]      = $option;
+                $option         = new \stdClass();
+                $option->state  = !PluginHelper::isEnabled('behaviour', 'compat');
+                $option->label  = $option->state
+                    ? $plugin->name
+                    : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_BC_DISABLED_TITLE', $plugin->name);
+                $option->notice = $option->state
+                    ? null
+                    : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_BC_DISABLED_NOTICE', $plugin->name, $plugin->folder, $plugin->element);
+                $options[]      = $option;
+            }
 
             // Check if the Joomla 6 backwards compatibility plugin is enabled
             $plugin = ExtensionHelper::getExtensionRecord('compat6', 'plugin', 0, 'behaviour');
 
-            $this->translateExtensionName($plugin);
+            if ($plugin) {
+                $this->translateExtensionName($plugin);
 
-            $option         = new \stdClass();
-            $option->state  = PluginHelper::isEnabled('behaviour', 'compat6');
-            $option->label  = $option->state
-                ? $plugin->name
-                : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_BC_ENABLED_TITLE', $plugin->name);
-            $option->notice = $option->state ? null : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_ENABLED_NOTICE', $plugin->folder, $plugin->element);
-            $options[]      = $option;
+                $option         = new \stdClass();
+                $option->state  = PluginHelper::isEnabled('behaviour', 'compat6');
+                $option->label  = $option->state
+                    ? $plugin->name
+                    : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_BC_ENABLED_TITLE', $plugin->name);
+                $option->notice = $option->state ? null : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_ENABLED_NOTICE', $plugin->folder, $plugin->element);
+                $options[]      = $option;
+            }
         }
 
         // Check if database structure is up to date
