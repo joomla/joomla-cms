@@ -152,7 +152,7 @@ class FilterModel extends AdminModel
      *
      * @return  boolean   True on success, False on error.
      *
-     * @since    6.2.0
+     * @since    __DEPLOY_VERSION__
      */
     public function save($data)
     {
