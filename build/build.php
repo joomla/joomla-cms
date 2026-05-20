@@ -459,7 +459,6 @@ $doNotPackage = [
     'plugins/sampledata/testing/testing.php',
     'plugins/sampledata/testing/testing.xml',
     'README.md',
-    'renovate.json',
     'ruleset.xml',
     'tests',
 ];
