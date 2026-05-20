@@ -532,16 +532,16 @@ class UpdateCoreCommand extends AbstractCommand
         $return = true;
 
         $language = Factory::getLanguage();
-        $language->load('plg_behaviour_compat.sys', JPATH_ADMINISTRATOR);
         $language->load('plg_behaviour_compat6.sys', JPATH_ADMINISTRATOR);
+        $language->load('plg_behaviour_compat7.sys', JPATH_ADMINISTRATOR);
 
-        if (PluginHelper::isEnabled('behaviour', 'compat')) {
-            $this->ioStyle->error('The \'' . Text::_('PLG_BEHAVIOUR_COMPAT') . '\' plugin is enabled.');
+        if (PluginHelper::isEnabled('behaviour', 'compat6')) {
+            $this->ioStyle->error('The \'' . Text::_('PLG_BEHAVIOUR_COMPAT6') . '\' plugin is enabled.');
             $return = false;
         }
 
-        if (!PluginHelper::isEnabled('behaviour', 'compat6')) {
-            $this->ioStyle->error('The \'' . Text::_('PLG_BEHAVIOUR_COMPAT6') . '\' plugin is disabled.');
+        if (!PluginHelper::isEnabled('behaviour', 'compat7')) {
+            $this->ioStyle->error('The \'' . Text::_('PLG_BEHAVIOUR_COMPAT7') . '\' plugin is disabled.');
             $return = false;
         }
 
