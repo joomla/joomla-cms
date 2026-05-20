@@ -17,7 +17,6 @@ const inputJS = 'administrator/components/com_workflow/resources/scripts/workflo
 const isProduction = process.env.NODE_ENV !== 'DEVELOPMENT';
 
 export const workflowGraph = async () => {
-  // eslint-disable-next-line no-console
   console.log('Building Workflow Graph ES Module...');
 
   const bundle = await rollup({
@@ -78,16 +77,13 @@ export const workflowGraph = async () => {
     .then((value) => (isProduction ? minifyCode(value.output[0].code) : value.output[0]))
     .then((content) => {
       if (isProduction) {
-        // eslint-disable-next-line no-console
         console.log('✅ ES2017 Workflow Graph ready');
         return writeFile(resolve('media/com_workflow/js/workflow-graph.min.js'), content.code, { encoding: 'utf8', mode: 0o644 });
       }
-      // eslint-disable-next-line no-console
       console.log('✅ ES2017 Workflow Graph ready');
       return copyFile(resolve('media/com_workflow/js/workflow-graph.js'), resolve('media/com_workflow/js/workflow-graph.min.js'));
     })
     .catch((error) => {
-      // eslint-disable-next-line no-console
       console.error(error);
     });
 
@@ -96,9 +92,7 @@ export const workflowGraph = async () => {
 };
 
 export const watchWorkflowGraph = async () => {
-  // eslint-disable-next-line no-console
   console.log('Watching Workflow Graph js+vue files...');
-  // eslint-disable-next-line no-console
   console.log('=========');
   const watcher = watch({
     input: resolve(inputJS),
@@ -162,9 +156,7 @@ export const watchWorkflowGraph = async () => {
 
   watcher.on('event', ({ code, result, error }) => {
     if (result) result.close();
-    // eslint-disable-next-line no-console
     if (error) console.log(error);
-    // eslint-disable-next-line no-console
     if (code === 'BUNDLE_END') console.log('Files updated ✅');
   });
 };

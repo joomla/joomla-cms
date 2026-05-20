@@ -178,16 +178,16 @@ import { Handle, Position, useVueFlow } from '@vue-flow/core';
 
 export default {
   name: 'StageNode',
-  setup() {
-    const { connectionStartHandle } = useVueFlow();
-    return { connectionStartHandle };
-  },
   components: { Handle },
   props: {
     data: {
       type: Object,
       required: true,
     },
+  },
+  setup() {
+    const { connectionStartHandle } = useVueFlow();
+    return { connectionStartHandle };
   },
   data() {
     return {
