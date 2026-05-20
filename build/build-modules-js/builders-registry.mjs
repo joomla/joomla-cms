@@ -56,7 +56,6 @@ export const builders = [
   'mod_sampledata',
 
   // Plugins
-  'plg_behaviour_compat6',
   'plg_content_vote',
   'plg_editors-xtd_image',
   'plg_editors_codemirror',
