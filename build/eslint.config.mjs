@@ -1,24 +1,14 @@
-// eslint.config.js
 import { defineConfig } from 'eslint/config';
+import vue from 'eslint-plugin-vue';
 
 export default defineConfig([
-	// matches all files ending with .js
-	{
-		files: [
-			'build/**/*.js',
-			'build/**/*.mjs',
-			'build/**/*.es6',
-			'build/**/*.vue',
-		],
-		rules: {
-			'no-restricted-globals': 'error',
-		},
-		languageOptions: {
-			globals: {
-				Joomla: true,
-				MediaManager: true,
-				bootstrap: true,
-			},
-		},
-	},
+  ...vue.configs['flat/recommended'],
+  {
+    files: [
+      'build/**/*.js',
+      'build/**/*.mjs',
+      'build/**/*.es6',
+      'build/**/*.vue',
+    ],
+  },
 ]);
