@@ -532,16 +532,16 @@ class UpdateCoreCommand extends AbstractCommand
         $return = true;
 
         $language = Factory::getLanguage();
-        $language->load('plg_behaviour_compat' . (Version::MAJOR_VERSION - 1) . '.sys', JPATH_ADMINISTRATOR);
         $language->load('plg_behaviour_compat' . Version::MAJOR_VERSION . '.sys', JPATH_ADMINISTRATOR);
+        $language->load('plg_behaviour_compat' . (Version::MAJOR_VERSION + 1) . '.sys', JPATH_ADMINISTRATOR);
 
-        if (PluginHelper::isEnabled('behaviour', 'compat' . (Version::MAJOR_VERSION - 1))) {
-            $this->ioStyle->error('The \'' . Text::_('PLG_BEHAVIOUR_COMPAT' . (Version::MAJOR_VERSION - 1)) . '\' plugin is enabled.');
+        if (PluginHelper::isEnabled('behaviour', 'compat' . Version::MAJOR_VERSION)) {
+            $this->ioStyle->error('The \'' . Text::_('PLG_BEHAVIOUR_COMPAT' . Version::MAJOR_VERSION) . '\' plugin is enabled.');
             $return = false;
         }
 
-        if (!PluginHelper::isEnabled('behaviour', 'compat' . Version::MAJOR_VERSION)) {
-            $this->ioStyle->error('The \'' . Text::_('PLG_BEHAVIOUR_COMPAT' . Version::MAJOR_VERSION) . '\' plugin is disabled.');
+        if (!PluginHelper::isEnabled('behaviour', 'compat' . (Version::MAJOR_VERSION + 1))) {
+            $this->ioStyle->error('The \'' . Text::_('PLG_BEHAVIOUR_COMPAT' . (Version::MAJOR_VERSION + 1)) . '\' plugin is disabled.');
             $return = false;
         }
 
