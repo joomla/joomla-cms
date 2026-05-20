@@ -314,7 +314,7 @@ class SysinfoModel extends BaseDatabaseModel
 
         $this->info = [
             'version'                => (new Version())->getLongVersion(),
-            'compatpluginenabled'    => PluginHelper::isEnabled('behaviour', 'compat6'),
+            'compatpluginenabled'    => PluginHelper::isEnabled('behaviour', 'compat7'),
             'compatpluginparameters' => $this->getCompatPluginParameters(),
             'phpversion'             => PHP_VERSION,
             'php'                    => php_uname(),
@@ -334,7 +334,7 @@ class SysinfoModel extends BaseDatabaseModel
 
     private function getCompatPluginParameters()
     {
-        $record = ExtensionHelper::getExtensionRecord('compat6', 'plugin', 0, 'behaviour');
+        $record = ExtensionHelper::getExtensionRecord('compat7', 'plugin', 0, 'behaviour');
 
         if ($record) {
             $params = new Registry($record->params);
