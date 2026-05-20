@@ -22,7 +22,7 @@
     "watch": "node build/build.mjs --watch",
     "watch:com_media": "node build/build.mjs --watch-com-media",
     "watch:com_workflow": "node build/build.mjs --watch-com-workflow",
-    "lint:js": "eslint --config build/eslint.config.mjs --max-warnings 0 build administrator/components/com_media/resources/scripts",
+    "lint:js": "eslint --config build/eslint.config.mjs --max-warnings 0 build administrator/components/com_media/resources/scripts administrator/components/com_workflow/resources/scripts",
     "lint:testjs": "eslint --config build/eslint-tests.mjs --max-warnings 0 tests/System",
     "lint:css": "stylelint --config build/.stylelintrc.json \"administrator/components/com_media/resources/**/*.scss\" \"administrator/templates/**/*.scss\" \"build/media_source/**/*.scss\" \"build/media_source/**/*.css\" \"templates/**/*.scss\" \"installation/template/**/*.scss\"",
     "install": "node build/build.mjs --prepare",
