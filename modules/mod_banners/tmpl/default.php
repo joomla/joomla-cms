@@ -42,7 +42,7 @@ use Joomla\CMS\Uri\Uri;
                 <?php $width = $item->params->get('width'); ?>
                 <?php $height = $item->params->get('height'); ?>
                 <?php $imageAttribs = [
-                    'src' => $baseurl . $imageurl,
+                    'src' => strpos($imageurl, 'http') === 0 ? $imageurl : HTMLHelper::_('image', $imageurl, '', null, false, 1),
                     'alt' => $alt
                 ];?>
                 <?php if (!empty($width)) : ?>
@@ -50,6 +50,30 @@ use Joomla\CMS\Uri\Uri;
                 <?php endif; ?>
                 <?php if (!empty($height)) : ?>
                     <?php $imageAttribs['height'] = $height; ?>
+                <?php endif; ?>
+                <?php if ($item->params->get('responsive_imageurls', [])) : ?>
+                    <?php $srcset = [$imageAttribs['src'] . ' ' . (int) $imageobject->attributes['width'] . 'w']; ?>
+                    <?php foreach ((array) $item->params->get('responsive_imageurls', []) as $responsiveImage) : ?>
+                        <?php if (!empty($responsiveImage->imageurl)) : ?>
+                            <?php $responsiveImageObject = HTMLHelper::_('cleanImageURL', $responsiveImage->imageurl); ?>
+                            <?php if (empty($responsiveImageObject->attributes['width'])) : ?>
+                                <?php continue; ?>
+                            <?php endif; ?>
+                            <?php $srcset[] = HTMLHelper::_('image', $responsiveImageObject->url, '', null, false, 1) . ' ' . (int) $responsiveImageObject->attributes['width'] . 'w'; ?>
+                            <?php // $sizes[] = '(min-width: ' . (int) $responsiveImage->mediaquery . 'px) ' . (int) $responsiveImage->relativewidth . 'vw'; ?>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                    <?php $sizes = []; ?>
+                    <?php if ($item->params->get('sizes', [])) : ?>
+                        <?php foreach ((array) $item->params->get('sizes', []) as $size) : ?>
+                            <?php if (!empty($size->mediaquery) && !empty($size->container_width)) : ?>
+                                <?php $sizes[] = '(min-width: ' . (int) $size->mediaquery . 'px) ' . (int) $size->container_width . $size->widthunit; ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                    <?php $sizes[] = '100vw'; ?>
+                    <?php $imageAttribs['srcset'] = implode(', ', $srcset); ?>
+                    <?php $imageAttribs['sizes'] = implode(', ', $sizes); ?>
                 <?php endif; ?>
                 <?php $image = LayoutHelper::render('joomla.html.image', $imageAttribs); ?>
                 <?php if ($item->clickurl) : ?>

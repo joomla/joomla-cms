@@ -328,6 +328,72 @@
 				type="text"
 				label="COM_BANNERS_FIELD_ALT_LABEL"
 			/>
+			<field
+				name="responsive_imageurls"
+				type="subform"
+				label="COM_BANNERS_FIELD_RESPONSIVE_IMAGES_LABEL"
+				description="COM_BANNERS_FIELD_RESPONSIVE_IMAGES_DESC"
+				multiple="true"
+			>
+				<form>
+					<field
+						name="imageurl"
+						type="media"
+						schemes="http,https,ftp,ftps,data,file"
+						validate="url"
+						relative="true"
+						label="COM_BANNERS_FIELD_IMAGE_LABEL"
+						directory="banners"
+						hide_none="1"
+					/>
+				</form>
+			</field>
+			<field
+				name="sizes"
+				type="subform"
+				label="COM_BANNERS_FIELD_SIZES_LABEL"
+				description="COM_BANNERS_FIELD_SIZES_DESC"
+				multiple="true"
+				layout="joomla.form.field.subform.repeatable-table"
+			>
+				<form>
+					<field
+						name="mediaquery"
+						type="number"
+						label="COM_BANNERS_FIELD_MEDIAQUERY_LABEL"
+						class="validate-numeric"
+						default="0"
+						first="0"
+						min="0"
+						validate="number"
+					/>
+					<field
+						name="container_width"
+						type="number"
+						label="COM_BANNERS_FIELD_CONTAINER_WIDTH_LABEL"
+						class="validate-numeric"
+						first="0"
+						default="0"
+						min="0"
+						validate="number"
+					/>
+					<field
+						name="widthunit"
+						type="list"
+						label="COM_BANNERS_FIELD_WIDTHUNIT_LABEL"
+						default="px"
+						validate="options"
+					>
+						<option value="px">px</option>
+						<option value="vw">vw</option>
+						<option value="vh">vh</option>
+						<option value="em">em</option>
+						<option value="rem">rem</option>
+						<option value="ch">ch</option>
+					</field>
+					
+				</form>
+			</field>
 		</fieldset>
 	</fields>
 
