@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\Model;
 
-use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -259,7 +258,7 @@ class BackupcodesModel extends BaseDatabaseModel
         }
 
         for ($i = 0; $i < $restLength; $i++) {
-            if (Crypt::timingSafeCompare($temp1[$i], $code)) {
+            if (hash_equals($temp1[$i], $code)) {
                 $otherResult  = $otherResult || true;
                 $newArray[]   = '';
                 $dummyArray[] = $temp1[$i];

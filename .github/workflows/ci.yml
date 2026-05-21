@@ -49,7 +49,11 @@ jobs:
           path: |
             node_modules
             media
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
+            installation/template/css
+            installation/template/images
+            installation/template/js
+            installation/template/scss
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/build.mjs', 'build/build-modules-js/**', 'media_source/**') }}
       - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: libraries/vendor
@@ -103,7 +107,11 @@ jobs:
           path: |
             node_modules
             media
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
+            installation/template/css
+            installation/template/images
+            installation/template/js
+            installation/template/scss
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/build.mjs', 'build/build-modules-js/**', 'media_source/**') }}
       - name: Check code style
         run: npm run ${{ matrix.check }}
 
@@ -124,7 +132,17 @@ jobs:
           key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
       - name: Run PHPstan
         run: |
+          set -e
           ./libraries/vendor/bin/phpstan --error-format=github
+          ./libraries/vendor/bin/phpstan --generate-baseline
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          if [ "$GITHUB_EVENT_NAME" = "push" ] && [ "$GITHUB_REPOSITORY" != "joomla/joomla-cms" ] && ! git diff --quiet -- phpstan-baseline.neon; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add phpstan-baseline.neon
+            git commit -m "Updated PHPStan baseline"
+            git push origin "HEAD:${{ github.head_ref || github.ref_name }}"
+          fi
 
   tests-unit:
     name: Run Unit tests
@@ -314,7 +332,11 @@ jobs:
           path: |
             node_modules
             media
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
+            installation/template/css
+            installation/template/images
+            installation/template/js
+            installation/template/scss
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/build.mjs', 'build/build-modules-js/**', 'media_source/**') }}
       - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         id: cache-cypress
         with:
@@ -384,7 +406,11 @@ jobs:
           path: |
             node_modules
             media
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
+            installation/template/css
+            installation/template/images
+            installation/template/js
+            installation/template/scss
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/build.mjs', 'build/build-modules-js/**', 'media_source/**') }}
       - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: |
