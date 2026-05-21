@@ -20,7 +20,9 @@ Read more at [CMS Media source](../media_source/README.md).
 - `npm run builders-list` Show list of available builders in order of execution.
 - `npm run build` Build assets with production env. Extra arguments are required. Check [CMS Media source](../media_source/README.md#building-assets).
 - `npm run build:dev` Build assets with development env. Extra arguments are required. Check [CMS Media source](../media_source/README.md#building-assets).
-- `npm run watch` Start files watcher for specified asset with production env. Example `npm run watch -- -n com_content` for `com_content` assets.
+- `npm run watch` Start files watcher for specified asset with production env\
+Example `npm run watch -- -n com_content` for `com_content` assets.\
+Example `npm run watch -- --all` for all assets.
 - `npm run watch:dev` Start files watcher for specified asset with development env.
 - `npm run lint:js` Checks the code style for the JavaScript/Vue files
 - `npm run lint:testjs` Checks the code style for the JavaScript/Vue files under `tests/System` used for testing.
