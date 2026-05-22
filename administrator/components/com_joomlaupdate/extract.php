@@ -597,6 +597,124 @@ class ZIPExtraction
     }
 
     /**
+     * Checks if an archive entry path is safe to extract.
+     *
+     * @param   string  $path  The path from the archive entry
+     *
+     * @return  boolean
+     * @since   __DEPLOY_VERSION__
+     */
+    private function isSafeArchiveEntryPath(string $path): bool
+    {
+        if ($path === '' || str_contains($path, "\0") || str_contains($path, '://')) {
+            return false;
+        }
+
+        if (str_starts_with($path, '/') || preg_match('#^[A-Za-z]:#', $path)) {
+            return false;
+        }
+
+        return !\in_array('..', explode('/', $path), true);
+    }
+
+    /**
+     * Normalises a filesystem path without requiring the path to exist.
+     *
+     * @param   string  $path  The filesystem path
+     *
+     * @return  string
+     * @since   __DEPLOY_VERSION__
+     */
+    private function normaliseFilesystemPath(string $path): string
+    {
+        $path   = str_replace('\\', '/', $path);
+        $prefix = '';
+
+        if (preg_match('#^[A-Za-z]:/#', $path) === 1) {
+            $prefix = strtoupper($path[0]) . ':';
+            $path   = substr($path, 2);
+        } elseif (str_starts_with($path, '/')) {
+            $prefix = '/';
+        }
+
+        $parts = [];
+
+        foreach (explode('/', $path) as $part) {
+            if ($part === '' || $part === '.') {
+                continue;
+            }
+
+            if ($part === '..') {
+                if (!empty($parts) && end($parts) !== '..') {
+                    array_pop($parts);
+                    continue;
+                }
+
+                if ($prefix === '') {
+                    $parts[] = $part;
+                }
+
+                continue;
+            }
+
+            $parts[] = $part;
+        }
+
+        $path = implode('/', $parts);
+
+        if ($prefix === '/') {
+            return '/' . $path;
+        }
+
+        if ($prefix !== '') {
+            return $prefix . '/' . $path;
+        }
+
+        return $path;
+    }
+
+    /**
+     * Checks if a filesystem path is inside the configured extraction root.
+     *
+     * @param   string  $path  The filesystem path
+     *
+     * @return  boolean
+     * @since   __DEPLOY_VERSION__
+     */
+    private function isPathInsideExtractionRoot(string $path): bool
+    {
+        $basePath = $this->addPath ?: getcwd();
+        $basePath = rtrim($this->normaliseFilesystemPath($basePath), '/');
+        $path     = rtrim($this->normaliseFilesystemPath($path), '/');
+
+        return $path === $basePath || str_starts_with($path, $basePath . '/');
+    }
+
+    /**
+     * Checks if a symlink target stays inside the configured extraction root.
+     *
+     * @param   string  $linkPath  The symlink path being created
+     * @param   string  $target    The symlink target from the archive
+     *
+     * @return  boolean
+     * @since   __DEPLOY_VERSION__
+     */
+    private function isSafeSymlinkTarget(string $linkPath, string $target): bool
+    {
+        if ($target === '' || str_contains($target, "\0") || str_contains($target, '://')) {
+            return false;
+        }
+
+        $target = str_replace('\\', '/', $target);
+
+        if (str_starts_with($target, '/') || preg_match('#^[A-Za-z]:#', $target)) {
+            return $this->isPathInsideExtractionRoot($target);
+        }
+
+        return $this->isPathInsideExtractionRoot(\dirname($linkPath) . '/' . $target);
+    }
+
+    /**
      * Set the list of files to skip when extracting the ZIP file.
      *
      * @param   array  $skipFiles  A list of files to skip when extracting the ZIP archive
@@ -1048,6 +1166,13 @@ class ZIPExtraction
 
         // Read filename field
         $this->fileHeader->file = fread($this->fp, $nameFieldLength);
+        $this->fileHeader->file = str_replace('\\', '/', $this->fileHeader->file);
+
+        if (!$this->isSafeArchiveEntryPath($this->fileHeader->file)) {
+            $this->setError(\sprintf('Archive entry %s is not safe to extract.', $this->fileHeader->file));
+
+            return false;
+        }
 
         // Read extra field if present
         if ($extraFieldLength > 0) {
@@ -1125,6 +1250,12 @@ class ZIPExtraction
         // Last chance to prepend a path to the filename
         if (!empty($this->addPath)) {
             $this->fileHeader->file = $this->addPath . $this->fileHeader->file;
+        }
+
+        if (!$this->isPathInsideExtractionRoot($this->fileHeader->file)) {
+            $this->setError(\sprintf('Archive entry %s is outside the extraction root.', $this->fileHeader->file));
+
+            return false;
         }
 
         // Get the translated path name
@@ -1377,6 +1508,12 @@ class ZIPExtraction
         // Remove any trailing slash
         if (str_ends_with($filename, '/')) {
             $filename = substr($filename, 0, -1);
+        }
+
+        if (!$this->isSafeSymlinkTarget($filename, $data)) {
+            $this->setError(\sprintf('Archive symlink %s points outside the extraction root.', $filename));
+
+            return false;
         }
 
         // Create the symlink
