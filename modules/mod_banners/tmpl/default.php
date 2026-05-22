@@ -59,7 +59,7 @@ use Joomla\CMS\Uri\Uri;
                                 <?php continue; ?>
                             <?php endif; ?>
                             <?php $srcset[] = HTMLHelper::_('image', $responsiveImageObject->url, '', null, false, 1) . ' ' . (int) $responsiveImageObject->attributes['width'] . 'w'; ?>
-                            <?php endif; ?>
+                        <?php endif; ?>
                     <?php endforeach; ?>
                     <?php $sizes = []; ?>
                     <?php if ($item->params->get('sizes', [])) : ?>
