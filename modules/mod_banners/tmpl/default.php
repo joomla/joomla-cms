@@ -35,7 +35,6 @@ use Joomla\CMS\Uri\Uri;
             <?php $imageurl = $imageobject->url; ?>
             <?php if (!empty($imageurl) && (MediaHelper::isImage($imageurl) || MediaHelper::getMimeType($imageurl) === 'image/svg+xml')) : ?>
                 <?php // Image based banner ?>
-                <?php $baseurl = strpos($imageurl, 'http') === 0 ? '' : Uri::base(); ?>
                 <?php $alt = $item->params->get('alt'); ?>
                 <?php $alt = $alt ?: $item->name; ?>
                 <?php $alt = $alt ?: Text::_('MOD_BANNERS_BANNER'); ?>
@@ -60,8 +59,7 @@ use Joomla\CMS\Uri\Uri;
                                 <?php continue; ?>
                             <?php endif; ?>
                             <?php $srcset[] = HTMLHelper::_('image', $responsiveImageObject->url, '', null, false, 1) . ' ' . (int) $responsiveImageObject->attributes['width'] . 'w'; ?>
-                            <?php // $sizes[] = '(min-width: ' . (int) $responsiveImage->mediaquery . 'px) ' . (int) $responsiveImage->relativewidth . 'vw'; ?>
-                        <?php endif; ?>
+                            <?php endif; ?>
                     <?php endforeach; ?>
                     <?php $sizes = []; ?>
                     <?php if ($item->params->get('sizes', [])) : ?>
