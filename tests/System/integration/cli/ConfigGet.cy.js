@@ -68,7 +68,7 @@ describe('Test CLI command config:get', () => {
   it('get error for non existent configuration group', () => {
     cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php config:get --group=test`, { failOnNonZeroExit: false })
       .then((result) => {        
-        expect(result.stdout).to.contain(' [ERROR] Group *test* not found  ');
+        expect(result.stdout).to.contain('[ERROR] Group *test* not found');
     });
   });
 });
