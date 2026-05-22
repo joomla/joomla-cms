@@ -339,10 +339,10 @@
 					<field
 						name="imageurl"
 						type="media"
+						label="COM_BANNERS_FIELD_IMAGE_LABEL"
 						schemes="http,https,ftp,ftps,data,file"
 						validate="url"
 						relative="true"
-						label="COM_BANNERS_FIELD_IMAGE_LABEL"
 						directory="banners"
 						hide_none="1"
 					/>
