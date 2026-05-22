@@ -1,6 +1,6 @@
 describe('Test CLI command config:get', () => {
   it('can get all configuration options', () => {
-    cy.exec('php cli/joomla.php config:get')
+    cy.exec('php ${Cypress.env('cmsPath')}/cli/joomla.php config:get')
       .then((result) => {
        // expect(result.code).to.equal(0);
         expect(result.stdout).to.contain('Option');
@@ -11,7 +11,7 @@ describe('Test CLI command config:get', () => {
   });
 
   it('can get database configuration group', () => {
-    cy.exec('php cli/joomla.php config:get --group=db')
+    cy.exec('php ${Cypress.env('cmsPath')}/cli/joomla.php config:get --group=db')
       .then((result) => {        
         // Check output contains expected database configuration options
         expect(result.stdout).to.contain('Option');
@@ -31,7 +31,7 @@ describe('Test CLI command config:get', () => {
   });
 
   it('can get mail configuration group', () => {
-    cy.exec('php cli/joomla.php config:get --group=mail')
+    cy.exec('php ${Cypress.env('cmsPath')}/cli/joomla.php config:get --group=mail')
       .then((result) => {        
         // Check output contains expected mail configuration options
         expect(result.stdout).to.contain('Option');
@@ -50,7 +50,7 @@ describe('Test CLI command config:get', () => {
   })
 
   it('can get session configuration group', () => {
-    cy.exec('php cli/joomla.php config:get --group=session')
+    cy.exec('php ${Cypress.env('cmsPath')}/cli/joomla.php config:get --group=session')
       .then((result) => {        
         // Check output contains expected session configuration options
         expect(result.stdout).to.contain('Option');
@@ -66,7 +66,7 @@ describe('Test CLI command config:get', () => {
   });
 
   it('get error for non existent configuration group', () => {
-    cy.exec('php cli/joomla.php config:get --group=test', { failOnNonZeroExit: false })
+    cy.exec('php ${Cypress.env('cmsPath')}/cli/joomla.php config:get --group=test', { failOnNonZeroExit: false })
       .then((result) => {        
         // Check output contains expected session configuration options
         expect(result.stdout).to.contain(' [ERROR] Group *test* not found  ');
