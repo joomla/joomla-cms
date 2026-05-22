@@ -74,7 +74,7 @@
     {
       "name": "com_modules.admin-module-inherit",
       "type": "script",
-      "uri": "com_modules/admin-module-inherit.js",
+      "uri": "com_modules/admin-module-inherit.min.js",
       "dependencies": [
         "core"
       ],
