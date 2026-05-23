@@ -60,7 +60,7 @@ describe('Test CLI command config:get', () => {
         expect(result.stdout).to.contain('session_metadata');
 
         // Check for specific values 
-        expect(result.stdout).to.contain('filesystem');
+        expect(result.stdout).to.contain('database');
         expect(result.stdout).to.contain('false');
     });
   });
