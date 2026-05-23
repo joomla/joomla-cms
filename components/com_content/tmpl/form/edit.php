@@ -67,13 +67,15 @@ if (!$params->exists('show_publishing_options')) {
                 <?php echo $this->form->renderField('image_intro', 'images'); ?>
                 <?php echo $this->form->renderField('image_intro_alt', 'images'); ?>
                 <?php echo $this->form->renderField('image_intro_alt_empty', 'images'); ?>
-                <?php echo $this->form->renderField('image_intro_caption', 'images'); ?>
+                <?php echo $this->form->renderField('imgclass_intro', 'images'); ?>
                 <?php echo $this->form->renderField('float_intro', 'images'); ?>
+                <?php echo $this->form->renderField('image_intro_caption', 'images'); ?>
                 <?php echo $this->form->renderField('image_fulltext', 'images'); ?>
                 <?php echo $this->form->renderField('image_fulltext_alt', 'images'); ?>
                 <?php echo $this->form->renderField('image_fulltext_alt_empty', 'images'); ?>
+                <?php echo $this->form->renderField('imgclass_fulltext', 'images'); ?> 
+                <?php echo $this->form->renderField('float_fulltext', 'images'); ?>  
                 <?php echo $this->form->renderField('image_fulltext_caption', 'images'); ?>
-                <?php echo $this->form->renderField('float_fulltext', 'images'); ?>
                 <?php echo $this->form->renderField('urla', 'urls'); ?>
                 <?php echo $this->form->renderField('urlatext', 'urls'); ?>
                 <div class="control-group">
