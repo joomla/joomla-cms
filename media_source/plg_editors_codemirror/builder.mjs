@@ -41,7 +41,7 @@ const updateAssetRegistry = async (modules, externalModules, basePath, targetPat
     const asset = {
       type: 'script',
       name: module,
-      uri: modulePath.replace('.js', '.min.js'),
+      uri: modulePath.replace('.js', '.min.js').replace(/\\/g, '/'),
       importmap: true,
       version: moduleOptions.version,
     };

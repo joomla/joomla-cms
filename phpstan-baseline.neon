@@ -3909,7 +3909,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 17
+			count: 15
 			path: administrator/components/com_messages/src/Model/MessageModel.php
 
 		-
@@ -8737,18 +8737,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 2
 			path: libraries/src/Console/UpdateCoreCommand.php
-
-		-
-			message: '''
-				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the database service in the DI container
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Date/Date.php
 
 		-
 			message: '#^Unsafe usage of new static\(\)\.$#'
