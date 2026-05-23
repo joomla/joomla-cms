@@ -2,7 +2,6 @@ describe('Test CLI command config:get', () => {
   it('can get all configuration options', () => {
     cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php config:get`)
       .then((result) => {
-       // expect(result.code).to.equal(0);
         expect(result.stdout).to.contain('Option');
         expect(result.stdout).to.contain('Value');
         expect(result.stdout).to.contain('sitename');
@@ -16,7 +15,7 @@ describe('Test CLI command config:get', () => {
         // Check output contains expected database configuration options
         expect(result.stdout).to.contain('Option');
         expect(result.stdout).to.contain('Value');
-        expect(result.stdout).to.contain('dbtype');
+        expect(result.stdout).to.contain(Cypress.env('db_type'));
         expect(result.stdout).to.contain('host');
         expect(result.stdout).to.contain('user');
         expect(result.stdout).to.contain('password');
