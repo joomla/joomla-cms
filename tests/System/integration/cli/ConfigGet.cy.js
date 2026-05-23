@@ -15,7 +15,7 @@ describe('Test CLI command config:get', () => {
         // Check output contains expected database configuration options
         expect(result.stdout).to.contain('Option');
         expect(result.stdout).to.contain('Value');
-        expect(result.stdout).to.contain(Cypress.env('db_type'));
+        expect(result.stdout).to.contain('dbtype');
         expect(result.stdout).to.contain('host');
         expect(result.stdout).to.contain('user');
         expect(result.stdout).to.contain('password');
@@ -24,7 +24,7 @@ describe('Test CLI command config:get', () => {
         expect(result.stdout).to.contain('dbencryption');
         expect(result.stdout).to.contain('dbsslverifyservercert');        
         // Check for specific values 
-        expect(result.stdout).to.contain('mysqli');
+        expect(result.stdout).to.contain(Cypress.env('db_type'));
         expect(result.stdout).to.contain('root');
     });
   });
