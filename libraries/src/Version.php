@@ -47,7 +47,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const MINOR_VERSION = 1;
+    public const MINOR_VERSION = 2;
 
     /**
      * Patch release version.
@@ -90,7 +90,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELDATE = '31-August-2025';
+    public const RELDATE = '26-May-2026';
 
     /**
      * Release time.
@@ -98,8 +98,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-
-    public const RELTIME = '10:15';
+    public const RELTIME = '18:00';
 
     /**
      * Release timezone.
