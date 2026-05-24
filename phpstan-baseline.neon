@@ -8070,18 +8070,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Load the user service from the dependency injection container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Application/AdministratorApplication.php
-
-		-
-			message: '''
 				#^Call to deprecated method route\(\) of class Joomla\\CMS\\Application\\AdministratorApplication\:
 				4\.0 will be removed in 7\.0
 				             Implement the route functionality in the extending class, this here will be removed without replacement$#
@@ -8300,18 +8288,6 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 1
-			path: libraries/src/Application/SiteApplication.php
-
-		-
-			message: '''
-				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Load the user service from the dependency injection container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 3
 			path: libraries/src/Application/SiteApplication.php
 
 		-
