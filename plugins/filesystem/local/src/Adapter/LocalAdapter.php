@@ -608,6 +608,12 @@ class LocalAdapter implements AdapterInterface
             throw new \Exception(Text::_('COM_MEDIA_ERROR_MAKESAFE'));
         }
 
+        // Check for special characters that would be sanitized (except for case differences in extensions)
+        if (strtolower($name) !== strtolower($safeName)) {
+            // There are differences other than case in the extension
+            throw new \Exception(Text::_('JLIB_MEDIA_ERROR_WARNFILENAME'));
+        }
+
         // If the safe name is different normalise the file name
         if ($safeName != $name) {
             $destinationPath = substr($destinationPath, 0, -\strlen($name)) . $safeName;
