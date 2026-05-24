@@ -456,6 +456,7 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/postgresql/6.1.0-2026-03-07.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/6.1.0-2026-03-10.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/6.1.0-2026-03-13.sql',
+            '/libraries/src/Encrypt/AES/Mcrypt.php',
         ];
 
         $folders = [
