@@ -102,7 +102,7 @@ export default class CodemirrorModuleBuilder extends DefaultModuleBuilder
   async clear() {
     await super.clear();
 
-    const vendorPath = 'media/vendor/codemirror';
+    const vendorPath = 'media/vendor/codemirror/js';
 
     if (!fs.existsSync(vendorPath)) {
       return;
