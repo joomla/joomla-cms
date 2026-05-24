@@ -238,19 +238,28 @@
 			/>
 
 			<field
-				name="image_intro_caption"
-				type="text"
-				label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
-				size="20"
-			/>
-
-			<field
-				name="float_intro"
+				name="imgclass_intro"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
 				size="20"
 				useglobal="true"
 				validate="CssIdentifier"
+			/>
+			
+			<field
+				name="float_intro"
+				type="text"
+				label="COM_CONTENT_FIELD_FIGURE_CLASS_LABEL"
+				size="20"
+				useglobal="true"
+				validate="CssIdentifier"
+			/>
+
+			<field
+				name="image_intro_caption"
+				type="text"
+				label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
+				size="20"
 			/>
 		</fieldset>
 		<fieldset name="image-full">
@@ -278,19 +287,28 @@
 			/>
 
 			<field
-				name="image_fulltext_caption"
-				type="text"
-				label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
-				size="20"
-			/>
-
-			<field
-				name="float_fulltext"
+				name="imgclass_fulltext"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
 				size="20"
 				useglobal="true"
 				validate="CssIdentifier"
+			/>
+
+			<field
+				name="float_fulltext"
+				type="text"
+				label="COM_CONTENT_FIELD_FIGURE_CLASS_LABEL"
+				size="20"
+				useglobal="true"
+				validate="CssIdentifier"
+			/>
+
+			<field
+				name="image_fulltext_caption"
+				type="text"
+				label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
+				size="20"
 			/>
 		</fieldset>
 	</fields>
