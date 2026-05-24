@@ -19,6 +19,8 @@ use Joomla\Crypt\Crypt as JCrypt;
  * Crypt is a Joomla Platform class for handling basic encryption/decryption of data.
  *
  * @since  3.0.0
+ * @deprecated  __DEPLOY_VERSION__ will be removed in 8.0
+ *                Please use \Joomla\Crypt\Crypt instead
  */
 class Crypt extends JCrypt
 {
@@ -35,6 +37,8 @@ class Crypt extends JCrypt
      * @return  boolean  True if the two strings are exactly the same.
      *
      * @since   3.2
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 8.0
+     *                Please use hash_equals() instead
      */
     public static function timingSafeCompare($known, $unknown)
     {
@@ -80,9 +84,11 @@ class Crypt extends JCrypt
      *
      * @return  integer
      *
-     * @since   3.5
-     * @ref     mbstring.func_overload
      * @throws  \RuntimeException
+     * @deprecated    __DEPLOY_VERSION__ will be removed in 8.0
+     *                Please use mb_strlen() instead
+     * @ref     mbstring.func_overload
+     * @since   3.5
      */
     public static function safeStrlen($str)
     {
@@ -118,6 +124,8 @@ class Crypt extends JCrypt
      * @return  string
      *
      * @since   3.5
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 8.0
+     *                Please use mb_substr() instead
      */
     public static function safeSubstr($str, $start, $length = null)
     {

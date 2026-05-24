@@ -111,6 +111,21 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
     this.isDisconnected = false;
 
+    // START Work around for issue https://github.com/joomla/joomla-cms/issues/47507
+    // For single-select fields, if selectedIndex is 0 and no option has a
+    // selected attribute, set it before choices.js init.
+    //
+    // This workaround can be removed when choices.js
+    // handles this state on init.
+    if (!this.select.multiple
+      && this.select.options.length
+      && this.select.selectedIndex === 0
+      && !this.select.querySelector('option[selected]')) {
+      this.select.options[0].selected = true;
+      this.select.options[0].setAttribute('selected', '');
+    }
+    // END workaround for issue #47507
+
     // Init Choices
     this.choicesInstance = new Choices(this.select, {
       placeholderValue: this.placeholder,

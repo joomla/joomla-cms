@@ -9,16 +9,24 @@
 
 namespace Joomla\CMS\Extension\Service\Provider;
 
+use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryInterface;
+use Joomla\CMS\Mail\MailerFactoryAwareInterface;
 use Joomla\CMS\Mail\MailerFactoryInterface;
 use Joomla\CMS\MVC\Factory\ApiMVCFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\SiteRouter;
+use Joomla\CMS\Router\SiteRouterAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
+use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -67,22 +75,81 @@ class MVCFactory implements ServiceProviderInterface
         $container->set(
             MVCFactoryInterface::class,
             function (Container $container) {
-                if (\Joomla\CMS\Factory::getApplication()->isClient('api')) {
-                    $factory = new ApiMVCFactory($this->namespace);
-                } else {
-                    $factory = new \Joomla\CMS\MVC\Factory\MVCFactory($this->namespace);
-                }
+                $factory = $this->createMVCFactory();
 
-                $factory->setFormFactory($container->get(FormFactoryInterface::class));
-                $factory->setDispatcher($container->get(DispatcherInterface::class));
-                $factory->setDatabase($container->get(DatabaseInterface::class));
-                $factory->setSiteRouter($container->get(SiteRouter::class));
-                $factory->setCacheControllerFactory($container->get(CacheControllerFactoryInterface::class));
-                $factory->setUserFactory($container->get(UserFactoryInterface::class));
-                $factory->setMailerFactory($container->get(MailerFactoryInterface::class));
+                $this->injectServicesIntoFactory($factory, $container);
 
                 return $factory;
             }
         );
+    }
+
+    /**
+     * Return component namespace
+     *
+     * @return  string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getNamespace(): string
+    {
+        return $this->namespace;
+    }
+
+    /**
+     * Create MVC Factory
+     *
+     * @return  MVCFactoryInterface
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function createMVCFactory(): MVCFactoryInterface
+    {
+        if (Factory::getApplication()->isClient('api')) {
+            return new ApiMVCFactory($this->namespace);
+        }
+
+        return new \Joomla\CMS\MVC\Factory\MVCFactory($this->namespace);
+    }
+
+    /**
+     * Inject services from container into MVC Factory
+     *
+     * @param   MVCFactoryInterface  $factory    The MVC Factory
+     * @param   Container            $container  The DI container
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function injectServicesIntoFactory(MVCFactoryInterface $factory, Container $container): void
+    {
+        if ($factory instanceof FormFactoryAwareInterface) {
+            $factory->setFormFactory($container->get(FormFactoryInterface::class));
+        }
+
+        if ($factory instanceof DispatcherAwareInterface) {
+            $factory->setDispatcher($container->get(DispatcherInterface::class));
+        }
+
+        if ($factory instanceof DatabaseAwareInterface) {
+            $factory->setDatabase($container->get(DatabaseInterface::class));
+        }
+
+        if ($factory instanceof SiteRouterAwareInterface) {
+            $factory->setSiteRouter($container->get(SiteRouter::class));
+        }
+
+        if ($factory instanceof CacheControllerFactoryAwareInterface) {
+            $factory->setCacheControllerFactory($container->get(CacheControllerFactoryInterface::class));
+        }
+
+        if ($factory instanceof UserFactoryAwareInterface) {
+            $factory->setUserFactory($container->get(UserFactoryInterface::class));
+        }
+
+        if ($factory instanceof MailerFactoryAwareInterface) {
+            $factory->setMailerFactory($container->get(MailerFactoryInterface::class));
+        }
     }
 }
