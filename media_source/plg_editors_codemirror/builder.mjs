@@ -41,7 +41,7 @@ const updateAssetRegistry = async (modules, externalModules, basePath, targetPat
     const asset = {
       type: 'script',
       name: module,
-      uri: modulePath.replace('.js', '.min.js'),
+      uri: modulePath.replace('.js', '.min.js').replace(/\\/g, '/'),
       importmap: true,
       version: moduleOptions.version,
     };
@@ -109,6 +109,31 @@ export default class CodemirrorModuleBuilder extends DefaultModuleBuilder
     }
 
     return fsp.rm(vendorPath, { recursive: true });
+  }
+
+  /**
+   * Copy files to target location, including the codemirror license file.
+   *
+   * @returns { Promise }
+   */
+  async copy() {
+    await super.copy();
+
+    const require = createRequire(import.meta.url);
+    const buildSettings = require('../../build/build-modules-js/settings.json');
+    const licenseFilename = buildSettings.settings?.vendors?.['@codemirror/view']?.licenseFilename;
+
+    if (!licenseFilename) {
+      return;
+    }
+
+    const licenseSrc = resolvePackageFile(path.join('@codemirror/view', licenseFilename));
+
+    if (!licenseSrc) {
+      return;
+    }
+
+    return fsp.cp(licenseSrc, path.join(this.targetPath, licenseFilename), { preserveTimestamps: true });
   }
 
   /**
