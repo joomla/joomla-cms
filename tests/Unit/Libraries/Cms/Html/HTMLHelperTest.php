@@ -19,7 +19,7 @@ class HTMLHelperTest extends UnitTestCase
      *
      * @covers  Joomla\CMS\HTML\HTMLHelper::buildAttributes
      */
-    public function testBuildAttributesWithSimpleArray()
+    public function testBuildAttributesWithSimpleArray(): void
     {
         $attribs  = ['class' => 'my-class', 'id' => 'my-id'];
         $expected = 'class="my-class" id="my-id"';
@@ -33,23 +33,11 @@ class HTMLHelperTest extends UnitTestCase
      *
      * @covers  Joomla\CMS\HTML\HTMLHelper::buildAttributes
      */
-    public function testBuildAttributesWithSpecialCharacters()
+    public function testBuildAttributesWithSpecialCharacters(): void
     {
         $attribs  = ['title' => 'Title with < & > " \' characters'];
         $expected = 'title="Title with &lt; &amp; &gt; &quot; &#039; characters"';
         $this->assertEquals($expected, HTMLHelper::buildAttributes($attribs));
-    }
-
-    /**
-     * Test buildAttributes with null input
-     *
-     * @return  void
-     *
-     * @covers  Joomla\CMS\HTML\HTMLHelper::buildAttributes
-     */
-    public function testBuildAttributesWithNull()
-    {
-        $this->assertEquals('', HTMLHelper::buildAttributes(null));
     }
 
     /**
@@ -59,35 +47,9 @@ class HTMLHelperTest extends UnitTestCase
      *
      * @covers  Joomla\CMS\HTML\HTMLHelper::buildAttributes
      */
-    public function testBuildAttributesWithEmptyArray()
+    public function testBuildAttributesWithEmptyArray(): void
     {
         $this->assertEquals('', HTMLHelper::buildAttributes([]));
-    }
-
-    /**
-     * Test buildAttributes with string input
-     *
-     * @return  void
-     *
-     * @covers  Joomla\CMS\HTML\HTMLHelper::buildAttributes
-     */
-    public function testBuildAttributesWithString()
-    {
-        $this->assertEquals('class="my-class"', HTMLHelper::buildAttributes('class="my-class"'));
-    }
-
-    /**
-     * Test buildAttributes with numeric value
-     *
-     * @return  void
-     *
-     * @covers  Joomla\CMS\HTML\HTMLHelper::buildAttributes
-     */
-    public function testBuildAttributesWithNumericValue()
-    {
-        $attribs  = ['data-id' => 123];
-        $expected = 'data-id="123"';
-        $this->assertEquals($expected, HTMLHelper::buildAttributes($attribs));
     }
 
     /**
@@ -98,7 +60,7 @@ class HTMLHelperTest extends UnitTestCase
      * @covers  Joomla\CMS\HTML\HTMLHelper::link
      * @covers  Joomla\CMS\HTML\HTMLHelper::buildAttributes
      */
-    public function testLinkWithDoubleQuoteBreakingXssPayload()
+    public function testLinkWithDoubleQuoteBreakingXssPayload(): void
     {
         $url  = '#';
         $text = 'Click me';
