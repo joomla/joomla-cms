@@ -28,6 +28,7 @@ crypted="crypted"           # Used in MD5Handler
 datas="datas"               # Used in showon.es6.js
 deactive="deactive"         # Used in searchtools.es6.js
 exept="exept"               # Used in El.php Greek language stemmer
+fobidden_ext="fobidden_ext" # Used in option name in Joomla\CMS\Filter\InputFilter, not changed for B/C
 Formater="Formater"         # Used in AbstractDataCollector of debug plugin
 GAE="GAE"                   # Cloud platform abbreviation used in a comment in MemcachedStorage
 hel="hel"                   # Variable name in MenusHelper
@@ -41,6 +42,7 @@ supercedes="supercedes"     # Valid spelling rejected https://github.com/crate-c
 ue="ue"                     # selector in queries
 vertexes="vertexes"         # Valid spelling waiting fix https://github.com/crate-ci/typos/issues/1150
 wheres="wheres"             # $wheres in modules\mod_related_items\src\Helper\RelatedItemsHelper.php
+wrkarounds="wrkarounds"     # Used as method parameter $wrkarounds in Joomla\CMS\Cache\Controller controller classes
 
 # deprecated strings can be removed in 6.0
 configurated="configurated"
