@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -66,13 +67,15 @@ if (!$params->exists('show_publishing_options')) {
                 <?php echo $this->form->renderField('image_intro', 'images'); ?>
                 <?php echo $this->form->renderField('image_intro_alt', 'images'); ?>
                 <?php echo $this->form->renderField('image_intro_alt_empty', 'images'); ?>
-                <?php echo $this->form->renderField('image_intro_caption', 'images'); ?>
+                <?php echo $this->form->renderField('imgclass_intro', 'images'); ?>
                 <?php echo $this->form->renderField('float_intro', 'images'); ?>
+                <?php echo $this->form->renderField('image_intro_caption', 'images'); ?>
                 <?php echo $this->form->renderField('image_fulltext', 'images'); ?>
                 <?php echo $this->form->renderField('image_fulltext_alt', 'images'); ?>
                 <?php echo $this->form->renderField('image_fulltext_alt_empty', 'images'); ?>
+                <?php echo $this->form->renderField('imgclass_fulltext', 'images'); ?> 
+                <?php echo $this->form->renderField('float_fulltext', 'images'); ?>  
                 <?php echo $this->form->renderField('image_fulltext_caption', 'images'); ?>
-                <?php echo $this->form->renderField('float_fulltext', 'images'); ?>
                 <?php echo $this->form->renderField('urla', 'urls'); ?>
                 <?php echo $this->form->renderField('urlatext', 'urls'); ?>
                 <div class="control-group">
@@ -124,7 +127,7 @@ if (!$params->exists('show_publishing_options')) {
 
                 <?php if ($params->get('show_publishing_options', 1) == 1) : ?>
                     <?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'publishing', Text::_('COM_CONTENT_PUBLISHING')); ?>
-                        <?php if (!is_null($this->item->id)) : ?>
+                        <?php if ($this->item->params->get('access-change')) : ?>
                             <?php echo $this->form->renderField('publish_up'); ?>
                             <?php echo $this->form->renderField('publish_down'); ?>
                             <?php echo $this->form->renderField('featured_up'); ?>
@@ -163,7 +166,7 @@ if (!$params->exists('show_publishing_options')) {
                 <span class="icon-times" aria-hidden="true"></span>
                 <?php echo Text::_('JCANCEL'); ?>
             </button>
-            <?php if ($params->get('save_history', 0) && $this->item->id) : ?>
+            <?php if ($params->get('save_history', 0) && $this->item->id && ComponentHelper::isEnabled('com_contenthistory')) : ?>
                 <?php echo $this->form->getInput('contenthistory'); ?>
             <?php endif; ?>
         </div>
