@@ -457,7 +457,9 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/postgresql/6.1.0-2026-03-10.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/6.1.0-2026-03-13.sql',
             '/libraries/src/Encrypt/AES/Mcrypt.php',
-            '/media/com_banners/js/admin-banner-edit.es6.js',
+            '/media/com_banners/js/admin-banner-edit.js',
+            '/media/com_banners/js/admin-banner-edit.min.js',
+            '/media/com_banners/js/admin-banner-edit.min.js.gz',
             '/media/com_banners/joomla.asset.json',
         ];
 
