@@ -952,7 +952,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // Load the installer from the file
         if (!file_exists($manifestScriptFile)) {
             @trigger_error(
-                'Installer file must exist when defined. In version 5.0 this will crash.',
+                'Installer file must exist when defined. In version 7.0 this will crash.',
                 E_USER_DEPRECATED
             );
 

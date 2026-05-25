@@ -140,7 +140,7 @@ class ConfigurationModel extends BaseInstallationModel
             $return = false;
         }
 
-        // This is needed because the installer loads the extension table in constructor, needs to be refactored in 5.0
+        // This is needed because the installer loads the extension table in constructor, needs to be refactored in 7.0
         // It doesn't honor the DatabaseAware interface
         Factory::getContainer()->set('\Joomla\CMS\Table\Extension', new \Joomla\CMS\Table\Extension($db));
 
