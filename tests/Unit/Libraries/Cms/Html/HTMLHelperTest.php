@@ -62,9 +62,6 @@ class HTMLHelperTest extends UnitTestCase
      */
     public function testLinkWithDoubleQuoteBreakingXssPayload(): void
     {
-        $url  = '#';
-        $text = 'Click me';
-
         // Simulate user input designed to break out of an attribute and inject code.
         $attribs = [
             'class' => 'some-class"><script>alert(1)</script>"',
@@ -73,6 +70,6 @@ class HTMLHelperTest extends UnitTestCase
         // The expected output should have the double quotes properly escaped,
         // preventing the `<script>` from becoming live HTML tag.
         $expected = '<a href="#" class="some-class&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;&quot;">Click me</a>';
-        $this->assertEquals($expected, HTMLHelper::link($url, $text, $attribs));
+        $this->assertEquals($expected, HTMLHelper::link('#', 'Click me', $attribs));
     }
 }
