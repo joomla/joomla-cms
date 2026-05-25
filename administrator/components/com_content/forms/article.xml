@@ -749,10 +749,19 @@
 			/>
 
 			<field
-				name="float_intro"
+				name="imgclass_intro"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
-				description="COM_CONTENT_FIELD_IMAGE_CLASS_DESC"
+				description="COM_CONTENT_FIELD_IMAGEONLY_CLASS_DESC"
+				useglobal="true"
+				validate="CssIdentifier"
+			/>
+
+			<field
+				name="float_intro"
+				type="text"
+				label="COM_CONTENT_FIELD_FIGURE_CLASS_LABEL"
+				description="COM_CONTENT_FIELD_FIGURE_CLASS_DESC"
 				useglobal="true"
 				validate="CssIdentifier"
 			/>
@@ -787,12 +796,20 @@
 				label="COM_CONTENT_FIELD_IMAGE_ALT_EMPTY_LABEL"
 				description="COM_CONTENT_FIELD_IMAGE_ALT_EMPTY_DESC"
 			/>
+			<field
+				name="imgclass_fulltext"
+				type="text"
+				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
+				description="COM_CONTENT_FIELD_IMAGEONLY_CLASS_DESC"
+				useglobal="true"
+				validate="CssIdentifier"
+			/>
 
 			<field
 				name="float_fulltext"
 				type="text"
-				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
-				description="COM_CONTENT_FIELD_IMAGE_CLASS_DESC"
+				label="COM_CONTENT_FIELD_FIGURE_CLASS_LABEL"
+				description="COM_CONTENT_FIELD_FIGURE_CLASS_DESC"
 				useglobal="true"
 				validate="CssIdentifier"
 			/>
@@ -802,6 +819,7 @@
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
 			/>
+
 		</fieldset>
 	</fields>
 
