@@ -49,3 +49,6 @@ configurated="configurated"
 discernable="discernable"
 hilight="hilight"
 mis="mis"
+
+# strings to be deprecated, can be removed in future version
+LANUAGES="LANUAGES"
