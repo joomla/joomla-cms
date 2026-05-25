@@ -170,7 +170,7 @@ class JFormValidator {
     // Ignore the element if its currently disabled,
     // because are not submitted for the http-request.
     // For those case return always true.
-    if (element.getAttribute('disabled') === 'disabled' || element.getAttribute('display') === 'none') {
+    if (element.getAttribute('disabled') === 'disabled' || getComputedStyle(element).display === 'none' || getComputedStyle(element).visibility === 'hidden') {
       this.handleResponse(true, element);
       return true;
     }
