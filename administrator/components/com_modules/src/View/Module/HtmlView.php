@@ -191,7 +191,7 @@ class HtmlView extends BaseHtmlView
 
             $toolbar->cancel('module.cancel');
 
-            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->get('params')->get('save_history', 1) && $canDo->get('core.edit')) {
+            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->get('params')->get('save_history', 0) && $canDo->get('core.edit')) {
                 $toolbar->versions('com_modules.module', $this->item->id);
             }
 
