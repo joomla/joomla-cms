@@ -383,7 +383,7 @@ class ComponentHelper
         $loader = function () {
             $db    = Factory::getDbo();
             $query = $db->createQuery()
-                ->select($db->quoteName(['extension_id', 'element', 'params', 'enabled'], ['id', 'option', null, null]))
+                ->select($db->quoteName(['extension_id', 'element', 'params', 'enabled', 'custom_data'], ['id', 'option', null, null, null]))
                 ->from($db->quoteName('#__extensions'))
                 ->where(
                     [

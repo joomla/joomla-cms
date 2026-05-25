@@ -1,7 +1,7 @@
 Joomla! CMS™
 ============
 
-## The Joomla! 6.1 branch is under heavy development and not all links in this document are available yet
+## The Joomla! 7.0 branch is under heavy development and not all links in this document are available yet
 
 ## Build Status
 
@@ -11,13 +11,12 @@ Joomla! CMS™
 
 ## Overview
 
-* This is the source of Joomla! 6.x.
+* This is the source of Joomla! 7.x.
 * Joomla's [Official website](https://www.joomla.org).
-* Joomla! 6.1 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_6.1_version_history).
+* Joomla! 7.0 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_7.0_version_history).
 * Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/6.1-dev).
-* Release Managers responsible for Joomla! 6.1
-  * Stefan Wendhausen @tecpromotion
-  * Harald Leithner @HLeithner
+* Release Managers responsible for Joomla! 7.0
+  * tbd
 
 ## What is Joomla?
 
@@ -33,7 +32,7 @@ Joomla is not installable out of the box from this repository, please use:
 
 ## How to get a working installation from the source
 
-For detailed instructions please visit https://docs.joomla.org/Special:MyLanguage/J5.x:Setting_Up_Your_Local_Environment
+For detailed instructions please visit https://guide.joomla.org/user-manual/hosting/local-environment-setup
 
 You will need:
 - PHP - basically the same as you need for running a Joomla Site, but you need the cli (command line interface) Version (see https://docs.joomla.org/Special:MyLanguage/Configuring_a_LAMPP_server_for_PHP_development)

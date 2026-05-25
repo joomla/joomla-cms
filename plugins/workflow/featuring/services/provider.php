@@ -31,14 +31,14 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Featuring::class, function (Container $container) {
                 $plugin     = new Featuring(
                     (array) PluginHelper::getPlugin('workflow', 'featuring')
                 );
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

@@ -65,8 +65,8 @@ describe('Test that contacts API endpoint', () => {
   it('can submit a contact form', () => {
     cy.db_getUserId().then((id) => cy.db_createContact({ name: 'automated test contact', user_id: id, params: '{"show_email_form":"1"}' }))
       .then((contact) => cy.api_post(`/contacts/form/${contact.id}`, {
-        contact_name: Cypress.env('name'),
-        contact_email: Cypress.env('email'),
+        contact_name: Cypress.expose('name'),
+        contact_email: Cypress.expose('email'),
         contact_subject: 'automated test subject',
         contact_message: 'automated test message',
       }))
@@ -75,11 +75,11 @@ describe('Test that contacts API endpoint', () => {
 
     cy.task('getMails').then((mails) => {
       expect(mails.length).to.equal(1);
-      cy.wrap(mails[0].sender).should('equal', Cypress.env('email'));
-      cy.wrap(mails[0].receivers).should('have.property', Cypress.env('email'));
-      cy.wrap(mails[0].headers.subject).should('equal', `${Cypress.env('sitename')}: automated test subject`);
+      cy.wrap(mails[0].sender).should('equal', Cypress.expose('email'));
+      cy.wrap(mails[0].receivers).should('have.property', Cypress.expose('email'));
+      cy.wrap(mails[0].headers.subject).should('equal', `${Cypress.expose('sitename')}: automated test subject`);
       cy.wrap(mails[0].body).should('have.string', 'This is an enquiry email via');
-      cy.wrap(mails[0].body).should('have.string', `${Cypress.env('name')} ${Cypress.env('email')}`);
+      cy.wrap(mails[0].body).should('have.string', `${Cypress.expose('name')} ${Cypress.expose('email')}`);
       cy.wrap(mails[0].body).should('have.string', 'automated test message');
     });
   });
