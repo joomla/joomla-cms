@@ -43,20 +43,11 @@ class HtmlView extends BaseHtmlView
     protected $page = null;
 
     /**
-     * The iso language tag
+     * The level of each submenu
      *
-     * @var    string
-     * @since  1.6
+     * @var    integer
      */
-    protected $languageTag = null;
-
-    /**
-     * Table of contents
-     *
-     * @var    array
-     * @since  1.6
-     */
-    protected $toc = [];
+    protected $toclevel = 0;
 
     /**
      * Execute and display a template script.
@@ -73,10 +64,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var HelpModel $model */
         $model                    = $this->getModel();
-        $this->helpSearch         = $model->getHelpSearch();
         $this->page               = $model->getPage();
-        $this->toc                = $model->getToc();
-        $this->languageTag        = $model->getLangTag();
 
         $this->addToolbar();
 
@@ -93,5 +81,22 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar(): void
     {
         ToolbarHelper::title(Text::_('COM_ADMIN_HELP'), 'support help_header');
+    }
+
+    /**
+     * Method to render a given level of a menu using provided layout file
+     *
+     * @param   string      $layoutFile  The layout file to be used to render
+     * @param   array       $menu        The menu to render the children of
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function renderSubmenu($layoutFile, $menu)
+    {
+        if (is_file($layoutFile)) {
+            require $layoutFile;
+        }
     }
 }
