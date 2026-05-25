@@ -24,8 +24,8 @@ describe('Test in backend that the user', () => {
     cy.get('.com-users-methods-list-method-name-email .com-users-methods-list-method-record').contains('Test Code');
     cy.clickToolbarButton('Cancel');
     cy.doAdministratorLogout();
-    cy.get('#mod-login-username').type(Cypress.env('username'));
-    cy.get('#mod-login-password').type(Cypress.env('password'));
+    cy.get('#mod-login-username').type(Cypress.expose('username'));
+    cy.get('#mod-login-password').type(Cypress.expose('password'));
     cy.get('#form-login').submit();
     cy.get('#users-mfa-title').contains('Test Code');
     cy.task('getMails').then((mails) => {
@@ -64,8 +64,8 @@ describe('Test in backend that the user', () => {
     cy.get('.com-users-methods-list-method-name-totp .com-users-methods-list-method-record').contains('Test Code');
     cy.clickToolbarButton('Cancel');
     cy.doAdministratorLogout();
-    cy.get('#mod-login-username').type(Cypress.env('username'));
-    cy.get('#mod-login-password').type(Cypress.env('password'));
+    cy.get('#mod-login-username').type(Cypress.expose('username'));
+    cy.get('#mod-login-password').type(Cypress.expose('password'));
     cy.get('#form-login').submit();
     cy.get('#users-mfa-title').contains('Verification code');
     cy.get('@secret').then((secret) => cy.get('#users-mfa-code').clear().type(TOTP.generate(secret).otp));
@@ -102,8 +102,8 @@ describe('Test in backend that the user', () => {
     cy.get('.com-users-methods-list-method-name-webauthn .com-users-methods-list-method-record').contains('Test Passkey');
     cy.clickToolbarButton('Cancel');
     cy.doAdministratorLogout();
-    cy.get('#mod-login-username').type(Cypress.env('username'));
-    cy.get('#mod-login-password').type(Cypress.env('password'));
+    cy.get('#mod-login-username').type(Cypress.expose('username'));
+    cy.get('#mod-login-password').type(Cypress.expose('password'));
     cy.get('#form-login').submit();
     cy.get('#users-mfa-title').contains('Passkey');
     cy.get('#toolbar-user-mfa-submit').click();
@@ -142,8 +142,8 @@ describe('Test in backend that the user', () => {
     cy.get('#toolbar-user-mfa-edit-cancel').contains('Back').click();
     cy.clickToolbarButton('Cancel');
     cy.doAdministratorLogout();
-    cy.get('#mod-login-username').type(Cypress.env('username'));
-    cy.get('#mod-login-password').type(Cypress.env('password'));
+    cy.get('#mod-login-username').type(Cypress.expose('username'));
+    cy.get('#mod-login-password').type(Cypress.expose('password'));
     cy.get('#form-login').submit();
     cy.get('#users-mfa-title').contains('Verification code');
     cy.get('#toolbar-user-mfa-choose-another').click();

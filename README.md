@@ -33,7 +33,7 @@ Joomla is not installable out of the box from this repository, please use:
 
 ## How to get a working installation from the source
 
-For detailed instructions please visit https://docs.joomla.org/Special:MyLanguage/J5.x:Setting_Up_Your_Local_Environment
+For detailed instructions please visit https://guide.joomla.org/user-manual/hosting/local-environment-setup
 
 You will need:
 - PHP - basically the same as you need for running a Joomla Site, but you need the cli (command line interface) Version (see https://docs.joomla.org/Special:MyLanguage/Configuring_a_LAMPP_server_for_PHP_development)
