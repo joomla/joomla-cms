@@ -79,7 +79,7 @@ class MailTemplate
 
     /**
      *
-     * @var    string[]
+     * @var    \stdClass[]
      * @since  4.0.0
      */
     protected $attachments = [];
@@ -219,6 +219,20 @@ class MailTemplate
     }
 
     /**
+     * Get the template data.
+     *
+     * @param   bool   $plain Data used for plain-text emails.
+     *
+     * @return array
+     *
+     * @since   6.1.0
+     */
+    public function getTemplateData($plain = false): array
+    {
+        return !$plain ? $this->data : $this->plain_data;
+    }
+
+    /**
      * Mark tags as unsafe to ensure escaping in HTML mails
      *
      * @param   array   $tags  Tag names
@@ -309,7 +323,7 @@ class MailTemplate
         if ($mailStyle === 'plaintext' || $mailStyle === 'both') {
             // If the Plain template is empty try to convert the HTML template to a Plain text
             if (!$plainBody) {
-                $plainBody = strip_tags(str_replace(['<br>', '<br />', '<br/>'], "\n", $htmlBody));
+                $plainBody = strip_tags(str_replace(['<br>', '<br />', '<br/>'], "\n", $this->replaceTags($htmlBody, $plainData)));
             }
 
             $this->mailer->setBody($plainBody);
@@ -375,7 +389,7 @@ class MailTemplate
                     ]);
                 }
 
-                $htmlBody = $layoutFile->render(['mail' => $htmlBody, 'extra' => $this->layoutTemplateData], null);
+                $htmlBody = $layoutFile->render(['mail' => $htmlBody, 'extra' => $this->layoutTemplateData]);
 
                 $htmlBody = $this->replaceTags(Text::_($htmlBody), $this->data);
             }
@@ -483,7 +497,7 @@ class MailTemplate
                             }
                         }
 
-                        $text = str_replace($match, $replacement, $text);
+                        $text = str_ireplace($match, $replacement, $text);
                     }
                 }
             } else {
@@ -492,7 +506,7 @@ class MailTemplate
                     $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
                 }
 
-                $text = str_replace('{' . strtoupper($key) . '}', $value, $text);
+                $text = str_ireplace('{' . strtoupper($key) . '}', $value, $text);
             }
         }
 

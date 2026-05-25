@@ -396,6 +396,27 @@ abstract class AbstractMenu
     }
 
     /**
+     * Returns homepages per language.
+     *
+     * @return  MenuItem[]
+     *
+     * @since   6.1.0
+     */
+    public function getHomepages()
+    {
+        // Ensure that defaults are filled.
+        $this->getMenu();
+
+        $homepages = [];
+
+        foreach ($this->default as $language => $id) {
+            $homepages[$language] = $this->items[$id];
+        }
+
+        return $homepages;
+    }
+
+    /**
      * Magic getter for the user object. Returns the injected
      * one if any, or the current one if none.
      *

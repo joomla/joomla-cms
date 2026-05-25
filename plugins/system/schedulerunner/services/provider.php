@@ -31,14 +31,14 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
-                $plugin     = new ScheduleRunner(
+            $container->lazy(ScheduleRunner::class, function (Container $container) {
+                $plugin = new ScheduleRunner(
                     (array) PluginHelper::getPlugin('system', 'schedulerunner')
                 );
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

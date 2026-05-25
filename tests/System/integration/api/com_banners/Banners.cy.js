@@ -9,6 +9,22 @@ describe('Test that banners API endpoint', () => {
         .should('include', 'automated test banner'));
   });
 
+  it('can deliver a list of unpublished banners', () => {
+    cy.db_createBanner({ name: 'automated test banner', state: 0 })
+      .then(() => cy.api_get('/banners?filter[state]=0'))
+      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes')
+        .its('name')
+        .should('include', 'automated test banner'));
+  });
+
+  it('can deliver a list of published banners', () => {
+    cy.db_createBanner({ name: 'automated test banner', state: 1 })
+      .then(() => cy.api_get('/banners?filter[state]=1'))
+      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes')
+        .its('name')
+        .should('include', 'automated test banner'));
+  });
+
   it('can deliver a single banner', () => {
     cy.db_createBanner({ name: 'automated test banner' })
       .then((banner) => cy.api_get(`/banners/${banner.id}`))

@@ -25,7 +25,7 @@ abstract class AssociationExtensionHelper implements AssociationExtensionInterfa
     /**
      * The extension name
      *
-     * @var     array  $extension
+     * @var     string  $extension
      *
      * @since   3.7.0
      */
@@ -255,7 +255,7 @@ abstract class AssociationExtensionHelper implements AssociationExtensionInterfa
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.1.0
      */
     public function getUrlOptions($type = '')
     {
