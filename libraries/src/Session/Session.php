@@ -76,7 +76,7 @@ class Session extends BaseSession
             if ($app->getSession()->isNew()) {
                 // Redirect to login screen.
                 $app->enqueueMessage(Text::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'), 'warning');
-                $app->redirect(Route::_('index.php'));
+                $app->redirect(Route::_('index.php', false));
 
                 return true;
             }
