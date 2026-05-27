@@ -8,7 +8,7 @@ describe('Test that users access levels API endpoint', () => {
       .should('include', 'Public'));
   });
 
-  it('can deliver a single level', () => {
+  it('can deliver a single users access level', () => {
     cy.db_createUserLevel({ title: 'automated test level'})
       .then((level) => cy.api_get(`/users/levels/${level.id}`))
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
@@ -16,17 +16,18 @@ describe('Test that users access levels API endpoint', () => {
         .should('include', 'automated test level'));
   });
 
-  it('can create a level', () => {
+  it('can create a users access level', () => {
     cy.api_post('/users/levels', {
+      id: '0',
       title: 'automated test level',
-      rules: [1,2]
+      rules: [1],
     })
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
         .its('title')
         .should('include', 'automated test level'));
   });
 
-  it('can update a level', () => {
+  it('can update a users access level', () => {
     cy.db_createUserLevel({ title: 'automated test level'})
       .then((level) => cy.api_patch(`/users/levels/${level.id}`, { title: 'updated automated test level' }))
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
@@ -38,4 +39,33 @@ describe('Test that users access levels API endpoint', () => {
     cy.db_createUserLevel({ title: 'automated test level'})
       .then((level) => cy.api_delete(`/users/levels/${level.id}`));
   });
+
+  it('can patch a users access level', () => {
+      // First create a level we can PATCH
+      cy.api_post('/users/levels', {
+        id: '0',
+        title: 'automated test level',
+        rules: [1], // valid initial rules
+      }).then((createResponse) => {
+        const createdId = createResponse.body.data.id;
+      
+        // Now try to PATCH it with valid rules payload
+        cy.api_patch(`/users/levels/${createdId}`, {
+          title: 'automated test level',
+          rules: [1, 2],
+        }).then((patchResponse) => {
+          expect(patchResponse.status).to.eq(200);
+          cy.wrap(patchResponse).its('body').its('data').its('attributes').its('rules')
+            .then((rules) => {
+              if (typeof rules === 'string') {
+                const normalized = rules.replace(/\s+/g, '');
+                expect(normalized).to.eq([1,2]);
+              } else {
+                const nums = rules.map((r) => (typeof r === 'string' ? Number(r) : r));
+                expect(nums).to.deep.equal([1, 2]);
+              }
+            });
+        });
+      });
+    });
 });
