@@ -50,5 +50,5 @@ discernable="discernable"
 hilight="hilight"
 mis="mis"
 
-# strings to be deprecated, can be removed in future version
+# deprecated strings can be removed in 7.0
 LANUAGES="LANUAGES"
