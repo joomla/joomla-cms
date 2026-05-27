@@ -72,7 +72,7 @@ class ApplicationHelper
      */
     public static function getHash($seed)
     {
-        return md5(Factory::getApplication()->get('secret') . $seed);
+        return hash_hmac('sha256', $seed, Factory::getApplication()->get('secret'));
     }
 
     /**
