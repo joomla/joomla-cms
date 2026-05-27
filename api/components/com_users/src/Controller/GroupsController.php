@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Users\Api\Controller;
 
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\MVC\Controller\ApiController;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -38,4 +39,53 @@ class GroupsController extends ApiController
      * @since  3.0
      */
     protected $default_view = 'groups';
+
+    /**
+     * Removes an item.
+     *
+     * @param   integer  $id  The primary key to delete item.
+     *
+     * @return  void
+     *
+     * @since   5.4.6
+     */
+    public function delete($id = null)
+    {
+        if (!$this->app->getIdentity()->authorise('core.admin', $this->option)) {
+            throw new NotAllowed('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED', 403);
+        }
+
+        parent::delete($id);
+    }
+
+    /**
+     * Method to check if you can add a new record.
+     *
+     * @param   array  $data  An array of input data.
+     *
+     * @return  boolean
+     *
+     * @since   5.4.6
+     */
+    public function allowAdd($data = [])
+    {
+        // Overrides the default behavior to check the core.admin permission.
+        return $this->app->getIdentity()->authorise('core.admin', $this->option);
+    }
+
+    /**
+     * Method to check if you can edit an existing record.
+     *
+     * @param   array   $data  An array of input data.
+     * @param   string  $key   The name of the key for the primary key; default is id.
+     *
+     * @return  boolean
+     *
+     * @since   5.4.6
+     */
+    public function allowEdit($data = [], $key = 'id')
+    {
+        // Overrides the default behavior to check the core.admin permission.
+        return $this->app->getIdentity()->authorise('core.admin', $this->option);
+    }
 }

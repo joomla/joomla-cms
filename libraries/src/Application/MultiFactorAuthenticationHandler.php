@@ -317,13 +317,14 @@ trait MultiFactorAuthenticationHandler
             return false;
         }
 
-        $allowedViews = ['captive', 'method', 'methods', 'callback'];
+        $allowedViews = ['captive'];
         $allowedTasks = [
             'captive.display', 'captive.captive', 'captive.validate',
             'methods.display',
         ];
 
         if (!$onlyCaptive) {
+            $allowedViews = array_merge($allowedViews, ['method', 'methods', 'callback']);
             $allowedTasks = array_merge(
                 $allowedTasks,
                 [

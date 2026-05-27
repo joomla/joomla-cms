@@ -44,7 +44,8 @@ jobs:
           path: |
             node_modules
             media
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
+            installation/template/css
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**', 'installation/template/scss/**') }}
       - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: libraries/vendor
@@ -90,7 +91,8 @@ jobs:
           path: |
             node_modules
             media
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
+            installation/template/css
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**', 'installation/template/scss/**') }}
       - name: Check code style
         run: npm run ${{ matrix.check }}
 
@@ -280,7 +282,8 @@ jobs:
           path: |
             node_modules
             media
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
+            installation/template/css
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**', 'installation/template/scss/**') }}
       - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         id: cache-cypress
         with:
@@ -346,7 +349,8 @@ jobs:
           path: |
             node_modules
             media
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
+            installation/template/css
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**', 'installation/template/scss/**') }}
       - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: |
@@ -391,6 +395,6 @@ jobs:
     - name: Checkout Actions Repository
       uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
     - name: Spell Check Repository
-      uses: crate-ci/typos@392b78fe18a52790c53f42456e46124f77346842 # v1.34.0
+      uses: crate-ci/typos@7b04f660f4ee4f048d18fd341887cf28dfbedfe2 # v1.46.3
       with:
         config: .github/workflows/typos.toml
