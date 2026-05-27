@@ -307,96 +307,6 @@ parameters:
 			path: administrator/components/com_associations/src/View/Associations/HtmlView.php
 
 		-
-			message: '#^Access to property \$app on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Access to property \$defaultTargetSrc on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Access to property \$editUri on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 3
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Access to property \$form on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 3
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Access to property \$itemType on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Access to property \$referenceId on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 3
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Access to property \$referenceLanguage on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Access to property \$referenceTitle on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Access to property \$referenceTitleValue on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Access to property \$targetAction on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Access to property \$targetId on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Access to property \$targetLanguage on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Access to property \$targetTitle on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Access to property \$typeName on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 4
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Call to method getDocument\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
 			message: '#^Access to an undefined property Joomla\\Component\\Associations\\Administrator\\View\\Associations\\HtmlView\:\:\$editUri\.$#'
 			identifier: property.notFound
 			count: 1
@@ -5461,7 +5371,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 17
+			count: 15
 			path: administrator/components/com_messages/src/Model/MessageModel.php
 
 		-
@@ -7603,7 +7513,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 26
+			count: 28
 			path: administrator/components/com_users/src/Model/UserModel.php
 
 		-
@@ -15661,6 +15571,12 @@ parameters:
 			'''
 			identifier: method.deprecatedInterface
 			count: 2
+			path: libraries/src/MVC/View/HtmlView.php
+
+		-
+			message: '#^Undefined variable\: \$layoutTemplate$#'
+			identifier: variable.undefined
+			count: 1
 			path: libraries/src/MVC/View/HtmlView.php
 
 		-
