@@ -87,7 +87,7 @@
     "symfony/options-resolver": "^7",
     "symfony/polyfill-mbstring": "^1.33.0",
     "symfony/web-link": "^6.4.32",
-    "symfony/yaml": "^6.4.34",
+    "symfony/yaml": "^6.4.41",
     "wamania/php-stemmer": "^4.0.0",
     "tobscure/json-api": "dev-joomla-backports",
     "willdurand/negotiation": "^3.1.0",
