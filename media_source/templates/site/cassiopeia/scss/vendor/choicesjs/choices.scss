@@ -10,6 +10,7 @@
 @import "../../tools/tools";
 
 .choices {
+  --choices-item-disabled-color: var(--gray-700);
   border: $form-select-border-width solid $form-select-border-color;
   @include border-radius($form-select-border-radius, 0);
   @include box-shadow($form-select-box-shadow);
