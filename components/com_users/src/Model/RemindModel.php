@@ -168,7 +168,7 @@ class RemindModel extends FormModel
 
         // Assemble the login link.
         $link = 'index.php?option=com_users&view=login';
-        $mode = $app->get('force_ssl', 0) == 2 ? 1 : (-1);
+        $mode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
         // Put together the email template data.
         $data              = ArrayHelper::fromObject($user);

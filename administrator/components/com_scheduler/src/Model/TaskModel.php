@@ -622,7 +622,12 @@ class TaskModel extends AdminModel
             $data['last_execution'] = Factory::getDate('now', 'GMT')->format('Y-m')
                 . "-$basisDayOfMonth $basisHour:$basisMinute:00";
         } else {
-            $data['last_execution'] = $this->getItem($id)->last_execution;
+            $item = $this->getItem($id);
+
+            $data['last_execution'] = $item->last_execution;
+
+            // Prevent changing the task type when editing an existing task.
+            $data['type'] = $item->type;
         }
 
         // Build the `cron_rules` column from `execution_rules`
