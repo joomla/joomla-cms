@@ -19,7 +19,7 @@ use Joomla\Crypt\Cipher\Sodium;
  * JCrypt cipher for sodium algorithm encryption, decryption and key generation.
  *
  * @since  3.8.0
- * @deprecated  __DEPLOY_VERSION__ will be removed in 8.0
+ * @deprecated  6.2.0 will be removed in 8.0
  *               Please use \Joomla\Crypt\Cipher\Sodium instead
  */
 class SodiumCipher extends Sodium
