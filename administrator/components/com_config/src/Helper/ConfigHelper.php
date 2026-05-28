@@ -160,6 +160,6 @@ class ConfigHelper extends ContentHelper
      */
     public static function getOAuth2CallbackUrl(): string
     {
-        return Uri::root() . 'administrator/index.php?option=com_config&task=request.oauth2callback&format=raw';
+        return Uri::base() . 'index.php?option=com_config&task=request.oauth2callback&format=raw';
     }
 }

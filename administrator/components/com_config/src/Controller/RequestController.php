@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Config\Administrator\Controller;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
@@ -45,7 +44,6 @@ class RequestController extends BaseController
             return;
         }
 
-        $params  = $this->app->getConfig();
         $session = $this->app->getSession();
         $state   = Session::getFormToken();
         $session->set('com_config.oauth2_state', $state);
@@ -173,16 +171,15 @@ class RequestController extends BaseController
             }
 
             $model = new ApplicationModel();
-            $app   = Factory::getApplication();
 
             $saveData = [
                 'oauth2_refresh_token'   => $refreshToken,
                 'oauth2_token_issued_at' => gmdate('Y-m-d H:i:s') . ' UTC',
             ];
 
-            $saveData['oauth2_client_id']     = $app->get('oauth2_client_id', '');
-            $saveData['oauth2_client_secret'] = $app->get('oauth2_client_secret', '');
-            $saveData['mailer']               = $app->get('mailer', 'mail');
+            $saveData['oauth2_client_id']     = $this->app->get('oauth2_client_id', '');
+            $saveData['oauth2_client_secret'] = $this->app->get('oauth2_client_secret', '');
+            $saveData['mailer']               = $this->app->get('mailer', 'mail');
 
             if (!$model->save($saveData)) {
                 throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'));
