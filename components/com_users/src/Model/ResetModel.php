@@ -466,8 +466,8 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
         }
 
         // Assemble the password reset confirmation link.
-        $mode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
-        $link = 'index.php?option=com_users&view=reset&layout=confirm&token=' . $token;
+        $mode   = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
+        $link   = 'index.php?option=com_users&view=reset&layout=confirm&token=' . $token;
         $client = $app->getName();
 
         // Put together the email template data.
