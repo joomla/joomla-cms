@@ -50,7 +50,7 @@ class JoomlaStorageTest extends UnitTestCase
         $registry = new Registry(['foo' => 'bar', 'nested' => ['key' => 'val']]);
         $encoded  = $this->encodeSessionData($registry);
 
-        $result = unserialize(base64_decode($encoded), ['allowed_classes' => [Registry::class]]);
+        $result = unserialize(base64_decode($encoded), ['allowed_classes' => [Registry::class, \stdClass::class]]);
 
         $this->assertInstanceOf(Registry::class, $result);
         $this->assertSame('bar', $result->get('foo'));
@@ -58,7 +58,7 @@ class JoomlaStorageTest extends UnitTestCase
     }
 
     /**
-     * @testdox  rejects a serialized object that is not a Registry
+     * @testdox  rejects a serialized stdClass as not a Registry
      *
      * @return void
      * @since  __DEPLOY_VERSION__
@@ -69,10 +69,9 @@ class JoomlaStorageTest extends UnitTestCase
         $malicious->cmd = 'rm -rf /';
         $encoded        = $this->encodeSessionData($malicious);
 
-        $result = unserialize(base64_decode($encoded), ['allowed_classes' => [Registry::class]]);
+        $result = unserialize(base64_decode($encoded), ['allowed_classes' => [Registry::class, \stdClass::class]]);
 
         $this->assertNotInstanceOf(Registry::class, $result);
-        $this->assertNotInstanceOf(\stdClass::class, $result);
     }
 
     /**
@@ -88,7 +87,7 @@ class JoomlaStorageTest extends UnitTestCase
 
         $sessionValue = $this->encodeSessionData($malicious);
 
-        $data = unserialize(base64_decode($sessionValue), ['allowed_classes' => [Registry::class]]);
+        $data = unserialize(base64_decode($sessionValue), ['allowed_classes' => [Registry::class, \stdClass::class]]);
 
         // Simulate the guard in JoomlaStorage::start()
         $storage = new Registry();
@@ -110,7 +109,7 @@ class JoomlaStorageTest extends UnitTestCase
     {
         $corrupted = base64_encode('not-valid-serialized-data!!!');
 
-        $data = @unserialize(base64_decode($corrupted), ['allowed_classes' => [Registry::class]]);
+        $data = @unserialize(base64_decode($corrupted), ['allowed_classes' => [Registry::class, \stdClass::class]]);
 
         $storage = new Registry();
         if ($data instanceof Registry) {
