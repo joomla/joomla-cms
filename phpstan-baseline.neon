@@ -5619,7 +5619,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 26
+			count: 28
 			path: administrator/components/com_users/src/Model/UserModel.php
 
 		-
@@ -12296,6 +12296,12 @@ parameters:
 			'''
 			identifier: method.deprecatedInterface
 			count: 2
+			path: libraries/src/MVC/View/HtmlView.php
+
+		-
+			message: '#^Undefined variable\: \$layoutTemplate$#'
+			identifier: variable.undefined
+			count: 1
 			path: libraries/src/MVC/View/HtmlView.php
 
 		-
