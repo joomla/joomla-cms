@@ -995,6 +995,14 @@ class TemplateModel extends FormModel
 
         $filePath = Path::clean($fileName);
 
+        try {
+            $filePath = Path::check($filePath);
+        } catch (\Exception) {
+            $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'), 'error');
+
+            return false;
+        }
+
         // Include the extension plugins for the save events.
         PluginHelper::importPlugin('extension');
 
@@ -1301,7 +1309,15 @@ class TemplateModel extends FormModel
     {
         if ($this->getTemplate()) {
             $app      = Factory::getApplication();
-            $filePath = $this->getBasePath() . urldecode(base64_decode($file));
+            $filePath = Path::clean($this->getBasePath() . urldecode(base64_decode($file)));
+
+            try {
+                $filePath = Path::check($filePath);
+            } catch (\Exception) {
+                $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_DELETE_ERROR'), 'error');
+
+                return false;
+            }
 
             try {
                 $return = File::delete($filePath);
@@ -1502,6 +1518,15 @@ class TemplateModel extends FormModel
             $explodeArray = explode('/', $fileName);
             $newName      = str_replace(end($explodeArray), $name . '.' . $type, $fileName);
 
+            try {
+                Path::check(Path::clean($path . $fileName));
+                Path::check(Path::clean($path . $newName));
+            } catch (\Exception) {
+                $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_RENAME_ERROR'), 'error');
+
+                return false;
+            }
+
             if (file_exists($path . $newName)) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
 
@@ -1570,8 +1595,16 @@ class TemplateModel extends FormModel
     public function cropImage($file, $w, $h, $x, $y)
     {
         if ($this->getTemplate()) {
-            $app      = Factory::getApplication();
-            $path     = $this->getBasePath() . base64_decode($file);
+            $app  = Factory::getApplication();
+            $path = Path::clean($this->getBasePath() . base64_decode($file));
+
+            try {
+                $path = Path::check($path);
+            } catch (\Exception) {
+                $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_IMAGE_FILE_NOT_FOUND'), 'error');
+
+                return false;
+            }
 
             try {
                 $image      = new Image($path);
@@ -1618,7 +1651,15 @@ class TemplateModel extends FormModel
     {
         if ($this->getTemplate()) {
             $app  = Factory::getApplication();
-            $path = $this->getBasePath() . base64_decode($file);
+            $path = Path::clean($this->getBasePath() . base64_decode($file));
+
+            try {
+                $path = Path::check($path);
+            } catch (\Exception) {
+                $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_IMAGE_FILE_NOT_FOUND'), 'error');
+
+                return false;
+            }
 
             try {
                 $image      = new Image($path);
