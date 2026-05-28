@@ -58,65 +58,40 @@ class JoomlaStorageTest extends UnitTestCase
     }
 
     /**
-     * @testdox  rejects a serialized stdClass as not a Registry
+     * @testdox  throws a RuntimeException when session contains a non-Registry object
      *
      * @return void
      * @since  __DEPLOY_VERSION__
      */
-    public function testDeserializeRejectsArbitraryObject(): void
+    public function testStartThrowsOnNonRegistrySessionData(): void
     {
         $malicious      = new \stdClass();
         $malicious->cmd = 'rm -rf /';
         $encoded        = $this->encodeSessionData($malicious);
+        $data           = unserialize(base64_decode($encoded), ['allowed_classes' => [Registry::class, \stdClass::class]]);
 
-        $result = unserialize(base64_decode($encoded), ['allowed_classes' => [Registry::class, \stdClass::class]]);
+        $this->expectException(\RuntimeException::class);
 
-        $this->assertNotInstanceOf(Registry::class, $result);
-    }
-
-    /**
-     * @testdox  falls back to empty Registry when session contains a non-Registry object
-     *
-     * @return void
-     * @since  __DEPLOY_VERSION__
-     */
-    public function testStartFallsBackToEmptyRegistryOnInvalidData(): void
-    {
-        $malicious          = new \stdClass();
-        $malicious->payload = 'exploit';
-
-        $sessionValue = $this->encodeSessionData($malicious);
-
-        $data = unserialize(base64_decode($sessionValue), ['allowed_classes' => [Registry::class, \stdClass::class]]);
-
-        // Simulate the guard in JoomlaStorage::start()
-        $storage = new Registry();
-        if ($data instanceof Registry) {
-            $storage = $data;
+        if (!($data instanceof Registry)) {
+            throw new \RuntimeException('Session data could not be unserialized as a Registry object.');
         }
-
-        $this->assertInstanceOf(Registry::class, $storage);
-        $this->assertEmpty($storage->toArray());
     }
 
     /**
-     * @testdox  falls back to empty Registry when session data is corrupted
+     * @testdox  throws a RuntimeException when session data is corrupted
      *
      * @return void
      * @since  __DEPLOY_VERSION__
      */
-    public function testStartFallsBackToEmptyRegistryOnCorruptedData(): void
+    public function testStartThrowsOnCorruptedSessionData(): void
     {
         $corrupted = base64_encode('not-valid-serialized-data!!!');
+        $data      = @unserialize(base64_decode($corrupted), ['allowed_classes' => [Registry::class, \stdClass::class]]);
 
-        $data = @unserialize(base64_decode($corrupted), ['allowed_classes' => [Registry::class, \stdClass::class]]);
+        $this->expectException(\RuntimeException::class);
 
-        $storage = new Registry();
-        if ($data instanceof Registry) {
-            $storage = $data;
+        if (!($data instanceof Registry)) {
+            throw new \RuntimeException('Session data could not be unserialized as a Registry object.');
         }
-
-        $this->assertInstanceOf(Registry::class, $storage);
-        $this->assertEmpty($storage->toArray());
     }
 }

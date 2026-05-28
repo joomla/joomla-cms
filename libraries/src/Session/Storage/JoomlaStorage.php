@@ -316,9 +316,11 @@ class JoomlaStorage extends NativeStorage
         if (!empty($_SESSION['joomla'])) {
             $data = unserialize(base64_decode($_SESSION['joomla']), ['allowed_classes' => [Registry::class, \stdClass::class]]);
 
-            if ($data instanceof Registry) {
-                $this->data = $data;
+            if (!($data instanceof Registry)) {
+                throw new \RuntimeException('Session data could not be unserialized as a Registry object.');
             }
+
+            $this->data = $data;
         }
     }
 }
