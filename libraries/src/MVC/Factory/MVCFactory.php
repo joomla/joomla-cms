@@ -176,7 +176,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
             try {
                 $model->setDatabase($this->getDatabase());
             } catch (DatabaseNotFoundException) {
-                @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
+                @trigger_error('Database must be set, this will not be caught anymore in 7.0.', E_USER_DEPRECATED);
                 $model->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
             }
         }
@@ -272,7 +272,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
         try {
             $db = \array_key_exists('dbo', $config) ? $config['dbo'] : $this->getDatabase();
         } catch (DatabaseNotFoundException) {
-            @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
+            @trigger_error('Database must be set, this will not be caught anymore in 7.0.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
