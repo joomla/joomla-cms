@@ -164,20 +164,30 @@ class JFormValidator {
     }
   }
 
-  validate(element) {
-    let tagName;
+ validate(element) {
+  let tagName;
 
-    // Ignore the element if it's currently disabled or hidden,
-// because they are not submitted for the http-request.
-// For those cases return always true.
-const isElementHidden = !element.checkVisibility({
-  visibilityProperty: true,
-});
+  // Ignore the element if it's currently disabled or hidden,
+  // because they are not submitted for the http-request.
+  // For those cases return always true.
+  const isHidden = (el) => {
+    while (el) {
+      if (window.getComputedStyle(el).display === 'none') {
+        return true;
+      }
 
-if (element.getAttribute('disabled') === 'disabled' || isElementHidden) {
-  this.handleResponse(true, element);
-  return true;
-}
+      el = el.parentElement;
+    }
+
+    return false;
+  };
+
+  if (element.getAttribute('disabled') === 'disabled' || isHidden(element)) {
+    this.handleResponse(true, element);
+    return true;
+  }
+
+  
     // If the field is required make sure it has a value
     if (element.getAttribute('required') || element.classList.contains('required')) {
       tagName = element.tagName.toLowerCase();
