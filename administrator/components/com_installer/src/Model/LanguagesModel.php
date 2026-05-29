@@ -29,7 +29,6 @@ use Joomla\String\StringHelper;
 class LanguagesModel extends ListModel implements HttpFactoryAwareInterface
 {
     use HttpFactoryAwareTrait;
-
     /**
      * Language count
      *
