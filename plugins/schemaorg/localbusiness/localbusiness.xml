@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>__DEPLOY_VERSION__</version>
 	<description>PLG_SCHEMAORG_LOCALBUSINESS_XML_DESCRIPTION</description>
-	<namespace path="src">Joomla\Plugin\Schemaorg\Localbusiness</namespace>
+	<namespace path="src">Joomla\Plugin\Schemaorg\LocalBusiness</namespace>
 	<files>
 		<folder plugin="localbusiness">services</folder>
 		<folder>src</folder>
