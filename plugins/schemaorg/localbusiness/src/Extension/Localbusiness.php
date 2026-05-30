@@ -41,5 +41,5 @@ final class Localbusiness extends CMSPlugin implements SubscriberInterface
      * @var   string
      * @since __DEPLOY_VERSION__
      */
-    protected $pluginName = 'Localbusiness';
+    protected $pluginName = 'LocalBusiness';
 }
