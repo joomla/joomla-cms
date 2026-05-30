@@ -2,13 +2,13 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Schemaorg.localBusiness
+ * @subpackage  Schemaorg.localbusiness
  *
  * @copyright   (C) 2026 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Plugin\Schemaorg\Localbusiness\Extension;
+namespace Joomla\Plugin\Schemaorg\LocalBusiness\Extension;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Schemaorg\SchemaorgPluginTrait;
@@ -23,7 +23,7 @@ use Joomla\Event\SubscriberInterface;
  *
  * @since  __DEPLOY_VERSION__
  */
-final class Localbusiness extends CMSPlugin implements SubscriberInterface
+final class LocalBusiness extends CMSPlugin implements SubscriberInterface
 {
     use SchemaorgPluginTrait;
 
