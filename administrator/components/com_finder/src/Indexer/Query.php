@@ -840,7 +840,7 @@ class Query
                             }
 
                             // Add the filter to the list.
-                            $this->filters[$modifier][$return->title] = (int) $return->id;
+                            $this->filters[$modifier][(int) $return->id] = $return->title;
                         }
 
                         break;
