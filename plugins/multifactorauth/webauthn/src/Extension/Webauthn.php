@@ -323,7 +323,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
             }
 
             $serializedOptions = base64_decode($pkOptionsEncoded);
-            $pkOptions         = unserialize($serializedOptions);
+            $pkOptions         = unserialize($serializedOptions, ['allowed_classes' => [PublicKeyCredentialRequestOptions::class]]);
 
             if (!\is_object($pkOptions) || empty($pkOptions) || !($pkOptions instanceof PublicKeyCredentialRequestOptions)) {
                 throw new \RuntimeException('The pending key request is corrupt; a new one will be created');
