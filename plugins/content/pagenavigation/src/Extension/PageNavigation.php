@@ -187,11 +187,11 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
              */
             if ($active) {
                 parse_str(parse_url($active->link, PHP_URL_QUERY), $linkVars);
-                $menuCatId = isset($linkVars['id']) ? (int) $linkVars['id'] : (int) $row->catid;
+                $menuCatId = isset($linkVars['id']) ? (int) $linkVars['id'] : $menuCatId;
             }
 
             if ($showSubcategories && $menuCatId) {
-                $subQuery =  $db->createQuery()
+                $subQuery = $db->createQuery()
                     ->select($db->quoteName('sub.id'))
                     ->from($db->quoteName('#__categories', 'sub'))
                     ->join(
