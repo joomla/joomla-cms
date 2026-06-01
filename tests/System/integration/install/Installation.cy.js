@@ -5,7 +5,7 @@ describe('Install Joomla', () => {
       const style = win.document.createElement('style');
       style.innerHTML = `
       @view-transition {
-        navigation: none;
+        navigation: none !important;
       }
 
       ::view-transition-group(*),
