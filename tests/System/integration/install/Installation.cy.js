@@ -3,7 +3,17 @@ describe('Install Joomla', () => {
     Cypress.on('window:before:load', (win) => {
       // Disable CSS-native cross-document view transitions
       const style = win.document.createElement('style');
-      style.textContent = '* { view-transition-name: none !important; }';
+      style.innerHTML = `
+      @view-transition {
+        navigation: none;
+      }
+
+      ::view-transition-group(*),
+      ::view-transition-old(*),
+      ::view-transition-new(*) {
+        animation: none !important;
+      }
+    `;
       win.document.head?.appendChild(style);
     });
 
