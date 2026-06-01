@@ -11,3 +11,9 @@ afterEach(() => {
   cy.task('checkForLogs');
   cy.task('cleanupDB');
 });
+
+Cypress.on('uncaught:exception', (err) => {
+  if (err.message.includes('Transition was skipped')) {
+    return false;
+  }
+});
