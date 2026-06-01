@@ -14,6 +14,7 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Filesystem\Path;
 use Joomla\String\StringHelper;
 
@@ -99,7 +100,7 @@ class ActionlogsHelper
             return;
         }
 
-        $lang   = Factory::getLanguage();
+        $lang   = Factory::getApplication()->getLanguage();
         $source = '';
 
         switch (substr($extension, 0, 3)) {
@@ -259,8 +260,8 @@ class ActionlogsHelper
         }
         $loaded = true;
 
-        $lang = Factory::getLanguage();
-        $db   = Factory::getDbo();
+        $lang = Factory::getApplication()->getLanguage();
+        $db   = Factory::getContainer()->get(DatabaseInterface::class);
 
         // Get all (both enabled and disabled) actionlog plugins
         $query = $db->createQuery()
