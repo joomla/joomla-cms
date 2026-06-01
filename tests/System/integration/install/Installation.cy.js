@@ -1,5 +1,12 @@
 describe('Install Joomla', () => {
   it('Install Joomla', () => {
+    Cypress.on('window:before:load', (win) => {
+      // Disable CSS-native cross-document view transitions
+      const style = win.document.createElement('style');
+      style.textContent = '* { view-transition-name: none !important; }';
+      win.document.head?.appendChild(style);
+    });
+
     const config = {
       sitename: Cypress.expose('sitename'),
       name: Cypress.expose('name'),
