@@ -54,6 +54,7 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
         'feature-policy',
         'cross-origin-opener-policy',
         'report-to',
+        'reporting-endpoints',
         'permissions-policy',
         'nel',
     ];
