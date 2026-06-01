@@ -24,11 +24,4 @@ export default function setupPlugins(on, config) {
     clearEmails: () => clearEmails(),
     startMailServer: () => startMailServer(config),
   });
-
-  on('before:browser:launch', (browser, launchOptions) => {
-    if (browser.family === 'chromium') {
-      launchOptions.args.push('--disable-view-transition-on-navigation');
-    }
-    return launchOptions;
-  });
 }
