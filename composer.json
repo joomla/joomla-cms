@@ -59,7 +59,7 @@
     "joomla/database": "^4.0",
     "joomla/di": "^4.0",
     "joomla/event": "^4.0",
-    "joomla/filter": "^4.0",
+    "joomla/filter": "4.0.2",
     "joomla/filesystem": "^4.1",
     "joomla/http": "^4.0",
     "joomla/input": "^4.0",

@@ -367,6 +367,9 @@ class HtmlView extends AbstractView implements CurrentUserInterface
         $file = preg_replace('/[^A-Z0-9_\.-]/i', '', $file);
         $tpl  = isset($tpl) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl) : $tpl;
 
+        // Clean the template name
+        $layoutTemplate  = isset($layoutTemplate) ? preg_replace('/[^A-Z0-9_-]/i', '', $layoutTemplate) : $layoutTemplate;
+
         if (Factory::getApplication()->getDocument()->getType() !== 'html') {
             try {
                 // Load the language file for the template
