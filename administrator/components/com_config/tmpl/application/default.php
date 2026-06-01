@@ -26,6 +26,7 @@ Text::script('ERROR');
 Text::script('WARNING');
 Text::script('NOTICE');
 Text::script('MESSAGE');
+Text::script('SUCCESS');
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="main-card form-validate">

@@ -66,6 +66,7 @@ Text::script('ERROR');
 Text::script('WARNING');
 Text::script('NOTICE');
 Text::script('MESSAGE');
+Text::script('SUCCESS');
 
 // Add strings for JavaScript error translations.
 Text::script('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT');

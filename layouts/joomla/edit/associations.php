@@ -24,6 +24,7 @@ Text::script('ERROR');
 Text::script('WARNING');
 Text::script('NOTICE');
 Text::script('MESSAGE');
+Text::script('SUCCESS');
 Text::script('JGLOBAL_ASSOC_NOT_POSSIBLE');
 Text::script('JGLOBAL_ASSOCIATIONS_RESET_WARNING');
 
