@@ -122,7 +122,7 @@ class CacheController
 
                 // Only trigger a deprecation notice if the file and class are found
                 @trigger_error(
-                    'Support for including cache controllers using path lookup is deprecated and will be removed in 5.0.'
+                    'Support for including cache controllers using path lookup is deprecated and will be removed in 7.0.'
                         . ' Use a custom cache controller factory instead.',
                     E_USER_DEPRECATED
                 );
@@ -156,7 +156,7 @@ class CacheController
         if (!empty($path) && !\in_array($path, $paths)) {
             // Only trigger a deprecation notice when adding a lookup path
             @trigger_error(
-                'Support for including cache controllers using path lookup is deprecated and will be removed in 5.0.'
+                'Support for including cache controllers using path lookup is deprecated and will be removed in 7.0.'
                     . ' Use a custom cache controller factory instead.',
                 E_USER_DEPRECATED
             );
