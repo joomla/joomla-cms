@@ -132,7 +132,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
         try {
             $db->setQuery(
-                $db->getQuery(true)
+                $db->createQuery()
                     ->delete($db->quoteName('#__messages'))
                     ->where($db->quoteName('user_id_from') . ' = :userId')
                     ->bind(':userId', $userId, ParameterType::INTEGER)
@@ -143,7 +143,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
         // Delete Multi-factor Authentication user profile records
         $profileKey = 'mfa.%';
-        $query      = $db->getQuery(true)
+        $query      = $db->createQuery()
             ->delete($db->quoteName('#__user_profiles'))
             ->where($db->quoteName('user_id') . ' = :userId')
             ->where($db->quoteName('profile_key') . ' LIKE :profileKey')
@@ -157,7 +157,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         }
 
         // Delete Multi-factor Authentication records
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__user_mfa'))
             ->where($db->quoteName('user_id') . ' = :userId')
             ->bind(':userId', $userId, ParameterType::INTEGER);
@@ -334,6 +334,9 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         // Register the needed session variables
         $session->set('user', $instance);
 
+        // Reset the MFA check state
+        $session->set('com_users.mfa_checked', 0);
+
         // Update the user related fields for the Joomla sessions table if tracking session metadata.
         if ($this->getApplication()->get('session_metadata', true)) {
             $this->getApplication()->checkSession();
@@ -342,7 +345,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         $db = $this->getDatabase();
 
         // Purge the old session
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__session'))
             ->where($db->quoteName('session_id') . ' = :sessionid')
             ->bind(':sessionid', $oldSessionId);
@@ -387,7 +390,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         $options  = $event->getOptions();
 
         $my      = $this->getApplication()->getIdentity();
-        $session = Factory::getSession();
+        $session = $this->getApplication()->getSession();
 
         $userid = (int) $user['id'];
 

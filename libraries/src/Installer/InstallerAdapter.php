@@ -170,7 +170,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // Sanity check, make sure the type is set by taking the adapter name from the class name
         if (!$this->type) {
             // This assumes the adapter short class name in its namespace is `<foo>Adapter`, replace this logic in subclasses if needed
-            $reflection = new \ReflectionClass(\get_called_class());
+            $reflection = new \ReflectionClass(static::class);
             $this->type = str_replace('Adapter', '', $reflection->getShortName());
         }
 
@@ -952,7 +952,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // Load the installer from the file
         if (!file_exists($manifestScriptFile)) {
             @trigger_error(
-                'Installer file must exist when defined. In version 5.0 this will crash.',
+                'Installer file must exist when defined. In version 7.0 this will crash.',
                 E_USER_DEPRECATED
             );
 
@@ -1276,7 +1276,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
      *
      * @since   4.2.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use getDatabase() instead of directly accessing _db
      */
     public function __get($name)

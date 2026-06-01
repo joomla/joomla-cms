@@ -7,15 +7,20 @@
         "ghcr.io/devcontainers/features/desktop-lite:1": {}
     },
     "portsAttributes": {
-        "80" : {
+        "443" : {
             "label": "Web Server (Joomla & phpmyadmin)",
             "onAutoForward": "silent"
         },
         "6080": {
             "label": "Cypress GUI",
             "onAutoForward": "silent"
+        },
+        "8025": {
+            "label": "Mailpit Web UI",
+            "onAutoForward": "openPreview"
         }
     },
+    "forwardPorts": [80, 443, 6080, 8025],
     "postCreateCommand": "bash ./.devcontainer/post-create.sh",
     "customizations": {
         "vscode": {

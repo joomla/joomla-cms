@@ -33,7 +33,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(PrivacyConsent::class, function (Container $container) {
                 $plugin = new PrivacyConsent(
                     (array) PluginHelper::getPlugin('task', 'privacyconsent')
                 );
@@ -42,7 +42,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setUserFactory($container->get(UserFactoryInterface::class));
 
                 return $plugin;
-            }
+            })
         );
     }
 };

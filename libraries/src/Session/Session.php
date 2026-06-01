@@ -150,7 +150,7 @@ class Session extends BaseSession
      *
      * @since   1.5
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Load the session service from the dependency injection container or via $app->getSession()
      *              Example: Factory::getApplication()->getSession();
      */
@@ -176,7 +176,7 @@ class Session extends BaseSession
      */
     public function get($name, $default = null)
     {
-        // Handle B/C by checking if a namespace was passed to the method, will be removed at 5.0
+        // Handle B/C by checking if a namespace was passed to the method, will be removed at 7.0
         if (\func_num_args() > 2) {
             $args = \func_get_args();
 
@@ -227,7 +227,7 @@ class Session extends BaseSession
      */
     public function set($name, $value = null)
     {
-        // Handle B/C by checking if a namespace was passed to the method, will be removed at 5.0
+        // Handle B/C by checking if a namespace was passed to the method, will be removed at 7.0
         if (\func_num_args() > 2) {
             $args = \func_get_args();
 
@@ -256,7 +256,7 @@ class Session extends BaseSession
      */
     public function has($name)
     {
-        // Handle B/C by checking if a namespace was passed to the method, will be removed at 5.0
+        // Handle B/C by checking if a namespace was passed to the method, will be removed at 7.0
         if (\func_num_args() > 1) {
             $args = \func_get_args();
 
@@ -299,7 +299,7 @@ class Session extends BaseSession
      */
     public function clear()
     {
-        // Handle B/C by checking if parameters were passed to this method; if so proxy to the new remove() method, will be removed at 5.0
+        // Handle B/C by checking if parameters were passed to this method; if so proxy to the new remove() method, will be removed at 7.0
         if (\func_num_args() >= 1) {
             $args = \func_get_args();
 

@@ -33,6 +33,7 @@ echo "✅ Dependencies installed."
 
 # --- 3. Install Joomla from Repository Source ---
 echo "--> Installing Joomla using the local repository source..."
+rm -f configuration.php
 php installation/joomla.php install \
     --site-name="Joomla CMS Test" \
     --admin-user="$ADMIN_REAL_NAME" \
@@ -53,12 +54,21 @@ echo "✅ Joomla installed."
 echo "--> Applying development settings..."
 # Enable debug mode and maximum error reporting for easier troubleshooting.
 php cli/joomla.php config:set error_reporting=maximum
+# Configure mail settings for Mailpit
+php cli/joomla.php config:set mailer=smtp
+php cli/joomla.php config:set smtphost=mailpit
+php cli/joomla.php config:set smtpport=1025
+php cli/joomla.php config:set smtpauth=0
+php cli/joomla.php config:set smtpsecure=none
 echo "✅ Development settings applied."
 
 # --- 5. Install and Configure phpMyAdmin ---
 PMA_ROOT="${JOOMLA_ROOT}/phpmyadmin"
 echo "--> Downloading phpMyAdmin into $PMA_ROOT..."
-PMA_VERSION=5.2.2
+# Get the latest version
+PMA_VERSION=$(curl -s https://api.github.com/repos/phpmyadmin/phpmyadmin/releases/latest | grep '"tag_name":' | sed -E 's/.*"RELEASE_([^"]+)".*/\1/' | tr '_' '.')
+
+echo "The current version is: $PMA_VERSION"
 mkdir -p $PMA_ROOT
 curl -o /tmp/phpmyadmin.tar.gz https://files.phpmyadmin.net/phpMyAdmin/${PMA_VERSION}/phpMyAdmin-${PMA_VERSION}-all-languages.tar.gz
 tar xf /tmp/phpmyadmin.tar.gz --strip-components=1 -C $PMA_ROOT
@@ -72,7 +82,7 @@ echo "--> Applying Codespaces URL fix..."
 cat > "${JOOMLA_ROOT}/fix.php" << 'EOF'
 <?php
 // Fix for incorrect host when running behind the Codespaces reverse proxy.
-if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] === 'localhost:80') {
+if (isset($_SERVER['HTTP_HOST']) && str_contains($_SERVER['HTTP_HOST'], 'localhost')) {
     if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
         $_SERVER['HTTP_HOST'] = $_SERVER['HTTP_X_FORWARDED_HOST'];
         $_SERVER['SERVER_NAME'] = $_SERVER['HTTP_X_FORWARDED_HOST'];
@@ -81,7 +91,6 @@ if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] === 'localhost:80') {
 EOF
 
 # Include fix in both entry points
-cp $JOOMLA_ROOT/fix.php $JOOMLA_ROOT/administrator/fix.php
 sed -i '2i require_once __DIR__ . "/fix.php";' $JOOMLA_ROOT/index.php
 sed -i '2i require_once __DIR__ . "/../fix.php";' $JOOMLA_ROOT/administrator/index.php
 
@@ -96,7 +105,6 @@ git update-index --assume-unchanged "tests/System/support/commands/config.mjs"
 # For NEW UNTRACKED files, add them to the local exclude file
 echo "cypress.config.js" >> ".git/info/exclude"
 echo "fix.php" >> ".git/info/exclude"
-echo "administrator/fix.php" >> ".git/info/exclude"
 echo "phpmyadmin" >> ".git/info/exclude"
 echo "codespace-details.txt" >> ".git/info/exclude"
 
@@ -113,7 +121,7 @@ sed -i "s/return cy.task('writeRelativeFile', { path: 'configuration.php', conte
 chmod +x ./node_modules/.bin/cypress
 cp cypress.config.dist.mjs cypress.config.js
 npx cypress install
-sed -i -e "s|baseUrl:.*|baseUrl: 'http://localhost:80',|" -e "s/db_host: 'localhost'/db_host: 'mysql'/g" -e "s/db_user: 'root'/db_user: 'joomla_ut'/g" -e "s/db_password: ''/db_password: 'joomla_ut'/g" cypress.config.js
+sed -i -e "s|baseUrl:.*|baseUrl: 'https://localhost',|" -e "s/db_host: 'localhost'/db_host: 'mysql'/g" -e "s/db_user: 'root'/db_user: 'joomla_ut'/g" -e "s/db_password: ''/db_password: 'joomla_ut'/g" cypress.config.js
 
 # Restart Apache to apply all changes
 echo '<Directory /workspaces/joomla-cms>
@@ -140,7 +148,7 @@ DETAILS_FILE="${JOOMLA_ROOT}/codespace-details.txt"
     echo "This information has been saved to codespace-details.txt"
     echo ""
     echo "Joomla Admin Login:"
-    echo "  URL: Open the 'Ports' tab, find the 'Web Server' (80), and click the Globe icon. Then add /administrator"
+    echo "  URL: Open the 'Ports' tab, find the 'Web Server' (443), and click the Globe icon. Then add /administrator"
     echo "  Username: $ADMIN_USER"
     echo "  Password: $ADMIN_PASS"
     echo ""
@@ -148,6 +156,10 @@ DETAILS_FILE="${JOOMLA_ROOT}/codespace-details.txt"
     echo "  URL: Open the 'Web Server' port and add /phpmyadmin"
     echo "  Username: $DB_USER"
     echo "  Password: $DB_PASS"
+    echo ""
+    echo "Mailpit (Email Testing):"
+    echo "  URL: Open the 'Ports' tab, find 'Mailpit Web UI' (8025), and click the Globe icon"
+    echo "  All emails sent by Joomla will appear here for testing"
     echo ""
     echo "Cypress E2E Testing:"
     echo "  Run interactive tests: npx cypress open"
