@@ -449,6 +449,10 @@ function addBackButton(buttons, step) {
 }
 
 function startTour(obj) {
+  if (!obj || !obj.steps) {
+    return;
+  }
+
   // We store the tour id to restart on site refresh
   sessionStorage.setItem('tourId', obj.id);
   sessionStorage.setItem('stepCount', String(obj.steps.length));
