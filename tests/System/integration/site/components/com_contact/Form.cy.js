@@ -14,7 +14,7 @@ describe('Test in frontend that the contact form view', () => {
     });
   });
 
-  it('can send an email on contact form submission', () => {
+  it('can send an email on contact form submission ', () => {
     cy.task('clearEmails');
     cy.db_getUserId().then((id) => cy.db_createContact({ name: 'test contact', user_id: id }))
       .then((contact) => {
