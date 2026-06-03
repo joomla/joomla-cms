@@ -680,6 +680,13 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     {
         $userIds = ArrayHelper::toInteger($userIds);
 
+        // Check if user can perform management tasks in com_users
+        if (!$this->getCurrentUser()->authorise('core.manage', 'com_users')) {
+            $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+
+            return false;
+        }
+
         // Check if I am a Super Admin
         $iAmSuperAdmin = $this->getCurrentUser()->authorise('core.admin');
 
@@ -746,6 +753,13 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     public function batchUser($groupId, $userIds, $action)
     {
         $userIds = ArrayHelper::toInteger($userIds);
+
+        // Check if user can perform management tasks in com_users
+        if (!$this->getCurrentUser()->authorise('core.manage', 'com_users')) {
+            $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+
+            return false;
+        }
 
         // Check if I am a Super Admin
         $iAmSuperAdmin = $this->getCurrentUser()->authorise('core.admin');
@@ -954,191 +968,5 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
         }
 
         return $result;
-    }
-
-    /**
-     * No longer used
-     *
-     * @param   integer  $userId  Ignored
-     *
-     * @return  \stdClass
-     *
-     * @since   3.2
-     *
-     * @deprecated   4.2 will be removed in 7.0.
-     *               Will be removed without replacement
-     */
-    public function getOtpConfig($userId = null)
-    {
-        @trigger_error(
-            \sprintf(
-                '%s() is deprecated. Use \Joomla\Component\Users\Administrator\Helper\Mfa::getUserMfaRecords() instead.',
-                __METHOD__
-            ),
-            E_USER_DEPRECATED
-        );
-
-        // Return the configuration object
-        return (object) [
-            'method' => 'none',
-            'config' => [],
-            'otep'   => [],
-        ];
-    }
-
-    /**
-     * No longer used
-     *
-     * @param   integer    $userId     Ignored
-     * @param   \stdClass  $otpConfig  Ignored
-     *
-     * @return  boolean  True on success
-     *
-     * @since   3.2
-     *
-     * @deprecated   4.2 will be removed in 7.0.
-     *               Will be removed without replacement
-     */
-    public function setOtpConfig($userId, $otpConfig)
-    {
-        @trigger_error(
-            \sprintf(
-                '%s() is deprecated. Multi-factor Authentication actions are handled by plugins in the multifactorauth folder.',
-                __METHOD__
-            ),
-            E_USER_DEPRECATED
-        );
-
-        return true;
-    }
-
-    /**
-     * No longer used
-     *
-     * @return  string
-     *
-     * @since   3.2
-     *
-     * @deprecated   4.2 will be removed in 7.0.
-     *               Use \Joomla\CMS\Factory::getApplication()->get('secret') instead'
-     */
-    public function getOtpConfigEncryptionKey()
-    {
-        @trigger_error(
-            \sprintf(
-                '%s() is deprecated. Use \Joomla\CMS\Factory::getApplication()->get(\'secret\') instead',
-                __METHOD__
-            ),
-            E_USER_DEPRECATED
-        );
-
-        return Factory::getApplication()->get('secret');
-    }
-
-    /**
-     * No longer used
-     *
-     * @param   integer  $userId  Ignored
-     *
-     * @return  array  Empty array
-     *
-     * @since   3.2
-     * @throws  \Exception
-     *
-     * @deprecated   4.2 will be removed in 7.0.
-     *               Will be removed without replacement
-     */
-    public function getTwofactorform($userId = null)
-    {
-        @trigger_error(
-            \sprintf(
-                '%s() is deprecated. Use \Joomla\Component\Users\Administrator\Helper\Mfa::getConfigurationInterface()',
-                __METHOD__
-            ),
-            E_USER_DEPRECATED
-        );
-
-        return [];
-    }
-
-    /**
-     * No longer used
-     *
-     * @param   integer  $userId  Ignored
-     * @param   integer  $count   Ignored
-     *
-     * @return  array  Empty array
-     *
-     * @since   3.2
-     *
-     * @deprecated   4.2 will be removed in 7.0
-     *               Will be removed without replacement
-     */
-    public function generateOteps($userId, $count = 10)
-    {
-        @trigger_error(
-            \sprintf(
-                '%s() is deprecated. See \Joomla\Component\Users\Administrator\Model\BackupcodesModel::saveBackupCodes()',
-                __METHOD__
-            ),
-            E_USER_DEPRECATED
-        );
-
-        return [];
-    }
-
-    /**
-     * No longer used. Always returns true.
-     *
-     * @param   integer  $userId     Ignored
-     * @param   string   $secretKey  Ignored
-     * @param   array    $options    Ignored
-     *
-     * @return  boolean  Always true
-     *
-     * @since   3.2
-     * @throws  \Exception
-     *
-     * @deprecated   4.2 will be removed in 7.0
-     *               Will be removed without replacement
-     */
-    public function isValidSecretKey($userId, $secretKey, $options = [])
-    {
-        @trigger_error(
-            \sprintf(
-                '%s() is deprecated. Multi-factor Authentication actions are handled by plugins in the multifactorauth folder.',
-                __METHOD__
-            ),
-            E_USER_DEPRECATED
-        );
-
-        return true;
-    }
-
-    /**
-     * No longer used
-     *
-     * @param   integer  $userId     Ignored
-     * @param   string   $otep       Ignored
-     * @param   object   $otpConfig  Ignored
-     *
-     * @return  boolean  Always true
-     *
-     * @since   3.2
-     *
-     * @deprecated   4.2 will be removed in 7.0
-     *               Will be removed without replacement
-     */
-    public function isValidOtep($userId, $otep, $otpConfig = null)
-    {
-        @trigger_error(
-            \sprintf(
-                '%s() is deprecated. Multi-factor Authentication actions are handled by plugins in the multifactorauth folder.',
-                __METHOD__
-            ),
-            E_USER_DEPRECATED
-        );
-
-        return true;
     }
 }

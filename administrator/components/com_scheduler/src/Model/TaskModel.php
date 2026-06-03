@@ -414,11 +414,17 @@ class TaskModel extends AdminModel
      */
     private function hasRunningTasks($db): bool
     {
+        $now       = Factory::getDate('now', 'UTC');
+        $timeout   = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
+        $threshold = (clone $now)->modify("-$timeout seconds")->toSql();
+
         $lockCountQuery = $db->createQuery()
             ->select('COUNT(id)')
             ->from($db->quoteName(self::TASK_TABLE))
             ->where($db->quoteName('locked') . ' IS NOT NULL')
-            ->where($db->quoteName('state') . ' = 1');
+            ->where($db->quoteName('locked') . ' > :threshold')
+            ->where($db->quoteName('state') . ' = 1')
+            ->bind(':threshold', $threshold);
 
         try {
             $runningCount = $db->setQuery($lockCountQuery)->loadResult();
@@ -610,7 +616,12 @@ class TaskModel extends AdminModel
             $data['last_execution'] = Factory::getDate('now', 'UTC')->format('Y-m')
                 . "-$basisDayOfMonth $basisHour:$basisMinute:00";
         } else {
-            $data['last_execution'] = $this->getItem($id)->last_execution;
+            $item = $this->getItem($id);
+
+            $data['last_execution'] = $item->last_execution;
+
+            // Prevent changing the task type when editing an existing task.
+            $data['type'] = $item->type;
         }
 
         // Build the `cron_rules` column from `execution_rules`
