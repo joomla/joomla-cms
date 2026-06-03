@@ -21,17 +21,18 @@
       let color = '';
 
       if (part.added) {
-        color = '#a6f3a6';
+        color = '#498e10';
       }
 
       if (part.removed) {
-        color = '#f8cbcb';
+        color = '#c62828';
       }
 
       // @todo use the tag MARK here not SPAN
       const span = document.createElement('span');
       span.style.backgroundColor = color;
       span.style.borderRadius = '.2rem';
+      span.style.padding = '2px 4px';
       span.appendChild(document.createTextNode(decodeHtml(part.value)));
       fragment.appendChild(span);
     });
