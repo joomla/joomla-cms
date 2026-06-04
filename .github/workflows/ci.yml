@@ -222,7 +222,7 @@ jobs:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
       - name: Setup PHP
-        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f # v2
+        uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc # v2.37.1
         with:
           php-version: ${{ matrix.php_version }}
           extensions: openssl, mbstring, fileinfo, gd, gmp, pgsql, mysql, mysqli, curl, opcache, ldap
@@ -253,7 +253,7 @@ jobs:
           user: "joomla_ut"
           password: "joomla_ut"
       - name: Setup PHP
-        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f # v2
+        uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc # v2.37.1
         with:
           php-version: ${{ matrix.php_version }}
           extensions: openssl, mbstring, fileinfo, gd, gmp, pgsql, mysql, mysqli, curl, opcache, ldap
