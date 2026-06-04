@@ -59,4 +59,3 @@ echo "File saved: $cache\n";
 copy($cache, $filePath);
 
 echo "File copied: $filePath\n";
-
