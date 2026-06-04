@@ -54,7 +54,7 @@ class MediaHelper
      */
     public static function isImage($fileName)
     {
-        static $imageTypes = 'xcf|odg|gif|jpg|jpeg|png|bmp|webp|avif';
+        static $imageTypes = 'xcf|odg|gif|jpg|jpeg|png|bmp|webp|avif|svg';
 
         return preg_match("/\.(?:$imageTypes)$/i", $fileName);
     }
