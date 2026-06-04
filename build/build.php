@@ -351,8 +351,6 @@ copy(__DIR__ . '/fido/fido.jwt', $fullpath . '/build/fido/fido.jwt');
 chdir($fullpath);
 run_and_check('composer install --no-autoloader --ignore-platform-reqs' . $composerOptions);
 
-
-
 // Install dependencies and build the media assets
 // Create version entries of the urls inside the static css files
 run_and_check('npm ci');
