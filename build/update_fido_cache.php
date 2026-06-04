@@ -21,7 +21,7 @@ if (!isset($fullPath)) {
     $fullPath = \dirname(__DIR__);
 }
 
-$cache = rtrim($fullPath, '\\/') . '/build/fido/fido.jwt';
+$cache    = rtrim($fullPath, '\\/') . '/build/fido/fido.jwt';
 $filePath = rtrim($fullPath, '\\/') . '/plugins/system/webauthn/fido.jwt';
 
 if (is_file($cache) && filemtime($cache) > (time() - 864000)) {
