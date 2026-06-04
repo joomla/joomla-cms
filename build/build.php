@@ -341,7 +341,7 @@ run_and_check($systemGit . ' archive ' . $remote . ' | tar -x -C ' . $fullpath);
 echo "Copy FIDO Metadata blob to the repository.\n";
 // Try to update the fido.jwt file
 if (!file_exists(__DIR__ . '/fido/fido.jwt')) {
-    echo "The file " . __DIR__ . "/fido/fido.jwt does not exists. Build failed.\n";
+    echo "The file " . __DIR__ . "/fido/fido.jwt does not exist. Build failed.\n";
 
     exit(1);
 }

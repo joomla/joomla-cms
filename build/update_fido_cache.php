@@ -25,7 +25,7 @@ $cache    = rtrim($fullPath, '\\/') . '/build/fido/fido.jwt';
 $filePath = rtrim($fullPath, '\\/') . '/plugins/system/webauthn/fido.jwt';
 
 if (is_file($cache) && filemtime($cache) > (time() - 864000)) {
-    echo "The file $cache already exists and is current; copy this file to plugin folder.\n";
+    echo "The file $cache already exists and is current; copy this file to the plugin folder.\n";
 
     copy($cache, $filePath);
 
@@ -57,7 +57,6 @@ file_put_contents($cache, $rawJwt);
 echo "File saved: $cache\n";
 
 copy($cache, $filePath);
-
 
 echo "File copied: $filePath\n";
 
