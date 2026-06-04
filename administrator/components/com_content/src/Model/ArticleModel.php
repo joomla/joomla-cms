@@ -405,6 +405,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
                 $item->tags = new TagsHelper();
                 $item->tags->getTagIds($item->id, 'com_content.article');
 
+                $item->secondary_categories = $this->getCurrentSecondaryCategories($item->id);
+
                 $item->featured_up   = null;
                 $item->featured_down = null;
 
@@ -786,6 +788,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
             }
         }
 
+        $data['secondary_categories'] = $this->normalizeSecondaryCategories($data);
+
         if (parent::save($data)) {
             // Check if featured is set and if not managed by workflow
             if (isset($data['featured']) && !$this->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article')) {
@@ -800,6 +804,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
                     return false;
                 }
             }
+
+            $this->saveSecondaryCategories($data);
 
             $this->workflowAfterSave($data);
 
@@ -1003,6 +1009,9 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
      */
     protected function preprocessForm(Form $form, $data, $group = 'content')
     {
+        $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+        $wa->useScript('com_content.secondary-categories');
+
         if ($this->canCreateCategory()) {
             $form->setFieldAttribute('catid', 'allowAdd', 'true');
 
@@ -1110,9 +1119,183 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
             $db->setQuery($query);
             $db->execute();
 
+            // Delete the article from the category mapping table
+            $query = $db->createQuery()
+                ->delete($db->quoteName('#__category_item_map'))
+                ->where($db->quoteName('context') . ' = :context')
+                ->whereIn($db->quoteName('item_id'), $pks)
+                ->bind(':context', $this->typeAlias, ParameterType::STRING);
+            $db->setQuery($query)->execute();
+
             $this->workflow->deleteAssociation($pks);
         }
 
         return $return;
+    }
+
+    /**
+     * Get the secondary category ids the current user is allowed to manage.
+     *
+     * @param   int  $currentCategoryId  The current primary category id.
+     *
+     * @return  array An array of category ids are available to the current user.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function getManageableSecondaryCategoryIds(int $currentCategoryId): array
+    {
+        $db        = $this->getDatabase();
+        $user      = $this->getCurrentUser();
+        $extension = 'com_content';
+
+        $query = $db->createQuery()
+            ->select($db->quoteName('id'))
+            ->from($db->quoteName('#__categories'))
+            ->where($db->quoteName('extension') . ' = :extension')
+            ->whereIn($db->quoteName('published'), [0, 1])
+            ->bind(':extension', $extension, ParameterType::STRING);
+
+        if (!$user->authorise('core.admin')) {
+            $query->whereIn(
+                $db->quoteName('access'),
+                $user->getAuthorisedViewLevels()
+            );
+        }
+
+        $categories = array_map('intval', $db->setQuery($query)->loadColumn());
+
+        $manageable = [];
+
+        if ($currentCategoryId === 0) {
+            foreach ($categories as $categoryId) {
+                if ($user->authorise('core.create', $extension . '.category.' . $categoryId)) {
+                    $manageable[] = $categoryId;
+                }
+            }
+
+            return $manageable;
+        }
+
+
+        $currentAsset = $extension . '.category.' . $currentCategoryId;
+
+        foreach ($categories as $categoryId) {
+            //  never allows the primary category itself.
+            if ($categoryId === $currentCategoryId) {
+                continue;
+            }
+
+            if (!$user->authorise('core.edit.state', $currentAsset)) {
+                continue;
+            }
+
+            if (!$user->authorise('core.create', $extension . '.category.' . $categoryId)) {
+                continue;
+            }
+
+            $manageable[] = $categoryId;
+        }
+
+        return $manageable;
+    }
+
+    /**
+     * Get the currently assigned secondary categories for an article.
+     *
+     * @param   int  $itemId  The article id.
+     *
+     * @return  array An array of category ids.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function getCurrentSecondaryCategories(int $itemId): array
+    {
+        $db = $this->getDatabase();
+
+        $query = $db->createQuery()
+            ->select($db->quoteName('category_id'))
+            ->from($db->quoteName('#__category_item_map'))
+            ->where($db->quoteName('context') . ' = :context')
+            ->where($db->quoteName('item_id') . ' = :itemId')
+            ->bind(':context', $this->typeAlias, ParameterType::STRING)
+            ->bind(':itemId', $itemId, ParameterType::INTEGER);
+
+        return array_map('intval', $db->setQuery($query)->loadColumn());
+    }
+
+    /**
+     * Normalize submitted secondary categories before saving.
+     *
+     * Preserves hidden category mappings and removes unauthorized additions.
+     *
+     * @param   array  $data  The form data.
+     *
+     * @return  array An array of valid secondary category ids to save.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function normalizeSecondaryCategories(array $data): array
+    {
+        $itemId = (int) ($data['id'] ?? 0);
+
+        $primaryCategoryId = (int) ($data['catid'] ?? 0);
+
+        $currentIds =  $itemId > 0 ? $this->getCurrentSecondaryCategories($itemId) : [];
+
+        $manageableIds = $this->getManageableSecondaryCategoryIds($primaryCategoryId);
+
+        $submitted = array_filter(array_map('intval', (array) ($data['secondary_categories'] ?? [])));
+
+        $submitted = array_intersect($submitted, $manageableIds);
+
+        $hiddenIds = array_diff($currentIds, $manageableIds);
+
+        return array_values(array_unique(array_diff(array_merge($submitted, $hiddenIds), [$primaryCategoryId])));
+    }
+
+    /**
+     * Save secondary category mappings for an article.
+     *
+     * @param   array  $data  The form data.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function saveSecondaryCategories(array $data): void
+    {
+        $itemId    = (int) $this->getState($this->getName() . '.id');
+        $submitted =  $data['secondary_categories'] ?? [];
+
+        $db = $this->getDatabase();
+
+        // Remove existing mappings.
+        $query = $db->createQuery()
+            ->delete($db->quoteName('#__category_item_map'))
+            ->where($db->quoteName('context') . ' = :context')
+            ->where($db->quoteName('item_id') . ' = :itemId')
+            ->bind(':context', $this->typeAlias, ParameterType::STRING)
+            ->bind(':itemId', $itemId, ParameterType::INTEGER);
+
+        $db->setQuery($query)->execute();
+
+        if (empty($submitted)) {
+            return;
+        }
+
+        $query = $db->createQuery()
+            ->insert($db->quoteName('#__category_item_map'))
+            ->columns([
+                $db->quoteName('context'),
+                $db->quoteName('item_id'),
+                $db->quoteName('category_id'),
+                $db->quoteName('ordering'),
+            ]);
+
+        foreach ($submitted as $ordering => $categoryId) {
+            $query->values(implode(',', $query->bindArray([$this->typeAlias, $itemId, $categoryId, $ordering], [ParameterType::STRING, ParameterType::INTEGER, ParameterType::INTEGER, ParameterType::INTEGER])));
+        }
+
+        $db->setQuery($query)->execute();
     }
 }

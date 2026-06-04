@@ -67,6 +67,17 @@
 		/>
 
 		<field
+			name="secondary_categories"
+			type="categorymultiple"
+			primarycategoryfield="catid"
+            label="COM_CONTENT_FIELD_SECONDARY_CATEGORIES_LABEL"
+			description="COM_CONTENT_FIELD_SECONDARY_CATEGORIES_DESC"
+			multiple="true"
+			extension="com_content"
+			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
+		/>
+
+		<field
 			name="state"
 			type="list"
 			label="JSTATUS"
