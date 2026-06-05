@@ -2,42 +2,6 @@ parameters:
 	ignoreErrors:
 		-
 			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the language service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_actionlogs/src/Field/LogsdaterangeField.php
-
-		-
-			message: '''
-				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the database service in the DI container
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_actionlogs/src/Helper/ActionlogsHelper.php
-
-		-
-			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the language service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 2
-			path: administrator/components/com_actionlogs/src/Helper/ActionlogsHelper.php
-
-		-
-			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
 				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
@@ -119,18 +83,6 @@ parameters:
 			identifier: method.deprecated
 			count: 2
 			path: administrator/components/com_admin/script.php
-
-		-
-			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the language service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_admin/src/Model/HelpModel.php
 
 		-
 			message: '#^Instantiated class JConfig not found\.$#'
@@ -542,7 +494,7 @@ parameters:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 2
+			count: 1
 			path: administrator/components/com_categories/src/Helper/CategoriesHelper.php
 
 		-
@@ -5657,7 +5609,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 26
+			count: 28
 			path: administrator/components/com_users/src/Model/UserModel.php
 
 		-
@@ -8060,18 +8012,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Load the user service from the dependency injection container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Application/AdministratorApplication.php
-
-		-
-			message: '''
 				#^Call to deprecated method route\(\) of class Joomla\\CMS\\Application\\AdministratorApplication\:
 				4\.0 will be removed in 7\.0
 				             Implement the route functionality in the extending class, this here will be removed without replacement$#
@@ -8290,18 +8230,6 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 1
-			path: libraries/src/Application/SiteApplication.php
-
-		-
-			message: '''
-				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Load the user service from the dependency injection container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 3
 			path: libraries/src/Application/SiteApplication.php
 
 		-
@@ -10813,7 +10741,7 @@ parameters:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 2
+			count: 1
 			path: libraries/src/HTML/Helpers/Category.php
 
 		-
@@ -10825,7 +10753,7 @@ parameters:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 2
+			count: 1
 			path: libraries/src/HTML/Helpers/Category.php
 
 		-
@@ -12273,6 +12201,12 @@ parameters:
 			'''
 			identifier: method.deprecatedInterface
 			count: 2
+			path: libraries/src/MVC/View/HtmlView.php
+
+		-
+			message: '#^Undefined variable\: \$layoutTemplate$#'
+			identifier: variable.undefined
+			count: 1
 			path: libraries/src/MVC/View/HtmlView.php
 
 		-

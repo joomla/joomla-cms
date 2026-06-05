@@ -26,7 +26,9 @@ if (button && Object.keys(button.dataset).length !== 0) {
     Joomla.request({
       url,
       method: 'GET',
-
+      headers: {
+        'X-CSRF-Token': Joomla.getOptions('csrf.token') || ''
+      },
       onSuccess: (resp) => {
         let response;
         try {
