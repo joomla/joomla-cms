@@ -47,6 +47,7 @@ class GroupsController extends ApiController
      *
      * @return  void
      *
+     * @since   5.4.6
      * @since   6.1.1
      */
     public function delete($id = null)
