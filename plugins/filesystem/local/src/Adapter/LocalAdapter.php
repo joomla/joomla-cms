@@ -609,6 +609,12 @@ class LocalAdapter implements AdapterInterface
             throw new \Exception(Text::_('COM_MEDIA_ERROR_MAKESAFE'));
         }
 
+        // Check for special characters that would be sanitized (except for case differences in extensions)
+        if (strtolower($name) !== strtolower($safeName)) {
+            // There are differences other than case in the extension
+            throw new \Exception(Text::_('JLIB_MEDIA_ERROR_WARNFILENAME'));
+        }
+
         // If the safe name is different normalise the file name
         if ($safeName != $name) {
             $destinationPath = substr($destinationPath, 0, -\strlen($name)) . $safeName;
@@ -746,6 +752,14 @@ class LocalAdapter implements AdapterInterface
      */
     public function search(string $path, string $needle, bool $recursive = false): array
     {
+        // Search term must be a filename fragment, not a path
+        if (preg_match('#[/\\\\]#', $needle) || str_contains($needle, '..')) {
+            throw new InvalidPathException(Text::_('COM_MEDIA_ERROR'));
+        }
+
+        // Escape glob metacharacters so the term is matched literally
+        $needle = addcslashes($needle, '*?[]{}\\');
+
         $pattern = Path::clean($this->getLocalPath($path) . '/*' . $needle . '*');
 
         if ($recursive) {
@@ -907,7 +921,7 @@ class LocalAdapter implements AdapterInterface
     private function getLocalPath(string $path): string
     {
         try {
-            return Path::check($this->rootPath . '/' . $path);
+            return Path::check($this->rootPath . '/' . $path, $this->rootPath);
         } catch (\Exception $e) {
             throw new InvalidPathException($e->getMessage());
         }
@@ -931,7 +945,10 @@ class LocalAdapter implements AdapterInterface
         $path     = str_replace(['\\', '/'], '/', $path);
 
         try {
-            $fs  = Path::check(str_replace($rootPath, JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath, $path));
+            $fs = Path::check(
+                str_replace($rootPath, JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath, $path),
+                JPATH_ROOT . '/media/cache/com_media/thumbs/'
+            );
             $url = str_replace($rootPath, 'media/cache/com_media/thumbs/' . $this->filePath, $path);
 
             return [

@@ -127,6 +127,15 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
             return;
         }
 
+        if (!$this->getApplication()->getIdentity()->authorise('core.manage', 'com_installer')) {
+            $response            = [];
+            $response['success'] = false;
+            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_MULTILANG_ERROR_LANGFILTER', 1, Text::_('JERROR_ALERTNOAUTHOR'));
+
+            $event->addResult($response);
+            return;
+        }
+
         $languages = LanguageHelper::getContentLanguages([0, 1]);
 
         if (\count($languages) < 2) {
@@ -216,6 +225,15 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
     public function onAjaxSampledataApplyStep3(AjaxEvent $event): void
     {
         if (!Session::checkToken('get') || $this->getApplication()->getInput()->get('type') != $this->_name) {
+            return;
+        }
+
+        if (!$this->getApplication()->getIdentity()->authorise('core.edit', 'com_languages')) {
+            $response            = [];
+            $response['success'] = false;
+            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_MULTILANG_ERROR_CONTENTLANGUAGES', 3);
+
+            $event->addResult($response);
             return;
         }
 
@@ -452,6 +470,15 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
     public function onAjaxSampledataApplyStep7(AjaxEvent $event): void
     {
         if (!Session::checkToken('get') || $this->getApplication()->getInput()->get('type') != $this->_name) {
+            return;
+        }
+
+        if (!$this->getApplication()->getIdentity()->authorise('core.edit.state', 'com_modules')) {
+            $response            = [];
+            $response['success'] = false;
+            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_MULTILANG_ERROR_MAINMENU_MODULE', 7);
+
+            $event->addResult($response);
             return;
         }
 
