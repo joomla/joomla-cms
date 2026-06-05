@@ -70,5 +70,4 @@ class ArticlesCategoriesHelper implements DatabaseAwareInterface
 
         return $childrenCategories;
     }
-
 }
