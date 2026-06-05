@@ -11,7 +11,7 @@ steps:
       - name: npm-cache
         path: /tmp/npm-cache
       - name: fido-cache
-        path: $DRONE_WORKSPACE/build/fido/
+        path: /drone/src/build/fido/
     environment:
       HTTP_ROOT: "https://artifacts.joomla.org/drone"
       DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
@@ -71,7 +71,7 @@ steps:
       - name: npm-cache
         path: /tmp/npm-cache
       - name: fido-cache
-        path: $DRONE_WORKSPACE/build/fido/
+        path: /drone/src/build/fido/
     commands:
       - composer --version
       - mkdir -p transfer
@@ -137,6 +137,6 @@ trigger:
 
 ---
 kind: signature
-hmac: b5ab12974028c0260e2a4ee2a07c4be331f378bb8555f1d61eb56e606971749c
+hmac: b35a8a70b20200d91799b8251df1cae7313c8ca78bd2ccc889c29fb10940d5c8
 
 ...
