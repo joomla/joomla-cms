@@ -1,4 +1,4 @@
-describe('Test in frontend that the user', () => {
+describe('Test that the multi authentication plugin', () => {
   afterEach(() => cy.task('queryDB', `INSERT INTO #__mail_templates (template_id, extension, language, subject, body, htmlbody, attachments, params) VALUES ('plg_multifactorauth_email.mail', 'plg_multifactorauth_email', '', 'PLG_MULTIFACTORAUTH_EMAIL_EMAIL_SUBJECT', 'PLG_MULTIFACTORAUTH_EMAIL_EMAIL_BODY', '', '', '{"tags":["code","sitename","siteurl","username","email","fullname"]}')`));
 
   it('can send mail with mailer factory', () => {
