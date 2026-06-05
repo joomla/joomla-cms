@@ -71,26 +71,4 @@ class ArticlesCategoriesHelper implements DatabaseAwareInterface
         return $childrenCategories;
     }
 
-    /**
-     * Get list of categories
-     *
-     * @param   Registry  $params  module parameters
-     *
-     * @return  array
-     *
-     * @since   1.6
-     *
-     * @deprecated  4.4.0  will be removed in 7.0
-     *              Use the non-static method getChildrenCategories
-     *              Example: Factory::getApplication()->bootModule('mod_articles_categories', 'site')
-     *                           ->getHelper('ArticlesCategoriesHelper')
-     *                           ->getChildrenCategories($params, Factory::getApplication())
-     */
-    public static function getList($params)
-    {
-        /** @var SiteApplication $app */
-        $app = Factory::getApplication();
-
-        return (new self())->getChildrenCategories($params, $app);
-    }
 }

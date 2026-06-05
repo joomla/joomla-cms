@@ -145,25 +145,4 @@ class ArticlesLatestHelper implements DatabaseAwareInterface
 
         return $items;
     }
-
-    /**
-     * Retrieve a list of articles
-     *
-     * @param   Registry       $params  The module parameters.
-     * @param   ArticlesModel  $model   The model.
-     *
-     * @return  mixed
-     *
-     * @since   1.6
-     *
-     * @deprecated 4.3 will be removed in 7.0
-     *             Use the non-static method getArticles
-     *             Example: Factory::getApplication()->bootModule('mod_articles_latest', 'site')
-     *                          ->getHelper('ArticlesLatestHelper')
-     *                          ->getArticles($params, Factory::getApplication())
-     */
-    public static function getList(Registry $params, ArticlesModel $model)
-    {
-        return (new self())->getArticles($params, Factory::getApplication());
-    }
 }
