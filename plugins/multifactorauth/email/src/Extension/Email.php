@@ -17,10 +17,10 @@ use Joomla\CMS\Event\MultiFactor\GetMethod;
 use Joomla\CMS\Event\MultiFactor\GetSetup;
 use Joomla\CMS\Event\MultiFactor\SaveSetup;
 use Joomla\CMS\Event\MultiFactor\Validate;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -51,6 +51,7 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
 class Email extends CMSPlugin implements SubscriberInterface
 {
     use UserFactoryAwareTrait;
+    use MailerFactoryAwareTrait;
 
     /**
      * Generated OTP length. Constant: 6 numeric digits.
@@ -556,7 +557,7 @@ class Email extends CMSPlugin implements SubscriberInterface
             try {
                 Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
             } catch (\RuntimeException $exception) {
-                $this->getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                $this->getApplication()->enqueueMessage(Text::_($exception->getMessage()), 'warning');
             }
         }
 
@@ -571,18 +572,18 @@ class Email extends CMSPlugin implements SubscriberInterface
                     $body    = str_replace('{' . strtoupper($key) . '}', $value, $body);
                 }
 
-                $mailer = Factory::getMailer();
+                $mailer = $this->getMailerFactory()->createMailer();
                 $mailer->setSubject($subject);
                 $mailer->setBody($body);
                 $mailer->addRecipient($user->email, $user->name);
 
-                $mailer->Send();
+                $mailer->send();
             }
         } catch (MailDisabledException | phpMailerException $exception) {
             try {
                 Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
             } catch (\RuntimeException $exception) {
-                $this->getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                $this->getApplication()->enqueueMessage(Text::_($exception->getMessage()), 'warning');
             }
         }
     }
