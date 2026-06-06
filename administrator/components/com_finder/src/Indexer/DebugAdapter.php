@@ -537,7 +537,7 @@ abstract class DebugAdapter extends CMSPlugin
      */
     protected function checkItemAccess($row)
     {
-        $db     = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->createQuery()
             ->select($db->quoteName('access'))
             ->from($db->quoteName($this->table))
@@ -719,9 +719,11 @@ abstract class DebugAdapter extends CMSPlugin
      */
     protected function getUpdateQueryByTime($time)
     {
+        $db = $this->getDatabase();
+
         // Build an SQL query based on the modified time.
-        $query = $this->getDatabase()->createQuery()
-            ->where('a.modified >= ' . $this->getDatabase()->quote($time));
+        $query = $db->createQuery()
+            ->where('a.modified >= ' . $db->quote($time));
 
         return $query;
     }
