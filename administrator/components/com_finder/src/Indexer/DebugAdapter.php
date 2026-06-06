@@ -165,7 +165,7 @@ abstract class DebugAdapter extends CMSPlugin
         }
 
         // Get the indexer object
-        $this->indexer = new Indexer($this->db);
+        $this->indexer = new Indexer($this->getDatabase());
     }
 
     /**
