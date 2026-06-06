@@ -808,23 +808,6 @@ class UpdateModel extends BaseDatabaseModel
     }
 
     /**
-     * Backwards compatibility. Use createUpdateFile() instead.
-     *
-     * @param   null  $basename The basename of the file to create
-     *
-     * @return  boolean
-     * @since   2.5.1
-     *
-     * @deprecated  4.3 will be removed in 7.0
-     *              Use "createUpdateFile" instead
-     *              Example: $updateModel->createUpdateFile($basename);
-     */
-    public function createRestorationFile($basename = null): bool
-    {
-        return $this->createUpdateFile($basename);
-    }
-
-    /**
      * Create the update.php file and trigger onJoomlaBeforeUpdate event.
      *
      * The onJoomlaBeforeUpdate event stores the core files for which overrides have been defined.
