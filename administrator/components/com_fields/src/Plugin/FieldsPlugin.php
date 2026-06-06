@@ -130,7 +130,7 @@ abstract class FieldsPlugin extends CMSPlugin
             return $types_cache[$this->_type . $this->_name];
         }
 
-        $app   = $this->getApplication() ?: $this->app;
+        $app   = $this->getApplication();
         $types = [];
 
         // The root of the plugin
