@@ -99,27 +99,4 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
 
         return $lists;
     }
-
-    /**
-     * Retrieve list of archived articles
-     *
-     * @param   Registry  &$params module parameters
-     *
-     * @return  \stdClass[]
-     *
-     * @since   1.5
-     *
-     * @deprecated  4.4.0  will be removed in 7.0
-     *              Use the non-static method getArticlesByMonths
-     *              Example: Factory::getApplication()->bootModule('mod_articles_archive', 'site')
-     *                           ->getHelper('ArticlesArchiveHelper')
-     *                           ->getArticlesByMonths($params, Factory::getApplication())
-     */
-    public static function getList(&$params)
-    {
-        /** @var SiteApplication $app */
-        $app = Factory::getApplication();
-
-        return (new self())->getArticlesByMonths($params, $app);
-    }
 }
