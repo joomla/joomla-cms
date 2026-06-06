@@ -14,7 +14,7 @@ describe('Test in frontend that the users remind view', () => {
           expect(mails.length).to.equal(1);
           cy.wrap(mails[0].body).should('have.string', 'A username reminder has been requested');
           cy.wrap(mails[0].body).should('have.string', '/component/users/login');
-          cy.wrap(mails[0].sender).should('equal', Cypress.env('email'));
+          cy.wrap(mails[0].sender).should('equal', Cypress.expose('email'));
           cy.wrap(mails[0].receivers).should('have.property', 'test@example.com');
         });
       });

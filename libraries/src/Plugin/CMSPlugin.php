@@ -95,7 +95,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      * Should I try to detect and register legacy event listeners, i.e. methods which accept unwrapped arguments? While
      * this maintains a great degree of backwards compatibility to Joomla! 3.x-style plugins it is much slower. You are
      * advised to implement your plugins using proper Listeners, methods accepting an AbstractEvent as their sole
-     * parameter, for best performance. Also bear in mind that Joomla! 5.x onwards will only allow proper listeners,
+     * parameter, for best performance. Also bear in mind that Joomla! 7.0 onwards will only allow proper listeners,
      * removing support for legacy Listeners.
      *
      * @var    boolean
@@ -164,26 +164,6 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
         // Get the plugin type.
         if (isset($config['type'])) {
             $this->_type = $config['type'];
-        }
-
-        if (property_exists($this, 'app')) {
-            @trigger_error('The application should be injected through setApplication() and requested through getApplication().', E_USER_DEPRECATED);
-            $reflection  = new \ReflectionClass($this);
-            $appProperty = $reflection->getProperty('app');
-
-            if ($appProperty->isPrivate() === false && \is_null($this->app)) {
-                $this->app = Factory::getApplication();
-            }
-        }
-
-        if (property_exists($this, 'db')) {
-            @trigger_error('The database should be injected through the DatabaseAwareInterface and trait.', E_USER_DEPRECATED);
-            $reflection = new \ReflectionClass($this);
-            $dbProperty = $reflection->getProperty('db');
-
-            if ($dbProperty->isPrivate() === false && \is_null($this->db)) {
-                $this->db = Factory::getDbo();
-            }
         }
 
         // Load the language files if needed.
@@ -403,7 +383,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
 
     /**
      * Registers a proper event listener, i.e. a method which accepts an AbstractEvent as its sole argument. This is the
-     * preferred way to implement plugins in Joomla! 4.x and will be the only possible method with Joomla! 5.x onwards.
+     * preferred way to implement plugins in Joomla! 4.x and will be the only possible method with Joomla! 7.0 onwards.
      *
      * @param   string  $methodName  The method name to register
      *
