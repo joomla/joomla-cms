@@ -13507,16 +13507,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Plugin\\CMSPlugin\:
-				5\.2 will be removed in 7\.0
-				             Plugin should use the language from Application, and only after the app is initialised\.$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: plugins/content/pagenavigation/tmpl/default.php
-
-		-
-			message: '''
 				#^Call to deprecated method onDisplay\(\) of class Joomla\\Plugin\\EditorsXtd\\Article\\Extension\\Article\:
 				5\.0 Use onEditorButtonsSetup event instead, will be removed in 7\.0$#
 			'''
