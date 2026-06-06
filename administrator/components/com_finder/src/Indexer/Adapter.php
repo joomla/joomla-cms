@@ -488,8 +488,6 @@ abstract class Adapter extends CMSPlugin
      */
     protected function categoryStateChange($pks, $value)
     {
-        $db = $this->getDatabase();
-
         /*
          * The item's published state is tied to the category
          * published state so we need to look up all published states
@@ -500,8 +498,7 @@ abstract class Adapter extends CMSPlugin
             $query->where('c.id = ' . (int) $pk);
 
             // Get the published states.
-            $db->setQuery($query);
-            $items = $db->loadObjectList();
+            $items = $this->getDatabase()->setQuery($query)->loadObjectList();
 
             // Adjust the state for each item within the category.
             foreach ($items as $item) {
