@@ -151,7 +151,7 @@ abstract class Adapter extends CMSPlugin
         }
 
         if ($db === null) {
-            @trigger_error(__CLASS__. ': Database must be set, this will not be caught anymore in 9.0.', E_USER_DEPRECATED);
+            @trigger_error(__CLASS__ . ': Database must be set, this will not be caught anymore in 9.0.', E_USER_DEPRECATED);
 
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
