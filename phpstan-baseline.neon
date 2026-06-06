@@ -6615,12 +6615,6 @@ parameters:
 			path: components/com_contact/tmpl/form/edit.php
 
 		-
-			message: '#^Class Joomla\\Component\\Content\\Administrator\\Service\\HTML\\Icon does not have a constructor and must be instantiated without any parameters\.$#'
-			identifier: new.noConstructor
-			count: 1
-			path: components/com_content/helpers/icon.php
-
-		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
@@ -13541,60 +13535,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: plugins/content/pagenavigation/tmpl/default.php
-
-		-
-			message: '''
-				#^Call to deprecated method onDisplay\(\) of class Joomla\\Plugin\\EditorsXtd\\Article\\Extension\\Article\:
-				5\.0 Use onEditorButtonsSetup event instead, will be removed in 7\.0$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: plugins/editors-xtd/article/src/Extension/Article.php
-
-		-
-			message: '''
-				#^Call to deprecated method onDisplay\(\) of class Joomla\\Plugin\\EditorsXtd\\Contact\\Extension\\Contact\:
-				5\.0 Use onEditorButtonsSetup event instead, will be removed in 7\.0$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: plugins/editors-xtd/contact/src/Extension/Contact.php
-
-		-
-			message: '''
-				#^Call to deprecated method onDisplay\(\) of class Joomla\\Plugin\\EditorsXtd\\Menu\\Extension\\Menu\:
-				5\.0 Use onEditorButtonsSetup event instead, will be removed in 7\.0$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: plugins/editors-xtd/menu/src/Extension/Menu.php
-
-		-
-			message: '''
-				#^Call to deprecated method onDisplay\(\) of class Joomla\\Plugin\\EditorsXtd\\Module\\Extension\\Module\:
-				5\.0 Use onEditorButtonsSetup event instead, will be removed in 7\.0$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: plugins/editors-xtd/module/src/Extension/Module.php
-
-		-
-			message: '''
-				#^Call to deprecated method onDisplay\(\) of class Joomla\\Plugin\\EditorsXtd\\PageBreak\\Extension\\PageBreak\:
-				5\.0 Use onEditorButtonsSetup event instead, will be removed in 7\.0$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: plugins/editors-xtd/pagebreak/src/Extension/PageBreak.php
-
-		-
-			message: '''
-				#^Call to deprecated method onDisplay\(\) of class Joomla\\Plugin\\EditorsXtd\\ReadMore\\Extension\\ReadMore\:
-				5\.0 Use onEditorButtonsSetup event instead, will be removed in 7\.0$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: plugins/editors-xtd/readmore/src/Extension/ReadMore.php
 
 		-
 			message: '''
