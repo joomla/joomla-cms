@@ -343,16 +343,18 @@ abstract class Adapter extends CMSPlugin
             return true;
         }
 
+        $db = $this->getDatabase();
+
         // Get the URL for the content id.
-        $item = $this->getDatabase()->quote($this->getUrl($id, $this->extension, $this->layout));
+        $item = $db->quote($this->getUrl($id, $this->extension, $this->layout));
 
         // Update the content items.
-        $query = $this->getDatabase()->createQuery()
-            ->update($this->getDatabase()->quoteName('#__finder_links'))
-            ->set($this->getDatabase()->quoteName($property) . ' = ' . (int) $value)
-            ->where($this->getDatabase()->quoteName('url') . ' = ' . $item);
-        $this->getDatabase()->setQuery($query);
-        $this->getDatabase()->execute();
+        $query = $db->createQuery()
+            ->update($db->quoteName('#__finder_links'))
+            ->set($db->quoteName($property) . ' = ' . (int) $value)
+            ->where($db->quoteName('url') . ' = ' . $item);
+        $db->setQuery($query);
+        $db->execute();
 
         return true;
     }
@@ -406,16 +408,18 @@ abstract class Adapter extends CMSPlugin
      */
     protected function remove($id, $removeTaxonomies = true)
     {
+        $db = $this->getDatabase();
+
         // Get the item's URL
-        $url = $this->getDatabase()->quote($this->getUrl($id, $this->extension, $this->layout));
+        $url = $db->quote($this->getUrl($id, $this->extension, $this->layout));
 
         // Get the link ids for the content items.
-        $query = $this->getDatabase()->createQuery()
-            ->select($this->getDatabase()->quoteName('link_id'))
-            ->from($this->getDatabase()->quoteName('#__finder_links'))
-            ->where($this->getDatabase()->quoteName('url') . ' = ' . $url);
-        $this->getDatabase()->setQuery($query);
-        $items = $this->getDatabase()->loadColumn();
+        $query = $db->createQuery()
+            ->select($db->quoteName('link_id'))
+            ->from($db->quoteName('#__finder_links'))
+            ->where($db->quoteName('url') . ' = ' . $url);
+        $db->setQuery($query);
+        $items = $db->loadColumn();
 
         // Check the items.
         if (empty($items)) {
@@ -456,9 +460,11 @@ abstract class Adapter extends CMSPlugin
         $query = clone $this->getStateQuery();
         $query->where('c.id = ' . (int) $row->id);
 
+        $db = $this->getDatabase();
+
         // Get the access level.
-        $this->getDatabase()->setQuery($query);
-        $items = $this->getDatabase()->loadObjectList();
+        $db->setQuery($query);
+        $items = $db->loadObjectList();
 
         // Adjust the access level for each item within the category.
         foreach ($items as $item) {
@@ -482,6 +488,8 @@ abstract class Adapter extends CMSPlugin
      */
     protected function categoryStateChange($pks, $value)
     {
+        $db = $this->getDatabase();
+
         /*
          * The item's published state is tied to the category
          * published state so we need to look up all published states
@@ -492,8 +500,8 @@ abstract class Adapter extends CMSPlugin
             $query->where('c.id = ' . (int) $pk);
 
             // Get the published states.
-            $this->getDatabase()->setQuery($query);
-            $items = $this->getDatabase()->loadObjectList();
+            $db->setQuery($query);
+            $items = $db->loadObjectList();
 
             // Adjust the state for each item within the category.
             foreach ($items as $item) {
@@ -517,14 +525,15 @@ abstract class Adapter extends CMSPlugin
      */
     protected function checkCategoryAccess($row)
     {
-        $query = $this->getDatabase()->createQuery()
-            ->select($this->getDatabase()->quoteName('access'))
-            ->from($this->getDatabase()->quoteName('#__categories'))
-            ->where($this->getDatabase()->quoteName('id') . ' = ' . (int) $row->id);
-        $this->getDatabase()->setQuery($query);
+        $db    = $this->getDatabase();
+        $query = $db->createQuery()
+            ->select($db->quoteName('access'))
+            ->from($db->quoteName('#__categories'))
+            ->where($db->quoteName('id') . ' = ' . (int) $row->id);
+        $db->setQuery($query);
 
         // Store the access level to determine if it changes
-        $this->old_cataccess = $this->getDatabase()->loadResult();
+        $this->old_cataccess = $db->loadResult();
     }
 
     /**
@@ -538,14 +547,15 @@ abstract class Adapter extends CMSPlugin
      */
     protected function checkItemAccess($row)
     {
-        $query = $this->getDatabase()->createQuery()
-            ->select($this->getDatabase()->quoteName('access'))
-            ->from($this->getDatabase()->quoteName($this->table))
-            ->where($this->getDatabase()->quoteName('id') . ' = ' . (int) $row->id);
-        $this->getDatabase()->setQuery($query);
+        $db    = $this->getDatabase();
+        $query = $db->createQuery()
+            ->select($db->quoteName('access'))
+            ->from($db->quoteName($this->table))
+            ->where($db->quoteName('id') . ' = ' . (int) $row->id);
+        $db->setQuery($query);
 
         // Store the access level to determine if it changes
-        $this->old_access = $this->getDatabase()->loadResult();
+        $this->old_access = $db->loadResult();
     }
 
     /**
@@ -577,9 +587,7 @@ abstract class Adapter extends CMSPlugin
         }
 
         // Get the total number of content items to index.
-        $this->getDatabase()->setQuery($query);
-
-        return (int) $this->getDatabase()->loadResult();
+        return (int) $this->getDatabase()->setQuery($query)->loadResult();
     }
 
     /**
@@ -599,8 +607,7 @@ abstract class Adapter extends CMSPlugin
         $query->where('a.id = ' . (int) $id);
 
         // Get the item to index.
-        $this->getDatabase()->setQuery($query);
-        $item = $this->getDatabase()->loadAssoc();
+        $item = $this->getDatabase()->setQuery($query)->loadAssoc();
 
         // Convert the item to a result object.
         $item = ArrayHelper::toObject((array) $item, Result::class);
@@ -629,8 +636,7 @@ abstract class Adapter extends CMSPlugin
     protected function getItems($offset, $limit, $query = null)
     {
         // Get the content items to index.
-        $this->getDatabase()->setQuery($this->getListQuery($query)->setLimit($limit, $offset));
-        $items = $this->getDatabase()->loadAssocList();
+        $items = $this->getDatabase()->setQuery($this->getListQuery($query)->setLimit($limit, $offset))->loadAssocList();
 
         foreach ($items as &$item) {
             $item = ArrayHelper::toObject($item, Result::class);
@@ -674,15 +680,17 @@ abstract class Adapter extends CMSPlugin
      */
     protected function getPluginType($id)
     {
-        // Prepare the query
-        $query = $this->getDatabase()->createQuery()
-            ->select($this->getDatabase()->quoteName('element'))
-            ->from($this->getDatabase()->quoteName('#__extensions'))
-            ->where($this->getDatabase()->quoteName('folder') . ' = ' . $this->getDatabase()->quote('finder'))
-            ->where($this->getDatabase()->quoteName('extension_id') . ' = ' . (int) $id);
-        $this->getDatabase()->setQuery($query);
+        $db = $this->getDatabase();
 
-        return $this->getDatabase()->loadResult();
+        // Prepare the query
+        $query = $db->createQuery()
+            ->select($db->quoteName('element'))
+            ->from($db->quoteName('#__extensions'))
+            ->where($db->quoteName('folder') . ' = ' . $db->quote('finder'))
+            ->where($db->quoteName('extension_id') . ' = ' . (int) $id);
+        $db->setQuery($query);
+
+        return $db->loadResult();
     }
 
     /**
@@ -757,14 +765,16 @@ abstract class Adapter extends CMSPlugin
      */
     protected function getTypeId()
     {
-        // Get the type id from the database.
-        $query = $this->getDatabase()->createQuery()
-            ->select($this->getDatabase()->quoteName('id'))
-            ->from($this->getDatabase()->quoteName('#__finder_types'))
-            ->where($this->getDatabase()->quoteName('title') . ' = ' . $this->getDatabase()->quote($this->type_title));
-        $this->getDatabase()->setQuery($query);
+        $db = $this->getDatabase();
 
-        return (int) $this->getDatabase()->loadResult();
+        // Get the type id from the database.
+        $query = $db->createQuery()
+            ->select($db->quoteName('id'))
+            ->from($db->quoteName('#__finder_types'))
+            ->where($db->quoteName('title') . ' = ' . $db->quote($this->type_title));
+        $db->setQuery($query);
+
+        return (int) $db->loadResult();
     }
 
     /**
@@ -802,18 +812,19 @@ abstract class Adapter extends CMSPlugin
         // Set variables
         $user   = Factory::getUser();
         $groups = implode(',', $user->getAuthorisedViewLevels());
+        $db     = $this->getDatabase();
 
         // Build a query to get the menu params.
-        $query = $this->getDatabase()->createQuery()
-            ->select($this->getDatabase()->quoteName('params'))
-            ->from($this->getDatabase()->quoteName('#__menu'))
-            ->where($this->getDatabase()->quoteName('link') . ' = ' . $this->getDatabase()->quote($url))
-            ->where($this->getDatabase()->quoteName('published') . ' = 1')
-            ->where($this->getDatabase()->quoteName('access') . ' IN (' . $groups . ')');
+        $query = $db->createQuery()
+            ->select($db->quoteName('params'))
+            ->from($db->quoteName('#__menu'))
+            ->where($db->quoteName('link') . ' = ' . $db->quote($url))
+            ->where($db->quoteName('published') . ' = 1')
+            ->where($db->quoteName('access') . ' IN (' . $groups . ')');
 
         // Get the menu params from the database.
-        $this->getDatabase()->setQuery($query);
-        $params = $this->getDatabase()->loadResult();
+        $db->setQuery($query);
+        $params = $db->loadResult();
 
         // Check the results.
         if (empty($params)) {
@@ -846,8 +857,7 @@ abstract class Adapter extends CMSPlugin
         $query->where('a.id = ' . (int) $row->id);
 
         // Get the access level.
-        $this->getDatabase()->setQuery($query);
-        $item = $this->getDatabase()->loadObject();
+        $item = $this->getDatabase()->setQuery($query)->loadObject();
 
         // Set the access level.
         $temp = max($row->access, $item->cat_access);
@@ -878,8 +888,7 @@ abstract class Adapter extends CMSPlugin
             $query->where('a.id = ' . (int) $pk);
 
             // Get the published states.
-            $this->getDatabase()->setQuery($query);
-            $item = $this->getDatabase()->loadObject();
+            $item = $this->getDatabase()->setQuery($query)->loadObject();
 
             // Translate the state.
             $temp = $this->translateState($value, $item->cat_state);
@@ -906,8 +915,7 @@ abstract class Adapter extends CMSPlugin
             if ($this->getPluginType($pk) == strtolower($this->context)) {
                 // Get all of the items to unindex them
                 $query = clone $this->getStateQuery();
-                $this->getDatabase()->setQuery($query);
-                $items = $this->getDatabase()->loadColumn();
+                $items = $this->getDatabase()->setQuery($query)->loadColumn();
 
                 // Remove each item
                 foreach ($items as $item) {
