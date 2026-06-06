@@ -2,42 +2,6 @@ parameters:
 	ignoreErrors:
 		-
 			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the language service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_actionlogs/src/Field/LogsdaterangeField.php
-
-		-
-			message: '''
-				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the database service in the DI container
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_actionlogs/src/Helper/ActionlogsHelper.php
-
-		-
-			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the language service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 2
-			path: administrator/components/com_actionlogs/src/Helper/ActionlogsHelper.php
-
-		-
-			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
 				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
@@ -69,15 +33,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: administrator/components/com_actionlogs/src/Model/ActionlogsModel.php
-
-		-
-			message: '''
-				#^Access to deprecated property \$app of class Joomla\\Component\\Actionlogs\\Administrator\\Plugin\\ActionLogPlugin\:
-				5\.1\.0 will be removed in 7\.0 use \$this\-\>getApplication\(\) instead$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: administrator/components/com_actionlogs/src/Plugin/ActionLogPlugin.php
 
 		-
 			message: '#^Instantiated class JConfig not found\.$#'
@@ -119,18 +74,6 @@ parameters:
 			identifier: method.deprecated
 			count: 2
 			path: administrator/components/com_admin/script.php
-
-		-
-			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the language service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_admin/src/Model/HelpModel.php
 
 		-
 			message: '#^Instantiated class JConfig not found\.$#'
@@ -542,7 +485,7 @@ parameters:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 2
+			count: 1
 			path: administrator/components/com_categories/src/Helper/CategoriesHelper.php
 
 		-
@@ -1574,15 +1517,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: administrator/components/com_fields/src/Model/GroupModel.php
-
-		-
-			message: '''
-				#^Access to deprecated property \$app of class Joomla\\Component\\Fields\\Administrator\\Plugin\\FieldsPlugin\:
-				5\.4\.0 will be removed in 7\.0 use \$this\-\>getApplication\(\) instead$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: administrator/components/com_fields/src/Plugin/FieldsPlugin.php
 
 		-
 			message: '''
@@ -3899,7 +3833,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 17
+			count: 15
 			path: administrator/components/com_messages/src/Model/MessageModel.php
 
 		-
@@ -5657,7 +5591,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 26
+			count: 28
 			path: administrator/components/com_users/src/Model/UserModel.php
 
 		-
@@ -6670,12 +6604,6 @@ parameters:
 			identifier: property.notFound
 			count: 1
 			path: components/com_contact/tmpl/form/edit.php
-
-		-
-			message: '#^Class Joomla\\Component\\Content\\Administrator\\Service\\HTML\\Icon does not have a constructor and must be instantiated without any parameters\.$#'
-			identifier: new.noConstructor
-			count: 1
-			path: components/com_content/helpers/icon.php
 
 		-
 			message: '''
@@ -8060,18 +7988,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Load the user service from the dependency injection container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Application/AdministratorApplication.php
-
-		-
-			message: '''
 				#^Call to deprecated method route\(\) of class Joomla\\CMS\\Application\\AdministratorApplication\:
 				4\.0 will be removed in 7\.0
 				             Implement the route functionality in the extending class, this here will be removed without replacement$#
@@ -8290,18 +8206,6 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 1
-			path: libraries/src/Application/SiteApplication.php
-
-		-
-			message: '''
-				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Load the user service from the dependency injection container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 3
 			path: libraries/src/Application/SiteApplication.php
 
 		-
@@ -8716,18 +8620,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 2
 			path: libraries/src/Console/UpdateCoreCommand.php
-
-		-
-			message: '''
-				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the database service in the DI container
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Date/Date.php
 
 		-
 			message: '#^Unsafe usage of new static\(\)\.$#'
@@ -10825,7 +10717,7 @@ parameters:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 2
+			count: 1
 			path: libraries/src/HTML/Helpers/Category.php
 
 		-
@@ -10837,7 +10729,7 @@ parameters:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 2
+			count: 1
 			path: libraries/src/HTML/Helpers/Category.php
 
 		-
@@ -12288,6 +12180,12 @@ parameters:
 			path: libraries/src/MVC/View/HtmlView.php
 
 		-
+			message: '#^Undefined variable\: \$layoutTemplate$#'
+			identifier: variable.undefined
+			count: 1
+			path: libraries/src/MVC/View/HtmlView.php
+
+		-
 			message: '''
 				#^Call to deprecated method get\(\) of class Joomla\\CMS\\MVC\\View\\AbstractView\:
 				5\.3\.0 will be removed in 7\.0\.
@@ -12403,18 +12301,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: libraries/src/Pathway/SitePathway.php
-
-		-
-			message: '''
-				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the database service in the DI container
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Plugin/CMSPlugin.php
 
 		-
 			message: '''
@@ -13621,70 +13507,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Plugin\\CMSPlugin\:
-				5\.2 will be removed in 7\.0
-				             Plugin should use the language from Application, and only after the app is initialised\.$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: plugins/content/pagenavigation/tmpl/default.php
-
-		-
-			message: '''
-				#^Call to deprecated method onDisplay\(\) of class Joomla\\Plugin\\EditorsXtd\\Article\\Extension\\Article\:
-				5\.0 Use onEditorButtonsSetup event instead, will be removed in 7\.0$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: plugins/editors-xtd/article/src/Extension/Article.php
-
-		-
-			message: '''
-				#^Call to deprecated method onDisplay\(\) of class Joomla\\Plugin\\EditorsXtd\\Contact\\Extension\\Contact\:
-				5\.0 Use onEditorButtonsSetup event instead, will be removed in 7\.0$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: plugins/editors-xtd/contact/src/Extension/Contact.php
-
-		-
-			message: '''
-				#^Call to deprecated method onDisplay\(\) of class Joomla\\Plugin\\EditorsXtd\\Menu\\Extension\\Menu\:
-				5\.0 Use onEditorButtonsSetup event instead, will be removed in 7\.0$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: plugins/editors-xtd/menu/src/Extension/Menu.php
-
-		-
-			message: '''
-				#^Call to deprecated method onDisplay\(\) of class Joomla\\Plugin\\EditorsXtd\\Module\\Extension\\Module\:
-				5\.0 Use onEditorButtonsSetup event instead, will be removed in 7\.0$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: plugins/editors-xtd/module/src/Extension/Module.php
-
-		-
-			message: '''
-				#^Call to deprecated method onDisplay\(\) of class Joomla\\Plugin\\EditorsXtd\\PageBreak\\Extension\\PageBreak\:
-				5\.0 Use onEditorButtonsSetup event instead, will be removed in 7\.0$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: plugins/editors-xtd/pagebreak/src/Extension/PageBreak.php
-
-		-
-			message: '''
-				#^Call to deprecated method onDisplay\(\) of class Joomla\\Plugin\\EditorsXtd\\ReadMore\\Extension\\ReadMore\:
-				5\.0 Use onEditorButtonsSetup event instead, will be removed in 7\.0$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: plugins/editors-xtd/readmore/src/Extension/ReadMore.php
-
-		-
-			message: '''
 				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\Editors\\CodeMirror\\Extension\\Codemirror\:
 				5\.2 will be removed in 7\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
@@ -13838,18 +13660,6 @@ parameters:
 			identifier: method.private
 			count: 1
 			path: plugins/installer/webinstaller/tmpl/default.php
-
-		-
-			message: '''
-				#^Call to deprecated method getMailer\(\) of class Joomla\\CMS\\Factory\:
-				4\.4\.0 will be removed in 7\.0
-				             Use the mailer service in the DI container and create a mailer from there
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(MailerFactoryInterface\:\:class\)\-\>createMailer\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: plugins/multifactorauth/email/src/Extension/Email.php
 
 		-
 			message: '''
