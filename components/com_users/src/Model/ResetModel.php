@@ -450,14 +450,14 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
         }
 
         // Assemble the password reset confirmation link.
-        $mode = $app->get('force_ssl', 0) == 2 ? 1 : (-1);
+        $mode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
         $link = 'index.php?option=com_users&view=reset&layout=confirm&token=' . $token;
 
         // Put together the email template data.
         $data              = ArrayHelper::fromObject($user, false);
         $data['sitename']  = $app->get('sitename');
-        $data['link_text'] = Route::_($link, false, $mode);
-        $data['link_html'] = Route::_($link, true, $mode);
+        $data['link_text'] = Route::link('site', $link, false, $mode, true);
+        $data['link_html'] = Route::link('site', $link, true, $mode, true);
         $data['token']     = $token;
 
         $mailer = new MailTemplate('com_users.password_reset', $app->getLanguage()->getTag());
