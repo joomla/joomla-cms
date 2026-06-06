@@ -12,6 +12,7 @@ namespace Joomla\Component\Finder\Administrator\Indexer;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\QueryInterface;
 use Joomla\Event\DispatcherInterface;
@@ -27,6 +28,8 @@ use Joomla\Utilities\ArrayHelper;
  */
 abstract class DebugAdapter extends CMSPlugin
 {
+    use DatabaseAwareTrait;
+
     /**
      * The context is somewhat arbitrary but it must be unique or there will be
      * conflicts when managing plugin/indexer state. A good best practice is to
@@ -134,10 +137,12 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @since   5.0.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config)
+    public function __construct(DispatcherInterface $dispatcher, array $config, DatabaseInterface $db)
     {
         // Call the parent constructor.
         parent::__construct($dispatcher, $config);
+
+        $this->setDatabase($db);
 
         // Get the type id.
         $this->type_id = $this->getTypeId();
