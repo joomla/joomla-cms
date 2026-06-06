@@ -11269,6 +11269,15 @@ parameters:
 			path: libraries/src/Installer/Adapter/LanguageAdapter.php
 
 		-
+			message: '''
+				#^Call to deprecated method setUseExceptions\(\) of class Joomla\\CMS\\Table\\Table\:
+				7\.0$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: libraries/src/Installer/Adapter/LibraryAdapter.php
+
+		-
 			message: '#^Call to deprecated method set\(\) of class Joomla\\CMS\\Installer\\Installer\.$#'
 			identifier: method.deprecated
 			count: 1
