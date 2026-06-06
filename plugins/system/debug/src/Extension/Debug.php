@@ -76,14 +76,6 @@ final class Debug extends CMSPlugin implements SubscriberInterface
     private $debugLang;
 
     /**
-     * Holds log entries handled by the plugin.
-     *
-     * @var    LogEntry[]
-     * @since  3.1
-     */
-    private $logEntries = [];
-
-    /**
      * Holds all SHOW PROFILE FOR QUERY n, indexed by n-1.
      *
      * @var    array
@@ -525,28 +517,6 @@ final class Debug extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Store log messages so they can be displayed later.
-     * This function is passed log entries by JLogLoggerCallback.
-     *
-     * @param   LogEntry  $entry  A log entry.
-     *
-     * @return  void
-     *
-     * @since   3.1
-     *
-     * @deprecated  4.3 will be removed in 7.0
-     *              Use \Joomla\CMS\Log\Log::add(LogEntry $entry) instead
-     */
-    public function logger(LogEntry $entry)
-    {
-        if (!$this->showLogs) {
-            return;
-        }
-
-        $this->logEntries[] = $entry;
-    }
-
-    /**
      * Collect log messages.
      *
      * @return void
@@ -559,12 +529,8 @@ final class Debug extends CMSPlugin implements SubscriberInterface
         $logger        = new InMemoryLogger($loggerOptions);
         $logEntries    = $logger->getCollectedEntries();
 
-        if (!$this->logEntries && !$logEntries) {
+        if (!$logEntries) {
             return;
-        }
-
-        if ($this->logEntries) {
-            $logEntries = array_merge($logEntries, $this->logEntries);
         }
 
         $logDeprecated     = $this->getApplication()->get('log_deprecated', 0);
