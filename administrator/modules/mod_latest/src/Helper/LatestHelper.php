@@ -11,7 +11,6 @@
 namespace Joomla\Module\Latest\Administrator\Helper;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Model\ArticlesModel;
@@ -138,42 +137,5 @@ class LatestHelper
             (int) $params->get('count', 5),
             $title
         );
-    }
-
-    /**
-     * Get a list of articles.
-     *
-     * @param   Registry       $params  The module parameters.
-     * @param   ArticlesModel  $model   The model.
-     *
-     * @return  mixed  An array of articles, or false on error.
-     *
-     * @deprecated 5.4.0 will be removed in 7.0
-     *             Use the non-static method getArticles
-     *             Example: Factory::getApplication()->bootModule('mod_latest', 'administrator')
-     *                          ->getHelper('LatestHelper')
-     *                          ->getArticles($params, $model, Factory::getApplication())
-     */
-    public static function getList(Registry $params, ArticlesModel $model)
-    {
-        return (new self())->getArticles($params, $model, Factory::getApplication());
-    }
-
-    /**
-     * Get the alternate title for the module.
-     *
-     * @param   Registry  $params  The module parameters.
-     *
-     * @return  string  The alternate title for the module.
-     *
-     * @deprecated 5.4.0 will be removed in 7.0
-     *             Use the non-static method getModuleTitle
-     *             Example: Factory::getApplication()->bootModule('mod_latest', 'administrator')
-     *                          ->getHelper('LatestHelper')
-     *                          ->getModuleTitle($params, Factory::getApplication())
-     */
-    public static function getTitle($params)
-    {
-        return (new self())->getModuleTitle($params, Factory::getApplication());
     }
 }
