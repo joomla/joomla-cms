@@ -60,9 +60,9 @@
 
       this.topLevelNodes = this.nav.querySelectorAll(':scope > li');
 
-      this.topLevelNodes.forEach((topLevelEl) => {
-        // get submenu ul elements within topLevelEl
-        const levelChildUls = topLevelEl.querySelectorAll('ul');
+      this.nav.querySelectorAll('li').forEach((menuItem) => {
+        // only direct submenu(s) of each menu item
+        const levelChildUls = menuItem.querySelectorAll(':scope > ul');
         const ariaControls = [];
         levelChildUls.forEach((childUl) => {
           childUl.setAttribute('aria-hidden', 'true');
@@ -73,8 +73,9 @@
         });
 
         if (levelChildUls.length > 0) {
-          const togglebtn = topLevelEl.querySelector('[aria-expanded]');
+          const togglebtn = menuItem.querySelector(':scope > [aria-expanded]');
           togglebtn?.setAttribute('aria-controls', ariaControls.join(' '));
+          togglebtn?.setAttribute('aria-expanded', 'false');
         }
       });
 
@@ -92,7 +93,7 @@
         return;
       }
 
-      const subLists = target.querySelectorAll('ul');
+      const subLists = target.querySelectorAll(':scope > ul');
 
       switch (event.key) {
         case 'ArrowUp':
@@ -138,7 +139,7 @@
           if (!currentTopLevelLi) {
             break;
           }
-          const allChildListsFromTopLevelLi = currentTopLevelLi.querySelectorAll('ul');
+          const allChildListsFromTopLevelLi = currentTopLevelLi.querySelectorAll(':scope > ul');
           if (allChildListsFromTopLevelLi.length > 0) {
             this.toggleSubMenu(currentTopLevelLi, allChildListsFromTopLevelLi, false);
           }
@@ -187,7 +188,7 @@
         return;
       }
       const target = event.target.closest('li');
-      const subLists = target?.querySelectorAll('ul');
+      const subLists = target?.querySelectorAll(':scope > ul');
       if (subLists && subLists.length > 0) {
         event.preventDefault();
         this.toggleSubMenu(target, subLists, subLists[0]?.getAttribute('aria-hidden') === 'true');
@@ -195,19 +196,40 @@
     }
 
     toggleSubMenu(target, subLists, open = false) {
+      const closeSubMenuTree = (ulChild) => {
+        ulChild.setAttribute('aria-hidden', 'true');
+        ulChild.classList.remove(this.settings.menuHoverClass);
+        const parentToggle = ulChild.closest('li')?.querySelector(':scope > [aria-expanded]');
+        parentToggle?.setAttribute('aria-expanded', 'false');
+        ulChild.querySelectorAll('ul').forEach((descendantUl) => {
+          descendantUl.setAttribute('aria-hidden', 'true');
+          descendantUl.classList.remove(this.settings.menuHoverClass);
+          descendantUl.closest('li')?.querySelector(':scope > [aria-expanded]')?.setAttribute('aria-expanded', 'false');
+        });
+      };
+
       if (open) {
-        // close all opened submenus before opening the new one
-        const allSubMenus = this.nav.querySelectorAll('ul[aria-hidden="false"]');
-        allSubMenus.forEach((ulChild) => {
-            ulChild.setAttribute('aria-hidden', 'true');
-            ulChild.classList.remove(this.settings.menuHoverClass);
-            this.getTopLevelParentLi(ulChild)?.querySelector(':scope > [aria-expanded]')?.setAttribute('aria-expanded', 'false');
+        // close only sibling branches at the same level, keep ancestor branch open
+        const parentUl = target?.closest('ul');
+        const siblingItems = parentUl?.querySelectorAll(':scope > li');
+        siblingItems?.forEach((siblingItem) => {
+          if (siblingItem === target) {
+            return;
+          }
+          siblingItem.querySelectorAll(':scope > ul').forEach((ulChild) => {
+            closeSubMenuTree(ulChild);
+          });
         });
       }
-      subLists.forEach((ulChild) => {
-        ulChild.setAttribute('aria-hidden', open ? 'false' : 'true');
-        ulChild.classList.toggle(this.settings.menuHoverClass, open);
-      });
+
+      if (open) {
+        subLists.forEach((ulChild) => {
+          ulChild.setAttribute('aria-hidden', 'false');
+          ulChild.classList.add(this.settings.menuHoverClass);
+        });
+      } else {
+        subLists.forEach(closeSubMenuTree);
+      }
       target.querySelector(':scope > [aria-expanded]')?.setAttribute('aria-expanded', open ? 'true' : 'false');
     }
 
@@ -241,13 +263,12 @@
     toggleAllForCurrentActive() {
       const active = this.nav.querySelector('.current.active');
       if (active) {
-        const $parentTopLevel = this.getTopLevelParentLi(active);
         let currentLi = active;
         while (currentLi && !Array.from(this.topLevelNodes).includes(currentLi)) {
           const parentUl = currentLi.parentElement.closest('ul');
           currentLi = parentUl ? parentUl.closest('li') : null;
           if (currentLi) {
-            const subLists = currentLi.querySelectorAll('ul');
+            const subLists = currentLi.querySelectorAll(':scope > ul');
             this.toggleSubMenu(currentLi, subLists, subLists[0]?.getAttribute('aria-hidden') === 'true');
           }
         }
