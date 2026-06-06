@@ -6615,12 +6615,6 @@ parameters:
 			path: components/com_contact/tmpl/form/edit.php
 
 		-
-			message: '#^Class Joomla\\Component\\Content\\Administrator\\Service\\HTML\\Icon does not have a constructor and must be instantiated without any parameters\.$#'
-			identifier: new.noConstructor
-			count: 1
-			path: components/com_content/helpers/icon.php
-
-		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
@@ -11120,24 +11114,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\MVC\\View\\CanDo\:
-				7\.0 Use the Registry directly$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: libraries/src/Helper/ContentHelper.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\MVC\\View\\CanDo\:
-				7\.0 Use the Registry directly$#
-			'''
-			identifier: new.deprecatedClass
-			count: 1
-			path: libraries/src/Helper/ContentHelper.php
-
-		-
-			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
@@ -12132,24 +12108,6 @@ parameters:
 			path: libraries/src/MVC/View/FormView.php
 
 		-
-			message: '''
-				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\MVC\\View\\CanDo\:
-				7\.0 Use the Registry directly$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: libraries/src/MVC/View/FormView.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\MVC\\View\\CanDo\:
-				7\.0 Use the Registry directly$#
-			'''
-			identifier: new.deprecatedClass
-			count: 1
-			path: libraries/src/MVC/View/FormView.php
-
-		-
 			message: '#^Access to an undefined property Joomla\\CMS\\MVC\\View\\HtmlView\:\:\$baseurl\.$#'
 			identifier: property.notFound
 			count: 1
@@ -12238,24 +12196,6 @@ parameters:
 				7\.0$#
 			'''
 			identifier: method.deprecated
-			count: 1
-			path: libraries/src/MVC/View/ListView.php
-
-		-
-			message: '''
-				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\MVC\\View\\CanDo\:
-				7\.0 Use the Registry directly$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: libraries/src/MVC/View/ListView.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\MVC\\View\\CanDo\:
-				7\.0 Use the Registry directly$#
-			'''
-			identifier: new.deprecatedClass
 			count: 1
 			path: libraries/src/MVC/View/ListView.php
 
