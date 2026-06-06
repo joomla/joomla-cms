@@ -504,7 +504,7 @@ class CssMenu implements DatabaseAwareInterface
      *
      * @return  void
      *
-     * @since   6.1.0
+     * @since   5.4.4
      */
     protected function setActivePath()
     {
