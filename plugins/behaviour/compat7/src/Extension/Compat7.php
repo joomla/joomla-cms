@@ -1,0 +1,74 @@
+<?php
+
+/**
+ * @package     Joomla.Plugin
+ * @subpackage  Behaviour.compat7
+ *
+ * @copyright   (C) 2026 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+namespace Joomla\Plugin\Behaviour\Compat7\Extension;
+
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\Priority;
+use Joomla\Event\SubscriberInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
+/**
+ * Joomla! Compat7 Plugin.
+ *
+ * @since  7.0.0
+ */
+final class Compat7 extends CMSPlugin implements SubscriberInterface
+{
+    /**
+     * Returns an array of CMS events this plugin will listen to and the respective handlers.
+     *
+     * @return  array
+     *
+     * @since  7.0.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        /**
+         * Note that onAfterInitialise must be the first handlers to run for this
+         * plugin to operate as expected. These handlers load compatibility code which
+         * might be needed by other plugins
+         */
+        return [
+            'onAfterInitialiseDocument' => ['onAfterInitialiseDocument', Priority::HIGH],
+        ];
+    }
+
+    /**
+     * Constructor
+     *
+     * @param   array  $config  An optional associative array of configuration settings.
+     *                          Recognized key values include 'name', 'group', 'params', 'language'
+     *                          (this list is not meant to be comprehensive).
+     *
+     * @since   7.0.0
+     */
+    public function __construct(array $config = [])
+    {
+        parent::__construct($config);
+
+        /**
+         * Normally we should never use the constructor to execute any logic which would
+         * affect other parts of the cms, but since we need to load class aliases as
+         * early as possible we load the class aliases in the constructor so behaviour and system plugins
+         * which depend on the JPlugin alias for example still are working
+         */
+
+        /**
+         * Include classes which will likely be removed in 8.0
+         */
+        if ($this->params->get('legacy_classes', '1')) {
+            \JLoader::registerNamespace('\\Joomla\\CMS', JPATH_PLUGINS . '/behaviour/compat7/classes');
+        }
+    }
+}
