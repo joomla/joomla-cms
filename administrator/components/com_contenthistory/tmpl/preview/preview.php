@@ -24,7 +24,7 @@ Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
     </h1>
     <?php if ($this->item->version_note) : ?>
         <h2>
-            <?php echo Text::sprintf('COM_CONTENTHISTORY_PREVIEW_SUBTITLE', $this->item->version_note); ?>
+            <?php echo Text::sprintf('COM_CONTENTHISTORY_PREVIEW_SUBTITLE', $this->escape($this->item->version_note)); ?>
         </h2>
     <?php endif; ?>
 
@@ -51,14 +51,14 @@ Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
                         <?php $subValue->value = (\is_object($subValue->value) || \is_array($subValue->value)) ? \json_encode($subValue->value, \JSON_UNESCAPED_UNICODE) : $subValue->value; ?>
                         <tr>
                             <th scope="row"><em>&nbsp;&nbsp;<?php echo $subValue->label; ?></em></th>
-                            <td><?php echo $subValue->value; ?></td>
+                            <td><?php echo $this->escape($subValue->value); ?></td>
                         </tr>
                     <?php endif; ?>
                 <?php endforeach; ?>
             <?php else : ?>
                 <tr>
                     <th scope="row"><?php echo $value->label; ?></th>
-                    <td><?php echo $value->value; ?></td>
+                    <td><?php echo $this->escape($value->value); ?></td>
                 </tr>
             <?php endif; ?>
         <?php endforeach; ?>
