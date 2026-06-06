@@ -138,7 +138,7 @@ abstract class Adapter extends CMSPlugin
      *
      * @since   2.5
      */
-    public function __construct($config, DatabaseInterface $db)
+    public function __construct($config, ?DatabaseInterface $db = null)
     {
         // Call the parent constructor.
         if ($config instanceof DispatcherInterface) {
@@ -148,6 +148,15 @@ abstract class Adapter extends CMSPlugin
             parent::__construct($dispatcher, $config);
         } else {
             parent::__construct($config);
+        }
+
+        if ($db === null) {
+            @trigger_error(
+                __CLASS__ . ': The database parameter must be set for the constructor.',
+                \E_USER_DEPRECATED
+            );
+
+            $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
         $this->setDatabase($db);
