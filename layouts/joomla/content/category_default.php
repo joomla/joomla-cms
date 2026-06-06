@@ -29,16 +29,16 @@ $htag      = $params->get('show_page_heading') ? 'h2' : 'h1';
 $app = Factory::getApplication();
 
 $category->text = $category->description;
-$app->triggerEvent('onContentPrepare', [$extension . '.categories', &$category, &$params, 0]);
+$app->triggerEvent('onContentPrepare', ['context' => $extension . '.categories', 'subject' => $category, 'params' => $params, 'page' => 0]);
 $category->description = $category->text;
 
-$results = $app->triggerEvent('onContentAfterTitle', [$extension . '.categories', &$category, &$params, 0]);
+$results = $app->triggerEvent('onContentAfterTitle', ['context' => $extension . '.categories', 'subject' => $category, 'params' => $params, 'page' => 0]);
 $afterDisplayTitle = trim(implode("\n", $results));
 
-$results = $app->triggerEvent('onContentBeforeDisplay', [$extension . '.categories', &$category, &$params, 0]);
+$results = $app->triggerEvent('onContentBeforeDisplay', ['context' => $extension . '.categories', 'subject' => $category, 'params' => $params, 'page' => 0]);
 $beforeDisplayContent = trim(implode("\n", $results));
 
-$results = $app->triggerEvent('onContentAfterDisplay', [$extension . '.categories', &$category, &$params, 0]);
+$results = $app->triggerEvent('onContentAfterDisplay', ['context' => $extension . '.categories', 'subject' => $category, 'params' => $params, 'page' => 0]);
 $afterDisplayContent = trim(implode("\n", $results));
 
 /**

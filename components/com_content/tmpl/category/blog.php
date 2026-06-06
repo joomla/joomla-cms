@@ -20,16 +20,16 @@ $app = Factory::getApplication();
 
 /** @var \Joomla\Component\Content\Site\View\Category\HtmlView $this */
 $this->category->text = $this->category->description;
-$app->triggerEvent('onContentPrepare', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
+$app->triggerEvent('onContentPrepare', ['context' => $this->category->extension . '.categories', 'subject' => $this->category, 'params' => $this->params, 'page' => 0]);
 $this->category->description = $this->category->text;
 
-$results = $app->triggerEvent('onContentAfterTitle', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
+$results = $app->triggerEvent('onContentAfterTitle', ['context' => $this->category->extension . '.categories', 'subject' => $this->category, 'params' => $this->params, 'page' => 0]);
 $afterDisplayTitle = trim(implode("\n", $results));
 
-$results = $app->triggerEvent('onContentBeforeDisplay', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
+$results = $app->triggerEvent('onContentBeforeDisplay', ['context' => $this->category->extension . '.categories', 'subject' => $this->category, 'params' => $this->params, 'page' => 0]);
 $beforeDisplayContent = trim(implode("\n", $results));
 
-$results = $app->triggerEvent('onContentAfterDisplay', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
+$results = $app->triggerEvent('onContentAfterDisplay', ['context' => $this->category->extension . '.categories', 'subject' => $this->category, 'params' => $this->params, 'page' => 0]);
 $afterDisplayContent = trim(implode("\n", $results));
 
 $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';

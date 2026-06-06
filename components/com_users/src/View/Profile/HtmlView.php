@@ -120,7 +120,7 @@ class HtmlView extends BaseHtmlView
 
         PluginHelper::importPlugin('content');
         $this->data->text = '';
-        Factory::getApplication()->triggerEvent('onContentPrepare', ['com_users.user', &$this->data, &$this->data->params, 0]);
+        Factory::getApplication()->triggerEvent('onContentPrepare', ['context' => 'com_users.user', 'subject' => $this->data, 'params' => $this->data->params, 'page' => 0]);
         unset($this->data->text);
 
         // Check for layout from menu item.

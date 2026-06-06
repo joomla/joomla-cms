@@ -485,7 +485,7 @@ class Helper
         }
 
         // Fire the onContentPrepare event.
-        Factory::getApplication()->triggerEvent('onContentPrepare', ['com_finder.indexer', &$content, &$params, 0]);
+        Factory::getApplication()->triggerEvent('onContentPrepare', ['context' => 'com_finder.indexer', 'subject' => $content, 'params' => $params, 'page' => 0]);
 
         return $content->text;
     }

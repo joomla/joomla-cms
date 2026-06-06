@@ -197,23 +197,23 @@ class HtmlView extends BaseHtmlView
 
             $itemElement->core_params = new Registry($itemElement->core_params);
 
-            $app->triggerEvent('onContentPrepare', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
+            $app->triggerEvent('onContentPrepare', ['context' => 'com_tags.tag', 'subject' => $itemElement, 'params' => $itemElement->core_params, 'page' => 0]);
 
             $results = $app->triggerEvent(
                 'onContentAfterTitle',
-                ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]
+                ['context' => 'com_tags.tag', 'subject' => $itemElement, 'params' => $itemElement->core_params, 'page' => 0]
             );
             $itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
 
             $results = $app->triggerEvent(
                 'onContentBeforeDisplay',
-                ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]
+                ['context' => 'com_tags.tag', 'subject' => $itemElement, 'params' => $itemElement->core_params, 'page' => 0]
             );
             $itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
 
             $results = $app->triggerEvent(
                 'onContentAfterDisplay',
-                ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]
+                ['context' => 'com_tags.tag', 'subject' => $itemElement, 'params' => $itemElement->core_params, 'page' => 0]
             );
             $itemElement->event->afterDisplayContent = trim(implode("\n", $results));
 

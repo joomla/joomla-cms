@@ -168,15 +168,15 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
 
             if ($triggerEvents) {
                 $item->text = '';
-                $app->triggerEvent('onContentPrepare', ['com_content.article', &$item, &$params, 0]);
+                $app->triggerEvent('onContentPrepare', ['context' => 'com_content.article', 'subject' => $item, 'params' => $params, 'page' => 0]);
 
-                $results                 = $app->triggerEvent('onContentAfterTitle', ['com_content.article', &$item, &$params, 0]);
+                $results                 = $app->triggerEvent('onContentAfterTitle', ['context' => 'com_content.article', 'subject' => $item, 'params' => $params, 'page' => 0]);
                 $item->afterDisplayTitle = trim(implode("\n", $results));
 
-                $results                    = $app->triggerEvent('onContentBeforeDisplay', ['com_content.article', &$item, &$params, 0]);
+                $results                    = $app->triggerEvent('onContentBeforeDisplay', ['context' => 'com_content.article', 'subject' => $item, 'params' => $params, 'page' => 0]);
                 $item->beforeDisplayContent = trim(implode("\n", $results));
 
-                $results                   = $app->triggerEvent('onContentAfterDisplay', ['com_content.article', &$item, &$params, 0]);
+                $results                   = $app->triggerEvent('onContentAfterDisplay', ['context' => 'com_content.article', 'subject' => $item, 'params' => $params, 'page' => 0]);
                 $item->afterDisplayContent = trim(implode("\n", $results));
             } else {
                 $item->afterDisplayTitle    = '';

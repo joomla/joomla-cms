@@ -322,17 +322,17 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
             $item->text = $item->misc;
         }
 
-        $app->triggerEvent('onContentPrepare', ['com_contact.contact', &$item, &$item->params, $offset]);
+        $app->triggerEvent('onContentPrepare', ['context' => 'com_contact.contact', 'subject' => $item, 'params' => $item->params, 'page' => $offset]);
 
         // Store the events for later
         $item->event                    = new \stdClass();
-        $results                        = $app->triggerEvent('onContentAfterTitle', ['com_contact.contact', &$item, &$item->params, $offset]);
+        $results                        = $app->triggerEvent('onContentAfterTitle', ['context' => 'com_contact.contact', 'subject' => $item, 'params' => $item->params, 'page' => $offset]);
         $item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-        $results                           = $app->triggerEvent('onContentBeforeDisplay', ['com_contact.contact', &$item, &$item->params, $offset]);
+        $results                           = $app->triggerEvent('onContentBeforeDisplay', ['context' => 'com_contact.contact', 'subject' => $item, 'params' => $item->params, 'page' => $offset]);
         $item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-        $results                          = $app->triggerEvent('onContentAfterDisplay', ['com_contact.contact', &$item, &$item->params, $offset]);
+        $results                          = $app->triggerEvent('onContentAfterDisplay', ['context' => 'com_contact.contact', 'subject' => $item, 'params' => $item->params, 'page' => $offset]);
         $item->event->afterDisplayContent = trim(implode("\n", $results));
 
         if (!empty($item->text)) {
@@ -343,7 +343,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
 
         if ($item->params->get('show_user_custom_fields') && $item->user_id && $contactUser = $this->getUserFactory()->loadUserById($item->user_id)) {
             $contactUser->text = '';
-            $app->triggerEvent('onContentPrepare', ['com_users.user', &$contactUser, &$item->params, 0]);
+            $app->triggerEvent('onContentPrepare', ['context' => 'com_users.user', 'subject' => $contactUser, 'params' => $item->params, 'page' => 0]);
 
             if (!isset($contactUser->jcfields)) {
                 $contactUser->jcfields = [];
