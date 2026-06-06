@@ -1,7 +1,7 @@
 /**
  * Assets Builder
  */
-
+import { pathToFileURL } from 'node:url';
 import path from 'node:path';
 import fsp from "node:fs/promises";
 import fs from "node:fs";
@@ -30,7 +30,7 @@ export default class TinyMCEModuleBuilder extends DefaultModuleBuilder
 
     const tinySrcPath = path.dirname(modulePathJson);
     const tinyVendorPath = path.join(path.dirname(this.targetPath), 'vendor', 'tinymce');
-    const moduleOptions = await import(modulePathJson, { with: { type: 'json' } });
+    const moduleOptions = await import(pathToFileURL(modulePathJson).href, { with: { type: 'json' } });
     const version = moduleOptions.default.version;
     const majorVersion = version.split('.')[0];
     const tinyLngSrcPath = path.join(path.dirname(moduleLngPathJson), `langs${majorVersion}`);
