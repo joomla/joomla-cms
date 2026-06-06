@@ -22,7 +22,6 @@ use Joomla\CMS\Event\Application\BeforeCompileHeadEvent;
 use Joomla\CMS\Event\Application\BeforeRespondEvent;
 use Joomla\CMS\Event\Plugin\AjaxEvent;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger\InMemoryLogger;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Profiler\Profiler;
