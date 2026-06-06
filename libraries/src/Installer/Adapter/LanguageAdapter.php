@@ -848,7 +848,7 @@ class LanguageAdapter extends InstallerAdapter
             $contentLanguageNativeTitle = $siteLanguageManifest['nativeName'];
         }
 
-        // Try to load a language string from the installation language var. Will be removed in 4.0.
+        // Try to load a language string from the installation language var. Will be removed in 7.0.
         if ($contentLanguageNativeTitle === $contentLanguageTitle) {
             $manifestfile = JPATH_INSTALLATION . '/language/' . $tag . '/langmetadata.xml';
 
