@@ -13727,18 +13727,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getMailer\(\) of class Joomla\\CMS\\Factory\:
-				4\.4\.0 will be removed in 7\.0
-				             Use the mailer service in the DI container and create a mailer from there
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(MailerFactoryInterface\:\:class\)\-\>createMailer\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: plugins/multifactorauth/email/src/Extension/Email.php
-
-		-
-			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
