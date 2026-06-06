@@ -211,7 +211,7 @@ abstract class HTMLHelper
     public static function register($key, callable $function)
     {
         @trigger_error(
-            'Support for registering functions is deprecated and will be removed in Joomla 6.0, use the service registry instead',
+            'Support for registering functions is deprecated and will be removed in Joomla 7.0, use the service registry instead',
             E_USER_DEPRECATED
         );
 
@@ -236,7 +236,7 @@ abstract class HTMLHelper
     public static function unregister($key)
     {
         @trigger_error(
-            'Support for registering functions is deprecated and will be removed in Joomla 6.0, use the service registry instead',
+            'Support for registering functions is deprecated and will be removed in Joomla 7.0, use the service registry instead',
             E_USER_DEPRECATED
         );
 

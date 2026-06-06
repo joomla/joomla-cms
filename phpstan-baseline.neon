@@ -2,42 +2,6 @@ parameters:
 	ignoreErrors:
 		-
 			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the language service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_actionlogs/src/Field/LogsdaterangeField.php
-
-		-
-			message: '''
-				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the database service in the DI container
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_actionlogs/src/Helper/ActionlogsHelper.php
-
-		-
-			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the language service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 2
-			path: administrator/components/com_actionlogs/src/Helper/ActionlogsHelper.php
-
-		-
-			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
 				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
@@ -69,15 +33,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: administrator/components/com_actionlogs/src/Model/ActionlogsModel.php
-
-		-
-			message: '''
-				#^Access to deprecated property \$app of class Joomla\\Component\\Actionlogs\\Administrator\\Plugin\\ActionLogPlugin\:
-				5\.1\.0 will be removed in 7\.0 use \$this\-\>getApplication\(\) instead$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: administrator/components/com_actionlogs/src/Plugin/ActionLogPlugin.php
 
 		-
 			message: '#^Instantiated class JConfig not found\.$#'
@@ -119,18 +74,6 @@ parameters:
 			identifier: method.deprecated
 			count: 2
 			path: administrator/components/com_admin/script.php
-
-		-
-			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the language service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_admin/src/Model/HelpModel.php
 
 		-
 			message: '#^Instantiated class JConfig not found\.$#'
@@ -542,7 +485,7 @@ parameters:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 2
+			count: 1
 			path: administrator/components/com_categories/src/Helper/CategoriesHelper.php
 
 		-
@@ -576,7 +519,7 @@ parameters:
 				             Catch thrown Exceptions instead of getError$#
 			'''
 			identifier: method.deprecated
-			count: 18
+			count: 14
 			path: administrator/components/com_categories/src/Model/CategoryModel.php
 
 		-
@@ -610,7 +553,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 32
+			count: 26
 			path: administrator/components/com_categories/src/Model/CategoryModel.php
 
 		-
@@ -628,16 +571,6 @@ parameters:
 				5\.4\.0 will be removed in 7\.0 without replacement$#
 			'''
 			identifier: method.deprecatedClass
-			count: 2
-			path: administrator/components/com_categories/src/Model/CategoryModel.php
-
-		-
-			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
 			count: 2
 			path: administrator/components/com_categories/src/Model/CategoryModel.php
 
@@ -1873,18 +1806,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the session service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 2
-			path: administrator/components/com_finder/src/Indexer/Indexer.php
-
-		-
-			message: '''
 				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
 				4\.3 will be removed in 7\.0
 				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
@@ -2249,30 +2170,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the session service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_finder/tmpl/indexer/debug.php
-
-		-
-			message: '''
-				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the session service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_finder/tmpl/indexer/default.php
-
-		-
-			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
@@ -2539,16 +2436,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: administrator/components/com_installer/src/Model/LanguagesModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method get\(\) of class Joomla\\CMS\\Changelog\\Changelog\:
-				4\.3\.0 will be removed in 7\.0
-				            Create a proper getter function for the property$#
-			'''
-			identifier: method.deprecated
-			count: 2
-			path: administrator/components/com_installer/src/Model/ManageModel.php
 
 		-
 			message: '''
@@ -2899,18 +2786,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the session service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_joomlaupdate/tmpl/update/default.php
-
-		-
-			message: '''
 				#^Access to deprecated static property \$language of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
@@ -2918,17 +2793,6 @@ parameters:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
 			'''
 			identifier: staticProperty.deprecated
-			count: 2
-			path: administrator/components/com_languages/src/Controller/InstalledController.php
-
-		-
-			message: '''
-				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getError$#
-			'''
-			identifier: method.deprecated
 			count: 2
 			path: administrator/components/com_languages/src/Controller/InstalledController.php
 
@@ -2976,17 +2840,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: administrator/components/com_languages/src/Controller/OverrideController.php
-
-		-
-			message: '''
-				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getError$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_languages/src/Controller/OverridesController.php
 
 		-
 			message: '''
@@ -3989,7 +3842,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 17
+			count: 15
 			path: administrator/components/com_messages/src/Model/MessageModel.php
 
 		-
@@ -4109,7 +3962,7 @@ parameters:
 				             Catch thrown Exceptions instead of getError$#
 			'''
 			identifier: method.deprecated
-			count: 11
+			count: 7
 			path: administrator/components/com_modules/src/Model/ModuleModel.php
 
 		-
@@ -4154,7 +4007,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 14
+			count: 10
 			path: administrator/components/com_modules/src/Model/ModuleModel.php
 
 		-
@@ -4164,7 +4017,7 @@ parameters:
 				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
 			'''
 			identifier: method.deprecatedInterface
-			count: 4
+			count: 3
 			path: administrator/components/com_modules/src/Model/ModuleModel.php
 
 		-
@@ -4533,18 +4386,6 @@ parameters:
 			path: administrator/components/com_postinstall/src/View/Messages/HtmlView.php
 
 		-
-			message: '''
-				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the session service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_postinstall/src/View/Messages/HtmlView.php
-
-		-
 			message: '#^Access to an undefined property Joomla\\Component\\Postinstall\\Administrator\\View\\Messages\\HtmlView\:\:\$eid\.$#'
 			identifier: property.notFound
 			count: 1
@@ -4804,18 +4645,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: administrator/components/com_privacy/src/View/Requests/HtmlView.php
-
-		-
-			message: '''
-				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the session service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 2
-			path: administrator/components/com_privacy/tmpl/requests/default.php
 
 		-
 			message: '''
@@ -5771,7 +5600,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 26
+			count: 28
 			path: administrator/components/com_users/src/Model/UserModel.php
 
 		-
@@ -6501,7 +6330,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated property \$document of class Joomla\\CMS\\MVC\\View\\AbstractView\:
-				4\.4\.0 will be removed in 7\.0
+				4\.4\.0 will be made private in 7\.0
 				            Use \$this\-\>getDocument\(\) instead$#
 			'''
 			identifier: property.deprecated
@@ -6527,18 +6356,6 @@ parameters:
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
 			identifier: method.deprecated
-			count: 1
-			path: components/com_contact/src/Controller/ContactController.php
-
-		-
-			message: '''
-				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the session service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
-			'''
-			identifier: staticMethod.deprecated
 			count: 1
 			path: components/com_contact/src/Controller/ContactController.php
 
@@ -7966,48 +7783,12 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the session service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: installation/src/Form/Field/Installation/PrefixField.php
-
-		-
-			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\Database\\DatabaseDriver\:
 				3\.0  Use DatabaseFactory\:\:getDriver\(\) instead$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
 			path: installation/src/Helper/DatabaseHelper.php
-
-		-
-			message: '''
-				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the session service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 9
-			path: installation/src/Helper/DatabaseHelper.php
-
-		-
-			message: '''
-				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the session service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: installation/src/Model/BaseInstallationModel.php
 
 		-
 			message: '''
@@ -8019,18 +7800,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: installation/src/Model/ChecksModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the session service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 3
-			path: installation/src/Model/ConfigurationModel.php
 
 		-
 			message: '''
@@ -8048,18 +7817,6 @@ parameters:
 				             Use the language service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: installation/src/Model/DatabaseModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the session service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
@@ -8114,18 +7871,6 @@ parameters:
 			'''
 			identifier: staticMethod.deprecated
 			count: 2
-			path: installation/src/Model/SetupModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the session service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
 			path: installation/src/Model/SetupModel.php
 
 		-
@@ -8251,18 +7996,6 @@ parameters:
 				             Use the document service in the DI container or get from the application object
 				             Example\:
 				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Application/AdministratorApplication.php
-
-		-
-			message: '''
-				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Load the user service from the dependency injection container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
@@ -8492,18 +8225,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Load the user service from the dependency injection container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 3
-			path: libraries/src/Application/SiteApplication.php
-
-		-
-			message: '''
 				#^Call to deprecated method route\(\) of class Joomla\\CMS\\Application\\SiteApplication\:
 				4\.0 will be removed in 7\.0
 				             Implement the route functionality in the extending class, this here will be removed without replacement$#
@@ -8701,29 +8422,6 @@ parameters:
 			identifier: traitUse.deprecatedTrait
 			count: 1
 			path: libraries/src/Categories/CategoryNode.php
-
-		-
-			message: '''
-				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyPropertyManagementTrait in class Joomla\\CMS\\Changelog\\Changelog\:
-				4\.3\.0 will be removed in 7\.0
-				             Will be removed without replacement
-				             Create proper setter functions for the individual properties or use a \\Joomla\\Registry\\Registry$#
-			'''
-			identifier: traitUse.deprecatedTrait
-			count: 1
-			path: libraries/src/Changelog/Changelog.php
-
-		-
-			message: '''
-				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the session service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 3
-			path: libraries/src/Client/ClientHelper.php
 
 		-
 			message: '#^Unsafe usage of new static\(\)\.$#'
@@ -8939,18 +8637,6 @@ parameters:
 			path: libraries/src/Console/UpdateCoreCommand.php
 
 		-
-			message: '''
-				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the database service in the DI container
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Date/Date.php
-
-		-
 			message: '#^Unsafe usage of new static\(\)\.$#'
 			identifier: new.static
 			count: 1
@@ -9138,44 +8824,6 @@ parameters:
 			identifier: new.static
 			count: 1
 			path: libraries/src/Editor/Editor.php
-
-		-
-			message: '#^Function mcrypt_decrypt not found\.$#'
-			identifier: function.notFound
-			count: 1
-			path: libraries/src/Encrypt/AES/Mcrypt.php
-
-		-
-			message: '#^Function mcrypt_encrypt not found\.$#'
-			identifier: function.notFound
-			count: 1
-			path: libraries/src/Encrypt/AES/Mcrypt.php
-
-		-
-			message: '#^Function mcrypt_get_iv_size not found\.$#'
-			identifier: function.notFound
-			count: 1
-			path: libraries/src/Encrypt/AES/Mcrypt.php
-
-		-
-			message: '''
-				#^Call to method isSupported\(\) of deprecated class Joomla\\CMS\\Encrypt\\AES\\Mcrypt\:
-				4\.3 will be removed in 7\.0
-				             Will be removed without replacement$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: libraries/src/Encrypt/Aes.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\Encrypt\\AES\\Mcrypt\:
-				4\.3 will be removed in 7\.0
-				             Will be removed without replacement$#
-			'''
-			identifier: new.deprecatedClass
-			count: 1
-			path: libraries/src/Encrypt/Aes.php
 
 		-
 			message: '#^Unsafe usage of new static\(\)\.$#'
@@ -11084,7 +10732,7 @@ parameters:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 2
+			count: 1
 			path: libraries/src/HTML/Helpers/Category.php
 
 		-
@@ -11096,7 +10744,7 @@ parameters:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 2
+			count: 1
 			path: libraries/src/HTML/Helpers/Category.php
 
 		-
@@ -11938,42 +11586,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to deprecated property \$ignoredSearchWordsCallback of class Joomla\\CMS\\Language\\Language\:
-				4\.4 will be removed in 7\.0 without replacement$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: libraries/src/Language/Language.php
-
-		-
-			message: '''
-				#^Access to deprecated property \$lowerLimitSearchWordCallback of class Joomla\\CMS\\Language\\Language\:
-				4\.4 will be removed in 7\.0 without replacement$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: libraries/src/Language/Language.php
-
-		-
-			message: '''
-				#^Access to deprecated property \$searchDisplayedCharactersNumberCallback of class Joomla\\CMS\\Language\\Language\:
-				4\.4 will be removed in 7\.0 without replacement$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: libraries/src/Language/Language.php
-
-		-
-			message: '''
-				#^Access to deprecated property \$upperLimitSearchWordCallback of class Joomla\\CMS\\Language\\Language\:
-				4\.4 will be removed in 7\.0 without replacement$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: libraries/src/Language/Language.php
-
-		-
-			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
@@ -11993,7 +11605,7 @@ parameters:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 2
+			count: 1
 			path: libraries/src/Language/Multilanguage.php
 
 		-
@@ -12115,7 +11727,7 @@ parameters:
 				             Catch thrown Exceptions instead of getError$#
 			'''
 			identifier: method.deprecated
-			count: 7
+			count: 5
 			path: libraries/src/MVC/Controller/FormController.php
 
 		-
@@ -12372,7 +11984,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated property \$document of class Joomla\\CMS\\MVC\\View\\AbstractView\:
-				4\.4\.0 will be removed in 7\.0
+				4\.4\.0 will be made private in 7\.0
 				            Use \$this\-\>getDocument\(\) instead$#
 			'''
 			identifier: property.deprecated
@@ -12583,6 +12195,12 @@ parameters:
 			path: libraries/src/MVC/View/HtmlView.php
 
 		-
+			message: '#^Undefined variable\: \$layoutTemplate$#'
+			identifier: variable.undefined
+			count: 1
+			path: libraries/src/MVC/View/HtmlView.php
+
+		-
 			message: '''
 				#^Call to deprecated method get\(\) of class Joomla\\CMS\\MVC\\View\\AbstractView\:
 				5\.3\.0 will be removed in 7\.0\.
@@ -12686,18 +12304,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 2
 			path: libraries/src/Menu/AbstractMenu.php
-
-		-
-			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the language service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 2
-			path: libraries/src/Menu/SiteMenu.php
 
 		-
 			message: '''
@@ -13718,18 +13324,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the session service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 3
-			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
@@ -14246,16 +13840,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\System\\Cache\\Extension\\Cache\:
-				5\.2 will be removed in 7\.0
-				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: plugins/system/cache/src/Extension/Cache.php
-
-		-
-			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
@@ -14304,7 +13888,17 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getDispatcher\(\) of class Joomla\\CMS\\Plugin\\CMSPlugin\:
+				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\System\\Jooa11y\\Extension\\Jooa11y\:
+				5\.2 will be removed in 7\.0
+				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: plugins/system/jooa11y/services/provider.php
+
+		-
+			message: '''
+				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\System\\Jooa11y\\Extension\\Jooa11y\:
 				5\.2 will be removed in 7\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
 			'''
@@ -14492,18 +14086,6 @@ parameters:
 			'''
 			identifier: staticProperty.deprecated
 			count: 3
-			path: plugins/user/joomla/src/Extension/Joomla.php
-
-		-
-			message: '''
-				#^Call to deprecated method getSession\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the session service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getSession\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
 			path: plugins/user/joomla/src/Extension/Joomla.php
 
 		-
