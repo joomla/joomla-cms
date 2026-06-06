@@ -88,6 +88,7 @@ final class Extensionupdate extends CMSPlugin implements SubscriberInterface
         Text::script('ERROR');
         Text::script('INFO');
         Text::script('WARNING');
+        Text::script('SUCCESS');
 
         $this->getApplication()->getDocument()->getWebAssetManager()
             ->registerAndUseScript(

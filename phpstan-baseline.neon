@@ -35,15 +35,6 @@ parameters:
 			path: administrator/components/com_actionlogs/src/Model/ActionlogsModel.php
 
 		-
-			message: '''
-				#^Access to deprecated property \$app of class Joomla\\Component\\Actionlogs\\Administrator\\Plugin\\ActionLogPlugin\:
-				5\.1\.0 will be removed in 7\.0 use \$this\-\>getApplication\(\) instead$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: administrator/components/com_actionlogs/src/Plugin/ActionLogPlugin.php
-
-		-
 			message: '#^Instantiated class JConfig not found\.$#'
 			identifier: class.notFound
 			count: 1
@@ -494,7 +485,7 @@ parameters:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 2
+			count: 1
 			path: administrator/components/com_categories/src/Helper/CategoriesHelper.php
 
 		-
@@ -6622,12 +6613,6 @@ parameters:
 			identifier: property.notFound
 			count: 1
 			path: components/com_contact/tmpl/form/edit.php
-
-		-
-			message: '#^Class Joomla\\Component\\Content\\Administrator\\Service\\HTML\\Icon does not have a constructor and must be instantiated without any parameters\.$#'
-			identifier: new.noConstructor
-			count: 1
-			path: components/com_content/helpers/icon.php
 
 		-
 			message: '''

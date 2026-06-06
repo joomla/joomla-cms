@@ -91,44 +91,4 @@ class LoggedHelper
     {
         return Text::plural('MOD_LOGGED_TITLE', $params->get('count', 5));
     }
-
-    /**
-     * Get a list of logged users.
-     *
-     * @param   Registry           $params  The module parameters
-     * @param   CMSApplication     $app     The application
-     * @param   DatabaseInterface  $db      The database
-     *
-     * @return  mixed  An array of users, or false on error.
-     *
-     * @throws  \RuntimeException
-     *
-     * @deprecated 5.4.0 will be removed in 7.0
-     *             Use the non-static method getUsers
-     *             Example: Factory::getApplication()->bootModule('mod_logged', 'administrator')
-     *                          ->getHelper('LoggedHelper')
-     *                          ->getUsers($params, Factory::getApplication(), $db)
-     */
-    public static function getList(Registry $params, CMSApplication $app, DatabaseInterface $db)
-    {
-        return (new self())->getUsers($params, $app, $db);
-    }
-
-    /**
-     * Get the alternate title for the module
-     *
-     * @param   Registry  $params  The module parameters.
-     *
-     * @return  string    The alternate title for the module.
-     *
-     * @deprecated 5.4.0 will be removed in 7.0
-     *             Use the non-static method getModuleTitle
-     *             Example: Factory::getApplication()->bootModule('mod_logged', 'administrator')
-     *                          ->getHelper('LoggedHelper')
-     *                          ->getModuleTitle($params)
-     */
-    public static function getTitle($params)
-    {
-        return (new self())->getModuleTitle($params);
-    }
 }
