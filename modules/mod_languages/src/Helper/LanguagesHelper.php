@@ -138,22 +138,4 @@ class LanguagesHelper
 
         return $languages;
     }
-
-    /**
-     * Gets a list of available languages
-     *
-     * @param   \Joomla\Registry\Registry  &$params  module params
-     *
-     * @return  array
-     *
-     * @deprecated 5.1.0 will be removed in 7.0
-     *             Use the non-static method getLanguages
-     *             Example: Factory::getApplication()->bootModule('mod_languages', 'site')
-     *                          ->getHelper('LanguagesHelper')
-     *                          ->getLanguages($params)
-     */
-    public static function getList(&$params)
-    {
-        return (new self())->getLanguages($params);
-    }
 }
