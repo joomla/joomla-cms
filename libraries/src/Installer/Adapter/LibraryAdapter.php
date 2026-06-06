@@ -56,6 +56,7 @@ class LibraryAdapter extends InstallerAdapter
                 // Clear the cached data
                 $this->currentExtensionId = null;
                 $this->extension          = new Extension($this->getDatabase());
+                $this->extension->setUseExceptions(true);
 
                 // From this point we'll consider this an update
                 $this->setRoute('update');
