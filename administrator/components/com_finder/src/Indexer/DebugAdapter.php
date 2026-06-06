@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseAwareTrait;
@@ -137,10 +138,19 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @since   5.0.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, DatabaseInterface $db)
+    public function __construct(DispatcherInterface $dispatcher, array $config, ?DatabaseInterface $db = null)
     {
         // Call the parent constructor.
         parent::__construct($dispatcher, $config);
+
+        if ($db === null) {
+            @trigger_error(
+                __CLASS__ . ': The database parameter must be set for the constructor.',
+                \E_USER_DEPRECATED
+            );
+
+            $db = Factory::getContainer()->get(DatabaseInterface::class);
+        }
 
         $this->setDatabase($db);
 
