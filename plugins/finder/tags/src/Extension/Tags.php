@@ -17,7 +17,6 @@ use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Component\Finder\Administrator\Indexer\Result;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
-use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\QueryInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
@@ -33,8 +32,6 @@ use Joomla\Registry\Registry;
  */
 final class Tags extends Adapter implements SubscriberInterface
 {
-    use DatabaseAwareTrait;
-
     /**
      * The plugin identifier.
      *
