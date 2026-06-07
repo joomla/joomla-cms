@@ -947,7 +947,7 @@ class User
     {
         @trigger_error(
             \sprintf(
-                '%1$s() is deprecated. Directly access the property from the user object.',
+                '%1$s() is deprecated. Access directly the property from the user object.',
                 __METHOD__
             ),
             \defined('COMPATIBILITY_ENABLED') ? E_USER_DEPRECATED : E_USER_ERROR
