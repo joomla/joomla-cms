@@ -37,7 +37,6 @@ use Joomla\Utilities\ArrayHelper;
 class User
 {
     use LegacyErrorHandlingTrait;
-    use LegacyPropertyManagementTrait;
 
     /**
      * A cached switch for if this user has root access rights.
@@ -929,5 +928,35 @@ class User
             $this->sendEmail = 0;
             $this->guest     = 1;
         }
+    }
+
+    /**
+     * Returns a property of the user or the default value if the property is not set.
+     *
+     * @param   string  $property  The name of the property.
+     * @param   mixed   $default   The default value.
+     *
+     * @return  mixed    The value of the property.
+     *
+     * @since   __DEPLOY_VERSION__
+     *
+     * @deprecated 4.3.0 will be removed in 8.0 (is backported from LegacyPropertyManagementTrait)
+     *             Create a proper getter function for the property
+     */
+    public function get($property, $default = null)
+    {
+        @trigger_error(
+            \sprintf(
+                '%1$s() is deprecated. Directly access the property from the user object.',
+                __METHOD__
+            ),
+            \defined('COMPATIBILITY_ENABLED') ? E_USER_DEPRECATED : E_USER_ERROR
+        );
+
+        if (isset($this->$property)) {
+            return $this->$property;
+        }
+
+        return $default;
     }
 }
