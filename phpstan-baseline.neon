@@ -12258,18 +12258,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getMailer\(\) of class Joomla\\CMS\\Factory\:
-				4\.4\.0 will be removed in 7\.0
-				             Use the mailer service in the DI container and create a mailer from there
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(MailerFactoryInterface\:\:class\)\-\>createMailer\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Mail/MailTemplate.php
-
-		-
-			message: '''
 				#^Call to method getDispatcher\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
 				4\.3 will be removed in 7\.0
 				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
@@ -13225,17 +13213,6 @@ parameters:
 				4\.3 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of setError$#
-			'''
-			identifier: traitUse.deprecatedTrait
-			count: 1
-			path: libraries/src/User/User.php
-
-		-
-			message: '''
-				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyPropertyManagementTrait in class Joomla\\CMS\\User\\User\:
-				4\.3\.0 will be removed in 7\.0
-				             Will be removed without replacement
-				             Create proper setter functions for the individual properties or use a \\Joomla\\Registry\\Registry$#
 			'''
 			identifier: traitUse.deprecatedTrait
 			count: 1
