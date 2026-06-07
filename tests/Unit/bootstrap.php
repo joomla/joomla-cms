@@ -115,4 +115,5 @@ $extensionPsr4Loader->load();
 // Define the Joomla version if not already defined.
 \defined('JVERSION') or \define('JVERSION', (new \Joomla\CMS\Version())->getShortVersion());
 
+// Mocking here the language as it requires an application for config access
 Factory::$language = new Language();
