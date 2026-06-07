@@ -21,7 +21,6 @@ export const builders = [
   'com_actionlogs',
   'com_admin',
   'com_associations',
-  'com_banners',
   'com_cache',
   'com_categories',
   'com_config',
@@ -56,7 +55,7 @@ export const builders = [
   'mod_sampledata',
 
   // Plugins
-  'plg_behaviour_compat6',
+  'plg_behaviour_compat7',
   'plg_content_vote',
   'plg_editors-xtd_image',
   'plg_editors_codemirror',
