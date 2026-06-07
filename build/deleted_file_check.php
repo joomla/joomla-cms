@@ -65,8 +65,8 @@ $previousReleaseExclude = [
     $options['from'] . '/installation',
     $options['from'] . '/media/plg_captcha_recaptcha',
     $options['from'] . '/media/plg_captcha_recaptcha_invisible',
-    $options['from'] . '/media/plg_behaviour_compat',
-    $options['from'] . '/plugins/behaviour/compat',
+    $options['from'] . '/media/plg_behaviour_compat6',
+    $options['from'] . '/plugins/behaviour/compat6',
 ];
 
 /**
@@ -145,8 +145,8 @@ $foldersDifference = array_diff($previousReleaseFolders, $newReleaseFolders);
 // Specific files (e.g. language files) that we want to keep on upgrade
 $filesToKeep = [
     // Example: "'/administrator/language/en-GB/en-GB.com_search.ini',",
-    "'/administrator/language/en-GB/plg_behaviour_compat.ini',",
-    "'/administrator/language/en-GB/plg_behaviour_compat.sys.ini',",
+    "'/administrator/language/en-GB/plg_behaviour_compat6.ini',",
+    "'/administrator/language/en-GB/plg_behaviour_compat6.sys.ini',",
 ];
 
 // Specific folders that we want to keep on upgrade
