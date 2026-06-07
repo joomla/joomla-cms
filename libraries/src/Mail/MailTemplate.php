@@ -134,7 +134,7 @@ class MailTemplate
         if ($mailer) {
             $this->mailer = $mailer;
         } else {
-            $this->mailer = Factory::getMailer();
+            $this->mailer = Factory::getContainer()->get(MailerInterface::class);
         }
 
         if ($languageFactory) {

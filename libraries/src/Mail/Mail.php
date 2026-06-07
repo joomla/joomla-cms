@@ -113,7 +113,7 @@ class Mail extends PHPMailer implements MailerInterface
     public static function getInstance($id = 'Joomla', $exceptions = true)
     {
         if (empty(static::$instances[$id])) {
-            $config = clone Factory::getConfig();
+            $config = clone Factory::getApplication()->getConfig();
             $config->set('throw_exceptions', $exceptions);
             static::$instances[$id] = Factory::getContainer()->get(MailerFactoryInterface::class)->createMailer($config);
         }

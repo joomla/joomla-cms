@@ -187,7 +187,7 @@ abstract class Factory
                 '%s() is deprecated. The configuration object should be read from the application.',
                 __METHOD__
             ),
-            E_USER_DEPRECATED
+            \defined('COMPATIBILITY_ENABLED') ? E_USER_DEPRECATED : E_USER_ERROR
         );
 
         /**
@@ -269,7 +269,7 @@ abstract class Factory
                 __METHOD__,
                 __CLASS__
             ),
-            E_USER_DEPRECATED
+            \defined('COMPATIBILITY_ENABLED') ? E_USER_DEPRECATED : E_USER_ERROR
         );
 
         return self::getApplication()->getSession();
@@ -486,6 +486,14 @@ abstract class Factory
      */
     public static function getMailer()
     {
+        @trigger_error(
+            \sprintf(
+                '%1$s() is deprecated. Load the mailer from the dependency injection container.',
+                __METHOD__
+            ),
+            \defined('COMPATIBILITY_ENABLED') ? E_USER_DEPRECATED : E_USER_ERROR
+        );
+
         if (!self::$mailer) {
             self::$mailer = self::createMailer();
         }
@@ -654,7 +662,7 @@ abstract class Factory
             E_USER_DEPRECATED
         );
 
-        $conf = self::getConfig();
+        $conf = self::getApplication()->getConfig();
 
         $host     = $conf->get('host');
         $user     = $conf->get('user');
@@ -708,7 +716,7 @@ abstract class Factory
      */
     protected static function createMailer()
     {
-        $mailer = self::getContainer()->get(MailerFactoryInterface::class)->createMailer(self::getConfig());
+        $mailer = self::getContainer()->get(MailerFactoryInterface::class)->createMailer(self::getApplication()->getConfig());
 
         // This needs to be set here for backwards compatibility
         Mail::$instances['Joomla'] = $mailer;
@@ -739,7 +747,7 @@ abstract class Factory
             E_USER_DEPRECATED
         );
 
-        $conf   = self::getConfig();
+        $conf   = self::getApplication()->getConfig();;
         $locale = $conf->get('language');
         $debug  = $conf->get('debug_lang');
         $lang   = self::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($locale, $debug);
