@@ -73,7 +73,7 @@ jobs:
     needs: [composer]
     strategy:
       matrix:
-        command: ['php-cs-fixer fix -vvv --dry-run --diff', 'phpcs --extensions=php -p --standard=ruleset.xml .']
+        command: ['php-cs-fixer fix -vvv --diff', 'phpcs --extensions=php -p --standard=ruleset.xml .']
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
@@ -87,7 +87,17 @@ jobs:
       - name: Check PHP code style
         env:
           PHP_CS_FIXER_IGNORE_ENV: true
-        run: ./libraries/vendor/bin/${{ matrix.command }}
+        run: |
+          set -e
+          ./libraries/vendor/bin/${{ matrix.command }}
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          if [ "$GITHUB_EVENT_NAME" = "push" ] && [ "$GITHUB_REPOSITORY" != "joomla/joomla-cms" ]; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add
+            git commit -m "Fix code style issues [skip ci]"
+            git push origin "HEAD:${{ github.head_ref || github.ref_name }}"
+          fi
 
   code-style-js-css:
     name: Check Javascript & CSS code style

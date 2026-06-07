@@ -127,7 +127,7 @@ class Access
      */
     public static function clearStatics()
     {
-        self::$viewLevels                      = [];
+        self::$viewLevels                     = [];
         self::$assetRules                      = [];
         self::$assetRulesIdentities            = [];
         self::$assetPermissionsParentIdMapping = [];
