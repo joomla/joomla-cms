@@ -24,8 +24,8 @@ use Joomla\CMS\Helper\HelperFactoryAwareTrait;
  * Dispatcher class for mod_articles_archive
  *
  * @since  4.4.0
- * 
- * @deprecated  6.2 will be removed in 8.0 without replacement. 
+ *
+ * @deprecated  6.2 will be removed in 8.0 without replacement.
  */
 class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareInterface
 {
