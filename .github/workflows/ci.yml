@@ -91,7 +91,7 @@ jobs:
           if [ "$GITHUB_EVENT_NAME" = "push" ] && [ "$GITHUB_REPOSITORY" != "joomla/joomla-cms" ]; then
             git config user.name  "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add
+            git add --all
             git commit -m "Fix code style issues [skip ci]"
             git push origin "HEAD:${{ github.head_ref || github.ref_name }}"
           fi
