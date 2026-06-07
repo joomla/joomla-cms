@@ -748,7 +748,6 @@ abstract class Factory
         );
 
         $conf   = self::getApplication()->getConfig();
-        ;
         $locale = $conf->get('language');
         $debug  = $conf->get('debug_lang');
         $lang   = self::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($locale, $debug);
