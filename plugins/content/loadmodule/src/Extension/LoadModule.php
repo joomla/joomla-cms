@@ -31,6 +31,8 @@ final class LoadModule extends CMSPlugin implements SubscriberInterface
 
     protected static $mods = [];
 
+    protected static $recursionProtection = [];
+
     /**
      * Returns an array of events this subscriber will listen to.
      *
@@ -105,6 +107,12 @@ final class LoadModule extends CMSPlugin implements SubscriberInterface
             // No matches, skip this
             if ($matches) {
                 foreach ($matches as $match) {
+                    if (isset(self::$recursionProtection[$match[1]])) {
+                        continue;
+                    }
+
+                    self::$recursionProtection[$match[1]] = true;
+
                     $matcheslist = explode(',', $match[1]);
 
                     // We may not have a module style so fall back to the plugin default.
@@ -121,6 +129,8 @@ final class LoadModule extends CMSPlugin implements SubscriberInterface
                     if (($start = strpos($article->text, $match[0])) !== false) {
                         $article->text = substr_replace($article->text, $output, $start, \strlen($match[0]));
                     }
+
+                    unset(self::$recursionProtection[$match[1]]);
                 }
             }
         }
@@ -132,6 +142,12 @@ final class LoadModule extends CMSPlugin implements SubscriberInterface
             // If no matches, skip this
             if ($matchesmod) {
                 foreach ($matchesmod as $matchmod) {
+                    if (isset(self::$recursionProtection[$matchmod[1]])) {
+                        continue;
+                    }
+
+                    self::$recursionProtection[$matchmod[1]] = true;
+
                     $matchesmodlist = explode(',', $matchmod[1]);
 
                     // First parameter is the module, will be prefixed with mod_ later
@@ -157,6 +173,8 @@ final class LoadModule extends CMSPlugin implements SubscriberInterface
                     if (($start = strpos($article->text, $matchmod[0])) !== false) {
                         $article->text = substr_replace($article->text, $output, $start, \strlen($matchmod[0]));
                     }
+
+                    unset(self::$recursionProtection[$matchmod[1]]);
                 }
             }
         }
@@ -168,6 +186,12 @@ final class LoadModule extends CMSPlugin implements SubscriberInterface
             // If no matches, skip this
             if ($matchesmodid) {
                 foreach ($matchesmodid as $match) {
+                    if (isset(self::$recursionProtection[$match[1]])) {
+                        continue;
+                    }
+
+                    self::$recursionProtection[$match[1]] = true;
+
                     $id     = trim($match[1]);
                     $output = $this->loadID($id);
 
@@ -175,6 +199,8 @@ final class LoadModule extends CMSPlugin implements SubscriberInterface
                     if (($start = strpos($article->text, $match[0])) !== false) {
                         $article->text = substr_replace($article->text, $output, $start, \strlen($match[0]));
                     }
+
+                    unset(self::$recursionProtection[$match[1]]);
                 }
             }
         }

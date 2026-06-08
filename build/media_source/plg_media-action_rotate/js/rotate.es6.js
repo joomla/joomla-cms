@@ -58,9 +58,14 @@ const initRotate = (image) => {
   if (!activated) {
     // The number input listener
     document.getElementById('jform_rotate_a').addEventListener('change', ({ target }) => {
-      rotate(parseInt(target.value, 10), image);
+      const angle = parseInt(target.value, 10);
 
-      target.value = 0;
+      if (Number.isNaN(angle)) {
+        return;
+      }
+
+      rotate(angle, image);
+
       // Deselect all buttons
       document.querySelectorAll('#jform_rotate_distinct label').forEach((element) => element.classList.remove('active', 'focus'));
     });
