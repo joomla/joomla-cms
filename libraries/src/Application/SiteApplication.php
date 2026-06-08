@@ -198,7 +198,7 @@ final class SiteApplication extends CMSApplication
         }
 
         // Clear out article metakeys from the previous request.
-        $this->setUserState('com_content.articles.metakeys', []);
+        $this->setUserState('com_content.articles.keywords', []);
 
         $document->setTitle($params->get('page_title'));
         $document->setDescription($params->get('page_description'));

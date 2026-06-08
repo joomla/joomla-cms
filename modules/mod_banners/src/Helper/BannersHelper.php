@@ -43,7 +43,7 @@ class BannersHelper
         $model = $app->bootComponent('com_banners')->getMVCFactory()->createModel('Banners', 'Site', ['ignore_request' => true]);
 
         $keywords = [];
-        $metakeys = (array) $app->getUserState('com_content.articles.metakeys', []);
+        $metakeys = (array) $app->getUserState('com_content.articles.keywords', []);
 
         foreach ($metakeys as $metakey) {
             $keys     = preg_split('/\s*,\s*/', trim($metakey));

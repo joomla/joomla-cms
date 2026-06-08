@@ -299,11 +299,11 @@ class ArticleModel extends ItemModel
         $app = Factory::getApplication();
 
         if (!empty($this->_item[$pk]->metakey)) {
-            $metakeys = (array) $app->getUserState('com_content.articles.metakeys', []);
+            $metakeys = (array) $app->getUserState('com_content.articles.keywords', []);
 
             if (!\in_array($this->_item[$pk]->metakey, $metakeys, true)) {
                 $metakeys[] = $this->_item[$pk]->metakey;
-                $app->setUserState('com_content.articles.metakeys', $metakeys);
+                $app->setUserState('com_content.articles.keywords', $metakeys);
             }
         }
 
