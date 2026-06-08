@@ -102,38 +102,13 @@ export default class CodemirrorModuleBuilder extends DefaultModuleBuilder
   async clear() {
     await super.clear();
 
-    const vendorPath = 'media/vendor/codemirror';
+    const vendorPath = 'media/vendor/codemirror/js';
 
     if (!fs.existsSync(vendorPath)) {
       return;
     }
 
     return fsp.rm(vendorPath, { recursive: true });
-  }
-
-  /**
-   * Copy files to target location, including the codemirror license file.
-   *
-   * @returns { Promise }
-   */
-  async copy() {
-    await super.copy();
-
-    const require = createRequire(import.meta.url);
-    const buildSettings = require('../../build/build-modules-js/settings.json');
-    const licenseFilename = buildSettings.settings?.vendors?.['@codemirror/view']?.licenseFilename;
-
-    if (!licenseFilename) {
-      return;
-    }
-
-    const licenseSrc = resolvePackageFile(path.join('@codemirror/view', licenseFilename));
-
-    if (!licenseSrc) {
-      return;
-    }
-
-    return fsp.cp(licenseSrc, path.join(this.targetPath, licenseFilename), { preserveTimestamps: true });
   }
 
   /**

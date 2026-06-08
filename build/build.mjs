@@ -52,6 +52,7 @@ program
 program
   .command('watch')
   .description('Watch specified asset and rebuild on changes')
+  .option('-a,--all', 'watch all assets')
   .option('-n,--name <builder_name,builder_name>', 'builder(s) to watch')
   .action((options) => {
     watchCommand(program, options, builders);
