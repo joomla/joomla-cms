@@ -800,9 +800,8 @@ class ArticlesModel extends ListModel
             }
         }
 
-        // Save all the article ids in UserState for later use
-        $articleids = array_column($items, 'id');
-        Factory::getApplication()->setUserState('article.ids', json_encode($articleids));
+        // Save all the article metakeys in user state for later use during the current request.
+        Factory::getApplication()->setUserState('com_content.articles.metakeys', array_filter(array_column($items, 'metakey')));
 
         return $items;
     }

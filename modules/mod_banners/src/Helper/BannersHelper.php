@@ -13,7 +13,6 @@ namespace Joomla\Module\Banners\Site\Helper;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Environment\Browser;
-use Joomla\CMS\Factory;
 use Joomla\Component\Banners\Site\Model\BannersModel;
 use Joomla\Registry\Registry;
 
@@ -44,36 +43,14 @@ class BannersHelper
         $model = $app->bootComponent('com_banners')->getMVCFactory()->createModel('Banners', 'Site', ['ignore_request' => true]);
 
         $keywords = [];
-        // Get all the ids from UserState
-        $ids = $app->getUserState('article.ids', null);
+        $metakeys = (array) $app->getUserState('com_content.articles.metakeys', []);
 
-        if ($ids) {
-            $ids = implode(',', json_decode($ids));
-
-            $db = Factory::getContainer()->get('DatabaseDriver');
-            // Select the meta keywords from the all articles
-            $query    = $db->getQuery(true);
-            $query->select($db->quoteName('metakey'))
-                ->from($db->quoteName('#__content'))
-                ->where($db->quoteName('id') . ' IN (' . $ids . ')');
-
-            $db->setQuery($query);
-            try {
-                $metakeys = $db->loadColumn();
-            } catch (\RuntimeException $e) {
-                $app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
-
-                return [];
-            }
-
-            if ($metakeys) {
-                foreach ($metakeys as $metakey) {
-                    $keys     = preg_split('/\s*,\s*/', trim($metakey));
-                    $keywords = array_merge($keywords, $keys);
-                }
-                $keywords = array_unique($keywords);
-            }
+        foreach ($metakeys as $metakey) {
+            $keys     = preg_split('/\s*,\s*/', trim($metakey));
+            $keywords = array_merge($keywords, $keys);
         }
+
+        $keywords = array_unique(array_filter($keywords));
 
         $config   = ComponentHelper::getParams('com_banners');
 

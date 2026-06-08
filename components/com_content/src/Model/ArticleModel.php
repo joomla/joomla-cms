@@ -276,8 +276,16 @@ class ArticleModel extends ItemModel
             }
         }
 
-        $articleids = [$pk];
-        Factory::getApplication()->setUserState('article.ids', json_encode($articleids));
+        $app = Factory::getApplication();
+
+        if (!empty($this->_item[$pk]->metakey)) {
+            $metakeys = (array) $app->getUserState('com_content.articles.metakeys', []);
+
+            if (!\in_array($this->_item[$pk]->metakey, $metakeys, true)) {
+                $metakeys[] = $this->_item[$pk]->metakey;
+                $app->setUserState('com_content.articles.metakeys', $metakeys);
+            }
+        }
 
         return $this->_item[$pk];
     }

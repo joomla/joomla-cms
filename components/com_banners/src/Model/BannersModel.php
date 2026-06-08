@@ -193,7 +193,7 @@ class BannersModel extends ListModel
                 }
 
                 foreach ($keywords as $key => $keyword) {
-                    $regexp       = '[[:<:]]' . $keyword . '[[:>:]]';
+                    $regexp       = '(^|[^[:alnum:]_])' . preg_quote($keyword, '/') . '([^[:alnum:]_]|$)';
                     $valuesToBind = [$keyword, $keyword, $regexp];
 
                     if ($cid) {
@@ -275,6 +275,10 @@ class BannersModel extends ListModel
 
         if (!isset($this->cache['items'])) {
             $this->cache['items'] = parent::getItems();
+
+            if ($this->cache['items'] === false) {
+                $this->cache['items'] = [];
+            }
 
             foreach ($this->cache['items'] as &$item) {
                 $item->params = new Registry($item->params);
