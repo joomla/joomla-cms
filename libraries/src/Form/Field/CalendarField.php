@@ -402,7 +402,12 @@ class CalendarField extends FormField
         }
 
         if ($this->filterFormat) {
-            $value = \DateTime::createFromFormat($this->filterFormat, $value)->format('Y-m-d H:i:s');
+            $date = \DateTime::createFromFormat($this->filterFormat, $value);
+            if ($date === false) {
+                // Result: Exception
+                throw new \Exception(Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $this->title));
+            }
+            $value = $date->format('Y-m-d H:i:s');
         }
 
         $app = Factory::getApplication();
