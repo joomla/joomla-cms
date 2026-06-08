@@ -12,7 +12,6 @@ namespace Joomla\CMS\Form;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseAwareInterface;
@@ -172,9 +171,9 @@ class Form implements CurrentUserInterface
             if ($data instanceof Registry) {
                 // Handle a Registry.
                 $data = $data->toArray();
-            } elseif ($data instanceof CMSObject) {
-                // Handle a CMSObject.
-                $data = $data->getProperties();
+            } else {
+                // Handle an object.
+                $data = ArrayHelper::fromObject($data);
             }
         }
 

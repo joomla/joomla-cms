@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Serializer;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Object\CMSObject;
 use Tobscure\JsonApi\AbstractSerializer;
 use Tobscure\JsonApi\Relationship;
 
@@ -59,11 +58,6 @@ class JoomlaSerializer extends AbstractSerializer
             );
 
             throw new \InvalidArgumentException($message);
-        }
-
-        // The response from a standard AdminModel query also works for legacy objects which extends CMSObject
-        if ($post instanceof CMSObject) {
-            $post = $post->getProperties();
         }
 
         // The object response, from a standard ListModel query

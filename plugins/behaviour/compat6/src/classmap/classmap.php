@@ -461,8 +461,6 @@ JLoader::registerAlias('JImageFilterEmboss', '\\Joomla\\CMS\\Image\\Filter\\Embo
 JLoader::registerAlias('JImageFilterNegate', '\\Joomla\\CMS\\Image\\Filter\\Negate', '6.0');
 JLoader::registerAlias('JImageFilterSmooth', '\\Joomla\\CMS\\Image\\Filter\\Smooth', '6.0');
 
-JLoader::registerAlias('JObject', '\\Joomla\\CMS\\Object\\CMSObject', '6.0');
-
 JLoader::registerAlias('JExtensionHelper', '\\Joomla\\CMS\\Extension\\ExtensionHelper', '6.0');
 
 JLoader::registerAlias('JHtml', '\\Joomla\\CMS\\HTML\\HTMLHelper', '6.0');

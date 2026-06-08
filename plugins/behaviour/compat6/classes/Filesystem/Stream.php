@@ -11,7 +11,6 @@ namespace Joomla\CMS\Filesystem;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
-use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -37,7 +36,6 @@ use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 class Stream
 {
     use LegacyErrorHandlingTrait;
-    use LegacyPropertyManagementTrait;
 
     /**
      * File Mode

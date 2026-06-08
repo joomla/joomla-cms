@@ -267,9 +267,9 @@ class IndexerController extends BaseController
     /**
      * Method to handle a send a \JSON response. The body parameter
      * can be an \Exception object for when an error has occurred or
-     * a CMSObject for a good response.
+     * an object for a good response.
      *
-     * @param   \Joomla\CMS\Object\CMSObject|\Exception  $data  CMSObject on success, \Exception on error. [optional]
+     * @param   object|\Exception  $data  CMSObject on success, \Exception on error. [optional]
      *
      * @return  void
      *

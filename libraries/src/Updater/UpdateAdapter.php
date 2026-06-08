@@ -13,7 +13,6 @@ use Joomla\CMS\Event\Installer\BeforeUpdateSiteDownloadEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Version;
 use Joomla\Database\DatabaseDriver;
@@ -32,8 +31,6 @@ use Joomla\Registry\Registry;
  */
 abstract class UpdateAdapter
 {
-    use LegacyPropertyManagementTrait;
-
     /**
      * Parent
      *
