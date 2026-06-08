@@ -114,8 +114,12 @@ class CodemirrorEditor extends HTMLElement {
 
   disconnectedCallback() {
     if (this.instance) {
+      if (this.element && this.jEditor && this.jEditor.getValue) {
+        this.element.value = this.jEditor.getValue();
+      }
       this.element.style.display = '';
       this.instance.destroy();
+      this.instance = null;
     }
     // Remove from the Joomla API
     JoomlaEditor.unregister(this.element.id);
