@@ -14,8 +14,8 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Media\Administrator\Model\FileModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -39,15 +39,18 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
+        /** @var FileModel $model */
+        $model = $this->getModel();
+
         $input = Factory::getApplication()->getInput();
 
-        $this->form = $this->get('Form');
+        $this->form = $model->getForm();
 
         // The component params
         $this->params = ComponentHelper::getParams('com_media');
 
         // The requested file
-        $this->file = $this->getModel()->getFileInformation($input->getString('path', null));
+        $this->file = $model->getFileInformation($input->getString('path', null));
 
         if (empty($this->file->content)) {
             // @todo error handling controller redirect files
@@ -70,7 +73,7 @@ class HtmlView extends BaseHtmlView
     {
         ToolbarHelper::title(Text::_('COM_MEDIA_EDIT'), 'images mediamanager');
 
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
         $toolbar->apply('apply');
         $toolbar->save('save');
         $toolbar->standardButton('reset', 'COM_MEDIA_RESET', 'reset')

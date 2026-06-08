@@ -41,7 +41,7 @@ class CalendarRule extends FormRule
      *
      * @since   3.7.0
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         // If the field is empty and not required, the field is valid.
         $required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
@@ -56,7 +56,7 @@ class CalendarRule extends FormRule
 
         try {
             return Factory::getDate($value) instanceof Date;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
     }

@@ -43,15 +43,15 @@ interface CaptchaProviderInterface
     /**
      * Calls an HTTP POST function to verify if the user's guess was correct.
      *
-     * @param   string  $code  Answer provided by user
+     * @param   ?string  $code  Answer provided by user
      *
-     * @return  bool    If the answer is correct, false otherwise
+     * @return  bool  If the answer is correct, false otherwise
      *
      * @since   5.0.0
      *
      * @throws  \RuntimeException
      */
-    public function checkAnswer(string $code = null): bool;
+    public function checkAnswer(?string $code = null): bool;
 
     /**
      * Method to react on the setup of a captcha field. Gives the possibility

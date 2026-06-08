@@ -11,7 +11,6 @@
 namespace Joomla\Component\Privacy\Site\Controller;
 
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\Router\Route;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -38,15 +37,6 @@ class DisplayController extends BaseController
     public function display($cachable = false, $urlparams = [])
     {
         $view = $this->input->get('view', $this->default_view);
-
-        // Submitting information requests and confirmation through the frontend is restricted to authenticated users at this time
-        if (\in_array($view, ['confirm', 'request']) && $this->app->getIdentity()->guest) {
-            $this->setRedirect(
-                Route::_('index.php?option=com_users&view=login&return=' . base64_encode('index.php?option=com_privacy&view=' . $view), false)
-            );
-
-            return $this;
-        }
 
         // Set a Referrer-Policy header for views which require it
         if (\in_array($view, ['confirm', 'remind'])) {

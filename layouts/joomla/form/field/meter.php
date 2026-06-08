@@ -67,7 +67,7 @@ $data .= ' aria-valuenow="' . $value . '"';
 
 $attributes = [
     $class,
-    !empty($width) ? ' style="width:' . $width . ';"' : '',
+    !empty($width) ? 'style="width:' . $width . ';"' : '',
     $data,
     $dataAttribute,
 ];

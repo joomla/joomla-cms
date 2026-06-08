@@ -85,11 +85,15 @@ class HtmlView extends BaseHtmlView
         $this->canDo = ContentHelper::getActions('com_banners');
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         $this->addToolbar();
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task');
 
         parent::display($tpl);
     }
@@ -111,7 +115,7 @@ class HtmlView extends BaseHtmlView
         $isNew      = ($this->item->id == 0);
         $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->id);
         $canDo      = $this->canDo;
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(
             $isNew ? Text::_('COM_BANNERS_MANAGER_CLIENT_NEW') : Text::_('COM_BANNERS_MANAGER_CLIENT_EDIT'),
@@ -147,7 +151,7 @@ class HtmlView extends BaseHtmlView
         } else {
             $toolbar->cancel('client.cancel');
 
-            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit')) {
+            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->get('params')->get('save_history', 0) && $canDo->get('core.edit')) {
                 $toolbar->versions('com_banners.client', $this->item->id);
             }
         }

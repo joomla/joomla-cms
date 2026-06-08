@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Content\Api\View\Articles;
 
+use Joomla\CMS\Event\Model\PrepareDataEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -67,6 +68,7 @@ class JsonapiView extends BaseApiView
         'version',
         'featured_up',
         'featured_down',
+        'schemaorg',
     ];
 
     /**
@@ -104,6 +106,7 @@ class JsonapiView extends BaseApiView
         'version',
         'featured_up',
         'featured_down',
+        'schemaorg',
     ];
 
     /**
@@ -138,13 +141,13 @@ class JsonapiView extends BaseApiView
     /**
      * Execute and display a template script.
      *
-     * @param   array|null  $items  Array of items
+     * @param   ?array  $items  Array of items
      *
      * @return  string
      *
      * @since   4.0.0
      */
-    public function displayList(array $items = null)
+    public function displayList(?array $items = null)
     {
         foreach (FieldsHelper::getFields('com_content.article') as $field) {
             $this->fieldsToRenderList[] = $field->name;
@@ -245,6 +248,36 @@ class JsonapiView extends BaseApiView
             }
         }
 
+        // Add schema.org data using existing plugin system
+        if (PluginHelper::isEnabled('system', 'schemaorg')) {
+            $item->schemaorg = $this->getSchemaOrg($item);
+        }
+
         return parent::prepareItem($item);
+    }
+
+    /**
+     * Get schema.org structured data for an article using the plugin system
+     *
+     * @param   object  $item  The article item
+     *
+     * @return  array|null
+     *
+     * @since   6.1.0
+     */
+    protected function getSchemaOrg($item)
+    {
+        $context = 'com_content.article';
+        $event   = new PrepareDataEvent('onContentPrepareData', ['context' => $context, 'data' => $item]);
+
+        PluginHelper::importPlugin('system', 'schemaorg');
+        Factory::getApplication()->getDispatcher()->dispatch('onContentPrepareData', $event);
+
+        if (isset($item->schema) && !empty($item->schema['schemaType'])) {
+            $schemaType = $item->schema['schemaType'];
+            return $item->schema[$schemaType] ?? null;
+        }
+
+        return null;
     }
 }

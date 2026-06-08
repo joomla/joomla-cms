@@ -72,7 +72,15 @@ class HtmlView extends CategoryView
      */
     public function display($tpl = null)
     {
-        parent::commonCategoryDisplay();
+        /**
+         * Pass the current layout to the model so it can apply special handling for the
+         * blog layout. In the blog layout, if the total number of articles (leading +
+         * intro + links) is 0, we skip loading any articles to avoid the performance
+         * cost of loading all records when the limit is 0.
+         */
+        $this->getModel()->setState('view.layout', $this->getLayout());
+
+        $this->commonCategoryDisplay();
 
         // Flag indicates to not add limitstart=0 to URL
         $this->pagination->hideEmptyLimitstart = true;
@@ -167,10 +175,6 @@ class HtmlView extends CategoryView
             $this->category->metadata = new Registry($this->category->metadata);
         }
 
-        if (($app->get('MetaAuthor') == '1') && $this->category->get('author', '')) {
-            $this->getDocument()->setMetaData('author', $this->category->get('author', ''));
-        }
-
         $mdata = $this->category->metadata->toArray();
 
         foreach ($mdata as $k => $v) {
@@ -191,7 +195,7 @@ class HtmlView extends CategoryView
     {
         parent::prepareDocument();
 
-        parent::addFeed();
+        $this->addFeed();
 
         if ($this->menuItemMatchCategory) {
             // If the active menu item is linked directly to the category being displayed, no further process is needed

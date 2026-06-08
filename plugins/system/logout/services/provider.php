@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\System\Logout\Extension\Logout;
 
 return new class () implements ServiceProviderInterface {
@@ -30,11 +29,12 @@ return new class () implements ServiceProviderInterface {
      */
     public function register(Container $container): void
     {
+        // The logout plugin is a special case which does not use the lazy loading because it
+        // uses the constructor to delete a cookie
         $container->set(
             PluginInterface::class,
             function (Container $container) {
                 return new Logout(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('system', 'logout'),
                     Factory::getApplication()
                 );

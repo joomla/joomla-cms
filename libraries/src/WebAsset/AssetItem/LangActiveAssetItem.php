@@ -27,17 +27,17 @@ class LangActiveAssetItem extends WebAssetItem
     /**
      * Class constructor
      *
-     * @param   string  $name          The asset name
-     * @param   string  $uri           The URI for the asset
-     * @param   array   $options       Additional options for the asset
-     * @param   array   $attributes    Attributes for the asset
-     * @param   array   $dependencies  Asset dependencies
+     * @param   string   $name          The asset name
+     * @param   ?string  $uri           The URI for the asset
+     * @param   array    $options       Additional options for the asset
+     * @param   array    $attributes    Attributes for the asset
+     * @param   array    $dependencies  Asset dependencies
      *
      * @since   4.0.0
      */
     public function __construct(
         string $name,
-        string $uri = null,
+        ?string $uri = null,
         array $options = [],
         array $attributes = [],
         array $dependencies = []
@@ -45,8 +45,12 @@ class LangActiveAssetItem extends WebAssetItem
         parent::__construct($name, $uri, $options, $attributes, $dependencies);
 
         // Prepare Uri depend from the active language
-        $langTag = Factory::getApplication()->getLanguage()->getTag();
+        $langTag = Factory::getApplication()->getLanguage()?->getTag();
         $client  = $this->getOption('client');
+
+        if (!$langTag) {
+            return;
+        }
 
         // Create Uri <client>/language/<langTag>/<langTag>.css
         if ($client) {

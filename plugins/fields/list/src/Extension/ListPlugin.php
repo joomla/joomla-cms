@@ -10,7 +10,9 @@
 
 namespace Joomla\Plugin\Fields\ListField\Extension;
 
+use Joomla\CMS\Event\CustomFields\BeforePrepareFieldEvent;
 use Joomla\Component\Fields\Administrator\Plugin\FieldsListPlugin;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -21,24 +23,38 @@ use Joomla\Component\Fields\Administrator\Plugin\FieldsListPlugin;
  *
  * @since  3.7.0
  */
-final class ListPlugin extends FieldsListPlugin
+final class ListPlugin extends FieldsListPlugin implements SubscriberInterface
 {
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   5.3.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return array_merge(parent::getSubscribedEvents(), [
+            'onCustomFieldsBeforePrepareField' => 'beforePrepareField',
+        ]);
+    }
+
     /**
      * Before prepares the field value.
      *
-     * @param   string     $context  The context.
-     * @param   \stdclass  $item     The item.
-     * @param   \stdclass  $field    The field.
+     * @param   BeforePrepareFieldEvent $event    The event instance.
      *
      * @return  void
      *
      * @since   3.7.0
      */
-    public function onCustomFieldsBeforePrepareField($context, $item, $field)
+    public function beforePrepareField(BeforePrepareFieldEvent $event): void
     {
         if (!$this->getApplication()->isClient('api')) {
             return;
         }
+
+        $field = $event->getField();
 
         if (!$this->isTypeSupported($field->type)) {
             return;
@@ -71,7 +87,7 @@ final class ListPlugin extends FieldsListPlugin
     {
         // Check if the field should be processed
         if (!$this->isTypeSupported($field->type)) {
-            return;
+            return '';
         }
 
         // The field's rawvalue should be an array

@@ -175,7 +175,7 @@ class ExtensionRemoveCommand extends AbstractCommand
 
         $response = $this->ioStyle->ask('Are you sure you want to remove this extension?', 'yes/no');
 
-        if (strtolower($response) === 'yes') {
+        if ((strtolower($response) === 'yes') || $input->getOption('no-interaction')) {
             // Get an installer object for the extension type
             $installer = Installer::getInstance();
             $row       = new Extension($this->getDatabase());

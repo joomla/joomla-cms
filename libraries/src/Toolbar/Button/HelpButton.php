@@ -44,7 +44,7 @@ class HelpButton extends BasicButton
     protected function prepareOptions(array &$options)
     {
         $options['text']                      = $options['text'] ?: 'JTOOLBAR_HELP';
-        $options['icon']                      = $options['icon'] ?? 'icon-question';
+        $options['icon'] ??= 'icon-question';
         $options['button_class']              = ($options['button_class'] ?? 'btn btn-info') . ' js-toolbar-help-btn';
         $options['attributes']['data-url']    = $this->_getCommand();
         $options['attributes']['data-title']  = Text::_('JHELP');
@@ -68,7 +68,7 @@ class HelpButton extends BasicButton
      *
      * @since   3.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use render() instead.
      */
     public function fetchButton($type = 'Help', $ref = '', $com = false, $override = null, $component = null)

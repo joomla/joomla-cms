@@ -139,9 +139,9 @@ class CategoriesModel extends ListModel
     }
 
     /**
-     * Gets the id of the parent category for the selected list of categories
+     * Gets the parent category for the selected list of categories
      *
-     * @return   integer  The id of the parent category
+     * @return   CategoryNode|null  The parent category
      *
      * @since    1.6.0
      */

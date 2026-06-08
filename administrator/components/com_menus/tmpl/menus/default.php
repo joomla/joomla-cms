@@ -31,7 +31,7 @@ $return    = base64_encode($uri);
 $user      = $this->getCurrentUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$modMenuId = (int) $this->get('ModMenuId');
+$modMenuId = (int) $this->getModel()->getModMenuId();
 $itemIds   = [];
 
 foreach ($this->items as $item) {

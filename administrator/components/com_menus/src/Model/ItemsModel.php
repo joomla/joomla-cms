@@ -35,13 +35,13 @@ class ItemsModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -103,29 +103,9 @@ class ItemsModel extends ListModel
             $this->context .= '.' . $forcedLanguage;
         }
 
-        $search = $this->getUserStateFromRequest($this->context . '.search', 'filter_search');
-        $this->setState('filter.search', $search);
-
-        $published = $this->getUserStateFromRequest($this->context . '.published', 'filter_published', '');
-        $this->setState('filter.published', $published);
-
-        $access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
-        $this->setState('filter.access', $access);
-
-        $parentId = $this->getUserStateFromRequest($this->context . '.filter.parent_id', 'filter_parent_id');
-        $this->setState('filter.parent_id', $parentId);
-
-        $level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
-        $this->setState('filter.level', $level);
-
         // Watch changes in client_id and menutype and keep sync whenever needed.
         $currentClientId = $app->getUserState($this->context . '.client_id', 0);
         $clientId        = $app->getInput()->getInt('client_id', $currentClientId);
-
-        // Load mod_menu.ini file when client is administrator
-        if ($clientId == 1) {
-            Factory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR);
-        }
 
         $currentMenuType = $app->getUserState($this->context . '.menutype', '');
         $menuType        = $app->getInput()->getString('menutype', $currentMenuType);
@@ -184,6 +164,11 @@ class ItemsModel extends ListModel
             $this->filterFormName = 'filter_itemsadmin';
         }
 
+        // Load mod_menu.ini file when client is administrator
+        if ($clientId == 1) {
+            Factory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR);
+        }
+
         $this->setState('filter.menutype', $menuType);
 
         $language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
@@ -240,7 +225,7 @@ class ItemsModel extends ListModel
     {
         // Create a new query object.
         $db       = $this->getDatabase();
-        $query    = $db->getQuery(true);
+        $query    = $db->createQuery();
         $user     = $this->getCurrentUser();
         $clientId = (int) $this->getState('filter.client_id');
 
@@ -317,7 +302,7 @@ class ItemsModel extends ListModel
 
         // Join over the associations.
         if (Associations::isEnabled()) {
-            $subQuery = $db->getQuery(true)
+            $subQuery = $db->createQuery()
                 ->select('COUNT(' . $db->quoteName('asso1.id') . ') > 1')
                 ->from($db->quoteName('#__associations', 'asso1'))
                 ->join('INNER', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
@@ -341,7 +326,7 @@ class ItemsModel extends ListModel
             ->bind(':clientId', $clientId, ParameterType::INTEGER);
 
         // Filter on the published state.
-        $published = $this->getState('filter.published');
+        $published = $this->getState('filter.published', '');
 
         if (is_numeric($published)) {
             $published = (int) $published;
@@ -383,7 +368,7 @@ class ItemsModel extends ListModel
 
         if ($parentId) {
             // Create a subquery for the sub-items list
-            $subQuery = $db->getQuery(true)
+            $subQuery = $db->createQuery()
                 ->select($db->quoteName('sub.id'))
                 ->from($db->quoteName('#__menu', 'sub'))
                 ->join(
@@ -421,7 +406,7 @@ class ItemsModel extends ListModel
         // A value "" means all
         if ($menuType == '') {
             // Load all menu types we have manage access
-            $query2 = $db->getQuery(true)
+            $query2 = $db->createQuery()
                 ->select(
                     [
                         $db->quoteName('id'),
@@ -431,7 +416,7 @@ class ItemsModel extends ListModel
                 ->from($db->quoteName('#__menu_types'))
                 ->where($db->quoteName('client_id') . ' = :clientId')
                 ->bind(':clientId', $clientId, ParameterType::INTEGER)
-                ->order($db->quoteName('title'));
+                ->order($db->quoteName('ordering'));
 
             // Show protected items on explicit filter only
             $query->where($db->quoteName('a.menutype') . ' != ' . $db->quote('main'));
@@ -512,7 +497,7 @@ class ItemsModel extends ListModel
         if ($name == 'com_menus.items.filter') {
             $clientId = $this->getState('filter.client_id');
             $form->setFieldAttribute('menutype', 'clientid', $clientId);
-        } elseif (false !== strpos($name, 'com_menus.items.modal.')) {
+        } elseif (str_contains($name, 'com_menus.items.modal.')) {
             $form->removeField('client_id');
 
             $clientId = $this->getState('filter.client_id');
@@ -533,7 +518,7 @@ class ItemsModel extends ListModel
     protected function getMenu($menuType, $check = false)
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select($db->quoteName('a') . '.*')
             ->from($db->quoteName('#__menu_types', 'a'))

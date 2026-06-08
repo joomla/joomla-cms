@@ -53,7 +53,7 @@ trait SiteTemplateTrait
             $refTemplate = $refApp->getProperty('template');
             $refTemplate->setAccessible(true);
             $refTemplate->setValue($app, null);
-        } catch (\ReflectionException $e) {
+        } catch (\ReflectionException) {
             return;
         }
 

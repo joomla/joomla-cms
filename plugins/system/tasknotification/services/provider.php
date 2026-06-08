@@ -17,7 +17,6 @@ use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\System\TaskNotification\Extension\TaskNotification;
 
 return new class () implements ServiceProviderInterface {
@@ -34,9 +33,8 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
-                $plugin     = new TaskNotification(
-                    $container->get(DispatcherInterface::class),
+            $container->lazy(TaskNotification::class, function (Container $container) {
+                $plugin = new TaskNotification(
                     (array) PluginHelper::getPlugin('system', 'tasknotification')
                 );
                 $plugin->setApplication(Factory::getApplication());
@@ -44,7 +42,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setUserFactory($container->get(UserFactoryInterface::class));
 
                 return $plugin;
-            }
+            })
         );
     }
 };

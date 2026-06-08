@@ -31,13 +31,13 @@ class MenusModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -84,7 +84,7 @@ class MenusModel extends ListModel
         $db        = $this->getDatabase();
         $menuTypes = array_column((array) $items, 'menutype');
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('m.menutype'),
@@ -153,7 +153,7 @@ class MenusModel extends ListModel
     {
         // Create a new query object.
         $db       = $this->getDatabase();
-        $query    = $db->getQuery(true);
+        $query    = $db->createQuery();
         $clientId = (int) $this->getState('client_id');
 
         // Select all fields from the table.
@@ -213,9 +213,6 @@ class MenusModel extends ListModel
      */
     protected function populateState($ordering = 'a.ordering', $direction = 'asc')
     {
-        $search   = $this->getUserStateFromRequest($this->context . '.search', 'filter_search');
-        $this->setState('filter.search', $search);
-
         $clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
         $this->setState('client_id', $clientId);
 
@@ -234,7 +231,7 @@ class MenusModel extends ListModel
     {
         $clientId = (int) $this->getState('client_id');
         $db       = $this->getDatabase();
-        $query    = $db->getQuery(true)
+        $query    = $db->createQuery()
             ->select($db->quoteName('e.extension_id'))
             ->from($db->quoteName('#__extensions', 'e'))
             ->where(
@@ -290,7 +287,7 @@ class MenusModel extends ListModel
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select($db->quoteName('m.language'))
             ->from($db->quoteName('#__modules', 'm'))

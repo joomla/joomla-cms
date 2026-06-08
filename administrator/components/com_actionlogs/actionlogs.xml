@@ -16,7 +16,6 @@
 			<file>actionlogs.xml</file>
 			<file>config.xml</file>
 			<folder>forms</folder>
-			<folder>layouts</folder>
 			<folder>services</folder>
 			<folder>src</folder>
 			<folder>tmpl</folder>

@@ -18,6 +18,7 @@ use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Versioning\VersionableControllerTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -30,6 +31,8 @@ use Joomla\CMS\Uri\Uri;
  */
 class ModuleController extends FormController
 {
+    use VersionableControllerTrait;
+
     /**
      * Override parent add method.
      *
@@ -141,7 +144,7 @@ class ModuleController extends FormController
     protected function allowEdit($data = [], $key = 'id')
     {
         // Initialise variables.
-        $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
+        $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
 
         // Zero record (id:0), return component edit permission by calling parent controller method
         if (!$recordId) {
@@ -232,7 +235,7 @@ class ModuleController extends FormController
             $model      = $this->getModel();
             $data       = $this->input->post->get('jform', [], 'array');
             $item       = $model->getItem($this->input->get('id'));
-            $properties = $item->getProperties();
+            $properties = get_object_vars($item);
 
             if (isset($data['params'])) {
                 unset($properties['params']);
@@ -307,19 +310,18 @@ class ModuleController extends FormController
         }
 
         $orders2 = [];
-        $n       = \count($orders);
 
-        if ($n > 0) {
-            for ($i = 0; $i < $n; $i++) {
-                if (!isset($orders2[$orders[$i]->position])) {
-                    $orders2[$orders[$i]->position] = 0;
+        if (\count($orders)) {
+            foreach ($orders as $order) {
+                if (!isset($orders2[$order->position])) {
+                    $orders2[$order->position] = 0;
                 }
 
-                $orders2[$orders[$i]->position]++;
-                $ord   = $orders2[$orders[$i]->position];
-                $title = Text::sprintf('COM_MODULES_OPTION_ORDER_POSITION', $ord, htmlspecialchars($orders[$i]->title, ENT_QUOTES, 'UTF-8'));
+                $orders2[$order->position]++;
+                $ord   = $orders2[$order->position];
+                $title = Text::sprintf('COM_MODULES_OPTION_ORDER_POSITION', $ord, htmlspecialchars($order->title, ENT_QUOTES, 'UTF-8'));
 
-                $html[] = $orders[$i]->position . ',' . $ord . ',' . $title;
+                $html[] = $order->position . ',' . $ord . ',' . $title;
             }
         } else {
             $html[] = $position . ',' . 1 . ',' . Text::_('JNONE');

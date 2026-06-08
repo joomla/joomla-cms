@@ -18,7 +18,6 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\String\StringHelper;
@@ -38,13 +37,13 @@ class GroupModel extends AdminModel
     /**
      * Override parent constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         $config = array_merge(
             [
@@ -84,20 +83,14 @@ class GroupModel extends AdminModel
      * @param   array    $data      An optional array of data for the form to interrogate.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|bool  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
-        // Get the form.
-        $form = $this->loadForm('com_users.group', 'group', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+        return $this->loadForm('com_users.group', 'group', ['control' => 'jform', 'load_data' => $loadData]);
     }
 
     /**
@@ -136,7 +129,7 @@ class GroupModel extends AdminModel
      */
     protected function preprocessForm(Form $form, $data, $group = '')
     {
-        $obj = \is_array($data) ? ArrayHelper::toObject($data, CMSObject::class) : $data;
+        $obj = \is_array($data) ? ArrayHelper::toObject($data) : $data;
 
         if (isset($obj->parent_id) && $obj->parent_id == 0 && $obj->id > 0) {
             $form->setFieldAttribute('parent_id', 'type', 'hidden');

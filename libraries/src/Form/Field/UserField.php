@@ -37,7 +37,7 @@ class UserField extends FormField
      *
      * @var   array
      * @since 3.5
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     protected $groups = null;
 
@@ -46,7 +46,7 @@ class UserField extends FormField
      *
      * @var   array
      * @since 3.5
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  4.4 will be removed in 7.0 without replacement
      */
     protected $excluded = null;
 
@@ -95,7 +95,7 @@ class UserField extends FormField
     protected function getInput()
     {
         if (empty($this->layout)) {
-            throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
+            throw new \UnexpectedValueException(\sprintf('%s has no layout assigned.', $this->name));
         }
 
         return $this->getRenderer($this->layout)->render($this->collectLayoutData());

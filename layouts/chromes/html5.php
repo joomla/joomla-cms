@@ -47,7 +47,7 @@ if ($moduleTag !== 'div') {
         $moduleAttribs['aria-labelledby'] = 'mod-' . $module->id;
         $headerAttribs['id']              = 'mod-' . $module->id;
     else :
-        $moduleAttribs['aria-label'] = $module->title;
+        $moduleAttribs['aria-label'] = htmlspecialchars($module->title, ENT_QUOTES, 'UTF-8');
     endif;
 }
 

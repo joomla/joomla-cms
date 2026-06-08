@@ -34,7 +34,7 @@ class AuthorisationEvent extends UserEvent implements ResultAwareInterface
      * @var array
      *
      * @since  5.0.0
-     * @deprecated 5.0 will be removed in 6.0
+     * @deprecated 5.0 will be removed in 7.0
      */
     protected $legacyArgumentsOrder = ['subject', 'options'];
 
@@ -80,7 +80,7 @@ class AuthorisationEvent extends UserEvent implements ResultAwareInterface
     public function typeCheckResult($data): void
     {
         if (!$data instanceof AuthenticationResponse) {
-            throw new \InvalidArgumentException(sprintf('Event %s only accepts AuthenticationResponse results.', $this->getName()));
+            throw new \InvalidArgumentException(\sprintf('Event %s only accepts AuthenticationResponse results.', $this->getName()));
         }
     }
 

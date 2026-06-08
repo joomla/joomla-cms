@@ -27,7 +27,7 @@
 		</field>
 		<field
 			name="user"
-			type="logcreator"
+			type="user"
 			label="COM_ACTIONLOGS_NAME"
 			class="js-select-submit-on-change"
 			>

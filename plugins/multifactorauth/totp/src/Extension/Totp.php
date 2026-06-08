@@ -62,13 +62,13 @@ class Totp extends CMSPlugin implements SubscriberInterface
      * Should I try to detect and register legacy event listeners, i.e. methods which accept unwrapped arguments? While
      * this maintains a great degree of backwards compatibility to Joomla! 3.x-style plugins it is much slower. You are
      * advised to implement your plugins using proper Listeners, methods accepting an AbstractEvent as their sole
-     * parameter, for best performance. Also bear in mind that Joomla! 5.x onwards will only allow proper listeners,
+     * parameter, for best performance. Also bear in mind that Joomla! 7.0 onwards will only allow proper listeners,
      * removing support for legacy Listeners.
      *
      * @var    boolean
      * @since  4.2.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Implement your plugin methods accepting an AbstractEvent object
      *              Example:
      *              onEventTriggerName(AbstractEvent $event) {
@@ -210,7 +210,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
         // Generate a QR code for the key
         $user     = $this->getUserFactory()->loadUserById($record->user_id);
         $hostname = Uri::getInstance()->toString(['host']);
-        $otpURL   = sprintf("otpauth://totp/%s@%s?secret=%s", $user->username, $hostname, $key);
+        $otpURL   = \sprintf("otpauth://totp/%s@%s?secret=%s", $user->username, $hostname, $key);
         $document = $this->getApplication()->getDocument();
         $wam      = $document->getWebAssetManager();
 

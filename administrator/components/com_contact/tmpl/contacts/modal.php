@@ -92,9 +92,9 @@ if (!empty($editor)) {
                 <?php
                 $iconStates = [
                     -2 => 'icon-trash',
-                    0  => 'icon-times',
-                    1  => 'icon-check',
-                    2  => 'icon-folder',
+                    0  => 'icon-unpublish',
+                    1  => 'icon-publish',
+                    2  => 'icon-archive',
                 ];
                 ?>
                 <?php foreach ($this->items as $i => $item) : ?>
@@ -161,9 +161,7 @@ if (!empty($editor)) {
 
         <?php endif; ?>
 
-        <input type="hidden" name="task" value="">
-        <input type="hidden" name="forcedLanguage" value="<?php echo $app->getInput()->get('forcedLanguage', '', 'CMD'); ?>">
-        <?php echo HTMLHelper::_('form.token'); ?>
+        <?php echo $this->filterForm->renderControlFields(); ?>
 
     </form>
 </div>

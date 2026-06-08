@@ -199,15 +199,16 @@ class Query
     /**
      * Method to instantiate the query object.
      *
-     * @param   array  $options  An array of query options.
+     * @param   array               $options  An array of query options.
+     * @param   ?DatabaseInterface  $db       The database
      *
      * @since   2.5
      * @throws  \Exception on database error.
      */
-    public function __construct($options, DatabaseInterface $db = null)
+    public function __construct($options, ?DatabaseInterface $db = null)
     {
         if ($db === null) {
-            @trigger_error(sprintf('Database will be mandatory in 5.0.'), E_USER_DEPRECATED);
+            @trigger_error('Database will be mandatory in 7.0.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
@@ -391,8 +392,8 @@ class Query
         $results = [];
 
         // Iterate through the excluded tokens and compile the matching terms.
-        for ($i = 0, $c = \count($this->excluded); $i < $c; $i++) {
-            foreach ($this->excluded[$i]->matches as $match) {
+        foreach ($this->excluded as $item) {
+            foreach ($item->matches as $match) {
                 $results = array_merge($results, $match);
             }
         }
@@ -415,14 +416,14 @@ class Query
         $results = [];
 
         // Iterate through the included tokens and compile the matching terms.
-        for ($i = 0, $c = \count($this->included); $i < $c; $i++) {
+        foreach ($this->included as $item) {
             // Check if we have any terms.
-            if (empty($this->included[$i]->matches)) {
+            if (empty($item->matches)) {
                 continue;
             }
 
             // Get the term.
-            $term = $this->included[$i]->term;
+            $term = $item->term;
 
             // Prepare the container for the term if necessary.
             if (!\array_key_exists($term, $results)) {
@@ -430,7 +431,7 @@ class Query
             }
 
             // Add the matches to the stack.
-            foreach ($this->included[$i]->matches as $match) {
+            foreach ($item->matches as $match) {
                 $results[$term] = array_merge($results[$term], $match);
             }
         }
@@ -456,11 +457,11 @@ class Query
         $results = [];
 
         // Iterate through the included tokens and compile the matching terms.
-        for ($i = 0, $c = \count($this->included); $i < $c; $i++) {
+        foreach ($this->included as $item) {
             // Check if the token is required.
-            if ($this->included[$i]->required) {
+            if ($item->required) {
                 // Get the term.
-                $term = $this->included[$i]->term;
+                $term = $item->term;
 
                 // Prepare the container for the term if necessary.
                 if (!\array_key_exists($term, $results)) {
@@ -468,7 +469,7 @@ class Query
                 }
 
                 // Add the matches to the stack.
-                foreach ($this->included[$i]->matches as $match) {
+                foreach ($item->matches as $match) {
                     $results[$term] = array_merge($results[$term], $match);
                 }
             }
@@ -504,7 +505,7 @@ class Query
         $groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
 
         // Load the predefined filter.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('f.data, f.params')
             ->from($db->quoteName('#__finder_filters') . ' AS f')
             ->where('f.filter_id = ' . (int) $filterId);
@@ -566,7 +567,7 @@ class Query
 
         // Sort the filter ids by branch.
         foreach ($results as $result) {
-            $this->filters[$result->branch][$result->title] = (int) $result->id;
+            $this->filters[$result->branch][$result->id] = $result->title;
         }
 
         return true;
@@ -608,7 +609,7 @@ class Query
         // Get the database object.
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         /*
          * Create the query to get filters from the database. We do this for
@@ -651,7 +652,7 @@ class Query
             }
 
             // Add the filter to the list.
-            $this->filters[$result->branch][$result->title] = (int) $result->id;
+            $this->filters[$result->branch][$result->id] = $result->title;
         }
 
         return true;
@@ -732,8 +733,10 @@ class Query
      */
     protected function processString($input, $lang, $mode)
     {
-        if ($input === null) {
-            $input = '';
+        $input = trim($input ?? '');
+
+        if ($input === '') {
+            return true;
         }
 
         // Clean up the input string.
@@ -837,7 +840,7 @@ class Query
                             }
 
                             // Add the filter to the list.
-                            $this->filters[$modifier][$return->title] = (int) $return->id;
+                            $this->filters[$modifier][(int) $return->id] = $return->title;
                         }
 
                         break;
@@ -956,6 +959,9 @@ class Query
                 if ($op === 'AND' && isset($terms[$i + 2])) {
                     // Tokenize the current term.
                     $token = Helper::tokenize($terms[$i], $lang, true);
+                    if (!$token) {
+                        continue;
+                    }
 
                     // @todo: The previous function call may return an array, which seems not to be handled by the next one, which expects an object
                     $token = $this->getTokenData(array_shift($token));
@@ -980,6 +986,10 @@ class Query
 
                     // Tokenize the term after the next term (current plus two).
                     $other = Helper::tokenize($terms[$i + 2], $lang, true);
+                    if (!$other) {
+                        continue;
+                    }
+
                     $other = $this->getTokenData(array_shift($other));
 
                     // Set the required flag.
@@ -1007,6 +1017,9 @@ class Query
                     // Handle the OR operator.
                     // Tokenize the current term.
                     $token = Helper::tokenize($terms[$i], $lang, true);
+                    if (!$token) {
+                        continue;
+                    }
                     $token = $this->getTokenData(array_shift($token));
 
                     if ($params->get('filter_commonwords', 0) && $token->common) {
@@ -1033,6 +1046,9 @@ class Query
 
                     // Tokenize the term after the next term (current plus two).
                     $other = Helper::tokenize($terms[$i + 2], $lang, true);
+                    if (!$other) {
+                        continue;
+                    }
                     $other = $this->getTokenData(array_shift($other));
 
                     // Set the required flag.
@@ -1068,6 +1084,9 @@ class Query
 
                 // Tokenize the next term (current plus one).
                 $other = Helper::tokenize($terms[$i + 1], $lang, true);
+                if (!$other) {
+                    continue;
+                }
                 $other = $this->getTokenData(array_shift($other));
 
                 if ($params->get('filter_commonwords', 0) && $other->common) {
@@ -1106,6 +1125,9 @@ class Query
 
                 // Tokenize the next term (current plus one).
                 $other = Helper::tokenize($terms[$i + 1], $lang, true);
+                if (!$other) {
+                    continue;
+                }
                 $other = $this->getTokenData(array_shift($other));
 
                 if ($params->get('filter_commonwords', 0) && $other->common) {
@@ -1147,8 +1169,7 @@ class Query
         for ($i = 0, $c = \count($phrases); $i < $c; $i++) {
             // Tokenize the phrase.
             $token = Helper::tokenize($phrases[$i], $lang, true);
-
-            if (!\count($token)) {
+            if (!$token) {
                 continue;
             }
 
@@ -1239,7 +1260,7 @@ class Query
         $db = $this->getDatabase();
 
         // Create a database query to build match the token.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('t.term, t.term_id')
             ->from('#__finder_terms AS t');
 
@@ -1281,12 +1302,12 @@ class Query
         // Check the matching terms.
         if ((bool) $matches) {
             // Add the matches to the token.
-            for ($i = 0, $c = \count($matches); $i < $c; $i++) {
-                if (!isset($token->matches[$matches[$i]->term])) {
-                    $token->matches[$matches[$i]->term] = [];
+            foreach ($matches as $item) {
+                if (!isset($token->matches[$item->term])) {
+                    $token->matches[$item->term] = [];
                 }
 
-                $token->matches[$matches[$i]->term][] = (int) $matches[$i]->term_id;
+                $token->matches[$item->term][] = (int) $item->term_id;
             }
         }
 
@@ -1312,7 +1333,7 @@ class Query
             // Stack for sorting the similar terms.
             $suggestions = [];
 
-            // Get the levnshtein distance for all suggested terms.
+            // Get the levenshtein distance for all suggested terms.
             foreach ($results as $sk => $st) {
                 // Get the levenshtein distance between terms.
                 $distance = levenshtein($st->term, $token->term);

@@ -14,10 +14,8 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Pagination\Pagination;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Privacy\Administrator\Model\RequestsModel;
 
@@ -104,7 +102,9 @@ class HtmlView extends BaseHtmlView
     public function display($tpl = null)
     {
         /** @var RequestsModel $model */
-        $model                  = $this->getModel();
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
+
         $this->items            = $model->getItems();
         $this->pagination       = $model->getPagination();
         $this->state            = $model->getState();
@@ -113,14 +113,14 @@ class HtmlView extends BaseHtmlView
         $this->urgentRequestAge = (int) ComponentHelper::getParams('com_privacy')->get('notify', 14);
         $this->sendMailEnabled  = (bool) Factory::getApplication()->get('mailonline', 1);
 
-        if (!\count($this->items) && $this->get('IsEmptyState')) {
+        if (!\count($this->items) && $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
         }
 
-        // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
-            throw new Genericdataexception(implode("\n", $errors), 500);
-        }
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task')
+            ->addControlField('boxchecked', '0');
 
         $this->addToolbar();
 
@@ -138,11 +138,14 @@ class HtmlView extends BaseHtmlView
     {
         ToolbarHelper::title(Text::_('COM_PRIVACY_VIEW_REQUESTS'), 'lock');
 
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         // Requests can only be created if mail sending is enabled
         if (Factory::getApplication()->get('mailonline', 1)) {
             $toolbar->addNew('request.add');
+        } else {
+            // Display a message if mail is not enabled
+            Factory::getApplication()->enqueueMessage(Text::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'), 'error');
         }
 
         $toolbar->preferences('com_privacy');

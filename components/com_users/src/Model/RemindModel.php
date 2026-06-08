@@ -38,20 +38,14 @@ class RemindModel extends FormModel
      * @param   array    $data      An optional array of data for the form to interrogate.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|bool A Form object on success, false on failure
+     * @return  Form A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
-        // Get the form.
-        $form = $this->loadForm('com_users.remind', 'remind', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+        return $this->loadForm('com_users.remind', 'remind', ['control' => 'jform', 'load_data' => $loadData]);
     }
 
     /**
@@ -133,7 +127,7 @@ class RemindModel extends FormModel
 
         // Find the user id for the given email address.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*')
             ->from($db->quoteName('#__users'))
             ->where('LOWER(' . $db->quoteName('email') . ') = LOWER(:email)')
@@ -168,13 +162,13 @@ class RemindModel extends FormModel
 
         // Assemble the login link.
         $link = 'index.php?option=com_users&view=login';
-        $mode = $app->get('force_ssl', 0) == 2 ? 1 : (-1);
+        $mode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
         // Put together the email template data.
         $data              = ArrayHelper::fromObject($user);
         $data['sitename']  = $app->get('sitename');
-        $data['link_text'] = Route::_($link, false, $mode);
-        $data['link_html'] = Route::_($link, true, $mode);
+        $data['link_text'] = Route::link('site', $link, false, $mode, true);
+        $data['link_html'] = Route::link('site', $link, true, $mode, true);
 
         $mailer = new MailTemplate('com_users.reminder', $app->getLanguage()->getTag());
         $mailer->addTemplateData($data);

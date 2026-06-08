@@ -46,7 +46,7 @@ class ItemlanguageField extends ListField
     {
         $input = Factory::getApplication()->getInput();
 
-        list($extensionName, $typeName) = explode('.', $input->get('itemtype', '', 'string'), 2);
+        [$extensionName, $typeName] = explode('.', $input->get('itemtype', '', 'string'), 2);
 
         // Get the extension specific helper method
         $helper = AssociationsHelper::getExtensionHelper($extensionName);

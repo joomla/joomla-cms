@@ -17,7 +17,6 @@ use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Content\Joomla\Extension\Joomla;
 
 return new class () implements ServiceProviderInterface {
@@ -34,9 +33,8 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Joomla::class, function (Container $container) {
                 $plugin     = new Joomla(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('content', 'joomla')
                 );
                 $plugin->setApplication(Factory::getApplication());
@@ -44,7 +42,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setUserFactory($container->get(UserFactoryInterface::class));
 
                 return $plugin;
-            }
+            })
         );
     }
 };

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="extension" method="upgrade">
+	<name>plg_extension_joomlaupdate</name>
+	<author>Joomla! Project</author>
+	<creationDate>2025-02</creationDate>
+	<copyright>(C) 2025 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
+	<description>PLG_EXTENSION_JOOMLAUPDATE_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Extension\Joomlaupdate</namespace>
+	<files>
+		<folder plugin="joomlaupdate">services</folder>
+		<folder>src</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_extension_joomlaupdate.ini</language>
+		<language tag="en-GB">language/en-GB/plg_extension_joomlaupdate.sys.ini</language>
+	</languages>
+</extension>

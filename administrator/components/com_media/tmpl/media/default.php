@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 
@@ -34,14 +35,15 @@ $this->loadTemplate('texts');
 $tmpl = $input->getCmd('tmpl');
 
 $mediaTypes = '&mediatypes=' . $input->getString('mediatypes', '0,1,2,3');
+$hasMediaActionPlugins = !empty(PluginHelper::getPlugin('media-action'));
 
 // Populate the media config
 $config = [
     'apiBaseUrl'          => Uri::base() . 'index.php?option=com_media&format=json' . $mediaTypes,
     'csrfToken'           => Session::getFormToken(),
-    'filePath'            => $params->get('file_path', 'images'),
-    'fileBaseUrl'         => Uri::root() . $params->get('file_path', 'images'),
-    'fileBaseRelativeUrl' => $params->get('file_path', 'images'),
+    'filePath'            => $params->get('file_path', 'files'),
+    'fileBaseUrl'         => Uri::root() . $params->get('file_path', 'files'),
+    'fileBaseRelativeUrl' => $params->get('file_path', 'files'),
     'editViewUrl'         => Uri::base() . 'index.php?option=com_media&view=file' . ($tmpl ? '&tmpl=' . $tmpl : '')  . $mediaTypes,
     'imagesExtensions'    => array_map('trim', explode(',', $params->get('image_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif'))),
     'audioExtensions'     => array_map('trim', explode(',', $params->get('audio_extensions', 'mp3,m4a,mp4a,ogg'))),
@@ -54,6 +56,7 @@ $config = [
     'canCreate'           => $user->authorise('core.create', 'com_media'),
     'canEdit'             => $user->authorise('core.edit', 'com_media'),
     'canDelete'           => $user->authorise('core.delete', 'com_media'),
+    'hasMediaActionPlugins' => $hasMediaActionPlugins,
 ];
 $this->getDocument()->addScriptOptions('com_media', $config);
 ?>

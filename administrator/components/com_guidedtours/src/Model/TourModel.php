@@ -10,11 +10,12 @@
 
 namespace Joomla\Component\Guidedtours\Administrator\Model;
 
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 use Joomla\Database\ParameterType;
@@ -62,12 +63,12 @@ class TourModel extends AdminModel
         $input = Factory::getApplication()->getInput();
 
         // Language keys must include GUIDEDTOUR to prevent save issues
-        if (strpos($data['description'], 'GUIDEDTOUR') !== false) {
+        if (str_contains($data['description'], 'GUIDEDTOUR')) {
             $data['description'] = strip_tags($data['description']);
         }
 
         if ($input->get('task') == 'save2copy') {
-            $origTable = clone $this->getTable();
+            $origTable = $this->getTable();
             $origTable->load($input->getInt('id'));
 
             $data['published'] = 0;
@@ -104,7 +105,7 @@ class TourModel extends AdminModel
             // Set ordering to the last item if not set
             if (empty($table->ordering)) {
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select('MAX(ordering)')
                     ->from($db->quoteName('#__guidedtours'));
                 $db->setQuery($query);
@@ -125,9 +126,10 @@ class TourModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return \JForm|boolean  A Form object on success, false on failure
+     * @return Form  A Form object
      *
      * @since  4.3.0
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -140,10 +142,6 @@ class TourModel extends AdminModel
                 'load_data' => $loadData,
             ]
         );
-
-        if (empty($form)) {
-            return false;
-        }
 
         $id = $data['id'] ?? $form->getValue('id');
 
@@ -200,7 +198,8 @@ class TourModel extends AdminModel
         $pk    = (!empty($pk)) ? $pk : (int) $this->getState($this->getName() . '.id');
 
         $table = $this->getTable();
-        if (\is_integer($pk)) {
+
+        if (\is_int($pk)) {
             $result = $table->load((int) $pk);
         } else {
             // Attempt to load the row by uid.
@@ -219,9 +218,9 @@ class TourModel extends AdminModel
             return false;
         }
 
-        // Convert to the CMSObject before adding other data.
+        // Convert to an object before adding other data.
         $properties = $table->getProperties(1);
-        $item       = ArrayHelper::toObject($properties, CMSObject::class);
+        $item       = ArrayHelper::toObject($properties);
 
         if (property_exists($item, 'params')) {
             $registry     = new Registry($item->params);
@@ -282,7 +281,7 @@ class TourModel extends AdminModel
 
                     // Delete of the tour has been successful, now delete the steps
                     $db    = $this->getDatabase();
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->delete($db->quoteName('#__guidedtour_steps'))
                         ->where($db->quoteName('tour_id') . '=' . $tourId);
                     $db->setQuery($query);
@@ -354,7 +353,7 @@ class TourModel extends AdminModel
 
                 $pk = (int) $pk;
 
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select(
                         $db->quoteName(
                             [
@@ -384,7 +383,7 @@ class TourModel extends AdminModel
                 $rows = $db->loadObjectList();
 
                 if ($rows) {
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->insert($db->quoteName('#__guidedtour_steps'))
                         ->columns(
                             [
@@ -493,7 +492,7 @@ class TourModel extends AdminModel
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__guidedtour_steps'))
             ->set($db->quoteName('language') . ' = :language')
             ->where($db->quoteName('tour_id') . ' = :tourId')
@@ -516,7 +515,7 @@ class TourModel extends AdminModel
     {
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__guidedtours'))
             ->set($db->quoteName('autostart') . ' = :autostart')
             ->where($db->quoteName('id') . ' = :tourId')
@@ -530,20 +529,28 @@ class TourModel extends AdminModel
     /**
      * Retrieve a tour's autostart value
      *
-     * @param   string  $uid  the uid of a tour
+     * @param   string  $pk  the id or uid of a tour
+     *
+     * @return  boolean
      *
      * @since  5.1.0
      */
-    public function isAutostart($uid)
+    public function isAutostart($pk): bool
     {
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('autostart'))
             ->from($db->quoteName('#__guidedtours'))
-            ->where($db->quoteName('published') . ' = 1')
-            ->where($db->quoteName('uid') . ' = :uid')
-            ->bind(':uid', $uid, ParameterType::STRING);
+            ->where($db->quoteName('published') . ' = 1');
+
+        if (\is_integer($pk)) {
+            $query->where($db->quoteName('id') . ' = :id')
+                ->bind(':id', $pk, ParameterType::INTEGER);
+        } else {
+            $query->where($db->quoteName('uid') . ' = :uid')
+                ->bind(':uid', $pk, ParameterType::STRING);
+        }
 
         $db->setQuery($query);
 
@@ -552,10 +559,70 @@ class TourModel extends AdminModel
             if ($result === null) {
                 return false;
             }
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
 
         return $result;
+    }
+
+    /**
+     * Save a tour state for a specific user.
+     *
+     * @param   int      $id       The id of the tour
+     * @param   string   $state    The label of the state to be saved (completed, delayed or skipped)
+     *
+     * @return  boolean
+     *
+     * @since  5.2.0
+     */
+    public function saveTourUserState($id, $state = ''): bool
+    {
+        $user = $this->getCurrentUser();
+        $db   = $this->getDatabase();
+
+        $profileKey = 'guidedtour.id.' . $id;
+
+        // Check if the profile key already exists.
+        $query = $db->createQuery()
+            ->select($db->quoteName('profile_value'))
+            ->from($db->quoteName('#__user_profiles'))
+            ->where($db->quoteName('user_id') . ' = :user_id')
+            ->where($db->quoteName('profile_key') . ' = :profileKey')
+            ->bind(':user_id', $user->id, ParameterType::INTEGER)
+            ->bind(':profileKey', $profileKey, ParameterType::STRING);
+
+        try {
+            $result = $db->setQuery($query)->loadResult();
+        } catch (\Exception) {
+            return false;
+        }
+
+        $tourState = [];
+
+        $tourState['state'] = $state;
+        if ($state === 'delayed') {
+            $tourState['time'] = Date::getInstance();
+        }
+
+        $profileObject = (object)[
+            'user_id'       => $user->id,
+            'profile_key'   => $profileKey,
+            'profile_value' => json_encode($tourState),
+            'ordering'      => 0,
+        ];
+
+        if (!\is_null($result)) {
+            $values = json_decode($result, true);
+
+            // The profile is updated only when delayed. 'Completed' and 'Skipped' are final
+            if (!empty($values) && $values['state'] === 'delayed') {
+                $db->updateObject('#__user_profiles', $profileObject, ['user_id', 'profile_key']);
+            }
+        } else {
+            $db->insertObject('#__user_profiles', $profileObject);
+        }
+
+        return true;
     }
 }

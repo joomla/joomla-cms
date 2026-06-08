@@ -227,7 +227,6 @@ class FeedParserTest extends UnitTestCase
         // Use reflection to test protected method (it's easier than testing this using the public interface)
         $reflectionClass = new \ReflectionClass($parser);
         $method          = $reflectionClass->getMethod('moveToNextElement');
-        $method->setAccessible(true);
 
         // Move to next element
         $method->invoke($parser);
@@ -272,7 +271,6 @@ class FeedParserTest extends UnitTestCase
         // Use reflection to test protected method (it's easier than testing this using the public interface)
         $reflectionClass = new \ReflectionClass($parser);
         $method          = $reflectionClass->getMethod('moveToNextElement');
-        $method->setAccessible(true);
 
         // Move to next element
         $method->invoke($parser, 'node');
@@ -305,7 +303,6 @@ class FeedParserTest extends UnitTestCase
         // Use reflection to test protected method (it's easier than testing this using the public interface)
         $reflectionClass = new \ReflectionClass($parser);
         $method          = $reflectionClass->getMethod('moveToClosingElement');
-        $method->setAccessible(true);
 
         // Move to next element
         $method->invoke($parser);
@@ -334,7 +331,6 @@ class FeedParserTest extends UnitTestCase
         // Use reflection to test protected method (it's easier than testing this using the public interface)
         $reflectionClass = new \ReflectionClass($parser);
         $method          = $reflectionClass->getMethod('moveToClosingElement');
-        $method->setAccessible(true);
 
         // Move to next element
         $method->invoke($parser);
@@ -363,7 +359,6 @@ class FeedParserTest extends UnitTestCase
         // Use reflection to test protected method (it's easier than testing this using the public interface)
         $reflectionClass = new \ReflectionClass($parser);
         $method          = $reflectionClass->getMethod('moveToClosingElement');
-        $method->setAccessible(true);
 
         // Move to closing element
         $method->invoke($parser);

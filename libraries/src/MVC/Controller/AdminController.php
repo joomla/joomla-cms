@@ -78,7 +78,7 @@ class AdminController extends BaseController
      *
      * @since   3.0
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, ?CMSWebApplicationInterface $app = null, ?Input $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?CMSWebApplicationInterface $app = null, ?Input $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -159,13 +159,7 @@ class AdminController extends BaseController
             $this->postDeleteHook($model, $cid);
         }
 
-        $this->setRedirect(
-            Route::_(
-                'index.php?option=' . $this->option . '&view=' . $this->view_list
-                . $this->getRedirectToListAppend(),
-                false
-            )
-        );
+        $this->setRedirect($this->getRedirectUrlToList());
     }
 
     /**
@@ -241,13 +235,7 @@ class AdminController extends BaseController
             }
         }
 
-        $this->setRedirect(
-            Route::_(
-                'index.php?option=' . $this->option . '&view=' . $this->view_list
-                . $this->getRedirectToListAppend(),
-                false
-            )
-        );
+        $this->setRedirect($this->getRedirectUrlToList());
     }
 
     /**
@@ -271,7 +259,7 @@ class AdminController extends BaseController
         $model  = $this->getModel();
         $return = $model->reorder($ids, $inc);
 
-        $redirect = Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false);
+        $redirect = $this->getRedirectUrlToList();
 
         if ($return === false) {
             // Reorder failed.
@@ -307,8 +295,7 @@ class AdminController extends BaseController
         // Remove zero PKs and corresponding order values resulting from input filter for PK
         foreach ($pks as $i => $pk) {
             if ($pk === 0) {
-                unset($pks[$i]);
-                unset($order[$i]);
+                unset($pks[$i], $order[$i]);
             }
         }
 
@@ -318,7 +305,7 @@ class AdminController extends BaseController
         // Save the ordering
         $return = $model->saveorder($pks, $order);
 
-        $redirect = Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false);
+        $redirect = $this->getRedirectUrlToList();
 
         if ($return === false) {
             // Reorder failed
@@ -359,10 +346,7 @@ class AdminController extends BaseController
             // Checkin failed.
             $message = Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
             $this->setRedirect(
-                Route::_(
-                    'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(),
-                    false
-                ),
+                $this->getRedirectUrlToList(),
                 $message,
                 'error'
             );
@@ -372,13 +356,7 @@ class AdminController extends BaseController
 
         // Checkin succeeded.
         $message = Text::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', \count($ids));
-        $this->setRedirect(
-            Route::_(
-                'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(),
-                false
-            ),
-            $message
-        );
+        $this->setRedirect($this->getRedirectUrlToList(), $message);
 
         return true;
     }
@@ -402,8 +380,7 @@ class AdminController extends BaseController
         // Remove zero PKs and corresponding order values resulting from input filter for PK
         foreach ($pks as $i => $pk) {
             if ($pk === 0) {
-                unset($pks[$i]);
-                unset($order[$i]);
+                unset($pks[$i], $order[$i]);
             }
         }
 
@@ -454,7 +431,7 @@ class AdminController extends BaseController
 
         $return = $model->executeTransition($pks, $transitionId);
 
-        $redirect = Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false);
+        $redirect = $this->getRedirectUrlToList();
 
         if ($return === false) {
             // Transition change failed.
@@ -469,6 +446,21 @@ class AdminController extends BaseController
         $this->setRedirect($redirect, $message);
 
         return true;
+    }
+
+    /**
+     * Gets the URL to redirect to the list view.
+     *
+     * @return  string  The redirect URL.
+     *
+     * @since   6.1.0
+     */
+    protected function getRedirectUrlToList(): string
+    {
+        return Route::_(
+            'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(),
+            false
+        );
     }
 
     /**

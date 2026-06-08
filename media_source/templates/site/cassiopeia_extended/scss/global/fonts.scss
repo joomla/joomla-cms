@@ -1,0 +1,11 @@
+@media (width >= 1200px) {
+  h1, .h1 {
+    font-size: var(--h1size);
+  }
+  h2, .h2 {
+    font-size: var(--h2size);
+  }
+  h3, .h3 {
+    font-size: var(--h3size);
+  }
+}

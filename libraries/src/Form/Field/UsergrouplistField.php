@@ -32,7 +32,7 @@ class UsergrouplistField extends ListField
     protected $type = 'UserGroupList';
 
     /**
-     * Cached array of the category items.
+     * Cached array of the user groups.
      *
      * @var    array[]
      * @since  3.2
@@ -54,7 +54,7 @@ class UsergrouplistField extends ListField
      */
     public function setup(\SimpleXMLElement $element, $value, $group = null)
     {
-        if (\is_string($value) && strpos($value, ',') !== false) {
+        if (\is_string($value) && str_contains($value, ',')) {
             $value = explode(',', $value);
         }
 

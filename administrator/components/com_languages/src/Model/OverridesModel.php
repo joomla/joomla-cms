@@ -31,13 +31,13 @@ class OverridesModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   2.5
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -111,6 +111,59 @@ class OverridesModel extends ListModel
 
         // Add the items to the internal cache.
         $this->cache[$store] = $strings;
+
+        return $this->cache[$store];
+    }
+
+    /**
+     * Retrieves overrides for all installed languages for the current client.
+     *
+     * @return  array
+     *
+     * @since   6.1.0
+     */
+    public function getLanguageOverrides()
+    {
+        $store = $this->getStoreId('languageOverrides');
+
+        if (!empty($this->cache[$store])) {
+            return $this->cache[$store];
+        }
+
+        $client    = strtoupper($this->getState('filter.client'));
+        $languages = $this->getLanguages();
+        $overrides = [];
+        $basePath  = \constant('JPATH_' . $client) . '/language/overrides/';
+
+        foreach ($languages as $tag => $language) {
+            $fileName        = $basePath . $tag . '.override.ini';
+            $overrides[$tag] = LanguageHelper::parseIniFile($fileName);
+        }
+
+        $this->cache[$store] = $overrides;
+
+        return $this->cache[$store];
+    }
+
+    /**
+     * Retrieves installed languages for the current client.
+     *
+     * @return  array
+     *
+     * @since   6.1.0
+     */
+    public function getLanguages()
+    {
+        $store = $this->getStoreId('languages');
+
+        if (!empty($this->cache[$store])) {
+            return $this->cache[$store];
+        }
+
+        $client = strtoupper($this->getState('filter.client'));
+        $path   = \constant('JPATH_' . $client);
+
+        $this->cache[$store] = LanguageHelper::getKnownLanguages($path);
 
         return $this->cache[$store];
     }

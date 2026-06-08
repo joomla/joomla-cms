@@ -90,7 +90,7 @@ class SessionMetadataGcCommand extends AbstractCommand
 
         $symfonyStyle->success('Metadata garbage collection completed.');
 
-        return Command::FAILURE;
+        return Command::SUCCESS;
     }
 
     /**

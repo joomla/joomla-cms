@@ -193,7 +193,7 @@ class AssociationsHelper extends ContentHelper
      */
     private static function getExtensionRealName($extensionName)
     {
-        return strpos($extensionName, 'com_') === false ? $extensionName : substr($extensionName, 4);
+        return !str_starts_with($extensionName, 'com_') ? $extensionName : substr($extensionName, 4);
     }
 
     /**
@@ -258,7 +258,7 @@ class AssociationsHelper extends ContentHelper
                     $db = Factory::getDbo();
 
                     // Get the category name
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->select($db->quoteName('title'))
                         ->from($db->quoteName('#__categories'))
                         ->where($db->quoteName('id') . ' = :id')
@@ -272,7 +272,7 @@ class AssociationsHelper extends ContentHelper
                     $db = Factory::getDbo();
 
                     // Get the menutype name
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->select($db->quoteName('title'))
                         ->from($db->quoteName('#__menu_types'))
                         ->where($db->quoteName('menutype') . ' = :menutype')
@@ -448,7 +448,7 @@ class AssociationsHelper extends ContentHelper
     {
         $db = Factory::getDbo();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*')
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('type') . ' = ' . $db->quote('component'))
@@ -593,7 +593,7 @@ class AssociationsHelper extends ContentHelper
 
         $userId = Factory::getUser()->id;
 
-        return ($item->{$checkedOutFieldName} == $userId || $item->{$checkedOutFieldName} == 0);
+        return $item->{$checkedOutFieldName} == $userId || $item->{$checkedOutFieldName} == 0;
     }
 
     /**
@@ -653,7 +653,7 @@ class AssociationsHelper extends ContentHelper
     public static function getLanguagefilterPluginId()
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('folder') . ' = ' . $db->quote('system'))

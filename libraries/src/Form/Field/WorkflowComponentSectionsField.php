@@ -48,7 +48,7 @@ class WorkflowComponentSectionsField extends ComponentsField
         $options[] = HTMLHelper::_('select.option', ' ', Text::_('JNONE'));
 
         foreach ($items as $item) {
-            if (substr($item->value, 0, 4) !== 'com_') {
+            if (!str_starts_with($item->value, 'com_')) {
                 continue;
             }
 

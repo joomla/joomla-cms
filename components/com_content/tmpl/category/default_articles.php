@@ -75,7 +75,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                         <?php echo Text::_('JOPTION_SELECT_TAG'); ?>
                     </label>
                 </span>
-                <select name="filter_tag" id="filter-search" class="form-select" onchange="document.adminForm.submit();" >
+                <select name="filter_tag" id="filter-search" class="form-select">
                     <option value=""><?php echo Text::_('JOPTION_SELECT_TAG'); ?></option>
                     <?php echo HTMLHelper::_('select.options', HTMLHelper::_('tag.options', ['filter.published' => [1], 'filter.language' => $langFilter], true), 'value', 'text', $this->state->get('filter.tag')); ?>
                 </select>
@@ -85,7 +85,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                         <?php echo Text::_('JOPTION_SELECT_MONTH'); ?>
                     </label>
                 </span>
-                <select name="filter-search" id="filter-search" class="form-select" onchange="document.adminForm.submit();">
+                <select name="filter-search" id="filter-search" class="form-select">
                     <option value=""><?php echo Text::_('JOPTION_SELECT_MONTH'); ?></option>
                     <?php echo HTMLHelper::_('select.options', HTMLHelper::_('content.months', $this->state), 'value', 'text', $this->state->get('list.filter')); ?>
                 </select>
@@ -93,7 +93,13 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                 <label class="filter-search-lbl visually-hidden" for="filter-search">
                     <?php echo Text::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL'); ?>
                 </label>
-                <input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" placeholder="<?php echo Text::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL'); ?>">
+                <input type="text" 
+                    name="filter-search" 
+                    id="filter-search" 
+                    value="<?php echo $this->escape($this->state->get('list.filter')); ?>" 
+                    class="inputbox" 
+                    placeholder="<?php echo Text::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL'); ?>"
+                >
             <?php endif; ?>
 
             <?php if ($this->params->get('filter_field') !== 'tag' && $this->params->get('filter_field') !== 'month') : ?>
@@ -257,7 +263,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                         <?php if (!empty($article->author) || !empty($article->created_by_alias)) : ?>
                             <?php $author = $article->author ?>
                             <?php $author = $article->created_by_alias ?: $author; ?>
-                            <?php if (!empty($article->contact_link) && $this->params->get('link_author') == true) : ?>
+                            <?php if (!empty($article->contact_link) && $this->params->get('link_author')) : ?>
                                 <?php if ($this->params->get('show_headings')) : ?>
                                     <?php echo HTMLHelper::_('link', $article->contact_link, $author); ?>
                                 <?php else : ?>

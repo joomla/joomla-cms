@@ -31,12 +31,12 @@ class LinksModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   1.6
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -65,7 +65,7 @@ class LinksModel extends ListModel
     {
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->delete('#__redirect_links')->where($db->quoteName('published') . '= 0');
 
@@ -73,7 +73,7 @@ class LinksModel extends ListModel
 
         try {
             $db->execute();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 
@@ -136,7 +136,7 @@ class LinksModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the required fields from the table.
         $query->select(
@@ -204,7 +204,7 @@ class LinksModel extends ListModel
     public function batchProcess($batchUrls)
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $params  = ComponentHelper::getParams('com_redirect');
         $state   = (int) $params->get('defaultImportState', 0);

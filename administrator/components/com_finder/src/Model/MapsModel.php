@@ -39,7 +39,7 @@ class MapsModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.7
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -165,7 +165,7 @@ class MapsModel extends ListModel
         $db = $this->getDatabase();
 
         // Select all fields from the table.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('a.id, a.parent_id, a.lft, a.rgt, a.level, a.path, a.title, a.alias, a.state, a.access, a.language')
             ->from($db->quoteName('#__finder_taxonomy', 'a'))
             ->where('a.parent_id != 0');
@@ -175,7 +175,7 @@ class MapsModel extends ListModel
             ->leftJoin($db->quoteName('#__finder_taxonomy', 'b') . ' ON b.level = 1 AND b.lft <= a.lft AND a.rgt <= b.rgt');
 
         // Join to get the map links.
-        $stateQuery = $db->getQuery(true)
+        $stateQuery = $db->createQuery()
             ->select('m.node_id')
             ->select('COUNT(NULLIF(l.published, 0)) AS count_published')
             ->select('COUNT(NULLIF(l.published, 1)) AS count_unpublished')
@@ -289,12 +289,6 @@ class MapsModel extends ListModel
      */
     protected function populateState($ordering = 'branch_title, a.lft', $direction = 'ASC')
     {
-        // Load the filter state.
-        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-        $this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'cmd'));
-        $this->setState('filter.branch', $this->getUserStateFromRequest($this->context . '.filter.branch', 'filter_branch', '', 'cmd'));
-        $this->setState('filter.level', $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', '', 'cmd'));
-
         // Load the parameters.
         $params = ComponentHelper::getParams('com_finder');
         $this->setState('params', $params);
@@ -369,7 +363,7 @@ class MapsModel extends ListModel
     public function purge()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__finder_taxonomy'))
             ->where($db->quoteName('parent_id') . ' > 1');
         $db->setQuery($query);

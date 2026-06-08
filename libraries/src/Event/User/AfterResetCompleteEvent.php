@@ -18,7 +18,7 @@ namespace Joomla\CMS\Event\User;
  * Example:
  *  new AfterResetCompleteEvent('onEventName', ['subject' => $user]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.2.0
  */
 class AfterResetCompleteEvent extends AbstractResetEvent
 {

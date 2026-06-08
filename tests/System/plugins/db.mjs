@@ -1,8 +1,13 @@
-import mysql from 'mysql';
-import postgres from 'postgres';
+import mysql from 'mysql2';
+import pkg from 'pg';
+
+const { Pool } = pkg; // Using Pool from pg for PostgreSQL connections
 
 // Items cache which are added by an insert statement
 let insertedItems = [];
+
+// Use of the PostgreSQL connection pool to limit the number of sessions
+let postgresConnectionPool = null;
 
 /**
  * Does run the given query against the database from the configuration. It caches all inserted items.
@@ -13,7 +18,7 @@ let insertedItems = [];
  */
 function queryTestDB(joomlaQuery, config) {
   // Substitute the joomla table prefix
-  let query = joomlaQuery.replaceAll('#__', config.env.db_prefix);
+  let query = joomlaQuery.replaceAll('#__', config.expose.db_prefix);
 
   // Parse the table name
   const tableNameOfInsert = query.match(/insert\s+into\s+(.*?)\s/i);
@@ -29,17 +34,30 @@ function queryTestDB(joomlaQuery, config) {
     insertedItems.push(insertItem);
   }
 
-  // Check if the DB is from postgres
-  if (config.env.db_type === 'pgsql' || config.env.db_type === 'PostgreSQL (PDO)') {
-    const connection = postgres({
-      host: config.env.db_host,
-      port: config.env.db_port,
-      database: config.env.db_name,
-      username: config.env.db_user,
-      password: config.env.db_password,
-      idle_timeout: 1,
-      max_lifetime: 1,
-    });
+  // Do we use PostgreSQL?
+  if (config.expose.db_type === 'pgsql' || config.expose.db_type === 'PostgreSQL (PDO)') {
+    if (postgresConnectionPool === null) {
+      let hostOrUnixPath = config.expose.db_host;
+
+      /* Verify if the connection is a Unix socket by checking for the "unix:/" prefix.
+       * PostgreSQL JS driver does not support this prefix, so it must be removed.
+       * We standardise the use of this prefix with the PHP driver by handling it here.
+       */
+      if (hostOrUnixPath.startsWith('unix:/')) {
+        // e.g. 'unix:/var/run/postgresql' -> '/var/run/postgresql'
+        hostOrUnixPath = hostOrUnixPath.replace('unix:', '');
+      }
+
+      // Initialisation on the first call
+      postgresConnectionPool = new Pool({
+        host: hostOrUnixPath,
+        port: config.expose.db_port,
+        database: config.expose.db_name,
+        user: config.expose.db_user,
+        password: config.expose.db_password,
+        max: 10, // Use only this (unchanged default) maximum number of connections in the pool
+      });
+    }
 
     // Postgres delivers the data direct as result of the insert query
     if (insertItem) {
@@ -49,36 +67,59 @@ function queryTestDB(joomlaQuery, config) {
     // Postgres needs double quotes
     query = query.replaceAll('`', '"');
 
-    return connection.unsafe(query).then((result) => {
+    return postgresConnectionPool.query(query).then((result) => {
       // Select query should always return an array
-      if (query.indexOf('SELECT') === 0 && !Array.isArray(result)) {
-        return [result];
+      if (query.startsWith('SELECT') && !Array.isArray(result.rows)) {
+        return [result.rows];
       }
 
-      if (!insertItem || result.length === 0) {
-        return result;
+      if (!insertItem || result.rows.length === 0) {
+        return result.rows;
       }
 
       // Push the id to the cache when it is an insert operation
-      if (insertItem && result.length && result[0].id) {
-        insertItem.rows.push(result[0].id);
+      if (insertItem && result.rows.length && result.rows[0].id) {
+        insertItem.rows.push(result.rows[0].id);
       }
 
-      // Normalize the object
-      return { insertId: result[0].id };
-    });
+      // Normalize the object and return from PostgreSQL
+      return { insertId: result.rows[0].id };
+    })
+      .catch((error) => {
+        throw new Error(`Postgres query failed: ${error.message}`);
+      });
   }
 
-  // Return a promise which runs the query
+  // Return a promise which runs the query for MariaDB / MySQL
   return new Promise((resolve, reject) => {
     // Create the connection and connect
-    const connection = mysql.createConnection({
-      host: config.env.db_host,
-      port: config.env.db_port,
-      user: config.env.db_user,
-      password: config.env.db_password,
-      database: config.env.db_name,
-    });
+    let connectionConfig;
+    /* Verify if the connection is a Unix socket by checking for the "unix:/" prefix.
+     * MariaDB and MySQL JS drivers do not support this prefix, so it must be removed.
+     * We standardise the use of this prefix with the PHP driver by handling it here.
+     */
+    if (config.expose.db_host.startsWith('unix:/')) {
+      // If the host is a Unix socket, extract the socket path
+      connectionConfig = {
+        // e.g. 'unix:/var/run/mysqld/mysqld.sock' -> '/var/run/mysqld/mysqld.sock'
+        socketPath: config.expose.db_host.replace('unix:', ''),
+        user: config.expose.db_user,
+        password: config.expose.db_password,
+        database: config.expose.db_name,
+      };
+    } else {
+      // Otherwise, use regular TCP host connection settings
+      connectionConfig = {
+        host: config.expose.db_host,
+        port: config.expose.db_port,
+        user: config.expose.db_user,
+        password: config.expose.db_password,
+        database: config.expose.db_name,
+      };
+    }
+
+    // Create the MySQL/MariaDB connection
+    const connection = mysql.createConnection(connectionConfig);
 
     // Perform the query
     connection.query(query, (error, results) => {
@@ -94,7 +135,7 @@ function queryTestDB(joomlaQuery, config) {
         insertItem.rows.push(results.insertId);
       }
 
-      // Resolve the result
+      // Resolve the result from MariaDB / MySQL
       return resolve(results);
     });
   });
@@ -121,17 +162,18 @@ function deleteInsertedItems(config) {
     // Delete the items from the database
     promises.push(queryTestDB(`DELETE FROM ${item.table} WHERE id IN (${item.rows.join(',')})`, config).then(() => {
       // Cleanup some tables we do not have control over from inserted items
-      if (item.table === `${config.env.db_prefix}users`) {
+      if (item.table === `${config.expose.db_prefix}users`) {
         promises.push(queryTestDB(`DELETE FROM #__user_usergroup_map WHERE user_id IN (${item.rows.join(',')})`, config));
         promises.push(queryTestDB(`DELETE FROM #__user_profiles WHERE user_id IN (${item.rows.join(',')})`, config));
+        promises.push(queryTestDB(`DELETE FROM #__session WHERE userid IN (${item.rows.join(',')})`, config));
       }
 
-      if (item.table === `${config.env.db_prefix}content`) {
+      if (item.table === `${config.expose.db_prefix}content`) {
         promises.push(queryTestDB(`DELETE FROM #__content_frontpage WHERE content_id IN (${item.rows.join(',')})`, config));
         promises.push(queryTestDB(`DELETE FROM #__workflow_associations WHERE item_id IN (${item.rows.join(',')}) AND extension = 'com_content.article'`, config));
       }
 
-      if (item.table === `${config.env.db_prefix}modules`) {
+      if (item.table === `${config.expose.db_prefix}modules`) {
         promises.push(queryTestDB(`DELETE FROM #__modules_menu WHERE moduleid IN (${item.rows.join(',')})`, config));
       }
     }));

@@ -39,7 +39,7 @@ class AssociationController extends FormController
      */
     public function edit($key = null, $urlVar = null)
     {
-        list($extensionName, $typeName) = explode('.', $this->input->get('itemtype', '', 'string'), 2);
+        [$extensionName, $typeName] = explode('.', $this->input->get('itemtype', '', 'string'), 2);
 
         $id = $this->input->get('id', 0, 'int');
 
@@ -51,7 +51,7 @@ class AssociationController extends FormController
             return false;
         }
 
-        return parent::display();
+        return $this->display();
     }
 
     /**
@@ -67,7 +67,7 @@ class AssociationController extends FormController
     {
         $this->checkToken();
 
-        list($extensionName, $typeName) = explode('.', $this->input->get('itemtype', '', 'string'), 2);
+        [$extensionName, $typeName] = explode('.', $this->input->get('itemtype', '', 'string'), 2);
 
         // Only check in, if component item type allows to check out.
         if (AssociationsHelper::typeSupportsCheckout($extensionName, $typeName)) {

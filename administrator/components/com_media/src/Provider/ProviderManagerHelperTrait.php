@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
+use Joomla\Component\Media\Administrator\Exception\ProviderAccountNotFoundException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -148,14 +149,19 @@ trait ProviderManagerHelperTrait
             return $this->defaultAdapterName;
         }
 
-        $defaultAdapter = $this->getAdapter('local-' . ComponentHelper::getParams('com_media')->get('file_path', 'images'));
+        try {
+            // Check for default path in Media config, and whether associated account exists, and use it as default adapter.
+            $defaultFilePath = ComponentHelper::getParams('com_media')->get('file_path', 'files');
+            $defaultAdapter  = $this->getAdapter('local-' . $defaultFilePath);
+            // @TODO: Need a proper configuration for default adapter.
+        } catch (ProviderAccountNotFoundException) {
+            $defaultAdapter = null;
+        }
 
-        if (
-            !$defaultAdapter
-            && $this->getProviderManager()->getProvider('local')
-            && $this->getProviderManager()->getProvider('local')->getAdapters()
-        ) {
-            $defaultAdapter = $this->getProviderManager()->getProvider('local')->getAdapters()[0];
+        if (!$defaultAdapter) {
+            // Default adapter were not found, pick the first available local adapter
+            $localAdapters  = $this->getProviderManager()->getProvider('local')->getAdapters();
+            $defaultAdapter = $localAdapters ? reset($localAdapters) : null;
         }
 
         if (!$defaultAdapter) {

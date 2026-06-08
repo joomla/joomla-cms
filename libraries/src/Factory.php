@@ -61,7 +61,7 @@ abstract class Factory
      * @var         \JConfig
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the configuration object within the application
      *              Example:
      *              Factory::getApplication()->getConfig();
@@ -90,7 +90,7 @@ abstract class Factory
      * @var         Session
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the session service in the DI container or get from the application object
      *              Example:
      *              Factory::getApplication()->getSession();
@@ -103,7 +103,7 @@ abstract class Factory
      * @var         Language
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the language service in the DI container or get from the application object
      *              Example:
      *              Factory::getApplication()->getLanguage();
@@ -116,7 +116,7 @@ abstract class Factory
      * @var         Document
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *               Use the document service in the DI container or get from the application object
      *               Example:
      *               Factory::getApplication()->getDocument();
@@ -129,7 +129,7 @@ abstract class Factory
      * @var         DatabaseDriver
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the database service in the DI container
      *              Example:
      *              Factory::getContainer()->get(DatabaseInterface::class);
@@ -175,15 +175,15 @@ abstract class Factory
      * @see         Registry
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the configuration object within the application
      *              Example:
-     *              Factory::getApplication->getConfig();
+     *              Factory::getApplication()->getConfig();
      */
     public static function getConfig($file = null, $type = 'PHP', $namespace = '')
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. The configuration object should be read from the application.',
                 __METHOD__
             ),
@@ -256,7 +256,7 @@ abstract class Factory
      * @see         Session
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the session service in the DI container or get from the application object
      *              Example:
      *              Factory::getApplication()->getSession();
@@ -264,7 +264,7 @@ abstract class Factory
     public static function getSession(array $options = [])
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated. Load the session from the dependency injection container or via %2$s::getApplication()->getSession().',
                 __METHOD__,
                 __CLASS__
@@ -285,7 +285,7 @@ abstract class Factory
      * @see         Language
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the language service in the DI container or get from the application object
      *              Example:
      *              Factory::getApplication()->getLanguage();
@@ -293,7 +293,7 @@ abstract class Factory
     public static function getLanguage()
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated. Load the language from the dependency injection container or via %2$s::getApplication()->getLanguage().',
                 __METHOD__,
                 __CLASS__
@@ -318,7 +318,7 @@ abstract class Factory
      * @see         Document
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the document service in the DI container or get from the application object
      *              Example:
      *              Factory::getApplication()->getDocument();
@@ -326,7 +326,7 @@ abstract class Factory
     public static function getDocument()
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated. Load the document from the dependency injection container or via %2$s::getApplication()->getDocument().',
                 __METHOD__,
                 __CLASS__
@@ -353,7 +353,7 @@ abstract class Factory
      * @see         User
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Load the user service from the dependency injection container or get from the application object
      *              Example:
      *              Factory::getApplication()->getIdentity();
@@ -361,7 +361,7 @@ abstract class Factory
     public static function getUser($id = null)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated. Load the user from the dependency injection container or via %2$s::getApplication()->getIdentity().',
                 __METHOD__,
                 __CLASS__
@@ -397,7 +397,7 @@ abstract class Factory
      * @see         Cache
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the cache controller factory instead
      *              Example:
      *              Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($handler, $options);
@@ -405,7 +405,7 @@ abstract class Factory
     public static function getCache($group = '', $handler = 'callback', $storage = null)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. The cache controller should be fetched from the factory.',
                 __METHOD__
             ),
@@ -443,7 +443,7 @@ abstract class Factory
      * @see         DatabaseDriver
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the database service in the DI container
      *              Example:
      *              Factory::getContainer()->get(DatabaseInterface::class);
@@ -451,7 +451,7 @@ abstract class Factory
     public static function getDbo()
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated. Load the database from the dependency injection container.',
                 __METHOD__
             ),
@@ -479,7 +479,7 @@ abstract class Factory
      * @see     Mail
      * @since   1.7.0
      *
-     * @deprecated  4.4.0 will be removed in 6.0
+     * @deprecated  4.4.0 will be removed in 7.0
      *              Use the mailer service in the DI container and create a mailer from there
      *              Example:
      *              Factory::getContainer()->get(MailerFactoryInterface::class)->createMailer();
@@ -523,11 +523,11 @@ abstract class Factory
 
                 if (!class_exists($classname)) {
                     // The class does not exist, default to Date
-                    $classname = 'Joomla\\CMS\\Date\\Date';
+                    $classname = Date::class;
                 }
             } else {
                 // No tag, so default to Date
-                $classname = 'Joomla\\CMS\\Date\\Date';
+                $classname = Date::class;
             }
         }
 
@@ -554,14 +554,14 @@ abstract class Factory
      * @see         Registry
      * @since       1.7.0
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use the configuration object within the application.
-     *              Example: Factory::getApplication->getConfig();
+     *              Example: Factory::getApplication()->getConfig();
      */
     protected static function createConfig($file, $type = 'PHP', $namespace = '')
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. The configuration object should be read from the application.',
                 __METHOD__
             ),
@@ -638,7 +638,7 @@ abstract class Factory
      * @see         DatabaseDriver
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the database service in the DI container
      *              Example:
      *              Factory::getContainer()->get(DatabaseInterface::class);
@@ -646,7 +646,7 @@ abstract class Factory
     protected static function createDbo()
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated, register a service provider to create a %2$s instance instead.',
                 __METHOD__,
                 DatabaseInterface::class
@@ -701,7 +701,7 @@ abstract class Factory
      * @see     Mail
      * @since   1.7.0
      *
-     * @deprecated  4.4.0 will be removed in 6.0
+     * @deprecated  4.4.0 will be removed in 7.0
      *              Use the mailer service in the DI container and create a mailer from there
      *              Example:
      *              Factory::getContainer()->get(MailerFactoryInterface::class)->createMailer();
@@ -724,14 +724,14 @@ abstract class Factory
      * @see         Language
      * @since       1.7.0
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Load the language service from the dependency injection container or via $app->getLanguage()
      *              Example: Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($locale, $debug)
      */
     protected static function createLanguage()
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated. Load the language from the dependency injection container or via %2$s::getApplication()->getLanguage().',
                 __METHOD__,
                 __CLASS__
@@ -755,14 +755,14 @@ abstract class Factory
      * @see         Document
      * @since       1.7.0
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Load the document service from the dependency injection container or via $app->getDocument()
      *              Example: Factory::getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
      */
     protected static function createDocument()
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated. Load the document from the dependency injection container or via %2$s::getApplication()->getDocument().',
                 __METHOD__,
                 __CLASS__

@@ -163,18 +163,17 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
         // Suppress all errors to avoid any output
         try {
             $this->runScheduler();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
 
         ob_end_clean();
     }
 
     /**
-     * This method is responsible for the WebCron functionality of the Scheduler component.<br/>
+     * This method is responsible for the WebCron functionality of the Scheduler component.
      * Acting on a `com_ajax` call, this method can work in two ways:
-     * 1. If no Task ID is specified, it triggers the Scheduler to run the next task in
-     *   the task queue.
-     * 2. If a Task ID is specified, it fetches the task (if it exists) from the Scheduler API and executes it.<br/>
+     * 1. If no Task ID is specified, it triggers the Scheduler to run the next task in the task queue.
+     * 2. If a Task ID is specified, it fetches the task (if it exists) from the Scheduler API and executes it.
      *
      * URL query parameters:
      * - `hash` string (required)   Webcron hash (from the Scheduler component configuration).
@@ -202,8 +201,10 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
             throw new \Exception($this->getApplication()->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
+        // Check whether there is an id passed via the URL
         $id = (int) $this->getApplication()->getInput()->getInt('id', 0);
 
+        // When the id is set to 0 the next task is executed
         $task = $this->runScheduler($id);
 
         if (!empty($task) && !empty($task->getContent()['exception'])) {
@@ -233,9 +234,15 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
         $id              = (int) $this->getApplication()->getInput()->getInt('id');
         $allowConcurrent = $this->getApplication()->getInput()->getBool('allowConcurrent', false);
 
-        $user = $this->getApplication()->getIdentity();
+        if (empty($id)) {
+            throw new \Exception($this->getApplication()->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+        }
 
-        if (empty($id) || !$user->authorise('core.testrun', 'com_scheduler.task.' . $id)) {
+        $scheduler  = new Scheduler();
+        $taskRecord = $scheduler->fetchTaskRecord($id, true);
+        $user       = $this->getApplication()->getIdentity();
+
+        if (empty($taskRecord) || !Scheduler::isAuthorizedToRun($taskRecord, $user)) {
             throw new \Exception($this->getApplication()->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
@@ -245,7 +252,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
          * We will allow CLI exclusive tasks to be fetched and executed, it's left to routines to do a runtime check
          * if they want to refuse normal operation.
          */
-        $task = (new Scheduler())->getTask(
+        $task = $scheduler->getTask(
             [
                 'id'               => $id,
                 'allowDisabled'    => true,

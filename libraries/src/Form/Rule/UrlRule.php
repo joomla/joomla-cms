@@ -13,6 +13,7 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Uri\UriHelper;
@@ -45,7 +46,7 @@ class UrlRule extends FormRule
      * @link    https://www.w3.org/Addressing/URL/url-spec.txt
      * @see     \Joomla\String\StringHelper
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         // If the field is empty and not required, the field is valid.
         $required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
@@ -101,21 +102,33 @@ class UrlRule extends FormRule
         $urlScheme = (string) $urlParts['scheme'];
         $urlScheme = strtolower($urlScheme);
 
-        if (\in_array($urlScheme, $scheme) == false) {
+        if (!\in_array($urlScheme, $scheme)) {
             return false;
         }
 
-        // For some schemes here must be two slashes.
+        // For some schemes there must be two slashes.
         $scheme = ['http', 'https', 'ftp', 'ftps', 'gopher', 'wais', 'prospero', 'sftp', 'telnet', 'git'];
 
         if (\in_array($urlScheme, $scheme) && substr($value, \strlen($urlScheme), 3) !== '://') {
             return false;
         }
 
-        // The best we can do for the rest is make sure that the strings are valid UTF-8
-        // and the port is an integer.
-        if (\array_key_exists('host', $urlParts) && !StringHelper::valid((string) $urlParts['host'])) {
-            return false;
+        /**
+         * The best we can do for the rest is make sure that the strings are valid UTF-8,
+         * the host labels are valid (can be converted to punycode) and the port is an integer.
+         */
+        if (\array_key_exists('host', $urlParts)) {
+            if (!StringHelper::valid((string) $urlParts['host'])) {
+                return false;
+            }
+
+            foreach (explode('.', (string) $urlParts['host']) as $hostLabel) {
+                try {
+                    PunycodeHelper::toPunycode($hostLabel);
+                } catch (\Exception) {
+                    return false;
+                }
+            }
         }
 
         if (\array_key_exists('port', $urlParts) && 0 === (int) $urlParts['port']) {

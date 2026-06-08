@@ -13,8 +13,10 @@ namespace Joomla\Component\Finder\Site\View\Search;
 use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Finder\Site\Model\SearchModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -44,12 +46,17 @@ class FeedView extends BaseHtmlView
         // Adjust the list limit to the feed limit.
         $app->getInput()->set('limit', $app->get('feed_limit'));
 
-        // Get view data.
-        $state   = $this->get('State');
+        /** @var SearchModel $model */
+        $model   = $this->getModel();
+        $state   = $model->getState();
         $params  = $state->get('params');
-        $query   = $this->get('Query');
-        $results = $this->get('Items');
-        $total   = $this->get('Total');
+        $query   = $model->getQuery();
+        $results = $model->getItems();
+
+        // If the feed has been disabled, we want to bail out here
+        if ($params->get('show_feed_link', 1) == 0) {
+            throw new \Exception(Text::_('JGLOBAL_RESOURCE_NOT_FOUND'), 404);
+        }
 
         // Push out the query data.
         $explained = HTMLHelper::_('query.explained', $query);

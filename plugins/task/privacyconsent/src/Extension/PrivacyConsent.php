@@ -122,7 +122,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
         $now      = Factory::getDate()->toSql();
         $period   = '-' . ($expire - $remind);
         $db       = $this->getDatabase();
-        $query    = $db->getQuery(true);
+        $query    = $db->createQuery();
 
         $query->select($db->quoteName(['r.id', 'r.user_id', 'u.email']))
             ->from($db->quoteName('#__privacy_consents', 'r'))
@@ -133,7 +133,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 
         try {
             $users = $db->setQuery($query)->loadObjectList();
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             return Status::KNOCKOUT;
         }
 
@@ -183,14 +183,14 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 
                 try {
                     $db->execute();
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException) {
                     return Status::KNOCKOUT;
                 }
-            } catch (MailDisabledException | phpmailerException $exception) {
+            } catch (MailDisabledException | phpmailerException) {
                 return Status::KNOCKOUT;
             }
         }
-        $this->logTask('Remind end');
+        $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_PRIVACYCONSENT_LOG_REMIND_END'), 'info');
 
         return Status::OK;
     }
@@ -210,7 +210,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
         $now    = Factory::getDate()->toSql();
         $period = '-' . $expire;
         $db     = $this->getDatabase();
-        $query  = $db->getQuery(true);
+        $query  = $db->createQuery();
 
         $query->select($db->quoteName(['id', 'user_id']))
             ->from($db->quoteName('#__privacy_consents'))
@@ -222,7 +222,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 
         try {
             $users = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return Status::KNOCKOUT;
         }
 
@@ -237,7 +237,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 
         foreach ($users as $user) {
             $userId = (int) $user->id;
-            $query  = $db->getQuery(true)
+            $query  = $db->createQuery()
                 ->update($db->quoteName('#__privacy_consents'))
                 ->set($db->quoteName('state') . ' = 0')
                 ->where($db->quoteName('id') . ' = :userid')
@@ -246,7 +246,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 
             try {
                 $db->execute();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 return Status::KNOCKOUT;
             }
 

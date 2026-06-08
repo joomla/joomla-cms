@@ -11,13 +11,11 @@
 namespace Joomla\Plugin\ApiAuthentication\Token\Extension;
 
 use Joomla\CMS\Authentication\Authentication;
-use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Event\User\AuthenticationEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Filter\InputFilter;
 
@@ -74,15 +72,14 @@ final class Token extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor.
      *
-     * @param   DispatcherInterface   $dispatcher   The dispatcher
      * @param   array                 $config       An optional associative array of configuration settings
      * @param   InputFilter           $filter       The input filter
      *
      * @since   4.2.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, InputFilter $filter)
+    public function __construct(array $config, InputFilter $filter)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->filter = $filter;
     }
@@ -131,7 +128,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
             $authHeader  = $this->getApplication()->getInput()->server->get('REDIRECT_HTTP_AUTHORIZATION', '', 'string');
         }
 
-        if (substr($authHeader, 0, 7) == 'Bearer ') {
+        if (str_starts_with($authHeader, 'Bearer ')) {
             $parts       = explode(' ', $authHeader, 2);
             $tokenString = trim($parts[1]);
             $tokenString = $this->filter->clean($tokenString, 'BASE64');
@@ -149,7 +146,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
         // The token is a base64 encoded string. Make sure we can decode it.
         $authString = @base64_decode($tokenString);
 
-        if (empty($authString) || (strpos($authString, ':') === false)) {
+        if (empty($authString) || (!str_contains($authString, ':'))) {
             return;
         }
 
@@ -163,12 +160,17 @@ final class Token extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        list($algo, $userId, $tokenHMAC) = $parts;
+        [$algo, $userId, $tokenHMAC] = $parts;
 
         /**
          * Verify the HMAC algorithm requested in the token string is allowed
          */
         $allowedAlgo = \in_array($algo, $this->allowedAlgos);
+
+        // If the algorithm is not allowed, fail authentication gracefully.
+        if (!$allowedAlgo) {
+            return;
+        }
 
         /**
          * Make sure the user ID is an integer
@@ -180,7 +182,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
          */
         try {
             $siteSecret = $this->getApplication()->get('secret');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return;
         }
 
@@ -192,13 +194,19 @@ final class Token extends CMSPlugin implements SubscriberInterface
         $referenceTokenData = $this->getTokenSeedForUser($userId);
         $referenceTokenData = empty($referenceTokenData) ? '' : $referenceTokenData;
         $referenceTokenData = base64_decode($referenceTokenData);
+
+        // If the reference token data is empty, user has no token configured.
+        if (empty($referenceTokenData)) {
+            return;
+        }
+
         $referenceHMAC      = hash_hmac($algo, $referenceTokenData, $siteSecret);
 
         // Is the token enabled?
         $enabled = $this->isTokenEnabledForUser($userId);
 
         // Do the tokens match? Use a timing safe string comparison to prevent timing attacks.
-        $hashesMatch = Crypt::timingSafeCompare($referenceHMAC, $tokenHMAC);
+        $hashesMatch = hash_equals($referenceHMAC, $tokenHMAC);
 
         // Is the user in the allowed user groups?
         $inAllowedUserGroups = $this->isInAllowedUserGroup($userId);
@@ -252,8 +260,8 @@ final class Token extends CMSPlugin implements SubscriberInterface
         $response->username      = $user->username;
         $response->email         = $user->email;
         $response->fullname      = $user->name;
-        $response->timezone      = $user->get('timezone');
-        $response->language      = $user->get('language');
+        $response->timezone      = $user->getParam('timezone', $this->getApplication()->get('offset', 'UTC'));
+        $response->language      = $user->getParam('language', $this->getApplication()->get('language'));
 
         // Stop event propagation when status is STATUS_SUCCESS
         $event->stopPropagation();
@@ -271,7 +279,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
     {
         try {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('profile_value'))
                 ->from($db->quoteName('#__user_profiles'))
                 ->where($db->quoteName('profile_key') . ' = :profileKey')
@@ -282,7 +290,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
             $query->bind(':userId', $userId, ParameterType::INTEGER);
 
             return $db->setQuery($query)->loadResult();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return null;
         }
     }
@@ -300,7 +308,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
     {
         try {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('profile_value'))
                 ->from($db->quoteName('#__user_profiles'))
                 ->where($db->quoteName('profile_key') . ' = :profileKey')
@@ -313,7 +321,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
             $value = $db->setQuery($query)->loadResult();
 
             return $value == 1;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
     }

@@ -21,11 +21,13 @@ use Joomla\CMS\Router\Route;
 $displayData = [
     'textPrefix' => 'COM_FINDER',
     'formURL'    => 'index.php?option=com_finder&view=index',
-    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Smart_Search_quickstart_guide',
+    'helpURL'    => 'https://guide.joomla.org/user-manual/smart-search/smart-search-smart-search-quickstart-guides',
     'icon'       => 'icon-search-plus finder',
     'content'    => Text::_('COM_FINDER_INDEX_NO_DATA') . '<br>' . Text::_('COM_FINDER_INDEX_TIP'),
     'title'      => Text::_('COM_FINDER_HEADING_INDEXER'),
     'createURL'  => "javascript:document.getElementsByClassName('button-index')[0].click();",
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);
@@ -47,11 +49,18 @@ if ($this->finderPluginId) {
         Text::_('COM_FINDER_CONTENT_PLUGIN'),
         [
             'class'                 => 'alert-link',
-            'data-joomla-dialog'    => $this->escape(json_encode($popupOptions, JSON_UNESCAPED_SLASHES)),
+            'data-joomla-dialog'    => $this->escape(json_encode($popupOptions, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)),
             'data-checkin-url'      => Route::_('index.php?option=com_plugins&task=plugins.checkin&format=json&cid[]=' . $this->finderPluginId),
             'data-close-on-message' => '',
             'data-reload-on-close'  => '',
         ],
     );
     Factory::getApplication()->enqueueMessage(Text::sprintf('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED_LINK', $link), 'warning');
+}
+
+// Show warning that the finder plugins are disabled
+if (!$this->finderPlugins) {
+    $url  = 'index.php?option=com_plugins&filter[folder]=finder';
+    $link = HTMLHelper::_('link', Route::_($url), Text::_('COM_FINDER_FINDER_PLUGINS'), 'class="alert-link"');
+    Factory::getApplication()->enqueueMessage(Text::sprintf('COM_FINDER_INDEX_PLUGIN_FINDER_NOT_ENABLED_LINK', $link), 'warning');
 }

@@ -113,7 +113,7 @@ class SearchModel extends ListModel
         $results = [];
 
         // Convert the rows to result objects.
-        foreach ($items as $rk => $row) {
+        foreach ($items as $row) {
             // Build the result object.
             if (\is_resource($row->object)) {
                 $result = unserialize(stream_get_contents($row->object));
@@ -155,7 +155,7 @@ class SearchModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the required fields from the table.
         $query->select(
@@ -192,14 +192,14 @@ class SearchModel extends ListModel
         if (!empty($this->searchquery->filters)) {
             // Convert the associative array to a numerically indexed array.
             $groups     = array_values($this->searchquery->filters);
-            $taxonomies = \call_user_func_array('array_merge', array_values($this->searchquery->filters));
+            $taxonomies = array_merge(...array_map(fn ($group) => array_keys($group), $groups));
 
             $query->join('INNER', $db->quoteName('#__finder_taxonomy_map') . ' AS t ON t.link_id = l.link_id')
                 ->where('t.node_id IN (' . implode(',', array_unique($taxonomies)) . ')');
 
             // Iterate through each taxonomy group.
-            for ($i = 0, $c = \count($groups); $i < $c; $i++) {
-                $query->having('SUM(CASE WHEN t.node_id IN (' . implode(',', $groups[$i]) . ') THEN 1 ELSE 0 END) > 0');
+            foreach ($groups as $group) {
+                $query->having('SUM(CASE WHEN t.node_id IN (' . implode(',', array_keys($group)) . ') THEN 1 ELSE 0 END) > 0');
             }
         }
 
@@ -261,6 +261,12 @@ class SearchModel extends ListModel
         $query->order('ordering ' . $db->escape($direction));
 
         /*
+         * Prevent invalid records from being returned in the final query.
+         * This can happen if the search results are queried while the indexer is running.
+         */
+        $query->where($db->quoteName('object') . ' != ' . $db->quote(''));
+
+        /*
          * If there are no optional or required search terms in the query, we
          * can get the results in one relatively simple database query.
          */
@@ -296,7 +302,7 @@ class SearchModel extends ListModel
 
         // Check if there are any excluded terms to deal with.
         if (\count($this->excludedTerms)) {
-            $query2 = $db->getQuery(true);
+            $query2 = $db->createQuery();
             $query2->select('e.link_id')
                 ->from($db->quoteName('#__finder_links_terms', 'e'))
                 ->where('e.term_id IN (' . implode(',', $this->excludedTerms) . ')');
@@ -471,37 +477,35 @@ class SearchModel extends ListModel
         $params   = $app->getParams();
         $user     = $this->getCurrentUser();
         $language = $app->getLanguage();
+        $options  = [];
 
         $this->setState('filter.language', Multilanguage::isEnabled());
-
-        $request = $input->request;
-        $options = [];
 
         // Get the empty query setting.
         $options['empty'] = $params->get('allow_empty_query', 0);
 
         // Get the static taxonomy filters.
-        $options['filter'] = $request->getInt('f', $params->get('f', ''));
+        $options['filter'] = $input->getInt('f', $params->get('f', ''));
 
         // Get the dynamic taxonomy filters.
-        $options['filters'] = $request->get('t', $params->get('t', []), 'array');
+        $options['filters'] = $input->get('t', $params->get('t', []), 'array');
 
         // Get the query string.
-        $options['input'] = $request->getString('q', $params->get('q', ''));
+        $options['input'] = $input->getString('q', $params->get('q', ''));
 
         // Get the query language.
-        $options['language'] = $request->getCmd('l', $params->get('l', $language->getTag()));
+        $options['language'] = $input->getCmd('l', $params->get('l', $language->getTag()));
 
         // Set the word match mode
         $options['word_match'] = $params->get('word_match', 'exact');
 
         // Get the start date and start date modifier filters.
-        $options['date1'] = $request->getString('d1', $params->get('d1', ''));
-        $options['when1'] = $request->getString('w1', $params->get('w1', ''));
+        $options['date1'] = $input->getString('d1', $params->get('d1', ''));
+        $options['when1'] = $input->getString('w1', $params->get('w1', ''));
 
         // Get the end date and end date modifier filters.
-        $options['date2'] = $request->getString('d2', $params->get('d2', ''));
-        $options['when2'] = $request->getString('w2', $params->get('w2', ''));
+        $options['date2'] = $input->getString('d2', $params->get('d2', ''));
+        $options['when2'] = $input->getString('w2', $params->get('w2', ''));
 
         // Load the query object.
         $this->searchquery = new Query($options, $this->getDatabase());
@@ -539,7 +543,7 @@ class SearchModel extends ListModel
                 $this->setState('list.ordering', 'l.sale_price');
                 break;
 
-            case ($order === 'relevance' && !empty($this->includedTerms)):
+            case $order === 'relevance' && !empty($this->includedTerms):
                 $this->setState('list.ordering', 'm.weight');
                 break;
 

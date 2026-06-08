@@ -10,11 +10,15 @@
 
 namespace Joomla\Plugin\Extension\Finder\Extension;
 
-use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Event\Extension\AbstractExtensionEvent;
+use Joomla\CMS\Event\Extension\AfterInstallEvent;
+use Joomla\CMS\Event\Extension\AfterUninstallEvent;
+use Joomla\CMS\Event\Extension\AfterUpdateEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use Joomla\Event\SubscriberInterface;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -26,28 +30,45 @@ use Joomla\String\StringHelper;
  *
  * @since  4.0.0
  */
-final class Finder extends CMSPlugin
+final class Finder extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   5.2.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onExtensionAfterInstall'   => 'onExtensionAfterInstall',
+            'onExtensionAfterUpdate'    => 'onExtensionAfterUpdate',
+            'onExtensionAfterUninstall' => 'onExtensionAfterUninstall',
+        ];
+    }
+
+    /**
      * Add common words to finder after language got installed
      *
-     * @param   Installer   $installer  Installer object
-     * @param   integer     $eid        Extension Identifier
+     * @param   AfterInstallEvent $event  Event instance.
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function onExtensionAfterInstall($installer, $eid)
+    public function onExtensionAfterInstall(AbstractExtensionEvent $event): void
     {
+        $eid = $event->getEid();
+
         if (!$eid) {
             return;
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['element', 'client_id']))
             ->from($db->quoteName('#__extensions'))
             ->where(
@@ -68,31 +89,32 @@ final class Finder extends CMSPlugin
     /**
      * Add common words to finder after language got updated
      *
-     * @param   Installer  $installer  Installer object
-     * @param   integer    $eid        Extension identifier
+     * @param   AfterUpdateEvent $event  Event instance.
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function onExtensionAfterUpdate($installer, $eid)
+    public function onExtensionAfterUpdate(AfterUpdateEvent $event): void
     {
-        $this->onExtensionAfterInstall($installer, $eid);
+        $this->onExtensionAfterInstall($event);
     }
 
     /**
      * Remove common words to finder after language got uninstalled
      *
-     * @param   Installer  $installer  Installer instance
-     * @param   integer    $eid        Extension id
-     * @param   boolean    $removed    Installation result
+     * @param   AfterUninstallEvent $event  Event instance.
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function onExtensionAfterUninstall($installer, $eid, $removed)
+    public function onExtensionAfterUninstall(AfterUninstallEvent $event): void
     {
+        $installer = $event->getInstaller();
+        $eid       = $event->getEid();
+        $removed   = $event->getRemoved();
+
         // Check that the language was successfully uninstalled.
         if ($eid && $removed && $installer->extension->type === 'language') {
             $this->removeCommonWords($installer->extension);
@@ -139,7 +161,7 @@ final class Finder extends CMSPlugin
         $words = array_filter(array_map('trim', $words));
         $words = array_unique($words);
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $lang = Helper::getPrimaryLanguage($extension->element);
 
@@ -155,7 +177,7 @@ final class Finder extends CMSPlugin
         try {
             $db->setQuery($query);
             $db->execute();
-        } catch (\Exception $ex) {
+        } catch (\Exception) {
             // It would be nice if the common word is stored to the DB, but it isn't super important
         }
     }
@@ -174,7 +196,7 @@ final class Finder extends CMSPlugin
         $db   = $this->getDatabase();
         $lang = Helper::getPrimaryLanguage($extension->element);
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->delete($db->quoteName('#__finder_terms_common'))
             ->where(
                 [

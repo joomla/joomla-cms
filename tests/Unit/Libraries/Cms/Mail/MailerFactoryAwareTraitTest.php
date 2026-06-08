@@ -35,7 +35,7 @@ class MailerFactoryAwareTraitTest extends UnitTestCase
     public function testGetSetMailerFactory()
     {
         $mailerFactory = new class () implements MailerFactoryInterface {
-            public function createMailer(Registry $configuration = null): MailerInterface
+            public function createMailer(?Registry $configuration = null): MailerInterface
             {
                 return new class () implements MailerInterface {
                     public function send()

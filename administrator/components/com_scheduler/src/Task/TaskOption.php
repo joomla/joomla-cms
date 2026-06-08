@@ -79,6 +79,18 @@ class TaskOption
     }
 
     /**
+     * Method to get the type title.
+     *
+     * @return  string  The type title.
+     *
+     * @since  5.3.0
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
      * Magic method to allow read-only access to private properties.
      *
      * @param   string  $name  The object property requested.
@@ -97,7 +109,7 @@ class TaskOption
         if ($name === 'type') {
             try {
                 Log::add(
-                    sprintf(
+                    \sprintf(
                         'The %1$s property is deprecated. Use %2$s instead.',
                         $name,
                         'id'
@@ -105,7 +117,7 @@ class TaskOption
                     Log::WARNING,
                     'deprecated'
                 );
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 // Pass
             }
 

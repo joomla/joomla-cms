@@ -15,10 +15,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Newsfeeds\Administrator\Model\NewsfeedModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -59,6 +59,15 @@ class HtmlView extends BaseHtmlView
     protected $state;
 
     /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
+
+    /**
      * Execute and display a template script.
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -69,9 +78,13 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state = $this->get('State');
-        $this->item  = $this->get('Item');
-        $this->form  = $this->get('Form');
+        /** @var NewsfeedModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
+
+        $this->state = $model->getState();
+        $this->item  = $model->getItem();
+        $this->form  = $model->getForm();
 
         if ($this->getLayout() === 'modalreturn') {
             parent::display($tpl);
@@ -79,13 +92,10 @@ class HtmlView extends BaseHtmlView
             return;
         }
 
-        // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
-
         // If we are forcing a language in modal (used for associations).
-        if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'cmd')) {
+        $forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'cmd');
+
+        if ($this->getLayout() === 'modal' && $forcedLanguage) {
             // Set the language field to the forcedLanguage and disable changing it.
             $this->form->setValue('language', null, $forcedLanguage);
             $this->form->setFieldAttribute('language', 'readonly', 'true');
@@ -96,6 +106,11 @@ class HtmlView extends BaseHtmlView
             // Only allow to select tags with All language or with the forced language.
             $this->form->setFieldAttribute('tags', 'language', '*,' . $forcedLanguage);
         }
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task')
+            ->addControlField('forcedLanguage', $forcedLanguage);
 
         if ($this->getLayout() !== 'modal') {
             $this->addToolbar();
@@ -120,7 +135,7 @@ class HtmlView extends BaseHtmlView
         $user       = $this->getCurrentUser();
         $isNew      = ($this->item->id == 0);
         $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->id);
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         // Since we don't track these assets at the item level, use the category id.
         $canDo = ContentHelper::getActions('com_newsfeeds', 'category', $this->item->catid);
@@ -158,7 +173,7 @@ class HtmlView extends BaseHtmlView
         } else {
             $toolbar->cancel('newsfeed.cancel');
 
-            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit')) {
+            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->get('params')->get('save_history', 0) && $canDo->get('core.edit')) {
                 $toolbar->versions('com_newsfeeds.newsfeed', $this->item->id);
             }
         }
@@ -186,7 +201,7 @@ class HtmlView extends BaseHtmlView
     {
         $user       = $this->getCurrentUser();
         $isNew      = ($this->item->id == 0);
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         // Since we don't track these assets at the item level, use the category id.
         $canDo = ContentHelper::getActions('com_newsfeeds', 'category', $this->item->catid);

@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\Module\Finder\Site\Helper\FinderHelper;
 
 // Load the smart search component language file.
 $lang = $app->getLanguage();
@@ -52,25 +51,30 @@ if ($params->get('show_autosuggest', 1)) {
     $wa->usePreset('awesomplete');
     $app->getDocument()->addScriptOptions('finder-search', ['url' => Route::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component', false)]);
 
+    Text::script('COM_FINDER_SEARCH_FORM_LIST_LABEL');
     Text::script('JLIB_JS_AJAX_ERROR_OTHER');
     Text::script('JLIB_JS_AJAX_ERROR_PARSE');
 }
 
 $wa->useScript('com_finder.finder');
 
+$finderHelper = $app->bootModule('mod_finder', 'site')->getHelper('FinderHelper');
+
 ?>
 
-<form class="mod-finder js-finder-searchform form-search" action="<?php echo Route::_($route); ?>" method="get" role="search">
-    <?php echo $output; ?>
+<search>
+    <form class="mod-finder js-finder-searchform form-search" action="<?php echo Route::_($route); ?>" method="get" aria-label="search">
+        <?php echo $output; ?>
 
-    <?php $show_advanced = $params->get('show_advanced', 0); ?>
-    <?php if ($show_advanced == 2) : ?>
-        <br>
-        <a href="<?php echo Route::_($route); ?>" class="mod-finder__advanced-link"><?php echo Text::_('COM_FINDER_ADVANCED_SEARCH'); ?></a>
-    <?php elseif ($show_advanced == 1) : ?>
-        <div class="mod-finder__advanced js-finder-advanced">
-            <?php echo HTMLHelper::_('filter.select', $query, $params); ?>
-        </div>
-    <?php endif; ?>
-    <?php echo FinderHelper::getGetFields($route, (int) $params->get('set_itemid', 0)); ?>
-</form>
+        <?php $show_advanced = $params->get('show_advanced', 0); ?>
+        <?php if ($show_advanced == 2) : ?>
+            <br>
+            <a href="<?php echo Route::_($route); ?>" class="mod-finder__advanced-link"><?php echo Text::_('COM_FINDER_ADVANCED_SEARCH'); ?></a>
+        <?php elseif ($show_advanced == 1) : ?>
+            <div class="mod-finder__advanced js-finder-advanced">
+                <?php echo HTMLHelper::_('filter.select', $query, $params); ?>
+            </div>
+        <?php endif; ?>
+        <?php echo $finderHelper->getHiddenFields($route); ?>
+    </form>
+</search>

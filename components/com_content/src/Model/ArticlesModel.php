@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
@@ -39,12 +40,13 @@ class ArticlesModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config    An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \JController
      * @since   1.6
      */
-    public function __construct($config = [])
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -70,7 +72,7 @@ class ArticlesModel extends ListModel
             ];
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -193,7 +195,7 @@ class ArticlesModel extends ListModel
         // Create a new query object.
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $nowDate = Factory::getDate()->toSql();
 
@@ -411,7 +413,7 @@ class ArticlesModel extends ListModel
                 $levels     = (int) $this->getState('filter.max_category_levels', 1);
 
                 // Create a subquery for the subcategory list
-                $subQuery = $db->getQuery(true)
+                $subQuery = $db->createQuery()
                     ->select($db->quoteName('sub.id'))
                     ->from($db->quoteName('#__categories', 'sub'))
                     ->join(
@@ -489,8 +491,29 @@ class ArticlesModel extends ListModel
             $query->where($authorWhere . $authorAliasWhere);
         }
 
+        // Filter by checked_out status
+        $checkedOut = $this->getState('filter.checked_out', null);
+
+        if (is_numeric($checkedOut)) {
+            if ($checkedOut == -1) {
+                // Only checked out articles
+                $query->where($db->quoteName('a.checked_out') . ' > 0');
+            } elseif ($checkedOut == 0) {
+                // Only not checked out articles
+                $query->where('(' . $db->quoteName('a.checked_out') . ' = 0 OR ' . $db->quoteName('a.checked_out') . ' IS NULL)');
+            } else {
+                // Checked out by specific user
+                $checkedOut = (int) $checkedOut;
+                $query->where($db->quoteName('a.checked_out') . ' = :checkedOutUser')
+                    ->bind(':checkedOutUser', $checkedOut, ParameterType::INTEGER);
+            }
+        }
+
         // Filter by start and end dates.
-        if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content'))) {
+        if (
+            !(is_numeric($condition) && $condition == ContentComponent::CONDITION_UNPUBLISHED)
+            && !(\is_array($condition) && \in_array(ContentComponent::CONDITION_UNPUBLISHED, $condition))
+        ) {
             $query->where(
                 [
                     '(' . $db->quoteName('a.publish_up') . ' IS NULL OR ' . $db->quoteName('a.publish_up') . ' <= :publishUp)',
@@ -602,7 +625,7 @@ class ArticlesModel extends ListModel
             $tagId = ArrayHelper::toInteger($tagId);
 
             if ($tagId) {
-                $subQuery = $db->getQuery(true)
+                $subQuery = $db->createQuery()
                     ->select('DISTINCT ' . $db->quoteName('content_item_id'))
                     ->from($db->quoteName('#__contentitem_tag_map'))
                     ->where(
@@ -659,10 +682,11 @@ class ArticlesModel extends ListModel
         // Get the global params
         $globalParams = ComponentHelper::getParams('com_content', true);
 
-        $taggedItems = [];
+        $taggedItems     = [];
+        $associatedItems = [];
 
         // Convert the parameter fields into objects.
-        foreach ($items as $item) {
+        foreach ($items as $i => $item) {
             $articleParams = new Registry($item->attribs);
 
             // Unpack readmore and layout params
@@ -759,11 +783,12 @@ class ArticlesModel extends ListModel
             // Some contexts may not use tags data at all, so we allow callers to disable loading tag data
             if ($this->getState('load_tags', $item->params->get('show_tags', '1'))) {
                 $item->tags             = new TagsHelper();
-                $taggedItems[$item->id] = $item;
+                $taggedItems[$item->id] = $i;
             }
 
+            // Collect items for associations load
             if (Associations::isEnabled() && $item->params->get('show_associations')) {
-                $item->associations = AssociationHelper::displayAssociations($item->id);
+                $associatedItems[$item->id] = $i;
             }
         }
 
@@ -773,7 +798,17 @@ class ArticlesModel extends ListModel
             $itemIds    = array_keys($taggedItems);
 
             foreach ($tagsHelper->getMultipleItemTags('com_content.article', $itemIds) as $id => $tags) {
-                $taggedItems[$id]->tags->itemTags = $tags;
+                $items[$taggedItems[$id]]->tags->itemTags = $tags;
+            }
+        }
+
+        // Load associations of all items.
+        if ($associatedItems) {
+            $itemIds      = array_keys($associatedItems);
+            $associations = AssociationHelper::displayAssociations($itemIds);
+
+            foreach ($associatedItems as $itemId => $i) {
+                $items[$i]->associations = $associations[$itemId] ?? [];
             }
         }
 
@@ -803,7 +838,7 @@ class ArticlesModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Get the list query.
         $listQuery = $this->getListQuery();

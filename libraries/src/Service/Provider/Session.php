@@ -13,7 +13,6 @@ use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Input\Input as CMSInput;
 use Joomla\CMS\Installation\Application\InstallationApplication;
 use Joomla\CMS\Session\EventListener\MetadataManagerListener;
 use Joomla\CMS\Session\MetadataManager;
@@ -26,6 +25,7 @@ use Joomla\DI\Exception\DependencyResolutionException;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\LazyServiceEventListener;
+use Joomla\Input\Input as CMSInput;
 use Joomla\Registry\Registry;
 use Joomla\Session\HandlerInterface;
 use Joomla\Session\SessionEvents;
@@ -86,7 +86,7 @@ class Session implements ServiceProviderInterface
                 $options['cookie_path']   = $config->get('cookie_path', '/');
 
                 return new \Joomla\CMS\Session\Session(
-                    new JoomlaStorage($input, $handler),
+                    new JoomlaStorage($input, $handler, $options),
                     $container->get(DispatcherInterface::class),
                     $options
                 );
@@ -133,7 +133,7 @@ class Session implements ServiceProviderInterface
                 $options['cookie_path']   = $config->get('cookie_path', '/');
 
                 return new \Joomla\CMS\Session\Session(
-                    new JoomlaStorage($input, $handler),
+                    new JoomlaStorage($input, $handler, $options),
                     $container->get(DispatcherInterface::class),
                     $options
                 );
@@ -174,7 +174,7 @@ class Session implements ServiceProviderInterface
                 $options['cookie_path']   = $config->get('cookie_path', '/');
 
                 return new \Joomla\CMS\Session\Session(
-                    new JoomlaStorage($input, $handler),
+                    new JoomlaStorage($input, $handler, $options),
                     $container->get(DispatcherInterface::class),
                     $options
                 );
@@ -258,7 +258,7 @@ class Session implements ServiceProviderInterface
                      */
                     if (!Factory::$application) {
                         throw new DependencyResolutionException(
-                            sprintf(
+                            \sprintf(
                                 'Creating the "session.metadata_manager" service requires %s::$application be initialised.',
                                 Factory::class
                             )

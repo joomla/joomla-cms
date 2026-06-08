@@ -21,9 +21,7 @@ $this->getWebAssetManager()
     ->useScript('core')
     ->useScript('keepalive')
     ->useScript('form.validate')
-    ->registerAndUseScript('template.installation', 'installation/template/js/template.js', ['version' => 'auto'], ['defer' => true], ['core', 'form.validate']);
-
-$this->getWebAssetManager()
+    ->registerAndUseScript('template.installation', 'installation/template/js/template.js', ['version' => 'auto'], ['defer' => true], ['core', 'form.validate'])
     ->useStyle('webcomponent.joomla-alert')
     ->useScript('messages')
     ->useScript('webcomponent.core-loader')
@@ -44,6 +42,7 @@ Text::script('ERROR');
 Text::script('WARNING');
 Text::script('NOTICE');
 Text::script('MESSAGE');
+Text::script('SUCCESS');
 
 // Add strings for JavaScript error translations.
 Text::script('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT');
@@ -57,12 +56,11 @@ Text::script('INSTL_DATABASE_RESPONSE_ERROR');
 Text::script('INSTL');
 Text::script('INSTL_FINISHED');
 Text::script('INSTL_IN_PROGRESS');
-
-// Load the JavaScript translated messages
 Text::script('INSTL_PROCESS_BUSY');
 
 // Load strings for translated messages (directory removal)
 Text::script('INSTL_REMOVE_INST_FOLDER');
+Text::script('INSTL_DISABLE_AUTOUPDATE');
 Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
 ?>
 <!DOCTYPE html>
@@ -95,7 +93,7 @@ Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
                         </span>
                     </div>
                     <div class="m-2 d-flex align-items-center col justify-content-end">
-                        <a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla" target="_blank">
+                        <a href="https://guide.joomla.org/user-manual/getting-started/getting-started-installing-joomla" target="_blank">
                             <span class="icon-question" aria-hidden="true"></span>
                             <span class="visually-hidden"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
                         </a>

@@ -19,6 +19,8 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @package     Joomla.UnitTest
  * @subpackage  Uri
  * @since       1.7.0
+ *
+ * @backupGlobals enabled
  */
 class UriTest extends UnitTestCase
 {
@@ -26,14 +28,6 @@ class UriTest extends UnitTestCase
      * @var    Uri
      */
     protected $object;
-
-    /**
-     * Backup of the SERVER superglobal
-     *
-     * @var    array
-     * @since  3.6
-     */
-    protected $backupServer;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
@@ -46,7 +40,6 @@ class UriTest extends UnitTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->backupServer = $_SERVER;
         Uri::reset();
 
         $_SERVER['HTTP_HOST']   = 'www.example.com:80';
@@ -68,8 +61,6 @@ class UriTest extends UnitTestCase
      */
     protected function tearDown(): void
     {
-        $_SERVER = $this->backupServer;
-        unset($this->backupServer);
         unset($this->object);
         parent::tearDown();
     }
@@ -392,9 +383,39 @@ class UriTest extends UnitTestCase
      */
     public function testIsInternalSchemeEmptyButHostAndPortMatch(): void
     {
-        $this->assertTrue(
+        $this->assertFalse(
             Uri::isInternal('www.example.com:80'),
-            'www.example.com:80 should be internal'
+            'www.example.com:80 should NOT be internal'
+        );
+    }
+
+    /**
+     * Test hardening of Uri::isInternal against non internal links
+     *
+     * @return void
+     *
+     * @covers Uri::isInternal
+     */
+    public function testIsInternalWithSchemeAndHostAndPortMatch(): void
+    {
+        $this->assertTrue(
+            Uri::isInternal('http://www.example.com:80'),
+            'http://www.example.com:80 should be internal'
+        );
+    }
+
+    /**
+     * Test hardening of Uri::isInternal against non internal links
+     *
+     * @return void
+     *
+     * @covers Uri::isInternal
+     */
+    public function testIsInternalWithSchemeNotMatch(): void
+    {
+        $this->assertFalse(
+            Uri::isInternal('https://www.example.com:80'),
+            'https://www.example.com:80 should NOT be internal'
         );
     }
 
@@ -440,6 +461,21 @@ class UriTest extends UnitTestCase
         $this->assertFalse(
             Uri::isInternal('http://someuser.com\@www.example.com:80'),
             'http://someuser\@www.example.com:80 should NOT be internal'
+        );
+    }
+
+    /**
+     * Test hardening of Uri::isInternal against non internal links
+     *
+     * @return void
+     *
+     * @covers Uri::isInternal
+     */
+    public function testIsInternalWithUrlInPath(): void
+    {
+        $this->assertFalse(
+            Uri::isInternal('http://evil.com/' . Uri::base()),
+            'http://www.evil.com/' . Uri::base() . ' should not be internal'
         );
     }
 }

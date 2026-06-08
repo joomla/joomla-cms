@@ -15,7 +15,6 @@
 		<files folder="admin">
 			<filename>admin.xml</filename>
 			<filename>script.php</filename>
-			<folder>forms</folder>
 			<folder>postinstall</folder>
 			<folder>services</folder>
 			<folder>src</folder>

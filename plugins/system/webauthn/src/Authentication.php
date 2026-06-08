@@ -19,7 +19,6 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\WebAuthn\Server;
 use Joomla\Session\SessionInterface;
-use Laminas\Diactoros\ServerRequestFactory;
 use Webauthn\AuthenticationExtensions\AuthenticationExtensionsClientInputs;
 use Webauthn\AuthenticatorSelectionCriteria;
 use Webauthn\MetadataService\MetadataStatementRepository;
@@ -87,17 +86,17 @@ final class Authentication
     /**
      * Public constructor.
      *
-     * @param   ApplicationInterface|null                 $app       The app we are running in
-     * @param   SessionInterface|null                     $session   The app session object
-     * @param   PublicKeyCredentialSourceRepository|null  $credRepo  Credentials repo
-     * @param   MetadataStatementRepository|null          $mdsRepo   Authenticator metadata repo
+     * @param   ?ApplicationInterface                 $app       The app we are running in
+     * @param   ?SessionInterface                     $session   The app session object
+     * @param   ?PublicKeyCredentialSourceRepository  $credRepo  Credentials repo
+     * @param   ?MetadataStatementRepository          $mdsRepo   Authenticator metadata repo
      *
      * @since   4.2.0
      */
     public function __construct(
-        ApplicationInterface $app = null,
-        SessionInterface $session = null,
-        PublicKeyCredentialSourceRepository $credRepo = null,
+        ?ApplicationInterface $app = null,
+        ?SessionInterface $session = null,
+        ?PublicKeyCredentialSourceRepository $credRepo = null,
         ?MetadataStatementRepository $mdsRepo = null
     ) {
         $this->app                   = $app;
@@ -190,11 +189,7 @@ final class Authentication
             $this->getUserEntity($user),
             $attestationMode,
             $this->getPubKeyDescriptorsForUser($user),
-            new AuthenticatorSelectionCriteria(
-                AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_NO_PREFERENCE,
-                false,
-                AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_PREFERRED
-            ),
+            new AuthenticatorSelectionCriteria(),
             new AuthenticationExtensionsClientInputs()
         );
 
@@ -273,7 +268,7 @@ final class Authentication
             $data,
             $this->getPKCredentialRequestOptions(),
             $this->getUserEntity($user),
-            ServerRequestFactory::fromGlobals()
+            Uri::getInstance()->toString(['host'])
         );
     }
 
@@ -305,10 +300,10 @@ final class Authentication
             throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_NO_PK'));
         }
 
-        /** @var PublicKeyCredentialCreationOptions|null $publicKeyCredentialCreationOptions */
         try {
+            /** @var PublicKeyCredentialCreationOptions|null $publicKeyCredentialCreationOptions */
             $publicKeyCredentialCreationOptions = unserialize(base64_decode($encodedOptions));
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             Log::add('The plg_system_webauthn.publicKeyCredentialCreationOptions in the session is invalid', Log::NOTICE, 'webauthn.system');
             $publicKeyCredentialCreationOptions = null;
         }
@@ -323,7 +318,7 @@ final class Authentication
         $myUserId     = $myUser->id;
 
         if (($myUser->guest) || ($myUserId != $storedUserId)) {
-            $message = sprintf('Invalid user! We asked the authenticator to attest user ID %d, the current user ID is %d', $storedUserId, $myUserId);
+            $message = \sprintf('Invalid user! We asked the authenticator to attest user ID %d, the current user ID is %d', $storedUserId, $myUserId);
             Log::add($message, Log::NOTICE, 'webauthn.system');
 
             throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_USER'));
@@ -333,7 +328,7 @@ final class Authentication
         return $this->getWebauthnServer()->loadAndCheckAttestationResponse(
             base64_decode($data),
             $publicKeyCredentialCreationOptions,
-            ServerRequestFactory::fromGlobals()
+            Uri::getInstance()->toString(['host'])
         );
     }
 
@@ -392,7 +387,7 @@ final class Authentication
                 '/templates/',
                 '/templates/' . $this->app->getTemplate(),
             ];
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return null;
         }
 
@@ -430,10 +425,10 @@ final class Authentication
         $repository = $this->credentialsRepository;
 
         return new PublicKeyCredentialUserEntity(
-            $user->username,
-            $repository->getHandleFromUserId($user->id),
-            $user->name,
-            $this->getAvatar($user, 64)
+            (string) $user->username,
+            (string) $repository->getHandleFromUserId($user->id),
+            (string) $user->name,
+            $user->username ? $this->getAvatar($user, 64) : ''
         );
     }
 
@@ -452,7 +447,7 @@ final class Authentication
         $scheme    = Uri::getInstance()->getScheme();
         $subdomain = ($scheme == 'https') ? 'secure' : 'www';
 
-        return sprintf('%s://%s.gravatar.com/avatar/%s.jpg?s=%u&d=mm', $scheme, $subdomain, md5($user->email), $size);
+        return \sprintf('%s://%s.gravatar.com/avatar/%s.jpg?s=%u&d=mm', $scheme, $subdomain, md5($user->email), $size);
     }
 
     /**
@@ -502,7 +497,7 @@ final class Authentication
 
         try {
             $publicKeyCredentialRequestOptions = unserialize(base64_decode($encodedOptions));
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             Log::add('Invalid plg_system_webauthn.publicKeyCredentialRequestOptions in the session', Log::NOTICE, 'webauthn.system');
 
             throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));

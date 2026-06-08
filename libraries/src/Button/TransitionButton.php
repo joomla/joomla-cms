@@ -62,7 +62,7 @@ class TransitionButton extends ActionButton
     {
         $default  = $this->unknownState;
 
-        $options['tip_title'] = $options['tip_title'] ?? ($options['title'] ?? $default['title']);
+        $options['tip_title'] ??= $options['title'] ?? $default['title'];
 
         return parent::render($value, $row, $options);
     }

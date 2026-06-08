@@ -159,7 +159,7 @@ class CronField extends ListField
         if ($this->wildcard) {
             try {
                 $options[] = HTMLHelper::_('select.option', '*', '*');
-            } catch (\InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException) {
             }
         }
 
@@ -180,7 +180,7 @@ class CronField extends ListField
         for ([$i, $l] = [$optionLower, 0]; $i <= $optionUpper; $i++, $l++) {
             try {
                 $options[] = HTMLHelper::_('select.option', (string) ($i), $labels[$l]);
-            } catch (\InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException) {
             }
         }
 

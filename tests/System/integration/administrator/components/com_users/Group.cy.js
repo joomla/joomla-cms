@@ -8,7 +8,7 @@ describe('Test in backend that the user group form', () => {
     cy.get('#jform_title').clear().type('test group');
     cy.clickToolbarButton('Save & Close');
 
-    cy.get('#system-message-container').contains('Group saved.').should('exist');
+    cy.checkForSystemMessage('Group saved.');
     cy.contains('test group');
   });
 
@@ -19,7 +19,7 @@ describe('Test in backend that the user group form', () => {
       cy.get('#jform_title').clear().type('test group edited');
       cy.clickToolbarButton('Save');
 
-      cy.get('#system-message-container').contains('Group saved.').should('exist');
+      cy.checkForSystemMessage('Group saved.');
     });
   });
 

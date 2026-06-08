@@ -88,13 +88,13 @@ class HtmlView extends BaseHtmlView
 
         if ($params->def('add_scheme', 1)) {
             // Adds 'http://' or 'https://' if none is set
-            if (strpos($url, '//') === 0) {
+            if (str_starts_with($url, '//')) {
                 // URL without scheme in component. Prepend current scheme.
                 $wrapper->url = Uri::getInstance()->toString(['scheme']) . substr($url, 2);
-            } elseif (strpos($url, '/') === 0) {
+            } elseif (str_starts_with($url, '/')) {
                 // Relative URL in component. Use scheme + host + port.
                 $wrapper->url = Uri::getInstance()->toString(['scheme', 'host', 'port']) . $url;
-            } elseif (strpos($url, 'http://') !== 0 && strpos($url, 'https://') !== 0) {
+            } elseif (!str_starts_with($url, 'http://') && !str_starts_with($url, 'https://')) {
                 // URL doesn't start with either 'http://' or 'https://'. Add current scheme.
                 $wrapper->url = Uri::getInstance()->toString(['scheme']) . $url;
             } else {

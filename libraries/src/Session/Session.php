@@ -31,16 +31,16 @@ class Session extends BaseSession
     /**
      * Constructor
      *
-     * @param   StorageInterface     $store       A StorageInterface implementation.
-     * @param   DispatcherInterface  $dispatcher  DispatcherInterface for the session to use.
-     * @param   array                $options     Optional parameters. Supported keys include:
-     *                                            - name: The session name
-     *                                            - id: The session ID
-     *                                            - expire: The session lifetime in seconds
+     * @param   ?StorageInterface     $store       A StorageInterface implementation.
+     * @param   ?DispatcherInterface  $dispatcher  DispatcherInterface for the session to use.
+     * @param   array                 $options     Optional parameters. Supported keys include:
+     *                                             - name: The session name
+     *                                             - id: The session ID
+     *                                             - expire: The session lifetime in seconds
      *
      * @since   1.0
      */
-    public function __construct(StorageInterface $store = null, DispatcherInterface $dispatcher = null, array $options = [])
+    public function __construct(?StorageInterface $store = null, ?DispatcherInterface $dispatcher = null, array $options = [])
     {
         // Extra hash the name of the session for b/c with Joomla 3.x or the session is never found.
         if (isset($options['name'])) {
@@ -150,7 +150,7 @@ class Session extends BaseSession
      *
      * @since   1.5
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Load the session service from the dependency injection container or via $app->getSession()
      *              Example: Factory::getApplication()->getSession();
      */
@@ -176,7 +176,7 @@ class Session extends BaseSession
      */
     public function get($name, $default = null)
     {
-        // Handle B/C by checking if a namespace was passed to the method, will be removed at 5.0
+        // Handle B/C by checking if a namespace was passed to the method, will be removed at 7.0
         if (\func_num_args() > 2) {
             $args = \func_get_args();
 
@@ -202,7 +202,7 @@ class Session extends BaseSession
          * This is no longer the case in Joomla 4 and will be converted
          * when saving new values in `self::set()`
          */
-        if (strpos($name, '.') !== false && parent::has('__' . $name)) {
+        if (str_contains($name, '.') && parent::has('__' . $name)) {
             return parent::get('__' . $name, $default);
         }
 
@@ -227,7 +227,7 @@ class Session extends BaseSession
      */
     public function set($name, $value = null)
     {
-        // Handle B/C by checking if a namespace was passed to the method, will be removed at 5.0
+        // Handle B/C by checking if a namespace was passed to the method, will be removed at 7.0
         if (\func_num_args() > 2) {
             $args = \func_get_args();
 
@@ -256,7 +256,7 @@ class Session extends BaseSession
      */
     public function has($name)
     {
-        // Handle B/C by checking if a namespace was passed to the method, will be removed at 5.0
+        // Handle B/C by checking if a namespace was passed to the method, will be removed at 7.0
         if (\func_num_args() > 1) {
             $args = \func_get_args();
 
@@ -281,7 +281,7 @@ class Session extends BaseSession
          * This is no longer the case in Joomla 4 and will be converted
          * when saving new values in `self::set()`
          */
-        if (strpos($name, '.') !== false && parent::has('__' . $name)) {
+        if (str_contains($name, '.') && parent::has('__' . $name)) {
             return true;
         }
 
@@ -299,7 +299,7 @@ class Session extends BaseSession
      */
     public function clear()
     {
-        // Handle B/C by checking if parameters were passed to this method; if so proxy to the new remove() method, will be removed at 5.0
+        // Handle B/C by checking if parameters were passed to this method; if so proxy to the new remove() method, will be removed at 7.0
         if (\func_num_args() >= 1) {
             $args = \func_get_args();
 

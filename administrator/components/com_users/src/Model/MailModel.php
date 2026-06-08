@@ -40,20 +40,14 @@ class MailModel extends AdminModel
      * @param   array    $data      An optional array of data for the form to interrogate.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form    A Form object on success, false on failure
+     * @return  Form    A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
-        // Get the form.
-        $form = $this->loadForm('com_users.mail', 'mail', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+        return $this->loadForm('com_users.mail', 'mail', ['control' => 'jform', 'load_data' => $loadData]);
     }
 
     /**
@@ -103,7 +97,6 @@ class MailModel extends AdminModel
         $app      = Factory::getApplication();
         $data     = $app->getInput()->post->get('jform', [], 'array');
         $user     = $this->getCurrentUser();
-        $access   = new Access();
         $db       = $this->getDatabase();
         $language = Factory::getLanguage();
 
@@ -129,7 +122,7 @@ class MailModel extends AdminModel
         }
 
         // Get users in the group out of the ACL, if group is provided.
-        $to = $grp !== 0 ? $access->getUsersByGroup($grp, $recurse) : [];
+        $to = $grp !== 0 ? Access::getUsersByGroup($grp, $recurse) : [];
 
         // When group is provided but no users are found in the group.
         if ($grp !== 0 && !$to) {
@@ -137,7 +130,7 @@ class MailModel extends AdminModel
         } else {
             // Get all users email and group except for senders
             $uid   = (int) $user->id;
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select(
                     [
                         $db->quoteName('email'),

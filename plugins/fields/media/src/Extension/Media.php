@@ -10,8 +10,11 @@
 
 namespace Joomla\Plugin\Fields\Media\Extension;
 
+use Joomla\CMS\Event\CustomFields\BeforePrepareFieldEvent;
+use Joomla\CMS\Event\Model\PrepareDataEvent;
 use Joomla\CMS\Form\Form;
 use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -22,8 +25,54 @@ use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
  *
  * @since  3.7.0
  */
-final class Media extends FieldsPlugin
+final class Media extends FieldsPlugin implements SubscriberInterface
 {
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   5.3.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return array_merge(parent::getSubscribedEvents(), [
+            'onContentPrepareData'             => 'prepareContentData',
+            'onCustomFieldsBeforePrepareField' => 'beforePrepareField',
+        ]);
+    }
+
+    /**
+     * Unset the fieldparams[types] parameter because the default value from the
+     * XML form get not overridden on field reload
+     *
+     * @param   PrepareDataEvent $event  The event instance.
+     *
+     * @return  void
+     * @since  6.1.0
+     */
+    public function prepareContentData(PrepareDataEvent $event)
+    {
+        $context = $event->getContext();
+        $data    = $event->getData();
+
+        if ($context !== 'com_fields.field') {
+            return;
+        }
+
+        if (!empty($data->type) && $data->type !== 'media') {
+            return;
+        }
+
+        if (\is_array($data)) {
+            unset($data['fieldparams']['types']);
+        } elseif (\is_object($data)) {
+            unset($data->fieldparams['types']);
+        }
+
+        $event->updateData($data);
+    }
+
     /**
      * Transforms the field into a DOM XML element and appends it as a child on the given parent.
      *
@@ -55,16 +104,16 @@ final class Media extends FieldsPlugin
     /**
      * Before prepares the field value.
      *
-     * @param   string     $context  The context.
-     * @param   \stdclass  $item     The item.
-     * @param   \stdclass  $field    The field.
+     * @param   BeforePrepareFieldEvent $event    The event instance.
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function onCustomFieldsBeforePrepareField($context, $item, $field)
+    public function beforePrepareField(BeforePrepareFieldEvent $event): void
     {
+        $field = $event->getField();
+
         // Check if the field should be processed by us
         if (!$this->isTypeSupported($field->type)) {
             return;

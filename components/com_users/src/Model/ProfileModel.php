@@ -45,14 +45,14 @@ class ProfileModel extends FormModel
     /**
      * Constructor.
      *
-     * @param   array                 $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
-     * @param   MVCFactoryInterface   $factory      The factory.
-     * @param   FormFactoryInterface  $formFactory  The form factory.
+     * @param   array                  $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
+     * @param   ?MVCFactoryInterface   $factory      The factory.
+     * @param   ?FormFactoryInterface  $formFactory  The form factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?FormFactoryInterface $formFactory = null)
     {
         $config = array_merge(
             [
@@ -112,18 +112,15 @@ class ProfileModel extends FormModel
      * @param   array    $data      An optional array of data for the form to interrogate.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|bool  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
         // Get the form.
         $form = $this->loadForm('com_users.profile', 'profile', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         // Check for username compliance and parameter set
         $isUsernameCompliant = true;
@@ -149,7 +146,7 @@ class ProfileModel extends FormModel
 
         // When multilanguage is set, a user's default site language should also be a Content Language
         if (Multilanguage::isEnabled()) {
-            $form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
+            $form->setFieldAttribute('language', 'type', 'frontendlanguage', 'params');
         }
 
         // If the user needs to change their password, mark the password fields as required
@@ -298,7 +295,7 @@ class ProfileModel extends FormModel
      *
      * @since   3.2
      *
-     * @deprecated   4.2 will be removed in 6.0.
+     * @deprecated   4.2 will be removed in 7.0.
      *               Will be removed without replacement
      */
     public function getTwofactorform($userId = null)
@@ -315,13 +312,13 @@ class ProfileModel extends FormModel
      *
      * @since   3.2
      *
-     * @deprecated   4.2 will be removed in 6.0.
+     * @deprecated   4.2 will be removed in 7.0.
      *               Will be removed without replacement
      */
     public function getOtpConfig($userId = null)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. Use \Joomla\Component\Users\Administrator\Helper\Mfa::getUserMfaRecords() instead.',
                 __METHOD__
             ),

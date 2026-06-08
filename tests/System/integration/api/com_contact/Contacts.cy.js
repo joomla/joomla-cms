@@ -42,14 +42,31 @@ describe('Test that contacts API endpoint', () => {
 
   it('can delete a contact', () => {
     cy.db_createContact({ name: 'automated test contact', published: -2 })
-      .then((contact) => cy.api_delete(`/contacts/${contact.id}`));
+      .then((contact) => cy.api_delete(`/contacts/${contact.id}`))
+      .then((result) => expect(result.status).to.eq(204));
+  });
+
+  it('check correct response for delete a not existent contact', () => {
+    cy.api_getBearerToken().then((token) => {
+      cy.request({
+        method: 'DELETE',
+        url: `/api/index.php/v1/contacts/9999`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        failOnStatusCode: false
+      }).then((response) => {
+        expect(response.status).to.equal(404);
+        expect(response.body.data.message).to.include('Resource not found');
+      });
+    });
   });
 
   it('can submit a contact form', () => {
     cy.db_getUserId().then((id) => cy.db_createContact({ name: 'automated test contact', user_id: id, params: '{"show_email_form":"1"}' }))
       .then((contact) => cy.api_post(`/contacts/form/${contact.id}`, {
-        contact_name: Cypress.env('name'),
-        contact_email: Cypress.env('email'),
+        contact_name: Cypress.expose('name'),
+        contact_email: Cypress.expose('email'),
         contact_subject: 'automated test subject',
         contact_message: 'automated test message',
       }))
@@ -58,11 +75,11 @@ describe('Test that contacts API endpoint', () => {
 
     cy.task('getMails').then((mails) => {
       expect(mails.length).to.equal(1);
-      cy.wrap(mails[0].sender).should('equal', Cypress.env('email'));
-      cy.wrap(mails[0].receivers).should('have.property', Cypress.env('email'));
-      cy.wrap(mails[0].headers.subject).should('equal', `${Cypress.env('sitename')}: automated test subject`);
+      cy.wrap(mails[0].sender).should('equal', Cypress.expose('email'));
+      cy.wrap(mails[0].receivers).should('have.property', Cypress.expose('email'));
+      cy.wrap(mails[0].headers.subject).should('equal', `${Cypress.expose('sitename')}: automated test subject`);
       cy.wrap(mails[0].body).should('have.string', 'This is an enquiry email via');
-      cy.wrap(mails[0].body).should('have.string', `${Cypress.env('name')} <${Cypress.env('email')}>`);
+      cy.wrap(mails[0].body).should('have.string', `${Cypress.expose('name')} ${Cypress.expose('email')}`);
       cy.wrap(mails[0].body).should('have.string', 'automated test message');
     });
   });

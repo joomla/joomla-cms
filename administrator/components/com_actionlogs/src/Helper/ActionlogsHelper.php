@@ -13,8 +13,8 @@ namespace Joomla\Component\Actionlogs\Administrator\Helper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Filesystem\Path;
 use Joomla\String\StringHelper;
 
@@ -53,7 +53,7 @@ class ActionlogsHelper
     {
         if (!is_iterable($data)) {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     '%s() requires an array or object implementing the Traversable interface, a %s was given.',
                     __METHOD__,
                     \is_object($data) ? \get_class($data) : \gettype($data)
@@ -100,7 +100,7 @@ class ActionlogsHelper
             return;
         }
 
-        $lang   = Factory::getLanguage();
+        $lang   = Factory::getApplication()->getLanguage();
         $source = '';
 
         switch (substr($extension, 0, 3)) {
@@ -143,26 +143,6 @@ class ActionlogsHelper
         }
 
         $cache[$extension] = true;
-    }
-
-    /**
-     * Get parameters to be
-     *
-     * @param   string  $context  The context of the content
-     *
-     * @return  mixed  An object contains content type parameters, or null if not found
-     *
-     * @since   3.9.0
-     *
-     * @deprecated  4.3 will be removed in 6.0
-     *              Use the action log config model instead
-     *              Example: Factory::getApplication()->bootComponent('actionlogs')->getMVCFactory()
-     *                       ->createModel('ActionlogConfig', 'Administrator')->getLogContentTypeParams($context);
-     */
-    public static function getLogContentTypeParams($context)
-    {
-        return Factory::getApplication()->bootComponent('actionlogs')->getMVCFactory()
-            ->createModel('ActionlogConfig', 'Administrator')->getLogContentTypeParams($context);
     }
 
     /**
@@ -232,7 +212,7 @@ class ActionlogsHelper
      * @param   string     $contentType
      * @param   integer    $id
      * @param   string     $urlVar
-     * @param   CMSObject  $object
+     * @param   \stdClass  $object
      *
      * @return  string  Link to the content item
      *
@@ -274,11 +254,17 @@ class ActionlogsHelper
      */
     public static function loadActionLogPluginsLanguage()
     {
-        $lang = Factory::getLanguage();
-        $db   = Factory::getDbo();
+        static $loaded;
+        if ($loaded) {
+            return;
+        }
+        $loaded = true;
+
+        $lang = Factory::getApplication()->getLanguage();
+        $db   = Factory::getContainer()->get(DatabaseInterface::class);
 
         // Get all (both enabled and disabled) actionlog plugins
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 $db->quoteName(
                     [
@@ -304,7 +290,7 @@ class ActionlogsHelper
 
         try {
             $rows = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $rows = [];
         }
 

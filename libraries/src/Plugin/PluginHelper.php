@@ -13,6 +13,7 @@ use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -61,7 +62,7 @@ abstract class PluginHelper
         $defaultLayout = $layout;
         $template      = $templateObj->template;
 
-        if (strpos($layout, ':') !== false) {
+        if (str_contains($layout, ':')) {
             // Get the template and file name from the string
             $temp          = explode(':', $layout);
             $template      = $temp[0] === '_' ? $templateObj->template : $temp[0];
@@ -150,16 +151,16 @@ abstract class PluginHelper
      * Loads all the plugin files for a particular type if no specific plugin is specified
      * otherwise only the specific plugin is loaded.
      *
-     * @param   string               $type        The plugin type, relates to the subdirectory in the plugins directory.
-     * @param   string               $plugin      The plugin name.
-     * @param   boolean              $autocreate  Autocreate the plugin.
-     * @param   DispatcherInterface  $dispatcher  Optionally allows the plugin to use a different dispatcher.
+     * @param   string                $type        The plugin type, relates to the subdirectory in the plugins directory.
+     * @param   string                $plugin      The plugin name.
+     * @param   boolean               $autocreate  Autocreate the plugin.
+     * @param   ?DispatcherInterface  $dispatcher  Optionally allows the plugin to use a different dispatcher.
      *
      * @return  boolean  True on success.
      *
      * @since   1.5
      */
-    public static function importPlugin($type, $plugin = null, $autocreate = true, DispatcherInterface $dispatcher = null)
+    public static function importPlugin($type, $plugin = null, $autocreate = true, ?DispatcherInterface $dispatcher = null)
     {
         static $loaded = [];
 
@@ -187,9 +188,9 @@ abstract class PluginHelper
             $plugins = static::load();
 
             // Get the specified plugin(s).
-            for ($i = 0, $t = \count($plugins); $i < $t; $i++) {
-                if ($plugins[$i]->type === $type && ($plugin === null || $plugins[$i]->name === $plugin)) {
-                    static::import($plugins[$i], $autocreate, $dispatcher);
+            foreach ($plugins as $value) {
+                if ($value->type === $type && ($plugin === null || $value->name === $plugin)) {
+                    static::import($value, $autocreate, $dispatcher);
                     $results = true;
                 }
             }
@@ -208,15 +209,15 @@ abstract class PluginHelper
     /**
      * Loads the plugin file.
      *
-     * @param   object               $plugin      The plugin.
-     * @param   boolean              $autocreate  True to autocreate.
-     * @param   DispatcherInterface  $dispatcher  Optionally allows the plugin to use a different dispatcher.
+     * @param   object                $plugin      The plugin.
+     * @param   boolean               $autocreate  True to autocreate.
+     * @param   ?DispatcherInterface  $dispatcher  Optionally allows the plugin to use a different dispatcher.
      *
      * @return  void
      *
      * @since   3.2
      */
-    protected static function import($plugin, $autocreate = true, DispatcherInterface $dispatcher = null)
+    protected static function import($plugin, $autocreate = true, ?DispatcherInterface $dispatcher = null)
     {
         static $plugins = [];
 
@@ -231,15 +232,26 @@ abstract class PluginHelper
 
         $plugin = Factory::getApplication()->bootPlugin($plugin->name, $plugin->type);
 
-        if ($dispatcher && $plugin instanceof DispatcherAwareInterface) {
-            $plugin->setDispatcher($dispatcher);
-        }
-
         if (!$autocreate) {
             return;
         }
 
-        $plugin->registerListeners();
+        // Check for overridden registerListeners()
+        $reflection         = new \ReflectionClass($plugin);
+        $registerOverridden = $reflection->hasMethod('registerListeners') && $reflection->getMethod('registerListeners')->class !== CMSPlugin::class;
+
+        // @TODO: From 7.0 when registerListeners() will be removed from CMSPlugin checking for overridden registerListeners() need to be removed.
+        if ($plugin instanceof SubscriberInterface && !$registerOverridden) {
+            $dispatcher->addSubscriber($plugin);
+        } else {
+            // @TODO: From 7.0 when DispatcherAwareInterface will be removed from CMSPlugin this should be checked for all plugins.
+            if ($dispatcher && $plugin instanceof DispatcherAwareInterface) {
+                $plugin->setDispatcher($dispatcher);
+            }
+
+            // @TODO: From 7.0 it should use $dispatcher->addSubscriber($plugin); for plugins which implement SubscriberInterface.
+            $plugin->registerListeners();
+        }
     }
 
     /**
@@ -262,7 +274,7 @@ abstract class PluginHelper
 
         $loader = function () use ($levels) {
             $db    = Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select(
                     $db->quoteName(
                         [
@@ -270,12 +282,14 @@ abstract class PluginHelper
                             'element',
                             'params',
                             'extension_id',
+                            'custom_data',
                         ],
                         [
                             'type',
                             'name',
                             'params',
                             'id',
+                            null,
                         ]
                     )
                 )
@@ -296,7 +310,7 @@ abstract class PluginHelper
 
         try {
             static::$plugins = $cache->get($loader, [], md5(implode(',', $levels)), false);
-        } catch (CacheExceptionInterface $cacheException) {
+        } catch (CacheExceptionInterface) {
             static::$plugins = $loader();
         }
 

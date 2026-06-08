@@ -26,8 +26,10 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Category;
 use Joomla\CMS\UCM\UCMType;
+use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\Component\Categories\Administrator\Table\CategoryTable;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
@@ -43,7 +45,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class CategoryModel extends AdminModel
+class CategoryModel extends AdminModel implements VersionableModelInterface
 {
     use VersionableModelTrait;
 
@@ -82,13 +84,13 @@ class CategoryModel extends AdminModel
     /**
      * Override parent constructor.
      *
-     * @param   array                     $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface|null  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         $extension       = Factory::getApplication()->getInput()->get('extension', 'com_content');
         $this->typeAlias = $extension . '.category';
@@ -242,9 +244,10 @@ class CategoryModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|boolean  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -263,10 +266,6 @@ class CategoryModel extends AdminModel
 
         // Get the form.
         $form = $this->loadForm('com_categories.category' . $extension, 'category', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         // Modify the form based on Edit State access controls.
         if (empty($data['extension'])) {
@@ -337,18 +336,12 @@ class CategoryModel extends AdminModel
                 $extension = substr($app->getUserState('com_categories.categories.filter.extension', ''), 4);
                 $filters   = (array) $app->getUserState('com_categories.categories.' . $extension . '.filter');
 
-                $data->set(
+                $data->published = $app->getInput()->getInt(
                     'published',
-                    $app->getInput()->getInt(
-                        'published',
-                        ((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
-                    )
+                    ((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
                 );
-                $data->set('language', $app->getInput()->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
-                $data->set(
-                    'access',
-                    $app->getInput()->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
-                );
+                $data->language = $app->getInput()->getString('language', (!empty($filters['language']) ? $filters['language'] : null));
+                $data->access   = $app->getInput()->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')));
             }
         }
 
@@ -508,33 +501,24 @@ class CategoryModel extends AdminModel
      */
     public function save($data)
     {
+        $assoc = $this->getAssoc();
+
+        if (!$assoc) {
+            $this->associationsContext = null;
+        }
+
         $table      = $this->getTable();
         $input      = Factory::getApplication()->getInput();
         $pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
-        $isNew      = true;
-        $context    = $this->option . '.' . $this->name;
-
-        if (!empty($data['tags']) && $data['tags'][0] != '') {
-            $table->newTags = $data['tags'];
-        }
-
-        // Include the plugins for the save events.
-        PluginHelper::importPlugin($this->events_map['save']);
 
         // Load the row if saving an existing category.
         if ($pk > 0) {
             $table->load($pk);
-            $isNew = false;
-        }
-
-        // Set the new parent id if parent id not matched OR while New/Save as Copy .
-        if ($table->parent_id != $data['parent_id'] || $data['id'] == 0) {
-            $table->setLocation($data['parent_id'], 'last-child');
         }
 
         // Alter the title for save as copy
         if ($input->get('task') == 'save2copy') {
-            $origTable = clone $this->getTable();
+            $origTable = $this->getTable();
             $origTable->load($input->getInt('id'));
 
             if ($data['title'] == $origTable->title) {
@@ -550,179 +534,55 @@ class CategoryModel extends AdminModel
             $data['published'] = 0;
         }
 
-        // Bind the data.
-        if (!$table->bind($data)) {
-            $this->setError($table->getError());
+        $result = parent::save($data);
 
-            return false;
-        }
+        if ($result) {
+            /**
+             * @var CategoryTable
+             */
+            $table = $this->getTable();
 
-        // Bind the rules.
-        if (isset($data['rules'])) {
-            $rules = new Rules($data['rules']);
-            $table->setRules($rules);
-        }
+            $categoryId = $this->getState($this->getName() . '.id');
 
-        // Check the data.
-        if (!$table->check()) {
-            $this->setError($table->getError());
+            $table->load($categoryId);
 
-            return false;
-        }
-
-        // Trigger the before save event.
-        $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, $isNew, $data]);
-
-        if (\in_array(false, $result, true)) {
-            $this->setError($table->getError());
-
-            return false;
-        }
-
-        // Store the data.
-        if (!$table->store()) {
-            $this->setError($table->getError());
-
-            return false;
-        }
-
-        $assoc = $this->getAssoc();
-
-        if ($assoc) {
-            // Adding self to the association
-            $associations = $data['associations'] ?? [];
-
-            // Unset any invalid associations
-            $associations = ArrayHelper::toInteger($associations);
-
-            foreach ($associations as $tag => $id) {
-                if (!$id) {
-                    unset($associations[$tag]);
-                }
-            }
-
-            // Detecting all item menus
-            $allLanguage = $table->language == '*';
-
-            if ($allLanguage && !empty($associations)) {
-                Factory::getApplication()->enqueueMessage(Text::_('COM_CATEGORIES_ERROR_ALL_LANGUAGE_ASSOCIATED'), 'notice');
-            }
-
-            // Get associationskey for edited item
-            $db    = $this->getDatabase();
-            $id    = (int) $table->id;
-            $query = $db->getQuery(true)
-                ->select($db->quoteName('key'))
-                ->from($db->quoteName('#__associations'))
-                ->where($db->quoteName('context') . ' = :associationscontext')
-                ->where($db->quoteName('id') . ' = :id')
-                ->bind(':associationscontext', $this->associationsContext)
-                ->bind(':id', $id, ParameterType::INTEGER);
-            $db->setQuery($query);
-            $oldKey = $db->loadResult();
-
-            if ($associations || $oldKey !== null) {
-                $where = [];
-
-                // Deleting old associations for the associated items
-                $query = $db->getQuery(true)
-                    ->delete($db->quoteName('#__associations'))
-                    ->where($db->quoteName('context') . ' = :associationscontext')
-                    ->bind(':associationscontext', $this->associationsContext);
-
-                if ($associations) {
-                    $where[] = $db->quoteName('id') . ' IN (' . implode(',', $query->bindArray(array_values($associations))) . ')';
-                }
-
-                if ($oldKey !== null) {
-                    $where[] = $db->quoteName('key') . ' = :oldKey';
-                    $query->bind(':oldKey', $oldKey);
-                }
-
-                $query->extendWhere('AND', $where, 'OR');
-            }
-
-            $db->setQuery($query);
-
-            try {
-                $db->execute();
-            } catch (\RuntimeException $e) {
-                $this->setError($e->getMessage());
+            // Rebuild the path for the category:
+            if (!$table->rebuildPath($table->id)) {
+                $this->setError($table->getError());
 
                 return false;
             }
 
-            // Adding self to the association
-            if (!$allLanguage) {
-                $associations[$table->language] = (int) $table->id;
-            }
+            // Rebuild the paths of the category's children:
+            if (!$table->rebuild($table->id, $table->lft, $table->level, $table->path)) {
+                $this->setError($table->getError());
 
-            if (\count($associations) > 1) {
-                // Adding new association for these items
-                $key = md5(json_encode($associations));
-                $query->clear()
-                    ->insert($db->quoteName('#__associations'))
-                    ->columns(
-                        [
-                            $db->quoteName('id'),
-                            $db->quoteName('context'),
-                            $db->quoteName('key'),
-                        ]
-                    );
-
-                foreach ($associations as $id) {
-                    $id = (int) $id;
-
-                    $query->values(
-                        implode(
-                            ',',
-                            $query->bindArray(
-                                [$id, $this->associationsContext, $key],
-                                [ParameterType::INTEGER, ParameterType::STRING, ParameterType::STRING]
-                            )
-                        )
-                    );
-                }
-
-                $db->setQuery($query);
-
-                try {
-                    $db->execute();
-                } catch (\RuntimeException $e) {
-                    $this->setError($e->getMessage());
-
-                    return false;
-                }
+                return false;
             }
         }
 
-        // Trigger the after save event.
-        Factory::getApplication()->triggerEvent($this->event_after_save, [$context, &$table, $isNew, $data]);
+        return $result;
+    }
 
-        // Rebuild the path for the category:
-        if (!$table->rebuildPath($table->id)) {
-            $this->setError($table->getError());
+    /**
+     * Prepare and sanitise the table data prior to saving.
+     *
+     * @param   Table  $table  A reference to a Table object.
+     *
+     * @return  void
+     *
+     * @since   6.1.0
+     */
+    protected function prepareTable($table)
+    {
+        $oldTable = clone $table;
 
-            return false;
+        $oldTable->load();
+
+        // Set the new parent id if parent id not matched OR while New/Save as Copy .
+        if (empty($table->id) || (int) $table->parent_id !== (int) $oldTable->parent_id) {
+            $table->setLocation($table->parent_id, 'last-child');
         }
-
-        // Rebuild the paths of the category's children:
-        if (!$table->rebuild($table->id, $table->lft, $table->level, $table->path)) {
-            $this->setError($table->getError());
-
-            return false;
-        }
-
-        $this->setState($this->getName() . '.id', $table->id);
-
-        if (Factory::getApplication()->getInput()->get('task') == 'editAssociations') {
-            return $this->redirectToAssociations($data);
-        }
-
-        // Clear the cache
-        $this->cleanCache();
-
-        return true;
     }
 
     /**
@@ -825,7 +685,7 @@ class CategoryModel extends AdminModel
         $successful = [];
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         /**
          * For each category get the max ordering value
@@ -934,7 +794,7 @@ class CategoryModel extends AdminModel
         $parents = [];
 
         // Calculate the emergency stop count as a precaution against a runaway loop bug
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('COUNT(' . $db->quoteName('id') . ')')
             ->from($db->quoteName('#__categories'));
         $db->setQuery($query);
@@ -1026,7 +886,7 @@ class CategoryModel extends AdminModel
             }
 
             // Get the new item ID
-            $newId = $this->table->get('id');
+            $newId = $this->table->id;
 
             // Add the new ID to the array
             $newIds[$pk] = $newId;
@@ -1085,7 +945,7 @@ class CategoryModel extends AdminModel
         $this->type = $type->getTypeByAlias($this->typeAlias);
 
         $db        = $this->getDatabase();
-        $query     = $db->getQuery(true);
+        $query     = $db->createQuery();
         $extension = Factory::getApplication()->getInput()->get('extension', '', 'word');
 
         // Check that the parent exists.
@@ -1217,21 +1077,20 @@ class CategoryModel extends AdminModel
     /**
      * Custom clean the cache of com_content and content modules
      *
-     * @param   string   $group     Cache group name.
-     * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              @deprecated   4.3 will be removed in 6.0
+     * @param  string  $group  Cache group name.
      *
      * @return  void
      *
      * @since   1.6
      */
-    protected function cleanCache($group = null, $clientId = 0)
+    protected function cleanCache($group = null)
     {
         $extension = Factory::getApplication()->getInput()->get('extension');
 
         switch ($extension) {
             case 'com_content':
                 parent::cleanCache('com_content');
+                parent::cleanCache('mod_articles');
                 parent::cleanCache('mod_articles_archive');
                 parent::cleanCache('mod_articles_categories');
                 parent::cleanCache('mod_articles_category');

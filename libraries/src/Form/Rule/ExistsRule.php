@@ -43,7 +43,7 @@ class ExistsRule extends FormRule implements DatabaseAwareInterface
      *
      * @since   3.9.0
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         $value = trim($value);
 
@@ -64,7 +64,7 @@ class ExistsRule extends FormRule implements DatabaseAwareInterface
 
         // Set and query the database.
         $exists = $db->setQuery(
-            $db->getQuery(true)
+            $db->createQuery()
                 ->select('COUNT(*)')
                 ->from($db->quoteName($existsTable))
                 ->where($db->quoteName($existsColumn) . ' = ' . $db->quote($value))

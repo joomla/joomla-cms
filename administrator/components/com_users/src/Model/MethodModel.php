@@ -119,14 +119,14 @@ class MethodModel extends BaseDatabaseModel
     /**
      * Get the specified MFA record. It will return a fake default record when no record ID is specified.
      *
-     * @param   User|null  $user  The user record. Null to use the currently logged in user.
+     * @param   ?User  $user  The user record. Null to use the currently logged in user.
      *
      * @return  MfaTable
      * @throws  \Exception
      *
      * @since 4.2.0
      */
-    public function getRecord(User $user = null): MfaTable
+    public function getRecord(?User $user = null): MfaTable
     {
         if (\is_null($user)) {
             $user = $this->getCurrentUser();
@@ -176,7 +176,7 @@ class MethodModel extends BaseDatabaseModel
                 break;
 
             default:
-                $key = sprintf('COM_USERS_MFA_%s_PAGE_HEAD', $task);
+                $key = \sprintf('COM_USERS_MFA_%s_PAGE_HEAD', $task);
                 break;
         }
 

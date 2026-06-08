@@ -115,7 +115,7 @@ trait TaskPluginTrait
             $form = $context;
         } else {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     'Argument 0 of %1$s must be an instance of %2$s or %3$s',
                     __METHOD__,
                     EventInterface::class,
@@ -143,7 +143,7 @@ trait TaskPluginTrait
 
         try {
             $enhancementFormFile = Path::check($enhancementFormFile);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 
@@ -168,6 +168,10 @@ trait TaskPluginTrait
     public function advertiseRoutines(EventInterface $event): void
     {
         $options = [];
+
+        // In case if the plugin is lazy loaded we might not initialise the object
+        // That means autoloading the language is not executed
+        $this->loadLanguage();
 
         foreach (self::TASKS_MAP as $routineId => $details) {
             // Sanity check against non-compliant plugins
@@ -284,7 +288,7 @@ trait TaskPluginTrait
                 || $method->getReturnType()->getName() !== 'int'
             ) {
                 $this->logTask(
-                    sprintf(
+                    \sprintf(
                         'Incorrect routine method signature for %1$s(). See checks in %2$s()',
                         $method->getName(),
                         __METHOD__
@@ -296,8 +300,6 @@ trait TaskPluginTrait
             }
 
             try {
-                // Enable invocation of private/protected methods.
-                $method->setAccessible(true);
                 $exitCode = $method->invoke($this, $event);
             } catch (\ReflectionException $e) {
                 // @todo replace with language string (?)
@@ -306,7 +308,7 @@ trait TaskPluginTrait
             }
         } else {
             $this->logTask(
-                sprintf(
+                \sprintf(
                     'Incorrectly configured TASKS_MAP in class %s. Missing valid method for `routine_id` %s',
                     static::class,
                     $routineId

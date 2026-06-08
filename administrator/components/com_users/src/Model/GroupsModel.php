@@ -31,13 +31,13 @@ class GroupsModel extends ListModel
     /**
      * Override parent constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -140,7 +140,7 @@ class GroupsModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the required fields from the table.
         $query->select(
@@ -195,7 +195,7 @@ class GroupsModel extends ListModel
         $db = $this->getDatabase();
 
         // Get total enabled users in group.
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Count the objects in the user group.
         $query->select('map.group_id, COUNT(DISTINCT map.user_id) AS user_count')

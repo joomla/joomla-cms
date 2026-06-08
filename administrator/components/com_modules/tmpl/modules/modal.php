@@ -37,7 +37,6 @@ if (!empty($editor)) {
 }
 ?>
 <div class="container-popup">
-
     <form action="<?php echo Route::_($link); ?>" method="post" name="adminForm" id="adminForm">
 
         <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
@@ -81,9 +80,9 @@ if (!empty($editor)) {
                 <?php
                 $iconStates = [
                     -2 => 'icon-trash',
-                    0  => 'icon-times',
-                    1  => 'icon-check',
-                    2  => 'icon-folder',
+                    0  => 'icon-unpublish',
+                    1  => 'icon-publish',
+                    2  => 'icon-archive',
                 ];
                 foreach ($this->items as $i => $item) :
                     $attrs = 'data-content-select data-content-type="com_modules.module"'

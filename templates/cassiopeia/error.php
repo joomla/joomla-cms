@@ -77,6 +77,39 @@ $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'l
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
 
+// Advanced Color Settings
+$paramsColorSettings = $this->params->get('colorSettings', false);
+
+if ($paramsColorSettings) {
+    $wa->registerAndUseStyle('colors_custom', 'global/' . 'colors_custom.css')
+    ->addInlineStyle(':root {
+        --body-bg: ' . $this->params->get('bodybg') . ';
+        --body-color: ' . $this->params->get('bodycolor') . ';
+        --btnbg: ' . $this->params->get('btnbg') . ';
+        --btnbgh: ' . $this->params->get('btnbgh') . ';
+        --btncolor: ' . $this->params->get('btncolor') . ';
+        --btncolorh: ' . $this->params->get('btncolorh') . ';
+        --footerbg: ' . $this->params->get('footerbg') . ';
+        --footercolor: ' . $this->params->get('footercolor') . ';
+        --headerbg: ' . $this->params->get('headerbg') . ';
+        --headercolor: ' . $this->params->get('headercolor') . ';
+        --link-color: ' . $this->params->get('linkcolor') . ';
+        --link-hover-color: ' . $this->params->get('linkcolorh') . ';
+    }');
+}
+
+// Advanced Font Settings
+$paramsFontSettings = $this->params->get('fontSettings', false);
+
+if ($paramsFontSettings) {
+    $wa->addInlineStyle(':root {
+        --body-font-size: ' . $this->params->get('bodysize') . 'rem;
+        --h1size: ' . $this->params->get('h1size') . 'rem;
+        --h2size: ' . $this->params->get('h2size') . 'rem;
+        --h3size: ' . $this->params->get('h3size') . 'rem;
+    }');
+}
+
 // Browsers support SVG favicons
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1), 'icon', 'rel', ['type' => 'image/svg+xml']);
 $this->addHeadLink(HTMLHelper::_('image', 'favicon.ico', '', [], true, 1), 'alternate icon', 'rel', ['type' => 'image/vnd.microsoft.icon']);
@@ -101,6 +134,9 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 
 // Get the error code
 $errorCode = $this->error->getCode();
+
+// The module renderer will not work properly due to incomplete Application initialisation
+$renderModules = $app->getIdentity() && $app->getLanguage();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -132,7 +168,7 @@ $errorCode = $this->error->getCode();
                 </div>
             </div>
         <?php endif; ?>
-        <?php if ($this->countModules('menu') || $this->countModules('search')) : ?>
+        <?php if ($renderModules && ($this->countModules('menu') || $this->countModules('search'))) : ?>
             <div class="grid-child container-nav">
                 <?php if ($this->countModules('menu')) : ?>
                     <jdoc:include type="modules" name="menu" style="none" />
@@ -148,7 +184,7 @@ $errorCode = $this->error->getCode();
 
     <div class="site-grid">
         <div class="grid-child container-component">
-            <?php if ($this->countModules('error-' . $errorCode)) : ?>
+            <?php if ($renderModules && $this->countModules('error-' . $errorCode)) : ?>
                 <div class="container">
                     <jdoc:include type="message" />
                     <main>
@@ -165,7 +201,7 @@ $errorCode = $this->error->getCode();
                         <p><?php echo Text::_('JERROR_LAYOUT_NOT_ABLE_TO_VISIT'); ?></p>
                         <ul>
                             <li><?php echo Text::_('JERROR_LAYOUT_AN_OUT_OF_DATE_BOOKMARK_FAVOURITE'); ?></li>
-                            <li><?php echo Text::_('JERROR_LAYOUT_MIS_TYPED_ADDRESS'); ?></li>
+                            <li><?php echo Text::_('JERROR_LAYOUT_MISTYPED_ADDRESS'); ?></li>
                             <li><?php echo Text::_('JERROR_LAYOUT_SEARCH_ENGINE_OUT_OF_DATE_LISTING'); ?></li>
                             <li><?php echo Text::_('JERROR_LAYOUT_YOU_HAVE_NO_ACCESS_TO_THIS_PAGE'); ?></li>
                         </ul>
@@ -202,7 +238,7 @@ $errorCode = $this->error->getCode();
             <?php endif; ?>
         </div>
     </div>
-    <?php if ($this->countModules('footer')) : ?>
+    <?php if ($renderModules && $this->countModules('footer')) : ?>
     <footer class="container-footer footer full-width">
         <div class="grid-child">
             <jdoc:include type="modules" name="footer" style="none" />
@@ -210,6 +246,8 @@ $errorCode = $this->error->getCode();
     </footer>
     <?php endif; ?>
 
-    <jdoc:include type="modules" name="debug" style="none" />
+    <?php if ($renderModules) : ?>
+        <jdoc:include type="modules" name="debug" style="none" />
+    <?php endif; ?>
 </body>
 </html>
