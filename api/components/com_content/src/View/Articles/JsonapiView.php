@@ -200,6 +200,14 @@ class JsonapiView extends BaseApiView
 
         // Process the content plugins.
         PluginHelper::importPlugin('content');
+
+        // API list/history items may not carry params; normalise to a Registry so onContentPrepare receives the expected type.
+        if (!isset($item->params)) {
+            $item->params = new Registry();
+        } elseif (!$item->params instanceof Registry) {
+            $item->params = new Registry($item->params);
+        }
+
         Factory::getApplication()->triggerEvent('onContentPrepare', ['context' => 'com_content.article', 'subject' => $item, 'params' => $item->params]);
 
         foreach (FieldsHelper::getFields('com_content.article', $item, true) as $field) {
