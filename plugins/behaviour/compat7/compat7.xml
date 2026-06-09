@@ -23,7 +23,6 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
-				<field
 					name="classes_aliases"
 					type="radio"
 					label="PLG_COMPAT7_FIELD_CLASSES_ALIASES_LABEL"
@@ -35,6 +34,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
+				<field
 					name="legacy_classes"
 					type="radio"
 					label="PLG_COMPAT7_FIELD_LEGACY_CLASSES_LABEL"
