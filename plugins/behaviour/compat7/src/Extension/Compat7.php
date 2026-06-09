@@ -79,6 +79,11 @@ final class Compat7 extends CMSPlugin implements SubscriberInterface
         if ($this->params->get('legacy_classes', '1')) {
             \JLoader::registerNamespace('\\Joomla\\CMS', JPATH_PLUGINS . '/behaviour/compat7/classes');
         }
+
+        /**
+         * Compatibility switch for deprecated function.
+         */
+        \define('COMPATIBILITY_ENABLED', true);
     }
 
     /**
