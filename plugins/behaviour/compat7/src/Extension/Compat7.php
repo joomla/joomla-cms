@@ -66,7 +66,15 @@ final class Compat7 extends CMSPlugin implements SubscriberInterface
          */
 
         /**
-         * Include classes which will likely be removed in 8.0
+         * Load class names which are deprecated since joomla 4.0 and which will
+         * likely be removed in Joomla 7.0
+         */
+        if ($this->params->get('classes_aliases', '0')) {
+            require_once \dirname(__DIR__) . '/classmap/classmap.php';
+        }
+
+        /**
+         * Include classes which will likely be removed in 7.0
          */
         if ($this->params->get('legacy_classes', '1')) {
             \JLoader::registerNamespace('\\Joomla\\CMS', JPATH_PLUGINS . '/behaviour/compat7/classes');
