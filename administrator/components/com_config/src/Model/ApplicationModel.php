@@ -826,7 +826,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
 
         $app = Factory::getApplication();
 
-        // Attempt to make the file writeable.
+        // Attempt to make the file writable.
         if (Path::isOwner($file) && !Path::setPermissions($file, '0644')) {
             $app->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
         }
@@ -838,7 +838,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'));
         }
 
-        // Attempt to make the file unwriteable.
+        // Attempt to make the file unwritable.
         if (Path::isOwner($file) && !Path::setPermissions($file, '0444')) {
             $app->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
         }
