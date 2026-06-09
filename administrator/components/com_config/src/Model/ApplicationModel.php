@@ -18,6 +18,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Application\AfterSaveConfigurationEvent;
 use Joomla\CMS\Event\Application\BeforeSaveConfigurationEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
@@ -1210,7 +1211,13 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $mail = $this->getMailerFactory()->createMailer($config);
 
         // Prepare email and try to send it
-        $mailer = new MailTemplate('com_config.test_mail', $user->getParam('language', $app->get('language')), $mail, $this->getDatabase());
+        $mailer = new MailTemplate(
+			'com_config.test_mail',
+			$user->getParam('language', $app->get('language')),
+			$mail,
+			Factory::getContainer()->get(LanguageFactoryInterface::class),
+			$this->getDatabase()
+		);
         $mailer->addTemplateData(
             [
                 // Replace the occurrences of "@" and "|" in the site name

@@ -151,6 +151,7 @@ class MailTemplate
         if ($languageFactory) {
             $this->languageFactory = $languageFactory;
         } else {
+            @trigger_error('Language factory must be set, this will not be caught anymore in 8.0.', E_USER_DEPRECATED);
             $this->languageFactory = Factory::getContainer()->get(LanguageFactoryInterface::class);
         }
     }
