@@ -287,8 +287,8 @@ class JoomlaInstallerScript
              * ['type' => 'plugin', 'element' => 'demotasks', 'folder' => 'task', 'client_id' => 0, 'pre_function' => null],
              * ['type' => 'plugin', 'element' => 'compat', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateCompatPlugin'],
              */
-            // Uninstall the old joomla 5 compatibility plugin
-            ['type' => 'plugin', 'element' => 'compat', 'folder' => 'behaviour', 'client_id' => 0, 'pre_function' => null],
+            // Uninstall the old joomla 6 compatibility plugin
+            ['type' => 'plugin', 'element' => 'compat6', 'folder' => 'behaviour', 'client_id' => 0, 'pre_function' => null],
         ];
 
         $db = Factory::getDbo();
@@ -456,6 +456,7 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/postgresql/6.1.0-2026-03-07.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/6.1.0-2026-03-10.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/6.1.0-2026-03-13.sql',
+            '/libraries/src/Encrypt/AES/Mcrypt.php',
         ];
 
         $folders = [

@@ -680,6 +680,13 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     {
         $userIds = ArrayHelper::toInteger($userIds);
 
+        // Check if user can perform management tasks in com_users
+        if (!$this->getCurrentUser()->authorise('core.manage', 'com_users')) {
+            $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+
+            return false;
+        }
+
         // Check if I am a Super Admin
         $iAmSuperAdmin = $this->getCurrentUser()->authorise('core.admin');
 
@@ -746,6 +753,13 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     public function batchUser($groupId, $userIds, $action)
     {
         $userIds = ArrayHelper::toInteger($userIds);
+
+        // Check if user can perform management tasks in com_users
+        if (!$this->getCurrentUser()->authorise('core.manage', 'com_users')) {
+            $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+
+            return false;
+        }
 
         // Check if I am a Super Admin
         $iAmSuperAdmin = $this->getCurrentUser()->authorise('core.admin');
