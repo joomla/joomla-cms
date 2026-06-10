@@ -119,6 +119,11 @@ class CheckinModel extends ListModel
                     ->bind(':checkouttime', $nullDate);
             }
 
+            /*
+             * checked_out > 0 excludes both release states Table::checkIn() can write:
+             * NULL (when $_supportNullValue) and 0 (otherwise).
+             * NULL > 0 evaluates to UNKNOWN, which WHERE treats as false.
+             */
             $query->where($db->quoteName('checked_out') . ' > 0');
 
             $db->setQuery($query);
@@ -187,6 +192,11 @@ class CheckinModel extends ListModel
                     ->select('COUNT(*)')
                     ->from($db->quoteName($tn));
 
+                /*
+                 * checked_out > 0 excludes both release states Table::checkIn() can write:
+                 * NULL (when $_supportNullValue) and 0 (otherwise).
+                 * NULL > 0 evaluates to UNKNOWN, which WHERE treats as false.
+                 */
                 $query->where($db->quoteName('checked_out') . ' > 0');
 
                 $db->setQuery($query);
