@@ -41,6 +41,14 @@ class Language extends BaseLanguage
     protected $strings = [];
 
     /**
+     * Memoised fallback chains, keyed by language tag.
+     *
+     * @var    array
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $fallbackChains = [];
+
+    /**
      * Name of the transliterator function for this language.
      *
      * @var    callable
@@ -629,6 +637,15 @@ class Language extends BaseLanguage
             $this->load($extension, $basePath, $this->default, false, true);
         }
 
+        // Load the fallback chain next, weakest first, so missing strings are filled while the requested
+        // language keeps precedence on the keys it does provide (per-string fallback). When no fallback is
+        // configured the chain is empty and this loop is a no-op, adding no overhead.
+        if (!$this->debug) {
+            foreach (array_reverse($this->getFallbackChain($lang)) as $fallbackLang) {
+                $this->load($extension, $basePath, $fallbackLang, $reload, false);
+            }
+        }
+
         $path = LanguageHelper::getLanguagePath($basePath, $lang);
 
         $internal = $extension === 'joomla' || $extension == '';
@@ -659,6 +676,55 @@ class Language extends BaseLanguage
         }
 
         return false;
+    }
+
+    /**
+     * Resolves the ordered fallback chain for a language tag.
+     *
+     * A language may declare a single fallback language in its metadata through the optional
+     * <fallback> element of its langmetadata.xml (for example de-CH declaring de-DE). The chain is
+     * walked recursively until a language without a fallback is reached, the site default language is
+     * hit, or a cycle is detected. The requested language and the site default are never part of the
+     * returned chain: the requested language is loaded by the caller and the default is preloaded
+     * separately by load().
+     *
+     * The returned chain is ordered strongest first (closest to the requested language), so callers
+     * that rely on last-wins merge precedence must load it in reverse.
+     *
+     * @param   string  $lang  The language tag to resolve the fallback chain for.
+     *
+     * @return  string[]  Ordered list of fallback language tags, strongest first.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getFallbackChain($lang)
+    {
+        if (isset($this->fallbackChains[$lang])) {
+            return $this->fallbackChains[$lang];
+        }
+
+        $chain = [];
+        $seen  = [$lang => true];
+        $next  = $lang;
+
+        while (true) {
+            // Reuse the already loaded metadata for the active language, otherwise read it from disk.
+            $metadata = ($next === $this->lang ? $this->metadata : LanguageHelper::getMetadata($next)) ?: [];
+            $fallback = $metadata['fallback'] ?? '';
+
+            // Stop on no fallback, when the site default is reached, or when a cycle is detected.
+            if ($fallback === '' || $fallback === $this->default || isset($seen[$fallback])) {
+                break;
+            }
+
+            $chain[]         = $fallback;
+            $seen[$fallback] = true;
+            $next            = $fallback;
+        }
+
+        $this->fallbackChains[$lang] = $chain;
+
+        return $chain;
     }
 
     /**
