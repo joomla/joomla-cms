@@ -2,6 +2,41 @@
 <config>
 	<help key="Languages:_Options"/>
 	<fieldset
+		name="fallback"
+		label="COM_LANGUAGES_CONFIG_FALLBACK_FIELDSET_LABEL"
+		description="COM_LANGUAGES_CONFIG_FALLBACK_FIELDSET_DESC"
+		>
+
+		<field
+			name="fallback_overrides"
+			type="subform"
+			label="COM_LANGUAGES_CONFIG_FALLBACK_OVERRIDES_LABEL"
+			description="COM_LANGUAGES_CONFIG_FALLBACK_OVERRIDES_DESC"
+			multiple="true"
+			layout="joomla.form.field.subform.repeatable-table"
+			>
+			<form>
+				<field
+					name="tag"
+					type="text"
+					label="COM_LANGUAGES_CONFIG_FALLBACK_TAG_LABEL"
+					description="COM_LANGUAGES_CONFIG_FALLBACK_TAG_DESC"
+					filter="cmd"
+					hint="de-CH"
+				/>
+
+				<field
+					name="fallback"
+					type="text"
+					label="COM_LANGUAGES_CONFIG_FALLBACK_TARGET_LABEL"
+					description="COM_LANGUAGES_CONFIG_FALLBACK_TARGET_DESC"
+					filter="cmd"
+					hint="de-DE"
+				/>
+			</form>
+		</field>
+	</fieldset>
+	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
 		>

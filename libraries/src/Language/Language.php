@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Language;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\Language\Language as BaseLanguage;
 use Joomla\String\StringHelper;
@@ -47,6 +48,14 @@ class Language extends BaseLanguage
      * @since  __DEPLOY_VERSION__
      */
     protected $fallbackChains = [];
+
+    /**
+     * Memoised admin fallback overrides (language tag => fallback tag), or null until first read.
+     *
+     * @var    array|null
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $fallbackOverrides = null;
 
     /**
      * Name of the transliterator function for this language.
@@ -682,11 +691,12 @@ class Language extends BaseLanguage
      * Resolves the ordered fallback chain for a language tag.
      *
      * A language may declare a single fallback language in its metadata through the optional
-     * <fallback> element of its langmetadata.xml (for example de-CH declaring de-DE). The chain is
-     * walked recursively until a language without a fallback is reached, the site default language is
-     * hit, or a cycle is detected. The requested language and the site default are never part of the
-     * returned chain: the requested language is loaded by the caller and the default is preloaded
-     * separately by load().
+     * <fallback> element of its langmetadata.xml (for example de-CH declaring de-DE). A site
+     * administrator can override that per language through the com_languages options, which takes
+     * precedence over the pack default. The chain is walked recursively until a language without a
+     * fallback is reached, the site default language is hit, or a cycle is detected. The requested
+     * language and the site default are never part of the returned chain: the requested language is
+     * loaded by the caller and the default is preloaded separately by load().
      *
      * The returned chain is ordered strongest first (closest to the requested language), so callers
      * that rely on last-wins merge precedence must load it in reverse.
@@ -707,10 +717,17 @@ class Language extends BaseLanguage
         $seen  = [$lang => true];
         $next  = $lang;
 
+        $overrides = $this->getFallbackOverrides();
+
         while (true) {
-            // Reuse the already loaded metadata for the active language, otherwise read it from disk.
-            $metadata = ($next === $this->lang ? $this->metadata : LanguageHelper::getMetadata($next)) ?: [];
-            $fallback = $metadata['fallback'] ?? '';
+            if (isset($overrides[$next])) {
+                // An administrator override wins over the language pack default.
+                $fallback = $overrides[$next];
+            } else {
+                // Reuse the already loaded metadata for the active language, otherwise read it from disk.
+                $metadata = ($next === $this->lang ? $this->metadata : LanguageHelper::getMetadata($next)) ?: [];
+                $fallback = $metadata['fallback'] ?? '';
+            }
 
             // Stop on no fallback, when the site default is reached, or when a cycle is detected.
             if ($fallback === '' || $fallback === $this->default || isset($seen[$fallback])) {
@@ -725,6 +742,46 @@ class Language extends BaseLanguage
         $this->fallbackChains[$lang] = $chain;
 
         return $chain;
+    }
+
+    /**
+     * Reads and memoises the administrator fallback overrides from the com_languages options.
+     *
+     * The overrides are stored as a repeatable list of language tag / fallback tag pairs and let a
+     * site administrator override (or define) the fallback of an installed language regardless of its
+     * language pack metadata. The component parameters may not be available yet (for example during
+     * installation or in early bootstrap), in which case an empty map is returned and only language
+     * pack metadata is honoured.
+     *
+     * @return  array  Map of language tag => fallback tag.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getFallbackOverrides()
+    {
+        if ($this->fallbackOverrides !== null) {
+            return $this->fallbackOverrides;
+        }
+
+        $this->fallbackOverrides = [];
+
+        try {
+            $overrides = ComponentHelper::getParams('com_languages')->get('fallback_overrides');
+        } catch (\Throwable $e) {
+            // Component parameters are not available yet; fall back to language pack metadata only.
+            return $this->fallbackOverrides;
+        }
+
+        foreach ((array) $overrides as $override) {
+            $tag      = trim((string) ($override->tag ?? ''));
+            $fallback = trim((string) ($override->fallback ?? ''));
+
+            if ($tag !== '' && $fallback !== '') {
+                $this->fallbackOverrides[$tag] = $fallback;
+            }
+        }
+
+        return $this->fallbackOverrides;
     }
 
     /**
