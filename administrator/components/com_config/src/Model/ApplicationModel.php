@@ -1212,12 +1212,12 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
 
         // Prepare email and try to send it
         $mailer = new MailTemplate(
-			'com_config.test_mail',
-			$user->getParam('language', $app->get('language')),
-			$mail,
-			Factory::getContainer()->get(LanguageFactoryInterface::class),
-			$this->getDatabase()
-		);
+            'com_config.test_mail',
+            $user->getParam('language', $app->get('language')),
+            $mail,
+            Factory::getContainer()->get(LanguageFactoryInterface::class),
+            $this->getDatabase()
+        );
         $mailer->addTemplateData(
             [
                 // Replace the occurrences of "@" and "|" in the site name
