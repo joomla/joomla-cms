@@ -9,7 +9,8 @@
 
 namespace Joomla\CMS\Form\Field;
 
-use Joomla\CMS\Captcha\Captcha;
+use Joomla\CMS\Captcha\CaptchaProviderInterface;
+use Joomla\CMS\Captcha\CaptchaRegistry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 
@@ -45,13 +46,15 @@ class CaptchaField extends FormField
      *
      * @var    string
      * @since  4.3.0
+     * @deprecated  __DEPLOY_VERSION__ will be removed with in 9.0 without replacement.
+     *              As the captcha registry is used, the namespace is no longer needed.
      */
     protected $namespace;
 
     /**
-     * The captcha base instance of our type.
+     * The captcha instance of our type.
      *
-     * @var ?Captcha
+     * @var ?CaptchaProviderInterface
      */
     protected $_captcha;
 
@@ -143,11 +146,9 @@ class CaptchaField extends FormField
             $this->class .= ' required';
         }
 
-        $this->namespace = $this->element['namespace'] ? (string) $this->element['namespace'] : $this->form->getName();
-
         try {
             // Get an instance of the captcha class that we are using
-            $this->_captcha = Captcha::getInstance($this->plugin, ['namespace' => $this->namespace]);
+            $this->_captcha = Factory::getContainer()->get(CaptchaRegistry::class)->get($this->plugin);
 
             /**
              * Give the captcha instance a possibility to react on the setup-process,
@@ -179,7 +180,7 @@ class CaptchaField extends FormField
         }
 
         try {
-            return $this->_captcha->display($this->name, $this->id, $this->class);
+            return $this->_captcha->display($this->name, ['id' => $this->id, 'class' => $this->class]);
         } catch (\RuntimeException $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
         }

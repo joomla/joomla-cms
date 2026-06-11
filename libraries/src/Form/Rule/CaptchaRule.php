@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Form\Rule;
 
-use Joomla\CMS\Captcha\Captcha;
+use Joomla\CMS\Captcha\CaptchaRegistry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
@@ -52,15 +52,13 @@ class CaptchaRule extends FormRule
 
         $plugin = $element['plugin'] ? (string) $element['plugin'] : $default;
 
-        $namespace = $element['namespace'] ?: $form->getName();
-
         // Use 0 for none
         if ($plugin === 0 || $plugin === '0') {
             return true;
         }
 
         try {
-            $captcha = Captcha::getInstance((string) $plugin, ['namespace' => (string) $namespace]);
+            $captcha = Factory::getContainer()->get(CaptchaRegistry::class)->get($plugin);
 
             return $captcha->checkAnswer($value);
         } catch (\RuntimeException $e) {
