@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<menu
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="urn:joomla.org"
+	xsi:schemaLocation="urn:joomla.org menu.xsd"
+>
+	<menuitem
+		title="MOD_MENU_HEALTHCHECK_PARENT_OVERVIEW"
+		type="heading"
+		icon="heart"
+	>
+		<menuitem
+			title="MOD_MENU_HEALTHCHECK_DASHBOARD"
+			type="component"
+			element="com_cpanel"
+			link="index.php?option=com_cpanel&amp;view=cpanel&amp;dashboard=healthcheck"
+		/>
+	</menuitem>
+</menu>
