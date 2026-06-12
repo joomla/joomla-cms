@@ -63,7 +63,8 @@ class CaptchaRule extends FormRule
 
         try {
             $captcha = Factory::getContainer()->get(CaptchaRegistry::class)->get($plugin);
-        } catch (CaptchaNotFoundException) {}
+        } catch (CaptchaNotFoundException) {
+        }
 
         try {
             if (!$captcha) {
