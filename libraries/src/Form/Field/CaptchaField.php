@@ -56,7 +56,7 @@ class CaptchaField extends FormField
     /**
      * The captcha instance of our type.
      *
-     * @var ?CaptchaProviderInterface
+     * @var CaptchaProviderInterface|Captcha|null
      */
     protected $_captcha;
 
@@ -190,7 +190,11 @@ class CaptchaField extends FormField
         }
 
         try {
-            return $this->_captcha->display($this->name, ['id' => $this->id, 'class' => $this->class]);
+            if ($this->_captcha instanceof CaptchaProviderInterface) {
+                return $this->_captcha->display($this->name, ['id' => $this->id, 'class' => $this->class]);
+            }
+
+            return $this->_captcha->display($this->name, $this->id, $this->class);
         } catch (\RuntimeException $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
         }

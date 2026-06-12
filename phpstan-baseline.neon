@@ -10324,6 +10324,15 @@ parameters:
 
 		-
 			message: '''
+				#^Call to method display\(\) of deprecated class Joomla\\CMS\\Captcha\\Captcha\:
+				__DEPLOY_VERSION__ will be removed with 9\.0\. Use onCaptchaSetup event to register your Captcha provider\.$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: libraries/src/Form/Field/CaptchaField.php
+
+		-
+			message: '''
 				#^Call to method getInstance\(\) of deprecated class Joomla\\CMS\\Captcha\\Captcha\:
 				__DEPLOY_VERSION__ will be removed with 9\.0\. Use onCaptchaSetup event to register your Captcha provider\.$#
 			'''
