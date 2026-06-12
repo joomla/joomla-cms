@@ -9,8 +9,10 @@
 
 namespace Joomla\CMS\Form\Field;
 
+use Joomla\CMS\Captcha\Captcha;
 use Joomla\CMS\Captcha\CaptchaProviderInterface;
 use Joomla\CMS\Captcha\CaptchaRegistry;
+use Joomla\CMS\Captcha\Exception\CaptchaNotFoundException;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 
@@ -146,9 +148,17 @@ class CaptchaField extends FormField
             $this->class .= ' required';
         }
 
+        $this->namespace = $this->element['namespace'] ? (string) $this->element['namespace'] : $this->form->getName();
+
+        try {
+            $this->_captcha = Factory::getContainer()->get(CaptchaRegistry::class)->get($plugin);
+        } catch (CaptchaNotFoundException) {}
+
         try {
             // Get an instance of the captcha class that we are using
-            $this->_captcha = Factory::getContainer()->get(CaptchaRegistry::class)->get($this->plugin);
+            if (!$this->_captcha) {
+                $this->_captcha = Captcha::getInstance((string) $plugin, ['namespace' => (string) $this->namespace]);
+            }
 
             /**
              * Give the captcha instance a possibility to react on the setup-process,

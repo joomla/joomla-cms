@@ -10314,6 +10314,25 @@ parameters:
 
 		-
 			message: '''
+				#^Access to deprecated property \$namespace of class Joomla\\CMS\\Form\\Field\\CaptchaField\:
+				__DEPLOY_VERSION__ will be removed with in 9\.0 without replacement\.
+				             As the captcha registry is used, the namespace is no longer needed\.$#
+			'''
+			identifier: property.deprecated
+			count: 2
+			path: libraries/src/Form/Field/CaptchaField.php
+
+		-
+			message: '''
+				#^Call to method getInstance\(\) of deprecated class Joomla\\CMS\\Captcha\\Captcha\:
+				__DEPLOY_VERSION__ will be removed with 9\.0\. Use onCaptchaSetup event to register your Captcha provider\.$#
+			'''
+			identifier: staticMethod.deprecatedClass
+			count: 1
+			path: libraries/src/Form/Field/CaptchaField.php
+
+		-
+			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
@@ -10547,6 +10566,15 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: libraries/src/Form/FormField.php
+
+		-
+			message: '''
+				#^Call to method getInstance\(\) of deprecated class Joomla\\CMS\\Captcha\\Captcha\:
+				__DEPLOY_VERSION__ will be removed with 9\.0\. Use onCaptchaSetup event to register your Captcha provider\.$#
+			'''
+			identifier: staticMethod.deprecatedClass
+			count: 1
+			path: libraries/src/Form/Rule/CaptchaRule.php
 
 		-
 			message: '''

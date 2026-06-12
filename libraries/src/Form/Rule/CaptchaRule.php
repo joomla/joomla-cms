@@ -9,7 +9,9 @@
 
 namespace Joomla\CMS\Form\Rule;
 
+use Joomla\CMS\Captcha\Captcha;
 use Joomla\CMS\Captcha\CaptchaRegistry;
+use Joomla\CMS\Captcha\Exception\CaptchaNotFoundException;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
@@ -52,6 +54,8 @@ class CaptchaRule extends FormRule
 
         $plugin = $element['plugin'] ? (string) $element['plugin'] : $default;
 
+        $namespace = $element['namespace'] ?: $form->getName();
+
         // Use 0 for none
         if ($plugin === 0 || $plugin === '0') {
             return true;
@@ -59,6 +63,12 @@ class CaptchaRule extends FormRule
 
         try {
             $captcha = Factory::getContainer()->get(CaptchaRegistry::class)->get($plugin);
+        } catch (CaptchaNotFoundException) {}
+
+        try {
+            if (!$captcha) {
+                $captcha = Captcha::getInstance((string) $plugin, ['namespace' => (string) $namespace]);
+            }
 
             return $captcha->checkAnswer($value);
         } catch (\RuntimeException $e) {
