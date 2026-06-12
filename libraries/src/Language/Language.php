@@ -732,7 +732,7 @@ class Language extends BaseLanguage
     }
 
     /**
-     * Reads and memoises the administrator fallback overrides (tag => fallback) from the
+     * Reads and caches the administrator fallback overrides (tag => fallback) from the
      * com_languages options. Returns an empty map when the component parameters are not yet available.
      *
      * @return  array  Map of language tag => fallback tag.
