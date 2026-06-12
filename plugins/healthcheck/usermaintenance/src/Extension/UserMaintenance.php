@@ -125,7 +125,6 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
                     ->select('COUNT(*) AS ' . $db->quoteName('number'))
                     ->from($db->quoteName('#__users'))
                     ->where($db->quoteName('lastvisitDate') . ' < DATE_SUB(NOW(), INTERVAL :inactiveTimespan DAY)')
-                    ->where($db->quoteName('lastvisitDate') . ' > ' . $db->quote('0000-00-00 00:00:00'))
                     ->where($db->quoteName('lastvisitDate') . ' IS NOT NULL')
                     ->bind(':inactiveTimespan', $inactiveTimespan, ParameterType::INTEGER);
 
@@ -171,8 +170,7 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
                 $query = $db->getQuery(true)
                     ->select('COUNT(*) AS ' . $db->quoteName('number'))
                     ->from($db->quoteName('#__users'))
-                    ->where($db->quoteName('lastvisitDate') . ' = ' . $db->quote('0000-00-00 00:00:00'))
-                    ->orWhere($db->quoteName('lastvisitDate') . ' IS NULL');
+                    ->where($db->quoteName('lastvisitDate') . ' IS NULL');
 
                 $db->setQuery($query);
 
