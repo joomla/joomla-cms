@@ -50,7 +50,7 @@ class Language extends BaseLanguage
     protected $fallbackChains = [];
 
     /**
-     * Memoised admin fallback overrides (language tag => fallback tag), or null until first read.
+     * Cached admin fallback overrides (language tag => fallback tag), or null until first read.
      *
      * @var    array|null
      * @since  __DEPLOY_VERSION__
