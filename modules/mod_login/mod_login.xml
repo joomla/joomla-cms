@@ -83,6 +83,32 @@
 				</field>
 
 				<field
+					name="showPasswordReset"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="MOD_LOGIN_FIELD_SHOW_PASSWORD_RESET_LABEL"
+					description="MOD_LOGIN_FIELD_SHOW_PASSWORD_RESET_DESC"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="showUsernameReminder"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="MOD_LOGIN_FIELD_SHOW_USERNAME_REMINDER_LABEL"
+					description="MOD_LOGIN_FIELD_SHOW_USERNAME_REMINDER_DESC"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
 					name="greeting"
 					type="radio"
 					layout="joomla.form.field.radio.switcher"
