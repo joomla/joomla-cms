@@ -21,8 +21,8 @@ $wa->useScript('core')
 $wa->registerAndUseScript('mod_quickicon', 'mod_quickicon/quickicon.min.js', ['relative' => true, 'version' => 'auto'], ['type' => 'module']);
 
 // Register and use the filter assets
-$wa->registerAndUseScript('mod_healthcheck.filter', 'mod_healthcheck/healthcheck-filter.js', [], ['defer' => true], [])
-    ->registerAndUseStyle('mod_healthcheck.filter', 'mod_healthcheck/healthcheck-filter.css', [], []);
+$wa->registerAndUseScript('mod_healthcheck.filter', 'mod_healthcheck/healthcheck-filter.js', [], ['defer' => true])
+    ->registerAndUseStyle('mod_healthcheck.general', 'mod_healthcheck/healthcheck.css');
 
 $gauges_html  = HTMLHelper::_('healthchecks.gauges', $gauges);
 $buttons_html = HTMLHelper::_('healthchecks.buttons', $buttons);
