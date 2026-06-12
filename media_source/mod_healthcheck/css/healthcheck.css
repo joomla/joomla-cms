@@ -33,11 +33,6 @@
   border-end-end-radius: .375rem;
 }
 
-.healthcheck-filters .btn:hover {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
-  transform: translateY(-1px);
-}
-
 .healthcheck-filters .btn.active {
   font-weight: 600;
 }
