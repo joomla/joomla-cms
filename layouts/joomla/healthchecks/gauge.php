@@ -25,7 +25,7 @@ $linktitle  = $displayData['linktitle'] ?? '';
 $linktarget = '';
 
 // Auto-detect external links and set target to _blank
-// TODO use Joomla API?
+// @todo: use Joomla API?
 if (!empty($link) && empty($linktarget)) {
     // Check if link is external (starts with http/https or contains a different domain)
     if (preg_match('/^https?:\/\//', $link)) {
