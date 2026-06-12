@@ -28,7 +28,6 @@ $gauges_html  = HTMLHelper::_('healthchecks.gauges', $gauges);
 $buttons_html = HTMLHelper::_('healthchecks.buttons', $buttons);
 $lists_html   = HTMLHelper::_('healthchecks.lists', $lists);
 $tables_html  = HTMLHelper::_('healthchecks.tables', $tables);
-$reports_html = HTMLHelper::_('healthchecks.reports', $reports);
 $leading_html = HTMLHelper::_('healthchecks.leadings', $leading);
 $footer_html  = HTMLHelper::_('healthchecks.footers', $footer);
 
