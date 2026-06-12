@@ -31,8 +31,8 @@
 				<field
 					name="inactiveUsers"
 					type="radio"
-					label="PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVE_LISTTEXT"
-					description="PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVE_LISTNOTE"
+					label="PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVE_FIELD_LABEL"
+					description="PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVE_FIELD_DESC"
 					layout="joomla.form.field.radio.switcher"
 					default="1"
 				>
@@ -42,19 +42,19 @@
 				<field
 					name="inactiveTimespan"
 					type="list"
-					description="PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVETIMESPAN_DESC"
-					label="PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVETIMESPAN_LABEL"
+					description="PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVETIMESPAN_FIELD_DESC"
+					label="PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVETIMESPAN_FIELD_LABEL"
 					default="180"
 				>
-					<option value="90">PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVETIMESPAN_M3</option>
-					<option value="180">PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVETIMESPAN_M6</option>
-					<option value="360">PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVETIMESPAN_Y1</option>
+					<option value="90">PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVETIMESPAN_VALUE_M3</option>
+					<option value="180">PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVETIMESPAN_VALUE_M6</option>
+					<option value="360">PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVETIMESPAN_VALUE_Y1</option>
 				</field>
 				<field
 					name="neverloggedinUsers"
 					type="radio"
-					label="PLG_HEALTHCHECK_USERMAINTENANCE_NEVERLOGGEDIN_LISTTEXT"
-					description="PLG_HEALTHCHECK_USERMAINTENANCE_NEVERLOGGEDIN_LISTNOTE"
+					label="PLG_HEALTHCHECK_USERMAINTENANCE_NEVERLOGGEDIN_FIELD_LABEL"
+					description="PLG_HEALTHCHECK_USERMAINTENANCE_NEVERLOGGEDIN_FIELD_DESC"
 					layout="joomla.form.field.radio.switcher"
 					default="1"
 				>
@@ -64,8 +64,8 @@
 				<field
 					name="unactivatedUsers"
 					type="radio"
-					label="PLG_HEALTHCHECK_USERMAINTENANCE_UNACTIVATED_LISTTEXT"
-					description="PLG_HEALTHCHECK_USERMAINTENANCE_UNACTIVATED_LISTNOTE"
+					label="PLG_HEALTHCHECK_USERMAINTENANCE_UNACTIVATED_FIELD_LABEL"
+					description="PLG_HEALTHCHECK_USERMAINTENANCE_UNACTIVATED_FIELD_DESC"
 					layout="joomla.form.field.radio.switcher"
 					default="1"
 				>
@@ -75,8 +75,8 @@
 				<field
 					name="orphanUsers"
 					type="radio"
-					label="PLG_HEALTHCHECK_USERMAINTENANCE_ORPHAN_LISTTEXT"
-					description="PLG_HEALTHCHECK_USERMAINTENANCE_ORPHAN_LISTNOTE"
+					label="PLG_HEALTHCHECK_USERMAINTENANCE_ORPHAN_FIELD_LABEL"
+					description="PLG_HEALTHCHECK_USERMAINTENANCE_ORPHAN_FIELD_DESC"
 					layout="joomla.form.field.radio.switcher"
 					default="1"
 				>
@@ -86,8 +86,8 @@
 				<field
 					name="nonMFAUsers"
 					type="radio"
-					label="PLG_HEALTHCHECK_USERMAINTENANCE_NONMFA_LISTTEXT"
-					description="PLG_HEALTHCHECK_USERMAINTENANCE_NONMFA_LISTNOTE"
+					label="PLG_HEALTHCHECK_USERMAINTENANCE_NONMFA_FIELD_LABEL"
+					description="PLG_HEALTHCHECK_USERMAINTENANCE_NONMFA_FIELD_DESC"
 					layout="joomla.form.field.radio.switcher"
 					default="1"
 				>
@@ -97,8 +97,8 @@
 				<field
 					name="privilegedUsers"
 					type="radio"
-					label="PLG_HEALTHCHECK_USERMAINTENANCE_PRIVILEGED_LISTTEXT"
-					description="PLG_HEALTHCHECK_USERMAINTENANCE_PRIVILEGED_LISTNOTE"
+					label="PLG_HEALTHCHECK_USERMAINTENANCE_PRIVILEGED_FIELD_LABEL"
+					description="PLG_HEALTHCHECK_USERMAINTENANCE_PRIVILEGED_FIELD_DESC"
 					layout="joomla.form.field.radio.switcher"
 					default="1"
 				>
@@ -109,8 +109,8 @@
 				<field
 					name="logging"
 					type="list"
-					description="PLG_HEALTHCHECK_USERMAINTENANCE_LOGGING_DESC"
-					label="PLG_HEALTHCHECK_USERMAINTENANCE_LOGGING_LABEL"
+					description="PLG_HEALTHCHECK_USERMAINTENANCE_LOGGING_FIELD_DESC"
+					label="PLG_HEALTHCHECK_USERMAINTENANCE_LOGGING_FIELD_LABEL"
 					default="0"
 				>
 					<option value="0">PLG_HEALTHCHECK_USERMAINTENANCE_LOGGING_VALUE_NOLOG</option>
