@@ -42,7 +42,7 @@ class Language extends BaseLanguage
     protected $strings = [];
 
     /**
-     * Memoised fallback chains, keyed by language tag.
+     * Cached fallback chains, keyed by language tag.
      *
      * @var    array
      * @since  __DEPLOY_VERSION__
