@@ -26,7 +26,6 @@ use Joomla\CMS\User\User;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
-use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -54,19 +53,6 @@ abstract class Factory
      * @since  1.7.0
      */
     public static $cache = null;
-
-    /**
-     * Global configuration object
-     *
-     * @var         \JConfig
-     * @since       1.7.0
-     *
-     * @deprecated  4.3 will be removed in 7.0
-     *              Use the configuration object within the application
-     *              Example:
-     *              Factory::getApplication()->getConfig();
-     */
-    public static $config = null;
 
     /**
      * Global container object
@@ -159,55 +145,6 @@ abstract class Factory
         }
 
         return self::$application;
-    }
-
-    /**
-     * Get a configuration object
-     *
-     * Returns the global {@link \JConfig} object, only creating it if it doesn't already exist.
-     *
-     * @param   string  $file       The path to the configuration file
-     * @param   string  $type       The type of the configuration file
-     * @param   string  $namespace  The namespace of the configuration file
-     *
-     * @return  Registry
-     *
-     * @see         Registry
-     * @since       1.7.0
-     *
-     * @deprecated  4.3 will be removed in 7.0
-     *              Use the configuration object within the application
-     *              Example:
-     *              Factory::getApplication()->getConfig();
-     */
-    public static function getConfig($file = null, $type = 'PHP', $namespace = '')
-    {
-        @trigger_error(
-            \sprintf(
-                '%s() is deprecated. The configuration object should be read from the application.',
-                __METHOD__
-            ),
-            E_USER_DEPRECATED
-        );
-
-        /**
-         * If there is an application object, fetch the configuration from there.
-         * Check it's not null because LanguagesModel can make it null and if it's null
-         * we would want to re-init it from configuration.php.
-         */
-        if (self::$application && self::$application->getConfig() !== null) {
-            return self::$application->getConfig();
-        }
-
-        if (!self::$config) {
-            if ($file === null) {
-                $file = JPATH_CONFIGURATION . '/configuration.php';
-            }
-
-            self::$config = self::createConfig($file, $type, $namespace);
-        }
-
-        return self::$config;
     }
 
     /**
@@ -543,57 +480,6 @@ abstract class Factory
     }
 
     /**
-     * Create a configuration object
-     *
-     * @param   string  $file       The path to the configuration file.
-     * @param   string  $type       The type of the configuration file.
-     * @param   string  $namespace  The namespace of the configuration file.
-     *
-     * @return  Registry
-     *
-     * @see         Registry
-     * @since       1.7.0
-     *
-     * @deprecated  4.0 will be removed in 7.0
-     *              Use the configuration object within the application.
-     *              Example: Factory::getApplication()->getConfig();
-     */
-    protected static function createConfig($file, $type = 'PHP', $namespace = '')
-    {
-        @trigger_error(
-            \sprintf(
-                '%s() is deprecated. The configuration object should be read from the application.',
-                __METHOD__
-            ),
-            E_USER_DEPRECATED
-        );
-
-        if (is_file($file)) {
-            include_once $file;
-        }
-
-        // Create the registry with a default namespace of config
-        $registry = new Registry();
-
-        // Sanitize the namespace.
-        $namespace = ucfirst((string) preg_replace('/[^A-Z_]/i', '', $namespace));
-
-        // Build the config name.
-        $name = 'JConfig' . $namespace;
-
-        // Handle the PHP configuration type.
-        if ($type === 'PHP' && class_exists($name)) {
-            // Create the JConfig object
-            $config = new $name();
-
-            // Load the configuration values into the registry
-            $registry->loadObject($config);
-        }
-
-        return $registry;
-    }
-
-    /**
      * Create a container object
      *
      * @return  Container
@@ -654,7 +540,7 @@ abstract class Factory
             E_USER_DEPRECATED
         );
 
-        $conf = self::getConfig();
+        $conf = self::getApplication()->getConfig();
 
         $host     = $conf->get('host');
         $user     = $conf->get('user');
@@ -708,7 +594,7 @@ abstract class Factory
      */
     protected static function createMailer()
     {
-        $mailer = self::getContainer()->get(MailerFactoryInterface::class)->createMailer(self::getConfig());
+        $mailer = self::getContainer()->get(MailerFactoryInterface::class)->createMailer(self::getApplication()->getConfig());
 
         // This needs to be set here for backwards compatibility
         Mail::$instances['Joomla'] = $mailer;
@@ -739,7 +625,7 @@ abstract class Factory
             E_USER_DEPRECATED
         );
 
-        $conf   = self::getConfig();
+        $conf   = self::getApplication();
         $locale = $conf->get('language');
         $debug  = $conf->get('debug_lang');
         $lang   = self::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($locale, $debug);

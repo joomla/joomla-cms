@@ -73,9 +73,6 @@ final class InstallationApplication extends CMSApplication
         // Store the debug value to config based on the JDEBUG flag.
         $this->config->set('debug', JDEBUG);
 
-        // Register the config to Factory.
-        Factory::$config = $this->config;
-
         // Set the root in the URI one level up.
         $parts = explode('/', Uri::base(true));
         array_pop($parts);
