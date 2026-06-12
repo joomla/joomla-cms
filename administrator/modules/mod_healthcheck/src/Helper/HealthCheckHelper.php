@@ -509,7 +509,7 @@ class HealthCheckHelper
                     $iconClass = \call_user_func($column['iconClass'], $value, $item, $rowIndex);
                 }
 
-                return '<i class="' . htmlspecialchars($iconClass, ENT_QUOTES, 'UTF-8') . '" aria-hidden="true"></i>';
+                return '<span class="' . htmlspecialchars($iconClass, ENT_QUOTES, 'UTF-8') . '" aria-hidden="true"></span>';
 
             case 'custom':
                 if (isset($column['renderer']) && \is_callable($column['renderer'])) {
