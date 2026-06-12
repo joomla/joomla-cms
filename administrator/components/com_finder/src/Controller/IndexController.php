@@ -61,8 +61,7 @@ class IndexController extends AdminController
         $dispatcher->dispatch('onFinderGarbageCollection', new GarbageCollectionEvent('onFinderGarbageCollection', []));
 
         // Now run the optimisation method from the indexer
-        $indexer = new Indexer();
-        $indexer->optimize();
+        $this->getModel('Indexer', 'Administrator')->optimize();
 
         $message = Text::_('COM_FINDER_INDEX_OPTIMISE_FINISHED');
         $this->setRedirect('index.php?option=com_finder&view=index', $message);

@@ -12,6 +12,7 @@ namespace Joomla\Component\Finder\Administrator\Model;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\FormModel;
+use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -39,5 +40,17 @@ class IndexerModel extends FormModel
     public function getForm($data = [], $loadData = true)
     {
         return $this->loadForm('com_finder.indexer', 'indexer', ['control' => '', 'load_data' => $loadData]);
+    }
+
+    /**
+     * Method to optimize the index by removing orphaned entries.
+     *
+     * @return void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function optimize() {
+        $indexer = new Indexer($this->getDatabase());
+        $indexer->optimize();
     }
 }
