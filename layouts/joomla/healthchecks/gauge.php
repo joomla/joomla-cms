@@ -16,12 +16,12 @@ use Joomla\CMS\Language\Text;
 Factory::getApplication()->getLanguage()->load('mod_healthcheck', JPATH_ADMINISTRATOR);
 
 // Get gauge parameters with defaults
-$id      = empty($displayData['id']) ? '' : (' id="' . $displayData['id'] . '"');
-$label = $displayData['label'] ?? '';
-$sublabel = $displayData['sublabel'] ?? '';
-$note = $displayData['note'] ?? '';
-$link = $displayData['link'] ?? '';
-$linktitle = $displayData['linktitle'] ?? '';
+$id         = empty($displayData['id']) ? '' : (' id="' . $displayData['id'] . '"');
+$label      = $displayData['label'] ?? '';
+$sublabel   = $displayData['sublabel'] ?? '';
+$note       = $displayData['note'] ?? '';
+$link       = $displayData['link'] ?? '';
+$linktitle  = $displayData['linktitle'] ?? '';
 $linktarget = '';
 
 // Auto-detect external links and set target to _blank
@@ -31,7 +31,7 @@ if (!empty($link) && empty($linktarget)) {
     if (preg_match('/^https?:\/\//', $link)) {
         // Extract current domain for comparison
         $currentDomain = $_SERVER['HTTP_HOST'] ?? '';
-        $linkDomain = parse_url($link, PHP_URL_HOST);
+        $linkDomain    = parse_url($link, PHP_URL_HOST);
 
         // If different domain or no current domain info, treat as external
         if (empty($currentDomain) || $linkDomain !== $currentDomain) {
@@ -39,15 +39,15 @@ if (!empty($link) && empty($linktarget)) {
         }
     }
 }
-//$rawdata = (float) ($displayData['rawdata'] ?? 0);
-$score = (float) ($displayData['score'] ?? 0);
-$unit = $displayData['unit'] ?? '%';
-$score_min = (float) ($displayData['score_min'] ?? 0);
-$score_max = (float) ($displayData['score_max'] ?? 100);
-$score_threshold_error = (float) ($displayData['score_threshold_error'] ?? 0);
+
+$score                   = (float) ($displayData['score'] ?? 0);
+$unit                    = $displayData['unit'] ?? '%';
+$score_min               = (float) ($displayData['score_min'] ?? 0);
+$score_max               = (float) ($displayData['score_max'] ?? 100);
+$score_threshold_error   = (float) ($displayData['score_threshold_error'] ?? 0);
 $score_threshold_warning = (float) ($displayData['score_threshold_warning'] ?? 50);
 $score_threshold_success = (float) ($displayData['score_threshold_success'] ?? 90);
-$filterStatus = 'healthy';
+$filterStatus            = 'healthy';
 
 if (isset($displayData['status'])) {
     switch ($displayData['status']) {
@@ -98,16 +98,15 @@ if ($score >= $score_threshold_success) {
 }
 
 // Calculate SVG path for pie chart
-$radius = 45;
-$circumference = 2 * M_PI * $radius;
-$strokeDasharray = $circumference;
+$radius           = 45;
+$circumference    = 2 * M_PI * $radius;
+$strokeDasharray  = $circumference;
 $strokeDashoffset = $circumference * (1 - $percentage / 100);
 
 // SVG viewBox and center
-$size = 120;
+$size   = 120;
 $center = $size / 2;
 ?>
-
 <li class="healthcheck-gauge"<?php echo $id; ?>
      role="img"
      tabindex="<?php echo $hasLink ? '-1' : '0'; ?>"

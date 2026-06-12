@@ -22,12 +22,12 @@ defined('_JEXEC') or die;
  */
 
 // Extract layout data
-$items      = $displayData['items'] ?? [];
-$listId     = $displayData['id'] ?? '';
-$listClass  = $displayData['class'] ?? '';
-$itemClass  = $displayData['itemClass'] ?? '';
-$type       = $displayData['type'] ?? 'ul';
-$renderer   = $displayData['renderer'] ?? null;
+$items        = $displayData['items'] ?? [];
+$listId       = $displayData['id'] ?? '';
+$listClass    = $displayData['class'] ?? '';
+$itemClass    = $displayData['itemClass'] ?? '';
+$type         = $displayData['type'] ?? 'ul';
+$renderer     = $displayData['renderer'] ?? null;
 $filterStatus = 'healthy';
 
 if (isset($displayData['status'])) {

@@ -24,14 +24,14 @@ defined('_JEXEC') or die;
  */
 
 // Extract layout data
-$columns     = $displayData['columns'] ?? [];
-$data        = $displayData['data'] ?? [];
-$helper      = $displayData['helper'] ?? null;
-$tableId     = $displayData['id'] ?? '';
-$tableClass  = $displayData['class'] ?? '';
-$caption     = $displayData['caption'] ?? '';
-$striped     = $displayData['striped'] ?? true;
-$hover       = $displayData['hover'] ?? true;
+$columns      = $displayData['columns'] ?? [];
+$data         = $displayData['data'] ?? [];
+$helper       = $displayData['helper'] ?? null;
+$tableId      = $displayData['id'] ?? '';
+$tableClass   = $displayData['class'] ?? '';
+$caption      = $displayData['caption'] ?? '';
+$striped      = $displayData['striped'] ?? true;
+$hover        = $displayData['hover'] ?? true;
 $filterStatus = 'healthy';
 
 if (isset($displayData['status'])) {
