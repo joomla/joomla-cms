@@ -12,6 +12,8 @@ namespace Joomla\Component\Finder\Administrator\Model;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\FormModel;
+use Joomla\Component\Finder\Administrator\Indexer\DebugAdapter;
+use Joomla\Component\Finder\Administrator\Indexer\DebugIndexer;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -52,5 +54,21 @@ class IndexerModel extends FormModel
     public function optimize() {
         $indexer = new Indexer($this->getDatabase());
         $indexer->optimize();
+    }
+
+    /**
+     * Method to run the adapter in debug mode
+     *
+     * @param   Adapter  $adapter  The adapter to debug.
+     * @param   integer  $id       The id of the item to debug.
+     *
+     * @return void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function debug(Adapter $adapter, int $id) {
+        class_alias(DebugAdapter::class, Adapter::class);
+        $adapter->setIndexer(new DebugIndexer($this->getDatabase()));
+        $adapter->debug($id);
     }
 }
