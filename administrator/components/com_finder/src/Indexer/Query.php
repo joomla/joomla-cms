@@ -199,8 +199,8 @@ class Query
     /**
      * Method to instantiate the query object.
      *
-     * @param   array               $options  An array of query options.
-     * @param   ?DatabaseInterface  $db       The database
+     * @param   array              $options  An array of query options.
+     * @param   DatabaseInterface  $db       The database
      *
      * @since   2.5
      * @throws  \Exception on database error.

@@ -14,7 +14,6 @@ use Joomla\CMS\Event\Finder\GarbageCollectionEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
