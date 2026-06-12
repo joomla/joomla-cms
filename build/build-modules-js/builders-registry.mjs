@@ -54,6 +54,7 @@ export const builders = [
   'mod_menu',
   'mod_quickicon',
   'mod_sampledata',
+  'mod_healthcheck',
 
   // Plugins
   'plg_behaviour_compat6',
