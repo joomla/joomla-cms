@@ -216,6 +216,36 @@ class InputFilter extends BaseInputFilter
 
         $options = array_merge($defaultOptions, $options);
 
+        /*
+         * Number of bytes to carry over between successive reads of the file contents below. A
+         * signature can straddle the boundary between two reads, so the tail of one read has to be
+         * prepended to the next one. To guarantee every signature is detected this overlap must be
+         * at least (length of the longest signature we look for - 1) bytes. The longest signature is
+         * "__HALT_COMPILER()" (17 bytes); we also look for "<?php", "<?" and "." plus each forbidden
+         * extension. Computing it from the actual signatures keeps this correct if the lists change.
+         */
+        $scanOverlap = 0;
+
+        if ($options['php_tag_in_content']) {
+            $scanOverlap = max($scanOverlap, \strlen('<?php'));
+        }
+
+        if ($options['shorttag_in_content']) {
+            $scanOverlap = max($scanOverlap, \strlen('<?'));
+        }
+
+        if ($options['phar_stub_in_content']) {
+            $scanOverlap = max($scanOverlap, \strlen('__HALT_COMPILER()'));
+        }
+
+        if ($options['fobidden_ext_in_content'] && !empty($options['forbidden_extensions'])) {
+            foreach ($options['forbidden_extensions'] as $ext) {
+                $scanOverlap = max($scanOverlap, \strlen($ext) + 1);
+            }
+        }
+
+        $scanOverlap = max(0, $scanOverlap - 1);
+
         // Make sure we can scan nested file descriptors
         $descriptors = $file;
 
@@ -379,10 +409,14 @@ class InputFilter extends BaseInputFilter
                             }
 
                             /*
-                             * This makes sure that we don't accidentally skip a <?php tag if it's across
-                             * a read boundary, even on multibyte strings
+                             * Carry over the tail of this read so that a signature spanning the
+                             * boundary between this read and the next one is still detected. The
+                             * amount kept must cover the longest signature (e.g. the 17-byte
+                             * "__HALT_COMPILER()" phar stub), otherwise it could be split and missed.
                              */
-                            $data = substr($data, -10);
+                            if ($scanOverlap > 0) {
+                                $data = substr($data, -$scanOverlap);
+                            }
                         }
 
                         fclose($fp);
