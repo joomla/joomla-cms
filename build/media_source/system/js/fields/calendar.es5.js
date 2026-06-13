@@ -894,11 +894,12 @@
 		});
 
 		// Validate the date and time when they are manually entered in the input field.
-		this.inputField.addEventListener('blur', function (e) {
+		self.inputField.addEventListener('input', function (e) {
 			e.preventDefault();
+			self.close();
 			if (self.inputField.value) {
-				self.inputField.setAttribute('data-local-value', self.inputField.value);
 				if (self.params.dateType !== 'gregorian') {
+					self.inputField.setAttribute('data-local-value', self.inputField.value);
 					// We need to transform the date for the data-alt-value
 					var ndate, date = Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType, self.strings);
 					ndate = Date.localCalToGregorian(date.getFullYear(), date.getMonth(), date.getDate());
@@ -907,7 +908,7 @@
 					date.setDate(ndate[2]);
 					self.inputField.setAttribute('data-alt-value', date.print(self.params.dateFormat, 'gregorian', false, self.strings));
 				} else {
-					// We set the date for the data-alt-value
+					// Value needs to be validated
 					self.inputField.setAttribute('data-alt-value', Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType, self.strings)
 						.print(self.params.dateFormat, 'gregorian', false, self.strings));
 				}
