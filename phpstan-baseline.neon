@@ -397,29 +397,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getCache\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the cache controller factory instead
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(CacheControllerFactoryInterface\:\:class\)\-\>createCacheController\(\$handler, \$options\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_cache/src/Model/CacheModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Cache\\Cache\:
-				4\.2 will be removed in 7\.0
-				             Use the cache controller factory instead
-				             Example\: Factory\:\:getContainer\(\)\-\>get\(CacheControllerFactoryInterface\:\:class\)\-\>createCacheController\(\$type, \$options\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_cache/src/Model/CacheModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
