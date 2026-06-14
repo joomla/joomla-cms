@@ -304,7 +304,7 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
 
                 $db = $this->getDatabase();
 
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select('COUNT(DISTINCT u.id) AS ' . $db->quoteName('number'))
                     ->from($db->quoteName('#__users', 'u'))
                     ->leftJoin(
