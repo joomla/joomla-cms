@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Cache\Administrator\Model;
 
-use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheController;
 use Joomla\CMS\Cache\Exception\CacheConnectingException;
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
@@ -172,16 +171,7 @@ class CacheModel extends ListModel
      */
     public function getCache()
     {
-        $app = Factory::getApplication();
-
-        $options = [
-            'defaultgroup' => '',
-            'storage'      => $app->get('cache_handler', ''),
-            'caching'      => true,
-            'cachebase'    => $app->get('cache_path', JPATH_CACHE),
-        ];
-
-        return Cache::getInstance('', $options);
+        return $this->getCacheControllerFactory()->createCacheController('output', ['caching' => true]);
     }
 
     /**
@@ -263,7 +253,7 @@ class CacheModel extends ListModel
     public function purge()
     {
         try {
-            Factory::getCache('')->gc();
+            $this->getCache()->gc();
         } catch (CacheConnectingException) {
             return false;
         } catch (UnsupportedCacheException) {
