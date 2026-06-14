@@ -334,6 +334,9 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         // Register the needed session variables
         $session->set('user', $instance);
 
+        // Reset the MFA check state
+        $session->set('com_users.mfa_checked', 0);
+
         // Update the user related fields for the Joomla sessions table if tracking session metadata.
         if ($this->getApplication()->get('session_metadata', true)) {
             $this->getApplication()->checkSession();
