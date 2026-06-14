@@ -248,7 +248,7 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
     {
         $item = [];
 
-        if ($this->params->get('orphanUsers', '1') == '1') {
+        if ($this->params->get('orphanUsers', true)) {
             try {
                 $item['text'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_ORPHAN_LISTTEXT');
                 $item['note'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_ORPHAN_LISTNOTE');
