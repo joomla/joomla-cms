@@ -159,7 +159,7 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
     {
         $item = [];
 
-        if ($this->params->get('neverloggedinUsers', '1') == '1') {
+        if ($this->params->get('neverloggedinUsers', true)) {
             try {
                 $item['text'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_NEVERLOGGEDIN_LISTTEXT');
                 $item['note'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_NEVERLOGGEDIN_LISTNOTE');
