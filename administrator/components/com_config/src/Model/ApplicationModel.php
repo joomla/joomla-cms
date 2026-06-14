@@ -622,7 +622,9 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         // Clean the cache if disabled but previously enabled or changing cache handlers; these operations use the `$prev` data already in memory
         if ((!$data['caching'] && $prev['caching']) || $data['cache_handler'] !== $prev['cache_handler']) {
             try {
-                Factory::getCache()->clean();
+                $this->getCacheControllerFactory()
+                    ->createCacheController('callback', ['defaultgroup' => ''])
+                    ->clean();
             } catch (CacheConnectingException) {
                 try {
                     Log::add(Text::_('COM_CONFIG_ERROR_CACHE_CONNECTION_FAILED'), Log::WARNING, 'jerror');
