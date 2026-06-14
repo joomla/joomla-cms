@@ -61,7 +61,7 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
     {
         $context = $event->getContext();
 
-        if ($context !== $this->params->get('context', 'usermanagement')) {
+        if ($context !== $this->params->get('context', 'general')) {
             $this->handleErrorMsg('onHealthcheckGetIcons wrong context: ' . $context, 'WARNING');
             return;
         }
