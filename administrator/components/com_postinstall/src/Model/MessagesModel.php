@@ -11,7 +11,6 @@
 namespace Joomla\Component\Postinstall\Administrator\Model;
 
 use Joomla\CMS\Cache\CacheController;
-use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
@@ -741,7 +740,7 @@ class MessagesModel extends BaseDatabaseModel
     /**
      * Get cache controller instance for postinstall messages caching.
      *
-     * @return CacheController
+     * @return  CacheController
      *
      * @since   __DEPLOY_VERSION__
      */
