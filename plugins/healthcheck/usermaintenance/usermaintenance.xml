@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="healthcheck" method="upgrade">
-	<name>PLG_HEALTHCHECK_USERMAINTENANCE</name>
+	<name>plg_healthcheck_usermaintenance</name>
 	<author>Joomla! Project</author>
 	<creationDate>2026-08-04</creationDate>
 	<copyright>(C) 2026 Open Source Matters, Inc.</copyright>
