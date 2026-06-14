@@ -203,7 +203,7 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
     {
         $item = [];
 
-        if ($this->params->get('unactivatedUsers', '1') == '1') {
+        if ($this->params->get('unactivatedUsers', true)) {
             try {
                 $item['text'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_UNACTIVATED_LISTTEXT');
                 $item['note'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_UNACTIVATED_LISTNOTE');
