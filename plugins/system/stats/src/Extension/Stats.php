@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\System\Stats\Extension;
 
-use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Event\Application\AfterDispatchEvent;
 use Joomla\CMS\Event\Application\AfterInitialiseEvent;
@@ -39,7 +38,7 @@ use Joomla\Registry\Registry;
  *
  * @since  3.5
  */
-final class Stats extends CMSPlugin implements SubscriberInterface, CacheControllerFactoryAwareInterface
+final class Stats extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
     use CacheControllerFactoryAwareTrait;
