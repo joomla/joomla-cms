@@ -18,7 +18,7 @@ let postgresConnectionPool = null;
  */
 function queryTestDB(joomlaQuery, config) {
   // Substitute the joomla table prefix
-  let query = joomlaQuery.replaceAll('#__', config.env.db_prefix);
+  let query = joomlaQuery.replaceAll('#__', config.expose.db_prefix);
 
   // Parse the table name
   const tableNameOfInsert = query.match(/insert\s+into\s+(.*?)\s/i);
@@ -35,9 +35,9 @@ function queryTestDB(joomlaQuery, config) {
   }
 
   // Do we use PostgreSQL?
-  if (config.env.db_type === 'pgsql' || config.env.db_type === 'PostgreSQL (PDO)') {
+  if (config.expose.db_type === 'pgsql' || config.expose.db_type === 'PostgreSQL (PDO)') {
     if (postgresConnectionPool === null) {
-      let hostOrUnixPath = config.env.db_host;
+      let hostOrUnixPath = config.expose.db_host;
 
       /* Verify if the connection is a Unix socket by checking for the "unix:/" prefix.
        * PostgreSQL JS driver does not support this prefix, so it must be removed.
@@ -51,10 +51,10 @@ function queryTestDB(joomlaQuery, config) {
       // Initialisation on the first call
       postgresConnectionPool = new Pool({
         host: hostOrUnixPath,
-        port: config.env.db_port,
-        database: config.env.db_name,
-        user: config.env.db_user,
-        password: config.env.db_password,
+        port: config.expose.db_port,
+        database: config.expose.db_name,
+        user: config.expose.db_user,
+        password: config.expose.db_password,
         max: 10, // Use only this (unchanged default) maximum number of connections in the pool
       });
     }
@@ -98,23 +98,23 @@ function queryTestDB(joomlaQuery, config) {
      * MariaDB and MySQL JS drivers do not support this prefix, so it must be removed.
      * We standardise the use of this prefix with the PHP driver by handling it here.
      */
-    if (config.env.db_host.startsWith('unix:/')) {
+    if (config.expose.db_host.startsWith('unix:/')) {
       // If the host is a Unix socket, extract the socket path
       connectionConfig = {
         // e.g. 'unix:/var/run/mysqld/mysqld.sock' -> '/var/run/mysqld/mysqld.sock'
-        socketPath: config.env.db_host.replace('unix:', ''),
-        user: config.env.db_user,
-        password: config.env.db_password,
-        database: config.env.db_name,
+        socketPath: config.expose.db_host.replace('unix:', ''),
+        user: config.expose.db_user,
+        password: config.expose.db_password,
+        database: config.expose.db_name,
       };
     } else {
       // Otherwise, use regular TCP host connection settings
       connectionConfig = {
-        host: config.env.db_host,
-        port: config.env.db_port,
-        user: config.env.db_user,
-        password: config.env.db_password,
-        database: config.env.db_name,
+        host: config.expose.db_host,
+        port: config.expose.db_port,
+        user: config.expose.db_user,
+        password: config.expose.db_password,
+        database: config.expose.db_name,
       };
     }
 
@@ -162,18 +162,18 @@ function deleteInsertedItems(config) {
     // Delete the items from the database
     promises.push(queryTestDB(`DELETE FROM ${item.table} WHERE id IN (${item.rows.join(',')})`, config).then(() => {
       // Cleanup some tables we do not have control over from inserted items
-      if (item.table === `${config.env.db_prefix}users`) {
+      if (item.table === `${config.expose.db_prefix}users`) {
         promises.push(queryTestDB(`DELETE FROM #__user_usergroup_map WHERE user_id IN (${item.rows.join(',')})`, config));
         promises.push(queryTestDB(`DELETE FROM #__user_profiles WHERE user_id IN (${item.rows.join(',')})`, config));
         promises.push(queryTestDB(`DELETE FROM #__session WHERE userid IN (${item.rows.join(',')})`, config));
       }
 
-      if (item.table === `${config.env.db_prefix}content`) {
+      if (item.table === `${config.expose.db_prefix}content`) {
         promises.push(queryTestDB(`DELETE FROM #__content_frontpage WHERE content_id IN (${item.rows.join(',')})`, config));
         promises.push(queryTestDB(`DELETE FROM #__workflow_associations WHERE item_id IN (${item.rows.join(',')}) AND extension = 'com_content.article'`, config));
       }
 
-      if (item.table === `${config.env.db_prefix}modules`) {
+      if (item.table === `${config.expose.db_prefix}modules`) {
         promises.push(queryTestDB(`DELETE FROM #__modules_menu WHERE moduleid IN (${item.rows.join(',')})`, config));
       }
     }));
