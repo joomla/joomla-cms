@@ -211,7 +211,7 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
 
                 $db = $this->getDatabase();
 
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select('COUNT(*) AS ' . $db->quoteName('number'))
                     ->from($db->quoteName('#__users'))
                     ->where($db->quoteName('activation') . ' <> ' . $db->quote(''))
