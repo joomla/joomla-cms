@@ -393,7 +393,9 @@ class JoomlaFieldSubform extends HTMLElement {
     // Helper method to test whether Handler was clicked
     function getMoveHandler(element) {
       return !element.form // This need to test whether the element is :input
-      && element.matches(that.buttonMove) ? element : element.closest(that.buttonMove);
+        && element.matches(that.buttonMove)
+        ? element
+        : element.closest(that.buttonMove);
     }
 
     // Helper method to move row to selected position
@@ -508,8 +510,8 @@ class JoomlaFieldSubform extends HTMLElement {
     // - "esc" to cancel selection
     this.addEventListener('keydown', (event) => {
       if ((event.code !== KEYCODE.ESC
-          && event.code !== KEYCODE.SPACE
-          && event.code !== KEYCODE.ENTER) || event.target.form
+        && event.code !== KEYCODE.SPACE
+        && event.code !== KEYCODE.ENTER) || event.target.form
         || !event.target.matches(that.repeatableElement)) {
         return;
       }

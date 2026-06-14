@@ -212,7 +212,7 @@ export default {
       return this.edgeData[1] + ((this.data?.isBiDirectional && this.sourceY < this.targetY && this.data?.offsetIndex ? this.data?.offsetIndex : 0) || 0) * this.maxWidth;
     },
     labelY() {
-      return this.edgeData[2] + ((this.data?.isBiDirectional && this.sourceY > this.targetY &&  this.data?.offsetIndex ? this.data?.offsetIndex : 0) || 0) * 75;
+      return this.edgeData[2] + ((this.data?.isBiDirectional && this.sourceY > this.targetY && this.data?.offsetIndex ? this.data?.offsetIndex : 0) || 0) * 75;
     },
     sourceStageTitle() {
       return this.data?.from_stage_title || `JSTAGE ${this.data?.from_stage_id || 'Unknown'}`;

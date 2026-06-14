@@ -312,14 +312,14 @@ export default {
       isTransitionMode.value = false;
       selectedStage.value = parseInt(id, 10);
       selectedTransition.value = null;
-      announce(liveRegion.value, sprintf('COM_WORKFLOW_GRAPH_STAGE_SELECTED', stages?.value?.find(s => s.id === parseInt(id, 10))?.title || id));
+      announce(liveRegion.value, sprintf('COM_WORKFLOW_GRAPH_STAGE_SELECTED', stages?.value?.find((s) => s.id === parseInt(id, 10))?.title || id));
     }
 
     function selectTransition(id) {
       isTransitionMode.value = true;
       selectedTransition.value = parseInt(id, 10);
       selectedStage.value = null;
-      announce(liveRegion.value, sprintf('COM_WORKFLOW_GRAPH_TRANSITION_SELECTED', transitions?.value?.find(t => t.id === parseInt(id, 10))?.title || id));
+      announce(liveRegion.value, sprintf('COM_WORKFLOW_GRAPH_TRANSITION_SELECTED', transitions?.value?.find((t) => t.id === parseInt(id, 10))?.title || id));
     }
 
     function editStage(id) {
@@ -373,8 +373,8 @@ export default {
         : 'COM_WORKFLOW_GRAPH_TRASH_TRANSITION');
 
       const message = translate(type === 'stage'
-        ? sprintf('COM_WORKFLOW_GRAPH_TRASH_STAGE_CONFIRM', stages?.value?.find(s => s.id === parseInt(id, 10))?.title || id)
-        : sprintf('COM_WORKFLOW_GRAPH_TRASH_TRANSITION_CONFIRM', transitions?.value?.find(t => t.id === parseInt(id, 10))?.title || id));
+        ? sprintf('COM_WORKFLOW_GRAPH_TRASH_STAGE_CONFIRM', stages?.value?.find((s) => s.id === parseInt(id, 10))?.title || id)
+        : sprintf('COM_WORKFLOW_GRAPH_TRASH_TRANSITION_CONFIRM', transitions?.value?.find((t) => t.id === parseInt(id, 10))?.title || id));
 
       JoomlaDialog.confirm(message, title).then((result) => {
         if (result) {
@@ -405,7 +405,7 @@ export default {
       }
       if (source && target) {
         openModal('transition', null, { from_stage_id: source, to_stage_id: target });
-        announce(liveRegion.value, sprintf('COM_WORKFLOW_GRAPH_CREATING_TRANSITION', (stages?.value?.find(s => s.id === parseInt(source, 10))?.title || source), (stages?.value?.find(s => s.id === parseInt(target, 10))?.title || target)));
+        announce(liveRegion.value, sprintf('COM_WORKFLOW_GRAPH_CREATING_TRANSITION', (stages?.value?.find((s) => s.id === parseInt(source, 10))?.title || source), (stages?.value?.find((s) => s.id === parseInt(target, 10))?.title || target)));
       }
     }
 

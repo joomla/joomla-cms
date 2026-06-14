@@ -24,35 +24,33 @@
    * @param {string}      [settings.menuHoverClass='show-menu'] CSS class to toggle on open submenus
    * @param {string}      [settings.dir='ltr']                  Text direction for keyboard nav ('ltr'|'rtl')
    */
-
   class Nav {
-
     // Default settings for the Nav class
     static defaultSettings = {
       menuHoverClass: 'show-menu',
       dir: 'ltr',
-      preventSubmenuOpenOnload: 'nav-active-open'
+      preventSubmenuOpenOnload: 'nav-active-open',
     };
 
     constructor(nav, settings = {}) {
       this.nav = nav;
 
       // read the HTML dir attribute or computed style, or fall back to defaultSettings.dir
-      const browserDir =
-        document.documentElement.getAttribute('dir') ||                          // <html dir="…">
-        getComputedStyle(document.documentElement).direction ||                   // CSS direction
+      const browserDir
+        = document.documentElement.getAttribute('dir') // <html dir="…">
+          || getComputedStyle(document.documentElement).direction // CSS direction
+          || Nav.defaultSettings.dir;
 
-        Nav.defaultSettings.dir;
-        this.settings = {
-          ...Nav.defaultSettings,
-          ...settings
+      this.settings = {
+        ...Nav.defaultSettings,
+        ...settings,
       };
 
       // merge defaults, browser‐detected dir, and any explicit overrides in `settings`
       this.settings = {
         ...Nav.defaultSettings,
-        dir: settings.dir ?? browserDir,  // explicit settings.dir wins, otherwise browserDir
-        ...settings                       // other overrides (e.g. menuHoverClass)
+        dir: settings.dir ?? browserDir, // explicit settings.dir wins, otherwise browserDir
+        ...settings, // other overrides (e.g. menuHoverClass)
       };
 
       // Unique prefix for this nav instance - needed for the id of submenus and aria-controls
@@ -199,9 +197,9 @@
         // close all opened submenus before opening the new one
         const allSubMenus = this.nav.querySelectorAll('ul[aria-hidden="false"]');
         allSubMenus.forEach((ulChild) => {
-            ulChild.setAttribute('aria-hidden', 'true');
-            ulChild.classList.remove(this.settings.menuHoverClass);
-            this.getTopLevelParentLi(ulChild)?.querySelector(':scope > [aria-expanded]')?.setAttribute('aria-expanded', 'false');
+          ulChild.setAttribute('aria-hidden', 'true');
+          ulChild.classList.remove(this.settings.menuHoverClass);
+          this.getTopLevelParentLi(ulChild)?.querySelector(':scope > [aria-expanded]')?.setAttribute('aria-expanded', 'false');
         });
       }
       subLists.forEach((ulChild) => {
