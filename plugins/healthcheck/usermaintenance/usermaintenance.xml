@@ -26,7 +26,7 @@
 					type="text"
 					label="PLG_HEALTHCHECK_USERMAINTENANCE_GROUP_LABEL"
 					description="PLG_HEALTHCHECK_USERMAINTENANCE_GROUP_DESC"
-					default="performance"
+					default="general"
 				/>
 				<field
 					name="inactiveUsers"
