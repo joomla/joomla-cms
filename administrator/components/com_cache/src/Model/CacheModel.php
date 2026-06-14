@@ -14,7 +14,6 @@ use Joomla\CMS\Cache\CacheController;
 use Joomla\CMS\Cache\Exception\CacheConnectingException;
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
 use Joomla\CMS\Event\Cache\AfterPurgeEvent;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -171,7 +170,13 @@ class CacheModel extends ListModel
      */
     public function getCache()
     {
-        return $this->getCacheControllerFactory()->createCacheController('output', ['caching' => true]);
+        $options = [
+            'defaultgroup' => '',
+            'caching'      => true,
+        ];
+
+        return $this->getCacheControllerFactory()
+            ->createCacheController('output', $options);
     }
 
     /**
