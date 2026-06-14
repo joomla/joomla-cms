@@ -1,4 +1,5 @@
 import { defineConfig } from 'eslint/config';
+import cypressPlugin from 'eslint-plugin-cypress';
 import stylistic from '@stylistic/eslint-plugin';
 
 export default defineConfig([
@@ -9,9 +10,11 @@ export default defineConfig([
     quotes: 'single',
     semi: true,
   }),
+  cypressPlugin.configs.recommended,
   {
     rules: {
       '@stylistic/quotes': ['error', 'single', { avoidEscape: true }],
+      'cypress/unsafe-to-chain-command': 'off',
     },
   },
 ]);
