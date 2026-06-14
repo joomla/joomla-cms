@@ -32,7 +32,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            $container->lazy(UserMaintenance::class, function (Container $container) {
+            $container->lazy(UserMaintenance::class, function (Container $container): UserMaintenance {
                 $plugin = new UserMaintenance(
                     (array) PluginHelper::getPlugin('healthcheck', 'usermaintenance')
                 );
