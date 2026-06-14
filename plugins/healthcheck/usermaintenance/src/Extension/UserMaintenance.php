@@ -394,51 +394,6 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * AJAX handler for directly calling the plugin, only used during testing!
-     *
-     * @return    void
-     *
-     * @since    __DEPLOY_VERSION__
-     */
-    public function onAjaxUserMaintenance(): void
-    {
-        $app           = Factory::getApplication();
-        $app->mimeType = 'application/json';
-        $app->setHeader('Content-Type', 'application/json; charset=utf-8');
-
-        try {
-            $this->loadLanguage();
-
-            $checks                       = [];
-            $checks['inactiveUsers']      = $this->getInactiveUsers();
-            $checks['neverloggedinUsers'] = $this->getNeverLoggedinUsers();
-            $checks['unactivatedUsers']   = $this->getUnactivatedUsers();
-            $checks['orphanUsers']        = $this->getOrphanUsers();
-            $checks['nonMFAUsers']        = $this->getNonMFAUsers();
-            $checks['privilegedUsers']    = $this->getPrivilegedUsers();
-
-            $response = [
-                'success'   => true,
-                'data'      => $checks,
-                'count'     => \count($checks),
-                'timestamp' => date('Y-m-d H:i:s'),
-            ];
-        } catch (\Exception $e) {
-            $this->handleErrorMsg(Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_MSG_ERROR_AJAX') . $e->getMessage(), 'error');
-
-            $response = [
-                'success' => false,
-                'error'   => $e->getMessage(),
-                'trace'   => $e->getTraceAsString(),
-            ];
-        }
-
-        echo json_encode($response, JSON_PRETTY_PRINT);
-
-        jexit();
-    }
-
-    /**
      * Get the ids of any user group which has core.admin privileges
      *
      * @return  array  List of integer group IDs that hold core.admin permission.
