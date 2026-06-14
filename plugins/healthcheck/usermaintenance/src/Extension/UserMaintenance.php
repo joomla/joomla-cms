@@ -345,7 +345,7 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
     {
         $item = [];
 
-        if ($this->params->get('privilegedUsers', '1') == '1') {
+        if ($this->params->get('privilegedUsers', true)) {
             try {
                 $adminGroupIds = $this->getAdminGroupIds();
 
