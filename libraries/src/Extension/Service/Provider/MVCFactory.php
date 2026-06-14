@@ -89,7 +89,7 @@ class MVCFactory implements ServiceProviderInterface
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     protected function getNamespace(): string
     {
@@ -101,7 +101,7 @@ class MVCFactory implements ServiceProviderInterface
      *
      * @return  MVCFactoryInterface
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     protected function createMVCFactory(): MVCFactoryInterface
     {
@@ -120,7 +120,7 @@ class MVCFactory implements ServiceProviderInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     protected function injectServicesIntoFactory(MVCFactoryInterface $factory, Container $container): void
     {
