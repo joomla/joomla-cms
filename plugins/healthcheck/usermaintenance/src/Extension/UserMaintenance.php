@@ -450,7 +450,7 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
         // We assume 7 = Administrator, 8 = Super User - but you never know...
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('rules'))
             ->from($db->quoteName('#__assets'))
             ->where($db->quoteName('name') . ' = ' . $db->quote('root.1'));
