@@ -10,7 +10,8 @@
 
 namespace Joomla\Plugin\System\Stats\Extension;
 
-use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Event\Application\AfterDispatchEvent;
 use Joomla\CMS\Event\Application\AfterInitialiseEvent;
 use Joomla\CMS\Event\Plugin\AjaxEvent;
@@ -38,9 +39,10 @@ use Joomla\Registry\Registry;
  *
  * @since  3.5
  */
-final class Stats extends CMSPlugin implements SubscriberInterface
+final class Stats extends CMSPlugin implements SubscriberInterface, CacheControllerFactoryAwareInterface
 {
     use DatabaseAwareTrait;
+    use CacheControllerFactoryAwareTrait;
 
     /**
      * Indicates sending statistics is always allowed.
@@ -588,8 +590,8 @@ final class Stats extends CMSPlugin implements SubscriberInterface
                     'cachebase'    => $this->getApplication()->get('cache_path', JPATH_CACHE),
                 ];
 
-                $cache = Cache::getInstance('callback', $options);
-                $cache->clean();
+                $this->getCacheControllerFactory()
+                    ->createCacheController('callback', $options)->clean();
             } catch (\Exception) {
                 // Ignore it
             }
