@@ -111,7 +111,7 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
     {
         $item = [];
 
-        if ($this->params->get('inactiveUsers', '1') == '1') {
+        if ($this->params->get('inactiveUsers', true)) {
             try {
                 $inactiveTimespan = (int) $this->params->get('inactiveTimespan', 180); // Days since the last login
 
