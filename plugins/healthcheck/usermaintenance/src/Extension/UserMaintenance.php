@@ -296,7 +296,7 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
     {
         $item = [];
 
-        if ($this->params->get('nonMFAUsers', '1') == '1') {
+        if ($this->params->get('nonMFAUsers', true)) {
             try {
                 $item['text'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_NONMFA_LISTTEXT');
                 $item['note'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_NONMFA_LISTNOTE');
