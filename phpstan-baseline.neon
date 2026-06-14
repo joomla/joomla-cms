@@ -11339,18 +11339,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getCache\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the cache controller factory instead
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(CacheControllerFactoryInterface\:\:class\)\-\>createCacheController\(\$handler, \$options\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 4
-			path: libraries/src/Installer/Adapter/LanguageAdapter.php
-
-		-
-			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
