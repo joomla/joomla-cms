@@ -947,7 +947,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         }
 
         // The real location of the file
-        $manifestScriptFile = $this->parent->getPath('extension_root') . '/' . $manifestScript;
+        $manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
 
         // Load the installer from the file
         if (!file_exists($manifestScriptFile)) {
