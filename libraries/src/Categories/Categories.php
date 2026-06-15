@@ -87,6 +87,14 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
     protected $_key;
 
     /**
+     * Name of the items access field
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $_accessfield;
+
+    /**
      * Name of the items state field
      *
      * @var    string
@@ -111,15 +119,17 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
      */
     public function __construct($options)
     {
-        $this->_extension  = $options['extension'];
-        $this->_table      = $options['table'];
-        $this->_field      = isset($options['field']) && $options['field'] ? $options['field'] : 'catid';
-        $this->_key        = isset($options['key']) && $options['key'] ? $options['key'] : 'id';
-        $this->_statefield = $options['statefield'] ?? 'state';
+        $this->_extension   = $options['extension'];
+        $this->_table       = $options['table'];
+        $this->_field       = isset($options['field']) && $options['field'] ? $options['field'] : 'catid';
+        $this->_key         = isset($options['key']) && $options['key'] ? $options['key'] : 'id';
+        $this->_accessfield = $options['accessfield'] ?? null;
+        $this->_statefield  = $options['statefield'] ?? 'state';
 
-        $options['access']      ??= 'true';
-        $options['published']   ??= 1;
-        $options['countItems']  ??= 0;
+        $options['access']        ??= 'true';
+        $options['published']     ??= 1;
+        $options['countItems']    ??= 0;
+        $options['accessOnItems'] ??= 1;
         $options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
 
         $this->_options = $options;
@@ -355,6 +365,13 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
                 ->select('COUNT(' . $db->quoteName($db->escape('i.' . $this->_key)) . ')')
                 ->from($db->quoteName($db->escape($this->_table), 'i'))
                 ->where($db->quoteName($db->escape('i.' . $this->_field)) . ' = ' . $db->quoteName('c.id'));
+
+            if ($this->_accessfield && $this->_options['accessOnItems']) {
+                $subQuery->where(
+                    $db->quoteName($db->escape('i.' . $this->_accessfield))
+                    . ' IN (' . implode(',', $query->bindArray($user->getAuthorisedViewLevels())) . ')'
+                );
+            }
 
             if ($this->_options['published'] == 1) {
                 $subQuery->where($db->quoteName($db->escape('i.' . $this->_statefield)) . ' = 1');
