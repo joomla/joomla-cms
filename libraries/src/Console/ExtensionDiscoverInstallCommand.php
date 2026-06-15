@@ -146,7 +146,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
             $count++;
         }
 
-        return empty($eidsToDiscover) ? 0 : $count;
+        return $count;
     }
 
     /**
