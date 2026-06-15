@@ -800,8 +800,8 @@ class ArticlesModel extends ListModel
             }
         }
 
-        // Save all the article metakeys in user state for later use during the current request.
-        Factory::getApplication()->setUserState('com_content.articles.keywords', array_filter(array_column($items, 'metakey')));
+        // Save all the article metakeys for later use during the current request.
+        Factory::getApplication()->set('com_content.articles.keywords', array_filter(array_column($items, 'metakey')));
 
         return $items;
     }
