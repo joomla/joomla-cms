@@ -539,21 +539,21 @@ class ArticlesModel extends ListModel
 
             if ($tagMode === 'all') {
                 // AND logic: article must have ALL tags
-                foreach ($tag as $tagId) {
-                    $subQuery = $db->createQuery()
-                        ->select('DISTINCT ' . $db->quoteName('content_item_id'))
-                        ->from($db->quoteName('#__contentitem_tag_map'))
-                        ->where([
-                            $db->quoteName('tag_id') . ' = :tagid',
-                            $db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'),
-                        ])
-                        ->bind(':tagid', $tagId, ParameterType::INTEGER);
-
+                $boundValues = [];
+                
+                foreach ($tag as $index => $tagId) {
+                    $aliasName           = 'tagmap_' . $index;
+                    $paramName           = ':tagid_' . $index;
+                    $boundValues[$index] = (int) $tagId;
+                    
                     $query->join(
                         'INNER',
-                        '(' . $subQuery . ') AS ' . $db->quoteName('tagmap_' . $tagId),
-                        $db->quoteName('tagmap_' . $tagId . '.content_item_id') . ' = ' . $db->quoteName('a.id')
-                    );
+                        $db->quoteName('#__contentitem_tag_map', $aliasName),
+                        $db->quoteName($aliasName . '.content_item_id') . ' = ' . $db->quoteName('a.id')
+                            . ' AND ' . $db->quoteName($aliasName . '.tag_id') . ' = ' . $paramName
+                            . ' AND ' . $db->quoteName($aliasName . '.type_alias') . ' = ' . $db->quote('com_content.article')
+                    )
+                    ->bind($paramName, $boundValues[$index], ParameterType::INTEGER);
                 }
             } else {
                 // OR logic:
