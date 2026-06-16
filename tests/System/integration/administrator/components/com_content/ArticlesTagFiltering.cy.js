@@ -1,8 +1,8 @@
 describe('Test that content API endpoint filters by tags', () => {
   afterEach(() => {
-    cy.task('queryDB', 'DELETE FROM #__contentitem_tag_map WHERE type_alias = "com_content.article"');
-    cy.task('queryDB', 'DELETE FROM #__content WHERE title LIKE "%automated test"');
-    cy.task('queryDB', 'DELETE FROM #__tags WHERE title LIKE "%automated test"');
+    cy.task('queryDB', "DELETE FROM #__contentitem_tag_map WHERE type_alias = 'com_content.article'");
+    cy.task('queryDB', "DELETE FROM #__content WHERE title LIKE '%automated test'");
+    cy.task('queryDB', "DELETE FROM #__tags WHERE title LIKE '%automated test'");
   });
 
   it('can filter articles with OR logic (any tag)', () => {
