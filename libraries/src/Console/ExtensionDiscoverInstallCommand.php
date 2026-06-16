@@ -134,6 +134,9 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
             ->where($db->quoteName('state') . ' = -1');
         $db->setQuery($query);
         $eidsToDiscover = $db->loadObjectList();
+        if (empty($eidsToDiscover)) {
+            return 0;
+        }
 
         foreach ($eidsToDiscover as $eidToDiscover) {
             $jInstaller = new Installer();
