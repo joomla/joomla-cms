@@ -508,7 +508,7 @@
 		<field
 			name="float_intro"
 			type="text"
-			label="COM_CONTENT_IMAGE_INTRO_CLASS_LABEL"
+			label="COM_CONTENT_FIGURE_INTRO_CLASS_LABEL"
 			validate="CssIdentifier"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 		/>
@@ -516,7 +516,7 @@
 		<field
 			name="float_fulltext"
 			type="text"
-			label="COM_CONTENT_IMAGE_FULLTEXT_CLASS_LABEL"
+			label="COM_CONTENT_FIGURE_FULLTEXT_CLASS_LABEL"
 			validate="CssIdentifier"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 		/>

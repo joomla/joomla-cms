@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 
@@ -34,6 +35,7 @@ $this->loadTemplate('texts');
 $tmpl = $input->getCmd('tmpl');
 
 $mediaTypes = '&mediatypes=' . $input->getString('mediatypes', '0,1,2,3');
+$hasMediaActionPlugins = !empty(PluginHelper::getPlugin('media-action'));
 
 // Populate the media config
 $config = [
@@ -54,6 +56,7 @@ $config = [
     'canCreate'           => $user->authorise('core.create', 'com_media'),
     'canEdit'             => $user->authorise('core.edit', 'com_media'),
     'canDelete'           => $user->authorise('core.delete', 'com_media'),
+    'hasMediaActionPlugins' => $hasMediaActionPlugins,
 ];
 $this->getDocument()->addScriptOptions('com_media', $config);
 ?>
