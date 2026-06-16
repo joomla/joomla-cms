@@ -135,18 +135,15 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
         $db->setQuery($query);
         $eidsToDiscover = $db->loadObjectList();
 
-        $count = 0;
         foreach ($eidsToDiscover as $eidToDiscover) {
             $jInstaller = new Installer();
             $jInstaller->setDatabase($this->getDatabase());
             if (!$jInstaller->discover_install($eidToDiscover->extension_id)) {
                 return -1;
             }
-
-            $count++;
         }
 
-        return $count;
+        return \count($eidsToDiscover);
     }
 
     /**
