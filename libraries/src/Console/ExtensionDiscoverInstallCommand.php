@@ -203,11 +203,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
         $this->configureIO($input, $output);
         $this->ioStyle->title('Install Discovered Extensions');
 
-        $eid = $this->cliInput->getOption('eid');
-        if (empty($id)) {
-            $eid = -1;
-        }
-
+        $eid    = $this->cliInput->getOption('eid') ?: -1;
         $result = $this->processDiscover($eid);
 
         if ($result === -1) {
