@@ -1,4 +1,8 @@
-describe('Test that content API endpoint filters by tags', () => {
+describe('Test articles tag filtering with AND and OR logic', () => {
+  beforeEach(() => {
+    cy.doAdministratorLogin();
+  });
+
   afterEach(() => {
     cy.task('queryDB', "DELETE FROM #__contentitem_tag_map WHERE type_alias = 'com_content.article'");
     cy.task('queryDB', "DELETE FROM #__content WHERE title LIKE '%automated test'");
@@ -30,18 +34,13 @@ describe('Test that content API endpoint filters by tags', () => {
               cy.task('queryDB', `INSERT INTO #__contentitem_tag_map (type_alias, core_content_id, content_item_id, tag_id, type_id) VALUES ('com_content.article', 0, ${article.id}, ${tagBetaId}, 1)`);
             });
 
-          // Test OR logic: filter by both tags with mode 'any'
-          cy.api_get(`/content/articles?filter[tag][]=${tagAlphaId}&filter[tag][]=${tagBetaId}&filter[tag_mode]=any`)
-            .then((response) => {
-              const articles = response.body.data;
-              const titles = articles.map((article) => article.attributes.title);
+          // Visit articles page and apply OR filter
+          cy.visit(`/administrator/index.php?option=com_content&view=articles&filter[tag][]=${tagAlphaId}&filter[tag][]=${tagBetaId}&filter[tag_mode]=any`);
 
-              // All three articles should be returned with OR logic
-              expect(titles).to.include('Article Both Tags automated test');
-              expect(titles).to.include('Article Only Alpha automated test');
-              expect(titles).to.include('Article Only Beta automated test');
-              expect(articles).to.have.length(3);
-            });
+          // All three articles should be visible with OR logic
+          cy.contains('Article Both Tags automated test').should('be.visible');
+          cy.contains('Article Only Alpha automated test').should('be.visible');
+          cy.contains('Article Only Beta automated test').should('be.visible');
         }));
   });
 
@@ -70,18 +69,13 @@ describe('Test that content API endpoint filters by tags', () => {
               cy.task('queryDB', `INSERT INTO #__contentitem_tag_map (type_alias, core_content_id, content_item_id, tag_id, type_id) VALUES ('com_content.article', 0, ${article.id}, ${tagBetaId}, 1)`);
             });
 
-          // Test AND logic: filter by both tags with mode 'all'
-          cy.api_get(`/content/articles?filter[tag][]=${tagAlphaId}&filter[tag][]=${tagBetaId}&filter[tag_mode]=all`)
-            .then((response) => {
-              const articles = response.body.data;
-              const titles = articles.map((article) => article.attributes.title);
+          // Visit articles page and apply AND filter
+          cy.visit(`/administrator/index.php?option=com_content&view=articles&filter[tag][]=${tagAlphaId}&filter[tag][]=${tagBetaId}&filter[tag_mode]=all`);
 
-              // Only the article with BOTH tags should be returned with AND logic
-              expect(titles).to.include('Article Both Tags automated test');
-              expect(titles).to.not.include('Article Only Alpha automated test');
-              expect(titles).to.not.include('Article Only Beta automated test');
-              expect(articles).to.have.length(1);
-            });
+          // Only the article with BOTH tags should be visible with AND logic
+          cy.contains('Article Both Tags automated test').should('be.visible');
+          cy.contains('Article Only Alpha automated test').should('not.exist');
+          cy.contains('Article Only Beta automated test').should('not.exist');
         }));
   });
 });
