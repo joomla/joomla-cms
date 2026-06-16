@@ -556,13 +556,21 @@ class ArticlesModel extends ListModel
                     ->bind($paramName, $boundValues[$index], ParameterType::INTEGER);
                 }
             } else {
-                // OR logic:
+                // OR logic: article must have AT LEAST ONE of the selected tags.
+                // $tag has already been cast to integers via ArrayHelper::toInteger()
+                // above, so interpolating directly is safe and avoids the subquery
+                // binding problem: bindArray() stores values on the query object it
+                // is called on, but when a subquery is cast to string and embedded
+                // into the outer query, those bindings are never merged into the
+                // outer prepared statement, leaving unbound placeholders at runtime.
+                $tagIds = implode(',', $tag);
+
                 $subQuery = $db->createQuery()
                     ->select('DISTINCT ' . $db->quoteName('content_item_id'))
                     ->from($db->quoteName('#__contentitem_tag_map'))
                     ->where(
                         [
-                            $db->quoteName('tag_id') . ' IN (' . implode(',', $query->bindArray($tag)) . ')',
+                            $db->quoteName('tag_id') . ' IN (' . $tagIds . ')',
                             $db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'),
                         ]
                     );
@@ -578,6 +586,7 @@ class ArticlesModel extends ListModel
                         ->select('DISTINCT ' . $db->quoteName('content_item_id'))
                         ->from($db->quoteName('#__contentitem_tag_map'))
                         ->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'));
+
                     $query->join(
                         'LEFT',
                         '(' . $subQuery2 . ') AS ' . $db->quoteName('tagmap2'),
