@@ -540,12 +540,12 @@ class ArticlesModel extends ListModel
             if ($tagMode === 'all') {
                 // AND logic: article must have ALL tags
                 $boundValues = [];
-                
+
                 foreach ($tag as $index => $tagId) {
                     $aliasName           = 'tagmap_' . $index;
                     $paramName           = ':tagid_' . $index;
                     $boundValues[$index] = (int) $tagId;
-                    
+
                     $query->join(
                         'INNER',
                         $db->quoteName('#__contentitem_tag_map', $aliasName),
