@@ -11,6 +11,7 @@
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Event\Finder\PrepareContentEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
@@ -485,7 +486,15 @@ class Helper
         }
 
         // Fire the onContentPrepare event.
-        Factory::getApplication()->triggerEvent('onContentPrepare', ['com_finder.indexer', &$content, &$params, 0]);
+        Factory::getApplication()->getDispatcher()->dispatch(
+            'onContentPrepare',
+            new ContentPrepareEvent('onContentPrepare', [
+                'context' => 'com_finder.indexer',
+                'subject' => $content,
+                'params'  => $params,
+                'page'    => 0,
+            ])
+        );
 
         return $content->text;
     }
