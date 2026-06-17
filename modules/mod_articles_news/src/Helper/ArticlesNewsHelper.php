@@ -25,6 +25,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -122,7 +123,7 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
         $triggerEvents = $params->get('triggerevents', 1);
 
         if ($triggerEvents) {
-            $dispatcher = $app->getDispatcher();
+            $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
         }
 
         // Retrieve Content

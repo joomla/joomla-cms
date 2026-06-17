@@ -200,8 +200,9 @@ class JsonapiView extends BaseApiView
         $item->text = $item->introtext . ' ' . $item->fulltext;
 
         // Process the content plugins.
-        PluginHelper::importPlugin('content');
-        Factory::getApplication()->getDispatcher()->dispatch(
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
+        $dispatcher->dispatch(
             'onContentPrepare',
             new ContentPrepareEvent(
                 'onContentPrepare',

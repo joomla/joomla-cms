@@ -19,8 +19,9 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\Event\DispatcherInterface;
 
-$dispatcher = Factory::getApplication()->getDispatcher();
+$dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
 
 /** @var \Joomla\Component\Content\Site\View\Category\HtmlView $this */
 $this->category->text = $this->category->description;

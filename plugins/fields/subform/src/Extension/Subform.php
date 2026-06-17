@@ -13,9 +13,11 @@ namespace Joomla\Plugin\Fields\Subform\Extension;
 use Joomla\CMS\Event\CustomFields\BeforePrepareFieldEvent;
 use Joomla\CMS\Event\CustomFields\PrepareDomEvent;
 use Joomla\CMS\Event\CustomFields\PrepareFieldEvent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -191,7 +193,7 @@ final class Subform extends FieldsPlugin implements SubscriberInterface
             $rows = [$field->value];
         }
 
-        $dispatcher = $this->getApplication()->getDispatcher();
+        $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
 
         // Iterate over each row of the data
         foreach ($rows as $row) {

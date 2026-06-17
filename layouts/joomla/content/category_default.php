@@ -18,6 +18,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\Event\DispatcherInterface;
 
 /**
  * Note that this layout opens a div with the page class suffix. If you do not use the category children
@@ -30,7 +31,7 @@ $canEdit   = $params->get('access-edit');
 $className = substr($extension, 4);
 $htag      = $params->get('show_page_heading') ? 'h2' : 'h1';
 
-$dispatcher = Factory::getApplication()->getDispatcher();
+$dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
 
 $category->text = $category->description;
 
