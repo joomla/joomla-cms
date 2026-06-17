@@ -135,7 +135,7 @@ class HtmlView extends BaseHtmlView
         $numIntro   = (int) $params->def('num_intro_articles', 4);
 
         $dispatcher = $this->getDispatcher();
-        PluginHelper::importPlugin('content', null, true,  $dispatcher);
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
 
         // Compute the article slugs and prepare introtext (runs content plugins).
         foreach ($items as &$item) {

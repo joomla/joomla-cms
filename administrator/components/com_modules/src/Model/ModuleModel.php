@@ -350,7 +350,7 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
 
         // Include the plugins for the on delete events.
         $dispatcher = $this->getDispatcher();
-        PluginHelper::importPlugin($this->events_map['delete'], null, true,  $dispatcher);
+        PluginHelper::importPlugin($this->events_map['delete'], null, true, $dispatcher);
 
         // Iterate the items to delete each one.
         foreach ($pks as $pk) {
