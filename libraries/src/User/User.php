@@ -946,7 +946,7 @@ class User
     public function get($property, $default = null)
     {
         if (!\defined('COMPATIBILITY_ENABLED')) {
-            throw new \Exception(\sprintf(
+            throw new \BadMethodCallException(\sprintf(
                 '%1$s() is only available in compatibility mode (compatibility plugin enabled). Access directly the property from the user object.',
                 __METHOD__
             ));
