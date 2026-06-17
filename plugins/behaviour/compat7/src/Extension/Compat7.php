@@ -82,8 +82,9 @@ final class Compat7 extends CMSPlugin implements SubscriberInterface
 
         /**
          * Compatibility switch for deprecated function.
+         * @deprecated __DEPLOY_VERSION__ will be removed with 8.0
          */
-        \define('COMPATIBILITY_ENABLED', true);
+        \define('COMPAT_JOOMLA_7', true);
     }
 
     /**

@@ -182,7 +182,7 @@ abstract class Factory
      */
     public static function getConfig($file = null, $type = 'PHP', $namespace = '')
     {
-        if (!\defined('COMPATIBILITY_ENABLED')) {
+        if (!\defined('COMPAT_JOOMLA_7')) {
             throw new \BadMethodCallException(\sprintf(
                 '%1$s() is only available in compatibility mode (compatibility plugin enabled). The configuration object should be read from the application.',
                 __METHOD__
@@ -270,10 +270,11 @@ abstract class Factory
      */
     public static function getSession(array $options = [])
     {
-        if (!\defined('COMPATIBILITY_ENABLED')) {
+        if (!\defined('COMPAT_JOOMLA_7')) {
             throw new \BadMethodCallException(\sprintf(
                 '%1$s() is only available in compatibility mode (compatibility plugin enabled). Load the session from the dependency injection container or via %2$s::getApplication()->getSession().',
-                __METHOD__
+                __METHOD__,
+                __CLASS__
             ));
         }
 
@@ -500,7 +501,7 @@ abstract class Factory
      */
     public static function getMailer()
     {
-        if (!\defined('COMPATIBILITY_ENABLED')) {
+        if (!\defined('COMPAT_JOOMLA_7')) {
             throw new \BadMethodCallException(\sprintf(
                 '%1$s() is only available in compatibility mode (compatibility plugin enabled). Load the mailer from the dependency injection container.',
                 __METHOD__
