@@ -52,7 +52,7 @@ abstract class Dropdown
         }
 
         // Depends on Bootstrap
-        HTMLHelper::_('bootstrap.framework');
+        Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('dropdown');
 
         Factory::getDocument()->addScriptDeclaration("
 			(function($){
