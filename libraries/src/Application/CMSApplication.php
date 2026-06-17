@@ -491,35 +491,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     }
 
     /**
-     * Gets a configuration value.
-     *
-     * @param   string  $varname  The name of the value to get.
-     * @param   string  $default  Default value to return
-     *
-     * @return  mixed  The user state.
-     *
-     * @since   3.2
-     *
-     * @deprecated  3.2 will be removed in 7.0
-     *              Use get() instead
-     *              Example: Factory::getApplication()->get($varname, $default);
-     */
-    public function getCfg($varname, $default = null)
-    {
-        try {
-            Log::add(
-                \sprintf('%s() is deprecated and will be removed in 6.0. Use Factory->getApplication()->get() instead.', __METHOD__),
-                Log::WARNING,
-                'deprecated'
-            );
-        } catch (\RuntimeException) {
-            // Informational log only
-        }
-
-        return $this->get($varname, $default);
-    }
-
-    /**
      * Gets the client id of the current running application.
      *
      * @return  integer  A client identifier.
@@ -1300,40 +1271,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         $session = $this->getSession();
 
         return $session::checkToken($method);
-    }
-
-    /**
-     * No longer used
-     *
-     * @return  boolean
-     *
-     * @since   4.0.0
-     *
-     * @throws \Exception
-     *
-     * @deprecated  4.2 will be removed in 7.0
-     *              Will be removed without replacements
-     */
-    protected function isTwoFactorAuthenticationRequired(): bool
-    {
-        return false;
-    }
-
-    /**
-     * No longer used
-     *
-     * @return  boolean
-     *
-     * @since   4.0.0
-     *
-     * @throws \Exception
-     *
-     * @deprecated  4.2 will be removed in 7.0
-     *              Will be removed without replacements
-     */
-    private function hasUserConfiguredTwoFactorAuthentication(): bool
-    {
-        return false;
     }
 
     /**
