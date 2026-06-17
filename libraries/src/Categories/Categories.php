@@ -224,6 +224,21 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
     }
 
     /**
+     * Get the context to use for category mapping.
+     *
+     * @return string|null
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    protected function getCategoryMappingContext(): ?string
+    {
+        return match ($this->_extension) {
+            'com_content' => 'com_content.article',
+            default       => null,
+        };
+    }
+
+    /**
      * Load method
      *
      * @param   int|string  $id  Id of category to load
@@ -351,10 +366,30 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
 
         // Note: i for item
         if ($this->_options['countItems'] == 1) {
+            $context          = $this->getCategoryMappingContext();
+            $includeSecondary = $this->_options['includeSecondaryCategories'] ?? false;
+
             $subQuery = $db->createQuery()
-                ->select('COUNT(' . $db->quoteName($db->escape('i.' . $this->_key)) . ')')
-                ->from($db->quoteName($db->escape($this->_table), 'i'))
-                ->where($db->quoteName($db->escape('i.' . $this->_field)) . ' = ' . $db->quoteName('c.id'));
+                ->select('COUNT(DISTINCT ' . $db->quoteName($db->escape('i.' . $this->_key)) . ')')
+                ->from($db->quoteName($db->escape($this->_table), 'i'));
+
+            if ($context !== null && $includeSecondary) {
+                $subQuery->join(
+                    'LEFT',
+                    $db->quoteName('#__category_item_map', 'm'),
+                    $db->quoteName('m.item_id') . ' = ' . $db->quoteName($db->escape('i.' . $this->_key))
+                    . ' AND '
+                    . $db->quoteName('m.context') . ' = ' . $db->quote($context)
+                );
+
+                $subQuery->where(
+                    '(' . $db->quoteName($db->escape('i.' . $this->_field)) . ' = ' . $db->quoteName('c.id') . ' OR ' . $db->quoteName('m.category_id') . ' = ' . $db->quoteName('c.id') . ')'
+                );
+            } else {
+                $subQuery->where(
+                    $db->quoteName($db->escape('i.' . $this->_field)) . ' = ' . $db->quoteName('c.id')
+                );
+            }
 
             if ($this->_options['published'] == 1) {
                 $subQuery->where($db->quoteName($db->escape('i.' . $this->_statefield)) . ' = 1');

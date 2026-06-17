@@ -22,7 +22,8 @@ use Joomla\CMS\Router\Route;
 $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
-    ->useScript('com_content.form-edit');
+    ->useScript('com_content.form-edit')
+    ->useScript('com_content.secondary-categories');
 
 $this->tab_name = 'com-content-form';
 $this->ignore_fieldsets = ['image-intro', 'image-full', 'jmetadata', 'item_associations'];
@@ -73,8 +74,8 @@ if (!$params->exists('show_publishing_options')) {
                 <?php echo $this->form->renderField('image_fulltext', 'images'); ?>
                 <?php echo $this->form->renderField('image_fulltext_alt', 'images'); ?>
                 <?php echo $this->form->renderField('image_fulltext_alt_empty', 'images'); ?>
-                <?php echo $this->form->renderField('imgclass_fulltext', 'images'); ?> 
-                <?php echo $this->form->renderField('float_fulltext', 'images'); ?>  
+                <?php echo $this->form->renderField('imgclass_fulltext', 'images'); ?>
+                <?php echo $this->form->renderField('float_fulltext', 'images'); ?>
                 <?php echo $this->form->renderField('image_fulltext_caption', 'images'); ?>
                 <?php echo $this->form->renderField('urla', 'urls'); ?>
                 <?php echo $this->form->renderField('urlatext', 'urls'); ?>
@@ -106,6 +107,7 @@ if (!$params->exists('show_publishing_options')) {
                 <?php echo $this->form->renderField('transition'); ?>
                     <?php echo $this->form->renderField('state'); ?>
                     <?php echo $this->form->renderField('catid'); ?>
+                    <?php echo $this->form->renderField('secondary_categories'); ?>
                     <?php if ($this->item->params->get('access-change')) : ?>
                         <?php echo $this->form->renderField('featured'); ?>
                     <?php endif; ?>

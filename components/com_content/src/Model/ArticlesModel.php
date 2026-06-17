@@ -182,6 +182,75 @@ class ArticlesModel extends ListModel
     }
 
     /**
+     * Get the category mapping context.
+     *
+     * @return  string
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    protected function getCategoryMappingContext(): string
+    {
+        return 'com_content.article';
+    }
+
+    /**
+     * Builds a subquery to return article ids mapped to a category
+     * through secondary category relations.
+     *
+     * @param   integer|array  $categoryIds           Category id(s).
+     * @param   boolean        $includeSubcategories  Include child categories.
+     * @param   integer        $levels                Subcategory depth.
+     *
+     * @return  QueryInterface
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getSecondaryCategoryQuery(int|array $categoryIds, bool $includeSubcategories = false, int $levels = 1): QueryInterface
+    {
+        $db = $this->getDatabase();
+
+        $categoryIds = ArrayHelper::toInteger((array) $categoryIds);
+        $categoryIds = array_values(array_unique(array_filter($categoryIds)));
+
+        $query = $db->createQuery()
+            ->select('DISTINCT ' . $db->quoteName('cim.item_id'))
+            ->from($db->quoteName('#__category_item_map', 'cim'))
+            ->where($db->quoteName('cim.context') . ' = ' . $db->quote('com_content.article'));
+
+        if (!$categoryIds) {
+            return $query->where('1 = 0');
+        }
+
+        $categoryIdsSql = implode(',', $categoryIds);
+
+        if ($includeSubcategories) {
+            $subQuery = $db->createQuery()
+                ->select($db->quoteName('sub.id'))
+                ->from($db->quoteName('#__categories', 'sub'))
+                ->join(
+                    'INNER',
+                    $db->quoteName('#__categories', 'parent'),
+                    $db->quoteName('sub.lft') . ' > ' . $db->quoteName('parent.lft')
+                    . ' AND ' . $db->quoteName('sub.rgt') . ' < ' . $db->quoteName('parent.rgt')
+                )
+                ->where($db->quoteName('parent.id') . ' IN (' . $categoryIdsSql . ')');
+
+            if ($levels >= 0) {
+                $subQuery->where($db->quoteName('sub.level') . ' <= ' . $db->quoteName('parent.level') . ' + ' . (int) $levels);
+            }
+
+            $query->where(
+                '(' . $db->quoteName('cim.category_id') . ' IN (' . $categoryIdsSql . ')'
+                . ' OR ' . $db->quoteName('cim.category_id') . ' IN (' . $subQuery . ')' . ')'
+            );
+        } else {
+            $query->where($db->quoteName('cim.category_id') . ' IN (' . $categoryIdsSql . ')');
+        }
+
+        return $query;
+    }
+
+    /**
      * Get the master query for retrieving a list of articles subject to the model state.
      *
      * @return  QueryInterface
@@ -403,53 +472,53 @@ class ArticlesModel extends ListModel
         $categoryId = $this->getState('filter.category_id');
 
         if (is_numeric($categoryId)) {
-            $type = $this->getState('filter.category_id.include', true) ? ' = ' : ' <> ';
+            $categoryIds = [(int) $categoryId];
+        } elseif (\is_array($categoryId) && (\count($categoryId) > 0)) {
+            $categoryIds = ArrayHelper::toInteger($categoryId);
+        } else {
+            $categoryIds = [];
+        }
 
-            // Add subcategory check
-            $includeSubcategories = $this->getState('filter.subcategories', false);
+        $categoryIds = array_values(array_unique(array_filter($categoryIds)));
+
+        if ($categoryIds) {
+            $include                    = $this->getState('filter.category_id.include', true);
+            $includeSubcategories       = $this->getState('filter.subcategories', false);
+            $includeSecondaryCategories = $this->getState('filter.include_secondary_categories', true);
+            $levels                     = (int) $this->getState('filter.max_category_levels', 1);
+            $boundedCategoryIds         = implode(',', $query->bindArray($categoryIds));
 
             if ($includeSubcategories) {
-                $categoryId = (int) $categoryId;
-                $levels     = (int) $this->getState('filter.max_category_levels', 1);
-
-                // Create a subquery for the subcategory list
-                $subQuery = $db->createQuery()
+                $primarySubQuery = $db->createQuery()
                     ->select($db->quoteName('sub.id'))
                     ->from($db->quoteName('#__categories', 'sub'))
                     ->join(
                         'INNER',
-                        $db->quoteName('#__categories', 'this'),
-                        $db->quoteName('sub.lft') . ' > ' . $db->quoteName('this.lft')
-                            . ' AND ' . $db->quoteName('sub.rgt') . ' < ' . $db->quoteName('this.rgt')
+                        $db->quoteName('#__categories', 'parent'),
+                        $db->quoteName('sub.lft') . ' > ' . $db->quoteName('parent.lft')
+                            . ' AND ' . $db->quoteName('sub.rgt') . ' < ' . $db->quoteName('parent.rgt')
                     )
-                    ->where($db->quoteName('this.id') . ' = :subCategoryId');
-
-                $query->bind(':subCategoryId', $categoryId, ParameterType::INTEGER);
+                    ->where($db->quoteName('parent.id') . ' IN (' . $boundedCategoryIds . ')');
 
                 if ($levels >= 0) {
-                    $subQuery->where($db->quoteName('sub.level') . ' <= ' . $db->quoteName('this.level') . ' + :levels');
-                    $query->bind(':levels', $levels, ParameterType::INTEGER);
+                    $primarySubQuery->where($db->quoteName('sub.level') . ' <= ' . $db->quoteName('parent.level') . ' + :primaryLevels');
+                    $query->bind(':primaryLevels', $levels, ParameterType::INTEGER);
                 }
 
-                // Add the subquery to the main query
-                $query->where(
-                    '(' . $db->quoteName('a.catid') . $type . ':categoryId OR ' . $db->quoteName('a.catid') . ' IN (' . $subQuery . '))'
-                );
-                $query->bind(':categoryId', $categoryId, ParameterType::INTEGER);
+                $primaryCondition = '(' . $db->quoteName('a.catid') . ' IN (' . $boundedCategoryIds . ')'
+                    . ' OR ' . $db->quoteName('a.catid') . ' IN (' . $primarySubQuery . '))';
             } else {
-                $query->where($db->quoteName('a.catid') . $type . ':categoryId');
-                $query->bind(':categoryId', $categoryId, ParameterType::INTEGER);
+                $primaryCondition = $db->quoteName('a.catid') . ' IN (' . $boundedCategoryIds . ')';
             }
-        } elseif (\is_array($categoryId) && (\count($categoryId) > 0)) {
-            $categoryId = ArrayHelper::toInteger($categoryId);
 
-            if (!empty($categoryId)) {
-                if ($this->getState('filter.category_id.include', true)) {
-                    $query->whereIn($db->quoteName('a.catid'), $categoryId);
-                } else {
-                    $query->whereNotIn($db->quoteName('a.catid'), $categoryId);
-                }
+            $categoryCondition = $primaryCondition;
+
+            if ($includeSecondaryCategories) {
+                $secondaryCondition = $db->quoteName('a.id') . ' IN (' . $this->getSecondaryCategoryQuery($categoryIds, $includeSubcategories, $levels) . ')';
+                $categoryCondition  = '(' . $primaryCondition . ' OR ' . $secondaryCondition . ')';
             }
+
+            $query->where($include ? $categoryCondition : 'NOT (' . $categoryCondition . ')');
         }
 
         // Filter by author
@@ -659,6 +728,70 @@ class ArticlesModel extends ListModel
 
         return $query;
     }
+    /**
+     * Get secondary categories for multiple articles.
+     *
+     * @param   array  $itemIds  Article ids.
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getMappedCategories(array $itemIds): array
+    {
+        if (empty($itemIds)) {
+            return [];
+        }
+
+        $db      = $this->getDatabase();
+        $user    = $this->getCurrentUser();
+        $context = $this->getCategoryMappingContext();
+
+        $query = $db->createQuery()
+            ->select([
+                $db->quoteName('m.item_id'),
+                $db->quoteName('c.id'),
+                $db->quoteName('c.title'),
+                $db->quoteName('c.alias'),
+                $db->quoteName('c.language'),
+                $db->quoteName('c.access'),
+            ])
+            ->from($db->quoteName('#__category_item_map', 'm'))
+            ->join(
+                'INNER',
+                $db->quoteName('#__categories', 'c'),
+                $db->quoteName('c.id') . ' = ' . $db->quoteName('m.category_id')
+            );
+
+        $query->where($db->quoteName('m.context') . ' = :context')
+            ->where($db->quoteName('m.item_id') . ' IN (' . implode(',', $query->bindArray($itemIds)) . ')')
+            ->where($db->quoteName('c.published') . ' = 1')
+            ->bind(':context', $context);
+
+        // Filter by language
+        if ($this->getState('filter.language')) {
+            $query->whereIn($db->quoteName('c.language'), [Factory::getApplication()->getLanguage()->getTag(), '*'], ParameterType::STRING);
+        }
+
+        if (!$user->authorise('core.admin')) {
+            $query->whereIn(
+                $db->quoteName('c.access'),
+                $user->getAuthorisedViewLevels()
+            );
+        }
+
+        $db->setQuery($query);
+
+        $result = [];
+
+        $values = $db->loadObjectList();
+
+        foreach ($values as $category) {
+            $result[$category->item_id][] = $category;
+        }
+
+        return $result;
+    }
 
     /**
      * Method to get a list of articles.
@@ -672,7 +805,6 @@ class ArticlesModel extends ListModel
     public function getItems()
     {
         $items  = parent::getItems();
-
         $user   = $this->getCurrentUser();
         $userId = $user->id;
         $guest  = $user->guest;
@@ -682,8 +814,9 @@ class ArticlesModel extends ListModel
         // Get the global params
         $globalParams = ComponentHelper::getParams('com_content', true);
 
-        $taggedItems     = [];
-        $associatedItems = [];
+        $taggedItems            = [];
+        $associatedItems        = [];
+        $secondaryCategoryItems = [];
 
         // Convert the parameter fields into objects.
         foreach ($items as $i => $item) {
@@ -694,6 +827,8 @@ class ArticlesModel extends ListModel
             $item->layout               = $articleParams->get('layout');
 
             $item->params = clone $this->getState('params');
+
+            $secondaryCategoryItems[$item->id] = $i;
 
             /**
              * For blogs, article params override menu item params only if menu param = 'use_article'
@@ -809,6 +944,14 @@ class ArticlesModel extends ListModel
 
             foreach ($associatedItems as $itemId => $i) {
                 $items[$i]->associations = $associations[$itemId] ?? [];
+            }
+        }
+
+        if ($secondaryCategoryItems) {
+            $itemIds = array_keys($secondaryCategoryItems);
+
+            foreach ($this->getMappedCategories($itemIds) as $itemId => $categories) {
+                $items[$secondaryCategoryItems[$itemId]]->secondary_categories = $categories;
             }
         }
 

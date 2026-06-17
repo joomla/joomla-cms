@@ -1208,7 +1208,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
      *
      * @since   __DEPLOY_VERSION__
      */
-    private function getCurrentSecondaryCategories(int $itemId): array
+    protected function getCurrentSecondaryCategories(int $itemId): array
     {
         $db = $this->getDatabase();
 
