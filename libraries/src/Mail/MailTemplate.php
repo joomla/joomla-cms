@@ -133,12 +133,12 @@ class MailTemplate
      * @since   4.0.0
      */
     public function __construct(
-		$templateId,
-		$language,
-		?MailerInterface $mailer = null,
-		?LanguageFactoryInterface $languageFactory = null,
-		?DatabaseInterface $db = null)
-    {
+        $templateId,
+        $language,
+        ?MailerInterface $mailer = null,
+        ?LanguageFactoryInterface $languageFactory = null,
+        ?DatabaseInterface $db = null
+    ) {
         $this->template_id = $templateId;
         $this->language    = $language;
 
