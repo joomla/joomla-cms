@@ -945,12 +945,19 @@ class User
      */
     public function get($property, $default = null)
     {
+        if (!\defined('COMPATIBILITY_ENABLED')) {
+            throw new \Exception(\sprintf(
+                '%1$s() is only available in compatibility mode (compatibility plugin enabled). Access directly the property from the user object.',
+                __METHOD__
+            ));
+        }
+
         @trigger_error(
             \sprintf(
                 '%1$s() is deprecated. Access directly the property from the user object.',
                 __METHOD__
             ),
-            \defined('COMPATIBILITY_ENABLED') ? E_USER_DEPRECATED : E_USER_ERROR
+            E_USER_DEPRECATED
         );
 
         if (isset($this->$property)) {

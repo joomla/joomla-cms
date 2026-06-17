@@ -182,12 +182,19 @@ abstract class Factory
      */
     public static function getConfig($file = null, $type = 'PHP', $namespace = '')
     {
+        if (!\defined('COMPATIBILITY_ENABLED')) {
+            throw new \Exception(\sprintf(
+                '%1$s() is only available in compatibility mode (compatibility plugin enabled). The configuration object should be read from the application.',
+                __METHOD__
+            ));
+        }
+
         @trigger_error(
             \sprintf(
                 '%s() is deprecated. The configuration object should be read from the application.',
                 __METHOD__
             ),
-            \defined('COMPATIBILITY_ENABLED') ? E_USER_DEPRECATED : E_USER_ERROR
+            E_USER_DEPRECATED
         );
 
         /**
@@ -263,13 +270,20 @@ abstract class Factory
      */
     public static function getSession(array $options = [])
     {
+        if (!\defined('COMPATIBILITY_ENABLED')) {
+            throw new \Exception(\sprintf(
+                '%1$s() is only available in compatibility mode (compatibility plugin enabled). Load the session from the dependency injection container or via %2$s::getApplication()->getSession().',
+                __METHOD__
+            ));
+        }
+
         @trigger_error(
             \sprintf(
                 '%1$s() is deprecated. Load the session from the dependency injection container or via %2$s::getApplication()->getSession().',
                 __METHOD__,
                 __CLASS__
             ),
-            \defined('COMPATIBILITY_ENABLED') ? E_USER_DEPRECATED : E_USER_ERROR
+            E_USER_DEPRECATED
         );
 
         return self::getApplication()->getSession();
@@ -486,12 +500,19 @@ abstract class Factory
      */
     public static function getMailer()
     {
+        if (!\defined('COMPATIBILITY_ENABLED')) {
+            throw new \Exception(\sprintf(
+                '%1$s() is only available in compatibility mode (compatibility plugin enabled). Load the mailer from the dependency injection container.',
+                __METHOD__
+            ));
+        }
+
         @trigger_error(
             \sprintf(
                 '%1$s() is deprecated. Load the mailer from the dependency injection container.',
                 __METHOD__
             ),
-            \defined('COMPATIBILITY_ENABLED') ? E_USER_DEPRECATED : E_USER_ERROR
+            E_USER_DEPRECATED
         );
 
         if (!self::$mailer) {
