@@ -9,10 +9,10 @@
 
 namespace Joomla\CMS\Console;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Event\Finder\BeforeIndexEvent;
 use Joomla\CMS\Event\Finder\BuildIndexEvent;
 use Joomla\CMS\Event\Finder\StartIndexEvent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageAwareInterface;
 use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\CMS\Language\Text;

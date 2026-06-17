@@ -473,10 +473,10 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
 
                         // Trigger the after save event
                         $dispatcher->dispatch($this->event_after_save, new AfterSaveEvent($this->event_after_save, [
-                            'subject'        => $table->getProperties(),
-                            'isNew'          => false,
-                            'savingResult'   => true,
-                            'errorMessage'   => null,
+                            'subject'      => $table->getProperties(),
+                            'isNew'        => false,
+                            'savingResult' => true,
+                            'errorMessage' => null,
                         ]));
                     } catch (\Exception $e) {
                         $this->setError($e->getMessage());
