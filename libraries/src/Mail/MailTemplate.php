@@ -124,10 +124,11 @@ class MailTemplate
     /**
      * Constructor for the mail templating class
      *
-     * @param   string              $templateId  Id of the mail template.
-     * @param   string              $language    Language of the template to use.
-     * @param   ?Mail               $mailer      Mail object to send the mail with.
-     * @param   ?DatabaseInterface  $db          Mail object to send the mail with.
+     * @param   string                     $templateId       Id of the mail template.
+     * @param   string                     $language         Language of the template to use.
+     * @param   ?MailerInterface           $mailer           Mail object to send the mail with.
+     * @param   ?LanguageFactoryInterface  $languageFactory  The language factory.
+     * @param   ?DatabaseInterface         $db               The database.
      *
      * @since   4.0.0
      */
