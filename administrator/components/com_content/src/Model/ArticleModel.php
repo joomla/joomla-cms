@@ -788,7 +788,9 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
             }
         }
 
-        $data['secondary_categories'] = $this->normalizeSecondaryCategories($data);
+        if (\array_key_exists('secondary_categories', $data)) {
+            $data['secondary_categories'] = $this->normalizeSecondaryCategories($data);
+        }
 
         if (parent::save($data)) {
             // Check if featured is set and if not managed by workflow
@@ -805,7 +807,9 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
                 }
             }
 
-            $this->saveSecondaryCategories($data);
+            if (\array_key_exists('secondary_categories', $data)) {
+                $this->saveSecondaryCategories($data);
+            }
 
             $this->workflowAfterSave($data);
 
@@ -1009,9 +1013,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
      */
     protected function preprocessForm(Form $form, $data, $group = 'content')
     {
-        $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
-        $wa->useScript('com_content.secondary-categories');
-
         if ($this->canCreateCategory()) {
             $form->setFieldAttribute('catid', 'allowAdd', 'true');
 
