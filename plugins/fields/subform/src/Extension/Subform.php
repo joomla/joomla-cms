@@ -11,6 +11,8 @@
 namespace Joomla\Plugin\Fields\Subform\Extension;
 
 use Joomla\CMS\Event\CustomFields\BeforePrepareFieldEvent;
+use Joomla\CMS\Event\CustomFields\PrepareDomEvent;
+use Joomla\CMS\Event\CustomFields\PrepareFieldEvent;
 use Joomla\CMS\Form\Form;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
@@ -189,6 +191,8 @@ final class Subform extends FieldsPlugin implements SubscriberInterface
             $rows = [$field->value];
         }
 
+        $dispatcher = $this->getApplication()->getDispatcher();
+
         // Iterate over each row of the data
         foreach ($rows as $row) {
             // Holds all sub fields of this row, incl. their raw and rendered value
@@ -222,10 +226,15 @@ final class Subform extends FieldsPlugin implements SubscriberInterface
                         $subfield->value = $this->renderCache[$renderCache_key];
                     } else {
                         // Render this virtual subfield
-                        $subfield->value = $this->getApplication()->triggerEvent(
+                        $subfield->value = $dispatcher->dispatch(
                             'onCustomFieldsPrepareField',
-                            [$context, $item, $subfield]
-                        );
+                            new PrepareFieldEvent('onCustomFieldsPrepareField', [
+                                'context' => $context,
+                                'item'    => $item,
+                                'subject' => $subfield,
+                            ])
+                        )->getArgument('result', []);
+
                         $this->renderCache[$renderCache_key] = $subfield->value;
                     }
                 }
@@ -315,9 +324,13 @@ final class Subform extends FieldsPlugin implements SubscriberInterface
         foreach ($subfields as $subfield) {
             // Let the relevant plugins do their work and insert the correct
             // DOMElement's into our $parent_fieldset.
-            $this->getApplication()->triggerEvent(
+            $this->getApplication()->getDispatcher()->dispatch(
                 'onCustomFieldsPrepareDom',
-                [$subfield, $parent_fieldset, $form]
+                new PrepareDomEvent('onCustomFieldsPrepareDom', [
+                    'subject'  => $subfield,
+                    'fieldset' => $parent_fieldset,
+                    'form'     => $form,
+                ])
             );
         }
 

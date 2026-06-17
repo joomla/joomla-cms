@@ -282,11 +282,14 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
          */
         $this->getApplication()->set('plgWorkflowPublishing.' . $context, $pks);
 
-        $result = $this->getApplication()->triggerEvent('onContentBeforeChangeState', [
-            $context,
-            $pks,
-            $value,
-            ]);
+        $result = $this->getApplication()->getDispatcher()->dispatch(
+            'onContentBeforeChangeState',
+            new Model\BeforeChangeStateEvent('onContentBeforeChangeState', [
+                'context' => $context,
+                'subject' => $pks,
+                'value'   => $value,
+            ])
+        )->getArgument('result', []);
 
         // Release allowed pks, the job is done
         $this->getApplication()->set('plgWorkflowPublishing.' . $context, []);

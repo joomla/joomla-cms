@@ -17,6 +17,7 @@ use Joomla\CMS\Authentication\Password\ChainedHandler;
 use Joomla\CMS\Authentication\Password\CheckIfRehashNeededHandlerInterface;
 use Joomla\CMS\Authentication\Password\MD5Handler;
 use Joomla\CMS\Authentication\Password\PHPassHandler;
+use Joomla\CMS\Event\Model\PrepareDataEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -340,7 +341,13 @@ abstract class UserHelper
         $data->id = $userId;
 
         // Trigger the data preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareData', ['com_users.profile', &$data]);
+        Factory::getApplication()->getDispatcher()->dispatch(
+            'onContentPrepareData',
+            new PrepareDataEvent('onContentPrepareData', [
+                'context' => 'com_users.profile',
+                'data'    => $data,
+            ])
+        );
 
         return $data;
     }

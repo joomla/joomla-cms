@@ -10,6 +10,9 @@
 namespace Joomla\CMS\Console;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Event\Finder\BeforeIndexEvent;
+use Joomla\CMS\Event\Finder\BuildIndexEvent;
+use Joomla\CMS\Event\Finder\StartIndexEvent;
 use Joomla\CMS\Language\LanguageAwareInterface;
 use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\CMS\Language\Text;
@@ -356,14 +359,16 @@ EOF;
         Indexer::resetState();
 
         // Import the plugins.
-        PluginHelper::importPlugin('system');
-        PluginHelper::importPlugin('finder');
+        $dispatcher = $app->getDispatcher();
+        PluginHelper::importPlugin('system', null, true, $dispatcher);
+        PluginHelper::importPlugin('finder', null, true, $dispatcher);
 
         // Starting Indexer.
         $this->ioStyle->text(Text::_('FINDER_CLI_STARTING_INDEXER'));
 
         // Trigger the onStartIndex event.
-        $app->triggerEvent('onStartIndex');
+
+        $dispatcher->dispatch('onStartIndex', new StartIndexEvent('onStartIndex'));
 
         // Remove the script time limit.
         if (\function_exists('set_time_limit')) {
@@ -377,7 +382,7 @@ EOF;
         $this->ioStyle->text(Text::_('FINDER_CLI_SETTING_UP_PLUGINS'));
 
         // Trigger the onBeforeIndex event.
-        $app->triggerEvent('onBeforeIndex');
+        $dispatcher->dispatch('onBeforeIndex', new BeforeIndexEvent('onBeforeIndex'));
 
         // Startup reporting.
         $this->ioStyle->text(Text::sprintf('FINDER_CLI_SETUP_ITEMS', $state->totalItems, round(microtime(true) - $this->time, 3)));
@@ -397,7 +402,7 @@ EOF;
                 $state->batchOffset = 0;
 
                 // Trigger the onBuildIndex event.
-                Factory::getApplication()->triggerEvent('onBuildIndex');
+                $dispatcher->dispatch('onBuildIndex', new BuildIndexEvent('onBuildIndex'));
 
                 // Batch reporting.
                 $text = Text::sprintf('FINDER_CLI_BATCH_COMPLETE', $i + 1, $processingTime = round(microtime(true) - $this->qtime, 3));

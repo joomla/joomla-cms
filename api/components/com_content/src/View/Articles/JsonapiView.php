@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Content\Api\View\Articles;
 
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Event\Model\PrepareDataEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
@@ -200,8 +201,14 @@ class JsonapiView extends BaseApiView
 
         // Process the content plugins.
         PluginHelper::importPlugin('content');
-        Factory::getApplication()->triggerEvent('onContentPrepare', ['com_content.article', &$item, &$item->params]);
-
+        Factory::getApplication()->getDispatcher()->dispatch(
+            'onContentPrepare',
+            new ContentPrepareEvent(
+                'onContentPrepare',
+                ['context' => 'com_content.article', 'subject' => $item, 'params' => $item->params, 'page' => 0]
+            )
+        );
+        
         foreach (FieldsHelper::getFields('com_content.article', $item, true) as $field) {
             $item->{$field->name} = $field->apivalue ?? $field->rawvalue;
         }
