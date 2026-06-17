@@ -208,7 +208,7 @@ class JsonapiView extends BaseApiView
                 ['context' => 'com_content.article', 'subject' => $item, 'params' => $item->params, 'page' => 0]
             )
         );
-        
+
         foreach (FieldsHelper::getFields('com_content.article', $item, true) as $field) {
             $item->{$field->name} = $field->apivalue ?? $field->rawvalue;
         }
