@@ -25,7 +25,7 @@ use PHPMailer\PHPMailer\PHPMailer;
  *
  * @since  1.7.0
  */
-class Mail extends PHPMailer implements MailerInterface
+class Mail extends PHPMailer implements MailerInterface, TransportConfigurableMailerInterface, FormatConfigurableMailerInterface
 {
     /**
      * Mail instances container.
