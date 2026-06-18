@@ -159,7 +159,6 @@ class ComponentModel extends FormModel
         $table      = new Extension($this->getDatabase());
         $context    = $this->option . '.' . $this->name;
         $dispatcher = $this->getDispatcher();
-
         PluginHelper::importPlugin('extension', null, true, $dispatcher);
 
         // Check super user group.
