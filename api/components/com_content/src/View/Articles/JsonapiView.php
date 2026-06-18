@@ -278,8 +278,9 @@ class JsonapiView extends BaseApiView
         $context = 'com_content.article';
         $event   = new PrepareDataEvent('onContentPrepareData', ['context' => $context, 'data' => $item]);
 
-        PluginHelper::importPlugin('system', 'schemaorg');
-        Factory::getApplication()->getDispatcher()->dispatch('onContentPrepareData', $event);
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('system', 'schemaorg', true, $dispatcher);
+        $dispatcher->dispatch('onContentPrepareData', $event);
 
         if (isset($item->schema) && !empty($item->schema['schemaType'])) {
             $schemaType = $item->schema['schemaType'];
