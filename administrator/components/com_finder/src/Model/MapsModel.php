@@ -14,7 +14,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Model\AfterChangeStateEvent;
 use Joomla\CMS\Event\Model\AfterDeleteEvent;
 use Joomla\CMS\Event\Model\BeforeDeleteEvent;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
