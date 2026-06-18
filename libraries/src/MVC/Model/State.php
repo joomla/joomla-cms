@@ -21,7 +21,7 @@ use Joomla\Registry\Registry;
  *
  * @since  5.0.0
  *
- * @deprecated  7.0 Use the Registry directly
+ * @deprecated  5.0.0 will be removed in 7.0, use the Registry directly
  */
 class State extends Registry
 {
@@ -70,7 +70,7 @@ class State extends Registry
       *
       * @since   5.0.0
       *
-      * @deprecated  7.0 Use toArray instead
+      * @deprecated  5.0.0 will be removed in 7.0, use toArray instead
       */
     public function getProperties()
     {

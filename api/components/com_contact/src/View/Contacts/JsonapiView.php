@@ -10,8 +10,11 @@
 
 namespace Joomla\Component\Contact\Api\View\Contacts;
 
+use Joomla\CMS\Event\Model\PrepareDataEvent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Contact\Api\Serializer\ContactSerializer;
 use Joomla\Component\Content\Api\Helper\ContentHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
@@ -71,6 +74,7 @@ class JsonapiView extends BaseApiView
         'sortname1',
         'sortname2',
         'sortname3',
+        'schemaorg',
     ];
 
     /**
@@ -92,6 +96,7 @@ class JsonapiView extends BaseApiView
         'image',
         'tags',
         'user_id',
+        'schemaorg',
     ];
 
     /**
@@ -209,6 +214,37 @@ class JsonapiView extends BaseApiView
             $item->image = ContentHelper::resolve($item->image);
         }
 
+        // Add schema.org data using existing plugin system
+        if (PluginHelper::isEnabled('system', 'schemaorg')) {
+            $item->schemaorg = $this->getSchemaOrg($item);
+        }
+
         return parent::prepareItem($item);
+    }
+
+    /**
+     * Get schema.org structured data for a contact using the plugin system
+     *
+     * @param   object  $item  The contact item
+     *
+     * @return  array|null
+     *
+     * @since   6.1.0
+     */
+    protected function getSchemaOrg($item)
+    {
+        $context = 'com_contact.contact';
+
+        $event = new PrepareDataEvent('onContentPrepareData', ['context' => $context, 'data' => $item]);
+
+        PluginHelper::importPlugin('system', 'schemaorg');
+        Factory::getApplication()->getDispatcher()->dispatch('onContentPrepareData', $event);
+
+        if (isset($item->schema) && !empty($item->schema['schemaType'])) {
+            $schemaType = $item->schema['schemaType'];
+            return $item->schema[$schemaType] ?? null;
+        }
+
+        return null;
     }
 }

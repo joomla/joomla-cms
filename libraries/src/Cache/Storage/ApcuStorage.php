@@ -170,7 +170,7 @@ class ApcuStorage extends CacheStorage
                 $internalKey = $key['key'];
             }
 
-            if (strpos($internalKey, $secret . '-cache-' . $group . '-') === 0 xor $mode !== 'group') {
+            if (str_starts_with($internalKey, $secret . '-cache-' . $group . '-') xor $mode !== 'group') {
                 apcu_delete($internalKey);
             }
         }

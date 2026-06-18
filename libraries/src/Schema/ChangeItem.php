@@ -236,7 +236,7 @@ abstract class ChangeItem
                 } else {
                     $this->rerunStatus = -2;
                 }
-            } catch (ExecutionFailureException | \RuntimeException $e) {
+            } catch (ExecutionFailureException | \RuntimeException) {
                 $this->rerunStatus = -2;
             }
         }

@@ -96,14 +96,14 @@ class TagsModel extends ListModel
         $user           = $this->getCurrentUser();
         $groups         = $user->getAuthorisedViewLevels();
         $pid            = (int) $this->getState('tag.parent_id');
-        $orderby        = $this->state->params->get('all_tags_orderby', 'title');
-        $published      = (int) $this->state->params->get('published', 1);
-        $orderDirection = $this->state->params->get('all_tags_orderby_direction', 'ASC');
+        $orderby        = $this->state->get('params')->get('all_tags_orderby', 'title');
+        $published      = (int) $this->state->get('params')->get('published', 1);
+        $orderDirection = $this->state->get('params')->get('all_tags_orderby_direction', 'ASC');
         $language       = $this->getState('tag.language');
 
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select required fields from the tags.
         $query->select('a.*, u.name as created_by_user_name, u.email')
@@ -138,10 +138,10 @@ class TagsModel extends ListModel
         if ($format === 'feed') {
             $limit = $app->get('feed_limit');
         } else {
-            if ($this->state->params->get('show_pagination_limit')) {
+            if ($this->state->get('params')->get('show_pagination_limit')) {
                 $limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
             } else {
-                $limit = $this->state->params->get('maximum', 20);
+                $limit = $this->state->get('params')->get('maximum', 20);
             }
         }
 

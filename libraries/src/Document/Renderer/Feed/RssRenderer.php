@@ -173,7 +173,7 @@ class RssRenderer extends DocumentRenderer
                 $itemlink = implode('/', array_map('rawurlencode', explode('/', $itemlink)));
             }
 
-            if ((strpos($itemlink, 'http://') === false) && (strpos($itemlink, 'https://') === false)) {
+            if ((!str_contains($itemlink, 'http://')) && (!str_contains($itemlink, 'https://'))) {
                 $itemlink = str_replace(' ', '%20', $url . $itemlink);
             }
 

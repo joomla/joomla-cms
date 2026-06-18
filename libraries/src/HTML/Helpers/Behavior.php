@@ -40,7 +40,7 @@ abstract class Behavior
      *
      * @since   3.3
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use the webasset manager instead
      *              Example: Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('core');
      */
@@ -61,7 +61,7 @@ abstract class Behavior
      *
      * @since   3.4
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use the webasset manager instead
      *              Example: Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('form.validate');
      */
@@ -87,7 +87,7 @@ abstract class Behavior
      *
      * @since   1.5
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use the webasset manager instead
      *              Example: Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('awesomeplete');
      */
@@ -105,7 +105,7 @@ abstract class Behavior
      *
      * @since   1.7
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use the webasset manager instead
      *              Example:
      *              Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('multiselect');
@@ -134,7 +134,7 @@ abstract class Behavior
      *
      * @since   1.5
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use the webasset manager instead
      *              Example: Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('keepalive');
      */
@@ -158,7 +158,7 @@ abstract class Behavior
      *
      * @since   2.5
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use the script directly
      */
     public static function highlighter(array $terms, $start = 'highlighter-start', $end = 'highlighter-end', $className = 'highlight', $tag = 'span')

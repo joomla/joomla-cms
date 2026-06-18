@@ -50,7 +50,7 @@ class AfterStoreEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @deprecated 4.4.0 will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 7.0
      *                Use counterpart with onSet prefix
      */
     protected function setResult($value)

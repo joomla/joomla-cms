@@ -124,7 +124,6 @@ class TufAdapterTest extends UnitTestCase
     {
         $reflectionClass = new \ReflectionClass($object);
         $method          = $reflectionClass->getMethod($method);
-        $method->setAccessible(true);
 
         return $method;
     }

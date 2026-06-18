@@ -52,7 +52,6 @@ class RssParserTest extends UnitTestCase
         $rssParser       = new RssParser(new \XMLReader());
         $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleCategory');
-        $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
     }
 
@@ -102,7 +101,6 @@ class RssParserTest extends UnitTestCase
         $rssParser       = new RssParser(new \XMLReader());
         $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleCloud');
-        $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
     }
 
@@ -132,7 +130,6 @@ class RssParserTest extends UnitTestCase
         $rssParser       = new RssParser(new \XMLReader());
         $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleCopyright');
-        $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
     }
 
@@ -162,7 +159,6 @@ class RssParserTest extends UnitTestCase
         $rssParser       = new RssParser(new \XMLReader());
         $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleDescription');
-        $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
     }
 
@@ -192,7 +188,6 @@ class RssParserTest extends UnitTestCase
         $rssParser       = new RssParser(new \XMLReader());
         $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleGenerator');
-        $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
     }
 
@@ -244,7 +239,6 @@ class RssParserTest extends UnitTestCase
         $rssParser       = new RssParser(new \XMLReader());
         $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleImage');
-        $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
     }
 
@@ -274,7 +268,6 @@ class RssParserTest extends UnitTestCase
         $rssParser       = new RssParser(new \XMLReader());
         $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleLanguage');
-        $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
     }
 
@@ -304,7 +297,6 @@ class RssParserTest extends UnitTestCase
         $rssParser       = new RssParser(new \XMLReader());
         $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleLastBuildDate');
-        $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
     }
 
@@ -341,7 +333,6 @@ class RssParserTest extends UnitTestCase
         $rssParser       = new RssParser(new \XMLReader());
         $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleLink');
-        $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
     }
 
@@ -383,7 +374,6 @@ class RssParserTest extends UnitTestCase
         $rssParser       = new RssParser(new \XMLReader());
         $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleManagingEditor');
-        $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
     }
 
@@ -413,7 +403,6 @@ class RssParserTest extends UnitTestCase
         $rssParser       = new RssParser(new \XMLReader());
         $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handlePubDate');
-        $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
     }
 
@@ -443,7 +432,6 @@ class RssParserTest extends UnitTestCase
         $rssParser       = new RssParser(new \XMLReader());
         $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleSkipDays');
-        $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
     }
 
@@ -473,7 +461,6 @@ class RssParserTest extends UnitTestCase
         $rssParser       = new RssParser(new \XMLReader());
         $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleSkipHours');
-        $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
     }
 
@@ -503,7 +490,6 @@ class RssParserTest extends UnitTestCase
         $rssParser       = new RssParser(new \XMLReader());
         $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleTitle');
-        $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
     }
 
@@ -533,7 +519,6 @@ class RssParserTest extends UnitTestCase
         $rssParser       = new RssParser(new \XMLReader());
         $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleTtl');
-        $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
     }
 
@@ -566,7 +551,6 @@ class RssParserTest extends UnitTestCase
         $rssParser       = new RssParser(new \XMLReader());
         $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleWebmaster');
-        $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
     }
 
@@ -608,7 +592,6 @@ class RssParserTest extends UnitTestCase
         $reflectionClass = new \ReflectionClass($rssParser);
         $attribute       = $reflectionClass->getProperty('version');
 
-        $attribute->setAccessible(true);
         $this->assertEquals('2.0', $attribute->getValue($rssParser));
     }
 
@@ -697,7 +680,6 @@ class RssParserTest extends UnitTestCase
         $rssParser       = new RssParser(new \XMLReader());
         $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('processFeedEntry');
-        $method->setAccessible(true);
         $method->invoke($rssParser, $feedEntryMock, $xmlElement);
     }
 }

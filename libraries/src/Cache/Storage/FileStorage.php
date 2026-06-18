@@ -110,7 +110,7 @@ class FileStorage extends CacheStorage
         $path  = $this->_getFilePath($id, $group);
         $close = false;
 
-        if ($checkTime == false || ($checkTime == true && $this->_checkExpire($id, $group) === true)) {
+        if (!$checkTime || ($checkTime && $this->_checkExpire($id, $group))) {
             if (file_exists($path)) {
                 if (isset($this->_locked_files[$path])) {
                     $_fileopen = $this->_locked_files[$path];
@@ -154,11 +154,16 @@ class FileStorage extends CacheStorage
         $data    = [];
 
         foreach ($folders as $folder) {
-            $files = $this->_filesInFolder($path . '/' . $folder);
+            $files = $this->_filesInFolder($path . '/' . $folder, '.', true, true);
             $item  = new CacheStorageHelper($folder);
 
             foreach ($files as $file) {
-                $item->updateSize(filesize($path . '/' . $folder . '/' . $file));
+                // Do not include index.html with the Number of Files
+                if (basename($file) === 'index.html') {
+                    continue;
+                }
+
+                $item->updateSize(filesize($file));
             }
 
             $data[$folder] = $item;

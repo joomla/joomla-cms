@@ -66,7 +66,7 @@ class LogsModel extends ListModel
     {
         try {
             $this->getDatabase()->truncateTable('#__scheduler_logs');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 
@@ -130,7 +130,7 @@ class LogsModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the required fields from the table.
         $query->select(

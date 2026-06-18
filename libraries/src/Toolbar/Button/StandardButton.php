@@ -47,10 +47,10 @@ class StandardButton extends BasicButton
         if (empty($options['is_child'])) {
             $class = $this->fetchButtonClass($this->getName());
 
-            $options['btnClass'] = $options['button_class'] = ($options['button_class'] ?? $class);
+            $options['btnClass'] = ($options['button_class'] ??= $class);
         }
 
-        $options['onclick'] = $options['onclick'] ?? $this->_getCommand();
+        $options['onclick'] ??= $this->_getCommand();
     }
 
     /**
@@ -67,7 +67,7 @@ class StandardButton extends BasicButton
      *
      * @since   3.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use render() instead.
      */
     public function fetchButton($type = 'Standard', $name = '', $text = '', $task = '', $list = true, $formId = null)

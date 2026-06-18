@@ -15,7 +15,6 @@ use Joomla\CMS\Session\MetadataManager;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -62,15 +61,14 @@ final class SessionGC extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor.
      *
-     * @param   DispatcherInterface  $dispatcher       The dispatcher
      * @param   array                $config           An optional associative array of configuration settings
      * @param   MetadataManager      $metadataManager  The user factory
      *
      * @since   4.4.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, MetadataManager $metadataManager)
+    public function __construct(array $config, MetadataManager $metadataManager)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->metadataManager = $metadataManager;
     }
@@ -102,15 +100,16 @@ final class SessionGC extends CMSPlugin implements SubscriberInterface
     private function sessionGC(ExecuteTaskEvent $event): int
     {
         $enableGC = (int) $event->getArgument('params')->enable_session_gc ?? 1;
+        $app      = $this->getApplication();
 
         if ($enableGC) {
-            $this->getApplication()->getSession()->gc();
+            $app->getSession()->gc();
         }
 
         $enableMetadata = (int) $event->getArgument('params')->enable_session_metadata_gc ?? 1;
 
-        if ($this->getApplication()->get('session_handler', 'none') !== 'database' && $enableMetadata) {
-            $this->metadataManager->deletePriorTo(time() - $this->getApplication()->getSession()->getExpire());
+        if ($enableMetadata) {
+            $this->metadataManager->deletePriorTo(time() - $app->getSession()->getExpire());
         }
 
         $this->logTask('SessionGC end');

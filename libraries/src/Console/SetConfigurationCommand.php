@@ -127,13 +127,13 @@ class SetConfigurationCommand extends AbstractCommand
         $collected = [];
 
         foreach ($options as $option) {
-            if (strpos($option, '=') === false) {
+            if (!str_contains($option, '=')) {
                 $this->ioStyle->error('Options and values should be separated by "="');
 
                 return false;
             }
 
-            list($option, $value) = explode('=', $option);
+            [$option, $value] = explode('=', $option);
 
             $collected[$option] = $value;
         }
@@ -205,7 +205,7 @@ class SetConfigurationCommand extends AbstractCommand
      */
     public function getInitialConfigurationOptions(): Registry
     {
-        return (new Registry(new \JConfig()));
+        return new Registry(new \JConfig());
     }
 
 

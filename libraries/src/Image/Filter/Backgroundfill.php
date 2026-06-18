@@ -71,9 +71,6 @@ class Backgroundfill extends ImageFilter
         // Move flattened result onto current handle.
         // If handle was palette-based, it'll stay like that.
         imagecopy($this->handle, $bg, 0, 0, 0, 0, $width, $height);
-
-        // Free up memory
-        imagedestroy($bg);
     }
 
     /**

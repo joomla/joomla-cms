@@ -164,13 +164,13 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         // Get a generic TableExtension instance for use if not already loaded
         if (!($this->extension instanceof TableInterface)) {
-            $this->extension = Table::getInstance('extension');
+            $this->extension = Table::getInstance('Extension');
         }
 
         // Sanity check, make sure the type is set by taking the adapter name from the class name
         if (!$this->type) {
             // This assumes the adapter short class name in its namespace is `<foo>Adapter`, replace this logic in subclasses if needed
-            $reflection = new \ReflectionClass(\get_called_class());
+            $reflection = new \ReflectionClass(static::class);
             $this->type = str_replace('Adapter', '', $reflection->getShortName());
         }
 
@@ -190,7 +190,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
      */
     protected function canUninstallPackageChild($packageId)
     {
-        $package = Table::getInstance('extension');
+        $package = new Extension(Factory::getDbo());
 
         // If we can't load this package ID, we have a corrupt database
         if (!$package->load((int) $packageId)) {
@@ -947,12 +947,12 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         }
 
         // The real location of the file
-        $manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
+        $manifestScriptFile = $this->parent->getPath('extension_root') . '/' . $manifestScript;
 
         // Load the installer from the file
         if (!file_exists($manifestScriptFile)) {
             @trigger_error(
-                'Installer file must exist when defined. In version 5.0 this will crash.',
+                'Installer file must exist when defined. In version 7.0 this will crash.',
                 E_USER_DEPRECATED
             );
 
@@ -996,6 +996,10 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         // Create a new instance
         $this->parent->manifestClass = $container->get(InstallerScriptInterface::class);
+
+        if (method_exists($this->parent->manifestClass, 'setApplication')) {
+            $this->parent->manifestClass->setApplication(Factory::getApplication());
+        }
 
         // Set the database
         if ($this->parent->manifestClass instanceof DatabaseAwareInterface) {
@@ -1272,7 +1276,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
      *
      * @since   4.2.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use getDatabase() instead of directly accessing _db
      */
     public function __get($name)

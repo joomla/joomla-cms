@@ -51,7 +51,7 @@ class StringsModel extends BaseDatabaseModel
         }
 
         // Create the insert query.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->insert($db->quoteName('#__overrider'))
             ->columns(
                 [
@@ -90,7 +90,7 @@ class StringsModel extends BaseDatabaseModel
         // Parse all found ini files and add the strings to the database cache.
         foreach ($files as $file) {
             // Only process if language file is for selected language
-            if (strpos($file, $language, \strlen($base)) === false) {
+            if (!str_contains(substr($file, \strlen($base)), $language)) {
                 continue;
             }
 
@@ -142,7 +142,7 @@ class StringsModel extends BaseDatabaseModel
             $searchstring = '%' . $filter->clean($searchTerm, 'TRIM') . '%';
 
             // Create the search query.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select(
                     [
                         $db->quoteName('constant'),

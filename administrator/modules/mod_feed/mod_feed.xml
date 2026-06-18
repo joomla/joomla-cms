@@ -11,7 +11,7 @@
 	<description>MOD_FEED_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\Feed</namespace>
 	<files>
-		<filename module="mod_feed">mod_feed.php</filename>
+		<folder module="mod_feed">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>

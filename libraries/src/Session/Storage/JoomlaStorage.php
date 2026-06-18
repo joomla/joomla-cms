@@ -301,12 +301,12 @@ class JoomlaStorage extends NativeStorage
         // Get the cookie object
         $cookie = $this->input->cookie;
 
-        if (\is_null($cookie->get($session_name))) {
+        if (empty(\ini_get('session.use_only_cookies')) && \is_null($cookie->get($session_name))) {
             $session_clean = $this->input->getString($session_name);
 
             if ($session_clean) {
                 $this->setId($session_clean);
-                $cookie->set($session_name, '', time() - 3600);
+                $cookie->set($session_name, '', ['expires' => time() - 3600 ]);
             }
         }
 

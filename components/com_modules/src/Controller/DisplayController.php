@@ -12,9 +12,9 @@ namespace Joomla\Component\Modules\Site\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Input\Input;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\Input\Input;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -43,7 +43,7 @@ class DisplayController extends BaseController
 
         // Modules frontpage Editor Module proxying.
         if ($this->input->get('view') === 'modules' && $this->input->get('layout') === 'modal') {
-            $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
+            $config['base_path'] = JPATH_ADMINISTRATOR . '/components/com_modules';
         }
 
         parent::__construct($config, $factory, $app, $input);

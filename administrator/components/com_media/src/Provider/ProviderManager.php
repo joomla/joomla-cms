@@ -119,7 +119,7 @@ class ProviderManager
      */
     public function getAdapter($name)
     {
-        list($provider, $account) = array_pad(explode('-', $name, 2), 2, null);
+        [$provider, $account] = array_pad(explode('-', $name, 2), 2, null);
 
         if ($account == null) {
             throw new ProviderAccountIsEmptyException(Text::_('COM_MEDIA_ERROR_ACCOUNT_NOT_SET'));

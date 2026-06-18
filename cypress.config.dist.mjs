@@ -11,7 +11,7 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       setupPlugins(on, config);
     },
-    baseUrl: 'http://localhost/',
+    baseUrl: 'https://localhost/',
     specPattern: [
       'tests/System/integration/install/**/*.cy.{js,jsx,ts,tsx}',
       'tests/System/integration/administrator/**/*.cy.{js,jsx,ts,tsx}',
@@ -25,8 +25,9 @@ export default defineConfig({
     browser: 'firefox',
     screenshotOnRunFailure: true,
     video: false,
+    allowCypressEnv: false,
   },
-  env: {
+  expose: {
     sitename: 'Joomla CMS Test',
     name: 'jane doe',
     email: 'admin@example.com',
@@ -42,5 +43,6 @@ export default defineConfig({
     smtp_host: 'localhost',
     smtp_port: '1025',
     cmsPath: '.',
+    logFile: '',
   },
 });

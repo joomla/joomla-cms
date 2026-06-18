@@ -307,7 +307,7 @@ class MemcachedStorage extends CacheStorage
             $prefix = $this->_hash . '-cache-' . $group . '-';
 
             foreach ($index as $key => $value) {
-                if (strpos($value->name, $prefix) === 0 xor $mode !== 'group') {
+                if (str_starts_with($value->name, $prefix) xor $mode !== 'group') {
                     static::$_db->delete($value->name);
                     unset($index[$key]);
                 }

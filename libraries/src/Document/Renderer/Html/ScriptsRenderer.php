@@ -185,8 +185,12 @@ class ScriptsRenderer extends DocumentRenderer
         $this->renderedSrc[$src] = true;
 
         // Check if script uses media version.
-        if ($version && strpos($src, '?') === false && ($mediaVersion || $version !== 'auto')) {
-            $src .= '?' . ($version === 'auto' ? $mediaVersion : $version);
+        if ($version && !str_contains($src, '?') && ($mediaVersion || $version !== 'auto')) {
+            $src .= '?' . match ($version) {
+                'auto'    => $mediaVersion,
+                'nocache' => 'nocache-' . rand(0, 1_000_000),
+                default   => $version,
+            };
         }
 
         $buffer .= $tab;
@@ -358,7 +362,11 @@ class ScriptsRenderer extends DocumentRenderer
 
             // Check if script uses media version.
             if ($version && !str_contains($src, '?') && !str_ends_with($src, '/') && ($mediaVersion || $version !== 'auto')) {
-                $src .= '?' . ($version === 'auto' ? $mediaVersion : $version);
+                $src .= '?' . match ($version) {
+                    'auto'    => $mediaVersion,
+                    'nocache' => 'nocache-' . rand(0, 1_000_000),
+                    default   => $version,
+                };
             }
 
             if (!$esmScope) {

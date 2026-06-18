@@ -127,7 +127,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 
         if ($eid === -1) {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName(['extension_id']))
                 ->from($db->quoteName('#__extensions'))
                 ->where($db->quoteName('state') . ' = -1');

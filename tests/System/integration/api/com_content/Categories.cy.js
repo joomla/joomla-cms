@@ -8,6 +8,20 @@ describe('Test that content categories API endpoint', () => {
       .then((response) => cy.api_responseContains(response, 'title', 'automated test content category'));
   });
 
+  it('can deliver a list of published categories', () => {
+    cy.db_createCategory({ title: 'automated test content category', extension: 'com_content', published: 1 })
+      .then((id) => cy.db_createArticle({ title: 'automated test article', catid: id }))
+      .then(() => cy.api_get('/content/categories?filter[state]=1'))
+      .then((response) => cy.api_responseContains(response, 'title', 'automated test content category'));
+  });
+
+  it('can deliver a list of unpublished categories', () => {
+    cy.db_createCategory({ title: 'automated test content category', extension: 'com_content', published: 0 })
+      .then((id) => cy.db_createArticle({ title: 'automated test article', catid: id }))
+      .then(() => cy.api_get('/content/categories?filter[state]=0'))
+      .then((response) => cy.api_responseContains(response, 'title', 'automated test content category'));
+  });
+
   it('can deliver a single category', () => {
     cy.db_createCategory({ title: 'automated test content category', extension: 'com_content' })
       .then((id) => cy.api_get(`/content/categories/${id}`))
@@ -17,7 +31,12 @@ describe('Test that content categories API endpoint', () => {
   });
 
   it('can create a category', () => {
-    cy.api_post('/content/categories', { title: 'automated test content category', description: 'automated test content category description' })
+    cy.api_post('/content/categories', {
+      title: 'automated test content category',
+      description: 'automated test content category description',
+      parent_id: 1,
+      extension: 'com_content',
+    })
       .then((response) => {
         cy.wrap(response).its('body').its('data').its('attributes')
           .its('title')
@@ -30,7 +49,10 @@ describe('Test that content categories API endpoint', () => {
 
   it('can update a category', () => {
     cy.db_createCategory({ title: 'automated test content category', extension: 'com_content' })
-      .then((id) => cy.api_patch(`/content/categories/${id}`, { title: 'updated automated test content category', description: 'automated test content category description' }))
+      .then((id) => cy.api_patch(`/content/categories/${id}`, {
+        title: 'updated automated test content category',
+        description: 'automated test content category description',
+      }))
       .then((response) => {
         cy.wrap(response).its('body').its('data').its('attributes')
           .its('title')

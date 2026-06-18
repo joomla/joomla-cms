@@ -17,6 +17,7 @@ use Joomla\CMS\Event\Application\AfterInitialiseEvent;
 use Joomla\CMS\Event\Application\AfterRenderEvent;
 use Joomla\CMS\Event\Application\AfterRespondEvent;
 use Joomla\CMS\Event\Application\AfterRouteEvent;
+use Joomla\CMS\Event\Application\BeforeExecuteEvent;
 use Joomla\CMS\Event\Application\BeforeRenderEvent;
 use Joomla\CMS\Event\Application\BeforeRespondEvent;
 use Joomla\CMS\Event\ErrorEvent;
@@ -31,7 +32,6 @@ use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -48,6 +48,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
+use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -168,7 +169,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * Class constructor.
      *
      * @param   ?Input      $input      An optional argument to provide dependency injection for the application's input
-     *                                  object.  If the argument is a JInput object that object will become the
+     *                                  object.  If the argument is a Input object that object will become the
      *                                  application's input object, otherwise a default input object is created.
      * @param   ?Registry   $config     An optional argument to provide dependency injection for the application's config
      *                                  object.  If the argument is a Registry object that object will become the
@@ -249,10 +250,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             'type'    => $inputFilter->clean(strtolower($type), 'cmd'),
         ];
 
-        // For empty queue, if messages exists in the session, enqueue them first.
-        $messages = $this->getMessageQueue();
-
-        if (!\in_array($message, $this->messageQueue)) {
+        // Get the messages of the session and add the new message if it is not already in the queue.
+        if (!\in_array($message, $this->getMessageQueue())) {
             // Enqueue the message.
             $this->messageQueue[] = $message;
         }
@@ -301,6 +300,21 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $this->sanityCheckSystemVariables();
             $this->setupLogging();
             $this->createExtensionNamespaceMap();
+
+            // Load the behaviour plugins
+            PluginHelper::importPlugin('behaviour', null, true, $this->getDispatcher());
+
+            // Load the system plugins
+            PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
+
+            // Trigger the onBeforeExecute event
+            $this->dispatchEvent(
+                'onBeforeExecute',
+                new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
+            );
+
+            // Mark beforeExecute in the profiler.
+            JDEBUG ? $this->profiler->mark('beforeExecute event dispatched') : null;
 
             // Perform application routines.
             $this->doExecute();
@@ -406,74 +420,74 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      */
     protected function checkUserRequiresReset($option, $view, $layout, $urls = [])
     {
-        if ($this->getIdentity()->requireReset) {
-            $redirect = false;
+        // Password reset is not required for the user, no need to check it further
+        if (!$this->getIdentity()->requireReset) {
+            return;
+        }
 
-            /*
-             * By default user profile edit page is used.
-             * That page allows you to change more than just the password and might not be the desired behavior.
-             * This allows a developer to override the page that manage the password reset.
-             * (can be configured using the file: configuration.php, or if extended, through the global configuration form)
-             */
-            $name = $this->getName();
+        /*
+         * By default user profile edit page is used.
+         * That page allows you to change more than just the password and might not be the desired behavior.
+         * This allows a developer to override the page that manage the password reset.
+         * (can be configured using the file: configuration.php, or if extended, through the global configuration form)
+         */
+        $name = $this->getName();
 
-            if ($this->get($name . '_reset_password_override', 0)) {
-                $option = $this->get($name . '_reset_password_option', '');
-                $view   = $this->get($name . '_reset_password_view', '');
-                $layout = $this->get($name . '_reset_password_layout', '');
-                $urls   = $this->get($name . '_reset_password_urls', $urls);
-            }
+        if ($this->get($name . '_reset_password_override', 0)) {
+            $option = $this->get($name . '_reset_password_option', '');
+            $view   = $this->get($name . '_reset_password_view', '');
+            $layout = $this->get($name . '_reset_password_layout', '');
+            $urls   = $this->get($name . '_reset_password_urls', $urls);
+        }
 
-            // If the current URL matches an entry in $urls, we do not redirect
-            if (\count($urls)) {
-                $found = false;
+        /**
+         * The page which manage password reset always need to accessible, so if the current page
+         * is managing password reset page, no need to check it further
+         */
+        if (
+            $this->input->getCmd('option', '') === $option
+            && $this->input->getCmd('view', '') === $view
+            && $this->input->getCmd('layout', '') == $layout
+        ) {
+            return;
+        }
 
-                foreach ($urls as $url) {
-                    $found2 = false;
+        // If the current URL matches an entry in $urls, we do not redirect
+        foreach ($urls as $url) {
+            $match = true;
 
-                    foreach ($url as $key => $value) {
-                        if ($this->input->getCmd($key) !== $value) {
-                            $found2 = false;
-                            break;
-                        }
-
-                        $found2 = true;
-                    }
-
-                    if ($found2) {
-                        $found = true;
-                        break;
-                    }
-                }
-
-                if (!$found) {
-                    $redirect = true;
-                }
-            } else {
-                if (
-                    $this->input->getCmd('option', '') !== $option || $this->input->getCmd('view', '') !== $view
-                    || $this->input->getCmd('layout', '') !== $layout
-                ) {
-                    // Requested a different option/view/layout
-                    $redirect = true;
+            foreach ($url as $key => $value) {
+                if ($this->input->getCmd($key) !== $value) {
+                    /**
+                     * The current URL does not meet this entry, get out of this loop
+                     * and check next entry
+                     */
+                    $match = false;
+                    break;
                 }
             }
 
-            if ($redirect) {
-                // Redirect to the profile edit page
-                $this->enqueueMessage(Text::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
-
-                $url = Route::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false);
-
-                // In the administrator we need a different URL
-                if (strtolower($name) === 'administrator') {
-                    $user = Factory::getApplication()->getIdentity();
-                    $url  = Route::_('index.php?option=' . $option . '&task=' . $view . '.' . $layout . '&id=' . $user->id, false);
-                }
-
-                $this->redirect($url);
+            // The current URL meet the entry, no redirect is needed, just return early
+            if ($match) {
+                return;
             }
         }
+
+        // Redirect to the profile edit page
+        $this->enqueueMessage(Text::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
+
+        $url = Route::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false);
+
+        // In the administrator we need a different URL
+        if ($this->isClient('administrator')) {
+            $user = $this->getIdentity();
+            $url  = Route::_(
+                'index.php?option=' . $option . '&task=' . $view . '.' . $layout . '&id=' . $user->id,
+                false
+            );
+        }
+
+        $this->redirect($url);
     }
 
     /**
@@ -486,7 +500,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since   3.2
      *
-     * @deprecated  3.2 will be removed in 6.0
+     * @deprecated  3.2 will be removed in 7.0
      *              Use get() instead
      *              Example: Factory::getApplication()->get($varname, $default);
      */
@@ -498,7 +512,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                 Log::WARNING,
                 'deprecated'
             );
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
 
@@ -530,7 +544,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since       3.2
      * @throws      \RuntimeException
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use the application service from the DI container instead
      *              Example: Factory::getContainer()->get($name);
      */
@@ -585,7 +599,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         }
 
         if ($this->menuFactory === null) {
-            @trigger_error('Menu factory must be set in 5.0', E_USER_DEPRECATED);
+            @trigger_error('Menu factory must be set in 7.0', E_USER_DEPRECATED);
             $this->menuFactory = $this->getContainer()->get(MenuFactoryInterface::class);
         }
 
@@ -674,7 +688,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since      3.2
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Inject the router or load it from the dependency injection container
      *              Example: Factory::getContainer()->get($name);
      */
@@ -692,28 +706,32 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     }
 
     /**
-     * Gets the name of the current template.
+     * Gets current template data
      *
      * @param   boolean  $params  An optional associative array of configuration settings
      *
      * @return  string|\stdClass  The name of the template if the params argument is false. The template object if the params argument is true.
      *
+     * @throws  \InvalidArgumentException
      * @since   3.2
      */
     public function getTemplate($params = false)
     {
-        if ($params) {
-            $template = new \stdClass();
-
-            $template->template    = 'system';
-            $template->params      = new Registry();
-            $template->inheritable = 0;
-            $template->parent      = '';
-
-            return $template;
+        if (!\is_object($this->template)) {
+            $this->initialiseTemplate();
         }
 
-        return 'system';
+        if (!$this->isValidTemplate($this->template)) {
+            throw new \InvalidArgumentException(
+                Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template)
+            );
+        }
+
+        if ($params) {
+            return $this->template;
+        }
+
+        return $this->template->template;
     }
 
     /**
@@ -807,11 +825,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
         $this->set('editor', $editor);
 
-        // Load the behaviour plugins
-        PluginHelper::importPlugin('behaviour', null, true, $this->getDispatcher());
-
         // Trigger the onAfterInitialise event.
-        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
         $this->dispatchEvent(
             'onAfterInitialise',
             new AfterInitialiseEvent('onAfterInitialise', ['subject' => $this])
@@ -829,7 +843,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      */
     public function isHttpsForced($clientId = null)
     {
-        $clientId = (int) ($clientId !== null ? $clientId : $this->getClientId());
+        $clientId = (int) ($clientId ?? $this->getClientId());
         $forceSsl = (int) $this->get('force_ssl');
 
         if ($clientId === 0 && $forceSsl === 2) {
@@ -957,7 +971,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                 $user->cookieLogin = true;
             }
 
-            if (\in_array(false, $results, true) == false) {
+            if (!\in_array(false, $results, true)) {
                 $options['user']         = $user;
                 $options['responseType'] = $response->type;
 
@@ -1146,7 +1160,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since      3.2
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Implement the route functionality in the extending class, this here will be removed without replacement
      */
     protected function route()
@@ -1289,23 +1303,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     }
 
     /**
-     * Flag if the application instance is a CLI or web based application.
-     *
-     * Helper function, you should use the native PHP functions to detect if it is a CLI application.
-     *
-     * @return  boolean
-     *
-     * @since       4.0.0
-     *
-     * @deprecated  4.0 will be removed in 6.0
-     *              Will be removed without replacements
-     */
-    public function isCli()
-    {
-        return false;
-    }
-
-    /**
      * No longer used
      *
      * @return  boolean
@@ -1314,7 +1311,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @throws \Exception
      *
-     * @deprecated  4.2 will be removed in 6.0
+     * @deprecated  4.2 will be removed in 7.0
      *              Will be removed without replacements
      */
     protected function isTwoFactorAuthenticationRequired(): bool
@@ -1331,7 +1328,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @throws \Exception
      *
-     * @deprecated  4.2 will be removed in 6.0
+     * @deprecated  4.2 will be removed in 7.0
      *              Will be removed without replacements
      */
     private function hasUserConfiguredTwoFactorAuthentication(): bool
@@ -1407,5 +1404,45 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     public function setMenuFactory(MenuFactoryInterface $menuFactory): void
     {
         $this->menuFactory = $menuFactory;
+    }
+
+    /**
+     * Initialise the template
+     *
+     * @return  void
+     *
+     * @since   6.1.0
+     */
+    protected function initialiseTemplate(): void
+    {
+        $this->template = (object) [
+            'template'    => 'system',
+            'params'      => new Registry(),
+            'inheritable' => 0,
+            'parent'      => '',
+        ];
+    }
+
+    /**
+     * Check if a template is valid
+     *
+     * @param   \stdClass  $template  The template object
+     *
+     * @return  bool  True if the template is valid, false otherwise. A template is valid if its index.php file exists
+     *                either in the template itself or in its parent template.
+     *
+     * @since   6.1.0
+     */
+    protected function isValidTemplate($template): bool
+    {
+        if (!empty($template->template) && is_file(JPATH_THEMES . '/' . $template->template . '/index.php')) {
+            return true;
+        }
+
+        if (!empty($template->parent) && is_file(JPATH_THEMES . '/' . $template->parent . '/index.php')) {
+            return true;
+        }
+
+        return false;
     }
 }

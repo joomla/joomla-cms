@@ -127,7 +127,7 @@ class Router extends RouterView
 
             if ($this->noIDs) {
                 foreach ($path as &$segment) {
-                    list($id, $segment) = explode(':', $segment, 2);
+                    [, $segment] = explode(':', $segment, 2);
                 }
             }
 
@@ -161,7 +161,7 @@ class Router extends RouterView
     public function getArticleSegment($id, $query)
     {
         if ($this->noIDs && strpos($id, ':')) {
-            list($void, $segment) = explode(':', $id, 2);
+            [$void, $segment] = explode(':', $id, 2);
 
             return [$void => $segment];
         }
@@ -254,7 +254,7 @@ class Router extends RouterView
     public function getArticleId($segment, $query)
     {
         if ($this->noIDs) {
-            $dbquery = $this->db->getQuery(true);
+            $dbquery = $this->db->createQuery();
             $dbquery->select($this->db->quoteName('id'))
                 ->from($this->db->quoteName('#__content'))
                 ->where($this->db->quoteName('alias') . ' = :segment')
@@ -280,7 +280,7 @@ class Router extends RouterView
         $id = (int) $segment;
 
         if ($id) {
-            $dbquery = $this->db->getQuery(true);
+            $dbquery = $this->db->createQuery();
             $dbquery->select($this->db->quoteName('alias'))
                 ->from($this->db->quoteName('#__content'))
                 ->where($this->db->quoteName('id') . ' = :id')

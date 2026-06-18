@@ -25,7 +25,7 @@ describe('Test in backend that the checkin', () => {
       cy.searchForItem('content');
       cy.checkAllResults();
       cy.get('#toolbar-checkin').click();
-      cy.get('#system-message-container').contains('Item checked in').should('exist');
+      cy.checkForSystemMessage('Item checked in');
     });
   });
 });

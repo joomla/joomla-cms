@@ -22,7 +22,7 @@ extract($displayData);
 
 $versionFields = ['php_version', 'db_version', 'cms_version'];
 ?>
-<table class="table mb-3 d-none" id="js-pstats-data-details">
+<table class="table mb-3">
     <caption class="visually-hidden">
         <?php echo Text::_('PLG_SYSTEM_STATS_STATISTICS'); ?>
     </caption>

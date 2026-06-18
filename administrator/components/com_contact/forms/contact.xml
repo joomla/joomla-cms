@@ -205,6 +205,11 @@
 			class="advancedSelect"
 			multiple="true"
 		/>
+
+		<field
+			name="schema"
+			type="hidden"
+		/>
 	</fieldset>
 
 	<fieldset name="details" label="COM_CONTACT_CONTACT_DETAILS">

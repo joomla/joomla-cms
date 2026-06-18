@@ -253,7 +253,7 @@ class ManageModel extends InstallerModel
             $langstring = 'COM_INSTALLER_TYPE_TYPE_' . strtoupper($row->type);
             $rowtype    = Text::_($langstring);
 
-            if (strpos($rowtype, $langstring) !== false) {
+            if (str_contains($rowtype, $langstring)) {
                 $rowtype = $row->type;
             }
 
@@ -263,20 +263,20 @@ class ManageModel extends InstallerModel
                 // Build an array of extensions that failed to uninstall
                 if ($result === false) {
                     // There was an error in uninstalling the package
-                    $msgs[] = Text::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
+                    $msgs[] = Text::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype, $row->name);
 
                     continue;
                 }
 
                 // Package uninstalled successfully
-                $msgs[] = Text::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $rowtype);
+                $msgs[] = Text::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $rowtype, $row->name);
                 $result = true;
 
                 continue;
             }
 
             // There was an error in uninstalling the package
-            $msgs[] = Text::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
+            $msgs[] = Text::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype, $row->name);
         }
 
         $msg = implode('<br>', $msgs);
@@ -306,7 +306,7 @@ class ManageModel extends InstallerModel
     protected function getListQuery()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*')
             ->select('2*protected+(1-protected)*enabled AS status')
             ->from('#__extensions')
@@ -395,7 +395,7 @@ class ManageModel extends InstallerModel
         // Get the changelog URL
         $eid   = (int) $eid;
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 $db->quoteName(
                     [
@@ -408,7 +408,16 @@ class ManageModel extends InstallerModel
                     ]
                 )
             )
-            ->select($db->quoteName('updates.version', 'updateVersion'))
+            ->select($db->quoteName(
+                [
+                    'updates.version',
+                    'updates.changelogurl',
+                ],
+                [
+                    'updateVersion',
+                    'updateChangelogUrl',
+                ]
+            ))
             ->from($db->quoteName('#__extensions', 'extensions'))
             ->join(
                 'LEFT',
@@ -423,13 +432,15 @@ class ManageModel extends InstallerModel
         $this->translate($extensions);
         $extension = array_shift($extensions);
 
-        if (!$extension->changelogurl) {
+        $changelogurl = $source === 'manage' ? $extension->changelogurl : $extension->updateChangelogUrl;
+
+        if (!$changelogurl) {
             return '';
         }
 
         $changelog = new Changelog();
         $changelog->setVersion($source === 'manage' ? $extension->version : $extension->updateVersion);
-        $changelog->loadFromXml($extension->changelogurl);
+        $changelog->loadFromXml($changelogurl);
 
         // Read all the entries
         $entries = [

@@ -9,6 +9,22 @@ describe('Test that banners API endpoint', () => {
         .should('include', 'automated test banner'));
   });
 
+  it('can deliver a list of unpublished banners', () => {
+    cy.db_createBanner({ name: 'automated test banner', state: 0 })
+      .then(() => cy.api_get('/banners?filter[state]=0'))
+      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes')
+        .its('name')
+        .should('include', 'automated test banner'));
+  });
+
+  it('can deliver a list of published banners', () => {
+    cy.db_createBanner({ name: 'automated test banner', state: 1 })
+      .then(() => cy.api_get('/banners?filter[state]=1'))
+      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes')
+        .its('name')
+        .should('include', 'automated test banner'));
+  });
+
   it('can deliver a single banner', () => {
     cy.db_createBanner({ name: 'automated test banner' })
       .then((banner) => cy.api_get(`/banners/${banner.id}`))
@@ -47,5 +63,40 @@ describe('Test that banners API endpoint', () => {
   it('can delete a banner', () => {
     cy.db_createBanner({ name: 'automated test banner', state: -2 })
       .then((banner) => cy.api_delete(`/banners/${banner.id}`));
+  });
+
+  it('check correct response for delete a not existent banner', () => {
+    cy.api_getBearerToken().then((token) => {
+      cy.request({
+        method: 'DELETE',
+        url: `/api/index.php/v1/banners/9999`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        failOnStatusCode: false
+      }).then((response) => {
+        expect(response.status).to.equal(404);
+        expect(response.body.data.message).to.include('Resource not found');
+      });
+    });
+  });
+
+  it('cannot delete a banner that is not trashed', () => {
+    cy.db_createBanner({ name: 'automated test banner' })
+      .then((banner) => {
+        cy.api_getBearerToken().then((token) => {
+          cy.request({
+            method: 'DELETE',
+            url: `/api/index.php/v1/banners/${banner.id}`,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            failOnStatusCode: false
+          }).then((response) => {
+            expect(response.status).to.equal(409);
+            expect(response.body.data.message).to.include('must be trashed before it can be deleted');
+          });
+        });
+      });
   });
 });

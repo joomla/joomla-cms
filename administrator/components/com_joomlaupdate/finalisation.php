@@ -201,7 +201,7 @@ namespace Joomla\Filesystem
              */
             public static function delete(string $folderName): bool
             {
-                if (substr($folderName, -1) == '/') {
+                if (str_ends_with($folderName, '/')) {
                     $folderName = substr($folderName, 0, -1);
                 }
 

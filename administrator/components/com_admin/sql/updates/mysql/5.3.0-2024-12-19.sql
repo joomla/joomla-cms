@@ -1,1 +1,0 @@
-ALTER TABLE `#__action_logs_users` ADD COLUMN `exclude_self` tinyint NOT NULL DEFAULT 0;

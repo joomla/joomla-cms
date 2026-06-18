@@ -12,7 +12,7 @@ namespace Joomla\CMS\Toolbar;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -93,7 +93,7 @@ abstract class ToolbarHelper
      *
      * @param   string  $task        The task to perform (picked up by the switch($task) blocks).
      * @param   string  $icon        The image to display.
-     * @param   string  $iconOver    @deprecated 4.3 will be removed in 6.0
+     * @param   string  $iconOver    @deprecated 4.3 will be removed in 7.0
      * @param   string  $alt         The alt text for the icon image.
      * @param   bool    $listSelect  True if required to check that a standard list item is checked.
      * @param   string  $formId      The id of action form.
@@ -675,8 +675,7 @@ abstract class ToolbarHelper
         $lang = Factory::getLanguage();
         $lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);
 
-        /** @var \Joomla\CMS\Table\ContentType $contentTypeTable */
-        $contentTypeTable = Table::getInstance('ContentType', '\\Joomla\\CMS\\Table\\');
+        $contentTypeTable = new ContentType(Factory::getDbo());
         $typeId           = $contentTypeTable->getTypeId($typeAlias);
 
         // Options array for Layout

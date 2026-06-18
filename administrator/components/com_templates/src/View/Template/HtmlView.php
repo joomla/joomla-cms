@@ -160,6 +160,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var TemplateModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $app               = Factory::getApplication();
         $this->file        = $app->getInput()->get('file', '');
@@ -191,7 +192,7 @@ class HtmlView extends BaseHtmlView
             try {
                 $this->image = $model->getImage();
                 $this->type  = 'image';
-            } catch (\RuntimeException $exception) {
+            } catch (\RuntimeException) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_GD_EXTENSION_NOT_AVAILABLE'));
                 $this->type = 'home';
             }
@@ -207,13 +208,6 @@ class HtmlView extends BaseHtmlView
 
         $this->overridesList = $model->getOverridesList();
         $this->id            = $this->state->get('extension.id');
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            $app->enqueueMessage(implode("\n", $errors));
-
-            return false;
-        }
 
         $this->addToolbar();
 
@@ -281,9 +275,9 @@ class HtmlView extends BaseHtmlView
                     // Add a copy/child template button
                     if (isset($this->template->xmldata->inheritable) && (string) $this->template->xmldata->inheritable === '1') {
                         ToolbarHelper::modal('childModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_TEMPLATE_CHILD');
-                    } elseif (empty($this->template->xmldata->parent) && empty($this->template->xmldata->namespace)) {
-                        // We can't copy parent templates nor namespaced templates
-                        ToolbarHelper::modal('copyModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
+                    } elseif (empty($this->template->xmldata->namespace)) {
+                        // We can't copy namespaced templates
+                        ToolbarHelper::modal('copyModal', 'icon-copy', !empty($this->template->xmldata->parent) ? 'COM_TEMPLATES_BUTTON_COPY_CHILD_TEMPLATE' : 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
                     }
 
                     break;

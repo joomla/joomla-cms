@@ -56,7 +56,7 @@ class CalendarRule extends FormRule
 
         try {
             return Factory::getDate($value) instanceof Date;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
     }

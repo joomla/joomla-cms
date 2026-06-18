@@ -13,13 +13,6 @@
 
 	<fieldset name="basic">
 		<field
-			name="skins"
-			type="note"
-			label="PLG_TINY_FIELD_SKIN_INFO_LABEL"
-			description="PLG_TINY_FIELD_SKIN_INFO_DESC"
-		/>
-
-		<field
 			name="skin"
 			type="folderlist"
 			label="PLG_TINY_FIELD_SKIN_LABEL"
@@ -197,6 +190,7 @@
 			name="use_config_textfilters"
 			type="radio"
 			label="PLG_TINY_CONFIG_TEXTFILTER_ACL_LABEL"
+			description="PLG_TINY_CONFIG_TEXTFILTER_ACL_DESC"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
@@ -237,6 +231,24 @@
 			>
 			<option value="0">JOFF</option>
 			<option value="1">JON</option>
+		</field>
+
+		<field
+			name="sandbox_iframes_exclusions"
+			type="subform"
+			label="PLG_TINY_FIELD_SANDBOX_IFRAMES_EXCLUSIONS_LIST_LABEL"
+			description="PLG_TINY_FIELD_SANDBOX_IFRAMES_EXCLUSIONS_LIST_DESC"
+			multiple="true"
+			showon="sandbox_iframes:1"
+			>
+			<form>
+				<field
+					name="exclusion_domain"
+					type="text"
+					label="PLG_TINY_FIELD_SANDBOX_IFRAMES_EXCLUSION_DOMAIN_LABEL"
+					required="true"
+				/>
+			</form>
 		</field>
 
 		<!-- Extra plugins -->
@@ -438,6 +450,35 @@
 					name="class_list"
 					type="text"
 					label="PLG_TINY_FIELD_LINK_CLASS_LIST_LABEL"
+					required="true"
+					filter="string"
+					validate="CssIdentifier"
+					default=""
+				/>
+			</form>
+		</field>
+
+		<field
+			name="img_classes_list"
+			type="subform"
+			label="PLG_TINY_FIELD_IMG_CLASSES_LIST_LABEL"
+			description="PLG_TINY_FIELD_IMG_CLASSES_LIST_DESC"
+			layout="joomla.form.field.subform.repeatable-table"
+			required="false"
+			multiple="true">
+			<form>
+				<field
+					name="img_class_name"
+					type="text"
+					label="PLG_TINY_FIELD_IMG_CLASS_NAME_LABEL"
+					required="true"
+					filter="string"
+					default=""
+				/>
+				<field
+					name="img_class_list"
+					type="text"
+					label="PLG_TINY_FIELD_IMG_CLASS_LIST_LABEL"
 					required="true"
 					filter="string"
 					validate="CssIdentifier"

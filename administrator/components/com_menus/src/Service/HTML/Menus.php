@@ -52,7 +52,7 @@ class Menus
         if ($associations = MenusHelper::getAssociations($itemid)) {
             // Get the associated menu items
             $db    = Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select(
                     [
                         $db->quoteName('m.id'),
@@ -121,7 +121,7 @@ class Menus
 
         try {
             $registry->loadString($params);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // Invalid JSON
         }
 

@@ -16,7 +16,6 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
@@ -69,18 +68,15 @@ class TemplateModel extends AdminModel
      * @param   array    $data      An optional array of data for the form to interrogate.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \Joomla\CMS\Form\Form|bool  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   4.0.0
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
         // Get the form.
         $form = $this->loadForm('com_mails.template', 'template', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         $params = ComponentHelper::getParams('com_mails');
 
@@ -126,7 +122,7 @@ class TemplateModel extends AdminModel
 
         try {
             $attachmentPath = rtrim(Path::check(JPATH_ROOT . '/' . $params->get('attachment_folder')), \DIRECTORY_SEPARATOR);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $attachmentPath = '';
         }
 
@@ -176,9 +172,9 @@ class TemplateModel extends AdminModel
             }
         }
 
-        // Convert to the CMSObject before adding other data.
+        // Convert to an object before adding other data.
         $properties = $table->getProperties(1);
-        $item       = ArrayHelper::toObject($properties, CMSObject::class);
+        $item       = ArrayHelper::toObject($properties);
 
         if (property_exists($item, 'params')) {
             $registry     = new Registry($item->params);
@@ -222,9 +218,9 @@ class TemplateModel extends AdminModel
             }
         }
 
-        // Convert to the CMSObject before adding other data.
+        // Convert to an object before adding other data.
         $properties = $table->getProperties(1);
-        $item       = ArrayHelper::toObject($properties, CMSObject::class);
+        $item       = ArrayHelper::toObject($properties);
 
         if (property_exists($item, 'params')) {
             $registry     = new Registry($item->params);
