@@ -29,7 +29,7 @@ use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseFactory;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
@@ -322,7 +322,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         try {
-            $revisedDbo = DatabaseDriver::getInstance($options);
+            $revisedDbo = (new DatabaseFactory())->getDriver($options['driver'], $options);
             $revisedDbo->getVersion();
         } catch (\Exception $e) {
             $app->enqueueMessage(Text::sprintf('COM_CONFIG_ERROR_DATABASE_NOT_AVAILABLE', $e->getCode(), $e->getMessage()), 'error');
@@ -1215,7 +1215,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             [
                 // Replace the occurrences of "@" and "|" in the site name
                 'sitename' => str_replace(['@', '|'], '', $app->get('sitename')),
-                'method'   => Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer)),
+                'method'   => Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer ?? $input->get('mailer'))),
             ]
         );
         $mailer->addRecipient($user->email, $user->name);
@@ -1230,10 +1230,10 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         if ($mailSent === true) {
-            $methodName = Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer));
+            $methodName = Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer ?? $input->get('mailer')));
 
-            // If JMail send the mail using PHP Mail as fallback.
-            if ($mail->Mailer !== $app->get('mailer')) {
+            // If Mail send the mail using PHP Mail as fallback.
+            if (($mail->Mailer ?? $app->get('mailer')) !== $app->get('mailer')) {
                 $app->enqueueMessage(Text::sprintf('COM_CONFIG_SENDMAIL_SUCCESS_FALLBACK', $user->email, $methodName), 'warning');
             } else {
                 $app->enqueueMessage(Text::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $user->email, $methodName), 'message');
