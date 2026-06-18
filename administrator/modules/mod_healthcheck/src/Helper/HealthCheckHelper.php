@@ -453,7 +453,7 @@ class HealthCheckHelper
         switch ($type) {
             case 'badge':
                 $badgeClass = $column['badgeClass'] ?? 'secondary';
-                if (\is_callable($column['badgeClass'])) {
+                if (isset($column['badgeClass']) && \is_callable($column['badgeClass'])) {
                     $badgeClass = \call_user_func($column['badgeClass'], $value, $item, $rowIndex);
                 }
 
@@ -461,11 +461,11 @@ class HealthCheckHelper
 
             case 'link':
                 $url = $column['url'] ?? '';
-                if (\is_callable($column['url'])) {
+                if (isset($column['url']) && \is_callable($column['url'])) {
                     $url = \call_user_func($column['url'], $value, $item, $rowIndex);
                 }
                 $title = $column['linkTitle'] ?? '';
-                if (\is_callable($column['linkTitle'])) {
+                if (isset($column['linkTitle']) && \is_callable($column['linkTitle'])) {
                     $title = \call_user_func($column['linkTitle'], $value, $item, $rowIndex);
                 }
 
@@ -491,7 +491,7 @@ class HealthCheckHelper
             case 'progress':
                 $percentage    = (float) $value;
                 $progressClass = $column['progressClass'] ?? 'primary';
-                if (\is_callable($column['progressClass'])) {
+                if (isset($column['progressClass']) && \is_callable($column['progressClass'])) {
                     $progressClass = \call_user_func($column['progressClass'], $value, $item, $rowIndex);
                 }
 
@@ -507,7 +507,7 @@ class HealthCheckHelper
 
             case 'icon':
                 $iconClass = $column['iconClass'] ?? 'fas fa-info';
-                if (\is_callable($column['iconClass'])) {
+                if (isset($column['iconClass']) && \is_callable($column['iconClass'])) {
                     $iconClass = \call_user_func($column['iconClass'], $value, $item, $rowIndex);
                 }
 
