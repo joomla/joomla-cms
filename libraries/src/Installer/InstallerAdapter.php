@@ -936,7 +936,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
          */
         if (!$manifestScript) {
             $this->parent->manifestClass = null;
-            $this->manifest_script = null;
+            $this->manifest_script       = null;
 
             return;
         }
@@ -963,7 +963,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
             );
 
             $this->parent->manifestClass = null;
-            $this->manifest_script = null;
+            $this->manifest_script       = null;
 
             return;
         }
