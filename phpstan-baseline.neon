@@ -494,7 +494,7 @@ parameters:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 2
+			count: 1
 			path: administrator/components/com_categories/src/Helper/CategoriesHelper.php
 
 		-
@@ -13744,18 +13744,6 @@ parameters:
 			identifier: method.deprecatedInterface
 			count: 1
 			path: plugins/editors/tinymce/src/Provider/TinyMCEProvider.php
-
-		-
-			message: '''
-				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the database service in the DI container
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: plugins/fields/sql/tmpl/sql.php
 
 		-
 			message: '#^Call to protected method getUserFactory\(\) of class Joomla\\Plugin\\Fields\\User\\Extension\\User\.$#'
