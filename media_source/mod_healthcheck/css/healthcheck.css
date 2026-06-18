@@ -37,6 +37,27 @@
   font-weight: 600;
 }
 
+/* Item lists shown below an icon when it is clicked */
+.health-checks .healthcheck-itemlist {
+  font-size: .8125rem;
+  line-height: 1.4;
+}
+
+.health-checks .healthcheck-itemlist li {
+  padding: .15rem 0;
+}
+
+.health-checks .healthcheck-itemlist a,
+.health-checks .healthcheck-itemlist code {
+  text-decoration: none;
+  word-break: break-word;
+}
+
+/* An expanded icon spans every dashboard column so its item list gets the full width */
+.quick-icons .nav .quickicon.is-expanded {
+  grid-column: 1 / -1;
+}
+
 /* Smooth transition for filtered items */
 .quickicon-single,
 .quickicon-group {
