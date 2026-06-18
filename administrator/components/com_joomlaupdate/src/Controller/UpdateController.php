@@ -152,8 +152,9 @@ class UpdateController extends BaseController
         /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
         $model = $this->getModel('Update');
 
+        $msg = null;
         try {
-            $model->finaliseUpgrade();
+            $msg = $model->finaliseUpgrade();
         } catch (\Throwable $e) {
             $model->collectError('finaliseUpgrade', $e);
         }
@@ -175,7 +176,6 @@ class UpdateController extends BaseController
         }
 
         // Check for captured output messages in the installer
-        $msg = Installer::getInstance()->get('extension_message');
         if ($msg) {
             $this->app->setUserState('com_joomlaupdate.installer_message', $msg);
         }

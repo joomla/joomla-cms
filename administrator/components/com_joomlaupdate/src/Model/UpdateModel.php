@@ -904,7 +904,7 @@ ENDDATA;
      *
      * It performs essentially the same function as InstallerFile::install() without the file copy.
      *
-     * @return  boolean True on success.
+     * @return  boolean|string false on failure or a message from the extension
      *
      * @since   2.5.4
      */
@@ -912,7 +912,8 @@ ENDDATA;
     {
         Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_FINALISE'), Log::INFO, 'Update');
 
-        $installer = Installer::getInstance();
+        $installer = new Installer();
+        $installer->setDatabase($this->getDatabase());
 
         $manifest = $installer->isManifest(JPATH_MANIFESTS . '/files/joomla.xml');
 
@@ -1110,7 +1111,7 @@ ENDDATA;
             $installer->set('extension_message', $msg);
         }
 
-        return true;
+        return $msg;
     }
 
     /**
