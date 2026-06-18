@@ -932,6 +932,8 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         // When no script file, do nothing
         if (!$manifestScript) {
+            $this->parent->manifestClass = null;
+
             return;
         }
 
@@ -955,6 +957,8 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
                 'Installer file must exist when defined. In version 5.0 this will crash.',
                 E_USER_DEPRECATED
             );
+
+            $this->parent->manifestClass = null;
 
             return;
         }
