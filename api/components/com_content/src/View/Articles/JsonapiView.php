@@ -12,7 +12,6 @@ namespace Joomla\Component\Content\Api\View\Articles;
 
 use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Event\Model\PrepareDataEvent;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
