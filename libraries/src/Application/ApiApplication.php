@@ -396,7 +396,7 @@ final class ApiApplication extends CMSApplication
         $document = $this->createDocument();
         $this->loadDocument($document);
 
-        // Register the document object with Factory
+        // Register the document object with Factory for legacy access
         Factory::$document = $document;
 
         // Trigger the onAfterInitialiseDocument event.
