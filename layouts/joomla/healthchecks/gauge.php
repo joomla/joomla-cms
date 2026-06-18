@@ -221,7 +221,7 @@ $center = $size / 2;
         <?php endif; ?>
 
         <!-- Raw data display (optional, for debugging) -->
-        <?php if (defined('JDEBUG') && !JDEBUG) : ?>
+        <?php if (defined('JDEBUG') && JDEBUG) : ?>
             <div class="gauge-debug small mt-2">
                 <?php echo htmlspecialchars(Text::sprintf('MOD_HEALTHCHECK_GAUGE_DEBUG_RANGE', $score_min, $score_max)); ?> |
                 <?php echo htmlspecialchars(Text::sprintf('MOD_HEALTHCHECK_GAUGE_DEBUG_THRESHOLDS', $score_threshold_error, $score_threshold_warning, $score_threshold_success)); ?>
