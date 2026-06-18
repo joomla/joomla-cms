@@ -322,11 +322,13 @@ final class Subform extends FieldsPlugin implements SubscriberInterface
             $parent_field->setAttribute('layout', 'joomla.form.field.subform.repeatable');
         }
 
+        $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
+
         // Iterate over the sub fields to call prepareDom on each of those sub-fields
         foreach ($subfields as $subfield) {
             // Let the relevant plugins do their work and insert the correct
             // DOMElement's into our $parent_fieldset.
-            $this->getApplication()->getDispatcher()->dispatch(
+            $dispatcher->dispatch(
                 'onCustomFieldsPrepareDom',
                 new PrepareDomEvent('onCustomFieldsPrepareDom', [
                     'subject'  => $subfield,
