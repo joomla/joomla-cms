@@ -366,8 +366,9 @@ class CategoryModel extends ListModel
                 $params                                = $this->state->get('params');
                 $options                               = [];
                 $options['countItems']                 = $params->get('show_cat_num_articles', 1) || !$params->get('show_empty_categories_cat', 0);
-                $options['includeSecondaryCategories'] = (bool) $params->get('include_secondary_categories', 1);
                 $options['access']                     = $params->get('check_access_rights', 1);
+                $options['accessOnItems']              = !$params->get('show_noauth', 0);
+                $options['includeSecondaryCategories'] = (bool) $params->get('include_secondary_categories', 1);
             } else {
                 $options['countItems'] = 0;
             }
