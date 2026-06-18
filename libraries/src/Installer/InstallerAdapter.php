@@ -930,7 +930,10 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // If there is a manifest class file, lets load it; we'll copy it later (don't have dest yet)
         $manifestScript = (string) $this->getManifest()->scriptfile;
 
-        // When no script file, do nothing
+        /**
+         * When no script file, reset manifestClass might be set by installer for the previous extension to prevent
+         * accidental usage of the previous manifest class if the current extension does not have a script file.
+         */
         if (!$manifestScript) {
             $this->parent->manifestClass = null;
 
