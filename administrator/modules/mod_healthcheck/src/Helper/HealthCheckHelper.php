@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Module\Healthcheck\Administrator\Event\HealthChecksEvent;
 use Joomla\Registry\Registry;
 
@@ -123,7 +124,8 @@ class HealthCheckHelper
 
             PluginHelper::importPlugin('healthcheck');
 
-            $eventResult = $application->getDispatcher()->dispatch(
+            $dispatcher  = Factory::getContainer()->get(DispatcherInterface::class);
+            $eventResult = $dispatcher->dispatch(
                 $eventName,
                 new HealthChecksEvent($eventName, ['context' => $context])
             );
