@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseFactory;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -171,6 +172,6 @@ class DatabaseLogger extends Logger
             'prefix'   => $this->prefix,
         ];
 
-        $this->db = DatabaseDriver::getInstance($options);
+        $this->db = (new DatabaseFactory())->getDriver($options['driver'], $options);
     }
 }
