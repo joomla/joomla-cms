@@ -55,7 +55,8 @@ $has_data = !empty($gauges_html) || !empty($buttons_html) || !empty($lists_html)
             </button>
         </div>
         <button type="button" class="btn btn-sm btn-primary">
-            <i class="icon-refresh"></i>
+            <span class="icon-refresh" aria-hidden="true"></span>
+            <?php echo Text::_('MOD_HEALTHCHECK_REFRESH'); ?>
         </button>
     </div>
 <?php endif; ?>

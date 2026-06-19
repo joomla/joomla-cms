@@ -402,7 +402,7 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
      */
     protected function getAdminGroupIds(): array
     {
-        // We assume 7 = Administrator, 8 = Super User - but you never know...
+        // Derive the privileged groups from the root ACL rules rather than assuming fixed group IDs.
         $db = $this->getDatabase();
 
         $query = $db->createQuery()
