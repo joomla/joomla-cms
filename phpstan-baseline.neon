@@ -397,29 +397,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getCache\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the cache controller factory instead
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(CacheControllerFactoryInterface\:\:class\)\-\>createCacheController\(\$handler, \$options\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_cache/src/Model/CacheModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Cache\\Cache\:
-				4\.2 will be removed in 7\.0
-				             Use the cache controller factory instead
-				             Example\: Factory\:\:getContainer\(\)\-\>get\(CacheControllerFactoryInterface\:\:class\)\-\>createCacheController\(\$type, \$options\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_cache/src/Model/CacheModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -711,18 +688,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getCache\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the cache controller factory instead
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(CacheControllerFactoryInterface\:\:class\)\-\>createCacheController\(\$handler, \$options\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_config/src/Model/ApplicationModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -730,15 +695,6 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 2
-			path: administrator/components/com_config/src/Model/ApplicationModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\Database\\DatabaseDriver\:
-				3\.0  Use DatabaseFactory\:\:getDriver\(\) instead$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
 			path: administrator/components/com_config/src/Model/ApplicationModel.php
 
 		-
@@ -1208,30 +1164,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: administrator/components/com_content/src/Model/ArticlesModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the database service in the DI container
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_content/src/Service/HTML/AdministratorService.php
-
-		-
-			message: '''
-				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Load the user service from the dependency injection container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 2
-			path: administrator/components/com_content/src/Service/HTML/Icon.php
 
 		-
 			message: '''
@@ -4369,18 +4301,6 @@ parameters:
 			path: administrator/components/com_plugins/tmpl/plugin/edit.php
 
 		-
-			message: '''
-				#^Call to deprecated method getCache\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the cache controller factory instead
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(CacheControllerFactoryInterface\:\:class\)\-\>createCacheController\(\$handler, \$options\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 6
-			path: administrator/components/com_postinstall/src/Model/MessagesModel.php
-
-		-
 			message: '#^Access to an undefined property Joomla\\Component\\Postinstall\\Administrator\\View\\Messages\\HtmlView\:\:\$eid\.$#'
 			identifier: property.notFound
 			count: 2
@@ -4807,18 +4727,6 @@ parameters:
 			identifier: method.deprecated
 			count: 3
 			path: administrator/components/com_scheduler/src/Table/TaskTable.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Toolbar\\Toolbar\:
-				4\.0 will be removed in 7\.0
-				             Use the ToolbarFactoryInterface instead
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(ToolbarFactoryInterface\:\:class\)\-\>createToolbar\(\$name\)$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_scheduler/src/View/Logs/HtmlView.php
 
 		-
 			message: '''
@@ -6241,18 +6149,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 2
 			path: components/com_ajax/ajax.php
-
-		-
-			message: '''
-				#^Call to deprecated method getCache\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the cache controller factory instead
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(CacheControllerFactoryInterface\:\:class\)\-\>createCacheController\(\$handler, \$options\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: components/com_banners/src/Model/BannerModel.php
 
 		-
 			message: '''
@@ -7802,15 +7698,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\Database\\DatabaseDriver\:
-				3\.0  Use DatabaseFactory\:\:getDriver\(\) instead$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: installation/src/Helper/DatabaseHelper.php
-
-		-
-			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Form\\Form\:
 				4\.3 will be removed in 7\.0
 				             Use the FormFactory service from the container
@@ -7819,15 +7706,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: installation/src/Model/ChecksModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\Database\\DatabaseDriver\:
-				3\.0  Use DatabaseFactory\:\:getDriver\(\) instead$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: installation/src/Model/DatabaseModel.php
 
 		-
 			message: '''
@@ -8626,15 +8504,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: libraries/src/Console/RemoveUserFromGroupCommand.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\Database\\DatabaseDriver\:
-				3\.0  Use DatabaseFactory\:\:getDriver\(\) instead$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Console/SetConfigurationCommand.php
 
 		-
 			message: '''
@@ -11339,18 +11208,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getCache\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the cache controller factory instead
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(CacheControllerFactoryInterface\:\:class\)\-\>createCacheController\(\$handler, \$options\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 4
-			path: libraries/src/Installer/Adapter/LanguageAdapter.php
-
-		-
-			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -11762,15 +11619,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\Database\\DatabaseDriver\:
-				3\.0  Use DatabaseFactory\:\:getDriver\(\) instead$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Log/Logger/DatabaseLogger.php
-
-		-
-			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -11799,18 +11647,6 @@ parameters:
 			'''
 			identifier: staticMethod.deprecated
 			count: 2
-			path: libraries/src/MVC/Controller/BaseController.php
-
-		-
-			message: '''
-				#^Call to deprecated method getCache\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the cache controller factory instead
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(CacheControllerFactoryInterface\:\:class\)\-\>createCacheController\(\$handler, \$options\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
 			path: libraries/src/MVC/Controller/BaseController.php
 
 		-
@@ -12365,18 +12201,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the database service in the DI container
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 4
-			path: libraries/src/Mail/MailTemplate.php
-
-		-
-			message: '''
 				#^Call to deprecated method getMailer\(\) of class Joomla\\CMS\\Factory\:
 				4\.4\.0 will be removed in 7\.0
 				             Use the mailer service in the DI container and create a mailer from there
@@ -12647,15 +12471,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: libraries/src/Service/Provider/Console.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\Database\\DatabaseDriver\:
-				3\.0  Use DatabaseFactory\:\:getDriver\(\) instead$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Service/Provider/Database.php
 
 		-
 			message: '''
@@ -14072,17 +13887,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: plugins/system/shortcut/src/Extension/Shortcut.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Cache\\Cache\:
-				4\.2 will be removed in 7\.0
-				             Use the cache controller factory instead
-				             Example\: Factory\:\:getContainer\(\)\-\>get\(CacheControllerFactoryInterface\:\:class\)\-\>createCacheController\(\$type, \$options\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: plugins/system/stats/src/Extension/Stats.php
 
 		-
 			message: '''
