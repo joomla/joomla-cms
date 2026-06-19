@@ -10,7 +10,7 @@
 
 namespace Joomla\Component\Postinstall\Administrator\Model;
 
-use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\CacheController;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
@@ -118,7 +118,7 @@ class MessagesModel extends BaseDatabaseModel
             ->bind(':id', $id, ParameterType::INTEGER);
         $db->setQuery($query);
         $db->execute();
-        Factory::getCache()->clean('com_postinstall');
+        $this->getPostinstallMessagesCache()->clean('com_postinstall');
     }
 
     /**
@@ -143,7 +143,7 @@ class MessagesModel extends BaseDatabaseModel
             ->bind(':id', $id, ParameterType::INTEGER);
         $db->setQuery($query);
         $db->execute();
-        Factory::getCache()->clean('com_postinstall');
+        $this->getPostinstallMessagesCache()->clean('com_postinstall');
     }
 
     /**
@@ -168,7 +168,7 @@ class MessagesModel extends BaseDatabaseModel
             ->bind(':id', $id, ParameterType::INTEGER);
         $db->setQuery($query);
         $db->execute();
-        Factory::getCache()->clean('com_postinstall');
+        $this->getPostinstallMessagesCache()->clean('com_postinstall');
     }
 
     /**
@@ -216,7 +216,7 @@ class MessagesModel extends BaseDatabaseModel
 
         try {
             /** @var CallbackController $cache */
-            $cache = $this->getCacheControllerFactory()->createCacheController('callback', ['defaultgroup' => 'com_postinstall']);
+            $cache = $this->getPostinstallMessagesCache();
 
             $result = $cache->get([$db, 'loadObjectList'], [], md5($cacheId), false);
         } catch (\RuntimeException $e) {
@@ -261,8 +261,7 @@ class MessagesModel extends BaseDatabaseModel
 
         try {
             /** @var CallbackController $cache */
-            $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
-                ->createCacheController('callback', ['defaultgroup' => 'com_postinstall']);
+            $cache = $this->getPostinstallMessagesCache();
 
             // Get the resulting data object for cache ID 'all.1' from com_postinstall group.
             $result = $cache->get([$db, 'loadObjectList'], [], md5('all.1'), false);
@@ -353,7 +352,7 @@ class MessagesModel extends BaseDatabaseModel
         $db->setQuery($query);
 
         $result = $db->execute();
-        Factory::getCache()->clean('com_postinstall');
+        $this->getPostinstallMessagesCache()->clean('com_postinstall');
 
         return $result;
     }
@@ -380,7 +379,7 @@ class MessagesModel extends BaseDatabaseModel
         $db->setQuery($query);
 
         $result = $db->execute();
-        Factory::getCache()->clean('com_postinstall');
+        $this->getPostinstallMessagesCache()->clean('com_postinstall');
 
         return $result;
     }
@@ -720,7 +719,8 @@ class MessagesModel extends BaseDatabaseModel
         // Insert the new row
         $options = (object) $options;
         $db->insertObject($tableName, $options);
-        Factory::getCache()->clean('com_postinstall');
+
+        $this->getPostinstallMessagesCache()->clean('com_postinstall');
 
         return $this;
     }
@@ -735,5 +735,18 @@ class MessagesModel extends BaseDatabaseModel
     public function getJoomlaFilesExtensionId()
     {
         return ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
+    }
+
+    /**
+     * Get cache controller instance for postinstall messages caching.
+     *
+     * @return  CacheController
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function getPostinstallMessagesCache(): CacheController
+    {
+        return $this->getCacheControllerFactory()
+            ->createCacheController('callback', ['defaultgroup' => 'com_postinstall']);
     }
 }

@@ -599,7 +599,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         }
 
         if ($this->menuFactory === null) {
-            @trigger_error('Menu factory must be set in 5.0', E_USER_DEPRECATED);
+            @trigger_error('Menu factory must be set in 7.0', E_USER_DEPRECATED);
             $this->menuFactory = $this->getContainer()->get(MenuFactoryInterface::class);
         }
 
