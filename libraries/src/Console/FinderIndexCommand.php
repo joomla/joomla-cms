@@ -20,6 +20,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Event\DispatcherAwareTrait;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -39,6 +40,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class FinderIndexCommand extends AbstractCommand implements LanguageAwareInterface
 {
     use LanguageAwareTrait;
+    use DispatcherAwareTrait;
 
     /**
      * The default command name
@@ -359,7 +361,7 @@ EOF;
         Indexer::resetState();
 
         // Import the plugins.
-        $dispatcher = $app->getDispatcher();
+        $dispatcher = $this->getDispatcher();
         PluginHelper::importPlugin('system', null, true, $dispatcher);
         PluginHelper::importPlugin('finder', null, true, $dispatcher);
 
