@@ -17,6 +17,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -47,20 +48,6 @@ class TemplateModel extends AdminModel
      * @since  4.0.0
      */
     public $typeAlias = 'com_mails.template';
-
-    /**
-     * Method to test whether a record can be deleted.
-     *
-     * @param   object  $record  A record object.
-     *
-     * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
-     *
-     * @since   4.0.0
-     */
-    protected function canDelete($record)
-    {
-        return false;
-    }
 
     /**
      * Method to get the record form.
@@ -405,5 +392,30 @@ class TemplateModel extends AdminModel
 
         $language = Factory::getApplication()->getInput()->getCmd('language');
         $this->setState($this->getName() . '.language', $language);
+    }
+
+    /**
+     * Method to delete one or more records.
+     *
+     * @param   array  &$pks  An array of record primary keys.
+     *
+     * @return  boolean  True if successful, false if an error occurs.
+     *
+     * @since   1.6
+     */
+    public function delete(&$pks)
+    {
+        $pks = (array)$pks;
+        foreach ($pks as $i => $pk) {
+            if (!$this->canDelete((object)['template_id' => $pk])) {
+                return false;
+            }
+        }
+
+        $db    = $this->getDatabase();
+        $query = $db->createQuery();
+        $query->delete($db->quoteName('#__mail_templates'))
+            ->whereIn($db->quoteName('template_id'), $pks, ParameterType::STRING);
+        return $db->setQuery($query)->execute();
     }
 }
