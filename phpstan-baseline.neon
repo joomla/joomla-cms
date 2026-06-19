@@ -8794,11 +8794,11 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Application\\BeforeSaveConfigurationEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\Application\\BeforeSaveConfigurationEvent\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
 			path: libraries/src/Event/Application/BeforeSaveConfigurationEvent.php
 
@@ -8870,11 +8870,11 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Contact\\ValidateContactEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\Contact\\ValidateContactEvent\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
 			path: libraries/src/Event/Contact/ValidateContactEvent.php
 
@@ -8890,6 +8890,16 @@ parameters:
 
 		-
 			message: '''
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\Content\\AfterDisplayEvent\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
+			'''
+			identifier: property.deprecated
+			count: 1
+			path: libraries/src/Event/Content/AfterDisplayEvent.php
+
+		-
+			message: '''
 				#^Access to deprecated property \$resultIsFalseable of class Joomla\\CMS\\Event\\Content\\AfterDisplayEvent\:
 				4\.3 will be removed in 7\.0
 				             You should use nullable values or exceptions instead of returning boolean false results\.$#
@@ -8900,13 +8910,13 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Content\\AfterDisplayEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\Content\\AfterTitleEvent\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
-			path: libraries/src/Event/Content/AfterDisplayEvent.php
+			path: libraries/src/Event/Content/AfterTitleEvent.php
 
 		-
 			message: '''
@@ -8920,13 +8930,13 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Content\\AfterTitleEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\Content\\BeforeDisplayEvent\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
-			path: libraries/src/Event/Content/AfterTitleEvent.php
+			path: libraries/src/Event/Content/BeforeDisplayEvent.php
 
 		-
 			message: '''
@@ -8935,16 +8945,6 @@ parameters:
 				             You should use nullable values or exceptions instead of returning boolean false results\.$#
 			'''
 			identifier: property.deprecated
-			count: 1
-			path: libraries/src/Event/Content/BeforeDisplayEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Content\\BeforeDisplayEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
 			count: 1
 			path: libraries/src/Event/Content/BeforeDisplayEvent.php
 
@@ -8988,6 +8988,16 @@ parameters:
 
 		-
 			message: '''
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\CustomFields\\GetTypesEvent\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
+			'''
+			identifier: property.deprecated
+			count: 1
+			path: libraries/src/Event/CustomFields/GetTypesEvent.php
+
+		-
+			message: '''
 				#^Access to deprecated property \$resultIsFalseable of class Joomla\\CMS\\Event\\CustomFields\\GetTypesEvent\:
 				4\.3 will be removed in 7\.0
 				             You should use nullable values or exceptions instead of returning boolean false results\.$#
@@ -8998,21 +9008,11 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\CustomFields\\GetTypesEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\CustomFields\\PrepareFieldEvent\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/CustomFields/GetTypesEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\CustomFields\\PrepareFieldEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
 			path: libraries/src/Event/CustomFields/PrepareFieldEvent.php
 
@@ -9075,6 +9075,16 @@ parameters:
 
 		-
 			message: '''
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\Installer\\AddInstallationTabEvent\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
+			'''
+			identifier: property.deprecated
+			count: 1
+			path: libraries/src/Event/Installer/AddInstallationTabEvent.php
+
+		-
+			message: '''
 				#^Access to deprecated property \$resultIsFalseable of class Joomla\\CMS\\Event\\Installer\\AddInstallationTabEvent\:
 				4\.3 will be removed in 7\.0
 				             You should use nullable values or exceptions instead of returning boolean false results\.$#
@@ -9085,31 +9095,21 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Installer\\AddInstallationTabEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\Installer\\BeforeInstallationEvent\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/Installer/AddInstallationTabEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Installer\\BeforeInstallationEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
 			path: libraries/src/Event/Installer/BeforeInstallationEvent.php
 
 		-
 			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Installer\\BeforeInstallerEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\Installer\\BeforeInstallerEvent\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
 			path: libraries/src/Event/Installer/BeforeInstallerEvent.php
 
@@ -9229,11 +9229,11 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Model\\AfterChangeStateEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\Model\\AfterChangeStateEvent\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
 			path: libraries/src/Event/Model/AfterChangeStateEvent.php
 
@@ -9258,31 +9258,31 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Model\\BeforeChangeStateEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\Model\\BeforeChangeStateEvent\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
 			path: libraries/src/Event/Model/BeforeChangeStateEvent.php
 
 		-
 			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Model\\BeforeDeleteEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\Model\\BeforeDeleteEvent\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
 			path: libraries/src/Event/Model/BeforeDeleteEvent.php
 
 		-
 			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Model\\BeforeSaveEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\Model\\BeforeSaveEvent\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
 			path: libraries/src/Event/Model/BeforeSaveEvent.php
 
@@ -9345,33 +9345,23 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\MultiFactor\\BeforeDisplayMethods\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\MultiFactor\\BeforeDisplayMethods\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
 			path: libraries/src/Event/MultiFactor/BeforeDisplayMethods.php
 
 		-
 			message: '''
-				#^Call to deprecated method setUser\(\) of class Joomla\\CMS\\Event\\MultiFactor\\BeforeDisplayMethods\:
-				4\.4\.0 will be removed in 7\.0
-				              Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\MultiFactor\\Captive\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
-			path: libraries/src/Event/MultiFactor/BeforeDisplayMethods.php
-
-		-
-			message: '''
-				#^Call to deprecated method setMethod\(\) of class Joomla\\CMS\\Event\\MultiFactor\\Callback\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/MultiFactor/Callback.php
+			path: libraries/src/Event/MultiFactor/Captive.php
 
 		-
 			message: '''
@@ -9385,23 +9375,13 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method setRecord\(\) of class Joomla\\CMS\\Event\\MultiFactor\\Captive\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\MultiFactor\\GetMethod\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
-			path: libraries/src/Event/MultiFactor/Captive.php
-
-		-
-			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\MultiFactor\\Captive\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/MultiFactor/Captive.php
+			path: libraries/src/Event/MultiFactor/GetMethod.php
 
 		-
 			message: '''
@@ -9415,13 +9395,13 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\MultiFactor\\GetMethod\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\MultiFactor\\GetSetup\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
-			path: libraries/src/Event/MultiFactor/GetMethod.php
+			path: libraries/src/Event/MultiFactor/GetSetup.php
 
 		-
 			message: '''
@@ -9435,23 +9415,13 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method setRecord\(\) of class Joomla\\CMS\\Event\\MultiFactor\\GetSetup\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\MultiFactor\\SaveSetup\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
-			path: libraries/src/Event/MultiFactor/GetSetup.php
-
-		-
-			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\MultiFactor\\GetSetup\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/MultiFactor/GetSetup.php
+			path: libraries/src/Event/MultiFactor/SaveSetup.php
 
 		-
 			message: '''
@@ -9465,73 +9435,23 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method setInput\(\) of class Joomla\\CMS\\Event\\MultiFactor\\SaveSetup\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\MultiFactor\\Validate\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/MultiFactor/SaveSetup.php
-
-		-
-			message: '''
-				#^Call to deprecated method setRecord\(\) of class Joomla\\CMS\\Event\\MultiFactor\\SaveSetup\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/MultiFactor/SaveSetup.php
-
-		-
-			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\MultiFactor\\SaveSetup\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/MultiFactor/SaveSetup.php
-
-		-
-			message: '''
-				#^Call to deprecated method setCode\(\) of class Joomla\\CMS\\Event\\MultiFactor\\Validate\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
 			path: libraries/src/Event/MultiFactor/Validate.php
 
 		-
 			message: '''
-				#^Call to deprecated method setRecord\(\) of class Joomla\\CMS\\Event\\MultiFactor\\Validate\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\PageCache\\GetKeyEvent\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
-			path: libraries/src/Event/MultiFactor/Validate.php
-
-		-
-			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\MultiFactor\\Validate\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/MultiFactor/Validate.php
-
-		-
-			message: '''
-				#^Call to deprecated method setUser\(\) of class Joomla\\CMS\\Event\\MultiFactor\\Validate\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/MultiFactor/Validate.php
+			path: libraries/src/Event/PageCache/GetKeyEvent.php
 
 		-
 			message: '''
@@ -9545,31 +9465,21 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\PageCache\\GetKeyEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\PageCache\\IsExcludedEvent\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/PageCache/GetKeyEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\PageCache\\IsExcludedEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
 			path: libraries/src/Event/PageCache/IsExcludedEvent.php
 
 		-
 			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\PageCache\\SetCachingEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\PageCache\\SetCachingEvent\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
 			path: libraries/src/Event/PageCache/SetCachingEvent.php
 
@@ -9584,9 +9494,9 @@ parameters:
 
 		-
 			message: '''
-				#^Access to deprecated property \$resultIsFalseable of class Joomla\\CMS\\Event\\Plugin\\System\\Stats\\GetStatsDataEvent\:
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\Plugin\\System\\Stats\\GetStatsDataEvent\:
 				4\.3 will be removed in 7\.0
-				             You should use nullable values or exceptions instead of returning boolean false results\.$#
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
 			identifier: property.deprecated
 			count: 1
@@ -9594,11 +9504,11 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Plugin\\System\\Stats\\GetStatsDataEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$resultIsFalseable of class Joomla\\CMS\\Event\\Plugin\\System\\Stats\\GetStatsDataEvent\:
+				4\.3 will be removed in 7\.0
+				             You should use nullable values or exceptions instead of returning boolean false results\.$#
 			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
 			path: libraries/src/Event/Plugin/System/Stats/GetStatsDataEvent.php
 
@@ -9614,13 +9524,23 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Plugin\\System\\Webauthn\\AjaxChallenge\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\Plugin\\System\\Webauthn\\AjaxChallenge\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
 			path: libraries/src/Event/Plugin/System/Webauthn/AjaxChallenge.php
+
+		-
+			message: '''
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\Plugin\\System\\Webauthn\\AjaxCreate\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
+			'''
+			identifier: property.deprecated
+			count: 1
+			path: libraries/src/Event/Plugin/System/Webauthn/AjaxCreate.php
 
 		-
 			message: '''
@@ -9634,23 +9554,23 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Plugin\\System\\Webauthn\\AjaxCreate\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\Plugin\\System\\Webauthn\\AjaxDelete\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
-			path: libraries/src/Event/Plugin/System/Webauthn/AjaxCreate.php
+			path: libraries/src/Event/Plugin/System/Webauthn/AjaxDelete.php
 
 		-
 			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Plugin\\System\\Webauthn\\AjaxDelete\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\Plugin\\System\\Webauthn\\AjaxInitCreate\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
-			path: libraries/src/Event/Plugin/System/Webauthn/AjaxDelete.php
+			path: libraries/src/Event/Plugin/System/Webauthn/AjaxInitCreate.php
 
 		-
 			message: '''
@@ -9664,33 +9584,33 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Plugin\\System\\Webauthn\\AjaxInitCreate\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\Plugin\\System\\Webauthn\\AjaxSaveLabel\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/Plugin/System/Webauthn/AjaxInitCreate.php
-
-		-
-			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Plugin\\System\\Webauthn\\AjaxSaveLabel\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
 			path: libraries/src/Event/Plugin/System/Webauthn/AjaxSaveLabel.php
 
 		-
 			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Privacy\\CanRemoveDataEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\Privacy\\CanRemoveDataEvent\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
 			path: libraries/src/Event/Privacy/CanRemoveDataEvent.php
+
+		-
+			message: '''
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\Privacy\\CollectCapabilitiesEvent\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
+			'''
+			identifier: property.deprecated
+			count: 1
+			path: libraries/src/Event/Privacy/CollectCapabilitiesEvent.php
 
 		-
 			message: '''
@@ -9704,21 +9624,11 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Privacy\\CollectCapabilitiesEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\Privacy\\ExportRequestEvent\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/Privacy/CollectCapabilitiesEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Privacy\\ExportRequestEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
 			path: libraries/src/Event/Privacy/ExportRequestEvent.php
 
@@ -9743,9 +9653,9 @@ parameters:
 
 		-
 			message: '''
-				#^Access to deprecated property \$resultIsFalseable of class Joomla\\CMS\\Event\\QuickIcon\\GetIconEvent\:
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\QuickIcon\\GetIconEvent\:
 				4\.3 will be removed in 7\.0
-				             You should use nullable values or exceptions instead of returning boolean false results\.$#
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
 			identifier: property.deprecated
 			count: 1
@@ -9753,21 +9663,11 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method setContext\(\) of class Joomla\\CMS\\Event\\QuickIcon\\GetIconEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$resultIsFalseable of class Joomla\\CMS\\Event\\QuickIcon\\GetIconEvent\:
+				4\.3 will be removed in 7\.0
+				             You should use nullable values or exceptions instead of returning boolean false results\.$#
 			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/QuickIcon/GetIconEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\QuickIcon\\GetIconEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
 			path: libraries/src/Event/QuickIcon/GetIconEvent.php
 
@@ -9783,6 +9683,16 @@ parameters:
 
 		-
 			message: '''
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\SampleData\\GetOverviewEvent\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
+			'''
+			identifier: property.deprecated
+			count: 1
+			path: libraries/src/Event/SampleData/GetOverviewEvent.php
+
+		-
+			message: '''
 				#^Access to deprecated property \$resultIsFalseable of class Joomla\\CMS\\Event\\SampleData\\GetOverviewEvent\:
 				4\.3 will be removed in 7\.0
 				             You should use nullable values or exceptions instead of returning boolean false results\.$#
@@ -9793,253 +9703,33 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\SampleData\\GetOverviewEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\User\\AuthorisationEvent\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/SampleData/GetOverviewEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setSubject\(\) of class Joomla\\CMS\\Event\\Table\\AbstractEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/Table/AbstractEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Table\\AfterLoadEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/Table/AfterLoadEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setRow\(\) of class Joomla\\CMS\\Event\\Table\\AfterLoadEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/Table/AfterLoadEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setDelta\(\) of class Joomla\\CMS\\Event\\Table\\AfterMoveEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/Table/AfterMoveEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setRow\(\) of class Joomla\\CMS\\Event\\Table\\AfterMoveEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/Table/AfterMoveEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setWhere\(\) of class Joomla\\CMS\\Event\\Table\\AfterMoveEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/Table/AfterMoveEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setWhere\(\) of class Joomla\\CMS\\Event\\Table\\AfterReorderEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/Table/AfterReorderEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\Table\\AfterStoreEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/Table/AfterStoreEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setIgnore\(\) of class Joomla\\CMS\\Event\\Table\\BeforeBindEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/Table/BeforeBindEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setSrc\(\) of class Joomla\\CMS\\Event\\Table\\BeforeBindEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/Table/BeforeBindEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setUserId\(\) of class Joomla\\CMS\\Event\\Table\\BeforeCheckoutEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/Table/BeforeCheckoutEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setReset\(\) of class Joomla\\CMS\\Event\\Table\\BeforeLoadEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/Table/BeforeLoadEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setDelta\(\) of class Joomla\\CMS\\Event\\Table\\BeforeMoveEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/Table/BeforeMoveEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setQuery\(\) of class Joomla\\CMS\\Event\\Table\\BeforeMoveEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/Table/BeforeMoveEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setWhere\(\) of class Joomla\\CMS\\Event\\Table\\BeforeMoveEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/Table/BeforeMoveEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setQuery\(\) of class Joomla\\CMS\\Event\\Table\\BeforePublishEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/Table/BeforePublishEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setState\(\) of class Joomla\\CMS\\Event\\Table\\BeforePublishEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/Table/BeforePublishEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setUserId\(\) of class Joomla\\CMS\\Event\\Table\\BeforePublishEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/Table/BeforePublishEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setQuery\(\) of class Joomla\\CMS\\Event\\Table\\BeforeReorderEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/Table/BeforeReorderEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setWhere\(\) of class Joomla\\CMS\\Event\\Table\\BeforeReorderEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/Table/BeforeReorderEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setUpdateNulls\(\) of class Joomla\\CMS\\Event\\Table\\BeforeStoreEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/Table/BeforeStoreEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setReplaceTags\(\) of class Joomla\\CMS\\Event\\Table\\SetNewTagsEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/Table/SetNewTagsEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\User\\AuthorisationEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
 			path: libraries/src/Event/User/AuthorisationEvent.php
 
 		-
 			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\User\\BeforeSaveEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\User\\BeforeSaveEvent\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
 			path: libraries/src/Event/User/BeforeSaveEvent.php
+
+		-
+			message: '''
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\User\\LoginButtonsEvent\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
+			'''
+			identifier: property.deprecated
+			count: 1
+			path: libraries/src/Event/User/LoginButtonsEvent.php
 
 		-
 			message: '''
@@ -10053,31 +9743,21 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\User\\LoginButtonsEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\User\\LoginEvent\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/User/LoginButtonsEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\User\\LoginEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
 			path: libraries/src/Event/User/LoginEvent.php
 
 		-
 			message: '''
-				#^Call to deprecated method setResult\(\) of class Joomla\\CMS\\Event\\User\\LogoutEvent\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
+				#^Access to deprecated property \$preventSetArgumentResult of class Joomla\\CMS\\Event\\User\\LogoutEvent\:
+				4\.3 will be removed in 7\.0
+				             Using setResult\(\) for the result argument will always be disallowed\.$#
 			'''
-			identifier: method.deprecated
+			identifier: property.deprecated
 			count: 1
 			path: libraries/src/Event/User/LogoutEvent.php
 
@@ -10099,16 +9779,6 @@ parameters:
 			identifier: traitUse.deprecatedTrait
 			count: 1
 			path: libraries/src/Event/User/UserEvent.php
-
-		-
-			message: '''
-				#^Call to deprecated method setSubject\(\) of class Joomla\\CMS\\Event\\WebAsset\\WebAssetRegistryAssetChanged\:
-				4\.4\.0 will be removed in 7\.0
-				               Use counterpart with onSet prefix$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Event/WebAsset/WebAssetRegistryAssetChanged.php
 
 		-
 			message: '''
