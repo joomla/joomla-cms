@@ -317,7 +317,7 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  mixed  The data for the form.
+     * @return  object  The data for the form.
      *
      * @since   1.6
      */
@@ -325,7 +325,7 @@ class CategoryModel extends AdminModel implements VersionableModelInterface
     {
         // Check the session for previously entered form data.
         $app  = Factory::getApplication();
-        $data = $app->getUserState('com_categories.edit.' . $this->getName() . '.data', []);
+        $data = $app->getUserState('com_categories.edit.' . $this->getName() . '.data');
 
         if (empty($data)) {
             $data = $this->getItem();

@@ -83,7 +83,7 @@ class NoteModel extends AdminModel implements VersionableModelInterface
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  mixed  The data for the form.
+     * @return  object  The data for the form.
      *
      * @since   1.6
      * @throws  \Exception
@@ -94,7 +94,7 @@ class NoteModel extends AdminModel implements VersionableModelInterface
         $app = Factory::getApplication();
 
         // Check the session for previously entered form data.
-        $data = $app->getUserState('com_users.edit.note.data', []);
+        $data = $app->getUserState('com_users.edit.note.data');
 
         if (empty($data)) {
             $data = $this->getItem();

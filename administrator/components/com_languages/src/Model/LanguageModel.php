@@ -101,7 +101,7 @@ class LanguageModel extends AdminModel
      *
      * @param   integer  $langId  The id of the member to get.
      *
-     * @return  mixed  User data object on success, false on failure.
+     * @return  object|false  User data object on success, false on failure.
      *
      * @since   1.0
      */
@@ -152,14 +152,14 @@ class LanguageModel extends AdminModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  mixed  The data for the form.
+     * @return  object  The data for the form.
      *
      * @since   1.6
      */
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_languages.edit.language.data', []);
+        $data = Factory::getApplication()->getUserState('com_languages.edit.language.data');
 
         if (empty($data)) {
             $data = $this->getItem();

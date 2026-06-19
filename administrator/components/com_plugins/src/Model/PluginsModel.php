@@ -274,7 +274,7 @@ class PluginsModel extends ListModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  mixed   The data for the form.
+     * @return  object   The data for the form.
      *
      * @since   3.5
      */

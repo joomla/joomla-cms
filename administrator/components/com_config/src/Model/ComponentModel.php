@@ -13,6 +13,7 @@ namespace Joomla\Component\Config\Administrator\Model;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Component\ComponentRecord;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -102,7 +103,7 @@ class ComponentModel extends FormModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  array  The default data is an empty array.
+     * @return  object  The default data is an empty object.
      *
      * @since   4.0.0
      */
@@ -111,10 +112,10 @@ class ComponentModel extends FormModel
         $option = $this->getState()->get('component.option');
 
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_config.edit.component.' . $option . '.data', []);
+        $data = Factory::getApplication()->getUserState('com_config.edit.component.' . $option . '.data');
 
         if (empty($data)) {
-            return $this->getComponent()->getParams()->toArray();
+            return $this->getComponent()->getParams()->toObject();
         }
 
         return $data;
@@ -123,7 +124,7 @@ class ComponentModel extends FormModel
     /**
      * Get the component information.
      *
-     * @return  object
+     * @return  ComponentRecord
      *
      * @since   3.2
      */
@@ -137,9 +138,7 @@ class ComponentModel extends FormModel
         $lang->load($option, JPATH_BASE)
         || $lang->load($option, JPATH_BASE . "/components/$option");
 
-        $result = ComponentHelper::getComponent($option);
-
-        return $result;
+        return ComponentHelper::getComponent($option);
     }
 
     /**

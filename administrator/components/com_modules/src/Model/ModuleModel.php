@@ -590,7 +590,7 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  mixed  The data for the form.
+     * @return  object  The data for the form.
      *
      * @since   1.6
      */
@@ -600,7 +600,7 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
         $input = $app->getInput();
 
         // Check the session for previously entered form data.
-        $data = $app->getUserState('com_modules.edit.module.data', []);
+        $data = $app->getUserState('com_modules.edit.module.data');
 
         if (empty($data)) {
             $data = $this->getItem();
