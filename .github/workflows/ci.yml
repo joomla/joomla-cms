@@ -49,7 +49,8 @@ jobs:
           path: |
             node_modules
             media
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
+            installation/template/css
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**', 'installation/template/scss/**') }}
       - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: libraries/vendor
@@ -103,7 +104,8 @@ jobs:
           path: |
             node_modules
             media
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
+            installation/template/css
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**', 'installation/template/scss/**') }}
       - name: Check code style
         run: npm run ${{ matrix.check }}
 
@@ -250,7 +252,7 @@ jobs:
           path: plugins/system/webauthn/fido.jwt
           key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
       - name: Setup PHP
-        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f # v2
+        uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc # v2.37.1
         with:
           php-version: ${{ matrix.php_version }}
           extensions: openssl, mbstring, fileinfo, gd, gmp, pgsql, mysql, mysqli, curl, opcache, ldap
@@ -278,14 +280,14 @@ jobs:
         with:
           path: plugins/system/webauthn/fido.jwt
           key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
-      - uses: shogo82148/actions-setup-mysql@9c42ca180d5f1dd4dceb54c23c5eda0384f4d265 # v1.50.0
+      - uses: shogo82148/actions-setup-mysql@c80f44ab210a360ef966c5b9f48a2ae21123b533 # v1.51.0
         with:
           mysql-version: "mariadb-10.4"
           root-password: "joomla_ut"
           user: "joomla_ut"
           password: "joomla_ut"
       - name: Setup PHP
-        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f # v2
+        uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc # v2.37.1
         with:
           php-version: ${{ matrix.php_version }}
           extensions: openssl, mbstring, fileinfo, gd, gmp, pgsql, mysql, mysqli, curl, opcache, ldap
@@ -314,7 +316,8 @@ jobs:
           path: |
             node_modules
             media
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
+            installation/template/css
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**', 'installation/template/scss/**') }}
       - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         id: cache-cypress
         with:
@@ -384,7 +387,8 @@ jobs:
           path: |
             node_modules
             media
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
+            installation/template/css
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**', 'installation/template/scss/**') }}
       - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: |
@@ -429,6 +433,6 @@ jobs:
     - name: Checkout Actions Repository
       uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
     - name: Spell Check Repository
-      uses: crate-ci/typos@392b78fe18a52790c53f42456e46124f77346842 # v1.34.0
+      uses: crate-ci/typos@7b04f660f4ee4f048d18fd341887cf28dfbedfe2 # v1.46.3
       with:
         config: .github/workflows/typos.toml
