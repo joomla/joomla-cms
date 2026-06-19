@@ -29,7 +29,7 @@ use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseFactory;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
@@ -322,7 +322,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         try {
-            $revisedDbo = DatabaseDriver::getInstance($options);
+            $revisedDbo = (new DatabaseFactory())->getDriver($options['driver'], $options);
             $revisedDbo->getVersion();
         } catch (\Exception $e) {
             $app->enqueueMessage(Text::sprintf('COM_CONFIG_ERROR_DATABASE_NOT_AVAILABLE', $e->getCode(), $e->getMessage()), 'error');
