@@ -34,7 +34,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Token::class, function (Container $container) {
                 $plugin = new Token(
                     (array) PluginHelper::getPlugin('api-authentication', 'token'),
                     new InputFilter()
@@ -44,7 +44,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setUserFactory($container->get(UserFactoryInterface::class));
 
                 return $plugin;
-            }
+            })
         );
     }
 };

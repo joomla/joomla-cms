@@ -182,7 +182,7 @@ class IndexModel extends ListModel
     protected function getListQuery()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('l.*')
             ->select($db->quoteName('t.title', 't_title'))
             ->from($db->quoteName('#__finder_links', 'l'))
@@ -259,7 +259,7 @@ class IndexModel extends ListModel
     public function getPluginState()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('name, enabled')
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -304,7 +304,7 @@ class IndexModel extends ListModel
     public function getTotalIndexed()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('COUNT(link_id)')
             ->from($db->quoteName('#__finder_links'));
         $db->setQuery($query);

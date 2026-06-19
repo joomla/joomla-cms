@@ -72,17 +72,6 @@ class HtmlView extends BaseHtmlView
     protected $link_items = [];
 
     /**
-     * @var    \Joomla\Database\DatabaseDriver
-     *
-     * @since  3.6.3
-     *
-     * @deprecated  4.3 will be removed in 6.0
-     *              Will be removed without replacement use database from the container instead
-     *              Example: Factory::getContainer()->get(DatabaseInterface::class);
-     */
-    protected $db;
-
-    /**
      * The user object
      *
      * @var \Joomla\CMS\User\User|null
@@ -205,7 +194,6 @@ class HtmlView extends BaseHtmlView
         $this->items      = &$items;
         $this->pagination = &$pagination;
         $this->user       = &$user;
-        $this->db         = Factory::getDbo();
 
         $this->_prepareDocument();
 

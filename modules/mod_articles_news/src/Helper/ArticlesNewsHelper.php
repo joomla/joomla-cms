@@ -13,7 +13,6 @@ namespace Joomla\Module\ArticlesNews\Site\Helper;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -107,7 +106,7 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
         $model->setState('list.ordering', $ordering);
 
         if (trim($ordering) === 'rand()') {
-            $model->setState('list.ordering', $this->getDatabase()->getQuery(true)->rand());
+            $model->setState('list.ordering', $this->getDatabase()->createQuery()->rand());
         } else {
             $direction = $params->get('direction', 1) ? 'DESC' : 'ASC';
             $model->setState('list.direction', $direction);
@@ -186,25 +185,5 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
         }
 
         return $items;
-    }
-
-    /**
-     * Get a list of the latest articles from the article model
-     *
-     * @param   \Joomla\Registry\Registry  &$params  object holding the models parameters
-     *
-     * @return  mixed
-     *
-     * @since 1.6
-     *
-     * @deprecated 4.3 will be removed in 6.0
-     *             Use the non-static method getArticles
-     *             Example: Factory::getApplication()->bootModule('mod_articles_news', 'site')
-     *                          ->getHelper('ArticlesNewsHelper')
-     *                          ->getArticles($params, Factory::getApplication())
-     */
-    public static function getList(&$params)
-    {
-        return (new self())->getArticles($params, Factory::getApplication());
     }
 }

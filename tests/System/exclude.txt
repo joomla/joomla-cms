@@ -7,7 +7,6 @@ node_modules
 .editorconfig
 .gitignore
 .php-cs-fixer.dist.php
-build.xml
 composer.json
 composer.lock
 crowdin.yml

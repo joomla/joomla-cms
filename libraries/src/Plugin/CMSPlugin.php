@@ -72,7 +72,10 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
     protected $_type = null;
 
     /**
-     * Affects constructor behavior. If true, language files will be loaded automatically.
+     * If true, language files of the plugin will be loaded automatically.
+     *
+     * NOTE: Enabling this feature have a negative effect on performance,
+     * therefore it is recommended to load a language manually, in the respective event.
      *
      * @var    boolean
      * @since  3.1
@@ -80,16 +83,25 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
     protected $autoloadLanguage = false;
 
     /**
+     * Internal flag for autoloadLanguage feature.
+     *
+     * @var   boolean
+     *
+     * @since   6.0.0
+     */
+    private $autoloadLanguageDone = false;
+
+    /**
      * Should I try to detect and register legacy event listeners, i.e. methods which accept unwrapped arguments? While
      * this maintains a great degree of backwards compatibility to Joomla! 3.x-style plugins it is much slower. You are
      * advised to implement your plugins using proper Listeners, methods accepting an AbstractEvent as their sole
-     * parameter, for best performance. Also bear in mind that Joomla! 5.x onwards will only allow proper listeners,
+     * parameter, for best performance. Also bear in mind that Joomla! 7.0 onwards will only allow proper listeners,
      * removing support for legacy Listeners.
      *
      * @var    boolean
      * @since  4.0.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Implement your plugin methods accepting an AbstractEvent object
      *              Example:
      *              onEventTriggerName(AbstractEvent $event) {
@@ -156,27 +168,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
 
         // Load the language files if needed.
         if ($this->autoloadLanguage) {
-            $this->loadLanguage();
-        }
-
-        if (property_exists($this, 'app')) {
-            @trigger_error('The application should be injected through setApplication() and requested through getApplication().', E_USER_DEPRECATED);
-            $reflection  = new \ReflectionClass($this);
-            $appProperty = $reflection->getProperty('app');
-
-            if ($appProperty->isPrivate() === false && \is_null($this->app)) {
-                $this->app = Factory::getApplication();
-            }
-        }
-
-        if (property_exists($this, 'db')) {
-            @trigger_error('The database should be injected through the DatabaseAwareInterface and trait.', E_USER_DEPRECATED);
-            $reflection = new \ReflectionClass($this);
-            $dbProperty = $reflection->getProperty('db');
-
-            if ($dbProperty->isPrivate() === false && \is_null($this->db)) {
-                $this->db = Factory::getDbo();
-            }
+            $this->autoloadLanguage();
         }
     }
 
@@ -193,11 +185,26 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
     public function loadLanguage($extension = '', $basePath = JPATH_ADMINISTRATOR)
     {
         if (empty($extension)) {
-            $extension = 'Plg_' . $this->_type . '_' . $this->_name;
+            $extension = 'plg_' . $this->_type . '_' . $this->_name;
         }
 
         $extension = strtolower($extension);
-        $lang      = $this->getApplication() ? $this->getApplication()->getLanguage() : Factory::getLanguage();
+        $app       = $this->getApplication() ?: Factory::getApplication();
+        $lang      = $app->getLanguage();
+
+        if (!$lang) {
+            // @TODO: Throw an exception in Joomla 7
+            @trigger_error(
+                \sprintf(
+                    'Trying to load language before Application is initialised is discouraged. This will throw an exception in 7.0. Plugin "%s/%s"',
+                    $this->_type,
+                    $this->_name
+                ),
+                E_USER_DEPRECATED
+            );
+
+            return false;
+        }
 
         // If language already loaded, don't load it again.
         if ($lang->getPaths($extension)) {
@@ -206,6 +213,45 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
 
         return $lang->load($extension, $basePath)
             || $lang->load($extension, JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name);
+    }
+
+    /**
+     * Method to handle language autoload feature in safe way, only when the language is initialised.
+     *
+     * @return void
+     *
+     * @internal  The method does not expect to be called outside the CMSPlugin class.
+     *
+     * @since   6.0.0
+     */
+    final protected function autoloadLanguage(): void
+    {
+        if ($this->autoloadLanguageDone) {
+            return;
+        }
+
+        $app = $this->getApplication();
+
+        // Try to get Application from Factory
+        if (!$app) {
+            try {
+                $app = Factory::getApplication();
+            } catch (\Exception) {
+                // Cannot help here
+                return;
+            }
+        }
+
+        // Check whether language already initialised in the Application, otherwise wait for it
+        if (!$app->getLanguage()) {
+            $app->getDispatcher()->addListener('onAfterInitialise', function () {
+                $this->loadLanguage();
+            });
+        } else {
+            $this->loadLanguage();
+        }
+
+        $this->autoloadLanguageDone = true;
     }
 
     /**
@@ -337,7 +383,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
 
     /**
      * Registers a proper event listener, i.e. a method which accepts an AbstractEvent as its sole argument. This is the
-     * preferred way to implement plugins in Joomla! 4.x and will be the only possible method with Joomla! 5.x onwards.
+     * preferred way to implement plugins in Joomla! 4.x and will be the only possible method with Joomla! 7.0 onwards.
      *
      * @param   string  $methodName  The method name to register
      *

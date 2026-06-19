@@ -17,8 +17,10 @@ use Joomla\CMS\Layout\LayoutHelper;
 $displayData = [
     'textPrefix' => 'COM_TAGS',
     'formURL'    => 'index.php?option=com_tags&task=tag.add',
-    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/J4.x:How_To_Use_Content_Tags_in_Joomla',
+    'helpURL'    => 'https://guide.joomla.org/user-manual/tags',
     'icon'       => 'icon-tags tags',
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
 if ($this->getCurrentUser()->authorise('core.create', 'com_tags')) {

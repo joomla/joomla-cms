@@ -11,7 +11,6 @@
 namespace Joomla\Module\UsersLatest\Site\Helper;
 
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
@@ -46,7 +45,7 @@ class UsersLatestHelper implements DatabaseAwareInterface
         $db   = $this->getDatabase();
         $user = $app->getIdentity();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['a.id', 'a.name', 'a.username', 'a.registerDate']))
             ->order($db->quoteName('a.registerDate') . ' DESC')
             ->from($db->quoteName('#__users', 'a'));
@@ -74,25 +73,5 @@ class UsersLatestHelper implements DatabaseAwareInterface
 
             return [];
         }
-    }
-
-    /**
-     * Get users sorted by activation date
-     *
-     * @param   \Joomla\Registry\Registry  $params  module parameters
-     *
-     * @return  array  The array of users
-     *
-     * @since   1.6
-     *
-     * @deprecated 4.4.0 will be removed in 6.0
-     *             Use the non-static method getLatestUsers
-     *             Example: Factory::getApplication()->bootModule('mod_users_latest', 'site')
-     *                          ->getHelper('UsersLatestHelper')
-     *                          ->getLatestUsers($params, Factory::getApplication())
-     */
-    public static function getUsers($params)
-    {
-        return (new self())->getLatestUsers($params, Factory::getApplication());
     }
 }

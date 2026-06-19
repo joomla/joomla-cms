@@ -16,7 +16,6 @@ use Joomla\Component\Finder\Administrator\Indexer\Adapter;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Component\Finder\Administrator\Indexer\Result;
-use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 use Joomla\Event\SubscriberInterface;
@@ -33,8 +32,6 @@ use Joomla\Registry\Registry;
  */
 final class Categories extends Adapter implements SubscriberInterface
 {
-    use DatabaseAwareTrait;
-
     /**
      * The plugin identifier.
      *
@@ -393,7 +390,7 @@ final class Categories extends Adapter implements SubscriberInterface
         $db = $this->getDatabase();
 
         // Check if we can use the supplied SQL query.
-        $query = $query instanceof QueryInterface ? $query : $db->getQuery(true);
+        $query = $query instanceof QueryInterface ? $query : $db->createQuery();
 
         $query->select(
             $db->quoteName(
@@ -461,7 +458,7 @@ final class Categories extends Adapter implements SubscriberInterface
      */
     protected function getStateQuery()
     {
-        $query = $this->getDatabase()->getQuery(true);
+        $query = $this->getDatabase()->createQuery();
 
         $query->select(
             $this->getDatabase()->quoteName(

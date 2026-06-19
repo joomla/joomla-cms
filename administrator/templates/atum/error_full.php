@@ -89,14 +89,18 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
             $themeModeAttr = $themeModes[$userColorScheme];
         } else {
             // Check parameters first (User and Template), then look if we have detected the OS color scheme (if it set to 'os')
-            $colorScheme   = $app->getIdentity()->getParam('colorScheme', $colorScheme);
+            $colorScheme   = $app->getIdentity()?->getParam('colorScheme', $colorScheme) ?? 'os';
             $osColorScheme = $colorScheme === 'os' ? $app->getInput()->cookie->get('osColorScheme', '') : '';
             $themeModeAttr = ($themeModes[$colorScheme] ?? '') . ($themeModes[$osColorScheme] ?? '');
         }
     }
 
-// @see administrator/templates/atum/html/layouts/status.php
-    $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
+    // The module renderer will not work properly due to incomplete Application initialisation
+    $renderModules = $app->getIdentity() && $app->getLanguage();
+
+    // @see administrator/templates/atum/html/layouts/status.php
+    $statusModules = $renderModules ? LayoutHelper::render('status', ['modules' => 'status']) : '';
+
     ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $themeModeAttr; ?>>
@@ -122,9 +126,13 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
                     <?php echo HTMLHelper::_('image', $logoBrandSmall, $logoBrandSmallAlt, ['class' => 'logo-collapsed', 'loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
                 </div>
             </div>
-            <jdoc:include type="modules" name="title" />
+            <?php if ($renderModules) : ?>
+                <jdoc:include type="modules" name="title" />
+            <?php endif; ?>
         </div>
-        <?php echo $statusModules; ?>
+        <?php if ($renderModules) : ?>
+            <?php echo $statusModules; ?>
+        <?php endif; ?>
     </header>
 
     <div id="wrapper" class="d-flex wrapper<?php echo $hiddenMenu ? '0' : ''; ?>">
@@ -137,14 +145,18 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
                     <div id="container-collapse" class="container-collapse"></div>
                     <div class="row">
                         <div class="col-md-12">
-                            <jdoc:include type="modules" name="toolbar" style="none" />
+                            <?php if ($renderModules) : ?>
+                                <jdoc:include type="modules" name="toolbar" style="none" />
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
             <?php endif; ?>
             <section id="content" class="content">
                 <jdoc:include type="message" />
-                <jdoc:include type="modules" name="top" style="html5" />
+                <?php if ($renderModules) : ?>
+                    <jdoc:include type="modules" name="top" style="html5" />
+                <?php endif; ?>
                 <div class="row">
                     <div class="col-md-12">
                         <h1><?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
@@ -179,14 +191,14 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
                         </p>
                     </div>
 
-                    <?php if ($this->countModules('bottom')) : ?>
+                    <?php if ($renderModules && $this->countModules('bottom')) : ?>
                         <jdoc:include type="modules" name="bottom" style="html5" />
                     <?php endif; ?>
                 </div>
             </section>
         </div>
 
-        <?php if (!$hiddenMenu) : ?>
+        <?php if ($renderModules && !$hiddenMenu) : ?>
             <button class="navbar-toggler toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -204,6 +216,8 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
             </div>
         <?php endif; ?>
     </div>
-    <jdoc:include type="modules" name="debug" style="none" />
+    <?php if ($renderModules) : ?>
+        <jdoc:include type="modules" name="debug" style="none" />
+    <?php endif; ?>
 </body>
 </html>

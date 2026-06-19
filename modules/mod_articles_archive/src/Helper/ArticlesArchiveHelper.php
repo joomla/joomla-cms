@@ -47,7 +47,7 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
     public function getArticlesByMonths(Registry $moduleParams, SiteApplication $app): array
     {
         $db        = $this->getDatabase();
-        $query     = $db->getQuery(true);
+        $query     = $db->createQuery();
 
         $query->select($query->month($db->quoteName('created')) . ' AS created_month')
             ->select('MIN(' . $db->quoteName('created') . ') AS created')
@@ -98,28 +98,5 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
         }
 
         return $lists;
-    }
-
-    /**
-     * Retrieve list of archived articles
-     *
-     * @param   Registry  &$params module parameters
-     *
-     * @return  \stdClass[]
-     *
-     * @since   1.5
-     *
-     * @deprecated  4.4.0  will be removed in 6.0
-     *              Use the non-static method getArticlesByMonths
-     *              Example: Factory::getApplication()->bootModule('mod_articles_archive', 'site')
-     *                           ->getHelper('ArticlesArchiveHelper')
-     *                           ->getArticlesByMonths($params, Factory::getApplication())
-     */
-    public static function getList(&$params)
-    {
-        /** @var SiteApplication $app */
-        $app = Factory::getApplication();
-
-        return (new self())->getArticlesByMonths($params, $app);
     }
 }

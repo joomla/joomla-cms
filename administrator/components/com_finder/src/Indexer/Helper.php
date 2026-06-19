@@ -15,7 +15,7 @@ use Joomla\CMS\Event\Finder\PrepareContentEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Content;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -228,7 +228,7 @@ class Helper
         static $types;
 
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Check if the types are loaded.
         if (empty($types)) {
@@ -321,7 +321,7 @@ class Helper
         $db = Factory::getDbo();
 
         // Create the query to load all the common terms for the language.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('term'))
             ->from($db->quoteName('#__finder_terms_common'))
             ->where($db->quoteName('language') . ' = ' . $db->quote($lang));
@@ -472,7 +472,7 @@ class Helper
         }
 
         // Create a mock content object.
-        $content       = Table::getInstance('Content');
+        $content       = new Content(Factory::getDbo());
         $content->text = $text;
 
         if ($item) {

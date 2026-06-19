@@ -150,45 +150,6 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
     }
 
     /**
-     * Magic method to access properties of the application.
-     *
-     * @param   string  $name  The name of the property.
-     *
-     * @return  mixed   A value if the property name is valid, null otherwise.
-     *
-     * @since       4.0.0
-     *
-     * @deprecated  4.0 will be removed in 6.0
-     *              This is a B/C proxy for deprecated read accesses, use getInput() method instead
-     *              Example:
-     *              $app->getInput();
-     */
-    public function __get($name)
-    {
-        switch ($name) {
-            case 'input':
-                @trigger_error(
-                    'Accessing the input property of the application is deprecated, use the getInput() method instead.',
-                    E_USER_DEPRECATED
-                );
-
-                return $this->getInput();
-
-            default:
-                $trace = debug_backtrace();
-                trigger_error(
-                    \sprintf(
-                        'Undefined property via __get(): %1$s in %2$s on line %3$s',
-                        $name,
-                        $trace[0]['file'],
-                        $trace[0]['line']
-                    ),
-                    E_USER_NOTICE
-                );
-        }
-    }
-
-    /**
      * Method to run the application routines.
      *
      * @return  integer  The exit code for the application
@@ -209,14 +170,15 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
             self::MSG_EMERGENCY => 'caution',
             self::MSG_ERROR     => 'error',
             self::MSG_INFO      => 'note',
+            self::MSG_MESSAGE   => 'success', // consistent with joomla.system.message layout
             self::MSG_NOTICE    => 'note',
+            self::MSG_SUCCESS   => 'success',
             self::MSG_WARNING   => 'warning',
         ];
 
         // Output any enqueued messages before the app exits
         foreach ($this->getMessageQueue() as $type => $messages) {
             $method = $methodMap[$type] ?? 'comment';
-
             $style->$method($messages);
         }
 
@@ -390,23 +352,6 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
     }
 
     /**
-     * Flag if the application instance is a CLI or web based application.
-     *
-     * Helper function, you should use the native PHP functions to detect if it is a CLI application.
-     *
-     * @return  boolean
-     *
-     * @since       4.0.0
-     *
-     * @deprecated  4.0 will be removed in 6.0
-     *              Will be removed without replacement. CLI will be handled by the joomla/console package instead
-     */
-    public function isCli()
-    {
-        return true;
-    }
-
-    /**
      * Sets the session for the application to use, if required.
      *
      * @param   SessionInterface  $session  A session object.
@@ -476,7 +421,7 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
      *
      * @throws     \InvalidArgumentException
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Inject the router or load it from the dependency injection container
      *              Example: Factory::getContainer()->get(ApiRouter::class);
      */

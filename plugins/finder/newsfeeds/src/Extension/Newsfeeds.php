@@ -17,7 +17,6 @@ use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Component\Finder\Administrator\Indexer\Result;
 use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
-use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\QueryInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
@@ -33,8 +32,6 @@ use Joomla\Registry\Registry;
  */
 final class Newsfeeds extends Adapter implements SubscriberInterface
 {
-    use DatabaseAwareTrait;
-
     /**
      * The plugin identifier.
      *
@@ -363,7 +360,7 @@ final class Newsfeeds extends Adapter implements SubscriberInterface
         $db = $this->getDatabase();
 
         // Check if we can use the supplied SQL query.
-        $query = $query instanceof QueryInterface ? $query : $db->getQuery(true)
+        $query = $query instanceof QueryInterface ? $query : $db->createQuery()
             ->select('a.id, a.catid, a.name AS title, a.alias, a.link AS link')
             ->select('a.published AS state, a.ordering, a.created AS start_date, a.params, a.access')
             ->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date')

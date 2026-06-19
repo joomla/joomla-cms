@@ -32,15 +32,15 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Contacts::class, function (Container $container) {
                 $plugin     = new Contacts(
-                    (array) PluginHelper::getPlugin('finder', 'contacts')
+                    (array) PluginHelper::getPlugin('finder', 'contacts'),
+                    $container->get(DatabaseInterface::class)
                 );
                 $plugin->setApplication(Factory::getApplication());
-                $plugin->setDatabase($container->get(DatabaseInterface::class));
 
                 return $plugin;
-            }
+            })
         );
     }
 };

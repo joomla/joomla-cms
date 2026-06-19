@@ -11,7 +11,6 @@
 namespace Joomla\CMS\Encrypt;
 
 use Joomla\CMS\Encrypt\AES\AesInterface;
-use Joomla\CMS\Encrypt\AES\Mcrypt;
 use Joomla\CMS\Encrypt\AES\OpenSSL;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -19,8 +18,7 @@ use Joomla\CMS\Encrypt\AES\OpenSSL;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * A simple implementation of AES-128, AES-192 and AES-256 encryption using the
- * high performance mcrypt library.
+ * A simple implementation of AES-128, AES-192 and AES-256 encryption using OpenSSL.
  *
  * @since    1.0
  */
@@ -48,27 +46,14 @@ class Aes
      *
      * @param   string          $key      The encryption key (password). It can be a raw key (16 bytes) or a passphrase.
      * @param   int             $strength Bit strength (128, 192 or 256) – ALWAYS USE 128 BITS. THIS PARAMETER IS DEPRECATED.
-     * @param   string          $mode     Encryption mode. Can be ebc or cbc. We recommend using cbc.
+     * @param   string          $mode     Encryption mode. Can be ecb or cbc. We recommend using cbc.
      * @param   string          $priority Priority which adapter we should try first
      *
-     * @deprecated  4.3 $strength will be removed in 6.0
+     * @deprecated  4.3 $strength will be removed in 7.0
      */
     public function __construct($key, $strength = 128, $mode = 'cbc', $priority = 'openssl')
     {
-        if ($priority === 'openssl') {
-            $this->adapter = new OpenSSL();
-
-            if (!$this->adapter->isSupported()) {
-                $this->adapter = new Mcrypt();
-            }
-        } else {
-            $this->adapter = new Mcrypt();
-
-            if (!$this->adapter->isSupported()) {
-                $this->adapter = new OpenSSL();
-            }
-        }
-
+        $this->adapter = new OpenSSL();
         $this->adapter->setEncryptionMode($mode, $strength);
         $this->setPassword($key, true);
     }
@@ -168,11 +153,7 @@ class Aes
         $adapter = new OpenSSL();
 
         if (!$adapter->isSupported()) {
-            $adapter = new Mcrypt();
-
-            if (!$adapter->isSupported()) {
-                return false;
-            }
+            return false;
         }
 
         if (!\function_exists('base64_encode')) {

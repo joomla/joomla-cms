@@ -86,7 +86,7 @@ class PrivacyStatusHelper implements DatabaseAwareInterface
         $lang = '';
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('id'),
@@ -129,7 +129,7 @@ class PrivacyStatusHelper implements DatabaseAwareInterface
                 $params              = ComponentHelper::getParams('com_languages');
                 $defaultSiteLanguage = $params->get('site');
 
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName('id'))
                     ->from($db->quoteName('#__menu'))
                     ->where(
@@ -173,7 +173,7 @@ class PrivacyStatusHelper implements DatabaseAwareInterface
         $period = '-' . $notify;
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select('COUNT(*)')
             ->from($db->quoteName('#__privacy_requests'))
             ->where(
@@ -197,69 +197,5 @@ class PrivacyStatusHelper implements DatabaseAwareInterface
     public function getDatabaseConnectionEncryption()
     {
         return $this->getDatabase()->getConnectionEncryption();
-    }
-
-    /**
-     * Get the information about the published privacy policy
-     *
-     * @return  array  Array containing a status of whether a privacy policy is set and a link to the policy document for editing
-     *
-     * @since   4.0.0
-     *
-     * @deprecated 5.3.0 will be removed in 7.0
-     *             Use the non-static method getPrivacyPolicyInformation
-     *             Example: Factory::getApplication()->bootModule('mod_privacy_status', 'administrator')
-     *                          ->getHelper('PrivacyStatusHelper')
-     *                          ->getPrivacyPolicyInformation(Factory::getApplication())
-     */
-    public static function getPrivacyPolicyInfo()
-    {
-        $app = Factory::getApplication();
-
-        return $app->bootModule('mod_privacy_status', 'administrator')
-                            ->getHelper('PrivacyStatusHelper')
-                            ->getPrivacyPolicyInformation($app);
-    }
-
-    /**
-     * Check whether there is a menu item for the request form
-     *
-     * @return  array  Array containing a status of whether a menu is published for the request form and its current link
-     *
-     * @since   4.0.0
-     *
-     * @deprecated 5.3.0 will be removed in 7.0
-     *             Use the non-static method getRequestFormMenuStatus
-     *             Example: Factory::getApplication()->bootModule('mod_privacy_status', 'administrator')
-     *                          ->getHelper('PrivacyStatusHelper')
-     *                          ->getRequestFormMenuStatus(Factory::getApplication())
-     */
-    public static function getRequestFormPublished()
-    {
-        $app = Factory::getApplication();
-
-        return $app->bootModule('mod_privacy_status', 'administrator')
-                            ->getHelper('PrivacyStatusHelper')
-                            ->getRequestFormMenuStatus($app);
-    }
-
-    /**
-     * Method to return number privacy requests older than X days.
-     *
-     * @return  integer
-     *
-     * @since   4.0.0
-     *
-     * @deprecated 5.3.0 will be removed in 7.0
-     *             Use the non-static method getNumberOfUrgentRequests
-     *             Example: Factory::getApplication()->bootModule('mod_privacy_status', 'administrator')
-     *                          ->getHelper('PrivacyStatusHelper')
-     *                          ->getNumberOfUrgentRequests()
-     */
-    public static function getNumberUrgentRequests()
-    {
-        return Factory::getApplication()->bootModule('mod_privacy_status', 'administrator')
-                            ->getHelper('PrivacyStatusHelper')
-                            ->getNumberOfUrgentRequests();
     }
 }

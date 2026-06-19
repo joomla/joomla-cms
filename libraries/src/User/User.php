@@ -10,6 +10,7 @@
 namespace Joomla\CMS\User;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Event\User\AfterDeleteEvent;
 use Joomla\CMS\Event\User\AfterSaveEvent;
 use Joomla\CMS\Event\User\BeforeDeleteEvent;
@@ -36,7 +37,6 @@ use Joomla\Utilities\ArrayHelper;
 class User
 {
     use LegacyErrorHandlingTrait;
-    use LegacyPropertyManagementTrait;
 
     /**
      * A cached switch for if this user has root access rights.
@@ -291,7 +291,7 @@ class User
      * @return  User  The User object.
      *
      * @since       1.7.0
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Load the user service from the dependency injection container or via $app->getIdentity()
      *              Example: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($id)
      */
@@ -429,7 +429,7 @@ class User
         // @todo: Modify the way permissions are stored in the db to allow for faster implementation and better scaling
         $db = Factory::getDbo();
 
-        $subQuery = $db->getQuery(true)
+        $subQuery = $db->createQuery()
             ->select($db->quoteName(['id', 'asset_id']))
             ->from($db->quoteName('#__categories'))
             ->where(
@@ -439,7 +439,7 @@ class User
                 ]
             );
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['c.id', 'a.name']))
             ->from('(' . $subQuery . ') AS ' . $db->quoteName('c'))
             ->join('INNER', $db->quoteName('#__assets', 'a'), $db->quoteName('c.asset_id') . ' = ' . $db->quoteName('a.id'))
@@ -542,7 +542,7 @@ class User
      */
     public function getTimezone()
     {
-        $timezone = $this->getParam('timezone', Factory::getApplication()->get('offset', 'GMT'));
+        $timezone = $this->getParam('timezone', Factory::getApplication()->get('offset', 'UTC'));
 
         return new \DateTimeZone($timezone);
     }
@@ -582,18 +582,16 @@ class User
 
         // Set the default tabletype;
         if (!isset($tabletype)) {
-            $tabletype['name']   = 'user';
-            $tabletype['prefix'] = '\\Joomla\\CMS\\Table\\';
+            $tabletype = \Joomla\CMS\Table\User::class;
         }
 
         // Set a custom table type is defined
         if (isset($type)) {
-            $tabletype['name']   = $type;
-            $tabletype['prefix'] = $prefix;
+            $tabletype = rtrim($prefix, '\\') . '\\' . $type;
         }
 
         // Create the user table object
-        return Table::getInstance($tabletype['name'], $tabletype['prefix']);
+        return new $tabletype(Factory::getDbo());
     }
 
     /**
@@ -747,15 +745,8 @@ class User
                 $iAmRehashingSuperadmin = true;
             }
 
-            // Check if we are using a CLI application
-            $isCli = false;
-
-            if (Factory::getApplication()->isCli()) {
-                $isCli = true;
-            }
-
             // We are only worried about edits to this account if I am not a Super Admin.
-            if (!$iAmSuperAdmin && !$iAmRehashingSuperadmin && !$isCli) {
+            if (!$iAmSuperAdmin && !$iAmRehashingSuperadmin && !Factory::getApplication() instanceof ConsoleApplication) {
                 // I am not a Super Admin, and this one is, so fail.
                 if (!$isNew && Access::check($this->id, 'core.admin')) {
                     throw new \RuntimeException('User not Super Administrator');
@@ -937,5 +928,42 @@ class User
             $this->sendEmail = 0;
             $this->guest     = 1;
         }
+    }
+
+    /**
+     * Returns a property of the user or the default value if the property is not set.
+     *
+     * @param   string  $property  The name of the property.
+     * @param   mixed   $default   The default value.
+     *
+     * @return  mixed    The value of the property.
+     *
+     * @since   __DEPLOY_VERSION__
+     *
+     * @deprecated 4.3.0 will be removed in 8.0 (is backported from LegacyPropertyManagementTrait)
+     *             Create a proper getter function for the property
+     */
+    public function get($property, $default = null)
+    {
+        if (!\defined('COMPAT_JOOMLA_7')) {
+            throw new \BadMethodCallException(\sprintf(
+                '%1$s() is only available in compatibility mode (compatibility plugin enabled). Access directly the property from the user object.',
+                __METHOD__
+            ));
+        }
+
+        @trigger_error(
+            \sprintf(
+                '%1$s() is deprecated. Access directly the property from the user object.',
+                __METHOD__
+            ),
+            E_USER_DEPRECATED
+        );
+
+        if (isset($this->$property)) {
+            return $this->$property;
+        }
+
+        return $default;
     }
 }

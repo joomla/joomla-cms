@@ -14,7 +14,6 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
@@ -165,7 +164,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
 
         switch ($ordering) {
             case 'random':
-                $articles->setState('list.ordering', $this->getDatabase()->getQuery(true)->rand());
+                $articles->setState('list.ordering', $this->getDatabase()->createQuery()->rand());
                 break;
 
             case 'rating_count':
@@ -314,29 +313,6 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
         }
 
         return $items;
-    }
-
-    /**
-     * Get a list of articles from a specific category
-     *
-     * @param   Registry  &$params  object holding the models parameters
-     *
-     * @return  array  The array of users
-     *
-     * @since   1.6
-     *
-     * @deprecated  4.4.0  will be removed in 6.0
-     *              Use the non-static method getArticles
-     *              Example: Factory::getApplication()->bootModule('mod_articles_category', 'site')
-     *                           ->getHelper('ArticlesCategoryHelper')
-     *                           ->getArticles($params, Factory::getApplication())
-     */
-    public static function getList(&$params)
-    {
-        /* @var SiteApplication $app */
-        $app = Factory::getApplication();
-
-        return (new self())->getArticles($params, $app);
     }
 
     /**

@@ -135,7 +135,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
      *
      * @since       1.6
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use the ComponentInterface to get the categories
      *              Example: Factory::getApplication()->bootComponent($component)->getCategory($options, $section);
      */
@@ -237,7 +237,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         try {
             $db = $this->getDatabase();
         } catch (DatabaseNotFoundException) {
-            @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
+            @trigger_error('Database must be set, this will not be caught anymore in 7.0.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
@@ -256,7 +256,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         // Record that has this $id has been checked
         $this->_checkedCategories[$id] = true;
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('c.id'),
@@ -351,7 +351,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
 
         // Note: i for item
         if ($this->_options['countItems'] == 1) {
-            $subQuery = $db->getQuery(true)
+            $subQuery = $db->createQuery()
                 ->select('COUNT(' . $db->quoteName($db->escape('i.' . $this->_key)) . ')')
                 ->from($db->quoteName($db->escape($this->_table), 'i'))
                 ->where($db->quoteName($db->escape('i.' . $this->_field)) . ' = ' . $db->quoteName('c.id'));

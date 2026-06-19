@@ -61,10 +61,12 @@ trait DisplayTrait
         $csrf            = Session::getFormToken();
 
         // Editor variables
+        $defaultWidth    = $this->params->get('html_width', '100%');
+        $defaultHeight   = $this->params->get('html_height', '550px');
         $col             = $attributes['col'] ?? '';
         $row             = $attributes['row'] ?? '';
-        $width           = $attributes['width'] ?? '';
-        $height          = $attributes['height'] ?? '';
+        $width           = ($attributes['width'] ?? '') ?: $defaultWidth;
+        $height          = ($attributes['height'] ?? '') ?: $defaultHeight;
         $id              = $attributes['id'] ?? $name;
         $id              = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
         $nameGroup       = explode('[', preg_replace('/\[\]|\]/', '', $name));
@@ -102,13 +104,13 @@ trait DisplayTrait
             $options['tinyMCE'][$fieldName] = [];
         }
 
-        // Width and height
+        // Add editor Width and height to options if not already set
         if ($width && empty($options['tinyMCE'][$fieldName]['width'])) {
-            $options['tinyMCE'][$fieldName]['width'] = $width;
+            $options['tinyMCE'][$fieldName]['width'] = $textarea->width;
         }
 
         if ($height && empty($options['tinyMCE'][$fieldName]['height'])) {
-            $options['tinyMCE'][$fieldName]['height'] = $height;
+            $options['tinyMCE'][$fieldName]['height'] = $textarea->height;
         }
 
         // Set editor to readonly mode
@@ -386,13 +388,27 @@ trait DisplayTrait
             }
         }
 
-        // Should load the template plugin?
+        // Load the template plugin?
         if (!empty($allButtons['jtemplate'])) {
             $wa->useScript('plg_editors_tinymce.jtemplate');
             $plugins[] = 'jtemplate';
 
             $scriptOptions['jtemplates'] = Uri::base(true) . '/index.php?option=com_ajax&plugin=tinymce&group=editors&format=json&format=json&template='
                 . $levelParams->get('content_template_path') . '&' . $csrf . '=1';
+        }
+
+        // Load the abbreviation plugin?
+        if (!empty($allButtons['abbr'])) {
+            $wa->useScript('plg_editors_tinymce.abbr');
+            $plugins[] = 'abbr';
+            Text::script('PLG_TINY_ABBREVIATION_DESCRIPTION_LABEL');
+            Text::script('PLG_TINY_ABBREVIATION_EDIT');
+            Text::script('PLG_TINY_ABBREVIATION_INSERT');
+            Text::script('PLG_TINY_ABBREVIATION_WARNING_NO_DESCRIPTION');
+            Text::script('PLG_TINY_ABBREVIATION_WARNING_NO_SELECTION');
+            Text::script('PLG_TINY_ABBREVIATION_WARNING_REMOVE');
+            Text::script('PLG_TINY_TOOLBAR_BUTTON_ABBREVIATION');
+            Text::script('PLG_TINY_TOOLBAR_BUTTON_REMOVE_ABBREVIATION');
         }
 
         // User custom plugins and buttons
@@ -425,6 +441,42 @@ trait DisplayTrait
                     array_push($linkClasses, ['title' => $linksClassList->class_name, 'value' => $linksClassList->class_list]);
                 }
             }
+        }
+
+        // Set the default classes for the image class dropdown
+        $imgClasses = [
+            ['title' => TEXT::_('PLG_TINY_FIELD_IMG_CLASS_NO_CLASS'), 'value' => ''],
+            ['title' => 'None', 'value' => 'float-none'],
+            ['title' => 'Left', 'value' => 'float-start'],
+            ['title' => 'Right', 'value' => 'float-end'],
+            ['title' => 'Center', 'value' => 'mx-auto d-block'],
+        ];
+
+        // Load the image classes list
+        if (isset($extraOptions->img_classes_list) && $extraOptions->img_classes_list) {
+            $imgClassesList = $extraOptions->img_classes_list;
+
+            if ($imgClassesList) {
+                // Create an array for the image classes
+                foreach ($imgClassesList as $imgClassList) {
+                    array_push($imgClasses, ['title' => $imgClassList->img_class_name, 'value' => $imgClassList->img_class_list]);
+                }
+            }
+        }
+
+        // Add the current domain to the sandbox_iframes_exclusions list
+        $sandboxIframesExclusions = Uri::getInstance()->getHost();
+
+        // Build the list of additional domains to add to the sandbox_iframes_exclusions list
+        if (isset($extraOptions->sandbox_iframes_exclusions) && $extraOptions->sandbox_iframes_exclusions) {
+            $exclusionsArray = [];
+            foreach ($extraOptions->sandbox_iframes_exclusions as $value) {
+                if (isset($value->exclusion_domain)) {
+                    $exclusionsArray[] = $value->exclusion_domain;
+                }
+            }
+            // Join the URLs into a comma-separated string and add to the sandbox_iframes_exclusions list
+            $sandboxIframesExclusions .= ', ' . implode(', ', $exclusionsArray);
         }
 
         // Build the final options set
@@ -480,8 +532,8 @@ trait DisplayTrait
                 'document_base_url' => Uri::root(true) . '/',
                 'image_caption'     => true,
                 'importcss_append'  => true,
-                'height'            => $this->params->get('html_height', '550px'),
-                'width'             => $this->params->get('html_width', ''),
+                'height'            => $defaultHeight,
+                'width'             => $defaultWidth,
                 'elementpath'       => (bool) $levelParams->get('element_path', true),
                 'resize'            => $resizing,
                 'external_plugins'  => empty($externalPlugins) ? null : $externalPlugins,
@@ -493,12 +545,7 @@ trait DisplayTrait
                 'a11y_advanced_options' => true,
                 'image_advtab'          => (bool) $levelParams->get('image_advtab', false),
                 'image_title'           => true,
-                'image_class_list'      => [
-                    ['title' => 'None', 'value' => 'float-none'],
-                    ['title' => 'Left', 'value' => 'float-start'],
-                    ['title' => 'Right', 'value' => 'float-end'],
-                    ['title' => 'Center', 'value' => 'mx-auto d-block'],
-                ],
+                'image_class_list'      => $imgClasses,
 
                 // Drag and drop specific
                 'dndEnabled' => $dragdrop,
@@ -507,10 +554,13 @@ trait DisplayTrait
                 'branding'  => false,
                 'promotion' => false,
 
+                // Set License
+                'license_key' => 'gpl',
+
                 // Hardened security
-                // @todo enable with TinyMCE 7 using https://www.tiny.cloud/docs/tinymce/latest/content-filtering/#sandbox-iframes-exclusions otherwise all embed PDFs are broken
-                'sandbox_iframes'       => (bool) $levelParams->get('sandbox_iframes', true),
-                'convert_unsafe_embeds' => true,
+                'sandbox_iframes'            => (bool) $levelParams->get('sandbox_iframes', true),
+                'sandbox_iframes_exclusions' => $sandboxIframesExclusions,
+                'convert_unsafe_embeds'      => true,
 
                 // Specify the attributes to be used when previewing a style. This prevents white text on a white background making the preview invisible.
                 'preview_styles' => 'font-family font-size font-weight font-style text-decoration text-transform background-color border border-radius outline text-shadow',

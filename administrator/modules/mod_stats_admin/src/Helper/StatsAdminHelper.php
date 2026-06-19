@@ -44,7 +44,7 @@ class StatsAdminHelper
         $user = $app->getIdentity();
 
         $rows  = [];
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $serverinfo = $params->get('serverinfo', 0);
         $siteinfo   = $params->get('siteinfo', 0);
@@ -143,27 +143,5 @@ class StatsAdminHelper
         }
 
         return $rows;
-    }
-
-    /**
-     * Method to retrieve information about the site
-     *
-     * @param   Registry           $params  The module parameters
-     * @param   CMSApplication     $app     The application
-     * @param   DatabaseInterface  $db      The database
-     *
-     * @return  array  Array containing site information
-     *
-     * @since   3.0
-     *
-     * @deprecated 5.1.0 will be removed in 7.0
-     *             Use the non-static method getStatsData
-     *             Example: Factory::getApplication()->bootModule('mod_stats_admin', 'administrator')
-     *                          ->getHelper('StatsAdminHelper')
-     *                          ->getStatsData($params, Factory::getApplication(), Factory::getContainer()->get(DatabaseInterface::class))
-     */
-    public static function getStats(Registry $params, CMSApplication $app, DatabaseInterface $db)
-    {
-        return (new self())->getStatsData($params, $app, $db);
     }
 }

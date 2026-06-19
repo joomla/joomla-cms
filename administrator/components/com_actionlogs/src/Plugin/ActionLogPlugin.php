@@ -24,26 +24,6 @@ use Joomla\CMS\Plugin\CMSPlugin;
 abstract class ActionLogPlugin extends CMSPlugin
 {
     /**
-     * Application object.
-     *
-     * @var    \Joomla\CMS\Application\CMSApplication
-     * @since  3.9.0
-     *
-     * @deprecated  5.1.0 will be removed in 7.0 use $this->getApplication() instead
-     */
-    protected $app;
-
-    /**
-     * Database object.
-     *
-     * @var    \Joomla\Database\DatabaseDriver
-     * @since  3.9.0
-     *
-     * @deprecated  5.1.0 will be removed in 7.0 use $this->getDatabase() instead
-     */
-    protected $db;
-
-    /**
      * Load plugin language file automatically so that it can be used inside component
      *
      * @var    boolean
@@ -67,19 +47,19 @@ abstract class ActionLogPlugin extends CMSPlugin
      */
     protected function addLog($messages, $messageLanguageKey, $context, $userId = null)
     {
-        $app  = $this->getApplication() ?: $this->app;
+        $app  = $this->getApplication();
         $user = $app->getIdentity();
 
         foreach ($messages as $index => $message) {
-            if (!\array_key_exists('userid', $message)) {
+            if (!\array_key_exists('userid', $message) && $user) {
                 $message['userid'] = $user->id;
             }
 
-            if (!\array_key_exists('username', $message)) {
+            if (!\array_key_exists('username', $message) && $user) {
                 $message['username'] = $user->username;
             }
 
-            if (!\array_key_exists('accountlink', $message)) {
+            if (!\array_key_exists('accountlink', $message) && $user) {
                 $message['accountlink'] = 'index.php?option=com_users&task=user.edit&id=' . $user->id;
             }
 

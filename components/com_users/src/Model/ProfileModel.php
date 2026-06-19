@@ -22,7 +22,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
-use Joomla\Component\Users\Administrator\Model\UserModel;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -112,18 +111,15 @@ class ProfileModel extends FormModel
      * @param   array    $data      An optional array of data for the form to interrogate.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|bool  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
         // Get the form.
         $form = $this->loadForm('com_users.profile', 'profile', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         // Check for username compliance and parameter set
         $isUsernameCompliant = true;
@@ -286,52 +282,5 @@ class ProfileModel extends FormModel
         }
 
         return $user->id;
-    }
-
-    /**
-     * Gets the configuration forms for all two-factor authentication methods
-     * in an array.
-     *
-     * @param   integer  $userId  The user ID to load the forms for (optional)
-     *
-     * @return  array
-     *
-     * @since   3.2
-     *
-     * @deprecated   4.2 will be removed in 6.0.
-     *               Will be removed without replacement
-     */
-    public function getTwofactorform($userId = null)
-    {
-        return [];
-    }
-
-    /**
-     * No longer used
-     *
-     * @param   integer  $userId  Ignored
-     *
-     * @return  \stdClass
-     *
-     * @since   3.2
-     *
-     * @deprecated   4.2 will be removed in 6.0.
-     *               Will be removed without replacement
-     */
-    public function getOtpConfig($userId = null)
-    {
-        @trigger_error(
-            \sprintf(
-                '%s() is deprecated. Use \Joomla\Component\Users\Administrator\Helper\Mfa::getUserMfaRecords() instead.',
-                __METHOD__
-            ),
-            E_USER_DEPRECATED
-        );
-
-        /** @var UserModel $model */
-        $model = $this->bootComponent('com_users')
-            ->getMVCFactory()->createModel('User', 'Administrator');
-
-        return $model->getOtpConfig();
     }
 }

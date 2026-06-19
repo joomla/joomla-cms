@@ -51,11 +51,11 @@ class TagsPopularHelper implements DatabaseAwareInterface
         $nowDate     = Factory::getDate()->toSql();
         $nullDate    = $db->getNullDate();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     'MAX(' . $db->quoteName('tag_id') . ') AS ' . $db->quoteName('tag_id'),
-                    'COUNT(*) AS ' . $db->quoteName('count'),
+                    'COUNT(DISTINCT ' . $db->quoteName('m.core_content_id') . ') AS ' . $db->quoteName('count'),
                     'MAX(' . $db->quoteName('t.title') . ') AS ' . $db->quoteName('title'),
                     'MAX(' . $db->quoteName('t.access') . ') AS ' . $db->quoteName('access'),
                     'MAX(' . $db->quoteName('t.alias') . ') AS ' . $db->quoteName('alias'),
@@ -151,7 +151,7 @@ class TagsPopularHelper implements DatabaseAwareInterface
                 }
 
                 $query->order($db->quoteName('count') . ' DESC');
-                $equery = $db->getQuery(true)
+                $equery = $db->createQuery()
                     ->select(
                         $db->quoteName(
                             [
@@ -192,25 +192,5 @@ class TagsPopularHelper implements DatabaseAwareInterface
         }
 
         return $results;
-    }
-
-    /**
-     * Get list of popular tags
-     *
-     * @param   \Joomla\Registry\Registry  &$params  module parameters
-     *
-     * @return  mixed
-     *
-     * @since   3.1
-     *
-     * @deprecated 5.1.0 will be removed in 7.0
-     *             Use the non-static method getTags
-     *             Example: Factory::getApplication()->bootModule('mod_tags_popular', 'site')
-     *                          ->getHelper('TagsPopularHelper')
-     *                          ->getTags($params)
-     */
-    public static function getList(&$params)
-    {
-        return (new self())->getTags($params);
     }
 }

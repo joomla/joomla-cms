@@ -17,6 +17,7 @@ use Joomla\CMS\Event\Application\AfterInitialiseEvent;
 use Joomla\CMS\Event\Application\AfterRenderEvent;
 use Joomla\CMS\Event\Application\AfterRespondEvent;
 use Joomla\CMS\Event\Application\AfterRouteEvent;
+use Joomla\CMS\Event\Application\BeforeExecuteEvent;
 use Joomla\CMS\Event\Application\BeforeRenderEvent;
 use Joomla\CMS\Event\Application\BeforeRespondEvent;
 use Joomla\CMS\Event\ErrorEvent;
@@ -31,7 +32,6 @@ use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -48,6 +48,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
+use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -168,7 +169,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * Class constructor.
      *
      * @param   ?Input      $input      An optional argument to provide dependency injection for the application's input
-     *                                  object.  If the argument is a JInput object that object will become the
+     *                                  object.  If the argument is a Input object that object will become the
      *                                  application's input object, otherwise a default input object is created.
      * @param   ?Registry   $config     An optional argument to provide dependency injection for the application's config
      *                                  object.  If the argument is a Registry object that object will become the
@@ -299,6 +300,21 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $this->sanityCheckSystemVariables();
             $this->setupLogging();
             $this->createExtensionNamespaceMap();
+
+            // Load the behaviour plugins
+            PluginHelper::importPlugin('behaviour', null, true, $this->getDispatcher());
+
+            // Load the system plugins
+            PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
+
+            // Trigger the onBeforeExecute event
+            $this->dispatchEvent(
+                'onBeforeExecute',
+                new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
+            );
+
+            // Mark beforeExecute in the profiler.
+            JDEBUG ? $this->profiler->mark('beforeExecute event dispatched') : null;
 
             // Perform application routines.
             $this->doExecute();
@@ -475,35 +491,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     }
 
     /**
-     * Gets a configuration value.
-     *
-     * @param   string  $varname  The name of the value to get.
-     * @param   string  $default  Default value to return
-     *
-     * @return  mixed  The user state.
-     *
-     * @since   3.2
-     *
-     * @deprecated  3.2 will be removed in 6.0
-     *              Use get() instead
-     *              Example: Factory::getApplication()->get($varname, $default);
-     */
-    public function getCfg($varname, $default = null)
-    {
-        try {
-            Log::add(
-                \sprintf('%s() is deprecated and will be removed in 6.0. Use Factory->getApplication()->get() instead.', __METHOD__),
-                Log::WARNING,
-                'deprecated'
-            );
-        } catch (\RuntimeException) {
-            // Informational log only
-        }
-
-        return $this->get($varname, $default);
-    }
-
-    /**
      * Gets the client id of the current running application.
      *
      * @return  integer  A client identifier.
@@ -528,7 +515,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since       3.2
      * @throws      \RuntimeException
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use the application service from the DI container instead
      *              Example: Factory::getContainer()->get($name);
      */
@@ -583,7 +570,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         }
 
         if ($this->menuFactory === null) {
-            @trigger_error('Menu factory must be set in 5.0', E_USER_DEPRECATED);
+            @trigger_error('Menu factory must be set in 7.0', E_USER_DEPRECATED);
             $this->menuFactory = $this->getContainer()->get(MenuFactoryInterface::class);
         }
 
@@ -672,7 +659,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since      3.2
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Inject the router or load it from the dependency injection container
      *              Example: Factory::getContainer()->get($name);
      */
@@ -690,28 +677,32 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     }
 
     /**
-     * Gets the name of the current template.
+     * Gets current template data
      *
      * @param   boolean  $params  An optional associative array of configuration settings
      *
      * @return  string|\stdClass  The name of the template if the params argument is false. The template object if the params argument is true.
      *
+     * @throws  \InvalidArgumentException
      * @since   3.2
      */
     public function getTemplate($params = false)
     {
-        if ($params) {
-            $template = new \stdClass();
-
-            $template->template    = 'system';
-            $template->params      = new Registry();
-            $template->inheritable = 0;
-            $template->parent      = '';
-
-            return $template;
+        if (!\is_object($this->template)) {
+            $this->initialiseTemplate();
         }
 
-        return 'system';
+        if (!$this->isValidTemplate($this->template)) {
+            throw new \InvalidArgumentException(
+                Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template)
+            );
+        }
+
+        if ($params) {
+            return $this->template;
+        }
+
+        return $this->template->template;
     }
 
     /**
@@ -805,11 +796,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
         $this->set('editor', $editor);
 
-        // Load the behaviour plugins
-        PluginHelper::importPlugin('behaviour', null, true, $this->getDispatcher());
-
         // Trigger the onAfterInitialise event.
-        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
         $this->dispatchEvent(
             'onAfterInitialise',
             new AfterInitialiseEvent('onAfterInitialise', ['subject' => $this])
@@ -1144,7 +1131,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since      3.2
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Implement the route functionality in the extending class, this here will be removed without replacement
      */
     protected function route()
@@ -1287,57 +1274,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     }
 
     /**
-     * Flag if the application instance is a CLI or web based application.
-     *
-     * Helper function, you should use the native PHP functions to detect if it is a CLI application.
-     *
-     * @return  boolean
-     *
-     * @since       4.0.0
-     *
-     * @deprecated  4.0 will be removed in 6.0
-     *              Will be removed without replacements
-     */
-    public function isCli()
-    {
-        return false;
-    }
-
-    /**
-     * No longer used
-     *
-     * @return  boolean
-     *
-     * @since   4.0.0
-     *
-     * @throws \Exception
-     *
-     * @deprecated  4.2 will be removed in 6.0
-     *              Will be removed without replacements
-     */
-    protected function isTwoFactorAuthenticationRequired(): bool
-    {
-        return false;
-    }
-
-    /**
-     * No longer used
-     *
-     * @return  boolean
-     *
-     * @since   4.0.0
-     *
-     * @throws \Exception
-     *
-     * @deprecated  4.2 will be removed in 6.0
-     *              Will be removed without replacements
-     */
-    private function hasUserConfiguredTwoFactorAuthentication(): bool
-    {
-        return false;
-    }
-
-    /**
      * Setup logging functionality.
      *
      * @return void
@@ -1405,5 +1341,45 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     public function setMenuFactory(MenuFactoryInterface $menuFactory): void
     {
         $this->menuFactory = $menuFactory;
+    }
+
+    /**
+     * Initialise the template
+     *
+     * @return  void
+     *
+     * @since   6.1.0
+     */
+    protected function initialiseTemplate(): void
+    {
+        $this->template = (object) [
+            'template'    => 'system',
+            'params'      => new Registry(),
+            'inheritable' => 0,
+            'parent'      => '',
+        ];
+    }
+
+    /**
+     * Check if a template is valid
+     *
+     * @param   \stdClass  $template  The template object
+     *
+     * @return  bool  True if the template is valid, false otherwise. A template is valid if its index.php file exists
+     *                either in the template itself or in its parent template.
+     *
+     * @since   6.1.0
+     */
+    protected function isValidTemplate($template): bool
+    {
+        if (!empty($template->template) && is_file(JPATH_THEMES . '/' . $template->template . '/index.php')) {
+            return true;
+        }
+
+        if (!empty($template->parent) && is_file(JPATH_THEMES . '/' . $template->parent . '/index.php')) {
+            return true;
+        }
+
+        return false;
     }
 }

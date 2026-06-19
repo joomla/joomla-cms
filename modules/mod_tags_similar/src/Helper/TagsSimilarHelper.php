@@ -76,7 +76,7 @@ class TagsSimilarHelper implements DatabaseAwareInterface
         $tagsToMatch = explode(',', $tagsToMatch);
         $tagCount    = \count($tagsToMatch);
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query
             ->select(
                 [
@@ -223,23 +223,5 @@ class TagsSimilarHelper implements DatabaseAwareInterface
         }
 
         return $results;
-    }
-
-    /**
-     * Get a list of items with similar tags
-     *
-     * @param   Registry  &$params  Module parameters
-     *
-     * @return  array
-     *
-     * @deprecated 5.1.0 will be removed in 7.0
-     *             Use the non-static method getItems
-     *             Example: Factory::getApplication()->bootModule('mod_tags_similar', 'site')
-     *                          ->getHelper('TagsSimilarHelper')
-     *                          ->getItems($params)
-     */
-    public static function getList(&$params)
-    {
-        return (new self())->getItems($params);
     }
 }

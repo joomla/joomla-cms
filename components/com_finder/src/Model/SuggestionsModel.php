@@ -73,9 +73,9 @@ class SuggestionsModel extends ListModel
 
         // Create a new query object.
         $db          = $this->getDatabase();
-        $termIdQuery = $db->getQuery(true);
-        $termQuery   = $db->getQuery(true);
-        $aQuery      = $db->getQuery(true);
+        $termIdQuery = $db->createQuery();
+        $termQuery   = $db->createQuery();
+        $aQuery      = $db->createQuery();
 
         // Limit term count to a reasonable number of results to reduce main query join size
         $termIdQuery->select('ti.term_id')

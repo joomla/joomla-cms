@@ -61,7 +61,7 @@ abstract class Factory
      * @var         \JConfig
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the configuration object within the application
      *              Example:
      *              Factory::getApplication()->getConfig();
@@ -90,7 +90,7 @@ abstract class Factory
      * @var         Session
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the session service in the DI container or get from the application object
      *              Example:
      *              Factory::getApplication()->getSession();
@@ -103,7 +103,7 @@ abstract class Factory
      * @var         Language
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the language service in the DI container or get from the application object
      *              Example:
      *              Factory::getApplication()->getLanguage();
@@ -116,7 +116,7 @@ abstract class Factory
      * @var         Document
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *               Use the document service in the DI container or get from the application object
      *               Example:
      *               Factory::getApplication()->getDocument();
@@ -129,7 +129,7 @@ abstract class Factory
      * @var         DatabaseDriver
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the database service in the DI container
      *              Example:
      *              Factory::getContainer()->get(DatabaseInterface::class);
@@ -175,13 +175,20 @@ abstract class Factory
      * @see         Registry
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the configuration object within the application
      *              Example:
      *              Factory::getApplication()->getConfig();
      */
     public static function getConfig($file = null, $type = 'PHP', $namespace = '')
     {
+        if (!\defined('COMPAT_JOOMLA_7')) {
+            throw new \BadMethodCallException(\sprintf(
+                '%1$s() is only available in compatibility mode (compatibility plugin enabled). The configuration object should be read from the application.',
+                __METHOD__
+            ));
+        }
+
         @trigger_error(
             \sprintf(
                 '%s() is deprecated. The configuration object should be read from the application.',
@@ -256,13 +263,21 @@ abstract class Factory
      * @see         Session
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the session service in the DI container or get from the application object
      *              Example:
      *              Factory::getApplication()->getSession();
      */
     public static function getSession(array $options = [])
     {
+        if (!\defined('COMPAT_JOOMLA_7')) {
+            throw new \BadMethodCallException(\sprintf(
+                '%1$s() is only available in compatibility mode (compatibility plugin enabled). Load the session from the dependency injection container or via %2$s::getApplication()->getSession().',
+                __METHOD__,
+                __CLASS__
+            ));
+        }
+
         @trigger_error(
             \sprintf(
                 '%1$s() is deprecated. Load the session from the dependency injection container or via %2$s::getApplication()->getSession().',
@@ -285,7 +300,7 @@ abstract class Factory
      * @see         Language
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the language service in the DI container or get from the application object
      *              Example:
      *              Factory::getApplication()->getLanguage();
@@ -318,7 +333,7 @@ abstract class Factory
      * @see         Document
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the document service in the DI container or get from the application object
      *              Example:
      *              Factory::getApplication()->getDocument();
@@ -353,7 +368,7 @@ abstract class Factory
      * @see         User
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Load the user service from the dependency injection container or get from the application object
      *              Example:
      *              Factory::getApplication()->getIdentity();
@@ -397,7 +412,7 @@ abstract class Factory
      * @see         Cache
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the cache controller factory instead
      *              Example:
      *              Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($handler, $options);
@@ -443,7 +458,7 @@ abstract class Factory
      * @see         DatabaseDriver
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the database service in the DI container
      *              Example:
      *              Factory::getContainer()->get(DatabaseInterface::class);
@@ -479,13 +494,28 @@ abstract class Factory
      * @see     Mail
      * @since   1.7.0
      *
-     * @deprecated  4.4.0 will be removed in 6.0
+     * @deprecated  4.4.0 will be removed in 7.0
      *              Use the mailer service in the DI container and create a mailer from there
      *              Example:
      *              Factory::getContainer()->get(MailerFactoryInterface::class)->createMailer();
      */
     public static function getMailer()
     {
+        if (!\defined('COMPAT_JOOMLA_7')) {
+            throw new \BadMethodCallException(\sprintf(
+                '%1$s() is only available in compatibility mode (compatibility plugin enabled). Load the mailer from the dependency injection container.',
+                __METHOD__
+            ));
+        }
+
+        @trigger_error(
+            \sprintf(
+                '%1$s() is deprecated. Load the mailer from the dependency injection container.',
+                __METHOD__
+            ),
+            E_USER_DEPRECATED
+        );
+
         if (!self::$mailer) {
             self::$mailer = self::createMailer();
         }
@@ -523,11 +553,11 @@ abstract class Factory
 
                 if (!class_exists($classname)) {
                     // The class does not exist, default to Date
-                    $classname = 'Joomla\\CMS\\Date\\Date';
+                    $classname = Date::class;
                 }
             } else {
                 // No tag, so default to Date
-                $classname = 'Joomla\\CMS\\Date\\Date';
+                $classname = Date::class;
             }
         }
 
@@ -554,7 +584,7 @@ abstract class Factory
      * @see         Registry
      * @since       1.7.0
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use the configuration object within the application.
      *              Example: Factory::getApplication()->getConfig();
      */
@@ -638,7 +668,7 @@ abstract class Factory
      * @see         DatabaseDriver
      * @since       1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the database service in the DI container
      *              Example:
      *              Factory::getContainer()->get(DatabaseInterface::class);
@@ -654,7 +684,7 @@ abstract class Factory
             E_USER_DEPRECATED
         );
 
-        $conf = self::getConfig();
+        $conf = self::getApplication()->getConfig();
 
         $host     = $conf->get('host');
         $user     = $conf->get('user');
@@ -701,14 +731,14 @@ abstract class Factory
      * @see     Mail
      * @since   1.7.0
      *
-     * @deprecated  4.4.0 will be removed in 6.0
+     * @deprecated  4.4.0 will be removed in 7.0
      *              Use the mailer service in the DI container and create a mailer from there
      *              Example:
      *              Factory::getContainer()->get(MailerFactoryInterface::class)->createMailer();
      */
     protected static function createMailer()
     {
-        $mailer = self::getContainer()->get(MailerFactoryInterface::class)->createMailer(self::getConfig());
+        $mailer = self::getContainer()->get(MailerFactoryInterface::class)->createMailer(self::getApplication()->getConfig());
 
         // This needs to be set here for backwards compatibility
         Mail::$instances['Joomla'] = $mailer;
@@ -724,7 +754,7 @@ abstract class Factory
      * @see         Language
      * @since       1.7.0
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Load the language service from the dependency injection container or via $app->getLanguage()
      *              Example: Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($locale, $debug)
      */
@@ -739,7 +769,7 @@ abstract class Factory
             E_USER_DEPRECATED
         );
 
-        $conf   = self::getConfig();
+        $conf   = self::getApplication()->getConfig();
         $locale = $conf->get('language');
         $debug  = $conf->get('debug_lang');
         $lang   = self::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($locale, $debug);
@@ -755,7 +785,7 @@ abstract class Factory
      * @see         Document
      * @since       1.7.0
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Load the document service from the dependency injection container or via $app->getDocument()
      *              Example: Factory::getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
      */

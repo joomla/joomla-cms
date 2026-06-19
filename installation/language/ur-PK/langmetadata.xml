@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metafile client="installation">
 	<name>Urdu (ur-PK)</name>
-	<version>5.4.1</version>
-	<creationDate>2025-10</creationDate>
+	<version>6.1.2</version>
+	<creationDate>2026-05</creationDate>
 	<author>Urdu Translation Team</author>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
@@ -10,7 +10,7 @@
 		<filename>joomla.ini</filename>
 	</files>
 	<metadata>
-		<name>Urdu (ur-PK)</name>
+		<name/>
 		<nativeName>انگریزی (برطانیہ)</nativeName>
 		<tag>ur-PK</tag>
 		<rtl>1</rtl>

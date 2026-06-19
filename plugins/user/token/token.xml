@@ -24,7 +24,7 @@
 			<fieldset name="basic" addfieldprefix="Joomla\Component\Content\Administrator\Field">
 				<field
 					name="allowedUserGroups"
-					type="UserGroupList"
+					type="usergrouplist"
 					label="PLG_USER_TOKEN_ALLOWEDUSERGROUPS_LABEL"
 					description="PLG_USER_TOKEN_ALLOWEDUSERGROUPS_DESC"
 					layout="joomla.form.field.list-fancy-select"

@@ -200,7 +200,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
      *
      * @since   3.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Will be removed without replacement. Get the model through the MVCFactory instead
      */
     public static function addModelPath($path, $prefix = '')
@@ -261,7 +261,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
      *
      * @since       3.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Get the controller through the MVCFactory instead
      *              Example: Factory::getApplication()->bootComponent($option)->getMVCFactory()->createController(...);
      *
@@ -378,7 +378,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         $this->input = $input ?: $this->app->getInput();
 
         /**
-         * @deprecated This is to maintain b/c with the J4.0 implementation of BaseController. In Joomla 6.0 this will be
+         * @deprecated This is to maintain b/c with the J4.0 implementation of BaseController. In Joomla 7.0 this will be
          *             removed and instead the logger should be injected by the MVCFactory using
          *             BaseController::setLogger()
          */
@@ -391,7 +391,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         }
 
         // Determine the methods to exclude from the base class.
-        $xMethods = get_class_methods('\\Joomla\\CMS\\MVC\\Controller\\BaseController');
+        $xMethods = get_class_methods(BaseController::class);
 
         // Get the public methods in this class using reflection.
         $r        = new \ReflectionClass($this);
@@ -545,7 +545,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
                         $context,
                         $id,
                         (int) $result,
-                        str_replace("\n", ' ', print_r($values, 1))
+                        json_encode($values)
                     ),
                     ['category' => 'controller']
                 );
@@ -918,7 +918,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
                         'Holding edit ID %s.%s %s',
                         $context,
                         $id,
-                        str_replace("\n", ' ', print_r($values, 1))
+                        json_encode($values)
                     ),
                     ['category' => 'controller']
                 );
@@ -1048,7 +1048,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
                         'Releasing edit ID %s.%s %s',
                         $context,
                         $id,
-                        str_replace("\n", ' ', print_r($values, 1))
+                        json_encode($values)
                     ),
                     ['category' => 'controller']
                 );

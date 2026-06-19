@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 /** @var \Joomla\CMS\Document\ErrorDocument $this */
 
 // Authenticated versus guest have different displays
-$user = Factory::getUser();
+$user = Factory::getApplication()->getIdentity();
 
 if ($user->guest) {
     require __DIR__ . '/error_login.php';

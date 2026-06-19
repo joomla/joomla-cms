@@ -31,14 +31,14 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(PhpVersionCheck::class, function (Container $container) {
                 $plugin     = new PhpVersionCheck(
                     (array) PluginHelper::getPlugin('quickicon', 'phpversioncheck')
                 );
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

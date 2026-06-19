@@ -1,0 +1,22 @@
+:where(.mod-menu__toggle-sub) {
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  color: currentColor;
+  background-color: transparent;
+  border: none;
+  &[aria-expanded="true"] .icon-chevron-down {
+    transform: rotate(180deg);
+  }
+}
+:where(.mod-menu [class*="icon-"]) {
+  margin-inline-start: .5rem;
+  transition: all .2s, background-color .2s;
+}
+
+:where(.mod-menu__sub[aria-hidden="true"]) {
+  display: none;
+}
+:where(.mod-menu__sub[aria-hidden="false"]) {
+  display: block;
+}

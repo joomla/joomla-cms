@@ -30,22 +30,14 @@ class Templates
     /**
      * Display the thumb for the template.
      *
-     * @param   string|object  $template  The name of the template or the template object.
-     *                                    @deprecated   4.3 will be removed in 6.0
-     *                                    The argument $template must be an object only
-     * @param   integer        $clientId  No longer used, will be removed without replacement
-     *                                    @deprecated   4.3 will be removed in 6.0
+     * @param   object  $template  The template object.
      *
      * @return  string  The html string
      *
      * @since   1.6
      */
-    public function thumb($template, $clientId = 0)
+    public function thumb($template)
     {
-        if (\is_string($template)) {
-            return HTMLHelper::_('image', 'template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'), [], true, -1);
-        }
-
         $client = ApplicationHelper::getClientInfo($template->client_id);
 
         if (!isset($template->xmldata)) {
@@ -88,22 +80,14 @@ class Templates
     /**
      * Renders the html for the modal linked to thumb.
      *
-     * @param   string|object  $template  The name of the template or the template object.
-     *                                    @deprecated   4.3 will be removed in 6.0
-     *                                    The argument $template must be an object only
-     * @param   integer        $clientId  No longer used, will be removed without replacement
-     *                                    @deprecated   4.3 will be removed in 6.0
+     * @param   object  $template  The template object.
      *
      * @return  string  The html string
      *
      * @since   3.4
      */
-    public function thumbModal($template, $clientId = 0)
+    public function thumbModal($template)
     {
-        if (\is_string($template)) {
-            return HTMLHelper::_('image', 'template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'), [], true, -1);
-        }
-
         $html    = '';
         $thumb   = '';
         $preview = '';

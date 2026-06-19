@@ -87,7 +87,14 @@ class RandomImageHelper
      */
     public function getImagesFromFolder(Registry &$params, string $folder): array
     {
-        $type   = $params->get('type', 'jpg');
+        $type       = $params->get('type', 'jpg');
+        $extensions = array_map('trim', explode(',', $type));
+
+        // Normalize to lowercase and strip leading dots
+        $extensions = array_map(function ($ext) {
+            return ltrim(strtolower($ext), '.');
+        }, $extensions);
+
         $files  = [];
         $images = [];
 
@@ -108,9 +115,14 @@ class RandomImageHelper
             $i = 0;
 
             foreach ($files as $img) {
-                if (!is_dir($dir . '/' . $img) && preg_match('/' . $type . '/', $img)) {
-                    $images[$i] = new \stdClass();
+                if (is_dir($dir . '/' . $img)) {
+                    continue;
+                }
 
+                $ext = pathinfo($img, PATHINFO_EXTENSION);
+
+                if (\in_array(strtolower($ext), $extensions, true)) {
+                    $images[$i]         = new \stdClass();
                     $images[$i]->name   = $img;
                     $images[$i]->folder = $folder;
                     $i++;
@@ -146,61 +158,5 @@ class RandomImageHelper
         }
 
         return str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $folder);
-    }
-
-    /**
-     * Retrieves a random image
-     *
-     * @param   Registry  &$params  module parameters object
-     * @param   array     $images   list of images
-     *
-     * @return  mixed
-     *
-     * @deprecated 5.4.0 will be removed in 7.0
-     *             Use the non-static method getImage
-     *             Example: Factory::getApplication()->bootModule('mod_random_image', 'site')
-     *                            ->getHelper('RandomImageHelper')
-     *                            ->getImage($params, $images)
-     */
-    public static function getRandomImage(&$params, $images)
-    {
-        return (new self())->getImage($params, $images);
-    }
-
-    /**
-     * Retrieves images from a specific folder
-     *
-     * @param   Registry  &$params  module params
-     * @param   string    $folder   folder to get the images from
-     *
-     * @return  array
-     *
-     * @deprecated 5.4.0 will be removed in 7.0
-     *             Use the non-static method getImagesFromFolder
-     *             Example: Factory::getApplication()->bootModule('mod_random_image', 'site')
-     *                            ->getHelper('RandomImageHelper')
-     *                            ->getImagesFromFolder($params, $folder)
-     */
-    public static function getImages(&$params, $folder)
-    {
-        return (new self())->getImagesFromFolder($params, $folder);
-    }
-
-    /**
-     * Get sanitized folder
-     *
-     * @param   Registry  &$params  module params objects
-     *
-     * @return  mixed
-     *
-     * @deprecated 5.4.0 will be removed in 7.0
-     *             Use the non-static method getSanitizedFolder
-     *             Example: Factory::getApplication()->bootModule('mod_random_image', 'site')
-     *                            ->getHelper('RandomImageHelper')
-     *                            ->getSanitizedFolder($params)
-     */
-    public static function getFolder(&$params)
-    {
-        return (new self())->getSanitizedFolder($params);
     }
 }
