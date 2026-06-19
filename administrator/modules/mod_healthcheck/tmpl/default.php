@@ -19,9 +19,11 @@ $wa = $app->getDocument()->getWebAssetManager();
 $wa->useScript('core')
     ->useScript('bootstrap.dropdown');
 
-// Register and use the filter and async assets. The async script fills any quick-icon carrying a
-// data-url from com_ajax; mod_quickicon's script is intentionally not used here as it expects a
-// different response shape and would render "undefined" for these icons.
+/*
+ * Register and use the filter and async assets. The async script fills any quick-icon carrying a
+ * data-url from com_ajax; mod_quickicon's script is intentionally not used here as it expects a
+ * different response shape and would render "undefined" for these icons.
+ */
 $wa->registerAndUseScript('mod_healthcheck.filter', 'mod_healthcheck/healthcheck-filter.js', [], ['defer' => true])
     ->registerAndUseScript('mod_healthcheck.async', 'mod_healthcheck/healthcheck-async.js', [], ['defer' => true])
     ->registerAndUseStyle('mod_healthcheck.general', 'mod_healthcheck/healthcheck.css');
