@@ -17,9 +17,13 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\MailerFactoryAwareInterface;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\FormModel;
@@ -43,9 +47,11 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class RegistrationModel extends FormModel implements UserFactoryAwareInterface
+class RegistrationModel extends FormModel implements UserFactoryAwareInterface, MailerFactoryAwareInterface, LanguageFactoryAwareInterface
 {
     use UserFactoryAwareTrait;
+    use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * @var    object  The user registration data.
@@ -181,7 +187,12 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
 
                 if ($usercreator->authorise('core.create', 'com_users') && $usercreator->authorise('core.manage', 'com_users')) {
                     try {
-                        $mailer = new MailTemplate('com_users.registration.admin.verification_request', $app->getLanguage()->getTag());
+                        $mailer = new MailTemplate(
+                            'com_users.registration.admin.verification_request',
+                            $app->getLanguage()->getTag(),
+                            $this->getMailerFactory()->createMailer(),
+                            $this->getLanguageFactory()
+                        );
                         $mailer->addTemplateData($data);
                         $mailer->addRecipient($row->email);
                         $return = $mailer->send();
@@ -217,7 +228,12 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
             $data['mailfrom'] = $app->get('mailfrom');
             $data['sitename'] = $app->get('sitename');
             $data['siteurl']  = Uri::base();
-            $mailer           = new MailTemplate('com_users.registration.user.admin_activated', $app->getLanguage()->getTag());
+            $mailer           = new MailTemplate(
+                'com_users.registration.user.admin_activated',
+                $app->getLanguage()->getTag(),
+                $this->getMailerFactory()->createMailer(),
+                $this->getLanguageFactory()
+            );
             $mailer->addTemplateData($data);
             $mailer->addRecipient($data['email']);
 
@@ -509,7 +525,12 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
 
         // Try to send the registration email.
         try {
-            $mailer = new MailTemplate($mailtemplate, $app->getLanguage()->getTag());
+            $mailer = new MailTemplate(
+                $mailtemplate,
+                $app->getLanguage()->getTag(),
+                $this->getMailerFactory()->createMailer(),
+                $this->getLanguageFactory()
+            );
             $mailer->addTemplateData($data);
             $mailer->addRecipient($data['email']);
             $mailer->addUnsafeTags(['username', 'password_clear', 'name']);
@@ -551,7 +572,12 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
                 }
 
                 try {
-                    $mailer = new MailTemplate('com_users.registration.admin.new_notification', $app->getLanguage()->getTag());
+                    $mailer = new MailTemplate(
+                        'com_users.registration.admin.new_notification',
+                        $app->getLanguage()->getTag(),
+                        $this->getMailerFactory()->createMailer(),
+                        $this->getLanguageFactory()
+                    );
                     $mailer->addTemplateData($data);
                     $mailer->addRecipient($row->email);
                     $mailer->addUnsafeTags(['username', 'name']);

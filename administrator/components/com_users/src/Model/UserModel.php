@@ -14,8 +14,12 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\LanguageFactoryAwareInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Mail\MailerFactoryAwareInterface;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -36,9 +40,11 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class UserModel extends AdminModel implements UserFactoryAwareInterface
+class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerFactoryAwareInterface, LanguageFactoryAwareInterface
 {
     use UserFactoryAwareTrait;
+    use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * An item.
@@ -508,7 +514,12 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
             // Use the default language
             $langTag = ComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 
-            $mailer = new MailTemplate('com_users.registration.user.admin_activated', $langTag);
+            $mailer = new MailTemplate(
+                'com_users.registration.user.admin_activated',
+                $langTag,
+                $this->getMailerFactory()->createMailer(),
+                $this->getLanguageFactory()
+            );
             $mailer->addTemplateData($mailData);
             $mailer->addRecipient($userData['email']);
 

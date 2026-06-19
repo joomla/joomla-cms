@@ -16,9 +16,13 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageFactoryAwareInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailerFactoryAwareInterface;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
@@ -38,9 +42,11 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
  *
  * @since  1.6
  */
-class MessageModel extends AdminModel implements UserFactoryAwareInterface
+class MessageModel extends AdminModel implements UserFactoryAwareInterface, MailerFactoryAwareInterface, LanguageFactoryAwareInterface
 {
     use UserFactoryAwareTrait;
+    use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * Message
@@ -373,7 +379,12 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
             $message  = strip_tags(html_entity_decode($table->message, ENT_COMPAT, 'UTF-8'));
 
             // Send the email
-            $mailer = new MailTemplate('com_messages.new_message', $lang->getTag());
+            $mailer = new MailTemplate(
+                'com_messages.new_message',
+                $lang->getTag(),
+                $this->getMailerFactory()->createMailer(),
+                $this->getLanguageFactory()
+            );
             $data   = [
                 'subject'   => $subject,
                 'message'   => $message,
