@@ -11831,6 +11831,17 @@ parameters:
 
 		-
 			message: '''
+				#^Class Joomla\\CMS\\MVC\\Model\\BaseDatabaseModel implements deprecated interface Joomla\\CMS\\MVC\\Model\\DatabaseModelInterface\:
+				__DEPLOY_VERSION__ will be removed in 7\.0
+				             Use the interface from the database package
+				             Example\: \\Joomla\\Database\\DatabaseAwareInterface$#
+			'''
+			identifier: class.implementsDeprecatedInterface
+			count: 1
+			path: libraries/src/MVC/Model/BaseDatabaseModel.php
+
+		-
+			message: '''
 				#^Call to deprecated method shouldUseExceptions\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				7\.0$#
 			'''

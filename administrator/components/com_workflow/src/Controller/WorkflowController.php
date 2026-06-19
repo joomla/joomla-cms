@@ -183,7 +183,7 @@ class WorkflowController extends FormController
             $recordId = (int) $this->input->getInt($key);
 
             // @todo Moves queries out of the controller.
-            $db    = $model->getDbo();
+            $db    = $model->getDatabase();
             $query = $db->createQuery();
 
             $query->select('*')
