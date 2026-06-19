@@ -115,8 +115,8 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
             try {
                 $inactiveTimespan = (int) $this->params->get('inactiveTimespan', 180); // Days since the last login
 
-                $item['text'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVE_LISTTEXT');
-                $item['note'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVE_LISTNOTE');
+                $item['text'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVE_FIELD_LABEL');
+                $item['note'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_INACTIVE_FIELD_DESC');
                 $item['link'] = Uri::base() . 'index.php?option=com_users&view=users&filter[state]=1';
 
                 $db = $this->getDatabase();
@@ -161,8 +161,8 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
 
         if ($this->params->get('neverloggedinUsers', true)) {
             try {
-                $item['text'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_NEVERLOGGEDIN_LISTTEXT');
-                $item['note'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_NEVERLOGGEDIN_LISTNOTE');
+                $item['text'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_NEVERLOGGEDIN_FIELD_LABEL');
+                $item['note'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_NEVERLOGGEDIN_FIELD_DESC');
                 $item['link'] = Uri::base() . 'index.php?option=com_users&view=users&filter[lastvisitrange]=never';
 
                 $db = $this->getDatabase();
@@ -205,8 +205,8 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
 
         if ($this->params->get('unactivatedUsers', true)) {
             try {
-                $item['text'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_UNACTIVATED_LISTTEXT');
-                $item['note'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_UNACTIVATED_LISTNOTE');
+                $item['text'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_UNACTIVATED_FIELD_LABEL');
+                $item['note'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_UNACTIVATED_FIELD_DESC');
                 $item['link'] = Uri::base() . 'index.php?option=com_users&view=users&filter[active]=1';
 
                 $db = $this->getDatabase();
@@ -250,8 +250,8 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
 
         if ($this->params->get('orphanUsers', true)) {
             try {
-                $item['text'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_ORPHAN_LISTTEXT');
-                $item['note'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_ORPHAN_LISTNOTE');
+                $item['text'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_ORPHAN_FIELD_LABEL');
+                $item['note'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_ORPHAN_FIELD_DESC');
                 $item['link'] = Uri::base() . 'index.php?option=com_users&view=users';
 
                 $db = $this->getDatabase();
@@ -298,8 +298,8 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
 
         if ($this->params->get('nonMFAUsers', true)) {
             try {
-                $item['text'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_NONMFA_LISTTEXT');
-                $item['note'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_NONMFA_LISTNOTE');
+                $item['text'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_NONMFA_FIELD_LABEL');
+                $item['note'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_NONMFA_FIELD_DESC');
                 $item['link'] = Uri::base() . 'index.php?option=com_users&view=users&filter[mfa]=0&filter[active]=0';
 
                 $db = $this->getDatabase();
@@ -349,8 +349,8 @@ final class UserMaintenance extends CMSPlugin implements SubscriberInterface
             try {
                 $adminGroupIds = $this->getAdminGroupIds();
 
-                $item['text'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_PRIVILEGED_LISTTEXT');
-                $item['note'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_PRIVILEGED_LISTNOTE');
+                $item['text'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_PRIVILEGED_FIELD_LABEL');
+                $item['note'] = Text::_('PLG_HEALTHCHECK_USERMAINTENANCE_PRIVILEGED_FIELD_DESC');
                 $item['link'] = Uri::base() . 'index.php?option=com_users&view=users&filter[group_id]=8';
 
                 if (empty($adminGroupIds)) {
