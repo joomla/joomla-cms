@@ -129,10 +129,6 @@ class ContactModel extends FormModel
             $contact->params = $temp;
         }
 
-        if (!$contact->params->get('show_email_copy', 0)) {
-            $form->removeField('contact_email_copy');
-        }
-
         return $form;
     }
 

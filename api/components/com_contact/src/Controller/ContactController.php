@@ -177,7 +177,7 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
         $params = ComponentHelper::getParams('com_contact');
 
         if (!$params->get('custom_reply')) {
-            $sent = $this->_sendEmail($data, $contact, $params->get('show_email_copy', 0));
+            $sent = $this->_sendEmail($data, $contact);
         }
 
         if (!$sent) {
@@ -192,13 +192,12 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
      *
      * @param   array      $data               The data to send in the email.
      * @param   \stdClass  $contact            The user information to send the email to
-     * @param   boolean    $emailCopyToSender  True to send a copy of the email to the user.
      *
      * @return  boolean  True on success sending the email, false on failure.
      *
      * @since   1.6.4
      */
-    private function _sendEmail($data, $contact, $emailCopyToSender)
+    private function _sendEmail($data, $contact)
     {
         $app = $this->app;
 
@@ -243,15 +242,6 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
             $mailer->setReplyTo($templateData['email'], $templateData['name']);
             $mailer->addTemplateData($templateData);
             $sent = $mailer->send();
-
-            // If we are supposed to copy the sender, do so.
-            if ($emailCopyToSender && !empty($data['contact_email_copy'])) {
-                $mailer = new MailTemplate('com_contact.mail.copy', $app->getLanguage()->getTag());
-                $mailer->addRecipient($templateData['email']);
-                $mailer->setReplyTo($templateData['email'], $templateData['name']);
-                $mailer->addTemplateData($templateData);
-                $sent = $mailer->send();
-            }
         } catch (MailDisabledException | phpMailerException $exception) {
             try {
                 Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');

@@ -52,13 +52,6 @@
 			validate="ContactEmailMessage"
 			required="true"
 		/>
-
-		<field
-			name="contact_email_copy"
-			type="checkbox"
-			label="COM_CONTACT_CONTACT_EMAIL_A_COPY_LABEL"
-			id="contact-email-copy"
-		/>
 	</fieldset>
 
 	<fieldset name="captcha">
