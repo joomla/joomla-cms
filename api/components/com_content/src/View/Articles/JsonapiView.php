@@ -198,6 +198,8 @@ class JsonapiView extends BaseApiView
 
         $item->text = $item->introtext . ' ' . $item->fulltext;
 
+        $params = new Registry($item->params ?? '{}');
+
         // Process the content plugins.
         $dispatcher = $this->getDispatcher();
         PluginHelper::importPlugin('content', null, true, $dispatcher);
@@ -205,7 +207,7 @@ class JsonapiView extends BaseApiView
             'onContentPrepare',
             new ContentPrepareEvent(
                 'onContentPrepare',
-                ['context' => 'com_content.article', 'subject' => $item, 'params' => $item->params, 'page' => 0]
+                ['context' => 'com_content.article', 'subject' => $item, 'params' => $params, 'page' => 0]
             )
         );
 
