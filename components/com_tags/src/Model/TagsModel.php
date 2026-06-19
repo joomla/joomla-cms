@@ -10,9 +10,8 @@
 
 namespace Joomla\Component\Tags\Site\Model;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
@@ -56,9 +55,6 @@ class TagsModel extends ListModel
         $pid = $app->getInput()->getInt('parent_id');
         $this->setState('tag.parent_id', $pid);
 
-        $language = $app->getInput()->getString('tag_list_language_filter');
-        $this->setState('tag.language', $language);
-
         $offset = $app->getInput()->get('limitstart', 0, 'uint');
         $this->setState('list.offset', $offset);
         $app = Factory::getApplication();
@@ -70,6 +66,10 @@ class TagsModel extends ListModel
 
         $this->setState('filter.published', 1);
         $this->setState('filter.access', true);
+
+        if (Multilanguage::isEnabled()) {
+            $this->setState('tag.language', Factory::getApplication()->getLanguage()->getTag());
+        }
 
         $user = $this->getCurrentUser();
 
@@ -119,16 +119,7 @@ class TagsModel extends ListModel
         // Exclude the root.
         $query->where($db->quoteName('a.parent_id') . ' <> 0');
 
-        // Optionally filter on language
-        if (empty($language)) {
-            $language = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
-        }
-
-        if ($language !== 'all') {
-            if ($language === 'current_language') {
-                $language = ContentHelper::getCurrentLanguage();
-            }
-
+        if ($language) {
             $query->whereIn($db->quoteName('language'), [$language, '*'], ParameterType::STRING);
         }
 

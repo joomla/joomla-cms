@@ -187,8 +187,9 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        if (!$this->isEmptyState && $canDo->get('core.admin')) {
-            $toolbar->standardButton('refresh', 'JTOOLBAR_REBUILD')
+        if ($this->getCurrentUser()->authorise('core.admin')) {
+            $toolbar->standardButton('refresh')
+                ->text('JTOOLBAR_REBUILD')
                 ->task('tags.rebuild');
         }
 

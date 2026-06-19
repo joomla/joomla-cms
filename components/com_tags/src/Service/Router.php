@@ -187,6 +187,14 @@ class Router extends RouterBase
             }
         }
 
+        // Check if the active menuitem matches the requested language
+        if (
+            !isset($query['Itemid']) && ($active && $active->component === 'com_tags'
+            && ($language === '*' || \in_array($active->language, ['*', $language]) || !Multilanguage::isEnabled()))
+        ) {
+            $query['Itemid'] = $active->id;
+        }
+
         // TODO: Remove this whole block in 6.0 as it is a bug
         if (!$this->sefparams->get('strictrouting', 0)) {
             // If not found, return language specific home link

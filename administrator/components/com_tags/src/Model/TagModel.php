@@ -14,6 +14,8 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -22,6 +24,7 @@ use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -47,6 +50,14 @@ class TagModel extends AdminModel implements VersionableModelInterface
      * @since  3.2
      */
     public $typeAlias = 'com_tags.tag';
+
+    /**
+     * The context used for the associations table
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $associationsContext = 'com_tags.tag';
 
     /**
      * Batch copy/move command. If set to false,
@@ -168,6 +179,22 @@ class TagModel extends AdminModel implements VersionableModelInterface
             }
         }
 
+
+        // Load associated content items
+        $assoc = Associations::isEnabled();
+
+        if ($assoc) {
+            $result->associations = [];
+
+            if ($result->id != null) {
+                $associations = Associations::getAssociations('com_tags', '#__tags', 'com_tags.tag', $result->id, 'id', 'alias', null);
+
+                foreach ($associations as $tag => $association) {
+                    $result->associations[$tag] = (int) $association->id;
+                }
+            }
+        }
+
         return $result;
     }
 
@@ -227,6 +254,51 @@ class TagModel extends AdminModel implements VersionableModelInterface
     }
 
     /**
+     * Allows preprocessing of the Form object.
+     *
+     * @param   Form    $form   The form object
+     * @param   array   $data   The data to be merged into the form object
+     * @param   string  $group  The plugin group to be executed
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function preprocessForm(Form $form, $data, $group = 'content')
+    {
+        // Association content items
+        if (Associations::isEnabled()) {
+            $languages = LanguageHelper::getContentLanguages(false, false, null, 'ordering', 'asc');
+
+            if (\count($languages) > 1) {
+                $addform = new \SimpleXMLElement('<form />');
+                $fields  = $addform->addChild('fields');
+                $fields->addAttribute('name', 'associations');
+                $fieldset = $fields->addChild('fieldset');
+                $fieldset->addAttribute('name', 'item_associations');
+
+                foreach ($languages as $language) {
+                    $field = $fieldset->addChild('field');
+                    $field->addAttribute('name', $language->lang_code);
+                    $field->addAttribute('type', 'tag');
+                    $field->addAttribute('language', $language->lang_code);
+                    $field->addAttribute('label', $language->title);
+                    $field->addAttribute('translate_label', 'false');
+                    $field->addAttribute('mode', 'nested');
+                    $field->addAttribute('custom', 'false');
+                    $field->addAttribute('parent', 'parent');
+                    $option = $field->addChild('option');
+                    $option->addAttribute('value', '');
+                }
+
+                $form->load($addform, false);
+            }
+        }
+
+        parent::preprocessForm($form, $data, $group);
+    }
+
+    /**
      * Method to save the form data.
      *
      * @param   array  $data  The form data.
@@ -238,24 +310,35 @@ class TagModel extends AdminModel implements VersionableModelInterface
     public function save($data)
     {
         /** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
-        $table      = $this->getTable();
-        $input      = Factory::getApplication()->getInput();
-        $pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
-        $isNew      = true;
-        $context    = $this->option . '.' . $this->name;
+        $table   = $this->getTable();
+        $input   = Factory::getApplication()->getInput();
+        $context = $this->option . '.' . $this->name;
+        $app     = Factory::getApplication();
+
+        $key   = $table->getKeyName();
+        $pk    = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+        $isNew = true;
 
         // Include the plugins for the save events.
         PluginHelper::importPlugin($this->events_map['save']);
 
+        // Allow an exception to be thrown.
         try {
-            // Load the row if saving an existing tag.
+            // Load the row if saving an existing record.
             if ($pk > 0) {
                 $table->load($pk);
                 $isNew = false;
             }
 
+            // Bind the data.
+            if (!$table->bind($data)) {
+                $this->setError($table->getError());
+
+                return false;
+            }
+
             // Set the new parent id if parent id not matched OR while New/Save as Copy .
-            if ($table->parent_id != $data['parent_id'] || $data['id'] == 0) {
+            if ($table->parent_id != $data['parent_id'] || (isset($data['id']) && $data['id'] == 0)) {
                 $table->setLocation($data['parent_id'], 'last-child');
             }
 
@@ -269,17 +352,9 @@ class TagModel extends AdminModel implements VersionableModelInterface
                     $data['title']   = $title;
                     $data['alias']   = $alias;
                 } elseif ($data['alias'] == $origTable->alias) {
-                    $data['alias'] = '';
+                    $data['alias']     = '';
+                    $data['published'] = 0;
                 }
-
-                $data['published'] = 0;
-            }
-
-            // Bind the data.
-            if (!$table->bind($data)) {
-                $this->setError($table->getError());
-
-                return false;
             }
 
             // Prepare the row for saving
@@ -293,7 +368,7 @@ class TagModel extends AdminModel implements VersionableModelInterface
             }
 
             // Trigger the before save event.
-            $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, $table, $isNew, $data]);
+            $result = $app->triggerEvent($this->event_before_save, [$context, $table, $isNew, $data]);
 
             if (\in_array(false, $result, true)) {
                 $this->setError($table->getError());
@@ -308,30 +383,132 @@ class TagModel extends AdminModel implements VersionableModelInterface
                 return false;
             }
 
+            // Clean the cache.
+            $this->cleanCache();
+
             // Trigger the after save event.
-            Factory::getApplication()->triggerEvent($this->event_after_save, [$context, $table, $isNew]);
-
-            // Rebuild the path for the tag:
-            if (!$table->rebuildPath($table->id)) {
-                $this->setError($table->getError());
-
-                return false;
-            }
-
-            // Rebuild the paths of the tag's children:
-            if (!$table->rebuild($table->id, $table->lft, $table->level, $table->path)) {
-                $this->setError($table->getError());
-
-                return false;
-            }
+            $app->triggerEvent($this->event_after_save, [$context, $table, $isNew, $data]);
         } catch (\Exception $e) {
             $this->setError($e->getMessage());
 
             return false;
         }
 
-        $this->setState($this->getName() . '.id', $table->id);
+        if (isset($table->$key)) {
+            $this->setState($this->getName() . '.id', $table->$key);
+        }
+
         $this->setState($this->getName() . '.new', $isNew);
+
+        if ($this->associationsContext && Associations::isEnabled() && !empty($data['associations'])) {
+            $associations = $data['associations'];
+
+            // Unset any invalid associations
+            $associations = ArrayHelper::toInteger($associations);
+
+            // Unset any invalid associations
+            foreach ($associations as $tag => $id) {
+                if (!$id) {
+                    unset($associations[$tag]);
+                }
+            }
+
+            // Show a warning if the item isn't assigned to a language but we have associations.
+            if ($associations && $table->language === '*') {
+                $app->enqueueMessage(
+                    Text::_(strtoupper($this->option) . '_ERROR_ALL_LANGUAGE_ASSOCIATED'),
+                    'warning'
+                );
+            }
+
+            // Get associationskey for edited item
+            $db    = $this->getDbo();
+            $id    = (int) $table->$key;
+            $query = $db->getQuery(true)
+                ->select($db->quoteName('key'))
+                ->from($db->quoteName('#__associations'))
+                ->where($db->quoteName('context') . ' = :context')
+                ->where($db->quoteName('id') . ' = :id')
+                ->bind(':context', $this->associationsContext)
+                ->bind(':id', $id, ParameterType::INTEGER);
+            $db->setQuery($query);
+            $oldKey = $db->loadResult();
+
+            if ($associations || $oldKey !== null) {
+                // Deleting old associations for the associated items
+                $query = $db->getQuery(true)
+                    ->delete($db->quoteName('#__associations'))
+                    ->where($db->quoteName('context') . ' = :context')
+                    ->bind(':context', $this->associationsContext);
+
+                $where = [];
+
+                if ($associations) {
+                    $where[] = $db->quoteName('id') . ' IN (' . implode(',', $query->bindArray(array_values($associations))) . ')';
+                }
+
+                if ($oldKey !== null) {
+                    $where[] = $db->quoteName('key') . ' = :oldKey';
+                    $query->bind(':oldKey', $oldKey);
+                }
+
+                $query->extendWhere('AND', $where, 'OR');
+                $db->setQuery($query);
+                $db->execute();
+            }
+
+            // Adding self to the association
+            if ($table->language !== '*') {
+                $associations[$table->language] = (int) $table->$key;
+            }
+
+            if (\count($associations) > 1) {
+                // Adding new association for these items
+                $key   = md5(json_encode($associations));
+                $query = $db->getQuery(true)
+                    ->insert($db->quoteName('#__associations'))
+                    ->columns(
+                        [
+                            $db->quoteName('id'),
+                            $db->quoteName('context'),
+                            $db->quoteName('key'),
+                        ]
+                    );
+
+                foreach ($associations as $id) {
+                    $query->values(
+                        implode(
+                            ',',
+                            $query->bindArray(
+                                [$id, $this->associationsContext, $key],
+                                [ParameterType::INTEGER, ParameterType::STRING, ParameterType::STRING]
+                            )
+                        )
+                    );
+                }
+
+                $db->setQuery($query);
+                $db->execute();
+            }
+        }
+
+        if ($app->getInput()->get('task') == 'editAssociations') {
+            return $this->redirectToAssociations($data);
+        }
+
+        // Rebuild the path for the tag:
+        if (!$table->rebuildPath($this->getState($this->getName() . '.id'))) {
+            $this->setError($table->getError());
+
+            return false;
+        }
+
+        // Rebuild the paths of the tag's children:
+        if (!$table->rebuild($table->id, $table->lft, $table->level, $table->path)) {
+            $this->setError($table->getError());
+
+            return false;
+        }
 
         // Save version history.
         $this->saveHistory($data, $context);

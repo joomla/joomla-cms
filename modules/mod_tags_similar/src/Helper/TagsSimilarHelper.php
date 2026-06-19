@@ -10,10 +10,10 @@
 
 namespace Joomla\Module\TagsSimilar\Site\Helper;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
 use Joomla\Database\DatabaseAwareInterface;
@@ -152,14 +152,9 @@ class TagsSimilarHelper implements DatabaseAwareInterface
             ->bind(':nullDateDown', $nullDate)
             ->bind(':nowDateDown', $now);
 
-        // Optionally filter on language
-        $language = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
-
-        if ($language !== 'all') {
-            if ($language === 'current_language') {
-                $language = ContentHelper::getCurrentLanguage();
-            }
-
+        // Filter on language
+        if (Multilanguage::isEnabled()) {
+            $language = ContentHelper::getCurrentLanguage();
             $query->whereIn($db->quoteName('cc.core_language'), [$language, '*'], ParameterType::STRING);
         }
 
