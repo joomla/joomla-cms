@@ -17,6 +17,8 @@ use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\Component\Mails\Administrator\Helper\MailsHelper;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
@@ -34,6 +36,8 @@ use PHPMailer\PHPMailer\Exception as phpmailerException;
  */
 class MailTemplate
 {
+    use DatabaseAwareTrait;
+
     /**
      * Mailer object to send the actual mail.
      *
@@ -120,14 +124,21 @@ class MailTemplate
     /**
      * Constructor for the mail templating class
      *
-     * @param   string   $templateId  Id of the mail template.
-     * @param   string   $language    Language of the template to use.
-     * @param   ?Mail    $mailer      Mail object to send the mail with.
+     * @param   string                     $templateId       Id of the mail template.
+     * @param   string                     $language         Language of the template to use.
+     * @param   ?MailerInterface           $mailer           Mail object to send the mail with.
+     * @param   ?LanguageFactoryInterface  $languageFactory  The language factory.
+     * @param   ?DatabaseInterface         $db               The database.
      *
      * @since   4.0.0
      */
-    public function __construct($templateId, $language, ?MailerInterface $mailer = null, ?LanguageFactoryInterface $languageFactory = null)
-    {
+    public function __construct(
+        $templateId,
+        $language,
+        ?MailerInterface $mailer = null,
+        ?LanguageFactoryInterface $languageFactory = null,
+        ?DatabaseInterface $db = null
+    ) {
         $this->template_id = $templateId;
         $this->language    = $language;
 
@@ -138,9 +149,16 @@ class MailTemplate
             $this->mailer = Factory::getMailer();
         }
 
+        $this->setDatabase($db ?? Factory::getContainer()->get(DatabaseInterface::class));
+
+        if ($db === null) {
+            @trigger_error('Database must be set, this will not be caught anymore in 8.0.', E_USER_DEPRECATED);
+        }
+
         if ($languageFactory) {
             $this->languageFactory = $languageFactory;
         } else {
+            @trigger_error('Language factory must be set, this will not be caught anymore in 8.0.', E_USER_DEPRECATED);
             $this->languageFactory = Factory::getContainer()->get(LanguageFactoryInterface::class);
         }
     }
@@ -276,7 +294,7 @@ class MailTemplate
     {
         $config = ComponentHelper::getParams('com_mails');
 
-        $mail = static::getTemplate($this->template_id, $this->language);
+        $mail = $this->loadTemplate($this->template_id, $this->language);
 
         // If the Mail Template was not found in the db, we cannot send an email.
         if ($mail === null) {
@@ -552,18 +570,18 @@ class MailTemplate
     }
 
     /**
-     * Get a specific mail template
+     * Get a specific mail template for the given key and language.
      *
      * @param   string  $key       Template identifier
      * @param   string  $language  Language code of the template
      *
-     * @return  object|null  An object with the data of the mail, or null if the template not found in the db.
+     * @return  \stdClass|null  An object with the data of the mail, or null if the template not found in the db.
      *
-     * @since   4.0.0
+     * @since   __DEPLOY_VERSION__
      */
-    public static function getTemplate($key, $language)
+    protected function loadTemplate(string $key, string $language): ?\stdClass
     {
-        $db    = Factory::getDbo();
+        $db    = $this->getDatabase();
         $query = $db->createQuery();
         $query->select('*')
             ->from($db->quoteName('#__mail_templates'))
@@ -582,6 +600,24 @@ class MailTemplate
     }
 
     /**
+     * Get a specific mail template
+     *
+     * @param   string  $key       Template identifier
+     * @param   string  $language  Language code of the template
+     *
+     * @return  object|null  An object with the data of the mail, or null if the template not found in the db.
+     *
+     * @since   4.0.0
+     *
+     * @deprecated __DEPLOY_VERSION__ this will be removed without replacement in 8.0
+     *             Use $app->bootComponent('com_mails')->getMVCFactory()->createModel('Template', 'Administrator')->getItem(); instead
+     */
+    public static function getTemplate($key, $language)
+    {
+        return (new self($key, $language))->loadTemplate($key, $language);
+    }
+
+    /**
      * Insert a new mail template into the system
      *
      * @param   string  $key       Mail template key
@@ -593,24 +629,23 @@ class MailTemplate
      * @return  boolean  True on success, false on failure
      *
      * @since   4.0.0
+     *
+     * @deprecated __DEPLOY_VERSION__ this will be removed without replacement in 8.0
+     *             Use $app->bootComponent('com_mails')->getMVCFactory()->createModel('Template', 'Administrator')->save(); instead
      */
     public static function createTemplate($key, $subject, $body, $tags, $htmlbody = '')
     {
-        $db = Factory::getDbo();
-
-        $template              = new \stdClass();
-        $template->template_id = $key;
-        $template->language    = '';
-        $template->subject     = $subject;
-        $template->body        = $body;
-        $template->htmlbody    = $htmlbody;
-        $template->extension   = explode('.', $key, 2)[0] ?? '';
-        $template->attachments = '';
-        $params                = new \stdClass();
-        $params->tags          = (array) $tags;
-        $template->params      = json_encode($params);
-
-        return $db->insertObject('#__mail_templates', $template);
+        return Factory::getApplication()->bootComponent('com_mails')
+            ->getMVCFactory()->createModel('Template', 'Administrator')->save([
+                'template_id' => $key,
+                'language'    => '',
+                'subject'     => $subject,
+                'body'        => $body,
+                'htmlbody'    => $htmlbody,
+                'params'      => json_encode(['tags' => (array) $tags]),
+                'extension'   => explode('.', $key, 2)[0] ?? '',
+                'attachments' => '',
+            ]);
     }
 
     /**
@@ -625,22 +660,21 @@ class MailTemplate
      * @return  boolean  True on success, false on failure
      *
      * @since   4.0.0
+     *
+     * @deprecated __DEPLOY_VERSION__ this will be removed without replacement in 8.0
+     *             Use $app->bootComponent('com_mails')->getMVCFactory()->createModel('Template', 'Administrator')->save(); instead
      */
     public static function updateTemplate($key, $subject, $body, $tags, $htmlbody = '')
     {
-        $db = Factory::getDbo();
-
-        $template              = new \stdClass();
-        $template->template_id = $key;
-        $template->language    = '';
-        $template->subject     = $subject;
-        $template->body        = $body;
-        $template->htmlbody    = $htmlbody;
-        $params                = new \stdClass();
-        $params->tags          = (array) $tags;
-        $template->params      = json_encode($params);
-
-        return $db->updateObject('#__mail_templates', $template, ['template_id', 'language']);
+        return Factory::getApplication()->bootComponent('com_mails')
+            ->getMVCFactory()->createModel('Template', 'Administrator')->save([
+                'template_id' => $key,
+                'language'    => '',
+                'subject'     => $subject,
+                'body'        => $body,
+                'htmlbody'    => $htmlbody,
+                'params'      => json_encode(['tags' => (array) $tags]),
+            ]);
     }
 
     /**
@@ -651,17 +685,14 @@ class MailTemplate
      * @return  boolean  True on success, false on failure
      *
      * @since   4.0.0
+     *
+     * @deprecated __DEPLOY_VERSION__ this will be removed without replacement in 8.0
+     *             Use $app->bootComponent('com_mails')->getMVCFactory()->createModel('Template', 'Administrator')->delete(); instead
      */
     public static function deleteTemplate($key)
     {
-        $db    = Factory::getDbo();
-        $query = $db->createQuery();
-        $query->delete($db->quoteName('#__mail_templates'))
-            ->where($db->quoteName('template_id') . ' = :key')
-            ->bind(':key', $key);
-        $db->setQuery($query);
-
-        return $db->execute();
+        return Factory::getApplication()->bootComponent('com_mails')
+            ->getMVCFactory()->createModel('Template', 'Administrator')->delete($key);
     }
 
     /**
