@@ -1,6 +1,6 @@
 {
   "name": "joomla",
-  "version": "5.4.1",
+  "version": "5.4.7",
   "description": "Joomla CMS",
   "license": "GPL-2.0-or-later",
   "repository": {
@@ -26,7 +26,7 @@
     "update": "node build/build.mjs --copy-assets && node build/build.mjs --build-pages && node build/build.mjs --compile-js && node build/build.mjs --compile-css && node build/build.mjs --compile-bs && node --env-file=./build/production.env build/build.mjs --com-media",
     "gzip": "node build/build.mjs --gzip",
     "versioning": "node build/build.mjs --versioning",
-    "browserlist:update": "npx browserslist@latest --update-db",
+    "browserlist:update": "npx update-browserslist-db@latest",
     "cypress:install": "cypress install",
     "cypress:open": "cypress open --config-file cypress.config.mjs",
     "cypress:run": "cypress run --config-file cypress.config.mjs"
@@ -61,7 +61,7 @@
     "choices.js": "^9.1.0",
     "chosen-js": "^1.8.7",
     "cropperjs": "^1.6.2",
-    "diff": "^5.2.0",
+    "diff": "^5.2.2",
     "dotenv": "^16.6.1",
     "dragula": "^3.7.3",
     "es-module-shims": "^1.10.1",
@@ -99,7 +99,7 @@
     "cli-progress": "^3.12.0",
     "commander": "^14.0.1",
     "core-js": "^3.45.1",
-    "cypress": "^15.3.0",
+    "cypress": "^15.8.1",
     "esbuild": "^0.25.10",
     "eslint": "^9.36.0",
     "eslint-plugin-import": "^2.32.0",
@@ -114,7 +114,7 @@
     "postcss-scss": "^4.0.9",
     "recursive-readdir": "^2.2.3",
     "rimraf": "^6.0.1",
-    "rollup": "^4.52.2",
+    "rollup": "^4.59.0",
     "rollup-plugin-vue": "^6.0.0",
     "rtlcss": "^4.3.0",
     "sass-embedded": "^1.93.2",

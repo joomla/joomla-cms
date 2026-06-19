@@ -25,7 +25,7 @@ abstract class AssociationExtensionHelper implements AssociationExtensionInterfa
     /**
      * The extension name
      *
-     * @var     array  $extension
+     * @var     string  $extension
      *
      * @since   3.7.0
      */

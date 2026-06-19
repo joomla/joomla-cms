@@ -14,12 +14,12 @@ async function onMutatedMessagesContainer(mutationList, observer) {
   for (const mutation of mutationList) {
     const nodes = Array.from(mutation.addedNodes);
     if (!nodes.length) {
-      return;
+      continue;
     }
 
-    const alerts = nodes.filter((node) => node.querySelector('.eosnotify-snooze-btn'));
+    const alerts = nodes.filter((node) => node.nodeType === Node.ELEMENT_NODE && node.querySelector('.eosnotify-snooze-btn'));
     if (!alerts.length) {
-      return;
+      continue;
     }
 
     observer.disconnect();

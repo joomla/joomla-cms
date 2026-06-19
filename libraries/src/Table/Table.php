@@ -1057,9 +1057,6 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
             $this->reorder($orderingFilter ? $db->quoteName($orderingFilter) . ' = ' . $db->quote($filterValue) : '');
         }
 
-        // Set the error to empty and return true.
-        $this->setError('');
-
         return true;
     }
 
@@ -1846,8 +1843,6 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
                 $this->$publishedField = $state;
             }
         }
-
-        $this->setError('');
 
         // Pre-processing by observers
         $event = AbstractEvent::create(

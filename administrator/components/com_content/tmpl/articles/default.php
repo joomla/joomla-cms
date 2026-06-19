@@ -167,23 +167,26 @@ $assoc = Associations::isEnabled();
                             $canEditOwnParCat     = $user->authorise('core.edit.own', 'com_content.category.' . $item->parent_category_id) && $item->parent_category_uid == $userId;
 
                             // Transition button options
-                            $options = [
-                                'title' => Text::_($item->stage_title),
-                                'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title)),
-                                'id' => 'workflow-' . $item->id,
-                                'task' => 'articles.runTransition',
-                                'disabled' => !$canExecuteTransition,
-                            ];
+                            if ($workflow_enabled) {
+                                $options = [
+                                    'title' => Text::_($item->stage_title),
+                                    'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title)),
+                                    'id' => 'workflow-' . $item->id,
+                                    'task' => 'articles.runTransition',
+                                    'disabled' => !$canExecuteTransition,
+                                ];
+                                $dataTransitionsAttribute = '';
 
-                            if ($canExecuteTransition) {
-                                $transitions = ContentHelper::filterTransitions($this->transitions, (int) $item->stage_id, (int) $item->workflow_id);
+                                if ($canExecuteTransition) {
+                                    $transitions = ContentHelper::filterTransitions($this->transitions, (int) $item->stage_id, (int) $item->workflow_id);
 
-                                $transition_ids = ArrayHelper::getColumn($transitions, 'value');
-                                $transition_ids = ArrayHelper::toInteger($transition_ids);
+                                    $transition_ids = ArrayHelper::getColumn($transitions, 'value');
+                                    $transition_ids = ArrayHelper::toInteger($transition_ids);
 
-                                $dataTransitionsAttribute = 'data-transitions="' . implode(',', $transition_ids) . '"';
+                                    $dataTransitionsAttribute = $transition_ids ? 'data-transitions="' . implode(',', $transition_ids) . '"' : '';
 
-                                $options = array_merge($options, ['transitions' => $transitions]);
+                                    $options = array_merge($options, ['transitions' => $transitions]);
+                                }
                             }
 
                             ?>

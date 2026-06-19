@@ -12,14 +12,17 @@ You are welcome to submit a contribution for review and possible inclusion in th
 
 * Report security issues to the Joomla! Security Strike Team (JSST) at security@joomla.org or use the [JSST contact form](https://developer.joomla.org/contact-security-team.html). Please do not use the public tracker for security issues. Find [here](https://github.com/joomla/joomla-cms?tab=security-ov-file#readme) more information about the [Security Policies and Procedures](https://github.com/joomla/joomla-cms?tab=security-ov-file#readme).
 
+* Please follow our [Generative AI policy](https://developer.joomla.org/generative-ai-policy.html) when using AI to contribute to the Joomla! project
+
 Please be patient as not all items will be viewed or tested immediately (remember, all bug testing for the Joomla! CMS is done by volunteers) and be receptive to feedback about your code.
 
 #### Branches
-Bug fixing PRs should be made to the `5.4-dev` branch. Merged bugfixes will be upmerged into the current branches. New features that do not break backwards compatibility should be made to the `6.1-dev`.
+Bug fixing PRs should be made to the `5.4-dev` branch. Merged bugfixes will be upmerged into the current branches. New features that do not break backwards compatibility should be made to the `6.2-dev`.
 
 
-| Branch  | Purpose                                                                                 |
-|---------|-----------------------------------------------------------------------------------------|
-| 5.4-dev | Branch for the current 5.x Joomla version.                                              |
-| 6.0-dev | Branch for the current 6.x Joomla version. Bugfixes only for 6.x go into this branch.   |
-| 6.1-dev | Branch for the next minor 6.x Joomla version. New features have to go into this branch. |
+| Branch  | Purpose                                                                                                      |
+|---------|--------------------------------------------------------------------------------------------------------------|
+| 5.4-dev | Branch for the current 5.x Joomla version.                                                                   |
+| 6.1-dev | Branch for the current 6.x Joomla version. Bugfixes only for 6.1 go into this branch.                        |
+| 6.2-dev | Branch for the next minor 6.x Joomla version. New features have to go into this branch.                      |
+| 7.0-dev | Branch for the next major Joomla version. New features that include a b/c break have to go into this branch. |
