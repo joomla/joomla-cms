@@ -974,7 +974,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // When none is set, then use the legacy way
         if (!$container->has(InstallerScriptInterface::class)) {
             @trigger_error(
-                'Legacy installer files are deprecated and will be removed in 6.0. Use a service provider instead.',
+                'Legacy installer files are deprecated and will be removed in 7.0. Use a service provider instead.',
                 E_USER_DEPRECATED
             );
 
