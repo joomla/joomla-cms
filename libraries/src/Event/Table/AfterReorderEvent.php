@@ -56,11 +56,7 @@ class AfterReorderEvent extends AbstractEvent
      */
     protected function setWhere($value)
     {
-        if (!empty($value) && !\is_string($value) && !\is_array($value)) {
-            throw new \BadMethodCallException("Argument 'where' of event {$this->name} must be empty or string or array of strings");
-        }
-
-        return $value;
+        return $this->onSetWhere($value);
     }
 
     /**
@@ -76,6 +72,10 @@ class AfterReorderEvent extends AbstractEvent
      */
     protected function onSetWhere($value)
     {
-        return $this->setWhere($value);
+        if (!empty($value) && !\is_string($value) && !\is_array($value)) {
+            throw new \BadMethodCallException("Argument 'where' of event {$this->name} must be empty or string or array of strings");
+        }
+
+        return $value;
     }
 }

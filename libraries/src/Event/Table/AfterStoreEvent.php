@@ -55,7 +55,7 @@ class AfterStoreEvent extends AbstractEvent
      */
     protected function setResult($value)
     {
-        return $value ? true : false;
+        return $this->onSetResult($value);
     }
 
     /**
@@ -71,6 +71,6 @@ class AfterStoreEvent extends AbstractEvent
      */
     protected function onSetResult($value)
     {
-        return $this->setResult($value);
+        return $value ? true : false;
     }
 }

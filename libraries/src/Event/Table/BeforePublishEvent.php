@@ -65,6 +65,56 @@ class BeforePublishEvent extends AbstractEvent
      */
     protected function setQuery($value)
     {
+        return $this->onSetQuery($value);
+    }
+
+    /**
+     * Setter for the state argument
+     *
+     * @param   int  $value  The value to set
+     *
+     * @return  integer
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @deprecated 4.4.0 will be removed in 7.0
+     *                Use counterpart with onSet prefix
+     */
+    protected function setState($value)
+    {
+        return $this->onSetState($value);
+    }
+
+    /**
+     * Setter for the userId argument
+     *
+     * @param   int  $value  The value to set
+     *
+     * @return  integer
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @deprecated 4.4.0 will be removed in 7.0
+     *                Use counterpart with onSet prefix
+     */
+    protected function setUserId($value)
+    {
+        return $this->onSetUserId($value);
+    }
+
+    /**
+     * Setter for the pks argument
+     *
+     * @param   array|null  $value  The value to set
+     *
+     * @return  mixed
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  4.4.0
+     */
+    protected function onSetQuery($value)
+    {
         if (!empty($value) && !\is_array($value)) {
             throw new \BadMethodCallException("Argument 'pks' of event {$this->name} must be empty or an array");
         }
@@ -81,10 +131,9 @@ class BeforePublishEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @deprecated 4.4.0 will be removed in 7.0
-     *                Use counterpart with onSet prefix
+     * @since  4.4.0
      */
-    protected function setState($value)
+    protected function onSetState($value)
     {
         if (!is_numeric($value)) {
             throw new \BadMethodCallException("Argument 'state' of event {$this->name} must be an integer");
@@ -102,63 +151,14 @@ class BeforePublishEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @deprecated 4.4.0 will be removed in 7.0
-     *                Use counterpart with onSet prefix
+     * @since  4.4.0
      */
-    protected function setUserId($value)
+    protected function onSetUserId($value)
     {
         if (!is_numeric($value)) {
             throw new \BadMethodCallException("Argument 'userId' of event {$this->name} must be an integer");
         }
 
         return (int) $value;
-    }
-
-    /**
-     * Setter for the pks argument
-     *
-     * @param   array|null  $value  The value to set
-     *
-     * @return  mixed
-     *
-     * @throws  \BadMethodCallException  if the argument is not of the expected type
-     *
-     * @since  4.4.0
-     */
-    protected function onSetQuery($value)
-    {
-        return $this->setQuery($value);
-    }
-
-    /**
-     * Setter for the state argument
-     *
-     * @param   int  $value  The value to set
-     *
-     * @return  integer
-     *
-     * @throws  \BadMethodCallException  if the argument is not of the expected type
-     *
-     * @since  4.4.0
-     */
-    protected function onSetState($value)
-    {
-        return $this->setState($value);
-    }
-
-    /**
-     * Setter for the userId argument
-     *
-     * @param   int  $value  The value to set
-     *
-     * @return  integer
-     *
-     * @throws  \BadMethodCallException  if the argument is not of the expected type
-     *
-     * @since  4.4.0
-     */
-    protected function onSetUserId($value)
-    {
-        return $this->setUserId($value);
     }
 }

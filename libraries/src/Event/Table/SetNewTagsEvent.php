@@ -60,7 +60,7 @@ class SetNewTagsEvent extends AbstractEvent
      */
     protected function setReplaceTags($value)
     {
-        return (bool) $value;
+        return $this->onSetReplaceTags($value);
     }
 
     /**
@@ -74,6 +74,6 @@ class SetNewTagsEvent extends AbstractEvent
      */
     protected function onSetReplaceTags($value)
     {
-        return $this->setReplaceTags($value);
+        return (bool) $value;
     }
 }

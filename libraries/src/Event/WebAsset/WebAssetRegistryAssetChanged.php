@@ -67,11 +67,7 @@ class WebAssetRegistryAssetChanged extends AbstractEvent
      */
     protected function setSubject($value)
     {
-        if (!$value || !($value instanceof WebAssetRegistryInterface)) {
-            throw new \BadMethodCallException("Argument 'subject' of event {$this->name} is not of the expected type");
-        }
-
-        return $value;
+        return $this->onSetSubject($value);
     }
 
     /**
@@ -87,7 +83,11 @@ class WebAssetRegistryAssetChanged extends AbstractEvent
      */
     protected function onSetSubject($value)
     {
-        return $this->setSubject($value);
+        if (!$value || !($value instanceof WebAssetRegistryInterface)) {
+            throw new \BadMethodCallException("Argument 'subject' of event {$this->name} is not of the expected type");
+        }
+
+        return $value;
     }
 
     /**

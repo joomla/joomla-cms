@@ -60,11 +60,7 @@ class Captive extends AbstractImmutableEvent implements ResultAwareInterface
      */
     public function setRecord(MfaTable $value): MfaTable
     {
-        if (empty($value)) {
-            throw new \DomainException(\sprintf('Argument \'record\' of event %s must be a MfaTable object.', $this->name));
-        }
-
-        return $value;
+        return $this->onSetRecord($value);
     }
 
     /**
@@ -77,6 +73,10 @@ class Captive extends AbstractImmutableEvent implements ResultAwareInterface
      */
     protected function onSetRecord(MfaTable $value): MfaTable
     {
-        return $this->setRecord($value);
+        if (empty($value)) {
+            throw new \DomainException(\sprintf('Argument \'record\' of event %s must be a MfaTable object.', $this->name));
+        }
+
+        return $value;
     }
 }

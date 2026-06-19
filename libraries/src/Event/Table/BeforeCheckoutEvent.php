@@ -60,11 +60,7 @@ class BeforeCheckoutEvent extends AbstractEvent
      */
     protected function setUserId($value)
     {
-        if (!is_numeric($value) || empty($value)) {
-            throw new \BadMethodCallException("Argument 'userId' of event {$this->name} must be an integer");
-        }
-
-        return (int) $value;
+        return $this->onSetUserId($value);
     }
 
     /**
@@ -80,6 +76,10 @@ class BeforeCheckoutEvent extends AbstractEvent
      */
     protected function onSetUserId($value)
     {
-        return $this->setUserId($value);
+        if (!is_numeric($value) || empty($value)) {
+            throw new \BadMethodCallException("Argument 'userId' of event {$this->name} must be an integer");
+        }
+
+        return (int) $value;
     }
 }

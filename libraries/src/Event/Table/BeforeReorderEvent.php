@@ -62,11 +62,7 @@ class BeforeReorderEvent extends AbstractEvent
      */
     protected function setQuery($value)
     {
-        if (!($value instanceof DatabaseQuery)) {
-            throw new \BadMethodCallException("Argument 'query' of event {$this->name} must be of DatabaseQuery type");
-        }
-
-        return $value;
+        return $this->onSetQuery($value);
     }
 
     /**
@@ -83,11 +79,7 @@ class BeforeReorderEvent extends AbstractEvent
      */
     protected function setWhere($value)
     {
-        if (!empty($value) && !\is_string($value) && !\is_array($value)) {
-            throw new \BadMethodCallException("Argument 'where' of event {$this->name} must be empty or string or array of strings");
-        }
-
-        return $value;
+        return $this->onSetWhere($value);
     }
 
     /**
@@ -103,7 +95,11 @@ class BeforeReorderEvent extends AbstractEvent
      */
     protected function onSetQuery($value)
     {
-        return $this->setQuery($value);
+        if (!($value instanceof DatabaseQuery)) {
+            throw new \BadMethodCallException("Argument 'query' of event {$this->name} must be of DatabaseQuery type");
+        }
+
+        return $value;
     }
 
     /**
@@ -119,6 +115,10 @@ class BeforeReorderEvent extends AbstractEvent
      */
     protected function onSetWhere($value)
     {
-        return $this->setWhere($value);
+        if (!empty($value) && !\is_string($value) && !\is_array($value)) {
+            throw new \BadMethodCallException("Argument 'where' of event {$this->name} must be empty or string or array of strings");
+        }
+
+        return $value;
     }
 }

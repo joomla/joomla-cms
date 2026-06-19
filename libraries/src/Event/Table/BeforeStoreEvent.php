@@ -58,7 +58,7 @@ class BeforeStoreEvent extends AbstractEvent
      */
     protected function setUpdateNulls($value)
     {
-        return $value ? true : false;
+        return $this->onSetUpdateNulls($value);
     }
 
     /**
@@ -72,6 +72,6 @@ class BeforeStoreEvent extends AbstractEvent
      */
     protected function onSetUpdateNulls($value)
     {
-        return $this->setUpdateNulls($value);
+        return $value ? true : false;
     }
 }

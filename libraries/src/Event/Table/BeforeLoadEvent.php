@@ -58,7 +58,7 @@ class BeforeLoadEvent extends AbstractEvent
      */
     protected function setReset($value)
     {
-        return $value ? true : false;
+        return $this->onSetReset($value);
     }
 
     /**
@@ -72,6 +72,6 @@ class BeforeLoadEvent extends AbstractEvent
      */
     protected function onSetReset($value)
     {
-        return $this->setReset($value);
+        return $value ? true : false;
     }
 }

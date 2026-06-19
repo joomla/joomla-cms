@@ -60,11 +60,7 @@ class BeforeBindEvent extends AbstractEvent
      */
     protected function setSrc($value)
     {
-        if (!empty($value) && !\is_object($value) && !\is_array($value)) {
-            throw new \BadMethodCallException("Argument 'src' of event {$this->name} must be empty, object or array");
-        }
-
-        return $value;
+        return $this->onSetSrc($value);
     }
 
     /**
@@ -81,11 +77,7 @@ class BeforeBindEvent extends AbstractEvent
      */
     protected function setIgnore($value)
     {
-        if (!empty($value) && !\is_array($value)) {
-            throw new \BadMethodCallException("Argument 'ignore' of event {$this->name} must be empty or array");
-        }
-
-        return $value;
+        return $this->onSetIgnore($value);
     }
 
     /**
@@ -101,7 +93,11 @@ class BeforeBindEvent extends AbstractEvent
      */
     protected function onSetSrc($value)
     {
-        return $this->setSrc($value);
+        if (!empty($value) && !\is_object($value) && !\is_array($value)) {
+            throw new \BadMethodCallException("Argument 'src' of event {$this->name} must be empty, object or array");
+        }
+
+        return $value;
     }
 
     /**
@@ -117,6 +113,10 @@ class BeforeBindEvent extends AbstractEvent
      */
     protected function onSetIgnore($value)
     {
-        return $this->setIgnore($value);
+        if (!empty($value) && !\is_array($value)) {
+            throw new \BadMethodCallException("Argument 'ignore' of event {$this->name} must be empty or array");
+        }
+
+        return $value;
     }
 }

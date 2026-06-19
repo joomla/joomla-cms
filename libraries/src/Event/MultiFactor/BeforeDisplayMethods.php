@@ -51,11 +51,7 @@ class BeforeDisplayMethods extends AbstractImmutableEvent
      */
     public function setUser(User $value): User
     {
-        if (empty($value) || ($value->id <= 0) || ($value->guest == 1)) {
-            throw new \DomainException(\sprintf('Argument \'user\' of event %s must be a non-guest User object.', $this->name));
-        }
-
-        return $value;
+        return $this->onSetUser($value);
     }
 
     /**
@@ -68,6 +64,10 @@ class BeforeDisplayMethods extends AbstractImmutableEvent
      */
     protected function onSetUser(User $value): User
     {
-        return $this->setUser($value);
+        if (empty($value) || ($value->id <= 0) || ($value->guest == 1)) {
+            throw new \DomainException(\sprintf('Argument \'user\' of event %s must be a non-guest User object.', $this->name));
+        }
+
+        return $value;
     }
 }
