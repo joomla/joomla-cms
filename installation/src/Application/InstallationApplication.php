@@ -436,6 +436,46 @@ final class InstallationApplication extends CMSApplication
     }
 
     /**
+     * Allows the application to load a custom or default document.
+     *
+     * The logic and options for creating this object are adequately generic for default cases
+     * but for many applications it will make sense to override this method and create a document,
+     * if required, based on more specific needs.
+     *
+     * @param   ?Document  $document  An optional document object. If omitted, the factory document is created.
+     *
+     * @return  InstallationApplication This method is chainable.
+     *
+     * @since   3.2
+     */
+    public function loadDocument(?Document $document = null)
+    {
+        if ($document === null) {
+            $lang = $this->getLanguage();
+            $type = $this->input->get('format', 'html', 'word');
+            $date = new Date('now');
+
+            $attributes = [
+                'charset'      => 'utf-8',
+                'lineend'      => 'unix',
+                'tab'          => "\t",
+                'language'     => $lang->getTag(),
+                'direction'    => $lang->isRtl() ? 'rtl' : 'ltr',
+                'mediaversion' => md5($date->format('YmdHi')),
+            ];
+
+            $document = $this->getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
+
+            // Register the instance to Factory.
+            Factory::$document = $document;
+        }
+
+        $this->document = $document;
+
+        return $this;
+    }
+
+    /**
      * Rendering is the process of pushing the document buffers into the template
      * placeholders, retrieving data from the document and pushing it into
      * the application response buffer.
