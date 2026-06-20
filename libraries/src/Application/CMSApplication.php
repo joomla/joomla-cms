@@ -1427,6 +1427,25 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     }
 
     /**
+     * Allows the application to load a custom or default document.
+     *
+     * For backward compatible purpose, if no document is passed, it will try to use the factory document if it exists,
+     * or create a new one if it doesn't.
+     *
+     * @param   ?Document  $document  An optional document object. If omitted, the factory document is created.
+     *
+     * @return  WebApplication This method is chainable.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function loadDocument(?Document $document = null)
+    {
+        $this->document = $document ?? Factory::$document ?? $this->createDocument();
+
+        return $this;
+    }
+
+    /**
      * Creates a document object for the application.
      *
      * @return  Document  The document object.

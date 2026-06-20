@@ -154,13 +154,13 @@ final class SiteApplication extends CMSApplication
         }
 
         // Load the document to the API
-        $document = $this->createDocument();
-        $this->loadDocument($document);
+        $this->loadDocument();
+        $document = $this->getDocument();
 
         // Set up the params
         $params   = $this->getParams();
 
-        // Register the document object with Factory
+        // Register the document object with Factory for legacy access
         Factory::$document = $document;
 
         switch ($document->getType()) {

@@ -393,8 +393,8 @@ final class ApiApplication extends CMSApplication
         }
 
         // Load the document to the API
-        $document = $this->createDocument();
-        $this->loadDocument($document);
+        $this->loadDocument();
+        $document = $this->getDocument();
 
         // Register the document object with Factory for legacy access
         Factory::$document = $document;
