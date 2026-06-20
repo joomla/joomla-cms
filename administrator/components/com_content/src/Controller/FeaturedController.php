@@ -33,8 +33,6 @@ class FeaturedController extends ArticlesController
      * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
      *
      * @since   1.6
-     *
-     * @deprecated  6.2 will be removed in 8.0 without replacement
      */
     public function getModel($name = 'Feature', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
