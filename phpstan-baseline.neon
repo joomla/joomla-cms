@@ -7596,7 +7596,7 @@ parameters:
 				              Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
 			'''
 			identifier: staticProperty.deprecated
-			count: 2
+			count: 1
 			path: libraries/src/Application/AdministratorApplication.php
 
 		-
@@ -7605,18 +7605,6 @@ parameters:
 				4\.3 \$strength will be removed in 7\.0$#
 			'''
 			identifier: method.deprecated
-			count: 1
-			path: libraries/src/Application/AdministratorApplication.php
-
-		-
-			message: '''
-				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the document service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
-			'''
-			identifier: staticMethod.deprecated
 			count: 1
 			path: libraries/src/Application/AdministratorApplication.php
 
@@ -7639,18 +7627,6 @@ parameters:
 				              Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
 			'''
 			identifier: staticProperty.deprecated
-			count: 2
-			path: libraries/src/Application/ApiApplication.php
-
-		-
-			message: '''
-				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the document service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
-			'''
-			identifier: staticMethod.deprecated
 			count: 1
 			path: libraries/src/Application/ApiApplication.php
 
