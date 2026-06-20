@@ -415,4 +415,29 @@ final class ApiApplication extends CMSApplication
             new AfterDispatchEvent('onAfterDispatch', ['subject' => $this])
         );
     }
+
+    /**
+     * Gets current template data
+     *
+     * This overrides the parent to skip the template validity check to prevent InvalidArgumentException being thrown
+     * when getTemplate() is called in the API application
+     *
+     * @param   boolean  $params  An optional associative array of configuration settings
+     *
+     * @return  string|\stdClass  The name of the template if the params argument is false. The template object if the params argument is true.
+     *
+     * @since   6.1.1
+     */
+    public function getTemplate($params = false)
+    {
+        if (!\is_object($this->template)) {
+            $this->initialiseTemplate();
+        }
+
+        if ($params) {
+            return $this->template;
+        }
+
+        return $this->template->template;
+    }
 }

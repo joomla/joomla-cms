@@ -12,6 +12,8 @@ namespace Joomla\CMS\MVC\Controller;
 use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Document\DocumentAwareInterface;
 use Joomla\CMS\Factory;
@@ -49,10 +51,15 @@ use Psr\Log\NullLogger;
  *
  * @since  2.5.5
  */
-class BaseController implements ControllerInterface, DispatcherAwareInterface, LoggerAwareInterface
+class BaseController implements
+    ControllerInterface,
+    DispatcherAwareInterface,
+    LoggerAwareInterface,
+    CacheControllerFactoryAwareInterface
 {
     use LoggerAwareTrait;
     use DispatcherAwareTrait;
+    use CacheControllerFactoryAwareTrait;
 
     /**
      * The base path of the controller
@@ -545,7 +552,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
                         $context,
                         $id,
                         (int) $result,
-                        str_replace("\n", ' ', print_r($values, 1))
+                        json_encode($values)
                     ),
                     ['category' => 'controller']
                 );
@@ -688,7 +695,8 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
 
             try {
                 /** @var \Joomla\CMS\Cache\Controller\ViewController $cache */
-                $cache = Factory::getCache($option, 'view');
+                $cache = $this->getCacheControllerFactory()
+                    ->createCacheController('view', ['defaultgroup' => $option]);
                 $cache->get($view, 'display');
             } catch (CacheExceptionInterface) {
                 $view->display();
@@ -918,7 +926,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
                         'Holding edit ID %s.%s %s',
                         $context,
                         $id,
-                        str_replace("\n", ' ', print_r($values, 1))
+                        json_encode($values)
                     ),
                     ['category' => 'controller']
                 );
@@ -1048,7 +1056,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
                         'Releasing edit ID %s.%s %s',
                         $context,
                         $id,
-                        str_replace("\n", ' ', print_r($values, 1))
+                        json_encode($values)
                     ),
                     ['category' => 'controller']
                 );
