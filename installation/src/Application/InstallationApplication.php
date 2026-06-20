@@ -434,7 +434,7 @@ final class InstallationApplication extends CMSApplication
         // Register the language object with Factory
         Factory::$language = $this->getLanguage();
     }
-    
+
     /**
      * Rendering is the process of pushing the document buffers into the template
      * placeholders, retrieving data from the document and pushing it into
