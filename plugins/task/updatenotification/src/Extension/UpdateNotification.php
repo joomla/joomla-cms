@@ -13,7 +13,9 @@ namespace Joomla\Plugin\Task\UpdateNotification\Extension;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Asset;
@@ -43,6 +45,8 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
     use TaskPluginTrait;
+    use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * @var string[]
@@ -208,7 +212,12 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
         // Send the emails to the Super Users
         foreach ($superUsers as $superUser) {
             try {
-                $mailer = new MailTemplate('plg_task_updatenotification.mail', $jLanguage->getTag());
+                $mailer = new MailTemplate(
+                    'plg_task_updatenotification.mail',
+                    $jLanguage->getTag(),
+                    $this->getMailerFactory()->createMailer(),
+                    $this->getLanguageFactory()
+                );
                 $mailer->addRecipient($superUser->email);
                 $mailer->addTemplateData($substitutions);
                 $mailer->send();

@@ -1272,6 +1272,8 @@ class JoomlaInstallerScript
             '/media/vendor/tinymce/plugins/visualchars/index.js',
             '/media/vendor/tinymce/plugins/wordcount/index.js',
             '/media/vendor/tinymce/themes/silver/index.js',
+            // From 6.2.0-alpha1 to 6.2.0-alpha2
+            '/administrator/help/en-GB/toc.json',
         ];
 
         $folders = [
@@ -1365,6 +1367,9 @@ class JoomlaInstallerScript
             '/administrator/components/com_workflow/resources/scripts/app',
             '/administrator/components/com_workflow/resources/scripts',
             '/administrator/components/com_workflow/resources',
+            // From 6.2.0-alpha1 to 6.2.0-alpha2
+            '/administrator/help/en-GB',
+            '/administrator/help',
         ];
 
         $status['files_checked']   = $files;
