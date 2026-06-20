@@ -7642,6 +7642,18 @@ parameters:
 
 		-
 			message: '''
+				#^Access to deprecated static property \$document of class Joomla\\CMS\\Factory\:
+				4\.3 will be removed in 7\.0
+				              Use the document service in the DI container or get from the application object
+				              Example\:
+				              Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
+			'''
+			identifier: staticProperty.deprecated
+			count: 1
+			path: libraries/src/Application/CMSApplication.php
+
+		-
+			message: '''
 				#^Access to deprecated static property \$instances of class Joomla\\CMS\\Menu\\AbstractMenu\:
 				4\.3 will be removed in 7\.0
 				             Use the MenuFactoryInterface from the container instead
