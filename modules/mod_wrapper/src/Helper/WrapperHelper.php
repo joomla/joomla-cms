@@ -11,7 +11,6 @@
 namespace Joomla\Module\Wrapper\Site\Helper;
 
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -68,25 +67,5 @@ class WrapperHelper
         $params->set('url', $url);
 
         return $params;
-    }
-
-    /**
-     * Gets the parameters for the wrapper
-     *
-     * @param   mixed  &$params  The parameters set in the administrator section
-     *
-     * @return  mixed  &$params  The modified parameters
-     *
-     * @since   1.5
-     *
-     * @deprecated 5.1.0 will be removed in 7.0
-     *             Use the non-static method getParamsWrapper
-     *             Example: Factory::getApplication()->bootModule('mod_wrapper', 'site')
-     *                          ->getHelper('WrapperHelper')
-     *                          ->getParamsWrapper($params, Factory::getApplication())
-     */
-    public static function getParams(&$params)
-    {
-        return (new self())->getParamsWrapper($params, Factory::getApplication());
     }
 }

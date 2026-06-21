@@ -22,7 +22,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
-use Joomla\Component\Users\Administrator\Model\UserModel;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -283,52 +282,5 @@ class ProfileModel extends FormModel
         }
 
         return $user->id;
-    }
-
-    /**
-     * Gets the configuration forms for all two-factor authentication methods
-     * in an array.
-     *
-     * @param   integer  $userId  The user ID to load the forms for (optional)
-     *
-     * @return  array
-     *
-     * @since   3.2
-     *
-     * @deprecated   4.2 will be removed in 7.0.
-     *               Will be removed without replacement
-     */
-    public function getTwofactorform($userId = null)
-    {
-        return [];
-    }
-
-    /**
-     * No longer used
-     *
-     * @param   integer  $userId  Ignored
-     *
-     * @return  \stdClass
-     *
-     * @since   3.2
-     *
-     * @deprecated   4.2 will be removed in 7.0.
-     *               Will be removed without replacement
-     */
-    public function getOtpConfig($userId = null)
-    {
-        @trigger_error(
-            \sprintf(
-                '%s() is deprecated. Use \Joomla\Component\Users\Administrator\Helper\Mfa::getUserMfaRecords() instead.',
-                __METHOD__
-            ),
-            E_USER_DEPRECATED
-        );
-
-        /** @var UserModel $model */
-        $model = $this->bootComponent('com_users')
-            ->getMVCFactory()->createModel('User', 'Administrator');
-
-        return $model->getOtpConfig();
     }
 }
