@@ -159,7 +159,7 @@ abstract class Menu
 
             static::$items[$key] = [];
 
-            $user = Factory::getUser();
+            $user = Factory::getApplication()->getIdentity();
 
             $aclcheck = !empty($config['checkacl']) ? (int) $config['checkacl'] : 0;
 

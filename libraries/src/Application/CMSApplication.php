@@ -812,7 +812,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         $this->loadLibraryLanguage();
 
         // Set user specific editor.
-        $user   = Factory::getUser();
+        $user   = $this->getIdentity();
         $editor = $user->getParam('editor', $this->get('editor'));
 
         if (!PluginHelper::isEnabled('editors', $editor)) {
@@ -965,7 +965,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
              * Any errors raised should be done in the plugin as this provides the ability
              * to provide much more information about why the routine may have failed.
              */
-            $user = Factory::getUser();
+            $user = $this->getIdentity();
 
             if ($response->type === 'Cookie') {
                 $user->cookieLogin = true;
