@@ -14,8 +14,12 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\LanguageFactoryAwareInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\MailerFactoryAwareInterface;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Router\Route;
@@ -35,9 +39,11 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.5
  */
-class ResetModel extends FormModel implements UserFactoryAwareInterface
+class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerFactoryAwareInterface, LanguageFactoryAwareInterface
 {
     use UserFactoryAwareTrait;
+    use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * Method to get the password reset request form.
@@ -460,7 +466,12 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
         $data['link_html'] = Route::link('site', $link, true, $mode, true);
         $data['token']     = $token;
 
-        $mailer = new MailTemplate('com_users.password_reset', $app->getLanguage()->getTag());
+        $mailer = new MailTemplate(
+            'com_users.password_reset',
+            $app->getLanguage()->getTag(),
+            $this->getMailerFactory()->createMailer(),
+            $this->getLanguageFactory()
+        );
         $mailer->addTemplateData($data);
         $mailer->addRecipient($user->email, $user->name);
 

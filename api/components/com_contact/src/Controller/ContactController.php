@@ -16,9 +16,13 @@ use Joomla\CMS\Event\Contact\SubmitContactEvent;
 use Joomla\CMS\Event\Contact\ValidateContactEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\LanguageFactoryAwareInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailerFactoryAwareInterface;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\CMS\MVC\Controller\Exception\SendEmail;
@@ -42,9 +46,11 @@ use Tobscure\JsonApi\Exception\InvalidParameterException;
  *
  * @since  4.0.0
  */
-class ContactController extends ApiController implements UserFactoryAwareInterface
+class ContactController extends ApiController implements UserFactoryAwareInterface, MailerFactoryAwareInterface, LanguageFactoryAwareInterface
 {
     use UserFactoryAwareTrait;
+    use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * The content type of the item.
@@ -238,7 +244,12 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
         }
 
         try {
-            $mailer = new MailTemplate('com_contact.mail', $app->getLanguage()->getTag());
+            $mailer = new MailTemplate(
+                'com_contact.mail',
+                $app->getLanguage()->getTag(),
+                $this->getMailerFactory()->createMailer(),
+                $this->getLanguageFactory()
+            );
             $mailer->addRecipient($contact->email_to);
             $mailer->setReplyTo($templateData['email'], $templateData['name']);
             $mailer->addTemplateData($templateData);
@@ -246,7 +257,12 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
 
             // If we are supposed to copy the sender, do so.
             if ($emailCopyToSender && !empty($data['contact_email_copy'])) {
-                $mailer = new MailTemplate('com_contact.mail.copy', $app->getLanguage()->getTag());
+                $mailer = new MailTemplate(
+                    'com_contact.mail.copy',
+                    $app->getLanguage()->getTag(),
+                    $this->getMailerFactory()->createMailer(),
+                    $this->getLanguageFactory()
+                );
                 $mailer->addRecipient($templateData['email']);
                 $mailer->setReplyTo($templateData['email'], $templateData['name']);
                 $mailer->addTemplateData($templateData);
