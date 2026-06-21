@@ -356,7 +356,7 @@ class UsersModel extends ListModel
             if ($active == '0') {
                 $query->whereIn($db->quoteName('a.activation'), ['', '0'], ParameterType::STRING);
             } elseif ($active == '1') {
-                $query->whereNotIn($db->quoteName('a.activation'), ['', '0']);
+                $query->whereNotIn($db->quoteName('a.activation'), ['', '0'], ParameterType::STRING);
             }
         }
 
