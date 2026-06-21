@@ -947,7 +947,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         }
 
         // The real location of the file
-        $manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
+        $manifestScriptFile = $this->parent->getPath('extension_root') . '/' . $manifestScript;
 
         // Load the installer from the file
         if (!file_exists($manifestScriptFile)) {
@@ -974,7 +974,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // When none is set, then use the legacy way
         if (!$container->has(InstallerScriptInterface::class)) {
             @trigger_error(
-                'Legacy installer files are deprecated and will be removed in 6.0. Use a service provider instead.',
+                'Legacy installer files are deprecated and will be removed in 7.0. Use a service provider instead.',
                 E_USER_DEPRECATED
             );
 

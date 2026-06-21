@@ -33,7 +33,7 @@ $wa->useScript('core')
     ->useScript('modal-content-select');
 
 $extension = $this->escape($this->state->get('filter.extension'));
-// @todo: Use of Function is deprecated and should be removed in 6.0. It stays only for backward compatibility.
+// @todo: Use of Function is deprecated and should be removed in 7.0. It stays only for backward compatibility.
 $function  = $app->getInput()->getCmd('function', 'jSelectCategory');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));

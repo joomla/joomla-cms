@@ -14,8 +14,12 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageFactoryAwareInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailerFactoryAwareInterface;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
@@ -38,9 +42,11 @@ use PHPMailer\PHPMailer\Exception as phpmailerException;
  *
  * @since  3.9.0
  */
-class RequestModel extends AdminModel implements UserFactoryAwareInterface
+class RequestModel extends AdminModel implements UserFactoryAwareInterface, MailerFactoryAwareInterface, LanguageFactoryAwareInterface
 {
     use UserFactoryAwareTrait;
+    use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * Clean the cache
@@ -318,12 +324,22 @@ class RequestModel extends AdminModel implements UserFactoryAwareInterface
 
             switch ($table->request_type) {
                 case 'export':
-                    $mailer = new MailTemplate('com_privacy.notification.admin.export', $app->getLanguage()->getTag());
+                    $mailer = new MailTemplate(
+                        'com_privacy.notification.admin.export',
+                        $app->getLanguage()->getTag(),
+                        $this->getMailerFactory()->createMailer(),
+                        $this->getLanguageFactory()
+                    );
 
                     break;
 
                 case 'remove':
-                    $mailer = new MailTemplate('com_privacy.notification.admin.remove', $app->getLanguage()->getTag());
+                    $mailer = new MailTemplate(
+                        'com_privacy.notification.admin.remove',
+                        $app->getLanguage()->getTag(),
+                        $this->getMailerFactory()->createMailer(),
+                        $this->getLanguageFactory()
+                    );
 
                     break;
 

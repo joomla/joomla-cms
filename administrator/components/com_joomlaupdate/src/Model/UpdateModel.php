@@ -1296,11 +1296,7 @@ ENDDATA;
         $authenticate = Authentication::getInstance();
         $response     = $authenticate->authenticate($credentials);
 
-        if ($response->status !== Authentication::STATUS_SUCCESS) {
-            return false;
-        }
-
-        return true;
+        return $response->status === Authentication::STATUS_SUCCESS;
     }
 
     /**
@@ -1314,11 +1310,7 @@ ENDDATA;
     {
         $file = Factory::getApplication()->getUserState('com_joomlaupdate.temp_file', null);
 
-        if (empty($file) || !is_file($file)) {
-            return false;
-        }
-
-        return true;
+        return !empty($file) && is_file($file);
     }
 
     /**
@@ -1686,13 +1678,8 @@ ENDDATA;
             return false;
         }
 
-        // Check if database schema version does not match CMS version
-        if ($model->getSchemaVersion($coreExtensionInfo->extension_id) != $changeInformation['schema']) {
-            return false;
-        }
-
-        // No database problems found
-        return true;
+        // Check if database schema version match CMS version
+        return $model->getSchemaVersion($coreExtensionInfo->extension_id) === $changeInformation['schema'];
     }
 
     /**
