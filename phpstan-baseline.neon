@@ -727,16 +727,6 @@ parameters:
 			path: administrator/components/com_config/src/Model/ComponentModel.php
 
 		-
-			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 2
-			path: administrator/components/com_config/src/Model/ComponentModel.php
-
-		-
 			message: '#^Access to an undefined property Joomla\\Component\\Config\\Administrator\\View\\Application\\HtmlView\:\:\$components\.$#'
 			identifier: property.notFound
 			count: 1
@@ -1121,16 +1111,6 @@ parameters:
 			'''
 			identifier: method.deprecatedClass
 			count: 1
-			path: administrator/components/com_content/src/Model/ArticleModel.php
-
-		-
-			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 2
 			path: administrator/components/com_content/src/Model/ArticleModel.php
 
 		-
@@ -1742,16 +1722,6 @@ parameters:
 				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
 			'''
 			identifier: method.deprecatedInterface
-			count: 1
-			path: administrator/components/com_finder/src/Indexer/Helper.php
-
-		-
-			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
 			count: 2
 			path: administrator/components/com_finder/src/Indexer/Indexer.php
 
@@ -1874,7 +1844,7 @@ parameters:
 				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
 			'''
 			identifier: method.deprecatedInterface
-			count: 4
+			count: 1
 			path: administrator/components/com_finder/src/Model/IndexModel.php
 
 		-
@@ -1908,16 +1878,6 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 8
-			path: administrator/components/com_finder/src/Model/MapsModel.php
-
-		-
-			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 3
 			path: administrator/components/com_finder/src/Model/MapsModel.php
 
 		-
@@ -2184,16 +2144,6 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 5
-			path: administrator/components/com_guidedtours/src/Model/TourModel.php
-
-		-
-			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 2
 			path: administrator/components/com_guidedtours/src/Model/TourModel.php
 
 		-
@@ -2469,16 +2419,6 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_installer/src/Model/UpdatesitesModel.php
-
-		-
-			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
 			count: 1
 			path: administrator/components/com_installer/src/Model/UpdatesitesModel.php
 
@@ -2878,16 +2818,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 2
-			path: administrator/components/com_languages/src/Model/LanguageModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -3208,16 +3138,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 2
-			path: administrator/components/com_mails/src/Model/TemplateModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method setUseExceptions\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				7\.0$#
 			'''
@@ -3278,43 +3198,13 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 1
-			path: administrator/components/com_media/src/Controller/PluginController.php
-
-		-
-			message: '''
 				#^Call to method getDispatcher\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
 				4\.3 will be removed in 7\.0
 				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
 			'''
 			identifier: method.deprecatedInterface
-			count: 3
+			count: 2
 			path: administrator/components/com_media/src/Model/ApiModel.php
-
-		-
-			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 9
-			path: administrator/components/com_media/src/Model/ApiModel.php
-
-		-
-			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 1
-			path: administrator/components/com_media/src/Model/MediaModel.php
 
 		-
 			message: '#^Access to an undefined property Joomla\\Component\\Media\\Administrator\\View\\File\\HtmlView\:\:\$file\.$#'
@@ -3542,16 +3432,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 2
-			path: administrator/components/com_menus/src/Model/ItemModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
@@ -3604,16 +3484,6 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 5
-			path: administrator/components/com_menus/src/Model/MenuModel.php
-
-		-
-			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 4
 			path: administrator/components/com_menus/src/Model/MenuModel.php
 
 		-
@@ -3959,16 +3829,6 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 10
-			path: administrator/components/com_modules/src/Model/ModuleModel.php
-
-		-
-			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 3
 			path: administrator/components/com_modules/src/Model/ModuleModel.php
 
 		-
@@ -4805,16 +4665,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 2
-			path: administrator/components/com_tags/src/Model/TagModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
@@ -4941,16 +4791,6 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 6
-			path: administrator/components/com_templates/src/Model/StyleModel.php
-
-		-
-			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
 			count: 6
 			path: administrator/components/com_templates/src/Model/StyleModel.php
 
@@ -5456,16 +5296,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 1
-			path: administrator/components/com_users/src/Model/NoteModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -5528,16 +5358,6 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 28
-			path: administrator/components/com_users/src/Model/UserModel.php
-
-		-
-			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 6
 			path: administrator/components/com_users/src/Model/UserModel.php
 
 		-
@@ -5998,16 +5818,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 1
-			path: administrator/modules/mod_quickicon/src/Helper/QuickIconHelper.php
-
-		-
-			message: '''
 				#^Call to method getDispatcher\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
 				4\.3 will be removed in 7\.0
 				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
@@ -6186,16 +5996,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 2
-			path: components/com_config/src/Model/FormModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
@@ -6332,16 +6132,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 2
-			path: components/com_contact/src/Model/ContactModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the language service in the DI container or get from the application object
@@ -6401,16 +6191,6 @@ parameters:
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
-			path: components/com_contact/src/View/Contact/HtmlView.php
-
-		-
-			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 5
 			path: components/com_contact/src/View/Contact/HtmlView.php
 
 		-
@@ -6706,16 +6486,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 4
-			path: components/com_content/src/View/Archive/HtmlView.php
-
-		-
-			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -6756,16 +6526,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 4
-			path: components/com_content/src/View/Category/HtmlView.php
-
-		-
-			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
 				4\.0 will be removed in 7\.0
 				             Use the ComponentInterface to get the categories
@@ -6784,16 +6544,6 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 1
-			path: components/com_content/src/View/Featured/HtmlView.php
-
-		-
-			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 4
 			path: components/com_content/src/View/Featured/HtmlView.php
 
 		-
@@ -6823,16 +6573,6 @@ parameters:
 			message: '#^Access to an undefined property Joomla\\Component\\Content\\Site\\View\\Category\\HtmlView\:\:\$maxLevel\.$#'
 			identifier: property.notFound
 			count: 1
-			path: components/com_content/tmpl/category/blog.php
-
-		-
-			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 4
 			path: components/com_content/tmpl/category/blog.php
 
 		-
@@ -7285,16 +7025,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 4
-			path: components/com_tags/src/View/Tag/HtmlView.php
-
-		-
-			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -7439,16 +7169,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 1
-			path: components/com_users/src/Model/RegistrationModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -7509,16 +7229,6 @@ parameters:
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
 			identifier: method.deprecated
-			count: 1
-			path: components/com_users/src/View/Profile/HtmlView.php
-
-		-
-			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
 			count: 1
 			path: components/com_users/src/View/Profile/HtmlView.php
 
@@ -8470,16 +8180,6 @@ parameters:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Console/FinderIndexCommand.php
-
-		-
-			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
 			count: 1
 			path: libraries/src/Console/FinderIndexCommand.php
 
@@ -12054,16 +11754,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 4
-			path: libraries/src/MVC/View/CategoryView.php
-
-		-
-			message: '''
 				#^Call to deprecated method setUseExceptions\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				7\.0$#
 			'''
@@ -13265,16 +12955,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 1
-			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
 				#^Call to method validatePassword\(\) of deprecated class Joomla\\CMS\\Authentication\\Password\\PHPassHandler\:
 				4\.0 will be removed in 7\.0
 				             Support for PHPass hashed passwords will be removed without replacement$#
@@ -13601,16 +13281,6 @@ parameters:
 		-
 			message: '#^Call to an undefined method Joomla\\Plugin\\Editors\\TinyMCE\\Provider\\TinyMCEProvider\:\:getApplication\(\)\.$#'
 			identifier: method.notFound
-			count: 1
-			path: plugins/editors/tinymce/src/Provider/TinyMCEProvider.php
-
-		-
-			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
 			count: 1
 			path: plugins/editors/tinymce/src/Provider/TinyMCEProvider.php
 
