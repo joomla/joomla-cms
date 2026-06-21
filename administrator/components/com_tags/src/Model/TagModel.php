@@ -12,6 +12,8 @@ namespace Joomla\Component\Tags\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Event\Model\AfterSaveEvent;
+use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -245,7 +247,8 @@ class TagModel extends AdminModel implements VersionableModelInterface
         $context    = $this->option . '.' . $this->name;
 
         // Include the plugins for the save events.
-        PluginHelper::importPlugin($this->events_map['save']);
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin($this->events_map['save'], null, true, $dispatcher);
 
         try {
             // Load the row if saving an existing tag.
@@ -293,7 +296,12 @@ class TagModel extends AdminModel implements VersionableModelInterface
             }
 
             // Trigger the before save event.
-            $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, $table, $isNew, $data]);
+            $result = $dispatcher->dispatch($this->event_before_save, new BeforeSaveEvent($this->event_before_save, [
+                'context' => $context,
+                'subject' => $table,
+                'isNew'   => $isNew,
+                'data'    => $data,
+            ]))->getArgument('result', []);
 
             if (\in_array(false, $result, true)) {
                 $this->setError($table->getError());
@@ -309,7 +317,12 @@ class TagModel extends AdminModel implements VersionableModelInterface
             }
 
             // Trigger the after save event.
-            Factory::getApplication()->triggerEvent($this->event_after_save, [$context, $table, $isNew]);
+            $dispatcher->dispatch($this->event_after_save, new AfterSaveEvent($this->event_after_save, [
+                'context' => $context,
+                'subject' => $table,
+                'isNew'   => $isNew,
+                'data'    => $data,
+            ]));
 
             // Rebuild the path for the tag:
             if (!$table->rebuildPath($table->id)) {
