@@ -14,6 +14,7 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\UserGroupsHelper;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
@@ -48,6 +49,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
     use DatabaseAwareTrait;
     use UserFactoryAwareTrait;
     use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * The task notification form. This form is merged into the task item form by {@see
@@ -331,7 +333,12 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         // Mail all matching users.
         foreach ($users as $user) {
             try {
-                $mailer = new MailTemplate($template, $app->getLanguage()->getTag(), $this->getMailerFactory()->createMailer());
+                $mailer = new MailTemplate(
+                    $template,
+                    $app->getLanguage()->getTag(),
+                    $this->getMailerFactory()->createMailer(),
+                    $this->getLanguageFactory()
+                );
                 $mailer->addTemplateData($data);
                 $mailer->addRecipient($user->email);
 
