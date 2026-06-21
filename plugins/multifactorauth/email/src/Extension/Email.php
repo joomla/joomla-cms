@@ -34,6 +34,7 @@ use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
 use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Input\Input;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
@@ -52,6 +53,7 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
  */
 class Email extends CMSPlugin implements SubscriberInterface
 {
+    use DatabaseAwareTrait;
     use UserFactoryAwareTrait;
     use MailerFactoryAwareTrait;
     use LanguageFactoryAwareTrait;
@@ -535,7 +537,8 @@ class Email extends CMSPlugin implements SubscriberInterface
                 'plg_multifactorauth_email.mail',
                 $jLanguage->getTag(),
                 $this->getMailerFactory()->createMailer(),
-                $this->getLanguageFactory()
+                $this->getLanguageFactory(),
+                $this->getDatabase()
             );
             $mailer->addRecipient($user->email, $user->name);
             $mailer->addTemplateData($replacements);
