@@ -17,6 +17,7 @@ use Joomla\CMS\Event\MultiFactor\GetMethod;
 use Joomla\CMS\Event\MultiFactor\GetSetup;
 use Joomla\CMS\Event\MultiFactor\SaveSetup;
 use Joomla\CMS\Event\MultiFactor\Validate;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
@@ -52,6 +53,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 {
     use UserFactoryAwareTrait;
     use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * Generated OTP length. Constant: 6 numeric digits.
@@ -528,7 +530,12 @@ class Email extends CMSPlugin implements SubscriberInterface
 
         try {
             $jLanguage = $this->getApplication()->getLanguage();
-            $mailer    = new MailTemplate('plg_multifactorauth_email.mail', $jLanguage->getTag());
+            $mailer    = new MailTemplate(
+                'plg_multifactorauth_email.mail',
+                $jLanguage->getTag(),
+                $this->getMailerFactory()->createMailer(),
+                $this->getLanguageFactory()
+            );
             $mailer->addRecipient($user->email, $user->name);
             $mailer->addTemplateData($replacements);
 
