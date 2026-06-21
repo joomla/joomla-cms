@@ -14,6 +14,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Event\Model\PrepareDataEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
@@ -324,10 +325,14 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface, 
             unset($this->data->password1, $this->data->password2);
 
             // Get the dispatcher and load the users plugins.
-            PluginHelper::importPlugin('user');
+            $dispatcher = $this->getDispatcher();
+            PluginHelper::importPlugin('user', null, true, $dispatcher);
 
             // Trigger the data preparation event.
-            Factory::getApplication()->triggerEvent('onContentPrepareData', ['com_users.registration', $this->data]);
+            $dispatcher->dispatch('onContentPrepareData', new PrepareDataEvent('onContentPrepareData', [
+                'context' => 'com_users.registration',
+                'data'    => $this->data,
+            ]));
         }
 
         return $this->data;
