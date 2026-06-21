@@ -86,7 +86,7 @@ trait ResultAware
      * @return  array
      * @since   4.2.0
      *
-     * @deprecated 4.4.0 will be removed in 7.0
+     * @deprecated 4.4.0 will be removed in 8.0
      *                Use counterpart with onSet prefix
      */
     protected function setResult(array $value)

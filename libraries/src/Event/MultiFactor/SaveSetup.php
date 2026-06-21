@@ -59,7 +59,7 @@ class SaveSetup extends AbstractImmutableEvent implements ResultAwareInterface
      * @return  MfaTable
      * @since   4.2.0
      *
-     * @deprecated 4.4.0 will be removed in 7.0
+     * @deprecated 4.4.0 will be removed in 8.0
      *                Use counterpart with onSet prefix
      */
     public function setRecord(MfaTable $value): MfaTable
@@ -75,7 +75,7 @@ class SaveSetup extends AbstractImmutableEvent implements ResultAwareInterface
      * @return  Input
      * @since   4.2.0
      *
-     * @deprecated 4.4.0 will be removed in 7.0
+     * @deprecated 4.4.0 will be removed in 8.0
      *                Use counterpart with onSet prefix
      */
     public function setInput(Input $value): Input
