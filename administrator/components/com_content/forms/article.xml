@@ -262,6 +262,11 @@
 			validate="rules"
 		/>
 
+		<field
+			name="schema"
+			type="hidden"
+		/>
+
 	</fieldset>
 
 	<fields name="attribs" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">

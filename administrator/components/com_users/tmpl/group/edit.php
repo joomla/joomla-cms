@@ -37,6 +37,5 @@ $this->useCoreUI = true;
     <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
     <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
-    <input type="hidden" name="task" value="">
-    <?php echo HTMLHelper::_('form.token'); ?>
+    <?php echo $this->form->renderControlFields(); ?>
 </form>

@@ -38,7 +38,12 @@ Joomla = window.Joomla || {};
         elem.value = '';
       });
 
-      form.submit();
+      if (form.requestSubmit) {
+        form.requestSubmit();
+      } else {
+        // Fallback if requestSubmit is not available
+        form.submit();
+      }
     }
   };
 
@@ -89,6 +94,14 @@ Joomla = window.Joomla || {};
 
       // Initialise selectors
       this.theForm = document.querySelector(this.options.formSelector);
+      // Prevent duplicate initialization when joomla:updated fires
+      if (this.theForm && this.theForm.dataset.searchtoolsInitialized) {
+        return;
+      }
+
+      if (this.theForm) {
+        this.theForm.dataset.searchtoolsInitialized = 'true';
+      }
 
       // Filters
       this.filterButton = document.querySelector(`${this.options.formSelector} ${this.options.filterBtnSelector}`);
@@ -179,15 +192,20 @@ Joomla = window.Joomla || {};
       // Do we need to add to mark filter as enabled?
       this.getFilterFields().forEach((i) => {
         const needsFormSubmit = !i.classList.contains(this.options.listSelectAutoSubmit)
-        && i.closest(`joomla-field-fancy-select.${this.options.listSelectAutoSubmit}`);
+          && i.closest(`joomla-field-fancy-select.${this.options.listSelectAutoSubmit}`);
         const needsFormReset = !i.classList.contains(this.options.listSelectAutoReset)
-        && i.closest(`joomla-field-fancy-select.${this.options.listSelectAutoReset}`);
+          && i.closest(`joomla-field-fancy-select.${this.options.listSelectAutoReset}`);
 
         self.checkFilter(i);
         i.addEventListener('change', () => {
           self.checkFilter(i);
           if (i.classList.contains(this.options.listSelectAutoSubmit) || needsFormSubmit) {
-            i.form.submit();
+            if (i.form.requestSubmit) {
+              i.form.requestSubmit();
+            } else {
+              // Fallback if requestSubmit is not available
+              i.form.submit();
+            }
           }
           if (i.classList.contains(this.options.listSelectAutoReset) || needsFormReset) {
             this.clear(i);
@@ -225,7 +243,12 @@ Joomla = window.Joomla || {};
               self.toggleDirection();
             }
 
-            self.theForm.submit();
+            if (self.theForm.requestSubmit) {
+              self.theForm.requestSubmit();
+            } else {
+              // Fallback if requestSubmit is not available
+              self.theForm.submit();
+            }
           }
         });
       });
@@ -263,32 +286,30 @@ Joomla = window.Joomla || {};
         }
 
         i.value = '';
-        self.checkFilter(i);
 
-        if (window.jQuery && window.jQuery.chosen) {
-          window.jQuery(i).trigger('chosen:updated');
+        if (i.hasAttribute('data-alt-value')) {
+          i.setAttribute('data-alt-value', '');
+          i.dispatchEvent(new Event('change', { bubbles: true }));
         }
+        self.checkFilter(i);
       });
 
       if (self.clearListOptions) {
         self.getListFields().forEach((i) => {
           i.value = '';
           self.checkFilter(i);
-
-          if (window.jQuery && window.jQuery.chosen) {
-            window.jQuery(i).trigger('chosen:updated');
-          }
         });
 
         // Special case to limit box to the default config limit
         document.querySelector('#list_limit').value = self.options.defaultLimit;
-
-        if (window.jQuery && window.jQuery.chosen) {
-          window.jQuery('#list_limit').trigger('chosen:updated');
-        }
       }
 
-      self.theForm.submit();
+      if (self.theForm.requestSubmit) {
+        self.theForm.requestSubmit();
+      } else {
+        // Fallback if requestSubmit is not available
+        self.theForm.submit();
+      }
     }
 
     updateFilterCount(count) {
@@ -488,10 +509,6 @@ Joomla = window.Joomla || {};
             }
           }
         });
-
-        if (window.jQuery && window.jQuery.chosen) {
-          window.jQuery(this.orderField).trigger('chosen:updated');
-        }
       }
 
       this.activeOrder = this.orderField.value;
@@ -527,10 +544,6 @@ Joomla = window.Joomla || {};
         }
 
         field.value = newValue;
-        // Trigger the chosen update
-        if (window.jQuery && window.jQuery.chosen) {
-          field.trigger('chosen:updated');
-        }
       }
     }
 
@@ -563,6 +576,9 @@ Joomla = window.Joomla || {};
       const ariasort = sort.getAttribute('data-sort');
       sort.parentNode.setAttribute('aria-sort', ariasort);
     }
+
+    // Reinitialize for Joomla Updated event
+    document.addEventListener('joomla:updated', onBoot);
 
     // Cleanup
     document.removeEventListener('DOMContentLoaded', onBoot);

@@ -48,6 +48,7 @@ class GroupsController extends ApiController
      * @return  void
      *
      * @since   5.4.6
+     * @since   6.1.1
      */
     public function delete($id = null)
     {
@@ -65,7 +66,7 @@ class GroupsController extends ApiController
      *
      * @return  boolean
      *
-     * @since   5.4.6
+     * @since   6.1.1
      */
     public function allowAdd($data = [])
     {
@@ -81,7 +82,7 @@ class GroupsController extends ApiController
      *
      * @return  boolean
      *
-     * @since   5.4.6
+     * @since   6.1.1
      */
     public function allowEdit($data = [], $key = 'id')
     {

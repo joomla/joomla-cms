@@ -45,7 +45,7 @@
       }
 
       .quickicon-icon {
-        margin-top: .5rem;
+        margin-block-start: .5rem;
         margin-inline-start: .2rem;
         color: var(--icon-color);
 
@@ -138,7 +138,7 @@
   }
 
   .quickicon-linkadd {
-    width: 2.5rem;
+    inline-size: 2.5rem;
     font-size: 1.2rem;
     background: $quickicon-linkadd-bg;
     transition: all .25s ease;
@@ -146,10 +146,10 @@
     a {
       align-items: flex-end;
       justify-content: center;
-      width: 100%;
+      inline-size: 100%;
 
       > * {
-        margin-bottom: 10px;
+        margin-block-end: 10px;
         color: $quickicon-linkadd-color;
       }
 
@@ -173,7 +173,7 @@
   .quickicon-single,
   .quickicon-group {
     display: flex;
-    min-height: 6rem;
+    min-block-size: 6rem;
     overflow: hidden;
     border: $quickicon-border;
     border-radius: $quickicon-border-radius;

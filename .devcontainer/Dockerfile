@@ -1,5 +1,5 @@
-# Start from the official PHP 8.2 image with Apache
-FROM php:8.2-apache-bookworm
+# Start from the official PHP 8.3 image with Apache
+FROM php:8.3-apache-bookworm
 
 # Install system dependencies, Node.js, Composer, and Cypress dependencies
 RUN apt-get update && apt-get install -y \

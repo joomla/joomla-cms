@@ -79,7 +79,7 @@ trait ToolbarPresets
                     'cut', 'copy', 'paste', 'pastetext', '|',
                     'visualchars', 'visualblocks', 'nonbreaking', 'blockquote', 'jtemplate', '|',
                     'print', 'preview', 'codesample', 'insertdatetime', 'removeformat', 'jxtdbuttons',
-                    'language',
+                    'language','abbr', 'abbr_remove',
                 ],
                 'toolbar2' => [],
             ],

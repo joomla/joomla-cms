@@ -143,8 +143,8 @@ abstract class DatabaseHelper
     /**
      * Get the minimum required database server version.
      *
-     * @param   DatabaseDriver  $db       Database object
-     * @param   \stdClass       $options  The session options
+     * @param   DatabaseInterface  $db       Database object
+     * @param   \stdClass          $options  The session options
      *
      * @return  string  The minimum required database server version.
      *
@@ -318,7 +318,7 @@ abstract class DatabaseHelper
         // Save options to session data if changed
         if ($optionsChanged) {
             $optsArr = ArrayHelper::fromObject($options);
-            Factory::getSession()->set('setup.options', $optsArr);
+            Factory::getApplication()->getSession()->set('setup.options', $optsArr);
         }
 
         return false;
@@ -344,7 +344,7 @@ abstract class DatabaseHelper
 
         // Check the security file if the db_host is not localhost / 127.0.0.1 / ::1
         if ($shouldCheckLocalhost && preg_match($localhost, $options->db_host) !== 1) {
-            $remoteDbFileTestsPassed = Factory::getSession()->get('remoteDbFileTestsPassed', false);
+            $remoteDbFileTestsPassed = Factory::getApplication()->getSession()->get('remoteDbFileTestsPassed', false);
 
             // When all checks have been passed we don't need to do this here again.
             if ($remoteDbFileTestsPassed === false) {
@@ -353,7 +353,7 @@ abstract class DatabaseHelper
                     'https://docs.joomla.org/Special:MyLanguage/J3.x:Secured_procedure_for_installing_Joomla_with_a_remote_database'
                 );
 
-                $remoteDbFile = Factory::getSession()->get('remoteDbFile', false);
+                $remoteDbFile = Factory::getApplication()->getSession()->get('remoteDbFile', false);
 
                 if ($remoteDbFile === false) {
                     // Add the general message
@@ -361,7 +361,7 @@ abstract class DatabaseHelper
 
                     // This is the file you need to remove if you want to use a remote database
                     $remoteDbFile = '_Joomla' . UserHelper::genRandomPassword(21) . '.txt';
-                    Factory::getSession()->set('remoteDbFile', $remoteDbFile);
+                    Factory::getApplication()->getSession()->set('remoteDbFile', $remoteDbFile);
 
                     // Get the path
                     $remoteDbPath = JPATH_INSTALLATION . '/' . $remoteDbFile;
@@ -380,13 +380,13 @@ abstract class DatabaseHelper
                             'notice'
                         );
 
-                        Factory::getSession()->set('remoteDbFileUnwritable', true);
+                        Factory::getApplication()->getSession()->set('remoteDbFileUnwritable', true);
 
                         return false;
                     }
 
                     // Save the file name to the session
-                    Factory::getSession()->set('remoteDbFileWrittenByJoomla', true);
+                    Factory::getApplication()->getSession()->set('remoteDbFileWrittenByJoomla', true);
 
                     // Request to delete that file
                     Factory::getApplication()->enqueueMessage(
@@ -403,7 +403,7 @@ abstract class DatabaseHelper
                 }
 
                 if (
-                    Factory::getSession()->get('remoteDbFileWrittenByJoomla', false) === true
+                    Factory::getApplication()->getSession()->get('remoteDbFileWrittenByJoomla', false) === true
                     && is_file(JPATH_INSTALLATION . '/' . $remoteDbFile)
                 ) {
                     // Add the general message
@@ -423,7 +423,7 @@ abstract class DatabaseHelper
                     return false;
                 }
 
-                if (Factory::getSession()->get('remoteDbFileUnwritable', false) === true && !is_file(JPATH_INSTALLATION . '/' . $remoteDbFile)) {
+                if (Factory::getApplication()->getSession()->get('remoteDbFileUnwritable', false) === true && !is_file(JPATH_INSTALLATION . '/' . $remoteDbFile)) {
                     // Add the general message
                     Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
 
@@ -442,7 +442,7 @@ abstract class DatabaseHelper
                 }
 
                 // All tests for this session passed set it to the session
-                Factory::getSession()->set('remoteDbFileTestsPassed', true);
+                Factory::getApplication()->getSession()->set('remoteDbFileTestsPassed', true);
             }
         }
 
@@ -452,8 +452,8 @@ abstract class DatabaseHelper
     /**
      * Check database server parameters after connection
      *
-     * @param   DatabaseDriver  $db       Database object
-     * @param   \stdClass       $options  The session options
+     * @param   DatabaseInterface  $db       Database object
+     * @param   \stdClass          $options  The session options
      *
      * @return  string|boolean  A string with the translated error message if
      *                          some server parameter is not ok, otherwise false.

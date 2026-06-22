@@ -123,7 +123,7 @@ class Scheduler
 
         $app->getLanguage()->load('com_scheduler', JPATH_ADMINISTRATOR);
 
-        $options['text_entry_format'] = '{DATE}	{TIME}	{PRIORITY}	{MESSAGE}';
+        $options['text_entry_format'] = "{DATE}\t{TIME}\t{PRIORITY}\t{MESSAGE}";
         $options['text_file']         = 'joomla_scheduler.php';
         Log::addLogger($options, Log::ALL, $task->logCategory);
 

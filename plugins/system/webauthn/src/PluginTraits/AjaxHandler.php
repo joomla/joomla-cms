@@ -11,7 +11,6 @@
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\GenericEvent;
 use Joomla\CMS\Event\Plugin\AjaxEvent;
 use Joomla\CMS\Event\Plugin\System\Webauthn\Ajax as PlgSystemWebauthnAjax;
@@ -86,8 +85,7 @@ trait AjaxHandler
             }
 
             // Call the plugin event onAjaxWebauthnSomething where Something is the akaction param.
-            /** @var AbstractEvent|ResultAwareInterface $triggerEvent */
-            $eventName    = 'onAjaxWebauthn' . ucfirst($akaction);
+            $eventName = 'onAjaxWebauthn' . ucfirst($akaction);
 
             switch ($eventName) {
                 case 'onAjaxWebauthn':

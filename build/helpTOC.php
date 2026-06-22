@@ -27,7 +27,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
  */
-const JOOMLA_MINIMUM_PHP = '8.1.0';
+const JOOMLA_MINIMUM_PHP = '8.3.0';
 
 if (!\defined('_JDEFINES')) {
     \define('JPATH_BASE', \dirname(__DIR__));

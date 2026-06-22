@@ -10,13 +10,13 @@
 
 namespace Joomla\Component\Workflow\Administrator\Controller;
 
+use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\Input\Input;
-use Joomla\String\Inflector;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -110,7 +110,9 @@ class DisplayController extends BaseController
                 $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
             }
 
-            $url = 'index.php?option=com_workflow&view=' . Inflector::pluralize($view) . '&extension=' . $this->input->getCmd('extension');
+            $inflector = InflectorFactory::create()->build();
+
+            $url = 'index.php?option=com_workflow&view=' . $inflector->pluralize($view) . '&extension=' . $this->input->getCmd('extension');
 
             $this->setRedirect(Route::_($url, false));
 

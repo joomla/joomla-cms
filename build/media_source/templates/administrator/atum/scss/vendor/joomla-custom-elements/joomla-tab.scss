@@ -17,12 +17,12 @@ joomla-tab {
   flex-direction: column;
 
   &[orientation=horizontal]:not([view=accordion]) {
-    margin-bottom: 0;
+    margin-block-end: 0;
   }
 
   &[orientation=horizontal]:not([view=accordion]) > div[role=tablist] {
-    width: 100%;
-    margin-bottom: 0;
+    inline-size: 100%;
+    margin-block-end: 0;
   }
 
   > div[role=tablist] {
@@ -31,7 +31,7 @@ joomla-tab {
     padding: 0;
     white-space: nowrap;
     list-style: outside none none;
-    border-bottom: $joomla-tablist-border-bottom; // 1px solid var(--template-bg-dark-10);
+    border-block-end: $joomla-tablist-border-bottom; // 1px solid var(--template-bg-dark-10);
 
     > button[role=tab] {
       position: relative;
@@ -62,10 +62,9 @@ joomla-tab {
 
         &::after {
           position: absolute;
-          right: 0;
-          bottom: 0;
-          left: 0;
-          height: 3px;
+          inset-inline: 0;
+          inset-block-end: 0;
+          block-size: 3px;
           content: "";
           background-color: var(--btn-primary-bg);
           opacity: .8;
@@ -88,13 +87,13 @@ joomla-tab {
   }
 
   > button[role=region] {
-    width: 100%;
+    inline-size: 100%;
     padding: .7rem;
     color: var(--template-text-light);
     text-align: start;
     background-color: var(--template-link-color);
     border: $joomla-tab-btn-region-border;
-    border-top: 0;
+    border-block-start: 0;
 
     &[aria-selected=true],
     &:hover,
@@ -123,23 +122,23 @@ joomla-tab {
   }
 
   .main-card-columns > * > & {
-    height: 100%;
-    border-left: $main-card-col-border-left; // 1px solid var(--template-bg-dark-10);
+    block-size: 100%;
+    border-inline-start: $main-card-col-border-left; // 1px solid var(--template-bg-dark-10);
   }
 }
 
 joomla-tab[orientation=vertical] {
   flex-direction: row;
   align-items: flex-start;
-  width: 100%;
+  inline-size: 100%;
 
   > div[role=tablist] {
     flex: 0 0 25%;
     flex-direction: column;
-    width: 100%;
-    min-width: 25%;
-    max-width: 25%;
-    height: auto;
+    inline-size: 100%;
+    min-inline-size: 25%;
+    max-inline-size: 25%;
+    block-size: auto;
     padding: 0;
     overflow: hidden;
     border: $joomla-tab-tablist-border; // 1px solid $gray-300;
@@ -148,7 +147,7 @@ joomla-tab[orientation=vertical] {
 
     @include media-breakpoint-down(lg) {
       flex: 0 0 100%;
-      max-width: 100%;
+      max-inline-size: 100%;
     }
 
     > button[role=tab] {
@@ -161,7 +160,7 @@ joomla-tab[orientation=vertical] {
     }
 
     > button[role=tab]:last-of-type {
-      border-bottom: 0;
+      border-block-end: 0;
     }
 
     > button[role=tab] {
@@ -170,8 +169,8 @@ joomla-tab[orientation=vertical] {
       padding: .75em 1em;
       margin: -1px 0;
       text-decoration: none;
-      border-top: 1px solid transparent;
-      border-bottom: $joomla-tab-vert-border-bottom; // 1px solid $gray-300;
+      border-block-start: 1px solid transparent;
+      border-block-end: $joomla-tab-vert-border-bottom; // 1px solid $gray-300;
       box-shadow: none;
 
       &[aria-selected=true],
@@ -180,15 +179,14 @@ joomla-tab[orientation=vertical] {
         color: var(--template-text-light);
         background-color: $joomla-tablist-btn-aria-exp-bg; // var(--template-bg-dark-60);
         background-image: none;
-        border-right: 0;
+        border-inline-end: 0;
         box-shadow: none;
 
         &::after {
-          top: 0;
-          bottom: 0;
-          left: -1px;
-          width: 5px;
-          height: auto;
+          inset-block: 0;
+          inset-inline-start: -1px;
+          inline-size: 5px;
+          block-size: auto;
           background-color: $joomla-tablist-btn-aria-exp-aft-bg; // var(--template-bg-dark);
         }
 
@@ -204,7 +202,7 @@ joomla-tab[orientation=vertical] {
   }
 
   > joomla-tab-element {
-    width: 100%;
+    inline-size: 100%;
     padding: $grid-gutter-width-s 0 $grid-gutter-width-s $grid-gutter-width-s;
     border: 0 none;
     box-shadow: none;
@@ -228,19 +226,18 @@ joomla-tab[view=accordion] {
       text-align: start;
       text-decoration: none;
       border: 0;
-      border-bottom: $joomla-tab-vert-border-bottom; // 1px solid $gray-300;
+      border-block-end: $joomla-tab-vert-border-bottom; // 1px solid $gray-300;
       box-shadow: none;
 
       &[aria-selected=true]::after,
       &:hover::after {
         position: absolute;
-        top: auto;
-        right: -1px;
-        bottom: -1px;
-        left: -1px;
+        inset-inline: -1px;
+        inset-block-start: auto;
+        inset-block-end: -1px;
         display: block;
-        width: calc(100% + 2px);
-        height: 5px;
+        inline-size: calc(100% + 2px);
+        block-size: 5px;
         content: "";
         background-color: var(--template-bg-dark);
         opacity: .8;
@@ -254,9 +251,9 @@ joomla-tab[view=accordion] {
 
     &[active] {
       display: block;
-      width: 100%;
-      max-width: 100%;
-      border-bottom: $joomla-tab-vert-border-bottom; // 1px solid $gray-300;
+      inline-size: 100%;
+      max-inline-size: 100%;
+      border-block-end: $joomla-tab-vert-border-bottom; // 1px solid $gray-300;
     }
   }
 
@@ -301,7 +298,7 @@ joomla-tab[view=accordion] {
       }
 
       .respTable td:last-child {
-        border-bottom: $respTable-border-bottom; // 1em var(--template-bg-dark-80) solid;
+        border-block-end: $respTable-border-bottom; // 1em var(--template-bg-dark-80) solid;
       }
 
       .oddCol {
@@ -333,8 +330,8 @@ joomla-tab[view=accordion] {
 
     [dir=rtl] joomla-tab {
       div[role="tablist"] > button[role="tab"][aria-selected="true"]::after {
-        right: auto;
-        left: 0;
+        inset-inline-end: auto;
+        inset-inline-start: 0;
       }
     }
   }

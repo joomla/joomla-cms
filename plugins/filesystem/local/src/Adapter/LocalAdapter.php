@@ -16,7 +16,6 @@ use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Image\Exception\UnparsableImageException;
 use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
@@ -830,9 +829,6 @@ class LocalAdapter implements AdapterInterface
             throw new \Exception(Text::_('COM_MEDIA_ERROR_MAKESAFE'));
         }
 
-        // Transform filename to punycode
-        $name = PunycodeHelper::toPunycode($name);
-
         // Get the extension
         $extension = File::getExt($name);
 
@@ -945,7 +941,7 @@ class LocalAdapter implements AdapterInterface
         $path     = str_replace(['\\', '/'], '/', $path);
 
         try {
-            $fs = Path::check(
+            $fs  = Path::check(
                 str_replace($rootPath, JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath, $path),
                 JPATH_ROOT . '/media/cache/com_media/thumbs/'
             );

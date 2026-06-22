@@ -14,7 +14,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Event\FetchMediaItemEvent;
 use Joomla\Component\Media\Administrator\Event\FetchMediaItemsEvent;
@@ -180,7 +179,7 @@ class ApiModel extends BaseDatabaseModel
         }
 
         $app               = Factory::getApplication();
-        $object            = new CMSObject();
+        $object            = new \stdClass();
         $object->adapter   = $adapter;
         $object->name      = $name;
         $object->path      = $path;
@@ -235,7 +234,7 @@ class ApiModel extends BaseDatabaseModel
         }
 
         $app               = Factory::getApplication();
-        $object            = new CMSObject();
+        $object            = new \stdClass();
         $object->adapter   = $adapter;
         $object->name      = $name;
         $object->path      = $path;
@@ -283,7 +282,7 @@ class ApiModel extends BaseDatabaseModel
         }
 
         $app               = Factory::getApplication();
-        $object            = new CMSObject();
+        $object            = new \stdClass();
         $object->adapter   = $adapter;
         $object->name      = $name;
         $object->path      = $path;
@@ -330,7 +329,7 @@ class ApiModel extends BaseDatabaseModel
 
         $type              = $file->type === 'file' ? 'file' : 'folder';
         $app               = Factory::getApplication();
-        $object            = new CMSObject();
+        $object            = new \stdClass();
         $object->adapter   = $adapter;
         $object->path      = $path;
 

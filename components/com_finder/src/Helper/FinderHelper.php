@@ -48,7 +48,7 @@ class FinderHelper
 
         // Initialise our variables
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Sanitise the term for the database
         $temp              = new \stdClass();

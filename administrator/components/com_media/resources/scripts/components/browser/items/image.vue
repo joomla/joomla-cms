@@ -12,17 +12,17 @@
     >
       <div class="image-background">
         <img
-          v-if="getURL"
+          v-if="thumbURL"
           class="image-cropped"
-          :src="getURL"
-          :alt="altTag"
-          :loading="loading"
-          :width="width"
-          :height="height"
+          :src="thumbURL"
+          :alt="thumbAlt"
+          :loading="thumbLoading"
+          :width="thumbWidth"
+          :height="thumbHeight"
           @load="setSize"
         >
         <span
-          v-if="!getURL"
+          v-if="!thumbURL"
           class="icon-eye-slash image-placeholder"
           aria-hidden="true"
         />
@@ -71,7 +71,7 @@ export default {
     };
   },
   computed: {
-    getURL() {
+    thumbURL() {
       if (!this.item.thumb_path) {
         return '';
       }
@@ -80,16 +80,16 @@ export default {
         ? `${this.item.thumb_path}?${this.item.modified_date ? new Date(this.item.modified_date).valueOf() : api.mediaVersion}`
         : `${this.item.thumb_path}`;
     },
-    width() {
-      return this.item.width > 0 ? this.item.width : null;
+    thumbWidth() {
+      return this.item.thumb_width || this.item.width || null;
     },
-    height() {
-      return this.item.height > 0 ? this.item.height : null;
+    thumbHeight() {
+      return this.item.thumb_height || this.item.height || null;
     },
-    loading() {
-      return this.item.width > 0 ? 'lazy' : null;
+    thumbLoading() {
+      return this.thumbWidth ? 'lazy' : null;
     },
-    altTag() {
+    thumbAlt() {
       return this.item.name;
     },
   },

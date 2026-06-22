@@ -243,7 +243,7 @@ class DatabaseModel extends BaseInstallationModel
 
         $options = array_merge(['db_created' => 1], $options);
 
-        Factory::getSession()->set('setup.options', $options);
+        Factory::getApplication()->getSession()->set('setup.options', $options);
 
         return true;
     }

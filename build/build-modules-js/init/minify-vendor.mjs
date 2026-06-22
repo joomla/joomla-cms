@@ -8,12 +8,11 @@ const RootPath = process.cwd();
 
 const folders = [
   'media/vendor/accessibility/js',
-  'media/vendor/chosen/js',
   'media/vendor/debugbar',
   'media/vendor/diff/js',
   'media/vendor/es-module-shims/js',
   'media/vendor/qrcode/js',
-  'media/vendor/webcomponentsjs/js',
+  'media/vendor/tinymce/langs',
 ];
 
 let allFiles = [];
