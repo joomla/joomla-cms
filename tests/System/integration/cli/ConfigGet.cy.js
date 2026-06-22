@@ -23,7 +23,7 @@ describe('Test CLI command config:get', () => {
         expect(result.stdout).to.contain('db');
         expect(result.stdout).to.contain('dbencryption');
         expect(result.stdout).to.contain('dbsslverifyservercert');
-        // Check for specific values 
+        // Check for specific values
         expect(result.stdout.toLowerCase()).to.contain(Cypress.env('db_type').toLowerCase());
         expect(result.stdout).to.contain('root');
     });
@@ -58,7 +58,7 @@ describe('Test CLI command config:get', () => {
         expect(result.stdout).to.contain('shared_session');
         expect(result.stdout).to.contain('session_metadata');
 
-        // Check for specific values 
+        // Check for specific values
         expect(result.stdout).to.contain('database');
         expect(result.stdout).to.contain('false');
     });
