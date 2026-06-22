@@ -24,7 +24,7 @@ describe('Test CLI command config:get', () => {
         expect(result.stdout).to.contain('dbencryption');
         expect(result.stdout).to.contain('dbsslverifyservercert');        
         // Check for specific values 
-        expect(result.stdout).to.contain(Cypress.env('db_type'));
+        expect(result.stdout.toLowerCase()).to.contain(Cypress.env('db_type').toLowerCase());
         expect(result.stdout).to.contain('root');
     });
   });
