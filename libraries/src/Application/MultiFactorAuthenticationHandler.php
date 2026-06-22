@@ -503,7 +503,7 @@ trait MultiFactorAuthenticationHandler
         }
 
         // No, we need to decrypt the string
-        $aes       = new Aes($secret, 256);
+        $aes       = new Aes($secret);
         $decrypted = $aes->decryptString($stringToDecrypt);
 
         if (!\is_string($decrypted) || empty($decrypted)) {
