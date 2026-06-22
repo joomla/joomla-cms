@@ -84,7 +84,10 @@
       }
 
       const amount = parseInt(data.amount, 10) || 0;
-      amountEl.innerHTML = `<div>${amount}</div>`;
+      const amount_wrapper = document.createElement('div');
+      amount_wrapper.textContent = amount;
+      amountEl.innerHTML = '';
+      amountEl.appendChild(amount_wrapper);
 
       const status = data.status || 'success';
 
