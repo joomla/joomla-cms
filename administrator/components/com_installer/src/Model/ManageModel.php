@@ -442,27 +442,33 @@ class ManageModel extends InstallerModel
         $changelog->setVersion($source === 'manage' ? $extension->version : $extension->updateVersion);
         $changelog->loadFromXml($changelogurl);
 
-        // Read all the entries
-        $entries = [
-            'security' => [],
-            'fix'      => [],
-            'addition' => [],
-            'change'   => [],
-            'remove'   => [],
-            'language' => [],
-            'note'     => [],
-        ];
+		$modified = [];
+		foreach ($changelog->changes as $key => $entry) {
+			// Read all the entries
+			$entries = [
+				'security' => [],
+				'fix'      => [],
+				'addition' => [],
+				'change'   => [],
+				'remove'   => [],
+				'language' => [],
+				'note'     => [],
+			];
 
-        foreach (array_keys($entries) as $name) {
-            $field = $changelog->get($name);
-            if ($field) {
-                $entries[$name] = $changelog->get($name)->data;
-            }
-        }
+			$items = [];
+			foreach (array_keys($entries) as $name) {
+				if(\property_exists($entry, $name)) {
+					$items[$name] = $entry->$name->data;
+				}
+			}
+			if(\count($items)) {
+				$modified[$key] = $items;
+			}
+		}
 
-        $layout = new FileLayout('joomla.installer.changelog');
-        $output = $layout->render($entries);
+		$layout = new FileLayout('joomla.installer.changelog');
+		$output = $layout->render($modified);
 
-        return $output;
+		return $output;
     }
 }

@@ -152,12 +152,12 @@ class Changelog
     private $matchVersion = '';
 
     /**
-     * Object containing the latest changelog data
+     * Object containing the changelog data
      *
      * @var    \stdClass
      * @since  4.0.0
      */
-    protected $latest;
+    public $changes;
 
     /**
      * Update manifest `<folder>` element
@@ -274,25 +274,9 @@ class Changelog
                 $this->items                         = [];
                 break;
             case 'CHANGELOG':
-                if (version_compare($this->currentChangelog->version->data, $this->matchVersion, '==') === true) {
-                    $this->latest = $this->currentChangelog;
-                }
-
-                // No version match, empty it
-                $this->currentChangelog = new \stdClass();
+				$this->changes[$this->currentChangelog->version->data] = $this->currentChangelog;
                 break;
             case 'CHANGELOGS':
-                // If the latest item is set then we transfer it to where we want to
-                if (isset($this->latest)) {
-                    foreach (get_object_vars($this->latest) as $key => $val) {
-                        $this->$key = $val;
-                    }
-
-                    unset($this->latest, $this->currentChangelog);
-                } elseif (isset($this->currentChangelog)) {
-                    // The update might be for an older version of j!
-                    unset($this->currentChangelog);
-                }
                 break;
         }
     }

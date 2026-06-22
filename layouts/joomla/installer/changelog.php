@@ -10,15 +10,24 @@
 
 use Joomla\CMS\Language\Text;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
-array_walk(
-    $displayData,
-    function ($items, $changeType) {
         // If there are no items, continue
-        if (empty($items)) {
-            return;
-        }
+if (empty($displayData)) {
+	return;
+}
+
+foreach($displayData as $key => $row) {
+	?>
+	<div id="<?php echo $key?>" class="changelog">
+		<div class="changelog__item justify-content-xxl-around">
+			<span><?php echo $key; ?></span>
+		</div>
+	</div>
+	<?php
+	array_walk(
+		$row,
+		function ($item, $changeType) {
 
         switch ($changeType) {
             case 'security':
@@ -46,6 +55,7 @@ array_walk(
         }
 
         ?>
+
         <div class="changelog">
             <div class="changelog__item">
                 <div class="changelog__tag">
@@ -53,11 +63,12 @@ array_walk(
                 </div>
                 <div class="changelog__list">
                     <ul>
-                        <li><?php echo implode('</li><li>', $items); ?></li>
+						<li><?php echo implode('</li><li>', $item); ?></li>
                     </ul>
                 </div>
             </div>
         </div>
         <?php
-    }
-);
+	    }
+	);
+}
