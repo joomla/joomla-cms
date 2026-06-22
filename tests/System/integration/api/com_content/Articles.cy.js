@@ -9,6 +9,22 @@ describe('Test that content API endpoint', () => {
         .should('include', 'automated test article'));
   });
 
+  it('can deliver a list of unpublished articles', () => {
+    cy.db_createArticle({ title: 'automated test article', state: 0 })
+      .then(() => cy.api_get('/content/articles?filter[state]=0'))
+      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes')
+        .its('title')
+        .should('include', 'automated test article'));
+  });
+
+  it('can deliver a list of published articles', () => {
+    cy.db_createArticle({ title: 'automated test article', state: 1 })
+      .then(() => cy.api_get('/content/articles?filter[state]=1'))
+      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes')
+        .its('title')
+        .should('include', 'automated test article'));
+  });
+
   it('can deliver a single article', () => {
     cy.db_createArticle({ title: 'automated test article' })
       .then((article) => cy.api_get(`/content/articles/${article.id}`))

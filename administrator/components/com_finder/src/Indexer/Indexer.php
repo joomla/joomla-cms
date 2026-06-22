@@ -371,7 +371,7 @@ class Indexer
         } else {
             // Update the link.
             $entry->link_id = $linkId;
-            $db->updateObject('#__finder_links', $entry, 'link_id');
+            $db->updateObject('#__finder_links', $entry, 'link_id', true);
         }
 
         // Set up the variables we will need during processing.

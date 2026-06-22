@@ -83,7 +83,7 @@ class BreadcrumbsHelper
 
         $item       = new \stdClass();
         $item->name = htmlspecialchars($params->get('homeText', $app->getLanguage()->_('MOD_BREADCRUMBS_HOME')), ENT_COMPAT, 'UTF-8');
-        $item->link = 'index.php?Itemid=' . $home->id;
+        $item->link = $home->link . '&Itemid=' . $home->id;
 
         return $item;
     }

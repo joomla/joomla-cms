@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" client="site" method="upgrade">
-	<name>MOD_ARTICLES</name>
+	<name>mod_articles</name>
 	<author>Joomla! Project</author>
 	<creationDate>2024-07</creationDate>
 	<copyright>(C) 2024 Open Source Matters, Inc.</copyright>

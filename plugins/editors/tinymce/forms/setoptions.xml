@@ -13,13 +13,6 @@
 
 	<fieldset name="basic">
 		<field
-			name="skins"
-			type="note"
-			label="PLG_TINY_FIELD_SKIN_INFO_LABEL"
-			description="PLG_TINY_FIELD_SKIN_INFO_DESC"
-		/>
-
-		<field
 			name="skin"
 			type="folderlist"
 			label="PLG_TINY_FIELD_SKIN_LABEL"

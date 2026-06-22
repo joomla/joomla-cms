@@ -84,7 +84,7 @@ class Query
                 // Process the taxonomy nodes.
                 $lang = Factory::getLanguage();
 
-                foreach ($nodes as $title => $id) {
+                foreach ($nodes as $id => $title) {
                     // Translate the title for Types
                     $key = LanguageHelper::branchPlural($title);
 

@@ -915,7 +915,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
             $languageCode = $this->getApplication()->getInput()->cookie->get(ApplicationHelper::getHash('language'));
         } else {
             // Else get the user language from the session.
-            $languageCode = $this->getApplication()->getSession()->get('plg_system_languagefilter.language');
+            $languageCode = $this->getApplication()->getSession()->get('plg_system_languagefilter.language', '');
         }
 
         // Let's be sure we got a valid language code. Fallback to null.
