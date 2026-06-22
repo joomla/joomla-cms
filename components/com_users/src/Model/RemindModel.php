@@ -13,8 +13,12 @@ namespace Joomla\Component\Users\Site\Model;
 use Joomla\CMS\Event\User\AfterRemindEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\LanguageFactoryAwareInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\MailerFactoryAwareInterface;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Router\Route;
@@ -30,8 +34,11 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.5
  */
-class RemindModel extends FormModel
+class RemindModel extends FormModel implements MailerFactoryAwareInterface, LanguageFactoryAwareInterface
 {
+    use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
+
     /**
      * Method to get the username remind request form.
      *
@@ -170,7 +177,12 @@ class RemindModel extends FormModel
         $data['link_text'] = Route::link('site', $link, false, $mode, true);
         $data['link_html'] = Route::link('site', $link, true, $mode, true);
 
-        $mailer = new MailTemplate('com_users.reminder', $app->getLanguage()->getTag());
+        $mailer = new MailTemplate(
+            'com_users.reminder',
+            $app->getLanguage()->getTag(),
+            $this->getMailerFactory()->createMailer(),
+            $this->getLanguageFactory()
+        );
         $mailer->addTemplateData($data);
         $mailer->addRecipient($user->email, $user->name);
 
