@@ -1095,6 +1095,9 @@ class JoomlaInstallerScript
             // From 6.1.0-beta1 to 6.1.0-beta2
             '/libraries/vendor/altcha-org/altcha/phpstan-baseline.neon',
             '/libraries/vendor/altcha-org/altcha/tests/AltchaTest.php',
+            // From 6.1.1 to 6.1.2
+            '/libraries/vendor/algo26-matthias/idna-convert/Dockerfile',
+            '/libraries/vendor/algo26-matthias/idna-convert/compose.yml',
         ];
 
         $folders = [
