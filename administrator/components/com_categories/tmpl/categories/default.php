@@ -85,25 +85,25 @@ if ($saveOrder && !empty($this->items)) {
                                     <?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
                                 </th>
                                 <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
-                                    <th scope="col" class="w-10 text-center d-none d-md-table-cell">
+                                    <th scope="col" class="w-10 text-start text-nowrap d-none d-md-table-cell">
                                         <span class="icon-check" aria-hidden="true"></span>
                                         <span class="d-none d-lg-inline"><?php echo Text::_('COM_CATEGORIES_HEADING_PUBLISHED'); ?></span>
                                     </th>
                                 <?php endif; ?>
                                 <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
-                                    <th scope="col" class="w-10 text-center d-none d-md-table-cell">
+                                    <th scope="col" class="w-10 text-start text-nowrap d-none d-md-table-cell">
                                         <span class="icon-times" aria-hidden="true"></span>
                                         <span class="d-none d-lg-inline"><?php echo Text::_('COM_CATEGORIES_HEADING_UNPUBLISHED'); ?></span>
                                     </th>
                                 <?php endif; ?>
                                 <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
-                                    <th scope="col" class="w-10 text-center d-none d-md-table-cell">
+                                    <th scope="col" class="w-10 text-start text-nowrap d-none d-md-table-cell">
                                         <span class="icon-folder icon-fw" aria-hidden="true"></span>
                                         <span class="d-none d-lg-inline"><?php echo Text::_('COM_CATEGORIES_HEADING_ARCHIVED'); ?></span>
                                     </th>
                                 <?php endif; ?>
                                 <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
-                                    <th scope="col" class="w-10 text-center d-none d-md-table-cell">
+                                    <th scope="col" class="w-10 text-start text-nowrap d-none d-md-table-cell">
                                         <span class="icon-trash" aria-hidden="true"></span>
                                         <span class="d-none d-lg-inline"><?php echo Text::_('COM_CATEGORIES_HEADING_TRASHED'); ?></span>
                                     </th>
@@ -203,42 +203,98 @@ if ($saveOrder && !empty($this->items)) {
                                         </div>
                                     </th>
                                     <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
-                                        <td class="text-center btns d-none d-md-table-cell itemnumber">
-                                            <a class="btn <?php echo ($item->count_published > 0) ? 'btn-success' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=1&filter[level]=1'); ?>" aria-describedby="tip-publish<?php echo $i; ?>">
-                                                <?php echo $item->count_published; ?>
-                                            </a>
-                                            <div role="tooltip" id="tip-publish<?php echo $i; ?>">
-                                                <?php echo Text::_('COM_CATEGORIES_COUNT_PUBLISHED_ITEMS'); ?>
+                                        <td class="text-start text-nowrap d-none d-md-table-cell itemnumber">
+                                            <div class="d-inline-flex flex-column flex-xl-row align-items-start gap-2 gap-xl-3">
+                                                <div>
+                                                    <a class="btn <?php echo ($item->count_published > 0) ? 'btn-success' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=1&filter[level]=1'); ?>" aria-describedby="tip-publish<?php echo $i; ?>">
+                                                        <?php echo $item->count_published; ?>
+                                                    </a>
+                                                    <div role="tooltip" id="tip-publish<?php echo $i; ?>">
+                                                        <?php echo Text::_('COM_CATEGORIES_COUNT_PUBLISHED_ITEMS'); ?>
+                                                    </div>
+                                                </div>
+                                                <?php if (property_exists($item, 'count_secondary_published') && $item->count_secondary_published > 0) : ?>
+                                                    <div>
+                                                        <a class="btn btn-outline-success" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[secondary_category_id]=' . (int) $item->id . '&filter[published]=1&filter[level]=1'); ?>" aria-describedby="tip-secondary-publish<?php echo $i; ?>">
+                                                            <?php echo $item->count_secondary_published; ?>
+                                                        </a>
+                                                        <div role="tooltip" id="tip-secondary-publish<?php echo $i; ?>">
+                                                            <?php echo Text::_('COM_CATEGORIES_COUNT_SECONDARY_PUBLISHED_ITEMS'); ?>
+                                                        </div>
+                                                    </div>
+                                                <?php endif; ?>
                                             </div>
                                         </td>
                                     <?php endif; ?>
                                     <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
-                                        <td class="text-center btns d-none d-md-table-cell itemnumber">
-                                            <a class="btn <?php echo ($item->count_unpublished > 0) ? 'btn-danger' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=0&filter[level]=1'); ?>" aria-describedby="tip-unpublish<?php echo $i; ?>">
-                                                <?php echo $item->count_unpublished; ?>
-                                            </a>
-                                            <div role="tooltip" id="tip-unpublish<?php echo $i; ?>">
-                                                <?php echo Text::_('COM_CATEGORIES_COUNT_UNPUBLISHED_ITEMS'); ?>
+                                        <td class="text-start text-nowrap d-none d-md-table-cell itemnumber">
+                                            <div class="d-inline-flex flex-column flex-xl-row align-items-start gap-2 gap-xl-3">
+                                                <div>
+                                                    <a class="btn <?php echo ($item->count_unpublished > 0) ? 'btn-danger' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=0&filter[level]=1'); ?>" aria-describedby="tip-unpublish<?php echo $i; ?>">
+                                                        <?php echo $item->count_unpublished; ?>
+                                                    </a>
+                                                    <div role="tooltip" id="tip-unpublish<?php echo $i; ?>">
+                                                        <?php echo Text::_('COM_CATEGORIES_COUNT_UNPUBLISHED_ITEMS'); ?>
+                                                    </div>
+                                                </div>
+                                                <?php if (property_exists($item, 'count_secondary_unpublished') && $item->count_secondary_unpublished > 0) : ?>
+                                                    <div>
+                                                        <a class="btn btn-outline-danger" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[secondary_category_id]=' . (int) $item->id . '&filter[published]=0&filter[level]=1'); ?>" aria-describedby="tip-secondary-unpublish<?php echo $i; ?>">
+                                                            <?php echo $item->count_secondary_unpublished; ?>
+                                                        </a>
+                                                        <div role="tooltip" id="tip-secondary-unpublish<?php echo $i; ?>">
+                                                            <?php echo Text::_('COM_CATEGORIES_COUNT_SECONDARY_UNPUBLISHED_ITEMS'); ?>
+                                                        </div>
+                                                    </div>
+                                                <?php endif; ?>
                                             </div>
                                         </td>
                                     <?php endif; ?>
                                     <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
-                                        <td class="text-center btns d-none d-md-table-cell itemnumber">
-                                            <a class="btn <?php echo ($item->count_archived > 0) ? 'btn-info' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=2&filter[level]=1'); ?>" aria-describedby="tip-archive<?php echo $i; ?>">
-                                                <?php echo $item->count_archived; ?>
-                                            </a>
-                                            <div role="tooltip" id="tip-archive<?php echo $i; ?>">
-                                                <?php echo Text::_('COM_CATEGORIES_COUNT_ARCHIVED_ITEMS'); ?>
+                                        <td class="text-start text-nowrap d-none d-md-table-cell itemnumber">
+                                            <div class="d-inline-flex flex-column flex-xl-row align-items-start gap-2 gap-xl-3">
+                                                <div>
+                                                    <a class="btn <?php echo ($item->count_archived > 0) ? 'btn-info' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=2&filter[level]=1'); ?>" aria-describedby="tip-archive<?php echo $i; ?>">
+                                                        <?php echo $item->count_archived; ?>
+                                                    </a>
+                                                    <div role="tooltip" id="tip-archive<?php echo $i; ?>">
+                                                        <?php echo Text::_('COM_CATEGORIES_COUNT_ARCHIVED_ITEMS'); ?>
+                                                    </div>
+                                                </div>
+                                                <?php if (property_exists($item, 'count_secondary_archived') && $item->count_secondary_archived > 0) : ?>
+                                                    <div>
+                                                        <a class="btn btn-outline-info" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[secondary_category_id]=' . (int) $item->id . '&filter[published]=2&filter[level]=1'); ?>" aria-describedby="tip-secondary-archive<?php echo $i; ?>">
+                                                            <?php echo $item->count_secondary_archived; ?>
+                                                        </a>
+                                                        <div role="tooltip" id="tip-secondary-archive<?php echo $i; ?>">
+                                                            <?php echo Text::_('COM_CATEGORIES_COUNT_SECONDARY_ARCHIVED_ITEMS'); ?>
+                                                        </div>
+                                                    </div>
+                                                <?php endif; ?>
                                             </div>
                                         </td>
                                     <?php endif; ?>
                                     <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
-                                        <td class="text-center btns d-none d-md-table-cell itemnumber">
-                                            <a class="btn <?php echo ($item->count_trashed > 0) ? 'btn-dark' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=-2&filter[level]=1'); ?>" aria-describedby="tip-trash<?php echo $i; ?>">
-                                                <?php echo $item->count_trashed; ?>
-                                            </a>
-                                            <div role="tooltip" id="tip-trash<?php echo $i; ?>">
-                                                <?php echo Text::_('COM_CATEGORIES_COUNT_TRASHED_ITEMS'); ?>
+                                        <td class="text-start text-nowrap d-none d-md-table-cell itemnumber">
+                                            <div class="d-inline-flex flex-column flex-xl-row align-items-start gap-2 gap-xl-3">
+                                                <div>
+                                                    <a class="btn <?php echo ($item->count_trashed > 0) ? 'btn-dark' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=-2&filter[level]=1'); ?>" aria-describedby="tip-trash<?php echo $i; ?>">
+                                                        <?php echo $item->count_trashed; ?>
+                                                    </a>
+                                                    <div role="tooltip" id="tip-trash<?php echo $i; ?>">
+                                                        <?php echo Text::_('COM_CATEGORIES_COUNT_TRASHED_ITEMS'); ?>
+                                                    </div>
+                                                </div>
+                                                <?php if (property_exists($item, 'count_secondary_trashed') && $item->count_secondary_trashed > 0) : ?>
+                                                    <div>
+                                                        <a class="btn btn-outline-secondary" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[secondary_category_id]=' . (int) $item->id . '&filter[published]=-2&filter[level]=1'); ?>" aria-describedby="tip-secondary-trash<?php echo $i; ?>">
+                                                            <?php echo $item->count_secondary_trashed; ?>
+                                                        </a>
+                                                        <div role="tooltip" id="tip-secondary-trash<?php echo $i; ?>">
+                                                            <?php echo Text::_('COM_CATEGORIES_COUNT_SECONDARY_TRASHED_ITEMS'); ?>
+                                                        </div>
+                                                    </div>
+                                                <?php endif; ?>
                                             </div>
                                         </td>
                                     <?php endif; ?>

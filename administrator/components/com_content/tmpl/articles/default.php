@@ -32,6 +32,10 @@ $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
+$wa->addInlineStyle(
+    '#adminForm .js-stools-container-filters-visible { grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); }'
+);
+
 $app       = Factory::getApplication();
 $user      = $this->getCurrentUser();
 $userId    = $user->id;
