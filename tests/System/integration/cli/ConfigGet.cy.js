@@ -11,7 +11,7 @@ describe('Test CLI command config:get', () => {
 
   it('can get database configuration group', () => {
     cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php config:get --group=db`)
-      .then((result) => {        
+      .then((result) => {
         // Check output contains expected database configuration options
         expect(result.stdout).to.contain('Option');
         expect(result.stdout).to.contain('Value');
@@ -22,7 +22,7 @@ describe('Test CLI command config:get', () => {
         expect(result.stdout).to.contain('dbprefix');
         expect(result.stdout).to.contain('db');
         expect(result.stdout).to.contain('dbencryption');
-        expect(result.stdout).to.contain('dbsslverifyservercert');        
+        expect(result.stdout).to.contain('dbsslverifyservercert');
         // Check for specific values 
         expect(result.stdout.toLowerCase()).to.contain(Cypress.env('db_type').toLowerCase());
         expect(result.stdout).to.contain('root');
@@ -31,7 +31,7 @@ describe('Test CLI command config:get', () => {
 
   it('can get mail configuration group', () => {
     cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php config:get --group=mail`)
-      .then((result) => {        
+      .then((result) => {
         // Check output contains expected mail configuration options
         expect(result.stdout).to.contain('Option');
         expect(result.stdout).to.contain('Value');
@@ -42,7 +42,7 @@ describe('Test CLI command config:get', () => {
         expect(result.stdout).to.contain('smtpauth');
         expect(result.stdout).to.contain('smtpuser');
         expect(result.stdout).to.contain('smtppass');
-        expect(result.stdout).to.contain('smtphost');        
+        expect(result.stdout).to.contain('smtphost');
         expect(result.stdout).to.contain('smtpsecure');
         expect(result.stdout).to.contain('smtpport');
     });
@@ -50,7 +50,7 @@ describe('Test CLI command config:get', () => {
 
   it('can get session configuration group', () => {
     cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php config:get --group=session`)
-      .then((result) => {        
+      .then((result) => {
         // Check output contains expected session configuration options
         expect(result.stdout).to.contain('Option');
         expect(result.stdout).to.contain('Value');
@@ -66,7 +66,7 @@ describe('Test CLI command config:get', () => {
 
   it('get error for non existent configuration group', () => {
     cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php config:get --group=test`, { failOnNonZeroExit: false })
-      .then((result) => {        
+      .then((result) => {
         expect(result.stdout).to.contain('[ERROR] Group *test* not found');
     });
   });
