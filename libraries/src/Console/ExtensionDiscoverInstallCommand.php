@@ -121,40 +121,14 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
      */
     public function processDiscover($eid): int
     {
-        $jInstaller = new Installer();
-        $jInstaller->setDatabase($this->getDatabase());
-        $count = 0;
-
-        if ($eid === -1) {
-            $db    = $this->getDatabase();
-            $query = $db->createQuery()
-                ->select($db->quoteName(['extension_id']))
-                ->from($db->quoteName('#__extensions'))
-                ->where($db->quoteName('state') . ' = -1');
-            $db->setQuery($query);
-            $eidsToDiscover = $db->loadObjectList();
-
-            foreach ($eidsToDiscover as $eidToDiscover) {
-                if (!$jInstaller->discover_install($eidToDiscover->extension_id)) {
-                    return -1;
-                }
-
-                $count++;
-            }
-
-            if (empty($eidsToDiscover)) {
-                return 0;
-            }
-        } else {
-            if ($jInstaller->discover_install($eid)) {
-                return 1;
-            }
-
-            return -1;
+        if ($eid !== -1) {
+            $jInstaller = new Installer();
+            $jInstaller->setDatabase($this->getDatabase());
+            return $jInstaller->discover_install($eid) ? 1 : -1;
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['extension_id']))
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('state') . ' = -1');
