@@ -166,26 +166,6 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
             $this->_type = $config['type'];
         }
 
-        if (property_exists($this, 'app')) {
-            @trigger_error('The application should be injected through setApplication() and requested through getApplication().', E_USER_DEPRECATED);
-            $reflection  = new \ReflectionClass($this);
-            $appProperty = $reflection->getProperty('app');
-
-            if ($appProperty->isPrivate() === false && \is_null($this->app)) {
-                $this->app = Factory::getApplication();
-            }
-        }
-
-        if (property_exists($this, 'db')) {
-            @trigger_error('The database should be injected through the DatabaseAwareInterface and trait.', E_USER_DEPRECATED);
-            $reflection = new \ReflectionClass($this);
-            $dbProperty = $reflection->getProperty('db');
-
-            if ($dbProperty->isPrivate() === false && \is_null($this->db)) {
-                $this->db = Factory::getDbo();
-            }
-        }
-
         // Load the language files if needed.
         if ($this->autoloadLanguage) {
             $this->autoloadLanguage();

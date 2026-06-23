@@ -53,8 +53,8 @@ if (!empty($feed) && is_string($feed)) {
         if ($feed->title !== null && $params->get('rsstitle', 1)) {
             ?>
                 <h2 class="<?php echo $direction; ?>">
-                    <a href="<?php echo htmlspecialchars($rssurl, ENT_COMPAT, 'UTF-8'); ?>" target="_blank" rel="noopener">
-                    <?php echo $feed->title; ?></a>
+                    <a href="<?php echo htmlspecialchars($rssurl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noopener">
+                    <?php echo htmlspecialchars($feed->title, ENT_QUOTES, 'UTF-8'); ?></a>
                 </h2>
             <?php
         }
@@ -89,10 +89,10 @@ if (!empty($feed) && is_string($feed)) {
                 <li>
                     <?php if (!empty($uri)) : ?>
                         <span class="feed-link">
-                        <a href="<?php echo htmlspecialchars($uri, ENT_COMPAT, 'UTF-8'); ?>" target="_blank" rel="noopener">
-                        <?php echo trim($feed[$i]->title); ?></a></span>
+                        <a href="<?php echo htmlspecialchars($uri, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noopener">
+                        <?php echo htmlspecialchars(trim($feed[$i]->title), ENT_QUOTES, 'UTF-8'); ?></a></span>
                     <?php else : ?>
-                        <span class="feed-link"><?php echo trim($feed[$i]->title); ?></span>
+                        <span class="feed-link"><?php echo htmlspecialchars(trim($feed[$i]->title), ENT_QUOTES, 'UTF-8'); ?></span>
                     <?php endif; ?>
 
                     <?php if ($params->get('rssitemdate', 0)  && $feed[$i]->publishedDate !== null) : ?>

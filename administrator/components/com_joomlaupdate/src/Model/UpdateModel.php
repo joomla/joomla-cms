@@ -568,7 +568,7 @@ class UpdateModel extends BaseDatabaseModel
         return [
             'password' => $app->getUserState('com_joomlaupdate.password'),
             'filesize' => $app->getUserState('com_joomlaupdate.filesize'),
-            'filename' => $app->getUserState('com_joomlaupdate.file'),
+            'filename' => $fileInformation['basename'],
         ];
     }
 
@@ -805,23 +805,6 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         return basename($target);
-    }
-
-    /**
-     * Backwards compatibility. Use createUpdateFile() instead.
-     *
-     * @param   null  $basename The basename of the file to create
-     *
-     * @return  boolean
-     * @since   2.5.1
-     *
-     * @deprecated  4.3 will be removed in 7.0
-     *              Use "createUpdateFile" instead
-     *              Example: $updateModel->createUpdateFile($basename);
-     */
-    public function createRestorationFile($basename = null): bool
-    {
-        return $this->createUpdateFile($basename);
     }
 
     /**
@@ -1296,11 +1279,7 @@ ENDDATA;
         $authenticate = Authentication::getInstance();
         $response     = $authenticate->authenticate($credentials);
 
-        if ($response->status !== Authentication::STATUS_SUCCESS) {
-            return false;
-        }
-
-        return true;
+        return $response->status === Authentication::STATUS_SUCCESS;
     }
 
     /**
@@ -1314,11 +1293,7 @@ ENDDATA;
     {
         $file = Factory::getApplication()->getUserState('com_joomlaupdate.temp_file', null);
 
-        if (empty($file) || !is_file($file)) {
-            return false;
-        }
-
-        return true;
+        return !empty($file) && is_file($file);
     }
 
     /**
@@ -1429,33 +1404,37 @@ ENDDATA;
             $option->notice = $option->state ? null : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DATABASE_NOT_SUPPORTED_NOTICE');
             $options[]      = $option;
 
-            // Check if the Joomla 5 backwards compatibility plugin is disabled
-            $plugin = ExtensionHelper::getExtensionRecord('compat', 'plugin', 0, 'behaviour');
+            // Check if the backwards compatibility plugin of current Joomla major version is disabled
+            $plugin = ExtensionHelper::getExtensionRecord('compat' . Version::MAJOR_VERSION, 'plugin', 0, 'behaviour');
 
-            $this->translateExtensionName($plugin);
+            if ($plugin) {
+                $this->translateExtensionName($plugin);
 
-            $option         = new \stdClass();
-            $option->state  = !PluginHelper::isEnabled('behaviour', 'compat');
-            $option->label  = $option->state
-                ? $plugin->name
-                : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_BC_DISABLED_TITLE', $plugin->name);
-            $option->notice = $option->state
-                ? null
-                : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_BC_DISABLED_NOTICE', $plugin->name, $plugin->folder, $plugin->element);
-            $options[]      = $option;
+                $option         = new \stdClass();
+                $option->state  = !PluginHelper::isEnabled($plugin->folder, $plugin->element);
+                $option->label  = $option->state
+                    ? $plugin->name
+                    : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_BC_DISABLED_TITLE', $plugin->name);
+                $option->notice = $option->state
+                    ? null
+                    : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_BC_DISABLED_NOTICE', $plugin->name, $plugin->folder, $plugin->element);
+                $options[]      = $option;
+            }
 
-            // Check if the Joomla 6 backwards compatibility plugin is enabled
-            $plugin = ExtensionHelper::getExtensionRecord('compat6', 'plugin', 0, 'behaviour');
+            // Check if the backwards compatibility plugin of next Joomla major version is enabled
+            $plugin = ExtensionHelper::getExtensionRecord('compat' . (Version::MAJOR_VERSION + 1), 'plugin', 0, 'behaviour');
 
-            $this->translateExtensionName($plugin);
+            if ($plugin) {
+                $this->translateExtensionName($plugin);
 
-            $option         = new \stdClass();
-            $option->state  = PluginHelper::isEnabled('behaviour', 'compat6');
-            $option->label  = $option->state
-                ? $plugin->name
-                : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_BC_ENABLED_TITLE', $plugin->name);
-            $option->notice = $option->state ? null : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_ENABLED_NOTICE', $plugin->folder, $plugin->element);
-            $options[]      = $option;
+                $option         = new \stdClass();
+                $option->state  = PluginHelper::isEnabled($plugin->folder, $plugin->element);
+                $option->label  = $option->state
+                    ? $plugin->name
+                    : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_BC_ENABLED_TITLE', $plugin->name);
+                $option->notice = $option->state ? null : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_ENABLED_NOTICE', $plugin->folder, $plugin->element);
+                $options[]      = $option;
+            }
         }
 
         // Check if database structure is up to date
@@ -1682,13 +1661,8 @@ ENDDATA;
             return false;
         }
 
-        // Check if database schema version does not match CMS version
-        if ($model->getSchemaVersion($coreExtensionInfo->extension_id) != $changeInformation['schema']) {
-            return false;
-        }
-
-        // No database problems found
-        return true;
+        // Check if database schema version match CMS version
+        return $model->getSchemaVersion($coreExtensionInfo->extension_id) === $changeInformation['schema'];
     }
 
     /**

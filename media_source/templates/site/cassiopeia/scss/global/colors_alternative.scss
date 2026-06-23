@@ -4,8 +4,6 @@
 
 :root {
   --cassiopeia-color-primary: #{$alternative-color-primary};
-  // @deprecated --casiopeia-color-link is deprecated in favour of --link-color
-  --cassiopeia-color-link: #{$alternative-color-link};
   --link-color: #{$alternative-color-link};
   --link-color-rgb: #{to-rgb($alternative-color-link)};
   --cassiopeia-color-hover: #{$alternative-color-hover};
