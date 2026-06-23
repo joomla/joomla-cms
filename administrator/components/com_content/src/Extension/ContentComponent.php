@@ -36,7 +36,6 @@ use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Component\Content\Administrator\Service\HTML\AdministratorService;
 use Joomla\Component\Content\Administrator\Service\HTML\Icon;
 use Joomla\Database\DatabaseInterface;
-use Joomla\Database\ParameterType;
 use Psr\Container\ContainerInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -341,73 +340,6 @@ class ContentComponent extends MVCComponent implements
         ];
 
         LibraryContentHelper::countRelations($items, $config);
-
-        $this->countSecondaryCategoryItems($items);
-    }
-
-    /**
-     * Adds secondary category count items for Category Manager.
-     *
-     * @param   \stdClass[]  $items  The category objects
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    private function countSecondaryCategoryItems(array $items): void
-    {
-        $counterNames = [
-            (string) self::CONDITION_TRASHED     => 'count_secondary_trashed',
-            (string) self::CONDITION_UNPUBLISHED => 'count_secondary_unpublished',
-            (string) self::CONDITION_PUBLISHED   => 'count_secondary_published',
-            (string) self::CONDITION_ARCHIVED    => 'count_secondary_archived',
-        ];
-
-        $records = [];
-
-        foreach ($items as $item) {
-            foreach ($counterNames as $counterName) {
-                $item->{$counterName} = 0;
-            }
-
-            $records[(int) $item->id] = $item;
-        }
-
-        if (!$records) {
-            return;
-        }
-
-        $db      = Factory::getContainer()->get(DatabaseInterface::class);
-        $context = 'com_content.article';
-
-        $query = $db->createQuery()
-            ->select(
-                [
-                    $db->quoteName('m.category_id', 'catid'),
-                    $db->quoteName('c.state', 'state'),
-                    'COUNT(*) AS ' . $db->quoteName('count'),
-                ]
-            )
-            ->from($db->quoteName('#__category_item_map', 'm'))
-            ->innerJoin(
-                $db->quoteName('#__content', 'c'),
-                $db->quoteName('c.id') . ' = ' . $db->quoteName('m.item_id')
-            )
-            ->where($db->quoteName('m.context') . ' = :context')
-            ->whereIn($db->quoteName('m.category_id'), array_keys($records))
-            ->whereIn($db->quoteName('c.state'), array_keys($counterNames))
-            ->group($db->quoteName(['m.category_id', 'c.state']))
-            ->bind(':context', $context, ParameterType::STRING);
-
-        $relationsAll = $db->setQuery($query)->loadObjectList();
-
-        foreach ($relationsAll as $relation) {
-            $id = (int) $relation->catid;
-
-            if (isset($records[$id], $counterNames[$relation->state])) {
-                $records[$id]->{$counterNames[$relation->state]} = (int) $relation->count;
-            }
-        }
     }
 
     /**

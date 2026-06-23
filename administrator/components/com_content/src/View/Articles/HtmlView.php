@@ -155,7 +155,6 @@ class HtmlView extends BaseHtmlView
 
                 // One last changes needed is to change the category filter to just show categories with All language or with the forced language.
                 $this->filterForm->setFieldAttribute('category_id', 'language', '*,' . $forcedLanguage, 'filter');
-                $this->filterForm->setFieldAttribute('secondary_category_id', 'language', '*,' . $forcedLanguage, 'filter');
             }
 
             $this->filterForm->addControlField('forcedLanguage', $forcedLanguage);

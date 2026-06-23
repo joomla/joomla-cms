@@ -71,7 +71,6 @@ class ArticlesModel extends ListModel
                 'published', 'a.published',
                 'author_id',
                 'category_id',
-                'secondary_category_id',
                 'level',
                 'tag',
                 'rating_count', 'rating',
@@ -142,7 +141,6 @@ class ArticlesModel extends ListModel
 
         // Required content filters for the administrator menu
         $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
-        $this->getUserStateFromRequest($this->context . '.filter.secondary_category_id', 'filter_secondary_category_id');
         $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
         $this->getUserStateFromRequest($this->context . '.filter.featured', 'filter_featured');
         $this->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
@@ -182,8 +180,6 @@ class ArticlesModel extends ListModel
         $id .= ':' . $this->getState('filter.published');
         $id .= ':' . $this->getState('filter.featured');
         $id .= ':' . serialize($this->getState('filter.category_id'));
-        $id .= ':' . serialize($this->getState('filter.secondary_category_id'));
-        $id .= ':' . $this->getState('filter.level');
         $id .= ':' . serialize($this->getState('filter.author_id'));
         $id .= ':' . $this->getState('filter.language');
         $id .= ':' . serialize($this->getState('filter.tag'));
@@ -374,19 +370,12 @@ class ArticlesModel extends ListModel
         }
 
         // Filter by categories and by level
-        $categoryId          = $this->getState('filter.category_id', []);
-        $secondaryCategoryId = $this->getState('filter.secondary_category_id', []);
-        $level               = (int) $this->getState('filter.level');
+        $categoryId = $this->getState('filter.category_id', []);
+        $level      = (int) $this->getState('filter.level');
 
         if (!\is_array($categoryId)) {
             $categoryId = $categoryId ? [$categoryId] : [];
         }
-
-        if (!\is_array($secondaryCategoryId)) {
-            $secondaryCategoryId = $secondaryCategoryId ? [$secondaryCategoryId] : [];
-        }
-
-        $secondaryCategoryId = array_values(array_filter(ArrayHelper::toInteger($secondaryCategoryId)));
 
         // Case: Using both categories filter and by level filter
         if (\count($categoryId)) {
@@ -417,54 +406,10 @@ class ArticlesModel extends ListModel
             }
 
             $query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
-        } elseif ($level && empty($secondaryCategoryId)) {
+        } elseif ($level = (int) $level) {
             // Case: Using only the by level filter
             $query->where($db->quoteName('c.level') . ' <= :level')
                 ->bind(':level', $level, ParameterType::INTEGER);
-        }
-
-        // Filter by secondary categories and by level.
-        if (\count($secondaryCategoryId)) {
-            $categoryTable       = new Category($db);
-            $subCatItemsWhere    = [];
-
-            foreach ($secondaryCategoryId as $filterCatid) {
-                $categoryTable->load($filterCatid);
-
-                // Because values to $query->bind() are passed by reference, using $query->bindArray() here instead to prevent overwriting.
-                $valuesToBind = [$categoryTable->lft, $categoryTable->rgt];
-
-                if ($level) {
-                    $valuesToBind[] = $level + $categoryTable->level - 1;
-                }
-
-                // Bind values and get parameter names.
-                $bounded = $query->bindArray($valuesToBind);
-
-                $secondaryCategoryWhere = $db->quoteName('sc.lft') . ' >= ' . $bounded[0] . ' AND ' . $db->quoteName('sc.rgt') . ' <= ' . $bounded[1];
-
-                if ($level) {
-                    $secondaryCategoryWhere .= ' AND ' . $db->quoteName('sc.level') . ' <= ' . $bounded[2];
-                }
-
-                $subCatItemsWhere[] = '(' . $secondaryCategoryWhere . ')';
-            }
-
-            $secondaryCategorySubQuery = $db->createQuery()
-                ->select('DISTINCT ' . $db->quoteName('m.item_id'))
-                ->from($db->quoteName('#__category_item_map', 'm'))
-                ->innerJoin(
-                    $db->quoteName('#__categories', 'sc'),
-                    $db->quoteName('sc.id') . ' = ' . $db->quoteName('m.category_id')
-                )
-                ->where($db->quoteName('m.context') . ' = ' . $db->quote('com_content.article'))
-                ->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
-
-            if (!$user->authorise('core.admin')) {
-                $secondaryCategorySubQuery->whereIn($db->quoteName('sc.access'), $user->getAuthorisedViewLevels());
-            }
-
-            $query->where($db->quoteName('a.id') . ' IN (' . $secondaryCategorySubQuery . ')');
         }
 
         // Filter by author
