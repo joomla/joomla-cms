@@ -397,7 +397,7 @@ class ArticlesHelper implements DatabaseAwareInterface
 
                 if ($introtext_limit != 0) {
                     $truncated                = HTMLHelper::_('string.truncateComplex', $item->displayIntrotext, $introtext_limit);
-                    $item->introTextTruncated = ($truncated !== $item->displayIntrotext);
+                    $item->introTextTruncated = $truncated !== $item->displayIntrotext;
                     $item->displayIntrotext   = $truncated;
                 }
             }
