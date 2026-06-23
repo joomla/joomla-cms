@@ -251,7 +251,7 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
 
                 $sent = false;
             } catch (\RuntimeException $exception) {
-                Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                Factory::getApplication()->enqueueMessage(Text::_($exception->getMessage()), 'warning');
 
                 $sent = false;
             }
