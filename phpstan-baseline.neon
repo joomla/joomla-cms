@@ -7746,7 +7746,7 @@ parameters:
 		-
 			message: '''
 				#^Access to constant on deprecated class Joomla\\CMS\\Application\\CliApplication\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the ConsoleApplication instead$#
 			'''
 			identifier: classConstant.deprecatedClass
@@ -7756,7 +7756,7 @@ parameters:
 		-
 			message: '''
 				#^Access to property \$input of deprecated class Joomla\\CMS\\Application\\CliApplication\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the ConsoleApplication instead$#
 			'''
 			identifier: property.deprecatedClass
@@ -7766,7 +7766,7 @@ parameters:
 		-
 			message: '''
 				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\Application\\CliApplication\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the ConsoleApplication instead$#
 			'''
 			identifier: method.deprecatedClass
@@ -7776,7 +7776,7 @@ parameters:
 		-
 			message: '''
 				#^Call to method getContainer\(\) of deprecated class Joomla\\CMS\\Application\\CliApplication\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the ConsoleApplication instead$#
 			'''
 			identifier: method.deprecatedClass
@@ -7786,7 +7786,7 @@ parameters:
 		-
 			message: '''
 				#^Class Joomla\\CMS\\Application\\DaemonApplication extends deprecated class Joomla\\CMS\\Application\\CliApplication\:
-				4\.0 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use the ConsoleApplication instead$#
 			'''
 			identifier: class.extendsDeprecatedClass
@@ -9901,7 +9901,7 @@ parameters:
 		-
 			message: '''
 				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\Filesystem\\Stream\:
-				4\.4 will be removed in 6\.0
+				4\.4 will be removed in 7\.0
 				             Use Joomla\\Filesystem\\Stream instead\.$#
 			'''
 			identifier: method.deprecatedClass
@@ -9911,7 +9911,7 @@ parameters:
 		-
 			message: '''
 				#^Instantiation of deprecated class Joomla\\CMS\\Filesystem\\Stream\:
-				4\.4 will be removed in 6\.0
+				4\.4 will be removed in 7\.0
 				             Use Joomla\\Filesystem\\Stream instead\.$#
 			'''
 			identifier: new.deprecatedClass
@@ -13060,7 +13060,7 @@ parameters:
 		-
 			message: '''
 				#^Call to static method clean\(\) on deprecated class Joomla\\CMS\\Filesystem\\Path\:
-				4\.4 will be removed in 6\.0
+				4\.4 will be removed in 7\.0
 				             Use Joomla\\Filesystem\\Path instead\.$#
 			'''
 			identifier: staticMethod.deprecatedClass
