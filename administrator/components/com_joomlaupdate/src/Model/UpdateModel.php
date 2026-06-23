@@ -1107,10 +1107,6 @@ ENDDATA;
             return false;
         }
 
-        if ($msg) {
-            $installer->set('extension_message', $msg);
-        }
-
         return $msg;
     }
 
