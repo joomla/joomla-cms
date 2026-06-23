@@ -11,11 +11,14 @@
 namespace Joomla\Component\Mails\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Model\AfterSaveEvent;
+use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Path;
@@ -300,7 +303,8 @@ class TemplateModel extends AdminModel
         $isNew       = true;
 
         // Include the plugins for the save events.
-        \Joomla\CMS\Plugin\PluginHelper::importPlugin($this->events_map['save']);
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin($this->events_map['save'], null, true, $dispatcher);
 
         // Allow an exception to be thrown.
         try {
@@ -332,7 +336,12 @@ class TemplateModel extends AdminModel
             }
 
             // Trigger the before save event.
-            $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, $table, $isNew, $data]);
+            $result = $dispatcher->dispatch($this->event_before_save, new BeforeSaveEvent($this->event_before_save, [
+                'context' => $context,
+                'subject' => $table,
+                'isNew'   => $isNew,
+                'data'    => $data,
+            ]))->getArgument('result', []);
 
             if (\in_array(false, $result, true)) {
                 $this->setError($table->getError());
@@ -351,7 +360,12 @@ class TemplateModel extends AdminModel
             $this->cleanCache();
 
             // Trigger the after save event.
-            Factory::getApplication()->triggerEvent($this->event_after_save, [$context, $table, $isNew, $data]);
+            $dispatcher->dispatch($this->event_after_save, new AfterSaveEvent($this->event_after_save, [
+                'context' => $context,
+                'subject' => $table,
+                'isNew'   => $isNew,
+                'data'    => $data,
+            ]));
         } catch (\Exception $e) {
             $this->setError($e->getMessage());
 
