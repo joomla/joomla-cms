@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\Behaviour\Compat7\Extension;
 
+use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
@@ -65,10 +66,47 @@ final class Compat7 extends CMSPlugin implements SubscriberInterface
          */
 
         /**
-         * Include classes which will likely be removed in 8.0
+         * Load class names which are deprecated since joomla 4.0 and which will
+         * likely be removed in Joomla 7.0
+         */
+        if ($this->params->get('classes_aliases', '0')) {
+            require_once \dirname(__DIR__) . '/classmap/classmap.php';
+        }
+
+        /**
+         * Include classes which will likely be removed in 7.0
          */
         if ($this->params->get('legacy_classes', '1')) {
             \JLoader::registerNamespace('\\Joomla\\CMS', JPATH_PLUGINS . '/behaviour/compat7/classes');
+        }
+
+        /**
+         * Compatibility switch for deprecated function.
+         * @deprecated __DEPLOY_VERSION__ will be removed with 8.0
+         */
+        \define('COMPAT_JOOMLA_7', true);
+    }
+
+    /**
+     * We run as early as possible, this should be the first event
+     *
+     * @param  AfterInitialiseDocumentEvent $event
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function onAfterInitialiseDocument(AfterInitialiseDocumentEvent $event)
+    {
+        /**
+         * Load the removed assets stubs, they are needed if an extension
+         * directly uses a core asset from Joomla 6 which is not present in Joomla 7
+         * and only provides an empty asset to not throw an exception
+         */
+        if ($this->params->get('removed_asset', '1')) {
+            $event->getDocument()
+                ->getWebAssetManager()
+                ->getRegistry()
+                ->addRegistryFile('media/plg_behaviour_compat7/removed.asset.json');
         }
     }
 }

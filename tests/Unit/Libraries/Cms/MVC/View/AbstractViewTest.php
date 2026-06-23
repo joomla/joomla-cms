@@ -139,25 +139,6 @@ class AbstractViewTest extends UnitTestCase
      *
      * @since   4.2.0
      */
-    public function testGetData()
-    {
-        $view = new class () extends AbstractView {
-            public function display($tpl = null)
-            {
-            }
-        };
-        $view->set('unit', 'test');
-
-        $this->assertEquals('test', $view->get('unit', ''));
-    }
-
-    /**
-     * @testdox  can get data
-     *
-     * @return  void
-     *
-     * @since   4.2.0
-     */
     public function testGetDefaultData()
     {
         $view = new class () extends AbstractView {

@@ -86,7 +86,7 @@ class ComponentController extends ApiController
 
         // Push the model into the view (as default)
         $view->setModel($model, true);
-        $view->set('component_name', $this->input->get('component_name'));
+        $view->component_name = $this->input->get('component_name');
 
         $view->document = $this->app->getDocument();
         $view->displayList();
