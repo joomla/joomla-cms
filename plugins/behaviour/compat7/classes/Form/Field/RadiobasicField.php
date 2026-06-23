@@ -49,6 +49,8 @@ class RadiobasicField extends ListField
      */
     protected function getInput()
     {
+        $this->layoutPaths[] = '/plugins/behaviour/compat7/layouts';
+
         return $this->getRenderer($this->layout)->render($this->collectLayoutData());
     }
 
