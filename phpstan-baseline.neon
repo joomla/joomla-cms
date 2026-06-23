@@ -11460,17 +11460,6 @@ parameters:
 
 		-
 			message: '''
-				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyPropertyManagementTrait in class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				4\.3\.0 will be removed in 7\.0
-				             Will be removed without replacement
-				             Create proper setter functions for the individual properties or use a \\Joomla\\Registry\\Registry$#
-			'''
-			identifier: traitUse.deprecatedTrait
-			count: 1
-			path: libraries/src/MVC/Model/BaseModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -11518,17 +11507,6 @@ parameters:
 				4\.3 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of setError$#
-			'''
-			identifier: traitUse.deprecatedTrait
-			count: 1
-			path: libraries/src/MVC/View/AbstractView.php
-
-		-
-			message: '''
-				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyPropertyManagementTrait in class Joomla\\CMS\\MVC\\View\\AbstractView\:
-				4\.3\.0 will be removed in 7\.0
-				             Will be removed without replacement
-				             Create proper setter functions for the individual properties or use a \\Joomla\\Registry\\Registry$#
 			'''
 			identifier: traitUse.deprecatedTrait
 			count: 1
@@ -12757,16 +12735,6 @@ parameters:
 			'''
 			identifier: staticMethod.deprecated
 			count: 6
-			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
-				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 1
 			path: libraries/src/User/UserHelper.php
 
 		-
