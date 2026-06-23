@@ -11,7 +11,9 @@
 namespace Joomla\Component\Finder\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Event\Model\AfterChangeStateEvent;
+use Joomla\CMS\Event\Model\AfterDeleteEvent;
+use Joomla\CMS\Event\Model\BeforeDeleteEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -98,7 +100,8 @@ class MapsModel extends ListModel
         $table = $this->getTable();
 
         // Include the content plugins for the on delete events.
-        PluginHelper::importPlugin('content');
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
 
         // Iterate the items to check if all of them exist.
         foreach ($pks as $i => $pk) {
@@ -117,7 +120,13 @@ class MapsModel extends ListModel
                     $context = $this->option . '.' . $this->name;
 
                     // Trigger the onContentBeforeDelete event.
-                    $result = Factory::getApplication()->triggerEvent('onContentBeforeDelete', [$context, $table]);
+                    $result = $dispatcher->dispatch(
+                        'onContentBeforeDelete',
+                        new BeforeDeleteEvent('onContentBeforeDelete', [
+                            'context' => $context,
+                            'subject' => $table,
+                        ])
+                    )->getArgument('result', []);
 
                     if (\in_array(false, $result, true)) {
                         $this->setError($table->getError());
@@ -132,7 +141,10 @@ class MapsModel extends ListModel
                     }
 
                     // Trigger the onContentAfterDelete event.
-                    Factory::getApplication()->triggerEvent('onContentAfterDelete', [$context, $table]);
+                    $dispatcher->dispatch('onContentAfterDelete', new AfterDeleteEvent('onContentAfterDelete', [
+                        'context' => $context,
+                        'subject' => $table,
+                    ]));
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);
@@ -314,7 +326,8 @@ class MapsModel extends ListModel
         $pks   = (array) $pks;
 
         // Include the content plugins for the change of state event.
-        PluginHelper::importPlugin('content');
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
 
         // Access checks.
         foreach ($pks as $i => $pk) {
@@ -339,7 +352,14 @@ class MapsModel extends ListModel
         $context = $this->option . '.' . $this->name;
 
         // Trigger the onContentChangeState event.
-        $result = Factory::getApplication()->triggerEvent('onContentChangeState', [$context, $pks, $value]);
+        $result = $dispatcher->dispatch(
+            'onContentChangeState',
+            new AfterChangeStateEvent('onContentChangeState', [
+                'context' => $context,
+                'subject' => $pks,
+                'value'   => $value,
+            ])
+        )->getArgument('result', []);
 
         if (\in_array(false, $result, true)) {
             $this->setError($table->getError());
