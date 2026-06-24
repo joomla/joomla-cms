@@ -37,6 +37,11 @@ class Dispatcher extends ComponentDispatcher
         $layout       = $this->input->getCmd('layout');
         $allowedTasks = ['user.edit', 'user.apply', 'user.save', 'user.cancel'];
 
+        // If the user editing layout is called, we assume its the user.edit task
+        if (!$task && $view === 'user' && $layout === 'edit') {
+            $task = 'user.edit';
+        }
+
         // Allow users to edit their own account
         if (\in_array($task, $allowedTasks, true) || ($view === 'user' && $layout === 'edit')) {
             $user = $this->app->getIdentity();

@@ -68,15 +68,15 @@ class TransitionTable extends Table
      */
     public function check(): bool
     {
-        $return = parent::check();
-
-        if ($return) {
-            if (empty($this->options)) {
-                $this->options = '{}';
-            }
+        if (!parent::check()) {
+            return false;
         }
 
-        return $return;
+        if (empty($this->options)) {
+            $this->options = '{}';
+        }
+
+        return true;
     }
 
     /**
