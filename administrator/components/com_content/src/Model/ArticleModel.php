@@ -445,6 +445,21 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
                     }
                 }
             }
+
+            // Reset created_by to 0 when the stored author no longer exists so the form field renders as empty.
+            if (!empty($item->created_by)) {
+                $db        = $this->getDatabase();
+                $createdBy = (int) $item->created_by;
+                $query     = $db->getQuery(true)
+                    ->select('COUNT(*)')
+                    ->from($db->quoteName('#__users'))
+                    ->where($db->quoteName('id') . ' = :userId')
+                    ->bind(':userId', $createdBy, ParameterType::INTEGER);
+
+                if (!(bool) $db->setQuery($query)->loadResult()) {
+                    $item->created_by = 0;
+                }
+            }
         }
 
         // Load associated content items
