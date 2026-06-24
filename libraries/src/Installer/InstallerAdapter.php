@@ -930,8 +930,14 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // If there is a manifest class file, lets load it; we'll copy it later (don't have dest yet)
         $manifestScript = (string) $this->getManifest()->scriptfile;
 
-        // When no script file, do nothing
+        /**
+         * When no script file, reset the manifest which might be set by installer for the previous extension. This prevents
+         * accidental usage of the previous manifest class if the current extension does not have a script file.
+         */
         if (!$manifestScript) {
+            $this->parent->manifestClass = null;
+            $this->manifest_script       = null;
+
             return;
         }
 
@@ -956,6 +962,9 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
                 E_USER_DEPRECATED
             );
 
+            $this->parent->manifestClass = null;
+            $this->manifest_script       = null;
+
             return;
         }
 
@@ -974,7 +983,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // When none is set, then use the legacy way
         if (!$container->has(InstallerScriptInterface::class)) {
             @trigger_error(
-                'Legacy installer files are deprecated and will be removed in 6.0. Use a service provider instead.',
+                'Legacy installer files are deprecated and will be removed in 7.0. Use a service provider instead.',
                 E_USER_DEPRECATED
             );
 

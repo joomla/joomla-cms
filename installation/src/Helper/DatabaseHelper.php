@@ -12,7 +12,7 @@ namespace Joomla\CMS\Installation\Helper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserHelper;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseFactory;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
@@ -116,7 +116,7 @@ abstract class DatabaseHelper
             }
 
             // Get a database object.
-            $db = DatabaseDriver::getInstance($options);
+            $db = (new DatabaseFactory())->getDriver($options['driver'], $options);
             if ($dispatcher && $db instanceof DispatcherAwareInterface) {
                 $db->setDispatcher($dispatcher);
             }
