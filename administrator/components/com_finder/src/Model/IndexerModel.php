@@ -70,7 +70,6 @@ class IndexerModel extends FormModel
      */
     public function debug(Adapter $adapter, int $id)
     {
-        class_alias(DebugAdapter::class, Adapter::class);
         $adapter->setIndexer(new DebugIndexer($this->getDatabase()));
         $adapter->debug($id);
     }
