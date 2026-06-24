@@ -146,7 +146,7 @@ class ConfigurationModel extends BaseInstallationModel
 
         foreach ($extensions as $extension) {
             $installer = new Installer();
-            $installer->setDatabase($this->getDatabase());
+            $installer->setDatabase($db);
 
             if (!$installer->refreshManifestCache($extension->extension_id)) {
                 Factory::getApplication()->enqueueMessage(
