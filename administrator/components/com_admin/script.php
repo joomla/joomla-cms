@@ -1274,6 +1274,9 @@ class JoomlaInstallerScript
             '/media/vendor/tinymce/themes/silver/index.js',
             // From 6.2.0-alpha1 to 6.2.0-alpha2
             '/administrator/help/en-GB/toc.json',
+            // From 6.1.1 to 6.1.2
+            '/libraries/vendor/algo26-matthias/idna-convert/Dockerfile',
+            '/libraries/vendor/algo26-matthias/idna-convert/compose.yml',
         ];
 
         $folders = [

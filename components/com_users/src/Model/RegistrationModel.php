@@ -204,7 +204,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface, 
 
                             $return = false;
                         } catch (\RuntimeException $exception) {
-                            Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                            Factory::getApplication()->enqueueMessage(Text::_($exception->getMessage()), 'warning');
 
                             $return = false;
                         }
@@ -248,7 +248,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface, 
 
                     $return = false;
                 } catch (\RuntimeException $exception) {
-                    Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                    Factory::getApplication()->enqueueMessage(Text::_($exception->getMessage()), 'warning');
 
                     $return = false;
                 }
