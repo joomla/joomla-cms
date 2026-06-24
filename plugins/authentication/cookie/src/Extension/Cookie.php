@@ -123,7 +123,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
                     'domain'  => $app->get('cookie_domain', ''),
                 ]
             );
-            Log::add('Invalid cookie detected.', Log::WARNING, 'error');
+            Log::add(Text::_('PLG_AUTHENTICATION_COOKIE_ERROR_LOG_INVALID_COOKIE'), Log::WARNING, 'error');
 
             return;
         }
@@ -200,7 +200,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
             } catch (\RuntimeException $e) {
                 // Log an alert for the site admin
                 Log::add(
-                    \sprintf('Failed to delete cookie token for user %s with the following error: %s', $results[0]->user_id, $e->getMessage()),
+                    Text::sprintf('PLG_AUTHENTICATION_COOKIE_ERROR_LOG_DELETE_TOKEN_FAILED', $results[0]->user_id, $e->getMessage()),
                     Log::WARNING,
                     'security'
                 );
