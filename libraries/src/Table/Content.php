@@ -331,7 +331,7 @@ class Content extends Table implements TaggableTableInterface, CurrentUserInterf
             $this->modified_by = $user->id;
             $this->modified    = $date;
             if (empty($this->created_by)) {
-                $this->created_by = 0;
+                $this->created_by = $user->id;
             }
         } else {
             // Field created_by can be set by the user, so we don't touch it if it's set.

@@ -801,6 +801,24 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
             }
         }
 
+        // Auto-assign current user if created_by is empty or refers to a deleted user.
+        $createdBy = isset($data['created_by']) ? (int) $data['created_by'] : 0;
+
+        if ($createdBy <= 0) {
+            $data['created_by'] = $this->getCurrentUser()->id;
+        } else {
+            $db    = $this->getDatabase();
+            $query = $db->getQuery(true)
+                ->select('COUNT(*)')
+                ->from($db->quoteName('#__users'))
+                ->where($db->quoteName('id') . ' = :userId')
+                ->bind(':userId', $createdBy, ParameterType::INTEGER);
+
+            if (!(bool) $db->setQuery($query)->loadResult()) {
+                $data['created_by'] = $this->getCurrentUser()->id;
+            }
+        }
+
         if (parent::save($data)) {
             // Check if featured is set and if not managed by workflow
             if (isset($data['featured']) && !$this->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article')) {
