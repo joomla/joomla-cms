@@ -59,16 +59,16 @@ class IndexerModel extends FormModel
     }
 
     /**
-     * Method to run the adapter in debug mode
+     * Method to debug the adapter.
      *
-     * @param   Adapter  $adapter  The adapter to debug.
-     * @param   integer  $id       The id of the item to debug.
+     * @param   DebugAdapter  $adapter  The adapter to debug.
+     * @param   integer       $id       The id of the item to debug.
      *
      * @return void
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function debug(Adapter $adapter, int $id)
+    public function debug(DebugAdapter $adapter, int $id)
     {
         $adapter->setIndexer(new DebugIndexer($this->getDatabase()));
         $adapter->debug($id);
