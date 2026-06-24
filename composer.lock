@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0ca92df57d7372c7e5eb5d5021f38289",
+    "content-hash": "90c201a0ec0fbd12d08f39ff0186a24f",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -6296,16 +6296,16 @@
         },
         {
             "name": "web-token/jwt-library",
-            "version": "3.4.8",
+            "version": "3.4.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-token/jwt-library.git",
-                "reference": "92445671cc788fa5f639898a67c06f9fd0bf491f"
+                "reference": "8c38010d971c2313406fa1376d763cee745a833b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/web-token/jwt-library/zipball/92445671cc788fa5f639898a67c06f9fd0bf491f",
-                "reference": "92445671cc788fa5f639898a67c06f9fd0bf491f",
+                "url": "https://api.github.com/repos/web-token/jwt-library/zipball/8c38010d971c2313406fa1376d763cee745a833b",
+                "reference": "8c38010d971c2313406fa1376d763cee745a833b",
                 "shasum": ""
             },
             "require": {
@@ -6378,7 +6378,7 @@
             ],
             "support": {
                 "issues": "https://github.com/web-token/jwt-library/issues",
-                "source": "https://github.com/web-token/jwt-library/tree/3.4.8"
+                "source": "https://github.com/web-token/jwt-library/tree/3.4.10"
             },
             "funding": [
                 {
@@ -6390,7 +6390,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2025-05-07T09:11:18+00:00"
+            "time": "2026-06-06T16:30:13+00:00"
         },
         {
             "name": "webmozart/assert",
