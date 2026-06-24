@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Installer\Adapter;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
@@ -128,7 +129,7 @@ class LanguageAdapter extends InstallerAdapter
         }
 
         // Clean installed languages cache.
-        Factory::getCache()->clean('com_languages');
+        $this->cleanLanguagesCache();
 
         // Remove the extension table entry
         $this->extension->delete();
@@ -452,7 +453,7 @@ class LanguageAdapter extends InstallerAdapter
         }
 
         // Clean installed languages cache.
-        Factory::getCache()->clean('com_languages');
+        $this->cleanLanguagesCache();
 
         return $row->extension_id;
     }
@@ -606,7 +607,7 @@ class LanguageAdapter extends InstallerAdapter
         $row->changelogurl   = (string) $this->getManifest()->changelogurl;
 
         // Clean installed languages cache.
-        Factory::getCache()->clean('com_languages');
+        $this->cleanLanguagesCache();
 
         if (!$row->check() || !$row->store()) {
             // Install failed, roll back changes
@@ -710,7 +711,7 @@ class LanguageAdapter extends InstallerAdapter
         }
 
         // Clean installed languages cache.
-        Factory::getCache()->clean('com_languages');
+        $this->cleanLanguagesCache();
 
         return $this->parent->extension->extension_id;
     }
@@ -898,5 +899,19 @@ class LanguageAdapter extends InstallerAdapter
                 'jerror'
             );
         }
+    }
+
+    /**
+     * Cleans the languages cache
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function cleanLanguagesCache(): void
+    {
+        $this->getContainer()->get(CacheControllerFactoryInterface::class)
+            ->createCacheController('callback', ['defaultgroup' => ''])
+            ->clean('com_languages');
     }
 }
