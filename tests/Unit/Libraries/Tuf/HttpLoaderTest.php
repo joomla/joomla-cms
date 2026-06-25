@@ -10,8 +10,8 @@
 
 namespace Joomla\Tests\Unit\Libraries\Tuf;
 
-use Joomla\CMS\Http\Http;
 use Joomla\CMS\TUF\HttpLoader;
+use Joomla\Http\Http;
 use Joomla\Http\Response;
 use Joomla\Tests\Unit\UnitTestCase;
 use Laminas\Diactoros\Stream;
