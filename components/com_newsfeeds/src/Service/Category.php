@@ -35,6 +35,7 @@ class Category extends Categories
         $options['accessfield'] = 'access';
         $options['statefield']  = 'published';
         $options['check_dates'] = true;
+
         parent::__construct($options);
     }
 }

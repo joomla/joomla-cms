@@ -377,11 +377,16 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
                 $subQuery->where($db->quoteName($db->escape('i.' . $this->_statefield)) . ' = 1');
 
                 if (isset($this->_options['check_dates']) && $this->_options['check_dates']) {
-                    $nullDate = $db->quote($db->getNullDate());
-                    $nowDate  = $db->quote(Factory::getDate()->toSql());
+                    $nullDate = $db->getNullDate();
+                    $nowDate  = Factory::getDate()->toSql();
 
-                    $subQuery->where('(' . $db->quoteName('i.publish_up') . ' IS NULL OR ' . $db->quoteName('i.publish_up') . ' = ' . $nullDate . ' OR ' . $db->quoteName('i.publish_up') . ' <= ' . $nowDate . ')')
-                        ->where('(' . $db->quoteName('i.publish_down') . ' IS NULL OR ' . $db->quoteName('i.publish_down') . ' = ' . $nullDate . ' OR ' . $db->quoteName('i.publish_down') . ' >= ' . $nowDate . ')');
+                    $subQuery->where('(' . $db->quoteName('i.publish_up') . ' IS NULL OR ' . $db->quoteName('i.publish_up') . ' = :nullDate1 OR ' . $db->quoteName('i.publish_up') . ' <= :nowDate1)')
+                        ->where('(' . $db->quoteName('i.publish_down') . ' IS NULL OR ' . $db->quoteName('i.publish_down') . ' = :nullDate2 OR ' . $db->quoteName('i.publish_down') . ' >= :nowDate2)');
+
+                    $query->bind(':nullDate1', $nullDate)
+                        ->bind(':nowDate1', $nowDate)
+                        ->bind(':nullDate2', $nullDate)
+                        ->bind(':nowDate2', $nowDate);
                 }
             }
 
