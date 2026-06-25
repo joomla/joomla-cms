@@ -40,7 +40,7 @@ class CategoryMultipleField extends CategoryeditField
      *
      * @since __DEPLOY_VERSION__
      */
-    protected $layout = 'joomla.form.field.list-fancy-select';
+    protected $layout = 'joomla.form.field.categoryedit';
 
     /**
      * Method to get the field options.

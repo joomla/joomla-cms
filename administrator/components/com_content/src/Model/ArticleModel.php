@@ -789,6 +789,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
         }
 
         if (\array_key_exists('secondary_categories', $data)) {
+            $data['secondary_categories'] = $this->createSecondaryCategories($data);
             $data['secondary_categories'] = $this->normalizeSecondaryCategories($data);
         }
 
@@ -1015,9 +1016,11 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
     {
         if ($this->canCreateCategory()) {
             $form->setFieldAttribute('catid', 'allowAdd', 'true');
+            $form->setFieldAttribute('secondary_categories', 'allowAdd', 'true');
 
             // Add a prefix for categories created on the fly.
             $form->setFieldAttribute('catid', 'customPrefix', '#new#');
+            $form->setFieldAttribute('secondary_categories', 'customPrefix', '#new#');
         }
 
         // Association content items
@@ -1252,6 +1255,62 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
         $hiddenIds = array_diff($currentIds, $manageableIds);
 
         return array_values(array_unique(array_diff(array_merge($submitted, $hiddenIds), [$primaryCategoryId])));
+    }
+
+    /**
+     * Create new secondary categories submitted from the fancy select field.
+     *
+     * @param   array  $data  The form data.
+     *
+     * @return  array  Category ids and existing values
+     *
+     * @since   __DEPLOY_VERSION__
+     *
+     * @throws  \RuntimeException
+     */
+    private function createSecondaryCategories(array $data): array
+    {
+        $categories = (array) ($data['secondary_categories'] ?? []);
+
+        foreach ($categories as $key => $categoryId) {
+            if (is_numeric($categoryId) && CategoriesHelper::validateCategoryId($categoryId, 'com_content')) {
+                continue;
+            }
+
+            if (!\is_string($categoryId) || !str_starts_with($categoryId, '#new#') || !$this->canCreateCategory()) {
+                unset($categories[$key]);
+                continue;
+            }
+
+            $title = trim(substr($categoryId, 5));
+
+            if ($title === '') {
+                unset($categories[$key]);
+                continue;
+            }
+
+            $category = [
+                'title'     => $title,
+                'parent_id' => 1,
+                'extension' => 'com_content',
+                'language'  => $data['language'] ?? '*',
+                'published' => 1,
+            ];
+
+            /** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $categoryModel */
+            $categoryModel = Factory::getApplication()->bootComponent('com_categories')
+                ->getMVCFactory()->createModel('Category', 'Administrator', ['ignore_request' => true]);
+
+            try {
+                $categoryModel->save($category);
+            } catch (\Throwable $e) {
+                throw new \RuntimeException('Failed to create secondary category "' . $category['title'] . '"');
+            }
+
+            $categories[$key] = $categoryModel->getState('category.id');
+        }
+
+        return $categories;
     }
 
     /**
