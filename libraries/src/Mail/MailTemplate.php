@@ -146,7 +146,7 @@ class MailTemplate
             $this->mailer = $mailer;
         } else {
             @trigger_error('Mailer must be set, this will not be caught anymore in 8.0.', E_USER_DEPRECATED);
-            $this->mailer = Factory::getMailer();
+            $this->mailer = Factory::getContainer()->get(MailerFactoryInterface::class)->createMailer();
         }
 
         $this->setDatabase($db ?? Factory::getContainer()->get(DatabaseInterface::class));

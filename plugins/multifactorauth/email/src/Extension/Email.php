@@ -17,7 +17,6 @@ use Joomla\CMS\Event\MultiFactor\GetMethod;
 use Joomla\CMS\Event\MultiFactor\GetSetup;
 use Joomla\CMS\Event\MultiFactor\SaveSetup;
 use Joomla\CMS\Event\MultiFactor\Validate;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -560,12 +559,12 @@ class Email extends CMSPlugin implements SubscriberInterface
                     $body    = str_replace('{' . strtoupper($key) . '}', $value, $body);
                 }
 
-                $mailer = Factory::getMailer();
+                $mailer = $this->getMailerFactory()->createMailer();
                 $mailer->setSubject($subject);
                 $mailer->setBody($body);
                 $mailer->addRecipient($user->email, $user->name);
 
-                $mailer->Send();
+                $mailer->send();
             }
         } catch (MailDisabledException | phpMailerException $exception) {
             try {

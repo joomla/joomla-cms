@@ -35,15 +35,6 @@ parameters:
 			path: administrator/components/com_actionlogs/src/Model/ActionlogsModel.php
 
 		-
-			message: '''
-				#^Access to deprecated property \$app of class Joomla\\Component\\Actionlogs\\Administrator\\Plugin\\ActionLogPlugin\:
-				5\.1\.0 will be removed in 7\.0 use \$this\-\>getApplication\(\) instead$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: administrator/components/com_actionlogs/src/Plugin/ActionLogPlugin.php
-
-		-
 			message: '#^Instantiated class JConfig not found\.$#'
 			identifier: class.notFound
 			count: 1
@@ -1441,15 +1432,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to deprecated property \$app of class Joomla\\Component\\Fields\\Administrator\\Plugin\\FieldsPlugin\:
-				5\.4\.0 will be removed in 7\.0 use \$this\-\>getApplication\(\) instead$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: administrator/components/com_fields/src/Plugin/FieldsPlugin.php
-
-		-
-			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Load the user service from the dependency injection container or get from the application object
@@ -2327,16 +2309,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: administrator/components/com_installer/src/Model/LanguagesModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method get\(\) of class Joomla\\CMS\\Changelog\\Changelog\:
-				4\.3\.0 will be removed in 7\.0
-				            Create a proper getter function for the property$#
-			'''
-			identifier: method.deprecated
-			count: 2
-			path: administrator/components/com_installer/src/Model/ManageModel.php
 
 		-
 			message: '''
@@ -6310,12 +6282,6 @@ parameters:
 			path: components/com_contact/tmpl/form/edit.php
 
 		-
-			message: '#^Class Joomla\\Component\\Content\\Administrator\\Service\\HTML\\Icon does not have a constructor and must be instantiated without any parameters\.$#'
-			identifier: new.noConstructor
-			count: 1
-			path: components/com_content/helpers/icon.php
-
-		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
@@ -8031,17 +7997,6 @@ parameters:
 			path: libraries/src/Categories/CategoryNode.php
 
 		-
-			message: '''
-				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyPropertyManagementTrait in class Joomla\\CMS\\Changelog\\Changelog\:
-				4\.3\.0 will be removed in 7\.0
-				             Will be removed without replacement
-				             Create proper setter functions for the individual properties or use a \\Joomla\\Registry\\Registry$#
-			'''
-			identifier: traitUse.deprecatedTrait
-			count: 1
-			path: libraries/src/Changelog/Changelog.php
-
-		-
 			message: '#^Unsafe usage of new static\(\)\.$#'
 			identifier: new.static
 			count: 1
@@ -8423,44 +8378,6 @@ parameters:
 			identifier: new.static
 			count: 1
 			path: libraries/src/Editor/Editor.php
-
-		-
-			message: '#^Function mcrypt_decrypt not found\.$#'
-			identifier: function.notFound
-			count: 1
-			path: libraries/src/Encrypt/AES/Mcrypt.php
-
-		-
-			message: '#^Function mcrypt_encrypt not found\.$#'
-			identifier: function.notFound
-			count: 1
-			path: libraries/src/Encrypt/AES/Mcrypt.php
-
-		-
-			message: '#^Function mcrypt_get_iv_size not found\.$#'
-			identifier: function.notFound
-			count: 1
-			path: libraries/src/Encrypt/AES/Mcrypt.php
-
-		-
-			message: '''
-				#^Call to method isSupported\(\) of deprecated class Joomla\\CMS\\Encrypt\\AES\\Mcrypt\:
-				4\.3 will be removed in 7\.0
-				             Will be removed without replacement$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: libraries/src/Encrypt/Aes.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\Encrypt\\AES\\Mcrypt\:
-				4\.3 will be removed in 7\.0
-				             Will be removed without replacement$#
-			'''
-			identifier: new.deprecatedClass
-			count: 1
-			path: libraries/src/Encrypt/Aes.php
 
 		-
 			message: '#^Unsafe usage of new static\(\)\.$#'
@@ -11211,42 +11128,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to deprecated property \$ignoredSearchWordsCallback of class Joomla\\CMS\\Language\\Language\:
-				4\.4 will be removed in 7\.0 without replacement$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: libraries/src/Language/Language.php
-
-		-
-			message: '''
-				#^Access to deprecated property \$lowerLimitSearchWordCallback of class Joomla\\CMS\\Language\\Language\:
-				4\.4 will be removed in 7\.0 without replacement$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: libraries/src/Language/Language.php
-
-		-
-			message: '''
-				#^Access to deprecated property \$searchDisplayedCharactersNumberCallback of class Joomla\\CMS\\Language\\Language\:
-				4\.4 will be removed in 7\.0 without replacement$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: libraries/src/Language/Language.php
-
-		-
-			message: '''
-				#^Access to deprecated property \$upperLimitSearchWordCallback of class Joomla\\CMS\\Language\\Language\:
-				4\.4 will be removed in 7\.0 without replacement$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: libraries/src/Language/Language.php
-
-		-
-			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 7\.0
 				             Use the database service in the DI container
@@ -11579,17 +11460,6 @@ parameters:
 
 		-
 			message: '''
-				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyPropertyManagementTrait in class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				4\.3\.0 will be removed in 7\.0
-				             Will be removed without replacement
-				             Create proper setter functions for the individual properties or use a \\Joomla\\Registry\\Registry$#
-			'''
-			identifier: traitUse.deprecatedTrait
-			count: 1
-			path: libraries/src/MVC/Model/BaseModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -11637,17 +11507,6 @@ parameters:
 				4\.3 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of setError$#
-			'''
-			identifier: traitUse.deprecatedTrait
-			count: 1
-			path: libraries/src/MVC/View/AbstractView.php
-
-		-
-			message: '''
-				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyPropertyManagementTrait in class Joomla\\CMS\\MVC\\View\\AbstractView\:
-				4\.3\.0 will be removed in 7\.0
-				             Will be removed without replacement
-				             Create proper setter functions for the individual properties or use a \\Joomla\\Registry\\Registry$#
 			'''
 			identifier: traitUse.deprecatedTrait
 			count: 1
@@ -11891,18 +11750,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getMailer\(\) of class Joomla\\CMS\\Factory\:
-				4\.4\.0 will be removed in 7\.0
-				             Use the mailer service in the DI container and create a mailer from there
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(MailerFactoryInterface\:\:class\)\-\>createMailer\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Mail/MailTemplate.php
-
-		-
-			message: '''
 				#^Call to method getDispatcher\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
 				4\.3 will be removed in 7\.0
 				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
@@ -11934,18 +11781,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: libraries/src/Pathway/SitePathway.php
-
-		-
-			message: '''
-				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 7\.0
-				             Use the database service in the DI container
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Plugin/CMSPlugin.php
 
 		-
 			message: '''
@@ -12868,17 +12703,6 @@ parameters:
 
 		-
 			message: '''
-				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyPropertyManagementTrait in class Joomla\\CMS\\User\\User\:
-				4\.3\.0 will be removed in 7\.0
-				             Will be removed without replacement
-				             Create proper setter functions for the individual properties or use a \\Joomla\\Registry\\Registry$#
-			'''
-			identifier: traitUse.deprecatedTrait
-			count: 1
-			path: libraries/src/User/User.php
-
-		-
-			message: '''
 				#^Access to constant on deprecated class Joomla\\CMS\\Authentication\\Password\\MD5Handler\:
 				4\.0 will be removed in 7\.0
 				             Support for MD5 hashed passwords will be removed without replacement$#
@@ -13049,13 +12873,13 @@ parameters:
 			message: '#^Access to an undefined property Joomla\\CMS\\Application\\BaseApplication\:\:\$input\.$#'
 			identifier: property.notFound
 			count: 1
-			path: plugins/behaviour/compat6/classes/Application/BaseApplication.php
+			path: plugins/behaviour/compat7/classes/Application/BaseApplication.php
 
 		-
 			message: '#^Unsafe usage of new static\(\)\.$#'
 			identifier: new.static
 			count: 1
-			path: plugins/behaviour/compat6/classes/Filesystem/Patcher.php
+			path: plugins/behaviour/compat7/classes/Filesystem/Patcher.php
 
 		-
 			message: '''
@@ -13065,13 +12889,13 @@ parameters:
 			'''
 			identifier: staticMethod.deprecatedClass
 			count: 1
-			path: plugins/behaviour/compat6/classes/Filesystem/Path.php
+			path: plugins/behaviour/compat7/classes/Filesystem/Path.php
 
 		-
 			message: '#^Static call to instance method Joomla\\CMS\\Filesystem\\Support\\StringController\:\:getRef\(\)\.$#'
 			identifier: method.staticCall
 			count: 2
-			path: plugins/behaviour/compat6/classes/Filesystem/Streams/StreamString.php
+			path: plugins/behaviour/compat7/classes/Filesystem/Streams/StreamString.php
 
 		-
 			message: '''
@@ -13130,70 +12954,6 @@ parameters:
 			identifier: property.protected
 			count: 2
 			path: plugins/content/pagebreak/tmpl/navigation.php
-
-		-
-			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Plugin\\CMSPlugin\:
-				5\.2 will be removed in 7\.0
-				             Plugin should use the language from Application, and only after the app is initialised\.$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: plugins/content/pagenavigation/tmpl/default.php
-
-		-
-			message: '''
-				#^Call to deprecated method onDisplay\(\) of class Joomla\\Plugin\\EditorsXtd\\Article\\Extension\\Article\:
-				5\.0 Use onEditorButtonsSetup event instead, will be removed in 7\.0$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: plugins/editors-xtd/article/src/Extension/Article.php
-
-		-
-			message: '''
-				#^Call to deprecated method onDisplay\(\) of class Joomla\\Plugin\\EditorsXtd\\Contact\\Extension\\Contact\:
-				5\.0 Use onEditorButtonsSetup event instead, will be removed in 7\.0$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: plugins/editors-xtd/contact/src/Extension/Contact.php
-
-		-
-			message: '''
-				#^Call to deprecated method onDisplay\(\) of class Joomla\\Plugin\\EditorsXtd\\Menu\\Extension\\Menu\:
-				5\.0 Use onEditorButtonsSetup event instead, will be removed in 7\.0$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: plugins/editors-xtd/menu/src/Extension/Menu.php
-
-		-
-			message: '''
-				#^Call to deprecated method onDisplay\(\) of class Joomla\\Plugin\\EditorsXtd\\Module\\Extension\\Module\:
-				5\.0 Use onEditorButtonsSetup event instead, will be removed in 7\.0$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: plugins/editors-xtd/module/src/Extension/Module.php
-
-		-
-			message: '''
-				#^Call to deprecated method onDisplay\(\) of class Joomla\\Plugin\\EditorsXtd\\PageBreak\\Extension\\PageBreak\:
-				5\.0 Use onEditorButtonsSetup event instead, will be removed in 7\.0$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: plugins/editors-xtd/pagebreak/src/Extension/PageBreak.php
-
-		-
-			message: '''
-				#^Call to deprecated method onDisplay\(\) of class Joomla\\Plugin\\EditorsXtd\\ReadMore\\Extension\\ReadMore\:
-				5\.0 Use onEditorButtonsSetup event instead, will be removed in 7\.0$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: plugins/editors-xtd/readmore/src/Extension/ReadMore.php
 
 		-
 			message: '''
@@ -13328,18 +13088,6 @@ parameters:
 			identifier: method.private
 			count: 1
 			path: plugins/installer/webinstaller/tmpl/default.php
-
-		-
-			message: '''
-				#^Call to deprecated method getMailer\(\) of class Joomla\\CMS\\Factory\:
-				4\.4\.0 will be removed in 7\.0
-				             Use the mailer service in the DI container and create a mailer from there
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(MailerFactoryInterface\:\:class\)\-\>createMailer\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: plugins/multifactorauth/email/src/Extension/Email.php
 
 		-
 			message: '''
