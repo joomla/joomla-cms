@@ -195,7 +195,7 @@ class RemindModel extends FormModel implements MailerFactoryAwareInterface, Lang
 
                 $return = false;
             } catch (\RuntimeException $exception) {
-                Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                Factory::getApplication()->enqueueMessage(Text::_($exception->getMessage()), 'warning');
 
                 $return = false;
             }
