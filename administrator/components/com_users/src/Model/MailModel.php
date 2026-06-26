@@ -15,9 +15,13 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\LanguageFactoryAwareInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailerFactoryAwareInterface;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Database\ParameterType;
@@ -32,8 +36,11 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
  *
  * @since  1.6
  */
-class MailModel extends AdminModel
+class MailModel extends AdminModel implements MailerFactoryAwareInterface, LanguageFactoryAwareInterface
 {
+    use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
+
     /**
      * Method to get the row form.
      *
@@ -167,7 +174,12 @@ class MailModel extends AdminModel
         }
 
         // Get the Mailer
-        $mailer = new MailTemplate('com_users.massmail.mail', $language->getTag());
+        $mailer = new MailTemplate(
+            'com_users.massmail.mail',
+            $language->getTag(),
+            $this->getMailerFactory()->createMailer(),
+            $this->getLanguageFactory()
+        );
         $params = ComponentHelper::getParams('com_users');
 
         try {
@@ -199,7 +211,7 @@ class MailModel extends AdminModel
 
                 $rs = false;
             } catch (\RuntimeException $exception) {
-                Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                Factory::getApplication()->enqueueMessage(Text::_($exception->getMessage()), 'warning');
 
                 $rs = false;
             }
