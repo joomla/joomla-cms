@@ -89,7 +89,7 @@ class PreviewTokenHelper
     {
         $parts = explode('.', $token);
 
-        if (count($parts) !== 2) {
+        if (\count($parts) !== 2) {
             return false;
         }
 
@@ -107,11 +107,11 @@ class PreviewTokenHelper
 
         $data = json_decode($decoded, true);
 
-        if (!is_array($data) || !isset($data['id'], $data['exp'])) {
+        if (!\is_array($data) || !isset($data['id'], $data['exp'])) {
             return false;
         }
 
-        if (!is_int($data['id']) || !is_int($data['exp'])) {
+        if (!\is_int($data['id']) || !\is_int($data['exp'])) {
             return false;
         }
 
@@ -147,7 +147,7 @@ class PreviewTokenHelper
      */
     private function decode(string $data): string|false
     {
-        if ($remainder = strlen($data) % 4) {
+        if ($remainder = \strlen($data) % 4) {
             $data .= str_repeat('=', 4 - $remainder);
         }
 
