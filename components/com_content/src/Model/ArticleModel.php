@@ -70,7 +70,7 @@ class ArticleModel extends ItemModel
         $asset = empty($pk) ? 'com_content' : 'com_content.article.' . $pk;
 
         // Validate preview token if present, before any permission checks.
-        $token     = $app->getInput()->getString('preview_token', '');
+        $token = $app->getInput()->getString('preview_token', '');
 
         if ($token !== '' && $pk > 0) {
             $previewTokenHelper = new PreviewTokenHelper($app->get('secret'));
