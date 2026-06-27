@@ -70,7 +70,6 @@ class ArticleModel extends ItemModel
         $asset = empty($pk) ? 'com_content' : 'com_content.article.' . $pk;
 
         // Validate preview token if present, before any permission checks.
-        $isPreview = false;
         $token     = $app->getInput()->getString('preview_token', '');
 
         if ($token !== '' && $pk > 0) {
@@ -78,11 +77,10 @@ class ArticleModel extends ItemModel
 
             if ($previewTokenHelper->validateToken($token, $pk)) {
                 $this->setState('article.preview', true);
-                $isPreview = true;
             }
         }
 
-        if (!$isPreview && (!$user->authorise('core.edit.state', $asset)) && (!$user->authorise('core.edit', $asset))) {
+        if ((!$user->authorise('core.edit.state', $asset)) && (!$user->authorise('core.edit', $asset))) {
             $this->setState('filter.published', ContentComponent::CONDITION_PUBLISHED);
             $this->setState('filter.archived', ContentComponent::CONDITION_ARCHIVED);
         }
@@ -224,7 +222,7 @@ class ArticleModel extends ItemModel
                 $published = $this->getState('filter.published');
                 $archived  = $this->getState('filter.archived');
 
-                if (is_numeric($published)) {
+                if (!$isPreview && is_numeric($published)) {
                     $query->whereIn($db->quoteName('a.state'), [(int) $published, (int) $archived]);
                 }
 
@@ -237,7 +235,7 @@ class ArticleModel extends ItemModel
                 }
 
                 // Check for published state if filter set.
-                if ((is_numeric($published) || is_numeric($archived)) && ($data->state != $published && $data->state != $archived)) {
+                if (!$isPreview && (is_numeric($published) || is_numeric($archived)) && ($data->state != $published && $data->state != $archived)) {
                     throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
                 }
 
