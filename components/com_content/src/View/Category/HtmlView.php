@@ -88,6 +88,7 @@ class HtmlView extends CategoryView
         PluginHelper::importPlugin('content');
 
         $app     = Factory::getApplication();
+        $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
 
         // Compute the article slugs and prepare introtext (runs content plugins).
         foreach ($this->items as $item) {
@@ -180,21 +181,42 @@ class HtmlView extends CategoryView
         }
 
         $this->category->text = $this->category->description;
-        $app->triggerEvent('onContentPrepare', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
+
+        $contentEventArguments = [
+            'context' => $this->category->extension . '.categories',
+            'subject' => $this->category,
+            'params'  => $this->params,
+            'page'    => 0,
+        ];
+
+        $dispatcher->dispatch('onContentPrepare', new ContentPrepareEvent('onContentPrepare', $contentEventArguments));
         $this->category->description = $this->category->text;
 
         $this->category->event = new \stdClass();
 
-        $results                                  = $app->triggerEvent('onContentAfterTitle', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
+        $results                                  = $dispatcher->dispatch(
+                                                        'onContentAfterTitle', 
+                                                        new AfterTitleEvent('onContentAfterTitle', $contentEventArguments)
+                                                    )->getArgument('result', []);
         $this->category->event->afterDisplayTitle = trim(implode("\n", $results));
 
-        $results                                     = $app->triggerEvent('onContentBeforeDisplay', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
+        $results                                    = $dispatcher->dispatch(
+                                                        'onContentBeforeDisplay', 
+                                                        new BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments)
+                                                    )->getArgument('result', []);
         $this->category->event->beforeDisplayContent = trim(implode("\n", $results));
 
-        $results                                    = $app->triggerEvent('onContentAfterDisplay', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
+        $results                                    = $dispatcher->dispatch(
+                                                        'onContentAfterDisplay', 
+                                                        new AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments)
+                                                    )->getArgument('result', []);
         $this->category->event->afterDisplayContent = trim(implode("\n", $results));
 
-        $results                                  = $app->triggerEvent('onContentAfterItems', [$this->category->extension . '.categories', &$this, &$this->params]);
+        $contentEventArguments['subject']         = $this;
+        $results                                  = $dispatcher->dispatch(
+                                                        'onContentAfterItems', 
+                                                        new ItemsDisplayEvent('onContentAfterItems', $contentEventArguments)
+                                                    )->getArgument('result', []);
         $this->category->event->afterDisplayItems = trim(implode("\n", $results));
 
         parent::display($tpl);
