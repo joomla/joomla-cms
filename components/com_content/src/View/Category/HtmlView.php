@@ -216,29 +216,29 @@ class HtmlView extends CategoryView
 
         $this->category->event = new \stdClass();
 
-        $results                                  = $dispatcher->dispatch(
-                                                        'onContentAfterTitle', 
-                                                        new AfterTitleEvent('onContentAfterTitle', $contentEventArguments)
-                                                    )->getArgument('result', []);
+        $results = $dispatcher->dispatch(
+            'onContentAfterTitle', 
+            new AfterTitleEvent('onContentAfterTitle', $contentEventArguments)
+        )->getArgument('result', []);
         $this->category->event->afterDisplayTitle = trim(implode("\n", $results));
 
-        $results                                    = $dispatcher->dispatch(
-                                                        'onContentBeforeDisplay', 
-                                                        new BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments)
-                                                    )->getArgument('result', []);
+        $results = $dispatcher->dispatch(
+            'onContentBeforeDisplay', 
+            new BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments)
+        )->getArgument('result', []);
         $this->category->event->beforeDisplayContent = trim(implode("\n", $results));
 
-        $results                                    = $dispatcher->dispatch(
-                                                        'onContentAfterDisplay', 
-                                                        new AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments)
-                                                    )->getArgument('result', []);
+        $results = $dispatcher->dispatch(
+            'onContentAfterDisplay', 
+            new AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments)
+        )->getArgument('result', []);
         $this->category->event->afterDisplayContent = trim(implode("\n", $results));
 
-        $contentEventArguments['subject']         = $this;
-        $results                                  = $dispatcher->dispatch(
-                                                        'onContentAfterItems', 
-                                                        new ItemsDisplayEvent('onContentAfterItems', $contentEventArguments)
-                                                    )->getArgument('result', []);
+        $contentEventArguments['subject'] = $this;
+        $results = $dispatcher->dispatch(
+            'onContentAfterItems', 
+            new ItemsDisplayEvent('onContentAfterItems', $contentEventArguments)
+        )->getArgument('result', []);
         $this->category->event->afterDisplayItems = trim(implode("\n", $results));
 
         parent::display($tpl);
