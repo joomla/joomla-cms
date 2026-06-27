@@ -14,8 +14,12 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\LanguageFactoryAwareInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\MailerFactoryAwareInterface;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Router\Route;
@@ -24,6 +28,7 @@ use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -34,9 +39,11 @@ use Joomla\CMS\User\UserHelper;
  *
  * @since  1.5
  */
-class ResetModel extends FormModel implements UserFactoryAwareInterface
+class ResetModel extends FormModel implements UserFactoryAwareInterface, MailerFactoryAwareInterface, LanguageFactoryAwareInterface
 {
     use UserFactoryAwareTrait;
+    use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * Method to get the password reset request form.
@@ -47,20 +54,14 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
      * @param   array    $data      An optional array of data for the form to interrogate.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
-        // Get the form.
-        $form = $this->loadForm('com_users.reset_request', 'reset_request', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+        return $this->loadForm('com_users.reset_request', 'reset_request', ['control' => 'jform', 'load_data' => $loadData]);
     }
 
     /**
@@ -69,20 +70,14 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form    A Form object on success, false on failure
+     * @return  Form    A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getResetCompleteForm($data = [], $loadData = true)
     {
-        // Get the form.
-        $form = $this->loadForm('com_users.reset_complete', 'reset_complete', ['control' => 'jform']);
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+        return $this->loadForm('com_users.reset_complete', 'reset_complete', ['control' => 'jform']);
     }
 
     /**
@@ -91,7 +86,7 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
      * @throws  \Exception
@@ -100,10 +95,6 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
     {
         // Get the form.
         $form = $this->loadForm('com_users.reset_confirm', 'reset_confirm', ['control' => 'jform']);
-
-        if (empty($form)) {
-            return false;
-        }
 
         $form->setValue('token', '', Factory::getApplication()->getInput()->get('token'));
 
@@ -301,7 +292,7 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
 
         // Find the user id for the given token.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['activation', 'id', 'block']))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('username') . ' = :username')
@@ -396,7 +387,7 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
 
         // Find the user id for the given email address.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
             ->where('LOWER(' . $db->quoteName('email') . ') = LOWER(:email)')
@@ -465,17 +456,22 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
         }
 
         // Assemble the password reset confirmation link.
-        $mode = $app->get('force_ssl', 0) == 2 ? 1 : (-1);
+        $mode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
         $link = 'index.php?option=com_users&view=reset&layout=confirm&token=' . $token;
 
         // Put together the email template data.
-        $data              = $user->getProperties();
+        $data              = ArrayHelper::fromObject($user, false);
         $data['sitename']  = $app->get('sitename');
-        $data['link_text'] = Route::_($link, false, $mode);
-        $data['link_html'] = Route::_($link, true, $mode);
+        $data['link_text'] = Route::link('site', $link, false, $mode, true);
+        $data['link_html'] = Route::link('site', $link, true, $mode, true);
         $data['token']     = $token;
 
-        $mailer = new MailTemplate('com_users.password_reset', $app->getLanguage()->getTag());
+        $mailer = new MailTemplate(
+            'com_users.password_reset',
+            $app->getLanguage()->getTag(),
+            $this->getMailerFactory()->createMailer(),
+            $this->getLanguageFactory()
+        );
         $mailer->addTemplateData($data);
         $mailer->addRecipient($user->email, $user->name);
 
@@ -488,7 +484,7 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
 
                 $return = false;
             } catch (\RuntimeException $exception) {
-                $app->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                $app->enqueueMessage(Text::_($exception->getMessage()), 'warning');
 
                 $return = false;
             }
@@ -527,7 +523,7 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
         $resetHours = (int) $params->get('reset_time');
         $result     = true;
 
-        $lastResetTime       = strtotime($user->lastResetTime) ?: 0;
+        $lastResetTime       = $user->lastResetTime === null ? 0 : strtotime($user->lastResetTime);
         $hoursSinceLastReset = (strtotime(Factory::getDate()->toSql()) - $lastResetTime) / 3600;
 
         if ($hoursSinceLastReset > $resetHours) {

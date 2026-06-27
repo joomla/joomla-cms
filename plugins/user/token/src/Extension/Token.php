@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\User\Token\Extension;
 
-use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Event\Model\PrepareDataEvent;
 use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Event\User\AfterDeleteEvent;
@@ -19,6 +18,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\UserFactoryAwareTrait;
+use Joomla\Crypt\Crypt;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Event\SubscriberInterface;
@@ -137,7 +137,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
         // Load the profile data from the database.
         try {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select([
                         $db->quoteName('profile_key'),
                         $db->quoteName('profile_value'),
@@ -158,7 +158,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
 
                 $data->{$this->profileKeyPrefix}[$k] = $v[1];
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // We suppress any database error. It means we get no token saved by default.
         }
 
@@ -352,7 +352,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
 
         // Remove existing Joomla Token user profile values
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__user_profiles'))
             ->where($db->quoteName('user_id') . ' = :userId')
             ->where($db->quoteName('profile_key') . ' LIKE :profileKey');
@@ -370,7 +370,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
 
         // Save the new Joomla Token user profile values
         $order = 1;
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->insert($db->quoteName('#__user_profiles'))
             ->columns([
                     $db->quoteName('user_id'),
@@ -418,7 +418,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
 
         try {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__user_profiles'))
                 ->where($db->quoteName('user_id') . ' = :userId')
                 ->where($db->quoteName('profile_key') . ' LIKE :profileKey');
@@ -428,7 +428,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
             $query->bind(':profileKey', $profileKey, ParameterType::STRING);
 
             $db->setQuery($query)->execute();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // Do nothing.
         }
     }
@@ -462,7 +462,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
     {
         try {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('profile_value'))
                 ->from($db->quoteName('#__user_profiles'))
                 ->where($db->quoteName('profile_key') . ' = :profileKey')
@@ -473,7 +473,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
             $query->bind(':userId', $userId, ParameterType::INTEGER);
 
             return $db->setQuery($query)->loadResult();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return null;
         }
     }
@@ -553,7 +553,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
 
         try {
             $siteSecret = $this->getApplication()->get('secret');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $siteSecret = '';
         }
 
@@ -612,7 +612,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
         }
 
         $db = $this->getDatabase();
-        $q  = $db->getQuery(true)
+        $q  = $db->createQuery()
             ->select('COUNT(*)')
             ->from($db->quoteName('#__user_profiles'))
             ->where($db->quoteName('user_id') . ' = ' . $userId)
@@ -620,7 +620,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
 
         try {
             $numRows = $db->setQuery($q)->loadResult() ?? 0;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 

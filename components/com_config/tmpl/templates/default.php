@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
@@ -35,7 +34,7 @@ $wa->useScript('keepalive')
         </h1>
     </div>
 <?php endif; ?>
-<form action="<?php echo Route::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="templates-form" class="form-validate">
+<form action="<?php echo Route::_('index.php'); ?>" method="post" name="adminForm" id="templates-form" class="form-validate">
 
     <div id="page-site" class="tab-pane active">
         <div class="row">
@@ -45,8 +44,7 @@ $wa->useScript('keepalive')
         </div>
     </div>
 
-    <input type="hidden" name="task" value="">
-    <?php echo HTMLHelper::_('form.token'); ?>
+    <?php echo $this->form->renderControlFields(); ?>
 
     <div class="d-grid gap-2 d-sm-block mb-2">
     <button type="button" class="btn btn-primary " data-submit-task="templates.apply">

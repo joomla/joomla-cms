@@ -199,20 +199,20 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 
         if (!empty($dispatcher->getListeners('onUserBeforeDataValidation'))) {
             @trigger_error(
-                'The `onUserBeforeDataValidation` event is deprecated and will be removed in 6.0.'
-                . 'Use the `onContentValidateData` event instead.',
+                'The `onUserBeforeDataValidation` event is deprecated and will be removed in 7.0.'
+                . 'Use the `onContentBeforeValidateData` event instead.',
                 E_USER_DEPRECATED
             );
 
             $data = $dispatcher->dispatch('onUserBeforeDataValidation', new Model\BeforeValidateDataEvent('onUserBeforeDataValidation', [
                 'subject' => $form,
-                'data'    => &$data, // @todo: Remove reference in Joomla 6, see BeforeValidateDataEvent::__constructor()
+                'data'    => &$data, // @todo: Remove reference in Joomla 7, see BeforeValidateDataEvent::__constructor()
             ]))->getArgument('data', $data);
         }
 
         $data = $dispatcher->dispatch('onContentBeforeValidateData', new Model\BeforeValidateDataEvent('onContentBeforeValidateData', [
             'subject' => $form,
-            'data'    => &$data, // @todo: Remove reference in Joomla 6, see AfterRenderModulesEvent::__constructor()
+            'data'    => &$data, // @todo: Remove reference in Joomla 7, see AfterRenderModulesEvent::__constructor()
         ]))->getArgument('data', $data);
 
         // Filter and validate the form data.

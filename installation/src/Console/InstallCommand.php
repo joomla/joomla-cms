@@ -379,7 +379,7 @@ class InstallCommand extends AbstractCommand
 
         // We don't have a CLI option and now interactively get that from the user.
         while (\is_null($answer) || $answer === false) {
-            if (\in_array($option, ['admin-password', 'db-pass', 'public_folder'])) {
+            if (\in_array($option, ['admin-password', 'db-pass'])) {
                 $answer = $this->ioStyle->askHidden($question);
             } else {
                 $answer = $this->ioStyle->ask(

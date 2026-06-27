@@ -271,11 +271,6 @@ trait MultiFactorAuthenticationHandler
             return false;
         }
 
-        // Do not redirect if we are already in a MFA management or captive page
-        if ($this->isMultiFactorAuthenticationPage()) {
-            return false;
-        }
-
         $option       = strtolower($this->input->getCmd('option', ''));
         $task         = strtolower($this->input->getCmd('task', ''));
 
@@ -291,6 +286,13 @@ trait MultiFactorAuthenticationHandler
 
         // Allow the Joomla update finalisation to run
         if ($isAdmin && $option === 'com_joomlaupdate' && \in_array($task, ['update.finalise', 'update.cleanup', 'update.finaliseconfirm'])) {
+            return false;
+        }
+
+        // Do not redirect if we are already in a MFA management or captive page
+        $onlyCaptive = $this->isMultiFactorAuthenticationPending() && !$isMFASetupMandatory;
+
+        if ($this->isMultiFactorAuthenticationPage($onlyCaptive)) {
             return false;
         }
 
@@ -315,13 +317,14 @@ trait MultiFactorAuthenticationHandler
             return false;
         }
 
-        $allowedViews = ['captive', 'method', 'methods', 'callback'];
+        $allowedViews = ['captive'];
         $allowedTasks = [
             'captive.display', 'captive.captive', 'captive.validate',
             'methods.display',
         ];
 
         if (!$onlyCaptive) {
+            $allowedViews = array_merge($allowedViews, ['method', 'methods', 'callback']);
             $allowedTasks = array_merge(
                 $allowedTasks,
                 [
@@ -346,7 +349,7 @@ trait MultiFactorAuthenticationHandler
         $profileKey = 'mfa.dontshow';
         /** @var DatabaseInterface $db */
         $db         = Factory::getContainer()->get(DatabaseInterface::class);
-        $query      = $db->getQuery(true)
+        $query      = $db->createQuery()
             ->select($db->quoteName('profile_value'))
             ->from($db->quoteName('#__user_profiles'))
             ->where($db->quoteName('user_id') . ' = :userId')
@@ -442,7 +445,7 @@ trait MultiFactorAuthenticationHandler
             // Delete any other record with the same user_id and Method.
             $method = 'emergencycodes';
             $userId = $user->id;
-            $query  = $db->getQuery(true)
+            $query  = $db->createQuery()
                 ->delete($db->quoteName('#__user_mfa'))
                 ->where($db->quoteName('user_id') . ' = :user_id')
                 ->where($db->quoteName('method') . ' = :method')

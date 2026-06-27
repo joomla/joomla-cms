@@ -1278,7 +1278,7 @@ class ZIPExtraction
     }
 
     /**
-     * Handles the permissions of the parent directory to a file and the file itself to make it writeable.
+     * Handles the permissions of the parent directory to a file and the file itself to make it writable.
      *
      * @param   string  $path  A path to a file
      *
@@ -1956,7 +1956,7 @@ if ($enabled) {
             @unlink($basePath . 'update.php');
 
             // Import a custom finalisation file
-            $filename = \dirname(__FILE__) . '/finalisation.php';
+            $filename = __DIR__ . '/finalisation.php';
 
             if (file_exists($filename)) {
                 clearFileInOPCache($filename);

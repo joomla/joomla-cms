@@ -38,7 +38,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
         <jdoc:include type="metas" />
         <jdoc:include type="styles" />
     </head>
-    <body>
+    <body class="j-installation-error">
         <div class="j-install">
             <!-- Header -->
             <header class="j-header" role="banner">
@@ -46,7 +46,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
                     <img src="<?php echo $this->baseurl; ?>/template/images/logo.svg" alt="" class="logo"/>
                 </div>
                 <div class="j-header-help">
-                    <a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla">
+                    <a href="https://guide.joomla.org/user-manual/getting-started/getting-started-installing-joomla">
                         <span class="icon-lightbulb" aria-hidden="true"></span>
                         <span class="visually-hidden"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
                     </a>

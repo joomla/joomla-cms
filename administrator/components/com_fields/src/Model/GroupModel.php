@@ -92,9 +92,10 @@ class GroupModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  mixed  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   3.7.0
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -116,18 +117,13 @@ class GroupModel extends AdminModel
             ]
         );
 
-        if (empty($form)) {
-            return false;
-        }
-
-        // Modify the form based on Edit State access controls.
-        if (empty($data['context'])) {
-            $data['context'] = $context;
-        }
+        $record          = new \stdClass();
+        $record->context = $context;
+        $record->id      = $jinput->get('id');
 
         $user = $this->getCurrentUser();
 
-        if (!$user->authorise('core.edit.state', $context . '.fieldgroup.' . $jinput->get('id'))) {
+        if (!$this->canEditState($record)) {
             // Disable fields for display.
             $form->setFieldAttribute('ordering', 'disabled', 'true');
             $form->setFieldAttribute('state', 'disabled', 'true');
@@ -160,7 +156,9 @@ class GroupModel extends AdminModel
             return false;
         }
 
-        return $this->getCurrentUser()->authorise('core.delete', $record->context . '.fieldgroup.' . (int) $record->id);
+        $component = explode('.', $record->context)[0];
+
+        return $this->getCurrentUser()->authorise('core.delete', $component . '.fieldgroup.' . (int) $record->id);
     }
 
     /**
@@ -177,13 +175,15 @@ class GroupModel extends AdminModel
     {
         $user = $this->getCurrentUser();
 
+        $component = explode('.', $record->context)[0];
+
         // Check for existing fieldgroup.
         if (!empty($record->id)) {
-            return $user->authorise('core.edit.state', $record->context . '.fieldgroup.' . (int) $record->id);
+            return $user->authorise('core.edit.state', $component . '.fieldgroup.' . (int) $record->id);
         }
 
         // Default to component settings.
-        return $user->authorise('core.edit.state', $record->context);
+        return $user->authorise('core.edit.state', $component);
     }
 
     /**

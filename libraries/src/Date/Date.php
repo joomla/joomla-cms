@@ -12,6 +12,7 @@ namespace Joomla\CMS\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -273,7 +274,7 @@ class Date extends \DateTime
         }
 
         // If the returned time should not be local use UTC.
-        if ($local == false) {
+        if (!$local) {
             parent::setTimezone(new \DateTimeZone('UTC'));
         }
 
@@ -299,7 +300,7 @@ class Date extends \DateTime
             }
         }
 
-        if ($local == false && $this->tz !== null) {
+        if (!$local && $this->tz !== null) {
             parent::setTimezone($this->tz);
         }
 
@@ -409,7 +410,7 @@ class Date extends \DateTime
     public function toSql($local = false, ?DatabaseDriver $db = null)
     {
         if ($db === null) {
-            $db = Factory::getDbo();
+            $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
         return $this->format($db->getDateFormat(), $local, false);

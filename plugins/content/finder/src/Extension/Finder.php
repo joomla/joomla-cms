@@ -14,6 +14,8 @@ use Joomla\CMS\Event\Finder as FinderEvent;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -25,8 +27,10 @@ use Joomla\Event\SubscriberInterface;
  *
  * @since  2.5
  */
-final class Finder extends CMSPlugin implements SubscriberInterface
+final class Finder extends CMSPlugin implements SubscriberInterface, DispatcherAwareInterface
 {
+    use DispatcherAwareTrait;
+
     /**
      * Flag to check whether finder plugins already imported.
      *

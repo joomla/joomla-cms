@@ -299,7 +299,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
         $filetofind = $this->_createFileName('template', ['name' => $file]);
         $exists     = Path::find($this->_path['template'], $filetofind);
 
-        return ($exists ? $layout : 'result');
+        return $exists ? $layout : 'result';
     }
 
     /**

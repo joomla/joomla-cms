@@ -132,7 +132,7 @@ final class Remember extends CMSPlugin implements SubscriberInterface
 
         // But now, we need to do something - Delete all tokens for this user!
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__user_keys'))
             ->where($db->quoteName('user_id') . ' = :userid')
             ->bind(':userid', $user['username']);

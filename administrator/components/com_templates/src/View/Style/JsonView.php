@@ -69,7 +69,7 @@ class JsonView extends BaseHtmlView
             return false;
         }
 
-        $paramsList = (array) $this->item;
+        $paramsList = get_object_vars($this->item);
 
         unset($paramsList['xml']);
 

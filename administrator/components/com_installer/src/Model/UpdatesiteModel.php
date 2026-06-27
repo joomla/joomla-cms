@@ -40,7 +40,7 @@ class UpdatesiteModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|boolean  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @throws  \Exception
      *
@@ -48,14 +48,7 @@ class UpdatesiteModel extends AdminModel
      */
     public function getForm($data = [], $loadData = true)
     {
-        // Get the form.
-        $form = $this->loadForm('com_installer.updatesite', 'updatesite', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+        return $this->loadForm('com_installer.updatesite', 'updatesite', ['control' => 'jform', 'load_data' => $loadData]);
     }
     /**
      * Method to get the data that should be injected in the form.
@@ -87,7 +80,7 @@ class UpdatesiteModel extends AdminModel
 
         $db           = $this->getDatabase();
         $updateSiteId = (int) $item->update_site_id ?? 0;
-        $query        = $db->getQuery(true)
+        $query        = $db->createQuery()
             ->select(
                 $db->quoteName(
                     [
@@ -153,7 +146,7 @@ class UpdatesiteModel extends AdminModel
 
         // Delete update records forcing Joomla to fetch them again, applying the new extra_query.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__updates'))
             ->where($db->quoteName('update_site_id') . ' = :updateSiteId');
         $query->bind(':updateSiteId', $data['update_site_id'], ParameterType::INTEGER);

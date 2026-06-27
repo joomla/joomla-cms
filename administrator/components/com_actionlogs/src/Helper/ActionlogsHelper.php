@@ -14,6 +14,7 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Filesystem\Path;
 use Joomla\String\StringHelper;
 
@@ -99,7 +100,7 @@ class ActionlogsHelper
             return;
         }
 
-        $lang   = Factory::getLanguage();
+        $lang   = Factory::getApplication()->getLanguage();
         $source = '';
 
         switch (substr($extension, 0, 3)) {
@@ -142,26 +143,6 @@ class ActionlogsHelper
         }
 
         $cache[$extension] = true;
-    }
-
-    /**
-     * Get parameters to be
-     *
-     * @param   string  $context  The context of the content
-     *
-     * @return  mixed  An object contains content type parameters, or null if not found
-     *
-     * @since   3.9.0
-     *
-     * @deprecated  4.3 will be removed in 6.0
-     *              Use the action log config model instead
-     *              Example: Factory::getApplication()->bootComponent('actionlogs')->getMVCFactory()
-     *                       ->createModel('ActionlogConfig', 'Administrator')->getLogContentTypeParams($context);
-     */
-    public static function getLogContentTypeParams($context)
-    {
-        return Factory::getApplication()->bootComponent('actionlogs')->getMVCFactory()
-            ->createModel('ActionlogConfig', 'Administrator')->getLogContentTypeParams($context);
     }
 
     /**
@@ -279,11 +260,11 @@ class ActionlogsHelper
         }
         $loaded = true;
 
-        $lang = Factory::getLanguage();
-        $db   = Factory::getDbo();
+        $lang = Factory::getApplication()->getLanguage();
+        $db   = Factory::getContainer()->get(DatabaseInterface::class);
 
         // Get all (both enabled and disabled) actionlog plugins
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 $db->quoteName(
                     [

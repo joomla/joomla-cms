@@ -127,7 +127,6 @@ class FieldTable extends Table implements CurrentUserInterface
      *
      * @return  boolean  True if the instance is sane and able to be stored in the database.
      *
-     * @link    https://docs.joomla.org/Special:MyLanguage/JTable/check
      * @since   3.7.0
      */
     public function check()
@@ -152,7 +151,7 @@ class FieldTable extends Table implements CurrentUserInterface
         $this->name = str_replace(',', '-', $this->name);
 
         // Verify that the name is unique
-        $table = new self($this->_db, $this->getDispatcher());
+        $table = new self($this->getDatabase(), $this->getDispatcher());
 
         if ($table->load(['name' => $this->name]) && ($table->id != $this->id || $this->id == 0)) {
             $this->setError(Text::_('COM_FIELDS_ERROR_UNIQUE_NAME'));
@@ -243,7 +242,6 @@ class FieldTable extends Table implements CurrentUserInterface
      *
      * @return  string  The string to use as the title in the asset table.
      *
-     * @link    https://docs.joomla.org/Special:MyLanguage/JTable/getAssetTitle
      * @since   3.7.0
      */
     protected function _getAssetTitle()
@@ -298,8 +296,8 @@ class FieldTable extends Table implements CurrentUserInterface
      */
     private function getAssetId($name)
     {
-        $db    = $this->getDbo();
-        $query = $db->getQuery(true)
+        $db    = $this->getDatabase();
+        $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__assets'))
             ->where($db->quoteName('name') . ' = :name')

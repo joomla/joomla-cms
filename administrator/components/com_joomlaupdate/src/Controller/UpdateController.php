@@ -10,13 +10,15 @@
 
 namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Updater\Updater;
+use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateRegisterState;
 use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -466,114 +468,13 @@ class UpdateController extends BaseController
     }
 
     /**
-     * Fetch Extension update XML proxy. Used to prevent Access-Control-Allow-Origin errors.
-     * Prints a JSON string.
-     * Called from JS.
-     *
-     * @since       3.10.0
-     *
-     * @deprecated  4.3 will be removed in 6.0
-     *              Use batchextensioncompatibility instead.
-     *              Example: $updateController->batchextensioncompatibility();
-     *
-     * @return void
-     */
-    public function fetchExtensionCompatibility()
-    {
-        $extensionID          = $this->input->get('extension-id', '', 'DEFAULT');
-        $joomlaTargetVersion  = $this->input->get('joomla-target-version', '', 'DEFAULT');
-        $joomlaCurrentVersion = $this->input->get('joomla-current-version', '', JVERSION);
-        $extensionVersion     = $this->input->get('extension-version', '', 'DEFAULT');
-
-        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
-        $model                      = $this->getModel('Update');
-        $upgradeCompatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
-        $currentCompatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaCurrentVersion);
-        $upgradeUpdateVersion       = false;
-        $currentUpdateVersion       = false;
-
-        $upgradeWarning = 0;
-
-        if ($upgradeCompatibilityStatus->state == 1 && !empty($upgradeCompatibilityStatus->compatibleVersions)) {
-            $upgradeUpdateVersion = end($upgradeCompatibilityStatus->compatibleVersions);
-        }
-
-        if ($currentCompatibilityStatus->state == 1 && !empty($currentCompatibilityStatus->compatibleVersions)) {
-            $currentUpdateVersion = end($currentCompatibilityStatus->compatibleVersions);
-        }
-
-        if ($upgradeUpdateVersion !== false) {
-            $upgradeOldestVersion = $upgradeCompatibilityStatus->compatibleVersions[0];
-
-            if ($currentUpdateVersion !== false) {
-                // If there are updates compatible with both CMS versions use these
-                $bothCompatibleVersions = array_values(
-                    array_intersect($upgradeCompatibilityStatus->compatibleVersions, $currentCompatibilityStatus->compatibleVersions)
-                );
-
-                if (!empty($bothCompatibleVersions)) {
-                    $upgradeOldestVersion = $bothCompatibleVersions[0];
-                    $upgradeUpdateVersion = end($bothCompatibleVersions);
-                }
-            }
-
-            if (version_compare($upgradeOldestVersion, $extensionVersion, '>')) {
-                // Installed version is empty or older than the oldest compatible update: Update required
-                $resultGroup = 2;
-            } else {
-                // Current version is compatible
-                $resultGroup = 3;
-            }
-
-            if ($currentUpdateVersion !== false && version_compare($upgradeUpdateVersion, $currentUpdateVersion, '<')) {
-                // Special case warning when version compatible with target is lower than current
-                $upgradeWarning = 2;
-            }
-        } elseif ($currentUpdateVersion !== false) {
-            // No compatible version for target version but there is a compatible version for current version
-            $resultGroup = 1;
-        } else {
-            // No update server available
-            $resultGroup = 1;
-        }
-
-        // Do we need to capture
-        $combinedCompatibilityStatus = [
-            'upgradeCompatibilityStatus' => (object) [
-                'state'             => $upgradeCompatibilityStatus->state,
-                'compatibleVersion' => $upgradeUpdateVersion,
-            ],
-            'currentCompatibilityStatus' => (object) [
-                'state'             => $currentCompatibilityStatus->state,
-                'compatibleVersion' => $currentUpdateVersion,
-            ],
-            'resultGroup'    => $resultGroup,
-            'upgradeWarning' => $upgradeWarning,
-        ];
-
-        $this->app           = Factory::getApplication();
-        $this->app->mimeType = 'application/json';
-        $this->app->charSet  = 'utf-8';
-        $this->app->setHeader('Content-Type', $this->app->mimeType . '; charset=' . $this->app->charSet);
-        $this->app->sendHeaders();
-
-        try {
-            echo new JsonResponse($combinedCompatibilityStatus);
-        } catch (\Exception $e) {
-            echo $e;
-        }
-
-        $this->app->close();
-    }
-
-    /**
      * Determines the compatibility information for a number of extensions.
      *
      * Called by the Joomla Update JavaScript (PreUpdateChecker.checkNextChunk).
      *
      * @return  void
-     * @since   4.2.0
      *
+     * @since   4.2.0
      */
     public function batchextensioncompatibility()
     {
@@ -709,6 +610,62 @@ class UpdateController extends BaseController
         $update[] = ['version' => $updateInfo['latest']];
 
         echo json_encode($update);
+
+        $this->app->close();
+    }
+
+    /**
+     * Fetch and report health status of the automated updates in \JSON format, for AJAX requests
+     *
+     * @return  void
+     *
+     * @since   5.4.0
+     */
+    public function healthstatus()
+    {
+        if (!Session::checkToken('get')) {
+            $this->app->setHeader('status', 403, true);
+            $this->app->sendHeaders();
+            echo Text::_('JINVALID_TOKEN_NOTICE');
+            $this->app->close();
+        }
+
+        $params = ComponentHelper::getParams('com_joomlaupdate');
+
+        // Edge case: the current state requires the registration, i.e. because it's a new installation
+        $registrationState = AutoupdateRegisterState::tryFrom($params->get('autoupdate_status', 0));
+
+        if (
+            $this->app->getIdentity()->authorise('core.admin', 'com_joomlaupdate')
+            && $registrationState === AutoupdateRegisterState::Subscribe
+        ) {
+            /** @var UpdateModel $model */
+            $model  = $this->getModel('Update');
+            $result = $model->changeAutoUpdateRegistration($registrationState);
+
+            $result = [
+                'active'  => true,
+                'healthy' => $result->value,
+            ];
+
+            echo json_encode($result);
+
+            $this->app->close();
+        }
+
+        // Default case: connection already configured, check update source and date
+        $lastCheck = date_create_from_format('Y-m-d H:i:s', $params->get('update_last_check', ''));
+
+        $result = [
+            'active' => (
+                (int) $params->get('autoupdate')
+                && $params->get('updatesource', 'default') === 'default'
+                && (int) $params->get('minimum_stability', Updater::STABILITY_STABLE) === Updater::STABILITY_STABLE
+            ),
+            'healthy' => (int) ($lastCheck !== false && $lastCheck->diff(new \DateTime())->days < 4),
+        ];
+
+        echo json_encode($result);
 
         $this->app->close();
     }

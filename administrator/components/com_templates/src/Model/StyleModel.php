@@ -11,7 +11,10 @@
 namespace Joomla\Component\Templates\Administrator\Model;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Model\AfterDeleteEvent;
+use Joomla\CMS\Event\Model\AfterSaveEvent;
+use Joomla\CMS\Event\Model\BeforeDeleteEvent;
+use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Multilanguage;
@@ -22,7 +25,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Extension;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Path;
-use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
@@ -54,14 +56,6 @@ class StyleModel extends AdminModel
     protected $helpURL;
 
     /**
-     * Item cache.
-     *
-     * @var    array
-     * @since  1.6
-     */
-    private $_cache = [];
-
-    /**
      * Constructor.
      *
      * @param   array                 $config   An optional associative array of configuration settings.
@@ -87,28 +81,6 @@ class StyleModel extends AdminModel
     }
 
     /**
-     * Method to auto-populate the model state.
-     *
-     * @note    Calling getState in this method will result in recursion.
-     *
-     * @return  void
-     *
-     * @since   1.6
-     */
-    protected function populateState()
-    {
-        $app = Factory::getApplication();
-
-        // Load the User state.
-        $pk = $app->getInput()->getInt('id');
-        $this->setState('style.id', $pk);
-
-        // Load the parameters.
-        $params = ComponentHelper::getParams('com_templates');
-        $this->setState('params', $params);
-    }
-
-    /**
      * Method to delete rows.
      *
      * @param   array  &$pks  An array of item ids.
@@ -125,7 +97,8 @@ class StyleModel extends AdminModel
         $table      = $this->getTable();
         $context    = $this->option . '.' . $this->name;
 
-        PluginHelper::importPlugin($this->events_map['delete']);
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin($this->events_map['delete'], null, true, $dispatcher);
 
         // Iterate the items to delete each one.
         foreach ($pks as $pk) {
@@ -143,7 +116,13 @@ class StyleModel extends AdminModel
                 }
 
                 // Trigger the before delete event.
-                $result = Factory::getApplication()->triggerEvent($this->event_before_delete, [$context, $table]);
+                $result = $dispatcher->dispatch(
+                    $this->event_before_delete,
+                    new BeforeDeleteEvent($this->event_before_delete, [
+                        'context' => $context,
+                        'subject' => $table,
+                    ])
+                )->getArgument('result', []);
 
                 if (\in_array(false, $result, true) || !$table->delete($pk)) {
                     $this->setError($table->getError());
@@ -152,7 +131,10 @@ class StyleModel extends AdminModel
                 }
 
                 // Trigger the after delete event.
-                Factory::getApplication()->triggerEvent($this->event_after_delete, [$context, $table]);
+                $dispatcher->dispatch($this->event_after_delete, new AfterDeleteEvent($this->event_after_delete, [
+                    'context' => $context,
+                    'subject' => $table,
+                ]));
             } else {
                 $this->setError($table->getError());
 
@@ -187,7 +169,8 @@ class StyleModel extends AdminModel
         $context    = $this->option . '.' . $this->name;
 
         // Include the plugins for the save events.
-        PluginHelper::importPlugin($this->events_map['save']);
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin($this->events_map['save'], null, true, $dispatcher);
 
         $table = $this->getTable();
 
@@ -208,14 +191,22 @@ class StyleModel extends AdminModel
                 }
 
                 // Trigger the before save event.
-                $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, true]);
+                $result = $dispatcher->dispatch($this->event_before_save, new BeforeSaveEvent($this->event_before_save, [
+                    'context' => $context,
+                    'subject' => $table,
+                    'isNew'   => true,
+                ]))->getArgument('result', []);
 
                 if (\in_array(false, $result, true) || !$table->store()) {
                     throw new \Exception($table->getError());
                 }
 
                 // Trigger the after save event.
-                Factory::getApplication()->triggerEvent($this->event_after_save, [$context, &$table, true]);
+                $dispatcher->dispatch($this->event_after_save, new AfterSaveEvent($this->event_after_save, [
+                    'context' => $context,
+                    'subject' => $table,
+                    'isNew'   => true,
+                ]));
             } else {
                 throw new \Exception($table->getError());
             }
@@ -256,9 +247,10 @@ class StyleModel extends AdminModel
      * @param   array    $data      An optional array of data for the form to interrogate.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -282,10 +274,6 @@ class StyleModel extends AdminModel
 
         // Get the form.
         $form = $this->loadForm('com_templates.style', 'style', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         // Modify the form based on access controls.
         if (!$this->canEditState((object) $data)) {
@@ -330,42 +318,18 @@ class StyleModel extends AdminModel
      */
     public function getItem($pk = null)
     {
-        $pk = (!empty($pk)) ? $pk : (int) $this->getState('style.id');
-
-        if (!isset($this->_cache[$pk])) {
-            // Get a row instance.
-            $table = $this->getTable();
-
-            // Attempt to load the row.
-            $return = $table->load($pk);
-
-            // Check for a table object error.
-            if ($return === false && $table->getError()) {
-                $this->setError($table->getError());
-
-                return false;
-            }
-
-            // Convert to an object before adding other data.
-            $properties        = $table->getProperties(1);
-            $this->_cache[$pk] = ArrayHelper::toObject($properties);
-
-            // Convert the params field to an array.
-            $registry                  = new Registry($table->params);
-            $this->_cache[$pk]->params = $registry->toArray();
-
-            // Get the template XML.
-            $client = ApplicationHelper::getClientInfo($table->client_id);
-            $path   = Path::clean($client->path . '/templates/' . $table->template . '/templateDetails.xml');
+        if ($item = parent::getItem($pk)) {
+            $client = ApplicationHelper::getClientInfo($item->client_id);
+            $path   = Path::clean($client->path . '/templates/' . $item->template . '/templateDetails.xml');
 
             if (file_exists($path)) {
-                $this->_cache[$pk]->xml = simplexml_load_file($path);
+                $item->xml = simplexml_load_file($path);
             } else {
-                $this->_cache[$pk]->xml = null;
+                $item->xml = null;
             }
         }
 
-        return $this->_cache[$pk];
+        return $item;
     }
 
     /**
@@ -384,7 +348,7 @@ class StyleModel extends AdminModel
     {
         $clientId = $this->getState('item.client_id');
         $template = $this->getState('item.template');
-        $lang     = Factory::getLanguage();
+        $lang     = Factory::getApplication()->getLanguage();
         $client   = ApplicationHelper::getClientInfo($clientId);
 
         if (!$form->loadFile('style_' . $client->name, true)) {
@@ -393,10 +357,18 @@ class StyleModel extends AdminModel
 
         $formFile = Path::clean($client->path . '/templates/' . $template . '/templateDetails.xml');
 
+        /**
+         * $data could be array or object, so we use object casting here to make sure $styleObj
+         * is an object and access to template style data via the object's properties
+         */
+        $styleObj = (object) $data;
+
         // Load the core and/or local language file(s).
         // Default to using parent template language constants
-        $lang->load('tpl_' . $data->parent, $client->path)
-            || $lang->load('tpl_' . $data->parent, $client->path . '/templates/' . $data->parent);
+        if (!empty($styleObj->parent)) {
+            $lang->load('tpl_' . $styleObj->parent, $client->path)
+            || $lang->load('tpl_' . $styleObj->parent, $client->path . '/templates/' . $styleObj->parent);
+        }
 
         // Apply any, optional, overrides for child template language constants
         $lang->load('tpl_' . $template, $client->path)
@@ -410,11 +382,7 @@ class StyleModel extends AdminModel
         }
 
         // Disable home field if it is default style
-
-        if (
-            (\is_array($data) && \array_key_exists('home', $data) && $data['home'] == '1')
-            || (\is_object($data) && isset($data->home) && $data->home == '1')
-        ) {
+        if (isset($styleObj->home) && $styleObj->home == '1') {
             $form->setFieldAttribute('home', 'readonly', 'true');
         }
 
@@ -467,7 +435,8 @@ class StyleModel extends AdminModel
         $isNew      = true;
 
         // Include the extension plugins for the save events.
-        PluginHelper::importPlugin($this->events_map['save']);
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin($this->events_map['save'], null, true, $dispatcher);
 
         // Load the row if saving an existing record.
         if ($pk > 0) {
@@ -499,7 +468,12 @@ class StyleModel extends AdminModel
         }
 
         // Trigger the before save event.
-        $result = Factory::getApplication()->triggerEvent($this->event_before_save, ['com_templates.style', &$table, $isNew]);
+        $result = $dispatcher->dispatch($this->event_before_save, new BeforeSaveEvent($this->event_before_save, [
+            'context' => 'com_templates.style',
+            'subject' => $table,
+            'isNew'   => $isNew,
+            'data'    => $data,
+        ]))->getArgument('result', []);
 
         // Store the data.
         if (\in_array(false, $result, true) || !$table->store()) {
@@ -521,7 +495,7 @@ class StyleModel extends AdminModel
                 $data['assigned'] = ArrayHelper::toInteger($data['assigned']);
 
                 // Update the mapping for menu items that this style IS assigned to.
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->update($db->quoteName('#__menu'))
                     ->set($db->quoteName('template_style_id') . ' = :newtsid')
                     ->whereIn($db->quoteName('id'), $data['assigned'])
@@ -537,7 +511,7 @@ class StyleModel extends AdminModel
 
             // Remove style mappings for menu items this style is NOT assigned to.
             // If unassigned then all existing maps will be removed.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->update($db->quoteName('#__menu'))
                 ->set($db->quoteName('template_style_id') . ' = 0');
 
@@ -563,7 +537,12 @@ class StyleModel extends AdminModel
         $this->cleanCache();
 
         // Trigger the after save event.
-        Factory::getApplication()->triggerEvent($this->event_after_save, ['com_templates.style', &$table, $isNew]);
+        $dispatcher->dispatch($this->event_after_save, new AfterSaveEvent($this->event_after_save, [
+            'context' => 'com_templates.style',
+            'subject' => $table,
+            'isNew'   => $isNew,
+            'data'    => $data,
+        ]));
 
         $this->setState('style.id', $table->id);
 
@@ -606,7 +585,7 @@ class StyleModel extends AdminModel
         $id       = (int) $id;
 
         // Reset the home fields for the client_id.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__template_styles'))
             ->set($db->quoteName('home') . ' = ' . $db->quote('0'))
             ->where($db->quoteName('client_id') . ' = :clientid')
@@ -616,7 +595,7 @@ class StyleModel extends AdminModel
         $db->execute();
 
         // Set the new home style.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__template_styles'))
             ->set($db->quoteName('home') . ' = ' . $db->quote('1'))
             ->where($db->quoteName('id') . ' = :id')
@@ -652,7 +631,7 @@ class StyleModel extends AdminModel
         $id = (int) $id;
 
         // Lookup the client_id.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['client_id', 'home']))
             ->from($db->quoteName('#__template_styles'))
             ->where($db->quoteName('id') . ' = :id')
@@ -669,7 +648,7 @@ class StyleModel extends AdminModel
         }
 
         // Set the new home style.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__template_styles'))
             ->set($db->quoteName('home') . ' = ' . $db->quote('0'))
             ->where($db->quoteName('id') . ' = :id')
@@ -707,8 +686,8 @@ class StyleModel extends AdminModel
     public function getAdminTemplate(int $styleId): \stdClass
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
-            ->select($db->quoteName(['s.template', 's.params', 's.inheritable', 's.parent']))
+        $query = $db->createQuery()
+            ->select($db->quoteName(['s.template', 's.params', 's.inheritable', 's.parent', 'e.custom_data']))
             ->from($db->quoteName('#__template_styles', 's'))
             ->join(
                 'LEFT',
@@ -752,8 +731,8 @@ class StyleModel extends AdminModel
     public function getSiteTemplates(): array
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
-            ->select($db->quoteName(['id', 'home', 'template', 's.params', 'inheritable', 'parent']))
+        $query = $db->createQuery()
+            ->select($db->quoteName(['id', 'home', 'template', 's.params', 'inheritable', 'parent', 'e.custom_data']))
             ->from($db->quoteName('#__template_styles', 's'))
             ->where(
                 [

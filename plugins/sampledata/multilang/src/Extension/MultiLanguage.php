@@ -130,6 +130,15 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
             return;
         }
 
+        if (!$this->getApplication()->getIdentity()->authorise('core.manage', 'com_installer')) {
+            $response            = [];
+            $response['success'] = false;
+            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_MULTILANG_ERROR_LANGFILTER', 1, Text::_('JERROR_ALERTNOAUTHOR'));
+
+            $event->addResult($response);
+            return;
+        }
+
         $languages = LanguageHelper::getContentLanguages([0, 1]);
 
         if (\count($languages) < 2) {
@@ -219,6 +228,15 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
     public function onAjaxSampledataApplyStep3(AjaxEvent $event): void
     {
         if (!Session::checkToken('get') || $this->getApplication()->getInput()->get('type') != $this->_name) {
+            return;
+        }
+
+        if (!$this->getApplication()->getIdentity()->authorise('core.edit', 'com_languages')) {
+            $response            = [];
+            $response['success'] = false;
+            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_MULTILANG_ERROR_CONTENTLANGUAGES', 3);
+
+            $event->addResult($response);
             return;
         }
 
@@ -458,6 +476,15 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
             return;
         }
 
+        if (!$this->getApplication()->getIdentity()->authorise('core.edit.state', 'com_modules')) {
+            $response            = [];
+            $response['success'] = false;
+            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_MULTILANG_ERROR_MAINMENU_MODULE', 7);
+
+            $event->addResult($response);
+            return;
+        }
+
         if (!ComponentHelper::isEnabled('com_modules')) {
             $response            = [];
             $response['success'] = true;
@@ -517,7 +544,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
     {
         // Create a new db object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query
             ->update($db->quoteName('#__extensions'))
@@ -530,7 +557,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
 
         try {
             $db->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return false;
         }
 
@@ -556,7 +583,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
 
             try {
                 $db->execute();
-            } catch (ExecutionFailureException $e) {
+            } catch (ExecutionFailureException) {
                 return false;
             }
         }
@@ -575,7 +602,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
     {
         // Create a new db object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Disable main menu module with Home set to ALL languages.
         $query
@@ -593,7 +620,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
 
         try {
             $db->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return false;
         }
 
@@ -898,7 +925,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
 
         foreach ($groupedAssociations as $context => $associations) {
             $key   = md5(json_encode($associations));
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->insert($db->quoteName('#__associations'));
 
             foreach ($associations as $language => $id) {
@@ -925,7 +952,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
 
             try {
                 $db->execute();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 return false;
             }
         }
@@ -946,7 +973,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
     {
         // Create a new db object.
         $db       = $this->getDatabase();
-        $query    = $db->getQuery(true);
+        $query    = $db->createQuery();
         $moduleId = (int) $moduleId;
 
         // Add Module in Module menus.
@@ -959,7 +986,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
 
         try {
             $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
 
@@ -1115,7 +1142,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
         // Get the new item ID.
         $newId = $article->get('id');
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->insert($db->quoteName('#__content_frontpage'))
             ->values($newId . ', 0, NULL, NULL');
 
@@ -1135,7 +1162,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
             if ($stage_id) {
                 $workflow->createAssociation($newId, $stage_id);
             }
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return false;
         }
 
@@ -1259,7 +1286,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
     {
         // Create a new db object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select field element from the extensions table.
         $query->select($db->quoteName(['element', 'name']))
@@ -1340,7 +1367,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the admin user ID
         $query

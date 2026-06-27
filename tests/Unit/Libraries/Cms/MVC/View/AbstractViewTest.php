@@ -148,7 +148,7 @@ class AbstractViewTest extends UnitTestCase
         };
         $view->set('unit', 'test');
 
-        $this->assertEquals('test', $view->get('unit'));
+        $this->assertEquals('test', $view->get('unit', ''));
     }
 
     /**

@@ -25,6 +25,8 @@ $displayData = [
     'content'    => Text::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'),
     'title'      => Text::_('COM_INSTALLER_EMPTYSTATE_DISCOVER_TITLE'),
     'btnadd'     => Text::_('COM_INSTALLER_EMPTYSTATE_DISCOVER_BUTTON_ADD'),
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
 /** @var \Joomla\Component\Installer\Administrator\View\Discover\HtmlView $this */

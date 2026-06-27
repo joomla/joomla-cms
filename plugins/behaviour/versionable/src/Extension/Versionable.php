@@ -17,7 +17,6 @@ use Joomla\CMS\Helper\CMSHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\CMS\Versioning\Versioning;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Filter\InputFilter;
 
@@ -68,16 +67,15 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor.
      *
-     * @param   DispatcherInterface   $dispatcher   The dispatcher
      * @param   array                 $config       An optional associative array of configuration settings
      * @param   InputFilter           $filter       The input filter
      * @param   CMSHelper             $helper       The CMS helper
      *
      * @since   4.0.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, InputFilter $filter, CMSHelper $helper)
+    public function __construct(array $config, InputFilter $filter, CMSHelper $helper)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->filter = $filter;
         $this->helper = $helper;
@@ -91,27 +89,32 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
      * @return  void
      *
      * @since   4.0.0
+     *
+     * @deprecated  6.0.0  will be removed in 8.0 without direct replacement,
+     *              use the new versioning concept (LINK TO DOCUMENTATION)
      */
     public function onTableAfterStore(AfterStoreEvent $event)
     {
         // Extract arguments
         /** @var VersionableTableInterface $table */
         $table  = $event['subject'];
+
+        // We need to check this first because getTypeAlias is only available when VersionableTableInterface is implemented
+        if (!$table instanceof VersionableTableInterface) {
+            return;
+        }
+
         $result = $event['result'];
 
         if (!$result) {
             return;
         }
 
-        if (!(\is_object($table) && $table instanceof VersionableTableInterface)) {
-            return;
-        }
+        $typeAlias = $table->getTypeAlias();
+        $component = strtok($typeAlias, '.');
 
-        // Get the Tags helper and assign the parsed alias
-        $typeAlias  = $table->getTypeAlias();
-        $aliasParts = explode('.', $typeAlias);
-
-        if ($aliasParts[0] === '' || !ComponentHelper::getParams($aliasParts[0])->get('save_history', 0)) {
+        // Do not store version if version history is not enabled for the component
+        if ($component === '' || !ComponentHelper::getParams($component)->get('save_history', 0)) {
             return;
         }
 

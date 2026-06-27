@@ -361,6 +361,16 @@ class FieldsHelper
             $form->setFieldAttribute('catid', 'refresh-section', $section);
         }
 
+        /*
+         * Getting the fields
+         * For categories (or any context where no catid can be determined),
+         * pass fieldscatid = 0 so getFields only returns globally unassigned fields,
+         * instead of all fields regardless of category assignment.
+         */
+        if (!$assignedCatids && !isset($data->catid) && !isset($data->fieldscatid)) {
+            $data->fieldscatid = 0;
+        }
+
         // Getting the fields
         $fields = self::getFields($parts[0] . '.' . $parts[1], $data);
 
@@ -591,7 +601,7 @@ class FieldsHelper
         }
 
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select($db->quoteName('a.category_id'))
             ->from($db->quoteName('#__fields_categories', 'a'))
@@ -620,7 +630,7 @@ class FieldsHelper
         }
 
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select($db->quoteName('c.title'))
             ->from($db->quoteName('#__fields_categories', 'a'))
@@ -643,7 +653,7 @@ class FieldsHelper
     public static function getFieldsPluginId()
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('folder') . ' = ' . $db->quote('system'))

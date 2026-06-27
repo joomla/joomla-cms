@@ -13,11 +13,9 @@ namespace Joomla\Plugin\Filesystem\Local\Adapter;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\MediaHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Image\Exception\UnparsableImageException;
 use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
@@ -262,7 +260,7 @@ class LocalAdapter implements AdapterInterface
 
         try {
             File::write($localPath, $data);
-        } catch (FilesystemException $exception) {
+        } catch (FilesystemException) {
         }
 
         if ($this->thumbnails && MediaHelper::isImage(pathinfo($localPath)['basename'])) {
@@ -303,7 +301,7 @@ class LocalAdapter implements AdapterInterface
 
         try {
             File::write($localPath, $data);
-        } catch (FilesystemException $exception) {
+        } catch (FilesystemException) {
         }
 
         if ($this->thumbnails && MediaHelper::isImage(pathinfo($localPath)['basename'])) {
@@ -409,9 +407,9 @@ class LocalAdapter implements AdapterInterface
 
         // Dates
         $obj->create_date             = $createDate->format('c', true);
-        $obj->create_date_formatted   = HTMLHelper::_('date', $createDate, Text::_('DATE_FORMAT_LC5'));
+        $obj->create_date_formatted   = $createDate->format(Text::_('DATE_FORMAT_LC5'), true);
         $obj->modified_date           = $modifiedDate->format('c', true);
-        $obj->modified_date_formatted = HTMLHelper::_('date', $modifiedDate, Text::_('DATE_FORMAT_LC5'));
+        $obj->modified_date_formatted = $modifiedDate->format(Text::_('DATE_FORMAT_LC5'), true);
 
         if ($obj->mime_type === 'image/svg+xml' && $obj->extension === 'svg') {
             $obj->thumb_path = $this->getUrl($obj->path);
@@ -426,7 +424,7 @@ class LocalAdapter implements AdapterInterface
                 $obj->height = $props->height;
 
                 $obj->thumb_path = $this->thumbnails ? $this->getThumbnail($path) : $this->getUrl($obj->path);
-            } catch (UnparsableImageException $e) {
+            } catch (UnparsableImageException) {
                 // Ignore the exception - it's an image that we don't know how to parse right now
             }
         }
@@ -531,13 +529,17 @@ class LocalAdapter implements AdapterInterface
             $destinationPath .= '/' . $this->getFileName($sourcePath);
         }
 
+        if (!MediaHelper::checkFileExtension(pathinfo($destinationPath, PATHINFO_EXTENSION))) {
+            throw new \Exception(Text::_('COM_MEDIA_MOVE_FILE_EXTENSION_INVALID'));
+        }
+
         if (file_exists($destinationPath) && !$force) {
             throw new \Exception(Text::_('COM_MEDIA_COPY_FILE_NOT_POSSIBLE_FILE_ALREADY_EXISTS'));
         }
 
         try {
             File::copy($sourcePath, $destinationPath);
-        } catch (FilesystemException $exception) {
+        } catch (FilesystemException) {
             throw new \Exception(Text::_('COM_MEDIA_COPY_FILE_NOT_POSSIBLE'));
         }
     }
@@ -564,7 +566,7 @@ class LocalAdapter implements AdapterInterface
             if (is_file($destinationPath)) {
                 File::delete($destinationPath);
             }
-        } catch (FilesystemException $exception) {
+        } catch (FilesystemException) {
             throw new \Exception(Text::_('COM_MEDIA_COPY_FOLDER_DESTINATION_CAN_NOT_DELETE'));
         }
 
@@ -604,6 +606,12 @@ class LocalAdapter implements AdapterInterface
         // If transliterating could not happen, and all characters except of the file extension are filtered out, then throw an error.
         if ($safeName === pathinfo($sourcePath, PATHINFO_EXTENSION)) {
             throw new \Exception(Text::_('COM_MEDIA_ERROR_MAKESAFE'));
+        }
+
+        // Check for special characters that would be sanitized (except for case differences in extensions)
+        if (strtolower($name) !== strtolower($safeName)) {
+            // There are differences other than case in the extension
+            throw new \Exception(Text::_('JLIB_MEDIA_ERROR_WARNFILENAME'));
         }
 
         // If the safe name is different normalise the file name
@@ -652,7 +660,7 @@ class LocalAdapter implements AdapterInterface
 
         try {
             File::move($sourcePath, $destinationPath);
-        } catch (FilesystemException $exception) {
+        } catch (FilesystemException) {
             throw new \Exception(Text::_('COM_MEDIA_MOVE_FILE_NOT_POSSIBLE'));
         }
     }
@@ -679,7 +687,7 @@ class LocalAdapter implements AdapterInterface
             if (is_file($destinationPath)) {
                 File::delete($destinationPath);
             }
-        } catch (FilesystemException $exception) {
+        } catch (FilesystemException) {
             throw new \Exception(Text::_('COM_MEDIA_MOVE_FOLDER_NOT_POSSIBLE'));
         }
 
@@ -743,6 +751,14 @@ class LocalAdapter implements AdapterInterface
      */
     public function search(string $path, string $needle, bool $recursive = false): array
     {
+        // Search term must be a filename fragment, not a path
+        if (preg_match('#[/\\\\]#', $needle) || str_contains($needle, '..')) {
+            throw new InvalidPathException(Text::_('COM_MEDIA_ERROR'));
+        }
+
+        // Escape glob metacharacters so the term is matched literally
+        $needle = addcslashes($needle, '*?[]{}\\');
+
         $pattern = Path::clean($this->getLocalPath($path) . '/*' . $needle . '*');
 
         if ($recursive) {
@@ -813,9 +829,6 @@ class LocalAdapter implements AdapterInterface
             throw new \Exception(Text::_('COM_MEDIA_ERROR_MAKESAFE'));
         }
 
-        // Transform filename to punycode
-        $name = PunycodeHelper::toPunycode($name);
-
         // Get the extension
         $extension = File::getExt($name);
 
@@ -860,7 +873,7 @@ class LocalAdapter implements AdapterInterface
 
         try {
             File::delete($tmpFile);
-        } catch (FilesystemException $exception) {
+        } catch (FilesystemException) {
         }
 
         if (!$can) {
@@ -904,7 +917,7 @@ class LocalAdapter implements AdapterInterface
     private function getLocalPath(string $path): string
     {
         try {
-            return Path::check($this->rootPath . '/' . $path);
+            return Path::check($this->rootPath . '/' . $path, $this->rootPath);
         } catch (\Exception $e) {
             throw new InvalidPathException($e->getMessage());
         }
@@ -928,7 +941,10 @@ class LocalAdapter implements AdapterInterface
         $path     = str_replace(['\\', '/'], '/', $path);
 
         try {
-            $fs  = Path::check(str_replace($rootPath, JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath, $path));
+            $fs  = Path::check(
+                str_replace($rootPath, JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath, $path),
+                JPATH_ROOT . '/media/cache/com_media/thumbs/'
+            );
             $url = str_replace($rootPath, 'media/cache/com_media/thumbs/' . $this->filePath, $path);
 
             return [
@@ -986,7 +1002,7 @@ class LocalAdapter implements AdapterInterface
     {
         try {
             (new Image($path))->createThumbnails([$this->thumbnailSize[0] . 'x' . $this->thumbnailSize[1]], Image::SCALE_INSIDE, \dirname($thumbnailPath), true);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 

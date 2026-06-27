@@ -133,7 +133,7 @@ class TimezoneField extends GroupedlistField
             }
 
             // Get the group/locale from the timezone.
-            list($group, $locale) = explode('/', $zone, 2);
+            [$group, $locale] = explode('/', $zone, 2);
 
             // Only use known groups.
             if (\in_array($group, self::$zones)) {

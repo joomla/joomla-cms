@@ -21,7 +21,7 @@ use Joomla\Input\Input;
  *
  * @since       1.7.0
  *
- * @deprecated  4.3 will be removed in 6.0
+ * @deprecated  4.3 will be removed in 7.0
  *              Use the `joomla/console` package instead
  */
 class Cli extends Input
@@ -32,7 +32,7 @@ class Cli extends Input
      * @var    string
      * @since  1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the `joomla/console` package instead
      */
     public $executable;
@@ -44,7 +44,7 @@ class Cli extends Input
      * @var    array
      * @since  1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the `joomla/console` package instead
      */
     public $args = [];
@@ -57,7 +57,7 @@ class Cli extends Input
      *
      * @since   1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the `joomla/console` package instead
      */
     public function __construct(?array $source = null, array $options = [])
@@ -82,7 +82,7 @@ class Cli extends Input
      *
      * @since   3.0.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the `joomla/console` package instead
      */
     public function serialize()
@@ -92,8 +92,7 @@ class Cli extends Input
 
         // Remove $_ENV and $_SERVER from the inputs.
         $inputs = $this->inputs;
-        unset($inputs['env']);
-        unset($inputs['server']);
+        unset($inputs['env'], $inputs['server']);
 
         // Serialize the executable, args, options, data, and inputs.
         return serialize([$this->executable, $this->args, $this->options, $this->data, $inputs]);
@@ -108,13 +107,13 @@ class Cli extends Input
      *
      * @since   3.0.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the `joomla/console` package instead
      */
     public function unserialize($input)
     {
         // Unserialize the executable, args, options, data, and inputs.
-        list($this->executable, $this->args, $this->options, $this->data, $this->inputs) = unserialize($input);
+        [$this->executable, $this->args, $this->options, $this->data, $this->inputs] = unserialize($input);
 
         // Load the filter.
         if (isset($this->options['filter'])) {
@@ -133,7 +132,7 @@ class Cli extends Input
      *
      * @since   1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use the `joomla/console` package instead
      */
     protected function parseArguments()

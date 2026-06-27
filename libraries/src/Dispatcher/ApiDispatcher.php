@@ -33,7 +33,7 @@ final class ApiDispatcher extends ComponentDispatcher
         // Load common and local language files.
         $this->app->getLanguage()->load($this->option, JPATH_BASE) ||
         $this->app->getLanguage()->load($this->option, JPATH_ADMINISTRATOR) ||
-        $this->app->getLanguage()->load($this->option, JPATH_COMPONENT_ADMINISTRATOR);
+        $this->app->getLanguage()->load($this->option, JPATH_ADMINISTRATOR . '/components/' . $this->option);
     }
 
     /**

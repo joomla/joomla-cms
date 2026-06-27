@@ -155,8 +155,6 @@ class ChromestyleField extends GroupedlistField
             }
         }
 
-        reset($groups);
-
         return $groups;
     }
 
@@ -220,7 +218,7 @@ class ChromestyleField extends GroupedlistField
         $db = $this->getDatabase();
 
         // Get the database object and a new query object.
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Build the query.
         $query->select(

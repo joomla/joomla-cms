@@ -12,14 +12,14 @@
 const _JEXEC = 1;
 
 // Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
-const JOOMLA_MINIMUM_PHP = '8.1.0';
+const JOOMLA_MINIMUM_PHP = '8.3.0';
 
 if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<')) {
     echo 'Sorry, your PHP version is not supported.' . PHP_EOL;
     echo 'Your command line php needs to be version ' . JOOMLA_MINIMUM_PHP . ' or newer to run the Joomla! CLI Tools' . PHP_EOL;
     echo 'The version of PHP currently running this code, at the command line, is PHP version ' . PHP_VERSION . '.' . PHP_EOL;
     echo 'Please note, the version of PHP running your commands here, may be different to the version that is used by ';
-    echo 'your web server to run the Joomla! Web Application' . PHP_EOL;
+    echo 'your web server to run the Joomla! Web Application.' . PHP_EOL;
 
     exit;
 }
@@ -38,7 +38,7 @@ if (!\defined('_JDEFINES')) {
 if (!file_exists(JPATH_LIBRARIES . '/vendor/autoload.php') || !is_dir(JPATH_ROOT . '/media/vendor')) {
     echo 'It looks like you are trying to run Joomla! from our git repository.' . PHP_EOL;
     echo 'To do so requires you complete a couple of extra steps first.' . PHP_EOL;
-    echo 'Please see https://docs.joomla.org/Special:MyLanguage/J5.x:Setting_Up_Your_Local_Environment for further details.' . PHP_EOL;
+    echo 'Please see https://guide.joomla.org/user-manual/hosting/local-environment-setup for further details.' . PHP_EOL;
 
     exit;
 }
@@ -49,6 +49,8 @@ if (
     || (filesize(JPATH_CONFIGURATION . '/configuration.php') < 10)
 ) {
     echo 'Install Joomla to run cli commands' . PHP_EOL;
+    echo 'To install Joomla from the cli run the following command:' . PHP_EOL;
+    echo 'php installation/joomla.php install' . PHP_EOL;
 
     exit;
 }

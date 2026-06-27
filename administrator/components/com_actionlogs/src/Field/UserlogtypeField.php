@@ -45,7 +45,7 @@ class UserlogtypeField extends ListField
     {
         $db    = $this->getDatabase();
         $user  = Factory::getApplication()->getIdentity();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('extensions'))
             ->from($db->quoteName('#__action_logs_users'))
             ->where($db->quoteName('user_id') . ' = :userid')

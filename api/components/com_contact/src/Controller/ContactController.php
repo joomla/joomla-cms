@@ -10,14 +10,19 @@
 
 namespace Joomla\Component\Contact\Api\Controller;
 
+use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Contact\SubmitContactEvent;
 use Joomla\CMS\Event\Contact\ValidateContactEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\LanguageFactoryAwareInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailerFactoryAwareInterface;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\CMS\MVC\Controller\Exception\SendEmail;
@@ -29,7 +34,6 @@ use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
-use Joomla\String\Inflector;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
@@ -42,9 +46,11 @@ use Tobscure\JsonApi\Exception\InvalidParameterException;
  *
  * @since  4.0.0
  */
-class ContactController extends ApiController implements UserFactoryAwareInterface
+class ContactController extends ApiController implements UserFactoryAwareInterface, MailerFactoryAwareInterface, LanguageFactoryAwareInterface
 {
     use UserFactoryAwareTrait;
+    use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * The content type of the item.
@@ -99,7 +105,8 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
             $id = $this->input->post->get('id', 0, 'int');
         }
 
-        $modelName = Inflector::singularize($this->contentType);
+        $inflector = InflectorFactory::create()->build();
+        $modelName = $inflector->singularize($this->contentType);
 
         /** @var  \Joomla\Component\Contact\Site\Model\ContactModel $model */
         $model = $this->getModel($modelName, 'Site');
@@ -126,7 +133,7 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
         // Contact plugins
         PluginHelper::importPlugin('contact');
 
-        Form::addFormPath(JPATH_COMPONENT_SITE . '/forms');
+        Form::addFormPath(JPATH_SITE . '/components/com_contact/forms');
 
         // Validate the posted data.
         $form = $model->getForm();
@@ -171,15 +178,9 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
         $data = $event->getArgument('data', $data);
 
         // Send the email
-        $sent = false;
-
         $params = ComponentHelper::getParams('com_contact');
 
-        if (!$params->get('custom_reply')) {
-            $sent = $this->_sendEmail($data, $contact, $params->get('show_email_copy', 0));
-        }
-
-        if (!$sent) {
+        if (!$params->get('custom_reply') && !$this->_sendEmail($data, $contact, $params->get('show_email_copy', 0))) {
             throw new SendEmail('Error sending message');
         }
 
@@ -237,15 +238,25 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
         }
 
         try {
-            $mailer = new MailTemplate('com_contact.mail', $app->getLanguage()->getTag());
+            $mailer = new MailTemplate(
+                'com_contact.mail',
+                $app->getLanguage()->getTag(),
+                $this->getMailerFactory()->createMailer(),
+                $this->getLanguageFactory()
+            );
             $mailer->addRecipient($contact->email_to);
             $mailer->setReplyTo($templateData['email'], $templateData['name']);
             $mailer->addTemplateData($templateData);
             $sent = $mailer->send();
 
             // If we are supposed to copy the sender, do so.
-            if ($emailCopyToSender == true && !empty($data['contact_email_copy'])) {
-                $mailer = new MailTemplate('com_contact.mail.copy', $app->getLanguage()->getTag());
+            if ($emailCopyToSender && !empty($data['contact_email_copy'])) {
+                $mailer = new MailTemplate(
+                    'com_contact.mail.copy',
+                    $app->getLanguage()->getTag(),
+                    $this->getMailerFactory()->createMailer(),
+                    $this->getLanguageFactory()
+                );
                 $mailer->addRecipient($templateData['email']);
                 $mailer->setReplyTo($templateData['email'], $templateData['name']);
                 $mailer->addTemplateData($templateData);
@@ -257,7 +268,7 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
 
                 $sent = false;
             } catch (\RuntimeException $exception) {
-                Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                Factory::getApplication()->enqueueMessage(Text::_($exception->getMessage()), 'warning');
 
                 $sent = false;
             }

@@ -14,7 +14,6 @@ use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Event\User\AuthenticationEvent;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\Authentication\Ldap\Factory\LdapFactoryInterface;
 use Symfony\Component\Ldap\Entry;
@@ -45,16 +44,15 @@ final class Ldap extends CMSPlugin implements SubscriberInterface
      * Constructor
      *
      * @param   LdapFactoryInterface  $factory     The Ldap factory
-     * @param   DispatcherInterface   $dispatcher  The object to observe
      * @param   array                 $config      An optional associative array of configuration settings.
      *                                             Recognized key values include 'name', 'group', 'params', 'language'
      *                                             (this list is not meant to be comprehensive).
      *
      * @since   4.3.0
      */
-    public function __construct(LdapFactoryInterface $factory, DispatcherInterface $dispatcher, array $config = [])
+    public function __construct(LdapFactoryInterface $factory, array $config = [])
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->factory = $factory;
     }
@@ -143,7 +141,7 @@ final class Ldap extends CMSPlugin implements SubscriberInterface
             ],
         ];
         // if these are not set, the system defaults are used
-        if (isset($cacertdir) && isset($cacertfile)) {
+        if (isset($cacertdir, $cacertfile)) {
             $options['options']['x_tls_cacertdir']  = $cacertdir;
             $options['options']['x_tls_cacertfile'] = $cacertfile;
         }

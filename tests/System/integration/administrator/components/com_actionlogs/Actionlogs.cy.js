@@ -19,7 +19,7 @@ describe('Test in backend that the action logs', () => {
     cy.doAdministratorLogout();
     cy.doAdministratorLogin();
     cy.visit('/administrator/index.php?option=com_actionlogs&view=actionlogs');
-    cy.contains(`User ${Cypress.env('username')} logged in to admin`);
+    cy.contains(`User ${Cypress.expose('username')} logged in to admin`);
     cy.task('queryDB', 'TRUNCATE #__action_logs');
   });
 

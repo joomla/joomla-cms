@@ -174,7 +174,7 @@ class Image
         }
 
         // Get the image file information.
-        $info = getimagesize($path);
+        $info = @getimagesize($path);
 
         if (!$info) {
             throw new Exception\UnparsableImageException('Unable to get properties for the image.');
@@ -225,10 +225,10 @@ class Image
     private static function getOrientationString(int $width, int $height): string
     {
         switch (true) {
-            case ($width > $height):
+            case $width > $height:
                 return self::ORIENTATION_LANDSCAPE;
 
-            case ($width < $height):
+            case $width < $height:
                 return self::ORIENTATION_PORTRAIT;
 
             default:
@@ -1121,7 +1121,9 @@ class Image
     public function destroy()
     {
         if ($this->isLoaded()) {
-            return imagedestroy($this->getHandle());
+            $this->handle = null;
+
+            return true;
         }
 
         return false;

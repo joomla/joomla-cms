@@ -56,7 +56,7 @@ class BannerModel extends BaseDatabaseModel
 
         // Update click count
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->update($db->quoteName('#__banners'))
             ->set($db->quoteName('clicks') . ' = ' . $db->quoteName('clicks') . ' + 1')
@@ -87,7 +87,7 @@ class BannerModel extends BaseDatabaseModel
             $trackDate = Factory::getDate()->format('Y-m-d H:00:00');
             $trackDate = Factory::getDate($trackDate)->toSql();
 
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             $query->select($db->quoteName('count'))
                 ->from($db->quoteName('#__banner_tracks'))
@@ -111,7 +111,7 @@ class BannerModel extends BaseDatabaseModel
 
             $count = $db->loadResult();
 
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             if ($count) {
                 // Update count
@@ -163,7 +163,8 @@ class BannerModel extends BaseDatabaseModel
     {
         if (!isset($this->_item)) {
             /** @var \Joomla\CMS\Cache\Controller\CallbackController $cache */
-            $cache = Factory::getCache('com_banners', 'callback');
+            $cache = $this->getCacheControllerFactory()
+                ->createCacheController('callback', ['defaultgroup' => 'com_banners']);
 
             $id = (int) $this->getState('banner.id');
 
@@ -171,7 +172,8 @@ class BannerModel extends BaseDatabaseModel
             $db = $this->getDatabase();
 
             $loader = function ($id) use ($db) {
-                $query = $db->getQuery(true);
+                $nowDate = Factory::getDate()->toSql();
+                $query   = $db->createQuery();
 
                 $query->select(
                     [
@@ -184,7 +186,25 @@ class BannerModel extends BaseDatabaseModel
                     ->from($db->quoteName('#__banners', 'a'))
                     ->join('LEFT', $db->quoteName('#__banner_clients', 'cl'), $db->quoteName('cl.id') . ' = ' . $db->quoteName('a.cid'))
                     ->where($db->quoteName('a.id') . ' = :id')
-                    ->bind(':id', $id, ParameterType::INTEGER);
+                    ->where($db->quoteName('a.state') . ' = 1')
+                    ->extendWhere(
+                        'AND',
+                        [
+                            $db->quoteName('a.publish_up') . ' IS NULL',
+                            $db->quoteName('a.publish_up') . ' <= :nowDate',
+                        ],
+                        'OR'
+                    )
+                    ->extendWhere(
+                        'AND',
+                        [
+                            $db->quoteName('a.publish_down') . ' IS NULL',
+                            $db->quoteName('a.publish_down') . ' >= :nowDate',
+                        ],
+                        'OR'
+                    )
+                    ->bind(':id', $id, ParameterType::INTEGER)
+                    ->bind(':nowDate', $nowDate);
 
                 $db->setQuery($query);
 

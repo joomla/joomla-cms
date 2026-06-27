@@ -86,7 +86,7 @@ class MenutypesModel extends BaseDatabaseModel
 
         // Get the list of components.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('name'),
@@ -536,8 +536,7 @@ class MenutypesModel extends BaseDatabaseModel
 
                             // If the view is hidden from the menu, discard it and move on to the next view.
                             if (!empty($menu['hidden']) && $menu['hidden'] == 'true') {
-                                unset($xml);
-                                unset($o);
+                                unset($xml, $o);
                                 continue;
                             }
 

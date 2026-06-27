@@ -20,6 +20,8 @@ $displayData = [
     'formURL'    => 'index.php?option=com_installer&view=update',
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help5.x:Extensions:_Update',
     'icon'       => 'icon-puzzle-piece install',
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
 $user = $this->getCurrentUser();

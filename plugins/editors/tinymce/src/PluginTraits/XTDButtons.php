@@ -74,7 +74,7 @@ trait XTDButtons
             if ($link && $link[0] !== '#') {
                 $link           = str_contains($link, '&amp;') ? htmlspecialchars_decode($link) : $link;
                 $link           = Uri::base(true) . '/' . $link;
-                $options['src'] = $options['src'] ?? $link;
+                $options['src'] ??= $link;
             }
 
             // Set action to "modal" for legacy buttons, when possible
@@ -85,9 +85,9 @@ trait XTDButtons
                 $wa->useScript('joomla.dialog');
                 $legacyModal = false;
 
-                $options['popupType']  = $options['popupType'] ?? 'iframe';
-                $options['textHeader'] = $options['textHeader'] ?? $title;
-                $options['iconHeader'] = $options['iconHeader'] ?? 'icon-' . $icon;
+                $options['popupType']  ??= 'iframe';
+                $options['textHeader'] ??= $title;
+                $options['iconHeader'] ??= 'icon-' . $icon;
             }
 
             $coreButton            = [];

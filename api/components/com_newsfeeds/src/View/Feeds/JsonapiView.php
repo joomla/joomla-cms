@@ -91,6 +91,7 @@ class JsonapiView extends BaseApiView
         'editor',
         'access_level',
         'category_title',
+        'modified_by',
     ];
 
     /**

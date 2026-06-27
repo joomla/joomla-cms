@@ -57,13 +57,13 @@ class ContentType extends Table
 
         // Check for valid name.
         if (trim($this->type_title) === '') {
-            throw new \UnexpectedValueException(\sprintf('The title is empty'));
+            throw new \UnexpectedValueException('The title is empty');
         }
 
         $this->type_title = ucfirst($this->type_title);
 
         if (empty($this->type_alias)) {
-            throw new \UnexpectedValueException(\sprintf('The type_alias is empty'));
+            throw new \UnexpectedValueException('The type_alias is empty');
         }
 
         return true;
@@ -81,7 +81,7 @@ class ContentType extends Table
     public function store($updateNulls = false)
     {
         // Verify that the alias is unique
-        $table = new self($this->getDbo(), $this->getDispatcher());
+        $table = new self($this->getDatabase(), $this->getDispatcher());
 
         if ($table->load(['type_alias' => $this->type_alias]) && ($table->type_id != $this->type_id || $this->type_id == 0)) {
             $this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
@@ -117,8 +117,8 @@ class ContentType extends Table
      */
     public function getTypeId($typeAlias)
     {
-        $db    = $this->getDbo();
-        $query = $db->getQuery(true);
+        $db    = $this->getDatabase();
+        $query = $db->createQuery();
         $query->select($db->quoteName('type_id'))
             ->from($db->quoteName($this->_tbl))
             ->where($db->quoteName('type_alias') . ' = :type_alias')
@@ -143,7 +143,7 @@ class ContentType extends Table
         $tableInfo = json_decode($this->table);
 
         if (\is_object($tableInfo) && isset($tableInfo->special)) {
-            if (\is_object($tableInfo->special) && isset($tableInfo->special->type) && isset($tableInfo->special->prefix)) {
+            if (\is_object($tableInfo->special) && isset($tableInfo->special->type, $tableInfo->special->prefix)) {
                 if (isset($tableInfo->special->class)) {
                     $class = $tableInfo->special->class;
 
@@ -157,7 +157,7 @@ class ContentType extends Table
 
                 $class = rtrim($tableInfo->special->prefix, '\\') . '\\' . $tableInfo->special->type;
 
-                if (!class_implements($class, 'Joomla\\CMS\\Table\\TableInterface')) {
+                if (!class_implements($class, TableInterface::class)) {
                     // This isn't an instance of TableInterface. Stop.
                     throw new \RuntimeException('Class must be an instance of Joomla\\CMS\\Table\\TableInterface');
                 }
