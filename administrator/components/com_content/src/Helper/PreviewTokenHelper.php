@@ -50,18 +50,18 @@ class PreviewTokenHelper
     /**
      * Generate a signed preview token for a given article.
      *
-     * @param   int  $id              The article ID.
-     * @param   int  $expiresInHours  Number of hours before the token expires.
+     * @param   int  $id                The article ID.
+     * @param   int  $expiresInMinutes  Number of minutes before the token expires.
      *
      * @return  string
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function createToken(int $id, int $expiresInHours): string
+    public function createToken(int $id, int $expiresInMinutes): string
     {
         $payload = $this->encode(json_encode([
             'id'  => $id,
-            'exp' => time() + ($expiresInHours * 3600),
+            'exp' => time() + ($expiresInMinutes * 60),
         ]));
 
         $signature = $this->encode(hash_hmac('sha256', $payload, $this->secret, true));

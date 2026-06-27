@@ -92,10 +92,10 @@ class HtmlView extends FormView
         // Generate preview token if editing an existing article
         if ($this->item->id > 0) {
             $params     = ComponentHelper::getParams('com_content');
-            $expiration = (int)$params->get('preview_token_expiration', 1);
+            $expiration = (int) $params->get('preview_token_expiration', 15);
 
             $tokenHelper = new PreviewTokenHelper(Factory::getApplication()->get('secret'));
-            $token       = $tokenHelper->createToken((int)$this->item->id, $expiration);
+            $token       = $tokenHelper->createToken((int) $this->item->id, $expiration);
 
             // Append token using proper URL query parameter handling
             $url .= (!str_contains($url, '?') ? '?' : '&') . 'preview_token=' . $token;
