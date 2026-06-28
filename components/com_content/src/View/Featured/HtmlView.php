@@ -164,7 +164,6 @@ class HtmlView extends BaseHtmlView
 
         // Compute the article texts (runs content plugins).
         foreach ($items as &$item) {
-
             $contentEventArguments = [
                 'context' => 'com_content.featured',
                 'subject' => $item,
