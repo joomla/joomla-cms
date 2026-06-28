@@ -16,7 +16,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\FormView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Content\Administrator\Helper\PreviewTokenHelper;
+use Joomla\Component\Content\Administrator\Service\PreviewTokenService;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -94,7 +94,7 @@ class HtmlView extends FormView
             $params     = ComponentHelper::getParams('com_content');
             $expiration = (int) $params->get('preview_token_expiration', 15);
 
-            $tokenHelper = new PreviewTokenHelper(Factory::getApplication()->get('secret'));
+            $tokenHelper = new PreviewTokenService(Factory::getApplication()->get('secret'));
             $token       = $tokenHelper->createToken((int) $this->item->id, $expiration);
 
             // Append token using proper URL query parameter handling

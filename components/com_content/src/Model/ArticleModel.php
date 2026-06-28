@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\CMS\Table\Content;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
-use Joomla\Component\Content\Administrator\Helper\PreviewTokenHelper;
+use Joomla\Component\Content\Administrator\Service\PreviewTokenService;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\IpHelper;
@@ -73,7 +73,7 @@ class ArticleModel extends ItemModel
         $token = $app->getInput()->getString('preview_token', '');
 
         if ($token !== '' && $pk > 0) {
-            $previewTokenHelper = new PreviewTokenHelper($app->get('secret'));
+            $previewTokenHelper = new PreviewTokenService($app->get('secret'));
 
             if ($previewTokenHelper->validateToken($token, $pk)) {
                 $this->setState('article.preview', true);

@@ -8,27 +8,27 @@
  * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Content\Administrator\Helper;
+namespace Joomla\Component\Content\Administrator\Service;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Helper class for generating and validating article preview tokens.
+ * Service class for generating and validating article preview tokens.
  *
  * Tokens are URL-safe, HMAC-SHA256 signed, and time-limited.
  * They allow unauthenticated public access to article previews without
  * requiring a frontend login or published state.
  *
  * Usage:
- *   $helper = new PreviewTokenHelper($app->get('secret'));
+ *   $helper = new PreviewTokenService($app->get('secret'));
  *   $token  = $helper->createToken($articleId, 24);
  *   $valid  = $helper->validateToken($token, $articleId);
  *
  * @since  __DEPLOY_VERSION__
  */
-class PreviewTokenHelper
+class PreviewTokenService
 {
     /**
      * The secret key used to sign and verify preview tokens.
