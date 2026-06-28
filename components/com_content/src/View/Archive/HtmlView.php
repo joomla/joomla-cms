@@ -32,7 +32,7 @@ use Joomla\Component\Content\Site\Model\ArchiveModel;
  * @since  1.5
  */
 class HtmlView extends BaseHtmlView
-{    
+{
     /**
      * The model state
      *
@@ -190,7 +190,7 @@ class HtmlView extends BaseHtmlView
                 $item->event->{$resultKey} = trim(implode("\n", $results));
             }
         }
-        
+
         // Prepare category in dispatcher
         $this->eventResult = new \stdClass();
         $contentEventArguments = [
