@@ -123,7 +123,7 @@ class HtmlView extends CategoryView
 
             $dispatcher->dispatch(
                 'onContentPrepare',
-                new ContentPrepareEvent('onContentPrepare', ['context' => 'com_content.category', 'subject' => $item, 'params' => $item->params, 'page'    => 0])
+                new ContentPrepareEvent('onContentPrepare', ['context' => 'com_content.category', 'subject' => $item, 'params' => $item->params, 'page' => 0])
             );
         }
 
