@@ -100,7 +100,7 @@ class HtmlView extends CategoryView
         $dispatcher = $this->getDispatcher();
         PluginHelper::importPlugin('content', null, true, $dispatcher);
 
-        $app     = Factory::getApplication();
+        $app        = Factory::getApplication();
         $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
 
         // Compute the article slugs and prepare introtext (runs content plugins).
