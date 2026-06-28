@@ -234,7 +234,6 @@ class HtmlView extends BaseHtmlView
         $this->pagination = &$pagination;
         $this->user       = &$user;
 
-        
         $this->_prepareDocument();
 
         parent::display($tpl);
