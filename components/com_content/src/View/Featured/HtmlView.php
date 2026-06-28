@@ -104,7 +104,7 @@ class HtmlView extends BaseHtmlView
     /**
      * Prepared dispatcher result for category
      * @var  \stdClass
-     * @since  6.2
+     * @since  __DEPLOY_VERSION__
      */
     protected $eventResult;
 
