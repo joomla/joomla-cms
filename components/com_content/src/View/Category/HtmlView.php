@@ -129,7 +129,6 @@ class HtmlView extends CategoryView
 
         // Compute the article texts (runs content plugins).
         foreach ($this->items as $item) {
-
             $contentEventArguments = [
                 'context' => 'com_content.category',
                 'subject' => $item,
@@ -142,7 +141,7 @@ class HtmlView extends CategoryView
                 'beforeDisplayContent' => new BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
                 'afterDisplayContent'  => new AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
             ];
-            
+
             $item->event   = new \stdClass();
 
             foreach ($contentEvents as $resultKey => $event) {
