@@ -24,10 +24,10 @@ use Joomla\Event\DispatcherInterface;
 $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
 
 /** @var \Joomla\Component\Content\Site\View\Category\HtmlView $this */
-$afterDisplayTitle = $this->category->event->afterDisplayTitle;
-$beforeDisplayContent = $this->category->event->beforeDisplayContent;
-$afterDisplayContent = $this->category->event->afterDisplayContent;
-$afterDisplayItems = $this->category->event->afterDisplayItems;
+$afterDisplayTitle = $this->eventResult->afterDisplayTitle;
+$beforeDisplayContent = $this->eventResult->beforeDisplayContent;
+$afterDisplayContent = $this->eventResult->afterDisplayContent;
+$afterDisplayItems = $this->eventResult->afterDisplayItems;
 
 $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 
