@@ -159,25 +159,19 @@ class HtmlView extends BaseHtmlView
 
             $item->event = new \stdClass();
 
-            // Old plugins: Ensure that text property is available
-            if (!isset($item->text)) {
-                $item->text = $item->introtext;
-            }
-
+            $dispatcher->dispatch(
+                'onContentPrepare',
+                new ContentPrepareEvent('onContentPrepare', ['context' => 'com_content.archive', 'subject' => $item, 'params' => $item->params, 'page' => 0])
+            );
+        }
+        
+        foreach ($items as $item) {
             $contentEventArguments = [
                 'context' => 'com_content.archive',
                 'subject' => $item,
                 'params'  => $item->params,
                 'page'    => 0,
             ];
-
-            $dispatcher->dispatch(
-                'onContentPrepare',
-                new ContentPrepareEvent('onContentPrepare', $contentEventArguments)
-            );
-
-            // Old plugins: Use processed text as introtext
-            $item->introtext = $item->text;
 
             $contentEvents = [
                 'afterDisplayTitle'    => new AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
