@@ -155,14 +155,14 @@ class HtmlView extends BaseHtmlView
             }
 
             $item->event = new \stdClass();
-            
+
             $dispatcher->dispatch(
                 'onContentPrepare',
                 new ContentPrepareEvent('onContentPrepare', ['context' => 'com_content.featured', 'subject' => $item, 'params' => $item->params, 'page' => 0])
             );
         }
 
-        // Compute the article slugs introtext (runs content plugins).
+        // Compute the article texts (runs content plugins).
         foreach ($items as &$item) {
 
             $contentEventArguments = [
