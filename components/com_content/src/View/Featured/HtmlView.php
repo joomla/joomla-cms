@@ -145,7 +145,7 @@ class HtmlView extends BaseHtmlView
         $dispatcher = $this->getDispatcher();
         PluginHelper::importPlugin('content', null, true, $dispatcher);
 
-        // Compute the article slugs and prepare introtext (runs content plugins).
+        // Compute the article prepare introtext (runs content plugins).
         foreach ($items as &$item) {
             $item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
@@ -155,11 +155,15 @@ class HtmlView extends BaseHtmlView
             }
 
             $item->event = new \stdClass();
+            
+            $dispatcher->dispatch(
+                'onContentPrepare',
+                new ContentPrepareEvent('onContentPrepare', ['context' => 'com_content.featured', 'subject' => $item, 'params' => $item->params, 'page' => 0])
+            );
+        }
 
-            // Old plugins: Ensure that text property is available
-            if (!isset($item->text)) {
-                $item->text = $item->introtext;
-            }
+        // Compute the article slugs introtext (runs content plugins).
+        foreach ($items as &$item) {
 
             $contentEventArguments = [
                 'context' => 'com_content.featured',
@@ -167,14 +171,6 @@ class HtmlView extends BaseHtmlView
                 'params'  => $item->params,
                 'page'    => 0,
             ];
-
-            $dispatcher->dispatch(
-                'onContentPrepare',
-                new ContentPrepareEvent('onContentPrepare', $contentEventArguments)
-            );
-
-            // Old plugins: Use processed text as introtext
-            $item->introtext = $item->text;
 
             $contentEvents = [
                 'afterDisplayTitle'    => new AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
