@@ -112,7 +112,7 @@ class HtmlView extends CategoryView
         $app        = Factory::getApplication();
         $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
 
-        // Compute the article slugs and prepare introtext (runs content plugins).
+        // Compute the article prepare introtext (runs content plugins).
         foreach ($this->items as $item) {
             $item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
@@ -121,12 +121,14 @@ class HtmlView extends CategoryView
                 $item->parent_id = null;
             }
 
-            $item->event   = new \stdClass();
+            $dispatcher->dispatch(
+                'onContentPrepare',
+                new ContentPrepareEvent('onContentPrepare', ['context' => 'com_content.category', 'subject' => $item, 'params' => $item->params, 'page'    => 0])
+            );
+        }
 
-            // Old plugins: Ensure that text property is available
-            if (!isset($item->text)) {
-                $item->text = $item->introtext;
-            }
+        // Compute the article texts (runs content plugins).
+        foreach ($this->items as $item) {
 
             $contentEventArguments = [
                 'context' => 'com_content.category',
@@ -135,19 +137,13 @@ class HtmlView extends CategoryView
                 'page'    => 0,
             ];
 
-            $dispatcher->dispatch(
-                'onContentPrepare',
-                new ContentPrepareEvent('onContentPrepare', $contentEventArguments)
-            );
-
-            // Old plugins: Use processed text as introtext
-            $item->introtext = $item->text;
-
             $contentEvents = [
                 'afterDisplayTitle'    => new AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
                 'beforeDisplayContent' => new BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
                 'afterDisplayContent'  => new AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
             ];
+            
+            $item->event   = new \stdClass();
 
             foreach ($contentEvents as $resultKey => $event) {
                 $results = $dispatcher->dispatch($event->getName(), $event)->getArgument('result', []);
