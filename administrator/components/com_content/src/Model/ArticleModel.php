@@ -1156,7 +1156,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__categories'))
             ->where($db->quoteName('extension') . ' = :extension')
-            ->whereIn($db->quoteName('published'), [0, 1])
+            ->whereIn($db->quoteName('published'), [0, 1, 2])
             ->bind(':extension', $extension, ParameterType::STRING);
 
         if (!$user->authorise('core.admin')) {

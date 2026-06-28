@@ -12,6 +12,7 @@ namespace Joomla\Component\Content\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\SecondaryCategoriesHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -800,6 +801,9 @@ class ArticlesModel extends ListModel
                 $item->metadata = $registry->toArray();
             }
         }
+
+        $helper = new SecondaryCategoriesHelper('com_content.article');
+        $helper->loadSecondaryCategoriesForItems($items);
 
         return $items;
     }

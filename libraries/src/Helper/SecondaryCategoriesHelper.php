@@ -173,4 +173,90 @@ class SecondaryCategoriesHelper extends CMSHelper
 
         return array_map('intval', $db->setQuery($query)->loadColumn());
     }
+    /**
+     * Load secondary categories for the given items.
+     *
+     * Adds a secondary_categories property to each item containing
+     * the mapped secondary category objects.
+     *
+     * @param   array  $items  The items to populate.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function loadSecondaryCategoriesForItems(array &$items): void
+    {
+        if (empty($items)) {
+            return;
+        }
+
+        $itemIds = [];
+
+        foreach ($items as $item) {
+            if (!empty($item->id)) {
+                $itemIds[]                  = (int) $item->id;
+                $item->secondary_categories = [];
+            }
+        }
+
+        if (empty($itemIds)) {
+            return;
+        }
+
+        $db    = $this->getDb();
+        $user  = Factory::getApplication()->getIdentity();
+        $query = $db->createQuery();
+
+        $query
+            ->select([
+                $db->quoteName('m.item_id'),
+                $db->quoteName('m.ordering'),
+                $db->quoteName('c.id'),
+                $db->quoteName('c.title'),
+                $db->quoteName('c.alias'),
+                $db->quoteName('c.parent_id'),
+                $db->quoteName('c.created_user_id', 'category_uid'),
+                $db->quoteName('c.level', 'category_level'),
+                $db->quoteName('c.published', 'category_published'),
+                $db->quoteName('parent.id', 'parent_category_id'),
+                $db->quoteName('parent.title', 'parent_category_title'),
+                $db->quoteName('parent.created_user_id', 'parent_category_uid'),
+                $db->quoteName('parent.level', 'parent_category_level'),
+            ])
+            ->from($db->quoteName('#__category_item_map', 'm'))
+            ->innerJoin(
+                $db->quoteName('#__categories', 'c'),
+                $db->quoteName('c.id') . ' = ' . $db->quoteName('m.category_id')
+            )
+            ->leftJoin(
+                $db->quoteName('#__categories', 'parent'),
+                $db->quoteName('parent.id') . ' = ' . $db->quoteName('c.parent_id')
+            )
+            ->where($db->quoteName('m.context') . ' = :context')
+            ->whereIn($db->quoteName('m.item_id'), $itemIds, ParameterType::INTEGER)
+            ->bind(':context', $this->typeAlias, ParameterType::STRING)
+            ->order($db->quoteName('m.item_id'))
+            ->order($db->quoteName('m.ordering'));
+
+        if (!$user->authorise('core.admin')) {
+            $query->whereIn(
+                $db->quoteName('c.access'),
+                $user->getAuthorisedViewLevels(),
+                ParameterType::INTEGER
+            );
+        }
+
+        $rows = $db->setQuery($query)->loadObjectList();
+
+        $mapped = [];
+
+        foreach ($rows as $row) {
+            $mapped[(int) $row->item_id][] = $row;
+        }
+
+        foreach ($items as $item) {
+            $item->secondary_categories = $mapped[$item->id] ?? [];
+        }
+    }
 }

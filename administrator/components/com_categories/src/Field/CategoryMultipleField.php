@@ -11,6 +11,7 @@
 namespace Joomla\Component\Categories\Administrator\Field;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -52,7 +53,7 @@ class CategoryMultipleField extends CategoryeditField
     protected function getOptions()
     {
         $options   = [];
-        $published = $this->element['published'] ? explode(',', (string) $this->element['published']) : [0, 1];
+        $published = $this->element['published'] ? explode(',', (string) $this->element['published']) : [0, 1, 2];
 
         $extension = $this->element['extension'] ? (string) $this->element['extension'] : 'com_content';
 
@@ -65,7 +66,7 @@ class CategoryMultipleField extends CategoryeditField
         $viewLevels = $user->getAuthorisedViewLevels();
         $state      = ArrayHelper::toInteger($published);
 
-        $root = Factory::getApplication()->bootComponent($extension)->getCategory()->get('root');
+        $root = Factory::getApplication()->bootComponent($extension)->getCategory([ 'published' => [0, 1, 2]])->get('root');
         foreach ($root->getChildren(true) as $category) {
             if (!\in_array((int) $category->published, $state, true)) {
                 continue;
@@ -90,6 +91,12 @@ class CategoryMultipleField extends CategoryeditField
                 $option->text = str_repeat('- ', max(0, $option->level - 1)) . $option->text;
             } else {
                 $option->text = str_repeat('- ', max(0, $option->level - 1)) . '[' . $option->text . ']';
+            }
+
+            if ($option->published === 0) {
+                $option->text .= ' (' . Text::_('JUNPUBLISHED') . ')';
+            } elseif ($option->published === 2) {
+                $option->text .= ' (' . Text::_('JARCHIVED') . ')';
             }
 
             if ($option->language !== '*') {

@@ -323,6 +323,104 @@ $assoc = Associations::isEnabled();
                                                 echo $item->category_published == '0' ? ' (' . Text::_('JUNPUBLISHED') . ')' : ' (' . Text::_('JTRASHED') . ')';
                                             endif;
                                             ?>
+                                            <?php if (!empty($item->secondary_categories)) : ?>
+                                                <br>
+                                                <?php
+                                                echo Text::_(
+                                                    count($item->secondary_categories) > 1
+                                                        ? 'JSECONDARY_CATEGORIES'
+                                                        : 'JSECONDARY_CATEGORY'
+                                                ) . ': ';
+                                                ?>
+
+                                                <?php foreach ($item->secondary_categories as $index => $category) : ?>
+                                                    <?php
+                                                    $canEditSecondaryCat = $user->authorise('core.edit', 'com_content.category.' . $category->id);
+                                                    $canEditOwnSecondaryCat = $user->authorise('core.edit.own', 'com_content.category.' . $category->id)
+                                                        && $category->category_uid == $userId;
+
+                                                    $canEditSecondaryParentCat = $user->authorise('core.edit', 'com_content.category.' . $category->parent_category_id);
+                                                    $canEditOwnSecondaryParentCat = $user->authorise('core.edit.own', 'com_content.category.' . $category->parent_category_id)
+                                                        && $category->parent_category_uid == $userId;
+
+                                                    $secondaryParentCatUrl = Route::_(
+                                                        'index.php?option=com_categories&task=category.edit&id='
+                                                        . $category->parent_category_id
+                                                        . '&extension=com_content'
+                                                    );
+
+                                                    $secondaryCurrentCatUrl = Route::_(
+                                                        'index.php?option=com_categories&task=category.edit&id='
+                                                        . $category->id
+                                                        . '&extension=com_content'
+                                                    );
+                                                    ?>
+
+                                                    <?php if ($index > 0) : ?>
+                                                        <?php echo $this->getLanguage()->isRtl() ? '، ' : ', '; ?>
+                                                    <?php endif; ?>
+
+                                                    <?php if ($this->getLanguage()->isRtl()) : ?>
+                                                        <?php if ($canEditSecondaryCat || $canEditOwnSecondaryCat) : ?>
+                                                            <a href="<?php echo $secondaryCurrentCatUrl; ?>" title="<?php echo $EditCatTxt; ?>">
+                                                        <?php endif; ?>
+
+                                                        <?php echo $this->escape($category->title); ?>
+
+                                                        <?php if ($canEditSecondaryCat || $canEditOwnSecondaryCat) : ?>
+                                                            </a>
+                                                        <?php endif; ?>
+
+                                                        <?php if ($category->category_level != 1) : ?>
+                                                            &#171;
+
+                                                            <?php if ($canEditSecondaryParentCat || $canEditOwnSecondaryParentCat) : ?>
+                                                                <a href="<?php echo $secondaryParentCatUrl; ?>" title="<?php echo $EditCatTxt; ?>">
+                                                            <?php endif; ?>
+
+                                                            <?php echo $this->escape($category->parent_category_title); ?>
+
+                                                            <?php if ($canEditSecondaryParentCat || $canEditOwnSecondaryParentCat) : ?>
+                                                                </a>
+                                                            <?php endif; ?>
+                                                        <?php endif; ?>
+
+                                                    <?php else : ?>
+                                                        <?php if ($category->category_level != 1) : ?>
+                                                            <?php if ($canEditSecondaryParentCat || $canEditOwnSecondaryParentCat) : ?>
+                                                                <a href="<?php echo $secondaryParentCatUrl; ?>" title="<?php echo $EditCatTxt; ?>">
+                                                            <?php endif; ?>
+
+                                                            <?php echo $this->escape($category->parent_category_title); ?>
+
+                                                            <?php if ($canEditSecondaryParentCat || $canEditOwnSecondaryParentCat) : ?>
+                                                                </a>
+                                                            <?php endif; ?>
+
+                                                            &#187;
+                                                        <?php endif; ?>
+
+                                                        <?php if ($canEditSecondaryCat || $canEditOwnSecondaryCat) : ?>
+                                                            <a href="<?php echo $secondaryCurrentCatUrl; ?>" title="<?php echo $EditCatTxt; ?>">
+                                                        <?php endif; ?>
+
+                                                        <?php echo $this->escape($category->title); ?>
+
+                                                        <?php if ($canEditSecondaryCat || $canEditOwnSecondaryCat) : ?>
+                                                            </a>
+                                                        <?php endif; ?>
+                                                    <?php endif; ?>
+
+                                                    <?php if ($category->category_published < 1) : ?>
+                                                        <?php
+                                                        echo $category->category_published == '0'
+                                                            ? ' (' . Text::_('JUNPUBLISHED') . ')'
+                                                            : ' (' . Text::_('JTRASHED') . ')';
+                                                        ?>
+                                                    <?php endif; ?>
+
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 </th>
