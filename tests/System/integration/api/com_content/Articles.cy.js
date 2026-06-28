@@ -69,4 +69,59 @@ describe('Test that content API endpoint', () => {
     cy.db_createArticle({ title: 'automated test article', state: -2 })
       .then((article) => cy.api_delete(`/content/articles/${article.id}`));
   });
+
+  it('should handle invalid payload formatting gracefully with a clean JSON error schema', () => {
+    cy.api_getBearerToken().then((token) => {
+      cy.request({
+        method: 'POST',
+        url: '/api/index.php/v1/content/articles',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: {
+          // Purposely malformed payload missing mandatory "data" wrap and required fields
+          "attributes": {
+            "title": "Malformed Test Article"
+          }
+        },
+        failOnStatusCode: false
+      })
+      .then((response) => {
+        // It should fail gracefully, not crash with a 500 Unhandled PHP Error
+        expect(response.status).to.be.equal(400);
+
+        // Validate
+        expect(response.body).to.have.property('errors');
+        expect(response.body.errors).to.be.an('array');
+        expect(response.body.errors[0]).to.have.property('title');
+        expect(response.body.errors[0].title).to.include('Field required: Category');
+      });
+    });
+  });
+
+  it('can deliver a list of articles conforming to page limit and offset pagination flags', () => {
+    // Create 3 distinct articles to verify true middle-offset navigation
+    cy.db_createArticle({ title: 'automated test article A' })
+      .then(() => cy.db_createArticle({ title: 'automated test article B' }))
+      .then(() => cy.db_createArticle({ title: 'automated test article C' }))
+      .then(() => {
+        // Verify Limit: Request only 2 items out of the 3 available
+        return cy.api_get('/content/articles?page[limit]=2&page[offset]=0');
+      })
+      .then((response) => {
+        cy.wrap(response).its('body').its('data').should('have.length', 2);
+      })
+      .then(() => {
+        // Verify Offset: Limit to 1 item, but skip the first one (offset=1)
+        return cy.api_get('/content/articles?page[limit]=1&page[offset]=1');
+      })
+      .then((response) => {
+        // It must only return 1 item
+        cy.wrap(response).its('body').its('data').should('have.length', 1);
+        
+        // Assert that it skipped 'C' (newest) and grabbed 'B' (middle)
+        cy.wrap(response).its('body').its('data').its('0').its('attributes').its('title')
+          .should('include', 'automated test article B');
+      });
+  });
 });
