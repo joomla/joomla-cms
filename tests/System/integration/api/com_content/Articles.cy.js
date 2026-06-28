@@ -124,4 +124,24 @@ describe('Test that content API endpoint', () => {
           .should('include', 'automated test article B');
       });
   });
+
+  it('should successfully fetch articles and verify their category relationships', () => {
+    const categoryId = '2'; // Uncategorised
+    cy.db_createArticle({ 
+      title: 'automated test article', 
+      catid: parseInt(categoryId) 
+    })
+    .then(() => {
+      return cy.api_get('/content/articles');
+    })
+    .then((response) => {
+      cy.wrap(response).its('body').its('data').should('be.an', 'array').and('have.length.at.least', 1);
+      cy.wrap(response).its('body').its('data').its('0').its('attributes').its('title')
+        .should('include', 'automated test article');
+
+      // Validate the relational linkage matches category ID "2" from the list
+      cy.wrap(response).its('body').its('data').its('0').its('relationships').its('category').its('data').its('id')
+        .should('equal', categoryId);
+    });
+  });
 });
