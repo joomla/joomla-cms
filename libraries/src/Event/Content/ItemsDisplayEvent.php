@@ -27,5 +27,6 @@ use Joomla\CMS\Event\Result\ResultTypeStringAware;
 class ItemsDisplayEvent extends ContentPrepareEvent implements ResultAwareInterface
 {
     use ResultAware;
+
     //use ResultTypeStringAware;
 }
