@@ -14,6 +14,7 @@ use Joomla\CMS\Event\Content\AfterDisplayEvent;
 use Joomla\CMS\Event\Content\AfterTitleEvent;
 use Joomla\CMS\Event\Content\BeforeDisplayEvent;
 use Joomla\CMS\Event\Content\ContentPrepareEvent;
+use Joomla\CMS\Event\Content\ItemsDisplayEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\CategoryView;
 use Joomla\CMS\Plugin\PluginHelper;
