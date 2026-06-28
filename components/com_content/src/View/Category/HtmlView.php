@@ -32,14 +32,6 @@ use Joomla\Registry\Registry;
  */
 class HtmlView extends CategoryView
 {
-    
-    /**
-     * Prepared dispatcher result for category
-     * @var  \stdClass
-     * @since  6.2
-     */
-    protected $eventResult;
-    
     /**
      * @var    array  Array of leading items for blog display
      * @since  3.2
@@ -75,6 +67,13 @@ class HtmlView extends CategoryView
      * @since  3.2
      */
     protected $viewName = 'article';
+
+    /**
+     * Prepared dispatcher result for category
+     * @var  \stdClass
+     * @since  6.2
+     */
+    protected $eventResult;
 
     /**
      * Execute and display a template script.
