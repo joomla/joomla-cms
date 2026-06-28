@@ -192,7 +192,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Prepare category in dispatcher
-        $this->eventResult = new \stdClass();
+        $this->eventResult     = new \stdClass();
         $contentEventArguments = [
             'context' => 'com_content.archive',
             'subject' => $this,
