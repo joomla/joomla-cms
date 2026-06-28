@@ -154,8 +154,6 @@ class HtmlView extends BaseHtmlView
                 $item->parent_id = null;
             }
 
-            $item->event = new \stdClass();
-
             $dispatcher->dispatch(
                 'onContentPrepare',
                 new ContentPrepareEvent('onContentPrepare', ['context' => 'com_content.featured', 'subject' => $item, 'params' => $item->params, 'page' => 0])
@@ -176,6 +174,8 @@ class HtmlView extends BaseHtmlView
                 'beforeDisplayContent' => new BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
                 'afterDisplayContent'  => new AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
             ];
+
+            $item->event = new \stdClass();
 
             foreach ($contentEvents as $resultKey => $event) {
                 $results = $dispatcher->dispatch($event->getName(), $event)->getArgument('result', []);
