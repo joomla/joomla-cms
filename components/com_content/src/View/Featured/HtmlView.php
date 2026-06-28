@@ -101,6 +101,13 @@ class HtmlView extends BaseHtmlView
     protected $params = null;
 
     /**
+     * Prepared dispatcher result for category
+     * @var  \stdClass
+     * @since  6.2
+     */
+    protected $eventResult;
+
+    /**
      * Execute and display a template script.
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -136,11 +143,6 @@ class HtmlView extends BaseHtmlView
 
         $dispatcher = $this->getDispatcher();
         PluginHelper::importPlugin('content', null, true, $dispatcher);
-
-        $this->event = new \stdClass();
-
-        $results                        = Factory::getApplication()->triggerEvent('onContentAfterItems', ['com_content.featured', &$this, &$this->params]);
-        $this->event->afterDisplayItems = trim(implode("\n", $results));
 
         // Compute the article slugs and prepare introtext (runs content plugins).
         foreach ($items as &$item) {
@@ -210,6 +212,20 @@ class HtmlView extends BaseHtmlView
             $this->link_items[$i] = &$items[$i];
         }
 
+        // Prepare category in dispatcher
+        $this->eventResult = new \stdClass();
+        $contentEventArguments = [
+            'context' => 'com_content.featured',
+            'subject' => $this,
+            'params'  => $this->params,
+            'page'    => 0,
+        ];
+        $results = $dispatcher->dispatch(
+            'onContentAfterItems',
+            new ItemsDisplayEvent('onContentAfterItems', $contentEventArguments)
+        )->getArgument('result', []);
+        $this->eventResult->afterDisplayItems = trim(implode("\n", $results));
+
         // Escape strings for HTML output
         $this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 
@@ -218,6 +234,7 @@ class HtmlView extends BaseHtmlView
         $this->pagination = &$pagination;
         $this->user       = &$user;
 
+        
         $this->_prepareDocument();
 
         parent::display($tpl);
