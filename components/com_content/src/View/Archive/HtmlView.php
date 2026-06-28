@@ -162,7 +162,7 @@ class HtmlView extends BaseHtmlView
                 new ContentPrepareEvent('onContentPrepare', ['context' => 'com_content.archive', 'subject' => $item, 'params' => $item->params, 'page' => 0])
             );
         }
-        
+
         foreach ($items as $item) {
             $contentEventArguments = [
                 'context' => 'com_content.archive',
