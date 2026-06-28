@@ -32,7 +32,7 @@ use Joomla\Component\Content\Site\Model\ArchiveModel;
  * @since  1.5
  */
 class HtmlView extends BaseHtmlView
-{
+{    
     /**
      * The model state
      *
@@ -80,6 +80,13 @@ class HtmlView extends BaseHtmlView
      * @since  4.0.0
      */
     protected $params = null;
+
+    /**
+     * Prepared dispatcher result for category
+     * @var  \stdClass
+     * @since  6.2
+     */
+    protected $eventResult;
 
     /**
      * The search query used on any archived articles (note this may not be displayed depending on the value of the
@@ -141,11 +148,6 @@ class HtmlView extends BaseHtmlView
         $dispatcher = $this->getDispatcher();
         PluginHelper::importPlugin('content', null, true, $dispatcher);
 
-        $this->event = new \stdClass();
-
-        $results                        = Factory::getApplication()->triggerEvent('onContentAfterItems', ['com_content.archive', &$this, &$this->params]);
-        $this->event->afterDisplayItems = trim(implode("\n", $results));
-
         foreach ($items as $item) {
             $item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
@@ -188,6 +190,20 @@ class HtmlView extends BaseHtmlView
                 $item->event->{$resultKey} = trim(implode("\n", $results));
             }
         }
+        
+        // Prepare category in dispatcher
+        $this->eventResult = new \stdClass();
+        $contentEventArguments = [
+            'context' => 'com_content.archive',
+            'subject' => $this,
+            'params'  => $this->params,
+            'page'    => 0,
+        ];
+        $results = $dispatcher->dispatch(
+            'onContentAfterItems',
+            new ItemsDisplayEvent('onContentAfterItems', $contentEventArguments)
+        )->getArgument('result', []);
+        $this->eventResult->afterDisplayItems = trim(implode("\n", $results));
 
         $form = new \stdClass();
 
