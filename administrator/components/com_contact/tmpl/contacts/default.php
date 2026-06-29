@@ -155,7 +155,7 @@ if ($saveOrder && !empty($this->items)) {
                                 </th>
                                 <td class="small d-none">
                                     <?php if (!empty($item->linked_user)) : ?>
-                                        <?php if ($user->id == $item->user_id || ($user->authorise('core.manage', 'com_users') && $user->authorise('core.edit', 'com_users'))) : ?>
+                                        <?php if ($item->user_id == $userId || ($user->authorise('core.manage', 'com_users') && $user->authorise('core.edit', 'com_users'))) : ?>
                                             <a href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . $item->user_id); ?>"><?php echo $this->escape($item->linked_user); ?></a>
                                         <?php else : ?>
                                             <?php echo $this->escape($item->linked_user); ?>

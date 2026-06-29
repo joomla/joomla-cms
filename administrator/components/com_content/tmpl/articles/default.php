@@ -325,7 +325,7 @@ $assoc = Associations::isEnabled();
                                 </td>
                                 <td class="small d-none d-md-table-cell">
                                     <?php if (!empty($item->author_name)) : ?>
-                                        <?php if ($user->id == $item->created_by || ($user->authorise('core.manage', 'com_users') && $user->authorise('core.edit', 'com_users'))) : ?>
+                                        <?php if ($item->created_by == $userId || ($user->authorise('core.manage', 'com_users') && $user->authorise('core.edit', 'com_users'))) : ?>
                                             <a href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>">
                                                 <?php echo $this->escape($item->author_name); ?>
                                             </a>
