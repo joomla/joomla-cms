@@ -99,7 +99,7 @@ $canChange = $user->authorise('core.edit.state', 'com_scheduler');
                                         <?php echo (int) $item->taskid; ?>
                                     </td>
                                     <td class="small d-none d-md-table-cell">
-                                        <?php echo HTMLHelper::_('date.relative', $item->lastdate, Text::_('DATE_FORMAT_LC6')); ?>
+                                        <?php echo $item->lastdate ? HTMLHelper::_('date.relative', $item->lastdate, Text::_('DATE_FORMAT_LC6')) : '-'; ?>
                                     </td>
                                     <td class="small d-none d-md-table-cell">
                                         <?php echo $item->duration; ?>
@@ -120,7 +120,7 @@ $canChange = $user->authorise('core.edit.state', 'com_scheduler');
                                         ?>
                                     </td>
                                     <td class="small d-none d-md-table-cell">
-                                        <?php echo HTMLHelper::_('date', $item->nextdate, Text::_('DATE_FORMAT_LC6')); ?>
+                                        <?php echo $item->nextdate ? HTMLHelper::_('date', $item->nextdate, Text::_('DATE_FORMAT_LC6')) : '-'; ?>
                                     </td>
                                     <td class="small d-none d-md-table-cell">
                                         <?php echo (int) $item->id; ?>
