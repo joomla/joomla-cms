@@ -143,6 +143,7 @@ class ArticlesModel extends ListModel
         // Required content filters for the administrator menu
         $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
         $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
+        $this->getUserStateFromRequest($this->context . '.filter.category_match', 'filter_category_match', '');
         $this->getUserStateFromRequest($this->context . '.filter.featured', 'filter_featured');
         $this->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
         $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
@@ -181,6 +182,7 @@ class ArticlesModel extends ListModel
         $id .= ':' . $this->getState('filter.published');
         $id .= ':' . $this->getState('filter.featured');
         $id .= ':' . serialize($this->getState('filter.category_id'));
+        $id .= ':' . $this->getState('filter.category_match');
         $id .= ':' . serialize($this->getState('filter.author_id'));
         $id .= ':' . $this->getState('filter.language');
         $id .= ':' . serialize($this->getState('filter.tag'));
@@ -370,19 +372,21 @@ class ArticlesModel extends ListModel
             }
         }
 
-        // Filter by categories and by level
-        $categoryId = $this->getState('filter.category_id', []);
-        $level      = (int) $this->getState('filter.level');
+        // Filter by categories, category match, and by level
+        $categoryId    = $this->getState('filter.category_id', []);
+        $categoryMatch = (string) $this->getState('filter.category_match', '');
+        $level         = (int) $this->getState('filter.level');
 
         if (!\is_array($categoryId)) {
             $categoryId = $categoryId ? [$categoryId] : [];
         }
 
-        // Case: Using both categories filter and by level filter
+        // Case: Using categories filter
         if (\count($categoryId)) {
-            $categoryId       = ArrayHelper::toInteger($categoryId);
-            $categoryTable    = new Category($db);
-            $subCatItemsWhere = [];
+            $categoryId          = ArrayHelper::toInteger($categoryId);
+            $categoryTable       = new Category($db);
+            $subCatItemsWhere    = [];
+            $secondaryWhereParts = [];
 
             foreach ($categoryId as $key => $filter_catid) {
                 $categoryTable->load($filter_catid);
@@ -397,6 +401,7 @@ class ArticlesModel extends ListModel
                 // Bind values and get parameter names.
                 $bounded = $query->bindArray($valuesToBind);
 
+                // Primary category condition
                 $categoryWhere = $db->quoteName('c.lft') . ' >= ' . $bounded[0] . ' AND ' . $db->quoteName('c.rgt') . ' <= ' . $bounded[1];
 
                 if ($level) {
@@ -404,11 +409,47 @@ class ArticlesModel extends ListModel
                 }
 
                 $subCatItemsWhere[] = '(' . $categoryWhere . ')';
+
+                // Secondary category condition
+                $secondaryWhere = $db->quoteName('sc.lft') . ' >= ' . $bounded[0] . ' AND ' . $db->quoteName('sc.rgt') . ' <= ' . $bounded[1];
+
+                if ($level) {
+                    $secondaryWhere .= ' AND ' . $db->quoteName('sc.level') . ' <= ' . $bounded[2];
+                }
+
+                $secondaryWhere .= ' AND ' . $db->quoteName('sc.access') . ' IN (' . implode(',', ArrayHelper::toInteger($user->getAuthorisedViewLevels())) . ')';
+                $secondaryWhereParts[] = '(' . $secondaryWhere . ')';
             }
 
-            $query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
+            // Secondary category lookup
+            $secondaryQuery = $db->createQuery()
+                ->select($db->quoteName('map.item_id'))
+                ->from($db->quoteName('#__category_item_map', 'map'))
+                ->innerJoin(
+                    $db->quoteName('#__categories', 'sc'),
+                    $db->quoteName('map.category_id') . ' = ' . $db->quoteName('sc.id')
+                )
+                ->where($db->quoteName('map.context') . ' = ' . $db->quote('com_content.article'))
+                ->where('(' . implode(' OR ', $secondaryWhereParts) . ')');
+
+            switch ($categoryMatch) {
+                case '1':
+                    // Primary only
+                    $query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
+                    break;
+
+                case '2':
+                    // Secondary only
+                    $query->where($db->quoteName('a.id') . ' IN (' . $secondaryQuery . ')');
+                    break;
+
+                default:
+                    // Primary or Secondary
+                    $query->where('(' . implode(' OR ', $subCatItemsWhere) . ' OR ' . $db->quoteName('a.id') . ' IN (' . $secondaryQuery . ')' . ')');
+                    break;
+            }
         } elseif ($level = (int) $level) {
-            // Case: Using only the by level filter
+            // Case: Using only the level filter
             $query->where($db->quoteName('c.level') . ' <= :level')
                 ->bind(':level', $level, ParameterType::INTEGER);
         }
