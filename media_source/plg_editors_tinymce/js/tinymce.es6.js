@@ -193,6 +193,20 @@ Joomla.JoomlaTinyMCE = {
       }, true);
     };
 
+    // Generic media-picker hook: when a media-picker capability is present on the page
+    // (Joomla.editorMediaPicker, provided by whichever plugin ships it), enable the native
+    // image/media dialogs' "Source" browse button and route it through that picker.
+    if (typeof Joomla.editorMediaPicker === 'function') {
+      options.file_picker_types = 'image media';
+      options.file_picker_callback = (cb, value, meta) => {
+        Joomla.editorMediaPicker(meta).then((result) => {
+          if (result && result.url) {
+            cb(result.url, { alt: result.alt || '' });
+          }
+        });
+      };
+    }
+
     // Create a new instance
     const ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager);
     // Create a decorator
