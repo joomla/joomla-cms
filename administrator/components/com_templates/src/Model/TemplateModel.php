@@ -993,7 +993,13 @@ class TemplateModel extends FormModel
         $fileName = $isMedia ? JPATH_ROOT . '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element . $fileName :
             JPATH_ROOT . '/' . ($this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element . $fileName;
 
-        $filePath = Path::clean($fileName);
+        try {
+            $filePath = Path::check($fileName);
+        } catch (\Exception) {
+            $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'), 'error');
+
+            return false;
+        }
 
         // Include the extension plugins for the save events.
         PluginHelper::importPlugin('extension');
@@ -1300,12 +1306,12 @@ class TemplateModel extends FormModel
     public function deleteFile($file)
     {
         if ($this->getTemplate()) {
-            $app      = Factory::getApplication();
-            $filePath = $this->getBasePath() . urldecode(base64_decode($file));
+            $app = Factory::getApplication();
 
             try {
-                $return = File::delete($filePath);
-            } catch (FilesystemException) {
+                $filePath = Path::check($this->getBasePath() . urldecode(base64_decode($file)));
+                $return   = File::delete($filePath);
+            } catch (\Exception) {
                 $return = false;
             }
 
@@ -1502,13 +1508,22 @@ class TemplateModel extends FormModel
             $explodeArray = explode('/', $fileName);
             $newName      = str_replace(end($explodeArray), $name . '.' . $type, $fileName);
 
-            if (file_exists($path . $newName)) {
+            try {
+                $filePath = Path::check($path . $fileName);
+                $newPath  = Path::check($path . $newName);
+            } catch (\Exception) {
+                $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_RENAME_ERROR'), 'error');
+
+                return false;
+            }
+
+            if (file_exists($newPath)) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
 
                 return false;
             }
 
-            if (!rename($path . $fileName, $path . $newName)) {
+            if (!rename($filePath, $newPath)) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_RENAME_ERROR'), 'error');
 
                 return false;
@@ -1750,7 +1765,13 @@ class TemplateModel extends FormModel
             $explodeArray = explode('.', $relPath);
             $ext          = end($explodeArray);
             $path         = $this->getBasePath();
-            $newPath      = Path::clean($path . $location . '/' . $newName . '.' . $ext);
+
+            try {
+                $sourcePath = Path::check($path . $relPath);
+                $newPath    = Path::check($path . $location . '/' . $newName . '.' . $ext);
+            } catch (\Exception) {
+                return false;
+            }
 
             if (file_exists($newPath)) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
@@ -1759,7 +1780,7 @@ class TemplateModel extends FormModel
             }
 
             try {
-                File::copy($path . $relPath, $newPath);
+                File::copy($sourcePath, $newPath);
             } catch (FilesystemException) {
                 return false;
             }
