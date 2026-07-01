@@ -219,28 +219,20 @@ trait DisplayTrait
 
         $ignore_filter = false;
 
-        // Text filtering
-        if ($levelParams->get('use_config_textfilters', 0)) {
-            // Use filters from com_config
-            $filter            = static::getGlobalFilters($user);
-            $ignore_filter     = $filter === false;
-            $blockedTags       = !empty($filter->blockedTags) ? $filter->blockedTags : [];
-            $blockedAttributes = !empty($filter->blockedAttributes) ? $filter->blockedAttributes : [];
-            $tagArray          = !empty($filter->tagsArray) ? $filter->tagsArray : [];
-            $attrArray         = !empty($filter->attrArray) ? $filter->attrArray : [];
-            $invalid_elements  = implode(',', array_merge($blockedTags, $blockedAttributes, $tagArray, $attrArray));
+        // Use filters from com_config
+        $filter            = static::getGlobalFilters($user);
+        $ignore_filter     = $filter === false;
+        $blockedTags       = !empty($filter->blockedTags) ? $filter->blockedTags : [];
+        $blockedAttributes = !empty($filter->blockedAttributes) ? $filter->blockedAttributes : [];
+        $tagArray          = !empty($filter->tagsArray) ? $filter->tagsArray : [];
+        $attrArray         = !empty($filter->attrArray) ? $filter->attrArray : [];
+        $invalid_elements  = implode(',', array_merge($blockedTags, $blockedAttributes, $tagArray, $attrArray));
 
-            // Valid elements are all entries listed as allowed in com_config, which are now missing in the filter blocked properties
-            $default_filter = InputFilter::getInstance();
-            $valid_elements = implode(',', array_diff($default_filter->blockedTags, $blockedTags));
+        // Valid elements are all entries listed as allowed in com_config, which are now missing in the filter blocked properties
+        $default_filter = InputFilter::getInstance();
+        $valid_elements = implode(',', array_diff($default_filter->blockedTags, $blockedTags));
 
-            $extended_elements = '';
-        } else {
-            // Use filters from TinyMCE params
-            $invalid_elements  = trim($levelParams->get('invalid_elements', 'script,applet,iframe'));
-            $extended_elements = trim($levelParams->get('extended_elements', ''));
-            $valid_elements    = trim($levelParams->get('valid_elements', ''));
-        }
+        $extended_elements = '';
 
         // The param is true for vertical resizing only, false or both
         $resizing          = (bool) $levelParams->get('resizing', true);
