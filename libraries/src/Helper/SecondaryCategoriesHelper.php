@@ -35,6 +35,19 @@ class SecondaryCategoriesHelper extends CMSHelper
     private string $typeAlias;
 
     /**
+     * Secondary category counter property names indexed by item state.
+     *
+     * @var    array<int, string>
+     * @since  __DEPLOY_VERSION__
+     */
+    private const COUNTER_NAMES = [
+        -2 => 'count_secondary_trashed',
+        0  => 'count_secondary_unpublished',
+        1  => 'count_secondary_published',
+        2  => 'count_secondary_archived',
+    ];
+
+    /**
      * SecondaryCategories constructor.
      *
      * @param   string  $typeAlias  The Type Alias
@@ -173,6 +186,59 @@ class SecondaryCategoriesHelper extends CMSHelper
 
         return array_map('intval', $db->setQuery($query)->loadColumn());
     }
+
+
+    /**
+     * Get the number of related items for each secondary category grouped by state.
+     *
+     * @param   int[]  $categoryIds  The category ids.
+     *
+     * @return  array<int, array<string, int>>
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getCategoryItemCounts(array $categoryIds): array
+    {
+        if (empty($categoryIds)) {
+            return [];
+        }
+
+        $db = $this->getDb();
+
+        $counts = [];
+
+        foreach ($categoryIds as $categoryId) {
+            foreach (self::COUNTER_NAMES as $counterName) {
+                $counts[(int) $categoryId][$counterName] = 0;
+            }
+        }
+
+        $query = $db->createQuery()
+            ->select(
+                [
+                    $db->quoteName('m.category_id', 'catid'),
+                    $db->quoteName('c.state', 'state'),
+                    'COUNT(*) AS ' . $db->quoteName('count'),
+                ]
+            )
+            ->from($db->quoteName('#__category_item_map', 'm'))
+            ->innerJoin(
+                $db->quoteName('#__content', 'c'),
+                $db->quoteName('c.id') . ' = ' . $db->quoteName('m.item_id')
+            )
+            ->where($db->quoteName('m.context') . ' = :context')
+            ->whereIn($db->quoteName('m.category_id'), $categoryIds)
+            ->whereIn($db->quoteName('c.state'), array_keys(self::COUNTER_NAMES))
+            ->group($db->quoteName(['m.category_id', 'c.state']))
+            ->bind(':context', $this->typeAlias, ParameterType::STRING);
+
+        $relations = $db->setQuery($query)->loadObjectList();
+        foreach ($relations as $relation) {
+            $counts[(int) $relation->catid][self::COUNTER_NAMES[(int) $relation->state]] = (int) $relation->count;
+        }
+        return $counts;
+    }
+
     /**
      * Load secondary categories for the given items.
      *
