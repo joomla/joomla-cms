@@ -62,7 +62,11 @@ class Mail extends PHPMailer implements MailerInterface
 
         // Configure a callback function to handle errors when $this->debug() is called
         $this->Debugoutput = function ($message, $level) {
-            Log::add(\sprintf('Error in Mail API: %s', $message), Log::ERROR, 'mail');
+            if (strpos(strtolower($message), 'fail') !== false || strpos(strtolower($message), 'error') !== false) {
+                Log::add(\sprintf('Error in Mail API: %s', $message), Log::ERROR, 'mail');
+            } else {
+                Log::add(\sprintf('Debug in Mail API: %s', $message), Log::DEBUG, 'mail');
+            }
         };
 
         // If debug mode is enabled then set SMTPDebug to the maximum level
