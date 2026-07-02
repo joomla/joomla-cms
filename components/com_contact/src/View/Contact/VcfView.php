@@ -88,6 +88,9 @@ class VcfView extends AbstractView
 
         $rev = date('c', strtotime($item->modified));
 
+        // Strip quotes and line breaks so the contact name cannot break out of the quoted filename parameter
+        $card_name = str_replace(['"', "\r", "\n"], '', $card_name);
+
         Factory::getApplication()->setHeader('Content-disposition', 'attachment; filename="' . $card_name . '.vcf"', true);
 
         $vcard   = [];
