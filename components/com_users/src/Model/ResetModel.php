@@ -472,8 +472,8 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
         // Put together the email template data.
         $data              = ArrayHelper::fromObject($user, false);
         $data['sitename']  = $app->get('sitename');
-        $data['link_text'] = Route::_($link, false, $mode);
-        $data['link_html'] = Route::_($link, true, $mode);
+        $data['link_text'] = Route::link('site', $link, false, $mode, true);
+        $data['link_html'] = Route::link('site', $link, true, $mode, true);
         $data['token']     = $token;
 
         $mailer = new MailTemplate('com_users.password_reset', $app->getLanguage()->getTag());
@@ -489,7 +489,7 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
 
                 $return = false;
             } catch (\RuntimeException $exception) {
-                $app->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                $app->enqueueMessage(Text::_($exception->getMessage()), 'warning');
 
                 $return = false;
             }
