@@ -129,4 +129,44 @@ class CategoryMultipleField extends CategoryeditField
 
         return $options;
     }
+
+    /**
+     * Method to get the field input markup.
+     *
+     * @return  string  The field input markup.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getInput()
+    {
+        $data = $this->getLayoutData();
+
+        // Pass the exact variables the categoryedit layout expects
+        $data['options']        = $this->getOptions();
+        $data['allowCustom']    = $this->allowAdd;
+        $data['customPrefix']   = $this->customPrefix;
+        $data['refreshPage']    = (bool) ($this->element['refresh-enabled'] ?? false);
+        $data['refreshCatId']   = (string) ($this->element['refresh-cat-id'] ?? '');
+        $data['refreshSection'] = (string) ($this->element['refresh-section'] ?? '');
+
+        $renderer = $this->getRenderer($this->layout);
+        $renderer->setComponent('com_categories');
+        $renderer->setClient(1);
+
+        $html = $renderer->render($data);
+
+        // Load external JS and pass the field id
+        if ($data['refreshPage']) {
+            $document = Factory::getApplication()->getDocument();
+            $wa       = $document->getWebAssetManager();
+
+            // Register and attach the external JS file
+            $wa->registerAndUseScript('field.category-multiple-change', 'layouts/joomla/form/field/category-multiple-change.min.js', [], ['defer' => true], ['core']);
+
+            // Pass the specific field ID to the external JS file.
+            $document->addScriptOptions('category-multiple-change', $this->id);
+        }
+
+        return $html;
+    }
 }
