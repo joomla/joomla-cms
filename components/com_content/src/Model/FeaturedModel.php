@@ -161,7 +161,16 @@ class FeaturedModel extends ArticlesModel
         $featuredCategories = $this->getState('filter.frontpage.categories');
 
         if (\is_array($featuredCategories) && !\in_array('', $featuredCategories)) {
-            $query->where('a.catid IN (' . implode(',', ArrayHelper::toInteger($featuredCategories)) . ')');
+            $featuredCategories = array_values(array_unique(array_filter(ArrayHelper::toInteger($featuredCategories))));
+            $db                 = $this->getDatabase();
+            if ($featuredCategories) {
+                $categoryIds = implode(',', $featuredCategories);
+
+                $query->where(
+                    '(' . $db->quoteName('a.catid') . ' IN (' . $categoryIds . ')'
+                    . ' OR ' . $db->quoteName('a.id') . ' IN (' . $this->getSecondaryCategoryQuery($featuredCategories) . '))'
+                );
+            }
         }
 
         return $query;

@@ -896,11 +896,33 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         $db    = $this->getDatabase();
         $query = $db->createQuery();
 
-        // Count the items in this category
-        $query->select('COUNT(' . $db->quoteName('id') . ')')
-            ->from($db->quoteName($table))
-            ->where($db->quoteName('catid') . ' = :catid')
-            ->bind(':catid', $catid, ParameterType::INTEGER);
+        //@todo Remove the condition with the else when all items fully support secondary categories.
+        if ($table === '#__content') {
+            $context        = 'com_content.article';
+            $secondaryQuery = $db->createQuery()
+                ->select($db->quoteName('m.item_id'))
+                ->from($db->quoteName('#__category_item_map', 'm'))
+                ->where($db->quoteName('m.context') . ' = :context')
+                ->where($db->quoteName('m.category_id') . ' = :secondaryCatid');
+
+            // Count articles where this is either the primary or a secondary category.
+            $query->select('COUNT(DISTINCT ' . $db->quoteName('a.id') . ')')
+                ->from($db->quoteName($table, 'a'))
+                ->where(
+                    '(' . $db->quoteName('a.catid') . ' = :primaryCatid'
+                    . ' OR ' . $db->quoteName('a.id') . ' IN (' . $secondaryQuery . '))'
+                )
+                ->bind(':context', $context)
+                ->bind(':primaryCatid', $catid, ParameterType::INTEGER)
+                ->bind(':secondaryCatid', $catid, ParameterType::INTEGER);
+        } else {
+            // Count the items in this category
+            $query->select('COUNT(' . $db->quoteName('id') . ')')
+                ->from($db->quoteName($table))
+                ->where($db->quoteName('catid') . ' = :catid')
+                ->bind(':catid', $catid, ParameterType::INTEGER);
+        }
+
         $db->setQuery($query);
 
         try {
@@ -994,11 +1016,38 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
         // Make sure we only do the query if we have some categories to look in
         if (\count($childCategoryIds)) {
-            // Count the items in this category
-            $query = $db->createQuery()
-                ->select('COUNT(' . $db->quoteName('id') . ')')
-                ->from($db->quoteName($table))
-                ->whereIn($db->quoteName('catid'), $childCategoryIds);
+            $childCategoryIds = ArrayHelper::toInteger($childCategoryIds);
+            $childCategoryIds = array_values(array_unique(array_filter($childCategoryIds)));
+
+            if (!$childCategoryIds) {
+                return 0;
+            }
+
+            if ($table === '#__content') {
+                $categoryIds    = implode(',', $childCategoryIds);
+                $secondaryQuery = $db->createQuery()
+                    ->select($db->quoteName('m.item_id'))
+                    ->from($db->quoteName('#__category_item_map', 'm'))
+                    ->where($db->quoteName('m.context') . ' = :context')
+                    ->where($db->quoteName('m.category_id') . ' IN (' . $categoryIds . ')');
+
+                // Count articles where any child is either the primary or a secondary category.
+                $query = $db->createQuery()
+                    ->select('COUNT(DISTINCT ' . $db->quoteName('a.id') . ')')
+                    ->from($db->quoteName($table, 'a'))
+                    ->where(
+                        '(' . $db->quoteName('a.catid') . ' IN (' . $categoryIds . ')'
+                        . ' OR ' . $db->quoteName('a.id') . ' IN (' . $secondaryQuery . '))'
+                    )
+                    ->bind(':context', 'com_content.article');
+            } else {
+                // Count the items in this category
+                $query = $db->createQuery()
+                    ->select('COUNT(' . $db->quoteName('id') . ')')
+                    ->from($db->quoteName($table))
+                    ->whereIn($db->quoteName('catid'), $childCategoryIds);
+            }
+
             $db->setQuery($query);
 
             try {

@@ -15,6 +15,7 @@ use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -125,7 +126,14 @@ class ArchiveModel extends ArticlesModel
         }
 
         if (\count($catids) > 0) {
-            $query->whereIn($db->quoteName('c.id'), $catids);
+            $catids = array_values(array_unique(array_filter(ArrayHelper::toInteger($catids))));
+
+            if ($catids) {
+                $query->where(
+                    '(' . $db->quoteName('a.catid') . ' IN (' . implode(',', $catids) . ')'
+                    . ' OR ' . $db->quoteName('a.id') . ' IN (' . $this->getSecondaryCategoryQuery($catids) . '))'
+                );
+            }
         }
 
         return $query;
