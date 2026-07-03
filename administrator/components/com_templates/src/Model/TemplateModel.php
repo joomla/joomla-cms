@@ -697,6 +697,7 @@ class TemplateModel extends FormModel
             ->select('COUNT(*)')
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('name') . ' = :name')
+            ->where($db->quoteName('type') . ' = ' . $db->quote('template'))
             ->bind(':name', $name);
         $db->setQuery($query);
 
@@ -778,11 +779,7 @@ class TemplateModel extends FormModel
             }
 
             // Adjust to new template name
-            if (!$this->fixTemplateName()) {
-                return false;
-            }
-
-            return true;
+            return $this->fixTemplateName();
         }
 
         $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'), 'error');
@@ -1395,8 +1392,10 @@ class TemplateModel extends FormModel
                 return false;
             }
 
+            // Allow "unsafe" files: template files legitimately contain PHP, which the File::upload()
+            // safety scan (default since joomla/filesystem 4.2.0) would reject. Super-User-only action.
             try {
-                File::upload($file['tmp_name'], Path::clean($path . '/' . $location . '/' . $fileName));
+                File::upload($file['tmp_name'], Path::clean($path . '/' . $location . '/' . $fileName), false, true);
             } catch (FilesystemException) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_UPLOAD_ERROR'), 'error');
 
@@ -2078,17 +2077,11 @@ class TemplateModel extends FormModel
         }
 
         // Create an empty media folder structure
-        if (
-            !Folder::create($toPath . '/media')
-            || !Folder::create($toPath . '/media/css')
-            || !Folder::create($toPath . '/media/js')
-            || !Folder::create($toPath . '/media/images')
-            || !Folder::create($toPath . '/media/scss')
-        ) {
-            return false;
-        }
-
-        return true;
+        return Folder::create($toPath . '/media')
+            && Folder::create($toPath . '/media/css')
+            && Folder::create($toPath . '/media/js')
+            && Folder::create($toPath . '/media/images')
+            && Folder::create($toPath . '/media/scss');
     }
 
     /**
