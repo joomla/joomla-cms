@@ -293,47 +293,4 @@ class Modules
 
         echo HTMLHelper::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm');
     }
-
-    /**
-     * Method to get the field options.
-     *
-     * @param   integer  $clientId  The client ID
-     *
-     * @return  array  The field option objects.
-     *
-     * @since   2.5
-     *
-     * @deprecated  4.3 will be removed in 7.0
-     *              Will be removed with no replacement
-     */
-    public function positionList($clientId = 0)
-    {
-        $clientId = (int) $clientId;
-        $db       = $this->getDatabase();
-        $query    = $db->createQuery()
-            ->select('DISTINCT ' . $db->quoteName('position', 'value'))
-            ->select($db->quoteName('position', 'text'))
-            ->from($db->quoteName('#__modules'))
-            ->where($db->quoteName('client_id') . ' = :clientid')
-            ->order($db->quoteName('position'))
-            ->bind(':clientid', $clientId, ParameterType::INTEGER);
-
-        // Get the options.
-        $db->setQuery($query);
-
-        try {
-            $options = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-        }
-
-        // Pop the first item off the array if it's blank
-        if (\count($options)) {
-            if (\strlen($options[0]->text) < 1) {
-                array_shift($options);
-            }
-        }
-
-        return $options;
-    }
 }
