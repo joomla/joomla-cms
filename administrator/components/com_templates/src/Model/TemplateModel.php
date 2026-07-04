@@ -1392,8 +1392,10 @@ class TemplateModel extends FormModel
                 return false;
             }
 
+            // Allow "unsafe" files: template files legitimately contain PHP, which the File::upload()
+            // safety scan (default since joomla/filesystem 4.2.0) would reject. Super-User-only action.
             try {
-                File::upload($file['tmp_name'], Path::clean($path . '/' . $location . '/' . $fileName));
+                File::upload($file['tmp_name'], Path::clean($path . '/' . $location . '/' . $fileName), false, true);
             } catch (FilesystemException) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_UPLOAD_ERROR'), 'error');
 
