@@ -137,6 +137,23 @@ Joomla.JoomlaTinyMCE = {
     const name = element ? element.getAttribute('name').replace(/\[\]|\]/g, '').split('[').pop() : 'default'; // Get Editor name
     const tinyMCEOptions = pluginOptions ? pluginOptions.tinyMCE || {} : {};
     const defaultOptions = tinyMCEOptions.default || {};
+
+    // Generic media-picker hook: when a media-picker capability is present on the page
+    // (Joomla.editorMediaPicker, provided by whichever plugin ships it), enable the native
+    // image/media dialogs' "Source" browse button and route it through that picker.
+    // It is set on the default options once (not per instance), so every editor inherits it
+    // through the merge below while developers can still override it for a specific instance.
+    if (typeof Joomla.editorMediaPicker === 'function' && !defaultOptions.file_picker_callback) {
+      defaultOptions.file_picker_types = 'image media';
+      defaultOptions.file_picker_callback = (cb, value, meta) => {
+        Joomla.editorMediaPicker(meta).then((result) => {
+          if (result && result.url) {
+            cb(result.url, { alt: result.alt || '' });
+          }
+        });
+      };
+    }
+
     // Check specific options by the name
     let options = tinyMCEOptions[name] ? tinyMCEOptions[name] : defaultOptions;
 
@@ -192,20 +209,6 @@ Joomla.JoomlaTinyMCE = {
         }
       }, true);
     };
-
-    // Generic media-picker hook: when a media-picker capability is present on the page
-    // (Joomla.editorMediaPicker, provided by whichever plugin ships it), enable the native
-    // image/media dialogs' "Source" browse button and route it through that picker.
-    if (typeof Joomla.editorMediaPicker === 'function') {
-      options.file_picker_types = 'image media';
-      options.file_picker_callback = (cb, value, meta) => {
-        Joomla.editorMediaPicker(meta).then((result) => {
-          if (result && result.url) {
-            cb(result.url, { alt: result.alt || '' });
-          }
-        });
-      };
-    }
 
     // Create a new instance
     const ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager);
