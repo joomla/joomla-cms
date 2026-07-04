@@ -363,9 +363,7 @@ class BaseControllerTest extends UnitTestCase
         $app->method('getName')->willReturn('Test');
         $app->method('getDocument')->willReturn($this->createStub(HtmlDocument::class));
 
-        $controller = new class (['name' => 'Test', 'base_path' => __DIR__], $mvcFactory, $app, new Input()) extends
-            BaseController {
-        };
+        $controller = new class (['name' => 'Test', 'base_path' => __DIR__], $mvcFactory, $app, new Input()) extends BaseController {};
         $controller->getView('Unit');
     }
 
@@ -413,7 +411,7 @@ class BaseControllerTest extends UnitTestCase
         $mvcFactory->method('createView')->willReturn($view);
 
         $user = new User();
-        $app = $this->createStub(CMSWebApplicationInterface::class);
+        $app  = $this->createStub(CMSWebApplicationInterface::class);
         $app->method('getName')->willReturn('Test');
         $app->method('getIdentity')->willReturn($user);
         $app->method('getDocument')->willReturn($this->createStub(HtmlDocument::class));
