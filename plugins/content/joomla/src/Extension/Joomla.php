@@ -19,9 +19,11 @@ use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
@@ -52,6 +54,8 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
     use UserFactoryAwareTrait;
+    use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
 
     /**
      * Returns an array of events this subscriber will listen to.
@@ -194,7 +198,12 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
                 }
                 // Send email
                 try {
-                    $mailer = new MailTemplate('plg_content_joomla.newarticle', $receiver->getParam('admin_language', $this->getLanguage()->getTag()));
+                    $mailer = new MailTemplate(
+                        'plg_content_joomla.newarticle',
+                        $receiver->getParam('admin_language', $this->getLanguage()->getTag()),
+                        $this->getMailerFactory()->createMailer(),
+                        $this->getLanguageFactory()
+                    );
                     $mailer->addTemplateData($templateData);
                     $mailer->addRecipient($receiver->email, $receiver->name);
 

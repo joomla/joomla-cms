@@ -1,6 +1,7 @@
 /**
  * Assets Builder
  */
+import { pathToFileURL } from 'node:url';
 import path from 'node:path';
 import fsp from "node:fs/promises";
 import fs from "node:fs";
@@ -80,7 +81,7 @@ const prepareVendorAssets = async (vendor, packageName) => {
     throw new Error(`Package "${packageName}" not found`);
   }
 
-  const moduleOptions = await import(modulePathJson, { with: { type: 'json' } });
+  const moduleOptions = await import(pathToFileURL(modulePathJson).href, { with: { type: 'json' } });
 
   const entries = [];
   vendor.provideAssets.forEach((assetInfo) => {

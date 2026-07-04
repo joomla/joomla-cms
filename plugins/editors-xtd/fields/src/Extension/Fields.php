@@ -56,7 +56,7 @@ final class Fields extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $button = $this->onDisplay($event->getEditorId());
+        $button = $this->getButton($event->getEditorId());
 
         if ($button) {
             $subject->add($button);
@@ -64,19 +64,19 @@ final class Fields extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Display the button
+     * Prepare the button
      *
      * @param   string  $name  The name of the button to add
      *
-     * @return  Button|void  The button options as Button object
+     * @return  ?Button  The button options as Button object, null if ACL check fails
      *
-     * @since  3.7.0
+     * @since   __DEPLOY_VERSION__
      */
-    public function onDisplay($name)
+    private function getButton(string $name): ?Button
     {
         // Check if com_fields is enabled
         if (!ComponentHelper::isEnabled('com_fields')) {
-            return;
+            return null;
         }
 
         $this->loadLanguage();
