@@ -363,7 +363,8 @@ class BaseControllerTest extends UnitTestCase
         $app->method('getName')->willReturn('Test');
         $app->method('getDocument')->willReturn($this->createStub(HtmlDocument::class));
 
-        $controller = new class (['name' => 'Test', 'base_path' => __DIR__], $mvcFactory, $app, new Input()) extends BaseController {};
+        $controller = new class (['name' => 'Test', 'base_path' => __DIR__], $mvcFactory, $app, new Input()) extends BaseController {
+        };
         $controller->getView('Unit');
     }
 
