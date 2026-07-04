@@ -13,8 +13,12 @@ namespace Joomla\Component\Privacy\Site\Model;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\LanguageFactoryAwareInterface;
+use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailerFactoryAwareInterface;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
@@ -36,8 +40,11 @@ use PHPMailer\PHPMailer\Exception as phpmailerException;
  *
  * @since  3.9.0
  */
-class RequestModel extends AdminModel
+class RequestModel extends AdminModel implements MailerFactoryAwareInterface, LanguageFactoryAwareInterface
 {
+    use MailerFactoryAwareTrait;
+    use LanguageFactoryAwareTrait;
+
     /**
      * Creates an information request.
      *
@@ -148,12 +155,22 @@ class RequestModel extends AdminModel
 
             switch ($data['request_type']) {
                 case 'export':
-                    $mailer = new MailTemplate('com_privacy.notification.export', $app->getLanguage()->getTag());
+                    $mailer = new MailTemplate(
+                        'com_privacy.notification.export',
+                        $app->getLanguage()->getTag(),
+                        $this->getMailerFactory()->createMailer(),
+                        $this->getLanguageFactory()
+                    );
 
                     break;
 
                 case 'remove':
-                    $mailer = new MailTemplate('com_privacy.notification.remove', $app->getLanguage()->getTag());
+                    $mailer = new MailTemplate(
+                        'com_privacy.notification.remove',
+                        $app->getLanguage()->getTag(),
+                        $this->getMailerFactory()->createMailer(),
+                        $this->getLanguageFactory()
+                    );
 
                     break;
 
