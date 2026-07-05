@@ -262,6 +262,7 @@ class ItemController extends FormController
 
         /** @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
         $model    = $this->getModel('Item', 'Administrator', []);
+        $model->setUseExceptions(true);
         $table    = $model->getTable();
         $data     = $this->input->post->get('jform', [], 'array');
         $task     = $this->getTask();
@@ -291,9 +292,11 @@ class ItemController extends FormController
         // The save2copy task needs to be handled slightly differently.
         if ($task == 'save2copy') {
             // Check-in the original row.
-            if ($model->checkin($data['id']) === false) {
+            try {
+                $model->checkin($data['id']);
+            } catch (\Exception $e) {
                 // Check-in failed, go back to the item and display a notice.
-                $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'warning');
+                $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $e->getMessage()), 'warning');
 
                 return false;
             }
@@ -322,10 +325,6 @@ class ItemController extends FormController
         // Validate the posted data.
         // This post is made up of two forms, one for the item and one for params.
         $form = $model->getForm($data);
-
-        if (!$form) {
-            throw new \Exception($model->getError(), 500);
-        }
 
         if ($data['type'] == 'url') {
             $data['link'] = str_replace(['"', '>', '<'], '', $data['link']);
@@ -412,22 +411,26 @@ class ItemController extends FormController
         }
 
         // Attempt to save the data.
-        if (!$model->save($data)) {
+        try {
+            $model->save($data);
+        } catch (\Exception $e) {
             // Save the data in the session.
             $app->setUserState('com_menus.edit.item.data', $data);
 
             // Redirect back to the edit screen.
             $editUrl = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId);
-            $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
+            $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $e->getMessage()), 'error');
             $this->setRedirect(Route::_($editUrl, false));
 
             return false;
         }
 
         // Save succeeded, check-in the row.
-        if ($model->checkin($data['id']) === false) {
+        try {
+            $model->checkin($data['id']);
+        } catch (\Exception $e) {
             // Check-in failed, go back to the row and display a notice.
-            $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'warning');
+            $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $e->getMessage()), 'warning');
             $redirectUrl = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId);
             $this->setRedirect(Route::_($redirectUrl, false));
 

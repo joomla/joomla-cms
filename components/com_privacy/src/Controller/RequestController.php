@@ -43,9 +43,19 @@ class RequestController extends BaseController
 
         /** @var ConfirmModel $model */
         $model = $this->getModel('Confirm', 'Site');
+        $model->setUseExceptions(true);
         $data  = $this->input->post->get('jform', [], 'array');
 
-        $return = $model->confirmRequest($data);
+        try {
+            $return = $model->confirmRequest($data);
+        } catch (\Exception $e) {
+            // Confirm failed.
+            // Go back to the confirm form.
+            $message = Text::sprintf('COM_PRIVACY_ERROR_CONFIRMING_REQUEST_FAILED', $e->getMessage());
+            $this->setRedirect(Route::_('index.php?option=com_privacy&view=confirm', false), $message, 'notice');
+
+            return false;
+        }
 
         // Check for a hard error.
         if ($return instanceof \Exception) {
@@ -58,15 +68,6 @@ class RequestController extends BaseController
 
             // Go back to the confirm form.
             $this->setRedirect(Route::_('index.php?option=com_privacy&view=confirm', false), $message, 'error');
-
-            return false;
-        }
-
-        if ($return === false) {
-            // Confirm failed.
-            // Go back to the confirm form.
-            $message = Text::sprintf('COM_PRIVACY_ERROR_CONFIRMING_REQUEST_FAILED', $model->getError());
-            $this->setRedirect(Route::_('index.php?option=com_privacy&view=confirm', false), $message, 'notice');
 
             return false;
         }
@@ -91,9 +92,19 @@ class RequestController extends BaseController
 
         /** @var RequestModel $model */
         $model = $this->getModel('Request', 'Site');
+        $model->setUseExceptions(true);
         $data  = $this->input->post->get('jform', [], 'array');
 
-        $return = $model->createRequest($data);
+        try {
+            $return = $model->createRequest($data);
+        } catch (\Exception $e) {
+            // Confirm failed.
+            // Go back to the confirm form.
+            $message = Text::sprintf('COM_PRIVACY_ERROR_CREATING_REQUEST_FAILED', $e->getMessage());
+            $this->setRedirect(Route::_('index.php?option=com_privacy&view=request', false), $message, 'notice');
+
+            return false;
+        }
 
         // Check for a hard error.
         if ($return instanceof \Exception) {
@@ -106,15 +117,6 @@ class RequestController extends BaseController
 
             // Go back to the confirm form.
             $this->setRedirect(Route::_('index.php?option=com_privacy&view=request', false), $message, 'error');
-
-            return false;
-        }
-
-        if ($return === false) {
-            // Confirm failed.
-            // Go back to the confirm form.
-            $message = Text::sprintf('COM_PRIVACY_ERROR_CREATING_REQUEST_FAILED', $model->getError());
-            $this->setRedirect(Route::_('index.php?option=com_privacy&view=request', false), $message, 'notice');
 
             return false;
         }
@@ -139,9 +141,19 @@ class RequestController extends BaseController
 
         /** @var RemindModel $model */
         $model = $this->getModel('Remind', 'Site');
+        $model->setUseExceptions(true);
         $data  = $this->input->post->get('jform', [], 'array');
 
-        $return = $model->remindRequest($data);
+        try {
+            $return = $model->remindRequest($data);
+        } catch (\Exception $e) {
+            // Confirm failed.
+            // Go back to the confirm form.
+            $message = Text::sprintf('COM_PRIVACY_ERROR_CONFIRMING_REMIND_FAILED', $e->getMessage());
+            $this->setRedirect(Route::_('index.php?option=com_privacy&view=remind', false), $message, 'notice');
+
+            return false;
+        }
 
         // Check for a hard error.
         if ($return instanceof \Exception) {
@@ -154,15 +166,6 @@ class RequestController extends BaseController
 
             // Go back to the confirm form.
             $this->setRedirect(Route::_('index.php?option=com_privacy&view=remind', false), $message, 'error');
-
-            return false;
-        }
-
-        if ($return === false) {
-            // Confirm failed.
-            // Go back to the confirm form.
-            $message = Text::sprintf('COM_PRIVACY_ERROR_CONFIRMING_REMIND_FAILED', $model->getError());
-            $this->setRedirect(Route::_('index.php?option=com_privacy&view=remind', false), $message, 'notice');
 
             return false;
         }

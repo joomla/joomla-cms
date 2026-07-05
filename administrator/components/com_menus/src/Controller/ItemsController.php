@@ -141,26 +141,6 @@ class ItemsController extends AdminController
         // Remove zero values resulting from input filter
         $cid = array_filter($cid);
 
-        if (empty($cid)) {
-            $this->setMessage(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
-        } else {
-            // Get the model.
-            $model = $this->getModel();
-
-            // Publish the items.
-            if (!$model->setHome($cid, $value)) {
-                $this->setMessage($model->getError(), 'warning');
-            } else {
-                if ($value == 1) {
-                    $ntext = 'COM_MENUS_ITEMS_SET_HOME';
-                } else {
-                    $ntext = 'COM_MENUS_ITEMS_UNSET_HOME';
-                }
-
-                $this->setMessage(Text::plural($ntext, \count($cid)));
-            }
-        }
-
         $this->setRedirect(
             Route::_(
                 'index.php?option=' . $this->option . '&view=' . $this->view_list
@@ -168,6 +148,31 @@ class ItemsController extends AdminController
                 false
             )
         );
+
+        if (empty($cid)) {
+            $this->setMessage(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
+        } else {
+            // Get the model.
+            $model = $this->getModel();
+            $model->setUseExceptions(true);
+
+            // Publish the items.
+            try {
+                $model->setHome($cid, $value);
+            } catch (\Exception $e) {
+                $this->setMessage($e->getMessage(), 'warning');
+
+                return;
+            }
+
+            if ($value == 1) {
+                $ntext = 'COM_MENUS_ITEMS_SET_HOME';
+            } else {
+                $ntext = 'COM_MENUS_ITEMS_UNSET_HOME';
+            }
+
+            $this->setMessage(Text::plural($ntext, \count($cid)));
+        }
     }
 
     /**
@@ -200,27 +205,21 @@ class ItemsController extends AdminController
         } else {
             // Get the model.
             $model = $this->getModel();
+            $model->setUseExceptions(true);
 
             // Publish the items.
             try {
                 $model->publish($cid, $value);
-                $errors      = $model->getErrors();
-                $messageType = 'message';
 
                 if ($value == 1) {
-                    if ($errors) {
-                        $messageType = 'error';
-                        $ntext       = $this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING';
-                    } else {
-                        $ntext = $this->text_prefix . '_N_ITEMS_PUBLISHED';
-                    }
+                    $ntext = $this->text_prefix . '_N_ITEMS_PUBLISHED';
                 } elseif ($value == 0) {
                     $ntext = $this->text_prefix . '_N_ITEMS_UNPUBLISHED';
                 } else {
                     $ntext = $this->text_prefix . '_N_ITEMS_TRASHED';
                 }
 
-                $this->setMessage(Text::plural($ntext, \count($cid)), $messageType);
+                $this->setMessage(Text::plural($ntext, \count($cid)));
             } catch (\Exception $e) {
                 $this->setMessage($e->getMessage(), 'error');
             }

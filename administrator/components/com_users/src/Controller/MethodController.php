@@ -364,9 +364,9 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
         $record->default = $default ? 1 : 0;
 
         // Ask the model to save the record
-        $saved = $record->store();
-
-        if (!$saved) {
+        try {
+            $record->store();
+        } catch (\Exception $e) {
             // Go back to the edit page
             $nonSefUrl = 'index.php?option=com_users&task=method.';
 
@@ -383,7 +383,7 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
             }
 
             $url = Route::_($nonSefUrl, false);
-            $this->setRedirect($url, $record->getError(), 'error');
+            $this->setRedirect($url, $e->getMessage(), 'error');
 
             return;
         }
@@ -419,6 +419,8 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
         if (\is_null($record) || ($record->id != $id) || ($record->user_id != $user->id)) {
             throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
+
+        $record->setUseExceptions(true);
 
         return $record;
     }

@@ -222,10 +222,19 @@ class UserController extends BaseController
 
         /** @var \Joomla\Component\Users\Site\Model\RemindModel $model */
         $model = $this->getModel('Remind', 'Site');
+        $model->setUseExceptions(true);
         $data  = $this->input->post->get('jform', [], 'array');
 
         // Submit the username remind request.
-        $return = $model->processRemindRequest($data);
+        try {
+            $return = $model->processRemindRequest($data);
+        } catch (\Exception $e) {
+            // Go back to the complete form.
+            $message = Text::sprintf('COM_USERS_REMIND_REQUEST_FAILED', $e->getMessage());
+            $this->setRedirect(Route::_('index.php?option=com_users&view=remind', false), $message, 'notice');
+
+            return false;
+        }
 
         // Check for a hard error.
         if ($return instanceof \Exception) {
@@ -236,14 +245,6 @@ class UserController extends BaseController
 
             // Go back to the complete form.
             $this->setRedirect(Route::_('index.php?option=com_users&view=remind', false), $message, 'error');
-
-            return false;
-        }
-
-        if ($return === false) {
-            // Go back to the complete form.
-            $message = Text::sprintf('COM_USERS_REMIND_REQUEST_FAILED', $model->getError());
-            $this->setRedirect(Route::_('index.php?option=com_users&view=remind', false), $message, 'notice');
 
             return false;
         }

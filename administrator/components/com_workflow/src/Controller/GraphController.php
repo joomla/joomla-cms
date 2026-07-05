@@ -319,18 +319,12 @@ class GraphController extends AdminController
             }
             // Get the model.
             $model = $this->getModel($type);
-
+            $model->setUseExceptions(true);
 
             $model->publish($cid, $value);
-            $errors = $model->getErrors();
-            $ntext  = null;
 
             if ($value === 1) {
-                if ($errors) {
-                    echo new JsonResponse(Text::plural($this->text_prefix . '_' . strtoupper($type) . '_N_ITEMS_FAILED_PUBLISHING', \count($cid)), 'error', true);
-                } else {
-                    $ntext = $this->text_prefix . '_' . strtoupper($type) . '_N_ITEMS_PUBLISHED';
-                }
+                $ntext = $this->text_prefix . '_' . strtoupper($type) . '_N_ITEMS_PUBLISHED';
             } elseif ($value === 0) {
                 $ntext = $this->text_prefix . '_' . strtoupper($type) . '_N_ITEMS_UNPUBLISHED';
             } elseif ($value === 2) {

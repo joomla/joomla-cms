@@ -39,14 +39,11 @@ class ConfigController extends BaseController
         $this->checkToken();
 
         $model = $this->getModel('Config');
+        $model->setUseExceptions(true);
         $data  = $this->input->post->get('jform', [], 'array');
 
         // Validate the posted data.
         $form = $model->getForm();
-
-        if (!$form) {
-            throw new \Exception($model->getError(), 500);
-        }
 
         $data = $model->validate($form, $data);
 
@@ -71,9 +68,11 @@ class ConfigController extends BaseController
         }
 
         // Attempt to save the data.
-        if (!$model->save($data)) {
+        try {
+            $model->save($data);
+        } catch (\Exception $e) {
             // Redirect back to the main list.
-            $this->setMessage(Text::sprintf('JERROR_SAVE_FAILED', $model->getError()), 'warning');
+            $this->setMessage(Text::sprintf('JERROR_SAVE_FAILED', $e->getMessage()), 'warning');
             $this->setRedirect(Route::_('index.php?option=com_messages&view=messages', false));
 
             return false;
