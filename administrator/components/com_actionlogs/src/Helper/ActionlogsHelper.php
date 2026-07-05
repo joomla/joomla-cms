@@ -355,7 +355,7 @@ class ActionlogsHelper
      *
      * @since   3.9.7
      */
-    public static function escapeCsvFormula($value)
+    protected static function escapeCsvFormula($value)
     {
         if ($value == '') {
             return $value;

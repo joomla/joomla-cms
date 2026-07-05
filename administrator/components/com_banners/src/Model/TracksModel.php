@@ -16,7 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
+use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 use Joomla\Filesystem\File;
@@ -442,9 +442,9 @@ class TracksModel extends ListModel
                 . str_replace('"', '""', Text::_('JDATE')) . '"' . "\n";
 
             foreach ($this->getItems() as $item) {
-                $this->content .= '"' . str_replace('"', '""', ActionlogsHelper::escapeCsvFormula($item->banner_name)) . '","'
-                    . str_replace('"', '""', ActionlogsHelper::escapeCsvFormula($item->client_name)) . '","'
-                    . str_replace('"', '""', ActionlogsHelper::escapeCsvFormula($item->category_title)) . '","'
+                $this->content .= '"' . str_replace('"', '""', BannersHelper::escapeCsvFormula($item->banner_name)) . '","'
+                    . str_replace('"', '""', BannersHelper::escapeCsvFormula($item->client_name)) . '","'
+                    . str_replace('"', '""', BannersHelper::escapeCsvFormula($item->category_title)) . '","'
                     . str_replace('"', '""', ($item->track_type == 1 ? Text::_('COM_BANNERS_IMPRESSION') : Text::_('COM_BANNERS_CLICK'))) . '","'
                     . str_replace('"', '""', $item->count) . '","'
                     . str_replace('"', '""', $item->track_date) . '"' . "\n";
