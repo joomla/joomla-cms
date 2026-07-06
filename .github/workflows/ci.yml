@@ -12,7 +12,7 @@ jobs:
   composer:
     name: Install PHP dependencies
     runs-on: ubuntu-latest
-    container: joomlaprojects/docker-images:php8.4
+    container: joomlaprojects/docker-images:php8.5
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
@@ -36,7 +36,7 @@ jobs:
   npm:
     name: Install JS/CSS dependencies and build assets
     runs-on: ubuntu-latest
-    container: joomlaprojects/docker-images:php8.4
+    container: joomlaprojects/docker-images:php8.5
     needs: [composer]
     steps:
       - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
@@ -69,11 +69,8 @@ jobs:
   code-style-php:
     name: Check PHP code style
     runs-on: ubuntu-latest
-    container: joomlaprojects/docker-images:php8.4
+    container: joomlaprojects/docker-images:php8.5
     needs: [composer]
-    strategy:
-      matrix:
-        command: ['php-cs-fixer fix -vvv --dry-run --diff', 'phpcs --extensions=php -p --standard=ruleset.xml .']
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
@@ -87,12 +84,22 @@ jobs:
       - name: Check PHP code style
         env:
           PHP_CS_FIXER_IGNORE_ENV: true
-        run: ./libraries/vendor/bin/${{ matrix.command }}
+        run: |
+          set -e
+          ./libraries/vendor/bin/php-cs-fixer fix -vvv --diff
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          if [ "$GITHUB_EVENT_NAME" = "push" ] && [ "$GITHUB_REPOSITORY" != "joomla/joomla-cms" ]; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add --all
+            git commit -m "Fix code style issues [skip ci]"
+            git push origin "HEAD:${{ github.head_ref || github.ref_name }}"
+          fi
 
   code-style-js-css:
     name: Check Javascript & CSS code style
     runs-on: ubuntu-latest
-    container: joomlaprojects/docker-images:php8.4
+    container: joomlaprojects/docker-images:php8.5
     needs: [composer, npm]
     strategy:
       matrix:
@@ -118,7 +125,7 @@ jobs:
   phpstan:
     name: Run PHPstan
     runs-on: ubuntu-latest
-    container: joomlaprojects/docker-images:php8.4
+    container: joomlaprojects/docker-images:php8.5
     needs: [code-style-php]
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -325,7 +332,7 @@ jobs:
   tests-system-prepare:
     name: Prepare system tests
     runs-on: ubuntu-latest
-    container: joomlaprojects/docker-images:cypress8.4
+    container: joomlaprojects/docker-images:cypress8.5
     needs: [composer, npm]
     env:
       CYPRESS_VERIFY_TIMEOUT: 100000
