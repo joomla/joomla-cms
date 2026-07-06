@@ -34,7 +34,7 @@ class BannersHelper extends ContentHelper
      *
      * @var    array
      *
-     * @since  5.4.0
+     * @since  __DEPLOY_VERSION__
      */
     private static $characters = ['=', '+', '-', '@'];
 
@@ -45,7 +45,7 @@ class BannersHelper extends ContentHelper
      *
      * @return  mixed
      *
-     * @since   5.4.0
+     * @since   __DEPLOY_VERSION__
      */
     public static function escapeCsvFormula($value)
     {
