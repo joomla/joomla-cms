@@ -28,11 +28,11 @@ foreach (['FULL', 'UPGRADE', 'MINOR', 'POINT'] as $type) {
     foreach($githubContent[$type] as $packageName => $hashes) {
         if (str_ends_with($packageName, '.zip')) {
             $table[$type] .= "| [ZIP Archive (.zip)]";
-        } else if (str_ends_with($packageName, '.tar.gz')) {
+        } elseif (str_ends_with($packageName, '.tar.gz')) {
             $table[$type] .= "| [GNU Zip Archive (.tar.gz)]";
-        } else if (str_ends_with($packageName, '.tar.bz2')) {
+        } elseif (str_ends_with($packageName, '.tar.bz2')) {
             $table[$type] .= "| [Bzip2 Archive (.tar.zst)]";
-        } else if (str_ends_with($packageName, '.tar.zst')) {
+        } elseif (str_ends_with($packageName, '.tar.zst')) {
             $table[$type] .= "| [Zstandard Archive (.tar.zst)]";
         } else {
             // Unknown file types
