@@ -207,7 +207,7 @@ abstract class JLoader
                 // Only register the class for autoloading if the file exists.
                 if (is_file($base . '/' . $path . '.php')) {
                     self::$classes[strtolower($class)] = $base . '/' . $path . '.php';
-                    $success = true;
+                    $success                           = true;
                 }
             } else {
                 /**
@@ -613,7 +613,7 @@ abstract class JLoader
     private static function _load($class, $lookup)
     {
         // Split the class name into parts separated by camelCase.
-        $parts = preg_split('/(?<=[a-z0-9])(?=[A-Z])/x', $class);
+        $parts      = preg_split('/(?<=[a-z0-9])(?=[A-Z])/x', $class);
         $partsCount = \count($parts);
 
         foreach ($lookup as $base) {

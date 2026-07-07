@@ -154,7 +154,7 @@ class JNamespacePsr4Map
         } catch (Exception $e) {
             Log::add('Could not save ' . $this->file, Log::WARNING);
 
-            $map = [];
+            $map       = [];
             $constants = ['JPATH_ADMINISTRATOR', 'JPATH_API', 'JPATH_SITE', 'JPATH_PLUGINS', 'JPATH_LIBRARIES'];
 
             foreach ($elements as $namespace => $path) {
@@ -162,7 +162,7 @@ class JNamespacePsr4Map
                     $path = preg_replace(['/^(' . $constant . ")\s\.\s\'/", '/\'$/'], [\constant($constant), ''], $path);
                 }
 
-                $namespace = str_replace('\\\\', '\\', $namespace);
+                $namespace       = str_replace('\\\\', '\\', $namespace);
                 $map[$namespace] = [ $path ];
             }
 
