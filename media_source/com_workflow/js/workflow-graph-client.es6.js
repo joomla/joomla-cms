@@ -22,7 +22,7 @@ Joomla = window.Joomla || {};
     panX: 0,
     panY: 0,
     isDraggingStage: false,
-    highlightedEdge: null
+    highlightedEdge: null,
   };
 
   // --- Translation ---
@@ -46,8 +46,8 @@ Joomla = window.Joomla || {};
 
   // Get full url for marker to avoid issues with base tags
   const getMarkerUrl = (id) => {
-      const location = window.location.href.split('#')[0];
-      return `url(${location}#${id})`;
+    const location = window.location.href.split('#')[0];
+    return `url(${location}#${id})`;
   };
 
   function showMessageInModal(message, type) {
@@ -81,18 +81,18 @@ Joomla = window.Joomla || {};
       }
       return responseData;
     } catch (err) {
-      showMessageInModal(err.message, "error");
+      showMessageInModal(err.message, 'error');
       return false;
     }
   }
 
   // --- Initial Layout Creation ---
   function calculateAutoLayout(stages) {
-    const withNoPosition = stages.filter(stage => !stage.position || isNaN(stage.position.x) || isNaN(stage.position.y));
+    const withNoPosition = stages.filter((stage) => !stage.position || isNaN(stage.position.x) || isNaN(stage.position.y));
     if (withNoPosition.length === 0) return stages;
 
-    const fromAnyStage = stages.find(s => s.id === 'from_any');
-    const transitionStages = stages.filter(s => s.id !== 'from_any');
+    const fromAnyStage = stages.find((s) => s.id === 'from_any');
+    const transitionStages = stages.filter((s) => s.id !== 'from_any');
 
     const gapX = 400;
     const gapY = 300;
@@ -101,17 +101,17 @@ Joomla = window.Joomla || {};
     const columns = Math.min(4, Math.ceil(Math.sqrt(transitionStages.length) + 1));
 
     transitionStages.forEach((stage, index) => {
-      if (withNoPosition.some(s => s.id === stage.id)) {
+      if (withNoPosition.some((s) => s.id === stage.id)) {
         const col = index % columns;
         const row = Math.floor(index / columns);
         stage.position = {
           x: col * gapX + paddingX,
-          y: row * gapY + paddingY
+          y: row * gapY + paddingY,
         };
       }
     });
 
-    if (fromAnyStage && withNoPosition.some(s => s.id === fromAnyStage.id)) {
+    if (fromAnyStage && withNoPosition.some((s) => s.id === fromAnyStage.id)) {
       if (!fromAnyStage.position || isNaN(fromAnyStage.position.x) || isNaN(fromAnyStage.position.y)) {
         fromAnyStage.position = { x: 600, y: -200 };
       }
@@ -120,37 +120,37 @@ Joomla = window.Joomla || {};
   }
 
   function buildPathFromPoints(points) {
-    let path = `M ${points[0].x} ${points[0].y  - 50}`;
+    let path = `M ${points[0].x} ${points[0].y - 50}`;
     for (let i = 1; i < points.length - 1; i++) {
-        const prev = points[i-1];
-        const curr = points[i];
-        const next = points[i+1];
+      const prev = points[i - 1];
+      const curr = points[i];
+      const next = points[i + 1];
 
-        const dx1 = prev.x - curr.x;
-        const dy1 = prev.y - curr.y;
-        const len1 = Math.sqrt(dx1*dx1 + dy1*dy1);
+      const dx1 = prev.x - curr.x;
+      const dy1 = prev.y - curr.y;
+      const len1 = Math.sqrt(dx1 * dx1 + dy1 * dy1);
 
-        const dx2 = next.x - curr.x;
-        const dy2 = next.y - curr.y;
-        const len2 = Math.sqrt(dx2*dx2 + dy2*dy2);
+      const dx2 = next.x - curr.x;
+      const dy2 = next.y - curr.y;
+      const len2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
 
-        if (len1 < 1 || len2 < 1) {
-             path += ` L ${curr.x} ${curr.y}`;
-             continue;
-        }
+      if (len1 < 1 || len2 < 1) {
+        path += ` L ${curr.x} ${curr.y}`;
+        continue;
+      }
 
-        const r = Math.min(CORNER_RADIUS, len1/2, len2/2);
+      const r = Math.min(CORNER_RADIUS, len1 / 2, len2 / 2);
 
-        const startX = curr.x + (dx1 / len1) * r;
-        const startY = curr.y + (dy1 / len1) * r;
+      const startX = curr.x + (dx1 / len1) * r;
+      const startY = curr.y + (dy1 / len1) * r;
 
-        const endX = curr.x + (dx2 / len2) * r;
-        const endY = curr.y + (dy2 / len2) * r;
+      const endX = curr.x + (dx2 / len2) * r;
+      const endY = curr.y + (dy2 / len2) * r;
 
-        path += ` L ${startX} ${startY}`;
-        path += ` Q ${curr.x} ${curr.y} ${endX} ${endY}`;
+      path += ` L ${startX} ${startY}`;
+      path += ` Q ${curr.x} ${curr.y} ${endX} ${endY}`;
     }
-    path += ` L ${points[points.length-1].x} ${points[points.length-1].y}`;
+    path += ` L ${points[points.length - 1].x} ${points[points.length - 1].y}`;
     return path;
   }
 
@@ -159,7 +159,7 @@ Joomla = window.Joomla || {};
       { x: sourceX, y: sourceY },
       { x: sourceX, y: midY },
       { x: targetX, y: midY },
-      { x: targetX, y: targetY }
+      { x: targetX, y: targetY },
     ];
     return [buildPathFromPoints(points), (sourceX + targetX) / 2, midY];
   }
@@ -174,17 +174,17 @@ Joomla = window.Joomla || {};
       { x: midX, y: startStubY },
       { x: midX, y: endStubY },
       { x: targetX, y: endStubY },
-      { x: targetX, y: targetY }
+      { x: targetX, y: targetY },
     ];
     return [buildPathFromPoints(points), midX, (startStubY + endStubY) / 2];
   }
 
   function generateEdges(transitions, stages) {
-    const stageMap = new Map(stages.map(s => [s.id, s]));
+    const stageMap = new Map(stages.map((s) => [s.id, s]));
     const edgeGroups = {};
 
     // Undirected Grouping to prevent overlaps on bi-directional edges
-    transitions.forEach(tr => {
+    transitions.forEach((tr) => {
       const fromId = tr.from_stage_id === -1 ? 'from_any' : tr.from_stage_id;
       const toId = tr.to_stage_id;
       const s1 = String(fromId);
@@ -195,9 +195,9 @@ Joomla = window.Joomla || {};
       edgeGroups[key].push(tr);
     });
 
-    Object.values(edgeGroups).forEach(group => group.sort((a, b) => a.id - b.id));
+    Object.values(edgeGroups).forEach((group) => group.sort((a, b) => a.id - b.id));
 
-    return transitions.flatMap(tr => {
+    return transitions.flatMap((tr) => {
       const fromId = tr.from_stage_id === -1 ? 'from_any' : tr.from_stage_id;
       const toId = tr.to_stage_id;
       const fromStage = stageMap.get(fromId);
@@ -214,7 +214,7 @@ Joomla = window.Joomla || {};
       const s2 = String(toId);
       const groupKey = s1 < s2 ? `${s1}|${s2}` : `${s2}|${s1}`;
       const group = edgeGroups[groupKey] || [tr];
-      const transitionIndex = group.findIndex(t => t.id === tr.id);
+      const transitionIndex = group.findIndex((t) => t.id === tr.id);
 
       let offsetIndex = transitionIndex - (group.length - 1) / 2;
       const bundleSpacing = 40;
@@ -227,34 +227,34 @@ Joomla = window.Joomla || {};
       const isVerticallyAligned = distX < STAGE_WIDTH;
 
       if (isVerticallyAligned && targetY > sourceY) {
-         isVerticalObstructed = stages.some(stage => {
-            if (stage.id === fromId || stage.id === toId) return false;
-            const sTop = stage.position.y;
-            const sBottom = stage.position.y + STAGE_HEIGHT;
-            const isBetweenY = (sTop > sourceY && sBottom < targetY);
-            const sLeft = stage.position.x;
-            const sRight = stage.position.x + STAGE_WIDTH;
-            const pathX = sourceX;
-            const isBlockingX = (pathX > sLeft - 20 && pathX < sRight + 20);
-            return isBetweenY && isBlockingX;
-         });
+        isVerticalObstructed = stages.some((stage) => {
+          if (stage.id === fromId || stage.id === toId) return false;
+          const sTop = stage.position.y;
+          const sBottom = stage.position.y + STAGE_HEIGHT;
+          const isBetweenY = (sTop > sourceY && sBottom < targetY);
+          const sLeft = stage.position.x;
+          const sRight = stage.position.x + STAGE_WIDTH;
+          const pathX = sourceX;
+          const isBlockingX = (pathX > sLeft - 20 && pathX < sRight + 20);
+          return isBetweenY && isBlockingX;
+        });
       }
 
       const isStacked = (targetY > (sourceY + 50)) && !isVerticalObstructed && distX > 40;
 
       if (isStacked) {
-          let midY = (sourceY + targetY) / 2;
-          midY += offsetIndex * bundleSpacing;
-          [pathData, labelX, labelY] = getVerticalStepPath(sourceX, sourceY, targetX, targetY, midY);
-          labelX += offsetIndex * 60; // Stagger X
+        let midY = (sourceY + targetY) / 2;
+        midY += offsetIndex * bundleSpacing;
+        [pathData, labelX, labelY] = getVerticalStepPath(sourceX, sourceY, targetX, targetY, midY);
+        labelX += offsetIndex * 60; // Stagger X
       } else {
-          let midX = (sourceX + targetX) / 2;
-          if (distX < STAGE_WIDTH || isVerticalObstructed) {
-             midX = Math.max(sourceX, targetX) + STAGE_WIDTH / 2 + 60;
-          }
-          midX += offsetIndex * bundleSpacing;
-          [pathData, labelX, labelY] = getHorizontalStepPath(sourceX, sourceY, targetX, targetY, midX);
-          labelY += offsetIndex * 35; // Stagger Y
+        let midX = (sourceX + targetX) / 2;
+        if (distX < STAGE_WIDTH || isVerticalObstructed) {
+          midX = Math.max(sourceX, targetX) + STAGE_WIDTH / 2 + 60;
+        }
+        midX += offsetIndex * bundleSpacing;
+        [pathData, labelX, labelY] = getHorizontalStepPath(sourceX, sourceY, targetX, targetY, midX);
+        labelY += offsetIndex * 35; // Stagger Y
       }
 
       return {
@@ -263,7 +263,7 @@ Joomla = window.Joomla || {};
         label: tr.title,
         labelPosition: { x: labelX, y: labelY },
         fromId,
-        toId
+        toId,
       };
     }).filter(Boolean);
   }
@@ -275,11 +275,11 @@ Joomla = window.Joomla || {};
     if (!graph || !stageContainer || !svg) return;
 
     // Render Stages
-    stageContainer.querySelectorAll('[id^="stage-"]').forEach(el => el.remove());
-    state.stages.forEach(stage => {
+    stageContainer.querySelectorAll('[id^="stage-"]').forEach((el) => el.remove());
+    state.stages.forEach((stage) => {
       let stageEl = document.createElement('div');
       stageEl.id = `stage-${stage.id}`;
-      stageEl.addEventListener('mousedown', e => { if (e.button === 0) handleNodeDrag(e, stage); });
+      stageEl.addEventListener('mousedown', (e) => { if (e.button === 0) handleNodeDrag(e, stage); });
       const isVirtual = stage.id === 'from_any';
       stageEl.className = `stage ${stage.default ? 'default' : ''} ${isVirtual ? 'virtual' : ''}`;
       stageEl.style.left = `${stage.position.x}px`;
@@ -306,29 +306,29 @@ Joomla = window.Joomla || {};
     let labelsLayer = svg.querySelector('g.layers-labels');
 
     if (!pathsLayer) {
-        pathsLayer = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        pathsLayer.classList.add('layers-paths');
-        svg.appendChild(pathsLayer);
+      pathsLayer = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      pathsLayer.classList.add('layers-paths');
+      svg.appendChild(pathsLayer);
     }
     if (!labelsLayer) {
-        labelsLayer = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        labelsLayer.classList.add('layers-labels');
-        svg.appendChild(labelsLayer);
+      labelsLayer = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      labelsLayer.classList.add('layers-labels');
+      svg.appendChild(labelsLayer);
     } else {
-        svg.appendChild(labelsLayer); // Ensure it is last (top)
+      svg.appendChild(labelsLayer); // Ensure it is last (top)
     }
 
     const edges = generateEdges(state.transitions, state.stages);
 
     // Cleanup orphans
-    pathsLayer.querySelectorAll('path[data-edge-id]').forEach(el => {
-         if (!edges.find(e => e.id === el.dataset.edgeId)) el.remove();
+    pathsLayer.querySelectorAll('path[data-edge-id]').forEach((el) => {
+      if (!edges.find((e) => e.id === el.dataset.edgeId)) el.remove();
     });
-    labelsLayer.querySelectorAll('foreignObject[data-edge-id]').forEach(el => {
-         if (!edges.find(e => e.id === el.dataset.edgeId)) el.remove();
+    labelsLayer.querySelectorAll('foreignObject[data-edge-id]').forEach((el) => {
+      if (!edges.find((e) => e.id === el.dataset.edgeId)) el.remove();
     });
 
-    edges.forEach(edge => {
+    edges.forEach((edge) => {
       let path = pathsLayer.querySelector(`path[data-edge-id="${edge.id}"]`);
       if (!path) {
         path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
@@ -380,7 +380,6 @@ Joomla = window.Joomla || {};
       });
     });
 
-
     // Grid Background
     const workflowGraph = modal.querySelector('#workflow-graph');
     if (workflowGraph) {
@@ -406,13 +405,13 @@ Joomla = window.Joomla || {};
       x: startEvent.clientX,
       y: startEvent.clientY,
       stageX: draggedStage.position.x,
-      stageY: draggedStage.position.y
+      stageY: draggedStage.position.y,
     };
     stageElement.classList.add('dragging');
-    const onMouseMove = moveEvent => {
+    const onMouseMove = (moveEvent) => {
       const newX = dragStart.stageX + (moveEvent.clientX - dragStart.x) / state.scale;
       const newY = dragStart.stageY + (moveEvent.clientY - dragStart.y) / state.scale;
-      const stageToUpdate = state.stages.find(s => s.id === draggedStage.id);
+      const stageToUpdate = state.stages.find((s) => s.id === draggedStage.id);
       if (stageToUpdate) {
         stageToUpdate.position.x = newX;
         stageToUpdate.position.y = newY;
@@ -461,10 +460,10 @@ Joomla = window.Joomla || {};
 
       if (!stages.length) return showMessageInModal('COM_WORKFLOW_GRAPH_ERROR_STAGES_NOT_FOUND', 'error');
 
-      if (state.transitions.some(tr => tr.from_stage_id === -1) && !stages.some(s => s.id === 'from_any')) {
+      if (state.transitions.some((tr) => tr.from_stage_id === -1) && !stages.some((s) => s.id === 'from_any')) {
         stages.unshift({ id: 'from_any', title: translate('COM_WORKFLOW_GRAPH_FROM_ANY'), position: null });
       }
-      state.stages = stages.map(s => ({ ...s, position: s.position || { x: NaN, y: NaN } }));
+      state.stages = stages.map((s) => ({ ...s, position: s.position || { x: NaN, y: NaN } }));
       state.stages = calculateAutoLayout(state.stages);
 
       // Update UI Counts
@@ -474,7 +473,7 @@ Joomla = window.Joomla || {};
         statusBadge.textContent = state.workflow.published == '1' ? translate('COM_WORKFLOW_GRAPH_ENABLED') : translate('COM_WORKFLOW_GRAPH_DISABLED');
         statusBadge.classList.add(state.workflow.published == '1' ? 'bg-success' : 'bg-warning');
       }
-      const realStagesCount = state.stages.filter(s => s.id !== 'from_any').length;
+      const realStagesCount = state.stages.filter((s) => s.id !== 'from_any').length;
       const stageCount = modal.querySelector('#workflow-stage-count');
       if (stageCount) stageCount.textContent = `${realStagesCount} ${realStagesCount === 1 ? translate('COM_WORKFLOW_GRAPH_STAGE') : translate('COM_WORKFLOW_GRAPH_STAGES')}`;
 
@@ -489,13 +488,13 @@ Joomla = window.Joomla || {};
 
     // Zoom & Pan Logic
     let isPanning = false, panStart = {};
-    container.addEventListener("mousedown", e => {
+    container.addEventListener('mousedown', (e) => {
       if (e.target.closest('.stage') || e.target.closest('.zoom-controls') || e.button !== 0) return;
       isPanning = true;
       panStart = { x: e.clientX - state.panX, y: e.clientY - state.panY };
       if (graph) graph.classList.add('dragging');
     });
-    document.addEventListener("mousemove", e => {
+    document.addEventListener('mousemove', (e) => {
       if (!isPanning) return;
       state.panX = e.clientX - panStart.x;
       state.panY = e.clientY - panStart.y;
@@ -505,9 +504,9 @@ Joomla = window.Joomla || {};
       isPanning = false;
       if (graph) graph.classList.remove('dragging');
     };
-    document.addEventListener("mouseup", stopPanning);
-    container.addEventListener("mouseleave", stopPanning);
-    container.addEventListener("wheel", e => {
+    document.addEventListener('mouseup', stopPanning);
+    container.addEventListener('mouseleave', stopPanning);
+    container.addEventListener('wheel', (e) => {
       e.preventDefault();
       const rect = container.getBoundingClientRect();
       const mouseX = e.clientX - rect.left;
@@ -539,7 +538,7 @@ Joomla = window.Joomla || {};
     function fitToScreen(modalContext) {
       if (!state.stages.length) return;
       let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
-      state.stages.forEach(s => {
+      state.stages.forEach((s) => {
         if (s.position) {
           minX = Math.min(minX, s.position.x);
           minY = Math.min(minY, s.position.y);
@@ -559,60 +558,60 @@ Joomla = window.Joomla || {};
     }
 
     // --- Keyboard Shortcuts ---
-  document.addEventListener('keydown', (e) => {
-    if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+    document.addEventListener('keydown', (e) => {
+      if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
 
-    const PAN_STEP = 30; // Pixels to move
-    const ZOOM_STEP = 1.1; // Multiplier
+      const PAN_STEP = 30; // Pixels to move
+      const ZOOM_STEP = 1.1; // Multiplier
 
-    switch (e.code) {
-      /* ---------- Zoom ---------- */
-      case 'Equal':   // + / =
-        applyZoom(ZOOM_STEP, modal);
-        break;
+      switch (e.code) {
+        /* ---------- Zoom ---------- */
+        case 'Equal': // + / =
+          applyZoom(ZOOM_STEP, modal);
+          break;
 
-      case 'Minus':   // - / _
-        applyZoom(1 / ZOOM_STEP, modal);
-        break;
+        case 'Minus': // - / _
+          applyZoom(1 / ZOOM_STEP, modal);
+          break;
 
-      /* ---------- Panning ---------- */
-      case 'ArrowLeft':
-      case 'KeyA':
-        state.panX += PAN_STEP;
-        renderGraph(modal);
-        break;
+        /* ---------- Panning ---------- */
+        case 'ArrowLeft':
+        case 'KeyA':
+          state.panX += PAN_STEP;
+          renderGraph(modal);
+          break;
 
-      case 'ArrowRight':
-      case 'KeyD':
-        state.panX -= PAN_STEP;
-        renderGraph(modal);
-        break;
+        case 'ArrowRight':
+        case 'KeyD':
+          state.panX -= PAN_STEP;
+          renderGraph(modal);
+          break;
 
-      case 'ArrowUp':
-      case 'KeyW':
-        state.panY += PAN_STEP;
-        renderGraph(modal);
-        break;
+        case 'ArrowUp':
+        case 'KeyW':
+          state.panY += PAN_STEP;
+          renderGraph(modal);
+          break;
 
-      case 'ArrowDown':
-      case 'KeyS':
-        state.panY -= PAN_STEP;
-        renderGraph(modal);
-        break;
+        case 'ArrowDown':
+        case 'KeyS':
+          state.panY -= PAN_STEP;
+          renderGraph(modal);
+          break;
 
-      /* ---------- Reset / Fit ---------- */
-      case 'Digit0':
-      case 'KeyF':
-        fitToScreen(modal);
-        break;
+        /* ---------- Reset / Fit ---------- */
+        case 'Digit0':
+        case 'KeyF':
+          fitToScreen(modal);
+          break;
 
-      default:
-        break;
-    }
-  });
+        default:
+          break;
+      }
+    });
   }
 
-  document.addEventListener('joomla-dialog:open', event => {
+  document.addEventListener('joomla-dialog:open', (event) => {
     const dialog = event.target;
     if (dialog.querySelector('#workflow-container')) init(dialog);
   });

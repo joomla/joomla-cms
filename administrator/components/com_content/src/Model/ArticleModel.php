@@ -12,6 +12,7 @@ namespace Joomla\Component\Content\Administrator\Model;
 
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\Model\AfterSaveEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
@@ -218,7 +219,16 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
         }
 
         $this->table->fieldscatid = $combinedCategories;
-        Factory::getApplication()->triggerEvent('onContentAfterSave', ['com_content.article', &$this->table, false, $fieldsData]);
+
+        $this->getDispatcher()->dispatch(
+            'onContentAfterSave',
+            new AfterSaveEvent('onContentAfterSave', [
+                'context' => 'com_content.article',
+                'subject' => $this->table,
+                'isNew'   => false,
+                'data'    => $fieldsData,
+            ])
+        );
     }
 
     /**
@@ -249,7 +259,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
             return false;
         }
 
-        PluginHelper::importPlugin('system');
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('system', null, true, $dispatcher);
 
         // Parent exists so we proceed
         foreach ($pks as $pk) {
@@ -325,7 +336,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
             $this->table->fieldscatid = array_values(array_merge([$categoryId], $this->table->secondary_categories));
 
             // Run event for moved article
-            Factory::getApplication()->triggerEvent('onContentAfterSave', ['com_content.article', &$this->table, false, $fieldsData]);
+            $dispatcher->dispatch('onContentAfterSave', new AfterSaveEvent('onContentAfterSave', [
+                'context' => 'com_content.article',
+                'subject' => $this->table,
+                'isNew'   => false,
+                'data'    => $fieldsData,
+            ]));
         }
 
         // Clean the cache
