@@ -29,38 +29,23 @@
  *        ./libraries/vendor/bin/php-cs-fixer fix administrator/index.php
  */
 
+use PhpCsFixer\Finder;
+
 // Add all the core Joomla folders
-$finder = PhpCsFixer\Finder::create()
-    ->in(
-        [
-            __DIR__ . '/administrator',
-            __DIR__ . '/api',
-            __DIR__ . '/build',
-            __DIR__ . '/cache',
-            __DIR__ . '/cli',
-            __DIR__ . '/components',
-            __DIR__ . '/includes',
-            __DIR__ . '/installation',
-            __DIR__ . '/language',
-            __DIR__ . '/libraries/src',
-            __DIR__ . '/modules',
-            __DIR__ . '/plugins',
-            __DIR__ . '/templates',
-            __DIR__ . '/tests',
-        ]
-    )
-    // Ignore template files as PHP CS fixer can't handle them properly
-    // https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/3702#issuecomment-396717120
-    ->notPath('/tmpl/')
-    ->notPath('/layouts/')
-    ->notPath('/cassiopeia/')
-    ->notPath('/atum/')
-    // Ingore cache and logs
-    ->notPath('/cache/')
-    ->notPath('/logs/')
-    // Ignore psr12 scripts because they contain invalid syntax
-    ->notPath('/psr12/')
-    ->notName('github_rebase.php');
+$finder = (new Finder())
+    ->in(__DIR__)
+    ->exclude([
+        'administrator/cache',
+        'administrator/logs',
+        'build/psr12',
+        'node_modules',
+        'libraries/php-encryption',
+        'libraries/phpass',
+    ])
+    ->notPath([
+        'configuration.php',
+    ])
+;
 
 $config = new PhpCsFixer\Config();
 $config
