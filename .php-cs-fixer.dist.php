@@ -29,6 +29,7 @@
  *        ./libraries/vendor/bin/php-cs-fixer fix administrator/index.php
  */
 
+use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 
 // Add all the core Joomla folders
@@ -47,9 +48,7 @@ $finder = (new Finder())
     ])
 ;
 
-$config = new PhpCsFixer\Config();
-$config
-    ->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect())
+$config = (new Config())
     ->setRiskyAllowed(true)
     ->setHideProgress(false)
     ->setUsingCache(false)
@@ -89,6 +88,7 @@ $config
             'no_useless_sprintf'                               => true,
         ]
     )
-    ->setFinder($finder);
+    ->setFinder($finder)
+;
 
 return $config;
