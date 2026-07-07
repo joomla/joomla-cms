@@ -9,7 +9,7 @@
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Static class to handle loading of libraries.
@@ -289,7 +289,7 @@ abstract class JLoader
     public static function register($class, $path, $force = true)
     {
         // When an alias exists, register it as well
-        if (array_key_exists(strtolower($class), self::$classAliases)) {
+        if (\array_key_exists(strtolower($class), self::$classAliases)) {
             self::register(self::stripFirstBackslash(self::$classAliases[strtolower($class)]), $path, $force);
         }
 
@@ -509,7 +509,7 @@ abstract class JLoader
 
                 // Loop through paths registered to this namespace until we find a match.
                 foreach ($paths as $path) {
-                    $classFilePath = realpath($path . DIRECTORY_SEPARATOR . substr_replace($classPath, '', 0, strlen($nsPath) + 1));
+                    $classFilePath = realpath($path . DIRECTORY_SEPARATOR . substr_replace($classPath, '', 0, \strlen($nsPath) + 1));
 
                     // We do not allow files outside the namespace root to be loaded
                     if (strpos($classFilePath, realpath($path)) !== 0) {
@@ -590,10 +590,10 @@ abstract class JLoader
     public static function _autoload($class)
     {
         foreach (self::$prefixes as $prefix => $lookup) {
-            $chr = strlen($prefix) < strlen($class) ? $class[strlen($prefix)] : 0;
+            $chr = \strlen($prefix) < \strlen($class) ? $class[\strlen($prefix)] : 0;
 
             if (strpos($class, $prefix) === 0 && ($chr === strtoupper($chr))) {
-                return self::_load(substr($class, strlen($prefix)), $lookup);
+                return self::_load(substr($class, \strlen($prefix)), $lookup);
             }
         }
 
@@ -614,7 +614,7 @@ abstract class JLoader
     {
         // Split the class name into parts separated by camelCase.
         $parts = preg_split('/(?<=[a-z0-9])(?=[A-Z])/x', $class);
-        $partsCount = count($parts);
+        $partsCount = \count($parts);
 
         foreach ($lookup as $base) {
             // Generate the path based on the class name parts.
@@ -665,7 +665,7 @@ abstract class JLoader
      */
     private static function loadAliasFor($class)
     {
-        if (!array_key_exists($class, self::$classAliasesInverse)) {
+        if (!\array_key_exists($class, self::$classAliasesInverse)) {
             return;
         }
 
@@ -691,7 +691,7 @@ abstract class JLoader
 }
 
 // Check if jexit is defined first (our unit tests mock this)
-if (!function_exists('jexit')) {
+if (!\function_exists('jexit')) {
     /**
      * Global application exit.
      *

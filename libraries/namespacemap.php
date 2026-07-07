@@ -159,7 +159,7 @@ class JNamespacePsr4Map
 
             foreach ($elements as $namespace => $path) {
                 foreach ($constants as $constant) {
-                    $path = preg_replace(['/^(' . $constant . ")\s\.\s\'/", '/\'$/'], [constant($constant), ''], $path);
+                    $path = preg_replace(['/^(' . $constant . ")\s\.\s\'/", '/\'$/'], [\constant($constant), ''], $path);
                 }
 
                 $namespace = str_replace('\\\\', '\\', $namespace);
@@ -212,7 +212,7 @@ class JNamespacePsr4Map
 
             if ($type === 'plugin' || $type === 'library') {
                 $baseDir = $type === 'plugin' ? 'JPATH_PLUGINS . \'' : 'JPATH_LIBRARIES . \'';
-                $path    = substr($namespacePath, strlen($type === 'plugin' ? JPATH_PLUGINS : JPATH_LIBRARIES));
+                $path    = substr($namespacePath, \strlen($type === 'plugin' ? JPATH_PLUGINS : JPATH_LIBRARIES));
 
                 // Set the namespace
                 $extensions[$namespace] = $baseDir . $path . '\'';
@@ -222,7 +222,7 @@ class JNamespacePsr4Map
 
             // Check if we need to use administrator path
             $isAdministrator = strpos($namespacePath, JPATH_ADMINISTRATOR) === 0;
-            $path            = substr($namespacePath, strlen($isAdministrator ? JPATH_ADMINISTRATOR : JPATH_SITE));
+            $path            = substr($namespacePath, \strlen($isAdministrator ? JPATH_ADMINISTRATOR : JPATH_SITE));
 
             // Add the site path when a component
             if ($type === 'component') {
@@ -271,7 +271,7 @@ class JNamespacePsr4Map
                 // Scan library manifest directories for XML files
                 foreach (Folder::files(JPATH_MANIFESTS . '/libraries', '\.xml$', true, true) as $file) {
                     // Match manifest to extension directory
-                    $manifests[JPATH_LIBRARIES . '/' . File::stripExt(substr($file, strlen(JPATH_MANIFESTS . '/libraries') + 1))] = $file;
+                    $manifests[JPATH_LIBRARIES . '/' . File::stripExt(substr($file, \strlen(JPATH_MANIFESTS . '/libraries') + 1))] = $file;
                 }
             } catch (UnexpectedValueException $e) {
                 return [];
