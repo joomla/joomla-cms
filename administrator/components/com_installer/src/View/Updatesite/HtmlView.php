@@ -16,7 +16,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 use Joomla\Component\Installer\Administrator\Model\UpdatesiteModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
@@ -68,14 +67,6 @@ class HtmlView extends InstallerViewDefault
 
         $this->form = $model->getForm();
         $this->item = $model->getItem();
-
-        // Remove the extra_query field if it's a free download extension
-        $dlidSupportingSites = InstallerHelper::getDownloadKeySupportedSites(false);
-        $update_site_id      = $this->item->get('update_site_id');
-
-        if (!\in_array($update_site_id, $dlidSupportingSites)) {
-            $this->form->removeField('extra_query');
-        }
 
         parent::display($tpl);
     }

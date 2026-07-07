@@ -12,8 +12,6 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
-use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -89,40 +87,22 @@ class UpdatesiteModel extends AdminModel
         $db           = $this->getDatabase();
         $updateSiteId = (int) $item->get('update_site_id');
         $query        = $db->getQuery(true)
-            ->select(
-                $db->quoteName(
-                    [
-                        'update_sites.extra_query',
-                        'extensions.type',
-                        'extensions.element',
-                        'extensions.folder',
-                        'extensions.client_id',
-                        'extensions.checked_out',
-                    ]
-                )
-            )
-            ->from($db->quoteName('#__update_sites', 'update_sites'))
-            ->join(
-                'INNER',
-                $db->quoteName('#__update_sites_extensions', 'update_sites_extensions'),
-                $db->quoteName('update_sites_extensions.update_site_id') . ' = ' . $db->quoteName('update_sites.update_site_id')
-            )
-            ->join(
-                'INNER',
-                $db->quoteName('#__extensions', 'extensions'),
-                $db->quoteName('extensions.extension_id') . ' = ' . $db->quoteName('update_sites_extensions.extension_id')
-            )
-            ->where($db->quoteName('update_sites.update_site_id') . ' = :updatesiteid')
+            ->select($db->quoteName('extra_query'))
+            ->from($db->quoteName('#__update_sites'))
+            ->where($db->quoteName('update_site_id') . ' = :updatesiteid')
             ->bind(':updatesiteid', $updateSiteId, ParameterType::INTEGER);
 
-        $db->setQuery($query);
-        $extension = new CMSObject($db->loadAssoc());
+        $fullExtraQuery = (string) $db->setQuery($query)->loadResult();
 
-        $downloadKey = InstallerHelper::getDownloadKey($extension);
+        // Convert the stored query string (key1=value1&key2=value2...) into repeatable subform rows.
+        $extraQuery = [];
 
-        $item->set('extra_query', $downloadKey['value'] ?? '');
-        $item->set('downloadIdPrefix', $downloadKey['prefix'] ?? '');
-        $item->set('downloadIdSuffix', $downloadKey['suffix'] ?? '');
+        foreach (array_filter(explode('&', $fullExtraQuery), 'strlen') as $segment) {
+            [$keyName, $keyValue] = array_pad(explode('=', $segment, 2), 2, '');
+            $extraQuery[]         = ['key_name' => $keyName, 'key_value' => $keyValue];
+        }
+
+        $item->set('extra_query', $extraQuery);
 
         return $item;
     }
@@ -138,10 +118,22 @@ class UpdatesiteModel extends AdminModel
      */
     public function save($data): bool
     {
-        // Apply the extra_query. Always empty when saving a free extension's update site.
-        if (isset($data['extra_query'])) {
-            $data['extra_query'] = $data['downloadIdPrefix'] . $data['extra_query'] . $data['downloadIdSuffix'];
+        // Re-assemble the full extra_query string (key1=value1&key2=value2...) from the repeatable subform rows.
+        $segments = [];
+
+        if (!empty($data['extra_query']) && \is_array($data['extra_query'])) {
+            foreach ($data['extra_query'] as $param) {
+                $keyName = isset($param['key_name']) ? trim((string) $param['key_name']) : '';
+
+                if ($keyName === '') {
+                    continue;
+                }
+
+                $segments[] = $keyName . '=' . ($param['key_value'] ?? '');
+            }
         }
+
+        $data['extra_query'] = implode('&', $segments);
 
         // Force Joomla to recheck for updates
         $data['last_check_timestamp'] = 0;
