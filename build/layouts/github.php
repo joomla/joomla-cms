@@ -42,7 +42,7 @@ foreach (['FULL', 'UPGRADE', 'MINOR', 'POINT'] as $type) {
     }
 }
 
-$echo = function($item) use ($table) {
+$echo = function ($item) use ($table) {
     return $table[$item] ?? '';
 };
 
