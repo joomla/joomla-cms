@@ -238,7 +238,25 @@ class MemcachedStorage extends CacheStorage
         $tmparr->name = $cache_id;
         $tmparr->size = \strlen($data);
 
-        $index[] = $tmparr;
+        // Replace an existing index entry for the same item instead of appending a duplicate.
+        // Otherwise the index grows without bounds as items are re-cached, eventually exceeding
+        // Memcached's maximum item size. Once that happens the index can no longer be stored and
+        // newly cached items are no longer tracked, which makes them impossible to clear from the
+        // administrator (only a full flush/restart of memcached would remove them).
+        $found = false;
+
+        foreach ($index as $key => $value) {
+            if ($value->name === $cache_id) {
+                $index[$key] = $tmparr;
+                $found = true;
+                break;
+            }
+        }
+
+        if (!$found) {
+            $index[] = $tmparr;
+        }
+
         static::$_db->set($this->_hash . '-index', $index, 0);
         $this->unlockindex();
 
