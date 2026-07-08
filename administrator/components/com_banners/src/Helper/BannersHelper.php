@@ -49,12 +49,12 @@ class BannersHelper extends ContentHelper
      */
     public static function escapeCsvFormula($value)
     {
-        if ($value == '') {
+        if ($value === '') {
             return $value;
         }
 
         if (\in_array($value[0], self::$characters, true)) {
-            $value = ' ' . $value;
+            return ' ' . $value;
         }
 
         return $value;
