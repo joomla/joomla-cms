@@ -18,6 +18,7 @@ use Joomla\CMS\Event\Model\BeforeDeleteEvent;
 use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\SecondaryCategoriesHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
@@ -905,25 +906,15 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         $db    = $this->getDatabase();
         $query = $db->createQuery();
 
-        //@todo Remove the condition with the else when all items fully support secondary categories.
+        // @todo Remove the condition with the else when all items fully support secondary categories and make the context Generic.
         if ($table === '#__content') {
-            $context        = 'com_content.article';
-            $secondaryQuery = $db->createQuery()
-                ->select($db->quoteName('m.item_id'))
-                ->from($db->quoteName('#__category_item_map', 'm'))
-                ->where($db->quoteName('m.context') . ' = :context')
-                ->where($db->quoteName('m.category_id') . ' = :secondaryCatid');
+            // Reuse the centralized helper to check primary AND secondary mappings
+            $helper    = new SecondaryCategoriesHelper('com_content.article');
+            $condition = $helper->buildCategoryMembershipCondition([(int) $catid], false, true, 1, 'a');
 
-            // Count articles where this is either the primary or a secondary category.
             $query->select('COUNT(DISTINCT ' . $db->quoteName('a.id') . ')')
                 ->from($db->quoteName($table, 'a'))
-                ->where(
-                    '(' . $db->quoteName('a.catid') . ' = :primaryCatid'
-                    . ' OR ' . $db->quoteName('a.id') . ' IN (' . $secondaryQuery . '))'
-                )
-                ->bind(':context', $context)
-                ->bind(':primaryCatid', $catid, ParameterType::INTEGER)
-                ->bind(':secondaryCatid', $catid, ParameterType::INTEGER);
+                ->where($condition);
         } else {
             // Count the items in this category
             $query->select('COUNT(' . $db->quoteName('id') . ')')
@@ -1025,30 +1016,22 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
         // Make sure we only do the query if we have some categories to look in
         if (\count($childCategoryIds)) {
-            $childCategoryIds = ArrayHelper::toInteger($childCategoryIds);
-            $childCategoryIds = array_values(array_unique(array_filter($childCategoryIds)));
+            $childCategoryIds = SecondaryCategoriesHelper::normalizeCategoryIds($childCategoryIds);
 
             if (!$childCategoryIds) {
                 return 0;
             }
 
+            // @todo Remove the condition with the else when all items fully support secondary categories and make the context Generic.
             if ($table === '#__content') {
-                $categoryIds    = implode(',', $childCategoryIds);
-                $secondaryQuery = $db->createQuery()
-                    ->select($db->quoteName('m.item_id'))
-                    ->from($db->quoteName('#__category_item_map', 'm'))
-                    ->where($db->quoteName('m.context') . ' = :context')
-                    ->where($db->quoteName('m.category_id') . ' IN (' . $categoryIds . ')');
+                // Reuse the centralized helper to check primary AND secondary mappings
+                $helper    = new SecondaryCategoriesHelper('com_content.article');
+                $condition = $helper->buildCategoryMembershipCondition($childCategoryIds, false, true, 1, 'a');
 
-                // Count articles where any child is either the primary or a secondary category.
                 $query = $db->createQuery()
                     ->select('COUNT(DISTINCT ' . $db->quoteName('a.id') . ')')
                     ->from($db->quoteName($table, 'a'))
-                    ->where(
-                        '(' . $db->quoteName('a.catid') . ' IN (' . $categoryIds . ')'
-                        . ' OR ' . $db->quoteName('a.id') . ' IN (' . $secondaryQuery . '))'
-                    )
-                    ->bind(':context', 'com_content.article');
+                    ->where($condition);
             } else {
                 // Count the items in this category
                 $query = $db->createQuery()

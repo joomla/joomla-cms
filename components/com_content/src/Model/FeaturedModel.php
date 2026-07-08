@@ -11,11 +11,11 @@
 namespace Joomla\Component\Content\Site\Model;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\SecondaryCategoriesHelper;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -159,18 +159,12 @@ class FeaturedModel extends ArticlesModel
 
         // Filter by categories
         $featuredCategories = $this->getState('filter.frontpage.categories');
+        $featuredCategories = SecondaryCategoriesHelper::normalizeCategoryIds($featuredCategories ?? []);
 
-        if (\is_array($featuredCategories) && !\in_array('', $featuredCategories)) {
-            $featuredCategories = array_values(array_unique(array_filter(ArrayHelper::toInteger($featuredCategories))));
-            $db                 = $this->getDatabase();
-            if ($featuredCategories) {
-                $categoryIds = implode(',', $featuredCategories);
-
-                $query->where(
-                    '(' . $db->quoteName('a.catid') . ' IN (' . $categoryIds . ')'
-                    . ' OR ' . $db->quoteName('a.id') . ' IN (' . $this->getSecondaryCategoryQuery($featuredCategories) . '))'
-                );
-            }
+        if (!empty($featuredCategories)) {
+            $helper    = new SecondaryCategoriesHelper('com_content.article');
+            $condition = $helper->buildCategoryMembershipCondition($featuredCategories);
+            $query->where($condition);
         }
 
         return $query;

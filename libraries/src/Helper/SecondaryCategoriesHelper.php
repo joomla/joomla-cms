@@ -17,6 +17,8 @@ namespace Joomla\CMS\Helper;
 use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Secondary Categories helper class, provides methods to perform tasks relevant
@@ -69,6 +71,105 @@ class SecondaryCategoriesHelper extends CMSHelper
     protected function getDb(): DatabaseInterface
     {
         return Factory::getContainer()->get(DatabaseInterface::class);
+    }
+
+    /**
+     * Normalize category IDs to a clean integer array.
+     *
+     * @param   mixed  $categoryIds  Category IDs to normalize (array, int, or mixed).
+     *
+     * @return  array  Clean array of category IDs, empty if no valid IDs.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function normalizeCategoryIds(mixed $categoryIds): array
+    {
+        if (!\is_array($categoryIds)) {
+            $categoryIds = (array) $categoryIds;
+        }
+
+        return array_values(
+            array_unique(
+                array_filter(
+                    ArrayHelper::toInteger($categoryIds)
+                )
+            )
+        );
+    }
+
+    /**
+     * Build a complete category membership SQL condition.
+     *
+     * Generates SQL that matches items belonging to one or more categories,
+     * considering both primary category assignment and secondary category mappings.
+     *
+     * This method centralizes the common pattern:
+     *   (alias.catid IN (...) [OR alias.catid IN (descendants)])
+     *   OR
+     *   alias.id IN (mapped items query)
+     *
+     * @param   array   $categoryIds           The category IDs to match.
+     * @param   bool    $includeSubcategories   Whether to include child categories in the match.
+     * @param   bool    $includeSecondary       Whether to include secondary category mappings.
+     * @param   int     $levels                 Maximum depth of subcategories to include.
+     * @param   string  $tableAlias             Table alias for the content table (default: 'a').
+     *
+     * @return  string  The complete SQL condition, or '1 = 0' if no valid categories.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function buildCategoryMembershipCondition(array $categoryIds, bool $includeSubcategories = false, bool $includeSecondary = true, int $levels = 1, string $tableAlias = 'a'): string
+    {
+        $db = $this->getDb();
+
+        $categoryIds = static::normalizeCategoryIds($categoryIds);
+
+        if (empty($categoryIds)) {
+            return '1 = 0';
+        }
+
+        $boundedIds  = implode(',', $categoryIds);
+        $catidColumn = $db->quoteName($tableAlias . '.catid');
+        $idColumn    = $db->quoteName($tableAlias . '.id');
+
+        // Build primary category condition (with optional subcategories)
+        $primaryCondition = $this->buildPrimaryCategoryCondition($catidColumn, $boundedIds, $categoryIds, $includeSubcategories, $levels);
+
+        // If secondary categories are disabled, return primary only
+        if (!$includeSecondary) {
+            return $primaryCondition;
+        }
+
+        // Build secondary category condition (respects subcategories setting)
+        $secondaryQuery     = $this->getMappedItemIdsQuery($categoryIds, $includeSubcategories, $levels);
+        $secondaryCondition = $idColumn . ' IN (' . $secondaryQuery . ')';
+
+        return '(' . $primaryCondition . ' OR ' . $secondaryCondition . ')';
+    }
+
+    /**
+     * Build the primary category condition portion.
+     *
+     * @param   string             $catidColumn          The quoted catid column name.
+     * @param   string             $boundedIds           Comma-separated bounded IDs.
+     * @param   array              $categoryIds          The category IDs array.
+     * @param   bool               $includeSubcategories Whether to include subcategories.
+     * @param   int                $levels               Maximum depth.
+     *
+     * @return  string  The primary category SQL condition.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function buildPrimaryCategoryCondition(string $catidColumn, string $boundedIds, array $categoryIds, bool $includeSubcategories, int $levels): string
+    {
+        if ($includeSubcategories) {
+            $descendantsQuery = $this->getDescendantCategoryIdsQuery($categoryIds, $levels);
+
+            return '(' . $catidColumn . ' IN (' . $boundedIds . ')'
+                . ' OR ' . $catidColumn . ' IN (' . $descendantsQuery . '))';
+        }
+
+        return $catidColumn . ' IN (' . $boundedIds . ')';
     }
 
     /**
@@ -187,17 +288,17 @@ class SecondaryCategoriesHelper extends CMSHelper
         return array_map('intval', $db->setQuery($query)->loadColumn());
     }
 
-
     /**
      * Get the number of related items for each secondary category grouped by state.
      *
-     * @param   int[]  $categoryIds  The category ids.
+     * @param   int[]   $categoryIds  The category ids.
+     * @param   string  $itemTable    The database table name for the items (e.g. '#__content').
      *
      * @return  array<int, array<string, int>>
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getCategoryItemCounts(array $categoryIds): array
+    public function getCategoryItemCounts(array $categoryIds, string $itemTable): array
     {
         if (empty($categoryIds)) {
             return [];
@@ -223,20 +324,100 @@ class SecondaryCategoriesHelper extends CMSHelper
             )
             ->from($db->quoteName('#__category_item_map', 'm'))
             ->innerJoin(
-                $db->quoteName('#__content', 'c'),
+                $db->quoteName($itemTable, 'c'),
                 $db->quoteName('c.id') . ' = ' . $db->quoteName('m.item_id')
             )
-            ->where($db->quoteName('m.context') . ' = :context')
+            ->where($db->quoteName('m.context') . ' = :countContext')
             ->whereIn($db->quoteName('m.category_id'), $categoryIds)
             ->whereIn($db->quoteName('c.state'), array_keys(self::COUNTER_NAMES))
             ->group($db->quoteName(['m.category_id', 'c.state']))
-            ->bind(':context', $this->typeAlias, ParameterType::STRING);
+            ->bind(':countContext', $this->typeAlias, ParameterType::STRING);
 
         $relations = $db->setQuery($query)->loadObjectList();
         foreach ($relations as $relation) {
             $counts[(int) $relation->catid][self::COUNTER_NAMES[(int) $relation->state]] = (int) $relation->count;
         }
         return $counts;
+    }
+
+    /**
+     * Builds a query that returns descendant category ids for one or more categories.
+     *
+     * @param   integer|array  $categoryIds  Category id(s).
+     * @param   integer        $levels       Descendant depth.
+     *
+     * @return  QueryInterface
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getDescendantCategoryIdsQuery(int|array $categoryIds, int $levels = 1): QueryInterface
+    {
+        $db = $this->getDb();
+
+        $categoryIds = static::normalizeCategoryIds($categoryIds);
+
+        $query = $db->createQuery()
+            ->select($db->quoteName('sub.id'))
+            ->from($db->quoteName('#__categories', 'sub'))
+            ->innerJoin(
+                $db->quoteName('#__categories', 'parent'),
+                $db->quoteName('sub.lft') . ' > ' . $db->quoteName('parent.lft')
+                    . ' AND ' . $db->quoteName('sub.rgt') . ' < ' . $db->quoteName('parent.rgt')
+            );
+
+        if (empty($categoryIds)) {
+            return $query->where('1 = 0');
+        }
+
+        $query->where($db->quoteName('parent.id') . ' IN (' . implode(',', $categoryIds) . ')');
+
+        if ($levels >= 0) {
+            $query->where($db->quoteName('sub.level') . ' <= ' . $db->quoteName('parent.level') . ' + ' . (int) $levels);
+        }
+
+        return $query;
+    }
+
+    /**
+     * Builds a query that returns item ids mapped to one or more secondary categories.
+     *
+     * @param   integer|array  $categoryIds           Category id(s).
+     * @param   boolean        $includeSubcategories  Include child categories.
+     * @param   integer        $levels                Descendant depth.
+     *
+     * @return  QueryInterface
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getMappedItemIdsQuery(int|array $categoryIds, bool $includeSubcategories = false, int $levels = 1): QueryInterface
+    {
+        $db = $this->getDb();
+
+        $categoryIds = static::normalizeCategoryIds($categoryIds);
+
+        $query = $db->createQuery()
+            ->select('DISTINCT ' . $db->quoteName('m.item_id'))
+            ->from($db->quoteName('#__category_item_map', 'm'))
+            ->where($db->quoteName('m.context') . ' = ' . $db->quote($this->typeAlias));
+
+        if (empty($categoryIds)) {
+            return $query->where('1 = 0');
+        }
+
+        $categoryIdsSql = implode(',', $categoryIds);
+
+        if ($includeSubcategories) {
+            $descendantsQuery = $this->getDescendantCategoryIdsQuery($categoryIds, $levels);
+
+            $query->where(
+                '(' . $db->quoteName('m.category_id') . ' IN (' . $categoryIdsSql . ')'
+                    . ' OR ' . $db->quoteName('m.category_id') . ' IN (' . $descendantsQuery . ')' . ')'
+            );
+        } else {
+            $query->where($db->quoteName('m.category_id') . ' IN (' . $categoryIdsSql . ')');
+        }
+
+        return $query;
     }
 
     /**
@@ -324,5 +505,69 @@ class SecondaryCategoriesHelper extends CMSHelper
         foreach ($items as $item) {
             $item->secondary_categories = $mapped[$item->id] ?? [];
         }
+    }
+
+    /**
+     * Replace all category mappings for an item with a new set.
+     * Explicitly preserves the array keys as the ordering value.
+     *
+     * @param   integer  $itemId  The item ID.
+     * @param   array    $catIds  Array of category IDs.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function replaceMappings(int $itemId, array $catIds): void
+    {
+        $db = $this->getDb();
+
+        // Delete all existing mappings for this item
+        $this->removeAllMappings($itemId);
+        if (empty($catIds)) {
+            return;
+        }
+
+        // Insert new mappings, preserving array keys as ordering
+        $query = $db->createQuery()
+            ->insert($db->quoteName('#__category_item_map'))
+            ->columns([
+                $db->quoteName('context'),
+                $db->quoteName('item_id'),
+                $db->quoteName('category_id'),
+                $db->quoteName('ordering'),
+            ]);
+
+        foreach ($catIds as $ordering => $categoryId) {
+            $query->values(implode(',', $query->bindArray([$this->typeAlias, $itemId, (int) $categoryId, (int) $ordering], [ParameterType::STRING, ParameterType::INTEGER, ParameterType::INTEGER, ParameterType::INTEGER])));
+        }
+
+        $db->setQuery($query)->execute();
+    }
+
+    /**
+     * Remove all category mappings for one or more items.
+     *
+     * @param   integer  ...$itemIds  One or more item IDs.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function removeAllMappings(int ...$itemIds): void
+    {
+        if (empty($itemIds)) {
+            return;
+        }
+
+        $db = $this->getDb();
+
+        $query = $db->createQuery()
+            ->delete($db->quoteName('#__category_item_map'))
+            ->where($db->quoteName('context') . ' = :context')
+            ->whereIn($db->quoteName('item_id'), $itemIds, ParameterType::INTEGER)
+            ->bind(':context', $this->typeAlias, ParameterType::STRING);
+
+        $db->setQuery($query)->execute();
     }
 }

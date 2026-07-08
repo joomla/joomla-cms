@@ -189,6 +189,30 @@
 			</field>
 
 			<field
+				name="show_secondary_categories"
+				type="list"
+				label="JGLOBAL_SHOW_SECONDARY_CATEGORIES_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="link_secondary_categories"
+				type="list"
+				label="JGLOBAL_LINK_SECONDARY_CATEGORIES_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
 				name="show_parent_category"
 				type="list"
 				label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"

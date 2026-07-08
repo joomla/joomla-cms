@@ -361,7 +361,7 @@ class ContentComponent extends MVCComponent implements
         }
 
         $helper = new SecondaryCategoriesHelper('com_content.article');
-        $counts = $helper->getCategoryItemCounts(array_column($items, 'id'));
+        $counts = $helper->getCategoryItemCounts(array_column($items, 'id'), '#__content');
 
         foreach ($items as $item) {
             $itemCounts = $counts[$item->id] ?? [];

@@ -36,5 +36,9 @@ if (empty($categories)) {
 
 <dd class="secondary-categories-name">
     <?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'icon-folder-open icon-fw']); ?>
-    <?php echo Text::sprintf('COM_CONTENT_SECONDARY_CATEGORIES', implode(', ', $categories)); ?>
+    <?php if (count($categories) > 1) : ?>
+        <?php echo Text::sprintf('COM_CONTENT_SECONDARY_CATEGORIES', implode(', ', $categories)); ?>
+    <?php else : ?>
+        <?php echo Text::sprintf('COM_CONTENT_SECONDARY_CATEGORY', $categories[0]); ?>
+    <?php endif; ?>
 </dd>

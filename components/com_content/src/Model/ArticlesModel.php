@@ -12,6 +12,7 @@ namespace Joomla\Component\Content\Site\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\SecondaryCategoriesHelper;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
@@ -479,46 +480,21 @@ class ArticlesModel extends ListModel
             $categoryIds = [];
         }
 
-        $categoryIds = array_values(array_unique(array_filter($categoryIds)));
-
         if ($categoryIds) {
             $include                    = $this->getState('filter.category_id.include', true);
             $includeSubcategories       = $this->getState('filter.subcategories', false);
             $includeSecondaryCategories = $this->getState('filter.include_secondary_categories', true);
             $levels                     = (int) $this->getState('filter.max_category_levels', 1);
-            $boundedCategoryIds         = implode(',', $query->bindArray($categoryIds));
 
-            if ($includeSubcategories) {
-                $primarySubQuery = $db->createQuery()
-                    ->select($db->quoteName('sub.id'))
-                    ->from($db->quoteName('#__categories', 'sub'))
-                    ->join(
-                        'INNER',
-                        $db->quoteName('#__categories', 'parent'),
-                        $db->quoteName('sub.lft') . ' > ' . $db->quoteName('parent.lft')
-                            . ' AND ' . $db->quoteName('sub.rgt') . ' < ' . $db->quoteName('parent.rgt')
-                    )
-                    ->where($db->quoteName('parent.id') . ' IN (' . $boundedCategoryIds . ')');
+            $helper    = new SecondaryCategoriesHelper('com_content.article');
+            $condition = $helper->buildCategoryMembershipCondition(
+                $categoryIds,
+                $includeSubcategories,
+                $includeSecondaryCategories,
+                $levels
+            );
 
-                if ($levels >= 0) {
-                    $primarySubQuery->where($db->quoteName('sub.level') . ' <= ' . $db->quoteName('parent.level') . ' + :primaryLevels');
-                    $query->bind(':primaryLevels', $levels, ParameterType::INTEGER);
-                }
-
-                $primaryCondition = '(' . $db->quoteName('a.catid') . ' IN (' . $boundedCategoryIds . ')'
-                    . ' OR ' . $db->quoteName('a.catid') . ' IN (' . $primarySubQuery . '))';
-            } else {
-                $primaryCondition = $db->quoteName('a.catid') . ' IN (' . $boundedCategoryIds . ')';
-            }
-
-            $categoryCondition = $primaryCondition;
-
-            if ($includeSecondaryCategories) {
-                $secondaryCondition = $db->quoteName('a.id') . ' IN (' . $this->getSecondaryCategoryQuery($categoryIds, $includeSubcategories, $levels) . ')';
-                $categoryCondition  = '(' . $primaryCondition . ' OR ' . $secondaryCondition . ')';
-            }
-
-            $query->where($include ? $categoryCondition : 'NOT (' . $categoryCondition . ')');
+            $query->where($include ? $condition : 'NOT (' . $condition . ')');
         }
 
         // Filter by author

@@ -11,11 +11,11 @@
 namespace Joomla\Component\Content\Site\Model;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\SecondaryCategoriesHelper;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
-use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -95,7 +95,7 @@ class ArchiveModel extends ArticlesModel
         $params           = $this->state->get('params');
         $app              = Factory::getApplication();
         $catids           = $app->getInput()->get('catid', [], 'array');
-        $catids           = array_values(array_diff($catids, ['']));
+        $catids           = SecondaryCategoriesHelper::normalizeCategoryIds($catids);
 
         $articleOrderDate = $params->get('order_date');
 
@@ -111,8 +111,7 @@ class ArchiveModel extends ArticlesModel
             ]
         );
 
-        // Filter on month, year
-        // First, get the date field
+        // Filter on month, year using same date field logic
         $queryDate = QueryHelper::getQueryDate($articleOrderDate, $this->getDatabase());
 
         if ($month = (int) $this->getState('filter.month')) {
@@ -125,15 +124,11 @@ class ArchiveModel extends ArticlesModel
                 ->bind(':year', $year, ParameterType::INTEGER);
         }
 
+        // Apply category filter using helper (primary + secondary)
         if (\count($catids) > 0) {
-            $catids = array_values(array_unique(array_filter(ArrayHelper::toInteger($catids))));
-
-            if ($catids) {
-                $query->where(
-                    '(' . $db->quoteName('a.catid') . ' IN (' . implode(',', $catids) . ')'
-                    . ' OR ' . $db->quoteName('a.id') . ' IN (' . $this->getSecondaryCategoryQuery($catids) . '))'
-                );
-            }
+            $helper    = new SecondaryCategoriesHelper('com_content.article');
+            $condition = $helper->buildCategoryMembershipCondition($catids);
+            $query->where($condition);
         }
 
         return $query;
