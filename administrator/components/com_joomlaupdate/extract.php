@@ -947,6 +947,36 @@ class ZIPExtraction
     }
 
     /**
+     * Detects Zip Slip / path traversal attempts in a raw ZIP entry name: absolute
+     * paths (Unix root, Windows drive letter or UNC) and any ".." path segment
+     * which could resolve outside the intended extraction root. Must be called on
+     * the raw entry name, before any path prefix (e.g. addPath) is prepended.
+     *
+     * @param   string  $filename  The raw entry name as read from the archive
+     *
+     * @return  boolean  True if the entry name is unsafe to use as-is
+     * @since   4.2.9
+     */
+    private function isPathTraversalAttempt(string $filename): bool
+    {
+        $normalised = str_replace('\\', '/', $filename);
+
+        // Absolute Unix path, Windows drive letter (C:) or UNC path (//server/share)
+        if (str_starts_with($normalised, '/') || preg_match('#^[a-zA-Z]:#', $normalised)) {
+            return true;
+        }
+
+        // Any parent-directory segment anywhere in the path
+        foreach (explode('/', $normalised) as $part) {
+            if ($part === '..') {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Concrete classes must use this method to read the file header
      *
      * @return boolean True if reading the file was successful, false if an error occurred or we
@@ -1084,6 +1114,13 @@ class ZIPExtraction
 
         // Find hard-coded banned files
         if ((basename($this->fileHeader->file) == ".") || (basename($this->fileHeader->file) == "..")) {
+            $isBannedFile = true;
+        }
+
+        // Reject Zip Slip / path traversal attempts: absolute paths, Windows drive/UNC
+        // paths, and any parent-directory ("..") path segment. Must be checked on the
+        // raw entry name, before addPath is prepended below.
+        if ($this->isPathTraversalAttempt($this->fileHeader->file)) {
             $isBannedFile = true;
         }
 
