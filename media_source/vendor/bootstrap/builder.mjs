@@ -21,7 +21,7 @@ const minifyBootstrapModule = async (targetFile, code) => {
     return fsp.writeFile(
       targetFile.replace('.js', '.min.js'),
       jsMin,
-      { encoding: 'utf8', mode: 0o644 }
+      { encoding: 'utf8', mode: 0o644 },
     );
   });
 };
@@ -30,7 +30,7 @@ const compileBootstrapJS = async (basePath, targetPath) => {
   const modulePathJson = resolvePackageFile(path.join('bootstrap', 'package.json'));
 
   if (!modulePathJson) {
-    throw new Error(`Package "bootstrap" not found`);
+    throw new Error('Package "bootstrap" not found');
   }
 
   const moduleOptions = JSON.parse(fs.readFileSync(modulePathJson, { encoding: 'utf8' }));
@@ -68,8 +68,8 @@ const compileBootstrapJS = async (basePath, targetPath) => {
           return code
             .replace('./popper.js', `./popper.js?${bsVersion}`)
             .replace('./dom.js', `./dom.js?${bsVersion}`);
-        }
-      }
+        },
+      },
     ],
   }).then((build) => {
     return build.write({
@@ -105,17 +105,16 @@ const compileBootstrapJS = async (basePath, targetPath) => {
 
         promises.push(minifyBootstrapModule(
           path.join(targetPath, 'js', chunk.fileName),
-          chunk.code
+          chunk.code,
         ));
       });
 
       return Promise.all(promises).then(() => build.close());
     });
   });
-}
+};
 
-export default class BootstrapModuleBuilder extends DefaultModuleBuilder
-{
+export default class BootstrapModuleBuilder extends DefaultModuleBuilder {
   /**
    * Remove files on target location
    * @returns { Promise }

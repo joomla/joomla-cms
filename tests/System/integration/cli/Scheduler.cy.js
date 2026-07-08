@@ -36,7 +36,7 @@ describe('Test that console command scheduler', () => {
   });
 
   it('cannot run a not due task', () => {
-    cy.exec(`php ${Cypress.expose('cmsPath')}/cli/joomla.php scheduler:run`, {failOnNonZeroExit: false})
+    cy.exec(`php ${Cypress.expose('cmsPath')}/cli/joomla.php scheduler:run`, { failOnNonZeroExit: false })
       .its('stdout')
       .should('contain', 'No tasks due!');
   });

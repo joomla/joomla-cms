@@ -11,6 +11,7 @@
 namespace Joomla\Component\Contact\Site\View\Contact;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\Component\Contact\Site\Model\ContactModel;
@@ -45,9 +46,21 @@ class VcfView extends AbstractView
     public function display($tpl = null)
     {
         /** @var ContactModel $model */
-        $model = $this->getModel();
+        $model      = $this->getModel();
         $model->setUseExceptions(true);
-        $item  = $model->getItem();
+        $app        = Factory::getApplication();
+        $user       = $app->getIdentity();
+        $item       = $model->getItem();
+
+        // Check if access is not public
+        $groups = $user->getAuthorisedViewLevels();
+
+        if (!\in_array($item->access, $groups) || !\in_array($item->category_access, $groups)) {
+            $app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
+            $app->setHeader('status', 403, true);
+
+            return;
+        }
 
         $this->getDocument()->setMimeEncoding('text/directory', true);
 
