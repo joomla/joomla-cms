@@ -49,7 +49,7 @@ class Dispatcher extends ComponentDispatcher
         parent::checkAccess();
 
         if (
-           !$this->app->getIdentity()->authorise('module.edit.frontend', 'com_modules')
+            !$this->app->getIdentity()->authorise('module.edit.frontend', 'com_modules')
         ) {
             throw new NotAllowed();
         }
