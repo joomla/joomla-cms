@@ -271,7 +271,7 @@ class LevelModel extends AdminModel
      *
      * @return  string  Contains the modified title.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.2.0
      */
     protected function generateLevelTitle($title)
     {
