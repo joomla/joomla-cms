@@ -300,7 +300,7 @@ class ContactController extends FormController implements UserFactoryAwareInterf
 
                 $sent = false;
             } catch (\RuntimeException $exception) {
-                $this->app->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                $this->app->enqueueMessage(Text::_($exception->getMessage()), 'warning');
 
                 $sent = false;
             }

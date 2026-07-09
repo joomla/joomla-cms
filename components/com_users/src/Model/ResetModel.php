@@ -473,7 +473,7 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
 
                 $return = false;
             } catch (\RuntimeException $exception) {
-                $app->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                $app->enqueueMessage(Text::_($exception->getMessage()), 'warning');
 
                 $return = false;
             }

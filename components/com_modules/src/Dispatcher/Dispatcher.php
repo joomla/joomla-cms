@@ -49,9 +49,7 @@ class Dispatcher extends ComponentDispatcher
         parent::checkAccess();
 
         if (
-            $this->input->get('view') === 'modules'
-            && $this->input->get('layout') === 'modal'
-            && !$this->app->getIdentity()->authorise('core.create', 'com_modules')
+           !$this->app->getIdentity()->authorise('module.edit.frontend', 'com_modules')
         ) {
             throw new NotAllowed();
         }

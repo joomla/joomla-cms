@@ -12,7 +12,7 @@ jobs:
   composer:
     name: Install PHP dependencies
     runs-on: ubuntu-latest
-    container: joomlaprojects/docker-images:php8.4
+    container: joomlaprojects/docker-images:php8.5
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
@@ -36,7 +36,7 @@ jobs:
   npm:
     name: Install JS/CSS dependencies and build assets
     runs-on: ubuntu-latest
-    container: joomlaprojects/docker-images:php8.4
+    container: joomlaprojects/docker-images:php8.5
     needs: [composer]
     steps:
       - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
@@ -66,11 +66,8 @@ jobs:
   code-style-php:
     name: Check PHP code style
     runs-on: ubuntu-latest
-    container: joomlaprojects/docker-images:php8.4
+    container: joomlaprojects/docker-images:php8.5
     needs: [composer]
-    strategy:
-      matrix:
-        command: ['php-cs-fixer fix -vvv --dry-run --diff', 'phpcs --extensions=php -p --standard=ruleset.xml .']
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
@@ -84,12 +81,22 @@ jobs:
       - name: Check PHP code style
         env:
           PHP_CS_FIXER_IGNORE_ENV: true
-        run: ./libraries/vendor/bin/${{ matrix.command }}
+        run: |
+          set -e
+          ./libraries/vendor/bin/php-cs-fixer fix -vvv --diff
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          if [ "$GITHUB_EVENT_NAME" = "push" ] && [ "$GITHUB_REPOSITORY" != "joomla/joomla-cms" ]; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add --all
+            git commit -m "Fix code style issues [skip ci]"
+            git push origin "HEAD:${{ github.head_ref || github.ref_name }}"
+          fi
 
   code-style-js-css:
     name: Check Javascript & CSS code style
     runs-on: ubuntu-latest
-    container: joomlaprojects/docker-images:php8.4
+    container: joomlaprojects/docker-images:php8.5
     needs: [composer, npm]
     strategy:
       matrix:
@@ -112,7 +119,7 @@ jobs:
   phpstan:
     name: Run PHPstan
     runs-on: ubuntu-latest
-    container: joomlaprojects/docker-images:php8.4
+    container: joomlaprojects/docker-images:php8.5
     needs: [code-style-php]
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -126,7 +133,17 @@ jobs:
           key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
       - name: Run PHPstan
         run: |
+          set -e
           ./libraries/vendor/bin/phpstan --error-format=github
+          ./libraries/vendor/bin/phpstan --generate-baseline
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          if [ "$GITHUB_EVENT_NAME" = "push" ] && [ "$GITHUB_REPOSITORY" != "joomla/joomla-cms" ] && ! git diff --quiet -- phpstan-baseline.neon; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add phpstan-baseline.neon
+            git commit -m "Updated PHPStan baseline [skip ci]"
+            git push origin "HEAD:${{ github.head_ref || github.ref_name }}"
+          fi
 
   tests-unit:
     name: Run Unit tests
@@ -158,6 +175,10 @@ jobs:
       matrix:
         php_version: ['8.3', '8.4', '8.5']
         config:
+          - my_version: '9'
+            engine: 'mysqli'
+            host: 'mysql'
+            user: 'joomla_ut'
           - my_version: '8.4'
             engine: 'mysqli'
             host: 'mysql'
@@ -212,7 +233,7 @@ jobs:
           args: docker kill openldap
     services:
       mysql:
-        image: mysql:${{ matrix.config.my_version || '8.4' }}
+        image: mysql:${{ matrix.config.my_version || '9' }}
         env:
           MYSQL_USER: joomla_ut
           MYSQL_PASSWORD: joomla_ut
@@ -305,7 +326,7 @@ jobs:
   tests-system-prepare:
     name: Prepare system tests
     runs-on: ubuntu-latest
-    container: joomlaprojects/docker-images:cypress8.4
+    container: joomlaprojects/docker-images:cypress8.5
     needs: [composer, npm]
     env:
       CYPRESS_VERIFY_TIMEOUT: 100000
@@ -342,6 +363,11 @@ jobs:
         config:
           - php_version: '8.5'
             test_group: cmysqlmax
+            db_engine: mysqli
+            db_host: mysql
+            my_version: '9'
+          - php_version: '8.5'
+            test_group: cmysqllts
             db_engine: mysqli
             db_host: mysql
             my_version: '8.4'
@@ -406,7 +432,7 @@ jobs:
           if-no-files-found: ignore
     services:
       mysql:
-        image: mysql:${{ matrix.config.my_version || '8.4' }}
+        image: mysql:${{ matrix.config.my_version || '9' }}
         env:
           MYSQL_USER: joomla_ut
           MYSQL_PASSWORD: joomla_ut
