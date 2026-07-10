@@ -399,7 +399,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
         $start = $this->getState('list.start');
 
         if ($start > 0) {
-            $limit = (int)$this->getState('list.limit');
+            $limit = (int) $this->getState('list.limit');
             $total = $this->getTotal();
 
             if ($start > $total - $limit && $limit !== 0) {
