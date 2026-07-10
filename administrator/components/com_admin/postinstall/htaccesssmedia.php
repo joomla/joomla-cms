@@ -8,8 +8,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * This file contains post-installation message handling for notifying users of a change
- * in the default .htaccess file regarding preventing execution of scripts in uploaded file
- * directories.
+ * in the default .htaccess file regarding restricting access to uploaded file
+ * directories by allowing only known safe file types.
  */
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -17,8 +17,8 @@
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Notifies users of a change in the default .htaccess file regarding preventing execution
- * of scripts in uploaded file directories.
+ * Notifies users of a change in the default .htaccess file regarding restricting
+ * access to uploaded file directories by allowing only known safe file types.
  *
  * This check returns true regardless of condition.
  *
