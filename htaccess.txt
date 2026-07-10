@@ -79,6 +79,16 @@ Options -Indexes
 	#
 	## End - Rewrite rules to block out some common exploits.
 
+	## Begin - Prevent execution of scripts in uploaded file directories.
+	#
+	# Uploaded files should never be executable. This blocks direct requests
+	# for common server-side script types in /images, /media and /files,
+	# including all subdirectories.
+	#
+	RewriteRule ^(?:images|media|files)/.*\.(?:php[0-9]?|phtml|phar|cgi|pl|py|jsp|asp|aspx|sh)$ - [F,NC,L]
+	#
+	## End - Prevent execution of scripts in uploaded file directories.
+
 	## Begin - Custom redirects
 	#
 	# If you need to redirect some pages, or set a canonical non-www to
