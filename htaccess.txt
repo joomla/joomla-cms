@@ -79,15 +79,16 @@ Options -Indexes
 	#
 	## End - Rewrite rules to block out some common exploits.
 
-	## Begin - Prevent execution of scripts in uploaded file directories.
+	## Begin - Restrict direct access to uploaded files.
 	#
-	# Uploaded files should never be executable. This blocks direct requests
-	# for common server-side script types in /images, /media and /files,
-	# including all subdirectories.
+	# Only allow requests for known safe file types in the upload
+	# directories. All other file types, including executable scripts,
+	# are denied.
 	#
-	RewriteRule ^(?:images|media|files)/.*\.(?:php[0-9]?|phtml|phar|cgi|pl|py|jsp|asp|aspx|sh)$ - [F,NC,L]
+	RewriteRule ^(?:images|media|files)/.*\.(?:7z|avif|bmp|css|csv|doc|docx|eot|gif|gz|htm|html|ico|jp2|jpe|jpe2|jpeg|jpg|js|json|mjs|mov|mp3|mp4|mpeg|mpg|odp|ods|odt|ogg|ogv|pdf|png|rar|svg|tar|txt|wav|webm|webp|woff|woff2|xls|xlsx|xml|zip)$ - [L,NC]
+	RewriteRule ^(?:images|media|files)/ - [F,L]
 	#
-	## End - Prevent execution of scripts in uploaded file directories.
+	## End - Restrict direct access to uploaded files.
 
 	## Begin - Custom redirects
 	#
