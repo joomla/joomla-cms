@@ -407,8 +407,7 @@ abstract class ModuleHelper
         $itemId   = $app->getInput()->getInt('Itemid', 0);
         $groups   = $app->getIdentity()->getAuthorisedViewLevels();
         $clientId = (int) $app->getClientId();
-        if ($clientId === 3)
-        {
+        if ($clientId === 3) {
             $clientId = 0;
         }
 
