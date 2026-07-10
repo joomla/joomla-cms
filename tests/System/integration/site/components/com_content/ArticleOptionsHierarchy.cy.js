@@ -161,5 +161,16 @@ describe('Test in frontend that the content article view honours the option hier
             cy.checkForPhpNoticesOrWarnings();
           }));
     });
+
+    it('menu item option overrides the global option when the article is Use Global (hide)', () => {
+      setGlobal('1')
+        .then(() => createArticle(''))
+        .then((article) => createArticleMenu(article, '{"show_create_date":"0"}')
+          .then((menuId) => {
+            visitArticle(article, menuId);
+            assertHidden();
+            cy.checkForPhpNoticesOrWarnings();
+          }));
+    });
   });
 });
