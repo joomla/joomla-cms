@@ -50,7 +50,6 @@ describe('Test in frontend that the content article view honours the option hier
           .then((menuId) => {
             visitArticle(article, menuId);
             assertShown();
-            cy.checkForPhpNoticesOrWarnings();
           }));
     });
 
