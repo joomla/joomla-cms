@@ -243,6 +243,11 @@ class MediaController extends ApiController
     {
         $user = $this->app->getIdentity();
 
+        // In the override mode, adding a file will override and therefore edit an existing file
+        if ($this->input->json->get('override', false)) {
+            return $user->authorise('core.edit', 'com_media');
+        }
+
         return $user->authorise('core.create', 'com_media');
     }
 
