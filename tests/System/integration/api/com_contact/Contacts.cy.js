@@ -50,11 +50,11 @@ describe('Test that contacts API endpoint', () => {
     cy.api_getBearerToken().then((token) => {
       cy.request({
         method: 'DELETE',
-        url: `/api/index.php/v1/contacts/9999`,
+        url: '/api/index.php/v1/contacts/9999',
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        failOnStatusCode: false
+        failOnStatusCode: false,
       }).then((response) => {
         expect(response.status).to.equal(404);
         expect(response.body.data.message).to.include('Resource not found');

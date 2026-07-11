@@ -69,11 +69,11 @@ export default async function buildCommand(program, cmdOptions = {}, builders = 
   const danglingPromises = [];
   const checkQueue = async () => {
     if (!queue.length) return;
-    const [ name, isBlocking ] = queue.shift();
+    const [name, isBlocking] = queue.shift();
 
     if (isBlocking) {
       // Halt Queue lookup until the builder completes
-      return createAndRunBuilder(program, name, factory, tasksToRun, runAll).then(() => checkQueue())
+      return createAndRunBuilder(program, name, factory, tasksToRun, runAll).then(() => checkQueue());
     }
 
     // Collect dangling promises to be sure all are resolved in the end

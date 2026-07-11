@@ -64,7 +64,7 @@ $startLevel = (int) $params->get('startLevel', 1);
     echo '<li class="' . $class . '">';
 
     // The next item is deeper - add toggle only here it is a heading or separator
-    if ($item->deeper && (int) $item->level === $startLevel && in_array($item->type, ['separator', 'heading'])) {
+    if ($item->deeper && in_array($item->type, ['separator', 'heading'])) {
         // Add a toggle button.
         echo '<button class="mod-menu__toggle-sub" aria-expanded="false">';
     }
@@ -84,22 +84,19 @@ $startLevel = (int) $params->get('startLevel', 1);
 
     // The next item is deeper.
     if ($item->deeper) {
-        // Check type - add only on first level
         // @todo aria-label - set in menu item ???
-        if ((int) $item->level === $startLevel) {
-            switch ($item->type) {
-                case 'heading':
-                case 'separator':
-                    echo '<span class="icon-chevron-down" aria-hidden="true">' .
-                        '</span></button>';
-                    break;
+        switch ($item->type) {
+            case 'heading':
+            case 'separator':
+                echo '<span class="icon-chevron-down" aria-hidden="true">' .
+                    '</span></button>';
+                break;
 
-                default:
-                    echo '<button class="mod-menu__toggle-sub" aria-expanded="false">' .
-                    '<span class="icon-chevron-down" aria-hidden="true"></span>' .
-                    '<span class="visually-hidden">' . Text::sprintf('MOD_MENU_TOGGLE_SUBMENU_LABEL', $item->title) . '</span>' .
-                    '</button>';
-            }
+            default:
+                echo '<button class="mod-menu__toggle-sub" aria-expanded="false">' .
+                '<span class="icon-chevron-down" aria-hidden="true"></span>' .
+                '<span class="visually-hidden">' . Text::sprintf('MOD_MENU_TOGGLE_SUBMENU_LABEL', $item->title) . '</span>' .
+                '</button>';
         }
         echo '<ul class="mod-menu__sub list-unstyled small">';
     } elseif ($item->shallower) {
