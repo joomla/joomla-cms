@@ -42,6 +42,15 @@ class FeedFactory
      */
     public function getFeed($uri)
     {
+        // A feed is always fetched over HTTP(S). Reject any other scheme so a stored feed URL cannot use
+        // one of the XMLReader stream wrappers below (file://, php://, compress.zlib://, ...) to read local
+        // files or reach internal services.
+        $scheme = strtolower((string) parse_url((string) $uri, PHP_URL_SCHEME));
+
+        if ($scheme !== 'http' && $scheme !== 'https') {
+            throw new \InvalidArgumentException('The feed URI must use the http or https scheme.');
+        }
+
         // Create the XMLReader object.
         $reader = new \XMLReader();
 

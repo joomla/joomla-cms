@@ -72,6 +72,40 @@ class FeedFactoryTest extends UnitTestCase
     }
 
     /**
+     * FeedFactory::getFeed() must reject URIs that do not use the http or https scheme
+     * before the value reaches XMLReader::open(), which would otherwise honour stream
+     * wrappers such as file://, php:// or compress.zlib://.
+     *
+     * @param   string  $uri  The feed URI to reject.
+     *
+     * @return void
+     *
+     * @dataProvider dataNonHttpFeedUris
+     */
+    public function testGetFeedRejectsNonHttpScheme($uri)
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->feedFactory->getFeed($uri);
+    }
+
+    /**
+     * Data provider of non-http(s) feed URIs.
+     *
+     * @return array
+     */
+    public static function dataNonHttpFeedUris(): array
+    {
+        return [
+            'file wrapper' => ['file:///etc/passwd'],
+            'php filter'   => ['php://filter/convert.base64-encode/resource=/etc/passwd'],
+            'compression'  => ['compress.zlib:///etc/passwd'],
+            'ftp'          => ['ftp://example.com/feed.xml'],
+            'no scheme'    => ['/etc/passwd'],
+            'empty'        => [''],
+        ];
+    }
+
+    /**
      *  Tests FeedFactory::getParsers().
      *
      * @return void
