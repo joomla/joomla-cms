@@ -125,3 +125,7 @@ Joomla.editorMediaPicker = (meta = {}) => new Promise((resolve) => {
   Joomla.Modal.setCurrent(dialog);
   dialog.show();
 });
+
+Joomla.editorFilePickers = Joomla.editorFilePickers || {};
+Joomla.editorFilePickers.image = Joomla.editorMediaPicker;
+Joomla.editorFilePickers.media = Joomla.editorMediaPicker;
