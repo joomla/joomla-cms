@@ -137,37 +137,6 @@ Joomla.JoomlaTinyMCE = {
     const name = element ? element.getAttribute('name').replace(/\[\]|\]/g, '').split('[').pop() : 'default'; // Get Editor name
     const tinyMCEOptions = pluginOptions ? pluginOptions.tinyMCE || {} : {};
     const defaultOptions = tinyMCEOptions.default || {};
-
-    // Connects the "browse" button of TinyMCE's image, media and link dialogs to Joomla pickers
-    // registered on Joomla.editorFilePickers. The dialog filetypes are 'image', 'media' and 'file'
-    // (the link dialog).
-    //
-    // Register a picker for all editors, keyed by filetype:
-    //   Joomla.editorFilePickers.image = (meta) => Promise<{ url, alt?, text? } | null>;
-    // Override it for a single editor, keyed by the editor id:
-    //   Joomla.editorFilePickers[editorId] = { image: (meta) => ... };
-    //
-    // The resolved url is inserted; the image/media dialogs read { alt }, the link dialog reads
-    // { text }. The callback is shared (set on the default options once) and prefers the active
-    // editor's picker over the global one; file_picker_types is set per editor further below, to
-    // the filetypes that editor can serve (global pickers plus its own overrides).
-    if (!defaultOptions.file_picker_callback && Object.keys(Joomla.editorFilePickers || {}).length) {
-      defaultOptions.file_picker_callback = (cb, value, meta) => {
-        const registry = Joomla.editorFilePickers || {};
-        const editorId = tinymce.activeEditor && tinymce.activeEditor.id;
-        const scoped = (editorId && registry[editorId]) || {};
-        const picker = scoped[meta.filetype] || registry[meta.filetype];
-        if (!picker) {
-          return;
-        }
-        picker(meta).then((result) => {
-          if (result && result.url) {
-            cb(result.url, { alt: result.alt || '', text: result.text || '' });
-          }
-        });
-      };
-    }
-
     // Check specific options by the name
     let options = tinyMCEOptions[name] ? tinyMCEOptions[name] : defaultOptions;
 
@@ -182,20 +151,6 @@ Joomla.JoomlaTinyMCE = {
       // We already have the Target, so reset the selector and assign given element as target
       options.selector = null;
       options.target = element;
-    }
-
-    // Enable the browse button for the filetypes this editor can serve: the global pickers plus
-    // this editor's scoped overrides. Skipped when a developer already set file_picker_types.
-    // This is important otherwise the button will be displayed everywhere, even when no picker is defined.
-    if (element && options.file_picker_callback && !options.file_picker_types) {
-      const registry = Joomla.editorFilePickers || {};
-      const pickerTypes = [
-        ...Object.keys(registry).filter((key) => typeof registry[key] === 'function'),
-        ...Object.keys(registry[element.id] || {}),
-      ];
-      if (pickerTypes.length) {
-        options.file_picker_types = [...new Set(pickerTypes)].join(' ');
-      }
     }
 
     // Check for a skin that suits best for the active color scheme

@@ -50,6 +50,17 @@
       ]
     },
     {
+      "name": "plg_editors_tinymce.jfilepicker",
+      "type": "script",
+      "uri": "plg_editors_tinymce/plugins/filepicker/plugin.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "tinymce"
+      ]
+    },
+    {
       "name": "plg_editors_tinymce.jtemplate",
       "type": "script",
       "uri": "plg_editors_tinymce/plugins/jtemplate/plugin.min.js",
