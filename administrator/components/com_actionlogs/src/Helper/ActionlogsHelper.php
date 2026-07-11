@@ -31,6 +31,17 @@ use Joomla\String\StringHelper;
 class ActionlogsHelper
 {
     /**
+     * Array of characters starting a formula
+     *
+     * @var    array
+     *
+     * @since       3.9.7
+     * @deprecated  5.4 will be removed in 7.0
+     *              Use \Joomla\CMS\Filter\OutputFilter::escapeCsvFormula() instead
+     */
+    private static $characters = ['=', '+', '-', '@'];
+
+    /**
      * Method to convert logs objects array to an iterable type for use with a CSV export
      *
      * @param   array|\Traversable  $data  The logs data objects to be exported
@@ -336,5 +347,29 @@ class ActionlogsHelper
 
         // Load com_privacy too.
         $lang->load('com_privacy', JPATH_ADMINISTRATOR);
+    }
+
+    /**
+     * Escapes potential characters that start a formula in a CSV value to prevent injection attacks
+     *
+     * @param   mixed  $value  csv field value
+     *
+     * @return  mixed
+     *
+     * @since       3.9.7
+     * @deprecated  5.4 will be removed in 7.0
+     *              Use \Joomla\CMS\Filter\OutputFilter::escapeCsvFormula() instead
+     */
+    protected static function escapeCsvFormula($value)
+    {
+        if ($value == '') {
+            return $value;
+        }
+
+        if (\in_array($value[0], self::$characters, true)) {
+            $value = ' ' . $value;
+        }
+
+        return $value;
     }
 }
