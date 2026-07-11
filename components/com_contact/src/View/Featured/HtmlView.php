@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\MailHelper;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Contact\Site\Model\FeaturedModel;
 
@@ -85,7 +84,7 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $app    = Factory::getApplication();
+        $app          = Factory::getApplication();
         $this->params = $app->getParams();
 
         /** @var FeaturedModel $model */
