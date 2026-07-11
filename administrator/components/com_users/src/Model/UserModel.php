@@ -946,34 +946,34 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     {
         $userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
 
-        if (empty($userId)) {
-            $result    = [];
-            $form      = $this->getForm();
-            $groupsIDs = null;
+        if (!empty($userId)) {
+            return UserHelper::getUserGroups($userId);
+        }
 
-            if ($form) {
-                $groupsIDs = $form->getValue('groups');
-            }
+        $result    = [];
+        $form      = $this->getForm();
+        $groupsIDs = null;
 
-            if (!empty($groupsIDs)) {
-                return $groupsIDs;
-            }
+        if ($form) {
+            $groupsIDs = $form->getValue('groups');
+        }
 
-            // Check for an active group filter in the users list
-            $filters = (array) Factory::getApplication()->getUserState('com_users.users.default.filter');
-            $groupId = !empty($filters['group_id']) ? (int) $filters['group_id'] : 0;
+        if (!empty($groupsIDs)) {
+            return $groupsIDs;
+        }
 
-            if ($groupId) {
-                $result[] = $groupId;
-            } else {
-                $params = ComponentHelper::getParams('com_users');
+        // Check for an active group filter in the users list
+        $filters = (array) Factory::getApplication()->getUserState('com_users.users.default.filter');
+        $groupId = !empty($filters['group_id']) ? (int) $filters['group_id'] : 0;
 
-                if ($groupId = $params->get('new_usertype', $params->get('guest_usergroup', 1))) {
-                    $result[] = (int) $groupId;
-                }
-            }
+        if ($groupId) {
+            $result[] = $groupId;
         } else {
-            $result = UserHelper::getUserGroups($userId);
+            $params = ComponentHelper::getParams('com_users');
+
+            if ($groupId = $params->get('new_usertype', $params->get('guest_usergroup', 1))) {
+                $result[] = (int) $groupId;
+            }
         }
 
         return $result;
