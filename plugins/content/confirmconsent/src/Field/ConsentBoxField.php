@@ -242,7 +242,7 @@ class ConsentBoxField extends CheckboxesField
         $db = $this->getDatabase();
 
         // Get the info from the article
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['id', 'catid', 'language']))
             ->from($db->quoteName('#__content'))
             ->where($db->quoteName('id') . ' = ' . (int) $this->articleid);
@@ -320,7 +320,7 @@ class ConsentBoxField extends CheckboxesField
 
             if (Multilanguage::isEnabled()) {
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName(['id', 'language']))
                     ->from($db->quoteName('#__menu'))
                     ->where($db->quoteName('id') . ' = :id')

@@ -1,4 +1,4 @@
-describe('Test in frontend that the config config view', () => {
+describe('Test in frontend that the config templates view', () => {
   beforeEach(() => cy.doFrontendLogin());
 
   it('can edit template settings without menu item', () => {

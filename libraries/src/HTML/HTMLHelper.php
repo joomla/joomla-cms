@@ -47,7 +47,7 @@ abstract class HTMLHelper
      *
      * @var    string[]
      * @since  1.5
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      */
     protected static $includePaths = [];
 
@@ -56,7 +56,7 @@ abstract class HTMLHelper
      *
      * @var    callable[]
      * @since  1.6
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      */
     protected static $registry = [];
 
@@ -77,7 +77,7 @@ abstract class HTMLHelper
      * @return  array  Contains lowercase key, prefix, file, function.
      *
      * @since       1.6
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use the service registry instead
      *              HTMLHelper::getServiceRegistry()->getService($file);
      */
@@ -90,17 +90,17 @@ abstract class HTMLHelper
 
         if (\count($parts) === 3) {
             @trigger_error(
-                'Support for a three segment service key is deprecated and will be removed in Joomla 6.0, use the service registry instead',
+                'Support for a three segment service key is deprecated and will be removed in Joomla 7.0, use the service registry instead',
                 E_USER_DEPRECATED
             );
         }
 
-        $prefix = \count($parts) === 3 ? array_shift($parts) : 'Joomla\\CMS\\HTML\\HTMLHelper';
+        $prefix = \count($parts) === 3 ? array_shift($parts) : HTMLHelper::class;
         $file   = \count($parts) === 2 ? array_shift($parts) : '';
         $func   = array_shift($parts);
 
         if (strtolower($prefix) === 'jhtml') {
-            $prefix = 'Joomla\\CMS\\HTML\\HTMLHelper';
+            $prefix = HTMLHelper::class;
         }
 
         return [strtolower($prefix . '.' . $file . '.' . $func), $prefix, $file, $func];
@@ -166,7 +166,7 @@ abstract class HTMLHelper
                     throw new \InvalidArgumentException(\sprintf('%s not found.', $className), 500);
                 }
 
-                // @deprecated with 5.0 remove with 6.0 or 7.0 (depends on other relevant code)
+                // @deprecated with 5.0 remove with 7.0 (depends on other relevant code)
                 $className = 'JHtml' . ucfirst($file);
 
                 \JLoader::register($className, $path);
@@ -204,14 +204,14 @@ abstract class HTMLHelper
      * @return  boolean  True if the function is callable
      *
      * @since       1.6
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use the service registry instead
      *              HTMLHelper::getServiceRegistry()->register($key, $function);
      */
     public static function register($key, callable $function)
     {
         @trigger_error(
-            'Support for registering functions is deprecated and will be removed in Joomla 6.0, use the service registry instead',
+            'Support for registering functions is deprecated and will be removed in Joomla 7.0, use the service registry instead',
             E_USER_DEPRECATED
         );
 
@@ -230,13 +230,13 @@ abstract class HTMLHelper
      * @return  boolean  True if a set key is unset
      *
      * @since       1.6
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use the service registry instead
      */
     public static function unregister($key)
     {
         @trigger_error(
-            'Support for registering functions is deprecated and will be removed in Joomla 6.0, use the service registry instead',
+            'Support for registering functions is deprecated and will be removed in Joomla 7.0, use the service registry instead',
             E_USER_DEPRECATED
         );
 
@@ -1196,13 +1196,13 @@ abstract class HTMLHelper
      * @return  array  An array with directory elements
      *
      * @since       1.5
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 7.0
      *              Use the service registry instead
      */
     public static function addIncludePath($path = '')
     {
         @trigger_error(
-            'Support for registering lookup paths is deprecated and will be removed in Joomla 6.0, use the service registry instead',
+            'Support for registering lookup paths is deprecated and will be removed in Joomla 7.0, use the service registry instead',
             E_USER_DEPRECATED
         );
 

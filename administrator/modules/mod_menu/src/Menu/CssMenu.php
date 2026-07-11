@@ -13,11 +13,15 @@ namespace Joomla\Module\Menu\Administrator\Menu;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Menu\PreprocessMenuItemsEvent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\AdministratorMenuItem;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -30,8 +34,10 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.5
  */
-class CssMenu
+class CssMenu implements DatabaseAwareInterface
 {
+    use DatabaseAwareTrait;
+
     /**
      * The root of the menu
      *
@@ -89,12 +95,24 @@ class CssMenu
     /**
      * CssMenu constructor.
      *
-     * @param   CMSApplication  $application  The application
+     * @param   CMSApplication      $application  The application
+     * @param   ?DatabaseInterface  $db           The database
      *
      * @since 4.0.0
      */
-    public function __construct(CMSApplication $application)
+    public function __construct(CMSApplication $application, ?DatabaseInterface $db = null)
     {
+        if ($db === null) {
+            @trigger_error(
+                __CLASS__ . ': The $db parameter must be set for the constructor.',
+                \E_USER_DEPRECATED
+            );
+
+            $db = Factory::getContainer()->get(DatabaseInterface::class);
+        }
+
+        $this->setDatabase($db);
+
         $this->application = $application;
         $this->root        = new AdministratorMenuItem();
     }
@@ -146,11 +164,15 @@ class CssMenu
 
                 $this->root->addChild(new AdministratorMenuItem(['title' => 'MOD_MENU_RECOVERY_EXIT', 'type' => 'url', 'link' => $uri->toString()]));
 
+                $this->setActivePath();
+
                 return $this->root;
             }
         }
 
         $this->preprocess($this->root);
+
+        $this->setActivePath();
 
         return $this->root;
     }
@@ -230,7 +252,7 @@ class CssMenu
             $uri = clone Uri::getInstance();
             $uri->setVar('recover_menu', 1);
 
-            $table    = $this->application->bootComponent('com_menu')->getMVCFactory()->createTable('MenuType');
+            $table    = new \Joomla\CMS\Table\MenuType($this->getDatabase());
             $menutype = $params->get('menutype');
 
             $table->load(['menutype' => $menutype]);
@@ -474,6 +496,61 @@ class CssMenu
 
         if ($last && $last->type === 'separator' && $last->getSibling(false) && $last->getSibling(false)->type === 'separator') {
             $parent->removeChild($last);
+        }
+    }
+
+    /**
+     * Set the active path in the menu tree based on the current URL
+     *
+     * @return  void
+     *
+     * @since   5.4.4
+     */
+    protected function setActivePath()
+    {
+        $currentUrl     = Uri::getInstance()->toString();
+        $baseUrl        = rtrim(Uri::base(), '/') . '/';
+        $items          = $this->root->getChildren(true);
+        $bestMatch      = null;
+        $bestMatchLen   = 0;
+
+        foreach ($items as $item) {
+            if (\in_array($item->type, ['separator', 'heading', 'container']) || empty($item->link)) {
+                continue;
+            }
+
+            if ($item->hasChildren()) {
+                continue;
+            }
+
+            $itemUrl = htmlspecialchars_decode($item->link);
+
+            if (str_starts_with($itemUrl, 'index.php')) {
+                $itemUrl = $baseUrl . $itemUrl;
+            }
+
+            // Exact match, or prefix match only when the item URL has query params
+            // (would otherwise prefix-match every admin URL)
+            $isMatch = $currentUrl === $itemUrl || (str_contains($itemUrl, '?') && str_starts_with($currentUrl, $itemUrl));
+
+            if (!$isMatch) {
+                continue;
+            }
+
+            // Keep the most specific match
+            if (\strlen($itemUrl) > $bestMatchLen) {
+                $bestMatch    = $item;
+                $bestMatchLen = \strlen($itemUrl);
+            }
+        }
+
+        if ($bestMatch !== null) {
+            $node = $bestMatch;
+
+            while ($node !== null) {
+                $node->active = true;
+                $node         = $node->getParent();
+            }
         }
     }
 

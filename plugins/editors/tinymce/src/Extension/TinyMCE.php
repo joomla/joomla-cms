@@ -39,7 +39,7 @@ final class TinyMCE extends CMSPlugin implements SubscriberInterface, Dispatcher
     use DatabaseAwareTrait;
     use DispatcherAwareTrait;
 
-    // @todo: KnownButtons, ToolbarPresets for backward compatibility. Remove in Joomla 6
+    // @todo: KnownButtons, ToolbarPresets for backward compatibility. Remove in Joomla 7
     use KnownButtons;
     use ToolbarPresets;
 

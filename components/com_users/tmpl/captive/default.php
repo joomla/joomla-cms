@@ -12,13 +12,11 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Users\Site\Model\CaptiveModel;
-use Joomla\Component\Users\Site\View\Captive\HtmlView;
 use Joomla\Utilities\ArrayHelper;
 
 /**
- * @var HtmlView     $this  View object
- * @var CaptiveModel $model The model
+ * @var \Joomla\Component\Users\Site\View\Captive\HtmlView  $this  View object
+ * @var \Joomla\Component\Users\Site\Model\CaptiveModel     $model The model
  */
 $model = $this->getModel();
 
@@ -58,9 +56,9 @@ $this->getDocument()->getWebAssetManager()
         </div>
     <?php endif; ?>
 
-    <form action="<?php echo Route::_('index.php?option=com_users&task=captive.validate&record_id=' . ((int) $this->record->id)) ?>"
-            id="users-mfa-captive-form"
+    <form action="<?php echo Route::_('index.php?task=captive.validate&record_id=' . ((int) $this->record->id)) ?>"
             method="post"
+            id="users-mfa-captive-form"
             class="form-horizontal"
     >
         <?php echo HTMLHelper::_('form.token') ?>

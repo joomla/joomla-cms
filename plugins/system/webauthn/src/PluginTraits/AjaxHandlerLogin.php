@@ -144,7 +144,7 @@ trait AjaxHandlerLogin
     private function loginUser(int $userId): void
     {
         // Trick the class auto-loader into loading the necessary classes
-        class_exists('Joomla\\CMS\\Authentication\\Authentication', true);
+        class_exists(Authentication::class, true);
 
         // Fake a successful login message
         $isAdmin = $this->getApplication()->isClient('administrator');
@@ -166,6 +166,7 @@ trait AjaxHandlerLogin
         $response->status        = $statusSuccess;
         $response->username      = $user->username;
         $response->fullname      = $user->name;
+        $response->email         = $user->email;
         $response->error_message = '';
         $response->language      = $user->getParam('language');
         $response->type          = 'Passwordless';
@@ -260,7 +261,7 @@ trait AjaxHandlerLogin
     private function getAuthenticationResponseObject(): AuthenticationResponse
     {
         // Force the class auto-loader to load the JAuthentication class
-        class_exists('Joomla\\CMS\\Authentication\\Authentication', true);
+        class_exists(Authentication::class, true);
 
         return new AuthenticationResponse();
     }

@@ -1,0 +1,52 @@
+name: Bug Report
+description: Create an issue to help us improve.
+labels: ["bug"]
+type: bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Tell us the steps to reproduce the issue
+      placeholder: Tell us what you see!
+      value: "1."
+    validations:
+      required: true
+  - type: dropdown
+    id: version
+    attributes:
+      label: Version
+      description: What version of our software are you running?
+      options:
+        - 5.4
+        - 6.0
+        - 6.1
+        - 6.2
+      default: 0
+    validations:
+      required: true
+  - type: textarea
+    id: expected-result
+    attributes:
+      label: Expected result
+      description: Tell us detailed what behaviour you would expect
+  - type: textarea
+    id: actual-result
+    attributes:
+      label: Actual result
+      description: Tell us detailed the current behaviour
+  - type: textarea
+    id: system-information
+    attributes:
+      label: System Information
+      description: Please copy and paste all relevant system information. You can find them in your backend under "System => System Information"
+  - type: textarea
+    id: additional-comments
+    attributes:
+      label: Additional Comments
+      description: Additional comments which are important to find the issue
+

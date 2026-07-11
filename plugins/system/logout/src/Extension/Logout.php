@@ -14,7 +14,6 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Event\User\LogoutEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -29,15 +28,14 @@ use Joomla\Event\SubscriberInterface;
 final class Logout extends CMSPlugin implements SubscriberInterface
 {
     /**
-     * @param   DispatcherInterface      $dispatcher  The object to observe -- event dispatcher.
      * @param   array                    $config      An optional associative array of configuration settings.
      * @param   CMSApplicationInterface  $app         The object to observe -- event dispatcher.
      *
      * @since   1.6
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, CMSApplicationInterface $app)
+    public function __construct(array $config, CMSApplicationInterface $app)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->setApplication($app);
 
@@ -53,9 +51,11 @@ final class Logout extends CMSPlugin implements SubscriberInterface
             $this->getApplication()->getInput()->cookie->set(
                 $hash,
                 '',
-                1,
-                $this->getApplication()->get('cookie_path', '/'),
-                $this->getApplication()->get('cookie_domain', '')
+                [
+                    'expires' => 1,
+                    'path'    => $this->getApplication()->get('cookie_path', '/'),
+                    'domain'  => $this->getApplication()->get('cookie_domain', ''),
+                ]
             );
         }
     }
@@ -90,11 +90,13 @@ final class Logout extends CMSPlugin implements SubscriberInterface
             $this->getApplication()->getInput()->cookie->set(
                 ApplicationHelper::getHash('PlgSystemLogout'),
                 true,
-                time() + 86400,
-                $this->getApplication()->get('cookie_path', '/'),
-                $this->getApplication()->get('cookie_domain', ''),
-                $this->getApplication()->isHttpsForced(),
-                true
+                [
+                    'expires'  => time() + 86400,
+                    'path'     => $this->getApplication()->get('cookie_path', '/'),
+                    'domain'   => $this->getApplication()->get('cookie_domain', ''),
+                    'secure'   => $this->getApplication()->isHttpsForced(),
+                    'httponly' => true,
+                ]
             );
         }
     }

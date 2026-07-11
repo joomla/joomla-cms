@@ -10,26 +10,52 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Event\Content\AfterDisplayEvent;
+use Joomla\CMS\Event\Content\AfterTitleEvent;
+use Joomla\CMS\Event\Content\BeforeDisplayEvent;
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\Event\DispatcherInterface;
 
-$app = Factory::getApplication();
+$dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
 
 /** @var \Joomla\Component\Content\Site\View\Category\HtmlView $this */
 $this->category->text = $this->category->description;
-$app->triggerEvent('onContentPrepare', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
+
+$contentEventArguments = [
+    'context' => $this->category->extension . '.categories',
+    'subject' => $this->category,
+    'params'  => $this->params,
+    'page'    => 0,
+];
+
+$dispatcher->dispatch('onContentPrepare', new ContentPrepareEvent('onContentPrepare', $contentEventArguments));
+
 $this->category->description = $this->category->text;
 
-$results = $app->triggerEvent('onContentAfterTitle', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
+$results = $dispatcher->dispatch(
+    'onContentAfterTitle',
+    new AfterTitleEvent('onContentAfterTitle', $contentEventArguments)
+)->getArgument('result', []);
+
 $afterDisplayTitle = trim(implode("\n", $results));
 
-$results = $app->triggerEvent('onContentBeforeDisplay', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
+$results = $dispatcher->dispatch(
+    'onContentBeforeDisplay',
+    new BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments)
+)->getArgument('result', []);
+
 $beforeDisplayContent = trim(implode("\n", $results));
 
-$results = $app->triggerEvent('onContentAfterDisplay', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
+$results = $dispatcher->dispatch(
+    'onContentAfterDisplay',
+    new AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments)
+)->getArgument('result', []);
+
 $afterDisplayContent = trim(implode("\n", $results));
 
 $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';

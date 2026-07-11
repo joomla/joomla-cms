@@ -30,7 +30,7 @@ trait LegacyErrorHandlingTrait
      *
      * @var    array
      * @since  1.7.0
-     * @deprecated  3.1.4  JError has been deprecated
+     * @deprecated  3.7.0  JError has been deprecated
      */
     // phpcs:disable PSR2.Classes.PropertyDeclaration
     protected $_errors = [];
@@ -40,7 +40,7 @@ trait LegacyErrorHandlingTrait
      * Use exceptions rather than getError/setError.
      *
      * @var          boolean
-     * @since        __DEPLOY_VERSION__
+     * @since        5.4.0
      * @deprecated   7.0
      */
     private bool $useExceptions = false;
@@ -123,7 +123,7 @@ trait LegacyErrorHandlingTrait
      *
      * @return  boolean
      *
-     * @since        __DEPLOY_VERSION__
+     * @since        5.4.0
      * @deprecated   7.0
      */
     public function shouldUseExceptions(): bool
@@ -138,7 +138,7 @@ trait LegacyErrorHandlingTrait
      *
      * @return  void
      *
-     * @since        __DEPLOY_VERSION__
+     * @since        5.4.0
      * @deprecated   7.0
      */
     public function setUseExceptions(bool $value): void

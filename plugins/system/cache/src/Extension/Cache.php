@@ -26,7 +26,6 @@ use Joomla\CMS\Router\SiteRouter;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 
@@ -86,7 +85,6 @@ final class Cache extends CMSPlugin implements SubscriberInterface, DispatcherAw
     /**
      * Constructor
      *
-     * @param   DispatcherInterface              $dispatcher                 The object to observe
      * @param   array                            $config                     An optional associative
      *                                                                       array of configuration
      *                                                                       settings. Recognized key
@@ -104,14 +102,13 @@ final class Cache extends CMSPlugin implements SubscriberInterface, DispatcherAw
      * @since   4.2.0
      */
     public function __construct(
-        DispatcherInterface $dispatcher,
         array $config,
         DocumentFactoryInterface $documentFactory,
         CacheControllerFactoryInterface $cacheControllerFactory,
         ?Profiler $profiler,
         ?SiteRouter $router
     ) {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->documentFactory        = $documentFactory;
         $this->cacheControllerFactory = $cacheControllerFactory;

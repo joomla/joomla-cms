@@ -1,0 +1,58 @@
+// com_templates
+.com_templates {
+
+  .menu-assignment {
+    position: relative;
+
+    .menu-links {
+      padding-inline-start: 0;
+      margin-block-start: 15px;
+      margin-inline-start: 0;
+      column-count: 3;
+      column-gap: 15px;
+
+      @include media-breakpoint-down(lg) {
+        column-count: auto;
+      }
+
+      > li {
+        display: inline-block;
+        inline-size: 100%;
+        margin-block-end: 15px;
+        vertical-align: top;
+        list-style: none;
+        backface-visibility: hidden;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+    }
+
+    .menu-links-block {
+      padding: 15px;
+      border: 1px solid $border-color;
+      border-radius: $border-radius-sm;
+
+      @if $enable-dark-mode {
+        @include color-mode(dark) {
+          --heading-color: var(--body-color);
+        }
+      }
+    }
+
+    label {
+      display: block;
+      padding: 3px 0;
+      font-size: inherit;
+
+      input {
+        position: relative;
+        margin-inline-end: 5px;
+      }
+    }
+  }
+
+  .thumbnail > img {
+    max-inline-size: 100%;
+    max-block-size: 100%;
+  }
+}

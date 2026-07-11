@@ -372,6 +372,24 @@ Cypress.Commands.add('db_createFieldGroup', (fieldGroup) => {
 });
 
 /**
+   * Creates a field value in the database with the given data.
+   * This links a custom field to a specific item (e.g., a content article) and gives it a value.
+   *
+   * @param {Object} fieldValueData The field value data to insert
+   *
+   * @returns integer
+   */
+Cypress.Commands.add('db_createFieldValue', (fieldValueData) => {
+  const defaultFieldValueOptions = {
+    field_id: 0,
+    item_id: 0,
+    value: '',
+  };
+
+  return cy.task('queryDB', createInsertQuery('fields_values', { ...defaultFieldValueOptions, ...fieldValueData })).then(async (info) => info.insertId);
+});
+
+/**
  * Creates a tag in the database with the given data. The tag contains some default values when
  * not all required fields are passed in the given data. The id of the inserted tag is returned.
  *
@@ -589,6 +607,40 @@ Cypress.Commands.add('db_createUserLevel', (levelData) => {
 });
 
 /**
+ * Creates a scheduler task in the database with the given data. The task contains some default values when
+ * not all required fields are passed in the given data. The data of the inserted task is returned.
+ *
+ * @param {Object} taskData The task data to insert
+ *
+ * @returns Object
+ */
+Cypress.Commands.add('db_createSchedulerTask', (taskData) => {
+  const defaultTaskOptions = {
+    title: 'test task',
+    type: '',
+    execution_rules: {},
+    cron_rules: {},
+    state: 1,
+    params: {},
+    note: '',
+    created: '2023-01-01 20:00:00',
+  };
+  const task = { ...defaultTaskOptions, ...taskData };
+  ['execution_rules', 'cron_rules', 'params'].forEach((key) => {
+    if (typeof task[key] === 'object') {
+      task[key] = JSON.stringify(task[key]);
+    }
+  });
+
+  return cy.task('queryDB', createInsertQuery('scheduler_tasks', task))
+    .then(async (info) => {
+      task.id = info.insertId;
+
+      return task;
+    });
+});
+
+/**
  * Sets the parameter for the given extension.
  *
  * @param {string} key The key
@@ -615,7 +667,7 @@ Cypress.Commands.add('db_enableExtension', (value, extension) => cy.task('queryD
  * @returns integer
  */
 Cypress.Commands.add('db_getUserId', () => {
-  cy.task('queryDB', `SELECT id FROM #__users WHERE username = '${Cypress.env('username')}'`)
+  cy.task('queryDB', `SELECT id FROM #__users WHERE username = '${Cypress.expose('username')}'`)
     .then((id) => {
       if (id.length === 0) {
         return 0;

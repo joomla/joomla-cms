@@ -96,7 +96,7 @@ class UpdateModel extends ListModel
         $db = $this->getDatabase();
 
         // Grab updates ignoring new installs
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('u.*')
             ->select($db->quoteName('e.manifest_cache'))
             ->from($db->quoteName('#__updates', 'u'))
@@ -244,7 +244,7 @@ class UpdateModel extends ListModel
     {
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('COUNT(*)')
             ->from($db->quoteName('#__update_sites'))
             ->where($db->quoteName('enabled') . ' = 0');
@@ -292,7 +292,7 @@ class UpdateModel extends ListModel
         }
 
         // Reset the last update check timestamp
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__update_sites'))
             ->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote(0));
         $db->setQuery($query);
@@ -333,7 +333,7 @@ class UpdateModel extends ListModel
 
             $app   = Factory::getApplication();
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select('type')
                 ->from('#__update_sites')
                 ->where($db->quoteName('update_site_id') . ' = :id')
@@ -502,8 +502,11 @@ class UpdateModel extends ListModel
 
         $this->setState('name', $installer->get('name'));
         $this->setState('result', $result);
-        $app->setUserState('com_installer.message', $installer->message);
-        $app->setUserState('com_installer.extension_message', $installer->get('extension_message'));
+
+        if ($app->isClient('administrator')) {
+            $app->setUserState('com_installer.message', $installer->message);
+            $app->setUserState('com_installer.extension_message', $installer->get('extension_message'));
+        }
 
         // Cleanup the install files
         if (!is_file($package['packagefile'])) {

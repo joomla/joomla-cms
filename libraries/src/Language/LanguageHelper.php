@@ -176,7 +176,7 @@ class LanguageHelper
                     $languages = $cache->get('languages');
                 } else {
                     $db    = Factory::getDbo();
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->select('*')
                         ->from($db->quoteName('#__languages'))
                         ->where($db->quoteName('published') . ' = 1')
@@ -238,7 +238,7 @@ class LanguageHelper
             } else {
                 $db ??= Factory::getContainer()->get(DatabaseInterface::class);
 
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select(
                         [
                             $db->quoteName('element'),
@@ -387,7 +387,7 @@ class LanguageHelper
             } else {
                 $db = Factory::getDbo();
 
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select('*')
                     ->from($db->quoteName('#__languages'));
 
@@ -454,7 +454,18 @@ class LanguageHelper
         $cacheFile = JPATH_CACHE . '/language/' . ltrim(str_replace([JPATH_ROOT, '/'], ['', '-'], $fileName), '-') . '.' . filemtime($fileName) . '.php';
 
         if (is_file($cacheFile)) {
-            return include $cacheFile;
+            $result = include $cacheFile;
+
+            if (\is_array($result)) {
+                return $result;
+            }
+
+            // When $result is not an array, the cache file is corrupted, we will delete it and have it regenerated
+            try {
+                File::delete($cacheFile);
+            } catch (FilesystemException $e) {
+                // We ignore the error, as the file is for caching only.
+            }
         }
 
         // This was required for https://github.com/joomla/joomla-cms/issues/17198 but not sure what server setup
@@ -499,10 +510,22 @@ class LanguageHelper
             $bytesWritten = file_put_contents($cacheFile, $data);
 
             if ($bytesWritten === false || $bytesWritten < \strlen($data)) {
+                if (is_file($cacheFile)) {
+                    File::delete($cacheFile);
+                }
+
                 throw new FilesystemException('Unable to write cache file');
             }
-        } catch (FilesystemException $e) {
-            // We ignore the error, as the file is for caching only.
+        } catch (FilesystemException) {
+            try {
+                Log::add(
+                    Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_WRITE_CACHE', str_replace(JPATH_ROOT, '', $cacheFile)),
+                    Log::WARNING,
+                    'language'
+                );
+            } catch (\RuntimeException) {
+                // Ignore logging errors
+            }
         }
 
         return $strings;

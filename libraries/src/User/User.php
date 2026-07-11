@@ -292,7 +292,7 @@ class User
      * @return  User  The User object.
      *
      * @since       1.7.0
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Load the user service from the dependency injection container or via $app->getIdentity()
      *              Example: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($id)
      */
@@ -430,7 +430,7 @@ class User
         // @todo: Modify the way permissions are stored in the db to allow for faster implementation and better scaling
         $db = Factory::getDbo();
 
-        $subQuery = $db->getQuery(true)
+        $subQuery = $db->createQuery()
             ->select($db->quoteName(['id', 'asset_id']))
             ->from($db->quoteName('#__categories'))
             ->where(
@@ -440,7 +440,7 @@ class User
                 ]
             );
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['c.id', 'a.name']))
             ->from('(' . $subQuery . ') AS ' . $db->quoteName('c'))
             ->join('INNER', $db->quoteName('#__assets', 'a'), $db->quoteName('c.asset_id') . ' = ' . $db->quoteName('a.id'))

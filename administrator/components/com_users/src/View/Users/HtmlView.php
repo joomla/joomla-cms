@@ -12,7 +12,6 @@ namespace Joomla\Component\Users\Administrator\View\Users;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -89,6 +88,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var UsersModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->items         = $model->getItems();
         $this->pagination    = $model->getPagination();
@@ -97,10 +97,10 @@ class HtmlView extends BaseHtmlView
         $this->activeFilters = $model->getActiveFilters();
         $this->canDo         = ContentHelper::getActions('com_users');
 
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task')
+            ->addControlField('boxchecked', '0');
 
         $this->addToolbar();
         parent::display($tpl);
@@ -159,6 +159,7 @@ class HtmlView extends BaseHtmlView
 
             if ($canDo->get('core.delete')) {
                 $childBar->delete('users.delete', 'JTOOLBAR_DELETE')
+                    ->icon('icon-exclamation-triangle')
                     ->message('JGLOBAL_CONFIRM_DELETE')
                     ->listCheck(true);
             }

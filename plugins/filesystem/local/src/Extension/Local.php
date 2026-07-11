@@ -13,7 +13,6 @@ namespace Joomla\Plugin\Filesystem\Local\Extension;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter;
 
@@ -51,7 +50,7 @@ final class Local extends CMSPlugin implements SubscriberInterface, ProviderInte
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -63,15 +62,14 @@ final class Local extends CMSPlugin implements SubscriberInterface, ProviderInte
     /**
      * Constructor.
      *
-     * @param   DispatcherInterface  $dispatcher     The dispatcher
      * @param   array                $config         An optional associative array of configuration settings
      * @param   string               $rootDirectory  The root directory to look for images
      *
      * @since   4.3.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, string $rootDirectory)
+    public function __construct(array $config, string $rootDirectory)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->rootDirectory = $rootDirectory;
     }

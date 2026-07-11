@@ -78,7 +78,7 @@ class BannersModel extends ListModel
     {
         if (!isset($this->cache['categoryorders'])) {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select(
                     [
                         'MAX(' . $db->quoteName('ordering') . ') AS ' . $db->quoteName('max'),
@@ -104,7 +104,7 @@ class BannersModel extends ListModel
     protected function getListQuery()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the required fields from the table.
         $query->select(

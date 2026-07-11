@@ -174,7 +174,7 @@ class Taxonomy
 
         // Check to see if the node is in the table.
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*')
             ->from($db->quoteName('#__finder_taxonomy'))
             ->where($db->quoteName('parent_id') . ' = ' . $db->quote($parentId))
@@ -277,7 +277,7 @@ class Taxonomy
         // Insert the map.
         $db = Factory::getDbo();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('link_id'))
             ->from($db->quoteName('#__finder_taxonomy_map'))
             ->where($db->quoteName('link_id') . ' = ' . (int) $linkId)
@@ -306,23 +306,29 @@ class Taxonomy
      */
     public static function getBranchTitles()
     {
-        $db = Factory::getDbo();
+        static $titles;
 
-        // Set user variables
-        $groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
+        if ($titles === null) {
+            $db = Factory::getDbo();
 
-        // Create a query to get the taxonomy branch titles.
-        $query = $db->getQuery(true)
-            ->select($db->quoteName('title'))
-            ->from($db->quoteName('#__finder_taxonomy'))
-            ->where($db->quoteName('parent_id') . ' = 1')
-            ->where($db->quoteName('state') . ' = 1')
-            ->where($db->quoteName('access') . ' IN (' . $groups . ')');
+            // Set user variables
+            $groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
 
-        // Get the branch titles.
-        $db->setQuery($query);
+            // Create a query to get the taxonomy branch titles.
+            $query = $db->createQuery()
+                ->select($db->quoteName('title'))
+                ->from($db->quoteName('#__finder_taxonomy'))
+                ->where($db->quoteName('parent_id') . ' = 1')
+                ->where($db->quoteName('state') . ' = 1')
+                ->where($db->quoteName('access') . ' IN (' . $groups . ')');
 
-        return $db->loadColumn();
+            // Get the branch titles.
+            $db->setQuery($query);
+
+            $titles = $db->loadColumn();
+        }
+
+        return $titles;
     }
 
     /**
@@ -344,7 +350,7 @@ class Taxonomy
         $groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
 
         // Create a query to get the node.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('t1.*')
             ->from($db->quoteName('#__finder_taxonomy') . ' AS t1')
             ->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.id = t1.parent_id')
@@ -376,7 +382,7 @@ class Taxonomy
     {
         // Delete the maps.
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__finder_taxonomy_map'))
             ->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
         $db->setQuery($query);
@@ -397,10 +403,10 @@ class Taxonomy
     {
         // Delete all orphaned maps
         $db     = Factory::getDbo();
-        $query2 = $db->getQuery(true)
+        $query2 = $db->createQuery()
             ->select($db->quoteName('link_id'))
             ->from($db->quoteName('#__finder_links'));
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__finder_taxonomy_map'))
             ->where($db->quoteName('link_id') . ' NOT IN (' . $query2 . ')');
         $db->setQuery($query);
@@ -424,8 +430,8 @@ class Taxonomy
         $affectedRows = 0;
         $db           = Factory::getDbo();
         $nodeTable    = new MapTable($db);
-        $query        = $db->getQuery(true);
-        $query2       = $db->getQuery(true);
+        $query        = $db->createQuery();
+        $query2       = $db->createQuery();
 
         $query->select($db->quoteName('t.id'))
             ->from($db->quoteName('#__finder_taxonomy', 't'))
@@ -467,7 +473,7 @@ class Taxonomy
     {
         if (!\count(self::$taxonomies)) {
             $db    = Factory::getDbo();
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             $query->select(['id','parent_id','lft','rgt','level','path','title','alias','state','access','language'])
                 ->from($db->quoteName('#__finder_taxonomy'))

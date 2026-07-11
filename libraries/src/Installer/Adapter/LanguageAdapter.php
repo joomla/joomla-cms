@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Installer\Adapter;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
@@ -107,7 +108,7 @@ class LanguageAdapter extends InstallerAdapter
 
         // Remove the schema version
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__schemas'))
             ->where($db->quoteName('extension_id') . ' = :extension_id')
             ->bind(':extension_id', $extensionId, ParameterType::INTEGER);
@@ -128,7 +129,7 @@ class LanguageAdapter extends InstallerAdapter
         }
 
         // Clean installed languages cache.
-        Factory::getCache()->clean('com_languages');
+        $this->cleanLanguagesCache();
 
         // Remove the extension table entry
         $this->extension->delete();
@@ -452,7 +453,7 @@ class LanguageAdapter extends InstallerAdapter
         }
 
         // Clean installed languages cache.
-        Factory::getCache()->clean('com_languages');
+        $this->cleanLanguagesCache();
 
         return $row->extension_id;
     }
@@ -479,7 +480,7 @@ class LanguageAdapter extends InstallerAdapter
 
         // Get the sef value of all current content languages.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('sef'))
             ->from($db->quoteName('#__languages'));
         $db->setQuery($query);
@@ -606,7 +607,7 @@ class LanguageAdapter extends InstallerAdapter
         $row->changelogurl   = (string) $this->getManifest()->changelogurl;
 
         // Clean installed languages cache.
-        Factory::getCache()->clean('com_languages');
+        $this->cleanLanguagesCache();
 
         if (!$row->check() || !$row->store()) {
             // Install failed, roll back changes
@@ -710,7 +711,7 @@ class LanguageAdapter extends InstallerAdapter
         }
 
         // Clean installed languages cache.
-        Factory::getCache()->clean('com_languages');
+        $this->cleanLanguagesCache();
 
         return $this->parent->extension->extension_id;
     }
@@ -765,7 +766,7 @@ class LanguageAdapter extends InstallerAdapter
 
         // Setting the language of users which have this language as the default language
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('id'),
@@ -785,7 +786,7 @@ class LanguageAdapter extends InstallerAdapter
         $count = 0;
 
         // Prepare the query.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__users'))
             ->set($db->quoteName('params') . ' = :registry')
             ->where($db->quoteName('id') . ' = :userId')
@@ -848,7 +849,7 @@ class LanguageAdapter extends InstallerAdapter
             $contentLanguageNativeTitle = $siteLanguageManifest['nativeName'];
         }
 
-        // Try to load a language string from the installation language var. Will be removed in 4.0.
+        // Try to load a language string from the installation language var. Will be removed in 7.0.
         if ($contentLanguageNativeTitle === $contentLanguageTitle) {
             $manifestfile = JPATH_INSTALLATION . '/language/' . $tag . '/langmetadata.xml';
 
@@ -898,5 +899,19 @@ class LanguageAdapter extends InstallerAdapter
                 'jerror'
             );
         }
+    }
+
+    /**
+     * Cleans the languages cache
+     *
+     * @return  void
+     *
+     * @since   6.2.0
+     */
+    private function cleanLanguagesCache(): void
+    {
+        $this->getContainer()->get(CacheControllerFactoryInterface::class)
+            ->createCacheController('callback', ['defaultgroup' => ''])
+            ->clean('com_languages');
     }
 }

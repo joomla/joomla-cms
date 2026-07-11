@@ -1,37 +1,39 @@
 Joomla! CMS™
-====================
+============
 
-The Joomla! 6.0 branch is under heavy development and not all links in this document are available yet
-------------------------------------------------------------------------------------------------------
+## The Joomla! 6.2 branch is under heavy development and not all links in this document are available yet
 
-Build Status
+## Build Status
 
-| Drone-CI                                                                                                                                 | AppVeyor                                                                                                                                                           | PHP                                                                           | Node                                                                                 | npm                                                                             |
-|------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
-| [![Build Status](https://ci.joomla.org/api/badges/joomla/joomla-cms/status.svg?branch=6.0-dev)](https://ci.joomla.org/joomla/joomla-cms) | [![Build status](https://ci.appveyor.com/api/projects/status/ru6sxal8jmfckvjc/branch/6.0-dev?svg=true)](https://ci.appveyor.com/project/release-joomla/joomla-cms) | [![PHP](https://img.shields.io/badge/PHP-V8.1.0-green)](https://www.php.net/) | [![node-lts](https://img.shields.io/badge/Node-V20.0-green)](https://nodejs.org/en/) | [![npm](https://img.shields.io/badge/npm-v10.1.0-green)](https://nodejs.org/en/) |
+| Actions                                                                                                                                         | PHP                                                                           | Node                                                                                 | npm                                                                              |
+|-------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
+| [![Build Status](https://github.com/joomla/joomla-cms/actions/workflows/ci.yml/badge.svg?branch=6.2-dev)](https://github.com/joomla/joomla-cms) | [![PHP](https://img.shields.io/badge/PHP-V8.3.0-green)](https://www.php.net/) | [![node-lts](https://img.shields.io/badge/Node-V20.0-green)](https://nodejs.org/en/) | [![npm](https://img.shields.io/badge/npm-v10.1.0-green)](https://nodejs.org/en/) |
 
-Overview
----------------------
+## Overview
+
 * This is the source of Joomla! 6.x.
 * Joomla's [Official website](https://www.joomla.org).
-* Joomla! 6.0 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_6.0_version_history).
-* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/6.0-dev).
+* Joomla! 6.2 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_6.2_version_history).
+* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/6.2-dev).
+* Release Managers responsible for Joomla! 6.2
+  * Charvi Mehra @charvimehradu
+  * Martin Kopp @MacJoom
 
-What is Joomla?
----------------------
+## What is Joomla?
+
 * [Joomla!](https://www.joomla.org/about-joomla.html) is a **Content Management System** (CMS) which enables you to build websites and powerful online applications.
 * It is a simple and powerful web server application which requires a server with PHP and either MySQL, MariaDB or PostgreSQL to run. You can find [full technical requirements here](https://downloads.joomla.org/technical-requirements).
 * Joomla! is **free and Open Source software** distributed under the GNU General Public License version 2 or later.
 
-Looking for an installable package?
----------------------
+## Looking for an installable package?
+
 Joomla is not installable out of the box from this repository, please use:
 - For the latest stable package: https://downloads.joomla.org
 - For a nightly package: https://developer.joomla.org/nightly-builds.html
 
-How to get a working installation from the source
----------------------
-For detailed instructions please visit https://docs.joomla.org/Special:MyLanguage/J5.x:Setting_Up_Your_Local_Environment
+## How to get a working installation from the source
+
+For detailed instructions please visit https://guide.joomla.org/user-manual/hosting/local-environment-setup
 
 You will need:
 - PHP - basically the same as you need for running a Joomla Site, but you need the cli (command line interface) Version (see https://docs.joomla.org/Special:MyLanguage/Configuring_a_LAMPP_server_for_PHP_development)
@@ -48,9 +50,9 @@ git clone https://github.com/joomla/joomla-cms.git
 ```bash
 cd joomla-cms
 ```
-- Go to the 6.0-dev branch:
+- Go to the 6.2-dev branch:
 ```bash
-git checkout 6.0-dev
+git checkout 6.2-dev
 ```
 - Install all the needed composer packages:
 ```bash
@@ -66,8 +68,8 @@ Joomla creates a cache of the namespaces of its extensions in `JOOMLA_ROOT/admin
 extensions are created, deleted or removed in git then this file needs to be recreated. You can simply delete the file
 and it will be regenerated on the next call to Joomla.
 
-Do you want to improve Joomla?
---------------------
+## Do you want to improve Joomla?
+
 * Where to [request a feature](https://issues.joomla.org)?
 * How do you [report a bug](https://docs.joomla.org/Special:MyLanguage/Filing_bugs_and_issues) on the [Issue Tracker](https://issues.joomla.org)?
 * How to [submit code](https://manual.joomla.org/docs/get-started/git/) to the Joomla CMS using a Pull Request?
@@ -76,8 +78,21 @@ Do you want to improve Joomla?
 * Documentation for [Web designers](https://docs.joomla.org/Special:MyLanguage/Web_designers).
 * Provide a translation for Joomla: [Joomla Crowdin Project](https://joomla.crowdin.com/cms)
 
-Copyright
----------------------
+## Which branch should my Pull Request target?
+
+Using a simple classification keeps the project **stable**, **transparent**, and **easy** for everyone to contribute.
+
+| Type of change | What it means | Target branch                                                                                                                       |
+|---|---|-------------------------------------------------------------------------------------------------------------------------------------|
+| **Bug / Patch release** | The change fixes an actual error. The software crashes, produces the wrong result, or behaves contrary to its specification. It can be resolved without large‑scale refactoring or new functionality. | **[5.4-dev](https://github.com/joomla/joomla-cms/tree/5.4-dev)** (6.1-dev) **\*** |
+| **Feature / Minor release** | Anything that isn’t a strict bug – new behavior, refactoring, performance improvements, enhancements, UI tweaks, etc. These changes are bundled together for the next minor version. | **[6.2-dev](https://github.com/joomla/joomla-cms/tree/6.2-dev)**                                                                    |
+
+**\*** All bugs that already exist in version 5.4.x or 6.1.x should be fixed in `5.4-dev` or `6.1-dev`. Only bugs that are introduced for the first time in version 6.2.x should target the [`6.2-dev`](https://github.com/joomla/joomla-cms/tree/6.2-dev) branch.
+
+A member of the maintainer or bug squad team confirms the classification and sets the appropriate labels when a PR is opened. If a PR is opened in the wrong branch, a maintainer will simply ask you to retarget it to the proper branch.
+
+## Copyright
+
 * (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
 * Distributed under the GNU General Public License version 2 or later
 * See [License details](https://docs.joomla.org/Special:MyLanguage/Joomla_Licenses)

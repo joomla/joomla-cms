@@ -496,9 +496,6 @@ JLoader::registerAlias('JClassLoader', '\\Joomla\\CMS\\Autoload\\ClassLoader', '
 
 JLoader::registerAlias('JFormFilterInt_Array', '\\Joomla\\CMS\\Form\\Filter\\IntarrayFilter', '6.0');
 
-JLoader::registerAlias('JAdapter', '\\Joomla\\CMS\\Adapter\\Adapter', '6.0');
-JLoader::registerAlias('JAdapterInstance', '\\Joomla\\CMS\\Adapter\\AdapterInstance', '6.0');
-
 JLoader::registerAlias('JHtmlAccess', '\\Joomla\\CMS\\HTML\\Helpers\\Access', '6.0');
 JLoader::registerAlias('JHtmlActionsDropdown', '\\Joomla\\CMS\\HTML\\Helpers\\ActionsDropdown', '6.0');
 JLoader::registerAlias('JHtmlAdminLanguage', '\\Joomla\\CMS\\HTML\\Helpers\\AdminLanguage', '6.0');

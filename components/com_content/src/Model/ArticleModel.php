@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Content\Site\Model;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -95,7 +96,7 @@ class ArticleModel extends ItemModel
         if (!isset($this->_item[$pk])) {
             try {
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
 
                 $query->select(
                     $this->getState(
@@ -227,7 +228,26 @@ class ArticleModel extends ItemModel
                 $registry = new Registry($data->attribs);
 
                 $data->params = clone $this->getState('params');
-                $data->params->merge($registry);
+                $globalParams = ComponentHelper::getParams('com_content', true);
+
+                $menuParamsArray = $this->getState('params')->toArray();
+                $articleArray    = [];
+
+                foreach ($menuParamsArray as $key => $value) {
+                    if ($value === 'use_article') {
+                        if ($registry->get($key) != '') {
+                            // Article has an explicit value, use it
+                            $articleArray[$key] = $registry->get($key);
+                        } else {
+                            // Article is "Use Global", fall back to global component param
+                            $articleArray[$key] = $globalParams->get($key);
+                        }
+                    }
+                }
+
+                if (\count($articleArray)) {
+                    $data->params->merge(new Registry($articleArray));
+                }
 
                 $data->metadata = new Registry($data->metadata);
 
@@ -319,7 +339,7 @@ class ArticleModel extends ItemModel
 
             // Initialize variables.
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             // Create the base select statement.
             $query->select('*')
@@ -341,7 +361,7 @@ class ArticleModel extends ItemModel
 
             // There are no ratings yet, so lets insert our rating
             if (!$rating) {
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
 
                 // Create the base insert statement.
                 $query->insert($db->quoteName('#__content_rating'))
@@ -370,7 +390,7 @@ class ArticleModel extends ItemModel
                 }
             } else {
                 if ($userIP != $rating->lastip) {
-                    $query = $db->getQuery(true);
+                    $query = $db->createQuery();
 
                     // Create the base update statement.
                     $query->update($db->quoteName('#__content_rating'))
@@ -423,6 +443,7 @@ class ArticleModel extends ItemModel
     protected function cleanCache($group = null)
     {
         parent::cleanCache('com_content');
+        parent::cleanCache('mod_articles');
         parent::cleanCache('mod_articles_archive');
         parent::cleanCache('mod_articles_categories');
         parent::cleanCache('mod_articles_category');

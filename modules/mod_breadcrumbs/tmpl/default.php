@@ -121,7 +121,7 @@ use Joomla\CMS\WebAsset\WebAssetManager;
         $wa->addInline(
             'script',
             json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | $prettyPrint),
-            ['name' => 'inline.mod_breadcrumbs-schemaorg'],
+            ['name' => 'inline.breadcrumbs-schemaorg'],
             ['type' => 'application/ld+json']
         );
     }

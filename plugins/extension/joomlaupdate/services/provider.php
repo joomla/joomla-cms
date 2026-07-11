@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Extension\Joomlaupdate\Extension\Joomlaupdate;
 
 return new class () implements ServiceProviderInterface {
@@ -32,16 +31,15 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Joomlaupdate::class, function (Container $container) {
                 $plugin = new Joomlaupdate(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('extension', 'joomlaupdate')
                 );
 
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };

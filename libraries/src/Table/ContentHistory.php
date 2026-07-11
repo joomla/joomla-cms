@@ -169,7 +169,7 @@ class ContentHistory extends Table implements CurrentUserInterface
         $db       = $this->getDatabase();
         $itemId   = $this->item_id;
         $sha1Hash = $this->sha1_hash;
-        $query    = $db->getQuery(true);
+        $query    = $db->createQuery();
         $query->select('*')
             ->from($db->quoteName('#__history'))
             ->where($db->quoteName('item_id') . ' = :item_id')
@@ -199,7 +199,7 @@ class ContentHistory extends Table implements CurrentUserInterface
         // Get the list of version_id values we want to save
         $db        = $this->getDatabase();
         $itemId    = $this->item_id;
-        $query     = $db->getQuery(true);
+        $query     = $db->createQuery();
         $query->select($db->quoteName('version_id'))
             ->from($db->quoteName('#__history'))
             ->where($db->quoteName('item_id') . ' = :item_id')
@@ -214,7 +214,7 @@ class ContentHistory extends Table implements CurrentUserInterface
         // Don't process delete query unless we have at least the maximum allowed versions
         if (\count($idsToSave) === (int) $maxVersions) {
             // Delete any rows not in our list and and not flagged to keep forever.
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
             $query->delete($db->quoteName('#__history'))
                 ->where($db->quoteName('item_id') . ' = :item_id')
                 ->whereNotIn($db->quoteName('version_id'), $idsToSave)

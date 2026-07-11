@@ -57,7 +57,6 @@ class IndexerController extends BaseController
         $dispatcher = $this->getDispatcher();
 
         if ($params->get('enable_logging', '0')) {
-            $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
             $options['text_file'] = 'indexer.php';
             Log::addLogger($options);
         }
@@ -129,7 +128,6 @@ class IndexerController extends BaseController
         $dispatcher = $this->getDispatcher();
 
         if ($params->get('enable_logging', '0')) {
-            $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
             $options['text_file'] = 'indexer.php';
             Log::addLogger($options);
         }
@@ -284,7 +282,6 @@ class IndexerController extends BaseController
         $params = ComponentHelper::getParams('com_finder');
 
         if ($params->get('enable_logging', '0')) {
-            $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
             $options['text_file'] = 'indexer.php';
             Log::addLogger($options);
         }
@@ -354,9 +351,14 @@ class IndexerController extends BaseController
         try {
             // Import the finder plugins.
             class_alias(DebugAdapter::class, Adapter::class);
-            $plugin = $this->app->bootPlugin($this->app->getInput()->get('plugin'), 'finder');
+            $plugin             = $this->app->bootPlugin($this->app->getInput()->get('plugin'), 'finder');
+            DebugIndexer::$item = null;
             $plugin->setIndexer(new DebugIndexer());
             $plugin->debug($this->app->getInput()->get('id'));
+
+            if (DebugIndexer::$item === null) {
+                throw new \UnexpectedValueException(Text::_('COM_FINDER_INDEXER_ERROR_NO_ITEM'));
+            }
 
             $output = '';
 
