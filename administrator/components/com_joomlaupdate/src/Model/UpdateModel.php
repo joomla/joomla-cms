@@ -1258,9 +1258,10 @@ ENDDATA;
         $tmp_dest = tempnam(Factory::getApplication()->get('tmp_path'), 'ju');
         $tmp_src  = $userfile['tmp_name'];
 
-        // Move uploaded file.
+        // Move uploaded file. Allow "unsafe" files: the Joomla update package legitimately contains
+        // PHP, which the File::upload() safety scan (default since joomla/filesystem 4.2.0) would reject.
         try {
-            File::upload($tmp_src, $tmp_dest);
+            File::upload($tmp_src, $tmp_dest, false, true);
         } catch (FilesystemException $exception) {
             throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500, $exception);
         }
@@ -1296,11 +1297,7 @@ ENDDATA;
         $authenticate = Authentication::getInstance();
         $response     = $authenticate->authenticate($credentials);
 
-        if ($response->status !== Authentication::STATUS_SUCCESS) {
-            return false;
-        }
-
-        return true;
+        return $response->status === Authentication::STATUS_SUCCESS;
     }
 
     /**
@@ -1314,11 +1311,7 @@ ENDDATA;
     {
         $file = Factory::getApplication()->getUserState('com_joomlaupdate.temp_file', null);
 
-        if (empty($file) || !is_file($file)) {
-            return false;
-        }
-
-        return true;
+        return !empty($file) && is_file($file);
     }
 
     /**
@@ -1686,13 +1679,8 @@ ENDDATA;
             return false;
         }
 
-        // Check if database schema version does not match CMS version
-        if ($model->getSchemaVersion($coreExtensionInfo->extension_id) != $changeInformation['schema']) {
-            return false;
-        }
-
-        // No database problems found
-        return true;
+        // Check if database schema version match CMS version
+        return $model->getSchemaVersion($coreExtensionInfo->extension_id) === $changeInformation['schema'];
     }
 
     /**

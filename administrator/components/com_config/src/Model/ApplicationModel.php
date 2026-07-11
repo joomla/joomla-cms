@@ -18,6 +18,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Application\AfterSaveConfigurationEvent;
 use Joomla\CMS\Event\Application\BeforeSaveConfigurationEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
@@ -29,7 +30,7 @@ use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseFactory;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
@@ -322,7 +323,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         try {
-            $revisedDbo = DatabaseDriver::getInstance($options);
+            $revisedDbo = (new DatabaseFactory())->getDriver($options['driver'], $options);
             $revisedDbo->getVersion();
         } catch (\Exception $e) {
             $app->enqueueMessage(Text::sprintf('COM_CONFIG_ERROR_DATABASE_NOT_AVAILABLE', $e->getCode(), $e->getMessage()), 'error');
@@ -622,7 +623,9 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         // Clean the cache if disabled but previously enabled or changing cache handlers; these operations use the `$prev` data already in memory
         if ((!$data['caching'] && $prev['caching']) || $data['cache_handler'] !== $prev['cache_handler']) {
             try {
-                Factory::getCache()->clean();
+                $this->getCacheControllerFactory()
+                    ->createCacheController('callback', ['defaultgroup' => ''])
+                    ->clean();
             } catch (CacheConnectingException) {
                 try {
                     Log::add(Text::_('COM_CONFIG_ERROR_CACHE_CONNECTION_FAILED'), Log::WARNING, 'jerror');
@@ -1210,7 +1213,13 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $mail = $this->getMailerFactory()->createMailer($config);
 
         // Prepare email and try to send it
-        $mailer = new MailTemplate('com_config.test_mail', $user->getParam('language', $app->get('language')), $mail);
+        $mailer = new MailTemplate(
+            'com_config.test_mail',
+            $user->getParam('language', $app->get('language')),
+            $mail,
+            Factory::getContainer()->get(LanguageFactoryInterface::class),
+            $this->getDatabase()
+        );
         $mailer->addTemplateData(
             [
                 // Replace the occurrences of "@" and "|" in the site name
@@ -1219,7 +1228,6 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             ]
         );
         $mailer->addRecipient($user->email, $user->name);
-
 
         try {
             $mailSent = $mailer->send();

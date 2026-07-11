@@ -8,11 +8,10 @@ import path, { sep } from 'node:path';
 import chokidar from 'chokidar';
 import { handleCSSFile } from '../stylesheets/css-handler.mjs';
 import { handleSCSSFile } from '../stylesheets/scss-handler.mjs';
-import { handleMJSFile, handleJSFile } from "../javascript/js-handle.mjs";
+import { handleMJSFile, handleJSFile } from '../javascript/js-handle.mjs';
 import { compressFileAndSave } from '../utils/compressFile.mjs';
 
-export default class DefaultModuleBuilder{
-
+export default class DefaultModuleBuilder {
   /**
    * List of tasks to be executed by default for the build process.
    * Basically list all of the class methods that are allowed to be called from CLI.
@@ -38,7 +37,7 @@ export default class DefaultModuleBuilder{
    */
   constructor(name = '', basePath = '', targetPath = '', options = {}) {
     if (!name) {
-      throw new Error(`Argument "name" is required for ModuleBuilder.`);
+      throw new Error('Argument "name" is required for ModuleBuilder.');
     }
 
     if (!basePath || !targetPath) {
@@ -52,7 +51,7 @@ export default class DefaultModuleBuilder{
   }
 
   getAllTasks() {
-    return [ ...this.tasksBuild, ...this.tasksExtras ];
+    return [...this.tasksBuild, ...this.tasksExtras];
   }
 
   getBuildTasks() {
@@ -82,13 +81,13 @@ export default class DefaultModuleBuilder{
   async copy() {
     const ignoreName = {
       'builder.mjs': true,
-      'src': true,
+      src: true,
       '.buildignore': true,
     };
     const ignoreExt = {
       '.js': true,
       '.css': true,
-    }
+    };
 
     const filterFunc = (src, dest) => {
       if (dest === this.targetPath) {
@@ -104,7 +103,7 @@ export default class DefaultModuleBuilder{
       }
 
       // Skip files with extensions
-      if (fileStat.isFile() && ignoreExt[path.extname(baseName)]){
+      if (fileStat.isFile() && ignoreExt[path.extname(baseName)]) {
         return false;
       }
 
@@ -142,18 +141,18 @@ export default class DefaultModuleBuilder{
           // Ignore paths from src/ those requiring custom builder
           if (relativePath.includes(`${sep}src${sep}`)) return;
 
-          if (ext === '.css' && !baseName.endsWith('.min.css')){
+          if (ext === '.css' && !baseName.endsWith('.min.css')) {
             // Handle the CSS file
             cssFiles.push(handleCSSFile(
               fullSrcPath,
-              path.join(this.targetPath, relativePath))
+              path.join(this.targetPath, relativePath)),
             );
           } else if (ext === '.scss' && baseName[0] !== '_') {
             // Handle the SCSS file
             scssFiles.push(handleSCSSFile(
               fullSrcPath,
               path.join(this.targetPath, relativePath.replace(`${sep}scss${sep}`, `${sep}css${sep}`).replace('.scss', '.css')),
-              this.options.sassSilent
+              this.options.sassSilent,
             ));
           }
         });
@@ -201,12 +200,12 @@ export default class DefaultModuleBuilder{
           if ((ext === '.mjs' || baseName.endsWith('.es6.js') || baseName.endsWith('.w-c.es6.js')) && !baseName.startsWith('_')) {
             mjsFiles.push(handleMJSFile(
               fullSrcPath,
-              path.join(this.targetPath, relativePath.replace(/\.w-c\.es6\.js$/, '.js').replace(/\.es6\.js$/, '.js'))
+              path.join(this.targetPath, relativePath.replace(/\.w-c\.es6\.js$/, '.js').replace(/\.es6\.js$/, '.js')),
             ));
           } else {
             jsFiles.push(handleJSFile(
               fullSrcPath,
-              path.join(this.targetPath, relativePath.replace(/\.es5\.js$/, '.js'))
+              path.join(this.targetPath, relativePath.replace(/\.es5\.js$/, '.js')),
             ));
           }
         });
@@ -259,7 +258,7 @@ export default class DefaultModuleBuilder{
         const task = buildTasks.shift();
 
         return this[task]().then(() => nextTask());
-      }
+      };
       return nextTask();
     };
     // Wait for initial rebuild
