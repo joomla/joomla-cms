@@ -950,7 +950,6 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
             return UserHelper::getUserGroups($userId);
         }
 
-        $result    = [];
         $form      = $this->getForm();
         $groupsIDs = null;
 
@@ -967,16 +966,16 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
         $groupId = !empty($filters['group_id']) ? (int) $filters['group_id'] : 0;
 
         if ($groupId) {
-            $result[] = $groupId;
-        } else {
-            $params = ComponentHelper::getParams('com_users');
-
-            if ($groupId = $params->get('new_usertype', $params->get('guest_usergroup', 1))) {
-                $result[] = (int) $groupId;
-            }
+            return [$groupId];
         }
 
-        return $result;
+        $params = ComponentHelper::getParams('com_users');
+
+        if ($groupId = $params->get('new_usertype', $params->get('guest_usergroup', 1))) {
+            return [(int) $groupId];
+        }
+
+        return [];
     }
 
     /**
