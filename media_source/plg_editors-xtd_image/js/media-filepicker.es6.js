@@ -9,6 +9,11 @@ if (!window.Joomla) {
   throw new Error('Joomla API is not properly initiated');
 }
 
+const { apiBaseUrl } = Joomla.getOptions('media-picker-api', {});
+if (!apiBaseUrl) {
+  throw new Error('The "media-picker-api" script option is required');
+}
+
 /**
  * Resolve the real, root-relative URL for the currently selected media file.
  *
@@ -17,8 +22,7 @@ if (!window.Joomla) {
  * @returns {Promise<{url: string, width: number, height: number}|null>}
  */
 const resolveUrl = (item) => {
-  const apiUrl = Joomla.getOptions('media-picker-api', {}).apiBaseUrl || 'index.php?option=com_media&format=json';
-  const url = new URL(apiUrl, window.location.origin);
+  const url = new URL(apiBaseUrl, window.location.origin);
   url.searchParams.append('task', 'api.files');
   url.searchParams.append('url', true);
   url.searchParams.append('path', item.path);
