@@ -116,4 +116,27 @@ class OutputFilter extends BaseOutputFilter
 
         return preg_replace('#' . $rx . '#', '&amp;', $m[0]);
     }
+
+    /**
+     * Escapes a value that will be written to a CSV file so a leading formula character is not
+     * evaluated when the file is opened in a spreadsheet application (CSV formula injection).
+     *
+     * @param   mixed  $value  The CSV field value
+     *
+     * @return  mixed  The value with a leading space prepended when it starts with a formula character
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function escapeCsvFormula($value)
+    {
+        if ($value === '') {
+            return $value;
+        }
+
+        if (\in_array($value[0], ['=', '+', '-', '@'], true)) {
+            return ' ' . $value;
+        }
+
+        return $value;
+    }
 }

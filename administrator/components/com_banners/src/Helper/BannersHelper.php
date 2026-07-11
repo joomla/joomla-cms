@@ -30,37 +30,6 @@ use Joomla\Database\ParameterType;
 class BannersHelper extends ContentHelper
 {
     /**
-     * Array of characters starting a formula
-     *
-     * @var    array
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    private static $characters = ['=', '+', '-', '@'];
-
-    /**
-     * Escapes potential characters that start a formula in a CSV value to prevent injection attacks
-     *
-     * @param   mixed  $value  csv field value
-     *
-     * @return  mixed
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public static function escapeCsvFormula($value)
-    {
-        if ($value === '') {
-            return $value;
-        }
-
-        if (\in_array($value[0], self::$characters, true)) {
-            return ' ' . $value;
-        }
-
-        return $value;
-    }
-
-    /**
      * Update / reset the banners
      *
      * @return  boolean

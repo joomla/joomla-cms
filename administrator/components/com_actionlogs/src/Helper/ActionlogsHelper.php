@@ -12,6 +12,7 @@ namespace Joomla\Component\Actionlogs\Administrator\Helper;
 
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
@@ -29,15 +30,6 @@ use Joomla\String\StringHelper;
  */
 class ActionlogsHelper
 {
-    /**
-     * Array of characters starting a formula
-     *
-     * @var    array
-     *
-     * @since  3.9.7
-     */
-    private static $characters = ['=', '+', '-', '@'];
-
     /**
      * Method to convert logs objects array to an iterable type for use with a CSV export
      *
@@ -73,11 +65,11 @@ class ActionlogsHelper
 
             yield [
                 'id'         => $log->id,
-                'message'    => self::escapeCsvFormula(strip_tags(static::getHumanReadableLogMessage($log, false))),
-                'extension'  => self::escapeCsvFormula(Text::_($extension)),
+                'message'    => OutputFilter::escapeCsvFormula(strip_tags(static::getHumanReadableLogMessage($log, false))),
+                'extension'  => OutputFilter::escapeCsvFormula(Text::_($extension)),
                 'date'       => (new Date($log->log_date, new \DateTimeZone('UTC')))->format('Y-m-d H:i:s T'),
-                'name'       => self::escapeCsvFormula($log->name),
-                'ip_address' => self::escapeCsvFormula($log->ip_address === 'COM_ACTIONLOGS_DISABLED' ? $disabledText : $log->ip_address),
+                'name'       => OutputFilter::escapeCsvFormula($log->name),
+                'ip_address' => OutputFilter::escapeCsvFormula($log->ip_address === 'COM_ACTIONLOGS_DISABLED' ? $disabledText : $log->ip_address),
             ];
         }
     }
@@ -344,27 +336,5 @@ class ActionlogsHelper
 
         // Load com_privacy too.
         $lang->load('com_privacy', JPATH_ADMINISTRATOR);
-    }
-
-    /**
-     * Escapes potential characters that start a formula in a CSV value to prevent injection attacks
-     *
-     * @param   mixed  $value  csv field value
-     *
-     * @return  mixed
-     *
-     * @since   3.9.7
-     */
-    protected static function escapeCsvFormula($value)
-    {
-        if ($value == '') {
-            return $value;
-        }
-
-        if (\in_array($value[0], self::$characters, true)) {
-            $value = ' ' . $value;
-        }
-
-        return $value;
     }
 }
