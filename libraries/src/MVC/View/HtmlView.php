@@ -369,6 +369,9 @@ class HtmlView extends AbstractView implements CurrentUserInterface
         $file = preg_replace('/[^A-Z0-9_\.-]/i', '', $file);
         $tpl  = isset($tpl) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl) : $tpl;
 
+        // Clean the template name
+        $layoutTemplate  = isset($layoutTemplate) ? preg_replace('/[^A-Z0-9_-]/i', '', $layoutTemplate) : $layoutTemplate;
+
         try {
             // Load the language file for the template
             $lang = $this->getLanguage();

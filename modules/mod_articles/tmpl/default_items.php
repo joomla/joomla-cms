@@ -38,7 +38,7 @@ if ($params->get('articles_layout') == 1) {
                                     <?php $title = htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8', false); ?>
                                     <?php echo HTMLHelper::_('link', $link, $title, $attributes); ?>
                                 <?php else : ?>
-                                    <?php echo $item->title; ?>
+                                    <?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
                                 <?php endif; ?>
                             </<?php echo $item_heading; ?>>
                         <?php endif; ?>
@@ -57,7 +57,7 @@ if ($params->get('articles_layout') == 1) {
                                 <?php if ($item->displayAuthorName) : ?>
                                     <dd class="mod-articles-writtenby <?php echo ($params->get('info_layout') == 1 ? 'list-inline-item' : ''); ?>">
                                         <?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'icon-user icon-fw']); ?>
-                                        <?php echo $item->displayAuthorName; ?>
+                                        <?php echo htmlspecialchars($item->displayAuthorName, ENT_QUOTES, 'UTF-8'); ?>
                                     </dd>
                                 <?php endif; ?>
 
@@ -66,10 +66,10 @@ if ($params->get('articles_layout') == 1) {
                                         <?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'icon-folder-open icon-fw']); ?>
                                         <?php if ($item->displayCategoryLink) : ?>
                                             <a href="<?php echo $item->displayCategoryLink; ?>">
-                                                <?php echo $item->displayCategoryTitle; ?>
+                                                <?php echo htmlspecialchars($item->displayCategoryTitle, ENT_QUOTES, 'UTF-8'); ?>
                                             </a>
                                         <?php else : ?>
-                                            <?php echo $item->displayCategoryTitle; ?>
+                                            <?php echo htmlspecialchars($item->displayCategoryTitle, ENT_QUOTES, 'UTF-8'); ?>
                                         <?php endif; ?>
                                     </dd>
                                 <?php endif; ?>
@@ -77,7 +77,7 @@ if ($params->get('articles_layout') == 1) {
                                 <?php if ($item->displayDate) : ?>
                                     <dd class="mod-articles-date <?php echo ($params->get('info_layout') == 1 ? 'list-inline-item' : ''); ?>">
                                         <?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'icon-calendar icon-fw']); ?>
-                                        <?php echo $item->displayDate; ?>
+                                        <?php echo htmlspecialchars($item->displayDate, ENT_QUOTES, 'UTF-8'); ?>
                                     </dd>
                                 <?php endif; ?>
 
@@ -108,7 +108,7 @@ if ($params->get('articles_layout') == 1) {
 
                         <?php echo $item->event->afterDisplayContent; ?>
 
-                        <?php if ($params->get('show_readmore')) : ?>
+                        <?php if ($params->get('show_readmore') && !empty($item->fulltext)) : ?>
                             <?php if ($params->get('show_readmore_title', '') !== '') : ?>
                                 <?php $item->params->set('show_readmore_title', $params->get('show_readmore_title')); ?>
                                 <?php $item->params->set('readmore_limit', $params->get('readmore_limit')); ?>

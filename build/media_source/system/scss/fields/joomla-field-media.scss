@@ -21,10 +21,17 @@ joomla-field-media .field-media-preview-icon {
 
 joomla-field-media .field-media-input {
   border-top-left-radius: 0;
+  border-start-start-radius: 0;
+}
+
+joomla-field-media .input-group > .btn.btn-success.button-select {
+  border-top-right-radius: 0;
+  border-start-end-radius: 0;
 }
 
 joomla-field-media .button-clear {
   border-top-right-radius: 0;
+  border-start-end-radius: 0;
 }
 
 joomla-field-media img {

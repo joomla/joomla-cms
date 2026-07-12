@@ -86,7 +86,7 @@ class JsonapiView extends BaseApiView
         $fileinformation['id'] = 'prepareUpdate';
 
         $element = (new Resource((object) $fileinformation, $this->serializer))
-            ->fields(['updates' => ['password', 'filesize']]);
+            ->fields(['updates' => ['password', 'filesize', 'filename']]);
 
         $this->getDocument()->setData($element);
         $this->getDocument()->addLink('self', Uri::current());
