@@ -33,7 +33,7 @@ program
   .command('builders-list')
   .description('Show list of builders')
   .action(() => {
-    console.log(builders.join("\n"));
+    console.log(builders.join('\n'));
   });
 
 program
@@ -58,5 +58,4 @@ program
     watchCommand(program, options, builders);
   });
 
-program.parse(process.argv)
-
+program.parse(process.argv);
