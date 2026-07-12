@@ -177,6 +177,9 @@ class ExtensionHelper
         ['plugin', 'taggable', 'behaviour', 0],
         ['plugin', 'versionable', 'behaviour', 0],
 
+        // Core plugin extensions - captcha
+        ['plugin', 'powcaptcha', 'captcha', 0],
+
         // Core plugin extensions - content
         ['plugin', 'confirmconsent', 'content', 0],
         ['plugin', 'contact', 'content', 0],

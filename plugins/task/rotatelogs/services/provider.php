@@ -32,7 +32,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(RotateLogs::class, function (Container $container) {
                 $plugin = new RotateLogs(
                     (array) PluginHelper::getPlugin('task', 'rotatelogs')
                 );
@@ -40,7 +40,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setDatabase($container->get(DatabaseInterface::class));
 
                 return $plugin;
-            }
+            })
         );
     }
 };

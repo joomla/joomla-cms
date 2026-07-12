@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -35,6 +36,9 @@ if ($saveOrder && !empty($this->items)) {
     $saveOrderingUrl = 'index.php?option=com_modules&task=modules.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
     HTMLHelper::_('draggablelist.draggable');
 }
+
+$assoc   = Associations::isEnabled() && $clientId == 0;
+
 ?>
 <form action="<?php echo Route::_('index.php?option=com_modules&view=modules&client_id=' . $clientId); ?>" method="post" name="adminForm" id="adminForm">
     <div id="j-main-container" class="j-main-container">
@@ -74,8 +78,13 @@ if ($saveOrder && !empty($this->items)) {
                         <th scope="col" class="w-10 d-none d-md-table-cell">
                             <?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'ag.title', $listDirn, $listOrder); ?>
                         </th>
+                        <?php if ($assoc) : ?>
+                            <th scope="col" class="w-10 d-none d-md-table-cell">
+                                <?php echo HTMLHelper::_('searchtools.sort', 'COM_MODULES_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+                            </th>
+                        <?php endif; ?>
                         <?php if (($clientId === 0) && (Multilanguage::isEnabled())) : ?>
-                        <th scope="col" class="w-10 d-none d-md-table-cell">
+                            <th scope="col" class="w-10 d-none d-md-table-cell">
                             <?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.title', $listDirn, $listOrder); ?>
                         </th>
                         <?php elseif ($clientId === 1 && ModuleHelper::isAdminMultilang()) : ?>
@@ -170,6 +179,13 @@ if ($saveOrder && !empty($this->items)) {
                         <td class="small d-none d-md-table-cell">
                             <?php echo $this->escape($item->access_level); ?>
                         </td>
+                        <?php if ($assoc) : ?>
+                            <td class="small d-none d-md-table-cell">
+                                <?php if ($item->association) : ?>
+                                    <?php echo HTMLHelper::_('modules.association', $item->id); ?>
+                                <?php endif; ?>
+                            </td>
+                        <?php endif; ?>
                         <?php if (($clientId === 0) && (Multilanguage::isEnabled())) : ?>
                         <td class="small d-none d-md-table-cell">
                             <?php echo LayoutHelper::render('joomla.content.language', $item); ?>

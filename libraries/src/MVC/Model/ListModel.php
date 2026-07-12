@@ -214,6 +214,18 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
     }
 
     /**
+     * Validates a column name against the list of valid columns defined in the model
+     *
+     * @return bool
+     *
+     * @since   5.4.4
+     */
+    public function isValidFilterColumn($columnName): bool
+    {
+        return \in_array($columnName, $this->filter_fields, true);
+    }
+
+    /**
      * Method to get an array of data items.
      *
      * @return  mixed  An array of data items on success, false on failure.
@@ -379,7 +391,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
     {
         // Try to locate the filter form automatically. Example: ContentModelArticles => "filter_articles"
         if (empty($this->filterFormName)) {
-            $classNameParts = explode('Model', \get_called_class());
+            $classNameParts = explode('Model', static::class);
 
             if (\count($classNameParts) >= 2) {
                 $this->filterFormName = 'filter_' . str_replace('\\', '', strtolower($classNameParts[1]));

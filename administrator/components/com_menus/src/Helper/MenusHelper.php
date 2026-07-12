@@ -72,7 +72,7 @@ class MenusHelper extends ContentHelper
         if (\is_string($request)) {
             $args = [];
 
-            if (str_starts_with($request, 'index.php')) {
+            if (str_starts_with($request, 'index.php?')) {
                 parse_str(parse_url(htmlspecialchars_decode($request), PHP_URL_QUERY), $args);
             } else {
                 parse_str($request, $args);

@@ -33,7 +33,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(Cookie::class, function (Container $container) {
                 $plugin = new Cookie(
                     (array) PluginHelper::getPlugin('authentication', 'cookie')
                 );
@@ -42,7 +42,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setUserFactory($container->get(UserFactoryInterface::class));
 
                 return $plugin;
-            }
+            })
         );
     }
 };

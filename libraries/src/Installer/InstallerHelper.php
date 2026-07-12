@@ -22,6 +22,7 @@ use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 use Joomla\Http\HttpFactory;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -118,8 +119,12 @@ abstract class InstallerHelper
             $url = str_replace($match, Text::_(trim($match, '{}')), $url);
         }
 
+        $options = new Registry();
+        $options->set('userAgent', $version->getUserAgent('Joomla', true, false));
+
+        // Get the file
         try {
-            $response = (new HttpFactory())->getHttp()->get($url, $headers);
+            $response = (new HttpFactory())->getHttp($options)->get($url, $headers);
 
             // Convert keys of headers to lowercase, to accommodate for case variations
             $headers = array_change_key_case($response->getHeaders(), CASE_LOWER);
@@ -480,7 +485,7 @@ abstract class InstallerHelper
         foreach ($hashes as $hash) {
             if ($updateObject->get($hash, false)) {
                 $hashPackage = hash_file($hash, $packagefile);
-                $hashRemote  = $updateObject->$hash->_data;
+                $hashRemote  = trim($updateObject->$hash->_data);
                 $hashOnFile  = true;
 
                 if ($hashPackage !== strtolower($hashRemote)) {

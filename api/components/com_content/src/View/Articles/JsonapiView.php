@@ -10,7 +10,8 @@
 
 namespace Joomla\Component\Content\Api\View\Articles;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
+use Joomla\CMS\Event\Model\PrepareDataEvent;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
@@ -67,6 +68,7 @@ class JsonapiView extends BaseApiView
         'version',
         'featured_up',
         'featured_down',
+        'schemaorg',
     ];
 
     /**
@@ -104,6 +106,7 @@ class JsonapiView extends BaseApiView
         'version',
         'featured_up',
         'featured_down',
+        'schemaorg',
     ];
 
     /**
@@ -195,9 +198,18 @@ class JsonapiView extends BaseApiView
 
         $item->text = $item->introtext . ' ' . $item->fulltext;
 
+        $params = new Registry($item->params ?? '{}');
+
         // Process the content plugins.
-        PluginHelper::importPlugin('content');
-        Factory::getApplication()->triggerEvent('onContentPrepare', ['com_content.article', &$item, &$item->params]);
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
+        $dispatcher->dispatch(
+            'onContentPrepare',
+            new ContentPrepareEvent(
+                'onContentPrepare',
+                ['context' => 'com_content.article', 'subject' => $item, 'params' => $params, 'page' => 0]
+            )
+        );
 
         foreach (FieldsHelper::getFields('com_content.article', $item, true) as $field) {
             $item->{$field->name} = $field->apivalue ?? $field->rawvalue;
@@ -245,6 +257,37 @@ class JsonapiView extends BaseApiView
             }
         }
 
+        // Add schema.org data using existing plugin system
+        if (PluginHelper::isEnabled('system', 'schemaorg')) {
+            $item->schemaorg = $this->getSchemaOrg($item);
+        }
+
         return parent::prepareItem($item);
+    }
+
+    /**
+     * Get schema.org structured data for an article using the plugin system
+     *
+     * @param   object  $item  The article item
+     *
+     * @return  array|null
+     *
+     * @since   6.1.0
+     */
+    protected function getSchemaOrg($item)
+    {
+        $context = 'com_content.article';
+        $event   = new PrepareDataEvent('onContentPrepareData', ['context' => $context, 'data' => $item]);
+
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('system', 'schemaorg', true, $dispatcher);
+        $dispatcher->dispatch('onContentPrepareData', $event);
+
+        if (isset($item->schema) && !empty($item->schema['schemaType'])) {
+            $schemaType = $item->schema['schemaType'];
+            return $item->schema[$schemaType] ?? null;
+        }
+
+        return null;
     }
 }

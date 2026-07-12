@@ -40,7 +40,7 @@ class UpdatesiteModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|boolean  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @throws  \Exception
      *
@@ -48,14 +48,7 @@ class UpdatesiteModel extends AdminModel
      */
     public function getForm($data = [], $loadData = true)
     {
-        // Get the form.
-        $form = $this->loadForm('com_installer.updatesite', 'updatesite', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+        return $this->loadForm('com_installer.updatesite', 'updatesite', ['control' => 'jform', 'load_data' => $loadData]);
     }
     /**
      * Method to get the data that should be injected in the form.

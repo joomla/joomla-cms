@@ -17,15 +17,17 @@ use Joomla\CMS\Authentication\Password\ChainedHandler;
 use Joomla\CMS\Authentication\Password\CheckIfRehashNeededHandlerInterface;
 use Joomla\CMS\Authentication\Password\MD5Handler;
 use Joomla\CMS\Authentication\Password\PHPassHandler;
-use Joomla\CMS\Crypt\Crypt;
+use Joomla\CMS\Event\Model\PrepareDataEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\SessionManager;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Crypt\Crypt;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -196,7 +198,7 @@ abstract class UserHelper
         $temp         = User::getInstance($userId);
         $temp->groups = $user->groups;
 
-        if (Factory::getSession()->getId()) {
+        if (Factory::getApplication()->getSession()->getId()) {
             // Set the group data for the user object in the session.
             $temp = Factory::getUser();
 
@@ -305,7 +307,7 @@ abstract class UserHelper
         $temp         = Factory::getUser((int) $userId);
         $temp->groups = $user->groups;
 
-        if (Factory::getSession()->getId()) {
+        if (Factory::getApplication()->getSession()->getId()) {
             // Set the group data for the user object in the session.
             $temp = Factory::getUser();
 
@@ -340,7 +342,13 @@ abstract class UserHelper
         $data->id = $userId;
 
         // Trigger the data preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareData', ['com_users.profile', &$data]);
+        Factory::getContainer()->get(DispatcherInterface::class)->dispatch(
+            'onContentPrepareData',
+            new PrepareDataEvent('onContentPrepareData', [
+                'context' => 'com_users.profile',
+                'data'    => $data,
+            ])
+        );
 
         return $data;
     }
@@ -592,8 +600,10 @@ abstract class UserHelper
      */
     public static function destroyUserSessions($userId, $keepCurrent = false, $clientId = null)
     {
+        $app = Factory::getApplication();
+
         // Destroy all sessions for the user account if able
-        if (!Factory::getApplication()->get('session_metadata', true)) {
+        if (!$app->get('session_metadata', true)) {
             return false;
         }
 
@@ -629,7 +639,7 @@ abstract class UserHelper
 
         // If true, removes the current session id from the purge list
         if ($keepCurrent) {
-            $sessionIds = array_diff($sessionIds, [Factory::getSession()->getId()]);
+            $sessionIds = array_diff($sessionIds, [$app->getSession()->getId()]);
         }
 
         // If there aren't any active sessions then there's nothing to do here

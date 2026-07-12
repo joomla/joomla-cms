@@ -12,6 +12,7 @@ namespace Joomla\Component\Content\Administrator\Model;
 
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\Model\AfterSaveEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
@@ -183,7 +184,15 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
             }
         }
 
-        Factory::getApplication()->triggerEvent('onContentAfterSave', ['com_content.article', &$this->table, false, $fieldsData]);
+        $this->getDispatcher()->dispatch(
+            'onContentAfterSave',
+            new AfterSaveEvent('onContentAfterSave', [
+                'context' => 'com_content.article',
+                'subject' => $this->table,
+                'isNew'   => false,
+                'data'    => $fieldsData,
+            ])
+        );
     }
 
     /**
@@ -214,7 +223,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
             return false;
         }
 
-        PluginHelper::importPlugin('system');
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('system', null, true, $dispatcher);
 
         // Parent exists so we proceed
         foreach ($pks as $pk) {
@@ -273,7 +283,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
             }
 
             // Run event for moved article
-            Factory::getApplication()->triggerEvent('onContentAfterSave', ['com_content.article', &$this->table, false, $fieldsData]);
+            $dispatcher->dispatch('onContentAfterSave', new AfterSaveEvent('onContentAfterSave', [
+                'context' => 'com_content.article',
+                'subject' => $this->table,
+                'isNew'   => false,
+                'data'    => $fieldsData,
+            ]));
         }
 
         // Clean the cache
@@ -456,9 +471,10 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|boolean  A Form object on success, false on failure
+     * @return  Form  A Form object
      *
      * @since   1.6
+     * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -466,10 +482,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
 
         // Get the form.
         $form = $this->loadForm('com_content.article', 'article', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
 
         // Object uses for checking edit state permission of article
         $record = new \stdClass();
@@ -766,26 +778,26 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
         }
 
         // Automatic handling of alias for empty fields
-        if (\in_array($input->get('task'), ['apply', 'save', 'save2new']) && (!isset($data['id']) || (int) $data['id'] == 0)) {
+        if (\in_array($input->get('task'), ['add', 'apply', 'save', 'save2new']) && (!isset($data['id']) || (int) $data['id'] == 0)) {
             if ($data['alias'] == null) {
                 if ($app->get('unicodeslugs') == 1) {
                     $data['alias'] = OutputFilter::stringUrlUnicodeSlug($data['title']);
                 } else {
                     $data['alias'] = OutputFilter::stringURLSafe($data['title']);
                 }
+            }
 
-                $table = $this->getTable();
+            $table = $this->getTable();
 
-                if ($table->load(['alias' => $data['alias'], 'catid' => $data['catid']])) {
-                    $msg = Text::_('COM_CONTENT_SAVE_WARNING');
-                }
+            if ($table->load(['alias' => $data['alias'], 'catid' => $data['catid']])) {
+                $msg = Text::_('COM_CONTENT_SAVE_WARNING');
+            }
 
-                [$title, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
-                $data['alias']   = $alias;
+            [$title, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+            $data['alias']   = $alias;
 
-                if (isset($msg)) {
-                    $app->enqueueMessage($msg, 'warning');
-                }
+            if (isset($msg)) {
+                $app->enqueueMessage($msg, 'warning');
             }
         }
 

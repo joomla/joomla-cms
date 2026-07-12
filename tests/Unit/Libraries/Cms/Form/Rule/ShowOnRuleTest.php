@@ -76,7 +76,7 @@ class ShowOnRuleTest extends UnitTestCase
     /**
      * Tests the ShowOnRule::test method.
      *
-     * @param   boolean            $expected  The expected test result
+     * @param   bool               $expected  The expected test result
      * @param   \SimpleXMLElement  $element   The SimpleXMLElement object representing the `<field>` tag for the form field object.
      * @param   string             $value     The form field value to validate.
      *
