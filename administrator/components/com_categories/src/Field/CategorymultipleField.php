@@ -23,7 +23,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since __DEPLOY_VERSION__
  */
-class CategoryMultipleField extends CategoryeditField
+class CategorymultipleField extends CategoryeditField
 {
     /**
      * Field type.
