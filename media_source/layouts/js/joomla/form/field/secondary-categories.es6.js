@@ -3,17 +3,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 (function () {
-  "use strict";
+  'use strict';
 
-  customElements.whenDefined("joomla-field-fancy-select").then(() => {
-    const primaryEl = document.getElementById("jform_catid");
-    const secondaryEl = document.getElementById("jform_secondary_categories");
+  customElements.whenDefined('joomla-field-fancy-select').then(() => {
+    const primaryEl = document.getElementById('jform_catid');
+    const secondaryEl = document.getElementById('jform_secondary_categories');
 
     if (!primaryEl || !secondaryEl) {
       return;
     }
 
-    const secondaryWrapper = secondaryEl.closest("joomla-field-fancy-select");
+    const secondaryWrapper = secondaryEl.closest('joomla-field-fancy-select');
 
     if (!secondaryWrapper) {
       return;
@@ -28,7 +28,7 @@
     // Cache all available secondary category options before rebuilding the field.
     const allOptions = Object.freeze(
       Array.from(secondaryEl.options)
-        .filter((opt) => opt.value !== "")
+        .filter((opt) => opt.value !== '')
         .map((opt) => ({
           value: String(opt.value),
           label: opt.text,
@@ -38,14 +38,14 @@
     // Get initial selected secondaries.
     let selectedSecondaries = new Set(
       Array.from(secondaryEl.options)
-        .filter((opt) => opt.selected && opt.value !== "")
+        .filter((opt) => opt.selected && opt.value !== '')
         .map((opt) => String(opt.value)),
     );
 
     let isRebuilding = false;
 
     // Helper to get current primary value as string.
-    const getPrimaryValue = () => String(primaryEl.value || "");
+    const getPrimaryValue = () => String(primaryEl.value || '');
 
     const rebuildSecondary = () => {
       const primaryValue = getPrimaryValue();
@@ -66,7 +66,7 @@
             disabled: false,
           }));
 
-        secondaryChoices.setChoices(choices, "value", "label", true);
+        secondaryChoices.setChoices(choices, 'value', 'label', true);
         // Restore selected secondaries.
         selectedSecondaries.forEach((val) => {
           if (val !== primaryValue) {
@@ -78,7 +78,7 @@
       }
     };
 
-    primaryEl.addEventListener("change", () => {
+    primaryEl.addEventListener('change', () => {
       const primaryVal = getPrimaryValue();
 
       // If primary is in selected secondaries, remove it.
@@ -88,14 +88,14 @@
       rebuildSecondary();
     });
 
-    secondaryEl.addEventListener("change", () => {
+    secondaryEl.addEventListener('change', () => {
       if (isRebuilding) {
         return;
       }
 
       selectedSecondaries = new Set(
         Array.from(secondaryEl.options)
-          .filter((opt) => opt.selected && opt.value !== "")
+          .filter((opt) => opt.selected && opt.value !== '')
           .map((opt) => String(opt.value)),
       );
 

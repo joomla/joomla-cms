@@ -906,10 +906,17 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         $db    = $this->getDatabase();
         $query = $db->createQuery();
 
+        $supportedTables = [
+                '#__content'         => 'com_content.article',
+                '#__contact_details' => 'com_contact.contact',
+        ];
+
         // @todo Remove the condition with the else when all items fully support secondary categories and make the context Generic.
-        if ($table === '#__content') {
+        if (\array_key_exists($table, $supportedTables)) {
+            $context = $supportedTables[$table];
+
             // Reuse the centralized helper to check primary AND secondary mappings
-            $helper    = new SecondaryCategoriesHelper('com_content.article');
+            $helper    = new SecondaryCategoriesHelper($context);
             $condition = $helper->buildCategoryMembershipCondition([(int) $catid], false, true, 1, 'a');
 
             $query->select('COUNT(DISTINCT ' . $db->quoteName('a.id') . ')')
@@ -1021,11 +1028,17 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
             if (!$childCategoryIds) {
                 return 0;
             }
+            $supportedTables = [
+                    '#__content'         => 'com_content.article',
+                    '#__contact_details' => 'com_contact.contact',
+            ];
 
             // @todo Remove the condition with the else when all items fully support secondary categories and make the context Generic.
-            if ($table === '#__content') {
+            if (\array_key_exists($table, $supportedTables)) {
+                $context = $supportedTables[$table];
+
                 // Reuse the centralized helper to check primary AND secondary mappings
-                $helper    = new SecondaryCategoriesHelper('com_content.article');
+                $helper    = new SecondaryCategoriesHelper($context);
                 $condition = $helper->buildCategoryMembershipCondition($childCategoryIds, false, true, 1, 'a');
 
                 $query = $db->createQuery()

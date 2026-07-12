@@ -65,6 +65,16 @@
 		/>
 
 		<field
+			name="secondary_categories"
+			type="categorymultiple"
+			primarycategoryfield="catid"
+			label="JSECONDARY_CATEGORIES"
+			multiple="true"
+			extension="com_contact"
+			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
+		/>
+
+		<field
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"

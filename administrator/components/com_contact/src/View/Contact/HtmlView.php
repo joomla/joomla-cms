@@ -71,6 +71,8 @@ class HtmlView extends FormView
     {
         parent::initializeView();
 
+        $this->getDocument()->getWebAssetManager()->registerAndUseScript('field.secondary-categories', 'layouts/joomla/form/field/secondary-categories.min.js', [], ['defer' => true], ['core', "webcomponent.field-fancy-select"]);
+
         $this->canDo = ContentHelper::getActions('com_contact', 'category', $this->item->catid);
 
         if ($this->getLayout() === 'modalreturn') {

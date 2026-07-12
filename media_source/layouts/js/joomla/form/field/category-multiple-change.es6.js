@@ -17,14 +17,13 @@
       const fancySelect = selectEl.closest('joomla-field-fancy-select');
 
       if (fancySelect) {
-
         // Remove the core single-select handler from the wrapper
         fancySelect.removeAttribute('onchange');
 
         // Add our custom handler to the native select element
-        selectEl.addEventListener('change', function() {
-          setTimeout(function() {
-            var selected = Array.from(selectEl.selectedOptions).map(function(o) { return o.value; }).sort().join(',');
+        selectEl.addEventListener('change', function () {
+          setTimeout(function () {
+            var selected = Array.from(selectEl.selectedOptions).map(function (o) { return o.value; }).sort().join(',');
             var stored = fancySelect.getAttribute('data-refresh-catid') || '';
 
             if (selected === stored) return;

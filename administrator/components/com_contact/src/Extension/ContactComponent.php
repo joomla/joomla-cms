@@ -22,6 +22,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsFormServiceInterface;
 use Joomla\CMS\Fields\FieldsServiceTrait;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Helper\ContentHelper as LibraryContentHelper;
+use Joomla\CMS\Helper\SecondaryCategoriesHelper;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Schemaorg\SchemaorgServiceInterface;
@@ -157,6 +159,58 @@ class ContactComponent extends MVCComponent implements
     protected function getStateColumnForSection(?string $section = null)
     {
         return 'published';
+    }
+
+    /**
+     * Adds Count Items for Category Manager.
+     *
+     * @param   \stdClass[]  $items    The category objects.
+     * @param   string       $section  The section.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function countItems(array $items, string $section)
+    {
+        $config = (object) [
+            'related_tbl'   => $this->getTableNameForSection($section),
+            'state_col'     => $this->getStateColumnForSection($section),
+            'group_col'     => 'catid',
+            'relation_type' => 'category_or_group',
+        ];
+
+        LibraryContentHelper::countRelations($items, $config);
+
+        $this->countSecondaryCategoryItems($items);
+    }
+
+    /**
+     * Populate secondary category item counters.
+     *
+     * @param   array  $items  The category items.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function countSecondaryCategoryItems(array $items): void
+    {
+        if (empty($items)) {
+            return;
+        }
+
+        $helper = new SecondaryCategoriesHelper('com_contact.contact');
+        $counts = $helper->getCategoryItemCounts(array_column($items, 'id'), '#__contact_details');
+
+        foreach ($items as $item) {
+            $itemCounts = $counts[$item->id] ?? [];
+
+            $item->count_secondary_published   = $itemCounts['count_secondary_published'] ?? 0;
+            $item->count_secondary_unpublished = $itemCounts['count_secondary_unpublished'] ?? 0;
+            $item->count_secondary_archived    = $itemCounts['count_secondary_archived'] ?? 0;
+            $item->count_secondary_trashed     = $itemCounts['count_secondary_trashed'] ?? 0;
+        }
     }
 
     /**

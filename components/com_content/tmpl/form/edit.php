@@ -23,7 +23,7 @@ $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->useScript('com_content.form-edit')
-    ->useScript('com_content.secondary-categories');
+    ->registerAndUseScript('field.secondary-categories', 'layouts/joomla/form/field/secondary-categories.min.js', [], ['defer' => true], ['core', "webcomponent.field-fancy-select"]);
 
 $this->tab_name = 'com-content-form';
 $this->ignore_fieldsets = ['image-intro', 'image-full', 'jmetadata', 'item_associations'];

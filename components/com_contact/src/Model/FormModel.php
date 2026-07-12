@@ -62,14 +62,36 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
     {
         $form = parent::getForm($data, $loadData);
 
+        if (empty($form)) {
+            return false;
+        }
+
+        $user = Factory::getApplication()->getIdentity();
+        $id   = (int) $this->getState('contact.id');
+
+        $item = $id > 0 ? $this->getItem($id) : false;
+        if ($id > 0 && $item && !$user->authorise('core.edit.state', 'com_contact.category.' . (int) $item->catid)) {
+            $form->setFieldAttribute('catid', 'readonly', 'true');
+            $form->setFieldAttribute('catid', 'required', 'false');
+            $form->setFieldAttribute('catid', 'filter', 'unset');
+            $form->setFieldAttribute('secondary_categories', 'required', 'false');
+            $form->setFieldAttribute('secondary_categories', 'readonly', 'true');
+            $form->setFieldAttribute('secondary_categories', 'filter', 'unset');
+        }
+
         // Prevent messing with article language and category when editing existing contact with associations
-        if ($id = $this->getState('contact.id') && Associations::isEnabled()) {
+        if ($id && Associations::isEnabled()) {
             $associations = Associations::getAssociations('com_contact', '#__contact_details', 'com_contact.item', $id);
 
             // Make fields read only
             if (!empty($associations)) {
                 $form->setFieldAttribute('language', 'readonly', 'true');
                 $form->setFieldAttribute('language', 'filter', 'unset');
+                $form->setFieldAttribute('catid', 'readonly', 'true');
+                $form->setFieldAttribute('catid', 'filter', 'unset');
+                $form->setFieldAttribute('secondary_categories', 'required', 'false');
+                $form->setFieldAttribute('secondary_categories', 'readonly', 'true');
+                $form->setFieldAttribute('secondary_categories', 'filter', 'unset');
             }
         }
 
@@ -118,7 +140,8 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
         if ($itemId) {
             $value->tags = new TagsHelper();
             $value->tags->getTagIds($value->id, 'com_contact.contact');
-            $value->metadata['tags'] = $value->tags;
+            $value->metadata['tags']     = $value->tags;
+            $value->secondary_categories = $this->getCurrentSecondaryCategories($value->id);
         }
 
         return $value;

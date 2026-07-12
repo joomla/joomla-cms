@@ -559,6 +559,17 @@
 		</field>
 
 		<field
+			name="include_secondary_categories"
+			type="radio"
+			label="JGLOBAL_INCLUDE_SECONDARY_CATEGORIES_LABEL"
+			default="1"
+			layout="joomla.form.field.radio.switcher"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
 			name="show_no_contacts"
 			type="radio"
 			label="COM_CONTACT_NO_CONTACTS_LABEL"

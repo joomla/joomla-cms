@@ -929,6 +929,18 @@ class ArticlesModel extends ListModel
             foreach ($this->getMappedCategories($itemIds) as $itemId => $categories) {
                 $items[$secondaryCategoryItems[$itemId]]->secondary_categories = $categories;
             }
+
+            foreach ($items as $item) {
+                $secondaryIds = [];
+
+                if (!empty($item->secondary_categories)) {
+                    foreach ($item->secondary_categories as $secCat) {
+                        $secondaryIds[] = (int) ($secCat->id ?? $secCat);
+                    }
+                }
+
+                $item->fieldscatid = array_values(array_unique(array_merge([(int) $item->catid], $secondaryIds)));
+            }
         }
 
         return $items;

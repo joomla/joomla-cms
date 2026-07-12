@@ -274,6 +274,12 @@ class ArticleModel extends ItemModel
 
                 $data->secondary_categories = $this->getMappedCategories($data->id);
 
+                $secondaryIds = array_map(function ($cat) {
+                    return (int) $cat->id;
+                }, $data->secondary_categories);
+
+                $data->fieldscatid = array_values((array_merge([(int) $data->catid], $secondaryIds)));
+
                 // Check for published state if filter set.
                 if ((is_numeric($published) || is_numeric($archived)) && ($data->state != $published && $data->state != $archived)) {
                     throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
