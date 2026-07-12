@@ -18,6 +18,10 @@ function version(urlString, fromFile) {
   if (urlString.startsWith('data:')) {
     return `${urlString}`;
   }
+  // Skip anchor for predefined templates
+  if (urlString.includes('#')) {
+    return `${urlString}`;
+  }
   // Skip URLs with existing query
   if (urlString.includes('?')) {
     return `${urlString}`;

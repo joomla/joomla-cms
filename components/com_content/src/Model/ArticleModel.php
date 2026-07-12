@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Content\Site\Model;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -227,6 +228,18 @@ class ArticleModel extends ItemModel
                 $registry = new Registry($data->attribs);
 
                 $data->params = clone $this->getState('params');
+                $globalParams = ComponentHelper::getParams('com_content', true);
+
+                /**
+                 * For menu item parameters set to use_article, we will take value from article option and fallback
+                 * to global value if the article option set to Use Global
+                 */
+                foreach ($data->params->toArray() as $key => $value) {
+                    if ($value === 'use_article') {
+                        $data->params->set($key, $registry->get($key, $globalParams->get($key)));
+                    }
+                }
+
                 $data->params->merge($registry);
 
                 $data->metadata = new Registry($data->metadata);
@@ -425,6 +438,7 @@ class ArticleModel extends ItemModel
     protected function cleanCache($group = null, $clientId = 0)
     {
         parent::cleanCache('com_content');
+        parent::cleanCache('mod_articles');
         parent::cleanCache('mod_articles_archive');
         parent::cleanCache('mod_articles_categories');
         parent::cleanCache('mod_articles_category');

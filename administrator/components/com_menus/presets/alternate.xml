@@ -585,6 +585,7 @@
 			type="url"
 			target="_blank"
 			link="https://manual.joomla.org"
+			scope="help"
 		/>
 
 		<menuitem

@@ -85,7 +85,7 @@
   background-color: var(--body-bg);
 
   .choices__item {
-    padding-inline-end: 10px;
+    padding-inline-end: 25px;
   }
 
   .choices__item--selectable {
@@ -253,7 +253,6 @@
       font-weight: bold;
       color: var(--success);
       content: " ✓";
-      background: var(--body-bg);
       border-radius: 2.5px;
       opacity: 1;
       transform: translateY(-50%);
