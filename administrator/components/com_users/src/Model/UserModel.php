@@ -950,15 +950,14 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
             return UserHelper::getUserGroups($userId);
         }
 
-        $form      = $this->getForm();
-        $groupsIDs = null;
+        $form = $this->getForm();
 
         if ($form) {
             $groupsIDs = $form->getValue('groups');
-        }
 
-        if (!empty($groupsIDs)) {
-            return $groupsIDs;
+            if (!empty($groupsIDs)) {
+                return $groupsIDs;
+            }
         }
 
         // Check for an active group filter in the users list
