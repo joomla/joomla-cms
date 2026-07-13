@@ -36,7 +36,7 @@ class ActionlogsHelper
      * @var    array
      *
      * @since       3.9.7
-     * @deprecated  5.4 will be removed in 7.0
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
      *              Use \Joomla\CMS\Filter\OutputFilter::escapeCsvFormula() instead
      */
     private static $characters = ['=', '+', '-', '@'];
@@ -357,7 +357,7 @@ class ActionlogsHelper
      * @return  mixed
      *
      * @since       3.9.7
-     * @deprecated  5.4 will be removed in 7.0
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
      *              Use \Joomla\CMS\Filter\OutputFilter::escapeCsvFormula() instead
      */
     protected static function escapeCsvFormula($value)
