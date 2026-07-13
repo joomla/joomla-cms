@@ -250,6 +250,18 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
     }
 
     /**
+     * Validates a column name against the list of valid columns defined in the model
+     *
+     * @return bool
+     *
+     * @since   5.4.4
+     */
+    public function isValidFilterColumn($columnName): bool
+    {
+        return \in_array($columnName, $this->filter_fields, true);
+    }
+
+    /**
      * Method to get an array of data items.
      *
      * @return  mixed  An array of data items on success, false on failure.

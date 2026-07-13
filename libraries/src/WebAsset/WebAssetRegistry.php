@@ -304,7 +304,8 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
                 $this->addRegistryFile('templates/' . $template . '/joomla.asset.json');
                 break;
             case 1:
-                $this->addRegistryFile('administrator/templates/' . $template . '/joomla.asset.json');
+                // Use basename() for cases when the administrator folder were redefined
+                $this->addRegistryFile(basename(JPATH_ADMINISTRATOR) . '/templates/' . $template . '/joomla.asset.json');
                 break;
             default:
                 break;

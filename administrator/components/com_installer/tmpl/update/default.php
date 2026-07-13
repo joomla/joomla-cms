@@ -92,13 +92,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                     <th scope="row">
                                         <span tabindex="0"><?php echo $this->escape($item->name); ?></span>
                                         <div role="tooltip" id="tip<?php echo $i; ?>">
-                                            <?php echo $item->description; ?>
+                                            <?php echo $this->escape($item->description); ?>
                                         </div>
                                         <div class="small break-word">
-                                        <?php echo $item->detailsurl; ?>
+                                            <?php echo $this->escape($item->detailsurl); ?>
                                             <?php if (!empty($item->infourl)) : ?>
                                                 <br>
-                                                <a href="<?php echo $item->infourl; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape(trim($item->infourl)); ?></a>
+                                                <a href="<?php echo $this->escape($item->infourl); ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape(trim($item->infourl)); ?></a>
                                             <?php endif; ?>
                                         </div>
                                         <?php if ($item->isMissingDownloadKey) : ?>
@@ -113,10 +113,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                         <?php echo $item->type_translated; ?>
                                     </td>
                                     <td>
-                                        <span class="badge bg-warning"><?php echo $item->current_version; ?></span>
+                                        <span class="badge bg-warning"><?php echo $this->escape($item->current_version); ?></span>
                                     </td>
                                     <td>
-                                        <span class="badge bg-success"><?php echo $item->version; ?></span>
+                                        <span class="badge bg-success"><?php echo $this->escape($item->version); ?></span>
                                     </td>
                                     <td class="d-none d-md-table-cell text-center">
                                         <?php if (!empty($item->changelogurl)) :

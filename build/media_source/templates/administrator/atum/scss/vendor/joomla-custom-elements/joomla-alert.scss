@@ -19,15 +19,6 @@
   border-radius: $border-radius-sm;
   transition: opacity .15s linear;
 
-  .btn-primary {
-    color: var(--states-btn-primary-color);
-    background: var(--states-btn-primary-bg);
-    border-color: var(--states-btn-primary-bg-hover);
-    &:hover {
-      background: var(--states-btn-primary-bg-hover);
-    }
-  }
-
   &[type="success"],
   &[type="message"] {
     --alert-accent-color: var(--state-success-text);
@@ -35,7 +26,7 @@
     --alert-border: var(--state-success-bg-hvr);
     --alert-heading-bg: var(--state-success-bg-hvr);
     --alert-link-color: var(--state-success-link-color, var(--states-link-color));
-    a {
+    a:not(.btn), .btn-link {
       color: var(--state-success-text);
       text-decoration: underline;
     }
@@ -48,7 +39,7 @@
     --alert-border: var(--state-info-bg-hvr);
     --alert-heading-bg: var(--state-info-bg-hvr);
     --alert-link-color: var(--state-success-link-color, var(--states-link-color));
-    a {
+    a:not(.btn), .btn-link {
       color: var(--state-info-text);
       text-decoration: underline;
     }
@@ -64,7 +55,7 @@
     --alert-border: var(--state-warning-border);
     --alert-heading-bg: var(--state-warning-heading-bg);
     --alert-link-color: var(--state-success-link-color, var(--states-link-color));
-    a {
+    a:not(.btn), .btn-link {
       color: var(--state-warning-text);
       text-decoration: underline;
     }
@@ -77,7 +68,7 @@
     --alert-border: var(--state-danger-bg-hvr);
     --alert-heading-bg: var(--state-danger-bg-hvr);
     --alert-link-color: var(--state-success-link-color, var(--states-link-color));
-    a {
+    a:not(.btn), .btn-link {
       color: var(--state-danger-text);
       text-decoration: underline;
     }

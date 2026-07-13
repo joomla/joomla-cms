@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Fields\Api\Controller;
 
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\MVC\Controller\ApiController;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -80,5 +81,87 @@ class FieldsController extends ApiController
     {
         return $this->input->exists('context') ?
             $this->input->get('context') : $this->input->post->get('context');
+    }
+
+    /**
+     * Method to check if you can add a new record.
+     *
+     * We don't allow adding from API
+     *
+     * @param   array  $data  An array of input data.
+     *
+     * @return  boolean
+     *
+     * @since   5.4.7
+     */
+    protected function allowAdd($data = [])
+    {
+        [$option] = explode('.', $this->getContextFromInput());
+
+        return $this->app->getIdentity()->authorise('core.create', $option);
+    }
+
+    /**
+     * Method to check if you can edit an existing record.
+     *
+     * We don't allow editing from API (yet?)
+     *
+     * @param array $data An array of input data.
+     * @param string $key The name of the key for the primary key; default is id.
+     *
+     * @return  boolean
+     *
+     * @since   5.4.7
+     */
+    protected function allowEdit($data = [], $key = 'id')
+    {
+        $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
+        $user     = $this->app->getIdentity();
+        [$option] = explode('.', $this->getContextFromInput());
+
+        // Zero record (id:0), return component edit permission by calling parent controller method
+        if (!$recordId) {
+            return $user->authorise('core.edit', $option);
+        }
+
+        // Check edit on the record asset (explicit or inherited)
+        if ($user->authorise('core.edit', $option . '.field.' . $recordId)) {
+            return true;
+        }
+
+        // Check edit own on the record asset (explicit or inherited)
+        if ($user->authorise('core.edit.own', $option . '.field.' . $recordId)) {
+            // Existing record already has an owner, get it
+            $record = $this->getModel()->getItem($recordId);
+
+            if (empty($record)) {
+                return false;
+            }
+
+            // Grant if current user is owner of the record
+            return $user->id == $record->created_user_id;
+        }
+
+        return false;
+    }
+
+    /**
+     * Removes an item.
+     *
+     * @param   integer  $id  The primary key to delete item.
+     *
+     * @return  void
+     *
+     * @since   5.4.7
+     */
+    public function delete($id = null)
+    {
+        [$option] = explode('.', $this->getContextFromInput());
+
+        if (!$this->app->getIdentity()->authorise('core.delete', $option)) {
+            throw new NotAllowed('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED', 403);
+        }
+
+        parent::delete($id);
     }
 }
