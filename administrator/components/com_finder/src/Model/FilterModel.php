@@ -178,9 +178,9 @@ class FilterModel extends AdminModel
      */
     private function getAuthorTaxonomyIds(): array
     {
-        $db    = $this->getDatabase();
+        $db     = $this->getDatabase();
         $author = 'Author';
-        $query = $db->getQuery(true)
+        $query  = $db->getQuery(true)
             ->select($db->quoteName('t.id'))
             ->from($db->quoteName('#__finder_taxonomy', 't'))
             ->innerJoin(
