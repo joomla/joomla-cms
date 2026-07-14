@@ -11,6 +11,7 @@
 namespace Joomla\Component\Banners\Administrator\Table;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseInterface;
@@ -77,6 +78,10 @@ class ClientTable extends Table implements VersionableTableInterface
         try {
             parent::check();
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -84,6 +89,10 @@ class ClientTable extends Table implements VersionableTableInterface
 
         // Check for valid name
         if (trim($this->name) === '') {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_BANNERS_WARNING_PROVIDE_VALID_NAME'));
+            }
+
             $this->setError(Text::_('COM_BANNERS_WARNING_PROVIDE_VALID_NAME'));
 
             return false;
@@ -91,6 +100,10 @@ class ClientTable extends Table implements VersionableTableInterface
 
         // Check for valid contact
         if (trim($this->contact) === '') {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_BANNERS_PROVIDE_VALID_CONTACT'));
+            }
+
             $this->setError(Text::_('COM_BANNERS_PROVIDE_VALID_CONTACT'));
 
             return false;
