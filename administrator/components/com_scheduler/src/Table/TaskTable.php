@@ -14,6 +14,7 @@ use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Asset;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
@@ -102,6 +103,10 @@ class TaskTable extends Table implements CurrentUserInterface
         try {
             parent::check();
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -274,6 +279,10 @@ class TaskTable extends Table implements CurrentUserInterface
                     $pk[$key] = $this->$key;
                 } else {
                     // We don't have a full primary key - return false.
+                    if ($this->shouldUseExceptions()) {
+                        throw new ValidationException(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+                    }
+
                     $this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
                     return false;
@@ -301,6 +310,10 @@ class TaskTable extends Table implements CurrentUserInterface
             try {
                 $db->execute();
             } catch (\RuntimeException $e) {
+                if ($this->shouldUseExceptions()) {
+                    throw $e;
+                }
+
                 $this->setError($e->getMessage());
 
                 return false;
