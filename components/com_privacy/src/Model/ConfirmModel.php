@@ -14,6 +14,7 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\Exception\ResourceNotFoundException;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\UserHelper;
@@ -65,6 +66,10 @@ class ConfirmModel extends AdminModel
         if ($return === false) {
             // Get the validation messages from the form.
             foreach ($form->getErrors() as $formError) {
+                if ($this->shouldUseExceptions()) {
+                    throw $formError instanceof \Throwable ? $formError : new \RuntimeException((string) $formError);
+                }
+
                 $this->setError($formError->getMessage());
             }
 
@@ -79,6 +84,10 @@ class ConfirmModel extends AdminModel
         $table = $this->getTable();
 
         if (!$table->load(['email' => $email, 'status' => 0])) {
+            if ($this->shouldUseExceptions()) {
+                throw new ResourceNotFoundException(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REQUESTS'));
+            }
+
             $this->setError(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REQUESTS'));
 
             return false;
@@ -86,6 +95,10 @@ class ConfirmModel extends AdminModel
 
         // A request can only be confirmed if it is in a pending status and has a confirmation token
         if ($table->status != '0' || !$table->confirm_token || $table->confirm_token_created_at === null) {
+            if ($this->shouldUseExceptions()) {
+                throw new ResourceNotFoundException(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REQUESTS'));
+            }
+
             $this->setError(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REQUESTS'));
 
             return false;
@@ -109,6 +122,10 @@ class ConfirmModel extends AdminModel
                 // The error will be logged in the database API, we just need to catch it here to not let things fatal out
             }
 
+            if ($this->shouldUseExceptions()) {
+                throw new ResourceNotFoundException(Text::_('COM_PRIVACY_ERROR_CONFIRM_TOKEN_EXPIRED'));
+            }
+
             $this->setError(Text::_('COM_PRIVACY_ERROR_CONFIRM_TOKEN_EXPIRED'));
 
             return false;
@@ -116,6 +133,10 @@ class ConfirmModel extends AdminModel
 
         // Verify the token
         if (!UserHelper::verifyPassword($data['confirm_token'], $table->confirm_token)) {
+            if ($this->shouldUseExceptions()) {
+                throw new ResourceNotFoundException(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REQUESTS'));
+            }
+
             $this->setError(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REQUESTS'));
 
             return false;

@@ -23,6 +23,7 @@ use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserFactoryAwareInterface;
@@ -129,6 +130,12 @@ class RequestModel extends AdminModel implements UserFactoryAwareInterface, Mail
         $table = $this->getTable();
 
         if (!$table->load($id)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -167,6 +174,12 @@ class RequestModel extends AdminModel implements UserFactoryAwareInterface, Mail
         $table = $this->getTable();
 
         if (!$table->load($id)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -205,6 +218,12 @@ class RequestModel extends AdminModel implements UserFactoryAwareInterface, Mail
         $table = $this->getTable();
 
         if (!$table->load($id)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -246,6 +265,12 @@ class RequestModel extends AdminModel implements UserFactoryAwareInterface, Mail
         $table = $this->getTable();
 
         if (!$table->load($id)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -303,6 +328,10 @@ class RequestModel extends AdminModel implements UserFactoryAwareInterface, Mail
         try {
             $table->store();
         } catch (ExecutionFailureException $exception) {
+            if ($this->shouldUseExceptions()) {
+                throw $exception;
+            }
+
             $this->setError($exception->getMessage());
 
             return false;
@@ -344,6 +373,10 @@ class RequestModel extends AdminModel implements UserFactoryAwareInterface, Mail
                     break;
 
                 default:
+                    if ($this->shouldUseExceptions()) {
+                        throw new ValidationException(Text::_('COM_PRIVACY_ERROR_UNKNOWN_REQUEST_TYPE'));
+                    }
+
                     $this->setError(Text::_('COM_PRIVACY_ERROR_UNKNOWN_REQUEST_TYPE'));
 
                     return false;
@@ -356,6 +389,10 @@ class RequestModel extends AdminModel implements UserFactoryAwareInterface, Mail
 
             return true;
         } catch (MailDisabledException | phpmailerException $exception) {
+            if ($this->shouldUseExceptions()) {
+                throw $exception;
+            }
+
             $this->setError($exception->getMessage());
 
             return false;
@@ -378,6 +415,10 @@ class RequestModel extends AdminModel implements UserFactoryAwareInterface, Mail
         $pk    = !empty($data[$key]) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
 
         if (!$pk && !Factory::getApplication()->get('mailonline', 1)) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'));
+            }
+
             $this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'));
 
             return false;
@@ -413,6 +454,10 @@ class RequestModel extends AdminModel implements UserFactoryAwareInterface, Mail
 
         // The user cannot create a request for their own account
         if (strtolower($this->getCurrentUser()->email) === strtolower($validatedData['email'])) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_FOR_SELF'));
+            }
+
             $this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_FOR_SELF'));
 
             return false;
@@ -433,6 +478,10 @@ class RequestModel extends AdminModel implements UserFactoryAwareInterface, Mail
         $activeRequestCount = (int) $db->setQuery($query)->loadResult();
 
         if ($activeRequestCount > 0) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_PRIVACY_ERROR_ACTIVE_REQUEST_FOR_EMAIL'));
+            }
+
             $this->setError(Text::_('COM_PRIVACY_ERROR_ACTIVE_REQUEST_FOR_EMAIL'));
 
             return false;

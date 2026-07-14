@@ -190,6 +190,10 @@ class ConsentsModel extends ListModel
             $db->setQuery($query);
             $db->execute();
         } catch (ExecutionFailureException $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -218,6 +222,10 @@ class ConsentsModel extends ListModel
             $db->setQuery($query);
             $db->execute();
         } catch (ExecutionFailureException $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
