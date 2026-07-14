@@ -17,6 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Controller\Exception\ResourceNotFoundException;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
@@ -210,11 +211,21 @@ class TourModel extends AdminModel
 
         // Check for a table object error.
         if ($result === false) {
+            $tableError = $table->getError(null, false);
+
+            if ($this->shouldUseExceptions()) {
+                if (!$tableError) {
+                    throw new ResourceNotFoundException(Text::_('JLIB_APPLICATION_ERROR_NOT_EXIST'));
+                }
+
+                throw $tableError instanceof \Throwable ? $tableError : new \RuntimeException((string) $tableError);
+            }
+
             // If there was no underlying error, then the false means there simply was not a row in the db for this $pk.
-            if (!$table->getError()) {
+            if (!$tableError) {
                 $this->setError(Text::_('JLIB_APPLICATION_ERROR_NOT_EXIST'));
             } else {
-                $this->setError($table->getError());
+                $this->setError($tableError instanceof \Throwable ? $tableError->getMessage() : $tableError);
             }
 
             return false;
@@ -275,6 +286,12 @@ class TourModel extends AdminModel
                     )->getArgument('result', []);
 
                     if (\in_array(false, $result, true)) {
+                        if ($this->shouldUseExceptions()) {
+                            $error = $table->getError(null, false);
+
+                            throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                        }
+
                         $this->setError($table->getError());
 
                         return false;
@@ -283,6 +300,12 @@ class TourModel extends AdminModel
                     $tourId = $table->id;
 
                     if (!$table->delete($pk)) {
+                        if ($this->shouldUseExceptions()) {
+                            $error = $table->getError(null, false);
+
+                            throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                        }
+
                         $this->setError($table->getError());
 
                         return false;
@@ -320,6 +343,12 @@ class TourModel extends AdminModel
                     return false;
                 }
             } else {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
