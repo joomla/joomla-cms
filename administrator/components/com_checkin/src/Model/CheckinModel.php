@@ -119,7 +119,7 @@ class CheckinModel extends ListModel
                     ->bind(':checkouttime', $nullDate);
             }
 
-            // Both NULL and 0 represent records that are not checked out.
+            // The following expression evaluates to false for values <= 0 as well as for NULL values
             $query->where($db->quoteName('checked_out') . ' > 0');
 
             $db->setQuery($query);
@@ -188,7 +188,7 @@ class CheckinModel extends ListModel
                     ->select('COUNT(*)')
                     ->from($db->quoteName($tn));
 
-                // Both NULL and 0 represent records that are not checked out.
+                // The following expression evaluates to false for values <= 0 as well as for NULL values
                 $query->where($db->quoteName('checked_out') . ' > 0');
 
                 $db->setQuery($query);
