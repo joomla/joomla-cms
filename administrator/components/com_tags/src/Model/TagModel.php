@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Tags\Administrator\Model;
 
+use Joomla\CMS\Access\Exception\NotAllowedException;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\Model\AfterSaveEvent;
@@ -17,6 +18,7 @@ use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\Exception\ResourceNotFoundException;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Versioning\VersionableModelInterface;
@@ -280,7 +282,13 @@ class TagModel extends AdminModel implements VersionableModelInterface
 
             // Bind the data.
             if (!$table->bind($data)) {
-                $this->setError($table->getError());
+                $error = $table->getError(null, false);
+
+                if ($this->shouldUseExceptions()) {
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
+                $this->setError($error);
 
                 return false;
             }
@@ -290,7 +298,13 @@ class TagModel extends AdminModel implements VersionableModelInterface
 
             // Check the data.
             if (!$table->check()) {
-                $this->setError($table->getError());
+                $error = $table->getError(null, false);
+
+                if ($this->shouldUseExceptions()) {
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
+                $this->setError($error);
 
                 return false;
             }
@@ -304,14 +318,26 @@ class TagModel extends AdminModel implements VersionableModelInterface
             ]))->getArgument('result', []);
 
             if (\in_array(false, $result, true)) {
-                $this->setError($table->getError());
+                $error = $table->getError(null, false);
+
+                if ($this->shouldUseExceptions()) {
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
+                $this->setError($error);
 
                 return false;
             }
 
             // Store the data.
             if (!$table->store()) {
-                $this->setError($table->getError());
+                $error = $table->getError(null, false);
+
+                if ($this->shouldUseExceptions()) {
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
+                $this->setError($error);
 
                 return false;
             }
@@ -326,18 +352,34 @@ class TagModel extends AdminModel implements VersionableModelInterface
 
             // Rebuild the path for the tag:
             if (!$table->rebuildPath($table->id)) {
-                $this->setError($table->getError());
+                $error = $table->getError(null, false);
+
+                if ($this->shouldUseExceptions()) {
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
+                $this->setError($error);
 
                 return false;
             }
 
             // Rebuild the paths of the tag's children:
             if (!$table->rebuild($table->id, $table->lft, $table->level, $table->path)) {
-                $this->setError($table->getError());
+                $error = $table->getError(null, false);
+
+                if ($this->shouldUseExceptions()) {
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
+                $this->setError($error);
 
                 return false;
             }
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -385,6 +427,12 @@ class TagModel extends AdminModel implements VersionableModelInterface
         $table = $this->getTable();
 
         if (!$table->rebuild()) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -416,6 +464,12 @@ class TagModel extends AdminModel implements VersionableModelInterface
         $table = $this->getTable();
 
         if (!$table->saveorder($idArray, $lftArray)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -476,13 +530,22 @@ class TagModel extends AdminModel implements VersionableModelInterface
         // Check that the parent exists
         if ($parentId) {
             if (!$table->load($parentId)) {
-                if ($error = $table->getError()) {
+                if ($error = $table->getError(null, false)) {
                     // Fatal error
-                    $this->setError($error);
+                    if ($this->shouldUseExceptions()) {
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
+                    $this->setError($error instanceof \Throwable ? $error->getMessage() : $error);
 
                     return false;
                 }
+
                 // Non-fatal error
+                if ($this->shouldUseExceptions()) {
+                    throw new ResourceNotFoundException(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+                }
+
                 $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
                 $parentId = 0;
             }
@@ -491,6 +554,12 @@ class TagModel extends AdminModel implements VersionableModelInterface
         // If the parent is 0, set it to the ID of the root item in the tree
         if (empty($parentId)) {
             if (!$parentId = $table->getRootId()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -499,6 +568,10 @@ class TagModel extends AdminModel implements VersionableModelInterface
 
         // Check that user has create permission for tags
         if (!$this->getCurrentUser()->authorise('core.create', 'com_tags')) {
+            if ($this->shouldUseExceptions()) {
+                throw new NotAllowedException(Text::_('COM_TAGS_BATCH_COPY_MOVE_CANNOT_CREATE'));
+            }
+
             $this->setError(Text::_('COM_TAGS_BATCH_COPY_MOVE_CANNOT_CREATE'));
 
             return false;
@@ -515,6 +588,10 @@ class TagModel extends AdminModel implements VersionableModelInterface
         try {
             $count = $db->loadResult();
         } catch (\RuntimeException $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -529,13 +606,22 @@ class TagModel extends AdminModel implements VersionableModelInterface
 
             // Check that the row actually exists
             if (!$table->load($pk)) {
-                if ($error = $table->getError()) {
+                if ($error = $table->getError(null, false)) {
                     // Fatal error
-                    $this->setError($error);
+                    if ($this->shouldUseExceptions()) {
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
+                    $this->setError($error instanceof \Throwable ? $error->getMessage() : $error);
 
                     return false;
                 }
+
                 // Non-fatal error
+                if ($this->shouldUseExceptions()) {
+                    throw new ResourceNotFoundException(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                }
+
                 $this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
                 continue;
             }
@@ -592,6 +678,12 @@ class TagModel extends AdminModel implements VersionableModelInterface
 
             // Check the row.
             if (!$table->check()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -599,6 +691,12 @@ class TagModel extends AdminModel implements VersionableModelInterface
 
             // Store the row.
             if (!$table->store()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -617,6 +715,12 @@ class TagModel extends AdminModel implements VersionableModelInterface
 
         // Rebuild the hierarchy.
         if (!$table->rebuild()) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -624,6 +728,12 @@ class TagModel extends AdminModel implements VersionableModelInterface
 
         // Rebuild the tree path.
         if (!$table->rebuildPath($table->id)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -654,13 +764,22 @@ class TagModel extends AdminModel implements VersionableModelInterface
         // Check that the parent exists.
         if ($parentId) {
             if (!$table->load($parentId)) {
-                if ($error = $table->getError()) {
+                if ($error = $table->getError(null, false)) {
                     // Fatal error
-                    $this->setError($error);
+                    if ($this->shouldUseExceptions()) {
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
+                    $this->setError($error instanceof \Throwable ? $error->getMessage() : $error);
 
                     return false;
                 }
+
                 // Non-fatal error
+                if ($this->shouldUseExceptions()) {
+                    throw new ResourceNotFoundException(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+                }
+
                 $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
                 $parentId = 0;
             }
@@ -670,12 +789,20 @@ class TagModel extends AdminModel implements VersionableModelInterface
         $user = $this->getCurrentUser();
 
         if (!$user->authorise('core.create', 'com_tags')) {
+            if ($this->shouldUseExceptions()) {
+                throw new NotAllowedException(Text::_('COM_TAGS_BATCH_COPY_MOVE_CANNOT_CREATE'));
+            }
+
             $this->setError(Text::_('COM_TAGS_BATCH_COPY_MOVE_CANNOT_CREATE'));
 
             return false;
         }
 
         if (!$user->authorise('core.edit', 'com_tags')) {
+            if ($this->shouldUseExceptions()) {
+                throw new NotAllowedException(Text::_('COM_TAGS_BATCH_COPY_MOVE_CANNOT_EDIT'));
+            }
+
             $this->setError(Text::_('COM_TAGS_BATCH_COPY_MOVE_CANNOT_EDIT'));
 
             return false;
@@ -685,13 +812,22 @@ class TagModel extends AdminModel implements VersionableModelInterface
         foreach ($pks as $pk) {
             // Check that the row actually exists
             if (!$table->load($pk)) {
-                if ($error = $table->getError()) {
+                if ($error = $table->getError(null, false)) {
                     // Fatal error
-                    $this->setError($error);
+                    if ($this->shouldUseExceptions()) {
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
+                    $this->setError($error instanceof \Throwable ? $error->getMessage() : $error);
 
                     return false;
                 }
+
                 // Non-fatal error
+                if ($this->shouldUseExceptions()) {
+                    throw new ResourceNotFoundException(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                }
+
                 $this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
                 continue;
             }
@@ -704,6 +840,12 @@ class TagModel extends AdminModel implements VersionableModelInterface
 
             // Check the row.
             if (!$table->check()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -711,6 +853,12 @@ class TagModel extends AdminModel implements VersionableModelInterface
 
             // Store the row.
             if (!$table->store()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -718,6 +866,12 @@ class TagModel extends AdminModel implements VersionableModelInterface
 
             // Rebuild the tree path.
             if (!$table->rebuildPath()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;

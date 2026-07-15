@@ -14,6 +14,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Exception\DuplicateEntryException;
 use Joomla\CMS\Table\Nested;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
@@ -78,6 +79,10 @@ class TagTable extends Nested implements CurrentUserInterface
         try {
             parent::check();
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -199,6 +204,14 @@ class TagTable extends Nested implements CurrentUserInterface
         $table = new static($this->getDatabase());
 
         if ($table->load(['alias' => $this->alias]) && ($table->id != $this->id || $this->id == 0)) {
+            if ($this->shouldUseExceptions()) {
+                $message = $table->published === -2
+                    ? Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS_TRASHED')
+                    : Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS');
+
+                throw new DuplicateEntryException($message, 'alias');
+            }
+
             $this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
 
             // Is the existing tag trashed?

@@ -11,6 +11,7 @@
 namespace Joomla\Component\Users\Administrator\Model;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Access\Exception\NotAllowedException;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\User\AfterDeleteEvent;
 use Joomla\CMS\Event\User\AfterSaveEvent;
@@ -27,7 +28,9 @@ use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\MVC\Model\Exception\BatchOperationException;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Exception\ValidationException;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
@@ -246,6 +249,10 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
         }
 
         if ($data['block'] && $pk == $my->id && !$my->block) {
+            if ($this->shouldUseExceptions()) {
+                throw new \RuntimeException(Text::_('COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF'));
+            }
+
             $this->setError(Text::_('COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF'));
 
             return false;
@@ -253,6 +260,10 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
 
         // Make sure user groups is selected when add/edit an account
         if (empty($data['groups']) && ((int) $user->id != (int) $my->id || $iAmSuperAdmin)) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_USERS_USERS_ERROR_CANNOT_SAVE_ACCOUNT_WITHOUT_GROUPS'));
+            }
+
             $this->setError(Text::_('COM_USERS_USERS_ERROR_CANNOT_SAVE_ACCOUNT_WITHOUT_GROUPS'));
 
             return false;
@@ -269,6 +280,10 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
             }
 
             if (!$stillSuperAdmin) {
+                if ($this->shouldUseExceptions()) {
+                    throw new \RuntimeException(Text::_('COM_USERS_USERS_ERROR_CANNOT_DEMOTE_SELF'));
+                }
+
                 $this->setError(Text::_('COM_USERS_USERS_ERROR_CANNOT_DEMOTE_SELF'));
 
                 return false;
@@ -286,6 +301,12 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
 
         // Bind the data.
         if (!$user->bind($data)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $user->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($user->getError());
 
             return false;
@@ -293,6 +314,12 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
 
         // Store the data.
         if (!$user->save()) {
+            if ($this->shouldUseExceptions()) {
+                $error = $user->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($user->getError());
 
             return false;
@@ -331,6 +358,10 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
         PluginHelper::importPlugin($this->events_map['delete'], null, true, $dispatcher);
 
         if (\in_array($user->id, $pks)) {
+            if ($this->shouldUseExceptions()) {
+                throw new \RuntimeException(Text::_('COM_USERS_USERS_ERROR_CANNOT_DELETE_SELF'));
+            }
+
             $this->setError(Text::_('COM_USERS_USERS_ERROR_CANNOT_DELETE_SELF'));
 
             return false;
@@ -358,6 +389,12 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
                     );
 
                     if (!$table->delete($pk)) {
+                        if ($this->shouldUseExceptions()) {
+                            $error = $table->getError(null, false);
+
+                            throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                        }
+
                         $this->setError($table->getError());
 
                         return false;
@@ -378,6 +415,12 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
                     Factory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
                 }
             } else {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -446,7 +489,13 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
                     // Allow an exception to be thrown.
                     try {
                         if (!$table->check()) {
-                            $this->setError($table->getError());
+                            $error = $table->getError(null, false);
+
+                            if ($this->shouldUseExceptions()) {
+                                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                            }
+
+                            $this->setError($error);
 
                             return false;
                         }
@@ -468,7 +517,13 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
 
                         // Store the table.
                         if (!$table->store()) {
-                            $this->setError($table->getError());
+                            $error = $table->getError(null, false);
+
+                            if ($this->shouldUseExceptions()) {
+                                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                            }
+
+                            $this->setError($error);
 
                             return false;
                         }
@@ -485,6 +540,10 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
                             'errorMessage' => null,
                         ]));
                     } catch (\Exception $e) {
+                        if ($this->shouldUseExceptions()) {
+                            throw $e;
+                        }
+
                         $this->setError($e->getMessage());
 
                         return false;
@@ -605,7 +664,13 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
                     // Allow an exception to be thrown.
                     try {
                         if (!$table->check()) {
-                            $this->setError($table->getError());
+                            $error = $table->getError(null, false);
+
+                            if ($this->shouldUseExceptions()) {
+                                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                            }
+
+                            $this->setError($error);
 
                             return false;
                         }
@@ -628,7 +693,13 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
 
                         // Store the table.
                         if (!$table->store()) {
-                            $this->setError($table->getError());
+                            $error = $table->getError(null, false);
+
+                            if ($this->shouldUseExceptions()) {
+                                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                            }
+
+                            $this->setError($error);
 
                             return false;
                         }
@@ -646,6 +717,10 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
                             return false;
                         }
                     } catch (\Exception $e) {
+                        if ($this->shouldUseExceptions()) {
+                            throw $e;
+                        }
+
                         $this->setError($e->getMessage());
 
                         return false;
@@ -684,6 +759,10 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
         }
 
         if (empty($pks)) {
+            if ($this->shouldUseExceptions()) {
+                throw new BatchOperationException(Text::_('COM_USERS_USERS_NO_ITEM_SELECTED'));
+            }
+
             $this->setError(Text::_('COM_USERS_USERS_NO_ITEM_SELECTED'));
 
             return false;
@@ -710,6 +789,10 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
         }
 
         if (!$done) {
+            if ($this->shouldUseExceptions()) {
+                throw new BatchOperationException(Text::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
+            }
+
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
 
             return false;
@@ -737,6 +820,10 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
 
         // Check if user can perform management tasks in com_users
         if (!$this->getCurrentUser()->authorise('core.manage', 'com_users')) {
+            if ($this->shouldUseExceptions()) {
+                throw new NotAllowedException(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+            }
+
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
             return false;
@@ -747,6 +834,10 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
 
         // Non-super super user cannot work with super-admin user.
         if (!$iAmSuperAdmin && UserHelper::checkSuperUserInUsers($userIds)) {
+            if ($this->shouldUseExceptions()) {
+                throw new NotAllowedException(Text::_('COM_USERS_ERROR_CANNOT_BATCH_SUPERUSER'));
+            }
+
             $this->setError(Text::_('COM_USERS_ERROR_CANNOT_BATCH_SUPERUSER'));
 
             return false;
@@ -763,6 +854,10 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
         $userIds = array_diff($userIds, [$this->getCurrentUser()->id]);
 
         if (empty($userIds)) {
+            if ($this->shouldUseExceptions()) {
+                throw new \RuntimeException(Text::_('COM_USERS_USERS_ERROR_CANNOT_REQUIRERESET_SELF'));
+            }
+
             $this->setError(Text::_('COM_USERS_USERS_ERROR_CANNOT_REQUIRERESET_SELF'));
 
             return false;
@@ -786,6 +881,10 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
         try {
             $db->execute();
         } catch (\RuntimeException $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -811,6 +910,10 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
 
         // Check if user can perform management tasks in com_users
         if (!$this->getCurrentUser()->authorise('core.manage', 'com_users')) {
+            if ($this->shouldUseExceptions()) {
+                throw new NotAllowedException(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+            }
+
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
             return false;
@@ -821,6 +924,10 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
 
         // Non-super super user cannot work with super-admin user.
         if (!$iAmSuperAdmin && UserHelper::checkSuperUserInUsers($userIds)) {
+            if ($this->shouldUseExceptions()) {
+                throw new NotAllowedException(Text::_('COM_USERS_ERROR_CANNOT_BATCH_SUPERUSER'));
+            }
+
             $this->setError(Text::_('COM_USERS_ERROR_CANNOT_BATCH_SUPERUSER'));
 
             return false;
@@ -828,6 +935,10 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
 
         // Non-super admin cannot work with super-admin group.
         if ((!$iAmSuperAdmin && Access::checkGroup($groupId, 'core.admin')) || $groupId < 1) {
+            if ($this->shouldUseExceptions()) {
+                throw new ValidationException(Text::_('COM_USERS_ERROR_INVALID_GROUP'));
+            }
+
             $this->setError(Text::_('COM_USERS_ERROR_INVALID_GROUP'));
 
             return false;
@@ -876,6 +987,10 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
 
                 // If we have no users to process, throw an error to notify the user
                 if (empty($users)) {
+                    if ($this->shouldUseExceptions()) {
+                        throw new BatchOperationException(Text::_('COM_USERS_ERROR_ONLY_ONE_GROUP'));
+                    }
+
                     $this->setError(Text::_('COM_USERS_ERROR_ONLY_ONE_GROUP'));
 
                     return false;
@@ -893,6 +1008,10 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
 
                 // If we have no users to process, throw an error to notify the user
                 if (empty($users)) {
+                    if ($this->shouldUseExceptions()) {
+                        throw new BatchOperationException(Text::_('COM_USERS_ERROR_NOT_IN_GROUP'));
+                    }
+
                     $this->setError(Text::_('COM_USERS_ERROR_NOT_IN_GROUP'));
 
                     return false;
@@ -915,6 +1034,10 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
             try {
                 $db->execute();
             } catch (\RuntimeException $e) {
+                if ($this->shouldUseExceptions()) {
+                    throw $e;
+                }
+
                 $this->setError($e->getMessage());
 
                 return false;
@@ -946,6 +1069,10 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
 
             // If we have no users to process, throw an error to notify the user
             if (!$groups) {
+                if ($this->shouldUseExceptions()) {
+                    throw new BatchOperationException(Text::_('COM_USERS_ERROR_NO_ADDITIONS'));
+                }
+
                 $this->setError(Text::_('COM_USERS_ERROR_NO_ADDITIONS'));
 
                 return false;
@@ -958,6 +1085,10 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface, MailerF
             try {
                 $db->execute();
             } catch (\RuntimeException $e) {
+                if ($this->shouldUseExceptions()) {
+                    throw $e;
+                }
+
                 $this->setError($e->getMessage());
 
                 return false;

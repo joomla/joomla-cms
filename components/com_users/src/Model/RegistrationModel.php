@@ -26,6 +26,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\MailerFactoryAwareInterface;
 use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
+use Joomla\CMS\MVC\Controller\Exception\ResourceNotFoundException;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -108,6 +109,10 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface, 
         try {
             return (int) $db->loadResult();
         } catch (\RuntimeException $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()));
 
             return false;
@@ -131,6 +136,10 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface, 
 
         // Check for a valid user id.
         if (!$userId) {
+            if ($this->shouldUseExceptions()) {
+                throw new ResourceNotFoundException(Text::_('COM_USERS_ACTIVATION_TOKEN_NOT_FOUND'));
+            }
+
             $this->setError(Text::_('COM_USERS_ACTIVATION_TOKEN_NOT_FOUND'));
 
             return false;
@@ -177,6 +186,10 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface, 
             try {
                 $rows = $db->loadObjectList();
             } catch (\RuntimeException $e) {
+                if ($this->shouldUseExceptions()) {
+                    throw $e;
+                }
+
                 $this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()));
 
                 return false;
@@ -211,6 +224,10 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface, 
 
                     // Check for an error.
                     if ($return !== true) {
+                        if ($this->shouldUseExceptions()) {
+                            throw new \RuntimeException(Text::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
+                        }
+
                         $this->setError(Text::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
 
                         return false;
@@ -254,6 +271,10 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface, 
 
             // Check for an error.
             if ($return !== true) {
+                if ($this->shouldUseExceptions()) {
+                    throw new \RuntimeException(Text::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
+                }
+
                 $this->setError(Text::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
 
                 return false;
@@ -265,6 +286,12 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface, 
 
         // Store the user object.
         if (!$user->save()) {
+            if ($this->shouldUseExceptions()) {
+                $error = $user->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError(Text::sprintf('COM_USERS_REGISTRATION_ACTIVATION_SAVE_FAILED', $user->getError()));
 
             return false;
@@ -466,6 +493,12 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface, 
 
         // Bind the data.
         if (!$user->bind($data)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $user->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($user->getError());
 
             return false;
@@ -476,6 +509,12 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface, 
 
         // Store the data.
         if (!$user->save()) {
+            if ($this->shouldUseExceptions()) {
+                $error = $user->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError(Text::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $user->getError()));
 
             return false;
