@@ -26,7 +26,7 @@ describe('Test CLI command config:get', () => {
         // Check for specific values
         expect(result.stdout.toLowerCase()).to.contain(Cypress.expose('db_type').toLowerCase());
         expect(result.stdout).to.contain('root');
-    });
+      });
   });
 
   it('can get mail configuration group', () => {
@@ -45,8 +45,8 @@ describe('Test CLI command config:get', () => {
         expect(result.stdout).to.contain('smtphost');
         expect(result.stdout).to.contain('smtpsecure');
         expect(result.stdout).to.contain('smtpport');
-    });
-  })
+      });
+  });
 
   it('can get session configuration group', () => {
     cy.exec(`php ${Cypress.expose('cmsPath')}/cli/joomla.php config:get --group=session`)
@@ -61,13 +61,13 @@ describe('Test CLI command config:get', () => {
         // Check for specific values
         expect(result.stdout).to.contain('database');
         expect(result.stdout).to.contain('false');
-    });
+      });
   });
 
   it('get error for non existent configuration group', () => {
     cy.exec(`php ${Cypress.expose('cmsPath')}/cli/joomla.php config:get --group=test`, { failOnNonZeroExit: false })
       .then((result) => {
         expect(result.stdout).to.contain('[ERROR] Group *test* not found');
-    });
+      });
   });
 });
