@@ -82,7 +82,7 @@ describe('Test that content API endpoint', () => {
       .then((article) => cy.api_delete(`/content/articles/${article.id}`));
   });
 
-    it('creates unique alias when duplicate article is created', () => {
+  it('creates unique alias when duplicate article is created', () => {
     cy.db_createCategory({ extension: 'com_content' })
       .then((categoryId) => {
         // Create first article
