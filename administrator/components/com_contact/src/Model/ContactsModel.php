@@ -452,10 +452,6 @@ class ContactsModel extends ListModel
             return false;
         }
 
-        foreach ($items as $item) {
-            $item->typeAlias = 'com_contact.contact';
-        }
-
         $helper = new SecondaryCategoriesHelper('com_contact.contact');
         $helper->loadSecondaryCategoriesForItems($items);
 

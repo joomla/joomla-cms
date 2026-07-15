@@ -86,6 +86,8 @@ class HtmlView extends BaseHtmlView
         $this->form
             ->addControlField('task');
 
+        $this->getDocument()->getWebAssetManager()->registerAndUseScript('field.secondary-categories', 'layouts/joomla/form/field/secondary-categories.min.js', [], ['defer' => true], ['core', "webcomponent.field-fancy-select"]);
+
         parent::display($tpl);
     }
 

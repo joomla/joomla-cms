@@ -12,12 +12,12 @@ namespace Joomla\Component\Banners\Site\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\SecondaryCategoriesHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -50,6 +50,9 @@ class BannersModel extends ListModel
         $id .= ':' . $this->getState('filter.tag_search');
         $id .= ':' . $this->getState('filter.client_id');
         $id .= ':' . serialize($this->getState('filter.category_id'));
+        $id .= ':' . $this->getState('filter.category_id.include');
+        $id .= ':' . $this->getState('filter.subcategories');
+        $id .= ':' . $this->getState('filter.max_category_levels');
         $id .= ':' . serialize($this->getState('filter.keywords'));
 
         return parent::getStoreId($id);
@@ -73,6 +76,7 @@ class BannersModel extends ListModel
         $keywords   = $this->getState('filter.keywords');
         $randomise  = ($ordering === 'random');
         $nowDate    = Factory::getDate()->toSql();
+        $user       = Factory::getApplication()->getIdentity();
 
         $query->select(
             [
@@ -82,6 +86,7 @@ class BannersModel extends ListModel
                 $db->quoteName('a.clickurl'),
                 $db->quoteName('a.sticky'),
                 $db->quoteName('a.cid'),
+                $db->quoteName('a.catid'),
                 $db->quoteName('a.description'),
                 $db->quoteName('a.params'),
                 $db->quoteName('a.custombannercode'),
@@ -91,7 +96,9 @@ class BannersModel extends ListModel
         )
             ->from($db->quoteName('#__banners', 'a'))
             ->join('LEFT', $db->quoteName('#__banner_clients', 'cl'), $db->quoteName('cl.id') . ' = ' . $db->quoteName('a.cid'))
+            ->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'))
             ->where($db->quoteName('a.state') . ' = 1')
+            ->where($db->quoteName('c.published') . ' = 1')
             ->extendWhere(
                 'AND',
                 [
@@ -118,6 +125,10 @@ class BannersModel extends ListModel
             )
             ->bind([':nowDate1', ':nowDate2'], $nowDate);
 
+        if (!$user->authorise('core.admin')) {
+            $query->whereIn($db->quoteName('c.access'), $user->getAuthorisedViewLevels(), ParameterType::INTEGER);
+        }
+
         if ($cid) {
             $query->where(
                 [
@@ -129,53 +140,20 @@ class BannersModel extends ListModel
         }
 
         // Filter by a single or group of categories
+        $includeCategory   = $this->getState('filter.category_id.include', true);
+        $includeSubcats    = (bool) $this->getState('filter.subcategories', false);
+        $maxCategoryLevels = (int) $this->getState('filter.max_category_levels', 1);
         if (is_numeric($categoryId)) {
-            $categoryId = (int) $categoryId;
-            $type       = $this->getState('filter.category_id.include', true) ? ' = ' : ' <> ';
-
-            // Add subcategory check
-            if ($this->getState('filter.subcategories', false)) {
-                $levels = (int) $this->getState('filter.max_category_levels', '1');
-
-                // Create a subquery for the subcategory list
-                $subQuery = $db->createQuery();
-                $subQuery->select($db->quoteName('sub.id'))
-                    ->from($db->quoteName('#__categories', 'sub'))
-                    ->join(
-                        'INNER',
-                        $db->quoteName('#__categories', 'this'),
-                        $db->quoteName('sub.lft') . ' > ' . $db->quoteName('this.lft')
-                        . ' AND ' . $db->quoteName('sub.rgt') . ' < ' . $db->quoteName('this.rgt')
-                    )
-                    ->where(
-                        [
-                            $db->quoteName('this.id') . ' = :categoryId1',
-                            $db->quoteName('sub.level') . ' <= ' . $db->quoteName('this.level') . ' + :levels',
-                        ]
-                    );
-
-                // Add the subquery to the main query
-                $query->extendWhere(
-                    'AND',
-                    [
-                        $db->quoteName('a.catid') . $type . ':categoryId2',
-                        $db->quoteName('a.catid') . ' IN (' . $subQuery . ')',
-                    ],
-                    'OR'
-                )
-                    ->bind([':categoryId1', ':categoryId2'], $categoryId, ParameterType::INTEGER)
-                    ->bind(':levels', $levels, ParameterType::INTEGER);
-            } else {
-                $query->where($db->quoteName('a.catid') . $type . ':categoryId')
-                    ->bind(':categoryId', $categoryId, ParameterType::INTEGER);
-            }
+            $helper    = new SecondaryCategoriesHelper('com_banners.banner');
+            $condition = $helper->buildCategoryMembershipCondition([(int) $categoryId], $includeSubcats, true, $maxCategoryLevels);
+            $query->where($includeCategory ? $condition : 'NOT (' . $condition . ')');
         } elseif (\is_array($categoryId) && (\count($categoryId) > 0)) {
-            $categoryId = ArrayHelper::toInteger($categoryId);
+            $categoryId = SecondaryCategoriesHelper::normalizeCategoryIds($categoryId);
 
-            if ($this->getState('filter.category_id.include', true)) {
-                $query->whereIn($db->quoteName('a.catid'), $categoryId);
-            } else {
-                $query->whereNotIn($db->quoteName('a.catid'), $categoryId);
+            if ($categoryId) {
+                $helper    = new SecondaryCategoriesHelper('com_banners.banner');
+                $condition = $helper->buildCategoryMembershipCondition($categoryId);
+                $query->where($includeCategory ? $condition : 'NOT (' . $condition . ')');
             }
         }
 
@@ -273,6 +251,9 @@ class BannersModel extends ListModel
             $this->cache['items'] = parent::getItems();
 
             if (\is_array($this->cache['items'])) {
+                $helper = new SecondaryCategoriesHelper('com_banners.banner');
+                $helper->loadSecondaryCategoriesForItems($this->cache['items']);
+
                 foreach ($this->cache['items'] as &$item) {
                     $item->params = new Registry($item->params);
                 }

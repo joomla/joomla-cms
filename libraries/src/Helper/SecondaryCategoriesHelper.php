@@ -399,6 +399,10 @@ class SecondaryCategoriesHelper extends CMSHelper
         $query = $db->createQuery()
             ->select('DISTINCT ' . $db->quoteName('m.item_id'))
             ->from($db->quoteName('#__category_item_map', 'm'))
+            ->innerJoin(
+                $db->quoteName('#__categories', 'mapcat'),
+                $db->quoteName('mapcat.id') . ' = ' . $db->quoteName('m.category_id')
+            )
             ->where($db->quoteName('m.context') . ' = ' . $db->quote($this->typeAlias));
 
         if (empty($categoryIds)) {
@@ -416,6 +420,22 @@ class SecondaryCategoriesHelper extends CMSHelper
             );
         } else {
             $query->where($db->quoteName('m.category_id') . ' IN (' . $categoryIdsSql . ')');
+        }
+
+        $app = Factory::getApplication();
+
+        if ($app->isClient('site')) {
+            $user = $app->getIdentity();
+
+            $query->where($db->quoteName('mapcat.published') . ' = 1');
+
+            if (!$user->authorise('core.admin')) {
+                $query->whereIn(
+                    $db->quoteName('mapcat.access'),
+                    $user->getAuthorisedViewLevels(),
+                    ParameterType::INTEGER
+                );
+            }
         }
 
         return $query;
@@ -486,6 +506,10 @@ class SecondaryCategoriesHelper extends CMSHelper
             ->bind(':context', $this->typeAlias, ParameterType::STRING)
             ->order($db->quoteName('m.item_id'))
             ->order($db->quoteName('m.ordering'));
+
+        if (Factory::getApplication()->isClient('site')) {
+            $query->where($db->quoteName('c.published') . ' = 1');
+        }
 
         if (!$user->authorise('core.admin')) {
             $query->whereIn(

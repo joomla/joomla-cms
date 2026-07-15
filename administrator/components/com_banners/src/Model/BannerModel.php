@@ -12,6 +12,8 @@ namespace Joomla\Component\Banners\Administrator\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Helper\SecondaryCategoriesHelper;
+use Joomla\CMS\Helper\SecondaryCategoriesSaveTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
@@ -32,6 +34,7 @@ use Joomla\Database\ParameterType;
  */
 class BannerModel extends AdminModel implements VersionableModelInterface
 {
+    use SecondaryCategoriesSaveTrait;
     use VersionableModelTrait;
 
     /**
@@ -63,8 +66,9 @@ class BannerModel extends AdminModel implements VersionableModelInterface
      * @var  array
      */
     protected $batch_commands = [
-        'client_id'   => 'batchClient',
-        'language_id' => 'batchLanguage',
+        'client_id'          => 'batchClient',
+        'language_id'        => 'batchLanguage',
+        'secondary_category' => 'batchSecondaryCategory',
     ];
 
     /**
@@ -92,6 +96,35 @@ class BannerModel extends AdminModel implements VersionableModelInterface
 
         $db->setQuery($query);
         $db->execute();
+
+        $helper = new SecondaryCategoriesHelper($this->typeAlias);
+        $helper->replaceMappings((int) $newId, $helper->getCurrentSecondaryCategoriesByItem((int) $oldId));
+    }
+
+    /**
+     * Batch move items to a new category.
+     *
+     * @param   integer  $value     The new category.
+     * @param   array    $pks       An array of row IDs.
+     * @param   array    $contexts  An array of item contexts.
+     *
+     * @return  mixed
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function batchMove($value, $pks, $contexts)
+    {
+        $result = parent::batchMove($value, $pks, $contexts);
+
+        if ($result) {
+            $helper = new SecondaryCategoriesHelper($this->typeAlias);
+
+            foreach ((array) $pks as $pk) {
+                $helper->removeMappings((int) $pk, [(int) $value]);
+            }
+        }
+
+        return $result;
     }
 
 
@@ -242,6 +275,26 @@ class BannerModel extends AdminModel implements VersionableModelInterface
     }
 
     /**
+     * Method to get a single record.
+     *
+     * @param   integer  $pk  The id of the primary key.
+     *
+     * @return  mixed  Object on success, false on failure.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getItem($pk = null)
+    {
+        $item = parent::getItem($pk);
+
+        if ($item && !empty($item->id)) {
+            $item->secondary_categories = $this->getCurrentSecondaryCategories((int) $item->id);
+        }
+
+        return $item;
+    }
+
+    /**
      * Method to get the data that should be injected in the form.
      *
      * @return  mixed  The data for the form.
@@ -385,6 +438,9 @@ class BannerModel extends AdminModel implements VersionableModelInterface
 
             // Add a prefix for categories created on the fly.
             $form->setFieldAttribute('catid', 'customPrefix', '#new#');
+
+            $form->setFieldAttribute('secondary_categories', 'allowAdd', 'true');
+            $form->setFieldAttribute('secondary_categories', 'customPrefix', '#new#');
         }
 
         parent::preprocessForm($form, $data, $group);
@@ -461,7 +517,45 @@ class BannerModel extends AdminModel implements VersionableModelInterface
             $data['impmade'] = 0;
         }
 
-        return parent::save($data);
+        if (!isset($data['secondary_categories'])) {
+            $data['secondary_categories'] = [];
+        }
+
+        $data['secondary_categories'] = $this->createSecondaryCategories($data);
+        $data['secondary_categories'] = $this->normalizeSecondaryCategories($data);
+        if (!parent::save($data)) {
+            return false;
+        }
+
+        $data['id'] = (int) $this->getState($this->getName() . '.id');
+        $this->saveSecondaryCategories($data);
+
+        return true;
+    }
+
+    /**
+     * Method to delete one or more records.
+     *
+     * @param   array  $pks  An array of record primary keys.
+     *
+     * @return  boolean
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function delete(&$pks)
+    {
+        $ids = array_map('intval', (array) $pks);
+
+        if (!parent::delete($pks)) {
+            return false;
+        }
+
+        if ($ids) {
+            $helper = new SecondaryCategoriesHelper($this->typeAlias);
+            $helper->removeAllMappings(...$ids);
+        }
+
+        return true;
     }
 
     /**

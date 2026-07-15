@@ -245,6 +245,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         return match ($this->_extension) {
             'com_content' => 'com_content.article',
             'com_contact' => 'com_contact.contact',
+            'com_banners' => 'com_banners.banner',
             default       => null,
         };
     }
