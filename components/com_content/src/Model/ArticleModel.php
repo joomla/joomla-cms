@@ -286,7 +286,7 @@ class ArticleModel extends ItemModel
 
                 $this->_item[$pk] = $data;
             } catch (\Exception $e) {
-                if ($e->getCode() == 404) {
+                if ($e->getCode() == 404 || $this->shouldUseExceptions()) {
                     // Need to go through the error handler to allow Redirect to work.
                     throw $e;
                 }
