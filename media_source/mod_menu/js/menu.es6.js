@@ -24,35 +24,33 @@
    * @param {string}      [settings.menuHoverClass='show-menu'] CSS class to toggle on open submenus
    * @param {string}      [settings.dir='ltr']                  Text direction for keyboard nav ('ltr'|'rtl')
    */
-
   class Nav {
-
     // Default settings for the Nav class
     static defaultSettings = {
       menuHoverClass: 'show-menu',
       dir: 'ltr',
-      preventSubmenuOpenOnload: 'nav-active-open'
+      preventSubmenuOpenOnload: 'nav-active-open',
     };
 
     constructor(nav, settings = {}) {
       this.nav = nav;
 
       // read the HTML dir attribute or computed style, or fall back to defaultSettings.dir
-      const browserDir =
-        document.documentElement.getAttribute('dir') ||                          // <html dir="…">
-        getComputedStyle(document.documentElement).direction ||                   // CSS direction
+      const browserDir
+        = document.documentElement.getAttribute('dir') // <html dir="…">
+          || getComputedStyle(document.documentElement).direction // CSS direction
+          || Nav.defaultSettings.dir;
 
-        Nav.defaultSettings.dir;
-        this.settings = {
-          ...Nav.defaultSettings,
-          ...settings
+      this.settings = {
+        ...Nav.defaultSettings,
+        ...settings,
       };
 
       // merge defaults, browser‐detected dir, and any explicit overrides in `settings`
       this.settings = {
         ...Nav.defaultSettings,
-        dir: settings.dir ?? browserDir,  // explicit settings.dir wins, otherwise browserDir
-        ...settings                       // other overrides (e.g. menuHoverClass)
+        dir: settings.dir ?? browserDir, // explicit settings.dir wins, otherwise browserDir
+        ...settings, // other overrides (e.g. menuHoverClass)
       };
 
       // Unique prefix for this nav instance - needed for the id of submenus and aria-controls
