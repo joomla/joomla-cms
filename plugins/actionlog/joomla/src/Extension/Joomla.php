@@ -695,10 +695,10 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
                     $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_BLOCK';
                     $action             = 'block';
                 }
-
-                $message['action'] = $action;
-                $this->addLog([$message], $messageLanguageKey, $context, $userId);
             }
+
+            $message['action'] = $action;
+            $this->addLog([$message], $messageLanguageKey, $context, $userId);
         }
     }
 
