@@ -291,14 +291,15 @@ class SecondaryCategoriesHelper extends CMSHelper
     /**
      * Get the number of related items for each secondary category grouped by state.
      *
-     * @param   int[]   $categoryIds  The category ids.
-     * @param   string  $itemTable    The database table name for the items (e.g. '#__content').
+     * @param   int[]   $categoryIds      The category ids.
+     * @param   string  $itemTable        The database table name for the items (e.g. '#__content').
+     * @param   string  $columnStateName  The column name representing the state (defaults to 'state').
      *
      * @return  array<int, array<string, int>>
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getCategoryItemCounts(array $categoryIds, string $itemTable): array
+    public function getCategoryItemCounts(array $categoryIds, string $itemTable, string $columnStateName = 'state'): array
     {
         if (empty($categoryIds)) {
             return [];
@@ -318,7 +319,7 @@ class SecondaryCategoriesHelper extends CMSHelper
             ->select(
                 [
                     $db->quoteName('m.category_id', 'catid'),
-                    $db->quoteName('c.state', 'state'),
+                    $db->quoteName('c.' . $columnStateName, 'state'),
                     'COUNT(*) AS ' . $db->quoteName('count'),
                 ]
             )
@@ -328,9 +329,9 @@ class SecondaryCategoriesHelper extends CMSHelper
                 $db->quoteName('c.id') . ' = ' . $db->quoteName('m.item_id')
             )
             ->where($db->quoteName('m.context') . ' = :countContext')
-            ->whereIn($db->quoteName('m.category_id'), $categoryIds)
-            ->whereIn($db->quoteName('c.state'), array_keys(self::COUNTER_NAMES))
-            ->group($db->quoteName(['m.category_id', 'c.state']))
+            ->whereIn($db->quoteName('m.category_id'), $categoryIds, ParameterType::INTEGER)
+            ->whereIn($db->quoteName('c.' . $columnStateName), array_keys(self::COUNTER_NAMES), ParameterType::INTEGER)
+            ->group($db->quoteName(['m.category_id', 'c.' . $columnStateName]))
             ->bind(':countContext', $this->typeAlias, ParameterType::STRING);
 
         $relations = $db->setQuery($query)->loadObjectList();

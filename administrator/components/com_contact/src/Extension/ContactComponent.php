@@ -201,7 +201,7 @@ class ContactComponent extends MVCComponent implements
         }
 
         $helper = new SecondaryCategoriesHelper('com_contact.contact');
-        $counts = $helper->getCategoryItemCounts(array_column($items, 'id'), '#__contact_details');
+        $counts = $helper->getCategoryItemCounts(array_column($items, 'id'), '#__contact_details', 'published');
 
         foreach ($items as $item) {
             $itemCounts = $counts[$item->id] ?? [];

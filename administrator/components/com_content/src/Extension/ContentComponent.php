@@ -354,7 +354,7 @@ class ContentComponent extends MVCComponent implements
      *
      * @since   __DEPLOY_VERSION__
      */
-    private function countSecondaryCategoryItems(array $items): void
+    private function countSecondaryCategoryItems(&$items): void
     {
         if (empty($items)) {
             return;
