@@ -683,7 +683,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             return;
         }
 
-        
+
 
         // Check if on save a block / unblock has changed
         if ($action === 'update') {
