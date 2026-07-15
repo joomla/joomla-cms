@@ -37,7 +37,7 @@ $this->getDocument()->addScriptOptions('content-select-on-load', $data, false);
 
 <div class="px-4 py-5 my-5 text-center">
     <span class="fa-8x mb-4 <?php echo $icon; ?>" aria-hidden="true"></span>
-    <h1 class="display-5 fw-bold"><?php echo $title; ?></h1>
+    <h1 class="display-5 fw-bold"><?php echo $this->escape($title); ?></h1>
     <div class="col-lg-6 mx-auto">
         <p class="lead mb-4">
             <?php echo $content; ?>
