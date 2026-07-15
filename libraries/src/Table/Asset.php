@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Exception\InvalidHierarchyException;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Event\DispatcherInterface;
 
@@ -95,6 +96,10 @@ class Asset extends Nested
         try {
             parent::check();
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -119,6 +124,10 @@ class Asset extends Nested
 
             if ($db->setQuery($query)->loadResult()) {
                 return true;
+            }
+
+            if ($this->shouldUseExceptions()) {
+                throw new InvalidHierarchyException(Text::_('JLIB_DATABASE_ERROR_INVALID_PARENT_ID'));
             }
 
             $this->setError(Text::_('JLIB_DATABASE_ERROR_INVALID_PARENT_ID'));

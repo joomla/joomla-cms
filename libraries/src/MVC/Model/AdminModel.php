@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\MVC\Model;
 
+use Joomla\CMS\Access\Exception\NotAllowedException;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
@@ -17,7 +18,9 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Controller\Exception\ResourceNotFoundException;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\Exception\BatchOperationException;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Category;
@@ -291,6 +294,10 @@ abstract class AdminModel extends FormModel
         }
 
         if (empty($pks)) {
+            if ($this->shouldUseExceptions()) {
+                throw new BatchOperationException(Text::_('JGLOBAL_NO_ITEM_SELECTED'));
+            }
+
             $this->setError(Text::_('JGLOBAL_NO_ITEM_SELECTED'));
 
             return false;
@@ -341,6 +348,10 @@ abstract class AdminModel extends FormModel
         }
 
         if (!$done) {
+            if ($this->shouldUseExceptions()) {
+                throw new BatchOperationException(Text::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
+            }
+
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
 
             return false;
@@ -384,17 +395,33 @@ abstract class AdminModel extends FormModel
 
                 // Check the row.
                 if (!$this->table->check()) {
+                    if ($this->shouldUseExceptions()) {
+                        $error = $this->table->getError(null, false);
+
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
                     $this->setError($this->table->getError());
 
                     return false;
                 }
 
                 if (!$this->table->store()) {
+                    if ($this->shouldUseExceptions()) {
+                        $error = $this->table->getError(null, false);
+
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
                     $this->setError($this->table->getError());
 
                     return false;
                 }
             } else {
+                if ($this->shouldUseExceptions()) {
+                    throw new NotAllowedException(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+                }
+
                 $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
                 return false;
@@ -442,14 +469,22 @@ abstract class AdminModel extends FormModel
 
             // Check that the row actually exists
             if (!$this->table->load($pk)) {
-                if ($error = $this->table->getError()) {
+                if ($error = $this->table->getError(null, false)) {
                     // Fatal error
-                    $this->setError($error);
+                    if ($this->shouldUseExceptions()) {
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
+                    $this->setError($error instanceof \Throwable ? $error->getMessage() : $error);
 
                     return false;
                 }
 
                 // Not fatal error
+                if ($this->shouldUseExceptions()) {
+                    throw new ResourceNotFoundException(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                }
+
                 $this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
                 continue;
             }
@@ -491,6 +526,12 @@ abstract class AdminModel extends FormModel
 
             // Check the row.
             if (!$this->table->check()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $this->table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($this->table->getError());
 
                 return false;
@@ -498,6 +539,12 @@ abstract class AdminModel extends FormModel
 
             // Store the row.
             if (!$this->table->store()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $this->table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($this->table->getError());
 
                 return false;
@@ -591,17 +638,33 @@ abstract class AdminModel extends FormModel
 
                 // Check the row.
                 if (!$this->table->check()) {
+                    if ($this->shouldUseExceptions()) {
+                        $error = $this->table->getError(null, false);
+
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
                     $this->setError($this->table->getError());
 
                     return false;
                 }
 
                 if (!$this->table->store()) {
+                    if ($this->shouldUseExceptions()) {
+                        $error = $this->table->getError(null, false);
+
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
                     $this->setError($this->table->getError());
 
                     return false;
                 }
             } else {
+                if ($this->shouldUseExceptions()) {
+                    throw new NotAllowedException(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+                }
+
                 $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
                 return false;
@@ -641,6 +704,10 @@ abstract class AdminModel extends FormModel
         // Parent exists so we proceed
         foreach ($pks as $pk) {
             if (!$this->user->authorise('core.edit', $contexts[$pk])) {
+                if ($this->shouldUseExceptions()) {
+                    throw new NotAllowedException(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+                }
+
                 $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
                 return false;
@@ -648,14 +715,22 @@ abstract class AdminModel extends FormModel
 
             // Check that the row actually exists
             if (!$this->table->load($pk)) {
-                if ($error = $this->table->getError()) {
+                if ($error = $this->table->getError(null, false)) {
                     // Fatal error
-                    $this->setError($error);
+                    if ($this->shouldUseExceptions()) {
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
+                    $this->setError($error instanceof \Throwable ? $error->getMessage() : $error);
 
                     return false;
                 }
 
                 // Not fatal error
+                if ($this->shouldUseExceptions()) {
+                    throw new ResourceNotFoundException(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                }
+
                 $this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
                 continue;
             }
@@ -671,6 +746,12 @@ abstract class AdminModel extends FormModel
 
             // Check the row.
             if (!$this->table->check()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $this->table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($this->table->getError());
 
                 return false;
@@ -678,6 +759,12 @@ abstract class AdminModel extends FormModel
 
             // Store the row.
             if (!$this->table->store()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $this->table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($this->table->getError());
 
                 return false;
@@ -744,11 +831,19 @@ abstract class AdminModel extends FormModel
                 try {
                     $this->table->getDispatcher()->dispatch('onTableSetNewTags', $setTagsEvent);
                 } catch (\RuntimeException $e) {
+                    if ($this->shouldUseExceptions()) {
+                        throw $e;
+                    }
+
                     $this->setError($e->getMessage());
 
                     return false;
                 }
             } else {
+                if ($this->shouldUseExceptions()) {
+                    throw new NotAllowedException(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+                }
+
                 $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
                 return false;
@@ -821,6 +916,12 @@ abstract class AdminModel extends FormModel
                     $count++;
                 }
             } else {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -878,6 +979,12 @@ abstract class AdminModel extends FormModel
                     $result = $dispatcher->dispatch($this->event_before_delete, $beforeDeleteEvent)->getArgument('result', []);
 
                     if (\in_array(false, $result, true)) {
+                        if ($this->shouldUseExceptions()) {
+                            $error = $table->getError(null, false);
+
+                            throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                        }
+
                         $this->setError($table->getError());
 
                         return false;
@@ -931,6 +1038,12 @@ abstract class AdminModel extends FormModel
                     }
 
                     if (!$table->delete($pk)) {
+                        if ($this->shouldUseExceptions()) {
+                            $error = $table->getError(null, false);
+
+                            throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                        }
+
                         $this->setError($table->getError());
 
                         return false;
@@ -970,6 +1083,12 @@ abstract class AdminModel extends FormModel
             } else {
                 $error = $this->getError();
                 if ($error) {
+                    if ($this->shouldUseExceptions()) {
+                        $tableError = $table->getError(null, false);
+
+                        throw $tableError instanceof \Throwable ? $tableError : new \RuntimeException((string) $tableError);
+                    }
+
                     $this->setError($table->getError());
 
                     return false;
@@ -1040,10 +1159,20 @@ abstract class AdminModel extends FormModel
             // Check for a table object error.
             if ($return === false) {
                 // If there was no underlying error, then the false means there simply was not a row in the db for this $pk.
-                if (!$table->getError()) {
+                $tableError = $table->getError(null, false);
+
+                if ($this->shouldUseExceptions()) {
+                    if (!$tableError) {
+                        throw new ResourceNotFoundException(Text::_('JLIB_APPLICATION_ERROR_NOT_EXIST'));
+                    }
+
+                    throw $tableError instanceof \Throwable ? $tableError : new \RuntimeException((string) $tableError);
+                }
+
+                if (!$tableError) {
                     $this->setError(Text::_('JLIB_APPLICATION_ERROR_NOT_EXIST'));
                 } else {
-                    $this->setError($table->getError());
+                    $this->setError($tableError instanceof \Throwable ? $tableError->getMessage() : $tableError);
                 }
 
                 return false;
@@ -1181,6 +1310,12 @@ abstract class AdminModel extends FormModel
         $result = $dispatcher->dispatch($this->event_before_change_state, $beforeChngEvent)->getArgument('result', []);
 
         if (\in_array(false, $result, true)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -1188,6 +1323,12 @@ abstract class AdminModel extends FormModel
 
         // Attempt to change the state of the records.
         if (!$table->publish($pks, $value, $user->id)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -1202,6 +1343,12 @@ abstract class AdminModel extends FormModel
         $result = $dispatcher->dispatch($this->event_change_state, $afterChngEvent)->getArgument('result', []);
 
         if (\in_array(false, $result, true)) {
+            if ($this->shouldUseExceptions()) {
+                $error = $table->getError(null, false);
+
+                throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+            }
+
             $this->setError($table->getError());
 
             return false;
@@ -1251,6 +1398,12 @@ abstract class AdminModel extends FormModel
                 $where = $this->getReorderConditions($table);
 
                 if (!$table->move($delta, $where)) {
+                    if ($this->shouldUseExceptions()) {
+                        $error = $table->getError(null, false);
+
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
                     $this->setError($table->getError());
                     unset($pks[$i]);
                     $result = false;
@@ -1258,6 +1411,12 @@ abstract class AdminModel extends FormModel
 
                 $this->checkin($pk);
             } else {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
                 unset($pks[$i]);
                 $result = false;
@@ -1313,6 +1472,12 @@ abstract class AdminModel extends FormModel
 
             // Bind the data.
             if (!$table->bind($data)) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -1323,6 +1488,12 @@ abstract class AdminModel extends FormModel
 
             // Check the data.
             if (!$table->check()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -1338,6 +1509,12 @@ abstract class AdminModel extends FormModel
             $result = $dispatcher->dispatch($this->event_before_save, $beforeSaveEvent)->getArgument('result', []);
 
             if (\in_array(false, $result, true)) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -1345,6 +1522,12 @@ abstract class AdminModel extends FormModel
 
             // Store the data.
             if (!$table->store()) {
+                if ($this->shouldUseExceptions()) {
+                    $error = $table->getError(null, false);
+
+                    throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                }
+
                 $this->setError($table->getError());
 
                 return false;
@@ -1361,6 +1544,10 @@ abstract class AdminModel extends FormModel
                 'data'    => $data,
             ]));
         } catch (\Exception $e) {
+            if ($this->shouldUseExceptions()) {
+                throw $e;
+            }
+
             $this->setError($e->getMessage());
 
             return false;
@@ -1518,6 +1705,12 @@ abstract class AdminModel extends FormModel
                 $this->table->$orderingField = $order[$i];
 
                 if (!$this->table->store()) {
+                    if ($this->shouldUseExceptions()) {
+                        $error = $this->table->getError(null, false);
+
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
                     $this->setError($this->table->getError());
 
                     return false;
@@ -1569,11 +1762,19 @@ abstract class AdminModel extends FormModel
             $categoryTable = new Category($this->getDatabase());
 
             if (!$categoryTable->load($categoryId)) {
-                if ($error = $categoryTable->getError()) {
+                if ($error = $categoryTable->getError(null, false)) {
                     // Fatal error
-                    $this->setError($error);
+                    if ($this->shouldUseExceptions()) {
+                        throw $error instanceof \Throwable ? $error : new \RuntimeException((string) $error);
+                    }
+
+                    $this->setError($error instanceof \Throwable ? $error->getMessage() : $error);
 
                     return false;
+                }
+
+                if ($this->shouldUseExceptions()) {
+                    throw new ResourceNotFoundException(Text::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
                 }
 
                 $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
@@ -1583,6 +1784,10 @@ abstract class AdminModel extends FormModel
         }
 
         if (empty($categoryId)) {
+            if ($this->shouldUseExceptions()) {
+                throw new ResourceNotFoundException(Text::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+            }
+
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
 
             return false;
@@ -1593,6 +1798,10 @@ abstract class AdminModel extends FormModel
         $user      = $this->getCurrentUser();
 
         if (!$user->authorise('core.create', $extension . '.category.' . $categoryId)) {
+            if ($this->shouldUseExceptions()) {
+                throw new NotAllowedException(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
+            }
+
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
 
             return false;
