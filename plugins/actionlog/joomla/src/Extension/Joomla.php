@@ -696,10 +696,10 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
                     $action             = 'block';
                 }
             }
-
-            $message['action'] = $action;
-            $this->addLog([$message], $messageLanguageKey, $context, $userId);
         }
+
+        $message['action'] = $action;
+        $this->addLog([$message], $messageLanguageKey, $context, $userId);
     }
 
     /**
