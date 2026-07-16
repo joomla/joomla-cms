@@ -23,6 +23,8 @@
 					description="COM_LANGUAGES_CONFIG_FALLBACK_TAG_DESC"
 					filter="cmd"
 					hint="de-CH"
+                    required="true"
+
 				/>
 
 				<field
@@ -32,7 +34,8 @@
 					description="COM_LANGUAGES_CONFIG_FALLBACK_TARGET_DESC"
 					filter="cmd"
 					hint="de-DE"
-				/>
+           			required="true"
+			/>
 			</form>
 		</field>
 	</fieldset>
