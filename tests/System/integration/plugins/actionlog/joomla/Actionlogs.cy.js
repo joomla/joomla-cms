@@ -9,7 +9,7 @@ describe('Action Logs - User Event Scenarios', () => {
     cy.task('queryDB', 'TRUNCATE #__action_logs');
   });
 
-  it('logs user creation (Content Added)', () => {
+  it('logs user creation (backend)', () => {
     // Navigate to Users and create a new user
     cy.visit('/administrator/index.php?option=com_users&task=user.add');
 
@@ -28,7 +28,7 @@ describe('Action Logs - User Event Scenarios', () => {
     cy.contains('added new user').should('be.visible');
   });
 
-  it('logs user modifications (Content Updated)', () => {
+  it('logs user modifications (backend)', () => {
     cy.db_createUser().then((id) => {
       cy.visit(`/administrator/index.php?option=com_users&task=user.edit&id=${id}`);
 
@@ -47,7 +47,7 @@ describe('Action Logs - User Event Scenarios', () => {
     cy.contains('updated the user').should('be.visible');
   });
 
-  it('logs blocking and unblocking via user profile toggle', () => {
+  it('logs blocking and unblocking via user profile toggle (backend)', () => {
     cy.db_createUser().then((id) => {
       // Open the user profile edit view directly using the returned ID
       cy.visit(`/administrator/index.php?option=com_users&task=user.edit&id=${id}`);
@@ -75,7 +75,7 @@ describe('Action Logs - User Event Scenarios', () => {
     });
   });
 
-  it('logs blocking / unblocking directly from the List table view (using Tasks)', () => {
+  it('logs blocking / unblocking directly from the List table view (backend)', () => {
     cy.db_createUser().then(() => {
       cy.visit('/administrator/index.php?option=com_users&view=users');
 
