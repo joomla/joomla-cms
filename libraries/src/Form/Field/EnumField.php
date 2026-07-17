@@ -14,7 +14,6 @@ namespace Joomla\CMS\Form\Field;
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
-use InvalidArgumentException;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -51,7 +50,7 @@ class EnumField extends ListField
         $enumClass = (string) $this->element['enum'];
 
         if ($enumClass === '' || !enum_exists($enumClass)) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 \sprintf('Field "%s" needs a valid "enum" attribute (got "%s").', $this->name, $enumClass)
             );
         }
@@ -63,7 +62,7 @@ class EnumField extends ListField
         foreach ($enumClass::cases() as $case) {
             $options[] = (object) [
                 'value' => $case instanceof \BackedEnum ? $case->value : $case->name,
-                'text'  => $prefix !== '' ? Text::_(\strtoupper($prefix . '_' . $case->name)) : $case->name,
+                'text'  => $prefix !== '' ? Text::_(strtoupper($prefix . '_' . $case->name)) : $case->name,
             ];
         }
 
