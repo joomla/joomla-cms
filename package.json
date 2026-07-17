@@ -131,6 +131,7 @@
     "cypress@15.18.0": true,
     "cypress@13.17.0": true,
     "esbuild@0.25.10": true,
-    "vue-demi@0.13.11": true
+    "vue-demi@0.13.11": true,
+    "fsevents@2.3.3": true
   }
 }
