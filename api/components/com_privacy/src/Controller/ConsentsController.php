@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Privacy\Api\Controller;
 
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\MVC\Controller\ApiController;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -50,6 +51,10 @@ class ConsentsController extends ApiController
      */
     public function displayItem($id = null)
     {
+        if (!$this->app->getIdentity()->authorise('core.admin', $this->option)) {
+            throw new NotAllowed('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN', 403);
+        }
+
         if ($id === null) {
             $id = $this->input->get('id', 0, 'int');
         }
@@ -57,5 +62,21 @@ class ConsentsController extends ApiController
         $this->input->set('model', $this->contentType);
 
         return parent::displayItem($id);
+    }
+
+    /**
+     * Basic display of a list view
+     *
+     * @return  static  A \JControllerLegacy object to support chaining.
+     *
+     * @since   5.4.7
+     */
+    public function displayList()
+    {
+        if (!$this->app->getIdentity()->authorise('core.admin', $this->option)) {
+            throw new NotAllowed('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN', 403);
+        }
+
+        return parent::displayList();
     }
 }
