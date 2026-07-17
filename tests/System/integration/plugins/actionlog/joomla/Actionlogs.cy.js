@@ -111,4 +111,86 @@ describe('Action Logs - User Event Scenarios', () => {
       cy.contains('unblocked user').should('be.visible');
     });
   });
+
+  it('logs user registration from frontend', () => {
+    cy.db_updateExtensionParameter('allowUserRegistration', '1', 'com_users');
+    // Visit frontend Registration page
+    cy.visit('/index.php?option=com_users&view=registration');
+
+    // Fill out Frontend Registration Form
+    cy.get('#jform_name').type('test user');
+    cy.get('#jform_username').type('test');
+    cy.get('#jform_password1').type('Password123!');
+    cy.get('#jform_password2').type('Password123!');
+    cy.get('#jform_email1').type('frontendtest@example.com');
+    
+    cy.get('button[type="submit"]').contains('Register').click();
+
+    // Go back to backend to check action log
+    cy.visit('/administrator/index.php?option=com_actionlogs&view=actionlogs');
+    
+    // Asserts that user registration was logged
+    cy.contains('registered').should('be.visible');
+    cy.db_updateExtensionParameter('allowUserRegistration', '0', 'com_users');
+  });
+
+  it('logs editing profile from frontend', () => {
+    cy.db_createUser().then(() => {
+      // Visit frontend login, input credentials (assuming default db_createUser password is 'test')
+      cy.visit('/index.php?option=com_users&view=login');
+      cy.get('#username').type('test');
+      cy.get('#password').type('test');
+      cy.get('button[type="submit"]').contains('Log in').click();
+      cy.reload();
+
+      // Navigate to Frontend edit profile view
+      cy.visit('/index.php?option=com_users&view=profile&layout=edit');
+
+      // Update the profile field
+      cy.get('#jform_name').clear().type('test edited frontend');
+      cy.get('button[type="submit"]').contains('Save').click();
+
+      // Go back to backend to check action log
+      cy.visit('/administrator/index.php?option=com_actionlogs&view=actionlogs');
+      cy.contains('updated the user').should('be.visible');
+    });
+  });
+
+  it('logs username remind request from frontend', () => {
+    cy.db_createUser().then(() => {
+      // Visit frontend Remind page
+      cy.visit('/index.php?option=com_users&view=remind');
+
+      // Clear input and submit user email address with safe inputs
+      cy.get('#jform_email')
+        .should('be.visible')
+        .clear({ force: true })
+        .type('test@example.com', { force: true });
+
+      cy.get('button[type="submit"]').contains('Submit').click();
+
+      // Verify logging on the administrative backend
+      cy.visit('/administrator/index.php?option=com_actionlogs&view=actionlogs');
+      cy.contains('requested a username reminder for their account ').should('be.visible');
+    });
+  });
+
+  it('logs password reset request from frontend', () => {
+    cy.db_createUser().then(() => {
+      // Visit frontend Reset page
+      cy.visit('/index.php?option=com_users&view=reset');
+
+      // Clear input and submit user email address with safe inputs
+      cy.get('#jform_email')
+        .should('be.visible')
+        .clear({ force: true })
+        .type('test@example.com', { force: true });
+
+      cy.get('button[type="submit"]').contains('Submit').click();
+
+      // Verify logging on the administrative backend
+      cy.visit('/administrator/index.php?option=com_actionlogs&view=actionlogs');
+      cy.contains('requested a password reset for their account ').should('be.visible');
+    });
+  });
 });
