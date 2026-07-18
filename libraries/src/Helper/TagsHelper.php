@@ -906,7 +906,24 @@ class TagsHelper extends CMSHelper
                 $db->setQuery($query);
 
                 $primaryId = $db->loadResult();
-                $result    = $coreContentTable->load($primaryId);
+                $result    = true;
+
+                if ($primaryId) {
+                    $result = $coreContentTable->load($primaryId);
+
+                    if (!$result) {
+                        $query = $db->getQuery(true)
+                            ->delete($db->quoteName('#__ucm_base'))
+                            ->where($db->quoteName('ucm_id') . ' = :ucmId')
+                            ->bind(':ucmId', $primaryId, ParameterType::INTEGER);
+                        $db->setQuery($query);
+                        $db->execute();
+
+                        $coreContentTable->reset();
+                        $result = true;
+                    }
+                }
+
                 $result    = $result && $coreContentTable->bind($ucmData['common']);
                 $result    = $result && $coreContentTable->check();
                 $result    = $result && $coreContentTable->store();

@@ -193,7 +193,15 @@ class CoreContent extends Table implements CurrentUserInterface
         $db->setQuery($query);
 
         if ($ucmId = $db->loadResult()) {
-            return $this->delete($ucmId);
+            $result = $this->delete($ucmId);
+
+            $query = $db->getQuery(true)
+                ->delete($db->quoteName('#__ucm_base'))
+                ->where($db->quoteName('ucm_id') . ' = :ucmId')
+                ->bind(':ucmId', $ucmId, ParameterType::INTEGER);
+            $db->setQuery($query);
+
+            return $result && $db->execute();
         }
 
         return true;
@@ -246,7 +254,34 @@ class CoreContent extends Table implements CurrentUserInterface
             $this->setRules('{}');
         }
 
-        return parent::store($updateNulls);
+        $storeBaseAsNew = $isNew || !$this->hasUcmBase();
+        $result         = parent::store($updateNulls);
+
+        return $result && $this->storeUcmBase($updateNulls, $storeBaseAsNew);
+    }
+
+    /**
+     * Check if the current content row has a matching row in ucm_base.
+     *
+     * @return  boolean  True when the base row exists.
+     *
+     * @since   5.4.8
+     */
+    protected function hasUcmBase()
+    {
+        if (!$this->core_content_id) {
+            return false;
+        }
+
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
+            ->select('1')
+            ->from($db->quoteName('#__ucm_base'))
+            ->where($db->quoteName('ucm_id') . ' = :ucmId')
+            ->bind(':ucmId', $this->core_content_id, ParameterType::INTEGER);
+        $db->setQuery($query);
+
+        return (bool) $db->loadResult();
     }
 
     /**
