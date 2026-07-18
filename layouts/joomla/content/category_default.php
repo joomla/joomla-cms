@@ -115,7 +115,20 @@ $tagsData = $category->tags->itemTags;
     <?php endif; ?>
     <?php echo $displayData->loadTemplate($displayData->subtemplatename); ?>
 
-    <?php if ($displayData->maxLevel != 0 && $displayData->get('children')) : ?>
+    <?php
+    $hasVisibleChildren = false;
+    if ($displayData->maxLevel != 0 && $displayData->get('children')) {
+        $user   = Factory::getApplication()->getIdentity();
+        $groups = $user->getAuthorisedViewLevels();
+        foreach ($displayData->get('children') as $child) {
+            if (in_array($child->access, $groups) && ($params->get('show_empty_categories') || $child->getNumItems(true) || count($child->getChildren()))) {
+                $hasVisibleChildren = true;
+                break;
+            }
+        }
+    }
+    ?>
+    <?php if ($hasVisibleChildren) : ?>
         <div class="cat-children">
             <?php if ($params->get('show_category_heading_title_text', 1) == 1) : ?>
                 <h3>

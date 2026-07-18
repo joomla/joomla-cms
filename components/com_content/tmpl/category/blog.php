@@ -145,7 +145,20 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
         </div>
     <?php endif; ?>
 
-    <?php if ($this->maxLevel != 0 && !empty($this->children[$this->category->id])) : ?>
+    <?php
+    $hasVisibleChildren = false;
+    if ($this->maxLevel != 0 && !empty($this->children[$this->category->id])) {
+        $user   = $this->getCurrentUser();
+        $groups = $user->getAuthorisedViewLevels();
+        foreach ($this->children[$this->category->id] as $child) {
+            if (in_array($child->access, $groups) && ($this->params->get('show_empty_categories') || $child->getNumItems(true) || count($child->getChildren()))) {
+                $hasVisibleChildren = true;
+                break;
+            }
+        }
+    }
+    ?>
+    <?php if ($hasVisibleChildren) : ?>
         <div class="com-content-category-blog__children cat-children">
             <?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
                 <h3> <?php echo Text::_('JGLOBAL_SUBCATEGORIES'); ?> </h3>
