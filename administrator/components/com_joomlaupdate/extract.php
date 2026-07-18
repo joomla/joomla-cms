@@ -955,7 +955,7 @@ class ZIPExtraction
      * @param   string  $filename  The raw entry name as read from the archive
      *
      * @return  boolean  True if the entry name is unsafe to use as-is
-     * @since   4.2.9
+     * @since   __DEPLOY_VERSION__
      */
     private function isPathTraversalAttempt(string $filename): bool
     {
