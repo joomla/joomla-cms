@@ -117,6 +117,8 @@ class ExceptionHandler
                 $format = Factory::$document->getType();
             } else {
                 $format = $app->getInput()->getString('format', 'html');
+                // Default format to 'html' to prevent 500 error when format is empty
+                $format = $format ?: 'html';
             }
 
             try {
