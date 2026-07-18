@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -172,7 +173,7 @@ if (!$params->exists('show_publishing_options')) {
                 <span class="icon-times" aria-hidden="true"></span>
                 <?php echo Text::_('JCANCEL'); ?>
             </button>
-            <?php if ($params->get('save_history', 0) && $this->item->id) : ?>
+            <?php if ($params->get('save_history', 0) && $this->item->id && ComponentHelper::isEnabled('com_contenthistory')) : ?>
                 <?php echo $this->form->getInput('contenthistory'); ?>
             <?php endif; ?>
         </div>

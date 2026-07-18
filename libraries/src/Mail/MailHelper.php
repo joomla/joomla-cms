@@ -159,8 +159,12 @@ abstract class MailHelper
         $regex        = '/^[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/';
 
         foreach ($domain_array as $domain) {
-            // Convert domain to punycode
-            $domain = PunycodeHelper::toPunycode($domain);
+            try {
+                // Convert domain to punycode
+                $domain = PunycodeHelper::toPunycode($domain);
+            } catch (\Exception $e) {
+                return false;
+            }
 
             // Must be something
             if (!$domain) {

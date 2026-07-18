@@ -95,6 +95,7 @@ class JoomlaFieldMedia extends HTMLElement {
     this.button = this.querySelector(this.buttonSelect);
     this.inputElement = this.querySelector(this.input);
     this.buttonClearEl = this.querySelector(this.buttonClear);
+    this.inputGroup = this.querySelector('.input-group');
     this.previewElement = this.querySelector('.field-media-preview');
 
     if (!this.button || !this.inputElement || !this.buttonClearEl) {
@@ -308,11 +309,15 @@ class JoomlaFieldMedia extends HTMLElement {
       const { value } = this.inputElement;
       const { supportedExtensions } = this;
       if (!value) {
-        this.buttonClearEl.style.display = 'none';
+        if (this.buttonClearEl.parentElement) {
+          this.buttonClearEl.remove();
+        }
         this.previewElement.innerHTML = Joomla.sanitizeHtml('<span class="field-media-preview-icon"></span>');
       } else {
         let type;
-        this.buttonClearEl.style.display = '';
+        if (!this.buttonClearEl.parentElement && this.inputGroup) {
+          this.inputGroup.appendChild(this.buttonClearEl);
+        }
         this.previewElement.innerHTML = '';
         const ext = getExtension(value).toLowerCase();
 

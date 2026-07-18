@@ -24,6 +24,7 @@ use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxSaveLabel as PlgSystemWebauthnAj
 use Joomla\CMS\Event\Result\ResultAwareInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\Attribute\AllowUnauthorizedAdministratorAccess;
 use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -52,6 +53,7 @@ trait AjaxHandler
      * @throws  \Exception
      * @since   4.0.0
      */
+    #[AllowUnauthorizedAdministratorAccess]
     public function onAjaxWebauthn(AjaxEvent $event): void
     {
         $input = $this->getApplication()->getInput();
