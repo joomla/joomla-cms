@@ -116,11 +116,12 @@ $tagsData = $category->tags->itemTags;
     <?php echo $displayData->loadTemplate($displayData->subtemplatename); ?>
 
     <?php
+    $children           = $displayData->get('children');
     $hasVisibleChildren = false;
-    if ($displayData->maxLevel != 0 && $displayData->get('children')) {
+    if ($displayData->maxLevel != 0 && $children) {
         $user   = Factory::getApplication()->getIdentity();
         $groups = $user->getAuthorisedViewLevels();
-        foreach ($displayData->get('children') as $child) {
+        foreach ($children as $child) {
             if (in_array($child->access, $groups) && ($params->get('show_empty_categories') || $child->getNumItems(true) || count($child->getChildren()))) {
                 $hasVisibleChildren = true;
                 break;
