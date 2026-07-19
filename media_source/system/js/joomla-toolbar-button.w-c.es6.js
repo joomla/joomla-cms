@@ -86,10 +86,8 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
       if (this.disabled) {
         if (this.buttonElement.nodeName === 'BUTTON') {
           this.buttonElement.setAttribute('aria-disabled', 'true');
-          this.buttonElement.classList.add('disabled');
-        } else {
-          this.buttonElement.classList.add('disabled');
         }
+        this.buttonElement.classList.add('disabled');
       } else if (this.buttonElement.nodeName === 'BUTTON') {
         this.buttonElement.removeAttribute('aria-disabled');
         this.buttonElement.classList.remove('disabled');
