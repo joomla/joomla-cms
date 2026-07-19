@@ -84,7 +84,7 @@ Joomla = window.Joomla || {};
 
         // Extra
         clearListOptions: false,
-        preserveSelectorOnClear: false,
+        fieldsToPreserveOnClear: [],
 
         listSelectAutoSubmit: 'js-select-submit-on-change',
         listSelectAutoReset: 'js-select-reset-on-change',
@@ -283,7 +283,7 @@ Joomla = window.Joomla || {};
 
       self.getFilterFields().forEach((i) => {
         if ((exceptElement && i === exceptElement)
-          || (self.options.preserveSelectorOnClear && i.name === self.options.selectorFieldName)
+          || self.options.fieldsToPreserveOnClear.includes(i.name)
           || !i.closest(`${this.options.filterContainerSelector}, .js-stools-container-selector`)) {
           return;
         }
