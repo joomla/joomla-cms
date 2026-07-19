@@ -370,7 +370,7 @@ Date.prototype.print = function (str, dateType, translate, localStrings) {
 	return tmpDate;
 };
 
-Date.parseFieldDate = function(str, fmt, dateType, localStrings) {
+Date.parseFieldDate = function(str, fmt, dateType, localStrings, strict) {
 	str = Date.numbersToIso(str);
 
 	var today = new Date();
@@ -439,6 +439,15 @@ Date.parseFieldDate = function(str, fmt, dateType, localStrings) {
 	if (isNaN(min)) min = today.getMinutes();
 	if (y != 0 && m != -1 && d != 0)
 		return new Date(y, m, d, hr, min, 0);
+
+	// In strict mode, bail out here: the string is incomplete or invalid.
+	// We avoid falling back to the heuristic below, which can end up
+	// returning "today" as a fallback, wrongly treated by the caller as
+	// a valid date (e.g. Jalali -> Gregorian conversion while still typing).
+	if (strict) {
+		return null;
+	}
+
 	y = 0; m = -1; d = 0;
 	for (i = 0; i < a.length; ++i) {
 		if (a[i].search(/[a-zA-Z]+/) != -1) {
