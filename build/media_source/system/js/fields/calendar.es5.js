@@ -172,7 +172,7 @@
 
 	JoomlaCalendar.prototype.checkInputs = function () {
 		// Get the date from the input
-		var inputAltValueDate = Date.parseFieldDate(this.inputField.getAttribute('data-alt-value'), this.params.dateFormat, 'gregorian', this.strings);
+		var inputAltValueDate = Date.parseFieldDate(this.inputField.getAttribute('data-alt-value'), this.params.dateFormat, 'gregorian', this.strings, false);
 
 		if (this.inputField.value !== '') {
 			this.date = inputAltValueDate;
@@ -763,7 +763,7 @@
 					cell.colSpan = self.params.weekNumbers ? 3 : 2;
 
 					var selAttr = true,
-						altDate = Date.parseFieldDate(self.inputField.getAttribute('data-alt-value'), self.params.dateFormat, 'gregorian', self.strings);
+						altDate = Date.parseFieldDate(self.inputField.getAttribute('data-alt-value'), self.params.dateFormat, 'gregorian', self.strings, false);
 					pm = (altDate.getHours() >= 12);
 
 					var part = createElement("select", cell);
@@ -880,7 +880,7 @@
 					}
 					if (typeof self.dateClicked === 'undefined') {
 						// value needs to be validated
-						self.inputField.setAttribute('data-alt-value', Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType, self.strings)
+						self.inputField.setAttribute('data-alt-value', Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType, self.strings, false)
 							.print(self.params.dateFormat, 'gregorian', false, self.strings));
 					} else {
 						self.inputField.setAttribute('data-alt-value', self.date.print(self.params.dateFormat, 'gregorian', false, self.strings));
@@ -888,34 +888,59 @@
 				} else {
 					self.inputField.setAttribute('data-alt-value', '0000-00-00 00:00:00');
 				}
-				self.date = Date.parseFieldDate(self.inputField.getAttribute('data-alt-value'), self.params.dateFormat, self.params.dateType, self.strings);
+				self.date = Date.parseFieldDate(self.inputField.getAttribute('data-alt-value'), self.params.dateFormat, self.params.dateType, self.strings, false);
 			}
 			self.close();
 		});
 
 		// Validate the date and time when they are manually entered in the input field.
 		self.inputField.addEventListener('input', function (e) {
-			e.preventDefault();
-			self.close();
 			if (self.inputField.value) {
 				if (self.params.dateType !== 'gregorian') {
 					self.inputField.setAttribute('data-local-value', self.inputField.value);
-					// We need to transform the date for the data-alt-value
-					var ndate, date = Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType, self.strings);
-					ndate = Date.localCalToGregorian(date.getFullYear(), date.getMonth(), date.getDate());
+
+					// Strict parsing: while the user is still typing, the string is
+					// necessarily incomplete for most keystrokes. Without "strict",
+					// Date.parseFieldDate() silently falls back to "today" (a real
+					// Gregorian date), which would then be wrongly re-interpreted as
+					// a Jalali date below and converted into a nonsensical date
+					// (e.g. year ~2647). So we bail out until we have a genuinely
+					// complete, valid date, leaving data-alt-value untouched.
+					var date = Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType, self.strings, true);
+					if (!date) {
+						return;
+					}
+
+					// We need to transform the date for the data-alt-value.
+					// Date.localCalToGregorian() (JalaliDate.jalaliToGregorian) expects
+					// a 1-indexed month, while date.getMonth() is 0-indexed (native JS).
+					// Symmetrically, its returned month is 1-indexed, while setMonth()
+					// expects 0-indexed. Forgetting either conversion causes an off-by-one
+					// day (or month) error.
+					var ndate = Date.localCalToGregorian(date.getFullYear(), date.getMonth() + 1, date.getDate());
 					date.setFullYear(ndate[0]);
-					date.setMonth(ndate[1]);
+					date.setMonth(ndate[1] - 1);
 					date.setDate(ndate[2]);
 					self.inputField.setAttribute('data-alt-value', date.print(self.params.dateFormat, 'gregorian', false, self.strings));
 				} else {
 					// Value needs to be validated
-					self.inputField.setAttribute('data-alt-value', Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType, self.strings)
-						.print(self.params.dateFormat, 'gregorian', false, self.strings));
+					var gdate = Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType, self.strings, true);
+					if (!gdate) {
+						return;
+					}
+					self.inputField.setAttribute('data-alt-value', gdate.print(self.params.dateFormat, 'gregorian', false, self.strings));
 				}
 			} else {
 				self.inputField.setAttribute('data-alt-value', '0000-00-00 00:00:00');
 			}
-			self.date = Date.parseFieldDate(self.inputField.getAttribute('data-alt-value'), self.params.dateFormat, self.params.dateType, self.strings);
+			self.date = Date.parseFieldDate(self.inputField.getAttribute('data-alt-value'), self.params.dateFormat, self.params.dateType, self.strings, false);
+
+			// Keep the picker's day grid and time selectors (hours/minutes/am-pm)
+			// in sync with what was just typed, without touching inputField.value
+			// (processCalendar() only redraws the picker, it never rewrites the input).
+			if (!self.hidden) {
+				self.processCalendar();
+			}
 		});
 
 		this.processCalendar();
@@ -1043,12 +1068,9 @@
 
 			/* remove the selected class  for the hours*/
 			this.resetSelected(hoursEl);
-			if (!this.params.time24)
-			{
+			if (!this.params.time24) {
 				hoursEl.value = (hrs == "00") ? "12" : hrs;
-			}
-			else
-			{
+			} else {
 				hoursEl.value = hrs;
 			}
 
@@ -1056,8 +1078,7 @@
 			this.resetSelected(minsEl);
 			minsEl.value = mins;
 
-			if (!this.params.time24)
-			{
+			if (!this.params.time24) {
 				var dateAlt = new Date(this.inputField.getAttribute('data-alt-value')),
 					ampmEl = this.table.querySelector('.time-ampm'),
 					hrsAlt = dateAlt.getHours();
@@ -1098,16 +1119,31 @@
 						calObj.inputField.setAttribute('data-local-value', calObj.inputField.value);
 
 						if (calObj.params.dateType !== 'gregorian') {
-							// We need to transform the date for the data-alt-value
-							var ndate, date = Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType, calObj.strings);
-							ndate = Date.localCalToGregorian(date.getFullYear(), date.getMonth(), date.getDate());
-							date.setFullYear(ndate[0]);
-							date.setMonth(ndate[1]);
-							date.setDate(ndate[2]);
-							calObj.inputField.setAttribute('data-alt-value', date.print(calObj.params.dateFormat, 'gregorian', false, calObj.strings));
+							// We need to transform the date for the data-alt-value.
+							// Strict parsing: if the field was left with an incomplete or
+							// invalid value (e.g. the user clicked away mid-edit), do not
+							// convert it as if it were a valid Jalali date - fall back to
+							// an empty value instead, just like the "no value" branch below.
+							var date = Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType, calObj.strings, true);
+							if (!date) {
+								calObj.inputField.setAttribute('data-alt-value', '0000-00-00 00:00:00');
+							} else {
+								// See the "input" listener above for why +1 / -1 are required here:
+								// Date.localCalToGregorian() expects/returns a 1-indexed month,
+								// while getMonth()/setMonth() are 0-indexed.
+								var ndate = Date.localCalToGregorian(date.getFullYear(), date.getMonth() + 1, date.getDate());
+								date.setFullYear(ndate[0]);
+								date.setMonth(ndate[1] - 1);
+								date.setDate(ndate[2]);
+								date.setHours(self.date.getHours());
+								date.setMinutes(self.date.getMinutes());
+								calObj.inputField.setAttribute('data-alt-value', date.print(calObj.params.dateFormat, 'gregorian', false, calObj.strings));
+							}
 						} else {
-							calObj.inputField.setAttribute('data-alt-value', Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType, calObj.strings)
-								.print(calObj.params.dateFormat, 'gregorian', false, calObj.strings));
+							var gdate = Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType, calObj.strings, true);
+							calObj.inputField.setAttribute('data-alt-value', gdate
+								? gdate.print(calObj.params.dateFormat, 'gregorian', false, calObj.strings)
+								: '0000-00-00 00:00:00');
 						}
 					} else {
 						calObj.inputField.setAttribute('data-alt-value', calObj.date.print(calObj.params.dateFormat, 'gregorian', false, calObj.strings));
@@ -1115,9 +1151,8 @@
 				} else {
 					calObj.inputField.setAttribute('data-alt-value', '0000-00-00 00:00:00');
 				}
-				calObj.date = Date.parseFieldDate(calObj.inputField.getAttribute('data-alt-value'), calObj.params.dateFormat, calObj.params.dateType, calObj.strings);
+				calObj.date = Date.parseFieldDate(calObj.inputField.getAttribute('data-alt-value'), calObj.params.dateFormat, calObj.params.dateType, calObj.strings, false);
 			}
-
 			self.close();
 		}, true);
 		this.button.addEventListener('click', function() {
