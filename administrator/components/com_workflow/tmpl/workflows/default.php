@@ -61,7 +61,7 @@ $userId = $user->id;
             <div id="j-main-container" class="j-main-container">
                 <?php
                     // Search tools bar
-                    echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => ['selectorFieldName' => 'extension', 'preserveSelectorOnClear' => true]]);
+                    echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => ['selectorFieldName' => 'extension', 'fieldsToPreserveOnClear' => ['extension']]]);
                 ?>
                 <?php if (empty($this->workflows)) : ?>
                     <div class="alert alert-info">
