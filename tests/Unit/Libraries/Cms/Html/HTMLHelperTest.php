@@ -53,6 +53,30 @@ class HTMLHelperTest extends UnitTestCase
     }
 
     /**
+     * Test buildAttributes with invalid attribute names
+     *
+     * @return  void
+     *
+     * @covers  Joomla\CMS\HTML\HTMLHelper::buildAttributes
+     */
+    public function testBuildAttributesWithInvalidAttributeNames(): void
+    {
+        $attribs = [
+            'valid'         => 'value1',
+            '1invalid'      => 'value2',  // Starts with a number
+            'invalid-name!' => 'value3',  // Contains invalid character '!'
+            'data-valid'    => 'value4',
+            ''              => 'value5',  // Empty attribute name
+            '_isvalid'      => 'value6',  // Starts with underscore, not recommended but valid
+            '-invalid'      => 'value7',  // Starts with hyphen
+            'valid_name'    => 'value8',
+        ];
+
+        $expected = 'valid="value1" data-valid="value4" _isvalid="value6" valid_name="value8"';
+        $this->assertEquals($expected, HTMLHelper::buildAttributes($attribs));
+    }
+
+    /**
      * Test HTMLHelper::link with double quote breaking XSS payload in class attribute
      *
      * @return  void

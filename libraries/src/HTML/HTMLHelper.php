@@ -361,6 +361,11 @@ abstract class HTMLHelper
         $result = [];
 
         foreach ($attribs as $key => $value) {
+            // Skip invalid attribute names
+            if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_:.-]*$/', $key)) {
+                continue;
+            }
+
             // Escape the attribute value to prevent XSS
             $result[] = $key . '="' . htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8') . '"';
         }
