@@ -82,8 +82,6 @@ jobs:
           path: plugins/system/webauthn/fido.jwt
           key: ${{ runner.os }}-webauthn-${{ hashFiles('composer.lock') }}
       - name: Check PHP code style
-        env:
-          PHP_CS_FIXER_IGNORE_ENV: true
         run: |
           set -e
           ./libraries/vendor/bin/php-cs-fixer fix -vvv --diff
