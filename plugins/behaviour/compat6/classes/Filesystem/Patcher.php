@@ -20,7 +20,7 @@ use Joomla\CMS\Language\Text;
  *
  * @link   http://sourceforge.net/projects/phppatcher/ This has been derived from the PhpPatcher version 0.1.1 written by Giuseppe Mazzotta
  * @since  3.0.0
- * @deprecated  4.4 will be removed in 6.0
+ * @deprecated  4.4 will be removed in 7.0
  *              Use Joomla\Filesystem\Patcher instead.
  */
 class Patcher
@@ -81,7 +81,7 @@ class Patcher
      * The constructor is protected to force the use of FilesystemPatcher::getInstance()
      *
      * @since   3.0.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Patcher::__construct() instead.
      */
     protected function __construct()
@@ -94,7 +94,7 @@ class Patcher
      * @return  Patcher  an instance of the patcher
      *
      * @since   3.0.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Patcher::getInstance() instead.
      */
     public static function getInstance()
@@ -112,7 +112,7 @@ class Patcher
      * @return  Patcher  This object for chaining
      *
      * @since   3.0.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Patcher::reset() instead.
      */
     public function reset()
@@ -132,7 +132,7 @@ class Patcher
      *
      * @since   3.0.0
      * @throws  \RuntimeException
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Patcher::apply() instead.
      */
     public function apply()
@@ -218,7 +218,7 @@ class Patcher
      * @return  Patcher  $this for chaining
      *
      * @since   3.0.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Patcher::addFile() instead.
      */
     public function addFile($filename, $root = JPATH_BASE, $strip = 0)
@@ -236,7 +236,7 @@ class Patcher
      * @return  Patcher  $this for chaining
      *
      * @since   3.0.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Patcher::add() instead.
      */
     public function add($udiff, $root = JPATH_BASE, $strip = 0)
@@ -258,7 +258,7 @@ class Patcher
      * @return  array  The lines of the inputdestination file
      *
      * @since   3.0.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Patcher::splitLines() instead.
      */
     protected static function splitLines($data)
@@ -279,7 +279,7 @@ class Patcher
      *
      * @since   3.0.0
      * @throws  \RuntimeException
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Patcher::findHeader() instead.
      */
     protected static function findHeader(&$lines, &$src, &$dst)
@@ -338,7 +338,7 @@ class Patcher
      *
      * @since   3.0.0
      * @throws  \RuntimeException
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Patcher::findHunk() instead.
      */
     protected static function findHunk(&$lines, &$srcLine, &$srcSize, &$dstLine, &$dstSize)
@@ -387,7 +387,7 @@ class Patcher
      *
      * @since   3.0.0
      * @throws  \RuntimeException
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Patcher::applyHunk() instead.
      */
     protected function applyHunk(&$lines, $src, $dst, $srcLine, $srcSize, $dstLine, $dstSize)
@@ -490,7 +490,7 @@ class Patcher
      * @return  array  The lines of the source file
      *
      * @since   3.0.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Patcher::getSource() instead.
      */
     protected function &getSource($src)
@@ -515,7 +515,7 @@ class Patcher
      * @return  array  The lines of the destination file
      *
      * @since   3.0.0
-     * @deprecated  4.4 will be removed in 6.0
+     * @deprecated  4.4 will be removed in 7.0
      *              Use Joomla\Filesystem\Patcher::getDestination() instead.
      */
     protected function &getDestination($dst, $src)
