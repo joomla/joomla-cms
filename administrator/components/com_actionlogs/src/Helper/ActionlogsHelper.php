@@ -12,7 +12,6 @@ namespace Joomla\Component\Actionlogs\Administrator\Helper;
 
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
@@ -35,9 +34,7 @@ class ActionlogsHelper
      *
      * @var    array
      *
-     * @since       3.9.7
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
-     *              Use \Joomla\CMS\Filter\OutputFilter::escapeCsvFormula() instead
+     * @since  3.9.7
      */
     private static $characters = ['=', '+', '-', '@'];
 
@@ -76,11 +73,11 @@ class ActionlogsHelper
 
             yield [
                 'id'         => $log->id,
-                'message'    => OutputFilter::escapeCsvFormula(strip_tags(static::getHumanReadableLogMessage($log, false))),
-                'extension'  => OutputFilter::escapeCsvFormula(Text::_($extension)),
+                'message'    => self::escapeCsvFormula(strip_tags(static::getHumanReadableLogMessage($log, false))),
+                'extension'  => self::escapeCsvFormula(Text::_($extension)),
                 'date'       => (new Date($log->log_date, new \DateTimeZone('UTC')))->format('Y-m-d H:i:s T'),
-                'name'       => OutputFilter::escapeCsvFormula($log->name),
-                'ip_address' => OutputFilter::escapeCsvFormula($log->ip_address === 'COM_ACTIONLOGS_DISABLED' ? $disabledText : $log->ip_address),
+                'name'       => self::escapeCsvFormula($log->name),
+                'ip_address' => self::escapeCsvFormula($log->ip_address === 'COM_ACTIONLOGS_DISABLED' ? $disabledText : $log->ip_address),
             ];
         }
     }
@@ -356,9 +353,7 @@ class ActionlogsHelper
      *
      * @return  mixed
      *
-     * @since       3.9.7
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
-     *              Use \Joomla\CMS\Filter\OutputFilter::escapeCsvFormula() instead
+     * @since   3.9.7
      */
     protected static function escapeCsvFormula($value)
     {
