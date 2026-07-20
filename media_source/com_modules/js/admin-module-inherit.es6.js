@@ -7,13 +7,15 @@
   const SELECT_SELECTOR = 'select[data-inherit-menu-id]';
   const CHECKBOX_SELECTOR = 'input[type="checkbox"][name="jform[assigned][]"]';
   const HIDDEN_INHERIT_SELECTOR = 'input[type="hidden"][name^="jform[inherit]["]';
+  const ITEM_SELECTOR = '.treeselect-item';
+  const CONTROL_SELECTOR = '.module-inherit-control';
   const LOCK_BADGE_SELECTOR = '.module-inherit-lock-badge';
   const TREE_UNCHECK_ALL_SELECTOR = '#treeUncheckAll';
   const SUBTREE_ACTION_SELECTOR = 'a.checkall, a.uncheckall';
 
   const getSubmenu = (li) => (li ? li.querySelector(':scope > ul.treeselect-sub') : null);
 
-  const getDirectItem = (li) => (li ? li.querySelector(':scope > .treeselect-item') : null);
+  const getDirectItem = (li) => (li ? li.querySelector(`:scope > ${ITEM_SELECTOR}`) : null);
 
   const getDirectChildLis = (li) => {
     const submenu = getSubmenu(li);
@@ -39,23 +41,58 @@
       .filter((descendant) => getDirectItem(descendant));
   };
 
+  // Used to pick the outermost locker when several stack up on one row.
+  const getLiDepth = (element) => {
+    let depth = 0;
+    let li = element.closest('li');
+
+    while (li) {
+      depth += 1;
+      li = li.parentElement ? li.parentElement.closest('li') : null;
+    }
+
+    return depth;
+  };
+
+  // Separators, headings, aliases and URLs are not pages, so nothing propagates
+  // to them and they never show an inherited label.
+  const isAssignable = (checkbox) => Boolean(checkbox)
+    && checkbox.dataset.inheritBaselineDisabled !== '1';
+
   const getMode = (select) => {
     const value = parseInt(select.value, 10);
     return value === 1 || value === 2 ? value : 0;
   };
 
-  const setCount = (counterMap, element, delta) => {
-    const current = counterMap.get(element) || 0;
-    const next = current + delta;
+  // Sets rather than counters: the badge has to name the ancestor responsible.
+  const addLock = (sourceMap, element, source) => {
+    let sources = sourceMap.get(element);
 
-    if (next <= 0) {
-      counterMap.delete(element);
-      return 0;
+    if (!sources) {
+      sources = new Set();
+      sourceMap.set(element, sources);
     }
 
-    counterMap.set(element, next);
+    sources.add(source);
+  };
 
-    return next;
+  const removeLock = (sourceMap, element, source) => {
+    const sources = sourceMap.get(element);
+
+    if (!sources) {
+      return;
+    }
+
+    sources.delete(source);
+
+    if (!sources.size) {
+      sourceMap.delete(element);
+    }
+  };
+
+  const isLocked = (sourceMap, element) => {
+    const sources = sourceMap.get(element);
+    return Boolean(sources && sources.size);
   };
 
   const syncHiddenValue = (state, select) => {
@@ -74,7 +111,7 @@
 
   const refreshCheckboxState = (state, checkbox) => {
     const baselineLocked = checkbox.dataset.inheritBaselineDisabled === '1';
-    const inheritedLocked = (state.checkboxLockCount.get(checkbox) || 0) > 0;
+    const inheritedLocked = isLocked(state.checkboxLockSources, checkbox);
 
     if (inheritedLocked) {
       checkbox.checked = true;
@@ -87,26 +124,92 @@
 
   const refreshSelectState = (state, select) => {
     const baselineLocked = select.dataset.inheritBaselineDisabled === '1';
-    const inheritedLocked = (state.selectLockCount.get(select) || 0) > 0;
-    const badge = select.parentNode.querySelector(LOCK_BADGE_SELECTOR);
+    const inheritedLocked = isLocked(state.selectLockSources, select);
+    const control = state.controlBySelect.get(select) || select;
 
     select.disabled = baselineLocked || inheritedLocked;
+    control.classList.toggle('d-none', inheritedLocked);
+  };
 
-    if (!inheritedLocked) {
-      select.classList.remove('d-none');
+  // Excludes the row's own select, or a source would label itself as inheriting.
+  const collectRowSources = (state, item) => {
+    const ownSelect = state.selectByItem.get(item) || null;
+    const checkbox = state.checkboxByItem.get(item) || null;
+    const sources = new Set();
 
-      if (badge) {
-        badge.classList.add('d-none');
+    const merge = (locks) => {
+      if (!locks) {
+        return;
       }
+
+      locks.forEach((source) => {
+        if (source !== ownSelect) {
+          sources.add(source);
+        }
+      });
+    };
+
+    if (checkbox) {
+      merge(state.checkboxLockSources.get(checkbox));
+    }
+
+    if (ownSelect) {
+      merge(state.selectLockSources.get(ownSelect));
+    }
+
+    return sources;
+  };
+
+  const refreshRowBadge = (state, item) => {
+    const badge = state.badgeByItem.get(item);
+
+    if (!badge) {
+      return;
+    }
+
+    if (!isAssignable(state.checkboxByItem.get(item))) {
+      badge.textContent = '';
+      badge.classList.add('d-none');
 
       return;
     }
 
-    select.classList.add('d-none');
+    let source = null;
+    let sourceDepth = Infinity;
 
-    if (badge) {
-      badge.classList.remove('d-none');
+    collectRowSources(state, item).forEach((candidate) => {
+      const depth = state.selectDepth.get(candidate);
+
+      // Outermost wins: it names the only dropdown the user can still act on.
+      if (depth < sourceDepth) {
+        sourceDepth = depth;
+        source = candidate;
+      }
+    });
+
+    if (!source) {
+      badge.textContent = '';
+      badge.classList.add('d-none');
+
+      return;
     }
+
+    badge.textContent = state.badgeTemplate.replace('%s', source.dataset.inheritMenuTitle || '');
+    badge.classList.remove('d-none');
+  };
+
+  const refreshRowsFor = (state, elements, ownerMap) => {
+    const items = new Set();
+
+    elements.forEach((element) => {
+      const item = ownerMap.get(element);
+
+      if (item) {
+        items.add(item);
+      }
+    });
+
+    items.forEach((item) => refreshRowBadge(state, item));
   };
 
   const refreshSubtreeActions = (root) => {
@@ -131,7 +234,7 @@
     });
   };
 
-  const applyModeDelta = (state, sourceSelect, mode, delta) => {
+  const applyMode = (state, sourceSelect, mode, locking) => {
     if (mode !== 1 && mode !== 2) {
       return;
     }
@@ -142,21 +245,22 @@
       return;
     }
 
+    const mutate = locking ? addLock : removeLock;
     const checkboxTargets = mode === 2 ? targets.deepCheckboxes : targets.directCheckboxes;
 
     // The source's own checkbox is locked too: a parent can't propagate an
     // assignment to its descendants without itself being assigned.
     if (targets.sourceCheckbox) {
-      setCount(state.checkboxLockCount, targets.sourceCheckbox, delta);
+      mutate(state.checkboxLockSources, targets.sourceCheckbox, sourceSelect);
     }
 
     checkboxTargets.forEach((checkbox) => {
-      setCount(state.checkboxLockCount, checkbox, delta);
+      mutate(state.checkboxLockSources, checkbox, sourceSelect);
     });
 
     if (mode === 2) {
       targets.deepSelects.forEach((select) => {
-        setCount(state.selectLockCount, select, delta);
+        mutate(state.selectLockSources, select, sourceSelect);
       });
     }
   };
@@ -192,9 +296,37 @@
   const buildState = (root) => {
     const checkboxes = Array.from(root.querySelectorAll(CHECKBOX_SELECTOR));
     const selects = Array.from(root.querySelectorAll(SELECT_SELECTOR));
+    const items = Array.from(root.querySelectorAll(ITEM_SELECTOR));
     const hiddenByMenuId = new Map();
     const selectByMenuId = new Map();
     const lockTargetsBySelect = new Map();
+    const selectDepth = new Map();
+    const controlBySelect = new Map();
+    const badgeByItem = new Map();
+    const checkboxByItem = new Map();
+    const selectByItem = new Map();
+    const itemByCheckbox = new Map();
+    const itemBySelect = new Map();
+
+    items.forEach((item) => {
+      const badge = item.querySelector(LOCK_BADGE_SELECTOR);
+      const checkbox = item.querySelector(CHECKBOX_SELECTOR);
+      const select = item.querySelector(SELECT_SELECTOR);
+
+      if (badge) {
+        badgeByItem.set(item, badge);
+      }
+
+      if (checkbox) {
+        checkboxByItem.set(item, checkbox);
+        itemByCheckbox.set(checkbox, item);
+      }
+
+      if (select) {
+        selectByItem.set(item, select);
+        itemBySelect.set(select, item);
+      }
+    });
 
     checkboxes.forEach((checkbox) => {
       checkbox.dataset.inheritBaselineDisabled = checkbox.disabled ? '1' : '0';
@@ -203,6 +335,9 @@
 
     selects.forEach((select) => {
       select.dataset.inheritBaselineDisabled = select.disabled ? '1' : '0';
+      selectDepth.set(select, getLiDepth(select));
+      controlBySelect.set(select, select.closest(CONTROL_SELECTOR) || select);
+
       const menuId = select.dataset.inheritMenuId;
 
       if (menuId) {
@@ -221,7 +356,8 @@
     selects.forEach((select) => {
       const sourceLi = select.closest('li');
       const sourceItem = getDirectItem(sourceLi);
-      const sourceCheckbox = sourceItem ? sourceItem.querySelector(CHECKBOX_SELECTOR) : null;
+      const ownCheckbox = sourceItem ? sourceItem.querySelector(CHECKBOX_SELECTOR) : null;
+      const sourceCheckbox = isAssignable(ownCheckbox) ? ownCheckbox : null;
       const directCheckboxes = [];
       const deepCheckboxes = [];
       const deepSelects = [];
@@ -230,7 +366,7 @@
         const item = getDirectItem(li);
         const checkbox = item ? item.querySelector(CHECKBOX_SELECTOR) : null;
 
-        if (checkbox) {
+        if (isAssignable(checkbox)) {
           directCheckboxes.push(checkbox);
         }
       });
@@ -245,7 +381,7 @@
         const checkbox = item.querySelector(CHECKBOX_SELECTOR);
         const childSelect = item.querySelector(SELECT_SELECTOR);
 
-        if (checkbox) {
+        if (isAssignable(checkbox)) {
           deepCheckboxes.push(checkbox);
         }
 
@@ -264,24 +400,27 @@
 
     return {
       root,
+      items,
       checkboxes,
       selects,
       hiddenByMenuId,
       selectByMenuId,
       lockTargetsBySelect,
+      selectDepth,
+      controlBySelect,
+      badgeByItem,
+      checkboxByItem,
+      selectByItem,
+      itemByCheckbox,
+      itemBySelect,
+      badgeTemplate: Joomla.Text._('COM_MODULES_INHERITED_BADGE', 'Inherited [%s]'),
       selectMode: new Map(),
-      checkboxLockCount: new Map(),
-      selectLockCount: new Map(),
+      checkboxLockSources: new Map(),
+      selectLockSources: new Map(),
     };
   };
 
-  const initializeLocks = (state) => {
-    state.selects.forEach((select) => {
-      const mode = getMode(select);
-      state.selectMode.set(select, mode);
-      applyModeDelta(state, select, mode, 1);
-    });
-
+  const refreshAll = (state) => {
     state.checkboxes.forEach((checkbox) => {
       refreshCheckboxState(state, checkbox);
     });
@@ -290,7 +429,21 @@
       refreshSelectState(state, select);
     });
 
+    state.items.forEach((item) => {
+      refreshRowBadge(state, item);
+    });
+
     refreshSubtreeActions(state.root);
+  };
+
+  const initializeLocks = (state) => {
+    state.selects.forEach((select) => {
+      const mode = getMode(select);
+      state.selectMode.set(select, mode);
+      applyMode(state, select, mode, true);
+    });
+
+    refreshAll(state);
   };
 
   const updateSelectMode = (state, sourceSelect) => {
@@ -307,8 +460,8 @@
     collectAffectedTargets(state, sourceSelect, previousMode, affectedCheckboxes, affectedSelects);
     collectAffectedTargets(state, sourceSelect, nextMode, affectedCheckboxes, affectedSelects);
 
-    applyModeDelta(state, sourceSelect, previousMode, -1);
-    applyModeDelta(state, sourceSelect, nextMode, 1);
+    applyMode(state, sourceSelect, previousMode, false);
+    applyMode(state, sourceSelect, nextMode, true);
 
     state.selectMode.set(sourceSelect, nextMode);
 
@@ -319,6 +472,9 @@
     affectedSelects.forEach((select) => {
       refreshSelectState(state, select);
     });
+
+    refreshRowsFor(state, affectedCheckboxes, state.itemByCheckbox);
+    refreshRowsFor(state, affectedSelects, state.itemBySelect);
 
     refreshSubtreeActions(state.root);
   };
@@ -333,22 +489,16 @@
     });
 
     state.selectMode.clear();
-    state.checkboxLockCount.clear();
-    state.selectLockCount.clear();
+    state.checkboxLockSources.clear();
+    state.selectLockSources.clear();
 
     state.checkboxes.forEach((checkbox) => {
       if (checkbox.dataset.inheritBaselineDisabled !== '1') {
         checkbox.checked = false;
       }
-
-      refreshCheckboxState(state, checkbox);
     });
 
-    state.selects.forEach((select) => {
-      refreshSelectState(state, select);
-    });
-
-    refreshSubtreeActions(state.root);
+    refreshAll(state);
   };
 
   const init = () => {
