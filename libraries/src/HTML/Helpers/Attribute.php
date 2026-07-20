@@ -14,7 +14,7 @@ namespace Joomla\CMS\HTML\Helpers;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Utility class for building HTML attributes.
+ * Provides utility methods for HTML attribute handling.
  *
  * @since  __DEPLOY_VERSION__
  */
