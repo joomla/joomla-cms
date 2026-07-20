@@ -320,10 +320,10 @@ abstract class HTMLHelper
     public static function link($url, $text, $attribs = null)
     {
         if (\is_array($attribs)) {
-            $attribs = static::buildAttributes($attribs);
+            $attribs = HTMLHelper::_('attribute.buildAttributes', $attribs);
         }
 
-        return '<a href="' . $url . '" ' . $attribs . '>' . $text . '</a>';
+        return '<a href="' . $url . '" ' . HTMLHelper::_('attribute.buildAttributes', $attribs) . '>' . $text . '</a>';
     }
 
     /**
@@ -341,37 +341,13 @@ abstract class HTMLHelper
     public static function iframe($url, $name, $attribs = null, $noFrames = '')
     {
         if (\is_array($attribs)) {
-            $attribs = static::buildAttributes($attribs);
+            $attribs = HTMLHelper::_('attribute.buildAttributes', $attribs);
         }
 
         return '<iframe src="' . $url . '" ' . $attribs . ' name="' . $name . '">' . $noFrames . '</iframe>';
     }
 
-    /**
-     * Build a string of HTML attributes from an array.
-     *
-     * @param   array  $attribs  The array of attributes.
-     *
-     * @return  string  The string of HTML attributes.
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public static function buildAttributes(array $attribs): string
-    {
-        $result = [];
 
-        foreach ($attribs as $key => $value) {
-            // Skip invalid attribute names
-            if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_:.-]*$/', $key)) {
-                continue;
-            }
-
-            // Escape the attribute value to prevent XSS
-            $result[] = $key . '="' . htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8') . '"';
-        }
-
-        return implode(' ', $result);
-    }
 
     /**
      * Look for path relatively to media folder.

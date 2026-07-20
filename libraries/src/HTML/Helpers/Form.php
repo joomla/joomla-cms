@@ -51,7 +51,7 @@ abstract class Form
         $attributes = '';
 
         if ($attribs !== []) {
-            $attributes .= ' ' . HTMLHelper::buildAttributes($attribs);
+            $attributes .= ' ' . HTMLHelper::_('attribute.buildAttributes', $attribs);
         }
 
         return '<input type="hidden" name="' . Session::getFormToken() . '" value="1"' . $attributes . '>';

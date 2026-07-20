@@ -183,7 +183,7 @@ class MetasRenderer extends DocumentRenderer
             $buffer .= $tab . '<link href="' . $link . '" ' . $linkAtrr['relType'] . '="' . $linkAtrr['relation'] . '"';
 
             if (\is_array($linkAtrr['attribs'])) {
-                if ($temp = HTMLHelper::buildAttributes($linkAtrr['attribs'])) {
+                if ($temp = HTMLHelper::_('attribute.buildAttributes', $linkAtrr['attribs'])) {
                     $buffer .= ' ' . $temp;
                 }
             }

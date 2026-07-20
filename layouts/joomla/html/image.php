@@ -37,4 +37,4 @@ if ($img->attributes['width'] > 0 && $img->attributes['height'] > 0) {
     }
 }
 
-echo '<img ' . HTMLHelper::buildAttributes($displayData) . '>';
+echo '<img ' . HTMLHelper::_('attribute.buildAttributes', $displayData) . '>';

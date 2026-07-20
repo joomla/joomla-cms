@@ -48,9 +48,9 @@ if ($moduleTag !== 'div') {
     endif;
 }
 
-$header = '<' . $headerTag . ' ' . HTMLHelper::buildAttributes($headerAttribs) . '>' . $module->title . '</' . $headerTag . '>';
+$header = '<' . $headerTag . ' ' . HTMLHelper::_('attribute.buildAttributes', $headerAttribs) . '>' . $module->title . '</' . $headerTag . '>';
 ?>
-<<?php echo $moduleTag; ?> <?php echo HTMLHelper::buildAttributes($moduleAttribs); ?>>
+<<?php echo $moduleTag; ?> <?php echo HTMLHelper::_('attribute.buildAttributes', $moduleAttribs); ?>>
     <?php if ($module->showtitle && $headerClass !== 'card-title') : ?>
         <?php echo $header; ?>
     <?php endif; ?>

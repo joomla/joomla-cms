@@ -71,7 +71,7 @@ if (isset($params['url'])) {
     $iframeHtml = htmlspecialchars(LayoutHelper::render('libraries.html.bootstrap.modal.iframe', $displayData), ENT_COMPAT, 'UTF-8');
 }
 ?>
-<div id="<?php echo $selector; ?>" role="dialog" <?php echo HTMLHelper::buildAttributes($modalAttributes); ?> <?php echo $url ?? ''; ?> <?php echo isset($url) ? 'data-iframe="' . trim($iframeHtml) . '"' : ''; ?>>
+<div id="<?php echo $selector; ?>" role="dialog" <?php echo HTMLHelper::_('attribute.buildAttributes', $modalAttributes); ?> <?php echo $url ?? ''; ?> <?php echo isset($url) ? 'data-iframe="' . trim($iframeHtml) . '"' : ''; ?>>
     <div class="modal-dialog <?php echo $modalDialogClass; ?>">
         <div class="modal-content">
             <?php

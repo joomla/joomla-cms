@@ -197,7 +197,7 @@ abstract class ToolbarButton
             $options['attributes']['class']
         );
 
-        $options['htmlAttributes'] = HTMLHelper::buildAttributes($options['attributes']);
+        $options['htmlAttributes'] = HTMLHelper::_('attribute.buildAttributes', $options['attributes']);
 
         // Isolate button class from icon class
         $buttonClass         = str_replace('icon-', '', $this->getName());

@@ -147,7 +147,7 @@ $hideSubmit   = !$this->renderOptions['show_submit'] && !$this->isEditExisting
                     $attributes['class'] .= ' form-control';
                 }
                 ?>
-                <input <?php echo HTMLHelper::buildAttributes($attributes) ?>>
+                <input <?php echo HTMLHelper::_('attribute.buildAttributes', $attributes) ?>>
 
                 <p class="form-text" id="com-users-method-code-help">
                     <?php echo $this->escape($this->renderOptions['placeholder']) ?>

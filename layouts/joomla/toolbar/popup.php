@@ -69,7 +69,7 @@ $listAttr = !empty($listCheck) ? ' list-selection' : '';
     value="<?php echo $doTask; ?>"
     class="<?php echo $btnClass; ?>"
     <?php echo $htmlAttributes; ?>
-    <?php echo HTMLHelper::buildAttributes($modalAttrs); ?>
+    <?php echo HTMLHelper::_('attribute.buildAttributes', $modalAttrs); ?>
 >
     <span class="<?php echo $class; ?>" aria-hidden="true"></span>
     <?php echo $text; ?>

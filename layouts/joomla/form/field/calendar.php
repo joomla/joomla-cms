@@ -94,7 +94,7 @@ $readonly = isset($attributes['readonly']) && $attributes['readonly'] === 'reado
 $disabled = isset($attributes['disabled']) && $attributes['disabled'] === 'disabled';
 
 if (is_array($attributes)) {
-    $attributes = HTMLHelper::buildAttributes($attributes);
+    $attributes = HTMLHelper::_('attribute.buildAttributes', $attributes);
 }
 
 $calendarAttrs = [
@@ -114,7 +114,7 @@ $calendarAttrs = [
     'data-date-type'       => strtolower($calendar),
 ];
 
-$calendarAttrsStr = HTMLHelper::buildAttributes($calendarAttrs);
+$calendarAttrsStr = HTMLHelper::_('attribute.buildAttributes', $calendarAttrs);
 
 // Add language strings
 $strings = [

@@ -50,4 +50,4 @@ if (isset($params['width'])) {
     $iframeAttributes['width'] = $params['width'];
 }
 ?>
-<iframe <?php echo HTMLHelper::buildAttributes($iframeAttributes); ?>></iframe>
+<iframe <?php echo HTMLHelper::_('attribute.buildAttributes', $iframeAttributes); ?>></iframe>

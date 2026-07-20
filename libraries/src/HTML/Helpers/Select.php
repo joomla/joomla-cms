@@ -125,7 +125,7 @@ abstract class Select
 
         if (isset($options['list.attr'])) {
             if (\is_array($options['list.attr'])) {
-                $attribs = HTMLHelper::buildAttributes($options['list.attr']);
+                $attribs = HTMLHelper::_('attribute.buildAttributes', $options['list.attr']);
             } else {
                 $attribs = $options['list.attr'];
             }
@@ -205,7 +205,7 @@ abstract class Select
 
         if (isset($options['list.attr'])) {
             if (\is_array($options['list.attr'])) {
-                $attribs = HTMLHelper::buildAttributes($options['list.attr']);
+                $attribs = HTMLHelper::_('attribute.buildAttributes', $options['list.attr']);
             } else {
                 $attribs = $options['list.attr'];
             }
@@ -290,7 +290,7 @@ abstract class Select
                 $html .= static::options($subList, $options);
             } else {
                 if (\is_array($groupAttribs)) {
-                    $groupAttribs = HTMLHelper::buildAttributes($groupAttribs);
+                    $groupAttribs = HTMLHelper::_('attribute.buildAttributes', $groupAttribs);
                 }
 
                 $html .= $groupIndent
@@ -614,7 +614,7 @@ abstract class Select
                 }
 
                 if (\is_array($attr)) {
-                    $attr = HTMLHelper::buildAttributes($attr);
+                    $attr = HTMLHelper::_('attribute.buildAttributes', $attr);
                 } else {
                     $attr = trim($attr);
                 }
@@ -683,7 +683,7 @@ abstract class Select
                 unset($attribs['class']);
             }
 
-            $attribs = HTMLHelper::buildAttributes($attribs);
+            $attribs = HTMLHelper::_('attribute.buildAttributes', $attribs);
         }
 
         $id_text = $idtag ?: $name;
