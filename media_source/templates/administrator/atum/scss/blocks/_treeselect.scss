@@ -67,11 +67,16 @@
     color: var(--template-link-color);
     text-align: center;
     cursor: pointer;
-    .icon-chevron-right {
-      margin-left: -16px;
+
+    // The chevron class lands on the toggle itself, not on a child element,
+    // and the collapsed state is chevron-left under RTL.
+    &.#{$jicon-css-prefix}-chevron-right,
+    &.#{$jicon-css-prefix}-chevron-left {
+      margin-inline-start: -16px;
     }
-    .icon-chevron-down {
-      margin-left: -22px;
+
+    &.#{$jicon-css-prefix}-chevron-down {
+      margin-inline-start: -22px;
     }
   }
 
