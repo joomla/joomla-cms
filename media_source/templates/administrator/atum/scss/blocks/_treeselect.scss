@@ -67,6 +67,12 @@
     color: var(--template-link-color);
     text-align: center;
     cursor: pointer;
+    .icon-chevron-right {
+      margin-left: -16px;
+    }
+    .icon-chevron-down {
+      margin-left: -22px;
+    }
   }
 
   .treeselect-menu {
