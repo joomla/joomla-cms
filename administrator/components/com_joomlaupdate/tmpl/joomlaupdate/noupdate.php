@@ -47,7 +47,7 @@ $displayData = [
     'textPrefix' => 'COM_JOOMLAUPDATE' . $this->messagePrefix,
     'content'    => $reasonNoDownload . Text::sprintf($this->langKey, $this->updateSourceKey),
     'formURL'    => 'index.php?option=com_joomlaupdate&view=joomlaupdate',
-    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Updating_from_an_existing_version',
+    'helpURL'    => 'https://guide.joomla.org/user-manual/migration',
     'icon'       => 'icon-loop joomlaupdate',
     'createURL'  => 'index.php?option=com_joomlaupdate&task=update.purge&' . Session::getFormToken() . '=1'
 ];

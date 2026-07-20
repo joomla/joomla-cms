@@ -189,11 +189,7 @@ final class Authentication
             $this->getUserEntity($user),
             $attestationMode,
             $this->getPubKeyDescriptorsForUser($user),
-            new AuthenticatorSelectionCriteria(
-                AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_NO_PREFERENCE,
-                false,
-                AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_PREFERRED
-            ),
+            new AuthenticatorSelectionCriteria(),
             new AuthenticationExtensionsClientInputs()
         );
 

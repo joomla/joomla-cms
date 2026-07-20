@@ -67,8 +67,8 @@ if ($this->type == 'font') {
     <div class="row mt-2">
         <div class="col-md-8" id="conditional-section">
             <?php if ($this->type != 'home') : ?>
-                <p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', '&#x200E;' . ($input->get('isMedia', 0) ? '/media/templates/' . ((int) $this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element . str_replace('//', '/', base64_decode($this->file)) : '/' . ((int) $this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element . str_replace('//', '/', base64_decode($this->file))), $this->template->element); ?></p>
-                <p class="lead path hidden"><?php echo $this->source->filename; ?></p>
+                <p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', '&#x200E;' . ($input->get('isMedia', 0) ? '/media/templates/' . ((int) $this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element . str_replace('//', '/', $this->escape(base64_decode($this->file))) : '/' . ((int) $this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element . str_replace('//', '/', $this->escape(base64_decode($this->file)))), $this->template->element); ?></p>
+                <p class="lead path hidden"><?php echo $this->escape($this->source->filename); ?></p>
             <?php endif; ?>
         </div>
         <?php if ($this->type == 'file' && !empty($this->source->coreFile)) : ?>
@@ -114,7 +114,7 @@ if ($this->type == 'font') {
                         <?php echo HTMLHelper::_('form.token'); ?>
                         <p><?php echo Text::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
                         <p>
-                            <a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Template_Overrides" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
+                            <a href="https://guide.joomla.org/user-manual/templates/templates-template-overrides" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
                                 <?php echo Text::_('COM_TEMPLATES_HOME_BUTTON'); ?>
                             </a>
                         </p>

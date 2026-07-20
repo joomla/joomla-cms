@@ -107,4 +107,9 @@ describe('Test in backend that the media manager', () => {
         cy.readFile('images/powered.php').should('not.exist');
       });
   });
+
+  it('can not traverse up in search', () => {
+    cy.request('/administrator/index.php?option=com_media&task=api.files&format=json&path=local-images:/&search=/../../*.txt&recursive=0&content=1&mediatypes=0,1,2,3')
+      .then((response) => cy.wrap(response.body.data).should('be.empty'));
+  });
 });

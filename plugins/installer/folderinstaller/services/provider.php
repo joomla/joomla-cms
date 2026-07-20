@@ -31,14 +31,14 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            $container->lazy(FolderInstaller::class, function (Container $container) {
                 $plugin     = new FolderInstaller(
                     (array) PluginHelper::getPlugin('installer', 'folderinstaller')
                 );
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            })
         );
     }
 };
