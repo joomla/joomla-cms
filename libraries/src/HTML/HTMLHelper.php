@@ -347,8 +347,6 @@ abstract class HTMLHelper
         return '<iframe src="' . $url . '" ' . $attribs . ' name="' . $name . '">' . $noFrames . '</iframe>';
     }
 
-
-
     /**
      * Look for path relatively to media folder.
      *
