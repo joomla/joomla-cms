@@ -51,7 +51,7 @@ if ($showAll && $item->deeper) {
     $attributes['class'] .= ' mm-collapsed mm-toggler mm-toggler-nolink';
     $attributes['aria-haspopup'] = 'true';
     $attributes['aria-expanded'] = 'false';
-    echo '<button ' . HTMLHelper::_('attribute.buildAttributes', $attributes) . '>' . $linktype . '</button>';
+    echo '<button ' . HTMLHelper::_('html.attributes', $attributes) . '>' . $linktype . '</button>';
 } else {
-    echo '<span ' . HTMLHelper::_('attribute.buildAttributes', $attributes) . '>' . $linktype . '</span>';
+    echo '<span ' . HTMLHelper::_('html.attributes', $attributes) . '>' . $linktype . '</span>';
 }

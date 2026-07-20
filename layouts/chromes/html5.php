@@ -51,9 +51,9 @@ if ($moduleTag !== 'div') {
     endif;
 }
 
-$header = '<' . $headerTag . ' ' . HTMLHelper::_('attribute.buildAttributes', $headerAttribs) . '>' . $module->title . '</' . $headerTag . '>';
+$header = '<' . $headerTag . ' ' . HTMLHelper::_('html.attributes', $headerAttribs) . '>' . $module->title . '</' . $headerTag . '>';
 ?>
-<<?php echo $moduleTag; ?> <?php echo HTMLHelper::_('attribute.buildAttributes', $moduleAttribs); ?>>
+<<?php echo $moduleTag; ?> <?php echo HTMLHelper::_('html.attributes', $moduleAttribs); ?>>
     <?php if ((bool) $module->showtitle) : ?>
         <?php echo $header; ?>
     <?php endif; ?>

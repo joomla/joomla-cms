@@ -91,7 +91,7 @@ $this->getDocument()->getWebAssetManager()
                         $attributes['class'] .= ' form-control';
                     }
                     ?>
-                    <input <?php echo HTMLHelper::_('attribute.buildAttributes', $attributes) ?>>
+                    <input <?php echo HTMLHelper::_('html.attributes', $attributes) ?>>
                 </div>
             </div>
         </div>

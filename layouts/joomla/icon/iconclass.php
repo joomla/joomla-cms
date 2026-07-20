@@ -66,7 +66,7 @@ if ($html !== false) {
         $iconAttribs['title'] = $title;
     }
 
-    $icon = '<span ' . HTMLHelper::_('attribute.buildAttributes', $iconAttribs) . '></span>';
+    $icon = '<span ' . HTMLHelper::_('html.attributes', $iconAttribs) . '></span>';
 }
 
 echo $icon;

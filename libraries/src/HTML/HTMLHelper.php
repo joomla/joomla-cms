@@ -320,10 +320,10 @@ abstract class HTMLHelper
     public static function link($url, $text, $attribs = null)
     {
         if (\is_array($attribs)) {
-            $attribs = HTMLHelper::_('attribute.buildAttributes', $attribs);
+            $attribs = HTMLHelper::_('html.attributes', $attribs);
         }
 
-        return '<a href="' . $url . '" ' . HTMLHelper::_('attribute.buildAttributes', $attribs) . '>' . $text . '</a>';
+        return '<a href="' . $url . '" ' . HTMLHelper::_('html.attributes', $attribs) . '>' . $text . '</a>';
     }
 
     /**
@@ -341,7 +341,7 @@ abstract class HTMLHelper
     public static function iframe($url, $name, $attribs = null, $noFrames = '')
     {
         if (\is_array($attribs)) {
-            $attribs = HTMLHelper::_('attribute.buildAttributes', $attribs);
+            $attribs = HTMLHelper::_('html.attributes', $attribs);
         }
 
         return '<iframe src="' . $url . '" ' . $attribs . ' name="' . $name . '">' . $noFrames . '</iframe>';

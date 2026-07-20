@@ -2,64 +2,64 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Html\Helpers;
 
-use Joomla\CMS\HTML\Helpers\Attribute;
+use Joomla\CMS\HTML\Helpers\HTML;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
- * Tests for Attribute helper class
+ * Tests for HTML helper class
  *
  * @since  __DEPLOY_VERSION__
  */
-class AttributeTest extends UnitTestCase
+class HTMLTest extends UnitTestCase
 {
     /**
-     * Test buildAttributes with a simple array
+     * Test attributes with a simple array
      *
      * @return  void
      *
-     * @covers  Joomla\CMS\HTML\Helpers\Attribute::buildAttributes
+     * @covers  Joomla\CMS\HTML\Helpers\HTML::attributes
      */
-    public function testBuildAttributesWithSimpleArray(): void
+    public function testAttributesWithSimpleArray(): void
     {
         $attribs  = ['class' => 'my-class', 'id' => 'my-id'];
         $expected = 'class="my-class" id="my-id"';
-        $this->assertEquals($expected, Attribute::buildAttributes($attribs));
+        $this->assertEquals($expected, HTML::attributes($attribs));
     }
 
     /**
-     * Test buildAttributes with HTML special characters
+     * Test attributes with HTML special characters
      *
      * @return  void
      *
-     * @covers  Joomla\CMS\HTML\Helpers\Attribute::buildAttributes
+     * @covers  Joomla\CMS\HTML\Helpers\HTML::attributes
      */
-    public function testBuildAttributesWithSpecialCharacters(): void
+    public function testAttributesWithSpecialCharacters(): void
     {
         $attribs  = ['title' => 'Title with < & > " \' characters'];
         $expected = 'title="Title with &lt; &amp; &gt; &quot; &#039; characters"';
-        $this->assertEquals($expected, Attribute::buildAttributes($attribs));
+        $this->assertEquals($expected, HTML::attributes($attribs));
     }
 
     /**
-     * Test buildAttributes with empty array
+     * Test attributes with empty array
      *
      * @return  void
      *
-     * @covers  Joomla\CMS\HTML\Helpers\Attribute::buildAttributes
+     * @covers  Joomla\CMS\HTML\Helpers\HTML::attributes
      */
-    public function testBuildAttributesWithEmptyArray(): void
+    public function testAttributesWithEmptyArray(): void
     {
-        $this->assertEquals('', Attribute::buildAttributes([]));
+        $this->assertEquals('', HTML::attributes([]));
     }
 
     /**
-     * Test buildAttributes with invalid attribute names
+     * Test attributes with invalid attribute names
      *
      * @return  void
      *
-     * @covers  Joomla\CMS\HTML\Helpers\Attribute::buildAttributes
+     * @covers  Joomla\CMS\HTML\Helpers\HTML::attributes
      */
-    public function testBuildAttributesWithInvalidAttributeNames(): void
+    public function testAttributesWithInvalidAttributeNames(): void
     {
         $attribs = [
             'valid'         => 'value1',
@@ -73,17 +73,17 @@ class AttributeTest extends UnitTestCase
         ];
 
         $expected = 'valid="value1" data-valid="value4" _isvalid="value6" valid_name="value8"';
-        $this->assertEquals($expected, Attribute::buildAttributes($attribs));
+        $this->assertEquals($expected, HTML::attributes($attribs));
     }
 
     /**
-     * Test buildAttributes with double quote breaking XSS payload in class attribute
+     * Test attributes with double quote breaking XSS payload in class attribute
      *
      * @return  void
      *
-     * @covers  Joomla\CMS\HTML\Helpers\Attribute::buildAttributes
+     * @covers  Joomla\CMS\HTML\Helpers\HTML::attributes
      */
-    public function testBuildAttributesWithXssPayload(): void
+    public function testAttributesWithXssPayload(): void
     {
         // Simulate user input designed to break out of an attribute and inject code.
         $attribs = [
@@ -93,6 +93,6 @@ class AttributeTest extends UnitTestCase
         // The expected output should have the double quotes properly escaped,
         // preventing the `<script>` from becoming live HTML tag.
         $expected = 'class="some-class&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;&quot;"';
-        $this->assertEquals($expected, Attribute::buildAttributes($attribs));
+        $this->assertEquals($expected, HTML::attributes($attribs));
     }
 }

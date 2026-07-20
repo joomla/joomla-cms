@@ -14,11 +14,11 @@ namespace Joomla\CMS\HTML\Helpers;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Provides utility methods for HTML attribute handling.
+ * Provides utility methods for HTML handling.
  *
  * @since  __DEPLOY_VERSION__
  */
-abstract class Attribute
+abstract class HTML
 {
     /**
      * Build a string of HTML attributes from an array.
@@ -29,7 +29,7 @@ abstract class Attribute
      *
      * @since   __DEPLOY_VERSION__
      */
-    public static function buildAttributes(array $attribs): string
+    public static function attributes(array $attribs): string
     {
         $result = [];
 
