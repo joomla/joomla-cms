@@ -46,7 +46,7 @@
     }
 
     li {
-      padding-inline-start: $treeselect-indent;
+      padding-inline-start: ($treeselect-indent + 15px);
     }
   }
 
