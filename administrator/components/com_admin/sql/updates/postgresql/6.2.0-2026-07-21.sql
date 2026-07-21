@@ -1,1 +1,1 @@
-ALTER TABLE "#__updates" ADD "security" smallint NULL DEFAULT NULL AFTER "extra_query";
+ALTER TABLE "#__updates" ADD "security" smallint NULL DEFAULT NULL;
