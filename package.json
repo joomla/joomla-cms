@@ -136,10 +136,12 @@
     "totp-generator": "^1.0.0"
   },
   "allowScripts": {
+    "@parcel/watcher@2.5.6": true,
     "core-js@3.48.0": true,
     "cypress@15.18.0": true,
     "esbuild@0.27.7": true,
+    "fsevents@2.3.3": true,
     "vue-demi@0.13.11": true,
-    "fsevents@2.3.3": true
+    "vue-demi@0.14.10": true
   }
 }
