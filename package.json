@@ -134,5 +134,13 @@
     "stylelint-order": "^7.0.1",
     "stylelint-scss": "^6.14.0",
     "totp-generator": "^1.0.0"
+  },
+  "allowScripts": {
+    "core-js@3.45.1": true,
+    "cypress@15.18.0": true,
+    "cypress@13.17.0": true,
+    "esbuild@0.25.10": true,
+    "vue-demi@0.13.11": true,
+    "fsevents@2.3.3": true
   }
 }
