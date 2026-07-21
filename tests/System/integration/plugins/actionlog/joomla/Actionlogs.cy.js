@@ -1,4 +1,4 @@
-describe('Action Logs - User Event Scenarios', () => {
+describe('Test that the Action Logs plugin', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
   });
