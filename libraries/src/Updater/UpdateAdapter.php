@@ -258,11 +258,11 @@ abstract class UpdateAdapter extends AdapterInstance
         $newUrl  = $event->getArgument('url', $url);
         $headers = $event->getArgument('headers', $headers);
 
-        // Http transport throws an exception when there's no response.
+        // Http transport throws an exception when there's no response or an invalid HTTP status code returned.
         try {
             $http     = HttpFactory::getHttp($httpOption);
             $response = $http->get($newUrl, $headers, 20);
-        } catch (\RuntimeException) {
+        } catch (\Throwable) {
             $response = null;
         }
 
