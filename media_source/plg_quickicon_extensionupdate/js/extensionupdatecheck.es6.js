@@ -40,8 +40,8 @@
             // No updates
             update('success', Joomla.Text._('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE'));
           } else {
-						let text = Joomla.Text._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND').replace('%s', `<span class="badge text-dark bg-light">${updateInfoList.length}</span>`);
-						updateInfoList.filter((u) => u.security > 0).forEach((update) => text += '<div>' + Joomla.Text._('PLG_QUICKICON_EXTENSIONUPDATE_SECURITY_UPDATEFOUND').replace('%s', update.name) + '</div>');
+            let text = Joomla.Text._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND').replace('%s', `<span class="badge text-dark bg-light">${updateInfoList.length}</span>`);
+            updateInfoList.filter((u) => u.security > 0).forEach((update) => text += '<div>' + Joomla.Text._('PLG_QUICKICON_EXTENSIONUPDATE_SECURITY_UPDATEFOUND').replace('%s', update.name) + '</div>');
             update('danger', text);
           }
         } else {
