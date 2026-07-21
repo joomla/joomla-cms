@@ -323,11 +323,14 @@ class ItemModel extends AdminModel
             return false;
         }
 
-        $copiedIds = array_unique(ArrayHelper::toInteger(array_values($newIds)));
+        // Module inheritance only applies to site menus.
+        if ((int) $this->getMenuType($menuType)->client_id === 0) {
+            $copiedIds = array_unique(ArrayHelper::toInteger(array_values($newIds)));
 
-        foreach ($copiedIds as $copiedId) {
-            if ($copiedId > 0) {
-                $this->refreshInheritedModules($copiedId, false);
+            foreach ($copiedIds as $copiedId) {
+                if ($copiedId > 0) {
+                    $this->refreshInheritedModules($copiedId, false);
+                }
             }
         }
 
@@ -474,11 +477,14 @@ class ItemModel extends AdminModel
             }
         }
 
-        $movedIds = array_unique(ArrayHelper::toInteger((array) $pks));
+        // Module inheritance only applies to site menus.
+        if ((int) $this->getMenuType($menuType)->client_id === 0) {
+            $movedIds = array_unique(ArrayHelper::toInteger((array) $pks));
 
-        foreach ($movedIds as $movedId) {
-            if ($movedId > 0) {
-                $this->refreshInheritedModules($movedId, true);
+            foreach ($movedIds as $movedId) {
+                if ($movedId > 0) {
+                    $this->refreshInheritedModules($movedId, true);
+                }
             }
         }
 

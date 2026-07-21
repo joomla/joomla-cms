@@ -1120,7 +1120,10 @@ class ModuleModel extends AdminModel implements VersionableModelInterface
             }
         }
 
-        $this->addInheritedMenus((int) $table->id);
+        // Module inheritance only applies to site modules.
+        if ((int) $table->client_id === 0) {
+            $this->addInheritedMenus((int) $table->id);
+        }
 
         // Trigger the after save event.
         $dispatcher->dispatch($this->event_after_save, new AfterSaveEvent($this->event_after_save, [
