@@ -105,6 +105,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                             <?php $url = 'index.php?option=com_installer&task=updatesite.edit&update_site_id=' . (int) $item->update_site_id; ?>
                                             <a class="btn btn-danger btn-sm text-decoration-none" href="<?php echo Route::_($url); ?>"><?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL'); ?></a>
                                         <?php endif; ?>
+										<?php if (!empty($item->security)) : ?>
+                                        <div class="btn btn-danger btn-sm text-decoration-none">
+                                            <?php echo Text::_('COM_INSTALLER_SECURITY_SEVERITY_' . (int)$item->security); ?>
+										</div>
+										<?php endif; ?>
                                     </th>
                                     <td class="d-none d-md-table-cell">
                                         <?php echo $item->client_translated; ?>
