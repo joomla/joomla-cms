@@ -879,9 +879,23 @@
 						self.inputField.setAttribute('data-local-value', self.inputField.value);
 					}
 					if (typeof self.dateClicked === 'undefined') {
-						// value needs to be validated
-						self.inputField.setAttribute('data-alt-value', Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType, self.strings, false)
-							.print(self.params.dateFormat, 'gregorian', false, self.strings));
+						// Value needs to be validated. Just like in the "input" and "blur" listeners,
+						// the value displayed to the user may be in local calendar (eg. Jalali)
+						// and must go through Date.localCalToGregorian() before being stored,
+						// otherwise the raw local y/m/d digits get saved mislabeled as a Gregorian date.
+						var date = Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType, self.strings, false);
+
+						if (self.params.dateType !== 'gregorian') {
+							// Use date.rawYear/rawMonth/rawDay: custom, non-native properties.
+							// See the "input" listener for why they're needed instead
+							// of getFullYear()/getMonth()/getDate(), and why +1/-1.
+							var ndate = Date.localCalToGregorian(date.rawYear, date.rawMonth + 1, date.rawDay);
+
+							// Rebuild atomically - see the "input" listener for why
+							// setFullYear()/setMonth()/setDate() in sequence is unsafe here.
+							date = new Date(ndate[0], ndate[1] - 1, ndate[2], date.getHours(), date.getMinutes(), date.getSeconds());
+						}
+						self.inputField.setAttribute('data-alt-value', date.print(self.params.dateFormat, 'gregorian', false, self.strings));
 					} else {
 						self.inputField.setAttribute('data-alt-value', self.date.print(self.params.dateFormat, 'gregorian', false, self.strings));
 					}
@@ -898,29 +912,34 @@
 			if (self.inputField.value) {
 				if (self.params.dateType !== 'gregorian') {
 					self.inputField.setAttribute('data-local-value', self.inputField.value);
-
-					// Strict parsing: while the user is still typing, the string is
-					// necessarily incomplete for most keystrokes. Without "strict",
-					// Date.parseFieldDate() silently falls back to "today" (a real
-					// Gregorian date), which would then be wrongly re-interpreted as
-					// a Jalali date below and converted into a nonsensical date
-					// (e.g. year ~2647). So we bail out until we have a genuinely
-					// complete, valid date, leaving data-alt-value untouched.
+					// We need to transform the date for the data-alt-value.
+					// ## Strict parsing ##
+					// While the user is still typing, the string is necessarily incomplete for most keystrokes.
+					// So we bail out until we have a genuinely complete, valid date, leaving data-alt-value untouched.
 					var date = Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType, self.strings, true);
+
 					if (!date) {
 						return;
 					}
 
-					// We need to transform the date for the data-alt-value.
-					// Date.localCalToGregorian() (JalaliDate.jalaliToGregorian) expects
-					// a 1-indexed month, while date.getMonth() is 0-indexed (native JS).
-					// Symmetrically, its returned month is 1-indexed, while setMonth()
-					// expects 0-indexed. Forgetting either conversion causes an off-by-one
-					// day (or month) error.
-					var ndate = Date.localCalToGregorian(date.getFullYear(), date.getMonth() + 1, date.getDate());
-					date.setFullYear(ndate[0]);
-					date.setMonth(ndate[1] - 1);
-					date.setDate(ndate[2]);
+					// ## Custom Properties ##
+					// Use date.rawYear/rawMonth/rawDay, custom, non-native properties (see non-gregorian local calendar date-helper.js) -
+					// Do not use date.getFullYear()/getMonth()/getDate(): the Date object built by parseFieldDate() may already
+					// have silently rolled over if the typed day doesn't exist in the *native Gregorian* month at that index
+					// (e.g. Jalali day 31 landing on native April, which only have 30 days).
+					// ## Month +1/-1 ##
+					// Date.localCalToGregorian() (JalaliDate.jalaliToGregorian) expects a 1-indexed month
+					// (rawMonth is 0-indexed like getMonth()), and its returned month is 1-indexed too,
+					// while setMonth() (the Date constructor) expects 0-indexed.
+					// Forgetting either conversion causes an off-by-one day (or month) error.
+					var ndate = Date.localCalToGregorian(date.rawYear, date.rawMonth + 1, date.rawDay);
+	
+					// Rebuild the Date atomically (year/month/day in one constructor call) instead of calling
+					// setFullYear()/setMonth()/setDate() in sequence:
+					// mutating month before day meant the OLD day (e.g. 31) could briefly clash with
+					// the NEW month (e.g. a 30-day month), causing JS to silently roll over into the
+					// following month before setDate() even ran (e.g. day 31 becomes day 30 of the next month).
+					date = new Date(ndate[0], ndate[1] - 1, ndate[2], date.getHours(), date.getMinutes(), date.getSeconds());
 					self.inputField.setAttribute('data-alt-value', date.print(self.params.dateFormat, 'gregorian', false, self.strings));
 				} else {
 					// Value needs to be validated
@@ -1120,23 +1139,22 @@
 
 						if (calObj.params.dateType !== 'gregorian') {
 							// We need to transform the date for the data-alt-value.
-							// Strict parsing: if the field was left with an incomplete or
-							// invalid value (e.g. the user clicked away mid-edit), do not
-							// convert it as if it were a valid Jalali date - fall back to
-							// an empty value instead, just like the "no value" branch below.
+							// ## Strict parsing ##
+							// if the field was left with an incomplete or invalid value (e.g. the user clicked away mid-edit),
+							// do not convert it as if it were a valid Jalali date - fall back to an empty value instead.
 							var date = Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType, calObj.strings, true);
+
 							if (!date) {
 								calObj.inputField.setAttribute('data-alt-value', '0000-00-00 00:00:00');
 							} else {
-								// See the "input" listener above for why +1 / -1 are required here:
-								// Date.localCalToGregorian() expects/returns a 1-indexed month,
-								// while getMonth()/setMonth() are 0-indexed.
-								var ndate = Date.localCalToGregorian(date.getFullYear(), date.getMonth() + 1, date.getDate());
-								date.setFullYear(ndate[0]);
-								date.setMonth(ndate[1] - 1);
-								date.setDate(ndate[2]);
-								date.setHours(self.date.getHours());
-								date.setMinutes(self.date.getMinutes());
+								// Use date.rawYear/rawMonth/rawDay: custom, non-native properties.
+								// See the "input" listener for why they're needed instead
+								// of getFullYear()/getMonth()/getDate(), and why +1/-1.
+								var ndate = Date.localCalToGregorian(date.rawYear, date.rawMonth + 1, date.rawDay);
+
+								// Rebuild atomically - see the "input" listener for why
+								// setFullYear()/setMonth()/setDate() in sequence is unsafe here.
+								date = new Date(ndate[0], ndate[1] - 1, ndate[2], self.date.getHours(), self.date.getMinutes(), date.getSeconds());
 								calObj.inputField.setAttribute('data-alt-value', date.print(calObj.params.dateFormat, 'gregorian', false, calObj.strings));
 							}
 						} else {
