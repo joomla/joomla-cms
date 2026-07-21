@@ -119,11 +119,8 @@ class CheckinModel extends ListModel
                     ->bind(':checkouttime', $nullDate);
             }
 
-            if ($fields['checked_out']->Null === 'YES') {
-                $query->where($db->quoteName('checked_out') . ' IS NOT NULL');
-            } else {
-                $query->where($db->quoteName('checked_out') . ' > 0');
-            }
+            // The following expression evaluates to false for values <= 0 as well as for NULL values
+            $query->where($db->quoteName('checked_out') . ' > 0');
 
             $db->setQuery($query);
 
@@ -191,11 +188,8 @@ class CheckinModel extends ListModel
                     ->select('COUNT(*)')
                     ->from($db->quoteName($tn));
 
-                if ($fields['checked_out']->Null === 'YES') {
-                    $query->where($db->quoteName('checked_out') . ' IS NOT NULL');
-                } else {
-                    $query->where($db->quoteName('checked_out') . ' > 0');
-                }
+                // The following expression evaluates to false for values <= 0 as well as for NULL values
+                $query->where($db->quoteName('checked_out') . ' > 0');
 
                 $db->setQuery($query);
                 $count = $db->loadResult();
