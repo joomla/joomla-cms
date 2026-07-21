@@ -107,7 +107,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                         <?php endif; ?>
 										<?php if (!empty($item->security)) : ?>
                                         <div class="btn btn-<?php echo $item->security > 2 ? 'danger' : 'warning'; ?> btn-sm text-decoration-none">
-                                            <?php echo Text::_('COM_INSTALLER_SECURITY_SEVERITY_' . (int)$item->security); ?>
+                                            <?php echo Text::_('COM_INSTALLER_SECURITY_SEVERITY_' . (int) $item->security); ?>
 										</div>
 										<?php endif; ?>
                                     </th>
