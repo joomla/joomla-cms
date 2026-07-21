@@ -107,3 +107,5 @@ cypress.config.mjs
 # WebAuthn FIDO metadata cache
 /build/fido/fido.jwt
 /plugins/system/webauthn/fido.jwt
+modules/mod_demo
+modules/mod_dpcalendar_counter
