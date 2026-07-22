@@ -4,7 +4,7 @@ describe('Test in backend that the category form', () => {
     // Clear the filter
     cy.visit('/administrator/index.php?option=com_categories&extension=com_content&filter=');
   });
-  beforeEach(() => cy.db_deleteCategory({ title: 'Test category' }));
+  afterEach(() => cy.db_deleteCategory({ title: 'Test category' }));
 
   it('can create a category', () => {
     cy.visit('/administrator/index.php?option=com_categories&task=category.add&extension=com_content');
