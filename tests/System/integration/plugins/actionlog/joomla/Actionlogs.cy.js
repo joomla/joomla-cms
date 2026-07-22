@@ -90,7 +90,12 @@ describe('Test that the Action Logs plugin', () => {
       cy.contains('Block').click();
 
       cy.checkForSystemMessage('User blocked.');
-
+    // Verify Action Log has one entry (#48091)
+    cy.visit('/administrator/index.php?option=com_actionlogs&view=actionlogs');
+    cy.get('tbody tr').should(($rows) => {
+      const matches = [...$rows].filter((row) => row.textContent.includes('blocked user'));
+      expect(matches).to.have.length(1);
+    });
       // Verify Action Log
       cy.visit('/administrator/index.php?option=com_actionlogs&view=actionlogs');
       cy.contains('blocked user').should('be.visible');
