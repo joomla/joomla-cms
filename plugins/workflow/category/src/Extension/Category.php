@@ -17,7 +17,9 @@ use Joomla\CMS\Event\View\DisplayEvent;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\DatabaseModelInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Workflow\WorkflowPluginTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Event\SubscriberInterface;
@@ -86,9 +88,7 @@ final class Category extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        if ($context === 'com_content.article') {
-            $this->disableCategoryField($form, $data);
-        }
+        $this->disableCategoryField($form, $data);
     }
 
     /**
@@ -122,13 +122,13 @@ final class Category extends CMSPlugin implements SubscriberInterface
      * Check also for the workflow implementation and if the field exists
      *
      * @param   Form      $form  The form
-     * @param   \stdClass    $data  The data
+     * @param   \stdClass  $data  The data
      *
      * @return  boolean
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected function disableCategoryField(Form $form, $data)
+    protected function disableCategoryField(Form $form, $data): bool
     {
         $context = $form->getName();
 
@@ -149,12 +149,15 @@ final class Category extends CMSPlugin implements SubscriberInterface
 
         $value = $data->$fieldname ?? $form->getValue($fieldname, null, 0);
 
+        if (!$value) {
+            return true;
+        }
+
         $form->setFieldAttribute($fieldname, 'readonly', 'true');
         $form->setFieldAttribute($fieldname, 'value', $value);
 
         return true;
     }
-
 
     /**
      * Manipulate the generic list view
@@ -205,18 +208,16 @@ final class Category extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $component = $this->getApplication()->bootComponent($extensionName);
+        $app = $this->getApplication();
 
-        $categoryId = $transition->options->get('category_id', 0);
-
-        if (!is_numeric($categoryId)) {
+        if (!($transition->options instanceof Registry)) {
+            $app->enqueueMessage(Text::_('PLG_WORKFLOW_CATEGORY_INVALID_TRANSITION'), 'error');
             return;
         }
 
-        $app = $this->getApplication();
+        $categoryId = $transition->options->get('category_id', 0);
 
-        if (!\is_object($transition) || !($transition->options instanceof Registry)) {
-            $app->enqueueMessage('PLG_WORKFLOW_CATEGORY_INVALID_TRANSITION');
+        if (!is_numeric($categoryId) || (int) $categoryId <= 0) {
             return;
         }
 
@@ -225,10 +226,15 @@ final class Category extends CMSPlugin implements SubscriberInterface
             return;
         }
 
+        $component = $app->bootComponent($extensionName);
+        $modelName = $component->getModelName($context);
+        $table     = $component->getMVCFactory()->createModel($modelName, $app->getName(), ['ignore_request' => true])
+            ->getTable();
+
         $errors = 0;
 
         foreach ($pks as $pk) {
-            if (!self::processArticle($pk, $categoryId)) {
+            if (!$this->processItem($table, (int) $pk, (int) $categoryId)) {
                 $errors++;
             }
         }
@@ -239,49 +245,44 @@ final class Category extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Process the article and update its category.
+     * Process the item and update its category.
      *
-     * @param   int                  $pk         The primary key
-     * @param   int                  $categoryId The category ID
+     * @param   TableInterface  $table       The table of the item, already bound to its component/view
+     * @param   int             $pk          The primary key
+     * @param   int             $categoryId  The category ID
      *
      * @return  boolean
      *
      * @since   __DEPLOY_VERSION__
      */
-    private function processArticle($pk, $categoryId): bool
+    private function processItem(TableInterface $table, int $pk, int $categoryId): bool
     {
-        $app    = $this->getApplication();
+        $app = $this->getApplication();
 
         try {
-            $component = $this->getApplication()->bootComponent('com_content');
-            $modelName = $component->getModelName('com_workflow.article');
+            $table->reset();
 
-            $articleTable = $component->getMVCFactory()->createModel($modelName, $this->getApplication()->getName(), ['ignore_request' => true])
-                ->getTable();
-            if (!$articleTable->load($pk)) {
-                $app->enqueueMessage(Text::sprintf('PLG_WORKFLOW_CATEGORY_ARTICLE_NOT_FOUND', $pk), 'warning');
+            if (!$table->load($pk)) {
+                $app->enqueueMessage(Text::sprintf('PLG_WORKFLOW_CATEGORY_ITEM_NOT_FOUND', $pk), 'warning');
                 return false;
             }
 
-            if ($articleTable->catid == $categoryId) {
+            $fieldname = $table->getColumnAlias('catid');
+
+            if ($table->$fieldname == $categoryId) {
                 return true;
             }
 
-            $originalData = clone $articleTable;
-            if ($categoryId && $categoryId > 0) {
-                $articleTable->catid = $categoryId;
+            $table->$fieldname = $categoryId;
+
+            if (!$table->store()) {
+                $app->enqueueMessage(Text::sprintf('PLG_WORKFLOW_CATEGORY_ITEM_UPDATE_FAILED', $pk, $categoryId), 'error');
+                return false;
             }
 
-            $articleTable->modified    = $originalData->modified;
-            $articleTable->modified_by = $originalData->modified_by;
-
-            if (!$articleTable->store()) {
-                $app->enqueueMessage(Text::sprintf('PLG_WORKFLOW_CATEGORY_ARTICLE_UPDATE_FAILED', $pk, $categoryId), 'error');
-            } else {
-                return true;
-            }
-        } catch (\RuntimeException $e) {
-            $app->enqueueMessage(Text::sprintf('PLG_WORKFLOW_CATEGORY_ARTICLE_UPDATE_ERROR', $pk) . ': ' . $e->getMessage(), 'error');
+            return true;
+        } catch (\Exception $e) {
+            $app->enqueueMessage(Text::sprintf('PLG_WORKFLOW_CATEGORY_ITEM_UPDATE_ERROR', $pk) . ': ' . $e->getMessage(), 'error');
         }
 
         return false;
@@ -296,7 +297,7 @@ final class Category extends CMSPlugin implements SubscriberInterface
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected function isSupported($context)
+    protected function isSupported($context): bool
     {
         $parts = explode('.', $context);
 
@@ -313,6 +314,16 @@ final class Category extends CMSPlugin implements SubscriberInterface
         ) {
             return false;
         }
-        return true;
+
+        $modelName = $component->getModelName($context);
+        $model     = $component->getMVCFactory()->createModel($modelName, $this->getApplication()->getName(), ['ignore_request' => true]);
+
+        if (!$model instanceof DatabaseModelInterface) {
+            return false;
+        }
+
+        $table = $model->getTable();
+
+        return $table instanceof TableInterface && $table->hasField($table->getColumnAlias('catid'));
     }
 }

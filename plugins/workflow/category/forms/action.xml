@@ -10,7 +10,6 @@
                 type="category"
                 label="PLG_WORKFLOW_CATEGORY_FIELD_CATEGORY_LABEL"
                 description="PLG_WORKFLOW_CATEGORY_FIELD_CATEGORY_DESC"
-                extension="com_content"
                 filter="integer"
                 default=""
                 hide_all="true"
