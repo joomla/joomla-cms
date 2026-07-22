@@ -23,6 +23,9 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
  * Fields Type
  *
  * @since  3.7.0
+ *
+ * @deprecated  __DEPLOY_VERSION__ will be removed in 8.0 without replacement
+ *              The field type is selected in the select view before the form is displayed and can't be changed anymore.
  */
 class TypeField extends ListField
 {
