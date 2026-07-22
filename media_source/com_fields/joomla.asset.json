@@ -28,6 +28,17 @@
       }
     },
     {
+      "name": "com_fields.admin-field-select-search",
+      "type": "script",
+      "uri": "com_fields/admin-field-select-search.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
       "name": "com_fields.admin-field-typehaschanged",
       "type": "script",
       "uri": "com_fields/admin-field-typehaschanged.min.js",

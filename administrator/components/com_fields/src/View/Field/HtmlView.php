@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Filesystem\Path;
 
@@ -52,6 +53,15 @@ class HtmlView extends BaseHtmlView
     protected $state;
 
     /**
+     * The definition of the field type with label, description and path.
+     *
+     * @var     array|null
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected $fieldType;
+
+    /**
      * Execute and display a template script.
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -68,9 +78,10 @@ class HtmlView extends BaseHtmlView
         $model = $this->getModel();
         $model->setUseExceptions(true);
 
-        $this->form  = $model->getForm();
-        $this->item  = $model->getItem();
-        $this->state = $model->getState();
+        $this->form      = $model->getForm();
+        $this->item      = $model->getItem();
+        $this->state     = $model->getState();
+        $this->fieldType = FieldsHelper::getFieldTypes()[$this->form->getField('type')->value] ?? null;
 
         $this->canDo = ContentHelper::getActions($this->state->get('field.component'), 'field', $this->item->id);
 
