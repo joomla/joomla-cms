@@ -114,6 +114,10 @@ describe('Test that the Action Logs plugin', () => {
       // Verify Action Log
       cy.visit('/administrator/index.php?option=com_actionlogs&view=actionlogs');
       cy.contains('unblocked user').should('be.visible');
+      cy.get('tbody tr').should(($rows) => {
+        const matches = [...$rows].filter((row) => row.textContent.includes('unblocked user'));
+        expect(matches).to.have.length(1);
+      });
     });
   });
 
