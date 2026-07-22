@@ -107,6 +107,7 @@ class SuggestionsModel extends ListModel
         // Join links table
         $termQuery->join('INNER', $db->quoteName('#__finder_links', 'l') . ' ON (tm.link_id = l.link_id)')
             ->where('l.access IN (' . implode(',', $groups) . ')')
+            ->where('l.cat_access IN (' . implode(',', $groups) . ')')
             ->where('l.state = 1')
             ->where('l.published = 1');
         $aQuery->select('DISTINCT o.term')->from('(' . $termQuery . ') AS o');
