@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Session;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -67,7 +68,7 @@ class Session extends BaseSession
         $token = static::getFormToken();
 
         // Check from header first
-        if ($token === $app->getInput()->server->get('HTTP_X_CSRF_TOKEN', '', 'alnum')) {
+        if (Crypt::timingSafeCompare($token, (string) $app->getInput()->server->get('HTTP_X_CSRF_TOKEN', '', 'alnum'))) {
             return true;
         }
 
