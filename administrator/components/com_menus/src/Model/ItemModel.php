@@ -1914,9 +1914,9 @@ class ItemModel extends AdminModel
             return [];
         }
 
-        $lft      = (int)$root->lft;
-        $rgt      = (int)$root->rgt;
-        $menutype = (string)$root->menutype;
+        $lft      = (int) $root->lft;
+        $rgt      = (int) $root->rgt;
+        $menutype = (string) $root->menutype;
         $query    = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__menu'))
