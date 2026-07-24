@@ -735,7 +735,7 @@ class Indexer
         $query2->select('COUNT(lt.link_id)')
             ->from($db->quoteName('#__finder_links_terms', 'lt'))
             ->where($db->quoteName('lt.term_id') . ' = ' . $db->quoteName('t.term_id'));
-        if ($serverType == 'mysql') {
+        if ($serverType === 'mysql') {
             $query->update($db->quoteName('#__finder_terms', 't'))
                 ->set($db->quoteName('t.links') . ' = (' . $query2 . ')');
         } else {
