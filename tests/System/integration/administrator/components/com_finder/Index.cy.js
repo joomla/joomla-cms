@@ -23,7 +23,8 @@ describe('Test in backend that the Smart Search', () => {
     cy.clickToolbarButton('Save & Close');
     // Visit the smart search page
     cy.visit('/administrator/index.php?option=com_finder&view=index');
-    cy.get('#toolbar-indexing-group > button').click();
+    // need different for j6
+    cy.get('#toolbar-index > button').click();
     // Click the "Index" button
     cy.get('#indexing-group-children-index > button', { force: true }).click();
     cy.contains('Test article').should('exist');
