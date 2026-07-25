@@ -9,7 +9,7 @@ describe('Test in backend that the Smart Search', () => {
       // Store the version in our file-scoped variable
       joomlaVersion = xmlDoc.getElementsByTagName("version")[0].childNodes[0].nodeValue;
 
-      cy.log(`Global Joomla Version Initialized: ${joomlaVersion}`);
+      cy.log(`Joomla Version: ${joomlaVersion}`);
     });
   };
   beforeEach(() => {
