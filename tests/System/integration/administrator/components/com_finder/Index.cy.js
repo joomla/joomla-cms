@@ -1,5 +1,19 @@
 describe('Test in backend that the Smart Search', () => {
+  let joomlaVersion;
+
+  const joomlaVersionRequest = () => {
+    return cy.request('administrator/manifests/files/joomla.xml').then((response) => {
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(response.body, "text/xml");
+
+      // Store the version in our file-scoped variable
+      joomlaVersion = xmlDoc.getElementsByTagName("version")[0].childNodes[0].nodeValue;
+
+      cy.log(`Global Joomla Version Initialized: ${joomlaVersion}`);
+    });
+  };
   beforeEach(() => {
+    joomlaVersionRequest();
     cy.doAdministratorLogin();
   });
   afterEach(() => {
@@ -23,10 +37,14 @@ describe('Test in backend that the Smart Search', () => {
     cy.clickToolbarButton('Save & Close');
     // Visit the smart search page
     cy.visit('/administrator/index.php?option=com_finder&view=index');
-    // need different for j6
-    cy.get('#toolbar-index > button').click();
-    // Click the "Index" button
-    cy.get('#indexing-group-children-index > button', { force: true }).click();
+    if (joomlaVersion.startsWith('6')) {
+      cy.get('#toolbar-indexing-group > button').click();
+      // Click the "Index" button
+      cy.get('#indexing-group-children-index > button', { force: true }).click();
+    }
+    if (joomlaVersion.startsWith('5')) {
+      cy.get('#toolbar-index > button').click();
+    }
     cy.contains('Test article').should('exist');
   });
 
