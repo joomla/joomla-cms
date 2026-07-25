@@ -125,10 +125,11 @@ class CategoriesModel extends ListModel
                 $params = new Registry();
             }
 
-            $options               = [];
-            $options['countItems'] = $params->get('show_cat_items_cat', 1) || !$params->get('show_empty_categories_cat', 0);
-            $categories            = Categories::getInstance('Newsfeeds', $options);
-            $this->_parent         = $categories->get($this->getState('filter.parentId', 'root'));
+            $options                                 = [];
+            $options['countItems']                   = $params->get('show_cat_items_cat', 1) || !$params->get('show_empty_categories_cat', 0);
+            $options['includeSecondaryCategories']   = true;
+            $categories                              = Categories::getInstance('Newsfeeds', $options);
+            $this->_parent                           = $categories->get($this->getState('filter.parentId', 'root'));
 
             if (\is_object($this->_parent)) {
                 $this->_items = $this->_parent->getChildren();

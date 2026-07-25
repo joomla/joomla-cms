@@ -13,10 +13,13 @@ namespace Joomla\Component\Newsfeeds\Administrator\Model;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Helper\SecondaryCategoriesHelper;
+use Joomla\CMS\Helper\SecondaryCategoriesSaveTrait;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
@@ -33,6 +36,7 @@ use Joomla\Registry\Registry;
  */
 class NewsfeedModel extends AdminModel implements VersionableModelInterface
 {
+    use SecondaryCategoriesSaveTrait;
     use VersionableModelTrait;
 
     /**
@@ -56,6 +60,58 @@ class NewsfeedModel extends AdminModel implements VersionableModelInterface
      * @since   1.6
      */
     protected $text_prefix = 'COM_NEWSFEEDS';
+
+    /**
+     * Copy secondary category mappings after batch copying a news feed.
+     *
+     * @param   TableInterface  $table  The table object containing the newly created item.
+     * @param   integer         $newId  The id of the new item.
+     * @param   integer         $oldId  The original item id.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function cleanupPostBatchCopy(TableInterface $table, $newId, $oldId)
+    {
+        $secondaryCategories = array_values(array_diff(
+            $this->getCurrentSecondaryCategories((int) $oldId),
+            [(int) $table->catid]
+        ));
+
+        $this->saveSecondaryCategories([
+            'id'                   => (int) $newId,
+            'secondary_categories' => $secondaryCategories,
+        ]);
+    }
+
+    /**
+     * Batch move news feeds to a new primary category.
+     *
+     * @param   integer  $value     The new category ID.
+     * @param   array    $pks       An array of row IDs.
+     * @param   array    $contexts  An array of item contexts.
+     *
+     * @return  boolean  True if successful, false otherwise.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function batchMove($value, $pks, $contexts)
+    {
+        $result = parent::batchMove($value, $pks, $contexts);
+
+        if ($result) {
+            $helper = new SecondaryCategoriesHelper($this->typeAlias);
+
+            foreach ((array) $pks as $pk) {
+                $helper->removeMappings((int) $pk, [(int) $value]);
+            }
+
+            $this->cleanCache();
+        }
+
+        return $result;
+    }
 
     /**
      * Method to test whether a record can be deleted.
@@ -229,7 +285,21 @@ class NewsfeedModel extends AdminModel implements VersionableModelInterface
             $data['published'] = 0;
         }
 
-        return parent::save($data);
+        if (!isset($data['secondary_categories'])) {
+            $data['secondary_categories'] = [];
+        }
+
+        $data['secondary_categories'] = $this->createSecondaryCategories($data);
+        $data['secondary_categories'] = $this->normalizeSecondaryCategories($data);
+
+        if (!parent::save($data)) {
+            return false;
+        }
+
+        $data['id'] = (int) $this->getState($this->getName() . '.id');
+        $this->saveSecondaryCategories($data);
+
+        return true;
     }
 
     /**
@@ -251,6 +321,10 @@ class NewsfeedModel extends AdminModel implements VersionableModelInterface
             // Convert the images field to an array.
             $registry     = new Registry($item->images);
             $item->images = $registry->toArray();
+
+            if (!empty($item->id)) {
+                $item->secondary_categories = $this->getCurrentSecondaryCategories((int) $item->id);
+            }
         }
 
         // Load associated newsfeeds items
@@ -378,6 +452,9 @@ class NewsfeedModel extends AdminModel implements VersionableModelInterface
 
             // Add a prefix for categories created on the fly.
             $form->setFieldAttribute('catid', 'customPrefix', '#new#');
+
+            $form->setFieldAttribute('secondary_categories', 'allowAdd', 'true');
+            $form->setFieldAttribute('secondary_categories', 'customPrefix', '#new#');
         }
 
         // Association newsfeeds items
@@ -410,6 +487,31 @@ class NewsfeedModel extends AdminModel implements VersionableModelInterface
         }
 
         parent::preprocessForm($form, $data, $group);
+    }
+
+    /**
+     * Method to delete one or more records.
+     *
+     * @param   array  $pks  An array of record primary keys.
+     *
+     * @return  boolean
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function delete(&$pks)
+    {
+        $ids = array_map('intval', (array) $pks);
+
+        if (!parent::delete($pks)) {
+            return false;
+        }
+
+        if ($ids) {
+            $helper = new SecondaryCategoriesHelper($this->typeAlias);
+            $helper->removeAllMappings(...$ids);
+        }
+
+        return true;
     }
 
     /**

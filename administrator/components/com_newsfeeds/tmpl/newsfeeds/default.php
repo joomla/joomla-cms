@@ -23,7 +23,8 @@ use Joomla\CMS\Session\Session;
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
-    ->useScript('multiselect');
+    ->useScript('multiselect')
+    ->useScript('field.category-match-toggle');
 
 $user      = $this->getCurrentUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -142,6 +143,24 @@ if ($saveOrder && !empty($this->items)) {
                                         <div class="small">
                                             <?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
                                         </div>
+                                        <?php if (!empty($item->secondary_categories)) :
+                                            ?>
+                                            <div class="small">
+                                                <?php
+                                                echo Text::_(count($item->secondary_categories) > 1
+                                                        ? 'JSECONDARY_CATEGORIES'
+                                                        : 'JSECONDARY_CATEGORY') . ': ';
+                                                ?>
+
+                                                <?php foreach ($item->secondary_categories as $index => $category) :
+                                                    ?>
+                                                    <?php echo $index > 0 ? ($this->getLanguage()->isRtl() ? '، ' : ', ') : ''; ?>
+                                                    <?php echo $this->escape($category->title); ?>
+                                                    <?php
+                                                endforeach; ?>
+                                            </div>
+                                            <?php
+                                        endif; ?>
                                     </div>
                                 </th>
                                 <td class="small d-none d-md-table-cell">

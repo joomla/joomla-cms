@@ -52,6 +52,17 @@
 		/>
 
 		<field
+			name="secondary_categories"
+			type="categorymultiple"
+			primarycategoryfield="catid"
+			label="JSECONDARY_CATEGORIES"
+			description="COM_NEWSFEEDS_FIELD_SECONDARY_CATEGORIES_DESC"
+			multiple="true"
+			extension="com_newsfeeds"
+			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
+		/>
+
+		<field
 			name="language"
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"

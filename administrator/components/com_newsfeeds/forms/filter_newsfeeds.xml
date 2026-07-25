@@ -26,10 +26,24 @@
 			type="category"
 			label="JCATEGORY"
 			extension="com_newsfeeds"
+			multiple="true"
+			layout="joomla.form.field.list-fancy-select"
+			hint="JOPTION_SELECT_CATEGORY"
 			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 			class="js-select-submit-on-change"
-			>
-			<option value="">JOPTION_SELECT_CATEGORY</option>
+		/>
+
+		<field
+			name="category_match"
+			type="list"
+			label="JCATEGORY_MATCH"
+			description="COM_NEWSFEEDS_FILTER_CATEGORY_MATCH_DESC"
+			default=""
+			class="js-select-submit-on-change"
+		>
+			<option value="">JOPTION_CATEGORY_MATCH_ALL</option>
+			<option value="1">JOPTION_CATEGORY_MATCH_PRIMARY</option>
+			<option value="2">JOPTION_CATEGORY_MATCH_SECONDARY</option>
 		</field>
 
 		<field

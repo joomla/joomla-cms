@@ -914,6 +914,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
             }
 
             if (\array_key_exists('secondary_categories', $data)) {
+                $data['id'] = (int) $this->getState($this->getName() . '.id');
                 $this->saveSecondaryCategories($data);
             }
 

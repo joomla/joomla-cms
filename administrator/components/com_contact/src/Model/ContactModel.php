@@ -481,6 +481,7 @@ class ContactModel extends AdminModel implements VersionableModelInterface
 
         if (parent::save($data)) {
             if (\array_key_exists('secondary_categories', $data)) {
+                $data['id'] = (int) $this->getState($this->getName() . '.id');
                 $this->saveSecondaryCategories($data);
             }
 

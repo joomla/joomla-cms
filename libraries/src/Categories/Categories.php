@@ -243,10 +243,11 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
     protected function getCategoryMappingContext(): ?string
     {
         return match ($this->_extension) {
-            'com_content' => 'com_content.article',
-            'com_contact' => 'com_contact.contact',
-            'com_banners' => 'com_banners.banner',
-            default       => null,
+            'com_content'   => 'com_content.article',
+            'com_contact'   => 'com_contact.contact',
+            'com_banners'   => 'com_banners.banner',
+            'com_newsfeeds' => 'com_newsfeeds.newsfeed',
+            default         => null,
         };
     }
 

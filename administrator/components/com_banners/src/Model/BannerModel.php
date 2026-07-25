@@ -97,8 +97,15 @@ class BannerModel extends AdminModel implements VersionableModelInterface
         $db->setQuery($query);
         $db->execute();
 
-        $helper = new SecondaryCategoriesHelper($this->typeAlias);
-        $helper->replaceMappings((int) $newId, $helper->getCurrentSecondaryCategoriesByItem((int) $oldId));
+        $secondaryCategories = array_values(array_diff(
+            $this->getCurrentSecondaryCategories((int) $oldId),
+            [(int) $table->catid]
+        ));
+
+        $this->saveSecondaryCategories([
+            'id'                   => (int) $newId,
+            'secondary_categories' => $secondaryCategories,
+        ]);
     }
 
     /**
