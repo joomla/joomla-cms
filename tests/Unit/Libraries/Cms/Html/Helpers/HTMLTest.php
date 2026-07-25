@@ -41,6 +41,20 @@ class HTMLTest extends UnitTestCase
     }
 
     /**
+     * Test attributes method prevents double encoding of HTML entities
+     *
+     * @return  void
+     *
+     * @covers  Joomla\CMS\HTML\Helpers\HTML::attributes
+     */
+    public function testAttributesPreventsDoubleEncoding(): void
+    {
+        $attribs  = ['title' => 'Title with &lt; &amp; &gt; characters'];
+        $expected = 'title="Title with &lt; &amp; &gt; characters"';
+        $this->assertEquals($expected, HTML::attributes($attribs));
+    }
+
+    /**
      * Test attributes with empty array
      *
      * @return  void

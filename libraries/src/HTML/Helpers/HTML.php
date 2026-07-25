@@ -40,7 +40,7 @@ abstract class HTML
             }
 
             // Escape the attribute value to prevent XSS
-            $result[] = $key . '="' . htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8') . '"';
+            $result[] = $key . '="' . htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8', false) . '"';
         }
 
         return implode(' ', $result);
