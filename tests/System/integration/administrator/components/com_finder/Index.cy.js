@@ -23,7 +23,7 @@ describe('Test in backend that the Smart Search', () => {
     cy.clickToolbarButton('Save & Close');
     // Visit the smart search page
     cy.visit('/administrator/index.php?option=com_finder&view=index');
-    // carefully check on next versions cause in & the button has changes
+    // Carefully check on next versions cause in 6 the button has changes
     cy.get('#toolbar-index > button').click();
     cy.contains('Test article').should('exist');
   });
