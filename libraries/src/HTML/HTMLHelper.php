@@ -323,7 +323,7 @@ abstract class HTMLHelper
             $attribs = HTMLHelper::_('html.attributes', $attribs);
         }
 
-        return '<a href="' . $url . '" ' . HTMLHelper::_('html.attributes', $attribs) . '>' . $text . '</a>';
+        return '<a href="' . $url . '" ' . $attribs . '>' . $text . '</a>';
     }
 
     /**
