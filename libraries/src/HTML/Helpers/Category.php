@@ -100,7 +100,7 @@ abstract class Category
             if (isset($config['filter.access'])) {
                 if (is_numeric($config['filter.access'])) {
                     $query->where($db->quoteName('a.access') . ' = :access')
-                        ->bind(':access', $config['filter_access'], ParameterType::INTEGER);
+                        ->bind(':access', $config['filter.access'], ParameterType::INTEGER);
                 } elseif (\is_array($config['filter.access'])) {
                     $config['filter.access'] = ArrayHelper::toInteger($config['filter.access']);
                     $query->whereIn($db->quoteName('a.access'), $config['filter.access']);
