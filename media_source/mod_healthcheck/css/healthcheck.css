@@ -10,31 +10,23 @@
 
 .healthcheck-filters .btn-group {
   display: flex;
-  justify-content: flex-end;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: .25rem;
 }
 
 .healthcheck-filters .btn {
   flex: 0 0 auto !important;
   padding: .25rem .5rem;
   font-size: .75rem;
-  font-weight: 500;
   line-height: 1.5;
   border-radius: .25rem;
   transition: all .2s ease-in-out;
 }
 
-.healthcheck-filters .btn-group .btn:first-child {
-  border-start-start-radius: .375rem;
-  border-end-start-radius: .375rem;
-}
-
-.healthcheck-filters .btn-group .btn:last-child {
-  border-start-end-radius: .375rem;
-  border-end-end-radius: .375rem;
-}
-
-.healthcheck-filters .btn.active {
-  font-weight: 600;
+.healthcheck-filters .healthcheck-filter-btn.btn-outline-warning {
+  --btn-color: #7a4b00;
+  --btn-border-color: #7a4b00;
 }
 
 /* Item lists shown below an icon when it is clicked */
@@ -54,18 +46,18 @@
 }
 
 /* An expanded icon spans every dashboard column so its item list gets the full width */
-.quick-icons .nav .quickicon.is-expanded {
+.quick-icons.health-checks .nav .quickicon.is-expanded {
   grid-column: 1 / -1;
 }
 
 /* Smooth transition for filtered items */
-.quickicon-single,
-.quickicon-group {
+.quick-icons.health-checks .quickicon-single,
+.quick-icons.health-checks .quickicon-group {
   transition: opacity .3s ease-in-out, transform .3s ease-in-out;
 }
 
-.quickicon-single.d-none,
-.quickicon-group.d-none {
+.quick-icons.health-checks .quickicon-single.d-none,
+.quick-icons.health-checks .quickicon-group.d-none {
   opacity: 0;
   transform: scale(.95);
 }
