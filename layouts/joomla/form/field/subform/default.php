@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
 
 extract($displayData);
 
@@ -35,7 +36,12 @@ $form = $forms[0];
 ?>
 
 <div class="subform-wrapper">
-<?php foreach ($form->getGroup('') as $field) : ?>
-    <?php echo $field->renderField(); ?>
-<?php endforeach; ?>
+    <?php $fields = $form->getGroup(''); ?>
+    <?php if (empty($fields)) : ?>
+        <div class="alert alert-info"><?php echo Text::_('JGLOBAL_FIELD_SUBFORM_NO_FIELDS'); ?></div>
+    <?php else : ?>
+        <?php foreach ($fields as $field) : ?>
+            <?php echo $field->renderField(); ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
 </div>

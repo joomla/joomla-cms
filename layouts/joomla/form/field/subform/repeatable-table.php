@@ -42,12 +42,14 @@ if ($multiple) {
         ->useScript('webcomponent.field-subform');
 }
 
-$class = $class ? ' ' . $class : '';
+$class        = $class ? ' ' . $class : '';
+$fields       = $tmpl->getGroup('');
+$emptySubform = empty($fields) ? true : false;
 
 // Build heading
-$table_head = '';
+$table_head   = '';
 
-if (!empty($groupByFieldset)) {
+if (!$emptySubform) {
     foreach ($tmpl->getFieldsets() as $k => $fieldset) {
         $table_head .= '<th scope="col">' . Text::_($fieldset->label);
 
@@ -58,9 +60,7 @@ if (!empty($groupByFieldset)) {
         $table_head .= '</th>';
     }
 
-    $sublayout = 'section-byfieldsets';
-} else {
-    $fields = $tmpl->getGroup('');
+    $sublayout = 'section-byfieldsets'; 
     $th_width = 92 / count($fields);
     foreach ($fields as $field) {
         $table_head .= '<th scope="col" style="width:' . $th_width . '%">' . strip_tags($field->label);
@@ -78,7 +78,8 @@ if (!empty($groupByFieldset)) {
     Factory::getApplication()
         ->getDocument()
         ->addStyleDeclaration('.subform-table-sublayout-section .controls { margin-left: 0px }');
-}
+
+} 
 ?>
 
 <div class="subform-repeatable-wrapper subform-table-layout subform-table-sublayout-<?php echo $sublayout; ?>">
@@ -86,7 +87,11 @@ if (!empty($groupByFieldset)) {
         button-add=".group-add" button-remove=".group-remove" button-move="<?php echo empty($buttons['move']) ? '' : '.group-move' ?>"
         repeatable-element=".subform-repeatable-group"
         rows-container="tbody.subform-repeatable-container" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
-        <div class="table-responsive">
+        
+        <?php if ($emptySubform) : ?>
+            <div class="alert alert-info"><?php echo Text::_('JGLOBAL_FIELD_SUBFORM_NO_FIELDS'); ?></div>
+        <?php else : ?>
+            <div class="table-responsive">
             <table class="table" id="subfieldList_<?php echo $fieldId; ?>">
                 <caption class="visually-hidden">
                     <?php echo Text::_('JGLOBAL_REPEATABLE_FIELDS_TABLE_CAPTION'); ?>
@@ -123,3 +128,4 @@ if (!empty($groupByFieldset)) {
         <?php endif; ?>
     </joomla-field-subform>
 </div>
+<?php endif; ?>
