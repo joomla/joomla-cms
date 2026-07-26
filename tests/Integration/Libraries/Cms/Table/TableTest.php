@@ -13,6 +13,7 @@ namespace Joomla\Tests\Integration\Libraries\Cms\Table;
 use Joomla\CMS\Table\Table;
 use Joomla\Event\Dispatcher;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\EventInterface;
 use Joomla\Tests\Integration\DBTestInterface;
 use Joomla\Tests\Integration\DBTestTrait;
 use Joomla\Tests\Integration\IntegrationTestCase;
@@ -244,13 +245,21 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
             'ordering'  => 23,
         ];
 
+        $matcher        = $this->exactly(2);
         $dispatcherMock = $this->getMockBuilder(DispatcherInterface::class)->getMock();
-        $dispatcherMock->expects($this->exactly(2))
+        $dispatcherMock->expects($matcher)
             ->method('dispatch')
-            ->withConsecutive(
-                ['onTableBeforeBind', $this->anything()],
-                ['onTableAfterBind', $this->anything()]
-            );
+            ->willReturnCallback(function (...$parameters) use ($matcher) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertSame('onTableBeforeBind', $parameters[0]);
+                    $this->assertInstanceOf(EventInterface::class, $parameters[1]);
+                } elseif ($matcher->numberOfInvocations() === 2) {
+                    $this->assertSame('onTableAfterBind', $parameters[0]);
+                    $this->assertInstanceOf(EventInterface::class, $parameters[1]);
+                }
+
+                return $parameters[1];
+            });
 
         $this->object->setDispatcher($dispatcherMock);
 
@@ -265,8 +274,6 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
      */
     public function testReset()
     {
-        $nullDate = $this->getDBDriver()->getNullDate();
-
         $this->object->id         = 25;
         $this->object->title      = 'My Title';
         $this->object->hits       = 42;
@@ -274,13 +281,21 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
         $this->object->params     = '{"test":5}';
         $this->object->setError('Generic error');
 
+        $matcher        = $this->exactly(2);
         $dispatcherMock = $this->getMockBuilder(DispatcherInterface::class)->getMock();
-        $dispatcherMock->expects($this->exactly(2))
+        $dispatcherMock->expects($matcher)
             ->method('dispatch')
-            ->withConsecutive(
-                ['onTableBeforeReset', $this->anything()],
-                ['onTableAfterReset', $this->anything()]
-            );
+            ->willReturnCallback(function (...$parameters) use ($matcher) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertSame('onTableBeforeReset', $parameters[0]);
+                    $this->assertInstanceOf(EventInterface::class, $parameters[1]);
+                } elseif ($matcher->numberOfInvocations() === 2) {
+                    $this->assertSame('onTableAfterReset', $parameters[0]);
+                    $this->assertInstanceOf(EventInterface::class, $parameters[1]);
+                }
+
+                return $parameters[1];
+            });
 
         $this->object->setDispatcher($dispatcherMock);
 

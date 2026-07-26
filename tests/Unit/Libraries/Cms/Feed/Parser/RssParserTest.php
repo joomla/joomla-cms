@@ -634,28 +634,43 @@ class RssParserTest extends UnitTestCase
         );
 
         $feedEntryMock = $this->createMock(FeedEntry::class);
+        $matcher       = $this->exactly(9);
 
         $feedEntryMock
-            ->expects($this->any())
+            ->expects($matcher)
             ->method('__set')
-            ->withConsecutive(
-                ['uri', $entry['link']],
-                ['title', $entry['title']],
-                ['publishedDate', $entry['pubDate']],
-                ['updatedDate', $entry['pubDate']],
-                ['content', $entry['description']],
-                ['guid', ''],
-                ['isPermaLink', true],
-                ['comments', ''],
-                ['author', $this->callback(
-                    function ($value) use ($entry) {
-                        return $value instanceof FeedPerson
-                            && $value->name === $entry['authorName']
-                            && $value->email === $entry['authorEmail'];
-                    }
-                ),
-                ]
-            );
+            ->willReturnCallback(function (...$parameters) use ($matcher, $entry) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertSame('uri', $parameters[0]);
+                    $this->assertSame($entry['link'], $parameters[1]);
+                } elseif ($matcher->numberOfInvocations() === 2) {
+                    $this->assertSame('title', $parameters[0]);
+                    $this->assertSame($entry['title'], $parameters[1]);
+                } elseif ($matcher->numberOfInvocations() === 3) {
+                    $this->assertSame('publishedDate', $parameters[0]);
+                    $this->assertSame($entry['pubDate'], $parameters[1]);
+                } elseif ($matcher->numberOfInvocations() === 4) {
+                    $this->assertSame('updatedDate', $parameters[0]);
+                    $this->assertSame($entry['pubDate'], $parameters[1]);
+                } elseif ($matcher->numberOfInvocations() === 5) {
+                    $this->assertSame('content', $parameters[0]);
+                    $this->assertSame($entry['description'], $parameters[1]);
+                } elseif ($matcher->numberOfInvocations() === 6) {
+                    $this->assertSame('guid', $parameters[0]);
+                    $this->assertSame('', $parameters[1]);
+                } elseif ($matcher->numberOfInvocations() === 7) {
+                    $this->assertSame('isPermaLink', $parameters[0]);
+                    $this->assertTrue($parameters[1]);
+                } elseif ($matcher->numberOfInvocations() === 8) {
+                    $this->assertSame('comments', $parameters[0]);
+                    $this->assertSame('', $parameters[1]);
+                } elseif ($matcher->numberOfInvocations() === 9) {
+                    $this->assertSame('author', $parameters[0]);
+                    $this->assertInstanceOf(FeedPerson::class, $parameters[1]);
+                    $this->assertSame($entry['authorName'], $parameters[1]->name);
+                    $this->assertSame($entry['authorEmail'], $parameters[1]->email);
+                }
+            });
 
         $feedEntryMock
             ->expects($this->once())

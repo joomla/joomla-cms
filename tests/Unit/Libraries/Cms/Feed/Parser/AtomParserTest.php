@@ -424,15 +424,25 @@ class AtomParserTest extends UnitTestCase
 			<title>title</title><updated>August 25, 1991</updated><summary>summary</summary></entry>');
 
         $feedEntryMock = $this->createMock(FeedEntry::class);
+        $matcher       = $this->exactly(4);
         $feedEntryMock
-            ->expects($this->exactly(4))
+            ->expects($matcher)
             ->method('__set')
-            ->withConsecutive(
-                ['uri', 'http://example.com/id'],
-                ['title', 'title'],
-                ['updatedDate', 'August 25, 1991'],
-                ['content', 'summary']
-            );
+            ->willReturnCallback(function (...$parameters) use ($matcher) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertSame('uri', $parameters[0]);
+                    $this->assertSame('http://example.com/id', $parameters[1]);
+                } elseif ($matcher->numberOfInvocations() === 2) {
+                    $this->assertSame('title', $parameters[0]);
+                    $this->assertSame('title', $parameters[1]);
+                } elseif ($matcher->numberOfInvocations() === 3) {
+                    $this->assertSame('updatedDate', $parameters[0]);
+                    $this->assertSame('August 25, 1991', $parameters[1]);
+                } elseif ($matcher->numberOfInvocations() === 4) {
+                    $this->assertSame('content', $parameters[0]);
+                    $this->assertSame('summary', $parameters[1]);
+                }
+            });
 
         /**
          * Ensure that for the test to work we correctly return the content element (as a normal class would do
