@@ -52,8 +52,8 @@ class DatabaseModelTest extends UnitTestCase
             }
         };
 
-        $this->assertEquals($db, $model->getDatabase());
-        $this->assertEquals($mvcFactory, $model->getMVCFactory());
+        $this->assertSame($db, $model->getDatabase());
+        $this->assertSame($mvcFactory, $model->getMVCFactory());
     }
 
     /**
@@ -71,7 +71,7 @@ class DatabaseModelTest extends UnitTestCase
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel {
         };
 
-        $this->assertEquals($table, $model->getTable());
+        $this->assertSame($table, $model->getTable());
     }
 
     /**
@@ -110,7 +110,7 @@ class DatabaseModelTest extends UnitTestCase
             }
         };
 
-        $this->assertEquals([1], $model->_getList($this->getQueryStub($db), 0, 1));
+        $this->assertSame([1], $model->_getList($this->getQueryStub($db), 0, 1));
     }
 
     /**
@@ -132,7 +132,7 @@ class DatabaseModelTest extends UnitTestCase
             }
         };
 
-        $this->assertEquals([1], $model->_getList('query', 0, 1));
+        $this->assertSame([1], $model->_getList('query', 0, 1));
     }
 
     /**
@@ -153,7 +153,7 @@ class DatabaseModelTest extends UnitTestCase
             }
         };
 
-        $this->assertEquals(5, $model->_getListCount($this->getQueryStub($db)));
+        $this->assertSame(5, $model->_getListCount($this->getQueryStub($db)));
     }
 
     /**
@@ -177,7 +177,7 @@ class DatabaseModelTest extends UnitTestCase
         $query = $this->getQueryStub($db);
         $query->select('*');
 
-        $this->assertEquals(5, $model->_getListCount($query));
+        $this->assertSame(5, $model->_getListCount($query));
     }
 
     /**
@@ -198,7 +198,7 @@ class DatabaseModelTest extends UnitTestCase
             }
         };
 
-        $this->assertEquals(5, $model->_getListCount('query'));
+        $this->assertSame(5, $model->_getListCount('query'));
     }
 
     /**

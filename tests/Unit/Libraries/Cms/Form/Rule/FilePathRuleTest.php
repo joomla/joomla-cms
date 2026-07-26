@@ -84,6 +84,6 @@ class FilePathRuleTest extends UnitTestCase
     #[DataProvider('dataTest')]
     public function testRule(bool $expected, \SimpleXMLElement $element, string $value): void
     {
-        $this->assertEquals($expected, (new FilePathRule())->test($element, $value));
+        $this->assertSame($expected, (new FilePathRule())->test($element, $value));
     }
 }

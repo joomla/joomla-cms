@@ -37,7 +37,7 @@ class StateTest extends UnitTestCase
         $state->set('unit', 'test');
 
         $this->assertCount(1, $state->getProperties());
-        $this->assertEquals('test', $state->getProperties()['unit']);
+        $this->assertSame('test', $state->getProperties()['unit']);
     }
 
     /**
@@ -51,8 +51,8 @@ class StateTest extends UnitTestCase
         $state = new State();
         $state->set('unit', 'test');
 
-        $this->assertEquals('test', $state->unit);
-        $this->assertEquals('test', $state->get('unit'));
+        $this->assertSame('test', $state->unit);
+        $this->assertSame('test', $state->get('unit'));
     }
 
     /**
@@ -66,8 +66,8 @@ class StateTest extends UnitTestCase
         $state       = new State();
         $state->unit = 'test';
 
-        $this->assertEquals('test', $state->unit);
-        $this->assertEquals('test', $state->get('unit'));
+        $this->assertSame('test', $state->unit);
+        $this->assertSame('test', $state->get('unit'));
     }
 
     /**
@@ -108,6 +108,6 @@ class StateTest extends UnitTestCase
         $state = new State();
         $state->set('unit', '');
 
-        $this->assertEquals('', $state->get('unit', 'test'));
+        $this->assertSame('', $state->get('unit', 'test'));
     }
 }

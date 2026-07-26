@@ -92,6 +92,6 @@ class NotequalsRuleTest extends UnitTestCase
             (new NotequalsRule())->test($element, $value, $group, $input, $form);
         }
 
-        $this->assertEquals($expected, (new NotequalsRule())->test($element, $value, $group, $input, $form));
+        $this->assertSame($expected, (new NotequalsRule())->test($element, $value, $group, $input, $form));
     }
 }

@@ -68,6 +68,6 @@ class ColorRuleTest extends UnitTestCase
     #[DataProvider('dataTest')]
     public function testRule(bool $expected, \SimpleXMLElement $element, string $value): void
     {
-        $this->assertEquals($expected, (new ColorRule())->test($element, $value));
+        $this->assertSame($expected, (new ColorRule())->test($element, $value));
     }
 }

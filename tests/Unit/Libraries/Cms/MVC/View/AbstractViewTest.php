@@ -43,7 +43,7 @@ class AbstractViewTest extends UnitTestCase
             }
         };
 
-        $this->assertEquals('unit test', $view->getName());
+        $this->assertSame('unit test', $view->getName());
     }
 
     /**
@@ -82,7 +82,7 @@ class AbstractViewTest extends UnitTestCase
             }
         };
 
-        $this->assertEquals('unit test', $view->getOption());
+        $this->assertSame('unit test', $view->getOption());
     }
 
     /**
@@ -103,7 +103,7 @@ class AbstractViewTest extends UnitTestCase
         };
         $view->setModel($model, false);
 
-        $this->assertEquals($model, $view->getModel('unit test'));
+        $this->assertSame($model, $view->getModel('unit test'));
     }
 
     /**
@@ -124,7 +124,7 @@ class AbstractViewTest extends UnitTestCase
         };
         $view->setModel($model, true);
 
-        $this->assertEquals($model, $view->getModel());
+        $this->assertSame($model, $view->getModel());
     }
 
     /**
@@ -142,7 +142,7 @@ class AbstractViewTest extends UnitTestCase
         };
         $view->set('unit', 'test');
 
-        $this->assertEquals('test', $view->get('unit', ''));
+        $this->assertSame('test', $view->get('unit', ''));
     }
 
     /**
@@ -159,7 +159,7 @@ class AbstractViewTest extends UnitTestCase
             }
         };
 
-        $this->assertEquals('test', $view->get('unit', 'test'));
+        $this->assertSame('test', $view->get('unit', 'test'));
     }
 
     /**
@@ -184,7 +184,7 @@ class AbstractViewTest extends UnitTestCase
         };
         $view->setModel($model, false);
 
-        $this->assertEquals('test', $view->get('unit', 'test'));
+        $this->assertSame('test', $view->get('unit', 'test'));
     }
 
     /**
@@ -209,7 +209,7 @@ class AbstractViewTest extends UnitTestCase
         };
         $view->setModel($model, true);
 
-        $this->assertEquals('test', $view->get('unit'));
+        $this->assertSame('test', $view->get('unit'));
     }
 
     /**

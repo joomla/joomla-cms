@@ -178,8 +178,10 @@ class AtomParserTest extends UnitTestCase
             ->with(
                 'link',
                 $this->callback(
-                    function ($param) use ($href) {
-                        return $param instanceof FeedLink && $param->uri === $href;
+                    function ($param) use ($href): bool {
+                        $this->assertInstanceOf(FeedLink::class, $param);
+                        $this->assertSame($href, $param->uri);
+                        return true;
                     }
                 )
             );
@@ -327,7 +329,7 @@ class AtomParserTest extends UnitTestCase
         $reflectionClass = new \ReflectionClass($atomParser);
         $attribute       = $reflectionClass->getProperty('version');
 
-        $this->assertEquals('1.0', $attribute->getValue($atomParser));
+        $this->assertSame('1.0', $attribute->getValue($atomParser));
     }
 
     /**
@@ -366,7 +368,7 @@ class AtomParserTest extends UnitTestCase
         $reflectionClass = new \ReflectionClass($atomParser);
         $attribute       = $reflectionClass->getProperty('version');
 
-        $this->assertEquals('1.0', $attribute->getValue($atomParser));
+        $this->assertSame('1.0', $attribute->getValue($atomParser));
     }
 
     /**
@@ -405,7 +407,7 @@ class AtomParserTest extends UnitTestCase
         $reflectionClass = new \ReflectionClass($atomParser);
         $attribute       = $reflectionClass->getProperty('version');
 
-        $this->assertEquals('0.3', $attribute->getValue($atomParser));
+        $this->assertSame('0.3', $attribute->getValue($atomParser));
     }
 
     /**

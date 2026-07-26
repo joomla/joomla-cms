@@ -77,6 +77,6 @@ class NumberRuleTest extends UnitTestCase
     #[DataProvider('dataTest')]
     public function testRule(bool $expected, \SimpleXMLElement $element, string $value): void
     {
-        $this->assertEquals($expected, (new NumberRule())->test($element, $value));
+        $this->assertSame($expected, (new NumberRule())->test($element, $value));
     }
 }

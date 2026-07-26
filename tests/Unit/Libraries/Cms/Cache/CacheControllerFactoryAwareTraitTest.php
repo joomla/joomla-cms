@@ -47,6 +47,6 @@ class CacheControllerFactoryAwareTraitTest extends UnitTestCase
 
         $trait->setCacheControllerFactory($cacheControllerFactory);
 
-        $this->assertEquals($cacheControllerFactory, $trait->getFactory());
+        $this->assertSame($cacheControllerFactory, $trait->getFactory());
     }
 }

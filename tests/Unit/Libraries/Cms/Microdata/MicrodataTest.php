@@ -35,7 +35,7 @@ class MicrodataTest extends UnitTestCase
     {
         $microdata = new MicrodataStub();
 
-        $this->assertEquals('Thing', $microdata->getType());
+        $this->assertSame('Thing', $microdata->getType());
         $this->assertTrue($microdata->isEnabled());
     }
 
@@ -49,7 +49,7 @@ class MicrodataTest extends UnitTestCase
         $expectedType = ucfirst(trim($type));
         $microdata    = new MicrodataStub('some-type', true, [$expectedType => []]);
 
-        $this->assertEquals($expectedType, $microdata->getType());
+        $this->assertSame($expectedType, $microdata->getType());
         $this->assertTrue($microdata->isEnabled());
     }
 
@@ -78,7 +78,7 @@ class MicrodataTest extends UnitTestCase
         $microdata->setType($type);
 
         // Test if the current Type is 'Article'
-        $this->assertEquals($type, $microdata->getType());
+        $this->assertSame($type, $microdata->getType());
     }
 
     /**
@@ -94,7 +94,7 @@ class MicrodataTest extends UnitTestCase
 
         $microdata->setType($type);
 
-        $this->assertEquals('Thing', $microdata->getType());
+        $this->assertSame('Thing', $microdata->getType());
     }
 
     /**
@@ -119,8 +119,8 @@ class MicrodataTest extends UnitTestCase
 
         // Test fallback values
         $microdata->fallback('Article', 'articleBody');
-        $this->assertEquals('Article', $microdata->getFallbackType());
-        $this->assertEquals('articleBody', $microdata->getFallbackProperty());
+        $this->assertSame('Article', $microdata->getFallbackType());
+        $this->assertSame('articleBody', $microdata->getFallbackProperty());
     }
 
     /**
@@ -146,7 +146,7 @@ class MicrodataTest extends UnitTestCase
 
         // Test if the Fallback Property fallbacks when it isn't available in the $Type
         $microdata->fallback('Article', 'anUnavailableProperty');
-        $this->assertEquals('Article', $microdata->getFallbackType());
+        $this->assertSame('Article', $microdata->getFallbackType());
         $this->assertNull($microdata->getFallbackProperty());
     }
 
@@ -162,7 +162,7 @@ class MicrodataTest extends UnitTestCase
 
         // Test if the Fallback Type fallbacks to the 'Thing' Type
         $microdata->fallback('anUnavailableType', 'anUnavailableProperty');
-        $this->assertEquals('Thing', $microdata->getFallbackType());
+        $this->assertSame('Thing', $microdata->getFallbackType());
         $this->assertNull($microdata->getFallbackProperty());
     }
 
@@ -177,7 +177,7 @@ class MicrodataTest extends UnitTestCase
         // Test display() with all null params
         $microdata = new MicrodataStub();
 
-        $this->assertEquals('', $microdata->display());
+        $this->assertSame('', $microdata->display());
     }
 
     /**
@@ -226,7 +226,7 @@ class MicrodataTest extends UnitTestCase
             ->property('url')
             ->display();
 
-        $this->assertEquals("itemprop='url'", $html);
+        $this->assertSame("itemprop='url'", $html);
     }
 
     /**
@@ -256,7 +256,7 @@ class MicrodataTest extends UnitTestCase
             ->content($content)
             ->display();
 
-        $this->assertEquals("<span itemprop='url'>$content</span>", $html);
+        $this->assertSame("<span itemprop='url'>$content</span>", $html);
     }
 
     /**
@@ -286,7 +286,7 @@ class MicrodataTest extends UnitTestCase
             ->content($content)
             ->display();
 
-        $this->assertEquals("<span itemprop='url'>$content</span>", $html);
+        $this->assertSame("<span itemprop='url'>$content</span>", $html);
     }
 
     /**
@@ -314,7 +314,7 @@ class MicrodataTest extends UnitTestCase
             ->property('author')
             ->display();
 
-        $this->assertEquals("itemprop='author' itemscope itemtype='https://schema.org/Organization'", $html);
+        $this->assertSame("itemprop='author' itemscope itemtype='https://schema.org/Organization'", $html);
     }
 
     /**
@@ -344,7 +344,7 @@ class MicrodataTest extends UnitTestCase
             ->content($content)
             ->display();
 
-        $this->assertEquals(
+        $this->assertSame(
             "<span itemprop='author' itemscope itemtype='https://schema.org/Organization'>$content</span>",
             $html
         );
@@ -388,7 +388,7 @@ class MicrodataTest extends UnitTestCase
             ->content($content)
             ->display();
 
-        $this->assertEquals(
+        $this->assertSame(
             "<span itemprop='author' itemscope itemtype='https://schema.org/Person'><span itemprop='name'>$content</span></span>",
             $html
         );
@@ -430,7 +430,7 @@ class MicrodataTest extends UnitTestCase
             ->property('author')
             ->display();
 
-        $this->assertEquals("itemprop='author' itemscope itemtype='https://schema.org/Person' itemprop='name'", $html);
+        $this->assertSame("itemprop='author' itemscope itemtype='https://schema.org/Person' itemprop='name'", $html);
     }
 
     /**
@@ -460,7 +460,7 @@ class MicrodataTest extends UnitTestCase
             ->property('datePublished')
             ->display();
 
-        $this->assertEquals("itemprop='datePublished'", $html);
+        $this->assertSame("itemprop='datePublished'", $html);
     }
 
     /**
@@ -492,7 +492,7 @@ class MicrodataTest extends UnitTestCase
             ->content($content)
             ->display();
 
-        $this->assertEquals("<meta itemprop='datePublished' content='$content'>$content", $html);
+        $this->assertSame("<meta itemprop='datePublished' content='$content'>$content", $html);
     }
 
     /**
@@ -525,7 +525,7 @@ class MicrodataTest extends UnitTestCase
             ->content($content, $machineContent)
             ->display();
 
-        $this->assertEquals("<meta itemprop='datePublished' content='$machineContent'>$content", $html);
+        $this->assertSame("<meta itemprop='datePublished' content='$machineContent'>$content", $html);
     }
 
     /**
@@ -570,7 +570,7 @@ class MicrodataTest extends UnitTestCase
             ->property('datePublished')
             ->display();
 
-        $this->assertEquals($content, $html);
+        $this->assertSame($content, $html);
     }
 
     /**
@@ -620,7 +620,7 @@ class MicrodataTest extends UnitTestCase
             ->fallback('Article', 'about')
             ->display();
 
-        $this->assertEquals("itemscope itemtype='https://schema.org/Article' itemprop='about'", $html);
+        $this->assertSame("itemscope itemtype='https://schema.org/Article' itemprop='about'", $html);
     }
 
     /**
@@ -654,7 +654,7 @@ class MicrodataTest extends UnitTestCase
             ->fallback('Article', 'about')
             ->display();
 
-        $this->assertEquals(
+        $this->assertSame(
             "<span itemscope itemtype='https://schema.org/Article'><span itemprop='about'>$content</span></span>",
             $html
         );
@@ -683,7 +683,7 @@ class MicrodataTest extends UnitTestCase
             ->fallback('Article', 'notExisting')
             ->display();
 
-        $this->assertEquals("itemscope itemtype='https://schema.org/Article'", $html);
+        $this->assertSame("itemscope itemtype='https://schema.org/Article'", $html);
     }
 
     /**
@@ -717,7 +717,7 @@ class MicrodataTest extends UnitTestCase
             ->fallback('Article', 'datePublished')
             ->display();
 
-        $this->assertEquals("itemscope itemtype='https://schema.org/Article' itemprop='datePublished'", $html);
+        $this->assertSame("itemscope itemtype='https://schema.org/Article' itemprop='datePublished'", $html);
     }
 
     /**
@@ -753,7 +753,7 @@ class MicrodataTest extends UnitTestCase
             ->fallback('Article', 'datePublished')
             ->display();
 
-        $this->assertEquals(
+        $this->assertSame(
             "<meta itemscope itemtype='https://schema.org/Article' itemprop='datePublished' content='$content'>",
             $html
         );
@@ -803,7 +803,7 @@ class MicrodataTest extends UnitTestCase
             ->property('datePublished')
             ->display($type);
 
-        $this->assertEquals($expected, $html);
+        $this->assertSame($expected, $html);
     }
 
     /**
@@ -852,7 +852,7 @@ class MicrodataTest extends UnitTestCase
             ->property('datePublished')
             ->display($type);
 
-        $this->assertEquals($expected, $html);
+        $this->assertSame($expected, $html);
     }
 
     /**
@@ -929,9 +929,9 @@ class MicrodataTest extends UnitTestCase
         $reflectionClass = new \ReflectionClass($microdata);
         $method          = $reflectionClass->getMethod('getExpectedDisplayType');
 
-        $this->assertEquals('normal', $method->invoke($microdata, 'Article', 'articleBody'));
-        $this->assertEquals('nested', $method->invoke($microdata, 'Article', 'about'));
-        $this->assertEquals('meta', $method->invoke($microdata, 'Article', 'datePublished'));
+        $this->assertSame('normal', $method->invoke($microdata, 'Article', 'articleBody'));
+        $this->assertSame('nested', $method->invoke($microdata, 'Article', 'about'));
+        $this->assertSame('meta', $method->invoke($microdata, 'Article', 'datePublished'));
     }
 
     /**
@@ -954,7 +954,7 @@ class MicrodataTest extends UnitTestCase
             ]
         );
 
-        $this->assertEquals("itemscope itemtype='https://schema.org/$type'", $microdata->displayScope());
+        $this->assertSame("itemscope itemtype='https://schema.org/$type'", $microdata->displayScope());
     }
 
     /**
@@ -968,7 +968,7 @@ class MicrodataTest extends UnitTestCase
         $type      = 'Article';
         $microdata = new MicrodataStub($type, false);
 
-        $this->assertEquals("", $microdata->displayScope());
+        $this->assertSame("", $microdata->displayScope());
     }
 
     /**
@@ -1003,7 +1003,7 @@ class MicrodataTest extends UnitTestCase
         $types = $microdata::getAvailableTypes();
 
         $this->assertCount(1, $types);
-        $this->assertEquals('Article', $types[0]);
+        $this->assertSame('Article', $types[0]);
     }
 
     /**
@@ -1020,19 +1020,19 @@ class MicrodataTest extends UnitTestCase
         $property = 'datePublished';
 
         // Test with all params
-        $this->assertEquals(
+        $this->assertSame(
             "<meta itemscope itemtype='https://schema.org/$scope' itemprop='$property' content='$content'>",
             MicrodataStub::htmlMeta($content, $property, $scope)
         );
 
         // Test with the $inverse mode
-        $this->assertEquals(
+        $this->assertSame(
             "<meta itemprop='$property' itemscope itemtype='https://schema.org/$scope' content='$content'>",
             MicrodataStub::htmlMeta($content, $property, $scope, true)
         );
 
         // Test without the $scope
-        $this->assertEquals(
+        $this->assertSame(
             "<meta itemprop='$property' content='$content'>",
             MicrodataStub::htmlMeta($content, $property)
         );
@@ -1053,31 +1053,31 @@ class MicrodataTest extends UnitTestCase
         $property = 'about';
 
         // Test with all params
-        $this->assertEquals(
+        $this->assertSame(
             "<div itemscope itemtype='https://schema.org/$scope' itemprop='$property'>$content</div>",
             MicrodataStub::htmlDiv($content, $property, $scope)
         );
 
         // Test with the $inverse mode
-        $this->assertEquals(
+        $this->assertSame(
             "<div itemprop='$property' itemscope itemtype='https://schema.org/$scope'>$content</div>",
             MicrodataStub::htmlDiv($content, $property, $scope, true)
         );
 
         // Test without the $scope
-        $this->assertEquals(
+        $this->assertSame(
             "<div itemprop='$property'>$content</div>",
             MicrodataStub::htmlDiv($content, $property)
         );
 
         // Test without the $property
-        $this->assertEquals(
+        $this->assertSame(
             "<div itemprop='$property' itemscope itemtype='https://schema.org/$scope'>$content</div>",
             MicrodataStub::htmlDiv($content, $property, $scope, true)
         );
 
         // Test without the $scope, $property
-        $this->assertEquals(
+        $this->assertSame(
             "<div>$content</div>",
             MicrodataStub::htmlDiv($content)
         );
@@ -1098,31 +1098,31 @@ class MicrodataTest extends UnitTestCase
         $property = 'about';
 
         // Test with all params
-        $this->assertEquals(
+        $this->assertSame(
             "<span itemscope itemtype='https://schema.org/$scope' itemprop='$property'>$content</span>",
             MicrodataStub::htmlSpan($content, $property, $scope)
         );
 
         // Test with the inverse mode
-        $this->assertEquals(
+        $this->assertSame(
             "<span itemprop='$property' itemscope itemtype='https://schema.org/$scope'>$content</span>",
             MicrodataStub::htmlSpan($content, $property, $scope, true)
         );
 
         // Test without the $scope
-        $this->assertEquals(
+        $this->assertSame(
             "<span itemprop='$property'>$content</span>",
             MicrodataStub::htmlSpan($content, $property)
         );
 
         // Test without the $property
-        $this->assertEquals(
+        $this->assertSame(
             "<span itemprop='$property' itemscope itemtype='https://schema.org/$scope'>$content</span>",
             MicrodataStub::htmlSpan($content, $property, $scope, true)
         );
 
         // Test without the $scope, $property
-        $this->assertEquals(
+        $this->assertSame(
             "<span>$content</span>",
             MicrodataStub::htmlSpan($content)
         );

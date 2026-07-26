@@ -52,7 +52,7 @@ class MailHelperTest extends UnitTestCase
     #[DataProvider('dataCleanLine')]
     public function testCleanLine($input, $expected)
     {
-        $this->assertEquals($expected, MailHelper::cleanLine($input));
+        $this->assertSame($expected, MailHelper::cleanLine($input));
     }
 
     /**
@@ -113,7 +113,7 @@ class MailHelperTest extends UnitTestCase
     #[DataProvider('dataCleanText')]
     public function testCleanText($input, $expected)
     {
-        $this->assertEquals($expected, MailHelper::cleanText($input));
+        $this->assertSame($expected, MailHelper::cleanText($input));
     }
 
     /**
@@ -155,7 +155,7 @@ class MailHelperTest extends UnitTestCase
     #[DataProvider('dataCleanBody')]
     public function testCleanBody($input, $expected)
     {
-        $this->assertEquals($expected, MailHelper::cleanBody($input));
+        $this->assertSame($expected, MailHelper::cleanBody($input));
     }
 
     /**
@@ -195,7 +195,7 @@ class MailHelperTest extends UnitTestCase
     #[DataProvider('dataCleanSubject')]
     public function testCleanSubject($input, $expected)
     {
-        $this->assertEquals($expected, MailHelper::cleanSubject($input));
+        $this->assertSame($expected, MailHelper::cleanSubject($input));
     }
 
     /**
@@ -229,7 +229,7 @@ class MailHelperTest extends UnitTestCase
     #[DataProvider('dataCleanAddress')]
     public function testCleanAddress($input, $expected)
     {
-        $this->assertEquals($expected, MailHelper::cleanAddress($input));
+        $this->assertSame($expected, MailHelper::cleanAddress($input));
     }
 
     /**
@@ -279,6 +279,6 @@ class MailHelperTest extends UnitTestCase
     #[DataProvider('dataIsEmailAddress')]
     public function testIsEmailAddress($input, $expected)
     {
-        $this->assertEquals($expected, MailHelper::isEmailAddress($input));
+        $this->assertSame($expected, MailHelper::isEmailAddress($input));
     }
 }

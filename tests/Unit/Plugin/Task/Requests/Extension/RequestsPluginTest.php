@@ -129,9 +129,9 @@ class RequestsPluginTest extends UnitTestCase
         );
         $plugin->standardRoutineHandler($event);
 
-        $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
+        $this->assertSame(Status::OK, $event->getResultSnapshot()['status']);
         $this->assertStringContainsString('SAVED', $event->getResultSnapshot()['output']);
-        $this->assertEquals('http://example.com', $transport->url);
+        $this->assertSame('http://example.com', $transport->url);
         $this->assertStringEqualsFile($this->tmpFolder . '/task_1_response.html', 'test');
     }
 
@@ -187,9 +187,9 @@ class RequestsPluginTest extends UnitTestCase
         );
         $plugin->standardRoutineHandler($event);
 
-        $this->assertEquals(Status::KNOCKOUT, $event->getResultSnapshot()['status']);
+        $this->assertSame(Status::KNOCKOUT, $event->getResultSnapshot()['status']);
         $this->assertStringContainsString('SAVED', $event->getResultSnapshot()['output']);
-        $this->assertEquals('http://example.com', $transport->url);
+        $this->assertSame('http://example.com', $transport->url);
         $this->assertStringEqualsFile($this->tmpFolder . '/task_1_response.html', 'test');
     }
 
@@ -245,7 +245,7 @@ class RequestsPluginTest extends UnitTestCase
         );
         $plugin->standardRoutineHandler($event);
 
-        $this->assertEquals(['Authorization' => 'basic 123'], $transport->headers);
+        $this->assertSame(['Authorization' => 'basic 123'], $transport->headers);
     }
 
     /**
@@ -293,7 +293,7 @@ class RequestsPluginTest extends UnitTestCase
         );
         $plugin->standardRoutineHandler($event);
 
-        $this->assertEquals(Status::TIMEOUT, $event->getResultSnapshot()['status']);
+        $this->assertSame(Status::TIMEOUT, $event->getResultSnapshot()['status']);
     }
     /**
      * @return  void
@@ -344,7 +344,7 @@ class RequestsPluginTest extends UnitTestCase
         );
         $plugin->standardRoutineHandler($event);
 
-        $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
+        $this->assertSame(Status::OK, $event->getResultSnapshot()['status']);
         $this->assertStringContainsString('NOT_SAVED', $event->getResultSnapshot()['output']);
     }
 }

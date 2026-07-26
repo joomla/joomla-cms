@@ -44,7 +44,7 @@ class LanguageAwareTraitTest extends UnitTestCase
 
         $trait->setLanguage($language);
 
-        $this->assertEquals($language, $trait->get());
+        $this->assertSame($language, $trait->get());
     }
 
     /**

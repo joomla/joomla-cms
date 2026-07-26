@@ -52,7 +52,7 @@ class MailerFactoryTest extends UnitTestCase
         /** @var Mail $mail */
         $mail = $factory->createMailer();
 
-        $this->assertEquals('test@example.com', $mail->From);
+        $this->assertSame('test@example.com', $mail->From);
     }
 
     /**
@@ -68,7 +68,7 @@ class MailerFactoryTest extends UnitTestCase
         /** @var Mail $mail */
         $mail = $factory->createMailer(new Registry(['mailfrom' => 'test@example.com']));
 
-        $this->assertEquals('test@example.com', $mail->From);
+        $this->assertSame('test@example.com', $mail->From);
     }
 
     /**
@@ -100,7 +100,7 @@ class MailerFactoryTest extends UnitTestCase
         /** @var Mail $mail */
         $mail = $factory->createMailer(new Registry(['mailfrom' => 'test@example.com']));
 
-        $this->assertEquals('test@example.com', $mail->From);
+        $this->assertSame('test@example.com', $mail->From);
     }
 
     /**
@@ -116,6 +116,6 @@ class MailerFactoryTest extends UnitTestCase
         /** @var Mail $mail */
         $mail = $factory->createMailer();
 
-        $this->assertEquals('smtp', $mail->Mailer);
+        $this->assertSame('smtp', $mail->Mailer);
     }
 }

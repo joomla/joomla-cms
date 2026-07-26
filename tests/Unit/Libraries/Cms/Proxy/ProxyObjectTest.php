@@ -45,8 +45,8 @@ class ProxyObjectTest extends UnitTestCase
 
         $proxy->bar2 = 'foo2';
 
-        $this->assertEquals($data->bar2, 'foo2', 'A referenced Object should get a Proxy value');
-        $this->assertEquals($proxy->foo, 'bar', 'Proxy object should return value from Object');
+        $this->assertSame($data->bar2, 'foo2', 'A referenced Object should get a Proxy value');
+        $this->assertSame($proxy->foo, 'bar', 'Proxy object should return value from Object');
     }
 
     /**
@@ -110,7 +110,7 @@ class ProxyObjectTest extends UnitTestCase
 
         $proxy = new ObjectProxy($data);
 
-        $this->assertEquals((array) $data, iterator_to_array($proxy));
+        $this->assertSame((array) $data, iterator_to_array($proxy));
     }
 
     /**

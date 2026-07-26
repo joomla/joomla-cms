@@ -66,6 +66,6 @@ class BooleanRuleTest extends UnitTestCase
     #[DataProvider('dataTest')]
     public function testRule(bool $expected, \SimpleXMLElement $element, string $value): void
     {
-        $this->assertEquals($expected, (new BooleanRule())->test($element, $value));
+        $this->assertSame($expected, (new BooleanRule())->test($element, $value));
     }
 }

@@ -44,7 +44,7 @@ class DocumentAwareTraitTest extends UnitTestCase
 
         $trait->setDocument($document);
 
-        $this->assertEquals($document, $trait->get());
+        $this->assertSame($document, $trait->get());
     }
 
     /**

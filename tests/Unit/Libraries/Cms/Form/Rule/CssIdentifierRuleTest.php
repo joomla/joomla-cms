@@ -69,6 +69,6 @@ class CssIdentifierRuleTest extends UnitTestCase
     #[DataProvider('dataTest')]
     public function testRule(bool $expected, \SimpleXMLElement $element, string $value): void
     {
-        $this->assertEquals($expected, (new CssIdentifierRule())->test($element, $value));
+        $this->assertSame($expected, (new CssIdentifierRule())->test($element, $value));
     }
 }

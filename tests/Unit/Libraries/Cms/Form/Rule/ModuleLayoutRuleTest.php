@@ -93,6 +93,6 @@ class ModuleLayoutRuleTest extends UnitTestCase
     #[DataProvider('dataTest')]
     public function testRule(bool $expected, \SimpleXMLElement $element, string $value): void
     {
-        $this->assertEquals($expected, (new ModuleLayoutRule())->test($element, $value));
+        $this->assertSame($expected, (new ModuleLayoutRule())->test($element, $value));
     }
 }

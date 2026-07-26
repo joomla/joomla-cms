@@ -152,7 +152,7 @@ class LdapPluginTest extends IntegrationTestCase
         $response = new AuthenticationResponse();
         $event    = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $this->default_credentials, 'options' => [], 'subject' => $response]);
         $plugin->onUserAuthenticate($event);
-        $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
+        $this->assertSame(Authentication::STATUS_SUCCESS, $response->status);
     }
 
     /**
@@ -171,7 +171,7 @@ class LdapPluginTest extends IntegrationTestCase
         $response = new AuthenticationResponse();
         $event    = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $this->default_credentials, 'options' => [], 'subject' => $response]);
         $plugin->onUserAuthenticate($event);
-        $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
+        $this->assertSame(Authentication::STATUS_SUCCESS, $response->status);
     }
 
     /**
@@ -193,7 +193,7 @@ class LdapPluginTest extends IntegrationTestCase
         $response = new AuthenticationResponse();
         $event    = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
         $plugin->onUserAuthenticate($event);
-        $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
+        $this->assertSame(Authentication::STATUS_FAILURE, $response->status);
     }
 
     /**
@@ -213,7 +213,7 @@ class LdapPluginTest extends IntegrationTestCase
         $response = new AuthenticationResponse();
         $event    = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $this->default_credentials, 'options' => [], 'subject' => $response]);
         $plugin->onUserAuthenticate($event);
-        $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
+        $this->assertSame(Authentication::STATUS_SUCCESS, $response->status);
     }
 
     /**
@@ -234,6 +234,6 @@ class LdapPluginTest extends IntegrationTestCase
         $response = new AuthenticationResponse();
         $event    = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $this->default_credentials, 'options' => [], 'subject' => $response]);
         $plugin->onUserAuthenticate($event);
-        $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
+        $this->assertSame(Authentication::STATUS_SUCCESS, $response->status);
     }
 }

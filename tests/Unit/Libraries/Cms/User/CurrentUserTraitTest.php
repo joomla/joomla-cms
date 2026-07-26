@@ -45,6 +45,6 @@ class CurrentUserTraitTest extends UnitTestCase
 
         $trait->setCurrentUser($user);
 
-        $this->assertEquals($user, $trait->getUser());
+        $this->assertSame($user, $trait->getUser());
     }
 }

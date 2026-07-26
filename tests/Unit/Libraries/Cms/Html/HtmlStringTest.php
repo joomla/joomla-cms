@@ -432,7 +432,7 @@ class HtmlStringTest extends UnitTestCase
     #[DataProvider('getTestAbridgeData')]
     public function testAbridge($text, $length, $intro, $expected)
     {
-        $this->assertEquals($expected, HtmlString::abridge($text, $length, $intro));
+        $this->assertSame($expected, HtmlString::abridge($text, $length, $intro));
     }
 
     /**
@@ -451,7 +451,7 @@ class HtmlStringTest extends UnitTestCase
     #[DataProvider('getTestTruncateData')]
     public function testTruncate($text, $length, $noSplit, $allowedHtml, $expected)
     {
-        $this->assertEquals($expected, HtmlString::truncate($text, $length, $noSplit, $allowedHtml));
+        $this->assertSame($expected, HtmlString::truncate($text, $length, $noSplit, $allowedHtml));
     }
 
     /**
@@ -469,6 +469,6 @@ class HtmlStringTest extends UnitTestCase
     #[DataProvider('getTestTruncateComplexData')]
     public function testTruncateComplex($html, $maxLength, $noSplit, $expected)
     {
-        $this->assertEquals($expected, HtmlString::truncateComplex($html, $maxLength, $noSplit));
+        $this->assertSame($expected, HtmlString::truncateComplex($html, $maxLength, $noSplit));
     }
 }

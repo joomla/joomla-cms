@@ -97,7 +97,7 @@ class SiteStatusPluginTest extends UnitTestCase
         $event = new ExecuteTaskEvent('test', ['subject' => $task]);
         $plugin->alterSiteStatus($event);
 
-        $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
+        $this->assertSame(Status::OK, $event->getResultSnapshot()['status']);
         $this->assertStringContainsString('$offline = false;', file_get_contents($this->tmpFolder . '/config.php'));
     }
 
@@ -124,7 +124,7 @@ class SiteStatusPluginTest extends UnitTestCase
         $event = new ExecuteTaskEvent('test', ['subject' => $task]);
         $plugin->alterSiteStatus($event);
 
-        $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
+        $this->assertSame(Status::OK, $event->getResultSnapshot()['status']);
         $this->assertStringContainsString('$offline = false;', file_get_contents($this->tmpFolder . '/config.php'));
     }
 
@@ -151,7 +151,7 @@ class SiteStatusPluginTest extends UnitTestCase
         $event = new ExecuteTaskEvent('test', ['subject' => $task]);
         $plugin->alterSiteStatus($event);
 
-        $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
+        $this->assertSame(Status::OK, $event->getResultSnapshot()['status']);
         $this->assertStringContainsString('$offline = true;', file_get_contents($this->tmpFolder . '/config.php'));
     }
 
@@ -178,7 +178,7 @@ class SiteStatusPluginTest extends UnitTestCase
         $event = new ExecuteTaskEvent('test', ['subject' => $task]);
         $plugin->alterSiteStatus($event);
 
-        $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
+        $this->assertSame(Status::OK, $event->getResultSnapshot()['status']);
         $this->assertStringContainsString('$offline = true;', file_get_contents($this->tmpFolder . '/config.php'));
     }
 
@@ -205,7 +205,7 @@ class SiteStatusPluginTest extends UnitTestCase
         $event = new ExecuteTaskEvent('test', ['subject' => $task]);
         $plugin->alterSiteStatus($event);
 
-        $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
+        $this->assertSame(Status::OK, $event->getResultSnapshot()['status']);
         $this->assertStringContainsString('$offline = true;', file_get_contents($this->tmpFolder . '/config.php'));
     }
 
@@ -232,7 +232,7 @@ class SiteStatusPluginTest extends UnitTestCase
         $event = new ExecuteTaskEvent('test', ['subject' => $task]);
         $plugin->alterSiteStatus($event);
 
-        $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
+        $this->assertSame(Status::OK, $event->getResultSnapshot()['status']);
         $this->assertStringContainsString('$offline = false;', file_get_contents($this->tmpFolder . '/config.php'));
     }
 
@@ -260,7 +260,7 @@ class SiteStatusPluginTest extends UnitTestCase
         $event = new ExecuteTaskEvent('test', ['subject' => $task]);
         $plugin->alterSiteStatus($event);
 
-        $this->assertEquals(Status::KNOCKOUT, $event->getResultSnapshot()['status']);
+        $this->assertSame(Status::KNOCKOUT, $event->getResultSnapshot()['status']);
         $this->assertFileDoesNotExist('/proc/invalid/config.php');
     }
 }

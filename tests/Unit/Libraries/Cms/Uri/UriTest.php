@@ -155,7 +155,7 @@ class UriTest extends UnitTestCase
         ];
 
         $expected = 'field[price][from]=5&field[price][to]=10&field[name]=foo&v=45';
-        $this->assertEquals($expected, Uri::buildQuery($params), 'The query string was not built correctly.');
+        $this->assertSame($expected, Uri::buildQuery($params), 'The query string was not built correctly.');
     }
 
     /**

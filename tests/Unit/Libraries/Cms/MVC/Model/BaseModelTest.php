@@ -36,7 +36,7 @@ class BaseModelTest extends UnitTestCase
         $model = new class (['name' => 'unit test']) extends BaseModel {
         };
 
-        $this->assertEquals('unit test', $model->getName());
+        $this->assertSame('unit test', $model->getName());
     }
 
     /**
@@ -65,7 +65,7 @@ class BaseModelTest extends UnitTestCase
         $model = new class (['state' => $state]) extends BaseModel {
         };
 
-        $this->assertEquals($state, $model->getState());
+        $this->assertSame($state, $model->getState());
     }
 
     /**

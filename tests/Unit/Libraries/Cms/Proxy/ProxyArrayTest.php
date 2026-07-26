@@ -45,8 +45,8 @@ class ProxyArrayTest extends UnitTestCase
 
         $proxy['bar2'] = 'foo2';
 
-        $this->assertEquals($data['bar2'], 'foo2', 'A referenced Array should get a Proxy value');
-        $this->assertEquals($proxy['foo'], 'bar', 'Proxy object should return value from Array');
+        $this->assertSame($data['bar2'], 'foo2', 'A referenced Array should get a Proxy value');
+        $this->assertSame($proxy['foo'], 'bar', 'Proxy object should return value from Array');
     }
 
     /**
@@ -66,7 +66,7 @@ class ProxyArrayTest extends UnitTestCase
 
         $proxy = new ArrayProxy($data);
 
-        $this->assertEquals(\count($proxy), 2, 'Countable implementation should count correctly');
+        $this->assertCount(2, $proxy, 'Countable implementation should count correctly');
     }
 
     /**
@@ -86,7 +86,7 @@ class ProxyArrayTest extends UnitTestCase
 
         $proxy = new ArrayProxy($data);
 
-        $this->assertEquals($data, iterator_to_array($proxy));
+        $this->assertSame($data, iterator_to_array($proxy));
     }
 
     /**

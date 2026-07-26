@@ -56,7 +56,7 @@ class UserFactoryAwareTraitTest extends UnitTestCase
 
         $trait->setUserFactory($userFactory);
 
-        $this->assertEquals($userFactory, $trait->getFactory());
+        $this->assertSame($userFactory, $trait->getFactory());
     }
 
     /**

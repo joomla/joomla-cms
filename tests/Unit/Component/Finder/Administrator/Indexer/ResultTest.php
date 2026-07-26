@@ -45,13 +45,13 @@ class ResultTest extends UnitTestCase
         );
 
         // Test PHP `serialize` the object - PHP 8.1+ style (uses magic methods)
-        $this->assertEquals(
+        $this->assertSame(
             'that',
             unserialize(serialize($obj))->getElement('this')
         );
 
         $obj->title = 'MyTitle2';
-        $this->assertEquals(
+        $this->assertSame(
             'MyTitle2',
             unserialize(serialize($obj))->title
         );

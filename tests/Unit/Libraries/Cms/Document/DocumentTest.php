@@ -96,13 +96,13 @@ class DocumentTest extends UnitTestCase
     {
         $document = $this->createDocument($options);
 
-        $this->assertEquals($expects['lineend'], $document->_getLineEnd());
-        $this->assertEquals($expects['charset'], $document->getCharset());
-        $this->assertEquals($expects['language'], $document->getLanguage());
-        $this->assertEquals($expects['direction'], $document->getDirection());
-        $this->assertEquals($expects['tab'], $document->_getTab());
-        $this->assertEquals($expects['link'], $document->getLink());
-        $this->assertEquals($expects['base'], $document->getBase());
+        $this->assertSame($expects['lineend'], $document->_getLineEnd());
+        $this->assertSame($expects['charset'], $document->getCharset());
+        $this->assertSame($expects['language'], $document->getLanguage());
+        $this->assertSame($expects['direction'], $document->getDirection());
+        $this->assertSame($expects['tab'], $document->_getTab());
+        $this->assertSame($expects['link'], $document->getLink());
+        $this->assertSame($expects['base'], $document->getBase());
     }
 
     /**
@@ -130,7 +130,7 @@ class DocumentTest extends UnitTestCase
         $document = Document::getInstance($type, $this->getDocumentDependencyMocks());
 
         $this->assertInstanceOf(RawDocument::class, $document);
-        $this->assertEquals($type, $document->getType());
+        $this->assertSame($type, $document->getType());
     }
 
     /**

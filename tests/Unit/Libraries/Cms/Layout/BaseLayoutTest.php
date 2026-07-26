@@ -192,7 +192,7 @@ class BaseLayoutTest extends UnitTestCase
         $messages = $this->baseLayout->getDebugMessages();
 
         $this->assertCount(1, $messages);
-        $this->assertEquals($message, $messages[0]);
+        $this->assertSame($message, $messages[0]);
     }
 
     /**
@@ -214,7 +214,7 @@ class BaseLayoutTest extends UnitTestCase
     {
         $this->baseLayout->addDebugMessage('Debug message 1');
 
-        $this->assertEquals("Debug message 1", $this->baseLayout->renderDebugMessages());
+        $this->assertSame("Debug message 1", $this->baseLayout->renderDebugMessages());
     }
 
     /**
@@ -227,7 +227,7 @@ class BaseLayoutTest extends UnitTestCase
         $this->baseLayout->addDebugMessage('Debug message 1');
         $this->baseLayout->addDebugMessage('Debug message 2');
 
-        $this->assertEquals("Debug message 1\nDebug message 2", $this->baseLayout->renderDebugMessages());
+        $this->assertSame("Debug message 1\nDebug message 2", $this->baseLayout->renderDebugMessages());
     }
 
     /**
@@ -237,6 +237,6 @@ class BaseLayoutTest extends UnitTestCase
     #[TestDox('JLayoutBase->render() returns an empty string.')]
     public function testRenderReturnsAnEmptyString()
     {
-        $this->assertEquals('', $this->baseLayout->render('Data'), 'BaseLayout::render does not render an output');
+        $this->assertSame('', $this->baseLayout->render('Data'), 'BaseLayout::render does not render an output');
     }
 }

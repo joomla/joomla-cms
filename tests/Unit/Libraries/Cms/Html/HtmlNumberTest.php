@@ -59,7 +59,7 @@ class HtmlNumberTest extends UnitTestCase
                 1024 * 1024 * 1024 * 1024 * 1024,
             ],
             [
-                '0',
+                0,
                 0,
             ],
 
@@ -246,6 +246,6 @@ class HtmlNumberTest extends UnitTestCase
     #[DataProvider('dataTestBytes')]
     public function testBytes($result, $bytes, $unit = 'auto', $precision = 2, $iec = false)
     {
-        $this->assertEquals($result, HtmlNumber::bytes($bytes, $unit, $precision, $iec));
+        $this->assertSame($result, HtmlNumber::bytes($bytes, $unit, $precision, $iec));
     }
 }

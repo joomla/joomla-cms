@@ -66,8 +66,8 @@ class BaseControllerTest extends UnitTestCase
             }
         };
 
-        $this->assertEquals($mvcFactory, $controller->getMVCFactory());
-        $this->assertEquals($input, $controller->getInput());
+        $this->assertSame($mvcFactory, $controller->getMVCFactory());
+        $this->assertSame($input, $controller->getInput());
     }
 
     /**
@@ -81,7 +81,7 @@ class BaseControllerTest extends UnitTestCase
         $controller = new class (['name' => 'unit test', 'base_path' => __DIR__], $this->createStub(MVCFactoryInterface::class), $this->createStub(CMSApplicationInterface::class)) extends BaseController {
         };
 
-        $this->assertEquals('unit test', $controller->getName());
+        $this->assertSame('unit test', $controller->getName());
     }
 
     /**
@@ -112,7 +112,7 @@ class BaseControllerTest extends UnitTestCase
             }
         };
 
-        $this->assertEquals(['unit', 'display'], $controller->getTasks());
+        $this->assertSame(['unit', 'display'], $controller->getTasks());
     }
 
     /**
@@ -149,8 +149,8 @@ class BaseControllerTest extends UnitTestCase
             }
         };
 
-        $this->assertEquals('unit test', $controller->execute('unit'));
-        $this->assertEquals('unit', $controller->getTask());
+        $this->assertSame('unit test', $controller->execute('unit'));
+        $this->assertSame('unit', $controller->getTask());
     }
 
     /**
@@ -168,8 +168,8 @@ class BaseControllerTest extends UnitTestCase
             }
         };
 
-        $this->assertEquals('unit test', $controller->execute('unit'));
-        $this->assertEquals('unit', $controller->getTask());
+        $this->assertSame('unit test', $controller->execute('unit'));
+        $this->assertSame('unit', $controller->getTask());
     }
 
     /**
@@ -187,8 +187,8 @@ class BaseControllerTest extends UnitTestCase
             }
         };
 
-        $this->assertEquals('unit test', $controller->execute(''));
-        $this->assertEquals('', $controller->getTask());
+        $this->assertSame('unit test', $controller->execute(''));
+        $this->assertSame('', $controller->getTask());
     }
 
     /**
@@ -223,7 +223,7 @@ class BaseControllerTest extends UnitTestCase
         $controller = new class (['base_path' => __DIR__], $mvcFactory, $this->createStub(CMSApplicationInterface::class), new Input()) extends BaseController {
         };
 
-        $this->assertEquals($model, $controller->getModel());
+        $this->assertSame($model, $controller->getModel());
     }
 
     /**
@@ -303,7 +303,7 @@ class BaseControllerTest extends UnitTestCase
         $controller = new class (['base_path' => __DIR__], $mvcFactory, $app, new Input()) extends BaseController {
         };
 
-        $this->assertEquals($user, $controller->getModel()->getUser());
+        $this->assertSame($user, $controller->getModel()->getUser());
     }
 
     /**
@@ -327,7 +327,7 @@ class BaseControllerTest extends UnitTestCase
         $controller = new class (['base_path' => __DIR__], $mvcFactory, $app, new Input()) extends BaseController {
         };
 
-        $this->assertEquals($view, $controller->getView('testGetView'));
+        $this->assertSame($view, $controller->getView('testGetView'));
     }
 
     /**
@@ -396,7 +396,7 @@ class BaseControllerTest extends UnitTestCase
         $controller = new class (['base_path' => __DIR__], $mvcFactory, $app, new Input()) extends BaseController {
         };
 
-        $this->assertEquals($user, $controller->getView('testGetViewWithIdentity')->getUser());
+        $this->assertSame($user, $controller->getView('testGetViewWithIdentity')->getUser());
     }
 
     /**
@@ -416,7 +416,7 @@ class BaseControllerTest extends UnitTestCase
         };
 
         $this->arrayHasKey('view', $controller->getPaths());
-        $this->assertEquals([$path . '/'], $controller->getPaths()['view']);
+        $this->assertSame([$path . '/'], $controller->getPaths()['view']);
     }
 
     /**
@@ -470,7 +470,7 @@ class BaseControllerTest extends UnitTestCase
 
         $controller->display(false);
 
-        $this->assertEquals('unit test', $view->value);
+        $this->assertSame('unit test', $view->value);
     }
 
     /**
@@ -504,7 +504,7 @@ class BaseControllerTest extends UnitTestCase
 
         $controller->display(false);
 
-        $this->assertEquals($model, $view->getModel());
+        $this->assertSame($model, $view->getModel());
     }
 
     /**
@@ -678,9 +678,9 @@ class BaseControllerTest extends UnitTestCase
         };
         $controller->setRedirect('unit/test', 'unit', 'test');
 
-        $this->assertEquals('unit/test', $controller->getRedirect());
-        $this->assertEquals('unit', $controller->getMessage());
-        $this->assertEquals('test', $controller->getMessageType());
+        $this->assertSame('unit/test', $controller->getRedirect());
+        $this->assertSame('unit', $controller->getMessage());
+        $this->assertSame('test', $controller->getMessageType());
     }
 
     /**
@@ -699,7 +699,7 @@ class BaseControllerTest extends UnitTestCase
         };
         $controller->setRedirect('unit/test');
 
-        $this->assertEquals('message', $controller->getMessageType());
+        $this->assertSame('message', $controller->getMessageType());
     }
 
     /**
@@ -748,8 +748,8 @@ class BaseControllerTest extends UnitTestCase
         };
 
         $this->assertEmpty($controller->setMessage('unit', 'test'));
-        $this->assertEquals('unit', $controller->getMessage());
-        $this->assertEquals('test', $controller->getMessageType());
+        $this->assertSame('unit', $controller->getMessage());
+        $this->assertSame('test', $controller->getMessageType());
     }
 
     /**
@@ -768,6 +768,6 @@ class BaseControllerTest extends UnitTestCase
         };
         $controller->setMessage('unit');
 
-        $this->assertEquals('unit', $controller->setMessage('test'));
+        $this->assertSame('unit', $controller->setMessage('test'));
     }
 }

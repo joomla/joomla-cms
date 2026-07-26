@@ -35,7 +35,7 @@ class DatabaseStorageTest extends UnitTestCase
         $table  = $this->getTableMock(['root' => 'rootfoo']);
         $object = new DatabaseStorage($table);
 
-        $this->assertEquals('rootfoo', $this->getInternalStorageValue($object)['root']);
+        $this->assertSame('rootfoo', $this->getInternalStorageValue($object)['root']);
     }
 
     /**
@@ -61,7 +61,7 @@ class DatabaseStorageTest extends UnitTestCase
     public function testReadReturnsStorageValueForExistingColumns()
     {
         $object = new DatabaseStorage($this->getTableMock(['root' => 'foobar']));
-        $this->assertEquals('foobar', $object->read('root'));
+        $this->assertSame('foobar', $object->read('root'));
     }
 
     /**
@@ -87,7 +87,7 @@ class DatabaseStorageTest extends UnitTestCase
         $object = new DatabaseStorage($this->getTableMock(['root' => 'foo']));
         $object->write('root', 'bar');
 
-        $this->assertEquals('bar', $this->getInternalStorageValue($object)['root']);
+        $this->assertSame('bar', $this->getInternalStorageValue($object)['root']);
     }
 
     /**
@@ -101,7 +101,7 @@ class DatabaseStorageTest extends UnitTestCase
         $object = new DatabaseStorage($this->getTableMock(['root' => 'foo']));
         $object->write('targets', 'bar');
 
-        $this->assertEquals('bar', $this->getInternalStorageValue($object)['targets']);
+        $this->assertSame('bar', $this->getInternalStorageValue($object)['targets']);
     }
 
     /**

@@ -118,7 +118,7 @@ class MailTest extends UnitTestCase
     {
         $this->mail->addRecipient($recipient, $name);
 
-        $this->assertEquals($expected, $this->mail->getToAddresses());
+        $this->assertSame($expected, $this->mail->getToAddresses());
     }
 
     /**
@@ -137,7 +137,7 @@ class MailTest extends UnitTestCase
     {
         $this->mail->addCc($recipient, $name);
 
-        $this->assertEquals($expected, $this->mail->getCcAddresses());
+        $this->assertSame($expected, $this->mail->getCcAddresses());
     }
 
     /**
@@ -156,7 +156,7 @@ class MailTest extends UnitTestCase
     {
         $this->mail->addBcc($recipient, $name);
 
-        $this->assertEquals($expected, $this->mail->getBccAddresses());
+        $this->assertSame($expected, $this->mail->getBccAddresses());
     }
 
     /**
@@ -210,7 +210,7 @@ class MailTest extends UnitTestCase
     {
         $this->mail->addReplyTo($recipient, $name);
 
-        $this->assertEquals($expected, $this->mail->getReplyToAddresses());
+        $this->assertSame($expected, $this->mail->getReplyToAddresses());
     }
 
     /**
@@ -231,8 +231,8 @@ class MailTest extends UnitTestCase
         $mailAttachments = $this->mail->getAttachments();
 
         $this->assertCount(1, $mailAttachments);
-        $this->assertEquals($path, $mailAttachments[0][0]);
-        $this->assertEquals($name, $mailAttachments[0][2]);
+        $this->assertSame($path, $mailAttachments[0][0]);
+        $this->assertSame($name, $mailAttachments[0][2]);
     }
 
     /**
@@ -246,7 +246,7 @@ class MailTest extends UnitTestCase
     {
         $this->mail->isHtml(true);
 
-        $this->assertEquals(PHPMailer::CONTENT_TYPE_TEXT_HTML, $this->mail->ContentType);
+        $this->assertSame(PHPMailer::CONTENT_TYPE_TEXT_HTML, $this->mail->ContentType);
     }
 
     /**
@@ -260,7 +260,7 @@ class MailTest extends UnitTestCase
     {
         $this->mail->isHtml(false);
 
-        $this->assertEquals(PHPMailer::CONTENT_TYPE_PLAINTEXT, $this->mail->ContentType);
+        $this->assertSame(PHPMailer::CONTENT_TYPE_PLAINTEXT, $this->mail->ContentType);
     }
 
     /**
@@ -315,6 +315,6 @@ class MailTest extends UnitTestCase
             ->expects($this->once())
             ->method($expected['called']);
 
-        $this->assertEquals($expected['return'], $mailMock->useSmtp($auth, $host, $user, $pass, $secure, $port));
+        $this->assertSame($expected['return'], $mailMock->useSmtp($auth, $host, $user, $pass, $secure, $port));
     }
 }

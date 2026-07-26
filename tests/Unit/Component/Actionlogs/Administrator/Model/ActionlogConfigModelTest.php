@@ -40,7 +40,7 @@ class ActionlogConfigModelTest extends UnitTestCase
 
         $model = new ActionlogConfigModel(['dbo' => $db], $this->createStub(MVCFactoryInterface::class));
 
-        $this->assertEquals($config, $model->getLogContentTypeParams('test'));
+        $this->assertSame($config, $model->getLogContentTypeParams('test'));
     }
 
     /**

@@ -83,7 +83,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
             'params',
         ];
 
-        $this->assertEquals(
+        $this->assertSame(
             $fields,
             array_keys($this->object->getFields())
         );
@@ -106,19 +106,19 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 
         $this->object->bind($data);
 
-        $this->assertEquals('Test Title', $this->object->title);
-        $this->assertEquals(42, $this->object->hits);
-        $this->assertEquals(1, $this->object->published);
-        $this->assertEquals(23, $this->object->ordering);
+        $this->assertSame('Test Title', $this->object->title);
+        $this->assertSame(42, $this->object->hits);
+        $this->assertSame(1, $this->object->published);
+        $this->assertSame(23, $this->object->ordering);
 
         $this->object->reset();
 
         $this->object->bind((object) $data);
 
-        $this->assertEquals('Test Title', $this->object->title);
-        $this->assertEquals(42, $this->object->hits);
-        $this->assertEquals(1, $this->object->published);
-        $this->assertEquals(23, $this->object->ordering);
+        $this->assertSame('Test Title', $this->object->title);
+        $this->assertSame(42, $this->object->hits);
+        $this->assertSame(1, $this->object->published);
+        $this->assertSame(23, $this->object->ordering);
     }
 
     /**
@@ -140,10 +140,10 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 
         $this->object->bind($data);
 
-        $this->assertEquals('Test Title', $this->object->title);
-        $this->assertEquals(42, $this->object->hits);
-        $this->assertEquals(1, $this->object->published);
-        $this->assertEquals(23, $this->object->ordering);
+        $this->assertSame('Test Title', $this->object->title);
+        $this->assertSame(42, $this->object->hits);
+        $this->assertSame(1, $this->object->published);
+        $this->assertSame(23, $this->object->ordering);
         $this->assertNotTrue(isset($this->object->fakefield));
         $this->assertNotTrue(isset($this->object->fakefield2));
     }
@@ -170,18 +170,18 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
         // Check for ignore fields as array
         $this->object->bind($data, $ignore);
 
-        $this->assertEquals('Test Title', $this->object->title);
-        $this->assertEquals(null, $this->object->hits);
-        $this->assertEquals(1, $this->object->published);
-        $this->assertEquals(null, $this->object->ordering);
+        $this->assertSame('Test Title', $this->object->title);
+        $this->assertSame(null, $this->object->hits);
+        $this->assertSame(1, $this->object->published);
+        $this->assertSame(null, $this->object->ordering);
 
         // Check for ignore fields as string
         $this->object->bind($data, 'hits ordering');
 
-        $this->assertEquals('Test Title', $this->object->title);
-        $this->assertEquals(null, $this->object->hits);
-        $this->assertEquals(1, $this->object->published);
-        $this->assertEquals(null, $this->object->ordering);
+        $this->assertSame('Test Title', $this->object->title);
+        $this->assertSame(null, $this->object->hits);
+        $this->assertSame(1, $this->object->published);
+        $this->assertSame(null, $this->object->ordering);
     }
 
     /**
@@ -214,7 +214,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 
         $this->object->bind($data);
 
-        $this->assertEquals(json_encode($data['params']), $this->object->params);
+        $this->assertSame(json_encode($data['params']), $this->object->params);
     }
 
     /**
@@ -302,33 +302,33 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
         $this->object->reset();
 
         // The primary keys should be left alone.
-        $this->assertEquals(
+        $this->assertSame(
             25,
             $this->object->id
         );
 
         // The regular fields should get reset
-        $this->assertEquals(
+        $this->assertSame(
             '',
             $this->object->title
         );
 
-        $this->assertEquals(
-            0,
+        $this->assertSame(
+            '0',
             $this->object->hits
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $this->object->publish_up
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $this->object->params
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             [],
             $this->object->getErrors()
         );

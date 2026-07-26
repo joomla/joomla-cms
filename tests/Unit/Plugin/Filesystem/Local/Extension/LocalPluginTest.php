@@ -40,7 +40,7 @@ class LocalPluginTest extends UnitTestCase
     {
         $plugin = new Local(['name' => 'test'], __DIR__);
 
-        $this->assertEquals('test', $plugin->getID());
+        $this->assertSame('test', $plugin->getID());
     }
 
     /**
@@ -60,7 +60,7 @@ class LocalPluginTest extends UnitTestCase
         $plugin = new Local([], __DIR__);
         $plugin->setApplication($app);
 
-        $this->assertEquals('test', $plugin->getDisplayName());
+        $this->assertSame('test', $plugin->getDisplayName());
     }
 
     /**
@@ -79,8 +79,8 @@ class LocalPluginTest extends UnitTestCase
         $plugin = new Local(['name' => 'test'], __DIR__);
         $plugin->onSetupProviders($event);
 
-        $this->assertEquals(['test' => $plugin], $manager->getProviders());
-        $this->assertEquals($plugin, $manager->getProvider('test'));
+        $this->assertSame(['test' => $plugin], $manager->getProviders());
+        $this->assertSame($plugin, $manager->getProvider('test'));
     }
 
     /**
@@ -100,7 +100,7 @@ class LocalPluginTest extends UnitTestCase
         $adapters = $plugin->getAdapters();
 
         $this->assertCount(1, $adapters);
-        $this->assertEquals('tests', $adapters['tests']->getAdapterName());
+        $this->assertSame('tests', $adapters['tests']->getAdapterName());
     }
 
     /**

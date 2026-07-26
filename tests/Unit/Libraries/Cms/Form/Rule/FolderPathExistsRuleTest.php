@@ -88,6 +88,6 @@ class FolderPathExistsRuleTest extends UnitTestCase
     #[DataProvider('dataTest')]
     public function testRule(bool $expected, \SimpleXMLElement $element, string $value): void
     {
-        $this->assertEquals($expected, (new FolderPathExistsRule())->test($element, $value));
+        $this->assertSame($expected, (new FolderPathExistsRule())->test($element, $value));
     }
 }

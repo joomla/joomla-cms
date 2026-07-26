@@ -86,13 +86,14 @@ class RssParserTest extends UnitTestCase
             ->with(
                 'cloud',
                 $this->callback(
-                    function ($value) use ($cloud) {
-                        return \is_object($value)
-                            && $value->domain === $cloud['domain']
-                            && $value->port === $cloud['port']
-                            && $value->path === $cloud['path']
-                            && $value->registerProcedure === $cloud['registerProcedure']
-                            && $value->protocol === $cloud['protocol'];
+                    function ($value) use ($cloud): bool {
+                        $this->assertInstanceOf(\stdClass::class, $value);
+                        $this->assertSame($cloud['domain'], $value->domain);
+                        $this->assertSame($cloud['port'], $value->port);
+                        $this->assertSame($cloud['path'], $value->path);
+                        $this->assertSame($cloud['registerProcedure'], $value->registerProcedure);
+                        $this->assertSame($cloud['protocol'], $value->protocol);
+                        return true;
                     }
                 )
             );
@@ -221,16 +222,17 @@ class RssParserTest extends UnitTestCase
             ->with(
                 'image',
                 $this->callback(
-                    function ($value) use ($image) {
-                        return $value instanceof FeedLink
-                            && $value->uri === $image['url']
-                            && $value->relation === null
-                            && $value->type === 'logo'
-                            && $value->language === null
-                            && $value->title === $image['title']
-                            && $value->description === $image['description']
-                            && $value->height === ''
-                            && $value->width === '';
+                    function ($value) use ($image): bool {
+                        $this->assertInstanceOf(FeedLink::class, $value);
+                        $this->assertSame($image['url'], $value->uri);
+                        $this->assertNull($value->relation);
+                        $this->assertSame('logo', $value->type);
+                        $this->assertNull($value->language);
+                        $this->assertSame($image['title'], $value->title);
+                        $this->assertSame($image['description'], $value->description);
+                        $this->assertSame('', $value->height);
+                        $this->assertSame('', $value->width);
+                        return true;
                     }
                 )
             );
@@ -323,8 +325,10 @@ class RssParserTest extends UnitTestCase
             ->with(
                 'link',
                 $this->callback(
-                    function ($value) use ($link) {
-                        return $value instanceof FeedLink && $value->uri === $link;
+                    function ($value) use ($link): bool {
+                        $this->assertInstanceOf(FeedLink::class, $value);
+                        $this->assertSame($link, $value->uri);
+                        return true;
                     }
                 )
             );
@@ -362,10 +366,11 @@ class RssParserTest extends UnitTestCase
             ->with(
                 'author',
                 $this->callback(
-                    function ($value) use ($editor) {
-                        return $value instanceof FeedPerson
-                            && $value->name === $editor['name']
-                            && $value->email === $editor['email'];
+                    function ($value) use ($editor): bool {
+                        $this->assertInstanceOf(FeedPerson::class, $value);
+                        $this->assertSame($editor['name'], $value->name);
+                        $this->assertSame($editor['email'], $value->email);
+                        return true;
                     }
                 )
             );
@@ -592,7 +597,7 @@ class RssParserTest extends UnitTestCase
         $reflectionClass = new \ReflectionClass($rssParser);
         $attribute       = $reflectionClass->getProperty('version');
 
-        $this->assertEquals('2.0', $attribute->getValue($rssParser));
+        $this->assertSame('2.0', $attribute->getValue($rssParser));
     }
 
     /**
@@ -682,11 +687,12 @@ class RssParserTest extends UnitTestCase
             ->method('addLink')
             ->with(
                 $this->callback(
-                    function ($value) use ($entry) {
-                        return $value instanceof FeedLink
-                            && $value->uri === $entry['enclosureUrl']
-                            && $value->type === $entry['enclosureType']
-                            && $value->length === (int) $entry['enclosureLength'];
+                    function ($value) use ($entry): bool {
+                        $this->assertInstanceOf(FeedLink::class, $value);
+                        $this->assertSame($entry['enclosureUrl'], $value->uri);
+                        $this->assertSame($entry['enclosureType'], $value->type);
+                        $this->assertSame((int) $entry['enclosureLength'], $value->length);
+                        return true;
                     }
                 )
             );

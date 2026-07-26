@@ -88,7 +88,7 @@ class MailerFactoryAwareTraitTest extends UnitTestCase
 
         $trait->setMailerFactory($mailerFactory);
 
-        $this->assertEquals($mailerFactory, $trait->getFactory());
+        $this->assertSame($mailerFactory, $trait->getFactory());
     }
 
     /**

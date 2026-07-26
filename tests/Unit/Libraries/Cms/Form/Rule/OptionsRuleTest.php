@@ -81,6 +81,6 @@ class OptionsRuleTest extends UnitTestCase
     #[DataProvider('dataTest')]
     public function testRule(bool $expected, \SimpleXMLElement $element, null|string|array $value): void
     {
-        $this->assertEquals($expected, (new OptionsRule())->test($element, $value));
+        $this->assertSame($expected, (new OptionsRule())->test($element, $value));
     }
 }

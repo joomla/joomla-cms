@@ -120,7 +120,7 @@ class StateBehaviorTraitTest extends UnitTestCase
         };
         $trait->setState('state.status', 2);
 
-        $this->assertEquals(1, $trait->getState('state.status'));
+        $this->assertSame(1, $trait->getState('state.status'));
     }
 
     /**
@@ -142,6 +142,6 @@ class StateBehaviorTraitTest extends UnitTestCase
         $trait->getState();
         $trait->setState('state.status', 2);
 
-        $this->assertEquals(2, $trait->getState('state.status'));
+        $this->assertSame(2, $trait->getState('state.status'));
     }
 }

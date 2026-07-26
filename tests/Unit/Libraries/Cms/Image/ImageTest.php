@@ -263,10 +263,10 @@ class ImageTest extends UnitTestCase
         $this->instance->loadFile($this->testFile);
 
         // Verify that the cropped image is the correct size.
-        $this->assertEquals(341, imagesy(TestHelper::getValue($this->instance, 'handle')));
-        $this->assertEquals(500, imagesx(TestHelper::getValue($this->instance, 'handle')));
+        $this->assertSame(341, imagesy(TestHelper::getValue($this->instance, 'handle')));
+        $this->assertSame(500, imagesx(TestHelper::getValue($this->instance, 'handle')));
 
-        $this->assertEquals($this->testFile, $this->instance->getPath());
+        $this->assertSame($this->testFile, $this->instance->getPath());
     }
 
     /**
@@ -286,10 +286,10 @@ class ImageTest extends UnitTestCase
         $this->instance->loadFile($this->testFileGif);
 
         // Verify that the cropped image is the correct size.
-        $this->assertEquals(341, imagesy(TestHelper::getValue($this->instance, 'handle')));
-        $this->assertEquals(500, imagesx(TestHelper::getValue($this->instance, 'handle')));
+        $this->assertSame(341, imagesy(TestHelper::getValue($this->instance, 'handle')));
+        $this->assertSame(500, imagesx(TestHelper::getValue($this->instance, 'handle')));
 
-        $this->assertEquals($this->testFileGif, $this->instance->getPath());
+        $this->assertSame($this->testFileGif, $this->instance->getPath());
     }
 
     /**
@@ -309,10 +309,10 @@ class ImageTest extends UnitTestCase
         $this->instance->loadFile($this->testFilePng);
 
         // Verify that the cropped image is the correct size.
-        $this->assertEquals(341, imagesy(TestHelper::getValue($this->instance, 'handle')));
-        $this->assertEquals(500, imagesx(TestHelper::getValue($this->instance, 'handle')));
+        $this->assertSame(341, imagesy(TestHelper::getValue($this->instance, 'handle')));
+        $this->assertSame(500, imagesx(TestHelper::getValue($this->instance, 'handle')));
 
-        $this->assertEquals($this->testFilePng, $this->instance->getPath());
+        $this->assertSame($this->testFilePng, $this->instance->getPath());
     }
 
     /**
@@ -332,10 +332,10 @@ class ImageTest extends UnitTestCase
         $this->instance->loadFile($this->testFileWebp);
 
         // Verify that the cropped image is the correct size.
-        $this->assertEquals(341, imagesy(TestHelper::getValue($this->instance, 'handle')));
-        $this->assertEquals(500, imagesx(TestHelper::getValue($this->instance, 'handle')));
+        $this->assertSame(341, imagesy(TestHelper::getValue($this->instance, 'handle')));
+        $this->assertSame(500, imagesx(TestHelper::getValue($this->instance, 'handle')));
 
-        $this->assertEquals($this->testFileWebp, $this->instance->getPath());
+        $this->assertSame($this->testFileWebp, $this->instance->getPath());
     }
 
     /**
@@ -387,14 +387,14 @@ class ImageTest extends UnitTestCase
         $this->instance->resize(1000, 682, false);
 
         // Verify that the resized image is the correct size.
-        $this->assertEquals(682, imagesy(TestHelper::getValue($this->instance, 'handle')));
-        $this->assertEquals(1000, imagesx(TestHelper::getValue($this->instance, 'handle')));
+        $this->assertSame(682, imagesy(TestHelper::getValue($this->instance, 'handle')));
+        $this->assertSame(1000, imagesx(TestHelper::getValue($this->instance, 'handle')));
 
         $this->instance->resize(1000, 682, false, Image::SCALE_FIT);
 
         // Verify that the resized image is the correct size.
-        $this->assertEquals(682, imagesy(TestHelper::getValue($this->instance, 'handle')));
-        $this->assertEquals(1000, imagesx(TestHelper::getValue($this->instance, 'handle')));
+        $this->assertSame(682, imagesy(TestHelper::getValue($this->instance, 'handle')));
+        $this->assertSame(1000, imagesx(TestHelper::getValue($this->instance, 'handle')));
     }
 
     /**
@@ -420,8 +420,8 @@ class ImageTest extends UnitTestCase
         $image->resize(5, 5, false);
 
         // Verify that the resized image is the correct size.
-        $this->assertEquals(5, imagesy(TestHelper::getValue($image, 'handle')));
-        $this->assertEquals(5, imagesx(TestHelper::getValue($image, 'handle')));
+        $this->assertSame(5, imagesy(TestHelper::getValue($image, 'handle')));
+        $this->assertSame(5, imagesx(TestHelper::getValue($image, 'handle')));
 
         $this->assertTrue($image->isTransparent());
     }
@@ -456,14 +456,14 @@ class ImageTest extends UnitTestCase
         $this->instance->cropResize(500 * 2, 341 * 2, false);
 
         // Verify that the cropped resized image is the correct size.
-        $this->assertEquals(341 * 2, imagesy(TestHelper::getValue($this->instance, 'handle')));
-        $this->assertEquals(500 * 2, imagesx(TestHelper::getValue($this->instance, 'handle')));
+        $this->assertSame(341 * 2, imagesy(TestHelper::getValue($this->instance, 'handle')));
+        $this->assertSame(500 * 2, imagesx(TestHelper::getValue($this->instance, 'handle')));
 
         $this->instance->cropResize(500 * 3, 341 * 2, false);
 
         // Verify that the cropped resized image is the correct size.
-        $this->assertEquals(341 * 2, imagesy(TestHelper::getValue($this->instance, 'handle')));
-        $this->assertEquals(500 * 3, imagesx(TestHelper::getValue($this->instance, 'handle')));
+        $this->assertSame(341 * 2, imagesy(TestHelper::getValue($this->instance, 'handle')));
+        $this->assertSame(500 * 3, imagesx(TestHelper::getValue($this->instance, 'handle')));
     }
 
     /**
@@ -507,15 +507,15 @@ class ImageTest extends UnitTestCase
         $b = Image::getImageFileProperties($outFileGif);
 
         // Assert that properties that should be equal are equal.
-        $this->assertEquals($a->width, $b->width);
-        $this->assertEquals($a->height, $b->height);
-        $this->assertEquals($a->attributes, $b->attributes);
-        $this->assertEquals($a->bits, $b->bits);
-        $this->assertEquals($a->channels, $b->channels);
+        $this->assertSame($a->width, $b->width);
+        $this->assertSame($a->height, $b->height);
+        $this->assertSame($a->attributes, $b->attributes);
+        $this->assertSame($a->bits, $b->bits);
+        $this->assertSame($a->channels, $b->channels);
 
         // Assert that the properties that should be different are different.
-        $this->assertEquals('image/gif', $b->mime);
-        $this->assertEquals(IMAGETYPE_GIF, $b->type);
+        $this->assertSame('image/gif', $b->mime);
+        $this->assertSame(IMAGETYPE_GIF, $b->type);
 
         // Clean up after ourselves.
         unlink($outFileGif);
@@ -545,14 +545,14 @@ class ImageTest extends UnitTestCase
         $b = Image::getImageFileProperties($outFilePng);
 
         // Assert that properties that should be equal are equal.
-        $this->assertEquals($a->width, $b->width);
-        $this->assertEquals($a->height, $b->height);
-        $this->assertEquals($a->attributes, $b->attributes);
-        $this->assertEquals($a->bits, $b->bits);
+        $this->assertSame($a->width, $b->width);
+        $this->assertSame($a->height, $b->height);
+        $this->assertSame($a->attributes, $b->attributes);
+        $this->assertSame($a->bits, $b->bits);
 
         // Assert that the properties that should be different are different.
-        $this->assertEquals('image/png', $b->mime);
-        $this->assertEquals(IMAGETYPE_PNG, $b->type);
+        $this->assertSame('image/png', $b->mime);
+        $this->assertSame(IMAGETYPE_PNG, $b->type);
         $this->assertNull($b->channels);
 
         // Clean up after ourselves.
@@ -585,13 +585,13 @@ class ImageTest extends UnitTestCase
         $b = Image::getImageFileProperties($outFileJpg);
 
         // Assert that properties that should be equal are equal.
-        $this->assertEquals($a->width, $b->width);
-        $this->assertEquals($a->height, $b->height);
-        $this->assertEquals($a->attributes, $b->attributes);
-        $this->assertEquals($a->bits, $b->bits);
-        $this->assertEquals($a->mime, $b->mime);
-        $this->assertEquals($a->type, $b->type);
-        $this->assertEquals($a->channels, $b->channels);
+        $this->assertSame($a->width, $b->width);
+        $this->assertSame($a->height, $b->height);
+        $this->assertSame($a->attributes, $b->attributes);
+        $this->assertSame($a->bits, $b->bits);
+        $this->assertSame($a->mime, $b->mime);
+        $this->assertSame($a->type, $b->type);
+        $this->assertSame($a->channels, $b->channels);
 
         // Clean up after ourselves.
         unlink($outFileJpg);
@@ -621,14 +621,14 @@ class ImageTest extends UnitTestCase
         $b = Image::getImageFileProperties($outFileWebp);
 
         // Assert that properties that should be equal are equal.
-        $this->assertEquals($a->width, $b->width);
-        $this->assertEquals($a->height, $b->height);
-        $this->assertEquals($a->attributes, $b->attributes);
-        $this->assertEquals($a->bits, $b->bits);
+        $this->assertSame($a->width, $b->width);
+        $this->assertSame($a->height, $b->height);
+        $this->assertSame($a->attributes, $b->attributes);
+        $this->assertSame($a->bits, $b->bits);
 
         // Assert that properties that should be different are different.
-        $this->assertEquals('image/webp', $b->mime);
-        $this->assertEquals(IMAGETYPE_WEBP, $b->type);
+        $this->assertSame('image/webp', $b->mime);
+        $this->assertSame(IMAGETYPE_WEBP, $b->type);
         $this->assertNull($b->channels);
 
         // Clean up after ourselves.
@@ -661,13 +661,13 @@ class ImageTest extends UnitTestCase
         $b = Image::getImageFileProperties($outFileDefault);
 
         // Assert that properties that should be equal are equal.
-        $this->assertEquals($a->width, $b->width);
-        $this->assertEquals($a->height, $b->height);
-        $this->assertEquals($a->attributes, $b->attributes);
-        $this->assertEquals($a->bits, $b->bits);
-        $this->assertEquals($a->mime, $b->mime);
-        $this->assertEquals($a->type, $b->type);
-        $this->assertEquals($a->channels, $b->channels);
+        $this->assertSame($a->width, $b->width);
+        $this->assertSame($a->height, $b->height);
+        $this->assertSame($a->attributes, $b->attributes);
+        $this->assertSame($a->bits, $b->bits);
+        $this->assertSame($a->mime, $b->mime);
+        $this->assertSame($a->type, $b->type);
+        $this->assertSame($a->channels, $b->channels);
 
         // Clean up after ourselves.
         unlink($outFileDefault);
@@ -708,7 +708,7 @@ class ImageTest extends UnitTestCase
         // Create a new Image object from the image handle.
         $image = new Image($imageHandle);
 
-        $this->assertEquals(
+        $this->assertSame(
             42,
             $image->getHeight()
         );
@@ -745,7 +745,7 @@ class ImageTest extends UnitTestCase
         // Create a new Image object from the image handle.
         $image = new Image($imageHandle);
 
-        $this->assertEquals(
+        $this->assertSame(
             108,
             $image->getWidth()
         );
@@ -823,11 +823,11 @@ class ImageTest extends UnitTestCase
         $thumbs = $this->instance->generateThumbs('50x38');
 
         // Verify that the resized image is the correct size.
-        $this->assertEquals(
+        $this->assertSame(
             34,
             imagesy(TestHelper::getValue($thumbs[0], 'handle'))
         );
-        $this->assertEquals(
+        $this->assertSame(
             50,
             imagesx(TestHelper::getValue($thumbs[0], 'handle'))
         );
@@ -835,11 +835,11 @@ class ImageTest extends UnitTestCase
         $thumbs = $this->instance->generateThumbs('50x38', Image::CROP);
 
         // Verify that the resized image is the correct size.
-        $this->assertEquals(
+        $this->assertSame(
             38,
             imagesy(TestHelper::getValue($thumbs[0], 'handle'))
         );
-        $this->assertEquals(
+        $this->assertSame(
             50,
             imagesx(TestHelper::getValue($thumbs[0], 'handle'))
         );
@@ -847,11 +847,11 @@ class ImageTest extends UnitTestCase
         $thumbs = $this->instance->generateThumbs('50x38', Image::CROP_RESIZE);
 
         // Verify that the resized image is the correct size.
-        $this->assertEquals(
+        $this->assertSame(
             38,
             imagesy(TestHelper::getValue($thumbs[0], 'handle'))
         );
-        $this->assertEquals(
+        $this->assertSame(
             50,
             imagesx(TestHelper::getValue($thumbs[0], 'handle'))
         );
@@ -904,13 +904,13 @@ class ImageTest extends UnitTestCase
         $b = Image::getImageFileProperties($outFileGif);
 
         // Assert that properties that should be equal are equal.
-        $this->assertEquals(50, $b->width);
-        $this->assertEquals(38, $b->height);
-        $this->assertEquals($a->bits, $b->bits);
-        $this->assertEquals($a->channels, $b->channels);
-        $this->assertEquals($a->mime, $b->mime);
-        $this->assertEquals($a->type, $b->type);
-        $this->assertEquals($a->channels, $b->channels);
+        $this->assertSame(50, $b->width);
+        $this->assertSame(38, $b->height);
+        $this->assertSame($a->bits, $b->bits);
+        $this->assertSame($a->channels, $b->channels);
+        $this->assertSame($a->mime, $b->mime);
+        $this->assertSame($a->type, $b->type);
+        $this->assertSame($a->channels, $b->channels);
 
         unlink($outFileGif);
     }
@@ -1053,52 +1053,52 @@ class ImageTest extends UnitTestCase
         $image->crop($cropWidth, $cropHeight, $actualCropLeft, $actualCropTop, false);
 
         // Verify that the cropped image is the correct size.
-        $this->assertEquals(
+        $this->assertSame(
             $cropHeight,
             imagesy(TestHelper::getValue($image, 'handle'))
         );
-        $this->assertEquals(
+        $this->assertSame(
             $cropWidth,
             imagesx(TestHelper::getValue($image, 'handle'))
         );
 
         // Validate the correct pixels for the corners.
         // Top/Left
-        $this->assertEquals(
+        $this->assertSame(
             $red,
             imagecolorat(TestHelper::getValue($image, 'handle'), 0, 0)
         );
-        $this->assertEquals(
+        $this->assertSame(
             $white,
             imagecolorat(TestHelper::getValue($image, 'handle'), 1, 1)
         );
 
         // Top/Right
-        $this->assertEquals(
+        $this->assertSame(
             $red,
             imagecolorat(TestHelper::getValue($image, 'handle'), 0, ($cropHeight - 1))
         );
-        $this->assertEquals(
+        $this->assertSame(
             $white,
             imagecolorat(TestHelper::getValue($image, 'handle'), 1, ($cropHeight - 2))
         );
 
         // Bottom/Left
-        $this->assertEquals(
+        $this->assertSame(
             $red,
             imagecolorat(TestHelper::getValue($image, 'handle'), ($cropWidth - 1), 0)
         );
-        $this->assertEquals(
+        $this->assertSame(
             $white,
             imagecolorat(TestHelper::getValue($image, 'handle'), ($cropWidth - 2), 1)
         );
 
         // Bottom/Right
-        $this->assertEquals(
+        $this->assertSame(
             $red,
             imagecolorat(TestHelper::getValue($image, 'handle'), ($cropWidth - 1), ($cropHeight - 1))
         );
-        $this->assertEquals(
+        $this->assertSame(
             $white,
             imagecolorat(TestHelper::getValue($image, 'handle'), ($cropWidth - 2), ($cropHeight - 2))
         );
@@ -1152,21 +1152,21 @@ class ImageTest extends UnitTestCase
 
         // Validate the correct pixels for the ends of the lines.
         // Red line.
-        $this->assertEquals(
+        $this->assertSame(
             $red,
             imagecolorat(TestHelper::getValue($image, 'handle'), 50, 5)
         );
-        $this->assertEquals(
+        $this->assertSame(
             $red,
             imagecolorat(TestHelper::getValue($image, 'handle'), 50, 95)
         );
 
         // White line.
-        $this->assertEquals(
+        $this->assertSame(
             $white,
             imagecolorat(TestHelper::getValue($image, 'handle'), 5, 50)
         );
-        $this->assertEquals(
+        $this->assertSame(
             $white,
             imagecolorat(TestHelper::getValue($image, 'handle'), 95, 50)
         );
@@ -1266,8 +1266,8 @@ class ImageTest extends UnitTestCase
         $dimensions = TestHelper::invoke($image, 'prepareDimensions', $inputWidth, $inputHeight, $inputScale);
 
         // Validate the correct response.
-        $this->assertEquals($expectedHeight, $dimensions->height);
-        $this->assertEquals($expectedWidth, $dimensions->width);
+        $this->assertSame($expectedHeight, $dimensions->height);
+        $this->assertSame($expectedWidth, $dimensions->width);
     }
 
     /**
@@ -1312,7 +1312,7 @@ class ImageTest extends UnitTestCase
         $image = new Image($imageHandle);
 
         // Validate the correct response.
-        $this->assertEquals(
+        $this->assertSame(
             $expectedHeight,
             TestHelper::invoke($image, 'sanitizeHeight', $inputHeight, $inputWidth)
         );
@@ -1341,7 +1341,7 @@ class ImageTest extends UnitTestCase
         $image = new Image($imageHandle);
 
         // Validate the correct response.
-        $this->assertEquals(
+        $this->assertSame(
             $expectedWidth,
             TestHelper::invoke($image, 'sanitizeWidth', $inputWidth, $inputHeight)
         );
@@ -1361,7 +1361,7 @@ class ImageTest extends UnitTestCase
     public function testSanitizeOffset($input, $expected)
     {
         // Validate the correct response.
-        $this->assertEquals(
+        $this->assertSame(
             $expected,
             TestHelper::invoke($this->instance, 'sanitizeOffset', $input)
         );

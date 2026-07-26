@@ -85,14 +85,14 @@ class FilterBackgroundfillTest extends UnitTestCase
 
         // Compare left part
         $color = imagecolorat($imageHandle, 25, 25);
-        $this->assertEquals(
+        $this->assertSame(
             [171, 45, 45],
             [$color >> 16 & 0xFF, $color >> 8 & 0xFF, $color & 0xFF]
         );
 
         // Compare right part
         $color = imagecolorat($imageHandle, 51, 25);
-        $this->assertEquals(
+        $this->assertSame(
             [186, 60, 60], // GD
             [$color >> 16 & 0xFF, $color >> 8 & 0xFF, $color & 0xFF]
         );
@@ -176,7 +176,7 @@ class FilterBackgroundfillTest extends UnitTestCase
         $imageHandle = imagecreatetruecolor(100, 100);
         $filter      = new FilterBackgroundfill($imageHandle);
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'red'   => $red,
                 'green' => $green,

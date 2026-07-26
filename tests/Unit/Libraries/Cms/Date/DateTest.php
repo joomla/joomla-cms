@@ -146,7 +146,7 @@ class DateTest extends UnitTestCase
         $this->assertSame('31', $date->daysinmonth);
         $this->assertSame('3', $date->dayofweek);
         $this->assertSame('66', $date->dayofyear);
-        $this->assertSame(false, $date->isleapyear);
+        $this->assertFalse($date->isleapyear);
         $this->assertSame('08', $date->day);
         $this->assertSame('18', $date->hour);
         $this->assertSame('06', $date->minute);

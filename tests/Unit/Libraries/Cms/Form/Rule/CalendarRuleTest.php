@@ -65,6 +65,6 @@ class CalendarRuleTest extends UnitTestCase
     #[DataProvider('dataTest')]
     public function testRule(bool $expected, \SimpleXMLElement $element, string $value): void
     {
-        $this->assertEquals($expected, (new CalendarRule())->test($element, $value));
+        $this->assertSame($expected, (new CalendarRule())->test($element, $value));
     }
 }

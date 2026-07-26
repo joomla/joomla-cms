@@ -98,6 +98,6 @@ class EqualsRuleTest extends UnitTestCase
             (new EqualsRule())->test($element, $value, $group, $input, $form);
         }
 
-        $this->assertEquals($expected, (new EqualsRule())->test($element, $value, $group, $input, $form));
+        $this->assertSame($expected, (new EqualsRule())->test($element, $value, $group, $input, $form));
     }
 }

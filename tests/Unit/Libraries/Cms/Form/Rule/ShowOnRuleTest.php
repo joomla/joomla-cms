@@ -88,6 +88,6 @@ class ShowOnRuleTest extends UnitTestCase
     #[DataProvider('dataTest')]
     public function testRule(bool $expected, \SimpleXMLElement $element, string $value): void
     {
-        $this->assertEquals($expected, (new ShowOnRule())->test($element, $value));
+        $this->assertSame($expected, (new ShowOnRule())->test($element, $value));
     }
 }

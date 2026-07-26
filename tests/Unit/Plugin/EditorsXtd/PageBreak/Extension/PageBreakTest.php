@@ -66,8 +66,8 @@ class PageBreakTest extends UnitTestCase
         $button = $btnsReg->getAll()[0] ?? false;
 
         $this->assertInstanceOf(Button::class, $button);
-        $this->assertEquals('pagebreak', $button->getButtonName());
-        $this->assertEquals('modal', $button->get('action'));
+        $this->assertSame('pagebreak', $button->getButtonName());
+        $this->assertSame('modal', $button->get('action'));
         $this->assertNotEmpty($button->get('link'));
         $this->assertNotEmpty($button->get('text'));
         $this->assertNotEmpty($button->get('icon'));

@@ -45,7 +45,7 @@ class CMSPluginTest extends UnitTestCase
         $plugin = new class ($dispatcher, []) extends CMSPlugin {
         };
 
-        $this->assertEquals($dispatcher, $plugin->getDispatcher());
+        $this->assertSame($dispatcher, $plugin->getDispatcher());
     }
 
     /**
@@ -67,7 +67,7 @@ class CMSPluginTest extends UnitTestCase
         };
         $plugin->setApplication($app);
 
-        $this->assertEquals($app, $plugin->getApplication());
+        $this->assertSame($app, $plugin->getApplication());
     }
 
     /**
@@ -100,7 +100,7 @@ class CMSPluginTest extends UnitTestCase
         $plugin = new class ($dispatcher, ['params' => $registry]) extends CMSPlugin {
         };
 
-        $this->assertEquals($registry, $plugin->params);
+        $this->assertSame($registry, $plugin->params);
     }
 
     /**
@@ -116,7 +116,7 @@ class CMSPluginTest extends UnitTestCase
         $plugin = new class ($dispatcher, ['params' => ['test' => 'unit']]) extends CMSPlugin {
         };
 
-        $this->assertEquals('unit', $plugin->params->get('test'));
+        $this->assertSame('unit', $plugin->params->get('test'));
     }
 
     /**
@@ -136,7 +136,7 @@ class CMSPluginTest extends UnitTestCase
             }
         };
 
-        $this->assertEquals('test', $plugin->getName());
+        $this->assertSame('test', $plugin->getName());
     }
 
     /**
@@ -156,7 +156,7 @@ class CMSPluginTest extends UnitTestCase
             }
         };
 
-        $this->assertEquals('test', $plugin->getType());
+        $this->assertSame('test', $plugin->getType());
     }
 
     /**
@@ -245,7 +245,7 @@ class CMSPluginTest extends UnitTestCase
         };
         $plugin->registerListeners();
 
-        $this->assertEquals([[$plugin, 'unit']], $dispatcher->getListeners('test'));
+        $this->assertSame([[$plugin, 'unit']], $dispatcher->getListeners('test'));
     }
 
     /**
@@ -394,7 +394,7 @@ class CMSPluginTest extends UnitTestCase
         $plugin->registerTestListener();
         $event = $dispatcher->dispatch('onTest');
 
-        $this->assertEquals(['unit'], $event->getArgument('result'));
+        $this->assertSame(['unit'], $event->getArgument('result'));
     }
 
     /**
@@ -420,7 +420,7 @@ class CMSPluginTest extends UnitTestCase
         $plugin->registerTestListener();
         $event = $dispatcher->dispatch('onTest');
 
-        $this->assertEquals(null, $event->getArgument('result'));
+        $this->assertSame(null, $event->getArgument('result'));
     }
 
     /**
@@ -447,6 +447,6 @@ class CMSPluginTest extends UnitTestCase
         $plugin->registerTestListener();
         $event = $dispatcher->dispatch('onTest', new Event('onTest', ['result' => ['test']]));
 
-        $this->assertEquals(['test', 'unit'], $event->getArgument('result'));
+        $this->assertSame(['test', 'unit'], $event->getArgument('result'));
     }
 }

@@ -93,6 +93,6 @@ class HtmlDateTest extends UnitTestCase
     #[DataProvider('dataTestRelative')]
     public function testRelative($result, $date, $unit = null, $time = null)
     {
-        $this->assertEquals($result, HtmlDate::relative($date, $unit, $time));
+        $this->assertSame($result, HtmlDate::relative($date, $unit, $time));
     }
 }

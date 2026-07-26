@@ -52,7 +52,7 @@ class LdapPluginTest extends UnitTestCase
         $event    = new AuthenticationEvent('onUserAuthenticate', ['credentials' => [], 'options' => [], 'subject' => $response]);
         $plugin->onUserAuthenticate($event);
 
-        $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
+        $this->assertSame(Authentication::STATUS_FAILURE, $response->status);
     }
 
     /**
@@ -76,7 +76,7 @@ class LdapPluginTest extends UnitTestCase
         $event    = new AuthenticationEvent('onUserAuthenticate', ['credentials' => ['password' => ''], 'options' => [], 'subject' => $response]);
         $plugin->onUserAuthenticate($event);
 
-        $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
+        $this->assertSame(Authentication::STATUS_FAILURE, $response->status);
     }
 
     /**
@@ -101,7 +101,7 @@ class LdapPluginTest extends UnitTestCase
         $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
         $plugin->onUserAuthenticate($event);
 
-        $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
+        $this->assertSame(Authentication::STATUS_FAILURE, $response->status);
     }
 
     /**
@@ -119,7 +119,7 @@ class LdapPluginTest extends UnitTestCase
         $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
         $plugin->onUserAuthenticate($event);
 
-        $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
+        $this->assertSame(Authentication::STATUS_SUCCESS, $response->status);
     }
 
     /**
@@ -144,7 +144,7 @@ class LdapPluginTest extends UnitTestCase
         $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
         $plugin->onUserAuthenticate($event);
 
-        $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
+        $this->assertSame(Authentication::STATUS_FAILURE, $response->status);
     }
 
     /**
@@ -169,7 +169,7 @@ class LdapPluginTest extends UnitTestCase
         $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
         $plugin->onUserAuthenticate($event);
 
-        $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
+        $this->assertSame(Authentication::STATUS_FAILURE, $response->status);
     }
 
     /**
@@ -194,7 +194,7 @@ class LdapPluginTest extends UnitTestCase
         $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
         $plugin->onUserAuthenticate($event);
 
-        $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
+        $this->assertSame(Authentication::STATUS_FAILURE, $response->status);
     }
 
     /**
@@ -212,7 +212,7 @@ class LdapPluginTest extends UnitTestCase
         $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
         $plugin->onUserAuthenticate($event);
 
-        $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
+        $this->assertSame(Authentication::STATUS_SUCCESS, $response->status);
     }
 
     /**
@@ -237,7 +237,7 @@ class LdapPluginTest extends UnitTestCase
         $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
         $plugin->onUserAuthenticate($event);
 
-        $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
+        $this->assertSame(Authentication::STATUS_FAILURE, $response->status);
     }
 
     /**
@@ -255,7 +255,7 @@ class LdapPluginTest extends UnitTestCase
         $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
         $plugin->onUserAuthenticate($event);
 
-        $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
+        $this->assertSame(Authentication::STATUS_SUCCESS, $response->status);
     }
 
     /**
@@ -280,7 +280,7 @@ class LdapPluginTest extends UnitTestCase
         $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
         $plugin->onUserAuthenticate($event);
 
-        $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
+        $this->assertSame(Authentication::STATUS_FAILURE, $response->status);
     }
 
     /**
@@ -305,7 +305,7 @@ class LdapPluginTest extends UnitTestCase
         $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
         $plugin->onUserAuthenticate($event);
 
-        $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
+        $this->assertSame(Authentication::STATUS_FAILURE, $response->status);
     }
 
     /**
