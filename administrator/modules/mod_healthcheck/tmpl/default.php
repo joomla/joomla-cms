@@ -39,7 +39,7 @@ $has_data = !empty($gauges_html) || !empty($buttons_html) || !empty($lists_html)
 ?>
 <?php if ($has_data) : ?>
     <!-- Filter Buttons -->
-    <div class="healthcheck-filters p-3 d-flex align-items-center justify-content-between">
+    <div class="healthcheck-filters p-3 d-flex align-items-flex-start justify-content-between">
         <div class="btn-group btn-group-sm" role="group" aria-label="<?php echo Text::_('MOD_HEALTHCHECK_FILTER_LABEL'); ?>">
             <button type="button" class="btn btn-outline-primary active healthcheck-filter-btn" data-filter="all">
                 <?php echo Text::_('MOD_HEALTHCHECK_FILTER_ALL'); ?>
