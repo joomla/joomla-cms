@@ -82,7 +82,6 @@
 					name="orphan_users"
 					type="radio"
 					label="PLG_HEALTHCHECK_USERMAINTENANCE_ORPHAN_FIELD_LABEL"
-					description="PLG_HEALTHCHECK_USERMAINTENANCE_ORPHAN_FIELD_DESC"
 					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="boolean"
