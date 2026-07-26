@@ -47,7 +47,7 @@ $fields       = $tmpl->getGroup('');
 $emptySubform = empty($fields) ? true : false;
 
 // Build heading
-$table_head   = '';
+$table_head = '';
 
 if (!$emptySubform) {
     foreach ($tmpl->getFieldsets() as $k => $fieldset) {
