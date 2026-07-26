@@ -109,7 +109,6 @@ class ConstraintCheckerTest extends UnitTestCase
      *
      * @since   5.1.0
      */
-    #[DataProvider('targetplatformDataProvider')]
     public function testCheckPhpMinimumReturnFalseForFuturePhp()
     {
         $method = $this->getPublicMethod('checkPhpMinimum');
